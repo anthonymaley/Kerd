@@ -12,7 +12,7 @@
       "name": "kerd",
       "source": {
         "source": "url",
-        "url": "https://github.com/anthonymaley/Kerd.git"
+        "url": "git@github.com:anthonymaley/Kerd.git"
       },
       "description": "Opinionated workflow toolkit — session discipline, machine handoff, knowledge management, project audits, and human writing voice",
       "version": "0.1.0",
