@@ -89,12 +89,12 @@ Startup is a one-time setup for new projects. Point it at a fresh git repo and i
 It won't overwrite files that already exist. If you created a README during repo init, startup skips it and moves on.
 
 ```
-/kerd:startup
+/startup
 ```
 
 ## How They Fit Together
 
-New project: you create a repo, clone it, run `/kerd:startup`. It scaffolds everything. Then `/kerd:dian` to start your first session.
+New project: you create a repo, clone it, run `/startup`. It scaffolds everything. Then `/dian` to start your first session.
 
 Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. You run `/dian` to plan the session. Mid-work, you make a decision worth remembering, so you run `/kivna memory switching to Redis for the cache layer`. When the work is done, dian's close-out updates the playbook with anything new you learned. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. The playbook grows with every session — if someone else picks up the project, they can rebuild it from that doc alone.
 

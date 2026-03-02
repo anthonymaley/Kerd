@@ -35,7 +35,11 @@ Use semver: `MAJOR.MINOR.PATCH`
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
 commands/         # command definitions (markdown, one per command)
 docs/plans/       # design docs and implementation plans
-kivna/sessions/   # session logs
+docs/playbook.md  # living project guide, updated by dian close-out
+kivna/sessions/   # session logs from switch (committed)
+kivna/memories/   # quick notes from kivna memory (committed)
+kivna/input/      # drop files here for kivna import (gitignored)
+kivna/output/     # kivna exports land here (gitignored)
 .claude-plugin/   # plugin.json and marketplace.json
 ```
 
