@@ -1,6 +1,6 @@
 ---
 name: kivna
-description: "Use when the user says 'kivna', 'import', 'export context', 'save memory', 'remember this', or needs to manage project knowledge — importing external files, exporting session context, or saving quick notes mid-session."
+description: "Use when the user says 'kivna', 'import', 'export context', 'save memory', 'remember this', 'checkpoint', 'save context', 'snapshot', or needs to manage project knowledge — importing external files, exporting session context, saving quick notes, or checkpointing working context mid-session."
 ---
 
 # Kivna — Knowledge Management
@@ -11,6 +11,8 @@ Single owner of the project's knowledge layer. Sessions, memories, imports, expo
 
 ## Folder Convention
 
+- `kivna/context.md` — living working context, overwritten each checkpoint (committed to git)
+- `kivna/checkpoints/` — daily archives of previous context versions (committed to git)
 - `kivna/sessions/` — full session logs written by switch (committed to git)
 - `kivna/memories/` — quick notes captured mid-session (committed to git)
 - `kivna/input/` — drop files here for import (should be gitignored, transit folder)
@@ -105,6 +107,43 @@ Format in the memories file:
 [note text]
 ```
 
+### `/kivna checkpoint` — Context Snapshot
+
+Capture the current working context to `kivna/context.md`. This is the anti-context-rot mechanism — write frequently at natural breakpoints so compaction or session boundaries don't lose the thinking.
+
+1. **Archive the current context.** If `kivna/context.md` exists and has content beyond the skeleton, append its content to `kivna/checkpoints/YYYY-MM-DD.md` with a `## HH:MM` timestamp header and a `---` separator. Create the file and directory if they don't exist.
+
+2. **Write the new context.** Overwrite `kivna/context.md` with the current working state:
+
+```markdown
+# Context — [Project Name]
+
+## Current Focus
+[What we're actively working on. The task, the approach, where we are in it.]
+
+## Mental Model
+[The high-level understanding of how things fit together right now. Not architecture docs — the working theory that guides decisions.]
+
+## Decisions
+[Each decision with full reasoning. What was considered, what was rejected, why the chosen approach won.]
+
+## Rejected Approaches
+[Things we tried or considered and ruled out. With reasons. Prevents re-exploring dead ends.]
+
+## Working Assumptions
+[Things established as true that aren't written anywhere else. Constraints discovered, behaviors observed, limits hit.]
+
+## Active Threads
+[Partial work, what's in progress, what's blocking, what's queued next.]
+
+## Open Questions
+[Unresolved things that need input or investigation.]
+```
+
+3. **Quick confirmation.** No approval flow — same as `/kivna memory`. Just confirm what was written.
+
+Triggered automatically by `/kerd:dian` at task boundaries and close-out. Also available manually anytime.
+
 ## Notes
 
 - `kivna/input/` and `kivna/output/` should be in `.gitignore` — they're transit folders, not project content.
@@ -112,3 +151,6 @@ Format in the memories file:
 - Exports are written in plain markdown so any LLM can read them.
 - When importing LLM session transcripts, be aggressive about filtering. Most of a chat session is noise. Extract the signal: decisions, code patterns, insights, action items.
 - When importing PDFs or reports, focus on what's actionable for THIS project.
+- `kivna/context.md` and `kivna/checkpoints/` should be committed to git — they're the session's working memory.
+- Context checkpoints are cumulative, not incremental. Each checkpoint captures the full working state, not just deltas.
+- On cold start, read `kivna/context.md` alone. The archive in `kivna/checkpoints/` is for tracing decisions back, not for restore.
