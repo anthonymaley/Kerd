@@ -97,24 +97,21 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.3.0
+**Version:** 0.3.1
 
 **Working:**
 - All six skills functional: dian, switch, kivna, sotu, skriv, startup
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
 - Context checkpointing with kivna/context.md and daily archives
+- Startup scaffold verified — produces correct directory structure and files
+- Dian playbook creation verified — skeleton matches startup's template
 
 **Recent changes (as of 2026-03-04):**
-- Added context checkpointing — living kivna/context.md updated at dian task boundaries
-- Added startup skill for project scaffolding
-- Added playbook integration to dian (creates/updates on close-out)
-- Added playbook audit area to sotu
-- Fixed missing command wrapper for startup
-- Multiple cache-bust version bumps
+- Added Insights section to switch session log template (v0.3.1)
+- Reviewed Anthropic plugin-dev skill patterns — no urgent changes needed, skills are lean and trigger well
 
 **Next:**
-- Test startup skill on a fresh repo
-- Test dian's playbook creation on first close-out in a real project
 - Test sotu playbook audit on a project with a playbook
 - Consider adding version bumping to the switch-out process
+- Adopt third-person description format for skill triggers (low priority)
