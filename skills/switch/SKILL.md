@@ -50,23 +50,27 @@ Create `kivna/sessions/YYYY-MM-DD.md` (or append if one already exists for today
 
 If appending to an existing file for today (multiple sessions), add a `---` separator and a new section with a time or sequence number.
 
-### 3. Update progress tracking
+### 3. Ensure context is current
+
+If `kivna/context.md` exists and a `/kerd:dian` session was active, close-out should have already updated it — verify it's current and move on. If no `/kerd:dian` session was running (quick switch without formal session), write a checkpoint now using the `/kerd:kivna checkpoint` mechanic.
+
+### 4. Update progress tracking
 
 If progress tracking exists (check for `docs/project/progress.md`, `progress.md`, or similar), update it.
 
-### 4. Stage and commit
+### 5. Stage and commit
 
 Stage all work including the session log and doc updates. Use a descriptive commit message.
 
-### 5. Push
+### 6. Push
 
 Push to remote. Verify the push succeeds.
 
-### 6. Verify
+### 7. Verify
 
-Run `git status` and confirm the working tree is clean and nothing remains uncommitted. If uncommitted changes remain, go back to step 4 — do not proceed to the confirm step until the tree is clean.
+Run `git status` and confirm the working tree is clean and nothing remains uncommitted. If uncommitted changes remain, go back to step 5 — do not proceed to the confirm step until the tree is clean.
 
-### 7. Confirm
+### 8. Confirm
 
 Print a short summary: what was pushed, what the next session should start with.
 
@@ -82,15 +86,19 @@ Pick up where the other machine left off.
 
 Focus on the `## Current Session` block. This is where the last session left off.
 
-### 3. Check session logs
+### 3. Read working context
+
+If `kivna/context.md` exists, read it. This has the decisions, reasoning, active threads, and assumptions from the last session. It's the richest source for picking up where things left off.
+
+### 4. Check session logs
 
 Read the latest file(s) in `kivna/sessions/` for detailed context on what happened recently.
 
-### 4. Read progress tracking
+### 5. Read progress tracking
 
 If progress tracking exists, read it.
 
-### 5. Summarize
+### 6. Summarize
 
 Tell the user:
 - What was done last session
@@ -98,9 +106,9 @@ Tell the user:
 - Any open questions or decisions from the previous session
 - Suggest what to work on
 
-### 6. Ask
+### 7. Offer dian
 
-"Ready to continue, or do you want to change direction?"
+Ask: "Start a `/kerd:dian` session?" If yes, flow into `/kerd:dian` orient. If no, stop — user wants to do something quick without full session discipline.
 
 ## Fallback Behavior
 
