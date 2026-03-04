@@ -44,6 +44,9 @@ Create `kivna/sessions/YYYY-MM-DD.md` (or append if one already exists for today
 ## Commits
 [List commit hashes and messages from this session]
 
+## Insights
+[Observations about the codebase, patterns discovered, things that surprised you. Skip if none.]
+
 ## What's Next
 [What the next session should pick up]
 ```

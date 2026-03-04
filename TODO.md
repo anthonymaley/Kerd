@@ -26,6 +26,7 @@
 - Test dian's playbook creation on first close-out in a real project
 - Test sotu playbook audit on a project with a playbook (sotu was tested this session — it works)
 - Consider adding version bumping to the switch out process (or a separate release skill)
+- Adopt third-person description format for skill triggers (low priority — do opportunistically when touching descriptions)
 
 ### Context
 - Playbook concept borrowed from ~/klar/ project — a living rebuild guide updated every session
