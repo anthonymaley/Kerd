@@ -40,7 +40,7 @@ If you run it without arguments, it checks for uncommitted changes. Changes pres
 
 ### kivna — Knowledge Management
 
-Kivna owns the project's knowledge layer. It has four modes. Import (`/kivna in`) reads files you drop into `kivna/input/`, extracts what matters, and writes it into the project. Works with PDFs, markdown, JSON session exports, plain text. Export (`/kivna out`) packages your current session into a portable markdown file another LLM can pick up cold. Quick save (`/kivna memory`) appends a timestamped note to `kivna/memories/` without ceremony. Checkpoint (`/kivna checkpoint`) snapshots your full working context — decisions, reasoning, rejected approaches, assumptions — to `kivna/context.md`.
+Kivna owns the project's knowledge layer. It has three modes. Import (`/kivna in`) reads files you drop into `kivna/input/`, extracts what matters, and writes it into the project. Works with PDFs, markdown, JSON session exports, plain text. Export (`/kivna out`) packages your current session into a portable markdown file another LLM can pick up cold. Save (`/kivna save`) snapshots your full working context — decisions, reasoning, rejected approaches, assumptions — to `kivna/context.md`. Add a note and it also appends to `kivna/memories/`. This is the same mechanic dian uses automatically at task boundaries, but you can trigger it manually anytime.
 
 The folder structure:
 
@@ -57,8 +57,8 @@ kivna/
 ```
 /kivna in                                          # import from inbox
 /kivna out                                         # export session context
-/kivna memory decided to use Postgres over SQLite  # quick note
-/kivna checkpoint                                  # snapshot working context
+/kivna save                                        # snapshot working context
+/kivna save decided to use Postgres over SQLite    # snapshot + quick note
 ```
 
 ### sotu — Project Health Audit
@@ -101,7 +101,7 @@ It won't overwrite files that already exist. If you created a README during repo
 
 New project: you create a repo, clone it, run `/startup`. It scaffolds everything. Then `/dian` to start your first session.
 
-Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It also reads `kivna/context.md` — the decisions, reasoning, and working assumptions from last time — and offers to start a dian session. You run `/dian` to plan the session. Mid-work, you make a decision worth remembering, so you run `/kivna memory switching to Redis for the cache layer`. When the work is done, dian's close-out updates the playbook and finalizes `kivna/context.md` with the session's full context. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. The playbook grows with every session — if someone else picks up the project, they can rebuild it from that doc alone.
+Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It also reads `kivna/context.md` — the decisions, reasoning, and working assumptions from last time — and offers to start a dian session. You run `/dian` to plan the session. Mid-work, you make a decision worth remembering, so you run `/kivna save switching to Redis for the cache layer`. When the work is done, dian's close-out updates the playbook and finalizes `kivna/context.md` with the session's full context. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. The playbook grows with every session — if someone else picks up the project, they can rebuild it from that doc alone.
 
 ## Naming
 

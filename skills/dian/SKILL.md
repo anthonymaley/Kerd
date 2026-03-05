@@ -37,7 +37,7 @@ Write this as a `## Current Session` block in TODO.md with today's date. Wait fo
 
 Do the work. Commit incrementally if it makes sense. Stay focused on the plan — if scope creep appears, flag it and add it to TODO.md for later rather than chasing it now.
 
-**Auto-checkpoint:** After completing each task in the plan, update `kivna/context.md` with the current working context using the `/kerd:kivna checkpoint` mechanic (archive previous version, write new one). This ensures context survives compaction mid-session.
+**Auto-save:** After completing each task in the plan, update `kivna/context.md` with the current working context using the `/kerd:kivna save` mechanic (archive previous version, write new one). This ensures context survives compaction mid-session.
 
 ### 4. Close Out
 

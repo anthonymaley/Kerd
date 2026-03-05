@@ -1,6 +1,6 @@
 ---
 name: kivna
-description: "Use when the user says 'kivna', 'import', 'export context', 'save memory', 'remember this', 'checkpoint', 'save context', 'snapshot', or needs to manage project knowledge — importing external files, exporting session context, saving quick notes, or checkpointing working context mid-session."
+description: "Use when the user says 'kivna', 'import', 'export context', 'save', 'save context', 'snapshot', or needs to manage project knowledge — importing external files, exporting session context, or saving working context mid-session."
 ---
 
 # Kivna — Knowledge Management
@@ -89,27 +89,16 @@ Package the current session's work into a portable file another LLM can use as i
 
 4. **Confirm.** Show the user the export path and a summary of what's in it.
 
-### `/kivna memory` — Quick Save
+### `/kivna save` — Save Working Context
 
-Save a note mid-session without ceremony.
+Snapshot the current working context to `kivna/context.md`. This is the same mechanic that `/kerd:dian` triggers automatically at task boundaries — but available manually anytime, whether or not you're in a dian session.
 
-- Takes freeform text as the argument: `/kivna memory decided to use PostgreSQL over SQLite for concurrency reasons`
-- Append a timestamped entry to `kivna/memories/YYYY-MM-DD.md`
-- One file per day, multiple entries with timestamps
-- Create the file and `kivna/memories/` directory if they don't exist
-- Quick confirmation only — no approval flow
+Use it at natural breakpoints: after finishing a task, before context gets long, when you're about to switch topics, or just when something important was decided.
 
-Format in the memories file:
+**With no arguments** (`/kivna save`): full context snapshot only.
+**With a note** (`/kivna save decided to use Postgres over SQLite`): full context snapshot + append the note to `kivna/memories/YYYY-MM-DD.md`.
 
-```
-## HH:MM
-
-[note text]
-```
-
-### `/kivna checkpoint` — Context Snapshot
-
-Capture the current working context to `kivna/context.md`. This is the anti-context-rot mechanism — write frequently at natural breakpoints so compaction or session boundaries don't lose the thinking.
+#### The mechanic
 
 1. **Archive the current context.** If `kivna/context.md` exists and has content beyond the skeleton, append its content to `kivna/checkpoints/YYYY-MM-DD.md` with a `## HH:MM` timestamp header and a `---` separator. Create the file and directory if they don't exist.
 
@@ -140,7 +129,9 @@ Capture the current working context to `kivna/context.md`. This is the anti-cont
 [Unresolved things that need input or investigation.]
 ```
 
-3. **Quick confirmation.** No approval flow — same as `/kivna memory`. Just confirm what was written.
+3. **If a note was provided**, append it to `kivna/memories/YYYY-MM-DD.md` with a `## HH:MM` timestamp header. Create the file and directory if they don't exist.
+
+4. **Quick confirmation.** No approval flow. Just confirm what was saved.
 
 Triggered automatically by `/kerd:dian` at task boundaries and close-out. Also available manually anytime.
 

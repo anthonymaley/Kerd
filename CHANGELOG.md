@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0
+
+**Simplified kivna commands** — merged `/kivna checkpoint` and `/kivna memory` into a single `/kivna save` command.
+
+- `/kivna save` snapshots full working context to `kivna/context.md` (same mechanic dian uses at task boundaries)
+- `/kivna save <note>` does the snapshot plus appends the note to `kivna/memories/YYYY-MM-DD.md`
+- Removed `/kivna checkpoint` and `/kivna memory` as separate commands
+- Updated dian and switch to reference `/kivna save` instead of `/kivna checkpoint`
+
+## 0.3.1
+
+**Switch session log template** — added `## Insights` section between Key Decisions and What's Next.
+
 ## 0.3.0
 
 **Context checkpointing** — living `kivna/context.md` that captures working context (decisions, reasoning, rejected approaches, assumptions) and survives context compaction and session boundaries.

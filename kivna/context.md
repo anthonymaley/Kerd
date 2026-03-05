@@ -16,7 +16,7 @@ Cold start reads: CLAUDE.md + playbook + context.md. Three files, fully caught u
 ## Decisions
 - **context.md is cumulative, not incremental** — each checkpoint captures the full working state.
 - **Rolling file + daily archive** — context.md overwritten each checkpoint, previous version appended to checkpoints/YYYY-MM-DD.md.
-- **Checkpoint triggers: auto at dian task boundaries + manual /kivna checkpoint**
+- **Context save triggers: auto at dian task boundaries + manual /kivna save**
 - **Switch in offers dian (ask first, don't auto-start)**
 - **No sidebar skill** — deferred. Context checkpointing reduces the need.
 - **Subagents must not expand command files** — commands stay thin wrappers.

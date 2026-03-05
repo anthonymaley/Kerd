@@ -55,7 +55,7 @@ If appending to an existing file for today (multiple sessions), add a `---` sepa
 
 ### 3. Ensure context is current
 
-If `kivna/context.md` exists and a `/kerd:dian` session was active, close-out should have already updated it — verify it's current and move on. If no `/kerd:dian` session was running (quick switch without formal session), write a checkpoint now using the `/kerd:kivna checkpoint` mechanic.
+If `kivna/context.md` exists and a `/kerd:dian` session was active, close-out should have already updated it — verify it's current and move on. If no `/kerd:dian` session was running (quick switch without formal session), save context now using the `/kerd:kivna save` mechanic.
 
 ### 4. Update progress tracking
 

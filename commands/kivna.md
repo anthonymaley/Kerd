@@ -1,6 +1,6 @@
 ---
-description: "Import external knowledge, export session context, or save a quick memory"
-argument-hint: "<direction: in|out|memory <note>|checkpoint>"
+description: "Import external knowledge, export session context, or save working context"
+argument-hint: "<in|out|save [note]>"
 allowed-tools: [Read, Write, Edit, Glob, Grep, Bash]
 ---
 
