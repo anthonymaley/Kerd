@@ -2,6 +2,11 @@
 
 Claude Code plugin: six workflow skills for session discipline, machine handoff, knowledge management, project audits, human writing voice, and project scaffolding.
 
+## Commit Rules
+
+- **Always push after committing.** Every commit goes to remote immediately.
+- **Always run the release checklist before committing.** Version bumps, README updates, and description updates happen before the commit, not after.
+
 ## Release Checklist
 
 Every change to a skill (new skill, modified behavior, renamed command, changed output) requires ALL of the following before commit:
