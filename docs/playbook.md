@@ -97,7 +97,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.4.0
+**Version:** 0.5.0
 
 **Working:**
 - All six skills functional: dian, switch, kivna, sotu, skriv, startup
@@ -106,10 +106,12 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Context checkpointing with kivna/context.md and daily archives
 - Startup scaffold verified — produces correct directory structure and files
 - Dian playbook creation verified — skeleton matches startup's template
+- Mode markers on dian and skriv — visible phase/state announcements with `.active-modes` state file
 
-**Recent changes (as of 2026-03-04):**
-- Added Insights section to switch session log template (v0.3.1)
-- Reviewed Anthropic plugin-dev skill patterns — no urgent changes needed, skills are lean and trigger well
+**Recent changes (as of 2026-03-06):**
+- Mode markers for dian (phase transitions) and skriv (session mode on/off) — `[dian: execute]`, `[skriv: active]`, etc.
+- State file `kivna/.active-modes` written by modal skills, read by switch-in
+- Switch-in reports active modes from previous session
 
 **Next:**
 - Test sotu playbook audit on a project with a playbook

@@ -101,7 +101,11 @@ Read the latest file(s) in `kivna/sessions/` for detailed context on what happen
 
 If progress tracking exists, read it.
 
-### 6. Summarize
+### 6. Check active modes
+
+If `kivna/.active-modes` exists and is non-empty, read it. Report any active modes in the summary (e.g., "**Active modes:** `dian: execute`"). If the file doesn't exist or is empty, skip this — don't mention modes.
+
+### 7. Summarize
 
 Tell the user:
 - What was done last session
@@ -109,7 +113,7 @@ Tell the user:
 - Any open questions or decisions from the previous session
 - Suggest what to work on
 
-### 7. Offer dian
+### 8. Offer dian
 
 Ask: "Start a `/kerd:dian` session?" If yes, flow into `/kerd:dian` orient. If no, stop — user wants to do something quick without full session discipline.
 

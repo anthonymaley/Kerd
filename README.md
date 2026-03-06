@@ -21,6 +21,8 @@ On close-out, dian creates or updates `docs/playbook.md` — a living guide for 
 
 During execution, dian auto-checkpoints your working context to `kivna/context.md` after each task completes — decisions made, approaches rejected, assumptions discovered, what's in progress. On close-out it finalizes the context for the next session. If context compacts mid-session, re-read context.md and you're caught up.
 
+Dian announces its current phase with a mode marker (`[dian: orient]`, `[dian: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[dian: closed]` so there's no ambiguity.
+
 Dian doesn't touch git. No pulls, no pushes. That's switch's job.
 
 ```
@@ -79,7 +81,7 @@ Everything gets a severity grade: high (factually wrong, broken build, security 
 
 Skriv enforces a human writing voice. It has a kill list of words no one actually uses in conversation (leverage, facilitate, delve, holistic, the whole lot), bans em dashes and five-paragraph essay structure, and cuts 20% after drafting. The goal is prose that reads like a first draft by someone who's been in the room, not something generated.
 
-Three modes. Audit reviews a file and reports violations with line numbers. Fix rewrites the file in place. Session mode applies the rules to everything you write for the rest of the conversation.
+Three modes. Audit reviews a file and reports violations with line numbers. Fix rewrites the file in place. Session mode applies the rules to everything you write for the rest of the conversation. When session mode is on, skriv shows `[skriv: active]` at the top of responses and `[skriv: off]` when it ends.
 
 ```
 /skriv README.md       # audit against the rules
@@ -101,7 +103,7 @@ It won't overwrite files that already exist. If you created a README during repo
 
 New project: you create a repo, clone it, run `/startup`. It scaffolds everything. Then `/dian` to start your first session.
 
-Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It also reads `kivna/context.md` — the decisions, reasoning, and working assumptions from last time — and offers to start a dian session. You run `/dian` to plan the session. Mid-work, you make a decision worth remembering, so you run `/kivna save switching to Redis for the cache layer`. When the work is done, dian's close-out updates the playbook and finalizes `kivna/context.md` with the session's full context. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. The playbook grows with every session — if someone else picks up the project, they can rebuild it from that doc alone.
+Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It also reads `kivna/context.md` — the decisions, reasoning, and working assumptions from last time — and reports any active modes left from a previous session. Then it offers to start a dian session. You run `/dian` to plan the session. Mid-work, you make a decision worth remembering, so you run `/kivna save switching to Redis for the cache layer`. When the work is done, dian's close-out updates the playbook and finalizes `kivna/context.md` with the session's full context. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. The playbook grows with every session — if someone else picks up the project, they can rebuild it from that doc alone.
 
 ## Naming
 

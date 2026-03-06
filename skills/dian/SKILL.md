@@ -9,9 +9,30 @@ From Irish/Scottish Gaelic "dian" — intense, rigorous. Pronounced "DEE-an".
 
 A protocol for staying focused within a session. Dian does not touch git boundaries (pull/push) — that's switch's job. Dian keeps you on track once you're working.
 
+## Mode Markers
+
+Dian is a modal skill — it runs across multiple responses. Announce the current phase so the user always knows what's active.
+
+**On every phase transition**, output a marker on its own line at the top of your response:
+
+- `[dian: orient]` — reading context, summarizing state
+- `[dian: plan]` — proposing session plan
+- `[dian: execute]` — working through tasks
+- `[dian: close-out]` — updating docs, running checks
+- `[dian: closed]` — session complete (final marker, then done)
+
+**State file:** When entering a phase, write the current phase to `kivna/.active-modes`. When closing out, remove the dian line from the file (or delete the file if it's the only entry). This lets `/kerd:switch in` report active modes.
+
+Format of `kivna/.active-modes` (one skill per line):
+```
+dian: execute
+```
+
 ## The Protocol
 
 ### 1. Orient
+
+Output `[dian: orient]` at the top of your response.
 
 Read these files if they exist (skip any that don't):
 
@@ -26,6 +47,8 @@ Summarize the current state for the user.
 
 ### 2. Plan
 
+Output `[dian: plan]` at the top of your response.
+
 Propose a session plan to the user:
 - What we'll do (numbered steps)
 - What files we'll touch
@@ -35,11 +58,15 @@ Write this as a `## Current Session` block in TODO.md with today's date. Wait fo
 
 ### 3. Execute
 
+Output `[dian: execute]` at the top of your response when entering this phase.
+
 Do the work. Commit incrementally if it makes sense. Stay focused on the plan — if scope creep appears, flag it and add it to TODO.md for later rather than chasing it now.
 
 **Auto-save:** After completing each task in the plan, update `kivna/context.md` with the current working context using the `/kerd:kivna save` mechanic (archive previous version, write new one). This ensures context survives compaction mid-session.
 
 ### 4. Close Out
+
+Output `[dian: close-out]` at the top of your response.
 
 Before ending the session:
 
@@ -77,6 +104,7 @@ How to rebuild this project from scratch.
 
 5. **Staleness sweep** — search for any renamed or changed concepts across `docs/`, `README.md`, and other documentation.
 6. **Run checks** — run the project's build/test command if one exists. Do not close out with failing tests.
+7. **Clear mode marker** — remove the dian line from `kivna/.active-modes`. Output `[dian: closed]` as the final marker.
 
 ## Principles
 

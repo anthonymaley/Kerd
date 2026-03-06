@@ -7,6 +7,17 @@ description: "Use when the user says 'skriv', 'human draft', 'write like a human
 
 From Gaelic "scríobh" (the act of writing), respelled. The physical act of putting words down, not generating them.
 
+## Mode Markers
+
+Skriv session mode is modal — it persists across responses. Announce state changes so the user always knows when it's active.
+
+- `[skriv: active]` — output at the top of your response when session mode turns on, and at the top of every response while active
+- `[skriv: off]` — output when session mode ends
+
+**State file:** When session mode activates, add `skriv: active` to `kivna/.active-modes`. When it deactivates, remove the line (or delete the file if it's the only entry).
+
+Audit, fix, and inline modes are one-shot — no markers needed for those.
+
 ## Modes
 
 ### Audit: `/skriv <file>`
@@ -25,6 +36,8 @@ Line 45-52: five-paragraph essay structure — rewrite as direct prose
 Apply the rules directly. Rewrite the file in place. Then cut 20% — remove any sentence that restates a point already made, remove any paragraph that exists only to transition.
 
 ### Session mode: `/skriv on` / `/skriv off`
+
+When turning on, output `[skriv: active]` and write to `kivna/.active-modes`. When turning off, output `[skriv: off]` and remove the entry from `.active-modes`.
 
 When on, apply rules to all prose output for the rest of the session. Only applies to prose — never code, commits, or technical discussion. Off by default.
 

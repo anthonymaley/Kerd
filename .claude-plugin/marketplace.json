@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Kerd — opinionated workflow skills for Claude Code",
-    "version": "0.4.0"
+    "version": "0.5.0"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
         "url": "git@github.com:anthonymaley/Kerd.git"
       },
       "description": "Opinionated workflow toolkit — session discipline, machine handoff, knowledge management, project audits, human writing voice, and project scaffolding",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "strict": true
     }
   ]
