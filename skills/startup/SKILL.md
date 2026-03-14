@@ -28,7 +28,6 @@ Ask the user two things:
 ```
 kivna/
 kivna/sessions/
-kivna/checkpoints/
 docs/
 ```
 
@@ -114,44 +113,31 @@ How to rebuild this project from scratch.
 - docs/playbook.md
 ```
 
-**`kivna/context.md`**
+**`kivna/vault.json`**
 
-```markdown
-# Context — [Project Name]
-
-## Current Focus
-[Not started yet — run `/kerd:dian` to begin your first session.]
-
-## Mental Model
-[Will be populated as decisions are made.]
-
-## Decisions
-[No decisions yet.]
-
-## Rejected Approaches
-[Nothing rejected yet.]
-
-## Working Assumptions
-[No assumptions recorded yet.]
-
-## Active Threads
-[No active work yet.]
-
-## Open Questions
-[No open questions yet.]
+```json
+{
+  "vault": "~/ObsidianLLM",
+  "folder": "[project-name-lowercase]",
+  "name": "[Project Name]"
+}
 ```
 
-### 5. Commit
+### 5. Set up Obsidian vault
+
+Run the `/kerd:kivna scaffold` mechanic to create the vault folder at `~/ObsidianLLM/[folder]/` with symlinks, MOC, Context, Log, and Decisions files. Since this is a fresh project, seed the Context with a "project initialized" section and the Log with a single "project scaffolded" entry.
+
+### 6. Commit
 
 Stage all created files. Commit with message: "feat: initialize project with Kerd scaffold"
 
-### 6. Push
+### 7. Push
 
 Push to remote. Verify the push succeeds.
 
-### 7. Confirm
+### 8. Confirm
 
-Print what was created (list of files) and suggest: "Scaffold ready. Run `/kerd:dian` to start your first session."
+Print what was created (list of files and vault folder) and suggest: "Scaffold ready. Run `/kerd:dian` to start your first session."
 
 ## What Startup Does NOT Do
 

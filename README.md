@@ -89,7 +89,7 @@ Three modes. Audit reviews a file and reports violations with line numbers. Fix 
 
 ### startup — Project Scaffold
 
-Startup is a one-time setup for new projects. Point it at a fresh git repo and it creates the Kerd directory structure: `kivna/sessions/`, `kivna/checkpoints/`, `docs/`, and all the initial files — README.md, TODO.md, CLAUDE.md with session workflow conventions, `docs/playbook.md` skeleton, `kivna/context.md` skeleton, and a `.sotu` config. One commit, one push, ready to go.
+Startup is a one-time setup for new projects. Point it at a fresh git repo and it creates the Kerd directory structure: `kivna/sessions/`, `docs/`, and all the initial files — README.md, TODO.md, CLAUDE.md with session workflow conventions, `docs/playbook.md` skeleton, `kivna/vault.json`, and a `.sotu` config. It also sets up the Obsidian vault folder at `~/ObsidianLLM/[project]/` with symlinks, MOC, Context, Log, and Decisions files. One commit, one push, ready to go.
 
 It won't overwrite files that already exist. If you created a README during repo init, startup skips it and moves on.
 
