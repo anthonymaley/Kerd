@@ -95,7 +95,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **Cache busting** — after publishing, Claude Code may cache the old plugin version. Bumping a patch version forces a re-fetch. This is why you see "cache bust" commits in the history.
 - **Namespace prefix** — skill SKILL.md frontmatter uses bare names (`name: dian`), but all references in docs and skills must use `kerd:` prefix (`/kerd:dian`). The plugin system adds the prefix automatically. README examples are exempt for readability.
 - **No .gitignore** — the project doesn't have one yet. The `kivna/input/` and `kivna/output/` directories are described as gitignored in the README, but that applies to projects that *use* Kerd, not to the Kerd repo itself.
-- **Command wrappers are required** — a skill without a corresponding command file in `commands/` won't be accessible as a slash command. The startup skill shipped without its command wrapper initially (commit b60325f fixed this).
+- **Command wrappers removed** — the plugin system now loads skills directly from SKILL.md via the `kerd:` prefix (e.g., `/kerd:dian`). Legacy command wrappers in `commands/` were removed in v0.7.0.
 
 ## Current Status
 

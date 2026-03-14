@@ -38,7 +38,6 @@ Use semver: `MAJOR.MINOR.PATCH`
 
 ```
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
-commands/         # command definitions (markdown, one per command)
 docs/plans/       # design docs and implementation plans
 docs/playbook.md  # living project guide, updated by dian close-out
 kivna/vault.json  # Obsidian vault config
