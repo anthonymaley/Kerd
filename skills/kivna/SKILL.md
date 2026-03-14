@@ -1,24 +1,78 @@
 ---
 name: kivna
-description: "Use when the user says 'kivna', 'import', 'export context', 'save', 'save context', 'snapshot', or needs to manage project knowledge — importing external files, exporting session context, or saving working context mid-session."
+description: "Use when the user says 'kivna', 'vault', 'save context', 'save', 'snapshot', 'scaffold', 'import', 'export context', or needs to manage project knowledge in the Obsidian vault — saving working context, importing external files, exporting session context, or setting up the vault."
 ---
 
 # Kivna — Knowledge Management
 
 From Gaelic "cuimhne" (memory), respelled phonetically.
 
-Single owner of the project's knowledge layer. Sessions, memories, imports, exports all live under `kivna/`.
+Single owner of the project's knowledge layer. All durable context, decisions, and activity logs live in the Obsidian vault. Kivna is the read/write interface between Claude Code sessions and the vault.
+
+## Vault Discovery
+
+Every kivna command starts here. Resolve the vault location before doing anything else.
+
+1. **Check `kivna/vault.json`.** If it exists, read `vault`, `folder`, and `name`. Expand `~` to the user's home directory.
+
+2. **Convention fallback.** If no `vault.json`, derive from the repo directory name:
+   - Vault path: `~/ObsidianLLM/`
+   - Folder: lowercase repo directory name (e.g., repo at `~/Kerd` → folder `kerd`)
+   - Display name: title-case the folder name (e.g., `kerd` → `Kerd`)
+   - Check if `~/ObsidianLLM/[folder]/` exists on disk.
+
+3. **No vault found.** If neither `vault.json` exists nor the convention folder exists on disk, prompt:
+   > No Obsidian vault folder found for this project at `~/ObsidianLLM/[folder]/`. Want me to set it up?
+
+   If yes → run the scaffold mechanic. If no → stop and tell the user kivna requires a vault.
 
 ## Folder Convention
 
-- `kivna/context.md` — living working context, overwritten each checkpoint (committed to git)
-- `kivna/checkpoints/` — daily archives of previous context versions (committed to git)
-- `kivna/sessions/` — full session logs written by switch (committed to git)
-- `kivna/memories/` — quick notes captured mid-session (committed to git)
-- `kivna/input/` — drop files here for import (should be gitignored, transit folder)
-- `kivna/output/` — exports land here (should be gitignored, transit folder)
+- `kivna/vault.json` — vault config (committed to git)
+- `kivna/sessions/` — session logs written by switch (committed, symlinked to vault)
+- `kivna/.active-modes` — ephemeral mode state (not committed)
+- `kivna/input/` — drop files here for import (gitignored, transit folder)
+- `kivna/output/` — exports land here (gitignored, transit folder)
 
 ## Commands
+
+### `/kivna save` — Save to Vault
+
+Snapshot the current working context into the Obsidian vault. This is the same mechanic that `/kerd:dian` triggers at task boundaries — but available manually anytime.
+
+Use it at natural breakpoints: after finishing a task, before context gets long, when switching topics, or when something important was decided.
+
+#### The mechanic
+
+1. **Discover vault.** Follow the vault discovery steps above. Stop if no vault is found and user declines scaffold.
+
+2. **Prepend to `[Name] Context.md`.** Insert a new dated section after the file's `# heading` line and `---` separator, before any existing sections. `[Name]` is the display name from vault discovery. If the file doesn't exist, create it with a `# [Name] Context` heading, a `---` separator, then the section.
+
+```markdown
+## YYYY-MM-DD HH:MM
+
+### Where We Are
+[current focus — what we're actively working on and where we are in it]
+
+### Active Work
+[specific tasks in progress, with enough detail for a cold-start reader]
+
+### Key Relationships
+[[[people/Name]] wikilinks for people involved — skip this section entirely if none]
+
+### Blocked / Waiting
+[anything stalled or waiting on input — skip this section entirely if nothing]
+
+### Open Questions
+[unresolved items that need investigation or input — skip this section entirely if none]
+```
+
+3. **Prepend to `[Name] Log.md`.** Insert one-liners after the file's `# heading` and `---` separator, before existing entries. Each line: `YYYY-MM-DD — did the thing`. If the file doesn't exist, create it with a `# [Name] Log` heading and a `---` separator, then the entries.
+
+4. **Flag decisions.** If new decisions were made since the last save, show each one to the user with its reasoning. Wait for approval before writing anything to `Decisions.md`. User can approve, edit, or skip each decision. Kivna does NOT write to `Decisions.md` without explicit approval.
+
+5. **Confirm.** One-line summary:
+   > Saved to vault: Context updated, N log entries, M decisions flagged.
 
 ### `/kivna in` — Import External Knowledge
 
@@ -46,9 +100,11 @@ Read files from `kivna/input/`, extract what's relevant, write it into the proje
    - If the content is a session transcript from another LLM, extract decisions, insights, and action items — do not copy the raw transcript
    - Write in the project's voice
 
-6. **Clean up.** Delete the processed files from `kivna/input/`. Leave any files the user said to skip.
+6. **Flag decisions.** If import surfaces any decisions, flag them for `Decisions.md` approval using the same mechanic as `/kivna save` step 4.
 
-7. **Report.** Tell the user what was imported and where it went.
+7. **Clean up.** Delete the processed files from `kivna/input/`. Leave any files the user said to skip.
+
+8. **Report.** Tell the user what was imported and where it went.
 
 ### `/kivna out` — Export Session Context
 
@@ -89,59 +145,53 @@ Package the current session's work into a portable file another LLM can use as i
 
 4. **Confirm.** Show the user the export path and a summary of what's in it.
 
-### `/kivna save` — Save Working Context
+### `/kivna scaffold` — Vault Scaffold
 
-Snapshot the current working context to `kivna/context.md`. This is the same mechanic that `/kerd:dian` triggers automatically at task boundaries — but available manually anytime, whether or not you're in a dian session.
-
-Use it at natural breakpoints: after finishing a task, before context gets long, when you're about to switch topics, or just when something important was decided.
-
-**With no arguments** (`/kivna save`): full context snapshot only.
-**With a note** (`/kivna save decided to use Postgres over SQLite`): full context snapshot + append the note to `kivna/memories/YYYY-MM-DD.md`.
+Set up the Obsidian vault folder for this project. Also triggered automatically when vault discovery fails and the user says yes.
 
 #### The mechanic
 
-1. **Archive the current context.** If `kivna/context.md` exists and has content beyond the skeleton, append its content to `kivna/checkpoints/YYYY-MM-DD.md` with a `## HH:MM` timestamp header and a `---` separator. Create the file and directory if they don't exist.
+1. **Create the vault folder.** `~/ObsidianLLM/[folder]/` and subdirectories that mirror the repo's `.md` file structure. For example, if the repo has `docs/plans/`, create `~/ObsidianLLM/[folder]/docs/plans/`.
 
-2. **Write the new context.** Overwrite `kivna/context.md` with the current working state:
+2. **Symlink all `.md` files** from the repo into the vault folder using `ln -sf`, preserving subfolder structure. This makes repo docs visible in Obsidian's graph without duplication.
 
-```markdown
-# Context — [Project Name]
+3. **Symlink `kivna/sessions/`** into the vault folder so session logs appear in Obsidian.
 
-## Current Focus
-[What we're actively working on. The task, the approach, where we are in it.]
+4. **Create vault-native files** (these are NOT symlinks — they live only in the vault):
 
-## Mental Model
-[The high-level understanding of how things fit together right now. Not architecture docs — the working theory that guides decisions.]
+   - **`[Name].md`** — Map of Content (MOC). Links every symlinked file, grouped by category (skills, docs, config, etc.). This is the graph entry point.
+   - **`[Name] Context.md`** — Seeded with one section from the current project state, using the format from `/kivna save`.
+   - **`[Name] Log.md`** — Seeded with entries from recent git history (`git log --oneline -20`), formatted as `YYYY-MM-DD — commit message`.
+   - **`Decisions.md`** — Seeded from rules in `CLAUDE.md` and any decisions found in existing project context. Each entry gets a date and reasoning.
 
-## Decisions
-[Each decision with full reasoning. What was considered, what was rejected, why the chosen approach won.]
+5. **Write `kivna/vault.json`** in the repo:
 
-## Rejected Approaches
-[Things we tried or considered and ruled out. With reasons. Prevents re-exploring dead ends.]
-
-## Working Assumptions
-[Things established as true that aren't written anywhere else. Constraints discovered, behaviors observed, limits hit.]
-
-## Active Threads
-[Partial work, what's in progress, what's blocking, what's queued next.]
-
-## Open Questions
-[Unresolved things that need input or investigation.]
+```json
+{
+  "vault": "~/ObsidianLLM",
+  "folder": "[folder]",
+  "name": "[Name]"
+}
 ```
 
-3. **If a note was provided**, append it to `kivna/memories/YYYY-MM-DD.md` with a `## HH:MM` timestamp header. Create the file and directory if they don't exist.
+6. **Offer deprecated file cleanup.** If any of the following exist, ask the user for confirmation before removing them:
+   - `kivna/context.md`
+   - `kivna/checkpoints/`
+   - `kivna/memories/`
 
-4. **Quick confirmation.** No approval flow. Just confirm what was saved.
+   Tell the user these are replaced by the vault's `Context.md` (append-only) and `Log.md`. Only delete with explicit confirmation.
 
-Triggered automatically by `/kerd:dian` at task boundaries and close-out. Also available manually anytime.
+7. **Confirm.** Report what was created: vault path, number of symlinks, vault-native files created, and whether deprecated files were cleaned up.
 
 ## Notes
 
 - `kivna/input/` and `kivna/output/` should be in `.gitignore` — they're transit folders, not project content.
-- `kivna/sessions/` and `kivna/memories/` should be committed to git — they're permanent history.
+- `kivna/sessions/` should be committed to git — they're permanent history, symlinked into the vault.
+- Vault-native files (`Context.md`, `Log.md`, `Decisions.md`, MOC) live only in the vault and are NOT committed to the repo.
+- `Context.md` is append-only — old sections are never deleted. New sections are always prepended after the header. This replaces the old checkpoint mechanic.
+- `Decisions.md` requires user approval before every write. Kivna flags decisions; the user decides what gets recorded.
 - Exports are written in plain markdown so any LLM can read them.
 - When importing LLM session transcripts, be aggressive about filtering. Most of a chat session is noise. Extract the signal: decisions, code patterns, insights, action items.
 - When importing PDFs or reports, focus on what's actionable for THIS project.
-- `kivna/context.md` and `kivna/checkpoints/` should be committed to git — they're the session's working memory.
-- Context checkpoints are cumulative, not incremental. Each checkpoint captures the full working state, not just deltas.
-- On cold start, read `kivna/context.md` alone. The archive in `kivna/checkpoints/` is for tracing decisions back, not for restore.
+- Kivna adds `[[wikilinks]]` in Context.md when referencing people (`[[people/Name]]`) or other projects (`[[project-name/file]]`). Kivna does NOT create people files — just links.
+- On cold start, read the latest section of `[Name] Context.md` from the vault. The older sections are for tracing decisions back, not for full restore.
