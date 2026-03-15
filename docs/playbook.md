@@ -96,7 +96,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.7.0
+**Version:** 0.8.0
 
 **Working:**
 - All six skills functional: dian, switch, kivna, sotu, skriv, tend
@@ -110,7 +110,8 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Switch-out reflection — captures learnings to CLAUDE.md and memory files
 - Switch-in smoke test — runs project tests if they exist
 
-**Recent changes (as of 2026-03-14):**
+**Recent changes (as of 2026-03-15):**
+- v0.8.0: Tend replaces startup — structural health check and convergence for new and existing repos, seven audit categories, visual report with fix flow
 - v0.7.0: Obsidian vault integration — kivna now reads/writes context, decisions, and activity log from `~/ObsidianLLM/kerd/` vault instead of local `kivna/context.md` and checkpoints
 - v0.6.0: Strengthened dian (consistency check in orient, rigorous planning, verify-as-you-go in execute, diff review in close-out) and switch (reflection step on out, smoke test on in)
 - v0.5.0: Mode markers for dian and skriv, `.active-modes` state file, switch-in reports active modes
