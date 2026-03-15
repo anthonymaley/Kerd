@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0
+
+**Tend replaces startup** — structural health check and convergence.
+
+- Added tend skill — audits repo structure against current Kerd conventions, reports visually with current-vs-proposed tables, fixes with approval
+- Removed startup skill — tend covers both initial setup and ongoing drift detection
+- Seven audit categories: directory structure, required files, vault integration, deprecated patterns, naming consistency, stray/stale files, .gitignore hygiene
+
 ## 0.7.0
 
 **Obsidian vault integration** — kivna now reads and writes the Obsidian vault as the single source of truth for context, decisions, and activity logging.

@@ -44,7 +44,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill (dian, kivna, skriv, sotu, startup, switch)
+skills/           # SKILL.md per skill (dian, kivna, skriv, sotu, tend, switch)
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
 kivna/vault.json  # Obsidian vault config
@@ -61,7 +61,7 @@ The project's durable knowledge layer lives in the Obsidian vault at `~/Obsidian
 - **kivna** — knowledge management (Obsidian vault integration: context, decisions, activity log, import/export)
 - **sotu** — project health audits (docs, code, site, deps, playbook)
 - **skriv** — human writing voice enforcement (audit, fix, session mode)
-- **startup** — one-time project scaffold for new repos
+- **tend** — structural health check and convergence
 
 ## Integrations
 
@@ -99,12 +99,12 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 **Version:** 0.7.0
 
 **Working:**
-- All six skills functional: dian, switch, kivna, sotu, skriv, startup
+- All six skills functional: dian, switch, kivna, sotu, skriv, tend
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
 - Obsidian vault integration — kivna reads/writes vault for context, decisions, and activity log
-- Startup scaffold verified — produces correct directory structure and files
-- Dian playbook creation verified — skeleton matches startup's template
+- Tend audit verified — reports structural drift and fixes with approval
+- Dian playbook creation verified — skeleton matches expected template
 - Mode markers on dian and skriv — visible phase/state announcements with `.active-modes` state file
 - Dian rigorous planning (interrogate tasks, push back, no guessing) and execute verification (check each task, record decisions immediately, docs with code)
 - Switch-out reflection — captures learnings to CLAUDE.md and memory files
