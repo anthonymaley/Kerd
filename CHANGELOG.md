@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0
+
+**Discover** — skill gap analysis for projects.
+
+- Added discover skill — scans project signals (tech stack + work themes) and recommends skills/plugins across three tiers: installed but unused here, available in marketplace/curated sources, trending on GitHub/web
+- Rich card report format with descriptions, relevance, and actionable prompts per item
+- Curated source list in Obsidian vault (`discover-sources.json`) syncs between machines
+
 ## 0.8.0
 
 **Tend replaces startup** — structural health check and convergence.

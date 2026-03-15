@@ -44,7 +44,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill (dian, kivna, skriv, sotu, tend, switch)
+skills/           # SKILL.md per skill (dian, discover, kivna, skriv, sotu, tend, switch)
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
 kivna/vault.json  # Obsidian vault config
@@ -55,8 +55,9 @@ kivna/.active-modes # ephemeral mode state
 
 The project's durable knowledge layer lives in the Obsidian vault at `~/ObsidianLLM/kerd/`. Kivna reads and writes vault files (`Kerd Context.md`, `Kerd Log.md`, `Decisions.md`). The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Six skills, each with a single responsibility:**
+**Seven skills, each with a single responsibility:**
 - **dian** — session discipline (orient/plan/execute/close-out protocol)
+- **discover** — skill gap analysis (scan project signals, recommend skills/plugins across tiers)
 - **switch** — git boundary operations (pull on arrive, commit+push on leave)
 - **kivna** — knowledge management (Obsidian vault integration: context, decisions, activity log, import/export)
 - **sotu** — project health audits (docs, code, site, deps, playbook)
@@ -96,10 +97,10 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.8.0
+**Version:** 0.9.0
 
 **Working:**
-- All six skills functional: dian, switch, kivna, sotu, skriv, tend
+- All seven skills functional: dian, discover, switch, kivna, sotu, skriv, tend
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
 - Obsidian vault integration — kivna reads/writes vault for context, decisions, and activity log
@@ -111,6 +112,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Switch-in smoke test — runs project tests if they exist
 
 **Recent changes (as of 2026-03-15):**
+- v0.9.0: Discover — skill gap analysis, scans project signals and recommends skills/plugins across three tiers
 - v0.8.0: Tend replaces startup — structural health check and convergence for new and existing repos, seven audit categories, visual report with fix flow
 - v0.7.0: Obsidian vault integration — kivna now reads/writes context, decisions, and activity log from `~/ObsidianLLM/kerd/` vault instead of local `kivna/context.md` and checkpoints
 - v0.6.0: Strengthened dian (consistency check in orient, rigorous planning, verify-as-you-go in execute, diff review in close-out) and switch (reflection step on out, smoke test on in)
