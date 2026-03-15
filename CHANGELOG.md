@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.7.0
+
+**Obsidian vault integration** — kivna now reads and writes the Obsidian vault as the single source of truth for context, decisions, and activity logging.
+
+- Rewrote kivna: vault discovery (`kivna/vault.json`), `/kivna save` writes to vault `Context.md`, `Log.md`, and flags decisions for `Decisions.md` approval
+- Added `/kivna scaffold` — sets up the Obsidian vault folder with symlinks, MOC, Context, Log, and Decisions files
+- Updated dian: orient reads vault Context.md and Decisions.md, execute/close-out save to vault
+- Updated switch: in reads vault, out reflection flags decisions for vault Decisions.md
+- Updated startup: scaffolds `kivna/vault.json` and triggers `/kerd:kivna scaffold` instead of creating `kivna/context.md`
+- Removed `kivna/context.md`, `kivna/checkpoints/`, `kivna/memories/` — replaced by vault files
+- Removed legacy command wrappers in `commands/` — plugin system loads skills directly via `kerd:` prefix
+
+## 0.6.0
+
+**Strengthened dian and switch** — rigorous planning, verify-as-you-go execution, and session reflection.
+
+- Dian orient: consistency sniff test across CLAUDE.md, playbook, and context
+- Dian plan: interrogate tasks, push back on ambiguity, don't infer
+- Dian execute: verify each task before moving on, record decisions immediately, docs travel with code
+- Dian close-out: diff review of all session changes
+- Switch out: reflection step captures learnings to CLAUDE.md, memory, and playbook
+- Switch in: smoke test runs project tests if they exist
+
+## 0.5.0
+
+**Mode markers** — visible phase/state announcements for modal skills.
+
+- Dian announces current phase (`[dian: orient]`, `[dian: execute]`, etc.)
+- Skriv announces session mode (`[skriv: active]`, `[skriv: off]`)
+- Added `kivna/.active-modes` state file for cross-skill mode tracking
+- Switch in reads and reports active modes
+
 ## 0.4.0
 
 **Simplified kivna commands** — merged `/kivna checkpoint` and `/kivna memory` into a single `/kivna save` command.

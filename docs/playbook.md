@@ -6,7 +6,7 @@ How to rebuild this project from scratch.
 
 Pure markdown and JSON. No runtime dependencies, no build step, no package manager.
 
-- **Claude Code plugin system** — skills (SKILL.md), commands (markdown wrappers), plugin manifest (plugin.json/marketplace.json)
+- **Claude Code plugin system** — skills (SKILL.md), plugin manifest (plugin.json/marketplace.json)
 - **Markdown** — all skill definitions, docs, session logs, and the playbook itself
 - **JSON** — plugin.json and marketplace.json in `.claude-plugin/`
 - **Git** — version control and the distribution mechanism (plugins install from the git repo)
@@ -36,18 +36,15 @@ There is no package.json, no node_modules, no compiled output. The plugin is con
 
 ## Architecture
 
-**Skills define behavior. Commands are thin wrappers that invoke skills.**
+**Skills define behavior.** The plugin system loads them directly via the `kerd:` prefix (e.g., `/kerd:dian`).
 
 Each skill lives in `skills/<name>/SKILL.md` with YAML frontmatter (`name`, `description`) and the full protocol in markdown. The `description` field controls when Claude auto-invokes the skill.
-
-Each command lives in `commands/<name>.md` and simply tells Claude to invoke the corresponding skill. One command per skill, one-to-one mapping.
 
 The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, version, and description. The marketplace manifest (`.claude-plugin/marketplace.json`) wraps that for the Claude Code marketplace.
 
 **Directory layout:**
 ```
 skills/           # SKILL.md per skill (dian, kivna, skriv, sotu, startup, switch)
-commands/         # one .md per command (thin wrappers)
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
 kivna/vault.json  # Obsidian vault config
@@ -79,7 +76,7 @@ Session logs written by switch go to `kivna/sessions/` and are committed to git,
 Kerd is distributed as a Claude Code marketplace plugin.
 
 **To publish an update:**
-1. Make changes to skills/commands/docs
+1. Make changes to skills and docs
 2. Bump the version in all three locations per the release checklist in CLAUDE.md:
    - `.claude-plugin/plugin.json` → `version`
    - `.claude-plugin/marketplace.json` → `metadata.version`
@@ -95,7 +92,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **Cache busting** — after publishing, Claude Code may cache the old plugin version. Bumping a patch version forces a re-fetch. This is why you see "cache bust" commits in the history.
 - **Namespace prefix** — skill SKILL.md frontmatter uses bare names (`name: dian`), but all references in docs and skills must use `kerd:` prefix (`/kerd:dian`). The plugin system adds the prefix automatically. README examples are exempt for readability.
 - **No .gitignore** — the project doesn't have one yet. The `kivna/input/` and `kivna/output/` directories are described as gitignored in the README, but that applies to projects that *use* Kerd, not to the Kerd repo itself.
-- **Command wrappers removed** — the plugin system now loads skills directly from SKILL.md via the `kerd:` prefix (e.g., `/kerd:dian`). Legacy command wrappers in `commands/` were removed in v0.7.0.
+
 
 ## Current Status
 

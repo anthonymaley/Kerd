@@ -48,6 +48,6 @@ kivna/sessions/   # session logs from switch (committed)
 ## Conventions
 
 - Skill names are lowercase, single-word, Gaelic-inspired where it adds character
-- Skills define behavior. Commands are thin wrappers that invoke skills.
+- Skills define behavior. The plugin system loads them directly via the `kerd:` prefix.
 - SKILL.md frontmatter `name` field is the local name only (no `kerd:` prefix — the plugin system adds it)
 - All cross-skill references use `/kerd:<skill>` format
