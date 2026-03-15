@@ -92,7 +92,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **Version sync** — the version must be identical in three places (plugin.json version, marketplace.json metadata.version, marketplace.json plugins[0].version). Easy to update one and forget the others. The release checklist in CLAUDE.md exists because this happened.
 - **Cache busting** — after publishing, Claude Code may cache the old plugin version. Bumping a patch version forces a re-fetch. This is why you see "cache bust" commits in the history.
 - **Namespace prefix** — skill SKILL.md frontmatter uses bare names (`name: dian`), but all references in docs and skills must use `kerd:` prefix (`/kerd:dian`). The plugin system adds the prefix automatically. README examples are exempt for readability.
-- **No .gitignore** — the project doesn't have one yet. The `kivna/input/` and `kivna/output/` directories are described as gitignored in the README, but that applies to projects that *use* Kerd, not to the Kerd repo itself.
+- **Vault path convention** — default vault path is `~/Obsidian/`. Kivna scaffold asks for the location if it doesn't exist. All vault.json files point here. If you rename or move the vault folder, update vault.json in every repo.
 
 
 ## Current Status
