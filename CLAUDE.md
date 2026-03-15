@@ -1,6 +1,6 @@
 # Kerd
 
-Claude Code plugin: six workflow skills for session discipline, machine handoff, knowledge management, project audits, human writing voice, and project scaffolding.
+Claude Code plugin: six workflow skills for session discipline, machine handoff, knowledge management, project audits, human writing voice, and structural health.
 
 ## Commit Rules
 
@@ -25,7 +25,7 @@ Every change to a skill (new skill, modified behavior, renamed command, changed 
 
 4. **Update skill trigger description** — the `description` field in the skill's SKILL.md frontmatter controls when Claude invokes it. If behavior changed, update the trigger description to match.
 
-5. **Namespace references** — all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:startup`, `/kerd:dian`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
+5. **Namespace references** — all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:dian`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
 
 ## Version Strategy
 
