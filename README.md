@@ -19,7 +19,7 @@ Dian gives a session structure. You start it when you sit down to work, and it w
 
 On close-out, dian creates or updates `docs/playbook.md` — a living guide for rebuilding the project from scratch. Tech stack, setup steps, architecture decisions, integrations, gotchas, current status. It grows with the project, session by session.
 
-During execution, dian auto-checkpoints your working context to the Obsidian vault after each task completes — decisions made, approaches rejected, assumptions discovered, what's in progress. On close-out it saves the final context to the vault for the next session. If context compacts mid-session, re-read vault Context.md and you're caught up.
+During execution, decisions and progress accumulate in repo-side files (session logs, TODO.md). On close-out, dian calls `/kivna save` once — updating the vault's Status.md and proposing updates to any other vault files where new knowledge belongs. One clean vault update per session, not ten incremental dumps.
 
 Dian announces its current phase with a mode marker (`[dian: orient]`, `[dian: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[dian: closed]` so there's no ambiguity.
 
@@ -31,7 +31,7 @@ Dian doesn't touch git. No pulls, no pushes. That's switch's job.
 
 ### switch — Machine Handoff
 
-Switch owns git boundary operations. All of them. When you leave a machine, it reflects on the session (capturing learnings to CLAUDE.md and memory files), writes session state to TODO.md, creates a session log in `kivna/sessions/`, commits everything, and pushes. When you arrive on a new machine, it pulls, runs a smoke test if tests exist, reads the session logs, and tells you where you left off.
+Switch owns git boundary operations. All of them. When you leave a machine, it reflects on the session (capturing learnings to CLAUDE.md and memory files), writes session state to TODO.md, creates a session log in `kivna/sessions/`, commits everything, and pushes. When you arrive on a new machine, it pulls, runs a smoke test if tests exist, reads the session logs, and tells you where you left off. It also reads vault Status.md — where the project stands and what's next — and reports any active modes left from a previous session.
 
 If you run it without arguments, it checks for uncommitted changes. Changes present means you're leaving. Clean repo means you're arriving.
 
@@ -42,7 +42,9 @@ If you run it without arguments, it checks for uncommitted changes. Changes pres
 
 ### kivna — Knowledge Management
 
-Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/Obsidian/[project]/`. Import (`/kivna in`) reads files you drop into `kivna/input/`, extracts what matters, and writes it into the project. Works with PDFs, markdown, JSON session exports, plain text. Export (`/kivna out`) packages your current session into a portable markdown file another LLM can pick up cold. Save (`/kivna save`) writes to vault Context.md and Log.md, and flags decisions for vault Decisions.md (with user approval). Scaffold (`/kivna scaffold`) sets up the Obsidian vault structure for a new project. This is the same save mechanic dian uses automatically at task boundaries, but you can trigger it manually anytime.
+Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/Obsidian/[project]/`. The vault is a human knowledge base — every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place with approval.
+
+Save (`/kivna save`) updates the vault's Status.md and proposes updates to other vault files (Architecture Decisions, Playbook, etc.) — each change shown and approved before writing. This is the same save mechanic dian and switch use at session boundaries. Scaffold (`/kivna scaffold`) creates the vault folder with a MOC and Status.md, then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge. Export (`/kivna out`) packages your session for another LLM.
 
 The folder structure:
 
@@ -57,7 +59,7 @@ kivna/
 ```
 /kivna in                                          # import from inbox
 /kivna out                                         # export session context
-/kivna save                                        # snapshot to vault
+/kivna save                                        # update vault
 /kivna scaffold                                    # set up Obsidian vault
 ```
 
@@ -113,7 +115,7 @@ The curated source list lives in your Obsidian vault at `discover-sources.json` 
 
 New project: you create a repo, clone it, run `/tend`. It checks what's missing (everything, in this case), shows you the plan, and sets up the full structure with your approval. Then `/dian` to start your first session.
 
-Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It also reads vault Context.md — the decisions, reasoning, and working assumptions from last time — and reports any active modes left from a previous session. Then it offers to start a dian session. You run `/dian` to plan the session. Mid-work, you make a decision worth remembering, so you run `/kivna save`. When the work is done, dian's close-out updates the playbook and saves to the vault with the session's full context. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. The playbook grows with every session — if someone else picks up the project, they can rebuild it from that doc alone. Periodically run `/discover` to check if new skills have emerged that would help with the project.
+Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md — where the project stands and what's next — plus any other vault files relevant to the work. Then it offers to start a dian session. You run `/dian` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, dian's close-out updates the playbook and calls `/kivna save` to update the vault — one clean write with approval. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. Periodically run `/discover` to check if new skills have emerged that would help with the project.
 
 ## Naming
 
