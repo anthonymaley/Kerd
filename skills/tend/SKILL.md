@@ -151,8 +151,12 @@ For existing repos, only report missing files — don't create them with templat
 Check:
 - `kivna/vault.json` exists and is valid JSON with `vault`, `folder`, `name` fields
 - The vault folder at the resolved path exists on disk
-- Vault-native files exist: `[Name].md` (MOC), `[Name] Context.md`, `[Name] Log.md`, `Decisions.md`
-- Symlinks: compare all `.md` files in the repo against symlinks in the vault folder. Report any repo `.md` files missing from vault.
+- Required vault files exist: `[Name].md` (MOC), `[Name] Status.md`
+- **No symlinks** — scan the vault folder for symlinks pointing to the repo. Each symlink is a violation.
+- **No banned files** — check for files that don't belong in the vault: `CLAUDE.md`, `README.md`, `TODO.md`, `Context.md`, `[Name] Context.md`, `[Name] Log.md`, `Log.md`, session export files, any file whose name doesn't start with the project/company name (generic names like `Decisions.md`, `Notes.md`)
+- **Self-identifying filenames** — every file in the vault folder (except the MOC) should start with the project or company name. Flag files that would collide across vaults in Obsidian's quick switcher.
+- **MOC links resolve** — every `[[wikilink]]` in the MOC should point to a file that exists in the vault folder.
+- **No append-only patterns** — flag files with multiple dated `## YYYY-MM-DD` section headers (remnants of old pattern).
 
 If `kivna/vault.json` does not exist, report with context:
 
@@ -177,8 +181,8 @@ If vault needs full setup, the fix is to run the `/kerd:kivna scaffold` mechanic
 #### Category 4: Deprecated patterns
 
 Detect files/dirs from older Kerd versions:
-- `kivna/context.md` — replaced by vault Context.md in v0.7.0
-- `kivna/checkpoints/` — replaced by append-only vault Context.md in v0.7.0
+- `kivna/context.md` — replaced by vault Status.md in v0.10.0 (was vault Context.md in v0.7.0)
+- `kivna/checkpoints/` — replaced by vault Status.md in v0.10.0 (was vault Context.md in v0.7.0)
 - `kivna/memories/` — replaced by vault in v0.7.0
 - `commands/` — removed in v0.7.0, plugin system loads skills directly
 
@@ -226,13 +230,17 @@ Format the report as a visual table. Show passing categories as one-liners. Show
   ┌──────────────────┬───────────────┬─────────────────────────────┐
   │ Item             │ Current       │ Proposed                    │
   ├──────────────────┼───────────────┼─────────────────────────────┤
-  │ vault.json       │ missing       │ create with folder:         │
-  │                  │               │ krutho-founders             │
-  │ vault symlinks   │ 4 of 7 .md   │ add 3 missing symlinks      │
-  │                  │ files linked  │                             │
+  │ symlinks         │ 8 found       │ remove all (vault spec      │
+  │                  │               │ prohibits repo symlinks)    │
+  │ Context.md       │ exists        │ remove (replaced by         │
+  │                  │               │ Status.md)                  │
+  │ Log.md           │ exists        │ remove (no replacement —    │
+  │                  │               │ git log is authoritative)   │
+  │ Decisions.md     │ generic name  │ rename to [Project]         │
+  │                  │               │ Architecture Decisions.md   │
   └──────────────────┴───────────────┴─────────────────────────────┘
-  Why: vault.json connects this repo to its Obsidian vault.
-       Symlinks keep vault graph in sync with repo docs.
+  Why: vault spec requires self-identifying filenames, no symlinks,
+       no append-only files. See docs/vault-spec.md.
 
 ⚠ Deprecated patterns
   ┌──────────────────┬───────────────┬─────────────────────────────┐
@@ -292,5 +300,6 @@ Tend does NOT commit or push. It makes structural changes and stops. This keeps 
 - Tend is idempotent. Running it twice produces the same result.
 - Tend replaces the old startup skill entirely. It covers both new repo setup and existing repo convergence.
 - For vault operations (scaffold, symlink refresh), tend delegates to `/kerd:kivna scaffold` rather than reimplementing vault logic.
+- The vault spec at `docs/vault-spec.md` defines what belongs in the vault. Tend checks structure against this spec.
 - Category checks are ordered so that earlier categories don't depend on later ones. Directory structure is checked before required files, vault before deprecated patterns.
 - The stale file check (60 days) uses git history, not filesystem mtime. This is intentional — mtime changes when you pull.
