@@ -47,8 +47,8 @@ Read these files if they exist and extract keywords and themes (not categories �
 - `README.md` — project description, what it's for
 - `docs/playbook.md` — integrations, architecture intent
 - `TODO.md` — active work and backlog themes
-- Vault `Decisions.md` — what kinds of decisions keep coming up
-- Vault `[Name] Context.md` — latest section, recent work focus
+- Vault `[Name] Status.md` — where the project stands, what's open, what's next
+- Vault MOC (`[Name].md`) — discover other vault files (Architecture Decisions, Playbook, etc.) and scan any that exist for themes
 - `kivna/sessions/` — last 3-5 session logs, recurring task patterns
 
 Discover the vault path using `kivna/vault.json` (read `vault`, `folder`, `name` fields, expand `~`).

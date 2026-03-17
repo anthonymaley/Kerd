@@ -247,9 +247,9 @@ Format the report as a visual table. Show passing categories as one-liners. Show
   │ Item             │ Current       │ Proposed                    │
   ├──────────────────┼───────────────┼─────────────────────────────┤
   │ kivna/context.md │ exists        │ remove (replaced by vault   │
-  │                  │               │ Context.md)                 │
-  │ kivna/checkpoints│ 3 files       │ remove (vault is append-    │
-  │                  │               │ only, replaces checkpoints) │
+  │                  │               │ Status.md)                  │
+  │ kivna/checkpoints│ 3 files       │ remove (replaced by vault   │
+  │                  │               │ Status.md)                  │
   └──────────────────┴───────────────┴─────────────────────────────┘
 
 ⚠ Stray & stale files
@@ -299,7 +299,7 @@ Tend does NOT commit or push. It makes structural changes and stops. This keeps 
 
 - Tend is idempotent. Running it twice produces the same result.
 - Tend replaces the old startup skill entirely. It covers both new repo setup and existing repo convergence.
-- For vault operations (scaffold, symlink refresh), tend delegates to `/kerd:kivna scaffold` rather than reimplementing vault logic.
+- For vault operations (scaffold, vault setup), tend delegates to `/kerd:kivna scaffold` rather than reimplementing vault logic.
 - The vault spec at `docs/vault-spec.md` defines what belongs in the vault. Tend checks structure against this spec.
 - Category checks are ordered so that earlier categories don't depend on later ones. Directory structure is checked before required files, vault before deprecated patterns.
 - The stale file check (60 days) uses git history, not filesystem mtime. This is intentional — mtime changes when you pull.
