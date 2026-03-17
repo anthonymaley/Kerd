@@ -53,9 +53,9 @@ Create `kivna/sessions/YYYY-MM-DD.md` (or append if one already exists for today
 
 If appending to an existing file for today (multiple sessions), add a `---` separator and a new section with a time or sequence number.
 
-### 3. Ensure context is current
+### 3. Update the vault
 
-If a `/kerd:dian` session was active, close-out should have already saved to the vault — verify the latest section in vault `[Name] Context.md` reflects this session and move on. If no `/kerd:dian` session was running (quick switch without formal session), save context now using `/kerd:kivna save` (which writes to the vault). Discover the vault path using `kivna/vault.json` or convention (see `/kerd:kivna` vault discovery).
+If a `/kerd:dian` session was active, close-out should have already called `/kerd:kivna save`. Verify vault `[Name] Status.md` reflects this session and move on. If no `/kerd:dian` session was running (quick switch without formal session), call `/kerd:kivna save` now — this updates Status.md and proposes updates to other vault files, each with user approval.
 
 ### 4. Update progress tracking
 
@@ -71,7 +71,7 @@ Before committing, reflect on the session:
 
 Write actionable learnings to the appropriate place:
 - **Project conventions and enforcement rules** → add to `CLAUDE.md` (so they're enforced in future sessions)
-- **Conventions and patterns** → flag for vault `Decisions.md` with user approval (using the `/kerd:kivna save` decision-flagging mechanic)
+- **Conventions and patterns** → flag for the appropriate vault file (Architecture Decisions, Positioning Contract, etc.) — these get proposed during the `/kerd:kivna save` step
 - **Project-specific gotchas** → add to `docs/playbook.md` Gotchas section
 
 Skip this step if the session was trivial (quick fix, single file change). But for any session with meaningful work, take the time — compounding small improvements across sessions is how projects stay healthy.
@@ -108,27 +108,23 @@ If the project has a test command (check `package.json` scripts, `Makefile`, `py
 
 Focus on the `## Current Session` block. This is where the last session left off.
 
-### 4. Read working context
+### 4. Read vault
 
-Read the vault `[Name] Context.md` (latest section — the first `## YYYY-MM-DD` block). This has the working state from the last session. Discover the vault path using `kivna/vault.json` or convention (see `/kerd:kivna` vault discovery). Also read vault `[Name] Log.md` for recent activity at a glance.
+Discover the vault path using `kivna/vault.json` or convention (see `/kerd:kivna` vault discovery). Read `[Name] Status.md` for where the project stands. Read the MOC (`[Name].md`) to discover what other vault files exist and read any that are relevant (Architecture Decisions, Playbook, etc.).
 
-### 5. Read vault decisions
-
-Read vault `Decisions.md` for project conventions and rules.
-
-### 6. Check session logs
+### 5. Check session logs
 
 Read the latest file(s) in `kivna/sessions/` for detailed context on what happened recently.
 
-### 7. Read progress tracking
+### 6. Read progress tracking
 
 If progress tracking exists, read it.
 
-### 8. Check active modes
+### 7. Check active modes
 
 If `kivna/.active-modes` exists and is non-empty, read it. Report any active modes in the summary (e.g., "**Active modes:** `dian: execute`"). If the file doesn't exist or is empty, skip this — don't mention modes.
 
-### 9. Summarize
+### 8. Summarize
 
 Tell the user:
 - What was done last session
@@ -137,7 +133,7 @@ Tell the user:
 - Any test failures from the smoke test (if applicable)
 - Suggest what to work on
 
-### 10. Offer dian
+### 9. Offer dian
 
 Ask: "Start a `/kerd:dian` session?" If yes, flow into `/kerd:dian` orient. If no, stop — user wants to do something quick without full session discipline.
 
@@ -147,6 +143,6 @@ If no TODO.md or session logs exist (fresh repo), say so cleanly:
 
 "Fresh repo — no previous session state found. No TODO.md, no session logs in kivna/sessions/. Ready to start from scratch."
 
-If no vault is found (no `kivna/vault.json` and no vault folder at `~/Obsidian/[folder]/`), fall back to reading `kivna/context.md` if it exists. Report this gracefully — suggest running `/kerd:kivna scaffold` to set up the vault.
+If no vault is found (no `kivna/vault.json` and no vault folder at `~/Obsidian/[folder]/`), report this gracefully — suggest running `/kerd:kivna scaffold` to set up the vault.
 
 Do not fail silently or produce errors for missing files.
