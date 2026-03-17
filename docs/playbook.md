@@ -53,13 +53,13 @@ kivna/.active-modes # ephemeral mode state
 .claude-plugin/   # plugin.json + marketplace.json
 ```
 
-The project's durable knowledge layer lives in the Obsidian vault at `~/Obsidian/kerd/`. Kivna reads and writes vault files (`Kerd Context.md`, `Kerd Log.md`, `Decisions.md`). The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
+The project's knowledge layer lives in the Obsidian vault at `~/Obsidian/kerd/`. The vault is a human knowledge base — living files updated in place, not append-only dumps. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions). The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
 **Seven skills, each with a single responsibility:**
 - **dian** — session discipline (orient/plan/execute/close-out protocol)
 - **discover** — skill gap analysis (scan project signals, recommend skills/plugins across tiers)
 - **switch** — git boundary operations (pull on arrive, commit+push on leave)
-- **kivna** — knowledge management (Obsidian vault integration: context, decisions, activity log, import/export)
+- **kivna** — knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)
 - **sotu** — project health audits (docs, code, site, deps, playbook)
 - **skriv** — human writing voice enforcement (audit, fix, session mode)
 - **tend** — structural health check and convergence
@@ -93,17 +93,18 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **Cache busting** — after publishing, Claude Code may cache the old plugin version. Bumping a patch version forces a re-fetch. This is why you see "cache bust" commits in the history.
 - **Namespace prefix** — skill SKILL.md frontmatter uses bare names (`name: dian`), but all references in docs and skills must use `kerd:` prefix (`/kerd:dian`). The plugin system adds the prefix automatically. README examples are exempt for readability.
 - **Vault path convention** — default vault path is `~/Obsidian/`. Kivna scaffold asks for the location if it doesn't exist. All vault.json files point here. If you rename or move the vault folder, update vault.json in every repo.
+- **Vault spec** — the vault spec at `docs/vault-spec.md` defines what belongs in the vault. No symlinks, no append-only files, no generic filenames. When in doubt, check the spec.
 
 
 ## Current Status
 
-**Version:** 0.9.1
+**Version:** 0.10.0
 
 **Working:**
 - All seven skills functional: dian, discover, switch, kivna, sotu, skriv, tend
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
-- Obsidian vault integration — kivna reads/writes vault for context, decisions, and activity log
+- Obsidian vault integration — kivna reads/writes living vault files (Status.md, domain knowledge) with approval-gated overwrites
 - Tend audit verified — reports structural drift and fixes with approval
 - Dian playbook creation verified — skeleton matches expected template
 - Mode markers on dian and skriv — visible phase/state announcements with `.active-modes` state file
@@ -112,6 +113,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Switch-in smoke test — runs project tests if they exist
 
 **Recent changes (as of 2026-03-15):**
+- v0.10.0: Vault redesign — living human-readable files replace append-only dumps, no symlinks, approval-gated Status.md overwrites, vault spec at docs/vault-spec.md
 - v0.9.0: Discover — skill gap analysis, scans project signals and recommends skills/plugins across three tiers
 - v0.8.0: Tend replaces startup — structural health check and convergence for new and existing repos, seven audit categories, visual report with fix flow
 - v0.7.0: Obsidian vault integration — kivna now reads/writes context, decisions, and activity log from `~/Obsidian/kerd/` vault instead of local `kivna/context.md` and checkpoints

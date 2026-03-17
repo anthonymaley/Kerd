@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.10.0
+
+**Vault redesign** — human knowledge base, not machine sync layer.
+
+- Rewrote kivna: scaffold creates MOC + Status.md only (no symlinks, no Context.md/Log.md/Decisions.md), save overwrites Status.md with approval and proposes updates to domain files
+- Updated dian: orient reads Status.md + MOC, execute has no vault writes, close-out calls `/kerd:kivna save` once
+- Updated switch: in reads Status.md + MOC, out delegates vault writes to `/kerd:kivna save`
+- Updated tend: vault audit flags symlinks and generic filenames as violations, checks MOC link resolution, detects append-only remnants
+- Added vault spec at `docs/vault-spec.md` — canonical reference for vault philosophy and file types
+- Added vault redesign design doc at `docs/plans/2026-03-15-vault-redesign.md`
+
 ## 0.9.2
 
 - Kivna save now refreshes the vault MOC (`[Name].md`) — updates version, skill table, symlinks, and section links so the MOC never drifts
