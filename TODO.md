@@ -1,7 +1,13 @@
 # TODO
 
 ## Current Session
-(no active session)
+(no active session, last completed 2026-03-17)
+
+### Done this session
+- [x] Updated skriv rule: ban all dashes as punctuation (em, en, double hyphens), not just em dashes
+- [x] Cleaned all em dashes from every living file in the project (14 files, 295 replacements)
+- [x] Bumped version to 0.10.1
+- [x] Committed and pushed
 
 ## Backlog
 - Restart Claude Code and test /kerd:tend and /kerd:discover live (v0.10.0 needs restart)
@@ -14,7 +20,7 @@
 - Description optimization for skill triggers (low priority, eval harness limitations)
 
 ### Context
-- Version is now 0.10.0
+- Version is now 0.10.1
 - Plugin update command is `claude plugin update kerd@kerd-marketplace`
 - marketplace.json URL uses ssh format (git@github.com:), intentional
 - discover-sources.json in vault with 9 repos and 6 URLs
