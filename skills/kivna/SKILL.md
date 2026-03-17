@@ -1,13 +1,13 @@
 ---
 name: kivna
-description: "Use when the user says 'kivna', 'vault', 'save context', 'save', 'scaffold', 'import', 'export context', or needs to manage project knowledge in the Obsidian vault — updating project status, importing external files, exporting session context, or setting up the vault."
+description: "Use when the user says 'kivna', 'vault', 'save context', 'save', 'scaffold', 'import', 'export context', or needs to manage project knowledge in the Obsidian vault: updating project status, importing external files, exporting session context, or setting up the vault."
 ---
 
-# Kivna — Knowledge Management
+# Kivna (Knowledge Management)
 
 From Gaelic "cuimhne" (memory), respelled phonetically.
 
-Single owner of the project's knowledge layer. The vault is a human knowledge base. Every file answers a question someone would actually ask. Files are living — updated in place, not appended to.
+Single owner of the project's knowledge layer. The vault is a human knowledge base. Every file answers a question someone would actually ask. Files are living, updated in place, not appended to.
 
 ## Vault Discovery
 
@@ -28,15 +28,15 @@ Every kivna command starts here. Resolve the vault location before doing anythin
 
 ## Folder Convention
 
-- `kivna/vault.json` — vault config (committed to git)
-- `kivna/sessions/` — session logs written by switch (committed)
-- `kivna/.active-modes` — ephemeral mode state (not committed)
-- `kivna/input/` — drop files here for import (gitignored, transit folder)
-- `kivna/output/` — exports land here (gitignored, transit folder)
+- `kivna/vault.json` vault config (committed to git)
+- `kivna/sessions/` session logs written by switch (committed)
+- `kivna/.active-modes` ephemeral mode state (not committed)
+- `kivna/input/` drop files here for import (gitignored, transit folder)
+- `kivna/output/` exports land here (gitignored, transit folder)
 
 ## Commands
 
-### `/kerd:kivna save` — Save to Vault
+### `/kerd:kivna save` (Save to Vault)
 
 Update the vault to reflect the current session state. Use it at natural breakpoints: after finishing a task, before context gets long, when switching topics, or when something important was decided.
 
@@ -52,7 +52,7 @@ Update the vault to reflect the current session state. Use it at natural breakpo
    # [Name] Status
 
    ## Where We Are
-   [Current state — what's working, what was just completed]
+   [Current state: what's working, what was just completed]
 
    ## What's Open
    [Open questions, blockers, unresolved items]
@@ -68,18 +68,18 @@ Update the vault to reflect the current session state. Use it at natural breakpo
 5. **Confirm.** One-line summary:
    > Saved to vault: Status updated, N files updated, MOC refreshed.
 
-### `/kerd:kivna in` — Import External Knowledge
+### `/kerd:kivna in` (Import External Knowledge)
 
 Read files from `kivna/input/`, extract what's relevant, write it into the project, delete the originals.
 
-1. **List the inbox.** `ls kivna/input/` — show the user what's there. If empty, say so and stop.
+1. **List the inbox.** `ls kivna/input/`. Show the user what's there. If empty, say so and stop.
 
 2. **Read each file.** Supported formats:
-   - `.pdf` — read with the Read tool (supports PDF)
-   - `.md`, `.txt` — read directly
-   - `.json`, `.jsonl` — read as structured data (likely LLM session exports)
-   - `.html` — read and extract text content
-   - Other formats — tell the user you can't process them, skip
+   - `.pdf`: read with the Read tool (supports PDF)
+   - `.md`, `.txt`: read directly
+   - `.json`, `.jsonl`: read as structured data (likely LLM session exports)
+   - `.html`: read and extract text content
+   - Other formats: tell the user you can't process them, skip
 
 3. **Summarize what you found.** For each file, tell the user:
    - What it contains (1-2 sentences)
@@ -91,16 +91,16 @@ Read files from `kivna/input/`, extract what's relevant, write it into the proje
 5. **Integrate.** For each approved item:
    - If updating an existing doc, use Edit to add the relevant content
    - If creating a new doc, prefer putting it in the project's natural doc structure
-   - If the content is a session transcript from another LLM, extract decisions, insights, and action items — do not copy the raw transcript
+   - If the content is a session transcript from another LLM, extract decisions, insights, and action items. Do not copy the raw transcript
    - Write in the project's voice
 
-6. **Flag vault knowledge.** If import surfaces knowledge that belongs in a vault file, note it for the user — they can update the vault with `/kerd:kivna save` later.
+6. **Flag vault knowledge.** If import surfaces knowledge that belongs in a vault file, note it for the user. They can update the vault with `/kerd:kivna save` later.
 
 7. **Clean up.** Delete the processed files from `kivna/input/`. Leave any files the user said to skip.
 
 8. **Report.** Tell the user what was imported and where it went.
 
-### `/kerd:kivna out` — Export Session Context
+### `/kerd:kivna out` (Export Session Context)
 
 Package the current session's work into a portable file another LLM can use as input.
 
@@ -116,7 +116,7 @@ Package the current session's work into a portable file another LLM can use as i
 3. **Write the export.** Create `kivna/output/export-YYYY-MM-DD.md` with this structure:
 
 ```
-# Session Export — [Project Name] — [Date]
+# Session Export: [Project Name], [Date]
 
 ## What Happened
 [Plain prose summary of the session. What was built, fixed, or decided.]
@@ -134,12 +134,12 @@ Package the current session's work into a portable file another LLM can use as i
 [Anything unresolved that needs input]
 
 ## Project Context
-[Brief description of the project, its structure, and conventions — enough for a cold start in another tool]
+[Brief description of the project, its structure, and conventions (enough for a cold start in another tool)]
 ```
 
 4. **Confirm.** Show the user the export path and a summary of what's in it.
 
-### `/kerd:kivna scaffold` — Vault Scaffold
+### `/kerd:kivna scaffold` (Vault Scaffold)
 
 Set up the Obsidian vault folder for this project. Also triggered automatically when vault discovery fails and the user says yes.
 
@@ -149,7 +149,7 @@ Set up the Obsidian vault folder for this project. Also triggered automatically 
 
 2. **Create `[Name].md`** (MOC). Links to `[Name] Status.md` only (nothing else exists yet). Under 40 lines.
 
-3. **Create `[Name] Status.md`.** Seed from repo state — read git log, TODO.md, CLAUDE.md, README.md. Write in human form: a summary someone could read cold. Show the user the draft and ask for approval before writing.
+3. **Create `[Name] Status.md`.** Seed from repo state: read git log, TODO.md, CLAUDE.md, README.md. Write in human form: a summary someone could read cold. Show the user the draft and ask for approval before writing.
 
 4. **Write `kivna/vault.json`** in the repo:
 
@@ -162,8 +162,8 @@ Set up the Obsidian vault folder for this project. Also triggered automatically 
 ```
 
 5. **Suggest optional files.** Based on what the project looks like, suggest vault files the user might want later. Examples:
-   - "This looks like a code plugin — consider `[Name] Architecture Decisions.md` and `[Name] Usage Guide.md`"
-   - "This has a company/product — consider `[Company] Playbook.md` and `[Company] Company.md`"
+   - "This looks like a code plugin. Consider `[Name] Architecture Decisions.md` and `[Name] Usage Guide.md`."
+   - "This has a company/product. Consider `[Company] Playbook.md` and `[Company] Company.md`."
 
    Do NOT create these files. Just suggest. They get added as knowledge accumulates.
 
@@ -173,11 +173,11 @@ Set up the Obsidian vault folder for this project. Also triggered automatically 
 
 - The vault spec at `docs/vault-spec.md` defines what belongs in the vault and what doesn't. Kivna implements the mechanics; the spec defines the philosophy.
 - Status.md is overwritten, not appended to. Always show the user what's changing and get approval before overwriting.
-- Vault files use self-identifying names — `[Project] Status.md`, not `Status.md`. This prevents collisions in Obsidian's quick switcher across vaults.
+- Vault files use self-identifying names (`[Project] Status.md`, not `Status.md`). This prevents collisions in Obsidian's quick switcher across vaults.
 - No symlinks to repo files. The vault contains knowledge written in human form, not mirrors of machine-readable repo files.
-- `kivna/input/` and `kivna/output/` should be in `.gitignore` — they're transit folders, not project content.
+- `kivna/input/` and `kivna/output/` should be in `.gitignore`. They're transit folders, not project content.
 - Exports are written in plain markdown so any LLM can read them.
 - When importing LLM session transcripts, be aggressive about filtering. Most of a chat session is noise. Extract the signal: decisions, code patterns, insights, action items.
 - When importing PDFs or reports, focus on what's actionable for THIS project.
-- Kivna adds `[[wikilinks]]` in vault files when referencing people (`[[people/Name]]`) or other projects (`[[project-name/file]]`). Kivna does NOT create people files — just links.
+- Kivna adds `[[wikilinks]]` in vault files when referencing people (`[[people/Name]]`) or other projects (`[[project-name/file]]`). Kivna does NOT create people files, just links.
 - On cold start, read vault `[Name] Status.md` and scan the MOC to discover other relevant vault files.

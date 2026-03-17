@@ -13,13 +13,13 @@ claude plugins install kerd
 
 ## Skills
 
-### dian — Session Discipline
+### dian (Session Discipline)
 
 Dian gives a session structure. You start it when you sit down to work, and it walks through four phases: orient (read the project state, cross-check for inconsistencies), plan (propose what to do, ask questions, push back on ambiguity), execute (do the work, verify each task, record decisions immediately), close out (diff review, update docs, update the playbook, run checks, clear the session block). It writes the session plan to TODO.md and keeps you honest about scope creep. If something comes up that isn't in the plan, it goes on the list for later.
 
-On close-out, dian creates or updates `docs/playbook.md` — a living guide for rebuilding the project from scratch. Tech stack, setup steps, architecture decisions, integrations, gotchas, current status. It grows with the project, session by session.
+On close-out, dian creates or updates `docs/playbook.md`, a living guide for rebuilding the project from scratch. Tech stack, setup steps, architecture decisions, integrations, gotchas, current status. It grows with the project, session by session.
 
-During execution, decisions and progress accumulate in repo-side files (session logs, TODO.md). On close-out, dian calls `/kivna save` once — updating the vault's Status.md and proposing updates to any other vault files where new knowledge belongs. One clean vault update per session, not ten incremental dumps.
+During execution, decisions and progress accumulate in repo-side files (session logs, TODO.md). On close-out, dian calls `/kivna save` once, updating the vault's Status.md and proposing updates to any other vault files where new knowledge belongs. One clean vault update per session, not ten incremental dumps.
 
 Dian announces its current phase with a mode marker (`[dian: orient]`, `[dian: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[dian: closed]` so there's no ambiguity.
 
@@ -29,9 +29,9 @@ Dian doesn't touch git. No pulls, no pushes. That's switch's job.
 /dian
 ```
 
-### switch — Machine Handoff
+### switch (Machine Handoff)
 
-Switch owns git boundary operations. All of them. When you leave a machine, it reflects on the session (capturing learnings to CLAUDE.md and memory files), writes session state to TODO.md, creates a session log in `kivna/sessions/`, commits everything, and pushes. When you arrive on a new machine, it pulls, runs a smoke test if tests exist, reads the session logs, and tells you where you left off. It also reads vault Status.md — where the project stands and what's next — and reports any active modes left from a previous session.
+Switch owns git boundary operations. All of them. When you leave a machine, it reflects on the session (capturing learnings to CLAUDE.md and memory files), writes session state to TODO.md, creates a session log in `kivna/sessions/`, commits everything, and pushes. When you arrive on a new machine, it pulls, runs a smoke test if tests exist, reads the session logs, and tells you where you left off. It also reads vault Status.md (where the project stands and what's next) and reports any active modes left from a previous session.
 
 If you run it without arguments, it checks for uncommitted changes. Changes present means you're leaving. Clean repo means you're arriving.
 
@@ -40,11 +40,11 @@ If you run it without arguments, it checks for uncommitted changes. Changes pres
 /switch in     # arriving on a new machine
 ```
 
-### kivna — Knowledge Management
+### kivna (Knowledge Management)
 
-Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/Obsidian/[project]/`. The vault is a human knowledge base — every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place with approval.
+Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/Obsidian/[project]/`. The vault is a human knowledge base. Every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place with approval.
 
-Save (`/kivna save`) updates the vault's Status.md and proposes updates to other vault files (Architecture Decisions, Playbook, etc.) — each change shown and approved before writing. This is the same save mechanic dian and switch use at session boundaries. Scaffold (`/kivna scaffold`) creates the vault folder with a MOC and Status.md, then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge. Export (`/kivna out`) packages your session for another LLM.
+Save (`/kivna save`) updates the vault's Status.md and proposes updates to other vault files (Architecture Decisions, Playbook, etc.), each change shown and approved before writing. This is the same save mechanic dian and switch use at session boundaries. Scaffold (`/kivna scaffold`) creates the vault folder with a MOC and Status.md, then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge. Export (`/kivna out`) packages your session for another LLM.
 
 The folder structure:
 
@@ -63,7 +63,7 @@ kivna/
 /kivna scaffold                                    # set up Obsidian vault
 ```
 
-### sotu — Project Health Audit
+### sotu (Project Health Audit)
 
 Sotu audits project health across five areas: docs, code, site, deps, and playbook. It reads a `.sotu` config file at the project root to know what to check. Each area has specific checks. Docs gets cross-referenced against CLAUDE.md, scanned for stale names and broken links. Code runs tests and the build. Deps checks for outdated packages and security issues. Playbook checks whether `docs/playbook.md` exists, whether its Current Status is accurate, whether the tech stack listed still matches reality, and whether setup steps still point to files that exist.
 
@@ -77,9 +77,9 @@ Everything gets a severity grade: high (factually wrong, broken build, security 
 /sotu all          # audit everything
 ```
 
-### skriv — Writing Voice
+### skriv (Writing Voice)
 
-Skriv enforces a human writing voice. It has a kill list of words no one actually uses in conversation (leverage, facilitate, delve, holistic, the whole lot), bans em dashes and five-paragraph essay structure, and cuts 20% after drafting. The goal is prose that reads like a first draft by someone who's been in the room, not something generated.
+Skriv enforces a human writing voice. It has a kill list of words no one actually uses in conversation (leverage, facilitate, delve, holistic, the whole lot), bans all dashes as punctuation (em, en, and double hyphens) along with five-paragraph essay structure, and cuts 20% after drafting. The goal is prose that reads like a first draft by someone who's been in the room, not something generated.
 
 Three modes. Audit reviews a file and reports violations with line numbers. Fix rewrites the file in place. Session mode applies the rules to everything you write for the rest of the conversation. When session mode is on, skriv shows `[skriv: active]` at the top of responses and `[skriv: off]` when it ends.
 
@@ -89,23 +89,23 @@ Three modes. Audit reviews a file and reports violations with line numbers. Fix 
 /skriv on              # session mode on
 ```
 
-### tend — Structural Health
+### tend (Structural Health)
 
 Tend audits repo infrastructure against current Kerd conventions and fixes what's drifted. Run it on a new repo to set up everything from scratch, or on an existing repo to catch drift after a Kerd update. It checks seven categories: directory structure, required files, vault integration, deprecated patterns, naming consistency, stray/stale files, and .gitignore hygiene.
 
-The report shows each category as passing (✓), failing (✗), or warning (⚠). Failing and warning items get a current-vs-proposed table with reasons. After the report, choose to fix all, pick individually, or skip. Tend makes changes but never commits — switch owns that boundary.
+The report shows each category as passing (✓), failing (✗), or warning (⚠). Failing and warning items get a current-vs-proposed table with reasons. After the report, choose to fix all, pick individually, or skip. Tend makes changes but never commits. Switch owns that boundary.
 
 ```
 /tend
 ```
 
-### discover — Skill Gap Analysis
+### discover (Skill Gap Analysis)
 
-Discover scans the current project and recommends skills or plugins you should be using but aren't. It works in three tiers. Tier 1 checks what's already installed but not activated in this project — skills gathering dust that match your stack. Tier 2 searches the Claude Code marketplace and a curated list of repos you maintain for plugins that fit your project's tech and themes. Tier 3 goes wider — GitHub and web search for trending or new plugins you haven't heard of yet.
+Discover scans the current project and recommends skills or plugins you should be using but aren't. It works in three tiers. Tier 1 checks what's already installed but not activated in this project, skills gathering dust that match your stack. Tier 2 searches the Claude Code marketplace and a curated list of repos you maintain for plugins that fit your project's tech and themes. Tier 3 goes wider: GitHub and web search for trending or new plugins you haven't heard of yet.
 
-The recommendations aren't just based on file types. Discover reads your README, playbook, TODO, session logs, and vault decisions to extract work themes — fundraising, compliance, content creation, whatever keeps coming up. Each result shows a rich card with what the skill does, why it fits here, and an action prompt (try it, install it, or explore it).
+The recommendations aren't just based on file types. Discover reads your README, playbook, TODO, session logs, and vault decisions to extract work themes (fundraising, compliance, content creation, whatever keeps coming up). Each result shows a rich card with what the skill does, why it fits here, and an action prompt (try it, install it, or explore it).
 
-The curated source list lives in your Obsidian vault at `discover-sources.json` — syncs between machines automatically.
+The curated source list lives in your Obsidian vault at `discover-sources.json`, synced between machines automatically.
 
 ```
 /discover
@@ -115,18 +115,18 @@ The curated source list lives in your Obsidian vault at `discover-sources.json` 
 
 New project: you create a repo, clone it, run `/tend`. It checks what's missing (everything, in this case), shows you the plan, and sets up the full structure with your approval. Then `/dian` to start your first session.
 
-Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md — where the project stands and what's next — plus any other vault files relevant to the work. Then it offers to start a dian session. You run `/dian` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, dian's close-out updates the playbook and calls `/kivna save` to update the vault — one clean write with approval. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. Periodically run `/discover` to check if new skills have emerged that would help with the project.
+Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md (where the project stands and what's next) plus any other vault files relevant to the work. Then it offers to start a dian session. You run `/dian` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, dian's close-out updates the playbook and calls `/kivna save` to update the vault, one clean write with approval. You run `/sotu docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. Periodically run `/discover` to check if new skills have emerged that would help with the project.
 
 ## Naming
 
 Gaelic-inspired where it adds character:
-- **Kerd** — skill (ceird)
-- **Kivna** — memory (cuimhne)
-- **Dian** — intense, rigorous
-- **Skriv** — the act of writing (scríobh)
-- **Sotu** — state of the union (English acronym)
-- **Tend** — from English "to tend" (care for, maintain)
-- **Discover** — from English "to discover" (find something new)
+- **Kerd**: skill (ceird)
+- **Kivna**: memory (cuimhne)
+- **Dian**: intense, rigorous
+- **Skriv**: the act of writing (scríobh)
+- **Sotu**: state of the union (English acronym)
+- **Tend**: from English "to tend" (care for, maintain)
+- **Discover**: from English "to discover" (find something new)
 
 ## License
 

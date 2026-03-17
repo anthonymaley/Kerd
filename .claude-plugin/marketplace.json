@@ -4,8 +4,8 @@
     "name": "Anthony Maley"
   },
   "metadata": {
-    "description": "Kerd — opinionated workflow skills for Claude Code",
-    "version": "0.10.0"
+    "description": "Kerd: opinionated workflow skills for Claude Code",
+    "version": "0.10.1"
   },
   "plugins": [
     {
@@ -14,8 +14,8 @@
         "source": "url",
         "url": "git@github.com:anthonymaley/Kerd.git"
       },
-      "description": "Opinionated workflow toolkit — session discipline, machine handoff, knowledge management, project audits, human writing voice, structural health, and skill discovery",
-      "version": "0.10.0",
+      "description": "Opinionated workflow toolkit: session discipline, machine handoff, knowledge management, project audits, human writing voice, structural health, and skill discovery",
+      "version": "0.10.1",
       "strict": true
     }
   ]

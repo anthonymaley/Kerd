@@ -16,23 +16,23 @@ Every change to a skill (new skill, modified behavior, renamed command, changed 
    - `.claude-plugin/marketplace.json` → `metadata.version`
    - `.claude-plugin/marketplace.json` → `plugins[0].version`
 
-2. **Update README.md** — if the skill's behavior, usage, or output changed, update its section in the README. If a new skill was added, add a new section following the existing pattern.
+2. **Update README.md**. If the skill's behavior, usage, or output changed, update its section in the README. If a new skill was added, add a new section following the existing pattern.
 
-3. **Update plugin descriptions** — if the change affects what Kerd does at a high level, update:
+3. **Update plugin descriptions**: if the change affects what Kerd does at a high level, update:
    - `.claude-plugin/plugin.json` → `description`
    - `.claude-plugin/marketplace.json` → `metadata.description`
    - `.claude-plugin/marketplace.json` → `plugins[0].description`
 
-4. **Update skill trigger description** — the `description` field in the skill's SKILL.md frontmatter controls when Claude invokes it. If behavior changed, update the trigger description to match.
+4. **Update skill trigger description**: the `description` field in the skill's SKILL.md frontmatter controls when Claude invokes it. If behavior changed, update the trigger description to match.
 
-5. **Namespace references** — all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:dian`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
+5. **Namespace references**: all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:dian`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
 
 ## Version Strategy
 
 Use semver: `MAJOR.MINOR.PATCH`
-- **PATCH** — bug fixes, wording tweaks, internal refactors with no behavior change
-- **MINOR** — new skill, new feature within a skill, changed behavior
-- **MAJOR** — breaking changes to skill interfaces or directory conventions
+- **PATCH**: bug fixes, wording tweaks, internal refactors with no behavior change
+- **MINOR**: new skill, new feature within a skill, changed behavior
+- **MAJOR**: breaking changes to skill interfaces or directory conventions
 
 ## Project Structure
 
@@ -49,5 +49,5 @@ kivna/sessions/   # session logs from switch (committed)
 
 - Skill names are lowercase, single-word, Gaelic-inspired where it adds character
 - Skills define behavior. The plugin system loads them directly via the `kerd:` prefix.
-- SKILL.md frontmatter `name` field is the local name only (no `kerd:` prefix — the plugin system adds it)
+- SKILL.md frontmatter `name` field is the local name only (no `kerd:` prefix, the plugin system adds it)
 - All cross-skill references use `/kerd:<skill>` format

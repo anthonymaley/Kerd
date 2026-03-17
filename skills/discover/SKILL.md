@@ -3,7 +3,7 @@ name: discover
 description: "Use when the user says 'discover', 'find skills', 'what plugins', 'skill gap', 'what am I missing', 'new skills', 'explore plugins', or wants to find skills and plugins that would help with the current project. Searches installed plugins, marketplace, curated sources, and the web."
 ---
 
-# Discover — Skill Gap Analysis
+# Discover (Skill Gap Analysis)
 
 Scans the current project and recommends skills or plugins you should be using but aren't. Three tiers of widening search radius, all informed by the same project signals.
 
@@ -11,13 +11,13 @@ Not a health check. Not about what's broken or unused elsewhere. Purely about fi
 
 ## Usage
 
-`/kerd:discover` — run in the root of a git repo
+`/kerd:discover`: run in the root of a git repo
 
 ## Boundary with Other Skills
 
-- **discover** — skill/plugin opportunities (what tools would help this project)
-- **tend** — structural health (dirs, vault, config, naming)
-- **sotu** — content health (doc accuracy, staleness)
+- **discover**: skill/plugin opportunities (what tools would help this project)
+- **tend**: structural health (dirs, vault, config, naming)
+- **sotu**: content health (doc accuracy, staleness)
 
 ## The Process
 
@@ -25,31 +25,31 @@ Not a health check. Not about what's broken or unused elsewhere. Purely about fi
 
 Read the project to understand what it needs. Two layers of signals:
 
-#### Layer 1: Tech signals — file-based, mechanical
+#### Layer 1: Tech signals (file-based, mechanical)
 
 Scan for these files and extract language, framework, deployment, and CI information:
 
-- `package.json` — Node/JS/TS ecosystem, frameworks (Next.js, React, Vue), scripts
-- `pyproject.toml`, `requirements.txt` — Python ecosystem
-- `Cargo.toml` — Rust
-- `go.mod` — Go
-- `Dockerfile`, `docker-compose.yml` — containerized deployment
-- `vercel.json`, `netlify.toml` — deployment targets
-- `.github/workflows/`, `.gitlab-ci.yml` — CI/CD pipeline
-- `.env.example` — environment variables, external services
-- `Makefile` — build automation
-- Dominant file extensions — scan for `.tsx`, `.py`, `.go`, `.rs`, etc.
+- `package.json`: Node/JS/TS ecosystem, frameworks (Next.js, React, Vue), scripts
+- `pyproject.toml`, `requirements.txt`: Python ecosystem
+- `Cargo.toml`: Rust
+- `go.mod`: Go
+- `Dockerfile`, `docker-compose.yml`: containerized deployment
+- `vercel.json`, `netlify.toml`: deployment targets
+- `.github/workflows/`, `.gitlab-ci.yml`: CI/CD pipeline
+- `.env.example`: environment variables, external services
+- `Makefile`: build automation
+- Dominant file extensions: scan for `.tsx`, `.py`, `.go`, `.rs`, etc.
 
-#### Layer 2: Work signals — theme extraction from prose
+#### Layer 2: Work signals (theme extraction from prose)
 
-Read these files if they exist and extract keywords and themes (not categories — a project can be "startup + legal + content" all at once). Skip any that don't exist — a missing file is not an error, just fewer signals:
+Read these files if they exist and extract keywords and themes (not categories, a project can be "startup + legal + content" all at once). Skip any that don't exist. A missing file is not an error, just fewer signals:
 
-- `README.md` — project description, what it's for
-- `docs/playbook.md` — integrations, architecture intent
-- `TODO.md` — active work and backlog themes
-- Vault `[Name] Status.md` — where the project stands, what's open, what's next
-- Vault MOC (`[Name].md`) — discover other vault files (Architecture Decisions, Playbook, etc.) and scan any that exist for themes
-- `kivna/sessions/` — last 3-5 session logs, recurring task patterns
+- `README.md` for project description, what it's for
+- `docs/playbook.md` for integrations, architecture intent
+- `TODO.md` for active work and backlog themes
+- Vault `[Name] Status.md` for where the project stands, what's open, what's next
+- Vault MOC (`[Name].md`) to discover other vault files (Architecture Decisions, Playbook, etc.) and scan any that exist for themes
+- `kivna/sessions/` for last 3-5 session logs, recurring task patterns
 
 Discover the vault path using `kivna/vault.json` (read `vault`, `folder`, `name` fields, expand `~`).
 
@@ -65,14 +65,14 @@ Project profile:
   Themes: [extracted keywords from work signals]
 ```
 
-### 2. Tier 1 — Installed but not activated here
+### 2. Tier 1: Installed but not activated here
 
 Scan installed plugins and skills:
 
 1. Read `~/.claude/plugins/` to find all installed plugins. If the directory does not exist or is empty, skip Tier 1 and note: "No installed plugins found. Tier 1 skipped."
 2. For each plugin, read its skills (check `skills/` subdirectories for SKILL.md files, or read the plugin's manifest)
 3. Match each skill's description and capabilities against the project profile
-4. Filter to skills that are relevant to this project but have not been invoked here — check `kivna/sessions/` and git history for `/[plugin:skill-name]` invocations. If the skill has been invoked in this project, exclude it. If no invocation is found, include it as a recommendation.
+4. Filter to skills that are relevant to this project but have not been invoked here. Check `kivna/sessions/` and git history for `/[plugin:skill-name]` invocations. If the skill has been invoked in this project, exclude it. If no invocation found, include it as a recommendation.
 5. For each match, read the skill's SKILL.md to get a proper description
 
 Report matches as rich cards:
@@ -81,16 +81,16 @@ Report matches as rich cards:
 ┌─────────────────────────────────────────────────┐
 │ [plugin:skill-name]                             │
 │                                                 │
-│ [Description from SKILL.md — what it does,      │
+│ [Description from SKILL.md: what it does,        │
 │ 2-3 lines max]                                  │
 │                                                 │
 │ Why here: [specific match to project signals]   │
 │                                                 │
-│ Already installed — try: /[plugin:skill-name]   │
+│ Already installed. Try: /[plugin:skill-name]    │
 └─────────────────────────────────────────────────┘
 ```
 
-### 3. Tier 2 — Available but not installed
+### 3. Tier 2: Available but not installed
 
 Search two sources:
 
@@ -129,7 +129,7 @@ Report matches as rich cards:
 │ [Plugin/Skill Name]                             │
 │ [github.com/owner/repo or marketplace link]     │
 │                                                 │
-│ [Description — what it does, 2-3 lines]         │
+│ [Description: what it does, 2-3 lines]          │
 │                                                 │
 │ Why here: [specific match to project signals]   │
 │                                                 │
@@ -137,7 +137,7 @@ Report matches as rich cards:
 └─────────────────────────────────────────────────┘
 ```
 
-### 4. Tier 3 — Explore the unknown
+### 4. Tier 3: Explore the unknown
 
 Search beyond known sources:
 
@@ -156,7 +156,7 @@ Report matches as rich cards:
 │ [Name]                                          │
 │ [github.com/owner/repo] ⭐ [stars] · [activity] │
 │                                                 │
-│ [Description — what it does, 2-3 lines]         │
+│ [Description: what it does, 2-3 lines]          │
 │                                                 │
 │ Why here: [specific match to project signals    │
 │ or themes]                                      │
@@ -171,7 +171,7 @@ Combine all tiers into a single report:
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  /kerd:discover — [project-name]                │
+│  /kerd:discover: [project-name]                 │
 └─────────────────────────────────────────────────┘
 
 Project profile:
@@ -180,7 +180,7 @@ Project profile:
 
 ━━━ Tier 1: Installed but not activated here ━━━━
 
-[rich cards or "No matches — you're using everything relevant."]
+[rich cards or "No matches. You're using everything relevant."]
 
 ━━━ Tier 2: Available but not installed ━━━━━━━━━
 
@@ -200,10 +200,10 @@ Project profile:
 After the report, walk through each item individually. Different actions per tier:
 
 - **Tier 1:** "Want me to show how to use [skill] in this project?"
-- **Tier 2:** "Install [plugin]?" — on approval, run the install command
+- **Tier 2:** "Install [plugin]?" On approval, run the install command
 - **Tier 3:** "Want me to fetch the README for [repo] so you can see more?"
 
-No batch actions across tiers — different trust levels require different handling.
+No batch actions across tiers. Different trust levels require different handling.
 
 If the user says "skip" or "done" at any point, stop the walkthrough.
 
@@ -226,8 +226,8 @@ The curated source list lives in the Obsidian vault, synced between machines:
 }
 ```
 
-- `repos` — GitHub repos to check for Claude Code plugins/skills
-- `urls` — web pages to scan for plugin references and recommendations
+- `repos`: GitHub repos to check for Claude Code plugins/skills
+- `urls`: web pages to scan for plugin references and recommendations
 
 To add a source: edit the file directly or ask discover to add one.
 
@@ -236,12 +236,12 @@ To add a source: edit the file directly or ask discover to add one.
 - **No auto-install.** Every install is prompted and approved individually.
 - **No removal suggestions.** A skill unused in this project may be critical in another. Discover finds gaps, not waste.
 - **No health checks.** That's tend's job (structure) or sotu's job (content).
-- **No caching of results.** Fresh scan every run — the ecosystem and your project both change.
+- **No caching of results.** Fresh scan every run. The ecosystem and your project both change.
 - **No rating or ranking.** Presents what it finds with context. You decide what's valuable.
 
 ## Notes
 
-- The project profile is computed fresh each run. Not stored. Projects evolve; stale profiles would mislead.
+- The project profile is computed fresh each run. Not stored. Projects evolve, and stale profiles would mislead.
 - Layer 2 (work signals) is what makes discover genuinely useful beyond simple file-extension matching. It catches non-technical skill gaps like "you keep writing investor updates."
 - If no vault is found, Tiers 1 and 3 still work. Tier 2's curated sources are skipped with a note suggesting vault setup.
 - Discover is read-only except when the user approves a Tier 2 install. It never modifies project files.
