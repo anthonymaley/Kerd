@@ -138,7 +138,7 @@ How to rebuild this project from scratch.
 **kivna/vault.json:**
 ```json
 {
-  "vault": "~/Obsidian",
+  "vault": "~/eolas/vault",
   "folder": "[project-name-lowercase]",
   "name": "[Project Name]"
 }

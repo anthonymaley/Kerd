@@ -31,8 +31,8 @@
 
 ## 0.9.1
 
-- Changed default vault path from `~/ObsidianLLM/` to `~/Obsidian/`
-- Updated kivna scaffold to ask for vault location if `~/Obsidian/` doesn't exist
+- Changed default vault path from `~/ObsidianLLM/` to `~/Obsidian/`, later to `~/eolas/vault/`
+- Updated kivna scaffold to ask for vault location if `~/eolas/vault/` doesn't exist
 - Added vault advisory to tend Category 3. Explains what the vault is and how to set it up
 - Updated all skill references, README, and playbook
 

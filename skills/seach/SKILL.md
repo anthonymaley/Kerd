@@ -145,6 +145,6 @@ If no TODO.md or session logs exist (fresh repo), say so cleanly:
 
 "Fresh repo. No previous session state found. No TODO.md, no session logs in kivna/sessions/. Ready to start from scratch."
 
-If no vault is found (no `kivna/vault.json` and no vault folder at `~/Obsidian/[folder]/`), report this gracefully. Suggest running `/kerd:kivna scaffold` to set up the vault.
+If no vault is found (no `kivna/vault.json` and no vault folder at `~/eolas/vault/[folder]/`), report this gracefully. Suggest running `/kerd:kivna scaffold` to set up the vault.
 
 Do not fail silently or produce errors for missing files.

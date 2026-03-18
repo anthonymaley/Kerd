@@ -103,7 +103,7 @@ Search for Claude Code plugins matching the project profile. Use web search to f
 **Source B: Curated repo list**
 
 1. Discover vault path via `kivna/vault.json`
-2. Read `~/Obsidian/[folder]/discover-sources.json`
+2. Read `~/eolas/vault/[folder]/discover-sources.json`
 3. For each repo in the `repos` list, fetch the repo's README (via GitHub API or web fetch) to understand what skills it offers
 4. Match against the project profile
 5. Filter out anything already installed
@@ -225,7 +225,7 @@ If the user says "skip" or "done" at any point, stop the walkthrough.
 
 The curated source list lives in the Obsidian vault, synced between machines:
 
-**Location:** `~/Obsidian/[folder]/discover-sources.json` (resolved via vault discovery from `kivna/vault.json`)
+**Location:** `~/eolas/vault/[folder]/discover-sources.json` (resolved via vault discovery from `kivna/vault.json`)
 
 **Format:**
 

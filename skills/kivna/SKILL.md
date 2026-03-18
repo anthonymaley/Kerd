@@ -15,16 +15,16 @@ Every kivna command starts here. Resolve the vault location before doing anythin
 
 1. **Check `kivna/vault.json`.** If it exists, read `vault`, `folder`, and `name`. Expand `~` to the user's home directory.
 
-2. **Convention fallback.** If no `vault.json`, check for `~/Obsidian/`:
-   - If `~/Obsidian/` exists, use it as the vault root.
+2. **Convention fallback.** If no `vault.json`, check for `~/eolas/vault/`:
+   - If `~/eolas/vault/` exists, use it as the vault root.
    - Folder: lowercase repo directory name (e.g., repo at `~/Kerd` → folder `kerd`)
    - Display name: title-case the folder name (e.g., `kerd` → `Kerd`)
-   - Check if `~/Obsidian/[folder]/` exists on disk.
+   - Check if `~/eolas/vault/[folder]/` exists on disk.
 
-3. **No vault found.** If neither `vault.json` exists nor `~/Obsidian/` exists on disk, ask:
-   > Where is your Obsidian vault? (default: `~/Obsidian/`)
+3. **No vault found.** If neither `vault.json` exists nor `~/eolas/vault/` exists on disk, ask:
+   > Where is your Obsidian vault? (default: `~/eolas/vault/`)
 
-   If the user provides a path, use it. If they accept the default, create `~/Obsidian/` and proceed. Then run the scaffold mechanic to set up the project folder within it.
+   If the user provides a path, use it. If they accept the default, create `~/eolas/vault/` and proceed. Then run the scaffold mechanic to set up the project folder within it.
 
 ## Folder Convention
 
@@ -145,7 +145,7 @@ Set up the Obsidian vault folder for this project. Also triggered automatically 
 
 #### The mechanic
 
-1. **Create the vault folder.** `~/Obsidian/[folder]/`.
+1. **Create the vault folder.** `~/eolas/vault/[folder]/`.
 
 2. **Create `[Name].md`** (MOC). Links to `[Name] Status.md` only (nothing else exists yet). Under 40 lines.
 
@@ -155,7 +155,7 @@ Set up the Obsidian vault folder for this project. Also triggered automatically 
 
 ```json
 {
-  "vault": "~/Obsidian",
+  "vault": "~/eolas/vault",
   "folder": "[folder]",
   "name": "[Name]"
 }

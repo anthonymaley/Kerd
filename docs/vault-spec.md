@@ -1,8 +1,8 @@
 # Obsidian Vault Specification
 
-Create an Obsidian vault folder at `~/Obsidian/{{project-name}}/` that captures the living context of this project. The vault should be readable by someone with no prior knowledge. It is not a repo mirror. It is not a session log. It is not a dump of machine-readable files.
+Create an Obsidian vault folder at `~/eolas/vault/{{project-name}}/` that captures the living context of this project. The vault should be readable by someone with no prior knowledge. It is not a repo mirror. It is not a session log. It is not a dump of machine-readable files.
 
-Look at `~/Obsidian/krutho-strategy/` for the reference implementation.
+Look at `~/eolas/vault/krutho-strategy/` for the reference implementation.
 
 ## Principles
 
@@ -110,11 +110,11 @@ Do not add files for things that haven't happened yet. The vault reflects what i
 
 ## Cross-Linking
 
-Use `[[project-name/File Name]]` wikilinks to link between projects. Use `[[people/Name]]` for people (shared directory at `~/Obsidian/people/`). Check what exists before creating duplicates.
+Use `[[project-name/File Name]]` wikilinks to link between projects. Use `[[people/Name]]` for people (shared directory at `~/eolas/vault/people/`). Check what exists before creating duplicates.
 
 ## Reference
 
-The krutho-strategy vault (`~/Obsidian/krutho-strategy/`) has the full pattern:
+The krutho-strategy vault (`~/eolas/vault/krutho-strategy/`) has the full pattern:
 
 ```
 krutho-strategy/

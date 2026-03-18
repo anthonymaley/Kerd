@@ -42,7 +42,7 @@ If you run it without arguments, it checks for uncommitted changes. Changes pres
 
 ### kivna (Knowledge Management)
 
-Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/Obsidian/[project]/`. The vault is a human knowledge base. Every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place with approval.
+Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/eolas/vault/[project]/`. The vault is a human knowledge base. Every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place with approval.
 
 Save (`/kivna save`) updates the vault's Status.md and proposes updates to other vault files (Architecture Decisions, Playbook, etc.), each change shown and approved before writing. This is the same save mechanic dian and seach use at session boundaries. Scaffold (`/kivna scaffold`) creates the vault folder with a MOC and Status.md, then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge. Export (`/kivna out`) packages your session for another LLM.
 
@@ -50,7 +50,7 @@ The folder structure:
 
 ```
 kivna/
-  vault.json   # vault config (points to ~/Obsidian/[project]/)
+  vault.json   # vault config (points to ~/eolas/vault/[project]/)
   sessions/    # session logs from switch (committed)
   input/       # drop files here for import (gitignored)
   output/      # exports land here (gitignored)

@@ -12,7 +12,7 @@
 
 ## Backlog
 - Run /kerd:tend on krutho-founders, krutho-strategy, obair to migrate vaults
-- Re-open Obsidian vault pointing to ~/Obsidian/ (manual step)
+- Re-open Obsidian vault pointing to ~/eolas/vault/ (manual step)
 - Test slainte playbook audit on a project with a playbook
 - Adopt third-person description format for skill triggers (low priority)
 - Description optimization for skill triggers (low priority, eval harness limitations)
