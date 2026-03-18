@@ -23,28 +23,28 @@ During execution, decisions and progress accumulate in repo-side files (session 
 
 Dian announces its current phase with a mode marker (`[dian: orient]`, `[dian: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[dian: closed]` so there's no ambiguity.
 
-Dian doesn't touch git. No pulls, no pushes. That's shakh's job.
+Dian doesn't touch git. No pulls, no pushes. That's switch's job.
 
 ```
 /dian
 ```
 
-### shakh (Machine Handoff)
+### switch (Machine Handoff)
 
-Shakh owns git boundary operations. All of them. When you leave a machine, it reflects on the session (capturing learnings to CLAUDE.md and memory files), writes session state to TODO.md, creates a session log in `kivna/sessions/`, commits everything, and pushes. When you arrive on a new machine, it pulls, runs a smoke test if tests exist, reads the session logs, and tells you where you left off. It also reads vault Status.md (where the project stands and what's next) and reports any active modes left from a previous session.
+Switch owns git boundary operations. All of them. When you leave a machine, it reflects on the session (capturing learnings to CLAUDE.md and memory files), writes session state to TODO.md, creates a session log in `kivna/sessions/`, commits everything, and pushes. When you arrive on a new machine, it pulls, runs a smoke test if tests exist, reads the session logs, and tells you where you left off. It also reads vault Status.md (where the project stands and what's next) and reports any active modes left from a previous session.
 
 If you run it without arguments, it checks for uncommitted changes. Changes present means you're leaving. Clean repo means you're arriving.
 
 ```
-/shakh out    # leaving this machine
-/shakh in     # arriving on a new machine
+/switch out    # leaving this machine
+/switch in     # arriving on a new machine
 ```
 
 ### kivna (Knowledge Management)
 
 Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/eolas/vault/[project]/`. The vault is a human knowledge base. Every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place with approval.
 
-Save (`/kivna save`) updates the vault's Status.md and proposes updates to other vault files (Architecture Decisions, Playbook, etc.), each change shown and approved before writing. This is the same save mechanic dian and shakh use at session boundaries. Scaffold (`/kivna scaffold`) creates the vault folder with a MOC and Status.md, then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge. Export (`/kivna out`) packages your session for another LLM.
+Save (`/kivna save`) updates the vault's Status.md, updates the Weekly tracker (achievements and risks by week for quick status report generation), and proposes updates to other vault files (Architecture Decisions, Playbook, etc.), each change shown and approved before writing. This is the same save mechanic dian and switch use at session boundaries. Scaffold (`/kivna scaffold`) creates the vault folder with a MOC and Status.md, then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge. Export (`/kivna out`) packages your session for another LLM.
 
 The folder structure:
 
@@ -93,7 +93,7 @@ Three modes. Audit reviews a file and reports violations with line numbers. Fix 
 
 Tend audits repo infrastructure against current Kerd conventions and fixes what's drifted. Run it on a new repo to set up everything from scratch, or on an existing repo to catch drift after a Kerd update. It checks seven categories: directory structure, required files, vault integration, deprecated patterns, naming consistency, stray/stale files, and .gitignore hygiene.
 
-The report shows each category as passing (✓), failing (✗), or warning (⚠). Failing and warning items get a current-vs-proposed table with reasons. After the report, choose to fix all, pick individually, or skip. Tend makes changes but never commits. Shakh owns that boundary.
+The report shows each category as passing (✓), failing (✗), or warning (⚠). Failing and warning items get a current-vs-proposed table with reasons. After the report, choose to fix all, pick individually, or skip. Tend makes changes but never commits. Switch owns that boundary.
 
 ```
 /tend
@@ -117,7 +117,7 @@ The curated source list lives in your Obsidian vault at `discover-sources.json`,
 
 New project: you create a repo, clone it, run `/tend`. It checks what's missing (everything, in this case), shows you the plan, and sets up the full structure with your approval. Then `/dian` to start your first session.
 
-Day to day: you sit down at your laptop and run `/shakh in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md (where the project stands and what's next) plus any other vault files relevant to the work. Then it offers to start a dian session. You run `/dian` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, dian's close-out updates the playbook and calls `/kivna save` to update the vault, one clean write with approval. You run `/slainte docs` to check nothing drifted. Then `/shakh out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md (where the project stands and what's next) plus any other vault files relevant to the work. Then it offers to start a dian session. You run `/dian` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, dian's close-out updates the playbook and calls `/kivna save` to update the vault, one clean write with approval. You run `/slainte docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 ## Naming
 
@@ -126,7 +126,7 @@ Gaelic-inspired where it adds character:
 - **Kivna**: memory (cuimhne)
 - **Dian**: intense, rigorous
 - **Skriv**: the act of writing (scríobh)
-- **Shakh**: to hand over (seachad, pronounced SHAKH)
+- **Switch**: machine handoff
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 - **Lorg**: to seek, track down

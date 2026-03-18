@@ -82,7 +82,7 @@ For brand new repos (user provided project name), create missing files using the
 
 ## Session Workflow
 
-When wrapping up a session (`/kerd:shakh out` or `/kerd:dian`):
+When wrapping up a session (`/kerd:switch out` or `/kerd:dian`):
 1. Update `TODO.md`: check off completed items, add new ones.
 2. Update `docs/playbook.md`: if any new steps, tools, or config were added during the session, add them to the playbook. Always update the "Current Status" section.
 
@@ -186,6 +186,8 @@ Detect files/dirs from older Kerd versions:
 - `kivna/memories/`: replaced by vault in v0.7.0
 - `commands/`: removed in v0.7.0, plugin system loads skills directly
 - `.sotu`: renamed to `.slainte` in v0.11.0
+- `skills/shakh/`: renamed back to `skills/switch/` in v0.14.0
+- `skills/seach/`: intermediate name, renamed to `skills/switch/` in v0.14.0
 
 #### Category 5: Naming consistency
 
@@ -211,6 +213,13 @@ Check:
 - `.gitignore` exists
 - Contains entries for: `kivna/input/`, `kivna/output/`, `.DS_Store`
 - Untracked files (from `git status`) that suggest a missing ignore rule: group by pattern and suggest rules
+
+#### Category 8: Skill hygiene
+
+Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs/playbook.md`) for:
+- **Missing `kerd:` prefix**: any slash-command reference like `/dian`, `/switch`, `/skriv` etc. that should be `/kerd:dian`, `/kerd:switch`, `/kerd:skriv`. Check inside backtick-quoted commands and prose references. Skip README.md (allowed to use shorthand per CLAUDE.md convention).
+- **Stale skill names**: references to deprecated skill names (`sotu`, `seach`, `shakh`) in active/instructional context (not CHANGELOG, session logs, or deprecated patterns lists). Each hit is a rename that was missed.
+- **Frontmatter drift**: the `name` field in SKILL.md should match its parent directory name. The `description` field should not reference deprecated skill names.
 
 ### 4. Display report
 
@@ -264,9 +273,10 @@ Format the report as a visual table. Show passing categories as one-liners. Show
 
 ✓ Naming consistency
 ✓ .gitignore hygiene
+✓ Skill hygiene
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- 3 passing  ·  2 warnings  ·  1 failing
+ 4 passing  ·  2 warnings  ·  1 failing
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Fix all? [yes / pick individually / skip]
@@ -288,13 +298,13 @@ Fix all? [yes / pick individually / skip]
 
 ### 6. Summary
 
-After fixes are applied, print what was changed. Do NOT commit. Shakh owns git boundary operations.
+After fixes are applied, print what was changed. Do NOT commit. Switch owns git boundary operations.
 
-If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:dian` to start your first session, or `/kerd:shakh out` to commit and push."
+If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:dian` to start your first session, or `/kerd:switch out` to commit and push."
 
 ## No Commit
 
-Tend does NOT commit or push. It makes structural changes and stops. This keeps shakh as the sole owner of git boundary operations (Kerd convention). The user commits via `/kerd:shakh out` or manually.
+Tend does NOT commit or push. It makes structural changes and stops. This keeps switch as the sole owner of git boundary operations (Kerd convention). The user commits via `/kerd:switch out` or manually.
 
 ## Notes
 

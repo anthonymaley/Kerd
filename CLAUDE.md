@@ -41,7 +41,7 @@ skills/           # skill definitions (each skill in its own folder with SKILL.m
 docs/plans/       # design docs and implementation plans
 docs/playbook.md  # living project guide, updated by dian close-out
 kivna/vault.json  # Obsidian vault config
-kivna/sessions/   # session logs from shakh (committed)
+kivna/sessions/   # session logs from switch (committed)
 .claude-plugin/   # plugin.json and marketplace.json
 ```
 

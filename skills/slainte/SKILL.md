@@ -1,6 +1,6 @@
 ---
 name: slainte
-description: "Use when the user says 'slainte', 'sotu', 'audit', 'health check', 'check staleness', 'state of the union', or needs to audit project health across docs, code, site, or dependencies. Read-only audit that reports issues without fixing them."
+description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies. Read-only audit that reports issues without fixing them."
 ---
 
 # Slainte (Project Health)

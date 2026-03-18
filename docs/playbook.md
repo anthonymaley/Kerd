@@ -44,11 +44,11 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill (dian, lorg, kivna, skriv, slainte, tend, shakh)
+skills/           # SKILL.md per skill (dian, lorg, kivna, skriv, slainte, tend, switch)
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
 kivna/vault.json  # Obsidian vault config
-kivna/sessions/   # session logs written by shakh
+kivna/sessions/   # session logs written by switch
 kivna/.active-modes # ephemeral mode state
 .claude-plugin/   # plugin.json + marketplace.json
 ```
@@ -58,7 +58,7 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 **Seven skills, each with a single responsibility:**
 - **dian**: session discipline (orient/plan/execute/close-out protocol)
 - **lorg**: skill gap analysis (scan project signals, recommend skills/plugins across tiers)
-- **shakh**: git boundary operations (pull on arrive, commit+push on leave)
+- **switch**: git boundary operations (pull on arrive, commit+push on leave)
 - **kivna**: knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)
 - **slainte**: project health audits (docs, code, site, deps, playbook)
 - **skriv**: human writing voice enforcement (audit, fix, session mode)
@@ -68,9 +68,9 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 
 No external services or APIs. Kerd operates entirely within the local filesystem and git.
 
-The only integration point is the **Claude Code plugin system**. Kerd registers as a plugin and its skills become available as slash commands (`/kerd:dian`, `/kerd:shakh`, etc.).
+The only integration point is the **Claude Code plugin system**. Kerd registers as a plugin and its skills become available as slash commands (`/kerd:dian`, `/kerd:switch`, etc.).
 
-Session logs written by shakh go to `kivna/sessions/` and are committed to git, making them available across machines.
+Session logs written by switch go to `kivna/sessions/` and are committed to git, making them available across machines.
 
 ## Deployment
 
@@ -96,14 +96,16 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **Vault spec**: the vault spec at `docs/vault-spec.md` defines what belongs in the vault. No symlinks, no append-only files, no generic filenames. When in doubt, check the spec.
 - **Cross-cutting changes**: when modifying a pattern used across multiple skills (like vault file references), grep all skill files for the old pattern after implementation. The plan will miss files. The v0.10.0 vault redesign missed `lorg/SKILL.md` entirely, caught only by final code review searching for stale references.
 - **Agent verification**: when using parallel agents for cross-file changes, always run a grep verification sweep afterward. Agents can make incorrect inferences (e.g., renaming `discover-sources.json` to `lorg-sources.json` when only the skill name changed, not the vault filename).
+- **Verify collision claims**: before renaming a skill to avoid a collision, check the other plugin's actual skill list. The shakh rename was based on an assumed superpowers collision that never existed. A 2-minute scan of `~/.claude/plugins/cache/` would have prevented two unnecessary renames.
+- **Vault files need the same rename sweep as repo files**: when renaming a skill, the vault has its own references (MOC, Status, Usage Guide, Architecture Decisions, Install Guide, Lorg Report). Easy to update the repo and forget the vault.
 
 
 ## Current Status
 
-**Version:** 0.11.0
+**Version:** 0.14.0
 
 **Working:**
-- All seven skills functional: dian, lorg, shakh, kivna, slainte, skriv, tend
+- All seven skills functional: dian, lorg, switch, kivna, slainte, skriv, tend
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
 - Obsidian vault integration. Kivna reads/writes living vault files (Status.md, domain knowledge) with approval-gated overwrites
@@ -111,12 +113,13 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Dian playbook creation verified. Skeleton matches expected template
 - Mode markers on dian and skriv. Visible phase/state announcements with `.active-modes` state file
 - Dian rigorous planning (interrogate tasks, push back, no guessing) and execute verification (check each task, record decisions immediately, docs with code)
-- Shakh-out reflection. Captures learnings to CLAUDE.md and memory files
-- Shakh-in smoke test. Runs project tests if they exist
+- Switch-out reflection. Captures learnings to CLAUDE.md and memory files
+- Switch-in smoke test. Runs project tests if they exist
 
 **Recent changes (as of 2026-03-18):**
-- v0.13.0: Renamed seach → shakh for voice tool compatibility. Vault path moved to `~/eolas/vault/`.
-- v0.11.0: Renamed three skills to Gaelic to avoid collisions with superpowers plugin: sotu to slainte, switch to seach, discover to lorg. Config file `.sotu` renamed to `.slainte`.
+- v0.14.0: Weekly tracker in Kivna save. Renamed switch back from shakh (no actual collision existed).
+- v0.12.1: Vault path moved to `~/eolas/vault/`.
+- v0.11.0: Renamed sotu to slainte, discover to lorg. Config file `.sotu` renamed to `.slainte`.
 - v0.10.1: Expanded skriv dash rule to ban all dashes as punctuation (em, en, double hyphens). Cleaned all living files.
 - v0.10.0: Vault redesign. Living human-readable files replace append-only dumps, no symlinks, approval-gated Status.md overwrites, vault spec at docs/vault-spec.md
 - v0.9.0: Lorg. Skill gap analysis, scans project signals and recommends skills/plugins across three tiers
@@ -125,4 +128,4 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 **Next:**
 - Run `/kerd:tend` on other projects to migrate vaults
 - Test slainte playbook audit on a project with a playbook
-- Consider adding version bumping to the shakh-out process
+- Consider adding version bumping to the switch-out process

@@ -7,7 +7,7 @@ description: "Use when starting a work session, when you need structured session
 
 From Irish/Scottish Gaelic "dian," intense, rigorous. Pronounced "DEE-an".
 
-A protocol for staying focused within a session. Dian does not touch git boundaries (pull/push). That's shakh's job. Dian keeps you on track once you're working.
+A protocol for staying focused within a session. Dian does not touch git boundaries (pull/push). That's switch's job. Dian keeps you on track once you're working.
 
 ## Mode Markers
 
@@ -21,7 +21,7 @@ Dian is a modal skill. It runs across multiple responses. Announce the current p
 - `[dian: close-out]` updating docs, running checks
 - `[dian: closed]` session complete (final marker, then done)
 
-**State file:** When entering a phase, write the current phase to `kivna/.active-modes`. When closing out, remove the dian line from the file (or delete the file if it's the only entry). This lets `/kerd:shakh in` report active modes.
+**State file:** When entering a phase, write the current phase to `kivna/.active-modes`. When closing out, remove the dian line from the file (or delete the file if it's the only entry). This lets `/kerd:switch in` report active modes.
 
 Format of `kivna/.active-modes` (one skill per line):
 ```
@@ -125,7 +125,7 @@ How to rebuild this project from scratch.
 
 ## Principles
 
-- **No git boundary ops.** No `git pull`, no `git push`. Use `/kerd:shakh` for that.
+- **No git boundary ops.** No `git pull`, no `git push`. Use `/kerd:switch` for that.
 - **Flag scope creep.** If something comes up that isn't in the plan, add it to TODO.md and stay on track.
 - **Incremental commits.** Commit working states, not big bangs.
 - **Docs travel with code.** If you change behavior, update the docs in the same commit.

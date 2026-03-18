@@ -249,7 +249,7 @@ To add a source: edit the file directly or ask lorg to add one.
 
 - **No auto-install.** Every install is prompted and approved individually.
 - **No removal suggestions.** A skill unused in this project may be critical in another. Lorg finds gaps, not waste.
-- **No health checks.** That's tend's job (structure) or sotu's job (content).
+- **No health checks.** That's tend's job (structure) or slainte's job (content).
 - **Fresh scan every run.** The report files get overwritten each run. The ecosystem and your project both change.
 - **No rating or ranking.** Presents what it finds with context. You decide what's valuable.
 

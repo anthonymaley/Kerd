@@ -62,6 +62,11 @@ Language rules ("say this, not that" with context for why). Framing decisions. T
 **Solution overview:** `{{Project}} Solution Overview.md`
 What is being proposed, how it works step by step, key technical details. Written so a smart non-expert can follow it. Not a repo README. A human explanation.
 
+### If there is ongoing work across sessions
+
+**Weekly:** `{{Project Name}} Weekly.md`
+Rolling tracker of achievements and risks by week. Each week gets a section (anchored to Monday's date) with achievements (what shipped, what was decided) and risks (with `[open]` or `[mitigated]` markers). Weeks in reverse chronological order. Updated by Kivna save, not overwritten. This is the one append-style file in the vault — it exists because status reports need history, and Status.md (which captures only current state) can't provide that.
+
 ### If there are architecture or design decisions
 
 **Architecture decisions:** `{{Project}} Architecture Decisions.md`

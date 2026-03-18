@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.14.0
+
+**Weekly tracker and switch rename.**
+
+Weekly tracker: Kivna save now updates a `[Name] Weekly.md` file in the vault, tracking achievements and risks by week. Reverse chronological, `[open]`/`[mitigated]` risk markers.
+
+Switch renamed back from shakh. No actual superpowers collision existed. Slainte and lorg stay Gaelic.
+
+- Added step 3 to Kivna save mechanic: update Weekly.md
+- Added Weekly file type to vault spec
+- Renamed skill shakh → switch (directory, SKILL.md, all cross-references)
+- Updated README, CLAUDE.md, playbook, tend, dian, kivna
+
 ## 0.11.0
 
 **Skill rename.** Three skills renamed to Gaelic to avoid collisions with superpowers plugin.

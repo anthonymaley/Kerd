@@ -1,0 +1,14 @@
+# Slainte Audit Targets
+
+## docs
+- README.md
+- CLAUDE.md
+- CHANGELOG.md
+- TODO.md
+- docs/
+
+## code
+- skills/
+
+## playbook
+- docs/playbook.md

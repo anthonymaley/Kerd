@@ -29,7 +29,7 @@ Every kivna command starts here. Resolve the vault location before doing anythin
 ## Folder Convention
 
 - `kivna/vault.json` vault config (committed to git)
-- `kivna/sessions/` session logs written by shakh (committed)
+- `kivna/sessions/` session logs written by switch (committed)
 - `kivna/.active-modes` ephemeral mode state (not committed)
 - `kivna/input/` drop files here for import (gitignored, transit folder)
 - `kivna/output/` exports land here (gitignored, transit folder)
@@ -61,11 +61,42 @@ Update the vault to reflect the current session state. Use it at natural breakpo
    [Prioritized next steps]
    ```
 
-3. **Distribute new knowledge.** Review the session for new knowledge that belongs in other vault files. For each piece of knowledge, identify the target file (Architecture Decisions, Playbook, Positioning Contract, etc.), show the proposed addition, and ask for approval. Create the file if it doesn't exist (with user approval). Skip if no new knowledge surfaced.
+3. **Update `[Name] Weekly.md`.** Track achievements and risks on a rolling weekly basis for quick status report generation.
 
-4. **Update MOC.** If new vault files were created this session, read `[Name].md` and add links for the new files. Don't scan repo files or manage symlinks.
+   - Find or create the current week's section using the Monday date as anchor: `## Week of YYYY-MM-DD`
+   - Under `### Achievements`, add bullet points for notable work completed this session (features shipped, bugs fixed, decisions made, milestones hit). Be specific and concise — these feed into status reports.
+   - Under `### Risks`, add any new risks surfaced this session. Each risk gets a status marker: `[open]` or `[mitigated]`. When a previously open risk is resolved, update its marker to `[mitigated]` with a brief note.
+   - If the current week section already exists (from an earlier session this week), append new items to the existing lists. Don't duplicate.
+   - Weeks are in reverse chronological order (newest first).
+   - Show the user what's being added and get approval before writing.
+   - If no achievements or risks surfaced this session, skip this step silently.
 
-5. **Confirm.** One-line summary:
+   Format:
+
+   ```markdown
+   # [Name] Weekly
+
+   ## Week of 2026-03-17
+
+   ### Achievements
+   - Shipped weekly tracker feature in Kivna (v0.14.0)
+   - Resolved vault path migration to ~/eolas/vault
+
+   ### Risks
+   - [open] No .slainte config — health audits can't run
+   - [mitigated] Vault path hardcoded in old sessions → fixed in v0.12.1
+
+   ## Week of 2026-03-10
+
+   ### Achievements
+   - ...
+   ```
+
+4. **Distribute new knowledge.** Review the session for new knowledge that belongs in other vault files. For each piece of knowledge, identify the target file (Architecture Decisions, Playbook, Positioning Contract, etc.), show the proposed addition, and ask for approval. Create the file if it doesn't exist (with user approval). Skip if no new knowledge surfaced.
+
+5. **Update MOC.** If new vault files were created this session (including `[Name] Weekly.md` on first creation), read `[Name].md` and add links for the new files. Don't scan repo files or manage symlinks.
+
+6. **Confirm.** One-line summary:
    > Saved to vault: Status updated, N files updated, MOC refreshed.
 
 ### `/kerd:kivna in` (Import External Knowledge)
@@ -173,6 +204,7 @@ Set up the Obsidian vault folder for this project. Also triggered automatically 
 
 - The vault spec at `docs/vault-spec.md` defines what belongs in the vault and what doesn't. Kivna implements the mechanics; the spec defines the philosophy.
 - Status.md is overwritten, not appended to. Always show the user what's changing and get approval before overwriting.
+- Weekly.md is the one append-style vault file. Each week's section is updated in place during the week, and new weeks are prepended. Old weeks stay for history.
 - Vault files use self-identifying names (`[Project] Status.md`, not `Status.md`). This prevents collisions in Obsidian's quick switcher across vaults.
 - No symlinks to repo files. The vault contains knowledge written in human form, not mirrors of machine-readable repo files.
 - `kivna/input/` and `kivna/output/` should be in `.gitignore`. They're transit folders, not project content.

@@ -20,7 +20,7 @@ Audit, fix, and inline modes are one-shot. No markers needed for those.
 
 ## Modes
 
-### Audit: `/skriv <file>`
+### Audit: `/kerd:skriv <file>`
 
 Review the file against the rules below. Report violations with line numbers and suggestions. Do not modify the file.
 
@@ -31,11 +31,11 @@ Line 28: dash used as punctuation. Replace with the punctuation you actually mea
 Line 45-52: five-paragraph essay structure. Rewrite as direct prose
 ```
 
-### Fix: `/skriv fix <file>`
+### Fix: `/kerd:skriv fix <file>`
 
 Apply the rules directly. Rewrite the file in place. Then cut 20%. Remove any sentence that restates a point already made, remove any paragraph that exists only to transition.
 
-### Session mode: `/skriv on` / `/skriv off`
+### Session mode: `/kerd:skriv on` / `/kerd:skriv off`
 
 When turning on, output `[skriv: active]` and write to `kivna/.active-modes`. When turning off, output `[skriv: off]` and remove the entry from `.active-modes`.
 
@@ -43,7 +43,7 @@ When on, apply rules to all prose output for the rest of the session. Only appli
 
 ### Inline reference
 
-When mentioned in a prompt ("write this blog post using /skriv", "review this content against /skriv"), the rules apply to that specific output only.
+When mentioned in a prompt ("write this blog post using /kerd:skriv", "review this content against /kerd:skriv"), the rules apply to that specific output only.
 
 ---
 
