@@ -122,6 +122,8 @@ New project: you create a repo, clone it, run `/tend`. It checks what's missing 
 
 Day to day: you sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md (where the project stands and what's next) plus any other vault files relevant to the work. Then it offers to start a dian session. You run `/dian` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, dian's close-out updates the playbook and calls `/kivna save` to update the vault, one clean write with approval. You run `/slainte docs` to check nothing drifted. Then `/switch out` commits, pushes, and writes the session log. Tomorrow, different machine, same state. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
+For quick sessions where token cost matters, use the `light` modifier: `/switch in light` skips vault reads and smoke tests, `/switch out light` skips vault saves and reflection. You still get TODO.md, session logs, and git operations. Full context when you need it, lightweight handoff when you don't.
+
 ## Naming
 
 Gaelic-inspired where it adds character:

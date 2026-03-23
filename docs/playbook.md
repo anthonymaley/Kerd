@@ -102,30 +102,31 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.14.0
+**Version:** 0.16.0
 
 **Working:**
 - All seven skills functional: dian, lorg, switch, kivna, slainte, skriv, tend
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
-- Obsidian vault integration. Kivna reads/writes living vault files (Status.md, domain knowledge) with approval-gated overwrites
+- Obsidian vault integration. Kivna reads/writes living vault files (Status.md, Weekly.md, domain knowledge) with approval-gated overwrites
 - Tend audit verified. Reports structural drift and fixes with approval
 - Dian playbook creation verified. Skeleton matches expected template
 - Mode markers on dian and skriv. Visible phase/state announcements with `.active-modes` state file
 - Dian rigorous planning (interrogate tasks, push back, no guessing) and execute verification (check each task, record decisions immediately, docs with code)
 - Switch-out reflection. Captures learnings to CLAUDE.md and memory files
 - Switch-in smoke test. Runs project tests if they exist
+- Switch `light` modifier for lower-token handoffs (skips vault, reflection, smoke test)
+- Lorg `report` subcommand to view last scan without rescanning
 
-**Recent changes (as of 2026-03-18):**
-- v0.14.0: Weekly tracker in Kivna save. Renamed switch back from shakh (no actual collision existed).
+**Recent changes (as of 2026-03-23):**
+- v0.16.0: Switch `light` modifier. `/kerd:switch in light` and `/kerd:switch out light` skip vault, reflection, and smoke test for faster, lower-token handoffs.
+- v0.15.0: Lorg `report` subcommand. `/kerd:lorg report` displays the last saved scan without rescanning.
+- v0.14.0: Weekly tracker in Kivna save. Renamed switch back from shakh (no actual collision existed). Tend Category 8 (Skill hygiene).
 - v0.12.1: Vault path moved to `~/eolas/vault/`.
 - v0.11.0: Renamed sotu to slainte, discover to lorg. Config file `.sotu` renamed to `.slainte`.
 - v0.10.1: Expanded skriv dash rule to ban all dashes as punctuation (em, en, double hyphens). Cleaned all living files.
 - v0.10.0: Vault redesign. Living human-readable files replace append-only dumps, no symlinks, approval-gated Status.md overwrites, vault spec at docs/vault-spec.md
-- v0.9.0: Lorg. Skill gap analysis, scans project signals and recommends skills/plugins across three tiers
-- v0.8.0: Tend replaces startup. Structural health check and convergence for new and existing repos, seven audit categories, visual report with fix flow
 
 **Next:**
 - Run `/kerd:tend` on other projects to migrate vaults
 - Test slainte playbook audit on a project with a playbook
-- Consider adding version bumping to the switch-out process
