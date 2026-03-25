@@ -26,10 +26,13 @@ discover_keywords:
 - [ ] `/kerd:dian` orient -- review prior session state and pick up where we left off
 - [ ] `/kerd:dian` plan -- define today's goals and task list
 
-## Build
+## Plan
 
 - [ ] `/superpowers:brainstorming` -- explore design options if direction is unclear
 - [ ] `/superpowers:writing-plans` -- produce implementation plan for chosen approach
+
+## Execute
+
 - [ ] `/superpowers:dispatching-parallel-agents` -- fan out independent tasks to agents
 - [ ] `/superpowers:verification-before-completion` -- run tests, confirm all tasks pass
 - [ ] `/superpowers:requesting-code-review` -- review changes before merging

@@ -75,37 +75,65 @@ If no extras found, skip this section silently. These are suggestions only, disp
 
 ### 4. Present and customize
 
-Extract all checkbox lines (`- [ ]`) from the mode body. Build a JSON array of step strings (the text after the checkbox marker).
+Parse the mode body by `##` headers. Each header becomes a phase. Each `- [ ]` line under a header becomes a step within that phase. Present the flow phase by phase using `AskUserQuestion` with `multiSelect: true`.
 
-**Interactive picker (default):** The TUI picker needs a real terminal, so prompt the user to run it themselves using the `!` prefix:
+**Phase selection:** For each phase in the mode, create one `AskUserQuestion` question where:
+- The `header` is the phase name (e.g., "Setup", "Build", "Close")
+- The `question` is "[Mode name]: which [phase] steps?" (e.g., "Greenfield: which Setup steps?")
+- Each step becomes an option with `label` as the short step name and `description` as the full step text
+- All options are selected by default (the user deselects what they want to skip)
+
+Group up to 4 phases into a single `AskUserQuestion` call (the tool supports 1-4 questions per call). If the mode has more than 4 phases, use multiple calls.
+
+**Constraint:** Each question supports 2-4 options. Mode files should keep phases to 4 steps or fewer. If a community-contributed mode has a phase with more than 4 steps, split it into two questions (e.g., "Build (planning)" and "Build (execution)").
+
+Example for a mode with 4 phases:
 
 ```
-To customize the flow interactively, run:
-! python3 <plugin_root>/skills/mode/flow_picker.py '<json_array_of_steps>'
+AskUserQuestion with 4 questions:
+
+  Q1 header:"Setup" question:"Strategy: which Setup steps?"
+     [x] "Switch in" — /kerd:switch in to load project context
+     [x] "Review status" — Review vault Status.md for current state
+
+  Q2 header:"Define" question:"Strategy: which Define steps?"
+     [x] "Brainstorm" — /superpowers:brainstorming to explore the strategic question
+     [x] "Scope" — Define scope, constraints, and success criteria
+
+  Q3 header:"Analyze" question:"Strategy: which Analyze steps?"
+     [x] "Research" — Research competitors and market landscape
+     [x] "Trade-offs" — Evaluate options with explicit trade-offs
+
+  Q4 header:"Capture" question:"Strategy: which Capture steps?"
+     [x] "Decisions" — Document decisions and rationale
+     [x] "Draft" — Draft positioning or strategy doc with /kerd:skriv on
+     [x] "Vault" — /kerd:kivna save to update vault with decisions
+     [x] "Switch out" — /kerd:switch out to persist session context
 ```
 
-Where `<plugin_root>` is the base directory for this skill (provided in the skill context). The picker renders an interactive checklist — Up/Down or j/k to navigate, Space to toggle steps on/off, Enter to confirm, q to cancel. Parse the JSON output from stdout to determine which steps are enabled.
+The user deselects any steps they want to skip. Steps they leave selected are enabled.
 
-If the user declines or the picker fails (exit code 3 = no TTY), fall back to text mode.
-
-**Text fallback:** If the picker is skipped, display the flow as a numbered checklist and accept text commands:
+**Session instructions:** After phase selection, ask one more `AskUserQuestion` for session instructions:
 
 ```
-Greenfield flow:
-
-  [x] 1. /kerd:switch in — pull, get context
-  [x] 2. Confirm: what are we building?
-  ...
-
-Edit the flow? (skip steps, reorder, add custom steps, or 'go' to start)
+AskUserQuestion:
+  header: "Focus"
+  question: "Any instructions for this session?"
+  multiSelect: false
+  options:
+    - label: "Narrow scope"
+      description: "Focus on a specific area (e.g., pricing only, one competitor)"
+    - label: "Set constraints"
+      description: "Exclude something or set boundaries (e.g., skip competitor X, no code changes)"
+    - label: "Output preference"
+      description: "Request a specific format (e.g., bullet draft first, decision matrix)"
+    - label: "No instructions"
+      description: "Run the flow as selected"
 ```
 
-- **Skip:** "skip 4 and 8" removes those steps
-- **Add:** "add 'run migrations' after step 6" inserts a custom step
-- **Reorder:** "move 8 before 7" changes step order
-- **Go:** "go" locks the flow and begins
+The user can pick one of these or choose "Other" to type freeform instructions. Store the instruction and surface it at the start of each step as a reminder.
 
-In either path, only proceed when the user confirms (Enter in picker, or "go" in text mode).
+**Confirming the flow:** After both selections, display the final flow summary showing enabled steps with phase grouping and any session instruction. Then ask "Ready to start?" before proceeding. This is the last chance to adjust before locking in.
 
 ### 5. Track progress
 
@@ -113,18 +141,24 @@ Write the active mode to `kivna/.active-modes`:
 
 ```
 mode: greenfield (step 1 of 9)
+instruction: focus on pricing strategy only
 ```
+
+If no session instruction was given, omit the instruction line.
 
 After each step is completed (user confirms it's done, or the invoked skill completes), update the tracker:
 
 ```
 mode: greenfield (step 3 of 9)
+instruction: focus on pricing strategy only
 ```
 
-Remind the user what's next:
+Remind the user what's next, and resurface the session instruction if one was set:
 
 ```
-✓ Step 3 complete. Next: step 4 — /gsd:discuss-phase N (capture decisions)
+✓ Step 3 complete.
+  Instruction: focus on pricing strategy only
+  Next: step 4 — /gsd:discuss-phase N (capture decisions)
 ```
 
 If the user goes off-script (does something not in the flow), don't block them. When they come back, show where they are in the flow and what remains.
