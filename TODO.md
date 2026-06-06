@@ -1,21 +1,28 @@
 # TODO
 
 ## Current Session
-(2026-05-04, completed)
+(2026-06-06, in progress)
 
 ### Done this session
-- [x] Witnessed first interactive smoke test of `/kerd:interrogate` against `3of3/docs/plans/integration-spike.md`. Live trace shared. Failure modes on turn 1: question-bundling, implicit multiple-choice ("plan as written / current state / revised plan"), wrong "guess". Agent self-corrected after pushback. Structural anchors did partial work — frontmatter session state gave deterministic resume despite bumpy path. **2 user-pushback signals on turn 1** — first concrete data points against the 33-42% confident-wrong baseline.
-- [x] Diagnosed **closing-section "What I don't know" anti-pattern** (from a non-Kerd, non-interrogate session) as drift in global `~/.claude/CLAUDE.md`. The Thinking Discipline rule "Surface the gap so we can work on it together" had degraded into a closing-template cop-out — passive multiple-choice dumping decisions on user.
-- [x] Added **Closing-uncertainty gate** to `~/.claude/CLAUDE.md` (gate #6). Locates failure at response-end formation; three downgrades (single direct question / explicit default / silence); priority rule (most-blocking question only).
-- [x] Audited entire global CLAUDE.md. Three findings: (a) source rule at line 9-11 still seeded the pathology; (b) Claim Discipline intro framed layering as binary when actual is three-layer; (c) yesterday's TODO-staleness pattern had no corresponding gate.
-- [x] Shipped 4 more edits: tightened line 9-13 ("ask a question now, not append a list of doubts later" — directive replaces cooperative); rewrote Claim Discipline intro for three layers (turn-start, mid-claim, response-end) with each gate located on the layer map; added **Question-formation gate** (#7) covering bundling/multiple-choice/verbose-framing — promoting interrogate-internal discipline to global floor; added **Memory-citation gate** (#8) with internal-vs-external distinction to keep it operationally cheap.
-- [x] Net: 5 → 8 gates over 3 days. No Kerd repo commits — all work in global file. Vault Skill Lessons gained two new entries (cooperative-wording trap, skill-internal-discipline-that-should-be-global).
+- [x] Started a `/kerd:switch in` and pivoted into a full skill architecture audit triggered by dian's prompt verbosity and multiple-choice patterns surfacing as Question-formation gate (#7) violations.
+- [x] Ran a 5-question survey across ~30 skills (Kerd + Superpowers + adjacent plugins). Surfaced 6 patterns, the biggest being "sequential chains aren't named — each skill is an island."
+- [x] **Load-bearing reframe:** initial diagnosis of #1 was wrong-shaped (cross-references between skills); user pushed back — that's mode's job. Adopted **three-layer model**: skills atomic, modes orchestrators, discipline gates universal. One narrow exception: structural primitives (e.g., switch → kivna save).
+- [x] **Plugin split (provisionally locked):** Kerd plugin = modes only. 9 skills (switch, dian, kivna, interrogate, skriv, tend, slainte, trim, lorg) move to a separate `kerd-skills` plugin. Gated by M12 (verify cross-plugin skill invocation works in Claude Code). May bundle some back if OOB UX requires.
+- [x] **Mode set rewritten from 10 → 16:** 4 retired (deepwork, greenfield, quickfix, legal), 6 kept with rewrite (research, spike, strategy, writing, sales, maintain), 10 new (new idea, plan, interrogate, product design, adversarial review, problem analysis, execute, peer review reception, call transcript analysis, project-manage).
+- [x] **Mode file format locked:** capability-first frontmatter (`capabilities: [id + description]`), per-step blocks (Goal / Do / Don't / Exit when / Produces), follow_on field with rationale. Steps reference capability id OR are inline actions.
+- [x] **Critical correction mid-design:** initially named recommended skills in capability entries. User pushed back — defer skill naming entirely until mode design completes. Rewrote all 16 briefs to description-only capabilities. Skill mapping becomes its own deferred layer (capability id → skill, defined post-mode-design).
+- [x] **Mode briefs (all 16) and full specs (modes 1 + 3) written** in design doc at `docs/plans/2026-05-04-skill-architecture-review.md`. Capability inventory aggregated across modes (~35 capabilities, 12+ recurring).
+- [x] New skill identified: `email-writer` (domain-agnostic email iteration + paste-ready formatting). Capability gaps surfaced for skill assessment phase: persona work, project state retrieval, action item extraction.
+- [x] Rename plan (R1–R4) absorbed into plugin-split migration as combined v1.0.0 effort. Gaelic names (dian, kivna, skriv, slainte, lorg) → English (session, vault, write, audit, discover) AND move to `kerd-skills` plugin.
 
 ### Context
-- **New gates on disk but not active in this conversation.** Current Claude Code session loaded `~/.claude/CLAUDE.md` before today's edits. Restart needed before the gates bind decisions. Same lag as plugin cache.
-- **Interrogate test on 3of3 left mid-stream** at Scope axis, gather-level. Document at `3of3/docs/interrogations/2026-05-02-integration-spike.md`. Pending question: which artifact is under interrogation (original plan as written / current state of execution / revised plan).
-- **Question-formation gate makes interrogate's bundling-prevention partially redundant.** Two parallel experiments now: skill-layer structural anchors (frontmatter session state, user-veto on stop) and global-layer text gates. If both grip, text rules at the right granularity work. If both fail in the same shape, text rules anywhere are insufficient and Path B (Stop hooks scanning for structural patterns) is next.
-- **Cadence is high.** 3 gates added in 3 days. Layer-map approach proving its worth, but file is in active growth mode — worth watching whether new patterns continue to surface or whether the gates catch them.
+- **No commits made this session.** All work in design doc — single untracked file: `docs/plans/2026-05-04-skill-architecture-review.md`.
+- **Mode design ~30% complete by spec.** Briefs done for all 16 (capability-first, description-only). Full specs done for mode 1 (new idea, 11 steps / 5 phases) and mode 3 (interrogate, 7 steps / 4 phases). 14 modes still need full per-step expansion.
+- **Suggested mode-by-mode sequence:** mode 4 (spike) next — tests how already-rich existing content reformats. Then maintain, project-manage (different shapes), then plan (heavily-referenced by follow_ons), then remaining 10.
+- **Skill assessment phase is deferred** — does not start until all 16 modes are fully spec'd. At that point: match each capability description to a skill, name gaps, decide which Kerd skills update/drop/move.
+- **Capability inventory is the load-bearing artifact** of this session. ~35 distinct capabilities aggregated from briefs, with `[recurring]` markers on those needed by 2+ modes. Recurring capabilities (session boundary, vault capture, idea exploration, web research, doc drafting, goal/decision framing, synthesis, persona work, response drafting, action item extraction, next-step decision) are where skill investment has highest leverage.
+- **Open architectural question:** project-state file structure (TODO.md, sessions/, .active-modes) may need rethinking under new architecture. Captured as deferred — not in mode design scope.
+- **Carryover from 2026-05-04:** interrogate smoke test on 3of3 still mid-stream (`3of3/docs/interrogations/2026-05-02-integration-spike.md`). New gates from 2026-05-04 not exercised in this session — full design focus instead.
 
 ## Backlog
 - **First interactive smoke test of `/kerd:interrogate`** — meta path (interrogate the design doc) or real path (next upcoming idea). Watch for: declaring done before user-veto, response verbosity, multiple-choice slips, sliding sideways instead of drilling.
