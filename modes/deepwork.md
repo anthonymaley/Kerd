@@ -41,5 +41,5 @@ discover_keywords:
 
 - [ ] `/superpowers:finishing-a-development-branch` -- squash/merge, clean up branch
 - [ ] `/kerd:slainte` -- run docs and structural health checks
-- [ ] `/kerd:dian` close-out -- persist learnings and update playbook
-- [ ] `/kerd:switch` out -- close session, persist handoff context
+- [ ] `/kerd:dian` close-out -- update TODO, run checks (boundary handed to switch out below)
+- [ ] `/kerd:switch` out -- close session, save vault, persist learnings and handoff context

@@ -99,7 +99,7 @@ For each target registered under `## deps`:
 
 For each target registered under `## playbook`:
 
-1. **Existence**: does `docs/playbook.md` exist? If not, high severity ("No playbook found. Run a dian session to create one.")
+1. **Existence**: does `docs/playbook.md` exist? If not, high severity ("No playbook found. Run `/kerd:tend` to create one from the skeleton.")
 2. **Current Status accuracy**: compare the "Current Status" section against actual project state (working build, test results, deployed state if detectable)
 3. **Tech stack drift**: are the tools/frameworks listed in the playbook still in `package.json` / `pyproject.toml` / equivalent? Flag removed or added deps not reflected in playbook
 4. **Setup steps validity**: do the setup commands reference files and scripts that still exist?

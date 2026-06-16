@@ -1,7 +1,7 @@
 {
   "name": "kerd",
-  "description": "Opinionated workflow toolkit with community-contributed modes: session discipline, machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, token optimization, plan readiness, and workflow routing",
-  "version": "0.39.0",
+  "description": "Opinionated workflow toolkit with community-contributed modes: session discipline, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, token optimization, plan readiness, and workflow routing",
+  "version": "0.40.0",
   "author": {
     "name": "Anthony Maley"
   },

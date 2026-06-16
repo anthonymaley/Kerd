@@ -1,6 +1,6 @@
 ---
 name: dian
-description: "Use when starting a work session, when you need structured session discipline, or when the user says 'dian', 'session', 'let's get structured', or wants to plan and track a focused work block. Provides orient-plan-execute-close protocol."
+description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'dian', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides a plan-execute-close protocol."
 ---
 
 # Dian (Session Discipline)
@@ -22,7 +22,7 @@ Dian is a modal skill. It runs across multiple responses. Announce the current p
 - `[dian: close-out]` updating docs, running checks
 - `[dian: closed]` session complete (final marker, then done)
 
-**Why a step-boundary marker within execute:** phase markers fire 3-4 times per session — too coarse to gate claim-level failures (see global CLAUDE.md Claim Discipline). Step-boundary markers fire 5-30 times per session at the granularity where confident-wrong assertions actually happen. Each step marker is a reminder to re-engage the verification gate, not boilerplate. Don't re-emit the marker mid-step; only at the actual step transition.
+**Why a step-boundary marker within execute:** phase markers fire 3-4 times per session — too coarse to gate claim-level failures (the Claim Discipline problem — gates asserted once don't bind the 50th claim). Step-boundary markers fire 5-30 times per session at the granularity where confident-wrong assertions actually happen. Each step marker is a reminder to re-engage the verification gate, not boilerplate. Don't re-emit the marker mid-step; only at the actual step transition.
 
 **State file:** When entering a phase, write the current phase to `kivna/.active-modes`. When closing out, remove the dian line from the file (or delete the file if it's the only entry). This lets `/kerd:switch in` report active modes and hooks surface reminders.
 
@@ -39,19 +39,17 @@ Example: `dian: execute`. Remove the line entirely when closing out (don't write
 
 Output `[dian: orient]` at the top of your response.
 
-Read these files if they exist (skip any that don't):
+Dian runs inside an already-open session. Loading context is switch-in's job, not dian's, so orient is conditional:
 
-1. `TODO.md`: current session plan, roadmap, task queue
-2. `CLAUDE.md`: project conventions and structure
-3. Vault: discover the vault path using `kivna/vault.json` or convention (see `/kerd:kivna` vault discovery). Read `[Name] Status.md` for where the project stands. Read the MOC (`[Name].md`) to discover what other vault files exist (Architecture Decisions, Playbook, etc.) and read any that are relevant to the planned work.
-4. Progress tracking: check `docs/project/progress.md`, `progress.md`, or `CHANGELOG.md`
-5. `docs/playbook.md`: project playbook (how to rebuild this project from scratch)
+**Warm path (the common case — switch-in already ran this session):** Don't re-read anything. Switch-in just loaded `TODO.md`, the vault `[Name] Status.md`, session logs, and active modes. Confirm the current state in a line or two from what's already in context, then move to planning. Re-reading what switch-in just read is wasted work.
 
-**Mode awareness:** Read `kivna/.active-modes`. If a mode is active, report it: what mode, which step, and the session instruction if one was set. Dian should operate within the mode's scope. If the mode says "focus on pricing strategy only," dian's plan should respect that constraint. If no mode is active, proceed normally.
+**Cold path (dian invoked with no switch-in this session):** Do a light orient — read only `TODO.md` (Current Session) and the vault `[Name] Status.md` (discover the path via `kivna/vault.json`; see `/kerd:kivna`). That's enough to plan. Don't sweep the playbook, MOC, and progress files; that's switch-in's deep read. If you need the full picture, run `/kerd:switch in` first.
 
-**Pre-flight inventory:** After reading the context, ask the user for anything execution will need that isn't already in the repo: credentials/access not stored locally, sample inputs not in TODO.md, scope limits not in CLAUDE.md, hardware/environment state, fixtures or test data. Trickle-in friction (each missing input becomes a stop-and-ask round mid-execute) is 5-10x more expensive than collecting upfront. One round of questions in orient prevents many later. If the inventory is genuinely complete from the read, say so explicitly and skip.
+**Mode awareness:** Read `kivna/.active-modes`. If a mode is active, report it: what mode, which step, and the session instruction if one was set. Dian operates within the mode's scope. If the mode says "focus on pricing strategy only," dian's plan respects that constraint. If no mode is active, proceed normally.
 
-**Consistency sniff test:** After reading, do a quick cross-check. Does CLAUDE.md reference files or conventions that don't match the codebase? Does the playbook's tech stack or architecture still match reality? Does the vault Status mention things that have since changed? Flag any contradictions to the user before planning. Don't build on stale assumptions.
+**Pre-flight inventory:** Ask the user for anything execution will need that isn't already in the repo: credentials/access not stored locally, sample inputs not in TODO.md, scope limits not in CLAUDE.md, hardware/environment state, fixtures or test data. Trickle-in friction (each missing input becomes a stop-and-ask round mid-execute) is 5-10x more expensive than collecting upfront. One round of questions now prevents many later. If the inventory is genuinely complete, say so explicitly and skip.
+
+**Consistency sniff test:** Quick cross-check against what's in context — does CLAUDE.md or the playbook reference files, conventions, or a tech stack that no longer match reality? Flag contradictions before planning. This is a light pass; the deep audit is `/kerd:slainte`.
 
 Summarize the current state for the user, including any inconsistencies found, active mode context, and inventory gaps surfaced.
 
@@ -119,7 +117,7 @@ Only then mark the task complete. If you catch yourself thinking "should work", 
 
 The verification gate above covers "done" claims at end-of-step. The same discipline applies to claims made *during* a step. Before tagging anything with "verified", "fixed", "working", "confirmed", "the right approach", "the only way", "impossible", "always", "never" — or asserting platform/library/API specifics: require evidence in this loop iteration (a check run, an output read, a doc cited, a source URL). Without those, downgrade to "added but not yet verified", "the evidence I have suggests", or "from training data; may be wrong". Each external-system claim must carry a "verified by [URL/doc]" tag.
 
-This is the global CLAUDE.md Claim Discipline applied at the moment of writing the assertion within execute, not deferred to end-of-step. The verification gate is a backstop; this gate is the primary line.
+This mirrors the Claim Discipline some users keep in a global CLAUDE.md; it's restated here so dian enforces it even in projects without one. It applies at the moment of writing the assertion within execute, not deferred to end-of-step. The verification gate is a backstop; this gate is the primary line.
 
 #### 3-fix limit
 
@@ -152,45 +150,15 @@ Work accumulates in repo-side files (TODO.md) during execution. The vault gets o
 
 Output `[dian: close-out]` at the top of your response.
 
-Before ending the session:
+Dian closes the *work*, not the *session boundary*. Boundary operations — session log, vault save, commit, push — belong to switch. Keep dian's close-out short:
 
-1. **Update TODO.md**: check off completed tasks, add new ones discovered during work, update roadmap statuses, clear the `## Current Session` block. Apply Claim Discipline (see global CLAUDE.md) to summary text — don't claim "we verified X" unless we did; downgrade to "we tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
-2. **Doc impact assessment**: if the project has a Doc Impact Table in CLAUDE.md, check it. Update ALL affected docs.
-3. **Update the vault**: call `/kerd:kivna save` once. This updates vault `[Name] Status.md` (with approval) and proposes updates to any other vault files where new knowledge belongs. This is the single vault write for the session.
-4. **Update playbook**: if `docs/playbook.md` exists, update it with anything learned this session: new setup steps, new integrations, gotchas discovered, tech stack changes, updated Current Status section. If it doesn't exist, create it from the skeleton:
+1. **Update TODO.md**: check off completed tasks, add new ones discovered during work, record any decisions in the `### Context` section, clear the `## Current Session` block. Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
+2. **Doc impact**: docs should already be current (docs travel with code, see Execute). Confirm nothing was missed against the CLAUDE.md Doc Impact Table if one exists. Don't carry doc updates into the boundary.
+3. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
+4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Dian may be one step in a larger mode flow. After dian's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
+5. **Clear the dian marker**: remove the dian line from `kivna/.active-modes`. Output `[dian: closed]` as the final marker. Never touch the mode line — mode owns its own state.
 
-```markdown
-# Playbook: [Project Name]
-
-How to rebuild this project from scratch.
-
-## Tech Stack
-[What tools/frameworks and why they were chosen]
-
-## Setup
-[Steps to get the project running locally]
-
-## Architecture
-[Key structural decisions and why]
-
-## Integrations
-[External services, APIs, config needed]
-
-## Deployment
-[How to deploy, environment variables needed]
-
-## Gotchas
-[Things that broke, non-obvious behavior, workarounds]
-
-## Current Status
-[What's working, what's in progress, what's next]
-```
-
-5. **Diff review**: run `git diff` (or `git diff --cached` if staged) to review everything changed this session. Look for accidental changes, forgotten files, inconsistencies between code and docs, anything that doesn't match the plan. Fix issues before proceeding.
-6. **Staleness sweep**: search for any renamed or changed concepts across `docs/`, `README.md`, and other documentation.
-7. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
-8. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Dian may be one step in a larger mode flow. After dian's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
-9. **Clear mode marker**: remove the dian line from `kivna/.active-modes`. Output `[dian: closed]` as the final marker. Never touch the mode line — mode owns its own state.
+Then hand off: tell the user to run `/kerd:switch out` to write the session log, save the vault, and commit. Dian does not do the boundary, and does not call `/kerd:kivna save` — switch owns the vault write now.
 
 ## Principles
 
@@ -199,4 +167,4 @@ How to rebuild this project from scratch.
 - **Hard stop on scope creep.** Out-of-plan work goes to backlog. No exceptions without reopening the plan.
 - **Three fixes, then escalate.** Don't thrash. Surface the problem.
 - **Docs travel with code.** If you change behavior, update the docs in the same commit.
-- **Dian doesn't own session logs.** Decisions go to TODO.md. Switch writes the session log at the boundary.
+- **Dian doesn't own the boundary.** No git pull/push/commit, no session log, no vault save. Decisions accumulate in TODO.md during the session; switch writes the session log, saves the vault, and commits at the boundary.

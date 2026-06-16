@@ -1,20 +1,22 @@
 ---
 name: switch
-description: "Use when the user says 'switch', 'switching machines', 'wrapping up', 'picking up', 'handoff', or needs to cleanly leave or arrive on a machine. Handles all git boundary operations (pull, push, commit of session state). Supports 'light' modifier to skip vault and reflection, or 'low' modifier for minimum viable handoff on tight token budgets."
+description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session. The same mechanism carries across machines as the secondary case. Handles all git boundary operations (pull, push, commit of session state). Supports 'light' modifier to skip vault and reflection, or 'low' modifier for minimum viable handoff on tight token budgets."
 ---
 
-# Switch (Machine Handoff)
+# Switch (Session Handoff)
 
-Clean handoff between machines. Switch owns all git boundary operations: pull, push, commit of session state. No other skill should do these things.
+Clean handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case. Switch owns all git boundary operations: pull, push, commit of session state. No other skill should do these things.
 
 ## Usage
 
-`/kerd:switch out` leaving this machine (full)
-`/kerd:switch out light` leaving this machine (skip vault, reflection, progress tracking)
-`/kerd:switch out low` leaving this machine (minimum viable handoff, tight token budget)
-`/kerd:switch in` arriving on a new machine (full)
-`/kerd:switch in light` arriving on a new machine (skip vault, smoke test)
-`/kerd:switch in low` arriving on a new machine (minimum viable pickup, tight token budget)
+`/kerd:switch out` wrapping up a session (full)
+`/kerd:switch out light` wrapping up a session (skip vault, reflection, progress tracking)
+`/kerd:switch out low` wrapping up a session (minimum viable handoff, tight token budget)
+`/kerd:switch in` picking up a session (full)
+`/kerd:switch in light` picking up a session (skip vault, smoke test)
+`/kerd:switch in low` picking up a session (minimum viable pickup, tight token budget)
+
+The same path serves a fresh session on this machine (the common case) and a move to another machine (the same git boundary operations either way).
 
 If no argument is given, check for uncommitted changes. If changes exist, assume `out`. If clean, assume `in`.
 
@@ -42,9 +44,9 @@ If no argument is given, check for uncommitted changes. If changes exist, assume
 | Check active modes | Yes | Yes | Yes |
 | Offer dian | Yes | Yes | Skip |
 
-## Switch Out (Leaving This Machine)
+## Switch Out (Wrapping Up a Session)
 
-Wrap up everything so the next machine can pick up cold.
+Wrap up everything so the next session can pick up cold, whether that's a fresh session on this machine or another.
 
 ### 1. Write session state to TODO.md
 
@@ -115,7 +117,7 @@ The session log captures what happened in this session for the next session to p
 
 **Skip this step if `light` or `low` modifier is set.**
 
-If a `/kerd:dian` session was active, close-out should have already called `/kerd:kivna save`. Verify vault `[Name] Status.md` reflects this session and move on. If no `/kerd:dian` session was running (quick switch without formal session), call `/kerd:kivna save` now. This updates Status.md and proposes updates to other vault files, each with user approval.
+Call `/kerd:kivna save`. Switch owns the vault save now; dian no longer touches the vault. This updates Status.md and proposes updates to other vault files, each with user approval. (If a kivna save already ran earlier this session, it will just surface a near-empty diff.)
 
 ### 4. Update progress tracking
 
@@ -200,9 +202,9 @@ If `light` modifier was used, note: "Light handoff: vault and reflection skipped
 Pushed: [commit-hash] → origin/[branch]. Next: [what to pick up]
 ```
 
-## Switch In (Arriving on This Machine)
+## Switch In (Picking Up a Session)
 
-Pick up where the other machine left off.
+Pick up where the last session left off.
 
 ### 1. Pull
 

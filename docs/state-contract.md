@@ -128,7 +128,7 @@ mode: greenfield (step 3 of 9)
 
 - Overwritten each save, not appended to. Always show diff and get approval.
 - kivna save is the sole writer. One vault write per session (at close-out), not per-task.
-- Switch out calls kivna save if no dian session was active.
+- Switch out calls kivna save at session close. Dian no longer calls it; switch owns the vault save.
 
 ## kivna/output/ (KIF exports)
 
@@ -195,7 +195,6 @@ Which skill owns which responsibility. If two skills could do something, only on
 ### Conflict resolution
 
 If a skill needs to do something owned by another skill, it calls that skill rather than doing it directly:
-- Dian calls `/kerd:kivna save` at close-out (doesn't write vault files itself)
-- Switch calls `/kerd:kivna save` when no dian session was active
+- Switch calls `/kerd:kivna save` at the boundary (switch owns the vault save; dian no longer calls it)
 - Switch suggests `/kerd:trim` but doesn't run trim's steps itself
 - Mode presents steps for the user to invoke, never invokes skills programmatically

@@ -1,30 +1,27 @@
 # TODO
 
 ## Current Session
-(2026-06-06, in progress)
+(2026-06-10, switching out)
 
 ### Done this session
-- [x] Started a `/kerd:switch in` and pivoted into a full skill architecture audit triggered by dian's prompt verbosity and multiple-choice patterns surfacing as Question-formation gate (#7) violations.
-- [x] Ran a 5-question survey across ~30 skills (Kerd + Superpowers + adjacent plugins). Surfaced 6 patterns, the biggest being "sequential chains aren't named — each skill is an island."
-- [x] **Load-bearing reframe:** initial diagnosis of #1 was wrong-shaped (cross-references between skills); user pushed back — that's mode's job. Adopted **three-layer model**: skills atomic, modes orchestrators, discipline gates universal. One narrow exception: structural primitives (e.g., switch → kivna save).
-- [x] **Plugin split (provisionally locked):** Kerd plugin = modes only. 9 skills (switch, dian, kivna, interrogate, skriv, tend, slainte, trim, lorg) move to a separate `kerd-skills` plugin. Gated by M12 (verify cross-plugin skill invocation works in Claude Code). May bundle some back if OOB UX requires.
-- [x] **Mode set rewritten from 10 → 16:** 4 retired (deepwork, greenfield, quickfix, legal), 6 kept with rewrite (research, spike, strategy, writing, sales, maintain), 10 new (new idea, plan, interrogate, product design, adversarial review, problem analysis, execute, peer review reception, call transcript analysis, project-manage).
-- [x] **Mode file format locked:** capability-first frontmatter (`capabilities: [id + description]`), per-step blocks (Goal / Do / Don't / Exit when / Produces), follow_on field with rationale. Steps reference capability id OR are inline actions.
-- [x] **Critical correction mid-design:** initially named recommended skills in capability entries. User pushed back — defer skill naming entirely until mode design completes. Rewrote all 16 briefs to description-only capabilities. Skill mapping becomes its own deferred layer (capability id → skill, defined post-mode-design).
-- [x] **Mode briefs (all 16) and full specs (modes 1 + 3) written** in design doc at `docs/plans/2026-05-04-skill-architecture-review.md`. Capability inventory aggregated across modes (~35 capabilities, 12+ recurring).
-- [x] New skill identified: `email-writer` (domain-agnostic email iteration + paste-ready formatting). Capability gaps surfaced for skill assessment phase: persona work, project state retrieval, action item extraction.
-- [x] Rename plan (R1–R4) absorbed into plugin-split migration as combined v1.0.0 effort. Gaelic names (dian, kivna, skriv, slainte, lorg) → English (session, vault, write, audit, discover) AND move to `kerd-skills` plugin.
+- [x] Ran `/kerd:tend` — structure clean. Fixed vault MOC (added `Kerd Skill Lessons` link), removed 4 stray `.DS_Store`. Withdrew a false-positive after verifying: `discover-sources.json` is lorg-required at its exact vault path, not a stray file.
+- [x] Started a **usage-driven skill review** — the deferred "skill assessment phase" from `docs/plans/2026-05-04-skill-architecture-review.md`, approached from how each skill is actually used rather than capability theory.
+- [x] **switch → v0.40.0 (prose only, behavior unchanged):** reframed session-handoff-first, machine-swap secondary. Verified artifacts are identical across same-machine restart vs cross-machine, so no behavior change was needed. Title, intro, usage, section headers, frontmatter trigger (added `save context`), README, and capability list all session-first.
+- [x] **dian → v0.40.0 (behavior change):** slimmed to "the disciplined middle." Orient now conditional (warm: confirm what switch-in loaded; cold: light TODO+Status). Close-out 9→5 steps — vault save, playbook update, diff review, staleness sweep handed to switch. Execute gates kept but made self-contained for users without a global CLAUDE.md. Ripple fixed: switch step 3 (sole kivna-save caller), state-contract ownership, slainte playbook hint, `modes/deepwork.md`, README.
+- [x] **skriv reviewed, parked** pending writing samples (see Backlog).
 
 ### Context
-- **No commits made this session.** All work in design doc — single untracked file: `docs/plans/2026-05-04-skill-architecture-review.md`.
-- **Mode design ~30% complete by spec.** Briefs done for all 16 (capability-first, description-only). Full specs done for mode 1 (new idea, 11 steps / 5 phases) and mode 3 (interrogate, 7 steps / 4 phases). 14 modes still need full per-step expansion.
-- **Suggested mode-by-mode sequence:** mode 4 (spike) next — tests how already-rich existing content reformats. Then maintain, project-manage (different shapes), then plan (heavily-referenced by follow_ons), then remaining 10.
-- **Skill assessment phase is deferred** — does not start until all 16 modes are fully spec'd. At that point: match each capability description to a skill, name gaps, decide which Kerd skills update/drop/move.
-- **Capability inventory is the load-bearing artifact** of this session. ~35 distinct capabilities aggregated from briefs, with `[recurring]` markers on those needed by 2+ modes. Recurring capabilities (session boundary, vault capture, idea exploration, web research, doc drafting, goal/decision framing, synthesis, persona work, response drafting, action item extraction, next-step decision) are where skill investment has highest leverage.
-- **Open architectural question:** project-state file structure (TODO.md, sessions/, .active-modes) may need rethinking under new architecture. Captured as deferred — not in mode design scope.
-- **Carryover from 2026-05-04:** interrogate smoke test on 3of3 still mid-stream (`3of3/docs/interrogations/2026-05-02-integration-spike.md`). New gates from 2026-05-04 not exercised in this session — full design focus instead.
+- One continuous session: began 2026-06-06 (tend + switch-in onto the architecture thread), closed 2026-06-10.
+- **Skill-review verdicts so far:** switch ✓ reframed · dian ✓ slimmed · skriv parked · tend = no change · kivna = plumbing (used via switch; open vault-spec question below) · slainte = under-used (idea below).
+- dian slim is a deliberate **stepping-stone** to the design doc's eventual `plan`/`execute` modes; nothing here undoes that.
+- **Calibration corrected mid-session:** dian's gate "duplication" is duplication only FOR THIS USER (has global CLAUDE.md gates); for strangers installing Kerd the gates are load-bearing — kept, made self-contained.
+- Architecture design (2026-06-06) still in-progress: mode redesign ~30% (briefs 16/16, full specs 2/16); next mode is spike. Detail in the design doc + 2026-06-06 session log.
+- `CHANGELOG.md` abandoned (last entry 0.14.0, repo at 0.40.0) — README "What's New" is the living changelog. Separate staleness finding.
 
 ## Backlog
+- **skriv voice profile (parked — needs user input).** Build Approach A: a persisted voice profile derived from the user's real writing, stored user-global at `~/eolas/vault/people/Anthony Maley Voice.md`, applied on top of skriv's existing anti-AI rules. Selective Strunk borrowing only — take concreteness/strength rules, reject topic-sentence and uniform-sentence rules (they flatten voice). **Blocked on:** user to provide writing samples. Goal: content sounds like the user AND avoids the AI feel, for public use.
+- **slainte auto-trigger idea.** Fold a light slainte pass into switch-in so drift gets caught without manual invocation. Under-use is the problem, not capability (the stale MOC version this session is the kind of thing it'd catch).
+- **kivna / vault-spec question.** User says the vault is "mostly for LLM to read context" — its primary consumer is the cold-LLM-read at session start, not human Obsidian browsing. Revisit whether the human-first Status/Weekly/MOC structure is optimized for the right reader.
 - **First interactive smoke test of `/kerd:interrogate`** — meta path (interrogate the design doc) or real path (next upcoming idea). Watch for: declaring done before user-veto, response verbosity, multiple-choice slips, sliding sideways instead of drilling.
 - **Path B (paused) — Stop hook + PostToolUse hook at genuinely different granularity.** Decision rule unchanged: ship only if Path A reframe + interrogate's structural anchors don't shift behavior measurably. User-pushback rate is the externally-anchored truth signal.
 - **Spike mode v1 retro** — pending after measurable-baseline test. Watch: does N+1 batching produce useful additions or noise? Does wins+losses recording complement TODO? Does commit-graduation help mid-flight?
