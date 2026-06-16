@@ -50,11 +50,11 @@ Wrap up everything so the next session can pick up cold, whether that's a fresh 
 
 ### 1. Write session state to TODO.md
 
-Create TODO.md if it doesn't exist. Update the `## Current Session` block.
+Create TODO.md if it doesn't exist. **Overwrite** the `## Current Session` block — replace it in place with the current forward-looking state. `TODO.md` is forward-only: it holds what still needs doing, not a record of what's done. Never rename the block to `## Previous Session` to keep history — the completed record is written to the session log in step 2.
 
-**Full/light:** Include what was done (check off completed items), what's in progress, what's next, and any context that would be lost (decisions, things tried, open questions).
+**Full/light:** Write what's in progress, what's next, and any unresolved context that would be lost (open decisions, things tried, open questions). Do **not** keep a list of completed items in the block — those belong in the session log. The Current Session block describes the project's forward state, not this session's diary.
 
-**Low:** Keep it to 3-5 lines max. One line per: what was done, what's next, any critical context. Skip detailed item-by-item checkoffs.
+**Low:** Keep it to 3-5 lines max, forward-only: what's next plus any critical open context. Skip the done-items list — the session log holds it.
 
 **Mode snapshot:** If `kivna/.active-modes` contains a mode block, snapshot the mode state into the `### Context` section of TODO.md so cross-machine handoff works without the ephemeral file. Include: mode name, current step number and total, session instruction (if any), and the full steps list with status markers. Example:
 
@@ -64,6 +64,17 @@ Create TODO.md if it doesn't exist. Update the `## Current Session` block.
   Instruction: focus on pricing strategy only
   Steps: 1 done, 2 done, 3 done, 4 current, 5-9 pending
 ```
+
+### 1b. Heal accumulated history
+
+`TODO.md` is forward-only, so it must contain no `## Previous Session` or `## Older Session` blocks. Scan for them (drift from before this rule, or a slip). For each block found:
+
+1. Read its date from the heading, or from any explicit `kivna/sessions/<date>.md` reference inside the block. If neither yields a date, treat the block as **undated**.
+2. If `kivna/sessions/<date>.md` already exists for that date → the block is already archived; remove it from `TODO.md`.
+3. If no log exists for that date → **rescue first**: create `kivna/sessions/<date>.md` from the block's content (or append under a `---` separator if a same-day file already exists), then remove the block. For an **undated** block, rescue it to a new `kivna/sessions/undated-<slug>.md` (slug from the heading text) instead, then remove.
+4. Never delete a block when its content is not first preserved in a session log — rescue is mandatory before removal, dated or not.
+
+Report: "Healed TODO: N session block(s) archived (M rescued)." If none exist, skip silently. This runs in all modes (full/light/low) — it is cheap and is the backstop that prevents unbounded TODO growth.
 
 ### 2. Write session log
 

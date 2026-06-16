@@ -31,7 +31,9 @@ Kerd skills share state through a small set of files. This document defines who 
 
 ### Rules
 
-- `## Current Session` is overwritten each session by dian (plan phase) or switch (out)
+- **TODO.md is forward-only.** It contains only `## Current Session` (forward-looking state) and `## Backlog`. The record of completed work is its `kivna/sessions/<date>.md` log — never a retained TODO entry.
+- `## Current Session` is **overwritten in place** each session by dian (plan phase) or switch (out): replaced with forward-looking state (in-progress, what's next, open decisions), never the prior session's content.
+- **Anti-pattern — demote-and-keep.** Renaming `## Current Session` → `## Previous Session` (or `## Older Session`) and keeping it is forbidden. Such blocks must not exist in TODO.md; `switch out` heals any that appear by archiving them to `kivna/sessions/`.
 - `### Context` within Current Session holds the mode snapshot for cross-machine handoff
 - `## Backlog` is append-only (items added, never silently removed). Checked-off items can be cleaned by trim.
 - dian writes the plan, switch writes the wrap-up. They don't conflict because dian runs within a session and switch runs at the boundary.

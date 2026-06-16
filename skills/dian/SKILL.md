@@ -94,7 +94,7 @@ Ban vague plan items. "Implement feature X" is not a plan step. "Write the handl
 
 If a mode is active, scope the plan to the mode's current step and instruction. Don't plan beyond the mode's scope.
 
-Write this as a `## Current Session` block in TODO.md with today's date. Wait for user approval before executing. Do not proceed until the user confirms the plan. A good plan prevents rework.
+Write this as a `## Current Session` block in TODO.md with today's date — if a `## Current Session` block already exists, overwrite it in place rather than adding a second. Wait for user approval before executing. Do not proceed until the user confirms the plan. A good plan prevents rework.
 
 ### 3. Execute
 
@@ -152,7 +152,7 @@ Output `[dian: close-out]` at the top of your response.
 
 Dian closes the *work*, not the *session boundary*. Boundary operations — session log, vault save, commit, push — belong to switch. Keep dian's close-out short:
 
-1. **Update TODO.md**: check off completed tasks, add new ones discovered during work, record any decisions in the `### Context` section, clear the `## Current Session` block. Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
+1. **Update TODO.md**: check off completed tasks, add new ones discovered during work, record any *unresolved* decisions in the `### Context` section, then overwrite the `## Current Session` block to forward-only state (what's next + open context). Never demote-and-keep it as a `## Previous Session` block — the completed record is the session log switch writes at the boundary. Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
 2. **Doc impact**: docs should already be current (docs travel with code, see Execute). Confirm nothing was missed against the CLAUDE.md Doc Impact Table if one exists. Don't carry doc updates into the boundary.
 3. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
 4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Dian may be one step in a larger mode flow. After dian's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
