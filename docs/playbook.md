@@ -127,11 +127,14 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **PostToolUse payload is a full envelope**: the stdin payload includes `session_id`, `tool_name`, `tool_input`, `tool_response`, `tool_use_id`, not just `tool_input`. Sed parsers must handle the nesting. Documented in `docs/state-contract.md`.
 - **TODO.md / vault Status.md as point-in-time records, not live signals**: facts about *external* state in TODO Context blocks or vault Status (cache versions, install state, third-party system status, deployment status) are snapshots at the time the file was written, not current state. Citing them as live state is a recurring calibration risk — surfaced 2026-05-02 when "cache at 0.32.0" from yesterday's TODO was repeated as if current, when it had been 0.38.0 for days. Pattern fix: when a new session starts and citation of external state is needed, verify against the actual source (run `claude plugins list`, check the actual file mtime, hit the live API) rather than re-quoting the TODO/Status block. Internal-state facts (commits, file paths, code structure) are also snapshots but verifiable cheaply via git log / file reads — same gate applies.
 - **Naive `grep '^## '` for verifying markdown section counts**: when a section embeds markdown examples inside a code fence (e.g., interrogate's canonical template embedding `## Scope`, `## Deferred`), naive `grep '^## '` counts code-fence content as headings. Implementation plans should write verifications that match exact heading text (e.g., `grep -n '^## Recitation Gate'`) rather than counting all `^## ` occurrences. Surfaced 2026-05-02 during the interrogate v0.39.0 implementation; no fix needed in repo (plan-design pattern only).
+- **An incomplete switch-out reads as a clean tree but isn't**: if a prior session did work but never committed, `git status` shows "up to date with origin" (nothing staged) while the working tree holds all the uncommitted work. The tell is the session log's `## Commits: (hash pending)`. Switch-in should treat a populated working tree with no matching commit as an aborted handoff, not a clean pickup. Surfaced 2026-06-16 (the 2026-06-10 v0.40.0 work was found uncommitted on switch-in).
+- **TODO.md is forward-only — never demote-and-keep (v0.41.0)**: the Current Session block is overwritten each switch-out, not renamed to `## Previous Session` and kept. The completed record lives in `kivna/sessions/`. A user's TODO hit 378 kb from ~45 accumulated session blocks because the old "Update the Current Session block" wording was read as demote-and-keep. switch out now self-heals stray `## Previous Session`/`## Older Session` blocks into the session logs (rescue-before-delete).
+- **Check "this is the status quo" claims against disk before building on them**: a design doc asserted a vault `sessions-of-record/` folder was "already the standard, written by switch." Ground truth: only 1 of 5 cited projects had it, and switch writes to repo-side `kivna/sessions/`. The phrase "formalizes existing behaviour" is exactly what to verify, not trust. Surfaced 2026-06-16 (project-spine spec review).
 
 
 ## Current Status
 
-**Version:** 0.39.0
+**Version:** 0.41.0
 
 **Working:**
 - All ten skills functional: dian, lorg, switch, kivna, slainte, skriv, tend, trim, mode, interrogate
@@ -149,6 +152,8 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Switch-out reflection with explicit gotcha capture. Captures learnings to CLAUDE.md and memory files, gotchas to playbook
 - Switch session logs use bare-headers template with three rules above the fence (anti-hallucination, okay-not-to-know, match-vocabulary-to-work). Optional sections omitted entirely when empty
 - Switch-in progressive loading: newest session log in full, older logs skimmed for key decisions and gotchas
+- TODO.md is forward-only (v0.41.0): switch-out overwrites the Current Session block and self-heals accumulated `## Previous Session` blocks into `kivna/sessions/` (rescue-before-delete). state-contract names the demote-and-keep anti-pattern; dian close-out + plan-phase aligned
+- vault-spec.md defines the project-spine convention (MOC + Status + Weekly always-scaffolded, explicit repo/vault boundary, canonical lazy-created slots, kivna-scaffold intake interview). Wiring into kivna/tend is the pending Heavier step
 - Switch `light` modifier for lower-token handoffs
 - Lorg tiered subcommands: installed (default), available, explore, all, report. Per-tier freshness. Incremental saves.
 - Mode skill for workflow routing with 10 community-contributed starter modes (added `spike` for high-uncertainty exploration)
