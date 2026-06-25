@@ -227,6 +227,8 @@ Kerd ships three opt-in hooks that provide session boundary awareness. They are 
 /tend                # registers hooks in .claude/settings.local.json
 ```
 
+The three hooks are covered by a bash test harness, `tests/hooks_test.sh` (21 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, and the SessionStart staleness report). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
+
 ## How They Fit Together
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/dian` to start your first session.

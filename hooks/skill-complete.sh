@@ -6,6 +6,11 @@
 # No external dependencies (no jq — pure bash/sed).
 set -euo pipefail
 
+# Stay silent if the project dir didn't resolve (env var unset or empty).
+# Guard before the deref: under `set -u`, cd "$UNSET" aborts the script with an
+# unbound-variable error *before* `|| exit 0` can fire. This is the path-
+# resolution failure class (v0.29.1) — a hook must go quiet, never crash.
+[ -n "${CLAUDE_PROJECT_DIR:-}" ] || exit 0
 cd "$CLAUDE_PROJECT_DIR" 2>/dev/null || exit 0
 
 # Only proceed if a mode is active
@@ -52,7 +57,7 @@ if [ "$completed_invocation" != "$current_command" ]; then
 fi
 
 # Extract mode state
-mode_state=$(echo "$mode_line" | sed 's/^mode: //')
+mode_state="${mode_line#mode: }"
 instruction=$(grep '^  instruction:' "kivna/.active-modes" 2>/dev/null | sed 's/^  instruction: //' || true)
 
 # Find next pending step

@@ -1,7 +1,7 @@
 # TODO
 
 ## Current Session
-(2026-06-25 — forward-only handoff; Kerd tree clean, session state pushed)
+(2026-06-25 (pm) — hooks test harness + path-resolution hardening shipped (v0.41.1); Kerd tree clean, pushed)
 
 ### What's next
 - **skriv voice profile — decide wiring, then gather more samples.** First-pass profile captured at `~/eolas/vault/people/Anthony Maley Voice.md` (Approach A, n=1, founder-narrative genre), cross-linked from the person file. **Open decision the user did not resolve before wrapping:** wire skriv to load the profile (skill change → full release checklist + version bump) live now, OR hold until samples in non-founder genres (technical post, short update) generalize it. The profile is inert until skriv is wired — nothing reads it yet.
@@ -11,7 +11,8 @@
 
 ### Context
 - **TODO is forward-only (v0.41.0).** This block is overwritten each switch-out; completed work lives in `kivna/sessions/`. Switch out self-heals stray `## Previous Session` blocks (rescue-before-delete).
-- **The vault (`~/eolas/vault`) is a separate git repo that switch-out does NOT commit.** It carries ~20 uncommitted files across many projects/activities (coaching notes, digests, idea captures, several `Status.md`). This session's two vault files (`people/Anthony Maley.md` + `people/Anthony Maley Voice.md`) are written-but-uncommitted among them. Open question tracked in Backlog: should switch own vault commits?
+- **The vault (`~/eolas/vault`) is a separate git repo that switch-out does NOT commit.** It carries ~20 uncommitted files across many projects/activities (coaching notes, digests, idea captures, several `Status.md`). Recent vault writes (the skriv `people/` files; this session's `Kerd Status.md` refresh) sit written-but-uncommitted among them. Open question tracked in Backlog: should switch own vault commits?
+- **Hooks behind-remote detection has a known quirk (characterized 2026-06-25, not changed).** `session-start.sh` reports the delta to the tracking ref `@{u}`, not the live remote, and only fires when there's *also* something new to fetch — so it can under-report how far behind you are. A characterization test in `tests/hooks_test.sh` pins the current behavior. Candidate for a separate fix decision; don't silently "correct" it without one.
 - **skriv voice-profile design decision:** "never read as AI-written" is the top priority; voice traits yield to anti-AI rules on collision. The one real collision is vague self-promotional superlatives → convert to a concrete fact.
 - Decision (prior): session history stays repo-side (`kivna/sessions/`), never the vault.
 - Architecture design (2026-06-06) still in-progress: mode redesign ~30% (briefs 16/16, full specs 2/16); next mode is spike. Detail in `docs/plans/2026-05-04-skill-architecture-review.md`.

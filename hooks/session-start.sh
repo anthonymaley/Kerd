@@ -4,6 +4,11 @@
 # and interrupted mode. Silent when there's nothing to report.
 set -euo pipefail
 
+# Stay silent if the project dir didn't resolve (env var unset or empty).
+# Guard before the deref: under `set -u`, cd "$UNSET" aborts the script with an
+# unbound-variable error *before* `|| exit 0` can fire. This is the path-
+# resolution failure class (v0.29.1) — a hook must go quiet, never crash.
+[ -n "${CLAUDE_PROJECT_DIR:-}" ] || exit 0
 cd "$CLAUDE_PROJECT_DIR" 2>/dev/null || exit 0
 
 # Must be a git repo with Kerd structure
@@ -15,7 +20,7 @@ messages=()
 # Check if local is behind remote
 fetch_output=$(git fetch --dry-run 2>&1 || true)
 if echo "$fetch_output" | grep -q '\->'; then
-  behind_count=$(git rev-list --count HEAD..@{u} 2>/dev/null || echo "0")
+  behind_count=$(git rev-list --count 'HEAD..@{u}' 2>/dev/null || echo "0")
   if [ "$behind_count" -gt 0 ]; then
     messages+=("local is behind remote ($behind_count commits)")
   fi
@@ -37,7 +42,7 @@ fi
 if [ -f "kivna/.active-modes" ]; then
   mode_line=$(grep '^mode:' "kivna/.active-modes" 2>/dev/null || true)
   if [ -n "$mode_line" ]; then
-    mode_state=$(echo "$mode_line" | sed 's/^mode: //')
+    mode_state="${mode_line#mode: }"
     messages+=("mode interrupted: $mode_state")
   fi
 fi
