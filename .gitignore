@@ -6,3 +6,6 @@ kivna/.active-modes
 .firecrawl/
 AGENTS.md
 .scorched/
+
+# focus mode per-repo toggle (ephemeral)
+kivna/.focus

@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.39.0)
+## What's New (v0.42.0)
+
+### v0.42.0
+
+**Focus** — New skill: `/kerd:focus on|off`. A per-repo toggle (default off) for a rapid, conversational working style — Claude keeps its reasoning to itself unless it changes your decision or it's stuck, asks short speech-bubble questions, and interrupts early instead of working alone then dumping. Off is the resting state so you keep seeing how the work gets made; flip it on to move fast. Enforced by a fourth opt-in hook (`UserPromptSubmit` → `hooks/focus.sh`) that injects the partner-mode reminder every prompt while focus is on, reading the repo's `kivna/.focus` flag. Five new harness tests; hooks now total 26.
 
 > **Editorial note (2026-04-25):** The v0.34.0-v0.38.0 sequence below responded to a calibration failure observed in real-world spike work. A subsequent sensei review of the underlying A3 caught the critical limitation: **these releases ship better text rules + measurement infrastructure (genuine improvement at the existing granularity), not a fix to the granularity problem itself (the diagnosed root cause).** All the new rules live in markdown files read at turn-start — the same granularity the A3 identified as broken. The granularity gap remains open; closing it requires harness-level mechanisms (post-response hooks, output-format requirements) unavailable to skill files alone. See the vault `Kerd Skill Lessons.md` for the full recursive-trap analysis. Reading the entries below: take them as "more specific text rules + measurable baseline," not as a calibration fix.
 
@@ -213,9 +217,19 @@ Ten starter modes ship with Kerd. Community members can contribute new modes by 
 /mode maintain       # start the maintenance flow
 ```
 
+### focus (Partner Mode)
+
+Focus toggles how you and Claude work together. Off by default — the full, show-your-reasoning style stays the resting state so you keep learning. Turn it on to move fast: Claude keeps its thinking internal (surfacing it only when it changes your decision, it's stuck, or you ask), asks one clear speech-bubble question at a time, interrupts early to flag or check in, and works like someone sitting beside you rather than narrating every step. It's per-repo state (`kivna/.focus`), enforced by an opt-in `UserPromptSubmit` hook that re-injects the partner-mode reminder each prompt while on. Focus governs interaction style only — your `CLAUDE.md` thinking discipline applies either way.
+
+```
+/focus on            # rapid partner mode
+/focus off           # back to full reasoning
+/focus               # show current state
+```
+
 ## Hooks
 
-Kerd ships three opt-in hooks that provide session boundary awareness. They are not active by default. Run `/tend` to register them in your local settings.
+Kerd ships four opt-in hooks that provide session boundary awareness and the focus toggle. They are not active by default. Run `/tend` to register them in your local settings.
 
 **Stop hook:** When a session ends with uncommitted changes or an active mode, prints a one-line reminder to run `/switch out`. Silent when the repo is clean.
 
@@ -223,11 +237,13 @@ Kerd ships three opt-in hooks that provide session boundary awareness. They are 
 
 **Skill completion hook:** When a mode is active and you complete the current step's skill, shows your progress and what's next. Read-only — the mode skill handles state transitions.
 
+**Focus hook (`UserPromptSubmit`):** While focus is on for the repo (`kivna/.focus` = `on`), injects the partner-mode reminder into every prompt. Silent when focus is off or absent. See the focus skill above.
+
 ```
 /tend                # registers hooks in .claude/settings.local.json
 ```
 
-The three hooks are covered by a bash test harness, `tests/hooks_test.sh` (21 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, and the SessionStart staleness report). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
+The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, and the focus toggle's on/off/absent branches). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
 
 ## How They Fit Together
 
