@@ -2,7 +2,7 @@
 
 "Ceird" means skill in Gaelic. Respelled.
 
-Ten workflow skills plus community-contributed modes for Claude Code. Skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, how to maintain structural health. Modes orchestrate skills from Kerd, GSD, Superpowers, and other plugins into guided flows for different types of work. They keep the plumbing clean so you can focus on the work.
+Twelve workflow skills plus community-contributed modes for Claude Code. Skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, how to maintain structural health. Modes orchestrate skills from Kerd, Superpowers, and other plugins into guided flows for different types of work. They keep the plumbing clean so you can focus on the work.
 
 ## Install
 
@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.42.0)
+## What's New (v0.43.0)
+
+### v0.43.0
+
+**JIT mode + capturerequirements; GSD removed.** New `jit` mode for just-in-time MVP development: lock requirements by interview, write a thin spec, build the smallest valuable slice, show it, learn, revise — build what you need, not what you think you need. The new `/kerd:capturerequirements` skill is its front door: a fast one-question-at-a-time interview that locks MVP must-haves and defers the rest, lighter than interrogate's exhaustive readiness sweep. Separately, **GSD is fully removed** — `greenfield` now sequences Superpowers (`writing-plans`/`executing-plans`/TDD/verification/code-review) for spec-driven building instead, and GSD references are gone from mode/SKILL.md, state-contract.md, README, and the playbook.
 
 ### v0.42.0
 
@@ -92,6 +96,16 @@ Design at `docs/plans/2026-05-02-interrogate-design.md`.
 ```
 /kerd:interrogate              # zero-path: interview from an idea
 /kerd:interrogate <plan-ref>   # interrogate an existing plan draft
+```
+
+### capturerequirements (Requirements Capture)
+
+Capturerequirements is the fast, interview-based front door to building — the Reqs step of the jit mode. It interviews you one question at a time to lock the MVP must-haves, names what's explicitly *not* now, and stops as soon as the first slice is clear. It is deliberately lighter than interrogate: where interrogate exhaustively stress-tests viability across every axis and co-signs a readiness document, this just gets you moving. The principle is build-what-you-need: anything you can't tie to the core outcome goes to **Later**, not into the build. Output is a short note at `docs/requirements/YYYY-MM-DD-<topic>.md` that the jit loop revises as you learn — a starting point, not a contract.
+
+Use interrogate when the cost of being wrong is high; use capturerequirements when the cost of not starting is high.
+
+```
+/kerd:capturerequirements      # interview to lock MVP must-haves
 ```
 
 ### switch (Session Handoff)
@@ -201,13 +215,13 @@ Trim keeps active context lean. Run it after every feature ships. It archives co
 
 Mode routes you to the right tools for the type of work you're doing. Each mode is a session configuration: it checks which skills are installed, auto-discovers extras from your plugins, and presents a customizable flow grouped by phase. You enable or disable steps interactively, add session instructions (narrow scope, set constraints, output preference), then the mode tracks your progress and resurfaces your instructions at each step.
 
-Modes orchestrate across toolkits. A greenfield mode sequences GSD for spec-driven building, Superpowers for TDD and code review, and Kerd for session boundaries. A strategy mode loads skriv for writing voice and brainstorming for exploration. Modes don't call skills directly. They guide you through the flow and remind you what's next.
+Modes orchestrate across toolkits. A greenfield mode sequences Superpowers for spec-driven building, TDD, and code review, and Kerd for session boundaries. A jit mode locks requirements by interview, then loops smallest-slice builds. A strategy mode loads skriv for writing voice and brainstorming for exploration. Modes don't call skills directly. They guide you through the flow and remind you what's next.
 
-Ten starter modes ship with Kerd. Community members can contribute new modes by PRing a single markdown file to the `modes/` directory.
+Eleven starter modes ship with Kerd. Community members can contribute new modes by PRing a single markdown file to the `modes/` directory.
 
 | Category | Modes |
 |----------|-------|
-| Development | `greenfield`, `quickfix`, `spike`, `deepwork`, `maintain` |
+| Development | `greenfield`, `jit`, `quickfix`, `spike`, `deepwork`, `maintain` |
 | Business | `strategy`, `writing`, `research` |
 | Operations | `legal`, `sales` |
 

@@ -3,12 +3,9 @@ name: greenfield
 description: "Build a new feature from scratch using spec-driven development"
 category: development
 core_skills:
-  - gsd:new-project
-  - gsd:discuss-phase
-  - gsd:plan-phase
-  - gsd:execute-phase
-  - gsd:verify-work
   - superpowers:brainstorming
+  - superpowers:writing-plans
+  - superpowers:executing-plans
   - superpowers:test-driven-development
   - superpowers:verification-before-completion
   - superpowers:requesting-code-review
@@ -29,15 +26,15 @@ discover_keywords:
 
 ## Spec
 
-- [ ] `/gsd:new-project` -- generate roadmap and phase breakdown
-- [ ] Review roadmap -- verify phases, flag gaps before building
+- [ ] `/superpowers:brainstorming` -- explore the problem space and approach
+- [ ] `/superpowers:writing-plans` -- produce the implementation plan with phased tasks
 
 ## Build (repeat per phase)
 
-- [ ] `/gsd:discuss-phase N` -- clarify requirements and edge cases for this phase
-- [ ] `/gsd:plan-phase N` -- produce implementation plan with tasks
-- [ ] `/gsd:execute-phase N` -- build the phase, TDD where applicable
-- [ ] `/gsd:verify-work N` -- run tests, confirm phase acceptance criteria met
+- [ ] `/superpowers:executing-plans` -- build the phase against the plan
+- [ ] `/superpowers:test-driven-development` -- TDD the phase's behavior
+- [ ] `/superpowers:verification-before-completion` -- confirm acceptance criteria met
+- [ ] `/superpowers:requesting-code-review` -- review before moving on
 
 ## Close
 

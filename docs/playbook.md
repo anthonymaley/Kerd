@@ -58,8 +58,10 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 
 The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd/`. The vault is a human knowledge base, living files updated in place, not append-only dumps. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions). The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Nine skills, each with a single responsibility, plus three opt-in hooks:**
+**Twelve skills, each with a single responsibility, plus four opt-in hooks:**
 - **dian**: session discipline (orient/plan/execute/close-out protocol)
+- **interrogate**: plan readiness (exhaustive viability interview, co-signed readiness doc)
+- **capturerequirements**: requirements capture (fast MVP-must-have interview, jit front door)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
 - **switch**: git boundary operations (pull on arrive, commit+push on leave)
 - **kivna**: knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)
@@ -67,12 +69,14 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 - **skriv**: human writing voice enforcement (audit, fix, session mode, self-audit pass)
 - **tend**: structural health check and convergence
 - **trim**: token optimization (archive shipped docs, prune stale context, safety-gated cleanup)
-- **mode**: workflow routing (orchestrates Kerd, GSD, Superpowers, and other plugins into guided flows)
+- **focus**: partner-mode toggle (per-repo rapid conversational style, default off)
+- **mode**: workflow routing (orchestrates Kerd, Superpowers, and other plugins into guided flows)
 
-**Three opt-in hooks** (registered via `/kerd:tend`, stored in `.claude/settings.local.json`):
+**Four opt-in hooks** (registered via `/kerd:tend`, stored in `.claude/settings.local.json`):
 - **Stop**: reminds about uncommitted changes and active modes on session end
 - **SessionStart**: surfaces stale state (remote drift, last session date, interrupted mode) on same-machine resume
 - **PostToolUse (Skill)**: shows mode progress when the current step's skill completes (read-only)
+- **UserPromptSubmit**: injects partner-mode reminder each prompt while focus is on (read-only)
 
 ## Mode-to-Skill Composition
 
@@ -83,7 +87,7 @@ Rules for how modes and skills interact:
 - **Dian runs inside modes, not above them.** A mode can include dian as a step. Dian reads the active mode context and respects its scope. Mode and dian both write to `.active-modes` (their own lines only).
 - **Switch bookends every mode.** Every mode starts with switch-in and ends with switch-out. These are the git boundaries. No other skill pulls or pushes.
 - **Mode steps reference concrete invocations.** Each step in a mode file has the form `/plugin:skill [args]`. No vague steps like "review the code." The step must be invocable.
-- **External skills are optional.** Modes can reference skills from GSD, Superpowers, or other plugins in `core_skills`. Missing skills are a warning, not a blocker. The mode still runs with available skills.
+- **External skills are optional.** Modes can reference skills from Superpowers or other plugins in `core_skills`. Missing skills are a warning, not a blocker. The mode still runs with available skills.
 - **4 steps per phase max.** The UI batches up to 4 questions per prompt. If a phase has more than 4 steps, split it into sub-phases.
 
 ## Integrations

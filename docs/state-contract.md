@@ -55,8 +55,8 @@ mode: greenfield (step 3 of 9)
   steps:
     1: /kerd:switch in | open session, set context [done]
     2: /superpowers:brainstorming | explore the problem space [done]
-    3: /gsd:new-project | generate roadmap [current]
-    4: /gsd:discuss-phase 1 | clarify phase 1 [pending]
+    3: /superpowers:writing-plans | produce the implementation plan [current]
+    4: /superpowers:executing-plans 1 | build phase 1 [pending]
     5: /kerd:switch out | close session [pending]
 ```
 

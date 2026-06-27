@@ -1,6 +1,6 @@
 ---
 name: mode
-description: "Use when the user says 'mode', 'greenfield', 'quickfix', 'maintain', 'strategy', 'writing', 'research', 'legal', 'sales', or wants to start a guided workflow for a specific type of work. Orchestrates skills from Kerd, GSD, Superpowers, and other plugins into customizable session flows."
+description: "Use when the user says 'mode', 'greenfield', 'jit', 'quickfix', 'maintain', 'strategy', 'writing', 'research', 'legal', 'sales', or wants to start a guided workflow for a specific type of work. Orchestrates skills from Kerd, Superpowers, and other plugins into customizable session flows."
 ---
 
 # Mode (Workflow Routing)
@@ -43,7 +43,7 @@ If an argument is given, read `modes/<name>.md`. If the file doesn't exist, say:
 
 ### 2. Check core skills
 
-Parse `core_skills` from the mode's frontmatter. For each skill, check if the plugin is installed by scanning `~/.claude/plugins/cache/` for a matching plugin and skill name. The skill reference format is `plugin:skill-name` (e.g., `gsd:new-project`, `superpowers:brainstorming`, `kerd:switch`).
+Parse `core_skills` from the mode's frontmatter. For each skill, check if the plugin is installed by scanning `~/.claude/plugins/cache/` for a matching plugin and skill name. The skill reference format is `plugin:skill-name` (e.g., `superpowers:writing-plans`, `superpowers:brainstorming`, `kerd:switch`).
 
 For Kerd skills, they are always available (same plugin). For external skills, check the cache directory.
 
@@ -51,7 +51,7 @@ Report status:
 
 ```
 Core skills:
-  ✓ gsd:new-project
+  ✓ superpowers:writing-plans
   ✓ superpowers:brainstorming
   ✓ kerd:switch
   ✗ superpowers:test-driven-development (not installed)
@@ -145,11 +145,11 @@ mode: greenfield (step 1 of 9)
   steps:
     1: /kerd:switch in | open session, set context [current]
     2: /superpowers:brainstorming | explore the problem space [pending]
-    3: /gsd:new-project | generate roadmap and phase breakdown [pending]
-    4: /gsd:discuss-phase 1 | clarify requirements for phase 1 [pending]
-    5: /gsd:plan-phase 1 | implementation plan for phase 1 [pending]
-    6: /gsd:execute-phase 1 | build phase 1 [pending]
-    7: /gsd:verify-work 1 | verify phase 1 [pending]
+    3: /superpowers:writing-plans | produce the implementation plan [pending]
+    4: /superpowers:executing-plans 1 | build phase 1 against the plan [pending]
+    5: /superpowers:test-driven-development 1 | TDD phase 1 behavior [pending]
+    6: /superpowers:verification-before-completion 1 | verify phase 1 [pending]
+    7: /superpowers:requesting-code-review 1 | review phase 1 [pending]
     8: /kerd:slainte | run health checks [pending]
     9: /kerd:switch out | close session [pending]
 ```
@@ -159,16 +159,16 @@ Status markers: `[done]`, `[current]`, `[pending]`, `[skipped]`
 
 If no session instruction was given, omit the instruction line. Never touch other skills' lines in this file.
 
-**Expanding repeated phases:** When a mode has "repeat per phase" steps (like greenfield's Build phase), expand them into concrete steps with phase numbers at flow setup time. If the roadmap isn't known yet (e.g., `/gsd:new-project` hasn't run), create placeholder steps for one iteration and note that the list will expand after roadmap creation.
+**Expanding repeated phases:** When a mode has "repeat per phase" steps (like greenfield's Build phase), expand them into concrete steps with phase numbers at flow setup time. If the phase breakdown isn't known yet (e.g., `/superpowers:writing-plans` hasn't run), create placeholder steps for one iteration and note that the list will expand after the plan is written.
 
 After each step is completed (user confirms it's done, or the invoked skill completes), update the tracker: mark the completed step as `[done]`, advance `[current]` to the next pending step.
 
 Remind the user what's next, and resurface the session instruction if one was set:
 
 ```
-✓ Step 3 complete: /gsd:new-project
+✓ Step 3 complete: /superpowers:writing-plans
   Instruction: focus on pricing strategy only
-  Next: step 4 — /gsd:discuss-phase 1 (clarify requirements for phase 1)
+  Next: step 4 — /superpowers:executing-plans 1 (build phase 1 against the plan)
 ```
 
 If the user goes off-script (does something not in the flow), don't block them. When they come back, show where they are in the flow and what remains.
