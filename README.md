@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.44.0)
+## What's New (v0.45.0)
+
+### v0.45.0
+
+**Tend now detects vault spine drift.** `/kerd:tend` Category 3 (vault integration) previously checked only for the MOC and Status.md. It now verifies the full spine (MOC + Status + **Weekly**), flags any vault-side `sessions/`-style folder (session history belongs in the repo, not the vault), and exempts Weekly.md from the append-only false-positive (its `## Week of` headers are by design). Detect-only — the fix points back at `kivna scaffold`, which owns vault writes. This completes the spine rollout from `docs/vault-spec.md` (kivna builds it, tend guards it). Second slice from dogfooding the `jit` mode.
 
 ### v0.44.0
 

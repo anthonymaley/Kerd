@@ -135,7 +135,7 @@ Optional 6th, only if material clearly exists:
 - **`kivna scaffold`** creates the spine and runs the intake. kivna is the single owner of the knowledge layer — it is the only writer of vault files (see state-contract).
 - **`tend`** detects spine drift in existing projects (missing spine file, non-canonical slot name, a `sessions/` folder that belongs in the repo) and converges them.
 
-*Rollout: this is the standing convention now. `kivna scaffold` is wired for the full spine (MOC + Status + Weekly) and the batched intake interview. Wiring spine-drift detection into `tend` is the remaining step — until then, drift in existing projects follows this doc by hand.*
+*Rollout: complete. `kivna scaffold` builds the full spine (MOC + Status + Weekly) and runs the batched intake interview; `tend` (Category 3) detects spine drift in existing projects — missing spine file, vault-side session-history folder, non-canonical slot names — and points the fix back at `kivna scaffold`.*
 
 ## What NOT to Put in the Vault
 

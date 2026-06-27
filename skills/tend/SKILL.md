@@ -151,12 +151,13 @@ For existing repos, only report missing files. Don't create them with templates.
 Check:
 - `kivna/vault.json` exists and is valid JSON with `vault`, `folder`, `name` fields
 - The vault folder at the resolved path exists on disk
-- Required vault files exist: `[Name].md` (MOC), `[Name] Status.md`
+- **Spine complete**: the spine is `[Name].md` (MOC) + `[Name] Status.md` + `[Name] Weekly.md`. Flag any missing spine file. The fix for a missing spine file is `/kerd:kivna scaffold` (which is idempotent — it fills gaps without clobbering existing files); kivna owns vault writes, tend only detects. (Spine convention: `docs/vault-spec.md`.)
+- **No vault-side session history**: flag a `sessions/`, `sessions-of-record/`, or similar dated-log folder inside the vault folder. Session history lives in the repo (`kivna/sessions/`), never in the vault. The fix is to remove it from the vault (the repo is the system of record).
 - **No symlinks**: scan the vault folder for symlinks pointing to the repo. Each symlink is a violation.
 - **No banned files**: check for files that don't belong in the vault: `CLAUDE.md`, `README.md`, `TODO.md`, `Context.md`, `[Name] Context.md`, `[Name] Log.md`, `Log.md`, session export files, any file whose name doesn't start with the project/company name (generic names like `Decisions.md`, `Notes.md`)
 - **Self-identifying filenames**: every file in the vault folder (except the MOC) should start with the project or company name. Flag files that would collide across vaults in Obsidian's quick switcher.
 - **MOC links resolve**: every `[[wikilink]]` in the MOC should point to a file that exists in the vault folder.
-- **No append-only patterns**: flag files with multiple dated `## YYYY-MM-DD` section headers (remnants of old pattern).
+- **No append-only patterns**: flag files with multiple dated `## YYYY-MM-DD` section headers (remnants of old pattern). Exempt `[Name] Weekly.md` — it is the one sanctioned append-style spine file, and its `## Week of YYYY-MM-DD` sections are by design.
 
 If `kivna/vault.json` does not exist, report with context:
 
