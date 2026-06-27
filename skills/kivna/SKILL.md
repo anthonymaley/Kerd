@@ -246,15 +246,42 @@ Show the user both export paths and a one-line summary of what's included (secti
 
 Set up the Obsidian vault folder for this project. Also triggered automatically when vault discovery fails and the user says yes.
 
+Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded from a short intake interview. The spine is the canonical convention in `docs/vault-spec.md` — that doc is the source of truth; this section is how the skill executes it.
+
 #### The mechanic
 
 1. **Create the vault folder.** `~/eolas/vault/[folder]/`.
 
-2. **Create `[Name].md`** (MOC). Links to `[Name] Status.md` only (nothing else exists yet). Under 40 lines.
+2. **Run the per-project intake.** A short, batched interview that seeds the spine — this replaces "blank folder, figure it out later." It is *batched*, not drilled: ask everything in one round (≤5 questions), the way dian's pre-flight inventory does. (This is the opposite of `/kerd:capturerequirements`, which drills one question at a time — intake is *seeding*, not *deciding*, so it batches.)
 
-3. **Create `[Name] Status.md`.** Seed from repo state: read git log, TODO.md, CLAUDE.md, README.md. Write in human form: a summary someone could read cold. Show the user the draft and ask for approval before writing.
+   Rules: open-ended and consequential only (every answer must change what gets written, no yes/no); skip and pre-fill anything the repo README, folder, or conversation already answers; reflect understanding back in 2–3 lines and let the user correct before writing; if the user gives a one-line brain-dump that covers it, skip straight to reflect-back. The interview is a floor, not a gate.
 
-4. **Write `kivna/vault.json`** in the repo:
+   The questions (adapt wording, drop any already answered):
+   1. **What is this project, in a line or two — and why does it exist?** → MOC opening + purpose.
+   2. **What does "done" or "working well" look like?** → success criteria in the MOC.
+   3. **Where does it stand today — what's already true?** → Status.md.
+   4. **What are the hard constraints or non-negotiables?** → constraints in the MOC.
+   5. **What's explicitly *out* of scope, or what do you not want?** → scope ceiling, prevents over-production.
+
+   Optional 6th, only if material clearly exists: **Any existing docs, repos, or references I should read in first?** → suggest a Sources slot + `/kerd:kivna in` import rather than asking content questions a source already answers.
+
+3. **Create `[Name].md`** (MOC). Seed the opening, purpose, success criteria, and constraints from the intake answers (1, 2, 4). Links to `[Name] Status.md` and `[Name] Weekly.md` (the spine). Under 40 lines. Show the draft and get approval before writing.
+
+4. **Create `[Name] Status.md`.** Seed from the intake "where it stands" answer (3), cross-checked against repo state (git log, TODO.md, CLAUDE.md, README.md). Write in human form: a summary someone could read cold. Show the draft and get approval before writing.
+
+5. **Create `[Name] Weekly.md`.** Seed with the title and the current week's skeleton, ready for the first `/kerd:kivna save` to fill — do not invent achievements at scaffold time. The current week anchors to this week's Monday date.
+
+   ```markdown
+   # [Name] Weekly
+
+   ## Week of YYYY-MM-DD
+
+   ### Achievements
+
+   ### Risks
+   ```
+
+6. **Write `kivna/vault.json`** in the repo:
 
 ```json
 {
@@ -264,13 +291,13 @@ Set up the Obsidian vault folder for this project. Also triggered automatically 
 }
 ```
 
-5. **Suggest optional files.** Based on what the project looks like, suggest vault files the user might want later. Examples:
+7. **Suggest optional slots.** Based on what the project looks like, suggest vault files the user might want later. Examples:
    - "This looks like a code plugin. Consider `[Name] Architecture Decisions.md` and `[Name] Usage Guide.md`."
    - "This has a company/product. Consider `[Company] Playbook.md` and `[Company] Company.md`."
 
-   Do NOT create these files. Just suggest. They get added as knowledge accumulates.
+   Do NOT create these files. Just suggest — they get added the moment they have something to hold. (If the intake's optional 6th question surfaced sources, suggest a `[Name] Sources.md` slot and offer to import.)
 
-6. **Confirm.** Report vault path, files created, suggestions made.
+8. **Confirm.** Report vault path, spine files created (MOC + Status + Weekly), and suggestions made.
 
 ## Notes
 

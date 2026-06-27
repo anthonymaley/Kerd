@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.43.0)
+## What's New (v0.44.0)
+
+### v0.44.0
+
+**Kivna scaffold now builds the full spine + runs an intake interview.** `/kerd:kivna scaffold` previously created only a MOC and Status.md from repo state. It now creates the complete spine — MOC + Status + **Weekly.md** — seeded from a short *batched* intake interview (≤5 open questions in one round, reflect-back before writing). The MOC seeds purpose/success/constraints from the answers and links Weekly; Weekly is seeded with a ready skeleton, no invented content. This wires the spine convention from `docs/vault-spec.md` into the skill (drift detection in `tend` is the remaining step). Built by dogfooding the new `jit` mode.
 
 ### v0.43.0
 
@@ -127,7 +131,7 @@ If you run it without arguments, it checks for uncommitted changes. Changes pres
 
 Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/eolas/vault/[project]/`. The vault is a human knowledge base. Every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place with approval.
 
-Save (`/kivna save`) updates the vault's Status.md, updates the Weekly tracker (achievements and risks by week for quick status report generation), and proposes updates to other vault files (Architecture Decisions, Playbook, etc.), each change shown and approved before writing. This is the same save mechanic switch uses at the session boundary. Scaffold (`/kivna scaffold`) creates the vault folder with a MOC and Status.md, then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge, including structured `.kif.json` imports. Export (`/kivna out`) produces two files: `.kif.toon` (token-efficient for LLM handoff) and `.kif.json` (machine-parseable for cross-project import). Exports are repo-grounded: TODO.md, session logs, playbook, and vault status are read first, with conversation context filling gaps.
+Save (`/kivna save`) updates the vault's Status.md, updates the Weekly tracker (achievements and risks by week for quick status report generation), and proposes updates to other vault files (Architecture Decisions, Playbook, etc.), each change shown and approved before writing. This is the same save mechanic switch uses at the session boundary. Scaffold (`/kivna scaffold`) creates the vault folder and the spine — MOC, Status.md, and Weekly.md — seeded from a short batched intake interview (≤5 open questions, one round), then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge, including structured `.kif.json` imports. Export (`/kivna out`) produces two files: `.kif.toon` (token-efficient for LLM handoff) and `.kif.json` (machine-parseable for cross-project import). Exports are repo-grounded: TODO.md, session logs, playbook, and vault status are read first, with conversation context filling gaps.
 
 The folder structure:
 
