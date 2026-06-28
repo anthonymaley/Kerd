@@ -187,19 +187,56 @@ This resolves spike vs jit:
   terms; discipline gates fire universally; linear (no in-mode branching — branch
   = jump to a different stage); no mode composition; terse `.active-modes`.
 
-## Open items (next)
+## Implementation plan (TODOs)
 
-1. **Detail the 5 dial stages** — for each: goal, the right-sizing rules, exit
-   condition, what it produces, how it advises the next stage / handles jump-back.
-2. **Renames** — `dian` → a role-clear name (coach/conductor). `dial` working
-   name. Pick once roles are locked; don't bikeshed mid-design. The naming bar:
-   the name should say what it does (even Tony gets confused by "dian").
-3. **dial = one skill vs five stage-modes** — leaning one `dial` skill holding all
-   five stages + graduation logic (Tony's instinct), not five separate mode files.
-4. **Skills-split decision** — does Kerd stay one plugin (skills + dial + coach)
-   or split. Reopened; lean "stay one."
-5. **Prune the current mode set** — legal/sales/writing/research/strategy/maintain
-   are tool-use, not modes. Decide what happens to those mode files.
+Stage detailing (was item 1) is **done** — all 5 stages are spec'd above. What's
+left, in dependency order. Build it in slices, eyeball-gate each (dogfood the dial
+on itself).
+
+### Phase 0 — Decisions to lock first (gate the build)
+
+- [ ] **Renames.** `dian` → a role-clear name (coach/conductor); `dial` → final
+  name. Bar: the name says what it does. (Even Tony gets confused by "dian".)
+- [ ] **dial = one skill vs five stage-modes.** Leaning one `dial` skill holding
+  all 5 stages + graduation logic, not five separate mode files. Confirm.
+- [ ] **Skills-split.** Kerd stays one plugin (skills + dial + coach) vs split.
+  Reopened; lean "stay one." Confirm.
+- [ ] **Mode-set prune.** Decide the fate of the current tool-use "modes"
+  (legal/sales/writing/research/strategy/maintain) and the dev modes
+  (greenfield/quickfix/deepwork). Spike/jit fold into the dial; the rest likely
+  retire as modes (they're skill-use).
+
+### Phase 1 — Build the dial conductor
+
+- [ ] Dial skill skeleton: stage tracking in `.active-modes` (terse), start-at-any-
+  stage, advise-next-when-ready, jump-back-on-failure, the rising rigor dial, JIT
+  decision-style throughout.
+- [ ] Stage handoff mechanic: each stage's "Produces" becomes the next stage's input.
+
+### Phase 2 — Train each stage into the dial
+
+One slice per stage; encode its goal / rules / tripwire / exit / handoff (from the
+Stage details above) into the dial, and wire the tools each stage uses.
+
+- [ ] **Explore** — wire spike; enforce the over-engineering tripwire + the
+  knowledge/vision/code handoff.
+- [ ] **Validate** — **needs its own deeper design session first** (the adaptive
+  methods toolkit: market test / ROI / feasibility / exists-check / theory — how
+  and when to use each). Then wire (capturerequirements, interrogate for high-stakes).
+- [ ] **Plan** — the "enough plan" 5-question test; reuse the coach's plan phase.
+- [ ] **Build** — wire jit; exit = all-area requirements met.
+- [ ] **Launch** — adaptive readiness checklist (marketing/store/social/staff/comms).
+
+### Phase 3 — Rename + reconcile
+
+- [ ] Rename `dian` → coach across all skill files, docs, hooks, modes (full grep).
+- [ ] Reconcile/retire the pruned mode files; update `mode` skill accordingly.
+
+### Phase 4 — Docs, vault, release
+
+- [ ] Update READMEs, plugin descriptions (both, byte-identical), skill triggers.
+- [ ] Update vault MOC + Status (and fix the stale MOC version field).
+- [ ] Release checklist + version bump per slice (each stage ship is MINOR).
 
 ## Method note
 
