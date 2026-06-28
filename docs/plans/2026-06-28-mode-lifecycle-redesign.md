@@ -86,6 +86,88 @@ This resolves spike vs jit:
   applied to implementation; the universal *decision style* is the partner-mode
   / `focus` style we wired today.
 
+## Stage details
+
+### Stage 1 — Explore  *(= spike)*
+
+- **Goal:** see what this could be / whether it could work. Not "build it" — prove
+  it *could*.
+- **Rigor:** lowest. Fast, mins not hours, low ceremony, low noise.
+- **Rules (right-sizing):** prove it could work, then stop. Throwaway code/design
+  is expected and fine. No polishing, no test scaffolding, no feature breadth.
+- **Tripwire (drift signal):** the moment you start over-engineering or adding lots
+  of features, you've overstayed — that's dev/build mode, not Explore. Stop and
+  graduate.
+- **Exit when:** you can *see it working* — conceptually, as a spike, or a rough
+  MVP. Potential demonstrated.
+- **Produces (handoff to Validate):** the *knowledge* is the asset, not the code.
+  Carry forward: **how it works / how we got it to work**, the **input vision +
+  requirements** that drove it, and **optionally the code itself if it's good** —
+  assessed and extractable, not assumed good. The throwaway parts are discarded.
+
+### Stage 2 — Validate
+
+- **Goal:** decide whether the idea is worth building — viable *and* likely to
+  succeed — before investing in a real build.
+- **Rigor:** rising. Real research/analysis (more *depth* than Explore), but the
+  decision style stays JIT (drill, decide, gate; no waterfall).
+- **Method is adaptive** — pick the validation that fits the thing: market test,
+  research, theory check, ROI, feasibility, "does it already exist," competitor
+  scan, prototype test. There is no single fixed path; the dial helps choose.
+- **Exit when:** there's a **viable pathway to build that will bring success** —
+  confidence it's worth it *and* a clear route to build it.
+- **Produces (handoff to Plan):** the validated pathway + the evidence behind it
+  (why it's worth building, what success looks like, the chosen route).
+- **⚠ Needs a deeper design session:** the validation *methods toolkit* (how to run
+  each kind of validation, when to use which) is the hardest, least-specified part
+  of the dial. Tony flagged it explicitly. Spec it on its own, later.
+
+### Stage 3 — Plan
+
+- **Goal:** get *just enough* plan to build with confidence — without stalling
+  progress. Not anti-planning: detailed plans are fine **where they earn it**, just
+  never at the expense of momentum, especially early.
+- **Rigor:** scalable. Light early; can deepen later or for high-stakes builds. The
+  dial sets how much.
+- **"Enough plan" test (exit / produces):** the plan answers all five —
+  1. **What** exactly we need to do
+  2. **When** we need to do it
+  3. **How we know it's done** to the level we need (acceptance)
+  4. **What comes next**
+  5. **Why** we're doing this now
+- **Tripwire:** planning past those five (early) / planning that stalls progress =
+  over-planning, the waterfall drift.
+- **Produces (handoff to Build):** the scoped, sequenced task set with done-criteria
+  and the why-now. (This is the coach's plan phase — dian already does this shape.)
+
+### Stage 4 — Build  *(= jit)*
+
+- **Goal:** implement the validated, planned idea until its requirements are met.
+- **Rigor:** scaled — JIT-iterative for an MVP, deeper for bigger committed builds.
+  The decision style stays JIT throughout: smallest valuable slice → show → eyeball-
+  gate → revise.
+- **Exit when:** requirements from **all areas** are met successfully —
+  architecture, business, vision, design, etc. Not just "code runs"; the holistic
+  intent captured upstream (Validate/Plan) is satisfied.
+- **Tripwire:** building past the requirements (gold-plating) or adding features
+  not required — "build what you need, not what you think you need."
+- **Produces (handoff to Launch):** the built thing meeting all-area requirements.
+
+### Stage 5 — Launch
+
+- **Goal:** get everything ready to go live across *all* launch dimensions, then
+  ship. Build made the thing; Launch puts it in the world.
+- **Rigor:** highest — it's public and hard to walk back.
+- **Coverage is adaptive** — the launch checklist fits the thing: marketing, app
+  store / distribution, social accounts (Instagram etc.), staff/people, support,
+  comms. A TV app and a SaaS feature need different lists. (Mirrors Validate's
+  adaptive-method shape — these are the two "wide" stages that reach into
+  business/marketing/ops, vs. the tighter Plan/Build.)
+- **Exit when:** "do we have everything done to launch?" — readiness confirmed
+  across every required area, and it's shipped. The lifecycle is **complete** when
+  the idea is live in the world.
+- **Produces:** the launched product + the launch-readiness record.
+
 ## Where today's shipped work fits
 
 - `jit` mode → the Build stage (and the name of the whole philosophy).
