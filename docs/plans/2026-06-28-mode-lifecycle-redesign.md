@@ -193,18 +193,21 @@ Stage detailing (was item 1) is **done** — all 5 stages are spec'd above. What
 left, in dependency order. Build it in slices, eyeball-gate each (dogfood the dial
 on itself).
 
-### Phase 0 — Decisions to lock first (gate the build)
+### Phase 0 — Decisions to lock first (gate the build) — LOCKED 2026-06-29
 
-- [ ] **Renames.** `dian` → a role-clear name (coach/conductor); `dial` → final
-  name. Bar: the name says what it does. (Even Tony gets confused by "dian".)
-- [ ] **dial = one skill vs five stage-modes.** Leaning one `dial` skill holding
-  all 5 stages + graduation logic, not five separate mode files. Confirm.
-- [ ] **Skills-split.** Kerd stays one plugin (skills + dial + coach) vs split.
-  Reopened; lean "stay one." Confirm.
-- [ ] **Mode-set prune.** Decide the fate of the current tool-use "modes"
-  (legal/sales/writing/research/strategy/maintain) and the dev modes
-  (greenfield/quickfix/deepwork). Spike/jit fold into the dial; the rest likely
-  retire as modes (they're skill-use).
+- [x] **Renames.** `dian` → **`conductor`** (session conductor — keeps one session
+  in tempo and coherent, present and in-the-moment; "coach" rejected as too sporty,
+  "sensei" collides with the existing sensei plugin). `dial` → **`sherpa`** (the
+  lifecycle PM — guides the long staged ascent across many sessions, knows the
+  route, paces stage to stage, calls the turn-back). Two concrete guide-roles:
+  sherpa for the long climb, conductor for the single run.
+- [x] **dial = one skill.** One `sherpa` skill holds all 5 stages + graduation
+  logic — not five separate mode files.
+- [x] **Skills-split.** Kerd stays **one plugin** (skills + sherpa + conductor).
+  No split.
+- [x] **Mode-set prune.** spike/jit fold into `sherpa` (Explore / Build stages);
+  the rest (legal/sales/writing/research/strategy/maintain, greenfield/quickfix/
+  deepwork) retire as modes — they're skill-use, not right-sizing contracts.
 
 ### Phase 1 — Build the dial conductor
 
@@ -229,7 +232,7 @@ Stage details above) into the dial, and wire the tools each stage uses.
 
 ### Phase 3 — Rename + reconcile
 
-- [ ] Rename `dian` → coach across all skill files, docs, hooks, modes (full grep).
+- [ ] Rename `dian` → `conductor` and `dial` → `sherpa` across all skill files, docs, hooks, modes (full grep).
 - [ ] Reconcile/retire the pruned mode files; update `mode` skill accordingly.
 
 ### Phase 4 — Docs, vault, release
