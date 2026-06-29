@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.45.0)
+## What's New (v0.46.0)
+
+### v0.46.0
+
+**Sherpa — the idea→launch lifecycle conductor (Phase 1 skeleton).** New skill `/kerd:sherpa`: the lifecycle PM that walks one idea through five stages — **Explore → Validate → Plan → Build → Launch** — across many sessions, with rigor rising per stage while the decision style stays JIT (drill, decide, eyeball-gate, fail fast). It's the third altitude above `switch` (boundary) and the session conductor (`dian`, to be renamed `conductor`). Durable per-idea state lives in a committed `kivna/sherpa.md` (one repo = one idea) that travels in git like `TODO.md`; `.active-modes` carries only a lightweight current-session pointer. This ships the **skeleton** — the state model, the five-stage map, the core moves (start-at-any-stage / advance-graduate / jump-back-on-failure / park), and the **Explore** stage trained in full (folding in the spike mode's empirical-primitive-first, batched-tries, provisional-loss survival gate, and claim gates). **Validate / Plan / Build / Launch are stubs** that point at the design doc — they get trained one slice at a time (Validate needs its own deeper design session first). Design + phased plan in `docs/plans/2026-06-28-mode-lifecycle-redesign.md`.
 
 ### v0.45.0
 
@@ -91,6 +95,18 @@ Dian doesn't touch git. No pulls, no pushes. That's switch's job.
 
 ```
 /dian
+```
+
+### sherpa (Idea→Launch Lifecycle)
+
+Sherpa is the lifecycle conductor — the PM that walks one idea from spark to launch across many sessions, where dian conducts a single session. It owns five stages — **Explore → Validate → Plan → Build → Launch** — and turns the rigor *up* as the idea matures (Explore is mins-not-hours and throwaway; Launch is public and hard to walk back) while keeping the decision style JIT the whole way: drill one question, decide, eyeball-gate, fail fast. Rigor rises; ceremony and noise stay low.
+
+Durable state lives in a committed `kivna/sherpa.md` — one per repo (one repo = one idea) — that travels in git like `TODO.md`. It records the current stage and each finished stage's *handoff* (what it produced, which feeds the next stage). `.active-modes` carries only a lightweight `sherpa: <stage>` pointer for the current session, so switch-in and hooks can report where on the mountain you are. You can start at any stage (a mature idea might begin at Plan), advance when a stage's exit test passes, jump back when a later stage proves the idea doesn't hold, or park the climb cleanly for a cold pickup. Sherpa announces its stage with a marker (`[sherpa: explore]` … `[sherpa: launch]`, `[sherpa: parked]`).
+
+**Build status:** this is the Phase 1 skeleton. The state model, the five-stage map, and the core moves are in place, and the **Explore** stage is trained in full (it folds in the spike mode's empirical-primitive-first probe, batched try matrix, provisional-loss survival gate, and strong-language/claim gates). **Validate, Plan, Build, and Launch are stubs** — they point at the design doc and get trained one slice at a time, with Validate's adaptive methods toolkit slated for its own deeper design session first.
+
+```
+/sherpa
 ```
 
 ### interrogate (Plan Readiness)
