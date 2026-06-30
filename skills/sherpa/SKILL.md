@@ -169,12 +169,56 @@ test / ROI / feasibility / exists-check / theory). **Needs its own deeper design
 session before training** (the hardest, least-specified stage).
 
 ### Stage 3 — Plan
-*Stub.* Just enough plan: answer what / when / how-we-know-done / what-next / why.
-Reuses the conductor's plan phase. Spec in design doc.
+
+Marker: `[sherpa: plan]`.
+
+- **Goal:** get *just enough* plan to build with confidence — without stalling
+  progress. Not anti-planning: detailed plans are fine **where they earn it**, just
+  never at the expense of momentum, especially early.
+- **Rigor:** scalable. Light early; deepen later or for high-stakes builds. Sherpa
+  sets how much — turn the dial up for a committed build, keep it thin for an MVP.
+- **How to run it:** reuse the **conductor's plan phase** (the `dian` skill today —
+  `conductor` after the Phase 3 rename): decompose into scoped tasks with acceptance
+  criteria and concrete, verifiable steps (file paths, expected output), pushing
+  back on vague items. Sherpa adds the stage-level **"enough plan" exit test** on
+  top — the plan is done the moment it answers all five, and no sooner:
+  1. **What** exactly we need to do
+  2. **When** we need to do it
+  3. **How we know it's done** to the level we need (acceptance)
+  4. **What comes next**
+  5. **Why** we're doing this now
+- **Tripwire (drift signal):** planning *past* those five (early), or planning that
+  stalls progress, is over-planning — the waterfall drift sherpa exists to prevent.
+  Stop and graduate to Build.
+- **Exit test:** the five questions are answered to the depth this build needs.
+- **Produces → Build (write into `kivna/sherpa.md` Stage log):** the scoped,
+  sequenced task set with done-criteria and the why-now.
 
 ### Stage 4 — Build *(= the jit mode)*
-*Stub.* Implement until all-area requirements are met. JIT-iterative for an MVP,
-deeper for committed builds. Tripwire: gold-plating. Spec in design doc.
+
+Marker: `[sherpa: build]`.
+
+- **Goal:** implement the validated, planned idea until its requirements are met.
+- **Rigor:** scaled — JIT-iterative for an MVP, deeper for a bigger committed
+  build. The decision style stays JIT throughout: smallest valuable slice → show →
+  eyeball-gate → revise.
+- **How to run it** (the jit loop — full mode in `modes/jit.md` until it folds in at
+  Phase 3):
+  1. **Lock requirements, defer the rest.** Use `/kerd:capturerequirements` to pin
+     the MVP must-haves (the Plan stage's handoff seeds this). Then name the
+     **first slice** — the smallest valuable thing to build and show.
+  2. **Thin spec.** Just enough for the first slice, not exhaustive.
+  3. **Build → show → gate.** Build the slice (TDD where it fits), show it, the
+     user calls it: go or revise. Wrong slice? update requirements + spec and
+     reslice. Right? next slice. Verify before claiming done.
+- **Tripwire (drift signal):** building *past* the requirements (gold-plating) or
+  adding features not required — "build what you need, not what you think you
+  need." Stop and graduate to Launch.
+- **Exit test:** requirements from **all areas** are met — not just "code runs,"
+  but the holistic intent captured upstream (architecture, business, vision,
+  design). The Validate/Plan handoffs define "all areas" for this idea.
+- **Produces → Launch (write into `kivna/sherpa.md` Stage log):** the built thing
+  meeting all-area requirements.
 
 ### Stage 5 — Launch
 *Stub.* Get ready across every launch dimension (adaptive checklist:
