@@ -216,10 +216,9 @@ Marker: `[sherpa: plan]`.
   never at the expense of momentum, especially early.
 - **Rigor:** scalable. Light early; deepen later or for high-stakes builds. Sherpa
   sets how much — turn the dial up for a committed build, keep it thin for an MVP.
-- **How to run it:** reuse the **conductor's plan phase** (the `dian` skill today —
-  `conductor` after the Phase 3 rename): decompose into scoped tasks with acceptance
-  criteria and concrete, verifiable steps (file paths, expected output), pushing
-  back on vague items. Sherpa adds the stage-level **"enough plan" exit test** on
+- **How to run it:** reuse the **conductor's plan phase** (the `/kerd:conductor`
+  skill): decompose into scoped tasks with acceptance criteria and concrete,
+  verifiable steps (file paths, expected output), pushing back on vague items. Sherpa adds the stage-level **"enough plan" exit test** on
   top — the plan is done the moment it answers all five, and no sooner:
   1. **What** exactly we need to do
   2. **When** we need to do it

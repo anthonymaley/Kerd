@@ -108,7 +108,7 @@ Name by topic: `CNA Captive Portal Research.md`, not `notes-research-2.md`. Put 
 
 When scaffolding a new project — or when an existing project is missing information the spine needs — `kivna scaffold` runs a short, light intake to seed the hub note and Status. This replaces "blank folder, figure it out later."
 
-This is a batched intake, not an interrogation: ask everything up front in one round, the way dian's pre-flight inventory does ("one round of questions now prevents many stop-and-ask rounds later"). Batch for *seeding*; drill one-at-a-time only when *deciding* something consequential. Intake is seeding.
+This is a batched intake, not an interrogation: ask everything up front in one round, the way conductor's pre-flight inventory does ("one round of questions now prevents many stop-and-ask rounds later"). Batch for *seeding*; drill one-at-a-time only when *deciding* something consequential. Intake is seeding.
 
 ### Interview rules
 

@@ -24,7 +24,7 @@ Available modes:
   Development
     greenfield    Build a new feature from scratch using spec-driven development
     quickfix      Bug fix or small change with minimal ceremony
-    deepwork      Focused session on existing feature, dian-driven
+    deepwork      Focused session on existing feature, conductor-driven
     maintain      Health loop: structural, content, skill, and writing audits
 
   Business
@@ -198,5 +198,5 @@ Do not silently continue with a stale step. Do not restart the mode from scratch
 - The flow is a recommendation. Users can skip steps, go out of order, or bail early.
 - Mode files live in `modes/` at the repo root. One file per mode.
 - Community contributions: PR a single `.md` file to `modes/` to add a mode.
-- Modes don't replace dian. Dian is session discipline within a mode. A mode can include dian as a step.
+- Modes don't replace conductor. Conductor is session discipline within a mode. A mode can include conductor as a step.
 - The mode skill reads from the `modes/` directory relative to the plugin root, not the current working directory. This means the modes ship with the plugin.

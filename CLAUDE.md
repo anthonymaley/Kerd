@@ -26,7 +26,7 @@ Every change to a skill (new skill, modified behavior, renamed command, changed 
 
 4. **Update skill trigger description**: the `description` field in the skill's SKILL.md frontmatter controls when Claude invokes it. If behavior changed, update the trigger description to match.
 
-5. **Namespace references**: all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:dian`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
+5. **Namespace references**: all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:conductor`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
 
 ## Version Strategy
 
@@ -41,7 +41,7 @@ Use semver: `MAJOR.MINOR.PATCH`
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
 modes/            # workflow mode definitions (one .md per mode, community-contributed)
 docs/plans/       # design docs and implementation plans
-docs/playbook.md  # living project guide, updated by dian close-out
+docs/playbook.md  # living project guide, updated by conductor close-out
 kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs from switch (committed)
 .claude-plugin/   # plugin.json and marketplace.json

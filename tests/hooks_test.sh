@@ -214,7 +214,7 @@ test_stop_clean_tree_silent() {
 test_skill_complete_no_active_modes_silent() {
   TNAME="skill-complete: no .active-modes -> silent"
   local d; d=$(make_kerd_repo)
-  run_hook "$d" skill-complete.sh '{"tool_input":{"skill":"kerd:dian"},"tool_response":{"success":true}}'
+  run_hook "$d" skill-complete.sh '{"tool_input":{"skill":"kerd:conductor"},"tool_response":{"success":true}}'
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_empty "$OUT" stdout || return
@@ -301,15 +301,15 @@ test_stop_uncommitted_reports() {
   pass
 }
 
-test_stop_active_mode_and_dian_report() {
-  TNAME="stop: active mode + dian lines both reported"
+test_stop_active_mode_and_conductor_report() {
+  TNAME="stop: active mode + conductor lines both reported"
   local d; d=$(make_kerd_repo)
-  printf 'mode: research (step 1 of 4)\ndian: orient\n' >"$d/kivna/.active-modes"
+  printf 'mode: research (step 1 of 4)\nconductor: orient\n' >"$d/kivna/.active-modes"
   run_hook "$d" stop.sh
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_contains "$OUT" "mode active: research (step 1 of 4)" || return
-  assert_contains "$OUT" "dian: orient" || return
+  assert_contains "$OUT" "conductor: orient" || return
   pass
 }
 
@@ -321,7 +321,7 @@ write_modes_fixture() {  # dir
 mode: greenfield (step 2 of 9)
   instruction: focus on pricing
 1: /kerd:switch in | load context [done]
-2: /kerd:dian orient | frame the work [current]
+2: /kerd:conductor orient | frame the work [current]
 3: /kerd:brainstorm | explore options [pending]
 EOF
 }
@@ -331,10 +331,10 @@ test_skill_complete_matching_step_reports_progress() {
   local d; d=$(make_kerd_repo)
   write_modes_fixture "$d"
   run_hook "$d" skill-complete.sh \
-    '{"tool_input":{"skill":"kerd:dian","args":"orient"},"tool_response":{"success":true}}'
+    '{"tool_input":{"skill":"kerd:conductor","args":"orient"},"tool_response":{"success":true}}'
   rm -rf "$d"
   assert_exit 0 "$RC" || return
-  assert_contains "$OUT" "Step complete: /kerd:dian orient" || return
+  assert_contains "$OUT" "Step complete: /kerd:conductor orient" || return
   assert_contains "$OUT" "Instruction: focus on pricing" || return
   # next_skill keeps its leading slash (unlike current_command, which strips it).
   assert_contains "$OUT" "Next: step 3 — /kerd:brainstorm (explore options)" || return
@@ -358,7 +358,7 @@ test_skill_complete_unsuccessful_skill_silent() {
   local d; d=$(make_kerd_repo)
   write_modes_fixture "$d"
   run_hook "$d" skill-complete.sh \
-    '{"tool_input":{"skill":"kerd:dian","args":"orient"},"tool_response":{"success":false}}'
+    '{"tool_input":{"skill":"kerd:conductor","args":"orient"},"tool_response":{"success":false}}'
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_empty "$OUT" stdout || return

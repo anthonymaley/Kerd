@@ -42,7 +42,7 @@ If no argument is given, check for uncommitted changes. If changes exist, assume
 | Read session logs | Newest full, older skimmed | Newest full, older skimmed | Latest What's Next only |
 | Read progress | Yes | Skip | Skip |
 | Check active modes | Yes | Yes | Yes |
-| Offer dian | Yes | Yes | Skip |
+| Offer conductor | Yes | Yes | Skip |
 
 ## Switch Out (Wrapping Up a Session)
 
@@ -128,7 +128,7 @@ The session log captures what happened in this session for the next session to p
 
 **Skip this step if `light` or `low` modifier is set.**
 
-Call `/kerd:kivna save`. Switch owns the vault save now; dian no longer touches the vault. This updates Status.md and proposes updates to other vault files, each with user approval. (If a kivna save already ran earlier this session, it will just surface a near-empty diff.)
+Call `/kerd:kivna save`. Switch owns the vault save now; conductor no longer touches the vault. This updates Status.md and proposes updates to other vault files, each with user approval. (If a kivna save already ran earlier this session, it will just surface a near-empty diff.)
 
 ### 4. Update progress tracking
 
@@ -300,11 +300,11 @@ Last session: fixed hook paths in krutho-founders and krutho-strategy (v0.29.1)
 Next: tend on other repos, community mode contributions
 ```
 
-### 10. Offer dian
+### 10. Offer conductor
 
 **Skip this step if `low` modifier is set.**
 
-Ask: "Start a `/kerd:dian` session?" If yes, flow into `/kerd:dian` orient. If no, stop. The user wants to do something quick without full session discipline.
+Ask: "Start a `/kerd:conductor` session?" If yes, flow into `/kerd:conductor` orient. If no, stop. The user wants to do something quick without full session discipline.
 
 ## Fallback Behavior
 

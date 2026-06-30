@@ -26,11 +26,11 @@ if [ -f "kivna/.active-modes" ]; then
     messages+=("mode active: $mode_state")
   fi
 
-  # Check for active dian
-  dian_line=$(grep '^dian:' "kivna/.active-modes" 2>/dev/null || true)
-  if [ -n "$dian_line" ]; then
-    dian_state="${dian_line#dian: }"
-    messages+=("dian: $dian_state")
+  # Check for active conductor
+  conductor_line=$(grep '^conductor:' "kivna/.active-modes" 2>/dev/null || true)
+  if [ -n "$conductor_line" ]; then
+    conductor_state="${conductor_line#conductor: }"
+    messages+=("conductor: $conductor_state")
   fi
 fi
 

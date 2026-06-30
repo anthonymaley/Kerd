@@ -82,7 +82,7 @@ For brand new repos (user provided project name), create missing files using the
 
 ## Session Workflow
 
-When wrapping up a session (`/kerd:switch out` or `/kerd:dian`):
+When wrapping up a session (`/kerd:switch out` or `/kerd:conductor`):
 1. Update `TODO.md`: check off completed items, add new ones.
 2. Update `docs/playbook.md`: if any new steps, tools, or config were added during the session, add them to the playbook. Always update the "Current Status" section.
 
@@ -218,7 +218,7 @@ Check:
 #### Category 8: Skill hygiene
 
 Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs/playbook.md`) for:
-- **Missing `kerd:` prefix**: any slash-command reference like `/dian`, `/switch`, `/skriv` etc. that should be `/kerd:dian`, `/kerd:switch`, `/kerd:skriv`. Check inside backtick-quoted commands and prose references. Skip README.md (allowed to use shorthand per CLAUDE.md convention).
+- **Missing `kerd:` prefix**: any slash-command reference like `/conductor`, `/switch`, `/skriv` etc. that should be `/kerd:conductor`, `/kerd:switch`, `/kerd:skriv`. Check inside backtick-quoted commands and prose references. Skip README.md (allowed to use shorthand per CLAUDE.md convention).
 - **Stale skill names**: references to deprecated skill names (`sotu`, `seach`, `shakh`) in active/instructional context (not CHANGELOG, session logs, or deprecated patterns lists). Each hit is a rename that was missed.
 - **Frontmatter drift**: the `name` field in SKILL.md should match its parent directory name. The `description` field should not reference deprecated skill names.
 
@@ -337,7 +337,7 @@ Fix all? [yes / pick individually / skip]
 
 After fixes are applied, print what was changed. Do NOT commit. Switch owns git boundary operations.
 
-If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:dian` to start your first session, or `/kerd:switch out` to commit and push."
+If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:conductor` to start your first session, or `/kerd:switch out` to commit and push."
 
 ## No Commit
 

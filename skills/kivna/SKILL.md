@@ -252,7 +252,7 @@ Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded 
 
 1. **Create the vault folder.** `~/eolas/vault/[folder]/`.
 
-2. **Run the per-project intake.** A short, batched interview that seeds the spine — this replaces "blank folder, figure it out later." It is *batched*, not drilled: ask everything in one round (≤5 questions), the way dian's pre-flight inventory does. (This is the opposite of `/kerd:capturerequirements`, which drills one question at a time — intake is *seeding*, not *deciding*, so it batches.)
+2. **Run the per-project intake.** A short, batched interview that seeds the spine — this replaces "blank folder, figure it out later." It is *batched*, not drilled: ask everything in one round (≤5 questions), the way conductor's pre-flight inventory does. (This is the opposite of `/kerd:capturerequirements`, which drills one question at a time — intake is *seeding*, not *deciding*, so it batches.)
 
    Rules: open-ended and consequential only (every answer must change what gets written, no yes/no); skip and pre-fill anything the repo README, folder, or conversation already answers; reflect understanding back in 2–3 lines and let the user correct before writing; if the user gives a one-line brain-dump that covers it, skip straight to reflect-back. The interview is a floor, not a gate.
 

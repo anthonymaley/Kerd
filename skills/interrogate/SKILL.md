@@ -250,9 +250,9 @@ The document reads "complete as of [signed-at]," not eternally. Future revisits 
 
 ## Composition with Kerd
 
-`/kerd:interrogate` is callable from anywhere — inside a dian session, inside a mode, or standalone.
+`/kerd:interrogate` is callable from anywhere — inside a conductor session, inside a mode, or standalone.
 
-- **Invoked mid-dian:** return to dian after sign-off. The signed interrogation document is referenced from dian's plan phase.
+- **Invoked mid-conductor:** return to conductor after sign-off. The signed interrogation document is referenced from conductor's plan phase.
 - **Invoked mid-mode:** return to the mode after sign-off.
 - **Invoked standalone:** exit cleanly after sign-off. No further workflow assumed.
 

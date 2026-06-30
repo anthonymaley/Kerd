@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.49.0)
+## What's New (v0.59.0)
+
+### v0.59.0
+
+**`dian` renamed to `conductor`.** The session-discipline skill is now `/kerd:conductor` — a name that says what it does (keeps one session in tempo and coherent), where "dian" was opaque even to its author. This is a breaking rename: `/kerd:dian` no longer resolves, and the `.active-modes` line is now `conductor: <phase>` (the stop hook, the skill, switch, and the test harness all moved together). Markers are `[conductor: orient]`…`[conductor: closed]`. The rename clears the way for the sherpa lifecycle's altitude model — **switch** (boundary) / **conductor** (session) / **sherpa** (lifecycle). The `jit` and `spike` modes stay as standalone modes for now (used inside sherpa's Build and Explore stages). Historical release notes below keep the old name as the record of what each version shipped.
 
 ### v0.49.0
 
@@ -91,31 +95,31 @@ claude plugins install kerd
 
 ## Skills
 
-### dian (Session Discipline)
+### conductor (Session Discipline)
 
-Dian gives an open session structure. It runs *after* switch-in has loaded context (switch-in is the session-opener; dian is the disciplined middle), and walks through: orient (warm path — confirm the state switch-in just loaded; cold path — a light TODO + vault read if dian was invoked without switch-in), plan (decompose the request into scoped tasks with acceptance criteria, approve boundaries, then write concrete implementation steps), execute (do the work, verify each task with evidence before claiming done, escalate after 3 failed fixes), close out (update TODO, confirm docs are current, run checks, clear the session block, hand the boundary to switch). It writes the session plan to TODO.md and enforces scope: out-of-plan work goes to backlog immediately, no tangents. Default one task per session.
+Conductor gives an open session structure. It runs *after* switch-in has loaded context (switch-in is the session-opener; conductor is the disciplined middle), and walks through: orient (warm path — confirm the state switch-in just loaded; cold path — a light TODO + vault read if conductor was invoked without switch-in), plan (decompose the request into scoped tasks with acceptance criteria, approve boundaries, then write concrete implementation steps), execute (do the work, verify each task with evidence before claiming done, escalate after 3 failed fixes), close out (update TODO, confirm docs are current, run checks, clear the session block, hand the boundary to switch). It writes the session plan to TODO.md and enforces scope: out-of-plan work goes to backlog immediately, no tangents. Default one task per session.
 
 The project playbook (`docs/playbook.md`) — a living guide for rebuilding the project from scratch: tech stack, setup, architecture, integrations, gotchas, status — is updated as behavior changes (docs travel with code during execute), and switch captures session gotchas into it at the boundary. It grows with the project, session by session.
 
-During execution, decisions accumulate in TODO.md. Dian doesn't touch the vault or write session logs — those are boundary operations switch owns. At close-out dian updates TODO.md and hands off; switch then writes the session log and calls `/kivna save` once to update the vault, one clean write per session, not ten incremental dumps.
+During execution, decisions accumulate in TODO.md. Conductor doesn't touch the vault or write session logs — those are boundary operations switch owns. At close-out conductor updates TODO.md and hands off; switch then writes the session log and calls `/kivna save` once to update the vault, one clean write per session, not ten incremental dumps.
 
-Dian is mode-aware: if a mode is active, orient reports the mode context and instruction, the plan respects the mode's scope, and close-out doesn't claim the session is done when running as part of a larger mode flow.
+Conductor is mode-aware: if a mode is active, orient reports the mode context and instruction, the plan respects the mode's scope, and close-out doesn't claim the session is done when running as part of a larger mode flow.
 
-Dian announces its current phase with a mode marker (`[dian: orient]`, `[dian: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[dian: closed]` so there's no ambiguity.
+Conductor announces its current phase with a mode marker (`[conductor: orient]`, `[conductor: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[conductor: closed]` so there's no ambiguity.
 
-Dian doesn't touch git. No pulls, no pushes. That's switch's job.
+Conductor doesn't touch git. No pulls, no pushes. That's switch's job.
 
 ```
-/dian
+/conductor
 ```
 
 ### sherpa (Idea→Launch Lifecycle)
 
-Sherpa is the lifecycle conductor — the PM that walks one idea from spark to launch across many sessions, where dian conducts a single session. It owns five stages — **Explore → Validate → Plan → Build → Launch** — and turns the rigor *up* as the idea matures (Explore is mins-not-hours and throwaway; Launch is public and hard to walk back) while keeping the decision style JIT the whole way: drill one question, decide, eyeball-gate, fail fast. Rigor rises; ceremony and noise stay low.
+Sherpa is the lifecycle conductor — the PM that walks one idea from spark to launch across many sessions, where conductor conducts a single session. It owns five stages — **Explore → Validate → Plan → Build → Launch** — and turns the rigor *up* as the idea matures (Explore is mins-not-hours and throwaway; Launch is public and hard to walk back) while keeping the decision style JIT the whole way: drill one question, decide, eyeball-gate, fail fast. Rigor rises; ceremony and noise stay low.
 
 Durable state lives in a committed `kivna/sherpa.md` — one per repo (one repo = one idea) — that travels in git like `TODO.md`. It records the current stage and each finished stage's *handoff* (what it produced, which feeds the next stage). `.active-modes` carries only a lightweight `sherpa: <stage>` pointer for the current session, so switch-in and hooks can report where on the mountain you are. You can start at any stage (a mature idea might begin at Plan), advance when a stage's exit test passes, jump back when a later stage proves the idea doesn't hold, or park the climb cleanly for a cold pickup. Sherpa announces its stage with a marker (`[sherpa: explore]` … `[sherpa: launch]`, `[sherpa: parked]`).
 
-**Build status:** all five stages are trained — the lifecycle is complete. **Explore** (folds in the spike mode's empirical-primitive-first probe, batched try matrix, provisional-loss survival gate, and strong-language/claim gates), **Validate** (risk-driven: find the killer assumption, cheapest test of it, across a five-category risk taxonomy — Demand / Feasibility / Economics / Differentiation / Access), **Plan** (the conductor's plan phase + the five-question "enough plan" exit test), **Build** (the jit loop: requirements → thin spec → slice → show → gate → revise, exit on all-area requirements), and **Launch** (the adaptive readiness checklist: distribution / marketing / social / staff / support / comms). Remaining sherpa work is Phase 3 — renaming `dian`→`conductor` across the repo and retiring the modes that folded into sherpa (spike → Explore, jit → Build).
+**Build status:** all five stages are trained — the lifecycle is complete. **Explore** (folds in the spike mode's empirical-primitive-first probe, batched try matrix, provisional-loss survival gate, and strong-language/claim gates), **Validate** (risk-driven: find the killer assumption, cheapest test of it, across a five-category risk taxonomy — Demand / Feasibility / Economics / Differentiation / Access), **Plan** (the conductor's plan phase + the five-question "enough plan" exit test), **Build** (the jit loop: requirements → thin spec → slice → show → gate → revise, exit on all-area requirements), and **Launch** (the adaptive readiness checklist: distribution / marketing / social / staff / support / comms). The `dian`→`conductor` rename landed in v0.59.0; the remaining sherpa work is retiring the modes that folded into sherpa (spike → Explore, jit → Build).
 
 ```
 /sherpa
@@ -297,22 +301,22 @@ The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tes
 
 ## How They Fit Together
 
-**Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/dian` to start your first session.
+**Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` to start your first session.
 
 **Picking a workflow:** Before diving in, run `/mode` to see what's available. If you're building something new, `/mode greenfield` sequences you through spec writing, planning, execution, and review. Fixing a bug? `/mode quickfix` strips the ceremony down to the essentials. Writing a blog post or strategy doc? `/mode writing` or `/mode strategy` loads the right tools (skriv for voice, brainstorming for exploration). The mode presents each phase as an interactive selection where you enable or disable steps, then asks for session instructions (narrow the scope, set constraints, pick an output format). Once you confirm, it tracks progress and resurfaces your instructions at each step.
 
-**Day to day:** You sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md (where the project stands and what's next) plus any other vault files relevant to the work. If a mode was active when you left, switch tells you where you were in the flow. Then it offers to start a dian session. You run `/dian` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, dian's close-out updates TODO.md and hands the boundary back to switch. You run `/slainte docs` to check nothing drifted. Then `/switch out` writes the session log, calls `/kivna save` to update the vault (one clean write with approval), commits, and pushes. Next session, same state, whether you pick up in a fresh session on this machine or on another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down at your laptop and run `/switch in`. It pulls, reads the session logs, tells you what happened last time. It reads vault Status.md (where the project stands and what's next) plus any other vault files relevant to the work. If a mode was active when you left, switch tells you where you were in the flow. Then it offers to start a conductor session. You run `/conductor` to plan the session. Work happens, decisions get recorded in session logs and TODO.md. When the work is done, conductor's close-out updates TODO.md and hands the boundary back to switch. You run `/slainte docs` to check nothing drifted. Then `/switch out` writes the session log, calls `/kivna save` to update the vault (one clean write with approval), commits, and pushes. Next session, same state, whether you pick up in a fresh session on this machine or on another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **Quick sessions:** Use the `light` modifier when token cost matters. `/switch in light` skips vault reads and smoke tests, `/switch out light` skips vault saves and reflection. You still get TODO.md, session logs, and git operations. Full context when you need it, lightweight handoff when you don't.
 
-**The layers:** Switch owns git boundaries. Dian owns session discipline. Kivna owns the knowledge vault. Mode sits above all of them, routing you to the right combination based on what you're doing. You can use any skill standalone, but mode ties them into a coherent flow.
+**The layers:** Switch owns git boundaries. Conductor owns session discipline. Kivna owns the knowledge vault. Mode sits above all of them, routing you to the right combination based on what you're doing. You can use any skill standalone, but mode ties them into a coherent flow.
 
 ## Naming
 
 Gaelic-inspired where it adds character:
 - **Kerd**: skill (ceird)
 - **Kivna**: memory (cuimhne)
-- **Dian**: intense, rigorous
+- **Conductor**: keeps one session in tempo (renamed from *dian*, Gaelic for intense/rigorous)
 - **Skriv**: the act of writing (scríobh)
 - **Switch**: session handoff
 - **Slainte**: health (slàinte)

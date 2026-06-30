@@ -1,9 +1,9 @@
 ---
 name: deepwork
-description: "Focused session on existing feature, dian-driven"
+description: "Focused session on existing feature, conductor-driven"
 category: development
 core_skills:
-  - kerd:dian
+  - kerd:conductor
   - kerd:switch
   - kerd:slainte
   - superpowers:brainstorming
@@ -23,8 +23,8 @@ discover_keywords:
 ## Setup
 
 - [ ] `/kerd:switch` in -- open session, set context
-- [ ] `/kerd:dian` orient -- review prior session state and pick up where we left off
-- [ ] `/kerd:dian` plan -- define today's goals and task list
+- [ ] `/kerd:conductor` orient -- review prior session state and pick up where we left off
+- [ ] `/kerd:conductor` plan -- define today's goals and task list
 
 ## Plan
 
@@ -41,5 +41,5 @@ discover_keywords:
 
 - [ ] `/superpowers:finishing-a-development-branch` -- squash/merge, clean up branch
 - [ ] `/kerd:slainte` -- run docs and structural health checks
-- [ ] `/kerd:dian` close-out -- update TODO, run checks (boundary handed to switch out below)
+- [ ] `/kerd:conductor` close-out -- update TODO, run checks (boundary handed to switch out below)
 - [ ] `/kerd:switch` out -- close session, save vault, persist learnings and handoff context
