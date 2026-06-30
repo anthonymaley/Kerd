@@ -221,5 +221,31 @@ Marker: `[sherpa: build]`.
   meeting all-area requirements.
 
 ### Stage 5 — Launch
-*Stub.* Get ready across every launch dimension (adaptive checklist:
-marketing / store / social / staff / comms), then ship. Spec in design doc.
+
+Marker: `[sherpa: launch]`.
+
+- **Goal:** get everything ready to go live across *all* launch dimensions, then
+  ship. Build made the thing; Launch puts it in the world.
+- **Rigor:** highest — it's public and hard to walk back. This is the one stage
+  where thoroughness beats speed; a missed dimension is visible to everyone.
+- **How to run it — adaptive readiness checklist.** There is no fixed list: build
+  the checklist to fit *this* thing (a TV app and a SaaS feature need different
+  ones). Walk the candidate dimensions, keep the ones that apply, and confirm each
+  is ready before shipping:
+  - **Distribution** — app store / package registry / deploy target / release
+    artifact.
+  - **Marketing** — landing page, launch copy, announcement, positioning.
+  - **Social** — accounts that need to exist or post (Instagram, X, etc.).
+  - **People/staff** — who needs to be briefed, on-call, or trained.
+  - **Support** — docs, help channels, feedback path, known-issues list.
+  - **Comms** — who gets told, when, in what order (users, stakeholders, press).
+  (This adaptive shape mirrors Validate — the two "wide" stages that reach into
+  business/marketing/ops, vs. the tighter Plan/Build.)
+- **Tripwire (drift signal):** shipping with a required dimension unconfirmed
+  ("we'll do the support docs after launch") — the opposite drift from the early
+  stages: here, under-covering is the risk, not over-cooking.
+- **Exit test:** "do we have everything done to launch?" — readiness confirmed
+  across every required dimension, **and it's shipped**. The lifecycle is
+  **complete** when the idea is live in the world.
+- **Produces:** the launched product + the launch-readiness record (what was
+  covered, written into `kivna/sherpa.md` as the final Stage log entry).

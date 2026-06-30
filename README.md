@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.47.0)
+## What's New (v0.48.0)
+
+### v0.48.0
+
+**Sherpa — Launch stage trained; only Validate remains.** The final lifecycle stage moves from stub to functional. **Launch** is the highest-rigor stage (it's public and hard to walk back) and runs an *adaptive readiness checklist* — no fixed list, built to fit the thing: distribution (store / registry / deploy target), marketing, social accounts, people/staff, support, and comms. Its tripwire is the inverse of the early stages — here *under*-covering is the risk (shipping with a required dimension unconfirmed), not over-cooking — and the lifecycle is complete only when readiness is confirmed across every required dimension *and* it's shipped. Sherpa now conducts **Explore → Plan → Build → Launch** end-to-end; **only Validate remains a stub**, still gated on its own deeper design session for the adaptive methods toolkit.
 
 ### v0.47.0
 
@@ -107,7 +111,7 @@ Sherpa is the lifecycle conductor — the PM that walks one idea from spark to l
 
 Durable state lives in a committed `kivna/sherpa.md` — one per repo (one repo = one idea) — that travels in git like `TODO.md`. It records the current stage and each finished stage's *handoff* (what it produced, which feeds the next stage). `.active-modes` carries only a lightweight `sherpa: <stage>` pointer for the current session, so switch-in and hooks can report where on the mountain you are. You can start at any stage (a mature idea might begin at Plan), advance when a stage's exit test passes, jump back when a later stage proves the idea doesn't hold, or park the climb cleanly for a cold pickup. Sherpa announces its stage with a marker (`[sherpa: explore]` … `[sherpa: launch]`, `[sherpa: parked]`).
 
-**Build status:** the skeleton (state model, five-stage map, core moves) is in place, and three stages are trained in full — **Explore** (folds in the spike mode's empirical-primitive-first probe, batched try matrix, provisional-loss survival gate, and strong-language/claim gates), **Plan** (the conductor's plan phase + the five-question "enough plan" exit test), and **Build** (the jit loop: requirements → thin spec → slice → show → gate → revise, exit on all-area requirements). **Validate and Launch remain stubs** — they point at the design doc and get trained one slice at a time, with Validate's adaptive methods toolkit slated for its own deeper design session first.
+**Build status:** the skeleton (state model, five-stage map, core moves) is in place, and four of five stages are trained in full — **Explore** (folds in the spike mode's empirical-primitive-first probe, batched try matrix, provisional-loss survival gate, and strong-language/claim gates), **Plan** (the conductor's plan phase + the five-question "enough plan" exit test), **Build** (the jit loop: requirements → thin spec → slice → show → gate → revise, exit on all-area requirements), and **Launch** (the adaptive readiness checklist: distribution / marketing / social / staff / support / comms). **Only Validate remains a stub** — slated for its own deeper design session for the adaptive methods toolkit before it's trained.
 
 ```
 /sherpa
