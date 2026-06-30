@@ -164,9 +164,48 @@ Marker: `[sherpa: explore]`.
   assumed good. Throwaway parts are discarded.
 
 ### Stage 2 — Validate
-*Stub.* Decide if it's worth building before investing. Adaptive method (market
-test / ROI / feasibility / exists-check / theory). **Needs its own deeper design
-session before training** (the hardest, least-specified stage).
+
+Marker: `[sherpa: validate]`. Full design: `docs/plans/2026-06-29-validate-methods-toolkit.md`.
+
+- **Goal:** decide whether the idea is worth building — viable *and* likely to
+  succeed — before investing in a real build.
+- **Rigor:** rising. Real research/evidence (more depth than Explore's throwaway
+  spike), but the decision style stays JIT.
+- **Principle — risk-driven, not menu-driven.** Don't run a fixed battery of
+  analyses. Find the idea's **killer assumption** (the thing that, if false, kills
+  it) and run the **cheapest test of that one thing**. The method falls *out of*
+  the risk — you never pick a method first.
+- **The five risk categories** (each names a distinct failure mode; cheapest tests
+  in parens):
+  - **Demand** — nobody wants it (exists-check, talk to users, light market test).
+  - **Feasibility** — it can't be built/made to work (technical spike = reuse
+    Explore's, prototype, theory check).
+  - **Economics** — the numbers don't work (ROI / cost model).
+  - **Differentiation** — it already exists / no reason it's us (exists-check,
+    competitor scan).
+  - **Access** — can't reach the users or not allowed (channel check, legal scan).
+  - *(Floor, not a cage — name and test a killer that doesn't fit these five.)*
+- **How to run it (the loop):**
+  1. **Surface the risks** from the Explore handoff (vision + how-it-works +
+     requirements); map each to a category. **Drill the user once:** "of these,
+     which scares you most / is least certain?"
+  2. **Rank** by `most-likely-to-kill × least-certain`. The top is the killer.
+  3. **Test the top risk, cheapest method first.** Run it JIT — enough signal to
+     decide, no more. (exists-check is often the cheapest first move — it can kill
+     Demand and Differentiation at once.)
+  4. **Survives** → next-riskiest, re-check the exit bar. **Fails** → kill-or-pivot:
+     **jump back to Explore** to reshape, or kill. A failed validation is the stage
+     doing its job.
+- **Tripwire (drift signal):** validating a risk that's cheaper to just *build
+  past* is over-cooking — the waterfall drift. If the next test costs more than
+  building would teach you, stop and graduate.
+- **Exit test (all three):** the killer assumption(s) tested and **survived**; a
+  **clear pathway to build**; the **remaining risks acceptable to carry** into
+  Build (known, non-fatal, cheaper to resolve by building than by more validating).
+  You clear the *fatal* risks, not every risk.
+- **Produces → Plan (write into `kivna/sherpa.md` Stage log):** the validated
+  pathway, the evidence (which risks tested, by which method, what signal — with
+  claim-discipline tags), and the named **carried risks**.
 
 ### Stage 3 — Plan
 
