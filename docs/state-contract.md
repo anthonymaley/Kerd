@@ -2,10 +2,37 @@
 
 Kerd skills share state through a small set of files. This document defines who owns each file, who reads it, what format it uses, and what the rules are.
 
+The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`): **state, work, and history are three different things, one file each.** CONTEXT.md holds what's currently true (overwritten), TODO.md holds what's still to do (forward-only, lean), `kivna/sessions/` holds what happened (immutable, full fidelity). Switch-in reads exactly those three; everything else is on-demand reference.
+
+## CONTEXT.md
+
+**Owner:** switch (writes at out), conductor (records decisions during execution)
+**Readers:** switch (in), conductor (cold orient), modes (setup steps)
+**Committed:** yes
+
+### Format
+
+```markdown
+# Context
+
+## What This Is        — one paragraph, the project in brief
+## Where We Are        — current working state, short, overwritten
+## Key Decisions       — standing decisions + their why; pruned when superseded
+## Open Questions      — genuinely unresolved; removed when answered
+## Active Mode         — mode/sherpa/conductor snapshot for cross-machine handoff
+```
+
+### Rules
+
+- **Never a diary.** Episodic content (what happened) belongs in the session log; CONTEXT.md holds only what is *currently true*. If it accumulates per-session narrative, it regrows the bloat the split removed.
+- Overwritten in place; superseded decisions and answered questions are pruned. Git history archives every version — pruning loses nothing.
+- Bare headers, omit-if-empty (same anti-padding discipline as session logs).
+- `## Active Mode` replaces the old TODO.md `### Context` mode snapshot for cross-machine handoff.
+
 ## TODO.md
 
-**Owner:** conductor (writes session plan), switch (writes session wrap-up)
-**Readers:** switch (in), SessionStart hook, lorg (work signals), kivna out (backlog export)
+**Owner:** conductor (writes session plan into `## Now`), switch (writes wrap-up, runs closure inference)
+**Readers:** switch (in), lorg (work signals), kivna out (backlog export)
 **Committed:** yes
 
 ### Format
@@ -13,29 +40,21 @@ Kerd skills share state through a small set of files. This document defines who 
 ```markdown
 # TODO
 
-## Current Session
-(completed YYYY-MM-DD)
-
-### Done this session
-- [x] completed items
-
-### Context
-- Mode active: <name> (step N of M)
-  Instruction: <session instruction>
-  Steps: N done, N current, N pending
-- Other context that would be lost
+## Now
+- current focus: pointers + deltas, a few lines, no re-narration
 
 ## Backlog
-- unchecked items
+- queued items, one line each
+- an uncertain item (done? — confirm)
 ```
 
 ### Rules
 
-- **TODO.md is forward-only.** It contains only `## Current Session` (forward-looking state) and `## Backlog`. The record of completed work is its `kivna/sessions/<date>.md` log — never a retained TODO entry.
-- `## Current Session` is **overwritten in place** each session by conductor (plan phase) or switch (out): replaced with forward-looking state (in-progress, what's next, open decisions), never the prior session's content.
-- **Anti-pattern — demote-and-keep.** Renaming `## Current Session` → `## Previous Session` (or `## Older Session`) and keeping it is forbidden. Such blocks must not exist in TODO.md; `switch out` heals any that appear by archiving them to `kivna/sessions/`.
-- `### Context` within Current Session holds the mode snapshot for cross-machine handoff
-- `## Backlog` is append-only (items added, never silently removed). Checked-off items can be cleaned by trim.
+- **TODO.md is forward-only and lean.** `## Now` + `## Backlog` only — no session story, no `### Context` section (standing context lives in CONTEXT.md). The record of completed work is the `kivna/sessions/<date>.md` log — never a retained TODO entry.
+- `## Now` is **overwritten in place** by conductor (plan phase) or switch (out) — never accumulated.
+- **Anti-pattern — demote-and-keep.** `## Previous Session` / `## Older Session` blocks (and the pre-split `## Current Session` / `### Context` shapes) must not exist; `switch out` self-migrates any that appear (rescue-before-remove into CONTEXT.md and session logs).
+- **Closure inference (switch out):** every open item gets a verdict — done (evidence required; removed, recorded in the session log), open (kept), or unsure (kept, tagged `(done? — confirm)`). The verdict list is shown to the user as information, never a prompt; switch-in asks one question about tagged items.
+- `## Backlog` is append-only (items added, never silently removed outside closure inference). Completed items can also be cleaned by trim.
 - conductor writes the plan, switch writes the wrap-up. They don't conflict because conductor runs within a session and switch runs at the boundary.
 
 ## kivna/.active-modes
@@ -71,7 +90,7 @@ mode: greenfield (step 3 of 9)
 - PostToolUse hook receives a full envelope on stdin (confirmed 2026-04-04):
   `{session_id, cwd, hook_event_name, tool_name, tool_input: {skill, args}, tool_response: {success, commandName}, tool_use_id}`
   The hook checks `tool_response.success` before reporting progress and extracts `tool_input.skill` via sed.
-- Switch out snapshots mode state to TODO.md Context block before committing (cross-machine handoff).
+- Switch out snapshots mode state to CONTEXT.md `## Active Mode` before committing (cross-machine handoff).
 
 ## kivna/sessions/YYYY-MM-DD.md
 
@@ -102,13 +121,13 @@ mode: greenfield (step 3 of 9)
 ### Rules
 
 - One file per day. Multiple sessions append with `---` separator.
-- Switch is the sole creator. Conductor records decisions in TODO.md during execution; switch captures them in the session log at the boundary.
-- Session logs are append-only within a day, overwritten across days (each day starts fresh).
+- Switch is the sole creator. Conductor records decisions in CONTEXT.md during execution; switch captures them in the session log at the boundary.
+- Session logs are immutable history: append-only within a day, never rewritten. Switch-in reads **only the newest file**; older logs are archive (grep/read on demand). This is the fidelity guarantee that lets CONTEXT.md stay lean.
 
 ## Vault Status.md
 
 **Owner:** kivna save
-**Readers:** switch (in), conductor (orient), lorg (work signals), kivna out (status export)
+**Readers:** the human (Obsidian), lorg (work signals), kivna out (status export) — **not switch, not conductor** (write-only from the session flow's perspective since v0.60.0)
 **Committed:** no (lives in vault at `~/eolas/vault/[project]/`)
 
 ### Format
@@ -128,9 +147,10 @@ mode: greenfield (step 3 of 9)
 
 ### Rules
 
-- Overwritten each save, not appended to. Always show diff and get approval.
+- Overwritten each save, not appended to. Save shows what changed but does not prompt for approval (v0.60.0); do-not-save markers remain the privacy control.
 - kivna save is the sole writer. One vault write per session (at close-out), not per-task.
 - Switch out calls kivna save at session close. Conductor no longer calls it; switch owns the vault save.
+- Never read at switch-in: it contains nothing CONTEXT.md + the latest session log don't. It exists for the human Obsidian reader.
 
 ## kivna/output/ (KIF exports)
 
@@ -166,10 +186,11 @@ Two files per export:
 
 | File | conductor | switch | mode | skriv | kivna | slainte | tend | lorg | hooks |
 |------|------|--------|------|-------|-------|---------|------|------|-------|
-| TODO.md | W | W/R | - | - | R | - | - | R | R |
+| CONTEXT.md | W/R | W/R | R | - | - | - | R | - | - |
+| TODO.md | W | W/R | - | - | R | - | R | R | - |
 | .active-modes | W/R | R | W | W | - | - | - | - | R |
-| sessions/ | - | W | - | - | R | - | - | R | - |
-| vault Status | - | R | - | - | W | - | - | R | - |
+| sessions/ | - | W/R | - | - | R | - | - | R | R |
+| vault Status | - | - | - | - | W | R | - | R | - |
 | KIF exports | - | - | - | - | W | - | - | - | - |
 | lorg-report | - | - | - | - | - | - | - | W | - |
 
@@ -183,7 +204,8 @@ Which skill owns which responsibility. If two skills could do something, only on
 |----------------|-------|-----------------|
 | Git pull/push/commit | **switch** | No other skill touches git boundaries |
 | Session log creation | **switch** | Conductor records decisions in TODO.md, not session logs |
-| Session plan (TODO.md Current Session) | **conductor** (plan), **switch** (wrap-up) | Mode reads but doesn't write TODO.md |
+| Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Mode reads but doesn't write TODO.md |
+| Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
 | Vault writes | **kivna** (save) | Switch calls kivna save, doesn't write vault directly |
 | Mode state (.active-modes mode block) | **mode** | Conductor reads mode state but never writes the mode line |
 | Conductor state (.active-modes conductor line) | **conductor** | Mode reads conductor state but never writes the conductor line |

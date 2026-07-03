@@ -53,10 +53,13 @@ Check required dirs exist:
 Check these files exist:
 - `README.md`
 - `CLAUDE.md`
+- `CONTEXT.md`
 - `TODO.md`
 - `docs/playbook.md`
 - `.slainte`
 - `kivna/vault.json`
+
+**TODO shape check (drift detection):** TODO.md must be lean — `## Now` + `## Backlog` only. Flag `⚠` if it contains a `## Current Session` block, a `### Context` section, or any `## Previous/Older Session` blocks (pre-split shape, v0.60.0). The fix is the next `/kerd:switch out`, which self-migrates; tend detects, switch heals. Same for a missing CONTEXT.md when TODO.md exists — flag as pre-split, don't create it here.
 
 For brand new repos (user provided project name), create missing files using these templates:
 
@@ -71,9 +74,20 @@ For brand new repos (user provided project name), create missing files using the
 ```
 # TODO
 
-## Current Session
+## Now
 
 ## Backlog
+```
+
+**CONTEXT.md:**
+```
+# Context
+
+## What This Is
+[One paragraph: the project in brief]
+
+## Where We Are
+[Current working state]
 ```
 
 **CLAUDE.md:**
@@ -271,7 +285,7 @@ Format the report as a visual table. Show passing categories as one-liners. Show
   kivna/  kivna/sessions/  docs/
 
 ✓ Required files
-  README.md  CLAUDE.md  TODO.md  docs/playbook.md  .slainte  vault.json
+  README.md  CLAUDE.md  CONTEXT.md  TODO.md  docs/playbook.md  .slainte  vault.json
 
 ✗ Vault integration
   ┌──────────────────┬───────────────┬─────────────────────────────┐

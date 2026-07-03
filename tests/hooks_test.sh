@@ -249,9 +249,11 @@ test_session_start_behind_remote_reports() {
 # --- SessionStart staleness report -------------------------------------------
 
 test_session_start_last_session_date() {
-  TNAME="session-start: TODO date -> '📋 Last session: <date>'"
+  TNAME="session-start: newest session log -> '📋 Last session: <date>'"
   local d; d=$(make_kerd_repo)
-  printf '# TODO\n\n## Current Session\n(forward-only handoff 2026-06-25)\n' >"$d/TODO.md"
+  mkdir -p "$d/kivna/sessions"
+  printf '# Session 2026-06-20\n' >"$d/kivna/sessions/2026-06-20.md"
+  printf '# Session 2026-06-25\n' >"$d/kivna/sessions/2026-06-25.md"
   run_hook "$d" session-start.sh
   rm -rf "$d"
   assert_exit 0 "$RC" || return
@@ -277,7 +279,8 @@ test_session_start_mode_interrupted() {
 test_session_start_combined_report() {
   TNAME="session-start: date + mode compose into one report line"
   local d; d=$(make_kerd_repo)
-  printf '# TODO\n\n## Current Session\n(2026-06-25)\n' >"$d/TODO.md"
+  mkdir -p "$d/kivna/sessions"
+  printf '# Session 2026-06-25\n' >"$d/kivna/sessions/2026-06-25.md"
   printf 'mode: writing (step 2 of 5)\n' >"$d/kivna/.active-modes"
   run_hook "$d" session-start.sh
   rm -rf "$d"

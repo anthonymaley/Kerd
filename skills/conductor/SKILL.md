@@ -41,9 +41,9 @@ Output `[conductor: orient]` at the top of your response.
 
 Conductor runs inside an already-open session. Loading context is switch-in's job, not conductor's, so orient is conditional:
 
-**Warm path (the common case — switch-in already ran this session):** Don't re-read anything. Switch-in just loaded `TODO.md`, the vault `[Name] Status.md`, session logs, and active modes. Confirm the current state in a line or two from what's already in context, then move to planning. Re-reading what switch-in just read is wasted work.
+**Warm path (the common case — switch-in already ran this session):** Don't re-read anything. Switch-in just loaded `CONTEXT.md`, `TODO.md`, the newest session log, and active modes. Confirm the current state in a line or two from what's already in context, then move to planning. Re-reading what switch-in just read is wasted work.
 
-**Cold path (conductor invoked with no switch-in this session):** Do a light orient — read only `TODO.md` (Current Session) and the vault `[Name] Status.md` (discover the path via `kivna/vault.json`; see `/kerd:kivna`). That's enough to plan. Don't sweep the playbook, MOC, and progress files; that's switch-in's deep read. If you need the full picture, run `/kerd:switch in` first.
+**Cold path (conductor invoked with no switch-in this session):** Do a light orient — read only `CONTEXT.md` (`## Where We Are`) and `TODO.md` (`## Now`). That's enough to plan. Don't sweep the playbook, session logs, and progress files; that's switch-in's read. If you need the full picture, run `/kerd:switch in` first.
 
 **Mode awareness:** Read `kivna/.active-modes`. If a mode is active, report it: what mode, which step, and the session instruction if one was set. Conductor operates within the mode's scope. If the mode says "focus on pricing strategy only," conductor's plan respects that constraint. If no mode is active, proceed normally.
 
@@ -94,7 +94,7 @@ Ban vague plan items. "Implement feature X" is not a plan step. "Write the handl
 
 If a mode is active, scope the plan to the mode's current step and instruction. Don't plan beyond the mode's scope.
 
-Write this as a `## Current Session` block in TODO.md with today's date — if a `## Current Session` block already exists, overwrite it in place rather than adding a second. Wait for user approval before executing. Do not proceed until the user confirms the plan. A good plan prevents rework.
+Write this into TODO.md's `## Now` section with today's date — overwrite the section in place; `## Now` holds the current focus, and during a conductor session the focus is the plan. Wait for user approval before executing. Do not proceed until the user confirms the plan. A good plan prevents rework.
 
 ### 3. Execute
 
@@ -134,9 +134,9 @@ If something comes up that isn't in the plan, stop working on it immediately. Ad
 
 #### Decision recording
 
-When a significant decision is made during execution (architecture choice, rejected approach, key trade-off), record it in TODO.md's `### Context` section immediately. Don't defer to close-out. Decisions lose their reasoning if you wait.
+When a significant decision is made during execution (architecture choice, rejected approach, key trade-off), record it in `CONTEXT.md` immediately — `## Key Decisions` for what was decided and why, `## Open Questions` for what surfaced but wasn't resolved. Don't defer to close-out. Decisions lose their reasoning if you wait.
 
-Do not write to `kivna/sessions/` during execution. Switch owns session log creation at the git boundary. Conductor's decisions accumulate in TODO.md and flow into the session log when switch runs.
+Do not write to `kivna/sessions/` during execution. Switch owns session log creation at the git boundary. Conductor's decisions accumulate in CONTEXT.md and flow into the session log when switch runs.
 
 #### Docs travel with code
 
@@ -152,7 +152,7 @@ Output `[conductor: close-out]` at the top of your response.
 
 Conductor closes the *work*, not the *session boundary*. Boundary operations — session log, vault save, commit, push — belong to switch. Keep conductor's close-out short:
 
-1. **Update TODO.md**: check off completed tasks, add new ones discovered during work, record any *unresolved* decisions in the `### Context` section, then overwrite the `## Current Session` block to forward-only state (what's next + open context). Never demote-and-keep it as a `## Previous Session` block — the completed record is the session log switch writes at the boundary. Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
+1. **Update TODO.md and CONTEXT.md**: remove completed tasks from TODO, add new ones discovered during work, then overwrite `## Now` to forward-only state (what's next, a few lines — the completed record is the session log switch writes at the boundary). Record any *unresolved* decisions or questions in CONTEXT.md (`## Key Decisions` / `## Open Questions`). Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
 2. **Doc impact**: docs should already be current (docs travel with code, see Execute). Confirm nothing was missed against the CLAUDE.md Doc Impact Table if one exists. Don't carry doc updates into the boundary.
 3. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
 4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Conductor may be one step in a larger mode flow. After conductor's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
@@ -167,4 +167,4 @@ Then hand off: tell the user to run `/kerd:switch out` to write the session log,
 - **Hard stop on scope creep.** Out-of-plan work goes to backlog. No exceptions without reopening the plan.
 - **Three fixes, then escalate.** Don't thrash. Surface the problem.
 - **Docs travel with code.** If you change behavior, update the docs in the same commit.
-- **Conductor doesn't own the boundary.** No git pull/push/commit, no session log, no vault save. Decisions accumulate in TODO.md during the session; switch writes the session log, saves the vault, and commits at the boundary.
+- **Conductor doesn't own the boundary.** No git pull/push/commit, no session log, no vault save. Work accumulates in TODO.md and decisions in CONTEXT.md during the session; switch writes the session log, saves the vault, and commits at the boundary.

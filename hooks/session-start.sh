@@ -26,15 +26,17 @@ if echo "$fetch_output" | grep -q '\->'; then
   fi
 fi
 
-# Read last session date from TODO.md
-if [ -f "TODO.md" ]; then
-  session_line=$(grep -m1 '## Current Session' "TODO.md" 2>/dev/null || true)
-  if [ -n "$session_line" ]; then
-    # Look for date on the next line (e.g., "(completed 2026-04-04)")
-    date_line=$(grep -A1 '## Current Session' "TODO.md" | tail -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' || true)
-    if [ -n "$date_line" ]; then
-      messages+=("last session: $date_line")
-    fi
+# Read last session date from the newest session log filename.
+# Shape-agnostic: works before and after the context/history split (v0.60.0),
+# and the log is the canonical record — TODO.md no longer carries a date.
+if [ -d "kivna/sessions" ]; then
+  last_log=""
+  for f in kivna/sessions/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].md; do
+    [ -e "$f" ] || continue
+    last_log="${f##*/}"  # glob is sorted, so the last hit is the newest
+  done
+  if [ -n "$last_log" ]; then
+    messages+=("last session: ${last_log%.md}")
   fi
 fi
 

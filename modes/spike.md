@@ -20,8 +20,8 @@ discover_keywords:
 ## Setup
 
 - [ ] `/kerd:switch` in light -- minimal session open, no smoke test
-- [ ] Extract the bigger idea -- read CLAUDE.md, TODO.md "Current Session" block, and any `docs/research/` files. State the bigger idea in one line for confirmation. Do NOT decompose into tasks. The direction is the constraint; the spike is the surface area.
-- [ ] Pre-flight inventory -- in one pass, ask the user for everything that will otherwise get trickled in mid-spike: accounts/credentials available vs not, sample inputs (URLs, files, API keys), hardware/environment state, scope limits ("today: prove X. Out of scope: Y, Z."). Capture in TODO.md `### Context`. Skipping this multiplies friction by 5–10x because each missing input becomes a stop-and-ask round.
+- [ ] Extract the bigger idea -- read CLAUDE.md, CONTEXT.md (`## Where We Are`), TODO.md (`## Now`), and any `docs/research/` files. State the bigger idea in one line for confirmation. Do NOT decompose into tasks. The direction is the constraint; the spike is the surface area.
+- [ ] Pre-flight inventory -- in one pass, ask the user for everything that will otherwise get trickled in mid-spike: accounts/credentials available vs not, sample inputs (URLs, files, API keys), hardware/environment state, scope limits ("today: prove X. Out of scope: Y, Z."). Capture in CONTEXT.md (`## Where We Are` for environment state, `## Open Questions` for unresolved inputs). Skipping this multiplies friction by 5–10x because each missing input becomes a stop-and-ask round.
 - [ ] Empirical primitive first -- name the cheap, fast, ground-truth probe for this domain (e.g. AASA fetch for tvOS deep-links, `curl` for APIs, sample-data fetch for analytics, canary deploy for infrastructure). Run it once across the entire surface BEFORE generating any try matrix. This replaces guessing with observation. Skip ONLY if no such primitive exists for the domain — and say so explicitly.
 - [ ] Identify or create the captured-evidence file -- look for `docs/research/[topic]-spec.md` or equivalent. If one exists, append to it. If not, propose a path and create on first capture, not upfront.
 

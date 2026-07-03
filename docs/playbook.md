@@ -140,30 +140,32 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **Switch-out step 5 (mirror gotchas to playbook) can silently slip**: the 2026-06-28 Edit-tool gotcha above lived only in the session log for five days; nothing verified the mirror happened. Older session logs are archives that switch-in stops reading after a session or two, so an unmirrored gotcha is effectively lost. Countermeasure (2026-07-03 context/history-split design): switch-out verifies this session's `## Gotchas` entries have playbook counterparts before committing.
 - **`cd "$VAR" 2>/dev/null || exit 0` is a false safety net under `set -u`**: when `$VAR` (e.g. `CLAUDE_PROJECT_DIR`) is *unset*, the bare deref aborts the script with an `unbound variable` error during expansion — *before* the `2>/dev/null` or `|| exit 0` can fire — so the hook exits 1 with stderr noise instead of degrading silently. (Empty-string is worse-quiet: `cd ""` is a no-op success, so the hook runs in whatever cwd it inherited and reports the wrong repo.) Fix: guard existence before the deref — `[ -n "${VAR:-}" ] || exit 0`. This is the v0.29.1 path-resolution failure class at the script level; all three hooks were hardened + covered by `tests/hooks_test.sh` (v0.41.1). Surfaced 2026-06-25 by an empirical probe, not by shellcheck — shellcheck does not flag it.
 - **Run characterization tests RED before fixing**: writing `tests/hooks_test.sh` against the *desired* behavior surfaced two assertions that mis-modeled the hooks' actual (correct) behavior — the report builder capitalizes the first/only message (`Mode interrupted`, not `mode interrupted`), and `next_skill` keeps its leading slash while `current_command` strips it. Running red first caught my wrong tests; had I only confirmed green after fixes, I'd have "fixed" correct code to match wrong tests. Characterization tests must match what the code does, not what you assume.
+- **Cross-cutting changes need a final grep across ALL files — plans will miss consumers**: paid out on consecutive cross-cutting changes (dian→conductor rename v0.59.0; context/history split v0.60.0, where `hooks/session-start.sh` grepped `## Current Session` and appeared in no plan slice). The final grep is the load-bearing step, not a formality — sweep skills/, modes/, docs/, hooks/, tests/, README, and the manifests before calling a shape change done.
 - **The vault is a separate git repo that switch-out does not commit**: `~/eolas/vault` is its own repo, and switch-out writes to it (kivna save, person files) without ever staging or committing it. It drifts — observed at ~20 uncommitted files across many projects/activities (coaching notes, digests, idea captures, several `Status.md`) on 2026-06-25. The switch skill's contract says it "owns all git boundary operations: pull, push, commit of session state," but in practice it only touches the project repo. When a session's deliverable lands in the vault (e.g. a voice profile in `people/`), that work persists on disk but is not version-controlled by switch. Open question (tracked in TODO Backlog): should switch stage+commit its own vault writes, or is vault sync intentionally manual and the contract wording overreaching? Do not blanket-commit the vault during switch-out — most uncommitted files there belong to other work and are not the session's to decide.
 
 
 ## Current Status
 
-**Version:** 0.41.1
+**Version:** 0.60.0
 
 **Working:**
 - All ten skills functional: conductor, lorg, switch, kivna, slainte, skriv, tend, trim, mode, interrogate
 - Three opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (21 tests, shellcheck-clean)
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
-- Obsidian vault integration. Kivna reads/writes living vault files (Status.md, Weekly.md, domain knowledge) with approval-gated overwrites
+- Obsidian vault integration. Kivna writes living vault files (Status.md, Weekly.md, domain knowledge) directly at save — changes reported, no approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is write-only from the session flow (never read at switch-in)
 - Tend audit verified (9 categories including hook hygiene). Reports structural drift and fixes with approval
 - Slainte release audit catches version sync, description sync, skill/mode count drift, namespace issues
 - Unified `.active-modes` schema shared by conductor, skriv, mode, and switch
 - Mode tracks progress with structured steps format (stable IDs, concrete args, status markers)
-- Switch snapshots active mode state to TODO.md for cross-machine handoff
+- Switch snapshots active mode state to CONTEXT.md `## Active Mode` for cross-machine handoff (v0.60.0; was TODO.md `### Context`)
 - Mode markers on conductor and skriv. Visible phase/state announcements with `.active-modes` state file
 - Conductor rigorous planning and execute verification
 - Switch-out reflection with explicit gotcha capture. Captures learnings to CLAUDE.md and memory files, gotchas to playbook
 - Switch session logs use bare-headers template with three rules above the fence (anti-hallucination, okay-not-to-know, match-vocabulary-to-work). Optional sections omitted entirely when empty
-- Switch-in progressive loading: newest session log in full, older logs skimmed for key decisions and gotchas
-- TODO.md is forward-only (v0.41.0): switch-out overwrites the Current Session block and self-heals accumulated `## Previous Session` blocks into `kivna/sessions/` (rescue-before-delete). state-contract names the demote-and-keep anti-pattern; conductor close-out + plan-phase aligned
+- Context/history split (v0.60.0): state in CONTEXT.md (overwritten), work in TODO.md (`## Now` + `## Backlog`, lean), history in kivna/sessions/ (immutable). Switch-in reads exactly those three files — no vault read, no older-log skims. Gotchas are guaranteed durable by the switch-out playbook-mirror check
+- Switch-out closure inference (v0.60.0): every open TODO item gets a done/open/unsure verdict against session evidence — shown as an informational list, done items closed into the session log, unsure items tagged `(done? — confirm)` for one switch-in question
+- TODO.md is forward-only (v0.41.0, lean shape v0.60.0): switch-out overwrites `## Now` and self-migrates legacy `## Current Session`/`### Context`/`## Previous Session` shapes into CONTEXT.md and `kivna/sessions/` (rescue-before-remove). state-contract names the demote-and-keep anti-pattern; conductor close-out + plan-phase aligned
 - vault-spec.md defines the project-spine convention (MOC + Status + Weekly always-scaffolded, explicit repo/vault boundary, canonical lazy-created slots, kivna-scaffold intake interview). Wiring into kivna/tend is the pending Heavier step
 - Switch `light` modifier for lower-token handoffs
 - Lorg tiered subcommands: installed (default), available, explore, all, report. Per-tier freshness. Incremental saves.

@@ -44,7 +44,7 @@ Update the vault to reflect the current session state. Use it at natural breakpo
 
 1. **Discover vault.** Follow the vault discovery steps above. Stop if no vault is found and user declines scaffold.
 
-2. **Update `[Name] Status.md`.** Read the current `[Name] Status.md` from the vault folder. Draft an updated version reflecting the current session state. Show the user a diff or summary of what changed. Ask for approval before overwriting. If the file doesn't exist, create it (still ask approval for the content).
+2. **Update `[Name] Status.md`.** Read the current `[Name] Status.md` from the vault folder. Draft an updated version reflecting the current session state. Show the user a short summary of what changed and overwrite — **no approval prompt** (v0.60.0: save writes directly; the do-not-save markers in step 6 remain the privacy control). If the file doesn't exist, create it.
 
    Status.md format:
 
@@ -68,7 +68,7 @@ Update the vault to reflect the current session state. Use it at natural breakpo
    - Under `### Risks`, add any new risks surfaced this session. Each risk gets a status marker: `[open]` or `[mitigated]`. When a previously open risk is resolved, update its marker to `[mitigated]` with a brief note.
    - If the current week section already exists (from an earlier session this week), append new items to the existing lists. Don't duplicate.
    - Weeks are in reverse chronological order (newest first).
-   - Show the user what's being added and get approval before writing.
+   - Show the user what's being added as part of the save report — no approval prompt.
    - If no achievements or risks surfaced this session, skip this step silently. Do not invent achievements to fill the section. "I don't know if anything this session counts as an achievement" is a valid reason to skip.
 
    Format:
@@ -92,7 +92,7 @@ Update the vault to reflect the current session state. Use it at natural breakpo
    - ...
    ```
 
-4. **Distribute new knowledge.** Review the session for new knowledge that belongs in other vault files. For each piece of knowledge, identify the target file (Architecture Decisions, Playbook, Positioning Contract, etc.), show the proposed addition, and ask for approval. Create the file if it doesn't exist (with user approval). Skip if no new knowledge surfaced.
+4. **Distribute new knowledge.** Review the session for new knowledge that belongs in other vault files. For each piece of knowledge, identify the target file (Architecture Decisions, Playbook, Positioning Contract, etc.), show the addition, and write it — no approval prompt. Create the file if it doesn't exist. Skip if no new knowledge surfaced.
 
 5. **Update MOC.** If new vault files were created this session (including `[Name] Weekly.md` on first creation), read `[Name].md` and add links for the new files. Don't scan repo files or manage symlinks.
 
@@ -135,7 +135,7 @@ Read files from `kivna/input/`, extract what's relevant, write it into the proje
 6. **Integrate.** For each approved item:
    - KIF backlog items: merge into TODO.md Backlog section (skip duplicates)
    - KIF decisions: append to the current session log in kivna/sessions/
-   - KIF status: update vault Status.md (with approval, same as `/kerd:kivna save`)
+   - KIF status: update vault Status.md (same mechanic as `/kerd:kivna save`; the import approval in step 5 already gated this)
    - Non-KIF: if updating an existing doc, use Edit. If creating new, prefer the project's natural doc structure. For LLM transcripts, extract signal only (decisions, insights, action items). Write in the project's voice.
 
 7. **Flag vault knowledge.** If import surfaces knowledge that belongs in a vault file, note it for the user. They can update the vault with `/kerd:kivna save` later.
@@ -302,7 +302,7 @@ Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded 
 ## Notes
 
 - The vault spec at `docs/vault-spec.md` defines what belongs in the vault and what doesn't. Kivna implements the mechanics; the spec defines the philosophy.
-- Status.md is overwritten, not appended to. Always show the user what's changing and get approval before overwriting.
+- Status.md is overwritten, not appended to. Save reports what changed but does not ask for approval (v0.60.0); do-not-save markers are the privacy control. Scaffold still gets approval — it creates files from an interview, save just reflects the session.
 - Weekly.md is the one append-style vault file. Each week's section is updated in place during the week, and new weeks are prepended. Old weeks stay for history.
 - Vault files use self-identifying names (`[Project] Status.md`, not `Status.md`). This prevents collisions in Obsidian's quick switcher across vaults.
 - No symlinks to repo files. The vault contains knowledge written in human form, not mirrors of machine-readable repo files.

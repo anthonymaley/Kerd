@@ -87,15 +87,16 @@ Present each candidate to the user. Remove only with their confirmation. Never r
 
 ### 5. Trim TODO.md
 
-Review `TODO.md`. Present checked-off items under completed session headers to the user and confirm they are safe to remove. Do not touch:
-- Backlog items (checked or unchecked)
-- Items in the current or next session
+Review `TODO.md` (lean shape: `## Now` + `## Backlog`). Present any checked-off or evidently completed Backlog items to the user and confirm they are safe to remove. Also review `CONTEXT.md` for superseded Key Decisions and answered Open Questions — propose pruning them (git history archives every version). Do not touch:
+- Open Backlog items
+- Anything in `## Now`
+- Items tagged `(done? — confirm)` — those are switch-in's to resolve
 
 ### 6. Safety gate
 
 Dispatch a subagent (haiku model) with the following task:
 
-> Read the current state of CLAUDE.md, the memory MEMORY.md index, TODO.md, docs/archive/INDEX.md, docs/deferred.md (if present), and docs/. Verify that /kerd:switch in would still have all context needed: project state, active feature, session notes, key decisions, architecture constraints. Check that any deferred/future-phase content from archived docs appears in docs/deferred.md and that CLAUDE.md references it. Also scan vault session logs from the last 3 months for any inline references to docs that were just archived — flag any that now point to archived locations. Report: CONTEXT INTACT or GAPS FOUND with specifics.
+> Read the current state of CLAUDE.md, CONTEXT.md, the memory MEMORY.md index, TODO.md, docs/archive/INDEX.md, docs/deferred.md (if present), and docs/. Verify that /kerd:switch in would still have all context needed: project state, active feature, session notes, key decisions, architecture constraints. Check that any deferred/future-phase content from archived docs appears in docs/deferred.md and that CLAUDE.md references it. Also scan vault session logs from the last 3 months for any inline references to docs that were just archived — flag any that now point to archived locations. Report: CONTEXT INTACT or GAPS FOUND with specifics.
 
 If the subagent reports GAPS FOUND, surface the issues to the user before finalizing any changes. Do not commit until the user confirms.
 
