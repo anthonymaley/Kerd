@@ -84,6 +84,20 @@ session logs):
   already guarantees anything still-relevant was carried into CONTEXT/TODO or
   the latest log's What's Next — if it wasn't, that's a switch-out bug.
 
+### docs/playbook.md (the gotcha guarantee)
+
+Dropping the older-log skim is safe for forward items (forward-only discipline
+carries them) but gotchas need their durable home to actually work. Switch-out
+step 5 already mirrors gotchas to the playbook — but nothing verifies it, and
+the 2026-06-28 Edit-tool gotcha proved the step can silently slip (it lived
+only in the session log for five days; see Test 1 below).
+
+- **New switch-out check:** before committing, verify every entry in this
+  session's `## Gotchas` has a playbook counterpart. Cheap grep, closes the
+  hole. This makes the older-log skim safely droppable — the playbook, not
+  the log tail, is the gotcha net.
+- Playbook stays on-demand at switch-in (reference, not per-session load).
+
 ### Vault Status.md (write-only from switch's perspective)
 
 - Still written at switch-out via `kivna save` — the vault stays human-first,
@@ -105,6 +119,26 @@ session logs):
 Same fidelity — everything removed is a duplicate copy or human-facing framing.
 Matters most for Tony's working rhythm: switch out at ~50% context free, switch
 back in, keep going — the pickup cost is paid several times a day.
+
+## Validation
+
+**Test 1 — A/B cold-pickup quiz (2026-07-03): PASS.** Two isolated agents, no
+session context, simulating a next-session pickup. Set A read today's full
+switch-in set (TODO + latest log + Status.md + MOC + older-log skim); Set B
+read only the lean set (hand-drafted CONTEXT.md + lean TODO + latest log,
+~700 tok of state/work vs ~2,400). Twelve questions, several derived
+adversarially from the content the lean set removes. Result: 11/12
+substantively identical, zero NOT-FOUNDs on either side; the Status.md-derived
+questions were fully answered by Set B (confirming that content is duplicate).
+The one delta: Set A surfaced the 2026-06-28 Edit-tool gotcha via the
+older-log skim — root cause was the unverified gotcha-mirror step (see the
+playbook contract above), a pre-existing hole in the *current* design, now
+countermeasured. Instance healed: gotcha mirrored to playbook 2026-07-03.
+
+**Test 2 — one manual lean switch cycle (pending).** At the next switch-out,
+write CONTEXT.md + lean TODO by hand alongside the normal files (skill
+unchanged); next switch-in reads only the lean set. Tony judges the acceptance
+criterion no quiz can: does it still feel like the same session? Pass → build.
 
 ## Implementation plan
 
