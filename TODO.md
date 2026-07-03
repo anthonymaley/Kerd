@@ -1,36 +1,28 @@
 # TODO
 
 ## Current Session
-(2026-06-29 — locked sherpa Phase 0 decisions AND shipped the **Phase 1 skeleton (v0.46.0)**: `skills/sherpa/SKILL.md` with the state model (`kivna/sherpa.md` resolved as the durable home), 5-stage map, core moves, and the **Explore** stage trained in full; Validate/Plan/Build/Launch are stubs. Prior session (2026-06-28) shipped v0.42.0→v0.45.0. then trained Plan+Build (v0.47.0), Launch (v0.48.0), ran the Validate methods-toolkit design session, and trained **Validate (v0.49.0)** — full lifecycle functional — then ran the **Phase 3 `dian`→`conductor` rename (v0.59.0)** across all live files (skill dir, `.active-modes` contract, hooks, tests, docs; history left intact). **The full Explore→Validate→Plan→Build→Launch lifecycle is functional and the session skill is now `conductor`.** Next: dogfood sherpa on a real idea (on another repo). jit/spike kept as modes per Tony.)
 
-### What's next
-- **Build the sherpa — the mode/lifecycle redesign (major initiative).** Full design + implementation plan at `docs/plans/2026-06-28-mode-lifecycle-redesign.md`. Architecture (3 altitudes): **switch** (boundary) / **conductor** (= renamed `dian`, session conductor) / **sherpa** (= the lifecycle PM, walks an idea through explore→validate→plan→build→launch, rigor rising, JIT decision-style throughout, start/jump/rewind). **Phase 0 LOCKED + Phase 1 skeleton SHIPPED (v0.46.0, 2026-06-29).** State-model RESOLVED: one repo = one idea → durable **`kivna/sherpa.md`** (committed, like TODO) holds stage + each stage's produced handoff; `.active-modes` keeps only a `sherpa: <stage>` session pointer. Shipped: `skills/sherpa/SKILL.md` — skeleton (state model, 5-stage map, core moves start/advance/jump/park) + **Explore stage trained in full** (folds in spike's empirical-primitive/batched-tries/provisional-loss-gate/claim-gates).
-  - **Phase 2 DONE:** all five stages trained — Explore (v0.46.0), Plan + Build (v0.47.0), Launch (v0.48.0), **Validate (v0.49.0)**. Sherpa conducts the full Explore→Validate→Plan→Build→Launch lifecycle. Validate design at `docs/plans/2026-06-29-validate-methods-toolkit.md` (risk-driven: find the killer assumption, cheapest test of it; 5-category taxonomy Demand/Feasibility/Economics/Differentiation/Access).
-  - **Phase 3 rename DONE (v0.59.0):** `dian`→`conductor` across all live files — skill dir (`skills/conductor/`), the `.active-modes` line contract (`conductor: <phase>`, moved in lockstep across `hooks/stop.sh` + `tests/hooks_test.sh` + the skill + switch), all cross-refs, README (living sections + new entry; historical What's New left as the record), CLAUDE.md, playbook, state-contract, vault-spec, modes/deepwork. **Deliberately NOT renamed:** `kivna/sessions/*`, CHANGELOG, and the old design docs (history); the 2026-06-28/29 design-doc *bodies* keep coach/dial proposal-names (Phase 0 block records the final names). Tests 26/0, no dead `/kerd:dian` refs.
-  - **NOT done — mode reconciliation:** jit + spike stay as standalone modes (Tony needs jit for the dogfood); retiring/folding them into sherpa is deferred. The other prune-list modes (legal/sales/writing/research/strategy/maintain + greenfield/quickfix/deepwork) still present, retire-as-modes pending.
-  - **Next: dogfood sherpa on a real idea** (Tony has one on another repo) — run the full lifecycle end-to-end to find where the stages are wrong. The stages are written but never run live.
-- **skriv voice profile — wiring HELD this session.** Decided: don't wire yet; wait for non-founder-genre samples. Profile at `~/eolas/vault/people/Anthony Maley Voice.md` (n=1), still inert.
-- **Clean krutho-strategy's stray `sessions-of-record/`** (legacy drift, carry-over). `tend` now detects this (v0.45.0) — run tend there.
+**⚗ TEST 2 IN FLIGHT — lean handoff.** This handoff was hand-written in the context/history-split shape (`docs/plans/2026-07-03-context-history-split.md`; skill unchanged). **At switch-in, read ONLY: `CONTEXT.md` + this file + `kivna/sessions/2026-07-03.md`. Skip vault Status.md, the MOC, and older-log skims.** Then Tony judges: does it still feel like the same session?
+
+- **Next: Test 2 verdict** → pass = build the split as a conductor session (3 slices, plan in the design doc); fail = the miss names what to pull back into the lean set.
+- **Then: dogfood sherpa on `~/Bree`** — happens in that repo, fresh session there (decide first: mid-lifecycle pickup vs fresh feature).
+- Mode reconciliation deferred until the dogfood; clean krutho-strategy's stray `sessions-of-record/` (tend detects it).
 
 ### Context
-- **Phase 0 decisions LOCKED (2026-06-29).** (1) **Renames:** `dian` → **`conductor`** (session conductor — keeps one session in tempo, present/in-the-moment; "coach" rejected = too sporty, "sensei" collides with existing sensei plugin), `dial` → **`sherpa`** (lifecycle PM — guides the long staged ascent across many sessions). (2) **sherpa = one skill** holding all 5 stages + graduation logic, not five mode files. (3) **Kerd stays one plugin** (skills + sherpa + conductor), no split. (4) **Prune:** spike/jit fold into sherpa (Explore/Build); the rest (legal/sales/writing/research/strategy/maintain + greenfield/quickfix/deepwork) retire as modes — they're skill-use, not right-sizing contracts. Recorded in design doc Phase 0 block.
-- **Partner-mode working agreement established (this session).** Rapid back-and-forth; reasoning stays internal unless it changes Tony's decision or I'm stuck; speech-bubble questions — NO X/Y binaries, use open/confirm shapes ("what do you think…", "I think X — do you agree?"); interrupt early; start small, eyeball-gate slices. Enforced by the new `focus` skill (per-repo toggle, `kivna/.focus`) + a `UserPromptSubmit` hook. Persisted user-global in `~/.claude` (CLAUDE.md, `working-agreement.md`, memory). **focus is currently ON in this repo.**
-- **GSD fully removed (v0.43.0).** greenfield was rebuilt on Superpowers — but Superpowers itself is distrusted (waterfall/over-planning); the dial replaces that whole approach. The 2026-05-04 architecture redesign is **superseded** by the 2026-06-28 dial design (modes-as-router-over-external-skills premise is dead).
-- **Memory-tools eval done:** claude-mem / mem0 / mempalace / beads / agentmemory — **adopt none** (they break git-portable handoff + human-first; they solve retrieval, which we don't need). switch/kivna continuity is deliberate. Detail in memory `project_memory_tools_eval`.
-- **Spine wiring DONE this session:** `kivna scaffold` builds the full spine + runs the batched intake (v0.44.0); `tend` Category 3 detects spine drift (v0.45.0). Removed from What's Next.
-- **TODO is forward-only (v0.41.0); the vault (`~/eolas/vault`) is a separate git repo switch does NOT commit (known, in Backlog).**
-- Decision (prior): session history stays repo-side (`kivna/sessions/`), never the vault.
+
+Moved to `CONTEXT.md` (Test 2 — see above). Standing decisions, open questions, and the active-mode snapshot live there now.
 
 ## Backlog
-- **skriv voice profile (first-pass built — needs wiring decision + more samples).** Approach A profile captured at `~/eolas/vault/people/Anthony Maley Voice.md` from one sample (Vouch/Krutho founder-origin draft), cross-linked from the person file. Decision locked: "never read as AI-written" wins all collisions; voice applies on top. Still open: (1) wire skriv to load the profile (skill change → release checklist + version bump) now vs hold; (2) more samples in non-founder genres (technical post, short update) to generalize past founder-narrative; (3) selective Strunk borrowing (concreteness/strength rules only) not yet applied. Goal unchanged: sounds like the user AND avoids the AI feel, for public use.
-- **Decide whether switch should commit the vault repo.** The vault (`~/eolas/vault`) is a separate git repo carrying ~20 uncommitted files accumulating across sessions; switch-out writes to it (kivna save, person files) but never commits it, despite the skill claiming to "own all git boundary operations: pull, push, commit of session state." Either switch should stage+commit its own vault writes, or vault sync is intentionally manual and the skill's contract wording overreaches. Resolve which — don't leave the contract and the behavior disagreeing.
-- **slainte auto-trigger idea.** Fold a light slainte pass into switch-in so drift gets caught without manual invocation. Under-use is the problem, not capability (the stale MOC version is the kind of thing it'd catch).
-- **kivna / vault-spec question.** User says the vault is "mostly for LLM to read context" — its primary consumer is the cold-LLM-read at session start, not human Obsidian browsing. Revisit whether the human-first Status/Weekly/MOC structure is optimized for the right reader. (Partly addressed by the 2026-06-16 spine fold; the reader-optimization question remains.)
-- **First interactive smoke test of `/kerd:interrogate`** — meta path (interrogate the design doc) or real path (next upcoming idea). Watch for: declaring done before user-veto, response verbosity, multiple-choice slips, sliding sideways instead of drilling.
-- **Path B (paused) — Stop hook + PostToolUse hook at genuinely different granularity.** Decision rule unchanged: ship only if Path A reframe + interrogate's structural anchors don't shift behavior measurably. User-pushback rate is the externally-anchored truth signal.
-- **Spike mode v1 retro** — pending after measurable-baseline test. Watch: does N+1 batching produce useful additions or noise? Does wins+losses recording complement TODO? Does commit-graduation help mid-flight?
-- Run /kerd:tend on krutho-founders, krutho-strategy, obair to migrate vaults.
-- PPS marketplace.json fix from prior session — still unpushed/unregistered.
-- Hook version pinning is a recurring manual burden. Consider adding hook version staleness check to /kerd:tend.
-- Stale `Kerd.md` MOC version field (says 0.31.0 vs actual 0.41.0) — either update on every release or remove entirely (lean remove).
-- Solicit community mode contributions.
+
+- skriv voice profile: wiring held pending non-founder-genre samples (see CONTEXT.md)
+- Decide whether switch should commit the vault repo (contract vs behavior disagree — see CONTEXT.md)
+- slainte auto-trigger idea: fold a light slainte pass into switch-in
+- kivna/vault-spec question: is the human-first structure optimized for the cold-LLM-read consumer? (partly answered by the 2026-07-03 split design: Status.md becomes write-only, human-only)
+- First interactive smoke test of /kerd:interrogate (meta path or real path)
+- Path B (paused): Stop + PostToolUse hooks — ship only if Path A reframe doesn't shift behavior measurably
+- Spike mode v1 retro — pending after measurable-baseline test
+- Run /kerd:tend on krutho-founders, krutho-strategy, obair to migrate vaults
+- PPS marketplace.json fix from prior session — still unpushed/unregistered
+- Hook version staleness check in /kerd:tend (pinning is a recurring manual burden)
+- Stale Kerd.md MOC version field (says 0.31.0 vs actual) — update per release or remove (lean remove)
+- Solicit community mode contributions
