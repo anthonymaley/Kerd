@@ -434,7 +434,8 @@ test_focus_on_injects_partner_mode() {
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_contains "$OUT" "Partner mode" || return
-  assert_contains "$OUT" "speech-bubble" || return
+  assert_contains "$OUT" "ask ONE question" || return
+  assert_contains "$OUT" "multiple choice only when it clarifies" || return
   pass
 }
 

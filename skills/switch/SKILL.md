@@ -350,11 +350,26 @@ Report any active modes in the summary (e.g., "**Active modes:** `greenfield (st
 
 Tell the user:
 - What was done last session
-- What's in progress or queued next
 - Any open questions or decisions from the previous session
 - Any test failures from the smoke test (if applicable, full mode only)
 - Any handoff issues detected in step 2
-- Suggest what to work on
+- **A short-form "what's next" pick-list** — a numbered menu of every `## Now` and `## Backlog` item, one terse line each. TODO is forward-only and lean by design, so list it in full — don't truncate to "+N more". This is a compact menu, not a re-narration: title-only, no re-explaining what each item is, no reply-instructions (the user just types a number or says what they want).
+
+The pick-list is the point of the summary — the user reads it to pick their next move. Draw it straight from TODO.md; don't editorialize. Number the items and tag each with `[Now]`/`[Backlog]`. Shape:
+
+```
+What's next:
+
+  1. [Now]      Dogfood sherpa on ~/Bree — mid-lifecycle vs fresh feature
+  2. [Backlog]  tend other repos onto the split
+  3. [Backlog]  vault-repo-commit contract question
+  4. [Backlog]  first /kerd:interrogate smoke test
+  5. [Backlog]  guard switch-in smoke test against context bloat
+  6. [Backlog]  slainte auto-trigger idea
+  ...
+```
+
+A number-reply picks that item as the session's focus; any freeform reply steers elsewhere. Don't auto-start work on a picked item — surface it and let the next step (offer conductor) frame it.
 
 If `light` modifier was used, note: "Light pickup: smoke test skipped. Run `/kerd:switch in` for full context."
 
