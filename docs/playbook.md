@@ -115,6 +115,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Gotchas
 
+- **Conductor/switch `## Now` updates must overwrite the whole section, not edit lines**: conductor close-out (and switch-out) are specced to *overwrite* TODO.md `## Now` to forward-only state. Doing it as a surgical line-edit instead leaves stale items behind — a 2026-07-07 close-out replaced the in-flight line but left a pre-existing duplicate below it, so `## Now` carried two near-identical items until the next switch-out's dedup caught it. When rewriting `## Now`, replace the entire section so nothing survives by omission.
 - **Version sync**: the version must be identical in three places (plugin.json version, marketplace.json metadata.version, marketplace.json plugins[0].version). Easy to update one and forget the others. The release checklist in CLAUDE.md exists because this happened.
 - **Cache busting**: after publishing, Claude Code may cache the old plugin version. Bumping a patch version forces a re-fetch. This is why you see "cache bust" commits in the history.
 - **Namespace prefix**: skill SKILL.md frontmatter uses bare names (`name: conductor`), but all references in docs and skills must use `kerd:` prefix (`/kerd:conductor`). The plugin system adds the prefix automatically. README examples are exempt for readability.

@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.62.0)
+## What's New (v0.63.0)
+
+### v0.63.0
+
+**Delegated steps carry a reasoning-effort hint.** A `[delegate]` step in a conductor spec may now append an effort level — `[delegate, effort: low]` — which dispatch passes to the subagent via the Agent tool's `effort` param. Effort and model tier are two independent levers: mechanical edits run low-effort on a small model, standard implementation medium, and core-but-delegatable work high-effort on a bigger model — while spec-authoring itself is the high-effort work the expensive planning model does inline. Omit the hint and the subagent runs at its default effort, exactly as in v0.62.0.
 
 ### v0.62.0
 
@@ -103,7 +107,7 @@ claude plugins install kerd
 
 Conductor gives an open session structure. It runs *after* switch-in has loaded context (switch-in is the session-opener; conductor is the disciplined middle), and walks through: orient (warm path — confirm the state switch-in just loaded; cold path — a light TODO + vault read if conductor was invoked without switch-in), plan (decompose the request into scoped tasks with acceptance criteria, approve boundaries, then write concrete implementation steps), execute (do the work, verify each task with evidence before claiming done, escalate after 3 failed fixes), close out (update TODO, confirm docs are current, run checks, clear the session block, hand the boundary to switch). It writes the session plan to TODO.md and enforces scope: out-of-plan work goes to backlog immediately, no tangents. Default one task per session.
 
-**Delegated execution (optional, off by default).** By default conductor plans and does the work itself on the active model. Turn on `/kerd:conductor fable on` when you're on an expensive top-tier model (Fable) and want to spend those tokens on the plan and delegate the mechanical build to a cheaper model (`fable off` returns to inline; the toggle is session-scoped and resets each session). With it on, the plan becomes a **spec file** at `docs/plans/YYYY-MM-DD-<slug>-spec.md` (the contract), each step tagged `[fable]` (done inline) or `[delegate]` (handed off), approved at the plan gate. Execute then dispatches either to **in-session subagents** (Fable spawns Sonnet/Haiku per delegated step and reviews their evidence — the default) or via **handoff** (Fable finishes the spec and stops; a fresh cheap session executes it). A `[delegate]` step's spec bar is high by design — exact files, signatures, the *why*, and a verify command — because a vague spec produces a confidently-wrong build with no recourse. Spec quality is the safety mechanism.
+**Delegated execution (optional, off by default).** By default conductor plans and does the work itself on the active model. Turn on `/kerd:conductor fable on` when you're on an expensive top-tier model (Fable) and want to spend those tokens on the plan and delegate the mechanical build to a cheaper model (`fable off` returns to inline; the toggle is session-scoped and resets each session). With it on, the plan becomes a **spec file** at `docs/plans/YYYY-MM-DD-<slug>-spec.md` (the contract), each step tagged `[fable]` (done inline) or `[delegate]` (handed off, optionally with a reasoning-effort hint like `[delegate, effort: low]` that dispatch passes to the subagent), approved at the plan gate. Execute then dispatches either to **in-session subagents** (Fable spawns Sonnet/Haiku per delegated step and reviews their evidence — the default) or via **handoff** (Fable finishes the spec and stops; a fresh cheap session executes it). A `[delegate]` step's spec bar is high by design — exact files, signatures, the *why*, and a verify command — because a vague spec produces a confidently-wrong build with no recourse. Spec quality is the safety mechanism.
 
 The project playbook (`docs/playbook.md`) — a living guide for rebuilding the project from scratch: tech stack, setup, architecture, integrations, gotchas, status — is updated as behavior changes (docs travel with code during execute), and switch captures session gotchas into it at the boundary. It grows with the project, session by session.
 

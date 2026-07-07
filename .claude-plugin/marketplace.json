@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Kerd: opinionated workflow skills and community-contributed modes for Claude Code",
-    "version": "0.62.0"
+    "version": "0.63.0"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
         "url": "git@github.com:anthonymaley/Kerd.git"
       },
       "description": "Opinionated workflow toolkit with community-contributed modes: session discipline, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, token optimization, plan readiness, requirements capture, idea-to-launch lifecycle, conversational focus mode, and workflow routing",
-      "version": "0.62.0",
+      "version": "0.63.0",
       "strict": true
     }
   ]
