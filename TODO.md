@@ -7,6 +7,7 @@
 
 ## Backlog
 
+- **Conductor: add reasoning-effort as a per-step lever** (next conductor iteration, *after* v0.62.0 delegation is verified live). Alongside the `[fable]`/`[delegate]` tag, let a step carry an effort hint — high/xhigh for the spec, low for mechanical delegated steps, high + Opus for core-but-delegatable work (effort × tier, not just tier; the Agent tool already has an `effort` param). Provenance: a friend's Fable-delegation workflow. The rest of that workflow (compact/checkpoint at ~200k, decision-brief-then-compact) was **rejected** — switch owns boundaries and gives lossless cold pickup; conductor never manages context or compacts.
 - Mode reconciliation deferred until the sherpa dogfood; clean krutho-strategy's stray `sessions-of-record/` (tend detects it)
 - skriv voice profile: wiring held pending non-founder-genre samples (see CONTEXT.md)
 - Decide whether switch should commit the vault repo (contract vs behavior disagree — see CONTEXT.md)
