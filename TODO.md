@@ -2,7 +2,8 @@
 
 ## Now
 
-- **Dogfood sherpa on `~/Bree`** — in that repo, fresh session, after updating the stale plugin cache to 0.61.0 (`claude plugins install kerd`). Decide first: mid-lifecycle pickup vs fresh feature (open question in CONTEXT.md).
+- **Verify delegated conductor live** — new in v0.62.0, written-but-not-run-live. On Fable: `/kerd:conductor fable on`, produce the spec file, dispatch a `[delegate]` step to a Sonnet subagent, confirm the review-evidence flow fires as written (and `.active-modes` carries the `[fable]` toggle). See kivna/sessions/2026-07-07.md.
+- **Dogfood sherpa on `~/Bree`** — in that repo, fresh session, after updating the plugin cache to 0.62.0 (`claude plugins install kerd`). Decide first: mid-lifecycle pickup vs fresh feature (open question in CONTEXT.md).
 
 ## Backlog
 

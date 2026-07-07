@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides a plan-execute-close protocol."
+description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', 'delegate', 'fable on', 'fable off', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides a plan-execute-close protocol, with optional delegated execution toggled by `/kerd:conductor fable on|off` (default off): with it on, an expensive model (Fable) writes a detailed spec and hands the mechanical build to cheaper models (in-session subagents or a fresh session)."
 ---
 
 # Conductor (Session Discipline)
@@ -8,6 +8,14 @@ description: "Use when you need structured session discipline — frame a task, 
 The session conductor — keeps one session in tempo and coherent from open to close, the way an orchestra conductor holds a single performance together. (Renamed from `dian`, which was too opaque to signal the role.)
 
 A protocol for staying focused within a session. Conductor does not touch git boundaries (pull/push). That's switch's job. Conductor keeps you on track once you're working.
+
+## Usage
+
+`/kerd:conductor` run a session inline on the active model (the default)
+`/kerd:conductor fable on` turn on **delegated execution** for this session (spec + delegate the build to cheaper models)
+`/kerd:conductor fable off` turn delegated execution back off (inline)
+
+The `fable` toggle is an explicit assertion that you're on a top-tier model (Fable) and want to spend those tokens on planning while a cheaper model does the build — conductor never auto-detects your model. It is **off by default** and **session-scoped**: the state rides the conductor line in `kivna/.active-modes` and clears at close-out, so each new conductor session starts inline unless you turn it on. Flip it on the sessions where you have Fable credits; leave it off (or you're out of credits and on a normal model) and conductor plans and builds inline as before. See [Delegated execution](#delegated-execution--the-spec-is-the-contract) under Plan.
 
 ## Mode Markers
 
@@ -19,6 +27,7 @@ Conductor is a modal skill. It runs across multiple responses. Announce the curr
 - `[conductor: plan]` proposing session plan
 - `[conductor: execute]` working through tasks
 - `[conductor: execute step N/M]` working a specific plan step (fires at step transitions within execute)
+- `[conductor: execute step N/M · delegate→<model>]` a delegated step dispatched to a cheaper model (delegated sessions only)
 - `[conductor: close-out]` updating docs, running checks
 - `[conductor: closed]` session complete (final marker, then done)
 
@@ -31,7 +40,7 @@ Format of `kivna/.active-modes` — conductor owns one line only:
 conductor: <phase>
 ```
 
-Example: `conductor: execute`. Remove the line entirely when closing out (don't write `conductor: closed`). Never touch other skills' lines in this file.
+Example: `conductor: execute`. When delegated execution is toggled on (`/kerd:conductor fable on`), append ` [fable]` so the toggle survives across the session's responses: `conductor: execute [fable]`. This is the sole record of the toggle state — it is session-scoped and clears when the line is removed. Remove the line entirely when closing out (don't write `conductor: closed`). Never touch other skills' lines in this file.
 
 ## The Protocol
 
@@ -96,11 +105,37 @@ If a mode is active, scope the plan to the mode's current step and instruction. 
 
 Write this into TODO.md's `## Now` section with today's date — overwrite the section in place; `## Now` holds the current focus, and during a conductor session the focus is the plan. Wait for user approval before executing. Do not proceed until the user confirms the plan. A good plan prevents rework.
 
+#### Delegated execution — the spec is the contract
+
+Conductor's default is **inline execution**: the session model plans and does the work itself, and the plan lives in TODO.md `## Now`. **Delegated execution** — spending an expensive top-tier model's (Fable's) tokens on the plan and handing the mechanical build to a cheaper model — is **off by default** and turned on with the `fable` toggle (see [Usage](#usage)):
+
+- `/kerd:conductor fable on` — enable it for this session.
+- `/kerd:conductor fable off` — disable it (the default; inline on the active model).
+
+The toggle is an explicit assertion, not an auto-detection — conductor does not guess your model. Turn it on the sessions where you're on Fable and want the token economics; leave it off (or you're out of Fable credits and running on a normal model) and conductor plans and builds inline exactly as it always has. Record the toggle state on the conductor line in `.active-modes` (`conductor: <phase> [fable]`) so it holds across the session. When the toggle is **off**, skip the rest of this section — write the plan into TODO.md `## Now` as above and execute inline.
+
+When the toggle is **on** and the task decomposes into mechanical steps, the plan is not a lean TODO stub — it is a **spec file**, the contract handed to the implementer:
+
+- **Location:** `docs/plans/YYYY-MM-DD-<slug>-spec.md`. TODO.md `## Now` shrinks to a one-line pointer at the spec plus the step checklist. The spec file is a committed artifact — switch picks it up at the boundary.
+- **Executor tag per step:** mark each step `[fable]` (hard, architectural, or judgment-heavy — the planning model does it inline during execute) or `[delegate]` (mechanical — handed to a cheaper model). The planning model assigns the tags; the user approves them at the plan gate alongside the plan itself. Two buckets only; the actual implementer model (Sonnet, Haiku) is chosen per `[delegate]` step at dispatch time.
+- **The bar for a `[delegate]` step is higher than a normal plan step.** It must be implementable by a model that never saw the planning model's reasoning: exact files and paths, the function/type signatures or interfaces to add or change, the *why* behind any non-obvious choice (so the implementer doesn't re-derive intent and drift), and a verification command with its expected output. A vague spec produces a confidently-wrong implementation from a cheaper model with no recourse — spec quality *is* the safety mechanism, and it is the entire reason the expensive planning tokens are worth spending.
+
+Write the spec, write the pointer into TODO.md `## Now`, and wait for approval — the same gate as inline. The user approves the spec, the tags, and the boundaries together before any execution begins.
+
 ### 3. Execute
 
 Output `[conductor: execute]` at the top of your response when entering this phase.
 
 Do the work. Stay focused on the plan.
+
+#### Dispatch mode (delegated sessions only)
+
+For an inline session, skip this — just work the plan. For a delegated session (a spec file with `[fable]`/`[delegate]` tags), pick the dispatch mode with the user at execute entry:
+
+- **In-session subagents (default).** Work `[fable]` steps inline. For each `[delegate]` step, spawn a subagent on a cheaper model (Sonnet for standard implementation, Haiku for trivial edits) via the Agent tool with its `model` set, handing it *that step's spec slice* — scope, files, signatures, the why, and the verify command. The subagent returns its result plus evidence (command output, diff summary). You do not re-do the work — you **review the returned evidence against the step's acceptance criteria** (the verification gate below, applied to the subagent's output). This keeps the expensive model in the judgment loop and out of the mechanical grind. Emit `[conductor: execute step N/M · delegate→<model>]` at each dispatch.
+- **Handoff to a fresh session.** Finish the spec and stop. Tell the user to open a new session on a cheaper model pointed at `docs/plans/YYYY-MM-DD-<slug>-spec.md`; that session executes every step and self-verifies via the spec's built-in verify commands. The planning model spends zero tokens on the build. Use this when the build is long enough that even orchestration tokens on the expensive model aren't worth it.
+
+Either way the spec is the contract and the verification gate still governs "done" — the only question is who runs the steps. If a subagent's returned evidence fails the acceptance criteria, that counts as a failed attempt under the 3-fix limit: refine the spec slice and re-dispatch, don't silently accept muddy output.
 
 #### Verification gate
 
@@ -168,3 +203,4 @@ Then hand off: tell the user to run `/kerd:switch out` to write the session log,
 - **Three fixes, then escalate.** Don't thrash. Surface the problem.
 - **Docs travel with code.** If you change behavior, update the docs in the same commit.
 - **Conductor doesn't own the boundary.** No git pull/push/commit, no session log, no vault save. Work accumulates in TODO.md and decisions in CONTEXT.md during the session; switch writes the session log, saves the vault, and commits at the boundary.
+- **The spec is the contract.** In a delegated session the planning model's (Fable's) job is a spec complete enough that a cheaper implementer never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the spec, not the grind.
