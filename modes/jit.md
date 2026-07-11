@@ -7,7 +7,7 @@ core_skills:
   - kerd:capturerequirements
   - superpowers:test-driven-development
   - superpowers:verification-before-completion
-  - kerd:focus
+  - kerd:pair
   - kerd:slainte
 discover_keywords:
   - "mvp"

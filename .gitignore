@@ -7,5 +7,5 @@ kivna/.active-modes
 AGENTS.md
 .scorched/
 
-# focus mode per-repo toggle (ephemeral)
-kivna/.focus
+# pair mode per-repo toggle (ephemeral)
+kivna/.pair

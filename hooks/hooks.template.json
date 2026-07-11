@@ -1,5 +1,5 @@
 {
-  "description": "Kerd session boundary hooks: remind about uncommitted changes on stop, surface stale state on session start, show mode progress after skill completion, and inject partner-mode while focus is on. Opt-in via /kerd:tend (category 9).",
+  "description": "Kerd session boundary hooks: remind about uncommitted changes on stop, surface stale state on session start, show mode progress after skill completion, and inject partner-mode while pair is on. Opt-in via /kerd:tend (category 9).",
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/focus.sh",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/pair.sh",
             "timeout": 5
           }
         ]

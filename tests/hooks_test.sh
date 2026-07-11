@@ -377,7 +377,7 @@ test_shellcheck_clean() {
     return 0
   fi
   local out
-  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/stop.sh" "$HOOKS/skill-complete.sh" "$HOOKS/focus.sh" 2>&1)
+  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/stop.sh" "$HOOKS/skill-complete.sh" "$HOOKS/pair.sh" 2>&1)
   if [ -n "$out" ]; then
     fail "shellcheck reported issues:"$'\n'"$out"
     return
@@ -385,52 +385,52 @@ test_shellcheck_clean() {
   pass
 }
 
-# --- focus mode (UserPromptSubmit) -------------------------------------------
+# --- pair mode (UserPromptSubmit) --------------------------------------------
 
-test_focus_unset_projectdir_is_silent() {
-  TNAME="focus: unset CLAUDE_PROJECT_DIR exits silently"
-  run_hook UNSET focus.sh
+test_pair_unset_projectdir_is_silent() {
+  TNAME="pair:unset CLAUDE_PROJECT_DIR exits silently"
+  run_hook UNSET pair.sh
   assert_exit 0 "$RC" || return
   assert_empty "$OUT" stdout || return
   assert_empty "$ERR" stderr || return
   pass
 }
 
-test_focus_empty_projectdir_is_silent() {
-  TNAME="focus: empty CLAUDE_PROJECT_DIR exits silently"
-  run_hook "" focus.sh
+test_pair_empty_projectdir_is_silent() {
+  TNAME="pair:empty CLAUDE_PROJECT_DIR exits silently"
+  run_hook "" pair.sh
   assert_exit 0 "$RC" || return
   assert_empty "$OUT" stdout || return
   assert_empty "$ERR" stderr || return
   pass
 }
 
-test_focus_no_flag_file_silent() {
-  TNAME="focus: no kivna/.focus -> silent"
+test_pair_no_flag_file_silent() {
+  TNAME="pair:no kivna/.pair -> silent"
   local d; d=$(make_kerd_repo)
-  run_hook "$d" focus.sh
+  run_hook "$d" pair.sh
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_empty "$OUT" stdout || return
   pass
 }
 
-test_focus_off_silent() {
-  TNAME="focus: flag = off -> silent"
+test_pair_off_silent() {
+  TNAME="pair:flag = off -> silent"
   local d; d=$(make_kerd_repo)
-  echo "off" > "$d/kivna/.focus"
-  run_hook "$d" focus.sh
+  echo "off" > "$d/kivna/.pair"
+  run_hook "$d" pair.sh
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_empty "$OUT" stdout || return
   pass
 }
 
-test_focus_on_injects_partner_mode() {
-  TNAME="focus: flag = on -> injects partner-mode reminder"
+test_pair_on_injects_partner_mode() {
+  TNAME="pair:flag = on -> injects partner-mode reminder"
   local d; d=$(make_kerd_repo)
-  echo "on" > "$d/kivna/.focus"
-  run_hook "$d" focus.sh
+  echo "on" > "$d/kivna/.pair"
+  run_hook "$d" pair.sh
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_contains "$OUT" "Partner mode" || return

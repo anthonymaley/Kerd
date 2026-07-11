@@ -11,7 +11,13 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.63.0)
+## What's New (v0.64.0)
+
+### v0.64.0
+
+**`focus` renamed to `pair`.** The partner-mode toggle is now `/kerd:pair on|off` (was `/kerd:focus`). The old name collided with the Claude Code harness's own native focus mode, making the bare word "focus" ambiguous. Behavior is unchanged — rapid conversational partner mode, per-repo toggle, default off, enforced by the same `UserPromptSubmit` hook (now `hooks/pair.sh`, reading `kivna/.pair`). This is a breaking rename: `/kerd:focus` no longer resolves, and any repo with the hook wired should re-run `/kerd:tend` to pick up the new `pair.sh` path.
+
+**Conductor: `fable on|off` toggle replaced by a model advisory.** Delegated execution is no longer a flag you flip. `/kerd:conductor` now sizes the task right after orient and **advises the driving model it needs**, then gates — switch to it, or confirm you're on it, before it plans (a skill can't read or set its own model, so this is advice + a confirmation beat, not detection). From there conductor right-sizes the build automatically: mechanical steps become `[delegate]` steps that carry a **sized model + effort** in the tag (`[delegate, model: haiku, effort: low]` … `[delegate, model: sonnet, effort: high]`), approved at the plan gate; `[keep]` steps (was `[fable]`) stay inline on the driving model. Small or all-judgment tasks skip the spec and run lean inline. The `fable on`/`fable off` commands and the `[fable]` marker in `.active-modes` are gone.
 
 ### v0.63.0
 
@@ -107,7 +113,7 @@ claude plugins install kerd
 
 Conductor gives an open session structure. It runs *after* switch-in has loaded context (switch-in is the session-opener; conductor is the disciplined middle), and walks through: orient (warm path — confirm the state switch-in just loaded; cold path — a light TODO + vault read if conductor was invoked without switch-in), plan (decompose the request into scoped tasks with acceptance criteria, approve boundaries, then write concrete implementation steps), execute (do the work, verify each task with evidence before claiming done, escalate after 3 failed fixes), close out (update TODO, confirm docs are current, run checks, clear the session block, hand the boundary to switch). It writes the session plan to TODO.md and enforces scope: out-of-plan work goes to backlog immediately, no tangents. Default one task per session.
 
-**Delegated execution (optional, off by default).** By default conductor plans and does the work itself on the active model. Turn on `/kerd:conductor fable on` when you're on an expensive top-tier model (Fable) and want to spend those tokens on the plan and delegate the mechanical build to a cheaper model (`fable off` returns to inline; the toggle is session-scoped and resets each session). With it on, the plan becomes a **spec file** at `docs/plans/YYYY-MM-DD-<slug>-spec.md` (the contract), each step tagged `[fable]` (done inline) or `[delegate]` (handed off, optionally with a reasoning-effort hint like `[delegate, effort: low]` that dispatch passes to the subagent), approved at the plan gate. Execute then dispatches either to **in-session subagents** (Fable spawns Sonnet/Haiku per delegated step and reviews their evidence — the default) or via **handoff** (Fable finishes the spec and stops; a fresh cheap session executes it). A `[delegate]` step's spec bar is high by design — exact files, signatures, the *why*, and a verify command — because a vague spec produces a confidently-wrong build with no recourse. Spec quality is the safety mechanism.
+**Model advisory + delegated execution (no toggle).** A skill can't read or set its own model, so conductor doesn't guess — right after orient it **advises** which model the work needs (the model that should hold the baton for planning and judgment) and **gates**: switch to it, or confirm you're on it, before it plans. Small/mechanical work → the model you're on is fine; hard, architectural, or judgment-heavy work → a top-tier model (Opus/Fable), where the expensive planning tokens pay for themselves. Then conductor right-sizes the build. If the task has mechanical bulk worth delegating, the plan becomes a **spec file** at `docs/plans/YYYY-MM-DD-<slug>-spec.md` (the contract): each step tagged `[keep]` (the driving model does it inline) or `[delegate]` (handed to a cheaper subagent), and each `[delegate]` step carries a **sized model + effort** written into the tag — `[delegate, model: haiku, effort: low]` for trivial edits up to `[delegate, model: sonnet, effort: high]` for core-but-delegatable work — so you approve the model and effort choices at the plan gate, not just the steps. Execute dispatches either to **in-session subagents** (the driving model spawns each sized subagent and reviews its evidence against acceptance — the default, keeping it in the judgment loop) or via **handoff** (it finishes the spec and stops; a fresh cheap session executes it). Small or all-judgment tasks skip the spec entirely and run lean inline. A `[delegate]` step's spec bar is high by design — exact files, signatures, the *why*, and a verify command — because a vague spec produces a confidently-wrong build with no recourse. Spec quality is the safety mechanism.
 
 The project playbook (`docs/playbook.md`) — a living guide for rebuilding the project from scratch: tech stack, setup, architecture, integrations, gotchas, status — is updated as behavior changes (docs travel with code during execute), and switch captures session gotchas into it at the boundary. It grows with the project, session by session.
 
@@ -285,19 +291,19 @@ Eleven starter modes ship with Kerd. Community members can contribute new modes 
 /mode maintain       # start the maintenance flow
 ```
 
-### focus (Partner Mode)
+### pair (Partner Mode)
 
-Focus toggles how you and Claude work together. Off by default — the full, show-your-reasoning style stays the resting state so you keep learning. Turn it on to move fast: Claude keeps its thinking internal (surfacing it only when it changes your decision, it's stuck, or you ask), asks one clear question at a time — open by default, offering a tight set of 2-4 crisp options only when a menu genuinely clarifies a choice that's yours to make (never a lazy binary or a vague, verbose list) — interrupts early to flag or check in, and works like someone sitting beside you rather than narrating every step. It's per-repo state (`kivna/.focus`), enforced by an opt-in `UserPromptSubmit` hook that re-injects the partner-mode reminder each prompt while on. Focus governs interaction style only — your `CLAUDE.md` thinking discipline applies either way.
+Pair toggles how you and Claude work together. Off by default — the full, show-your-reasoning style stays the resting state so you keep learning. Turn it on to move fast: Claude keeps its thinking internal (surfacing it only when it changes your decision, it's stuck, or you ask), asks one clear question at a time — open by default, offering a tight set of 2-4 crisp options only when a menu genuinely clarifies a choice that's yours to make (never a lazy binary or a vague, verbose list) — interrupts early to flag or check in, and works like someone sitting beside you rather than narrating every step. It's per-repo state (`kivna/.pair`), enforced by an opt-in `UserPromptSubmit` hook that re-injects the partner-mode reminder each prompt while on. Pair governs interaction style only — your `CLAUDE.md` thinking discipline applies either way. (Renamed from `focus` in v0.64.0 to avoid colliding with the harness's native focus mode.)
 
 ```
-/focus on            # rapid partner mode
-/focus off           # back to full reasoning
-/focus               # show current state
+/pair on             # rapid partner mode
+/pair off            # back to full reasoning
+/pair                # show current state
 ```
 
 ## Hooks
 
-Kerd ships four opt-in hooks that provide session boundary awareness and the focus toggle. They are not active by default. Run `/tend` to register them in your local settings.
+Kerd ships four opt-in hooks that provide session boundary awareness and the pair toggle. They are not active by default. Run `/tend` to register them in your local settings.
 
 **Stop hook:** When a session ends with uncommitted changes or an active mode, prints a one-line reminder to run `/switch out`. Silent when the repo is clean.
 
@@ -305,13 +311,13 @@ Kerd ships four opt-in hooks that provide session boundary awareness and the foc
 
 **Skill completion hook:** When a mode is active and you complete the current step's skill, shows your progress and what's next. Read-only — the mode skill handles state transitions.
 
-**Focus hook (`UserPromptSubmit`):** While focus is on for the repo (`kivna/.focus` = `on`), injects the partner-mode reminder into every prompt. Silent when focus is off or absent. See the focus skill above.
+**Pair hook (`UserPromptSubmit`):** While pair is on for the repo (`kivna/.pair` = `on`), injects the partner-mode reminder into every prompt. Silent when pair is off or absent. See the pair skill above.
 
 ```
 /tend                # registers hooks in .claude/settings.local.json
 ```
 
-The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, and the focus toggle's on/off/absent branches). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
+The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, and the pair toggle's on/off/absent branches). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
 
 ## How They Fit Together
 
