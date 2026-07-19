@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.64.0)
+## What's New (v0.65.0)
+
+### v0.65.0
+
+**Conductor: the gate message carries the content.** Every conductor gate (model advisory, task framing, plan/spec approval) must now include what's being approved — the findings, summary, and plan — in the same message as the ask. Rationale: display modes like Claude Code's native focus mode show only a turn's final text message, so analysis written between tool calls can be invisible; a question-only gate ("execute the plan?") erased the analysis entirely for those users. New plan-phase rule + principle in the conductor skill. Diagnosed live in a repo where conductor sessions produced near-zero communication between analysis and execution.
 
 ### v0.64.0
 
@@ -122,6 +126,8 @@ During execution, decisions accumulate in TODO.md. Conductor doesn't touch the v
 Conductor is mode-aware: if a mode is active, orient reports the mode context and instruction, the plan respects the mode's scope, and close-out doesn't claim the session is done when running as part of a larger mode flow.
 
 Conductor announces its current phase with a mode marker (`[conductor: orient]`, `[conductor: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[conductor: closed]` so there's no ambiguity.
+
+**The gate message carries the content.** Any conductor message that asks for approval contains what's being approved — findings, summary, plan — in that same message, never assuming earlier mid-turn text was seen. This keeps conductor readable under Claude Code's focus mode, which shows only a turn's final message.
 
 Conductor doesn't touch git. No pulls, no pushes. That's switch's job.
 

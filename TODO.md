@@ -2,12 +2,12 @@
 
 ## Now
 
-- **Update installed plugin cache to 0.64.0** (`claude plugins install kerd`) so `/kerd:pair` and the new conductor model-advisory behavior take effect — the dev repo is ahead of the loaded cache (still 0.63.0 this session).
+- **Update installed plugin cache to 0.65.0** (`claude plugins install kerd`) so conductor's gate-message rule takes effect in other repos. (The 0.64.0 cache update happened — this session's skills loaded from the 0.64.0 cache path.)
 - **Dogfood sherpa on `~/Bree`** — in that repo, fresh session, after the cache update above. Decide first: mid-lifecycle pickup vs fresh feature (open question in CONTEXT.md).
 
 ## Backlog
 
-- Sweep stale version-pinned Kerd hooks in other repos (krutho-strategy, leru, obair — check each `.claude/settings.local.json`); rewire dead cache-version paths to the current version. `~/3of3` fixed this session (was pinned to `0.41.0`, which got GC'd out of the cache → Stop hook errored every turn). Overlaps the tend category-9 staleness item below — do manually now or wait for the automated check.
+- Sweep stale version-pinned Kerd hooks in other repos (krutho-strategy, leru, obair — check each `.claude/settings.local.json`); rewire dead cache-version paths to the current version. `~/3of3` was fixed 2026-07-11 (was pinned to GC'd `0.41.0`) but is now pinned to `0.63.0` — still in cache, one GC away from breaking again. Also migrate each repo's `kivna/.focus → kivna/.pair` during the sweep: 3of3 still has `.focus`, so the partner-mode hook (which reads `.pair`) is silently off there. Overlaps the tend category-9 staleness item below — do manually now or wait for the automated check.
 - Mode reconciliation deferred until the sherpa dogfood; clean krutho-strategy's stray `sessions-of-record/` (tend detects it)
 - skriv voice profile: wiring held pending non-founder-genre samples (see CONTEXT.md)
 - Decide whether switch should commit the vault repo (contract vs behavior disagree — see CONTEXT.md)

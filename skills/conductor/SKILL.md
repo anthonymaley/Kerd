@@ -113,6 +113,10 @@ If a mode is active, scope the plan to the mode's current step and instruction. 
 
 Write this into TODO.md's `## Now` section with today's date — overwrite the section in place; `## Now` holds the current focus, and during a conductor session the focus is the plan. Wait for user approval before executing. Do not proceed until the user confirms the plan. A good plan prevents rework.
 
+#### The gate message carries the content
+
+Every conductor gate ends a turn with a question — the model advisory, the task-framing approval, the plan/spec approval. The message that asks the question must itself contain what is being approved: the orient summary, the findings, the task boundaries, the plan or spec steps. Never assume text written earlier in the turn was seen — display modes like Claude Code's focus mode show the user only the final message of a turn, so analysis written between tool calls may be invisible. A gate message that is only the question ("execute the plan?") erases the analysis for those users. Lead with the findings, end with the one ask — a compact summary is fine; an absent one is not. This applies to every gate in this skill.
+
 #### Delegated execution — the spec is the contract
 
 Once the task is framed, decide whether it has **mechanical bulk worth delegating**. Two cases, and conductor picks per task — there is no toggle:
@@ -212,3 +216,4 @@ Then hand off: tell the user to run `/kerd:switch out` to write the session log,
 - **Conductor doesn't own the boundary.** No git pull/push/commit, no session log, no vault save. Work accumulates in TODO.md and decisions in CONTEXT.md during the session; switch writes the session log, saves the vault, and commits at the boundary.
 - **Advise the model, don't assume it.** Conductor can't read or set its own model. It sizes the work, recommends the driving model, and gates on the user confirming (or switching) before it plans — then sizes each delegated step's model and effort down from there.
 - **The spec is the contract.** In a delegated session the driving model's job is a spec complete enough that a cheaper implementer never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the spec, not the grind.
+- **The gate message carries the content.** Any message that asks for approval must contain what's being approved — findings, summary, plan — in that same message. Mid-turn text may be invisible to the user (focus mode shows only a turn's final message); a question-only gate erases the analysis.
