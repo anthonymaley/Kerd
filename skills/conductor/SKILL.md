@@ -135,6 +135,28 @@ Write this into TODO.md's `## Now` section with today's date — overwrite the s
 
 Every conductor gate ends a turn with a question — the model advisory, the task-framing approval, the plan/spec approval. The message that asks the question must itself contain what is being approved: the orient summary, the findings, the task boundaries, the plan or spec steps. Never assume text written earlier in the turn was seen — display modes like Claude Code's focus mode show the user only the final message of a turn, so analysis written between tool calls may be invisible. A gate message that is only the question ("execute the plan?") erases the analysis for those users. Lead with the findings, end with the one ask — a compact summary is fine; an absent one is not. This applies to every gate in this skill.
 
+#### Say it in the user's terms
+
+The rule above governs *whether* the content is in the message. This one governs *what language it's in*. Both fail the same way — a message the user cannot act on — and this one is harder to spot, because the message looks complete. A wall of correct technical detail doesn't slow a decision down; it makes the decision unmakeable, because the user is being asked to arbitrate something that was never theirs to arbitrate.
+
+**Trigger:** any change that alters what the user can *do*, and any question that is theirs to decide. Capability regressions always qualify — those read as improvements until someone spells out what's gone. Routine mechanical work doesn't need it; don't do this for a version bump.
+
+**The shape:**
+
+> **Now:** what they experience today
+> **The change:** what they'd experience instead
+> **What it means:** the consequence, including the cost
+
+Write it in the vocabulary of *using* the thing, not building it. File paths, symbol names, table columns, line numbers and migration names belong in the spec and the commit message — not here. If a sentence can't be parsed without the codebase open, rewrite it.
+
+**Name the loss.** When a change removes something the user had, say so in those words: "this is a real capability you had yesterday and don't have now." The same removal described as a feature — "tap now picks the restaurant" — disappears into the good news, and the user approves a regression they never saw. Volunteering the cost of your own change is the substance of this rule, not a politeness.
+
+**The question test — could they answer it without reading the code?** If yes, ask it. If no, either restate it as an outcome, or recognise it as a call you should be making yourself: a question that requires the codebase to answer is usually not the user's question. "Should people be able to change their vote before the room finishes?" passes. "How do you want these three screens verified?" does not.
+
+**Framed well, a question needs no options.** When the change is stated clearly the user answers in their own terms — often resolving more than was asked — rather than picking from a menu that pre-narrows the space to what you already thought of. State the change, ask open, let them steer. Offer options only when they genuinely clarify a choice, never as a substitute for explaining the change.
+
+The same shape carries a **deferral**: what the user would have gained, that it is specced but deliberately not built and why, and an honest cost so a later session doesn't re-derive it and quietly decide it's too expensive.
+
 #### Delegated execution — the spec is the contract
 
 Once the task is framed, decide whether it has **mechanical bulk worth delegating**. Two cases, and conductor picks per task — there is no toggle:
@@ -297,3 +319,4 @@ Then hand off: tell the user to run `/kerd:switch out` to write the session log,
 - **Advise the model, don't assume it.** Conductor can't read or set its own model. It sizes the work, recommends the *conductor* model, and gates on the user confirming (or switching) before it plans — then sizes each delegated step's model and effort down from there. Difficulty never argues for running the whole session at the top tier; that's what the orchestrator call is for.
 - **The spec is the contract.** The orchestrator's job is a score complete enough that a player never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the score, not the grind, and never delegate the *detail* to a cheaper model to save a few of them.
 - **The gate message carries the content.** Any message that asks for approval must contain what's being approved — findings, summary, plan — in that same message. Mid-turn text may be invisible to the user (focus mode shows only a turn's final message); a question-only gate erases the analysis.
+- **Say it in the user's terms.** When a change alters what the user can do, describe it as *now / the change / what it means* in the vocabulary of using the thing — and name any capability it removes as a loss, or it disappears into the good news. Ask only questions answerable without reading the code; if it needs the codebase to answer, it's usually your call, not theirs.

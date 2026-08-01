@@ -11,7 +11,13 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.67.0)
+## What's New (v0.68.0)
+
+### v0.68.0
+
+**Conductor: say it in the user's terms.** The sibling of v0.65's gate rule. That one fixed findings that were *missing*; this fixes findings that are *present and unreadable* — a wall of correct technical detail that doesn't slow a decision down so much as make it unmakeable, because it asks the user to arbitrate something that was never theirs to arbitrate. Diagnosed from a live session where three rounds of file names, symbol names and migration IDs produced no decision, and a single plain restatement — *"today you tap send and that's final; with the change you can change your mind until the room finishes"* — resolved two product questions in one reply.
+
+Conductor now describes any change that alters what the user can *do* as **now / the change / what it means**, in the vocabulary of using the thing rather than building it — paths, symbols and line numbers stay in the spec and the commit. It must **name a removed capability as a loss** ("a real capability you had yesterday and don't have now"), because the same removal described as a feature disappears into the good news and gets approved unseen. And questions carry a test: *could the user answer this without reading the code?* If not, it's either restated as an outcome or recognised as a call conductor should be making itself. Framed well, a question needs no X-or-Y options — the user answers in their own terms instead of picking from a menu that pre-narrows the space. The same shape covers deferrals, including an honest cost so a later session doesn't re-derive it and decide it's too expensive.
 
 ### v0.67.0
 
@@ -140,6 +146,8 @@ Steps are tagged `[keep]` (the conductor plays it) or `[delegate]` (assigned to 
 At execute, **the conductor may re-dispatch but never re-specify.** A failing step is either the player's fault (re-dispatch) or the score's; three failures on one step means the score is wrong, and that passage goes back to the orchestrator rather than being quietly rewritten. Verification gained a fifth step — *check for collateral: did anything change that shouldn't have?* — because a verify command tests for the presence of the intended change and is silent about the absence of unintended ones.
 
 The project playbook (`docs/playbook.md`) — a living guide for rebuilding the project from scratch: tech stack, setup, architecture, integrations, gotchas, status — is updated as behavior changes (docs travel with code during execute), and switch captures session gotchas into it at the boundary. It grows with the project, session by session.
+
+**Changes get described in your terms, not the code's.** When a change alters what you can *do*, conductor states it as **now / the change / what it means** — in the vocabulary of using the thing, with paths and symbol names left in the spec and the commit. A removed capability must be named as a loss, because the same removal written as a feature disappears into the good news and gets approved unseen. Questions carry a test: *could you answer this without reading the code?* If not, it's restated as an outcome or recognised as conductor's own call. Framed well, a question needs no options — you answer in your own terms instead of picking from a menu that pre-narrows the space.
 
 **Conductor commits its own work.** As each task's verification gate passes, conductor commits the code and its travelling docs — staged by name, pushed immediately, no approval beat. It never pulls, and never stages session-state files. This exists so you don't have to end a session just to get work committed, and because the collateral check only works on a small diff: a whole session interleaved into one boundary commit is where a swallowed helper hides. Decisions accumulate in CONTEXT.md; conductor doesn't touch the vault or write session logs. At close-out it updates TODO.md and hands off; switch then writes the session log, calls `/kivna save` once, and makes the session-state commit — one clean write per session, not ten incremental dumps.
 
