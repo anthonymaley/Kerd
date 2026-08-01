@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides an orient-plan-execute-close protocol. At the start conductor advises which model the work needs and asks you to switch to it (or confirm you're on it) before planning; then it sizes each mechanical step's model and effort and delegates that work to cheaper subagents while it stays in the judgment loop."
+description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides an orient-plan-execute-close protocol. Coordinates four roles: you compose the intent, a top-tier model is called as a subagent to write the spec and leaves, the session model conducts the build, and cheaper subagents play the steps. It advises the conductor model up front, sizes each step's model and effort, and hands a failing step back to the orchestrator rather than rewriting the spec itself."
 ---
 
 # Conductor (Session Discipline)
@@ -9,11 +9,28 @@ The session conductor — keeps one session in tempo and coherent from open to c
 
 A protocol for staying focused within a session. Conductor does not touch git boundaries (pull/push). That's switch's job. Conductor keeps you on track once you're working.
 
+## The Stage
+
+Conductor coordinates four roles. Keeping them distinct is what makes both the quality and the cost model work:
+
+| Role | Who | Owns |
+|---|---|---|
+| **Composer** | you | intent — what to build, and the boundaries |
+| **Orchestrator** | a top-tier model, called as a subagent | the score — turning intent into a spec each player can read cold |
+| **Conductor** | the session model you're on | the performance — dispatch, tempo, judging returned work against the score |
+| **Players** | cheaper subagents, sized per step | execution of one step |
+
+The orchestrator is a **call, not a mode**. It is summoned when a score needs writing, works from a tight brief, and returns to the wings. It never holds session context, never watches the build, and never reviews returned work — which is why buying its reasoning is affordable.
+
+The conductor holds the baton for everything else: orient, dispatch, verification, escalation, close-out. It is genuinely capable of most implementation, so steps it plays itself carry no premium.
+
+**The line that keeps the roles honest: the conductor may re-dispatch, never re-specify.** When a step fails, the conductor may hand the same spec slice to another player, refine *how* it's dispatched, or stop. It may not rewrite the score. A wrong score is the orchestrator's to fix — see [Escalation](#escalation--when-the-score-is-wrong).
+
 ## Usage
 
-`/kerd:conductor` run a structured session: orient, advise the model the work needs, plan, execute, close.
+`/kerd:conductor` run a structured session: orient, advise the conductor model, plan, execute, close.
 
-Conductor runs inside whatever session and model you already started — a skill can't read or change its own model. So at the start it **advises** which model the work calls for and **gates**: it asks you to switch to that model (or confirm you're on it) before it plans. From there it sizes each mechanical step's model and effort and hands that work to cheaper subagents, keeping the expensive driving model on the planning and judgment. There is no toggle — right-sizing is conductor's default behavior, scaled to the task in front of it. See [Model advisory](#model-advisory) and [Delegated execution](#delegated-execution--the-spec-is-the-contract).
+Conductor runs inside whatever session and model you already started — a skill can't read or change its own model. So it **advises the conductor model** (the one holding the baton for the session) and gates on your confirmation. That advice is now modest: because the hardest reasoning happens in an orchestrator *call* rather than in the session, a hard task no longer requires running the whole session on a top-tier model. From there conductor sizes each mechanical step's model and effort and hands it to a player. There is no toggle — right-sizing is conductor's default behavior, scaled to the task in front of it. See [Model advisory](#model-advisory) and [Delegated execution](#delegated-execution--the-spec-is-the-contract).
 
 ## Mode Markers
 
@@ -23,9 +40,10 @@ Conductor is a modal skill. It runs across multiple responses. Announce the curr
 
 - `[conductor: orient]` reading context, summarizing state
 - `[conductor: plan]` proposing session plan
+- `[conductor: plan · orchestrator→<model>]` calling the orchestrator to write or correct a score
 - `[conductor: execute]` working through tasks
 - `[conductor: execute step N/M]` working a specific plan step (fires at step transitions within execute)
-- `[conductor: execute step N/M · delegate→<model>]` a `[delegate]` step dispatched to a cheaper subagent
+- `[conductor: execute step N/M · delegate→<model>]` a `[delegate]` step dispatched to a player
 - `[conductor: close-out]` updating docs, running checks
 - `[conductor: closed]` session complete (final marker, then done)
 
@@ -62,13 +80,13 @@ Summarize the current state for the user, including any inconsistencies found, a
 
 #### Model advisory
 
-Before planning, size the work and advise the **driving model** it needs — the model that should hold conductor's baton for the planning and judgment:
+Before planning, size the work and advise the **conductor model** — the one holding the baton for this session. Judge it on what the *conductor* has to do (dispatch, verify returned evidence, decide whether a failure is the player's or the score's), not on how hard the underlying problem is. The hard problem goes to the orchestrator call, not the session.
 
 - **Mechanical / small** (a rename, a config edit, a well-trodden fix): the model you're on is almost certainly fine. Say so and move on.
-- **Standard feature work**: a mid-tier model (e.g. Sonnet) plans and judges well.
-- **Hard, architectural, novel, or judgment-heavy**: recommend a top-tier model (e.g. Opus/Fable) — this is where expensive planning tokens pay for themselves, because the spec quality that makes delegation safe comes from the driving model's reasoning.
+- **Anything with a real build** — including hard, architectural, or novel work: recommend a strong mid-to-upper model (e.g. Opus). It must judge returned evidence well, because bad conformance judgment is the most expensive failure in the system: it wastes player runs *and* buys an orchestrator callback.
+- **Never recommend switching the session to the top tier for difficulty alone.** That was the old shape. Difficulty is now handled by [calling the orchestrator](#calling-the-orchestrator), which costs one brief and one score instead of an entire session at premium rates.
 
-State your recommendation in one line and **gate on it**: ask the user to switch to that model (or confirm they're already on it) before you plan. Conductor can't read or set its own model, so this is advice plus a confirmation beat, not detection — proceed on whatever model the user confirms. Skip the gate only when the work is trivially small and the current model obviously suffices; say why you're skipping.
+State your recommendation in one line and **gate on it**: ask the user to switch (or confirm they're already there) before you plan. Conductor can't read or set its own model, so this is advice plus a confirmation beat, not detection — proceed on whatever model the user confirms. Skip the gate only when the work is trivially small and the current model obviously suffices; say why you're skipping.
 
 ### 2. Plan
 
@@ -121,15 +139,42 @@ Every conductor gate ends a turn with a question — the model advisory, the tas
 
 Once the task is framed, decide whether it has **mechanical bulk worth delegating**. Two cases, and conductor picks per task — there is no toggle:
 
-- **Lean/inline** — the task is small or all-judgment (nothing a cheaper model should do). Write the plan into TODO.md `## Now` as above and execute inline on the driving model. Skip the rest of this section. Most small sessions land here.
+- **Lean/inline** — the task is small or all-judgment (nothing a player should do). Write the plan into TODO.md `## Now` as above and execute inline as conductor. No orchestrator call, no spec file. Skip the rest of this section; most small sessions land here.
 - **Delegated** — the task decomposes into mechanical steps a cheaper model can do from a written contract. The plan becomes a **spec file**, and conductor sizes each of those steps and hands them down while it stays in the judgment loop.
 
 When delegating, the plan is not a lean TODO stub — it is a **spec file**, the contract handed to the implementer:
 
 - **Location:** `docs/plans/YYYY-MM-DD-<slug>-spec.md`. TODO.md `## Now` shrinks to a one-line pointer at the spec plus the step checklist. The spec file is a committed artifact — switch picks it up at the boundary.
-- **Executor tag per step:** mark each step `[keep]` (hard, architectural, or judgment-heavy — the driving model does it inline during execute) or `[delegate]` (mechanical — handed to a cheaper subagent). Conductor assigns the tags; the user approves them at the plan gate alongside the plan itself. Two buckets only.
-- **Sized model + effort per delegated step:** conductor sizes each `[delegate]` step's model and reasoning effort to the work and writes them into the tag — `[delegate, model: haiku, effort: low]` for trivial edits, `[delegate, model: sonnet, effort: medium]` for standard implementation, up to `[delegate, model: sonnet, effort: high]` for core-but-delegatable work. Model tier and effort are two independent levers; omit either and the subagent takes its default. Putting the sizing in the tag makes it reviewable at the plan gate — the user approves the model and effort choices, not just the steps. Spec-authoring itself is the high-effort work the driving model spends its own tokens on.
-- **The bar for a `[delegate]` step is higher than a normal plan step.** It must be implementable by a model that never saw the driving model's reasoning: exact files and paths, the function/type signatures or interfaces to add or change, the *why* behind any non-obvious choice (so the implementer doesn't re-derive intent and drift), and a verification command with its expected output. A vague spec produces a confidently-wrong implementation from a cheaper model with no recourse — spec quality *is* the safety mechanism, and it is the entire reason the expensive driving-model tokens are worth spending.
+- **Executor tag per step — assigned *after* the step is written, never before.** Write the step body in full, then read the finished text and ask what decision is still left in it. Writing a spec slice well is the act that *removes* judgment from the model and deposits it in the document, so a tag assigned during planning measures the wrong moment — it records how hard the step felt to plan, not how much judgment survives being written down. The test is mechanical and self-checking: **can this step be written precisely enough to verify by command?** Yes → `[delegate]`. No → `[keep]`, and your inability to write it out is exactly the evidence that it needs judgment. Two buckets only: `[keep]` (the conductor plays it) and `[delegate]` (assigned to a player). Conductor assigns; the user approves at the plan gate alongside the plan itself.
+- **Blast radius is answered by a review step, not by keeping the work.** A tempting mistake: tagging a risky step `[keep]` because failure there compounds downstream. It doesn't help. The characteristic blast-radius failure is *mechanical* — a deletion range that swallows adjacent code, a rename that catches a near-match — and a stronger model has no better aim than a weaker one. Keeping such a step buys nothing and costs the conductor's attention. **Delegate the risky edit, then add a separate `[keep]` step that reviews the diff for unintended drift.** That step is a real keep: reading a diff for edits that pass every verify command yet violate the stated scope is judgment, and it cannot be written as a command. Note what the review must catch — "confirm nothing outside the named symbols was removed" — in the step body.
+- **What's left in `[keep]` after that is small, and that's correct.** Once tags are assigned against finished text and blast radius is handled by review steps, most keeps dissolve. Expect a spec to be mostly `[delegate]` with one or two `[keep]` review steps at the seams. If `[keep]` is still carrying half your steps, the tags were assigned before the bodies were written. Resist adding a third tag for any of this: tags encode *actions* (who executes), and a tag that encodes a *reason* decays into a vibe marker — reasons go in the step body, where they can say what to check.
+- **Sized model + effort per delegated step:** conductor sizes each `[delegate]` step's model and reasoning effort to the work and writes them into the tag — `[delegate, model: haiku, effort: low]` for trivial edits, `[delegate, model: sonnet, effort: medium]` for standard implementation, up to `[delegate, model: sonnet, effort: high]` for core-but-delegatable work. Model tier and effort are two independent levers; omit either and the subagent takes its default. Putting the sizing in the tag makes it reviewable at the plan gate — the user approves the model and effort choices, not just the steps. Sizing is the conductor's call, since it's a staffing decision about the performance; the orchestrator may propose tags with the score, but the conductor owns the final assignment.
+- **The bar for a `[delegate]` step is higher than a normal plan step.** It must be playable by a model that never saw the orchestrator's reasoning: exact files and paths, the function/type signatures or interfaces to add or change, the *why* behind any non-obvious choice (so the player doesn't re-derive intent and drift), and a verification command with its expected output. A vague spec produces a confidently-wrong implementation from a cheaper model with no recourse — spec quality *is* the safety mechanism, and it is the entire reason the orchestrator's expensive tokens are worth spending.
+
+#### Calling the orchestrator
+
+The score is written by a top-tier model invoked as a **subagent** (the Agent tool's `model` accepts the top tier, e.g. `fable`), not by the conductor itself. Two passes, both deliberately small:
+
+**Pass 1 — scoping.** Send intent, boundaries, and constraints only. Ask one question: *what do you need to see to write this score?* The orchestrator replies with specific files. **Bound the request in the prompt — name files, not directories.** An unbounded scoping answer collapses this back into a full context dump and forfeits the entire saving.
+
+**Pass 2 — the score.** The conductor fetches exactly what pass 1 named (retrieval is mechanical; it belongs on the conductor) and sends it with the brief. The orchestrator **writes the spec file directly to `docs/plans/YYYY-MM-DD-<slug>-spec.md`** and returns only a short summary — the step list, the tags, and any risk it wants raised at the gate. Writing to disk rather than returning the score as text keeps a 200-line spec out of the conductor's context entirely.
+
+Why two passes: it separates *deciding what's relevant* (judgment, and cheap to express — a list of paths) from *retrieving it* (mechanical, and now on the conductor). A conductor-curated brief is cheaper but makes the conductor's curation error the orchestrator's blind spot — it writes a confident score against terrain it never saw, and nobody finds out until players have failed against it.
+
+The brief carries four things, and deliberately not a fifth:
+
+- **Intent** — the composer's words, plus explicit out-of-scope boundaries
+- **Terrain** — the actual file contents from pass 1, not summaries (the score must name exact paths, signatures, and values)
+- **Constraints** — binding conventions and standing decisions from CONTEXT.md the design can't violate
+- **Available players** — which model tiers exist to be assigned
+
+Not the orient narrative, not how the conductor reached its conclusions, not alternatives already rejected. That's session diary — it's the bulk of what a naive handoff would carry, and the orchestrator needs none of it.
+
+Hand the orchestrator a **template** with judgment-shaped slots (step header, tag, what / why / verify) so its output tokens go to decisions instead of reinventing scaffolding. But **do not delegate spec *detail* to a cheaper model.** A template removes boilerplate; the exact values, signatures, and verify commands are where judgment gets encoded precisely enough to survive a player that never saw the reasoning. That detail *is* the safety mechanism, not padding around it.
+
+Skip the orchestrator call entirely for lean/inline tasks — if there's no score to write, there's no one to summon.
+
+**When the orchestrator is unavailable.** Top-tier capacity runs out — the call can fail on quota, not just on error. Don't stop the session: write the score yourself as conductor, and **say so explicitly at the approval gate** ("orchestrator unavailable — this score is mine, expect it to be thinner"). The user is then approving a lesser score knowingly rather than receiving one silently. Retry the orchestrator for a hand-back if a step later fails on score grounds; capacity may have returned. A conductor-written score is worse, not useless — the failure mode to avoid is the user believing they got the better one.
 
 Write the spec, write the pointer into TODO.md `## Now`, and wait for approval — the same gate as inline. The user approves the spec, the tags, the sized model/effort, and the boundaries together before any execution begins.
 
@@ -143,10 +188,10 @@ Do the work. Stay focused on the plan.
 
 If the plan is lean/inline, skip this — just work the plan. If it's a spec file with `[keep]`/`[delegate]` tags, pick the dispatch mode with the user at execute entry:
 
-- **In-session subagents (default).** Work `[keep]` steps inline. For each `[delegate]` step, spawn a subagent via the Agent tool with its `model` and `effort` set to the step's sized tag — handing it *that step's spec slice*: scope, files, signatures, the why, and the verify command. The subagent returns its result plus evidence (command output, diff summary). You do not re-do the work — you **review the returned evidence against the step's acceptance criteria** (the verification gate below, applied to the subagent's output). This keeps the expensive driving model in the judgment loop and out of the mechanical grind. Emit `[conductor: execute step N/M · delegate→<model>]` at each dispatch.
-- **Handoff to a fresh session.** Finish the spec and stop. Tell the user to open a new session on a cheaper model pointed at `docs/plans/YYYY-MM-DD-<slug>-spec.md`; that session executes every step and self-verifies via the spec's built-in verify commands. The driving model spends zero tokens on the build. Use this when the build is long enough that even orchestration tokens on the expensive model aren't worth it.
+- **In-session players (default).** Play `[keep]` steps yourself. For each `[delegate]` step, spawn a subagent via the Agent tool with its `model` and `effort` set to the step's sized tag — handing it *that step's spec slice*: scope, files, signatures, the why, and the verify command. The player returns its result plus evidence (command output, diff summary). You do not re-do the work — you **review the returned evidence against the step's acceptance criteria** (the verification gate below, applied to the player's output). Emit `[conductor: execute step N/M · delegate→<model>]` at each dispatch.
+- **Handoff to a fresh session.** Finish the spec and stop. Tell the user to open a new session pointed at `docs/plans/YYYY-MM-DD-<slug>-spec.md`; that session plays every step and self-verifies via the spec's built-in verify commands. Use this when the build is long enough that even the conductor's dispatch-and-review tokens aren't worth spending in this session — but note the trade: nobody with judgment watches the build, so the spec's verify commands are the only net.
 
-Either way the spec is the contract and the verification gate still governs "done" — the only question is who runs the steps. If a subagent's returned evidence fails the acceptance criteria, that counts as a failed attempt under the 3-fix limit: refine the spec slice and re-dispatch, don't silently accept muddy output.
+Either way the spec is the contract and the verification gate still governs "done" — the only question is who plays the steps. If a player's returned evidence fails the acceptance criteria, that counts as a failed attempt under the 3-fix limit. Don't silently accept muddy output — and don't quietly rewrite the score to make the failure go away (see [Escalation](#escalation--when-the-score-is-wrong)).
 
 #### Verification gate
 
@@ -156,8 +201,13 @@ After each task, verify it with evidence before claiming it's done. No exception
 2. **Run** it. Actually run it. Don't assume.
 3. **Read** the output. Look at what came back.
 4. **Confirm** the claim: does the evidence support "this task is done"?
+5. **Check for collateral:** did anything change that *shouldn't* have? Read the diff, not just the verify output.
 
 Only then mark the task complete. If you catch yourself thinking "should work", "probably fine", or "seems good" without evidence, stop. Run the check.
+
+Step 5 is not redundant. A verify command tests for the *presence* of the intended change; it is silent about the *absence* of unintended ones. A deletion range that swallows three neighbouring helpers, or a rename that catches a near-match, passes every check written for the step it belongs to — the damage lives in code nobody thought to grep for. Bulk deletions, renames across many call sites, and regex-driven edits all need the diff read, not just the command run.
+
+**When you catch your own mistake mid-step, say how you caught it.** One clause is enough — "the build failed", "step 5 diff read", "noticed while re-reading". A silent self-correction looks identical whether the guard worked or you got lucky, and only one of those is worth trusting next time. This is the cheapest signal available about whether the verification gate is actually load-bearing, and it's lost by default.
 
 #### Strong-language gate (claim-formation)
 
@@ -173,6 +223,21 @@ If a task isn't working after 3 attempts, stop. Do not attempt fix #4. Instead:
 - Ask whether to continue with a different approach, skip the task, or rethink the plan
 
 Three failed fixes usually means the approach is wrong, not the execution. If the task framing itself was the problem (scope too broad, acceptance criteria unclear), suggest refining the task and restarting with a fresh conductor session rather than continuing in degraded context.
+
+#### Escalation — when the score is wrong
+
+**The conductor may re-dispatch, never re-specify.** When a delegated step fails, first decide which kind of failure it was:
+
+- **The player failed.** The evidence doesn't meet the acceptance criteria, but the spec slice was clear and correct. Re-dispatch — same slice, possibly a stronger tier or higher effort. Counts against the 3-fix limit.
+- **The score is wrong.** The spec asked for something that can't be done, contradicts the terrain, or assumed a structure that isn't there. Re-dispatching cannot fix this — a second player fails the same way, and a third confirms it.
+
+Three failures on one step means the score is wrong, not the players. That is the hand-back boundary: **summon the orchestrator again for that passage.** Send the failing slice, the evidence from each attempt, and the terrain that contradicted it, and ask for a corrected passage — not a new score, one passage.
+
+Surface the callback to the user before making it. It spends top-tier tokens, and it means the plan they approved was wrong in a specific way they should see.
+
+If the corrected passage also fails, stop. That's the 3-fix limit applied one level up: the problem is the task framing, not the score. Refine the framing and restart with a fresh conductor session.
+
+Rewriting the score yourself is the failure this rule exists to prevent. It is quiet, it feels efficient, and it destroys the contract — the composer approved a score, the players are building to it, and a conductor editing it mid-performance means nobody can say what was actually agreed.
 
 #### Scope creep
 
@@ -214,6 +279,10 @@ Then hand off: tell the user to run `/kerd:switch out` to write the session log,
 - **Three fixes, then escalate.** Don't thrash. Surface the problem.
 - **Docs travel with code.** If you change behavior, update the docs in the same commit.
 - **Conductor doesn't own the boundary.** No git pull/push/commit, no session log, no vault save. Work accumulates in TODO.md and decisions in CONTEXT.md during the session; switch writes the session log, saves the vault, and commits at the boundary.
-- **Advise the model, don't assume it.** Conductor can't read or set its own model. It sizes the work, recommends the driving model, and gates on the user confirming (or switching) before it plans — then sizes each delegated step's model and effort down from there.
-- **The spec is the contract.** In a delegated session the driving model's job is a spec complete enough that a cheaper implementer never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the spec, not the grind.
+- **Four roles, kept distinct.** Composer owns intent, orchestrator owns the score, conductor owns the performance, players execute. Nobody's authority overlaps — that's what makes each one affordable to staff correctly.
+- **The orchestrator is a call, not a mode.** Top-tier reasoning is summoned for a brief and a score, then leaves. It never holds session context, watches the build, or reviews returned work. Buying it this way costs one brief and one score instead of a whole session at premium rates.
+- **Re-dispatch, never re-specify.** A failing step is either a player problem (re-dispatch) or a score problem (hand back to the orchestrator). The conductor never edits the score to make a failure go away — that silently voids the contract the composer approved.
+- **Tag the step after writing it.** Writing a spec slice well is what removes the judgment from the model and puts it in the document. A tag assigned during planning measures how hard the step *felt*, not what judgment survives being written down. If you can write it precisely enough to verify by command, it's delegatable — and if you can't, that's the evidence it isn't.
+- **Advise the model, don't assume it.** Conductor can't read or set its own model. It sizes the work, recommends the *conductor* model, and gates on the user confirming (or switching) before it plans — then sizes each delegated step's model and effort down from there. Difficulty never argues for running the whole session at the top tier; that's what the orchestrator call is for.
+- **The spec is the contract.** The orchestrator's job is a score complete enough that a player never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the score, not the grind, and never delegate the *detail* to a cheaper model to save a few of them.
 - **The gate message carries the content.** Any message that asks for approval must contain what's being approved — findings, summary, plan — in that same message. Mid-turn text may be invisible to the user (focus mode shows only a turn's final message); a question-only gate erases the analysis.
