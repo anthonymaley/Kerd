@@ -1,11 +1,15 @@
 ---
 name: switch
-description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session. The same mechanism carries across machines as the secondary case. Handles all git boundary operations (pull, push, commit of session state). Writes state to CONTEXT.md, work to TODO.md, history to kivna/sessions/; pickup reads only those three. Supports 'light' modifier to skip vault and reflection, or 'low' modifier for minimum viable handoff on tight token budgets."
+description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session. The same mechanism carries across machines as the secondary case. Owns `git pull` and the session-state commit (CONTEXT.md, TODO.md, session log, vault); conductor commits its own work per verified task. Writes state to CONTEXT.md, work to TODO.md, history to kivna/sessions/; pickup reads only those three. Supports 'light' modifier to skip vault and reflection, or 'low' modifier for minimum viable handoff on tight token budgets."
 ---
 
 # Switch (Session Handoff)
 
-Clean handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case. Switch owns all git boundary operations: pull, push, commit of session state. No other skill should do these things.
+Clean handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case.
+
+**Switch owns `git pull` and the session-state commit.** Nothing else pulls. The session-state commit is CONTEXT.md, TODO.md, the session log, and vault files — written and committed once, here, at the boundary.
+
+**Switch does not own every commit.** Conductor commits and pushes its own work — code plus the docs travelling with it — at each verified task boundary, staged by name (see `/kerd:conductor`). That is deliberate: holding work until the boundary piles a whole session's interleaved change into one diff, which is where collateral damage hides. So expect the tree at switch-out to hold mostly session state, with the session's actual work already pushed.
 
 ## State, Work, and History
 

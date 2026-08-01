@@ -349,13 +349,13 @@ Fix all? [yes / pick individually / skip]
 
 ### 6. Summary
 
-After fixes are applied, print what was changed. Do NOT commit. Switch owns git boundary operations.
+After fixes are applied, print what was changed. Do NOT commit — structural fixes are the user's to review before they land.
 
 If this is a brand new repo and all structure was just created, suggest: "Structure ready. Run `/kerd:conductor` to start your first session, or `/kerd:switch out` to commit and push."
 
 ## No Commit
 
-Tend does NOT commit or push. It makes structural changes and stops. This keeps switch as the sole owner of git boundary operations (Kerd convention). The user commits via `/kerd:switch out` or manually.
+Tend does NOT commit or push. It makes structural changes and stops. Unlike conductor's work commits — which land behind a verification gate that proves the task did what it claimed — tend's changes are structural convergence with no such gate, so they stay in the working tree for the user to review. The user commits via `/kerd:switch out` or manually.
 
 ## Notes
 

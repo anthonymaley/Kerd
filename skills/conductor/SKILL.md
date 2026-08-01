@@ -7,7 +7,7 @@ description: "Use when you need structured session discipline — frame a task, 
 
 The session conductor — keeps one session in tempo and coherent from open to close, the way an orchestra conductor holds a single performance together. (Renamed from `dian`, which was too opaque to signal the role.)
 
-A protocol for staying focused within a session. Conductor does not touch git boundaries (pull/push). That's switch's job. Conductor keeps you on track once you're working.
+A protocol for staying focused within a session. Conductor commits and pushes its own work as each task verifies, but never pulls and never commits session state — those are switch's. Conductor keeps you on track once you're working.
 
 ## The Stage
 
@@ -253,6 +253,17 @@ Do not write to `kivna/sessions/` during execution. Switch owns session log crea
 
 If a task changes behavior, update the affected docs (README, playbook, CLAUDE.md) in the same commit. Don't defer doc updates to close-out. No commit should leave docs inconsistent with code.
 
+#### Work commits
+
+**Commit and push each task once its verification gate has passed.** Don't hold work until the boundary — a session that completes three tasks should leave three commits, not one. Do this on your own; no approval beat. The gate is what makes it safe: an unverified task isn't committable, and a verified one isn't work-in-progress.
+
+- **Stage by name.** Only the code and docs this task touched. Never `git add -A`. Session-state files — `CONTEXT.md`, `TODO.md`, anything under `kivna/` — never ride along in a work commit. Switch owns those at the boundary, and mixing them collapses the split.
+- **Push immediately.** Commits piling up unpushed until switch-out reintroduce exactly the risk the always-push convention exists to prevent.
+- **Never pull.** Pulling is a boundary sync and belongs to switch — pulling mid-execute can change files under an in-flight task.
+- **Commit per task, not per step.** A multi-phase spec may warrant a commit per completed phase; a single task is one commit. If the project's CLAUDE.md defines a pre-commit checklist (version bumps, changelog entries), it governs — and an expensive checklist is a reason to commit per phase rather than per step, not a reason to defer to the boundary.
+
+Why per-task rather than per-session: the collateral check (verification gate step 5) is only affordable when the diff is small. Three tasks' worth of interleaved change in one boundary commit hides exactly the drift that check exists to catch — a swallowed helper is obvious in one task's diff and invisible in a session's.
+
 #### No mid-session vault writes
 
 Work accumulates in repo-side files (TODO.md) during execution. The vault gets one clean update at close-out. This keeps the vault lean and searchable: one session, one update.
@@ -261,7 +272,7 @@ Work accumulates in repo-side files (TODO.md) during execution. The vault gets o
 
 Output `[conductor: close-out]` at the top of your response.
 
-Conductor closes the *work*, not the *session boundary*. Boundary operations — session log, vault save, commit, push — belong to switch. Keep conductor's close-out short:
+Conductor closes the *work*, not the *session boundary*. By now each verified task is already committed and pushed (see [Work commits](#work-commits)); what remains for switch is the session-state commit — session log, vault save, and the CONTEXT.md/TODO.md updates below. Keep conductor's close-out short:
 
 1. **Update TODO.md and CONTEXT.md**: remove completed tasks from TODO, add new ones discovered during work, then overwrite `## Now` to forward-only state (what's next, a few lines — the completed record is the session log switch writes at the boundary). Record any *unresolved* decisions or questions in CONTEXT.md (`## Key Decisions` / `## Open Questions`). Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
 2. **Doc impact**: docs should already be current (docs travel with code, see Execute). Confirm nothing was missed against the CLAUDE.md Doc Impact Table if one exists. Don't carry doc updates into the boundary.
@@ -269,16 +280,16 @@ Conductor closes the *work*, not the *session boundary*. Boundary operations —
 4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Conductor may be one step in a larger mode flow. After conductor's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
 5. **Clear the conductor marker**: remove the conductor line from `kivna/.active-modes`. Output `[conductor: closed]` as the final marker. Never touch the mode line — mode owns its own state.
 
-Then hand off: tell the user to run `/kerd:switch out` to write the session log, save the vault, and commit. Conductor does not do the boundary, and does not call `/kerd:kivna save` — switch owns the vault write now.
+Then hand off: tell the user to run `/kerd:switch out` to write the session log, save the vault, and make the session-state commit. Conductor does not pull, does not write session logs, and does not call `/kerd:kivna save` — but its own work is already committed and pushed, task by task, so the boundary has only session state left to carry.
 
 ## Principles
 
-- **No git boundary ops.** No `git pull`, no `git push`. Use `/kerd:switch` for that.
+- **Commit your work, never pull.** Work commits (code + the docs travelling with it) are conductor's, pushed at each verified task boundary, staged by name. Pulling is a boundary sync and belongs to `/kerd:switch` — it can change files under an in-flight task.
 - **Evidence before claims.** Every "done" must have a check that was run, output that was read, and a conclusion that follows.
 - **Hard stop on scope creep.** Out-of-plan work goes to backlog. No exceptions without reopening the plan.
 - **Three fixes, then escalate.** Don't thrash. Surface the problem.
 - **Docs travel with code.** If you change behavior, update the docs in the same commit.
-- **Conductor doesn't own the boundary.** No git pull/push/commit, no session log, no vault save. Work accumulates in TODO.md and decisions in CONTEXT.md during the session; switch writes the session log, saves the vault, and commits at the boundary.
+- **Conductor doesn't own the boundary — but it does own its work.** Two kinds of commit, two owners: *work commits* (code and its docs) are conductor's, made and pushed as each task verifies; the *session-state commit* (CONTEXT.md, TODO.md, session log, vault) is switch's, made once at the boundary. No pull, no session log, no vault save during a session. Decisions accumulate in CONTEXT.md and flow into the session log when switch runs.
 - **Four roles, kept distinct.** Composer owns intent, orchestrator owns the score, conductor owns the performance, players execute. Nobody's authority overlaps — that's what makes each one affordable to staff correctly.
 - **The orchestrator is a call, not a mode.** Top-tier reasoning is summoned for a brief and a score, then leaves. It never holds session context, watches the build, or reviews returned work. Buying it this way costs one brief and one score instead of a whole session at premium rates.
 - **Re-dispatch, never re-specify.** A failing step is either a player problem (re-dispatch) or a score problem (hand back to the orchestrator). The conductor never edits the score to make a failure go away — that silently voids the contract the composer approved.

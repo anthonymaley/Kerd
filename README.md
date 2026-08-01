@@ -11,7 +11,13 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.66.0)
+## What's New (v0.67.0)
+
+### v0.67.0
+
+**Conductor commits its own work; switch keeps the boundary.** Until now every commit waited for `/kerd:switch out`, which meant ending a session just to get work committed — even with plenty of context left. That rule was also self-contradictory: conductor's principles banned `pull`/`push` in one line and `pull`/`push`/`commit` in the next, while a third rule required doc updates to ship "in the same commit" as the code, a commit that could never happen. The split is now explicit. **Work commits** — code plus the docs travelling with it — belong to conductor, made and pushed as each task's verification gate passes, staged by name, with no approval beat. The **session-state commit** — CONTEXT.md, TODO.md, the session log, vault files — belongs to switch, once, at the boundary. **Pull stays switch-only**: pulling mid-execute can change files under an in-flight task.
+
+The reason this is more than convenience: the collateral check added in v0.66 (*did anything change that shouldn't have?*) only works on a small diff. Holding a whole session's work for one boundary commit interleaves three tasks' worth of change, which is exactly where a swallowed helper hides. Committing per verified task keeps `git diff HEAD~1` scoped to one step's intent. Tend still never commits, and its rationale is now stated properly — structural convergence has no verification gate behind it, so it stays in the working tree for review.
 
 ### v0.66.0
 
@@ -135,7 +141,7 @@ At execute, **the conductor may re-dispatch but never re-specify.** A failing st
 
 The project playbook (`docs/playbook.md`) — a living guide for rebuilding the project from scratch: tech stack, setup, architecture, integrations, gotchas, status — is updated as behavior changes (docs travel with code during execute), and switch captures session gotchas into it at the boundary. It grows with the project, session by session.
 
-During execution, decisions accumulate in TODO.md. Conductor doesn't touch the vault or write session logs — those are boundary operations switch owns. At close-out conductor updates TODO.md and hands off; switch then writes the session log and calls `/kivna save` once to update the vault, one clean write per session, not ten incremental dumps.
+**Conductor commits its own work.** As each task's verification gate passes, conductor commits the code and its travelling docs — staged by name, pushed immediately, no approval beat. It never pulls, and never stages session-state files. This exists so you don't have to end a session just to get work committed, and because the collateral check only works on a small diff: a whole session interleaved into one boundary commit is where a swallowed helper hides. Decisions accumulate in CONTEXT.md; conductor doesn't touch the vault or write session logs. At close-out it updates TODO.md and hands off; switch then writes the session log, calls `/kivna save` once, and makes the session-state commit — one clean write per session, not ten incremental dumps.
 
 Conductor is mode-aware: if a mode is active, orient reports the mode context and instruction, the plan respects the mode's scope, and close-out doesn't claim the session is done when running as part of a larger mode flow.
 
@@ -186,7 +192,7 @@ Use interrogate when the cost of being wrong is high; use capturerequirements wh
 
 ### switch (Session Handoff)
 
-Switch owns git boundary operations. All of them. The primary use is session handoff: you wrap up at a clean point, exit, and start fresh later with full context restored from disk. The same operations carry across machines as the secondary case. Switch keeps state, work, and history in three files — `CONTEXT.md` (what's currently true, overwritten in place), `TODO.md` (what's still to do, lean: `## Now` + `## Backlog`), and `kivna/sessions/` (what happened, immutable full-fidelity logs).
+Switch owns `git pull` and the session-state commit — CONTEXT.md, TODO.md, the session log, and vault files, committed once at the boundary. It is not the only thing that commits: conductor pushes each task's own work as that task verifies, so switch-out finds mostly session state rather than a session's worth of undelivered change. Nothing else pulls. The primary use is session handoff: you wrap up at a clean point, exit, and start fresh later with full context restored from disk. The same operations carry across machines as the secondary case. Switch keeps state, work, and history in three files — `CONTEXT.md` (what's currently true, overwritten in place), `TODO.md` (what's still to do, lean: `## Now` + `## Backlog`), and `kivna/sessions/` (what happened, immutable full-fidelity logs).
 
 When you wrap up a session, it updates CONTEXT.md and TODO.md, runs closure inference over open TODO items — each gets a done/open/unsure verdict against session evidence, shown as a readable list; done items close into the session log, unsure ones get tagged `(done? — confirm)` — writes the session log with branch metadata, reflects on the session (capturing gotchas and learnings, with a check that every gotcha reached the playbook), saves the vault without an approval prompt, then shows a pre-commit summary of what's about to ship. Untracked files get triaged (commit, gitignore, or leave) so nothing drifts silently. The final confirmation cites evidence: commit hash, push target, clean tree status.
 
@@ -258,7 +264,7 @@ Three modes. Audit reviews a file and reports violations with line numbers. Fix 
 
 Tend audits repo infrastructure against current Kerd conventions and fixes what's drifted. Run it on a new repo to set up everything from scratch, or on an existing repo to catch drift after a Kerd update. It checks nine categories: directory structure, required files, vault integration, deprecated patterns, naming consistency, stray/stale files, .gitignore hygiene, skill hygiene, and hook hygiene.
 
-The report shows each category as passing (✓), failing (✗), or warning (⚠). Failing and warning items get a current-vs-proposed table with reasons. After the report, choose to fix all, pick individually, or skip. Tend makes changes but never commits. Switch owns that boundary.
+The report shows each category as passing (✓), failing (✗), or warning (⚠). Failing and warning items get a current-vs-proposed table with reasons. After the report, choose to fix all, pick individually, or skip. Tend makes changes but never commits — unlike conductor's work commits, structural convergence has no verification gate behind it, so it stays in the working tree for you to review.
 
 ```
 /tend
@@ -349,7 +355,7 @@ The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tes
 
 **Quick sessions:** Use the `light` modifier when token cost matters. `/switch in light` skips the smoke test, `/switch out light` skips vault saves and reflection. You still get CONTEXT.md, TODO.md, session logs, and git operations. Full context when you need it, lightweight handoff when you don't.
 
-**The layers:** Switch owns git boundaries. Conductor owns session discipline. Kivna owns the knowledge vault. Mode sits above all of them, routing you to the right combination based on what you're doing. You can use any skill standalone, but mode ties them into a coherent flow.
+**The layers:** Switch owns the session boundary — pull, and the session-state commit. Conductor owns session discipline, and commits its own work as it verifies. Kivna owns the knowledge vault. Mode sits above all of them, routing you to the right combination based on what you're doing. You can use any skill standalone, but mode ties them into a coherent flow.
 
 ## Naming
 
