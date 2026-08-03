@@ -2,19 +2,23 @@
 
 ## Now
 
-- **Install 0.66.0 and run the re-seated conductor live** (`claude plugins install kerd`). v0.66 is written but has never executed — only the write-to-disk mechanic is tested (one trial). What to watch on the first real run: does the orchestrator subagent reliably write the spec and return a summary rather than dumping it back as text; does the after-the-body tagging rule actually shrink `[keep]` (the prediction is mostly-delegate with one or two review steps at the seams); and does a `[keep]` diff-review step catch collateral damage a verify command misses.
-- **Capture a baseline from the current shape while it's still installed** — the keep/delegate split and how much score-writing happens in-session, so v0.66 has something to be compared against. `~/3of3` and `~/dinner-tonight` both had live delegated sessions on 2026-07-31/08-01.
-- **Dogfood sherpa on `~/Bree`** — in that repo, fresh session. Decide first: mid-lifecycle pickup vs fresh feature (open question in CONTEXT.md).
+- **Agree the 18 first-cut requirements, one at a time.** They're in movement 9 of `docs/plans/2026-08-02-product-to-build.excalidraw`. Sequencing is Tony's: requirements → agree → *then* HOW and WHAT, which dictates what happens to the five scattered communication statements and to every other function. Two are marked `(?)` because they're drafted rather than read, and are where to start: *Design the interface MUST output machine-checkable values* (would constrain how Tony designs), and *How we talk to each other needs an enforcement point* (that's a solution smuggled into a requirement).
+- **Do NOT use `/kerd:capturerequirements` for this** — Tony's explicit instruction. It's under review, and its dated-snapshot output shape is the thing we suspect is wrong.
+- **Nothing gets ripped until the design is approved.**
+- **v0.66–v0.68 are installed and still have never run.** First real conductor session should watch: does the orchestrator subagent reliably write-and-summarise; does after-the-body tagging shrink `[keep]` (prediction: mostly delegate, one or two review steps); does a `[keep]` diff-review catch collateral a verify command misses. Tony is out of Fable credits, so the first run will exercise the unavailable-orchestrator fallback rather than the happy path.
 
 ## Backlog
 
-- Sweep stale version-pinned Kerd hooks in other repos (krutho-strategy, leru, obair — check each `.claude/settings.local.json`); rewire dead cache-version paths to the current version. `~/3of3` was fixed 2026-07-11 (was pinned to GC'd `0.41.0`) but is now pinned to `0.63.0` — still in cache, one GC away from breaking again. Also migrate each repo's `kivna/.focus → kivna/.pair` during the sweep: 3of3 still has `.focus`, so the partner-mode hook (which reads `.pair`) is silently off there. Overlaps the tend category-9 staleness item below — do manually now or wait for the automated check.
-- Mode reconciliation deferred until the sherpa dogfood; clean krutho-strategy's stray `sessions-of-record/` (tend detects it)
-- skriv voice profile: wiring held pending non-founder-genre samples (see CONTEXT.md)
-- Decide whether switch should commit the vault repo (contract vs behavior disagree — see CONTEXT.md)
-- Guard switch-in step 3 smoke test against context bloat: delegate build/test to a subagent (or tail/grep output); switch-in absorbs a pass/fail verdict, never a full build log. Low-severity; bites only on build-heavy repos (e.g. ~/3of3). Fold in next time the skill is touched.
-- Run /kerd:tend on krutho-founders, krutho-strategy, obair to migrate vaults (now also migrates them to the CONTEXT.md split via first switch-out)
-- Hook version staleness check in /kerd:tend (pinning is a recurring manual burden — 3of3 just proved it: cache GC breaks wired paths silently)
-- Stale Kerd.md MOC version field (says 0.31.0 vs actual) — update per release or remove (lean remove)
-- Consider promoting the refined question-formation rule from the pair hook into global `~/.claude/CLAUDE.md` — replace the hard multiple-choice ban in the Question-formation gate with a quality bar. Exact phrase ready to drop:
-  > Default to one open question. Offer options only when they *clarify* a real choice that's yours to make — a genuine, near-complete set of 2-4 distinct alternatives, each stated in a few crisp words. Not allowed: lazy binaries that offload a call you should make, vague or verbose options, or a menu that forecloses answers the user would otherwise give. If the options would pre-narrow an open space, ask open.
+- **The SPIKE** (movement 7): route ONE dead skill cheaply and watch whether it gets used. Beats route-vs-rip as a binary — neither side has evidence. Candidate: `capturerequirements`, as the cheapest to wire with the cleanest signal.
+- **CI on `~/3of3`** — the highest-consequence item on the board and the least Kerd-shaped. 0 workflows, 0 pre-commit hooks, every repo; build-green has already proven untrustworthy there.
+- Repin remaining repos to the current cache version: `leru`, `krutho-strategy`, `krutho-founders` are all still on `kerd/0.65.0` — alive today, one GC from breaking silently. `~/3of3` was repinned to 0.68.0 this session. `obair` has no Kerd pin at all (deliberate, or drift — unchecked).
+- Hook version staleness check in `/kerd:tend` — four occurrences now; the manual sweep only ever fixes the repo you happen to be looking at.
+- Guard switch-in step 3 smoke test against context bloat (delegate the build/test run; absorb a verdict, never a full log). A spec for this was produced as the orchestrator mechanic test and is in the scratchpad, not the repo.
+- Decide whether switch should commit the vault repo (contract vs behaviour disagree — see CONTEXT.md).
+- `CHANGELOG.md` is stale at 0.14.0 while the repo is at 0.68.0, and it's absent from the CLAUDE.md release checklist. Revive it or delete it.
+- Surface model-tiered delegation in the two plugin capability-list descriptions, or leave "session discipline" to subsume it. Open since v0.64.0; still unanswered.
+- Dogfood sherpa on `~/Bree` — now contingent on the design pass, since sherpa may be routed, reshaped or ripped.
+- Mode reconciliation deferred until that same decision; clean krutho-strategy's stray `sessions-of-record/`.
+- skriv voice profile: wiring held pending non-founder-genre samples.
+- Stale Kerd.md MOC version field (says 0.31.0) — update per release or remove (lean remove).
+- Consider promoting the refined question-formation rule from the pair hook into global `~/.claude/CLAUDE.md`. Note: this is one of the five statements the design pass found don't bind, so it may be superseded by whatever the requirements agreement decides.

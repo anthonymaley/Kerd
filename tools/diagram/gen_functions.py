@@ -128,6 +128,11 @@ CROSSCUTTING = [
   "ONE question, drilled. findings led, never\nstripped. the impact of the answer stated.\ngaps named, not smoothed. no vague X-or-Y,\nno menu built on unchecked assumptions",
   "ACHIEVED: one message resolved the decision\nGAP: 3of3 needed 'too much noise' typed to get a\nsimple view — and shipped a 4-option menu anyway"),
 
+ ("Do we have what we need?\n(entry gate, every rung)", "conductor orient only", "GAP",
+  "the declared INPUTS of the function\nabout to start — product → design →\ncontract → build",
+  "proceed, or PUSH BACK and name exactly what is\nmissing. never start a rung on assumed inputs.\nRENDERED, not prose: have / need / progress",
+  "ACHIEVED: a rung refused to start and said why\nGAP: exists at ONE rung — conductor's pre-flight\ninventory — and nowhere else in the flow"),
+
  ("Stay in control of\nexternal tools", "", "GAP",
   "an external skill or tool we want\na specific capability from",
   "the capability extracted — and its process,\nquestion style, file conventions and handoff\ntargets explicitly NOT adopted. Kerd's\ncontract wins every conflict.",
@@ -226,6 +231,8 @@ REQUIREMENTS = [
  ("CROSS-CUTTING", [
   ("How we talk to each other",
    "MUST be one question, drilled, carrying the findings it depends on.\n(?) needs an enforcement point — five written statements did not bind"),
+  ("Do we have what we need? (entry gate)",
+   "MUST check the declared inputs of the rung about to start, and MUST push\nback naming what is missing rather than proceeding on assumption.\nMUST be rendered — have / need / progress — not delivered as prose"),
   ("Stay in control of external tools",
    "MUST name what is NOT being adopted before the tool is invoked"),
  ]),

@@ -9,3 +9,7 @@ AGENTS.md
 
 # pair mode per-repo toggle (ephemeral)
 kivna/.pair
+
+# python bytecode from tools/
+__pycache__/
+*.pyc
