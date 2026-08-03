@@ -20,10 +20,10 @@ FUNCTIONS = [
    "fatal risks cleared, or the idea\nreshaped or killed",
    "ACHIEVED: a named risk was qualified with evidence\nand survived  GAP: risks are named but UNQUALIFIED —\nunsized, so they read as managed. (the earlier\n'never named' claim was drafted, not measured)"),
 
-  ("Hold product truth", "", "GAP",
+  ("Hold product truth", "CUT 2026-08-03", "cut",
    "shipped changes from build,\nrelease slices",
-   "living, user-side: what the\nproduct does today",
-   "ACHIEVED: doc matches the running app\nGAP: 6 Jul design doc held 1 Aug's answer, unread"),
+   "CUT. it failed its own test: asked whether any\nquestion had ever needed answering that the CODE\ncould not answer, the answer was no. a document\nrestating mechanism is a second source that drifts,\nand a drifted doc answers confidently and wrongly.",
+   "the 6 Jul doc that held 1 Aug's answer is NOT evidence\nthis was missing — the document EXISTED. it is evidence\nRETRIEVAL failed, and another document cannot fix that.\nRETURN CONDITION: a question the code cannot answer."),
 
   ("Slice a release ·\nSet the goal", "sherpa Launch", "unused",
    "product truth + intent +\nwhat is already built",
@@ -338,8 +338,11 @@ REQUIREMENTS = [
    "MUST leave every risk in one state: countermeasure (permanent or\nTEMPORARY, carrying its return condition), accepted, accepted unknown\n"
    "(by whom, when, why not gathered), or fatal.\nMUST NOT let an UNQUALIFIED risk reach the next stage — a named, unsized\n"
    "risk reads as managed, which is the failure mode this exists to stop."),
-  ("Hold product truth",
-   "MUST be diffable against the running app, and MUST be read when work\ntouches its area. Unread means it does not exist."),
+  ("Hold product truth  — CUT 2026-08-03",
+   "CUT. the code is the truth for mechanism and sequencing; a parallel\ndocument is a second source that drifts. the one measured failure behind\n"
+   "this function was RETRIEVAL, not absence — the document existed.\nwhat survives goes elsewhere: retrieval is the 'reachable' clause of\n"
+   "Where the work is written down; intent and value are already produced\nby Frame the intent.\n"
+   "RETURN CONDITION: a question arises that the code cannot answer."),
   ("Slice a release · Set the goal",
    "MUST state a DONE condition specific enough to terminate a loop"),
   ("Choose what matters next",

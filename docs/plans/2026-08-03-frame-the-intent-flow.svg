@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1554" height="2218" viewBox="260 40 1554 2218">
-<rect x="260" y="40" width="1554" height="2218" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1567" height="2218" viewBox="260 40 1567 2218">
+<rect x="260" y="40" width="1567" height="2218" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Frame the intent — stage flow</tspan>
 </text>
@@ -107,10 +107,17 @@
 </text>
 <text x="1596.0" y="774.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1596.0" dy="0.0">LEAVES THIS STAGE.</tspan>
-<tspan x="1596.0" dy="15.0">answered from Hold product</tspan>
-<tspan x="1596.0" dy="15.0">truth — not framed as new</tspan>
-<tspan x="1596.0" dy="15.0">work. framing a question as</tspan>
-<tspan x="1596.0" dy="15.0">a feature is how invented</tspan>
+<tspan x="1596.0" dy="15.0">answered FROM THE CODE — the</tspan>
+<tspan x="1596.0" dy="15.0">running system is the truth</tspan>
+<tspan x="1596.0" dy="15.0">for mechanism and sequencing.</tspan>
+<tspan x="1596.0" dy="15.0">(Hold product truth was cut</tspan>
+<tspan x="1596.0" dy="15.0">2026-08-03: no question has</tspan>
+<tspan x="1596.0" dy="15.0">yet needed answering that</tspan>
+<tspan x="1596.0" dy="15.0">the code could not answer.)</tspan>
+<tspan x="1596.0" dy="15.0"></tspan>
+<tspan x="1596.0" dy="15.0">the EXIT still matters:</tspan>
+<tspan x="1596.0" dy="15.0">framing a question as a</tspan>
+<tspan x="1596.0" dy="15.0">feature is how invented</tspan>
 <tspan x="1596.0" dy="15.0">work gets started.</tspan>
 </text>
 <polyline points="805.0,816.0 805.0,846.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>

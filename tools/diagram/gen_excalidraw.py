@@ -211,7 +211,11 @@ txt("in execution order. GROUNDING is what must be read before anything is produ
 
 STATUS = {"ok": (INK, GREY), "GAP": (RED, "transparent"),
           "unused": (RED, "transparent"), "external": (INK, "transparent"),
-          "dying": (INK, "transparent")}
+          "dying": (INK, "transparent"),
+          # a cut function stays ON the board, struck through rather than
+          # deleted — a function that silently vanishes leaves no record of
+          # why, and the return condition has to live somewhere visible.
+          "cut": (INK, FAINT)}
 
 # column geometry
 C_FN, W_FN   = X + 16,   240

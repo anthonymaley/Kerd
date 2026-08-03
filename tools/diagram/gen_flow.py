@@ -108,8 +108,10 @@ c.box("PROBLEM\nissue · complaint · broken", SP_X + 310, y, 290, 56,
       stroke=INK, bg=GREY, size=13)
 c.box("QUESTION\nabout the product", R_X, y, 260, 56, stroke=RED,
       size=13, dashed=True)
-c.txt("LEAVES THIS STAGE.\nanswered from Hold product\ntruth — not framed as new\n"
-      "work. framing a question as\na feature is how invented\nwork gets started.",
+c.txt("LEAVES THIS STAGE.\nanswered FROM THE CODE — the\nrunning system is the truth\n"
+      "for mechanism and sequencing.\n(Hold product truth was cut\n2026-08-03: no question has\n"
+      "yet needed answering that\nthe code could not answer.)\n\n"
+      "the EXIT still matters:\nframing a question as a\nfeature is how invented\nwork gets started.",
       R_X + 276, y + 2, 12, RED)
 y += 86
 

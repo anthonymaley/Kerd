@@ -18,19 +18,52 @@ This file is the **walk state**. Tick as we go.
 
 ## Interview state
 
-**1 of 25 functions interviewed.**
+**2 of 24 functions interviewed. 1 cut.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
 | Frame the intent | yes — 2026-08-03 | `2026-08-03-frame-the-intent-flow.excalidraw` | machine: pass · human: pending |
+| Test viability | yes — 2026-08-03 | `2026-08-03-test-viability-flow.excalidraw` | machine: pass · human: pending |
+| Hold product truth | **CUT 2026-08-03** | — | — |
 | *all others* | not yet | — | — |
+
+### Cut 2026-08-03 — *Hold product truth*
+
+Cut on its own test. Asked whether any question had ever needed answering that
+**the code could not answer**, the answer was no.
+
+The argument for cutting is stronger than the argument that built it:
+
+- The code is the truth for mechanism and sequencing. Tony's own examples —
+  *"how do we ingest data from x or y?"*, *"do we check authentication at this
+  step or before?"* — are all answerable from the running system. A parallel
+  document is a second source that drifts, and a drifted document answers
+  confidently and wrongly.
+- The one measured failure behind this function was **retrieval, not absence**.
+  The 6 July design doc that held 1 August's answer *existed*. Another document
+  cannot fix a retrieval problem.
+- What is genuinely not in the code — why a step sits where it does, what was
+  deliberately not built, what the thing is worth — is **already produced by
+  Frame the intent**.
+
+What survives, relocated:
+
+- **Retrieval** → the still-open `reachable` clause of *Where the work is
+  written down*.
+- **Intent and value** → `Frame the intent`, which already writes them.
+- **The QUESTION exit** from function 1 keeps its value and changes its
+  destination: answered *from the code*, still never framed as new work.
+
+**Return condition:** a question arises that the code cannot answer. This is a
+temporary countermeasure with a named trigger, not a permanent deletion — the
+same discipline agreed for risks in function 2, applied to a design decision.
 
 ### Settled on *Frame the intent*
 
 - **Triage is a branch inside one function, not a fork between two.** Three exits:
   NEW, PROBLEM, and QUESTION — which leaves the stage entirely and is answered
-  from *Hold product truth*. Framing a question as a feature is how invented work
-  gets started.
+  **from the code** (revised 2026-08-03 when *Hold product truth* was cut).
+  Framing a question as a feature is how invented work gets started.
 - The routes **diverge at grounding (4)**, stay apart through **output (6)**, and
   **rejoin at acceptance (7)** — shared machinery, route-specific checklist.
 - **Two documents, not one shape with optional sections**: an *idea brief* and a
@@ -85,9 +118,9 @@ approved. Rule is forward-only for now.
 
 | # | Rung | Requirement | MUSTs | (?) | Verdict |
 |---|---|---|---|---|---|
-| 1 | PRODUCT | Frame the intent | 1 | 0 | open |
-| 2 | PRODUCT | Test viability | 1 | 0 | open |
-| 3 | PRODUCT | Hold product truth | 2 | 0 | open |
+| 1 | PRODUCT | Frame the intent | 1 | 0 | **walked** |
+| 2 | PRODUCT | Test viability | 6 | 0 | **walked** |
+| 3 | PRODUCT | Hold product truth | — | — | **CUT** |
 | 4 | PRODUCT | Slice a release · Set the goal | 1 | 0 | open |
 | 5 | PRODUCT | Choose what matters next | 2 | 0 | open |
 | 6 | DESIGN | Shape the solution | 1 | 0 | open |
@@ -107,7 +140,7 @@ approved. Rule is forward-only for now.
 | 20 | CROSS-CUTTING | Do we have what we need? (entry gate) | 3 | 0 | open |
 | 21 | CROSS-CUTTING | Show where we are | 3 | 1 | open |
 | 22 | CROSS-CUTTING | Size work to a model | 2 | 1 | open |
-| 23 | CROSS-CUTTING | Where the work is written down | 5 | 4 | open |
+| 23 | CROSS-CUTTING | Where the work is written down | 5 | 1 | **agreed** (reachable still open) |
 | 24 | CROSS-CUTTING | Stay in control of external tools | 1 | 0 | open |
 
 Verdicts: `open` · `agreed` · `reworded` (text changed, then agreed) · `split`
