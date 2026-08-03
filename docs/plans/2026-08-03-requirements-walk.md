@@ -18,14 +18,15 @@ This file is the **walk state**. Tick as we go.
 
 ## Interview state
 
-**3 of 25 functions interviewed. 1 cut. 1 added.**
+**5 of 25 functions interviewed — PRODUCT RUNG COMPLETE. 1 cut. 1 added.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
 | Frame the intent | yes — 2026-08-03 | `2026-08-03-frame-the-intent-flow.excalidraw` | machine: pass · human: pending |
 | Test viability | yes — 2026-08-03 | `2026-08-03-test-viability-flow.excalidraw` | machine: pass · human: pending |
-| Slice a release · Set the goal | yes — 2026-08-03 | pending | machine: pass · human: pending |
-| What we ruled out, and why | **added 2026-08-03** (cross-cutting) | pending | machine: pass · human: pending |
+| Slice a release · Set the goal | yes — 2026-08-03 | `2026-08-03-slice-a-release-flow.excalidraw` | machine: pass · human: **reviewed** |
+| Choose what matters next | yes — 2026-08-03 | `2026-08-03-choose-what-matters-view.excalidraw` | machine: pass · human: pending |
+| What we ruled out, and why | **added 2026-08-03** (cross-cutting) | `2026-08-03-what-we-ruled-out-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Hold product truth | **CUT 2026-08-03** | — | — |
 | *all others* | not yet | — | — |
 
@@ -84,6 +85,29 @@ deliberately not built" when *Hold product truth* was cut.
 - Each entry carries the **condition that would bring it back**. Third thing today
   with a return condition, which suggests a general rule rather than three
   coincidences.
+
+### Settled on *Choose what matters next*
+
+- **The failure is not bad ranking — it is items that cannot be weighed.** Three
+  things missing, and only one is about order: no diagram, no clear structure
+  (same shape per item), no clear ask. "Too much noise" is not volume; a list of
+  prose titles gives you nothing to compare, however short.
+- **Two constant axes, both about OUTCOME: consequence × value.** Consequence is
+  what it costs us not to do it; value is what we gain. Value is already declared
+  by *Frame the intent* and already used by *Test viability* — third caller for
+  the same number rather than a new measure.
+- **Effort is not an axis.** An input measure beside two outcome measures makes
+  the grid incoherent, and it systematically flatters cheap work. Tested live:
+  under effort×consequence, "repin the three repos" rose as a cheap win; under
+  value it fell correctly to pure hygiene — high consequence, no value. "The
+  SPIKE" rose for the mirror reason. Effort survives as a tiebreaker inside a
+  cell and as one of the five slicing factors at *Slice a release*.
+- **Each item names WHAT WE LOSE by not choosing it** — v0.68's rule applied to
+  work. A ranked list shows what you picked and never what you gave up.
+- **Blocked items are separated, not ranked.** A dependency is a hard constraint,
+  so they are not candidates at any consequence.
+- Kerd's own switch-in pick-list is an instance of this gap: a numbered menu
+  ordered by position in TODO.md, title-only, no consequence, no value, no loss.
 
 ### Cut 2026-08-03 — *Hold product truth*
 
@@ -180,7 +204,7 @@ approved. Rule is forward-only for now.
 | 2 | PRODUCT | Test viability | 6 | 0 | **walked** |
 | 3 | PRODUCT | Hold product truth | — | — | **CUT** |
 | 4 | PRODUCT | Slice a release · Set the goal | 6 | 0 | **walked** |
-| 5 | PRODUCT | Choose what matters next | 2 | 0 | open |
+| 5 | PRODUCT | Choose what matters next | 6 | 0 | **walked** |
 | 6 | DESIGN | Shape the solution | 1 | 0 | open |
 | 7 | DESIGN | Agree the shape | 1 | 0 | open |
 | 8 | DESIGN | Decide what proves it | 1 | 0 | open |

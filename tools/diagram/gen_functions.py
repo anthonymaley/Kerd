@@ -276,6 +276,50 @@ DETAIL = {
    "deferred, and why this cut rather than another.",
  },
 
+ "Choose what matters next": {
+  "in":
+   "the open work — everything not yet done, from every\n"
+   "release grouping. plus, for each item, the VALUE that\n"
+   "framing declared for it.",
+  "grounding":
+   "the failure is NOT bad ranking. it is that the items are\n"
+   "not in a form you can weigh. three things missing, and\n"
+   "only one of them is about order:\n"
+   "  NO DIAGRAM         — rendered, not prose\n"
+   "  NO CLEAR STRUCTURE — same shape per item, so they are\n"
+   "                       actually comparable\n"
+   "  NO CLEAR ASK       — what decision is wanted, per item\n\n"
+   "'too much noise' is not volume. a list of prose titles\n"
+   "gives you nothing to weigh, however short it is.\n\n"
+   "items BLOCKED on a dependency are not candidates at all —\n"
+   "a dependency is a hard constraint, so they cannot be\n"
+   "'next' at any consequence. draw them apart.",
+  "out":
+   "candidates on TWO CONSTANT AXES, both about OUTCOME:\n"
+   "  CONSEQUENCE — what it costs us NOT to do it\n"
+   "  VALUE       — what we gain by doing it. already declared\n"
+   "                by Frame the intent and already used by\n"
+   "                Test viability. third caller, not a new\n"
+   "                measure.\n\n"
+   "and, per item, WHAT WE LOSE by not choosing it. v0.68's\n"
+   "rule applied to work: name the loss, or it disappears into\n"
+   "the good news. a ranked list shows what you picked and\n"
+   "never what you gave up.\n\n"
+   "EFFORT IS NOT AN AXIS. it is an INPUT measure beside two\n"
+   "OUTCOME measures, which makes the grid incoherent, and it\n"
+   "systematically flatters cheap work. it survives as a\n"
+   "tiebreaker inside a cell, and as one of the five slicing\n"
+   "factors at Slice a release.",
+  "acceptance":
+   "MACHINE: every candidate carries consequence, value and\n"
+   "its loss. blocked items are separated, not ranked. the\n"
+   "view is RENDERED — prose fails this by construction.\n\n"
+   "HUMAN: Tony can weigh them at a glance and say which.\n\n"
+   "the test is not 'is the ranking right'. it is 'can he\n"
+   "compare them at all'. an item he cannot understand\n"
+   "without opening it fails, however well it is ranked.",
+ },
+
  "Test viability": {
   "in":
    "the framed artifact — idea brief or problem statement —\n"
@@ -405,7 +449,12 @@ REQUIREMENTS = [
    "The DONE condition MUST be ASSEMBLED from upstream declarations, never\nauthored at the end: every item is a conformance check against something\n"
    "already declared. MUST NOT contain an item nothing declared — it cannot\nbe checked, so it passes by assertion."),
   ("Choose what matters next",
-   "MUST rank by consequence and show the reasoning.\nMUST NOT rank by what fits the session about to run."),
+   "MUST present candidates on two constant axes, both about OUTCOME:\nCONSEQUENCE (what it costs us not to do it) and VALUE (what we gain).\n"
+   "MUST NOT use EFFORT as an axis — an input measure beside outcome measures\nmakes the grid incoherent and flatters cheap work.\n"
+   "MUST name, per item, WHAT WE LOSE by not choosing it — a ranked list shows\nwhat you picked and never what you gave up.\n"
+   "MUST be RENDERED, with the same structure per item and a clear ask. the\nfailure is not bad ranking, it is items that cannot be weighed: no diagram,\n"
+   "no structure, no ask.\nMUST separate items BLOCKED on a dependency — they are not candidates at\n"
+   "any consequence.\nMUST NOT rank by what fits the session about to run."),
  ]),
  ("DESIGN", [
   ("Shape the solution",
