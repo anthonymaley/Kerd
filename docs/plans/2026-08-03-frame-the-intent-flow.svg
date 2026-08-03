@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1894" height="2721" viewBox="-80 -463 1894 2721">
-<rect x="-80" y="-463" width="1894" height="2721" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1554" height="2218" viewBox="260 40 1554 2218">
+<rect x="260" y="40" width="1554" height="2218" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Frame the intent — stage flow</tspan>
 </text>
@@ -353,13 +353,5 @@
 <tspan x="300.0" dy="18.8">Two things this stage still owes: the route-specific acceptance checklists are named but not</tspan>
 <tspan x="300.0" dy="18.8">written, and neither document has a declared home or naming rule — that is blocked on the</tspan>
 <tspan x="300.0" dy="18.8">cross-cutting &quot;Where the work is written down&quot;, which is still drafted and unagreed.</tspan>
-</text>
-<text x="454.2" y="445.7" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
-<tspan x="454.2" dy="0.0">Its extensively tested in</tspan>
-<tspan x="454.2" dy="15.0">~/toyota-sensei and other</tspan>
-<tspan x="454.2" dy="15.0">projects though</tspan>
-</text>
-<text x="-40.0" y="-408.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
-<tspan x="-40.0" dy="0.0">Green is collaboration Foudner &gt; Claude</tspan>
 </text>
 </svg>

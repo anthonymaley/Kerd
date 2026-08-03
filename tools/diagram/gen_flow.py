@@ -238,12 +238,20 @@ c.txt("Settled: TRIAGE is a branch inside ONE function, not a fork between two. 
       X, y + 40, 15, RED)
 
 # ── write ────────────────────────────────────────────────────────────────
-# ── merge preserved annotations back in ──────────────────────────────────
+# ── merge the open annotation queue back in ──────────────────────────────
+# Annotations are a QUEUE, not an archive. Tony's comments are captured here,
+# acted on, then DELETED — the substance moves into the diagram, the generator
+# or a decision record, and the disposition is logged in annotations/log.md so
+# nothing vanishes silently. Only unanswered comments should be in this file.
+#
+# This is also what fixes annotation drift: a preserved comment kept absolute
+# position but not attachment, so it slid away from what it annotated whenever
+# the layout reflowed. A comment that lives one cycle cannot drift.
+#
 # Ownership note: customData {gen: kerd} is NOT a reliable marker. Excalidraw
 # propagates customData onto newly drawn elements, so Tony's own comments came
 # back tagged as ours. Element ids fail too — they are reassigned on paste.
-# What works is diffing the clipboard against the generated file by text, which
-# is how these were captured. Keep annotations in their own file.
+# What works is diffing the clipboard against the generated file by text.
 import os
 _ann = ("/Users/anthonymaley/Kerd/docs/plans/annotations/"
         "2026-08-03-frame-the-intent-tony.json")
