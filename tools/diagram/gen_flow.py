@@ -13,7 +13,7 @@ import json
 import sys
 
 sys.path.insert(0, "/Users/anthonymaley/Kerd/tools/diagram")
-from kit import Canvas, INK, RED, GREY, FAINT
+from kit import Canvas, INK, RED, GREEN, BLUE, GREY, FAINT, mark_deltas
 from to_svg import (to_svg, overflow_report, collision_report,
                     text_overlap_report)
 
@@ -28,10 +28,13 @@ c.txt("Frame the intent — stage flow", X, 80, 32)
 c.txt("PRODUCT rung · function 1 of 5 · interviewed 2026-08-03\n"
       "sequence, branches, artifacts and approvals for ONE stage. the board says "
       "what it must do; this says how it runs.", X, 124, 15)
-c.txt("DECISIONS are dashed  ·  ARTIFACTS are listed right  ·  red marks a route "
-      "that leaves the stage or blocks it", X, 172, 14, RED)
+c.txt("DECISIONS are dashed  ·  ARTIFACTS are listed right", X, 172, 14, INK)
+c.txt("RED — cost, or a route that leaves the stage / blocks it", X, 192, 14, RED)
+c.txt("GREEN — Tony's input into the work: his annotations, his corrections",
+      X, 212, 14, GREEN)
+c.txt("BLUE — changed since you last marked this reviewed", X, 232, 14, BLUE)
 
-y = 240
+y = 288
 
 
 def step(n, kind, title, body, artifact="", note="", colour=INK, dashed=False,
@@ -136,7 +139,9 @@ step("5", "DECISION", "Does a tool's route match?",
      "  otherwise — skip it. most work does not need it.",
      artifact="VISUAL: if sensei is\ninvoked, the pattern's\nown diagram, conforming\n"
               "to that pattern's rules,\nwith measurements.",
-     note="BET: sensei is UNTESTED\nin Kerd. named here so it\ncan be discharged by name.",
+     note="BET: sensei is PROVEN —\nextensively used in\n~/toyota-sensei and other\n"
+          "projects. what is untested\nis TRANSFER into Kerd.\nthe bet is the move,\n"
+          "not the method.",
      dashed=True)
 down()
 
@@ -233,12 +238,38 @@ c.txt("Settled: TRIAGE is a branch inside ONE function, not a fork between two. 
       X, y + 40, 15, RED)
 
 # ── write ────────────────────────────────────────────────────────────────
+# ── merge preserved annotations back in ──────────────────────────────────
+# Ownership note: customData {gen: kerd} is NOT a reliable marker. Excalidraw
+# propagates customData onto newly drawn elements, so Tony's own comments came
+# back tagged as ours. Element ids fail too — they are reassigned on paste.
+# What works is diffing the clipboard against the generated file by text, which
+# is how these were captured. Keep annotations in their own file.
+import os
+_ann = ("/Users/anthonymaley/Kerd/docs/plans/annotations/"
+        "2026-08-03-frame-the-intent-tony.json")
+if os.path.exists(_ann):
+    _a = json.load(open(_ann))["elements"]
+    for _e in _a:
+        _e.setdefault("customData", {})["author"] = "tony"
+        _e["index"] = "z" + str(len(c.els)).zfill(4)
+        c.els.append(_e)
+    print(f"merged {len(_a)} preserved annotation(s)")
+
+out = "/Users/anthonymaley/Kerd/docs/plans/2026-08-03-frame-the-intent-flow.excalidraw"
+_marked, _supp = mark_deltas(c.els, out)
+if _marked or _supp:
+    print(f"blue: {_marked} changed since last reviewed"
+          + (f" ({_supp} kept red/green — those meanings outrank newness)"
+             if _supp else ""))
+else:
+    print("blue: nothing marked (no reviewed snapshot yet — "
+          "run mark_reviewed.py once you have read it)")
+
 doc = {"type": "excalidraw", "version": 2, "source": "https://excalidraw.com",
        "elements": c.els,
        "appState": {"gridSize": None, "viewBackgroundColor": "#ffffff"},
        "files": {}}
 
-out = "/Users/anthonymaley/Kerd/docs/plans/2026-08-03-frame-the-intent-flow.excalidraw"
 json.dump(doc, open(out, "w"), indent=1)
 print("wrote", out)
 print(f"elements: {len(c.els)}")

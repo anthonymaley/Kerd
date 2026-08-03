@@ -370,7 +370,8 @@ TOOLING = [
   "PARTIAL. gives the capability, then\ncaptures the plan phase and routes to\nwriting-plans. never returns."),
  ("sensei story", "agreeing a shape",
   "A3 narrative structure — proposal, compare/contrast, roadmap",
-  "UNTESTED. structure looks right;\nnever run in Kerd"),
+  "PROVEN, ELSEWHERE. extensively used in\n~/toyota-sensei and other projects.\n"
+  "never run inside Kerd — so the bet is\nTRANSFER, not the method."),
  ("/loop", "driving to done",
   "run until the goal is met or the hand-back point is reached",
   "UNTESTED. MUST NOT run where\nnothing can refuse"),

@@ -1488,19 +1488,21 @@
 <tspan x="1430.0" dy="15.0">captures the plan phase and routes to</tspan>
 <tspan x="1430.0" dy="15.0">writing-plans. never returns.</tspan>
 </text>
-<rect x="318.0" y="9310.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="403.0" y="9337.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="318.0" y="9310.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="403.0" y="9337.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">sensei story</tspan>
 </text>
-<text x="505.0" y="9334.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="9334.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">agreeing a shape</tspan>
 </text>
 <text x="840.0" y="9326.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">A3 narrative structure — proposal, compare/contrast, roadmap</tspan>
 </text>
-<text x="1430.0" y="9326.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="1430.0" dy="0.0">UNTESTED. structure looks right;</tspan>
-<tspan x="1430.0" dy="15.0">never run in Kerd</tspan>
+<text x="1430.0" y="9326.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1430.0" dy="0.0">PROVEN, ELSEWHERE. extensively used in</tspan>
+<tspan x="1430.0" dy="15.0">~/toyota-sensei and other projects.</tspan>
+<tspan x="1430.0" dy="15.0">never run inside Kerd — so the bet is</tspan>
+<tspan x="1430.0" dy="15.0">TRANSFER, not the method.</tspan>
 </text>
 <rect x="318.0" y="9372.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="403.0" y="9399.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">

@@ -11,7 +11,9 @@ express membership, which containment already says better.
 """
 
 INK = "#1e1e1e"
-RED = "#e03131"
+RED = "#e03131"          # cost, or a route that leaves / blocks
+GREEN = "#2f9e44"        # Tony's input into the work — his annotations
+BLUE = "#1971c2"         # changed since the file was last marked reviewed
 GREY = "#e9ecef"
 FAINT = "#f8f9fa"
 
@@ -109,3 +111,64 @@ class Canvas:
 
     def arrow(self, pts, stroke=INK, sw=1, dashed=False):
         return self.line(pts, stroke, sw, dashed, arrow=True)
+
+
+# ── delta marking ────────────────────────────────────────────────────────
+# BLUE answers "what changed since I last looked", which on a living document
+# regenerated many times a day is the thing you actually want to read.
+#
+# Baseline is an explicit reviewed snapshot, NOT the previous generated file
+# and NOT the last commit — both move far more often than Tony reads, which
+# would make blue mean "changed since some moment nobody chose".
+#
+# Red and green win over blue where they collide: cost and Tony's own input
+# are permanent meanings, newness is temporary. A changed red element stays
+# red, and the run reports the count so the delta is not silently lost.
+
+import json as _json
+import os as _os
+
+REVIEWED_DIR = "/Users/anthonymaley/Kerd/docs/plans/.reviewed"
+
+
+def _reviewed_path(out_path):
+    return _os.path.join(REVIEWED_DIR, _os.path.basename(out_path))
+
+
+def mark_deltas(els, out_path):
+    """Colour text BLUE when it is not in the last reviewed snapshot.
+
+    Returns (marked, suppressed): suppressed counts changed elements that kept
+    a red or green colour because those meanings outrank newness.
+    """
+    snap = _reviewed_path(out_path)
+    if not _os.path.exists(snap):
+        return (0, 0)                       # never reviewed — nothing is "new"
+    was = set(_json.load(open(snap))["texts"])
+    marked = suppressed = 0
+    for e in els:
+        if e["type"] != "text" or e.get("text") in was:
+            continue
+        if e["strokeColor"] == INK:
+            e["strokeColor"] = BLUE
+            marked += 1
+        else:
+            suppressed += 1
+    return (marked, suppressed)
+
+
+def mark_reviewed(out_path):
+    """Snapshot the current output as 'Tony has seen this'. Blue resets.
+
+    Stores only the text strings, not the elements. The question this answers
+    is "what wording is new", so a full element dump was 68K of duplicated
+    geometry to answer a question about strings — and it would have grown by
+    that much per diagram, per review.
+    """
+    _os.makedirs(REVIEWED_DIR, exist_ok=True)
+    snap = _reviewed_path(out_path)
+    with open(out_path) as f:
+        doc = _json.load(f)
+    texts = sorted({e["text"] for e in doc["elements"] if e["type"] == "text"})
+    _json.dump({"texts": texts}, open(snap, "w"), indent=1)
+    return snap
