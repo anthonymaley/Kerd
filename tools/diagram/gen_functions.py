@@ -18,7 +18,7 @@ FUNCTIONS = [
   ("Test viability", "interrogate /\nsherpa Validate", "unused",
    "the framed intent +\nits killer assumption",
    "fatal risks cleared, or the idea\nreshaped or killed",
-   "ACHIEVED: a named risk was tested and survived\nGAP: risks carried forward, never named"),
+   "ACHIEVED: a named risk was qualified with evidence\nand survived  GAP: risks are named but UNQUALIFIED —\nunsized, so they read as managed. (the earlier\n'never named' claim was drafted, not measured)"),
 
   ("Hold product truth", "", "GAP",
    "shipped changes from build,\nrelease slices",
@@ -220,6 +220,69 @@ DETAIL = {
    "assumption differs, the test does not — a problem going\n"
    "straight to design is the jump-to-countermeasure failure.",
  },
+
+ "Test viability": {
+  "in":
+   "the framed artifact — idea brief or problem statement —\n"
+   "its killer assumption, and the viability SIGNAL from\n"
+   "framing. never a verdict; testing it is this rung's job.\n\n"
+   "what counts as KILLER differs by route:\n"
+   "  IDEA     — is the need real, and can we win?\n"
+   "  PROBLEM  — is the cause correctly located, and is\n"
+   "             closing the gap worth what it costs?",
+  "grounding":
+   "risks are NOT unnamed — that was a drafted claim and it was\n"
+   "wrong. they are unmitigated, unqualified, or accepted\n"
+   "unknowns. UNQUALIFIED is the dangerous one: a named,\n"
+   "unsized risk reads as managed because it is written down.\n\n"
+   "EVIDENCE is what qualifies a risk — a TEST or an ANALYSIS,\n"
+   "whichever is cheaper and would actually change the decision.\n"
+   "analysis is evidence: not everything needs an experiment.\n\n"
+   "two passes, or 'risk-driven' becomes a full risk register:\n"
+   "  1. cheap estimate, to triage what could be fatal\n"
+   "  2. real evidence for those candidates only",
+  "out":
+   "QUALIFIED = proven AND measured. three fields, never one:\n"
+   "  proven by   — the test or the analysis\n"
+   "  impact      — measured, in the units VALUE was stated in\n"
+   "  likelihood  — separately. do NOT multiply it by impact:\n"
+   "                expected value is the wrong maths for a bet\n"
+   "                taken once. 5% of ending it is not 5% damage.\n\n"
+   "FATAL = impact >= the value framing declared, at any\n"
+   "likelihood. likelihood sets the RESPONSE, not the class.\n\n"
+   "A RISK WITHOUT A COUNTERMEASURE IS A BLOCKER. that is the\n"
+   "default, so silence STOPS the work rather than passing it.\n"
+   "each risk therefore lands in one of three:\n"
+   "  COUNTERMEASURE, PERMANENT — root cause addressed\n"
+   "  COUNTERMEASURE, TEMPORARY — contained, not cured. carries\n"
+   "    the condition that brings it back. an unmarked temporary\n"
+   "    countermeasure is a permanent one by neglect.\n"
+   "  BLOCKER — no countermeasure. clears ONLY by an explicit\n"
+   "    act of acceptance: who, when, and on what basis. an\n"
+   "    accepted UNKNOWN is a blocker accepted without even\n"
+   "    knowing its size — allowed, but never by default.\n\n"
+   "THE LIMIT ON ACCEPTANCE: high impact + high likelihood +\n"
+   "no countermeasure = DEAD PROJECT. not a kill you choose,\n"
+   "a state you recognise. every other blocker may be accepted\n"
+   "by name; this one may not, or acceptance becomes an escape\n"
+   "hatch for anything. only RESHAPE or KILL remain.\n\n"
+   "verdict: proceed only when NO unaccepted blocker remains.\n"
+   "otherwise reshape, or kill. a kill here is a SUCCESS —\n"
+   "the cheapest place the thing can die.",
+  "acceptance":
+   "MACHINE: nothing is merely NAMED. every risk is proven,\n"
+   "measured and given a likelihood, or is an explicit accepted\n"
+   "unknown. impact and value are in comparable units. every\n"
+   "countermeasure states what it is expected to do — it is a\n"
+   "hypothesis, so it must be checkable later. every TEMPORARY\n"
+   "countermeasure carries its return condition. no blocker is\n"
+   "unaccepted.\n\n"
+   "HUMAN: Tony accepts each blocker BY NAME — including the\n"
+   "unknowns and any low-likelihood fatal. rounding a low\n"
+   "probability to zero silently is what this gate stops.\n\n"
+   "an UNQUALIFIED risk reaching the next stage is the exact\n"
+   "failure this function exists to prevent."
+ },
 }
 
 
@@ -270,7 +333,11 @@ REQUIREMENTS = [
   ("Frame the intent",
    "MUST state why this exists in terms checkable by someone outside the build,\nand be reachable by the design rung without asking a question"),
   ("Test viability",
-   "MUST name the assumption that kills it, and record which risks were tested\nversus carried forward — carried is fine, silent is not"),
+   "MUST qualify every candidate-fatal risk with EVIDENCE — a test or an\nanalysis — and record impact and likelihood SEPARATELY, never multiplied.\n"
+   "FATAL = impact >= the value framing declared, at any likelihood.\n"
+   "MUST leave every risk in one state: countermeasure (permanent or\nTEMPORARY, carrying its return condition), accepted, accepted unknown\n"
+   "(by whom, when, why not gathered), or fatal.\nMUST NOT let an UNQUALIFIED risk reach the next stage — a named, unsized\n"
+   "risk reads as managed, which is the failure mode this exists to stop."),
   ("Hold product truth",
    "MUST be diffable against the running app, and MUST be read when work\ntouches its area. Unread means it does not exist."),
   ("Slice a release · Set the goal",

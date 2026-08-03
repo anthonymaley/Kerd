@@ -157,6 +157,65 @@ def mark_deltas(els, out_path):
     return (marked, suppressed)
 
 
+class Flow(Canvas):
+    """A per-stage flow diagram: a spine of numbered steps, gutters either side.
+
+    Extracted when the second stage was drawn. The board and the flows already
+    share drawing primitives; the flows now share their layout too, so a fix to
+    step spacing or the legend lands on every stage rather than the one being
+    edited.
+    """
+
+    X = 300
+    SP_X, SP_W = 660, 600        # the spine — the steps themselves
+    L_X = 300                    # left gutter — step number and kind
+    R_X = 1320                   # right gutter — artifacts, approvals, notes
+
+    def __init__(self, title, subtitle):
+        super().__init__()
+        self.txt(title, self.X, 80, 32)
+        self.txt(subtitle, self.X, 124, 15)
+        self.txt("DECISIONS are dashed  ·  ARTIFACTS are listed right",
+                 self.X, 172, 14, INK)
+        self.txt("RED — cost, or a route that leaves the stage / blocks it",
+                 self.X, 192, 14, RED)
+        self.txt("GREEN — Tony's input into the work: his annotations, "
+                 "his corrections", self.X, 212, 14, GREEN)
+        self.txt("BLUE — changed since you last marked this reviewed",
+                 self.X, 232, 14, BLUE)
+        self.y = 288
+
+    def step(self, n, kind, title, body, artifact="", note="", colour=INK,
+             dashed=False, h=None):
+        """One box on the spine, with its number/kind left and artifacts right."""
+        # Box height follows the TITLE. The body renders below the box, so
+        # sizing from body length inflated decisions into tall empty rectangles.
+        bh = h or max(60, 30 + (title.count("\n") + 1) * 22)
+        self.txt(f"{n}", self.L_X, self.y + 6, 26, colour)
+        self.txt(kind, self.L_X + 44, self.y + 12, 13, colour)
+        self.box(title, self.SP_X, self.y, self.SP_W, bh, stroke=colour,
+                 bg=GREY if not dashed and colour == INK else "transparent",
+                 size=14, dashed=dashed)
+        if body:
+            self.txt(body, self.SP_X + 18, self.y + bh + 8, 12, INK)
+        if artifact:
+            self.txt(artifact, self.R_X, self.y + 4, 12, colour)
+        if note:
+            self.txt(note, self.R_X,
+                     self.y + 4 + (artifact.count("\n") + 2) * 15, 12, RED)
+        self.y += bh + (17 * (body.count("\n") + 1) + 22 if body else 26)
+        return bh
+
+    def down(self, gap=34, colour=INK, dashed=False, label=""):
+        """Arrow along the spine to the next step."""
+        cx = self.SP_X + self.SP_W / 2
+        self.arrow([(cx, self.y), (cx, self.y + gap)], stroke=colour,
+                   dashed=dashed)
+        if label:
+            self.txt(label, cx + 16, self.y + gap / 2 - 8, 12, colour)
+        self.y += gap
+
+
 def mark_reviewed(out_path):
     """Snapshot the current output as 'Tony has seen this'. Blue resets.
 
