@@ -315,6 +315,31 @@ for layer, reqs in REQUIREMENTS:
         txt(must, X + 370, ry_ + 6, 13, RED if "(?)" in must else INK)
         ry_ += 62
     qy += h + 14
+
+# ══ 10. Tooling — requirements per tool, per caller ══════════════════════
+from gen_functions import TOOLING
+
+y10 = qy + 90
+txt("10. Tooling — what each tool must do, and for whom", X, y10, 24)
+txt("a tool can be excellent for one caller and wrong for another. this is the "
+    "improve-or-replace lens.", X, y10 + 34, 15)
+
+txt("TOOL", X + 18, y10 + 74, 13)
+txt("CALLER", X + 210, y10 + 74, 13)
+txt("WHAT THAT CALLER REQUIRES", X + 540, y10 + 74, 13)
+txt("MET?", X + 1130, y10 + 74, 13)
+
+ty10 = y10 + 100
+rect(X, ty10, W6, 24 + len(TOOLING) * 62, stroke=INK)
+ry_ = ty10 + 16
+for tool, caller, req, met in TOOLING:
+    bad = met.startswith(("UNKNOWN", "PARTIAL", "DYING", "UNTESTED"))
+    c = RED if bad else INK
+    box(tool, X + 18, ry_, 170, 46, stroke=c, bg=GREY if not bad else "transparent", size=13)
+    txt(caller, X + 205, ry_ + 12, 12, c)
+    txt(req, X + 540, ry_ + 4, 12)
+    txt(met, X + 1130, ry_ + 4, 12, c)
+    ry_ += 62
 # ══ merge preserved annotations back in ══════════════════════════════════
 import os, json as _json
 _ann = "/Users/anthonymaley/Kerd/docs/plans/annotations/2026-08-02-tony.json"
