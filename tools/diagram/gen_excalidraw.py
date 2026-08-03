@@ -35,6 +35,7 @@ def rect(x, y, w, h, stroke=INK, bg="transparent", sw=1, dashed=False):
         "index": _idx(), "roundness": {"type": 3}, "seed": 10000 + _n[0] * 7,
         "version": 1, "versionNonce": 20000 + _n[0] * 13, "isDeleted": False,
         "boundElements": [], "updated": 1785400000000, "link": None, "locked": False,
+        "customData": {"gen": "kerd"},
     }
     els.append(e)
     return e
@@ -54,7 +55,7 @@ def txt(s, x, y, size=16, stroke=INK, align="left", container=None):
         "boundElements": [], "updated": 1785400000000, "link": None, "locked": False,
         "text": s, "fontSize": size, "fontFamily": 5, "textAlign": align,
         "verticalAlign": "top", "containerId": container, "originalText": s,
-        "autoResize": True, "lineHeight": 1.25,
+        "autoResize": True, "lineHeight": 1.25, "customData": {"gen": "kerd"},
     }
     els.append(e)
     return e
@@ -244,6 +245,39 @@ txt("5 gaps  ·  3 built but unused  ·  6 working.\n"
     "\"Route to the altitude\" is the keystone: nothing performs it, and it is what would\n"
     "decide whether the three unused ones are ever reached at all.",
     X + 18, fy + 10, 15, RED)
+
+
+# ══ 7. What gets built, and in what order ════════════════════════════════
+from gen_functions import SEQUENCE
+
+y7 = fy + 120
+txt("7. What gets built — and in what order", X, y7, 24)
+txt("Tony's call. The routing bet is untested, so it is spiked rather than decided.",
+    X, y7 + 34, 15)
+
+sy = y7 + 74
+for band, colour, items in SEQUENCE:
+    bh = 46 + len(items) * 46
+    rect(X, sy, W6, bh, stroke=colour, dashed=(band.startswith("SPIKE")))
+    txt(band, X + 18, sy + 12, 18, colour)
+    iy = sy + 46
+    for name, why in items:
+        box(name, X + 230, iy, 400, 36, stroke=colour,
+            bg=GREY if colour == INK else "transparent", size=13)
+        txt(why, X + 650, iy + 9, 13)
+        iy += 46
+    sy += bh + 14
+
+# ══ merge preserved annotations back in ══════════════════════════════════
+import os, json as _json
+_ann = "/Users/anthonymaley/Kerd/docs/plans/annotations/2026-08-02-tony.json"
+if os.path.exists(_ann):
+    _a = _json.load(open(_ann))["elements"]
+    for _e in _a:
+        _e.setdefault("customData", {})["author"] = "tony"
+        _e["index"] = "z" + str(len(els)).zfill(4)
+        els.append(_e)
+    print(f"merged {len(_a)} preserved annotation(s)")
 
 doc = {"type": "excalidraw", "version": 2, "source": "https://excalidraw.com",
        "elements": els,

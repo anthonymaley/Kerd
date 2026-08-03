@@ -38,7 +38,10 @@
       "containerId": null,
       "originalText": "Kerd \u2014 product to build",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1002",
@@ -75,7 +78,10 @@
       "containerId": null,
       "originalText": "living design sketch \u00b7 updated as decisions land \u00b7 2026-08-02",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1003",
@@ -112,7 +118,10 @@
       "containerId": null,
       "originalText": "1. The four altitudes \u2014 where work lives",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1004",
@@ -142,7 +151,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1005",
@@ -177,7 +189,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1006",
@@ -214,7 +229,10 @@
       "containerId": "r1005",
       "originalText": "Product",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1007",
@@ -251,7 +269,10 @@
       "containerId": null,
       "originalText": "the idea, viability, business model,\nGTM, competitive landscape",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1008",
@@ -288,7 +309,10 @@
       "containerId": null,
       "originalText": "no artifact  \u00b7  no read path",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1009",
@@ -325,7 +349,10 @@
       "containerId": null,
       "originalText": "rebuilt by hand, per session",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1010",
@@ -355,7 +382,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1011",
@@ -390,7 +420,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1012",
@@ -427,7 +460,10 @@
       "containerId": "r1011",
       "originalText": "Design",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1013",
@@ -464,7 +500,10 @@
       "containerId": null,
       "originalText": "approaches, architecture,\ncomponents, data flow",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1014",
@@ -501,7 +540,10 @@
       "containerId": null,
       "originalText": "superpowers specs  ~110 ln",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1015",
@@ -538,7 +580,10 @@
       "containerId": null,
       "originalText": "alive \u2014 but never retrieved",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1016",
@@ -568,7 +613,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1017",
@@ -603,7 +651,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1018",
@@ -640,7 +691,10 @@
       "containerId": "r1017",
       "originalText": "Contract",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1019",
@@ -677,7 +731,10 @@
       "containerId": null,
       "originalText": "exact files, signatures,\nthe why, a verify command",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1020",
@@ -714,7 +771,10 @@
       "containerId": null,
       "originalText": "conductor spec file  ~200 ln",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1021",
@@ -751,7 +811,10 @@
       "containerId": null,
       "originalText": "won this rung in July",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1022",
@@ -781,7 +844,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1023",
@@ -816,7 +882,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1024",
@@ -853,7 +922,10 @@
       "containerId": "r1023",
       "originalText": "Implementation",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1025",
@@ -890,7 +962,10 @@
       "containerId": null,
       "originalText": "the steps themselves",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1026",
@@ -927,7 +1002,10 @@
       "containerId": null,
       "originalText": "superpowers plans  ~510 ln",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1027",
@@ -964,7 +1042,10 @@
       "containerId": null,
       "originalText": "0 of 472 boxes ticked",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1028",
@@ -1001,7 +1082,10 @@
       "containerId": null,
       "originalText": "release (MVP \u2192 v1 \u2192 v1.2) is not a fifth rung \u2014 it is the time axis,\nand each release cuts through all four",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1029",
@@ -1038,7 +1122,10 @@
       "containerId": null,
       "originalText": "2. What Tony actually uses",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1030",
@@ -1068,7 +1155,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1031",
@@ -1105,7 +1195,10 @@
       "containerId": null,
       "originalText": "Daily",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1032",
@@ -1140,7 +1233,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1033",
@@ -1177,7 +1273,10 @@
       "containerId": "r1032",
       "originalText": "switch  20\u00d7/day",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1034",
@@ -1212,7 +1311,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1035",
@@ -1249,7 +1351,10 @@
       "containerId": "r1034",
       "originalText": "skriv",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1036",
@@ -1286,7 +1391,10 @@
       "containerId": null,
       "originalText": "the boundary and the writing",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1037",
@@ -1316,7 +1424,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1038",
@@ -1353,7 +1464,10 @@
       "containerId": null,
       "originalText": "Implicit",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1039",
@@ -1388,7 +1502,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1040",
@@ -1425,7 +1542,10 @@
       "containerId": "r1039",
       "originalText": "kivna",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1041",
@@ -1460,7 +1580,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1042",
@@ -1497,7 +1620,10 @@
       "containerId": "r1041",
       "originalText": "conductor",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1043",
@@ -1534,7 +1660,10 @@
       "containerId": null,
       "originalText": "ride along with switch",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1044",
@@ -1564,7 +1693,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1045",
@@ -1601,7 +1733,10 @@
       "containerId": null,
       "originalText": "Occasional",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1046",
@@ -1636,7 +1771,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1047",
@@ -1673,7 +1811,10 @@
       "containerId": "r1046",
       "originalText": "tend",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1048",
@@ -1708,7 +1849,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1049",
@@ -1745,7 +1889,10 @@
       "containerId": "r1048",
       "originalText": "trim",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1050",
@@ -1782,7 +1929,10 @@
       "containerId": null,
       "originalText": "setup, and janitorial",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1051",
@@ -1812,7 +1962,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1052",
@@ -1849,7 +2002,10 @@
       "containerId": null,
       "originalText": "Never",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1053",
@@ -1884,7 +2040,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1054",
@@ -1921,7 +2080,10 @@
       "containerId": "r1053",
       "originalText": "mode",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1055",
@@ -1956,7 +2118,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1056",
@@ -1993,7 +2158,10 @@
       "containerId": "r1055",
       "originalText": "sherpa",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1057",
@@ -2028,7 +2196,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1058",
@@ -2065,7 +2236,10 @@
       "containerId": "r1057",
       "originalText": "interrogate",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1059",
@@ -2100,7 +2274,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1060",
@@ -2137,7 +2314,10 @@
       "containerId": "r1059",
       "originalText": "capturerequirements",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1061",
@@ -2174,7 +2354,10 @@
       "containerId": null,
       "originalText": "the entire front of the lifecycle",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1062",
@@ -2211,7 +2394,10 @@
       "containerId": null,
       "originalText": "pair is not in this list \u2014 it is a one-time toggle, on in this repo right now,\nits hook firing on every message. Correct usage, not a dead skill.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1063",
@@ -2248,7 +2434,10 @@
       "containerId": null,
       "originalText": "3. Why \u2014 nothing routes to them",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1064",
@@ -2278,7 +2467,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1065",
@@ -2313,7 +2505,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1066",
@@ -2350,7 +2545,10 @@
       "containerId": "r1065",
       "originalText": "switch",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1067",
@@ -2385,7 +2583,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1068",
@@ -2422,7 +2623,10 @@
       "containerId": "r1067",
       "originalText": "conductor",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1069",
@@ -2459,7 +2663,10 @@
       "containerId": null,
       "originalText": "offers",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1070",
@@ -2494,7 +2701,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1071",
@@ -2531,7 +2741,10 @@
       "containerId": "r1070",
       "originalText": "kivna   slainte   switch",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1072",
@@ -2568,7 +2781,10 @@
       "containerId": null,
       "originalText": "conductor's only routes \u2014 all lateral or downstream",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1073",
@@ -2605,7 +2821,10 @@
       "containerId": null,
       "originalText": "no upward route exists",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1074",
@@ -2640,7 +2859,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1075",
@@ -2677,7 +2899,10 @@
       "containerId": "r1074",
       "originalText": "sherpa",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1076",
@@ -2714,7 +2939,10 @@
       "containerId": null,
       "originalText": "ORPHAN \u2014 referenced by nothing.\nreachable only by typing its name.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1077",
@@ -2751,7 +2979,10 @@
       "containerId": null,
       "originalText": "superpowers wins the same contest by injecting a routing instruction at session\nstart: \"you MUST use this before any creative work\". It routes itself. Sherpa waits.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1078",
@@ -2788,7 +3019,10 @@
       "containerId": null,
       "originalText": "4. What this rides on",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1079",
@@ -2818,7 +3052,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1080",
@@ -2855,7 +3092,10 @@
       "containerId": null,
       "originalText": "DESIGN RUNG \u2014 genuinely missing, and the one conductor reached outside for.\n   Not sherpa (staging), not interrogate (viability), not capturerequirements (MVP reqs).\n   None of the four dead skills is a design step. Routing would not have filled this.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1081",
@@ -2892,7 +3132,10 @@
       "containerId": null,
       "originalText": "ROUTING BET \u2014 that the dead four come alive once reachable.\n   Untested, and it is the fork: if you would skip them anyway, wiring routes just\n   adds gates between you and the build. Rip instead. \u2014 PENDING APPROVAL",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1082",
@@ -2929,7 +3172,10 @@
       "containerId": null,
       "originalText": "ENFORCEMENT \u2014 no bet. 0 CI workflows, 0 pre-commit hooks, every repo.\n   Every gate in this system is a model choosing to comply. Nothing can refuse.\n   The only item that changes what is possible rather than what is likely.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1083",
@@ -2966,7 +3212,10 @@
       "containerId": null,
       "originalText": "5. trim disappears \u2014 once its causes do",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1084",
@@ -2996,7 +3245,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1085",
@@ -3031,7 +3283,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1086",
@@ -3068,7 +3323,10 @@
       "containerId": "r1085",
       "originalText": "superpowers plans\nget huge",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1087",
@@ -3105,7 +3363,10 @@
       "containerId": null,
       "originalText": "SOLVED \u2014 conductor took\nthat rung in July",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1088",
@@ -3140,7 +3401,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1089",
@@ -3177,7 +3441,10 @@
       "containerId": "r1088",
       "originalText": "TODOs don't\nget cleared",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1090",
@@ -3214,7 +3481,10 @@
       "containerId": null,
       "originalText": "switch-out closure\ninference isn't holding",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1091",
@@ -3251,7 +3521,10 @@
       "containerId": null,
       "originalText": "trim is janitorial work generated by two other problems. Fix the second and it has\nno job left. Rip after that, not before.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1092",
@@ -3288,7 +3561,10 @@
       "containerId": null,
       "originalText": "6. The functions we need \u2014 inputs, outputs, and how we would know",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1093",
@@ -3325,7 +3601,10 @@
       "containerId": null,
       "originalText": "named for what they must do, not for the skill that happens to do it. working functions merged; gaps kept separate.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1094",
@@ -3362,7 +3641,10 @@
       "containerId": null,
       "originalText": "FUNCTION",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1095",
@@ -3399,7 +3681,10 @@
       "containerId": null,
       "originalText": "TODAY",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1096",
@@ -3436,7 +3721,10 @@
       "containerId": null,
       "originalText": "INPUTS",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1097",
@@ -3473,7 +3761,10 @@
       "containerId": null,
       "originalText": "OUTPUTS",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1098",
@@ -3510,7 +3801,10 @@
       "containerId": null,
       "originalText": "HOW WE WOULD KNOW",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1099",
@@ -3540,7 +3834,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1100",
@@ -3577,7 +3874,10 @@
       "containerId": null,
       "originalText": "PRODUCT",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1101",
@@ -3612,7 +3912,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1102",
@@ -3649,7 +3952,10 @@
       "containerId": "r1101",
       "originalText": "Frame the intent",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1103",
@@ -3686,7 +3992,10 @@
       "containerId": null,
       "originalText": "sherpa Explore",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1104",
@@ -3723,7 +4032,10 @@
       "containerId": null,
       "originalText": "UNUSED",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1105",
@@ -3760,7 +4072,10 @@
       "containerId": null,
       "originalText": "a spark, a problem noticed,\na complaint from someone using it",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1106",
@@ -3797,14 +4112,17 @@
       "containerId": null,
       "originalText": "why this exists + what it must do,\nhigh level, enough to inform design",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1107",
       "type": "text",
       "x": 1480,
       "y": 2498,
-      "width": 237.60000000000002,
+      "width": 297.0,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -3826,15 +4144,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "can design proceed without guessing?\nintent questions asked later",
+      "text": "ACHIEVED: design proceeds without asking\nGAP: intent re-derived from code, per session",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "can design proceed without guessing?\nintent questions asked later",
+      "originalText": "ACHIEVED: design proceeds without asking\nGAP: intent re-derived from code, per session",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1108",
@@ -3869,7 +4190,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1109",
@@ -3906,7 +4230,10 @@
       "containerId": "r1108",
       "originalText": "Test viability",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1110",
@@ -3943,7 +4270,10 @@
       "containerId": null,
       "originalText": "interrogate /\nsherpa Validate",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1111",
@@ -3980,7 +4310,10 @@
       "containerId": null,
       "originalText": "UNUSED",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1112",
@@ -4017,7 +4350,10 @@
       "containerId": null,
       "originalText": "the framed intent +\nits killer assumption",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1113",
@@ -4054,14 +4390,17 @@
       "containerId": null,
       "originalText": "fatal risks cleared, or the idea\nreshaped or killed",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1114",
       "type": "text",
       "x": 1480,
       "y": 2564,
-      "width": 191.4,
+      "width": 303.6,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -4083,15 +4422,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "which risks tested vs carried\nforward; kill rate",
+      "text": "ACHIEVED: a named risk was tested and survived\nGAP: risks carried forward, never named",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "which risks tested vs carried\nforward; kill rate",
+      "originalText": "ACHIEVED: a named risk was tested and survived\nGAP: risks carried forward, never named",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1115",
@@ -4126,7 +4468,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1116",
@@ -4163,7 +4508,10 @@
       "containerId": "r1115",
       "originalText": "Hold product truth",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1117",
@@ -4200,7 +4548,10 @@
       "containerId": null,
       "originalText": "\u2014 nothing \u2014",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1118",
@@ -4237,7 +4588,10 @@
       "containerId": null,
       "originalText": "GAP",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1119",
@@ -4274,7 +4628,10 @@
       "containerId": null,
       "originalText": "shipped changes from build,\nrelease slices",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1120",
@@ -4311,14 +4668,17 @@
       "containerId": null,
       "originalText": "living, user-side: what the\nproduct does today",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1121",
       "type": "text",
       "x": 1480,
       "y": 2630,
-      "width": 191.4,
+      "width": 323.40000000000003,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#e03131",
@@ -4340,15 +4700,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "drift vs the running app;\nhow often it is actually read",
+      "text": "ACHIEVED: doc matches the running app\nGAP: 6 Jul design doc held 1 Aug's answer, unread",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "drift vs the running app;\nhow often it is actually read",
+      "originalText": "ACHIEVED: doc matches the running app\nGAP: 6 Jul design doc held 1 Aug's answer, unread",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1122",
@@ -4383,7 +4746,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1123",
@@ -4420,7 +4786,10 @@
       "containerId": "r1122",
       "originalText": "Slice a release",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1124",
@@ -4457,7 +4826,10 @@
       "containerId": null,
       "originalText": "sherpa Launch",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1125",
@@ -4494,7 +4866,10 @@
       "containerId": null,
       "originalText": "UNUSED",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1126",
@@ -4531,7 +4906,10 @@
       "containerId": null,
       "originalText": "product truth + intent +\nwhat is already built",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1127",
@@ -4568,14 +4946,17 @@
       "containerId": null,
       "originalText": "MVP / v1 / v1.2 \u2014 what is in,\nwhat is deferred, and why",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1128",
       "type": "text",
       "x": 1480,
       "y": 2696,
-      "width": 191.4,
+      "width": 283.8,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -4597,15 +4978,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "scope held vs crept;\ndeferred items that came back",
+      "text": "ACHIEVED: a deferred item stayed deferred\nGAP: no line between MVP and someday exists",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "scope held vs crept;\ndeferred items that came back",
+      "originalText": "ACHIEVED: a deferred item stayed deferred\nGAP: no line between MVP and someday exists",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1129",
@@ -4613,7 +4997,7 @@
       "x": 300,
       "y": 2770,
       "width": 1560,
-      "height": 170,
+      "height": 236,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -4635,7 +5019,10 @@
       "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1130",
@@ -4672,7 +5059,10 @@
       "containerId": null,
       "originalText": "DESIGN",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1131",
@@ -4707,7 +5097,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1132",
@@ -4744,7 +5137,10 @@
       "containerId": "r1131",
       "originalText": "Shape the solution",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1133",
@@ -4781,7 +5177,10 @@
       "containerId": null,
       "originalText": "superpowers\nbrainstorming",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1134",
@@ -4818,7 +5217,10 @@
       "containerId": null,
       "originalText": "EXTERNAL",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1135",
@@ -4855,7 +5257,10 @@
       "containerId": null,
       "originalText": "intent, constraints, and the real\nterrain \u2014 actual code, not summaries",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1136",
@@ -4892,14 +5297,17 @@
       "containerId": null,
       "originalText": "approaches with trade-offs,\nchosen architecture, boundaries",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1137",
       "type": "text",
       "x": 1480,
       "y": 2814,
-      "width": 217.8,
+      "width": 303.6,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -4921,15 +5329,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "how often the contract re-derives\ndesign; rework from a wrong shape",
+      "text": "ACHIEVED: the contract never re-derives design\nGAP: 3of3 reached outside Kerd to find this",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "how often the contract re-derives\ndesign; rework from a wrong shape",
+      "originalText": "ACHIEVED: the contract never re-derives design\nGAP: 3of3 reached outside Kerd to find this",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1138",
@@ -4964,7 +5375,10 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1139",
@@ -5001,7 +5415,10 @@
       "containerId": "r1138",
       "originalText": "Agree the shape",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1140",
@@ -5038,7 +5455,10 @@
       "containerId": null,
       "originalText": "\u2014 nothing \u2014",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1141",
@@ -5075,7 +5495,10 @@
       "containerId": null,
       "originalText": "GAP",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1142",
@@ -5112,14 +5535,17 @@
       "containerId": null,
       "originalText": "options on constant axes,\ncosts marked, bets named",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1143",
       "type": "text",
       "x": 1110,
       "y": 2880,
-      "width": 178.20000000000002,
+      "width": 224.4,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -5141,22 +5567,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "an approved shape, with its\nbets discharged by name",
+      "text": "an approved shape \u2014 a sensei A3\nstory, drawn, with bets discharged",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "an approved shape, with its\nbets discharged by name",
+      "originalText": "an approved shape \u2014 a sensei A3\nstory, drawn, with bets discharged",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1144",
       "type": "text",
       "x": 1480,
       "y": 2880,
-      "width": 231.00000000000003,
+      "width": 336.6,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#e03131",
@@ -5178,25 +5607,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "decisions per gate \u2014 did one\nmessage resolve it? reversals after",
+      "text": "ACHIEVED: one message resolved the decision\nGAP: 3 rounds produced no decision (dinner-tonight)",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "decisions per gate \u2014 did one\nmessage resolve it? reversals after",
+      "originalText": "ACHIEVED: one message resolved the decision\nGAP: 3 rounds produced no decision (dinner-tonight)",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1145",
       "type": "rectangle",
-      "x": 300,
-      "y": 2954,
-      "width": 1560,
-      "height": 104,
+      "x": 316,
+      "y": 2938,
+      "width": 240,
+      "height": 50,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -5213,20 +5645,28 @@
       "version": 1,
       "versionNonce": 34885,
       "isDeleted": false,
-      "boundElements": [],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1146"
+        }
+      ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1146",
       "type": "text",
-      "x": 318,
-      "y": 2963,
-      "width": 74.80000000000001,
-      "height": 21.25,
+      "x": 360.925,
+      "y": 2954.875,
+      "width": 150.15,
+      "height": 16.25,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -5245,60 +5685,68 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "CONTRACT",
-      "fontSize": 17,
+      "text": "Decide what proves it",
+      "fontSize": 13,
       "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "CONTRACT",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1145",
+      "originalText": "Decide what proves it",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "r1147",
-      "type": "rectangle",
-      "x": 316,
-      "y": 2990,
-      "width": 240,
-      "height": 50,
+      "id": "t1147",
+      "type": "text",
+      "x": 568,
+      "y": 2942,
+      "width": 72.60000000000001,
+      "height": 15.0,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#e9ecef",
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 1,
+      "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0147",
-      "roundness": {
-        "type": 3
-      },
+      "roundness": null,
       "seed": 18029,
       "version": 1,
       "versionNonce": 34911,
       "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "t1148"
-        }
-      ],
+      "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "text": "\u2014 nothing \u2014",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "\u2014 nothing \u2014",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1148",
       "type": "text",
-      "x": 364.5,
-      "y": 2998.75,
-      "width": 143.0,
-      "height": 32.5,
+      "x": 568,
+      "y": 2972,
+      "width": 18.150000000000002,
+      "height": 13.75,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -5317,23 +5765,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Write the contract \u00b7\nSize and assign",
-      "fontSize": 13,
+      "text": "GAP",
+      "fontSize": 11,
       "fontFamily": 5,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "r1147",
-      "originalText": "Write the contract \u00b7\nSize and assign",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "GAP",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1149",
       "type": "text",
-      "x": 568,
-      "y": 2994,
-      "width": 59.400000000000006,
-      "height": 15.0,
+      "x": 740,
+      "y": 2946,
+      "width": 184.8,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5354,23 +5805,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "conductor",
+      "text": "the chosen shape + where the\nrisk actually sits",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "conductor",
+      "originalText": "the chosen shape + where the\nrisk actually sits",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1150",
       "type": "text",
-      "x": 568,
-      "y": 3024,
-      "width": 12.100000000000001,
-      "height": 13.75,
+      "x": 1110,
+      "y": 2946,
+      "width": 264.0,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5391,25 +5845,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "OK",
-      "fontSize": 11,
+      "text": "test strategy: heavy on business logic,\nbehaviour-level on UI, contract at seams",
+      "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "OK",
+      "originalText": "test strategy: heavy on business logic,\nbehaviour-level on UI, contract at seams",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1151",
       "type": "text",
-      "x": 740,
-      "y": 2998,
-      "width": 184.8,
+      "x": 1480,
+      "y": 2946,
+      "width": 356.40000000000003,
       "height": 30.0,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -5428,35 +5885,40 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "the approved shape + terrain\nfetched for the orchestrator",
+      "text": "ACHIEVED: a contract test caught a breaking change\nGAP: movie-catalog-client-contract.md enforces nothing",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "the approved shape + terrain\nfetched for the orchestrator",
+      "originalText": "ACHIEVED: a contract test caught a breaking change\nGAP: movie-catalog-client-contract.md enforces nothing",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "t1152",
-      "type": "text",
-      "x": 1110,
-      "y": 2998,
-      "width": 204.60000000000002,
-      "height": 30.0,
+      "id": "r1152",
+      "type": "rectangle",
+      "x": 300,
+      "y": 3020,
+      "width": 1560,
+      "height": 104,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0152",
-      "roundness": null,
+      "roundness": {
+        "type": 3
+      },
       "seed": 18064,
       "version": 1,
       "versionNonce": 34976,
@@ -5465,23 +5927,17 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "spec file: per-step tags, sized\nmodel + effort, verify commands",
-      "fontSize": 12,
-      "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "spec file: per-step tags, sized\nmodel + effort, verify commands",
-      "autoResize": true,
-      "lineHeight": 1.25
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1153",
       "type": "text",
-      "x": 1480,
-      "y": 2998,
-      "width": 224.4,
-      "height": 30.0,
+      "x": 318,
+      "y": 3029,
+      "width": 74.80000000000001,
+      "height": 21.25,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5502,26 +5958,29 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "keep/delegate ratio; steps failing\nacceptance on first return",
-      "fontSize": 12,
+      "text": "CONTRACT",
+      "fontSize": 17,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "keep/delegate ratio; steps failing\nacceptance on first return",
+      "originalText": "CONTRACT",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1154",
       "type": "rectangle",
-      "x": 300,
-      "y": 3072,
-      "width": 1560,
-      "height": 236,
+      "x": 316,
+      "y": 3056,
+      "width": 240,
+      "height": 50,
       "angle": 0,
       "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
+      "backgroundColor": "#e9ecef",
       "fillStyle": "solid",
       "strokeWidth": 1,
       "strokeStyle": "solid",
@@ -5537,18 +5996,26 @@
       "version": 1,
       "versionNonce": 35002,
       "isDeleted": false,
-      "boundElements": [],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1155"
+        }
+      ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1155",
       "type": "text",
-      "x": 318,
-      "y": 3081,
-      "width": 46.75000000000001,
-      "height": 21.25,
+      "x": 364.5,
+      "y": 3064.75,
+      "width": 143.0,
+      "height": 32.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5569,58 +6036,66 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "BUILD",
-      "fontSize": 17,
+      "text": "Write the contract \u00b7\nSize and assign",
+      "fontSize": 13,
       "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "BUILD",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1154",
+      "originalText": "Write the contract \u00b7\nSize and assign",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "r1156",
-      "type": "rectangle",
-      "x": 316,
-      "y": 3108,
-      "width": 240,
-      "height": 50,
+      "id": "t1156",
+      "type": "text",
+      "x": 568,
+      "y": 3060,
+      "width": 59.400000000000006,
+      "height": 15.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
-      "backgroundColor": "#e9ecef",
+      "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 1,
+      "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0156",
-      "roundness": {
-        "type": 3
-      },
+      "roundness": null,
       "seed": 18092,
       "version": 1,
       "versionNonce": 35028,
       "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "t1157"
-        }
-      ],
+      "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "text": "conductor",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "conductor",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1157",
       "type": "text",
-      "x": 378.8,
-      "y": 3116.75,
-      "width": 114.4,
-      "height": 32.5,
+      "x": 568,
+      "y": 3090,
+      "width": 12.100000000000001,
+      "height": 13.75,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5641,23 +6116,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Execute a unit \u00b7\nProve it worked",
-      "fontSize": 13,
+      "text": "OK",
+      "fontSize": 11,
       "fontFamily": 5,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "r1156",
-      "originalText": "Execute a unit \u00b7\nProve it worked",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "OK",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1158",
       "type": "text",
-      "x": 568,
-      "y": 3112,
-      "width": 59.400000000000006,
-      "height": 15.0,
+      "x": 740,
+      "y": 3064,
+      "width": 184.8,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5678,23 +6156,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "conductor",
+      "text": "the approved shape + terrain\nfetched for the orchestrator",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "conductor",
+      "originalText": "the approved shape + terrain\nfetched for the orchestrator",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1159",
       "type": "text",
-      "x": 568,
-      "y": 3142,
-      "width": 12.100000000000001,
-      "height": 13.75,
+      "x": 1110,
+      "y": 3064,
+      "width": 204.60000000000002,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5715,22 +6196,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "OK",
-      "fontSize": 11,
+      "text": "spec file: per-step tags, sized\nmodel + effort, verify commands",
+      "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "OK",
+      "originalText": "spec file: per-step tags, sized\nmodel + effort, verify commands",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1160",
       "type": "text",
-      "x": 740,
-      "y": 3116,
-      "width": 198.00000000000003,
+      "x": 1480,
+      "y": 3064,
+      "width": 363.00000000000006,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -5752,35 +6236,40 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "one spec slice \u2014 scope, files,\nsignatures, the why, verify",
+      "text": "ACHIEVED: a delegated step passed on first return\nWATCH: keep/delegate ratio \u2014 50/50 means tags are early",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "one spec slice \u2014 scope, files,\nsignatures, the why, verify",
+      "originalText": "ACHIEVED: a delegated step passed on first return\nWATCH: keep/delegate ratio \u2014 50/50 means tags are early",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "t1161",
-      "type": "text",
-      "x": 1110,
-      "y": 3116,
-      "width": 211.20000000000002,
-      "height": 30.0,
+      "id": "r1161",
+      "type": "rectangle",
+      "x": 300,
+      "y": 3138,
+      "width": 1560,
+      "height": 236,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0161",
-      "roundness": null,
+      "roundness": {
+        "type": 3
+      },
       "seed": 18127,
       "version": 1,
       "versionNonce": 35093,
@@ -5789,23 +6278,17 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "the change + evidence: command\noutput, diff, collateral checked",
-      "fontSize": 12,
-      "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "the change + evidence: command\noutput, diff, collateral checked",
-      "autoResize": true,
-      "lineHeight": 1.25
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1162",
       "type": "text",
-      "x": 1480,
-      "y": 3116,
-      "width": 191.4,
-      "height": 30.0,
+      "x": 318,
+      "y": 3147,
+      "width": 46.75000000000001,
+      "height": 21.25,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -5826,15 +6309,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "first-pass acceptance rate;\n3-fix escalations per session",
-      "fontSize": 12,
+      "text": "BUILD",
+      "fontSize": 17,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "first-pass acceptance rate;\n3-fix escalations per session",
+      "originalText": "BUILD",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1163",
@@ -5844,8 +6330,8 @@
       "width": 240,
       "height": 50,
       "angle": 0,
-      "strokeColor": "#e03131",
-      "backgroundColor": "transparent",
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#e9ecef",
       "fillStyle": "solid",
       "strokeWidth": 1,
       "strokeStyle": "solid",
@@ -5869,17 +6355,20 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1164",
       "type": "text",
-      "x": 375.225,
-      "y": 3190.875,
-      "width": 121.55000000000001,
-      "height": 16.25,
+      "x": 378.8,
+      "y": 3182.75,
+      "width": 114.4,
+      "height": 32.5,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -5898,25 +6387,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Review unanchored",
+      "text": "Execute a unit \u00b7\nProve it worked",
       "fontSize": 13,
       "fontFamily": 5,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "r1163",
-      "originalText": "Review unanchored",
+      "originalText": "Execute a unit \u00b7\nProve it worked",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1165",
       "type": "text",
       "x": 568,
       "y": 3178,
-      "width": 72.60000000000001,
+      "width": 59.400000000000006,
       "height": 15.0,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -5935,25 +6427,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "\u2014 nothing \u2014",
+      "text": "conductor",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "\u2014 nothing \u2014",
+      "originalText": "conductor",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1166",
       "type": "text",
       "x": 568,
       "y": 3208,
-      "width": 18.150000000000002,
+      "width": 12.100000000000001,
       "height": 13.75,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -5972,22 +6467,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "GAP",
+      "text": "OK",
       "fontSize": 11,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "GAP",
+      "originalText": "OK",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1167",
       "type": "text",
       "x": 740,
       "y": 3182,
-      "width": 204.60000000000002,
+      "width": 198.00000000000003,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -6009,22 +6507,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "the spec and the diff \u2014 nothing\nelse. no session context",
+      "text": "one spec slice \u2014 scope, files,\nsignatures, the why, verify",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "the spec and the diff \u2014 nothing\nelse. no session context",
+      "originalText": "one spec slice \u2014 scope, files,\nsignatures, the why, verify",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1168",
       "type": "text",
       "x": 1110,
       "y": 3182,
-      "width": 198.00000000000003,
+      "width": 211.20000000000002,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -6046,25 +6547,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "what is missing, what does not\nmatch what was agreed",
+      "text": "the change + evidence: command\noutput, diff, collateral checked",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "what is missing, what does not\nmatch what was agreed",
+      "originalText": "the change + evidence: command\noutput, diff, collateral checked",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1169",
       "type": "text",
       "x": 1480,
       "y": 3182,
-      "width": 224.4,
+      "width": 343.20000000000005,
       "height": 30.0,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6083,15 +6587,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "findings the in-loop review missed\n\u2014 the whole reason it exists",
+      "text": "ACHIEVED: collateral check caught an unintended edit\nGAP: 'my deletion range swallowed three helpers'",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "findings the in-loop review missed\n\u2014 the whole reason it exists",
+      "originalText": "ACHIEVED: collateral check caught an unintended edit\nGAP: 'my deletion range swallowed three helpers'",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1170",
@@ -6126,14 +6633,17 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1171",
       "type": "text",
-      "x": 382.375,
+      "x": 375.225,
       "y": 3256.875,
-      "width": 107.25000000000001,
+      "width": 121.55000000000001,
       "height": 16.25,
       "angle": 0,
       "strokeColor": "#e03131",
@@ -6155,15 +6665,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Refuse bad work",
+      "text": "Review unanchored",
       "fontSize": 13,
       "fontFamily": 5,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "r1170",
-      "originalText": "Refuse bad work",
+      "originalText": "Review unanchored",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1172",
@@ -6200,7 +6713,10 @@
       "containerId": null,
       "originalText": "\u2014 nothing \u2014",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1173",
@@ -6237,15 +6753,18 @@
       "containerId": null,
       "originalText": "GAP",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1174",
       "type": "text",
       "x": 740,
       "y": 3248,
-      "width": 158.4,
-      "height": 15.0,
+      "width": 204.60000000000002,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -6266,15 +6785,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "the commit or the branch",
+      "text": "the spec and the diff \u2014 nothing\nelse. no session context",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "the commit or the branch",
+      "originalText": "the spec and the diff \u2014 nothing\nelse. no session context",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1175",
@@ -6303,22 +6825,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "pass, or blocked \u2014 outside the\nmodel, not a choice to comply",
+      "text": "what is missing, what does not\nmatch what was agreed",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "pass, or blocked \u2014 outside the\nmodel, not a choice to comply",
+      "originalText": "what is missing, what does not\nmatch what was agreed",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1176",
       "type": "text",
       "x": 1480,
       "y": 3248,
-      "width": 217.8,
+      "width": 349.8,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#e03131",
@@ -6340,25 +6865,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "escapes: bad changes that passed;\nblocks that were real",
+      "text": "ACHIEVED: it finds what the in-loop review missed\nGAP: 'never contacts your server' needed Tony to push",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "escapes: bad changes that passed;\nblocks that were real",
+      "originalText": "ACHIEVED: it finds what the in-loop review missed\nGAP: 'never contacts your server' needed Tony to push",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1177",
       "type": "rectangle",
-      "x": 300,
-      "y": 3322,
-      "width": 1560,
-      "height": 170,
+      "x": 316,
+      "y": 3306,
+      "width": 240,
+      "height": 50,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -6375,20 +6903,28 @@
       "version": 1,
       "versionNonce": 35301,
       "isDeleted": false,
-      "boundElements": [],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1178"
+        }
+      ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1178",
       "type": "text",
-      "x": 318,
-      "y": 3331,
-      "width": 65.45,
-      "height": 21.25,
+      "x": 382.375,
+      "y": 3322.875,
+      "width": 107.25000000000001,
+      "height": 16.25,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6407,60 +6943,68 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "SESSION",
-      "fontSize": 17,
+      "text": "Refuse bad work",
+      "fontSize": 13,
       "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "SESSION",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1177",
+      "originalText": "Refuse bad work",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "r1179",
-      "type": "rectangle",
-      "x": 316,
-      "y": 3358,
-      "width": 240,
-      "height": 50,
+      "id": "t1179",
+      "type": "text",
+      "x": 568,
+      "y": 3310,
+      "width": 72.60000000000001,
+      "height": 15.0,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#e9ecef",
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 1,
+      "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0179",
-      "roundness": {
-        "type": 3
-      },
+      "roundness": null,
       "seed": 18253,
       "version": 1,
       "versionNonce": 35327,
       "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "t1180"
-        }
-      ],
+      "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "text": "\u2014 nothing \u2014",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "\u2014 nothing \u2014",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1180",
       "type": "text",
-      "x": 339.475,
-      "y": 3366.75,
-      "width": 193.05,
-      "height": 32.5,
+      "x": 568,
+      "y": 3340,
+      "width": 18.150000000000002,
+      "height": 13.75,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6479,22 +7023,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Open / close \u00b7 Keep tempo \u00b7\nHold state",
-      "fontSize": 13,
+      "text": "GAP",
+      "fontSize": 11,
       "fontFamily": 5,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "r1179",
-      "originalText": "Open / close \u00b7 Keep tempo \u00b7\nHold state",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "GAP",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1181",
       "type": "text",
-      "x": 568,
-      "y": 3362,
-      "width": 112.2,
+      "x": 740,
+      "y": 3314,
+      "width": 158.4,
       "height": 15.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -6516,23 +7063,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "switch, conductor",
+      "text": "the commit or the branch",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "switch, conductor",
+      "originalText": "the commit or the branch",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1182",
       "type": "text",
-      "x": 568,
-      "y": 3392,
-      "width": 12.100000000000001,
-      "height": 13.75,
+      "x": 1110,
+      "y": 3314,
+      "width": 198.00000000000003,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -6553,25 +7103,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "OK",
-      "fontSize": 11,
+      "text": "pass, or blocked \u2014 outside the\nmodel, not a choice to comply",
+      "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "OK",
+      "originalText": "pass, or blocked \u2014 outside the\nmodel, not a choice to comply",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1183",
       "type": "text",
-      "x": 740,
-      "y": 3366,
-      "width": 204.60000000000002,
+      "x": 1480,
+      "y": 3314,
+      "width": 336.6,
       "height": 30.0,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6590,35 +7143,40 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "repo state + the last session's\nhandoff",
+      "text": "ACHIEVED: a bad change was blocked, not discussed\nGAP: 0 CI workflows, 0 pre-commit hooks, every repo",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "repo state + the last session's\nhandoff",
+      "originalText": "ACHIEVED: a bad change was blocked, not discussed\nGAP: 0 CI workflows, 0 pre-commit hooks, every repo",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "t1184",
-      "type": "text",
-      "x": 1110,
-      "y": 3366,
-      "width": 237.60000000000002,
-      "height": 30.0,
+      "id": "r1184",
+      "type": "rectangle",
+      "x": 300,
+      "y": 3388,
+      "width": 1560,
+      "height": 170,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0184",
-      "roundness": null,
+      "roundness": {
+        "type": 3
+      },
       "seed": 18288,
       "version": 1,
       "versionNonce": 35392,
@@ -6627,23 +7185,17 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "restored context, work committed as\nit verifies, a cold-readable handoff",
-      "fontSize": 12,
-      "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "restored context, work committed as\nit verifies, a cold-readable handoff",
-      "autoResize": true,
-      "lineHeight": 1.25
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1185",
       "type": "text",
-      "x": 1480,
-      "y": 3366,
-      "width": 270.6,
-      "height": 30.0,
+      "x": 318,
+      "y": 3397,
+      "width": 65.45,
+      "height": 21.25,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -6664,15 +7216,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "cold-pickup success \u2014 did the next\nsession re-derive? tree clean at boundary",
-      "fontSize": 12,
+      "text": "SESSION",
+      "fontSize": 17,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "cold-pickup success \u2014 did the next\nsession re-derive? tree clean at boundary",
+      "originalText": "SESSION",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1186",
@@ -6682,8 +7237,8 @@
       "width": 240,
       "height": 50,
       "angle": 0,
-      "strokeColor": "#e03131",
-      "backgroundColor": "transparent",
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#e9ecef",
       "fillStyle": "solid",
       "strokeWidth": 1,
       "strokeStyle": "solid",
@@ -6707,17 +7262,20 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1187",
       "type": "text",
-      "x": 360.925,
-      "y": 3440.875,
-      "width": 150.15,
-      "height": 16.25,
+      "x": 339.475,
+      "y": 3432.75,
+      "width": 193.05,
+      "height": 32.5,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6736,25 +7294,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Route to the altitude",
+      "text": "Open / close \u00b7 Keep tempo \u00b7\nHold state",
       "fontSize": 13,
       "fontFamily": 5,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "r1186",
-      "originalText": "Route to the altitude",
+      "originalText": "Open / close \u00b7 Keep tempo \u00b7\nHold state",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1188",
       "type": "text",
       "x": 568,
       "y": 3428,
-      "width": 72.60000000000001,
+      "width": 112.2,
       "height": 15.0,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6773,25 +7334,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "\u2014 nothing \u2014",
+      "text": "switch, conductor",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "\u2014 nothing \u2014",
+      "originalText": "switch, conductor",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1189",
       "type": "text",
       "x": 568,
       "y": 3458,
-      "width": 18.150000000000002,
+      "width": 12.100000000000001,
       "height": 13.75,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6810,22 +7374,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "GAP",
+      "text": "OK",
       "fontSize": 11,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "GAP",
+      "originalText": "OK",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1190",
       "type": "text",
       "x": 740,
       "y": 3432,
-      "width": 184.8,
+      "width": 204.60000000000002,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -6847,22 +7414,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "the request, before any work\nis sized",
+      "text": "repo state + the last session's\nhandoff",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "the request, before any work\nis sized",
+      "originalText": "repo state + the last session's\nhandoff",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1191",
       "type": "text",
       "x": 1110,
       "y": 3432,
-      "width": 178.20000000000002,
+      "width": 237.60000000000002,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -6884,25 +7454,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "which rung to enter at, and\nwhich function runs first",
+      "text": "restored context, work committed as\nit verifies, a cold-readable handoff",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "which rung to enter at, and\nwhich function runs first",
+      "originalText": "restored context, work committed as\nit verifies, a cold-readable handoff",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1192",
       "type": "text",
       "x": 1480,
       "y": 3432,
-      "width": 231.00000000000003,
+      "width": 363.00000000000006,
       "height": 30.0,
       "angle": 0,
-      "strokeColor": "#e03131",
+      "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6921,25 +7494,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "sessions started at the wrong rung;\nskills reached vs left orphaned",
+      "text": "ACHIEVED: next session picked up cold, no re-derivation\nWATCH: switch runs 20x/day \u2014 the one thing that holds",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "sessions started at the wrong rung;\nskills reached vs left orphaned",
+      "originalText": "ACHIEVED: next session picked up cold, no re-derivation\nWATCH: switch runs 20x/day \u2014 the one thing that holds",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1193",
       "type": "rectangle",
-      "x": 300,
-      "y": 3506,
-      "width": 1560,
-      "height": 170,
+      "x": 316,
+      "y": 3490,
+      "width": 240,
+      "height": 50,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -6956,20 +7532,28 @@
       "version": 1,
       "versionNonce": 35509,
       "isDeleted": false,
-      "boundElements": [],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1194"
+        }
+      ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1194",
       "type": "text",
-      "x": 318,
-      "y": 3515,
-      "width": 65.45,
-      "height": 21.25,
+      "x": 360.925,
+      "y": 3506.875,
+      "width": 150.15,
+      "height": 16.25,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -6988,60 +7572,68 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "SUPPORT",
-      "fontSize": 17,
+      "text": "Route to the altitude",
+      "fontSize": 13,
       "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "SUPPORT",
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1193",
+      "originalText": "Route to the altitude",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "r1195",
-      "type": "rectangle",
-      "x": 316,
-      "y": 3542,
-      "width": 240,
-      "height": 50,
+      "id": "t1195",
+      "type": "text",
+      "x": 568,
+      "y": 3494,
+      "width": 72.60000000000001,
+      "height": 15.0,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#e9ecef",
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 1,
+      "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0195",
-      "roundness": {
-        "type": 3
-      },
+      "roundness": null,
       "seed": 18365,
       "version": 1,
       "versionNonce": 35535,
       "isDeleted": false,
-      "boundElements": [
-        {
-          "type": "text",
-          "id": "t1196"
-        }
-      ],
+      "boundElements": [],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "text": "\u2014 nothing \u2014",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "\u2014 nothing \u2014",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1196",
       "type": "text",
-      "x": 335.9,
-      "y": 3550.75,
-      "width": 200.20000000000002,
-      "height": 32.5,
+      "x": 568,
+      "y": 3524,
+      "width": 18.150000000000002,
+      "height": 13.75,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -7060,23 +7652,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Converge \u00b7 Human knowledge \u00b7\nHuman voice",
-      "fontSize": 13,
+      "text": "GAP",
+      "fontSize": 11,
       "fontFamily": 5,
-      "textAlign": "center",
-      "verticalAlign": "middle",
-      "containerId": "r1195",
-      "originalText": "Converge \u00b7 Human knowledge \u00b7\nHuman voice",
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "GAP",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1197",
       "type": "text",
-      "x": 568,
-      "y": 3546,
-      "width": 118.80000000000001,
-      "height": 15.0,
+      "x": 740,
+      "y": 3498,
+      "width": 184.8,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -7097,23 +7692,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "tend, kivna, skriv",
+      "text": "the request, before any work\nis sized",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "tend, kivna, skriv",
+      "originalText": "the request, before any work\nis sized",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1198",
       "type": "text",
-      "x": 568,
-      "y": 3576,
-      "width": 12.100000000000001,
-      "height": 13.75,
+      "x": 1110,
+      "y": 3498,
+      "width": 178.20000000000002,
+      "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -7134,25 +7732,28 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "OK",
-      "fontSize": 11,
+      "text": "which rung to enter at, and\nwhich function runs first",
+      "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "OK",
+      "originalText": "which rung to enter at, and\nwhich function runs first",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1199",
       "type": "text",
-      "x": 740,
-      "y": 3550,
-      "width": 211.20000000000002,
-      "height": 15.0,
+      "x": 1480,
+      "y": 3498,
+      "width": 310.20000000000005,
+      "height": 30.0,
       "angle": 0,
-      "strokeColor": "#1e1e1e",
+      "strokeColor": "#e03131",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
@@ -7171,35 +7772,40 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "the repo, the session, the prose",
+      "text": "ACHIEVED: a session started at the right rung\nGAP: sherpa is an orphan; nothing references it",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "the repo, the session, the prose",
+      "originalText": "ACHIEVED: a session started at the right rung\nGAP: sherpa is an orphan; nothing references it",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "t1200",
-      "type": "text",
-      "x": 1110,
-      "y": 3550,
-      "width": 237.60000000000002,
-      "height": 30.0,
+      "id": "r1200",
+      "type": "rectangle",
+      "x": 300,
+      "y": 3572,
+      "width": 1560,
+      "height": 170,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
       "index": "a0200",
-      "roundness": null,
+      "roundness": {
+        "type": 3
+      },
       "seed": 18400,
       "version": 1,
       "versionNonce": 35600,
@@ -7208,23 +7814,17 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "conventions applied, vault updated,\ntext that does not read as generated",
-      "fontSize": 12,
-      "fontFamily": 5,
-      "textAlign": "left",
-      "verticalAlign": "top",
-      "containerId": null,
-      "originalText": "conventions applied, vault updated,\ntext that does not read as generated",
-      "autoResize": true,
-      "lineHeight": 1.25
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1201",
       "type": "text",
-      "x": 1480,
-      "y": 3550,
-      "width": 231.00000000000003,
-      "height": 30.0,
+      "x": 318,
+      "y": 3581,
+      "width": 65.45,
+      "height": 21.25,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -7245,15 +7845,18 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "drift found per run; vault readable\nby someone with no prior context",
-      "fontSize": 12,
+      "text": "SUPPORT",
+      "fontSize": 17,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "drift found per run; vault readable\nby someone with no prior context",
+      "originalText": "SUPPORT",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "r1202",
@@ -7264,7 +7867,7 @@
       "height": 50,
       "angle": 0,
       "strokeColor": "#1e1e1e",
-      "backgroundColor": "transparent",
+      "backgroundColor": "#e9ecef",
       "fillStyle": "solid",
       "strokeWidth": 1,
       "strokeStyle": "solid",
@@ -7288,15 +7891,18 @@
       ],
       "updated": 1785400000000,
       "link": null,
-      "locked": false
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1203",
       "type": "text",
-      "x": 368.075,
-      "y": 3624.875,
-      "width": 135.85000000000002,
-      "height": 16.25,
+      "x": 335.9,
+      "y": 3616.75,
+      "width": 200.20000000000002,
+      "height": 32.5,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -7317,22 +7923,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "Keep artifacts lean",
+      "text": "Converge \u00b7 Human knowledge \u00b7\nHuman voice",
       "fontSize": 13,
       "fontFamily": 5,
       "textAlign": "center",
       "verticalAlign": "middle",
       "containerId": "r1202",
-      "originalText": "Keep artifacts lean",
+      "originalText": "Converge \u00b7 Human knowledge \u00b7\nHuman voice",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1204",
       "type": "text",
       "x": 568,
       "y": 3612,
-      "width": 26.400000000000002,
+      "width": 118.80000000000001,
       "height": 15.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -7354,22 +7963,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "trim",
+      "text": "tend, kivna, skriv",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "trim",
+      "originalText": "tend, kivna, skriv",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1205",
       "type": "text",
       "x": 568,
       "y": 3642,
-      "width": 30.250000000000004,
+      "width": 12.100000000000001,
       "height": 13.75,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -7391,23 +8003,26 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "DYING",
+      "text": "OK",
       "fontSize": 11,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "DYING",
+      "originalText": "OK",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1206",
       "type": "text",
       "x": 740,
       "y": 3616,
-      "width": 151.8,
-      "height": 30.0,
+      "width": 211.20000000000002,
+      "height": 15.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -7428,22 +8043,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "completed feature docs,\nstale TODO items",
+      "text": "the repo, the session, the prose",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "completed feature docs,\nstale TODO items",
+      "originalText": "the repo, the session, the prose",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1207",
       "type": "text",
       "x": 1110,
       "y": 3616,
-      "width": 224.4,
+      "width": 237.60000000000002,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -7465,22 +8083,25 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "archived \u2014 and eventually nothing,\nonce TODO closure holds",
+      "text": "conventions applied, vault updated,\ntext that does not read as generated",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "archived \u2014 and eventually nothing,\nonce TODO closure holds",
+      "originalText": "conventions applied, vault updated,\ntext that does not read as generated",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
       "id": "t1208",
       "type": "text",
       "x": 1480,
       "y": 3616,
-      "width": 178.20000000000002,
+      "width": 336.6,
       "height": 30.0,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -7502,21 +8123,302 @@
       "updated": 1785400000000,
       "link": null,
       "locked": false,
-      "text": "doc count trend; age of the\noldest open TODO item",
+      "text": "ACHIEVED: vault readable by someone with no context\nWATCH: drift found per tend run",
       "fontSize": 12,
       "fontFamily": 5,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "doc count trend; age of the\noldest open TODO item",
+      "originalText": "ACHIEVED: vault readable by someone with no context\nWATCH: drift found per tend run",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
     },
     {
-      "id": "t1209",
+      "id": "r1209",
+      "type": "rectangle",
+      "x": 316,
+      "y": 3674,
+      "width": 240,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0209",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18463,
+      "version": 1,
+      "versionNonce": 35717,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1210"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1210",
+      "type": "text",
+      "x": 368.075,
+      "y": 3690.875,
+      "width": 135.85000000000002,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0210",
+      "roundness": null,
+      "seed": 18470,
+      "version": 1,
+      "versionNonce": 35730,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Keep artifacts lean",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1209",
+      "originalText": "Keep artifacts lean",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1211",
+      "type": "text",
+      "x": 568,
+      "y": 3678,
+      "width": 26.400000000000002,
+      "height": 15.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0211",
+      "roundness": null,
+      "seed": 18477,
+      "version": 1,
+      "versionNonce": 35743,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "trim",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "trim",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1212",
+      "type": "text",
+      "x": 568,
+      "y": 3708,
+      "width": 30.250000000000004,
+      "height": 13.75,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0212",
+      "roundness": null,
+      "seed": 18484,
+      "version": 1,
+      "versionNonce": 35756,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "DYING",
+      "fontSize": 11,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "DYING",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1213",
+      "type": "text",
+      "x": 740,
+      "y": 3682,
+      "width": 151.8,
+      "height": 30.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0213",
+      "roundness": null,
+      "seed": 18491,
+      "version": 1,
+      "versionNonce": 35769,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "completed feature docs,\nstale TODO items",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "completed feature docs,\nstale TODO items",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1214",
+      "type": "text",
+      "x": 1110,
+      "y": 3682,
+      "width": 224.4,
+      "height": 30.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0214",
+      "roundness": null,
+      "seed": 18498,
+      "version": 1,
+      "versionNonce": 35782,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "archived \u2014 and eventually nothing,\nonce TODO closure holds",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "archived \u2014 and eventually nothing,\nonce TODO closure holds",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1215",
+      "type": "text",
+      "x": 1480,
+      "y": 3682,
+      "width": 343.20000000000005,
+      "height": 30.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0215",
+      "roundness": null,
+      "seed": 18505,
+      "version": 1,
+      "versionNonce": 35795,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "ACHIEVED: trim has no job left\nGAP: still needed because TODO closure isn't holding",
+      "fontSize": 12,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "ACHIEVED: trim has no job left\nGAP: still needed because TODO closure isn't holding",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1216",
       "type": "text",
       "x": 318,
-      "y": 3700,
+      "y": 3766,
       "width": 676.5,
       "height": 56.25,
       "angle": 0,
@@ -7529,11 +8431,11 @@
       "opacity": 100,
       "groupIds": [],
       "frameId": null,
-      "index": "a0209",
+      "index": "a0216",
       "roundness": null,
-      "seed": 18463,
+      "seed": 18512,
       "version": 1,
-      "versionNonce": 35717,
+      "versionNonce": 35808,
       "isDeleted": false,
       "boundElements": [],
       "updated": 1785400000000,
@@ -7547,7 +8449,1802 @@
       "containerId": null,
       "originalText": "5 gaps  \u00b7  3 built but unused  \u00b7  6 working.\n\"Route to the altitude\" is the keystone: nothing performs it, and it is what would\ndecide whether the three unused ones are ever reached at all.",
       "autoResize": true,
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1217",
+      "type": "text",
+      "x": 300,
+      "y": 3876,
+      "width": 501.6,
+      "height": 30.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0217",
+      "roundness": null,
+      "seed": 18519,
+      "version": 1,
+      "versionNonce": 35821,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "7. What gets built \u2014 and in what order",
+      "fontSize": 24,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "7. What gets built \u2014 and in what order",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1218",
+      "type": "text",
+      "x": 300,
+      "y": 3910,
+      "width": 643.5,
+      "height": 18.75,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0218",
+      "roundness": null,
+      "seed": 18526,
+      "version": 1,
+      "versionNonce": 35834,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Tony's call. The routing bet is untested, so it is spiked rather than decided.",
+      "fontSize": 15,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Tony's call. The routing bet is untested, so it is spiked rather than decided.",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1219",
+      "type": "rectangle",
+      "x": 300,
+      "y": 3950,
+      "width": 1560,
+      "height": 184,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0219",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18533,
+      "version": 1,
+      "versionNonce": 35847,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1220",
+      "type": "text",
+      "x": 318,
+      "y": 3962,
+      "width": 29.700000000000003,
+      "height": 22.5,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0220",
+      "roundness": null,
+      "seed": 18540,
+      "version": 1,
+      "versionNonce": 35860,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "MVP",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "MVP",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1221",
+      "type": "rectangle",
+      "x": 530,
+      "y": 3996,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0221",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18547,
+      "version": 1,
+      "versionNonce": 35873,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1222"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1222",
+      "type": "text",
+      "x": 654.925,
+      "y": 4005.875,
+      "width": 150.15,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0222",
+      "roundness": null,
+      "seed": 18554,
+      "version": 1,
+      "versionNonce": 35886,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Route to the altitude",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1221",
+      "originalText": "Route to the altitude",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1223",
+      "type": "text",
+      "x": 950,
+      "y": 4005,
+      "width": 378.95000000000005,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0223",
+      "roundness": null,
+      "seed": 18561,
+      "version": 1,
+      "versionNonce": 35899,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "the keystone \u2014 three gaps stay unreachable without it",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "the keystone \u2014 three gaps stay unreachable without it",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1224",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4042,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0224",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18568,
+      "version": 1,
+      "versionNonce": 35912,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1225"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1225",
+      "type": "text",
+      "x": 676.375,
+      "y": 4051.875,
+      "width": 107.25000000000001,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0225",
+      "roundness": null,
+      "seed": 18575,
+      "version": 1,
+      "versionNonce": 35925,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Agree the shape",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1224",
+      "originalText": "Agree the shape",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1226",
+      "type": "text",
+      "x": 950,
+      "y": 4051,
+      "width": 393.25000000000006,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0226",
+      "roundness": null,
+      "seed": 18582,
+      "version": 1,
+      "versionNonce": 35938,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "sensei A3 story format, drawn in the whiteboard grammar",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "sensei A3 story format, drawn in the whiteboard grammar",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1227",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4088,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0227",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18589,
+      "version": 1,
+      "versionNonce": 35951,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1228"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1228",
+      "type": "text",
+      "x": 658.5,
+      "y": 4097.875,
+      "width": 143.0,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0228",
+      "roundness": null,
+      "seed": 18596,
+      "version": 1,
+      "versionNonce": 35964,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Refuse bad work (CI)",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1227",
+      "originalText": "Refuse bad work (CI)",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1229",
+      "type": "text",
+      "x": 950,
+      "y": 4097,
+      "width": 429.00000000000006,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0229",
+      "roundness": null,
+      "seed": 18603,
+      "version": 1,
+      "versionNonce": 35977,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "the only item that changes what is POSSIBLE, not just likely",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "the only item that changes what is POSSIBLE, not just likely",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1230",
+      "type": "rectangle",
+      "x": 300,
+      "y": 4148,
+      "width": 1560,
+      "height": 138,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "dashed",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0230",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18610,
+      "version": 1,
+      "versionNonce": 35990,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1231",
+      "type": "text",
+      "x": 318,
+      "y": 4160,
+      "width": 217.8,
+      "height": 22.5,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0231",
+      "roundness": null,
+      "seed": 18617,
+      "version": 1,
+      "versionNonce": 36003,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "SPIKE \u2014 not a decision",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "SPIKE \u2014 not a decision",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1232",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4194,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0232",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18624,
+      "version": 1,
+      "versionNonce": 36016,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1233"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1233",
+      "type": "text",
+      "x": 626.325,
+      "y": 4203.875,
+      "width": 207.35000000000002,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0233",
+      "roundness": null,
+      "seed": 18631,
+      "version": 1,
+      "versionNonce": 36029,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Route ONE dead skill, cheaply",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1232",
+      "originalText": "Route ONE dead skill, cheaply",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1234",
+      "type": "text",
+      "x": 950,
+      "y": 4203,
+      "width": 471.90000000000003,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0234",
+      "roundness": null,
+      "seed": 18638,
+      "version": 1,
+      "versionNonce": 36042,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "the routing bet is untested. wire one, watch whether it gets used.",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "the routing bet is untested. wire one, watch whether it gets used.",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1235",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4240,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0235",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18645,
+      "version": 1,
+      "versionNonce": 36055,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1236"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1236",
+      "type": "text",
+      "x": 644.2,
+      "y": 4249.875,
+      "width": 171.60000000000002,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0236",
+      "roundness": null,
+      "seed": 18652,
+      "version": 1,
+      "versionNonce": 36068,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Kill or keep on evidence",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1235",
+      "originalText": "Kill or keep on evidence",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1237",
+      "type": "text",
+      "x": 950,
+      "y": 4249,
+      "width": 443.3,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0237",
+      "roundness": null,
+      "seed": 18659,
+      "version": 1,
+      "versionNonce": 36081,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "beats route-vs-rip as a binary \u2014 neither side has evidence yet",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "beats route-vs-rip as a binary \u2014 neither side has evidence yet",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1238",
+      "type": "rectangle",
+      "x": 300,
+      "y": 4300,
+      "width": 1560,
+      "height": 138,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0238",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18666,
+      "version": 1,
+      "versionNonce": 36094,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1239",
+      "type": "text",
+      "x": 318,
+      "y": 4312,
+      "width": 19.8,
+      "height": 22.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0239",
+      "roundness": null,
+      "seed": 18673,
+      "version": 1,
+      "versionNonce": 36107,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "v1",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "v1",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1240",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4346,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#e9ecef",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0240",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18680,
+      "version": 1,
+      "versionNonce": 36120,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1241"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1241",
+      "type": "text",
+      "x": 608.45,
+      "y": 4355.875,
+      "width": 243.10000000000002,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0241",
+      "roundness": null,
+      "seed": 18687,
+      "version": 1,
+      "versionNonce": 36133,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Hold product truth + its read path",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1240",
+      "originalText": "Hold product truth + its read path",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1242",
+      "type": "text",
+      "x": 950,
+      "y": 4355,
+      "width": 471.90000000000003,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0242",
+      "roundness": null,
+      "seed": 18694,
+      "version": 1,
+      "versionNonce": 36146,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "the artifact is worthless without retrieval \u2014 measured, not feared",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "the artifact is worthless without retrieval \u2014 measured, not feared",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1243",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4392,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#e9ecef",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0243",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18701,
+      "version": 1,
+      "versionNonce": 36159,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1244"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1244",
+      "type": "text",
+      "x": 654.925,
+      "y": 4401.875,
+      "width": 150.15,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0244",
+      "roundness": null,
+      "seed": 18708,
+      "version": 1,
+      "versionNonce": 36172,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Decide what proves it",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1243",
+      "originalText": "Decide what proves it",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1245",
+      "type": "text",
+      "x": 950,
+      "y": 4401,
+      "width": 429.00000000000006,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0245",
+      "roundness": null,
+      "seed": 18715,
+      "version": 1,
+      "versionNonce": 36185,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "test bias by layer; contract tests where client meets server",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "test bias by layer; contract tests where client meets server",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1246",
+      "type": "rectangle",
+      "x": 300,
+      "y": 4452,
+      "width": 1560,
+      "height": 184,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0246",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18722,
+      "version": 1,
+      "versionNonce": 36198,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1247",
+      "type": "text",
+      "x": 318,
+      "y": 4464,
+      "width": 69.30000000000001,
+      "height": 22.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0247",
+      "roundness": null,
+      "seed": 18729,
+      "version": 1,
+      "versionNonce": 36211,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "SOMEDAY",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "SOMEDAY",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1248",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4498,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#e9ecef",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0248",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18736,
+      "version": 1,
+      "versionNonce": 36224,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1249"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1249",
+      "type": "text",
+      "x": 669.225,
+      "y": 4507.875,
+      "width": 121.55000000000001,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0249",
+      "roundness": null,
+      "seed": 18743,
+      "version": 1,
+      "versionNonce": 36237,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Review unanchored",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1248",
+      "originalText": "Review unanchored",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1250",
+      "type": "text",
+      "x": 950,
+      "y": 4507,
+      "width": 307.45000000000005,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0250",
+      "roundness": null,
+      "seed": 18750,
+      "version": 1,
+      "versionNonce": 36250,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "real, but it needs the rungs above it first",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "real, but it needs the rungs above it first",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1251",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4544,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#e9ecef",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0251",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18757,
+      "version": 1,
+      "versionNonce": 36263,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1252"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1252",
+      "type": "text",
+      "x": 651.35,
+      "y": 4553.875,
+      "width": 157.3,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0252",
+      "roundness": null,
+      "seed": 18764,
+      "version": 1,
+      "versionNonce": 36276,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Measurement collection",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1251",
+      "originalText": "Measurement collection",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1253",
+      "type": "text",
+      "x": 950,
+      "y": 4553,
+      "width": 371.8,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0253",
+      "roundness": null,
+      "seed": 18771,
+      "version": 1,
+      "versionNonce": 36289,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "nothing counts today; premature until something does",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "nothing counts today; premature until something does",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "r1254",
+      "type": "rectangle",
+      "x": 530,
+      "y": 4590,
+      "width": 400,
+      "height": 36,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#e9ecef",
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0254",
+      "roundness": {
+        "type": 3
+      },
+      "seed": 18778,
+      "version": 1,
+      "versionNonce": 36302,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "t1255"
+        }
+      ],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1255",
+      "type": "text",
+      "x": 633.475,
+      "y": 4599.875,
+      "width": 193.05,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0255",
+      "roundness": null,
+      "seed": 18785,
+      "version": 1,
+      "versionNonce": 36315,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "Rip what survives the spike",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "r1254",
+      "originalText": "Rip what survives the spike",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "t1256",
+      "type": "text",
+      "x": 950,
+      "y": 4599,
+      "width": 250.25000000000003,
+      "height": 16.25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0256",
+      "roundness": null,
+      "seed": 18792,
+      "version": 1,
+      "versionNonce": 36328,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785400000000,
+      "link": null,
+      "locked": false,
+      "text": "post-approval only \u2014 evidence first",
+      "fontSize": 13,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "post-approval only \u2014 evidence first",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "gen": "kerd"
+      }
+    },
+    {
+      "id": "xVvQmoaaxR1TTWsax1_zX",
+      "type": "text",
+      "x": 1772.7981988894344,
+      "y": 1580.2241358824417,
+      "width": 785.2994384765625,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "z0256",
+      "roundness": null,
+      "seed": 1225123273,
+      "version": 137,
+      "versionNonce": 970925799,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1785720085617,
+      "link": null,
+      "locked": false,
+      "text": "we need an actual measurement that we can use to know when we have achieved\nor to show the gap",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "we need an actual measurement that we can use to know when we have achieved or to show the gap",
+      "autoResize": false,
+      "lineHeight": 1.25,
+      "customData": {
+        "author": "tony"
+      }
+    },
+    {
+      "id": "WGRWxI1hK29Nfzbyv1BG_",
+      "type": "text",
+      "x": 1772.6657839402717,
+      "y": 1700.4954715899848,
+      "width": 326.11981201171875,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "z0257",
+      "roundness": null,
+      "seed": 568993385,
+      "version": 145,
+      "versionNonce": 291272391,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1785720087327,
+      "link": null,
+      "locked": false,
+      "text": "super important, MVP vs someday",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "super important, MVP vs someday",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "author": "tony"
+      }
+    },
+    {
+      "id": "SXWwlBC7qq887j0lbz3PA",
+      "type": "text",
+      "x": 1790.565939970392,
+      "y": 1929.9294156387275,
+      "width": 348.5797119140625,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "z0258",
+      "roundness": null,
+      "seed": 44673863,
+      "version": 115,
+      "versionNonce": 449565703,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1785720090527,
+      "link": null,
+      "locked": false,
+      "text": "diagram to show gap/change/impact",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "diagram to show gap/change/impact",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "author": "tony"
+      }
+    },
+    {
+      "id": "_NEm_1U9XoGplL1aOjFzg",
+      "type": "text",
+      "x": 1802.2105740499387,
+      "y": 2259.170008190002,
+      "width": 336.45977783203125,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "z0259",
+      "roundness": null,
+      "seed": 44173031,
+      "version": 104,
+      "versionNonce": 1368247943,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1785720094818,
+      "link": null,
+      "locked": false,
+      "text": "Where doest TDD and testing live",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Where doest TDD and testing live",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "author": "tony"
+      }
+    },
+    {
+      "id": "F5xpg6pgpzz6Hp_r0AlWW",
+      "type": "text",
+      "x": 1774.548044132407,
+      "y": 1757.396831732236,
+      "width": 576.8795776367188,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "z0260",
+      "roundness": null,
+      "seed": 1737199879,
+      "version": 300,
+      "versionNonce": 175117959,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785728197680,
+      "link": null,
+      "locked": false,
+      "text": "Leverage Sensei Story formats for diagrams (see examples)",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Leverage Sensei Story formats for diagrams (see examples)",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "author": "tony"
+      }
+    },
+    {
+      "id": "_sa8x_FLgSkfFcNgX_3Uj",
+      "type": "text",
+      "x": 987.122183851267,
+      "y": 1823.2556820502869,
+      "width": 213.9198760986328,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "z0261",
+      "roundness": null,
+      "seed": 1203057449,
+      "version": 523,
+      "versionNonce": 1328218345,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785728222155,
+      "link": null,
+      "locked": false,
+      "text": "Could be a spike too. ",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Could be a spike too. ",
+      "autoResize": true,
+      "lineHeight": 1.25,
+      "customData": {
+        "author": "tony"
+      }
     }
   ],
   "appState": {

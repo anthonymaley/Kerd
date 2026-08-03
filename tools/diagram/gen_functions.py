@@ -1,87 +1,129 @@
 # Function map. Working functions are merged; gaps stay separate — the things
 # that work do not need decomposing, the things missing do.
-# Fields: name, today, status, inputs, outputs, measurement
+#
+# Fields: name, today, status, inputs, outputs, evidence
+#
+# The last column is EVIDENCE, not a metric. Per Tony: "an actual measurement we
+# can use to know when we have achieved, or to show the gap." So each row states
+# what you could point at to prove the function is working — or to prove it is
+# missing. Dashboard numbers were the wrong shape.
 
 FUNCTIONS = [
  ("PRODUCT", [
   ("Frame the intent", "sherpa Explore", "unused",
    "a spark, a problem noticed,\na complaint from someone using it",
    "why this exists + what it must do,\nhigh level, enough to inform design",
-   "can design proceed without guessing?\nintent questions asked later"),
+   "ACHIEVED: design proceeds without asking\nGAP: intent re-derived from code, per session"),
 
   ("Test viability", "interrogate /\nsherpa Validate", "unused",
    "the framed intent +\nits killer assumption",
    "fatal risks cleared, or the idea\nreshaped or killed",
-   "which risks tested vs carried\nforward; kill rate"),
+   "ACHIEVED: a named risk was tested and survived\nGAP: risks carried forward, never named"),
 
   ("Hold product truth", "", "GAP",
    "shipped changes from build,\nrelease slices",
    "living, user-side: what the\nproduct does today",
-   "drift vs the running app;\nhow often it is actually read"),
+   "ACHIEVED: doc matches the running app\nGAP: 6 Jul design doc held 1 Aug's answer, unread"),
 
   ("Slice a release", "sherpa Launch", "unused",
    "product truth + intent +\nwhat is already built",
    "MVP / v1 / v1.2 — what is in,\nwhat is deferred, and why",
-   "scope held vs crept;\ndeferred items that came back"),
+   "ACHIEVED: a deferred item stayed deferred\nGAP: no line between MVP and someday exists"),
  ]),
 
  ("DESIGN", [
   ("Shape the solution", "superpowers\nbrainstorming", "external",
    "intent, constraints, and the real\nterrain — actual code, not summaries",
    "approaches with trade-offs,\nchosen architecture, boundaries",
-   "how often the contract re-derives\ndesign; rework from a wrong shape"),
+   "ACHIEVED: the contract never re-derives design\nGAP: 3of3 reached outside Kerd to find this"),
 
   ("Agree the shape", "", "GAP",
    "options on constant axes,\ncosts marked, bets named",
-   "an approved shape, with its\nbets discharged by name",
-   "decisions per gate — did one\nmessage resolve it? reversals after"),
+   "an approved shape — a sensei A3\nstory, drawn, with bets discharged",
+   "ACHIEVED: one message resolved the decision\nGAP: 3 rounds produced no decision (dinner-tonight)"),
+
+  ("Decide what proves it", "", "GAP",
+   "the chosen shape + where the\nrisk actually sits",
+   "test strategy: heavy on business logic,\nbehaviour-level on UI, contract at seams",
+   "ACHIEVED: a contract test caught a breaking change\nGAP: movie-catalog-client-contract.md enforces nothing"),
  ]),
 
  ("CONTRACT", [
   ("Write the contract ·\nSize and assign", "conductor", "ok",
    "the approved shape + terrain\nfetched for the orchestrator",
    "spec file: per-step tags, sized\nmodel + effort, verify commands",
-   "keep/delegate ratio; steps failing\nacceptance on first return"),
+   "ACHIEVED: a delegated step passed on first return\nWATCH: keep/delegate ratio — 50/50 means tags are early"),
  ]),
 
  ("BUILD", [
   ("Execute a unit ·\nProve it worked", "conductor", "ok",
    "one spec slice — scope, files,\nsignatures, the why, verify",
    "the change + evidence: command\noutput, diff, collateral checked",
-   "first-pass acceptance rate;\n3-fix escalations per session"),
+   "ACHIEVED: collateral check caught an unintended edit\nGAP: 'my deletion range swallowed three helpers'"),
 
   ("Review unanchored", "", "GAP",
    "the spec and the diff — nothing\nelse. no session context",
    "what is missing, what does not\nmatch what was agreed",
-   "findings the in-loop review missed\n— the whole reason it exists"),
+   "ACHIEVED: it finds what the in-loop review missed\nGAP: 'never contacts your server' needed Tony to push"),
 
   ("Refuse bad work", "", "GAP",
    "the commit or the branch",
    "pass, or blocked — outside the\nmodel, not a choice to comply",
-   "escapes: bad changes that passed;\nblocks that were real"),
+   "ACHIEVED: a bad change was blocked, not discussed\nGAP: 0 CI workflows, 0 pre-commit hooks, every repo"),
  ]),
 
  ("SESSION", [
   ("Open / close · Keep tempo ·\nHold state", "switch, conductor", "ok",
    "repo state + the last session's\nhandoff",
    "restored context, work committed as\nit verifies, a cold-readable handoff",
-   "cold-pickup success — did the next\nsession re-derive? tree clean at boundary"),
+   "ACHIEVED: next session picked up cold, no re-derivation\nWATCH: switch runs 20x/day — the one thing that holds"),
 
   ("Route to the altitude", "", "GAP",
    "the request, before any work\nis sized",
    "which rung to enter at, and\nwhich function runs first",
-   "sessions started at the wrong rung;\nskills reached vs left orphaned"),
+   "ACHIEVED: a session started at the right rung\nGAP: sherpa is an orphan; nothing references it"),
  ]),
 
  ("SUPPORT", [
   ("Converge · Human knowledge ·\nHuman voice", "tend, kivna, skriv", "ok",
    "the repo, the session, the prose",
    "conventions applied, vault updated,\ntext that does not read as generated",
-   "drift found per run; vault readable\nby someone with no prior context"),
+   "ACHIEVED: vault readable by someone with no context\nWATCH: drift found per tend run"),
 
   ("Keep artifacts lean", "trim", "dying",
    "completed feature docs,\nstale TODO items",
    "archived — and eventually nothing,\nonce TODO closure holds",
-   "doc count trend; age of the\noldest open TODO item"),
+   "ACHIEVED: trim has no job left\nGAP: still needed because TODO closure isn't holding"),
+ ]),
+]
+
+# Movement 7 — what gets built, and in what order.
+# Tony's call, with the spike added: the routing bet is untested, so it gets
+# tested rather than decided.
+SEQUENCE = [
+ ("MVP", "#e03131", [
+   ("Route to the altitude",
+    "the keystone — three gaps stay unreachable without it"),
+   ("Agree the shape",
+    "sensei A3 story format, drawn in the whiteboard grammar"),
+   ("Refuse bad work (CI)",
+    "the only item that changes what is POSSIBLE, not just likely"),
+ ]),
+ ("SPIKE — not a decision", "#e03131", [
+   ("Route ONE dead skill, cheaply",
+    "the routing bet is untested. wire one, watch whether it gets used."),
+   ("Kill or keep on evidence",
+    "beats route-vs-rip as a binary — neither side has evidence yet"),
+ ]),
+ ("v1", "#1e1e1e", [
+   ("Hold product truth + its read path",
+    "the artifact is worthless without retrieval — measured, not feared"),
+   ("Decide what proves it",
+    "test bias by layer; contract tests where client meets server"),
+ ]),
+ ("SOMEDAY", "#1e1e1e", [
+   ("Review unanchored", "real, but it needs the rungs above it first"),
+   ("Measurement collection", "nothing counts today; premature until something does"),
+   ("Rip what survives the spike", "post-approval only — evidence first"),
  ]),
 ]
