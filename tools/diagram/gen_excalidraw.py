@@ -295,6 +295,26 @@ txt("Both already have rules written — the communication contract exists in FI
     "capturerequirements) and still did not bind. The problem is not the wording.",
     X + 18, cy + 40 + len(CROSSCUTTING) * 120 + 12, 15, RED)
 
+
+# ══ 9. Requirements — first cut, for correction ══════════════════════════
+from gen_functions import REQUIREMENTS
+
+y9 = cy + 40 + len(CROSSCUTTING) * 120 + 90
+txt("9. Requirements — first cut", X, y9, 24)
+txt("one MUST per function. shallow on purpose: enough to expose how they depend on "
+    "each other, not enough to be a spec.  (?) = drafted, not read", X, y9 + 34, 15)
+
+qy = y9 + 74
+for layer, reqs in REQUIREMENTS:
+    h = 38 + len(reqs) * 62
+    rect(X, qy, W6, h, stroke=INK)
+    txt(layer, X + 18, qy + 9, 17)
+    ry_ = qy + 36
+    for name, must in reqs:
+        box(name, X + 18, ry_, 330, 50, stroke=INK, bg=GREY, size=13)
+        txt(must, X + 370, ry_ + 6, 13, RED if "(?)" in must else INK)
+        ry_ += 62
+    qy += h + 14
 # ══ merge preserved annotations back in ══════════════════════════════════
 import os, json as _json
 _ann = "/Users/anthonymaley/Kerd/docs/plans/annotations/2026-08-02-tony.json"

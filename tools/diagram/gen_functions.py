@@ -172,3 +172,59 @@ SEQUENCE = [
    ("Rip what survives the spike", "post-approval only — evidence first"),
  ]),
 ]
+
+# First-cut requirements. Deliberately shallow — one MUST per function, enough
+# to expose relationships between them, not enough to be a spec. Draft for
+# Tony to correct; anything marked (?) is me guessing rather than reading.
+REQUIREMENTS = [
+ ("PRODUCT", [
+  ("Frame the intent",
+   "MUST state why this exists in terms checkable by someone outside the build,\nand be reachable by the design rung without asking a question"),
+  ("Test viability",
+   "MUST name the assumption that kills it, and record which risks were tested\nversus carried forward — carried is fine, silent is not"),
+  ("Hold product truth",
+   "MUST be diffable against the running app, and MUST be read when work\ntouches its area. Unread means it does not exist."),
+  ("Slice a release · Set the goal",
+   "MUST state a DONE condition specific enough to terminate a loop"),
+  ("Choose what matters next",
+   "MUST rank by consequence and show the reasoning.\nMUST NOT rank by what fits the session about to run."),
+ ]),
+ ("DESIGN", [
+  ("Shape the solution",
+   "MUST produce at least two approaches with trade-offs before one is chosen"),
+  ("Agree the shape",
+   "MUST present options on constant axes, costs marked, bets named —\nand resolve in ONE message, not a sequence of clarifications"),
+  ("Decide what proves it",
+   "MUST state test bias per layer, and name every seam needing a contract test"),
+  ("Design the interface → approved",
+   "MUST be approved before any build starts.\n(?) MUST output values a machine can check — tokens, hex, spacing, states"),
+ ]),
+ ("CONTRACT", [
+  ("Write the contract · Size and assign",
+   "MUST be implementable by a model that never saw the reasoning.\nTags assigned AFTER the step body is written, never before."),
+ ]),
+ ("BUILD", [
+  ("Execute a unit · Prove it worked",
+   "MUST produce evidence, and MUST check collateral — what changed that\nshould not have, not just whether the intended change landed"),
+  ("Review unanchored",
+   "MUST see only the spec and the diff. No session context, ever."),
+  ("Refuse bad work",
+   "MUST be able to block, from outside the model.\nAdvisory output does not satisfy this."),
+  ("Verify against what we said",
+   "MUST check every declared layer — code, logic, architecture, pixel, product\nmeasurements — and report conformance per layer, not one verdict"),
+ ]),
+ ("SESSION", [
+  ("Open / close · Keep tempo · Hold state",
+   "MUST survive going cold — the next session picks up without re-deriving"),
+  ("Route to the altitude",
+   "MUST decide before the work is sized, not after"),
+  ("Drive to done  (/goal + /loop)",
+   "MUST stop at the stated hand-back point.\nMUST NOT run at all where nothing can refuse."),
+ ]),
+ ("CROSS-CUTTING", [
+  ("How we talk to each other",
+   "MUST be one question, drilled, carrying the findings it depends on.\n(?) needs an enforcement point — five written statements did not bind"),
+  ("Stay in control of external tools",
+   "MUST name what is NOT being adopted before the tool is invoked"),
+ ]),
+]
