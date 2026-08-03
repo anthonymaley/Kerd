@@ -35,10 +35,6 @@ FUNCTIONS = [
    "the next thing to do, and why\nit beats the alternatives",
    "ACHIEVED: the highest-consequence item was picked\nGAP: dinner-tonight ranked by session-fit, not harm"),
 
-  ("Approve what shipped\n(final UI/UX, per release)", "", "GAP",
-   "the built thing, running —\nnot a diff, not a green build",
-   "seen and approved, or sent back.\nthe release's terminal condition",
-   "ACHIEVED: a release was approved on what was seen\nGAP: 'NOT YET EYEBALLED' · 'four builds passed, which\non this project has historically meant very little'"),
  ]),
 
  ("DESIGN", [
@@ -57,10 +53,10 @@ FUNCTIONS = [
    "test strategy: heavy on business logic,\nbehaviour-level on UI, contract at seams",
    "ACHIEVED: a contract test caught a breaking change\nGAP: movie-catalog-client-contract.md enforces nothing"),
 
-  ("Design the interface\n(initial)", "", "GAP",
+  ("Design the interface\ninitial → final → APPROVED", "", "GAP",
    "product truth + the intent —\nwhat someone needs to do here",
-   "what the user sees and does:\nscreens, states, gestures, copy",
-   "ACHIEVED: the build had a design to build TO\nGAP: dinner-tonight's came from outside Kerd entirely"),
+   "what the user sees and does: screens,\nstates, gestures, copy. Approved BEFORE\nany build starts — this gates the loop",
+   "ACHIEVED: the build had an approved design to\nbuild TO  GAP: dinner-tonight's came from a Claude\ndesign spec produced entirely outside Kerd"),
  ]),
 
  ("CONTRACT", [
@@ -144,10 +140,8 @@ SEQUENCE = [
     "rank by consequence — the vacuum conductor filled with session-fit"),
    ("Drive to done  (/goal + /loop)",
     "REQUIRES CI FIRST — a loop with nothing able to refuse compounds errors"),
-   ("Design the interface (initial)",
-    "the build needs something to build TO — dinner-tonight's came from outside"),
-   ("Approve what shipped (final UI/UX)",
-    "the loop's terminal condition — where it must stop and hand back to you"),
+   ("Design the interface → approved",
+    "PRE-LOOP. approved design is what the loop builds to; nothing starts without it"),
  ]),
  ("SOMEDAY", "#1e1e1e", [
    ("Review unanchored", "real, but it needs the rungs above it first"),
