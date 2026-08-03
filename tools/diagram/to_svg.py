@@ -2,6 +2,7 @@
 Font differs from Excalifont, so metrics are approximate — this catches gross
 layout faults (overflow, collisions, bad coordinates), not kerning."""
 import html
+import math
 
 FONT = "'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive"
 
@@ -33,6 +34,23 @@ def to_svg(els, path, pad=40):
                 f'<ellipse cx="{e["x"]+e["width"]/2:.1f}" cy="{e["y"]+e["height"]/2:.1f}" '
                 f'rx="{e["width"]/2:.1f}" ry="{e["height"]/2:.1f}" fill="{fill}" '
                 f'stroke="{sc}" stroke-width="{e["strokeWidth"]}"/>')
+        elif t in ("line", "arrow"):
+            pts = [(e["x"] + px, e["y"] + py) for px, py in e["points"]]
+            d = " ".join(f"{px:.1f},{py:.1f}" for px, py in pts)
+            out.append(
+                f'<polyline points="{d}" fill="none" stroke="{sc}" '
+                f'stroke-width="{e["strokeWidth"]}"{dash} '
+                f'stroke-linecap="round" stroke-linejoin="round"/>')
+            if e.get("endArrowhead") == "arrow" and len(pts) >= 2:
+                (x0, y0), (x1, y1) = pts[-2], pts[-1]
+                ang = math.atan2(y1 - y0, x1 - x0)
+                for off in (2.6, -2.6):
+                    hx = x1 + 11 * math.cos(ang + off)
+                    hy = y1 + 11 * math.sin(ang + off)
+                    out.append(
+                        f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{hx:.1f}" '
+                        f'y2="{hy:.1f}" stroke="{sc}" '
+                        f'stroke-width="{e["strokeWidth"]}" stroke-linecap="round"/>')
         elif t == "text":
             size = e["fontSize"]
             lines = e["text"].split("\n")
@@ -87,4 +105,26 @@ def collision_report(els):
             if overlap and (small or not inside):
                 faults.append((e["text"].split(chr(10))[0][:46], round(ex0), round(ey0)))
                 break
+    return faults
+
+
+def text_overlap_report(els):
+    """Free text overlapping other free text.
+
+    The box-collision check above could not see this: two text blocks in
+    adjacent rows sit beside boxes, not on them, so nothing flagged when a
+    grown block ran into the row below. Every fault it missed was invisible
+    for exactly the reason it was written — it was looking at rectangles.
+    """
+    texts = [e for e in els
+             if e["type"] == "text" and not e.get("containerId")]
+    faults = []
+    for i, a in enumerate(texts):
+        ax1, ay1 = a["x"] + a["width"], a["y"] + a["height"]
+        for b in texts[i + 1:]:
+            bx1, by1 = b["x"] + b["width"], b["y"] + b["height"]
+            if a["x"] < bx1 and ax1 > b["x"] and a["y"] < by1 and ay1 > b["y"]:
+                faults.append((a["text"].split(chr(10))[0][:40],
+                               b["text"].split(chr(10))[0][:40],
+                               round(a["x"]), round(a["y"])))
     return faults

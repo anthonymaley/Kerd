@@ -137,7 +137,91 @@ CROSSCUTTING = [
   "an external skill or tool we want\na specific capability from",
   "the capability extracted — and its process,\nquestion style, file conventions and handoff\ntargets explicitly NOT adopted. Kerd's\ncontract wins every conflict.",
   "ACHIEVED: took brainstorming's spec quality without\nits waterfall  GAP: it captured the plan phase and\nrouted to writing-plans — and never came back"),
+
+ ("Show where we are", "", "GAP",
+  "every function's declared inputs and outputs,\nwhat is agreed vs drafted, what is built vs not",
+  "a rendered board — have / need / progress — for\nONE rung and for the whole thing. invocable at\nany time; produced at every phase-gate close",
+  "ACHIEVED: 'where are we' got a render, not a paragraph\nGAP: the requirements agreement about to run has no\ninstrument — a chat thread is doing the job"),
+
+ ("Size work to a model", "conductor, one rung", "GAP",
+  "a unit of work, already specified —\nnever sized before it is written",
+  "the model tier and the effort it needs, and why.\nnever the top tier for difficulty alone",
+  "ACHIEVED: a delegated step passed on first return\nGAP: exists at ONE rung. every other function picks\na model by accident, or does not pick at all"),
+
+ ("Where the work is written down", "scattered", "GAP",
+  "any function's declared output",
+  "the artifact in ONE home, under a derivable name.\ngit = machine-read, diffable, travels with code.\nvault = human-read, assumes no prior context",
+  "ACHIEVED: a session found a prior artifact without asking\nGAP: 3 parallel doc trees. a 6 Jul design doc held\n1 Aug's answer and went unread"),
 ]
+
+# Interviewed detail. A function appears here ONLY once it has actually been
+# walked with Tony. Everything absent is not-yet-interviewed, and the diagram
+# says so rather than showing a plausible blank.
+#
+# Four fields, in execution order — the order came out of Tony asking why
+# evidence sat after outputs. It did not: one word was carrying three ideas.
+#   in         what arrives, and which route triage sends it down
+#   grounding  what MUST be read before producing anything (the entry gate's
+#              real job — inputs arrive on their own, grounding gets skipped)
+#   out        the artifacts
+#   acceptance what proves the output is good. machine key + human key.
+# The old ACHIEVED/GAP line was neither: it is a diagnostic of whether the
+# function exists yet, and it now lives in movement 11.
+
+DETAIL = {
+ "Frame the intent": {
+  "in":
+   "an idea, a product, a feature, an enhancement, a thought,\n"
+   "a question, a comparison to another product or repo — or\n"
+   "an issue or a complaint.\n\n"
+   "TRIAGED into one of three routes:\n"
+   "  NEW      — idea / feature / enhancement\n"
+   "  PROBLEM  — issue / complaint / something broken\n"
+   "  OUT      — a question about the product. answered from\n"
+   "             product truth, NOT framed as new work.\n\n"
+   "captured by interview, uploaded evidence, or a whiteboard\n"
+   "session. the two routes converge on the same output shape.",
+  "grounding":
+   "PROBLEM route MUST read the CURRENT situation first —\n"
+   "code, infra, product specs — and then do the gap analysis.\n"
+   "no proposal before the present state is read.\n\n"
+   "NEW route: the competitor scan, and the evidence of need.\n"
+   "there may be no current situation to read.\n\n"
+   "sensei is a TOOL, not a MUST. invoked when its route\n"
+   "matches: asserting a position, proving a gap or an idea\n"
+   "with measurement, or a complex problem needing point of\n"
+   "cause and 5 whys — triggered by a problem that survived\n"
+   "a few attempts to fix it. otherwise avoided.\n"
+   "same rule for superpowers and every other external tool:\n"
+   "it declares the route it serves, and is invoked on match.",
+  "out":
+   "TWO documents, not one shape with optional sections.\n"
+   "both are a .md — machine-read, long-read, measurable,\n"
+   "handoff-ready — AND a diagram. the SECTIONS differ,\n"
+   "not the artifact types.\n\n"
+   "IDEA BRIEF: what it is · what it must become · what gap\n"
+   "it addresses · how it compares to other products · its\n"
+   "value · a viability SIGNAL, not a verdict · next inputs.\n\n"
+   "PROBLEM STATEMENT: what is happening now, READ from code,\n"
+   "infra and specs, not assumed · what should be happening ·\n"
+   "the gap between them, MEASURED · point of cause, if the\n"
+   "sensei trigger fired · the value of closing it · next inputs.",
+  "acceptance":
+   "TWO KEYS, neither sufficient alone. the routes converge\n"
+   "here: shared machinery, route-specific checklist.\n\n"
+   "MACHINE: the sections are present — WHICH sections depends\n"
+   "on the route · the measurements are stated · the diagram\n"
+   "conforms to the pattern it claims · the next stage's\n"
+   "declared inputs are all filled.\n\n"
+   "HUMAN: Tony says approve.\n\n"
+   "any gap or risk that could not be closed is documented\n"
+   "AND confirmed. carried is fine — silent is not.\n\n"
+   "HANDOFF: both routes go to Test viability. the killer\n"
+   "assumption differs, the test does not — a problem going\n"
+   "straight to design is the jump-to-countermeasure failure.",
+ },
+}
+
 
 # Movement 7 — what gets built, and in what order.
 # Tony's call, with the spike added: the routing bet is untested, so it gets
@@ -230,9 +314,21 @@ REQUIREMENTS = [
  ]),
  ("CROSS-CUTTING", [
   ("How we talk to each other",
-   "MUST be one question, drilled, carrying the findings it depends on.\n(?) needs an enforcement point — five written statements did not bind"),
+   "MUST be one question, drilled, carrying the findings it depends on.\n(?) MUST be agreed in diagrams, not prose — constant axes, colour marking\ncost only, bets named and discharged by name, containment over arrows,\nan altitude shift between movements.\n(?) MUST round-trip: the diagram goes out, annotations come back as\ninput, preserved across regeneration.\n(?) MUST pick a story format before drawing — proposal / compare-contrast\n(current → new → what changes) / roadmap / illumination.\n(?) needs an enforcement point — five written statements did not bind"),
   ("Do we have what we need? (entry gate)",
-   "MUST check the declared inputs of the rung about to start, and MUST push\nback naming what is missing rather than proceeding on assumption.\nMUST be rendered — have / need / progress — not delivered as prose"),
+   "MUST check the declared inputs of the rung about to start, and MUST push\nback naming what is missing rather than proceeding on assumption.\nMUST call 'Show where we are' rather than render a view of its own"),
+  ("Show where we are",
+   "MUST be invocable at any time, and MUST be produced at every phase-gate\nclose. MUST render have / need / progress for ONE rung AND for the whole\nboard. Never prose.\n(?) the gate-close copy is the artifact of record for that gate — dated,\nkept, diffable against the next one"),
+  ("Size work to a model",
+   "(?) every function that dispatches work MUST declare the model tier and\nthe effort it needs, and why. sized AFTER the work is specified, never\nbefore. MUST NOT default to the top tier for difficulty alone"),
+  ("Where the work is written down",
+   "every function's output MUST have exactly one home, and its name MUST be\nderivable without looking it up — know the subject, know the filename.\n"
+   "MUST date records of EVENTS, and MUST NOT date living documents.\nthe test: would rewriting this tomorrow be CORRECT, or would it be\n"
+   "FALSIFYING the record? correct -> living, no date, git history is the\narchive. falsifying -> a record, dated, never rewritten again.\n"
+   "MUST state the git/vault split — git: machine-read, diffable, travels\nwith code. vault: human-read, assumes no prior context. never both.\n"
+   "MUST carry route and stage in front matter, so that route-specific\nacceptance is machine-checkable rather than a human reading for it.\n"
+   "(?) MUST be reachable — an artifact nothing routes to is lost, not\nstored. naming solves findability, NOT reachability. still open: the\n"
+   "6 Jul design doc that held 1 Aug's answer was perfectly well named."),
   ("Stay in control of external tools",
    "MUST name what is NOT being adopted before the tool is invoked"),
  ]),
@@ -278,4 +374,10 @@ TOOLING = [
  ("/loop", "driving to done",
   "run until the goal is met or the hand-back point is reached",
   "UNTESTED. MUST NOT run where\nnothing can refuse"),
+ ("excalidraw\n+ clipboard", "agreeing a shape, both directions",
+  "diagram out, annotations back in as input, preserved across\nregeneration — no install, no lock-in",
+  "MEETS. proven both ways in one round\ntrip. caveat: one-directional on the file\n— regenerating overwrites hand edits"),
+ ("diagram generator\n(tools/diagram)", "showing where we are",
+  "render have / need / progress, for one rung and for the whole\nboard, on demand and at every gate close",
+  "PARTIAL. renders the map and the\nrequirements; renders no progress state\nand nothing invokes it"),
 ]
