@@ -81,6 +81,11 @@ FUNCTIONS = [
    "the commit or the branch",
    "pass, or blocked — outside the\nmodel, not a choice to comply",
    "ACHIEVED: a bad change was blocked, not discussed\nGAP: 0 CI workflows, 0 pre-commit hooks, every repo"),
+
+  ("Verify against what we said\n(half machine, half human)", "", "GAP",
+   "the running thing + EVERYTHING declared\nupstream: product measurements, the\napproved design, architecture, the contract",
+   "conformance per layer — code, logic,\narchitecture, PIXEL-PERFECT UI vs design,\nthen: did we meet the product measurements",
+   "ACHIEVED: shipped EXACTLY what was specified, proven\nagainst the measurements set at the start\nGAP: 'NOT YET EYEBALLED' — nothing checks conformance"),
  ]),
 
  ("SESSION", [
@@ -142,6 +147,8 @@ SEQUENCE = [
     "REQUIRES CI FIRST — a loop with nothing able to refuse compounds errors"),
    ("Design the interface → approved",
     "PRE-LOOP. approved design is what the loop builds to; nothing starts without it"),
+   ("Verify against what we said",
+    "the loop's hand-back. machine: code/logic/arch/pixel. human: product intent"),
  ]),
  ("SOMEDAY", "#1e1e1e", [
    ("Review unanchored", "real, but it needs the rungs above it first"),
