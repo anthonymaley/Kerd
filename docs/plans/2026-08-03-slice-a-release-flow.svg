@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1456" height="1901" viewBox="260 40 1456 1901">
+<rect x="260" y="40" width="1456" height="1901" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Slice a release · Set the goal — stage flow</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">PRODUCT rung · function 4 · interviewed 2026-08-03</tspan>
+<tspan x="300.0" dy="18.8">a release is a GROUPING, not a time axis. the DONE condition is assembled from upstream declarations, never authored at the end.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">IN</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What arrives</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">what is already built · the framed and viability-tested candidates ·</tspan>
+<tspan x="678.0" dy="15.0">their QUALIFIED risks with countermeasures attached · and the record</tspan>
+<tspan x="678.0" dy="15.0">of what was already ruled out.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">risk arrives PRE-CHEWED.</tspan>
+<tspan x="1320.0" dy="15.0">do not re-assess it here.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">a feature carrying a</tspan>
+<tspan x="1320.0" dy="15.0">TEMPORARY countermeasure is</tspan>
+<tspan x="1320.0" dy="15.0">a different slicing</tspan>
+<tspan x="1320.0" dy="15.0">candidate from one carrying</tspan>
+<tspan x="1320.0" dy="15.0">a permanent fix.</tspan>
+</text>
+<polyline points="960.0,421.0 960.0,455.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="455.0" x2="954.3" y2="445.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="455.0" x2="965.7" y2="445.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="487.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GROUNDING</tspan>
+</text>
+<rect x="660.0" y="455.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="490.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What actually decides the grouping</tspan>
+</text>
+<text x="678.0" y="535.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">five factors, and lumping them together is the mistake — they act on</tspan>
+<tspan x="678.0" dy="15.0">the grouping in three different ways.</tspan>
+</text>
+<rect x="660.0" y="571.0" width="190.0" height="110.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="755.0" y="593.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="755.0" dy="0.0">DEPENDENCY</tspan>
+<tspan x="755.0" dy="15.0">HARD CONSTRAINT</tspan>
+<tspan x="755.0" dy="15.0"></tspan>
+<tspan x="755.0" dy="15.0">B cannot ship before A</tspan>
+<tspan x="755.0" dy="15.0">if B needs A.</tspan>
+<tspan x="755.0" dy="15.0">no trade-off exists.</tspan>
+</text>
+<rect x="865.0" y="571.0" width="190.0" height="110.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="593.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">USER COMPREHENSION</tspan>
+<tspan x="960.0" dy="15.0">CEILING</tspan>
+<tspan x="960.0" dy="15.0"></tspan>
+<tspan x="960.0" dy="15.0">how much change can be</tspan>
+<tspan x="960.0" dy="15.0">absorbed AT ONCE.</tspan>
+<tspan x="960.0" dy="15.0">caps the size.</tspan>
+</text>
+<rect x="1070.0" y="571.0" width="190.0" height="110.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1165.0" y="585.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1165.0" dy="0.0">EFFORT · RISK ·</tspan>
+<tspan x="1165.0" dy="15.0">OPPORTUNITY</tspan>
+<tspan x="1165.0" dy="15.0">TRADE-OFFS</tspan>
+<tspan x="1165.0" dy="15.0"></tspan>
+<tspan x="1165.0" dy="15.0">shape the grouping</tspan>
+<tspan x="1165.0" dy="15.0">among what is left.</tspan>
+<tspan x="1165.0" dy="15.0">they do not forbid.</tspan>
+</text>
+<text x="1320.0" y="585.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">THE CEILING IS THE UNUSUAL ONE.</tspan>
+<tspan x="1320.0" dy="15.0">almost everything sizes a release by what is READY —</tspan>
+<tspan x="1320.0" dy="15.0">a bound from the producing side. this is a bound from</tspan>
+<tspan x="1320.0" dy="15.0">the RECEIVING side: a release can be too big even when</tspan>
+<tspan x="1320.0" dy="15.0">everything in it is finished.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">it is why &#x27;we shipped everything we had&#x27; is a real</tspan>
+<tspan x="1320.0" dy="15.0">failure mode and not a joke.</tspan>
+</text>
+<polyline points="960.0,711.0 960.0,745.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="745.0" x2="954.3" y2="735.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="745.0" x2="965.7" y2="735.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="777.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="770.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">OUT</tspan>
+</text>
+<rect x="660.0" y="745.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="780.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">THE GROUPING</tspan>
+</text>
+<text x="678.0" y="825.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">what is in · what is deferred · and why this cut rather than another.</tspan>
+<tspan x="678.0" dy="15.0">dependencies eliminate the impossible groupings, the ceiling caps the</tspan>
+<tspan x="678.0" dy="15.0">size, the trade-offs choose among what is left.</tspan>
+</text>
+<text x="1320.0" y="761.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">NOT A SCHEDULE.</tspan>
+<tspan x="1320.0" dy="15.0">time may be attached</tspan>
+<tspan x="1320.0" dy="15.0">later, or never.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">MVP / v1 / v1.2 are</tspan>
+<tspan x="1320.0" dy="15.0">ORDERED, not scheduled.</tspan>
+<tspan x="1320.0" dy="15.0">conflating the two turns</tspan>
+<tspan x="1320.0" dy="15.0">a grouping decision into</tspan>
+<tspan x="1320.0" dy="15.0">a deadline argument.</tspan>
+</text>
+<polyline points="960.0,878.0 960.0,912.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="912.0" x2="954.3" y2="902.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="912.0" x2="965.7" y2="902.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="944.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="937.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GROUNDING</tspan>
+</text>
+<rect x="660.0" y="912.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="947.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Walk the upstream declarations</tspan>
+</text>
+<text x="678.0" y="992.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">the DONE condition is ASSEMBLED, never authored. you do not write a</tspan>
+<tspan x="678.0" dy="15.0">wish list at the end — you walk what each rung already declared.</tspan>
+</text>
+<text x="1320.0" y="928.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">this is why the draft</tspan>
+<tspan x="1320.0" dy="15.0">was circular. &#x27;specific</tspan>
+<tspan x="1320.0" dy="15.0">enough to terminate a</tspan>
+<tspan x="1320.0" dy="15.0">loop&#x27; is true EXACTLY</tspan>
+<tspan x="1320.0" dy="15.0">when every item points</tspan>
+<tspan x="1320.0" dy="15.0">at a declaration that</tspan>
+<tspan x="1320.0" dy="15.0">exists.</tspan>
+</text>
+<polyline points="960.0,1028.0 960.0,1062.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1062.0" x2="954.3" y2="1052.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1062.0" x2="965.7" y2="1052.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1094.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1087.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">OUT</tspan>
+<tspan x="344.0" dy="16.2">the DONE</tspan>
+<tspan x="344.0" dy="16.2">condition</tspan>
+</text>
+<rect x="660.0" y="1062.0" width="600.0" height="44.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1088.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">DONE  =  every item a conformance check against a DECLARATION</tspan>
+</text>
+<text x="674.0" y="1130.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="674.0" dy="0.0">met the feature spec          &lt;-  the contract</tspan>
+<tspan x="674.0" dy="15.0">met the product spec          &lt;-  the idea brief</tspan>
+<tspan x="674.0" dy="15.0">goal of the function met      &lt;-  the goal set here</tspan>
+<tspan x="674.0" dy="15.0">looks EXACTLY like design     &lt;-  design, approved before build</tspan>
+<tspan x="674.0" dy="15.0">tests pass                    &lt;-  every proof layer declared by</tspan>
+<tspan x="674.0" dy="15.0">                                  Decide what proves it —</tspan>
+<tspan x="674.0" dy="15.0">                                  INCLUDING user testing</tspan>
+<tspan x="674.0" dy="15.0">documentation complete        &lt;-  DERIVED, not declared: every</tspan>
+<tspan x="674.0" dy="15.0">                                  declaration covered — feature,</tspan>
+<tspan x="674.0" dy="15.0">                                  product and problem specs, the</tspan>
+<tspan x="674.0" dy="15.0">                                  changes and fixes implemented,</tspan>
+<tspan x="674.0" dy="15.0">                                  the solution diagrams, and what</tspan>
+<tspan x="674.0" dy="15.0">                                  we ruled out</tspan>
+</text>
+<text x="1320.0" y="1130.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">TWO ORPHANS RESOLVED WITHOUT NEW FUNCTIONS.</tspan>
+<tspan x="1320.0" dy="15.0">&#x27;user testing passed&#x27; and &#x27;documentation is</tspan>
+<tspan x="1320.0" dy="15.0">complete&#x27; had no upstream declaration when</tspan>
+<tspan x="1320.0" dy="15.0">this started. user testing turned out to be a</tspan>
+<tspan x="1320.0" dy="15.0">proof LAYER nobody had listed; documentation</tspan>
+<tspan x="1320.0" dy="15.0">turned out to be DERIVED rather than declared.</tspan>
+</text>
+<polyline points="960.0,1352.0 960.0,1386.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1386.0" x2="954.3" y2="1376.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1386.0" x2="965.7" y2="1376.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1418.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1411.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">DECISION</tspan>
+</text>
+<rect x="660.0" y="1386.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1421.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Does every DONE item point at a declaration that EXISTS?</tspan>
+</text>
+<text x="678.0" y="1466.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">if it does not, it cannot be checked — so it passes by ASSERTION.</tspan>
+<tspan x="678.0" dy="15.0">that is the unqualified-risk failure in another costume: it looks</tspan>
+<tspan x="678.0" dy="15.0">handled because it is written down.</tspan>
+<tspan x="678.0" dy="15.0">  fix it one of two ways: remove the item, or go and get the</tspan>
+<tspan x="678.0" dy="15.0">  declaration made upstream. never leave it unbacked.</tspan>
+</text>
+<polyline points="960.0,1553.0 960.0,1587.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1587.0" x2="954.3" y2="1577.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1587.0" x2="965.7" y2="1577.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1619.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">7</tspan>
+</text>
+<text x="344.0" y="1612.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">APPROVAL</tspan>
+</text>
+<rect x="660.0" y="1587.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1622.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Acceptance — TWO KEYS</tspan>
+</text>
+<text x="678.0" y="1667.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">MACHINE: every DONE item points at an existing declaration ·</tspan>
+<tspan x="678.0" dy="15.0">         dependencies satisfied by the ordering ·</tspan>
+<tspan x="678.0" dy="15.0">         the slice is within the comprehension ceiling.</tspan>
+<tspan x="678.0" dy="15.0">HUMAN:   Tony approves the grouping — what is in, what is deferred,</tspan>
+<tspan x="678.0" dy="15.0">         and why this cut rather than another.</tspan>
+</text>
+<text x="1320.0" y="1603.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the deferral is part of</tspan>
+<tspan x="1320.0" dy="15.0">the output, not the</tspan>
+<tspan x="1320.0" dy="15.0">residue. what did NOT</tspan>
+<tspan x="1320.0" dy="15.0">make the cut goes to</tspan>
+<tspan x="1320.0" dy="15.0">What we ruled out.</tspan>
+</text>
+<polyline points="960.0,1754.0 960.0,1788.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1788.0" x2="954.3" y2="1778.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1788.0" x2="965.7" y2="1778.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1820.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">8</tspan>
+</text>
+<text x="344.0" y="1813.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">HANDOFF</tspan>
+</text>
+<rect x="660.0" y="1788.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1823.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">→ Choose what matters next, then the loop</tspan>
+</text>
+<text x="678.0" y="1868.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">the DONE condition is what /loop terminates on. a loop with a vague</tspan>
+<tspan x="678.0" dy="15.0">DONE condition is the one that runs forever — which is why the</tspan>
+<tspan x="678.0" dy="15.0">assembly rule above is load-bearing rather than tidy.</tspan>
+</text>
+<text x="1320.0" y="1804.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">/loop MUST NOT run where</tspan>
+<tspan x="1320.0" dy="15.0">nothing can refuse.</tspan>
+<tspan x="1320.0" dy="15.0">still true, still unfixed —</tspan>
+<tspan x="1320.0" dy="15.0">0 CI workflows, every repo.</tspan>
+</text>
+</svg>
