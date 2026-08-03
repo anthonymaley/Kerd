@@ -25,10 +25,15 @@ FUNCTIONS = [
    "living, user-side: what the\nproduct does today",
    "ACHIEVED: doc matches the running app\nGAP: 6 Jul design doc held 1 Aug's answer, unread"),
 
-  ("Slice a release", "sherpa Launch", "unused",
+  ("Slice a release ·\nSet the goal", "sherpa Launch", "unused",
    "product truth + intent +\nwhat is already built",
-   "MVP / v1 / v1.2 — what is in,\nwhat is deferred, and why",
+   "MVP / v1 / v1.2 — what is in, what is\ndeferred, and the DONE condition",
    "ACHIEVED: a deferred item stayed deferred\nGAP: no line between MVP and someday exists"),
+
+  ("Choose what matters next", "", "GAP",
+   "the open work, ranked by\nconsequence — not by what fits",
+   "the next thing to do, and why\nit beats the alternatives",
+   "ACHIEVED: the highest-consequence item was picked\nGAP: dinner-tonight ranked by session-fit, not harm"),
  ]),
 
  ("DESIGN", [
@@ -82,6 +87,11 @@ FUNCTIONS = [
    "the request, before any work\nis sized",
    "which rung to enter at, and\nwhich function runs first",
    "ACHIEVED: a session started at the right rung\nGAP: sherpa is an orphan; nothing references it"),
+
+  ("Drive to done  (/goal + /loop)", "", "GAP",
+   "a cut release with its DONE condition,\nplans, tests — everything in place",
+   "next unblocked item → run → check goal →\nrepeat. AND when to cut a session and\nstart fresh to keep conditions good",
+   "ACHIEVED: a release reached done without being\ndriven by hand  GAP: nothing detects a degraded\nsession; conductor says restart, nothing says when"),
  ]),
 
  ("SUPPORT", [
@@ -120,6 +130,10 @@ SEQUENCE = [
     "the artifact is worthless without retrieval — measured, not feared"),
    ("Decide what proves it",
     "test bias by layer; contract tests where client meets server"),
+   ("Choose what matters next",
+    "rank by consequence — the vacuum conductor filled with session-fit"),
+   ("Drive to done  (/goal + /loop)",
+    "REQUIRES CI FIRST — a loop with nothing able to refuse compounds errors"),
  ]),
  ("SOMEDAY", "#1e1e1e", [
    ("Review unanchored", "real, but it needs the rungs above it first"),

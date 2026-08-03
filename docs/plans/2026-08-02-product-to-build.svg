@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2338" height="4636" viewBox="260 40 2338 4636">
-<rect x="260" y="40" width="2338" height="4636" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="2338" height="4860" viewBox="260 40 2338 4860">
+<rect x="260" y="40" width="2338" height="4860" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Kerd — product to build</tspan>
 </text>
@@ -250,7 +250,7 @@
 <text x="1480.0" y="2441.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">HOW WE WOULD KNOW</tspan>
 </text>
-<rect x="300.0" y="2454.0" width="1560.0" height="302.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="300.0" y="2454.0" width="1560.0" height="368.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="318.0" y="2480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">PRODUCT</tspan>
 </text>
@@ -322,8 +322,9 @@
 <tspan x="1480.0" dy="15.0">GAP: 6 Jul design doc held 1 Aug&#x27;s answer, unread</tspan>
 </text>
 <rect x="316.0" y="2688.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="436.0" y="2717.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="436.0" dy="0.0">Slice a release</tspan>
+<text x="436.0" y="2709.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="436.0" dy="0.0">Slice a release ·</tspan>
+<tspan x="436.0" dy="16.2">Set the goal</tspan>
 </text>
 <text x="568.0" y="2704.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">sherpa Launch</tspan>
@@ -336,65 +337,65 @@
 <tspan x="740.0" dy="15.0">what is already built</tspan>
 </text>
 <text x="1110.0" y="2708.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="1110.0" dy="0.0">MVP / v1 / v1.2 — what is in,</tspan>
-<tspan x="1110.0" dy="15.0">what is deferred, and why</tspan>
+<tspan x="1110.0" dy="0.0">MVP / v1 / v1.2 — what is in, what is</tspan>
+<tspan x="1110.0" dy="15.0">deferred, and the DONE condition</tspan>
 </text>
 <text x="1480.0" y="2708.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: a deferred item stayed deferred</tspan>
 <tspan x="1480.0" dy="15.0">GAP: no line between MVP and someday exists</tspan>
 </text>
-<rect x="300.0" y="2770.0" width="1560.0" height="236.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="2796.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="316.0" y="2754.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="436.0" y="2783.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="436.0" dy="0.0">Choose what matters next</tspan>
+</text>
+<text x="568.0" y="2770.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">— nothing —</tspan>
+</text>
+<text x="568.0" y="2799.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">GAP</tspan>
+</text>
+<text x="740.0" y="2774.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="740.0" dy="0.0">the open work, ranked by</tspan>
+<tspan x="740.0" dy="15.0">consequence — not by what fits</tspan>
+</text>
+<text x="1110.0" y="2774.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1110.0" dy="0.0">the next thing to do, and why</tspan>
+<tspan x="1110.0" dy="15.0">it beats the alternatives</tspan>
+</text>
+<text x="1480.0" y="2774.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1480.0" dy="0.0">ACHIEVED: the highest-consequence item was picked</tspan>
+<tspan x="1480.0" dy="15.0">GAP: dinner-tonight ranked by session-fit, not harm</tspan>
+</text>
+<rect x="300.0" y="2836.0" width="1560.0" height="236.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="2862.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">DESIGN</tspan>
 </text>
-<rect x="316.0" y="2806.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="436.0" y="2835.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="316.0" y="2872.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="436.0" y="2901.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="436.0" dy="0.0">Shape the solution</tspan>
 </text>
-<text x="568.0" y="2822.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="2888.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">superpowers</tspan>
 <tspan x="568.0" dy="15.0">brainstorming</tspan>
 </text>
-<text x="568.0" y="2851.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="2917.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">EXTERNAL</tspan>
 </text>
-<text x="740.0" y="2826.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="740.0" y="2892.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">intent, constraints, and the real</tspan>
 <tspan x="740.0" dy="15.0">terrain — actual code, not summaries</tspan>
 </text>
-<text x="1110.0" y="2826.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="2892.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">approaches with trade-offs,</tspan>
 <tspan x="1110.0" dy="15.0">chosen architecture, boundaries</tspan>
 </text>
-<text x="1480.0" y="2826.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="2892.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: the contract never re-derives design</tspan>
 <tspan x="1480.0" dy="15.0">GAP: 3of3 reached outside Kerd to find this</tspan>
 </text>
-<rect x="316.0" y="2872.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="436.0" y="2901.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="436.0" dy="0.0">Agree the shape</tspan>
-</text>
-<text x="568.0" y="2888.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="568.0" dy="0.0">— nothing —</tspan>
-</text>
-<text x="568.0" y="2917.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="568.0" dy="0.0">GAP</tspan>
-</text>
-<text x="740.0" y="2892.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="740.0" dy="0.0">options on constant axes,</tspan>
-<tspan x="740.0" dy="15.0">costs marked, bets named</tspan>
-</text>
-<text x="1110.0" y="2892.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="1110.0" dy="0.0">an approved shape — a sensei A3</tspan>
-<tspan x="1110.0" dy="15.0">story, drawn, with bets discharged</tspan>
-</text>
-<text x="1480.0" y="2892.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="1480.0" dy="0.0">ACHIEVED: one message resolved the decision</tspan>
-<tspan x="1480.0" dy="15.0">GAP: 3 rounds produced no decision (dinner-tonight)</tspan>
-</text>
 <rect x="316.0" y="2938.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="436.0" y="2967.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="436.0" dy="0.0">Decide what proves it</tspan>
+<tspan x="436.0" dy="0.0">Agree the shape</tspan>
 </text>
 <text x="568.0" y="2954.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">— nothing —</tspan>
@@ -403,96 +404,96 @@
 <tspan x="568.0" dy="0.0">GAP</tspan>
 </text>
 <text x="740.0" y="2958.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="740.0" dy="0.0">options on constant axes,</tspan>
+<tspan x="740.0" dy="15.0">costs marked, bets named</tspan>
+</text>
+<text x="1110.0" y="2958.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1110.0" dy="0.0">an approved shape — a sensei A3</tspan>
+<tspan x="1110.0" dy="15.0">story, drawn, with bets discharged</tspan>
+</text>
+<text x="1480.0" y="2958.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1480.0" dy="0.0">ACHIEVED: one message resolved the decision</tspan>
+<tspan x="1480.0" dy="15.0">GAP: 3 rounds produced no decision (dinner-tonight)</tspan>
+</text>
+<rect x="316.0" y="3004.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="436.0" y="3033.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="436.0" dy="0.0">Decide what proves it</tspan>
+</text>
+<text x="568.0" y="3020.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">— nothing —</tspan>
+</text>
+<text x="568.0" y="3049.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">GAP</tspan>
+</text>
+<text x="740.0" y="3024.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">the chosen shape + where the</tspan>
 <tspan x="740.0" dy="15.0">risk actually sits</tspan>
 </text>
-<text x="1110.0" y="2958.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="3024.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">test strategy: heavy on business logic,</tspan>
 <tspan x="1110.0" dy="15.0">behaviour-level on UI, contract at seams</tspan>
 </text>
-<text x="1480.0" y="2958.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3024.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: a contract test caught a breaking change</tspan>
 <tspan x="1480.0" dy="15.0">GAP: movie-catalog-client-contract.md enforces nothing</tspan>
 </text>
-<rect x="300.0" y="3020.0" width="1560.0" height="104.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="3046.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="3086.0" width="1560.0" height="104.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="3112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">CONTRACT</tspan>
 </text>
-<rect x="316.0" y="3056.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="436.0" y="3077.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="316.0" y="3122.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="436.0" y="3143.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="436.0" dy="0.0">Write the contract ·</tspan>
 <tspan x="436.0" dy="16.2">Size and assign</tspan>
 </text>
-<text x="568.0" y="3072.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3138.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">conductor</tspan>
 </text>
-<text x="568.0" y="3101.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3167.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">OK</tspan>
 </text>
-<text x="740.0" y="3076.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="740.0" y="3142.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">the approved shape + terrain</tspan>
 <tspan x="740.0" dy="15.0">fetched for the orchestrator</tspan>
 </text>
-<text x="1110.0" y="3076.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="3142.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">spec file: per-step tags, sized</tspan>
 <tspan x="1110.0" dy="15.0">model + effort, verify commands</tspan>
 </text>
-<text x="1480.0" y="3076.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3142.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: a delegated step passed on first return</tspan>
 <tspan x="1480.0" dy="15.0">WATCH: keep/delegate ratio — 50/50 means tags are early</tspan>
 </text>
-<rect x="300.0" y="3138.0" width="1560.0" height="236.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="3164.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="3204.0" width="1560.0" height="236.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="3230.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">BUILD</tspan>
 </text>
-<rect x="316.0" y="3174.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="436.0" y="3195.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="316.0" y="3240.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="436.0" y="3261.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="436.0" dy="0.0">Execute a unit ·</tspan>
 <tspan x="436.0" dy="16.2">Prove it worked</tspan>
 </text>
-<text x="568.0" y="3190.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3256.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">conductor</tspan>
 </text>
-<text x="568.0" y="3219.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3285.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">OK</tspan>
 </text>
-<text x="740.0" y="3194.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="740.0" y="3260.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">one spec slice — scope, files,</tspan>
 <tspan x="740.0" dy="15.0">signatures, the why, verify</tspan>
 </text>
-<text x="1110.0" y="3194.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="3260.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">the change + evidence: command</tspan>
 <tspan x="1110.0" dy="15.0">output, diff, collateral checked</tspan>
 </text>
-<text x="1480.0" y="3194.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3260.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: collateral check caught an unintended edit</tspan>
 <tspan x="1480.0" dy="15.0">GAP: &#x27;my deletion range swallowed three helpers&#x27;</tspan>
 </text>
-<rect x="316.0" y="3240.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="436.0" y="3269.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="436.0" dy="0.0">Review unanchored</tspan>
-</text>
-<text x="568.0" y="3256.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="568.0" dy="0.0">— nothing —</tspan>
-</text>
-<text x="568.0" y="3285.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="568.0" dy="0.0">GAP</tspan>
-</text>
-<text x="740.0" y="3260.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="740.0" dy="0.0">the spec and the diff — nothing</tspan>
-<tspan x="740.0" dy="15.0">else. no session context</tspan>
-</text>
-<text x="1110.0" y="3260.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="1110.0" dy="0.0">what is missing, what does not</tspan>
-<tspan x="1110.0" dy="15.0">match what was agreed</tspan>
-</text>
-<text x="1480.0" y="3260.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="1480.0" dy="0.0">ACHIEVED: it finds what the in-loop review missed</tspan>
-<tspan x="1480.0" dy="15.0">GAP: &#x27;never contacts your server&#x27; needed Tony to push</tspan>
-</text>
 <rect x="316.0" y="3306.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="436.0" y="3335.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="436.0" dy="0.0">Refuse bad work</tspan>
+<tspan x="436.0" dy="0.0">Review unanchored</tspan>
 </text>
 <text x="568.0" y="3322.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">— nothing —</tspan>
@@ -501,208 +502,268 @@
 <tspan x="568.0" dy="0.0">GAP</tspan>
 </text>
 <text x="740.0" y="3326.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="740.0" dy="0.0">the commit or the branch</tspan>
+<tspan x="740.0" dy="0.0">the spec and the diff — nothing</tspan>
+<tspan x="740.0" dy="15.0">else. no session context</tspan>
 </text>
 <text x="1110.0" y="3326.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1110.0" dy="0.0">what is missing, what does not</tspan>
+<tspan x="1110.0" dy="15.0">match what was agreed</tspan>
+</text>
+<text x="1480.0" y="3326.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1480.0" dy="0.0">ACHIEVED: it finds what the in-loop review missed</tspan>
+<tspan x="1480.0" dy="15.0">GAP: &#x27;never contacts your server&#x27; needed Tony to push</tspan>
+</text>
+<rect x="316.0" y="3372.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="436.0" y="3401.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="436.0" dy="0.0">Refuse bad work</tspan>
+</text>
+<text x="568.0" y="3388.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">— nothing —</tspan>
+</text>
+<text x="568.0" y="3417.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">GAP</tspan>
+</text>
+<text x="740.0" y="3392.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="740.0" dy="0.0">the commit or the branch</tspan>
+</text>
+<text x="1110.0" y="3392.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">pass, or blocked — outside the</tspan>
 <tspan x="1110.0" dy="15.0">model, not a choice to comply</tspan>
 </text>
-<text x="1480.0" y="3326.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3392.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: a bad change was blocked, not discussed</tspan>
 <tspan x="1480.0" dy="15.0">GAP: 0 CI workflows, 0 pre-commit hooks, every repo</tspan>
 </text>
-<rect x="300.0" y="3388.0" width="1560.0" height="170.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="3414.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="3454.0" width="1560.0" height="236.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="3480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">SESSION</tspan>
 </text>
-<rect x="316.0" y="3424.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="436.0" y="3445.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="316.0" y="3490.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="436.0" y="3511.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="436.0" dy="0.0">Open / close · Keep tempo ·</tspan>
 <tspan x="436.0" dy="16.2">Hold state</tspan>
 </text>
-<text x="568.0" y="3440.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3506.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">switch, conductor</tspan>
 </text>
-<text x="568.0" y="3469.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3535.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">OK</tspan>
 </text>
-<text x="740.0" y="3444.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="740.0" y="3510.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">repo state + the last session&#x27;s</tspan>
 <tspan x="740.0" dy="15.0">handoff</tspan>
 </text>
-<text x="1110.0" y="3444.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="3510.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">restored context, work committed as</tspan>
 <tspan x="1110.0" dy="15.0">it verifies, a cold-readable handoff</tspan>
 </text>
-<text x="1480.0" y="3444.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3510.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: next session picked up cold, no re-derivation</tspan>
 <tspan x="1480.0" dy="15.0">WATCH: switch runs 20x/day — the one thing that holds</tspan>
 </text>
-<rect x="316.0" y="3490.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="436.0" y="3519.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="316.0" y="3556.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="436.0" y="3585.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="436.0" dy="0.0">Route to the altitude</tspan>
 </text>
-<text x="568.0" y="3506.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3572.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">— nothing —</tspan>
 </text>
-<text x="568.0" y="3535.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3601.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">GAP</tspan>
 </text>
-<text x="740.0" y="3510.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="740.0" y="3576.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">the request, before any work</tspan>
 <tspan x="740.0" dy="15.0">is sized</tspan>
 </text>
-<text x="1110.0" y="3510.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="3576.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">which rung to enter at, and</tspan>
 <tspan x="1110.0" dy="15.0">which function runs first</tspan>
 </text>
-<text x="1480.0" y="3510.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3576.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: a session started at the right rung</tspan>
 <tspan x="1480.0" dy="15.0">GAP: sherpa is an orphan; nothing references it</tspan>
 </text>
-<rect x="300.0" y="3572.0" width="1560.0" height="170.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="3598.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="316.0" y="3622.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="436.0" y="3651.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="436.0" dy="0.0">Drive to done  (/goal + /loop)</tspan>
+</text>
+<text x="568.0" y="3638.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">— nothing —</tspan>
+</text>
+<text x="568.0" y="3667.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">GAP</tspan>
+</text>
+<text x="740.0" y="3642.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="740.0" dy="0.0">a cut release with its DONE condition,</tspan>
+<tspan x="740.0" dy="15.0">plans, tests — everything in place</tspan>
+</text>
+<text x="1110.0" y="3642.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1110.0" dy="0.0">next unblocked item → run → check goal →</tspan>
+<tspan x="1110.0" dy="15.0">repeat. AND when to cut a session and</tspan>
+<tspan x="1110.0" dy="15.0">start fresh to keep conditions good</tspan>
+</text>
+<text x="1480.0" y="3642.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1480.0" dy="0.0">ACHIEVED: a release reached done without being</tspan>
+<tspan x="1480.0" dy="15.0">driven by hand  GAP: nothing detects a degraded</tspan>
+<tspan x="1480.0" dy="15.0">session; conductor says restart, nothing says when</tspan>
+</text>
+<rect x="300.0" y="3704.0" width="1560.0" height="170.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="3730.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">SUPPORT</tspan>
 </text>
-<rect x="316.0" y="3608.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="436.0" y="3629.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="316.0" y="3740.0" width="240.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="436.0" y="3761.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="436.0" dy="0.0">Converge · Human knowledge ·</tspan>
 <tspan x="436.0" dy="16.2">Human voice</tspan>
 </text>
-<text x="568.0" y="3624.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3756.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">tend, kivna, skriv</tspan>
 </text>
-<text x="568.0" y="3653.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3785.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">OK</tspan>
 </text>
-<text x="740.0" y="3628.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="740.0" y="3760.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">the repo, the session, the prose</tspan>
 </text>
-<text x="1110.0" y="3628.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="3760.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">conventions applied, vault updated,</tspan>
 <tspan x="1110.0" dy="15.0">text that does not read as generated</tspan>
 </text>
-<text x="1480.0" y="3628.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3760.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: vault readable by someone with no context</tspan>
 <tspan x="1480.0" dy="15.0">WATCH: drift found per tend run</tspan>
 </text>
-<rect x="316.0" y="3674.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="436.0" y="3703.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="316.0" y="3806.0" width="240.0" height="50.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="436.0" y="3835.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="436.0" dy="0.0">Keep artifacts lean</tspan>
 </text>
-<text x="568.0" y="3690.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3822.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">trim</tspan>
 </text>
-<text x="568.0" y="3719.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="568.0" y="3851.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="568.0" dy="0.0">DYING</tspan>
 </text>
-<text x="740.0" y="3694.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="740.0" y="3826.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="740.0" dy="0.0">completed feature docs,</tspan>
 <tspan x="740.0" dy="15.0">stale TODO items</tspan>
 </text>
-<text x="1110.0" y="3694.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1110.0" y="3826.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1110.0" dy="0.0">archived — and eventually nothing,</tspan>
 <tspan x="1110.0" dy="15.0">once TODO closure holds</tspan>
 </text>
-<text x="1480.0" y="3694.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1480.0" y="3826.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1480.0" dy="0.0">ACHIEVED: trim has no job left</tspan>
 <tspan x="1480.0" dy="15.0">GAP: still needed because TODO closure isn&#x27;t holding</tspan>
 </text>
-<text x="318.0" y="3781.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="318.0" y="3913.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">5 gaps  ·  3 built but unused  ·  6 working.</tspan>
 <tspan x="318.0" dy="18.8">&quot;Route to the altitude&quot; is the keystone: nothing performs it, and it is what would</tspan>
 <tspan x="318.0" dy="18.8">decide whether the three unused ones are ever reached at all.</tspan>
 </text>
-<text x="300.0" y="3900.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="4032.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">7. What gets built — and in what order</tspan>
 </text>
-<text x="300.0" y="3925.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="4057.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Tony&#x27;s call. The routing bet is untested, so it is spiked rather than decided.</tspan>
 </text>
-<rect x="300.0" y="3950.0" width="1560.0" height="184.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="318.0" y="3980.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#e03131" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="4082.0" width="1560.0" height="184.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="318.0" y="4112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">MVP</tspan>
 </text>
-<rect x="530.0" y="3996.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="730.0" y="4018.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4128.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="730.0" y="4150.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Route to the altitude</tspan>
 </text>
-<text x="950.0" y="4018.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4150.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">the keystone — three gaps stay unreachable without it</tspan>
 </text>
-<rect x="530.0" y="4042.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="730.0" y="4064.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4174.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="730.0" y="4196.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Agree the shape</tspan>
 </text>
-<text x="950.0" y="4064.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4196.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">sensei A3 story format, drawn in the whiteboard grammar</tspan>
 </text>
-<rect x="530.0" y="4088.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="730.0" y="4110.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4220.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="730.0" y="4242.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Refuse bad work (CI)</tspan>
 </text>
-<text x="950.0" y="4110.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4242.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">the only item that changes what is POSSIBLE, not just likely</tspan>
 </text>
-<rect x="300.0" y="4148.0" width="1560.0" height="138.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="318.0" y="4178.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#e03131" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="4280.0" width="1560.0" height="138.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="318.0" y="4310.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">SPIKE — not a decision</tspan>
 </text>
-<rect x="530.0" y="4194.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="730.0" y="4216.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4326.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="730.0" y="4348.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Route ONE dead skill, cheaply</tspan>
 </text>
-<text x="950.0" y="4216.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4348.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">the routing bet is untested. wire one, watch whether it gets used.</tspan>
 </text>
-<rect x="530.0" y="4240.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="730.0" y="4262.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4372.0" width="400.0" height="36.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="730.0" y="4394.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Kill or keep on evidence</tspan>
 </text>
-<text x="950.0" y="4262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4394.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">beats route-vs-rip as a binary — neither side has evidence yet</tspan>
 </text>
-<rect x="300.0" y="4300.0" width="1560.0" height="138.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="4330.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="4432.0" width="1560.0" height="230.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="4462.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">v1</tspan>
 </text>
-<rect x="530.0" y="4346.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="730.0" y="4368.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4478.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="730.0" y="4500.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Hold product truth + its read path</tspan>
 </text>
-<text x="950.0" y="4368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4500.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">the artifact is worthless without retrieval — measured, not feared</tspan>
 </text>
-<rect x="530.0" y="4392.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="730.0" y="4414.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4524.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="730.0" y="4546.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Decide what proves it</tspan>
 </text>
-<text x="950.0" y="4414.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4546.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">test bias by layer; contract tests where client meets server</tspan>
 </text>
-<rect x="300.0" y="4452.0" width="1560.0" height="184.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="4482.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="530.0" y="4570.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="730.0" y="4592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="730.0" dy="0.0">Choose what matters next</tspan>
+</text>
+<text x="950.0" y="4592.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="950.0" dy="0.0">rank by consequence — the vacuum conductor filled with session-fit</tspan>
+</text>
+<rect x="530.0" y="4616.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="730.0" y="4638.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="730.0" dy="0.0">Drive to done  (/goal + /loop)</tspan>
+</text>
+<text x="950.0" y="4638.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="950.0" dy="0.0">REQUIRES CI FIRST — a loop with nothing able to refuse compounds errors</tspan>
+</text>
+<rect x="300.0" y="4676.0" width="1560.0" height="184.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="4706.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">SOMEDAY</tspan>
 </text>
-<rect x="530.0" y="4498.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="730.0" y="4520.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4722.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="730.0" y="4744.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Review unanchored</tspan>
 </text>
-<text x="950.0" y="4520.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4744.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">real, but it needs the rungs above it first</tspan>
 </text>
-<rect x="530.0" y="4544.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="730.0" y="4566.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4768.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="730.0" y="4790.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Measurement collection</tspan>
 </text>
-<text x="950.0" y="4566.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4790.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">nothing counts today; premature until something does</tspan>
 </text>
-<rect x="530.0" y="4590.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="730.0" y="4612.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="530.0" y="4814.0" width="400.0" height="36.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="730.0" y="4836.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="730.0" dy="0.0">Rip what survives the spike</tspan>
 </text>
-<text x="950.0" y="4612.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="950.0" y="4836.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">post-approval only — evidence first</tspan>
 </text>
 <text x="1772.8" y="1600.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="20" fill="#e03131" text-anchor="start" xml:space="preserve">
