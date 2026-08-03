@@ -268,6 +268,33 @@ for band, colour, items in SEQUENCE:
         iy += 46
     sy += bh + 14
 
+
+# ══ 8. Cross-cutting — constrains every function above ═══════════════════
+from gen_functions import CROSSCUTTING
+
+y8 = sy + 90
+txt("8. Cross-cutting — these constrain every function above", X, y8, 24)
+txt("not steps in the flow. drawn apart because putting them in the stack would imply "
+    "they happen at a point in time.", X, y8 + 34, 15)
+
+cy = y8 + 74
+rect(X, cy, W6, 40 + len(CROSSCUTTING) * 120, stroke=RED, dashed=True)
+txt("APPLIES AT EVERY RUNG", X + 18, cy + 10, 15, RED)
+iy = cy + 40
+for name, today, status, ins, outs, ev in CROSSCUTTING:
+    box(name, C_FN, iy, W_FN, 60, stroke=RED, size=13)
+    txt(today if today else "— nothing —", C_TD, iy + 6, 12, RED)
+    txt(status, C_TD, iy + 34, 11, RED)
+    txt(ins, C_IN, iy + 6, 12)
+    txt(outs, C_OUT, iy + 6, 12)
+    txt(ev, C_MEA, iy + 6, 12, RED)
+    iy += 120
+
+txt("Both already have rules written — the communication contract exists in FIVE places\n"
+    "(v0.65 gate rule, v0.68 user-terms rule, global CLAUDE.md, the pair hook,\n"
+    "capturerequirements) and still did not bind. The problem is not the wording.",
+    X + 18, cy + 40 + len(CROSSCUTTING) * 120 + 12, 15, RED)
+
 # ══ merge preserved annotations back in ══════════════════════════════════
 import os, json as _json
 _ann = "/Users/anthonymaley/Kerd/docs/plans/annotations/2026-08-02-tony.json"

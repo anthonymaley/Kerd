@@ -118,6 +118,22 @@ FUNCTIONS = [
  ]),
 ]
 
+# Cross-cutting. Not steps in the flow — constraints on how EVERY function
+# above behaves. Drawn separately because putting them in the stack would
+# imply they happen at a point in time, and they do not.
+
+CROSSCUTTING = [
+ ("How we talk to each other", "scattered across 5 places", "GAP",
+  "any moment of asking, reporting\nor escalating — at any rung",
+  "ONE question, drilled. findings led, never\nstripped. the impact of the answer stated.\ngaps named, not smoothed. no vague X-or-Y,\nno menu built on unchecked assumptions",
+  "ACHIEVED: one message resolved the decision\nGAP: 3of3 needed 'too much noise' typed to get a\nsimple view — and shipped a 4-option menu anyway"),
+
+ ("Stay in control of\nexternal tools", "", "GAP",
+  "an external skill or tool we want\na specific capability from",
+  "the capability extracted — and its process,\nquestion style, file conventions and handoff\ntargets explicitly NOT adopted. Kerd's\ncontract wins every conflict.",
+  "ACHIEVED: took brainstorming's spec quality without\nits waterfall  GAP: it captured the plan phase and\nrouted to writing-plans — and never came back"),
+]
+
 # Movement 7 — what gets built, and in what order.
 # Tony's call, with the spike added: the routing bet is untested, so it gets
 # tested rather than decided.

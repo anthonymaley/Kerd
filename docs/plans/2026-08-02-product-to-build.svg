@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2338" height="5084" viewBox="260 40 2338 5084">
-<rect x="260" y="40" width="2338" height="5084" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="2338" height="5610" viewBox="260 40 2338 5610">
+<rect x="260" y="40" width="2338" height="5610" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Kerd — product to build</tspan>
 </text>
@@ -830,6 +830,72 @@
 </text>
 <text x="950.0" y="5060.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="950.0" dy="0.0">post-approval only — evidence first</tspan>
+</text>
+<text x="300.0" y="5212.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">8. Cross-cutting — these constrain every function above</tspan>
+</text>
+<text x="300.0" y="5237.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">not steps in the flow. drawn apart because putting them in the stack would imply they happen at a point in time.</tspan>
+</text>
+<rect x="300.0" y="5262.0" width="1560.0" height="280.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="318.0" y="5287.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="318.0" dy="0.0">APPLIES AT EVERY RUNG</tspan>
+</text>
+<rect x="316.0" y="5302.0" width="240.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="436.0" y="5336.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="436.0" dy="0.0">How we talk to each other</tspan>
+</text>
+<text x="568.0" y="5320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">scattered across 5 places</tspan>
+</text>
+<text x="568.0" y="5347.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">GAP</tspan>
+</text>
+<text x="740.0" y="5320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="740.0" dy="0.0">any moment of asking, reporting</tspan>
+<tspan x="740.0" dy="15.0">or escalating — at any rung</tspan>
+</text>
+<text x="1110.0" y="5320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1110.0" dy="0.0">ONE question, drilled. findings led, never</tspan>
+<tspan x="1110.0" dy="15.0">stripped. the impact of the answer stated.</tspan>
+<tspan x="1110.0" dy="15.0">gaps named, not smoothed. no vague X-or-Y,</tspan>
+<tspan x="1110.0" dy="15.0">no menu built on unchecked assumptions</tspan>
+</text>
+<text x="1480.0" y="5320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1480.0" dy="0.0">ACHIEVED: one message resolved the decision</tspan>
+<tspan x="1480.0" dy="15.0">GAP: 3of3 needed &#x27;too much noise&#x27; typed to get a</tspan>
+<tspan x="1480.0" dy="15.0">simple view — and shipped a 4-option menu anyway</tspan>
+</text>
+<rect x="316.0" y="5422.0" width="240.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="436.0" y="5448.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="436.0" dy="0.0">Stay in control of</tspan>
+<tspan x="436.0" dy="16.2">external tools</tspan>
+</text>
+<text x="568.0" y="5440.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">— nothing —</tspan>
+</text>
+<text x="568.0" y="5467.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="11" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="568.0" dy="0.0">GAP</tspan>
+</text>
+<text x="740.0" y="5440.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="740.0" dy="0.0">an external skill or tool we want</tspan>
+<tspan x="740.0" dy="15.0">a specific capability from</tspan>
+</text>
+<text x="1110.0" y="5440.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1110.0" dy="0.0">the capability extracted — and its process,</tspan>
+<tspan x="1110.0" dy="15.0">question style, file conventions and handoff</tspan>
+<tspan x="1110.0" dy="15.0">targets explicitly NOT adopted. Kerd&#x27;s</tspan>
+<tspan x="1110.0" dy="15.0">contract wins every conflict.</tspan>
+</text>
+<text x="1480.0" y="5440.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1480.0" dy="0.0">ACHIEVED: took brainstorming&#x27;s spec quality without</tspan>
+<tspan x="1480.0" dy="15.0">its waterfall  GAP: it captured the plan phase and</tspan>
+<tspan x="1480.0" dy="15.0">routed to writing-plans — and never came back</tspan>
+</text>
+<text x="318.0" y="5569.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="318.0" dy="0.0">Both already have rules written — the communication contract exists in FIVE places</tspan>
+<tspan x="318.0" dy="18.8">(v0.65 gate rule, v0.68 user-terms rule, global CLAUDE.md, the pair hook,</tspan>
+<tspan x="318.0" dy="18.8">capturerequirements) and still did not bind. The problem is not the wording.</tspan>
 </text>
 <text x="1772.8" y="1600.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="20" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1772.8" dy="0.0">we need an actual measurement that we can use to know when we have achieved</tspan>
