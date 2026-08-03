@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2338" height="8154" viewBox="260 40 2338 8154">
-<rect x="260" y="40" width="2338" height="8154" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="2338" height="8216" viewBox="260 40 2338 8216">
+<rect x="260" y="40" width="2338" height="8216" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Kerd — product to build</tspan>
 </text>
@@ -1027,7 +1027,7 @@
 <tspan x="670.0" dy="0.0">MUST check every declared layer — code, logic, architecture, pixel, product</tspan>
 <tspan x="670.0" dy="16.2">measurements — and report conformance per layer, not one verdict</tspan>
 </text>
-<rect x="300.0" y="6782.0" width="1560.0" height="224.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="300.0" y="6782.0" width="1560.0" height="286.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="318.0" y="6808.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">SESSION</tspan>
 </text>
@@ -1053,209 +1053,220 @@
 <tspan x="670.0" dy="0.0">MUST stop at the stated hand-back point.</tspan>
 <tspan x="670.0" dy="16.2">MUST NOT run at all where nothing can refuse.</tspan>
 </text>
-<rect x="300.0" y="7020.0" width="1560.0" height="162.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="318.0" y="7046.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="318.0" y="7004.0" width="330.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="483.0" y="7033.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="483.0" dy="0.0">Keep context optimal (inside the loop)</tspan>
+</text>
+<text x="670.0" y="7023.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="670.0" dy="0.0">MUST cut on token headroom AND on quality degrading or drifting from</tspan>
+<tspan x="670.0" dy="16.2">intent. (?) the second has no signal — self-correction rate is the</tspan>
+<tspan x="670.0" dy="16.2">nearest proxy we have, and it was added for another reason</tspan>
+</text>
+<rect x="300.0" y="7082.0" width="1560.0" height="162.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="318.0" y="7108.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="17" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">CROSS-CUTTING</tspan>
-</text>
-<rect x="318.0" y="7056.0" width="330.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="483.0" y="7085.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="483.0" dy="0.0">How we talk to each other</tspan>
-</text>
-<text x="670.0" y="7075.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="670.0" dy="0.0">MUST be one question, drilled, carrying the findings it depends on.</tspan>
-<tspan x="670.0" dy="16.2">(?) needs an enforcement point — five written statements did not bind</tspan>
 </text>
 <rect x="318.0" y="7118.0" width="330.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="483.0" y="7147.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="483.0" dy="0.0">How we talk to each other</tspan>
+</text>
+<text x="670.0" y="7137.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="670.0" dy="0.0">MUST be one question, drilled, carrying the findings it depends on.</tspan>
+<tspan x="670.0" dy="16.2">(?) needs an enforcement point — five written statements did not bind</tspan>
+</text>
+<rect x="318.0" y="7180.0" width="330.0" height="50.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="483.0" y="7209.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="483.0" dy="0.0">Stay in control of external tools</tspan>
 </text>
-<text x="670.0" y="7137.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="670.0" y="7199.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="670.0" dy="0.0">MUST name what is NOT being adopted before the tool is invoked</tspan>
 </text>
-<text x="300.0" y="7310.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="7372.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">10. Tooling — what each tool must do, and for whom</tspan>
 </text>
-<text x="300.0" y="7335.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="7397.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">a tool can be excellent for one caller and wrong for another. this is the improve-or-replace lens.</tspan>
 </text>
-<text x="318.0" y="7373.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="318.0" y="7435.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="318.0" dy="0.0">TOOL</tspan>
 </text>
-<text x="510.0" y="7373.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="510.0" y="7435.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="510.0" dy="0.0">CALLER</tspan>
 </text>
-<text x="840.0" y="7373.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="840.0" y="7435.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">WHAT THAT CALLER REQUIRES</tspan>
 </text>
-<text x="1430.0" y="7373.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="7435.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">MET?</tspan>
 </text>
-<rect x="300.0" y="7386.0" width="1560.0" height="768.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="318.0" y="7402.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="403.0" y="7429.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="300.0" y="7448.0" width="1560.0" height="768.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="318.0" y="7464.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="403.0" y="7491.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">switch</tspan>
 </text>
-<text x="505.0" y="7426.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="7488.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">you, crossing a boundary</tspan>
 </text>
-<text x="840.0" y="7418.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="840.0" y="7480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">survive going cold — full context restored, nothing re-derived</tspan>
 </text>
-<text x="1430.0" y="7418.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="7480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">MEETS. 20x/day, the one thing that holds</tspan>
 </text>
-<rect x="318.0" y="7464.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="403.0" y="7491.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="318.0" y="7526.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="403.0" y="7553.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">switch</tspan>
 </text>
-<text x="505.0" y="7488.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="7550.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">the LOOP, keeping context healthy</tspan>
 </text>
-<text x="840.0" y="7480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="840.0" dy="0.0">detect degradation, cut cheaply, resume with minimal ceremony —</tspan>
-<tspan x="840.0" dy="15.0">context optimal at all times, not just at a human boundary</tspan>
+<text x="840.0" y="7542.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="840.0" dy="0.0">cut on BOTH: (1) token headroom — measurable, cheap.</tspan>
+<tspan x="840.0" dy="15.0">(2) quality degrading or drifting from intent — bites</tspan>
+<tspan x="840.0" dy="15.0">harder, and has no signal at all today</tspan>
 </text>
-<text x="1430.0" y="7480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="7542.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">UNKNOWN. &#x27;low&#x27; exists but was built for</tspan>
-<tspan x="1430.0" dy="15.0">token budget, not context hygiene —</tspan>
-<tspan x="1430.0" dy="15.0">and nothing detects degradation</tspan>
+<tspan x="1430.0" dy="15.0">token budget, not context hygiene. (2) has</tspan>
+<tspan x="1430.0" dy="15.0">no signal — nearest seed is v0.68&#x27;s</tspan>
+<tspan x="1430.0" dy="15.0">&#x27;say how you caught your own mistake&#x27;</tspan>
 </text>
-<rect x="318.0" y="7526.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="403.0" y="7553.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="318.0" y="7588.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="403.0" y="7615.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">conductor</tspan>
 </text>
-<text x="505.0" y="7550.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="7612.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">you, working one session</tspan>
 </text>
-<text x="840.0" y="7542.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="840.0" y="7604.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">orient, plan, execute with evidence, hold scope</tspan>
 </text>
-<text x="1430.0" y="7542.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="7604.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">MEETS, at the contract rung and below</tspan>
 </text>
-<rect x="318.0" y="7588.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="403.0" y="7615.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="318.0" y="7650.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="403.0" y="7677.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">conductor</tspan>
 </text>
-<text x="505.0" y="7612.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="7674.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">the LOOP, running one item</tspan>
 </text>
-<text x="840.0" y="7604.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="840.0" y="7666.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">take an item, build it, verify, commit — without re-planning</tspan>
 <tspan x="840.0" dy="15.0">or re-asking what it is</tspan>
 </text>
-<text x="1430.0" y="7604.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="7666.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">UNKNOWN. every session starts from orient</tspan>
 <tspan x="1430.0" dy="15.0">and a plan gate. a loop step should not.</tspan>
 </text>
-<rect x="318.0" y="7650.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="403.0" y="7677.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="403.0" dy="0.0">kivna</tspan>
-</text>
-<text x="505.0" y="7674.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="505.0" dy="0.0">you, reading later</tspan>
-</text>
-<text x="840.0" y="7666.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="840.0" dy="0.0">vault readable by someone with no prior context</tspan>
-</text>
-<text x="1430.0" y="7666.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="1430.0" dy="0.0">MEETS. write-only from the flow</tspan>
-</text>
 <rect x="318.0" y="7712.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="403.0" y="7739.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="403.0" dy="0.0">tend</tspan>
+<tspan x="403.0" dy="0.0">kivna</tspan>
 </text>
 <text x="505.0" y="7736.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="505.0" dy="0.0">you, setting up or fixing drift</tspan>
+<tspan x="505.0" dy="0.0">you, reading later</tspan>
 </text>
 <text x="840.0" y="7728.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="840.0" dy="0.0">converge a repo to current conventions, change nothing silently</tspan>
+<tspan x="840.0" dy="0.0">vault readable by someone with no prior context</tspan>
 </text>
 <text x="1430.0" y="7728.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="1430.0" dy="0.0">MEETS. never commits, by design</tspan>
+<tspan x="1430.0" dy="0.0">MEETS. write-only from the flow</tspan>
 </text>
-<rect x="318.0" y="7774.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="403.0" y="7801.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="403.0" dy="0.0">trim</tspan>
+<rect x="318.0" y="7774.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="403.0" y="7801.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="403.0" dy="0.0">tend</tspan>
 </text>
-<text x="505.0" y="7798.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="505.0" dy="0.0">you, when artifacts pile up</tspan>
+<text x="505.0" y="7798.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="505.0" dy="0.0">you, setting up or fixing drift</tspan>
 </text>
 <text x="840.0" y="7790.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="840.0" dy="0.0">converge a repo to current conventions, change nothing silently</tspan>
+</text>
+<text x="1430.0" y="7790.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1430.0" dy="0.0">MEETS. never commits, by design</tspan>
+</text>
+<rect x="318.0" y="7836.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="403.0" y="7863.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="403.0" dy="0.0">trim</tspan>
+</text>
+<text x="505.0" y="7860.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="505.0" dy="0.0">you, when artifacts pile up</tspan>
+</text>
+<text x="840.0" y="7852.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">archive what is done</tspan>
 </text>
-<text x="1430.0" y="7790.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="7852.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">DYING. exists because of two other</tspan>
 <tspan x="1430.0" dy="15.0">problems, not its own</tspan>
 </text>
-<rect x="318.0" y="7836.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="403.0" y="7863.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="403.0" dy="0.0">skriv</tspan>
-</text>
-<text x="505.0" y="7860.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="505.0" dy="0.0">you, writing prose</tspan>
-</text>
-<text x="840.0" y="7852.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="840.0" dy="0.0">text that does not read as generated</tspan>
-</text>
-<text x="1430.0" y="7852.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="1430.0" dy="0.0">MEETS. used near-daily</tspan>
-</text>
 <rect x="318.0" y="7898.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="403.0" y="7925.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="403.0" dy="0.0">pair</tspan>
+<tspan x="403.0" dy="0.0">skriv</tspan>
 </text>
 <text x="505.0" y="7922.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="505.0" dy="0.0">you, wanting rapid back-and-forth</tspan>
+<tspan x="505.0" dy="0.0">you, writing prose</tspan>
 </text>
 <text x="840.0" y="7914.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="840.0" dy="0.0">reasoning kept internal, one speech-bubble question, interrupt early</tspan>
+<tspan x="840.0" dy="0.0">text that does not read as generated</tspan>
 </text>
 <text x="1430.0" y="7914.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1430.0" dy="0.0">MEETS. used near-daily</tspan>
+</text>
+<rect x="318.0" y="7960.0" width="170.0" height="46.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="403.0" y="7987.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="403.0" dy="0.0">pair</tspan>
+</text>
+<text x="505.0" y="7984.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="505.0" dy="0.0">you, wanting rapid back-and-forth</tspan>
+</text>
+<text x="840.0" y="7976.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="840.0" dy="0.0">reasoning kept internal, one speech-bubble question, interrupt early</tspan>
+</text>
+<text x="1430.0" y="7976.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">MEETS via hook. one-time toggle, not invoked per session</tspan>
 </text>
-<rect x="318.0" y="7960.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="403.0" y="7979.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="318.0" y="8022.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="403.0" y="8041.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">superpowers</tspan>
 <tspan x="403.0" dy="16.2">brainstorming</tspan>
 </text>
-<text x="505.0" y="7984.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="8046.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">the design rung</tspan>
 </text>
-<text x="840.0" y="7976.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="840.0" y="8038.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">approaches, architecture, boundaries — WITHOUT its waterfall,</tspan>
 <tspan x="840.0" dy="15.0">its menus, its worktree assumption or its handoff target</tspan>
 </text>
-<text x="1430.0" y="7976.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="8038.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">PARTIAL. gives the capability, then</tspan>
 <tspan x="1430.0" dy="15.0">captures the plan phase and routes to</tspan>
 <tspan x="1430.0" dy="15.0">writing-plans. never returns.</tspan>
 </text>
-<rect x="318.0" y="8022.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="403.0" y="8049.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="318.0" y="8084.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="403.0" y="8111.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">sensei story</tspan>
 </text>
-<text x="505.0" y="8046.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="8108.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">agreeing a shape</tspan>
 </text>
-<text x="840.0" y="8038.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="840.0" y="8100.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">A3 narrative structure — proposal, compare/contrast, roadmap</tspan>
 </text>
-<text x="1430.0" y="8038.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="8100.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">UNTESTED. structure looks right;</tspan>
 <tspan x="1430.0" dy="15.0">never run in Kerd</tspan>
 </text>
-<rect x="318.0" y="8084.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="403.0" y="8111.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<rect x="318.0" y="8146.0" width="170.0" height="46.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="403.0" y="8173.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="403.0" dy="0.0">/loop</tspan>
 </text>
-<text x="505.0" y="8108.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="505.0" y="8170.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="505.0" dy="0.0">driving to done</tspan>
 </text>
-<text x="840.0" y="8100.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="840.0" y="8162.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="840.0" dy="0.0">run until the goal is met or the hand-back point is reached</tspan>
 </text>
-<text x="1430.0" y="8100.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1430.0" y="8162.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1430.0" dy="0.0">UNTESTED. MUST NOT run where</tspan>
 <tspan x="1430.0" dy="15.0">nothing can refuse</tspan>
 </text>
