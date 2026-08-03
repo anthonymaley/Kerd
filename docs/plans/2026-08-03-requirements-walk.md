@@ -18,14 +18,72 @@ This file is the **walk state**. Tick as we go.
 
 ## Interview state
 
-**2 of 24 functions interviewed. 1 cut.**
+**3 of 25 functions interviewed. 1 cut. 1 added.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
 | Frame the intent | yes — 2026-08-03 | `2026-08-03-frame-the-intent-flow.excalidraw` | machine: pass · human: pending |
 | Test viability | yes — 2026-08-03 | `2026-08-03-test-viability-flow.excalidraw` | machine: pass · human: pending |
+| Slice a release · Set the goal | yes — 2026-08-03 | pending | machine: pass · human: pending |
+| What we ruled out, and why | **added 2026-08-03** (cross-cutting) | pending | machine: pass · human: pending |
 | Hold product truth | **CUT 2026-08-03** | — | — |
 | *all others* | not yet | — | — |
+
+### Settled on *Slice a release · Set the goal*
+
+- **A release is a GROUPING, not a time axis.** Time may be attached later, or
+  never — ordering and scheduling are separable, and conflating them turns a
+  grouping decision into a deadline argument. (Corrects the 2026-08-02 record.)
+- Five factors decide a grouping, and they do not work alike: **dependency** is a
+  hard constraint that forbids groupings outright; **how much a user can absorb at
+  once** is a ceiling — a release can be too big even when everything in it is
+  finished; **effort, risk and opportunity** are trade-offs that shape what is
+  left. The ceiling is the unusual one: the bound comes from the receiving side,
+  not from capacity, which is why "we shipped everything we had" is a real failure.
+- **Risk arrives pre-qualified from Test viability and is not re-assessed.** A
+  feature carrying a temporary countermeasure is a different slicing candidate
+  from one carrying a permanent fix.
+- **The DONE condition is ASSEMBLED, never authored.** Every item is a conformance
+  check against something an upstream rung already declared. That dissolves the
+  circular draft ("specific enough to terminate a loop") — it is specific enough
+  exactly when every item points at a declaration that exists.
+- **Nothing may be in DONE that nothing declared.** An unbacked item cannot be
+  checked, so it passes by assertion — the unqualified-risk failure in another
+  costume. This rule resolved two orphans without new functions: *user testing* is
+  a proof layer declared by *Decide what proves it*, and *documentation complete*
+  is derived rather than declared — every declaration covered.
+
+### Added 2026-08-03 — *What we ruled out, and why* (cross-cutting)
+
+Four functions independently demanded this output and none had a home for it:
+gaps that could not be closed (function 1), accepted unknowns and blockers
+(function 2), "work we discounted" in documentation (function 4), and "what was
+deliberately not built" when *Hold product truth* was cut.
+
+- **Its own artifact, reviewable in one pass.** Inside each solution doc, "what
+  have we already ruled out?" cannot be answered without reading all of them.
+- **A rejected approach and a failed fix are the same thing** — an option
+  eliminated. One was eliminated by analysis, the other by a test, and those are
+  the same kind of evidence differing in cost, as agreed at function 2. Splitting
+  them was smuggling back a distinction already dissolved.
+- **The unit is the CONCEPT, not the attempt, and not the code.** Concepts outlive
+  codebases; a diff does not. Many failed attempts at one idea are one entry.
+- **The filter is: was it ever a candidate?** Did someone believe it, for a
+  reason? A slip is not an option.
+- **It is read in GROUNDING by every function that proposes anything** — which is
+  what stops a dead option being re-proposed, and makes it an input rather than a
+  graveyard. It is also a second caller for grounding, and partly answers the
+  still-open reachability clause: it gets read because a rung cannot start
+  without it.
+- **Capture must be a byproduct of work already happening.** A failed verify IS
+  the record. Running the maintenance risk through function 2's own machinery:
+  impact high (a stale "already tried" list is worse than none — the argument
+  that killed *Hold product truth*), likelihood high, countermeasure none —
+  which by Tony's rule is a dead project, so byproduct capture is not an
+  optimisation but the condition of it existing at all.
+- Each entry carries the **condition that would bring it back**. Third thing today
+  with a return condition, which suggests a general rule rather than three
+  coincidences.
 
 ### Cut 2026-08-03 — *Hold product truth*
 
@@ -121,7 +179,7 @@ approved. Rule is forward-only for now.
 | 1 | PRODUCT | Frame the intent | 1 | 0 | **walked** |
 | 2 | PRODUCT | Test viability | 6 | 0 | **walked** |
 | 3 | PRODUCT | Hold product truth | — | — | **CUT** |
-| 4 | PRODUCT | Slice a release · Set the goal | 1 | 0 | open |
+| 4 | PRODUCT | Slice a release · Set the goal | 6 | 0 | **walked** |
 | 5 | PRODUCT | Choose what matters next | 2 | 0 | open |
 | 6 | DESIGN | Shape the solution | 1 | 0 | open |
 | 7 | DESIGN | Agree the shape | 1 | 0 | open |
@@ -142,6 +200,8 @@ approved. Rule is forward-only for now.
 | 22 | CROSS-CUTTING | Size work to a model | 2 | 1 | open |
 | 23 | CROSS-CUTTING | Where the work is written down | 5 | 1 | **agreed** (reachable still open) |
 | 24 | CROSS-CUTTING | Stay in control of external tools | 1 | 0 | open |
+
+| 25 | CROSS-CUTTING | What we ruled out, and why | 6 | 0 | **walked** (new) |
 
 Verdicts: `open` · `agreed` · `reworded` (text changed, then agreed) · `split`
 (became more than one requirement) · `dropped`.

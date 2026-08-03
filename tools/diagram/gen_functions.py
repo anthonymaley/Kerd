@@ -148,6 +148,11 @@ CROSSCUTTING = [
   "the model tier and the effort it needs, and why.\nnever the top tier for difficulty alone",
   "ACHIEVED: a delegated step passed on first return\nGAP: exists at ONE rung. every other function picks\na model by accident, or does not pick at all"),
 
+ ("What we ruled out, and why", "", "GAP",
+  "any option eliminated, at any rung —\nby analysis or by a failed attempt",
+  "ONE entry per CONCEPT, never per attempt:\nwhat was tried or considered · why it was\neliminated · the evidence · the RETURN CONDITION.\nNOT the code, NOT the diff, NOT the error output —\nconcepts outlive codebases. filter: was it ever a\nCANDIDATE? a slip is not an option.",
+  "ACHIEVED: a dead option was not re-proposed, because\nsomeone read the record first  GAP: four functions\nindependently demand this output and none has a home\nfor it; the same option gets re-argued from scratch"),
+
  ("Where the work is written down", "scattered", "GAP",
   "any function's declared output",
   "the artifact in ONE home, under a derivable name.\ngit = machine-read, diffable, travels with code.\nvault = human-read, assumes no prior context",
@@ -219,6 +224,56 @@ DETAIL = {
    "HANDOFF: both routes go to Test viability. the killer\n"
    "assumption differs, the test does not — a problem going\n"
    "straight to design is the jump-to-countermeasure failure.",
+ },
+
+ "Slice a release · Set the goal": {
+  "in":
+   "what is already built · the framed and viability-tested\n"
+   "candidates · their QUALIFIED risks with countermeasures\n"
+   "attached, from Test viability · and the record of what\n"
+   "was already ruled out.\n\n"
+   "risk arrives PRE-CHEWED. do not re-assess it here: a\n"
+   "feature carrying a TEMPORARY countermeasure is a different\n"
+   "slicing candidate from one carrying a permanent fix.",
+  "grounding":
+   "the five things that actually decide a grouping, and they\n"
+   "do not all work the same way:\n\n"
+   "HARD CONSTRAINT — dependency. forbids groupings outright.\n"
+   "  B cannot ship before A if B needs A. no trade-off.\n\n"
+   "CEILING — how much change a user can absorb AT ONCE.\n"
+   "  a release can be too big even when everything in it is\n"
+   "  finished. almost nothing enforces this, which is why\n"
+   "  'we shipped everything we had' is a real failure mode.\n"
+   "  the bound comes from the RECEIVING side, not capacity.\n\n"
+   "TRADE-OFFS — effort, risk, opportunity. these shape the\n"
+   "  grouping among what is left, they do not forbid it.",
+  "out":
+   "THE GROUPING. a release is a GROUPING, not a time axis —\n"
+   "time may be attached later, or never. MVP / v1 / v1.2 are\n"
+   "ordered, not scheduled. conflating the two turns a\n"
+   "grouping decision into a deadline argument.\n\n"
+   "THE DONE CONDITION — assembled, never authored. every\n"
+   "item is a conformance check against an upstream\n"
+   "declaration:\n"
+   "  met the feature spec        <- the contract\n"
+   "  met the product spec        <- the idea brief\n"
+   "  goal of the function met    <- the goal set here\n"
+   "  looks EXACTLY like design   <- design, approved pre-build\n"
+   "  tests pass                  <- every proof layer declared\n"
+   "     by Decide what proves it, INCLUDING user testing\n"
+   "  documentation complete      <- DERIVED, not declared:\n"
+   "     every declaration covered — feature, product and\n"
+   "     problem specs, the changes and fixes implemented,\n"
+   "     the solution diagrams, and what we ruled out",
+  "acceptance":
+   "MACHINE: every item in DONE points at a declaration that\n"
+   "EXISTS. nothing in DONE that nothing declared — an\n"
+   "unbacked item cannot be checked, so it passes by\n"
+   "assertion, which is the unqualified-risk failure again.\n"
+   "dependencies are satisfied by the ordering. the slice is\n"
+   "within the comprehension ceiling.\n\n"
+   "HUMAN: Tony approves the grouping — what is in, what is\n"
+   "deferred, and why this cut rather than another.",
  },
 
  "Test viability": {
@@ -344,7 +399,11 @@ REQUIREMENTS = [
    "Where the work is written down; intent and value are already produced\nby Frame the intent.\n"
    "RETURN CONDITION: a question arises that the code cannot answer."),
   ("Slice a release · Set the goal",
-   "MUST state a DONE condition specific enough to terminate a loop"),
+   "a release is a GROUPING, not a time axis — time may be attached later, or\nnever. ordering and scheduling are separable.\n"
+   "MUST respect dependencies as HARD constraints, and MUST cap the slice at\nwhat a user can absorb at once — a release can be too big even when\n"
+   "everything in it is finished.\nMUST consume the qualified risks from Test viability rather than\nre-assessing them.\n"
+   "The DONE condition MUST be ASSEMBLED from upstream declarations, never\nauthored at the end: every item is a conformance check against something\n"
+   "already declared. MUST NOT contain an item nothing declared — it cannot\nbe checked, so it passes by assertion."),
   ("Choose what matters next",
    "MUST rank by consequence and show the reasoning.\nMUST NOT rank by what fits the session about to run."),
  ]),
@@ -399,6 +458,13 @@ REQUIREMENTS = [
    "MUST carry route and stage in front matter, so that route-specific\nacceptance is machine-checkable rather than a human reading for it.\n"
    "(?) MUST be reachable — an artifact nothing routes to is lost, not\nstored. naming solves findability, NOT reachability. still open: the\n"
    "6 Jul design doc that held 1 Aug's answer was perfectly well named."),
+  ("What we ruled out, and why",
+   "MUST be its OWN artifact, reviewable in one pass — inside each solution doc,\n'what have we already ruled out?' cannot be answered without reading all\n"
+   "of them.\nMUST record the CONCEPT, not the code: what was tried or considered, why\nit was eliminated, the evidence (a test OR an analysis — the same thing,\n"
+   "differing in cost), and the condition that would bring it back.\nMUST be read in GROUNDING by every function that proposes anything. that\n"
+   "is what stops a dead option being re-proposed, and it is why this is not\na graveyard but an input.\n"
+   "MUST be captured as a BYPRODUCT of work already happening — a failed\nverify IS the record. an artifact needing discipline to maintain goes\n"
+   "stale, and a stale 'already tried' list is worse than none.\nMUST NOT record slips. the filter is: was it ever a candidate?"),
   ("Stay in control of external tools",
    "MUST name what is NOT being adopted before the tool is invoked"),
  ]),
