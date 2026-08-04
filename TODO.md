@@ -2,14 +2,9 @@
 
 ## Now
 
-- **Start the DESIGN rung — 4 functions, beginning with `Shape the solution`.** PRODUCT is complete (5 walked, 1 cut, 1 added). Walk state: `docs/plans/2026-08-03-requirements-walk.md`. Interview data is `DETAIL` in `tools/diagram/gen_functions.py`; each walked function gets a stage flow from its own generator in `tools/diagram/`. See `kivna/sessions/2026-08-03.md`.
-- `Shape the solution` is served today by **superpowers brainstorming**, marked `PARTIAL` — it gives the capability, then captures the plan phase, routes to `writing-plans`, and never returns. That behaviour is the thing to interview against.
-- **Debt from PRODUCT:** the route-specific acceptance checklists for `Frame the intent` (idea brief vs problem statement) are named but not written.
-- **Still open — `reachable`.** Naming solves findability, not reachability. Partly answered by *What we ruled out* being read in grounding; not settled generally.
-- **Still open — accepted risks age and nothing brings them back.** Temporary countermeasures are self-expiring, so that class is answered. Accepted unknowns and low-likelihood fatals are not.
-- **Do NOT use `/kerd:capturerequirements`** — Tony's standing instruction; its dated-snapshot output is the shape under suspicion.
-- **Nothing gets ripped until the design is approved** — including the `docs/plans/` rename implied by the naming rule.
-- **v0.66–v0.68 are installed and have still never run.** Out of Fable credits, so the first run exercises the unavailable-orchestrator fallback.
+- **Continue the walk — CONTRACT rung next: `Write the contract · Size and assign` (function 10).** DESIGN is complete: collapsed 4→1 into `Design the solution`, interviewed and reviewed both-keys 2026-08-03. Walk state: `docs/plans/2026-08-03-requirements-walk.md`. Note for the interview: this function is served by conductor v0.66–0.68 — its session protocol ran live for the first time on 2026-08-03 (lean/inline path), but the orchestrator call and sized players have still never fired.
+- **Standing constraints:** no `/kerd:capturerequirements`; nothing gets ripped until the design is approved; **no skill names in candidate views during the requirements walk** — requirements and outcomes only (Tony, 2026-08-03).
+- **Debt carried:** route-specific acceptance checklists for `Frame the intent`; the `reachable` clause; accepted risks age with nothing to bring them back.
 
 ## Backlog
 
@@ -21,6 +16,7 @@
 
 **Medium**
 - **The SPIKE** — route ONE dead skill cheaply and watch whether it gets used. Highest value in this band: one cheap test settles the fate of four dead skills. Candidate: `capturerequirements`.
+- Regenerate the choose-what-matters view before its next use: Bree item removed, and candidate cards must carry no skill names (`gen_choose.py`).
 - Settle the `reachable` clause (also in Now — it blocks every artifact from being useful rather than merely stored).
 - Hook version staleness check in `/kerd:tend` — four occurrences now.
 - Guard switch-in step 3 smoke test against context bloat (delegate the run; absorb a verdict, never a full log).
@@ -33,6 +29,5 @@
 - Consider promoting the refined question-formation rule from the pair hook into global `~/.claude/CLAUDE.md`.
 
 **Blocked — not candidates at any consequence**
-- Dogfood sherpa on `~/Bree` — sherpa may be routed, reshaped or ripped by the design pass.
 - Mode reconciliation, and clean krutho-strategy's stray `sessions-of-record/` — same decision.
 - skriv voice profile wiring — needs non-founder-genre samples.
