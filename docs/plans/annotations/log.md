@@ -156,3 +156,38 @@ few attempts. In this flow that fires at FRAME (problem route), VIABILITY
 (qualifying with analysis), and inside the LOOP when a piece keeps failing —
 feeding What we ruled out. Proven elsewhere; the bet is transfer. Invoked on
 match, never as obligation.
+
+**"Sherpa doing heavy lifting, we need to review it to make sure its what we
+need"** (at SLICE — sherpa Launch is the drafted server there too)
+→ **Agreed and widened.** Sherpa is now named at TWO stages (Explore at
+FRAME, Launch at SLICE) while being measurably unused at both. The post-walk
+review covers the whole skill against both agreed requirements — triage/two
+documents/two keys at FRAME, grouping/ceiling/DONE-assembled at SLICE —
+keep/modify/kill per stage on conformance, not as one verdict for the skill.
+
+**"Do we build out own CAPABILITY?"** (at DESIGN — the one superpowers piece
+that earned its keep)
+→ **Probably yes, and through the flow itself.** The capability is now
+specified by our own agreed requirement (generate 2-3 independent
+approaches from the intent + qualified risks, score on constant axes), so
+building it is a normal piece: framed, sliced, specced, built by a player,
+measured. That removes the external dependency and its never-came-back
+class entirely. The post-walk phase decides build-vs-extract on cost — the
+capability is small enough that build likely wins.
+
+**"Do we need visualization skills for progress / output. What about
+documentation or code writing (swift, apple UI etc)"** (near GOAL GATE)
+→ **Progress: the requirement already exists — Show where we are.** No new
+skill class; the post-walk build gives it its renderer (tools/diagram is
+the drafted server: renders the map today, no progress state, nothing
+invokes it). Output visualization is already demanded by the design package
+(diagrams per aspect) and served by the excalidraw round trip.
+→ **Documentation: derived, never a standing skill.** Docs travel with code
+as pieces carrying their own checks — "documentation complete" is assembled
+from declarations like everything else in DONE.
+→ **Specialist code (Swift, Apple UI…): players + declared tools, per the
+tool rule.** A builder is a sized model handed an exact spec; domain
+capability enters as a bounded tool declared for the terrain (e.g. the
+Apple build toolchain) when a piece needs it — invoked on match, returns to
+caller, killable. The post-walk inventory should map which domain tools
+exist vs are missing for the projects actually in flight.
