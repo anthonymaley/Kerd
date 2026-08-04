@@ -82,7 +82,7 @@ Create `CONTEXT.md` at the repo root if it doesn't exist. **Overwrite in place**
 ## Where We Are        — current working state, a short paragraph, overwritten
 ## Key Decisions       — standing decisions + their why; prune when superseded
 ## Open Questions      — genuinely unresolved; remove when answered
-## Active Mode         — mode/conductor snapshot for cross-machine handoff
+## Active Mode         — conductor snapshot for cross-machine handoff
 ```
 
 - Prune superseded decisions and answered questions — git history archives every version, so pruning loses nothing.
@@ -115,7 +115,7 @@ Show the verdicts as a readable list — **informational only, never a prompt; d
 ```
 TODO closure review:
   ✓ done   — "PPS marketplace.json fix" (pushed in a1b2c3)
-  · open   — "solicit community mode contributions" (untouched)
+  · open   — "wire the progress render into CI" (untouched)
   ? unsure — "hook staleness check in tend" (discussed; unclear if the edit shipped) → tagged
 ```
 
@@ -381,7 +381,7 @@ If `light` modifier was used, note: "Light pickup: smoke test skipped. Run `/ker
 
 ```
 Last session: fixed hook paths in krutho-founders and krutho-strategy (v0.29.1)
-Next: tend on other repos, community mode contributions
+Next: tend on other repos, wire the progress render into CI
 ```
 
 ### 11. Offer conductor

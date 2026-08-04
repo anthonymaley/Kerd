@@ -1,7 +1,7 @@
 #!/bin/bash
 # Kerd PostToolUse Hook (Skill matcher)
 # Read-only: reminds about mode progress when a skill completes.
-# Does NOT mutate .active-modes. The mode skill handles state transitions.
+# Does NOT mutate .active-modes. A mode block found there is legacy state.
 # Silent when no mode is active or the skill doesn't match the current step.
 # No external dependencies (no jq — pure bash/sed).
 set -euo pipefail

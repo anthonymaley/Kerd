@@ -44,8 +44,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill (conductor, lorg, kivna, mode, skriv, slainte, tend, switch)
-modes/            # workflow mode definitions (one .md per mode, community-contributed)
+skills/           # SKILL.md per skill (conductor, lorg, kivna, skriv, slainte, tend, switch)
 hooks/            # opt-in hooks (hooks.template.json + shell scripts, registered via tend)
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
@@ -58,7 +57,7 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 
 The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd/`. The vault is a human knowledge base, living files updated in place, not append-only dumps. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions). The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Eleven skills, each with a single responsibility, plus four opt-in hooks:**
+**Ten skills, each with a single responsibility, plus four opt-in hooks:**
 - **conductor**: session discipline (orient/plan/execute/close-out protocol)
 - **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
@@ -69,25 +68,12 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 - **tend**: structural health check and convergence
 - **trim**: token optimization (archive shipped docs, prune stale context, safety-gated cleanup)
 - **pair**: partner-mode toggle (per-repo rapid conversational style, default off)
-- **mode**: workflow routing (orchestrates Kerd, Superpowers, and other plugins into guided flows)
 
 **Four opt-in hooks** (registered via `/kerd:tend`, stored in `.claude/settings.local.json`):
 - **Stop**: reminds about uncommitted changes and active modes on session end
 - **SessionStart**: surfaces stale state (remote drift, last session date, interrupted mode) on same-machine resume
 - **PostToolUse (Skill)**: shows mode progress when the current step's skill completes (read-only)
 - **UserPromptSubmit**: injects partner-mode reminder each prompt while pair is on (read-only)
-
-## Mode-to-Skill Composition
-
-Rules for how modes and skills interact:
-
-- **Modes guide, skills execute.** A mode presents a flow and tracks progress. It never calls a skill directly — the user invokes each skill when they reach that step. Mode is a session configuration, not an orchestrator.
-- **Skills are self-contained.** A skill must work standalone, not just as a mode step. If a skill only makes sense inside a mode, it's coupled too tightly.
-- **Conductor runs inside modes, not above them.** A mode can include conductor as a step. Conductor reads the active mode context and respects its scope. Mode and conductor both write to `.active-modes` (their own lines only).
-- **Switch bookends every mode.** Every mode starts with switch-in and ends with switch-out. These are the git boundaries. No other skill pulls or pushes.
-- **Mode steps reference concrete invocations.** Each step in a mode file has the form `/plugin:skill [args]`. No vague steps like "review the code." The step must be invocable.
-- **External skills are optional.** Modes can reference skills from Superpowers or other plugins in `core_skills`. Missing skills are a warning, not a blocker. The mode still runs with available skills.
-- **4 steps per phase max.** The UI batches up to 4 questions per prompt. If a phase has more than 4 steps, split it into sub-phases.
 
 ## Integrations
 
@@ -161,7 +147,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **Switch-out step 5 (mirror gotchas to playbook) can silently slip**: the 2026-06-28 Edit-tool gotcha above lived only in the session log for five days; nothing verified the mirror happened. Older session logs are archives that switch-in stops reading after a session or two, so an unmirrored gotcha is effectively lost. Countermeasure (2026-07-03 context/history-split design): switch-out verifies this session's `## Gotchas` entries have playbook counterparts before committing.
 - **`cd "$VAR" 2>/dev/null || exit 0` is a false safety net under `set -u`**: when `$VAR` (e.g. `CLAUDE_PROJECT_DIR`) is *unset*, the bare deref aborts the script with an `unbound variable` error during expansion — *before* the `2>/dev/null` or `|| exit 0` can fire — so the hook exits 1 with stderr noise instead of degrading silently. (Empty-string is worse-quiet: `cd ""` is a no-op success, so the hook runs in whatever cwd it inherited and reports the wrong repo.) Fix: guard existence before the deref — `[ -n "${VAR:-}" ] || exit 0`. This is the v0.29.1 path-resolution failure class at the script level; all three hooks were hardened + covered by `tests/hooks_test.sh` (v0.41.1). Surfaced 2026-06-25 by an empirical probe, not by shellcheck — shellcheck does not flag it.
 - **Run characterization tests RED before fixing**: writing `tests/hooks_test.sh` against the *desired* behavior surfaced two assertions that mis-modeled the hooks' actual (correct) behavior — the report builder capitalizes the first/only message (`Mode interrupted`, not `mode interrupted`), and `next_skill` keeps its leading slash while `current_command` strips it. Running red first caught my wrong tests; had I only confirmed green after fixes, I'd have "fixed" correct code to match wrong tests. Characterization tests must match what the code does, not what you assume.
-- **Cross-cutting changes need a final grep across ALL files — plans will miss consumers**: paid out on consecutive cross-cutting changes (dian→conductor rename v0.59.0; context/history split v0.60.0, where `hooks/session-start.sh` grepped `## Current Session` and appeared in no plan slice). The final grep is the load-bearing step, not a formality — sweep skills/, modes/, docs/, hooks/, tests/, README, and the manifests before calling a shape change done.
+- **Cross-cutting changes need a final grep across ALL files — plans will miss consumers**: paid out on consecutive cross-cutting changes (dian→conductor rename v0.59.0; context/history split v0.60.0, where `hooks/session-start.sh` grepped `## Current Session` and appeared in no plan slice). The final grep is the load-bearing step, not a formality — sweep skills/, docs/, hooks/, tests/, README, and the manifests before calling a shape change done.
 - **An inline `&&`-chain hook in settings.json errors every prompt when its guard is false**: a UserPromptSubmit hook written as `[ -f "$f" ] && grep -qi "^on" "$f" && echo "..."` returns the exit status of the *last command that ran*. When the guard fails (pair off/absent → `[ -f "$f" ]` is false), the `&&` short-circuits and the whole command exits non-zero, so Claude Code prints `hook error / Failed with non-blocking status code` on **every** prompt in that repo. The real `hooks/pair.sh` avoids this with `|| exit 0` guards; the bug appears only when the hook is *inlined* into `~/.claude/settings.json` and the inline copy drifts from the script (loses the guard). Fix: any inline gated hook must end with `; exit 0` (or `|| true`). Prefer pointing the hook at the script over re-inlining. Surfaced 2026-07-06 (pair banner erroring in every repo where pair was off; hook was named `focus.sh` until the v0.64.0 rename). Same care-with-inline-hooks class as the settings.json all-or-nothing and hook-path gotchas above; distinct from the `set -u` unbound-variable class (that's deref-time, this is `&&`-chain exit status).
 - **The vault is a separate git repo that switch-out does not commit**: `~/eolas/vault` is its own repo, and switch-out writes to it (kivna save, person files) without ever staging or committing it. It drifts — observed at ~20 uncommitted files across many projects/activities (coaching notes, digests, idea captures, several `Status.md`) on 2026-06-25. Switch's contract (reworded in v0.67.0) claims `git pull` and the session-state commit — "CONTEXT.md, TODO.md, the session log, and vault files" — but in practice it only ever touches the project repo, so the vault files it names are written and never committed. When a session's deliverable lands in the vault (e.g. a voice profile in `people/`), that work persists on disk but is not version-controlled by switch. Open question (tracked in TODO Backlog): should switch stage+commit its own vault writes, or is vault sync intentionally manual and the contract wording overreaching? Do not blanket-commit the vault during switch-out — most uncommitted files there belong to other work and are not the session's to decide.
 - CI (entry-gate workflow) refuses dated filenames in docs/design/ and malformed docs/gates/ record names — the date split is now machine-enforced.
@@ -172,15 +158,14 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 **Version:** 0.60.0
 
 **Working:**
-- All ten skills functional: conductor, lorg, switch, kivna, slainte, skriv, tend, trim, mode, interrogate
+- All ten skills functional: conductor, interrogate, lorg, switch, kivna, slainte, skriv, tend, trim, pair
 - Three opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (21 tests, shellcheck-clean)
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
 - Obsidian vault integration. Kivna writes living vault files (Status.md, Weekly.md, domain knowledge) directly at save — changes reported, no approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is write-only from the session flow (never read at switch-in)
 - Tend audit verified (9 categories including hook hygiene). Reports structural drift and fixes with approval
-- Slainte release audit catches version sync, description sync, skill/mode count drift, namespace issues
-- Unified `.active-modes` schema shared by conductor, skriv, mode, and switch
-- Mode tracks progress with structured steps format (stable IDs, concrete args, status markers)
+- Slainte release audit catches version sync, description sync, skill count drift, namespace issues
+- Unified `.active-modes` schema shared by conductor, skriv, and switch
 - Switch snapshots active mode state to CONTEXT.md `## Active Mode` for cross-machine handoff (v0.60.0; was TODO.md `### Context`)
 - Mode markers on conductor and skriv. Visible phase/state announcements with `.active-modes` state file
 - Conductor rigorous planning and execute verification
@@ -192,7 +177,6 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - vault-spec.md defines the project-spine convention (MOC + Status + Weekly always-scaffolded, explicit repo/vault boundary, canonical lazy-created slots, kivna-scaffold intake interview). Wiring into kivna/tend is the pending Heavier step
 - Switch `light` modifier for lower-token handoffs
 - Lorg tiered subcommands: installed (default), available, explore, all, report. Per-tier freshness. Incremental saves.
-- Mode skill for workflow routing with 10 community-contributed starter modes (added `spike` for high-uncertainty exploration)
 
 **Recent changes (as of 2026-04-25):**
 

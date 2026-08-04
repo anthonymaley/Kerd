@@ -113,17 +113,16 @@ Kerd-specific release audit. Checks the release checklist rules from CLAUDE.md a
 1. **Version sync**: compare version strings across `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` `metadata.version`, and `.claude-plugin/marketplace.json` `plugins[0].version`. All three must match. Any mismatch is high severity.
 2. **Description sync**: compare `description` in `plugin.json` with `plugins[0].description` in `marketplace.json`. They must match. Mismatch is medium severity.
 3. **Skill count consistency**: count `skills/*/SKILL.md` files and compare against claims in `README.md` (e.g., "Nine workflow skills") and `docs/playbook.md`. Mismatches are high severity.
-4. **Mode count consistency**: count `modes/*.md` files and compare against claims in `README.md` mode table rows. Mismatch is medium severity.
-5. **SKILL frontmatter drift**: for each `skills/*/SKILL.md`, verify the `name` field matches the directory name. Flag mismatches as high.
-6. **Namespace sweep**: scan all `skills/*/SKILL.md` files for slash-command references missing the `kerd:` prefix (e.g., `/<skill>` where it should be `/kerd:<skill>`). Skip README.md (allowed shorthand). Each hit is medium severity.
-7. **Marketplace URL**: verify `.claude-plugin/marketplace.json` `plugins[0].source.url` points to the canonical repo (not a fork). Mismatch is high severity.
-8. **Cross-doc claim verification**: verify that claims made in docs match the code and each other:
+4. **SKILL frontmatter drift**: for each `skills/*/SKILL.md`, verify the `name` field matches the directory name. Flag mismatches as high.
+5. **Namespace sweep**: scan all `skills/*/SKILL.md` files for slash-command references missing the `kerd:` prefix (e.g., `/<skill>` where it should be `/kerd:<skill>`). Skip README.md (allowed shorthand). Each hit is medium severity.
+6. **Marketplace URL**: verify `.claude-plugin/marketplace.json` `plugins[0].source.url` points to the canonical repo (not a fork). Mismatch is high severity.
+7. **Cross-doc claim verification**: verify that claims made in docs match the code and each other:
    - README "What's New" version numbers match the actual current version in plugin.json. If the latest What's New entry references a version that doesn't match the current version, flag as medium.
    - README skill descriptions match SKILL.md behavior. For each skill section in README, spot-check 2-3 specific claims (e.g., "conductor does not write session logs") against the actual SKILL.md. Flag contradictions as high.
    - `docs/playbook.md` "Working" list matches actual skill set and feature claims. Flag stale claims as medium.
    - `docs/state-contract.md` ownership table matches actual skill behavior. For each W (write) entry, verify the skill actually writes to that file. For each `-` (no interaction), verify the skill doesn't reference that file. Flag contradictions as high.
    - Vault Status.md version matches plugin.json version. Mismatch is low (vault is updated by kivna save, may lag by a session).
-9. **Hook template currency**: verify `hooks/hooks.template.json` exists, is valid JSON, and references hook scripts that exist in `hooks/`. Flag missing scripts as high. Verify the template is not named `hooks.json` (would auto-load). Flag as high if found.
+8. **Hook template currency**: verify `hooks/hooks.template.json` exists, is valid JSON, and references hook scripts that exist in `hooks/`. Flag missing scripts as high. Verify the template is not named `hooks.json` (would auto-load). Flag as high if found.
 
 #### all
 

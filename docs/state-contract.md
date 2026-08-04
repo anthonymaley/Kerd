@@ -7,7 +7,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 ## CONTEXT.md
 
 **Owner:** switch (writes at out), conductor (records decisions during execution)
-**Readers:** switch (in), conductor (cold orient), modes (setup steps)
+**Readers:** switch (in), conductor (cold orient)
 **Committed:** yes
 
 ### Format
@@ -19,7 +19,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 ## Where We Are        — current working state, short, overwritten
 ## Key Decisions       — standing decisions + their why; pruned when superseded
 ## Open Questions      — genuinely unresolved; removed when answered
-## Active Mode         — mode/conductor snapshot for cross-machine handoff
+## Active Mode         — conductor snapshot for cross-machine handoff
 ```
 
 ### Rules
@@ -60,7 +60,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 ## kivna/.active-modes
 
 **Owner:** each skill owns its own line(s)
-**Readers:** switch (in), Stop hook, SessionStart hook, PostToolUse hook, mode skill
+**Readers:** switch (in), Stop hook, SessionStart hook, PostToolUse hook
 **Committed:** no (gitignored, ephemeral)
 
 ### Format
@@ -69,28 +69,17 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 # One line per skill: <skill>: <state>
 conductor: execute
 skriv: active
-mode: greenfield (step 3 of 9)
-  instruction: focus on pricing strategy only
-  steps:
-    1: /kerd:switch in | open session, set context [done]
-    2: /superpowers:brainstorming | explore the problem space [done]
-    3: /superpowers:writing-plans | produce the implementation plan [current]
-    4: /superpowers:executing-plans 1 | build phase 1 [pending]
-    5: /kerd:switch out | close session [pending]
 ```
 
 ### Rules
 
 - Each skill writes only its own line(s). Never touch another skill's entries.
 - Removing a line means the skill is inactive. Don't write `skill: off`.
-- Mode's `steps:` block uses format: `<id>: <skill> [<args>] | <label> [<status>]`
-- Status markers: `[done]`, `[current]`, `[pending]`, `[skipped]`
-- Step IDs are stable integers assigned at mode start.
 - Hooks read this file but never write to it.
 - PostToolUse hook receives a full envelope on stdin (confirmed 2026-04-04):
   `{session_id, cwd, hook_event_name, tool_name, tool_input: {skill, args}, tool_response: {success, commandName}, tool_use_id}`
   The hook checks `tool_response.success` before reporting progress and extracts `tool_input.skill` via sed.
-- Switch out snapshots mode state to CONTEXT.md `## Active Mode` before committing (cross-machine handoff).
+- Switch out snapshots `.active-modes` state to CONTEXT.md `## Active Mode` before committing (cross-machine handoff).
 
 ## kivna/sessions/YYYY-MM-DD.md
 
@@ -184,15 +173,15 @@ Two files per export:
 
 ## Cross-Skill Interaction Summary
 
-| File | conductor | switch | mode | skriv | kivna | slainte | tend | lorg | hooks |
-|------|------|--------|------|-------|-------|---------|------|------|-------|
-| CONTEXT.md | W/R | W/R | R | - | - | - | R | - | - |
-| TODO.md | W | W/R | - | - | R | - | R | R | - |
-| .active-modes | W/R | R | W | W | - | - | - | - | R |
-| sessions/ | - | W/R | - | - | R | - | - | R | R |
-| vault Status | - | - | - | - | W | R | - | R | - |
-| KIF exports | - | - | - | - | W | - | - | - | - |
-| lorg-report | - | - | - | - | - | - | - | W | - |
+| File | conductor | switch | skriv | kivna | slainte | tend | lorg | hooks |
+|------|------|--------|-------|-------|---------|------|------|-------|
+| CONTEXT.md | W/R | W/R | - | - | - | R | - | - |
+| TODO.md | W | W/R | - | R | - | R | R | - |
+| .active-modes | W/R | R | W | - | - | - | - | R |
+| sessions/ | - | W/R | - | R | - | - | R | R |
+| vault Status | - | - | - | W | R | - | R | - |
+| KIF exports | - | - | - | W | - | - | - | - |
+| lorg-report | - | - | - | - | - | - | W | - |
 
 W = writes, R = reads, - = no interaction
 
@@ -204,21 +193,18 @@ Which skill owns which responsibility. If two skills could do something, only on
 |----------------|-------|-----------------|
 | Git pull/push/commit | **switch** | No other skill touches git boundaries |
 | Session log creation | **switch** | Conductor records decisions in TODO.md, not session logs |
-| Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Mode reads but doesn't write TODO.md |
+| Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills read but don't write TODO.md |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
 | Vault writes | **kivna** (save) | Switch calls kivna save, doesn't write vault directly |
-| Mode state (.active-modes mode block) | **mode** | Conductor reads mode state but never writes the mode line |
-| Conductor state (.active-modes conductor line) | **conductor** | Mode reads conductor state but never writes the conductor line |
+| Conductor state (.active-modes conductor line) | **conductor** | Other skills read conductor state but never write the conductor line |
 | Skriv state (.active-modes skriv line) | **skriv** | Same rule — each skill owns only its own line |
 | Structural audit and fix | **tend** | Slainte reports content issues but doesn't fix structure |
 | Content audit (read-only) | **slainte** | Slainte never modifies files, only reports |
 | Archiving completed docs | **trim** | Switch suggests trim but doesn't archive |
 | Skill/plugin recommendations | **lorg** | Lorg recommends, never auto-installs |
-| Workflow routing | **mode** | Mode guides, never calls skills directly |
 
 ### Conflict resolution
 
 If a skill needs to do something owned by another skill, it calls that skill rather than doing it directly:
 - Switch calls `/kerd:kivna save` at the boundary (switch owns the vault save; conductor no longer calls it)
 - Switch suggests `/kerd:trim` but doesn't run trim's steps itself
-- Mode presents steps for the user to invoke, never invokes skills programmatically

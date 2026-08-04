@@ -1,6 +1,6 @@
 # Kerd
 
-Claude Code plugin: eleven workflow skills plus community-contributed modes for session discipline, risk qualification, machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, token optimization, conversational pair mode, and workflow routing.
+Claude Code plugin: ten workflow skills for session discipline, risk qualification, machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, token optimization, and conversational pair mode.
 
 ## Commit Rules
 
@@ -41,7 +41,6 @@ Use semver: `MAJOR.MINOR.PATCH`
 
 ```
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
-modes/            # workflow mode definitions (one .md per mode, community-contributed)
 docs/plans/       # design docs and implementation plans
 docs/playbook.md  # living project guide, updated by conductor close-out
 kivna/vault.json  # Obsidian vault config

@@ -2,7 +2,7 @@
 
 "Ceird" means skill in Gaelic. Respelled.
 
-Eleven workflow skills plus community-contributed modes for Claude Code. Skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, how to maintain structural health. Modes orchestrate skills from Kerd, Superpowers, and other plugins into guided flows for different types of work. They keep the plumbing clean so you can focus on the work.
+Ten workflow skills for Claude Code. Skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, how to maintain structural health. They keep the plumbing clean so you can focus on the work.
 
 ## Install
 
@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.74.0)
+## What's New (v0.75.0)
+
+### v0.75.0
+
+**mode is cut — a capability you had yesterday is gone, and so are its eleven flows.** Yesterday, `/kerd:mode` listed guided workflows by category and walked you through one — phase menus, a step tracker, a session instruction resurfaced at each step — and anyone could add a flow by PRing a single markdown file into `modes/`. Today nothing answers that phrase. The losses, named: **the community-contribution path via `modes/` dies un-exercised** — zero community modes arrived in four and a half months (the one community contribution in that window, trim, came as a skill); **eight flows disappear with no direct replacement** — spike, deepwork, maintain, strategy, writing, research, legal, and sales; **the skill count goes Eleven → Ten**. What replaces the rest: the three code-building flows (greenfield, jit, quickfix) hand their job to the ladder — the entry gates route each piece of work to its rung by construction (`python3 tools/gates/gate.py route <slug>`), which is the routing the menus promised, and the progress view derives position from disk — which is exactly why the step tracker had to go: it was self-reported position, and position is derived, never asserted. spike.md's method content — empirical-primitive-first, the provisional-loss survival gate, commit graduation, the self-audit baseline — lives in git history at this cut's commit; the spike ROUTE stays alive in the gate vocabulary (`route: spike` is the one licensed ladder bypass). Return condition: the first real spike run that wants method guidance brings that content back.
 
 ### v0.74.0
 
@@ -233,7 +237,7 @@ kivna/
 
 ### slainte (Project Health)
 
-Slainte audits project health across six areas: docs, code, site, deps, playbook, and release. It reads a `.slainte` config file at the project root to know what to check. Each area has specific checks. Docs gets cross-referenced against CLAUDE.md, scanned for stale names and broken links. Code runs tests and the build. Deps checks for outdated packages and security issues. Playbook checks whether `docs/playbook.md` exists, whether its Current Status is accurate, whether the tech stack listed still matches reality, and whether setup steps still point to files that exist. Release (Kerd-specific) catches version sync drift, description mismatches, skill/mode count claims, namespace prefix issues, and marketplace URL changes.
+Slainte audits project health across six areas: docs, code, site, deps, playbook, and release. It reads a `.slainte` config file at the project root to know what to check. Each area has specific checks. Docs gets cross-referenced against CLAUDE.md, scanned for stale names and broken links. Code runs tests and the build. Deps checks for outdated packages and security issues. Playbook checks whether `docs/playbook.md` exists, whether its Current Status is accurate, whether the tech stack listed still matches reality, and whether setup steps still point to files that exist. Release (Kerd-specific) catches version sync drift, description mismatches, skill count claims, namespace prefix issues, and marketplace URL changes.
 
 Everything gets a severity grade: high (factually wrong, broken build, security vulnerability), medium (stale but not misleading), low (nitpick). Slainte reports problems. It doesn't fix them.
 
@@ -295,26 +299,6 @@ Trim keeps active context lean. Run it after every feature ships. It archives co
 /trim
 ```
 
-### mode (Workflow Routing)
-
-Mode routes you to the right tools for the type of work you're doing. Each mode is a session configuration: it checks which skills are installed, auto-discovers extras from your plugins, and presents a customizable flow grouped by phase. You enable or disable steps interactively, add session instructions (narrow scope, set constraints, output preference), then the mode tracks your progress and resurfaces your instructions at each step.
-
-Modes orchestrate across toolkits. A greenfield mode sequences Superpowers for spec-driven building, TDD, and code review, and Kerd for session boundaries. A jit mode locks requirements by interview, then loops smallest-slice builds. A strategy mode loads skriv for writing voice and brainstorming for exploration. Modes don't call skills directly. They guide you through the flow and remind you what's next.
-
-Eleven starter modes ship with Kerd. Community members can contribute new modes by PRing a single markdown file to the `modes/` directory.
-
-| Category | Modes |
-|----------|-------|
-| Development | `greenfield`, `jit`, `quickfix`, `spike`, `deepwork`, `maintain` |
-| Business | `strategy`, `writing`, `research` |
-| Operations | `legal`, `sales` |
-
-```
-/mode                # list all modes by category
-/mode greenfield     # start the greenfield flow
-/mode maintain       # start the maintenance flow
-```
-
 ### pair (Partner Mode)
 
 Pair toggles how you and Claude work together. Off by default — the full, show-your-reasoning style stays the resting state so you keep learning. Turn it on to move fast: Claude keeps its thinking internal (surfacing it only when it changes your decision, it's stuck, or you ask), asks one clear question at a time — open by default, offering a tight set of 2-4 crisp options only when a menu genuinely clarifies a choice that's yours to make (never a lazy binary or a vague, verbose list) — interrupts early to flag or check in, and works like someone sitting beside you rather than narrating every step. It's per-repo state (`kivna/.pair`), enforced by an opt-in `UserPromptSubmit` hook that re-injects the partner-mode reminder each prompt while on. Pair governs interaction style only — your `CLAUDE.md` thinking discipline applies either way. (Renamed from `focus` in v0.64.0 to avoid colliding with the harness's native focus mode.)
@@ -333,7 +317,7 @@ Kerd ships four opt-in hooks that provide session boundary awareness and the pai
 
 **SessionStart hook:** On same-machine resume, checks if the local branch is behind remote, reads the last session date from TODO.md, and reports any interrupted mode. Suggests `/switch in` when there's stale state. Silent on a fresh start.
 
-**Skill completion hook:** When a mode is active and you complete the current step's skill, shows your progress and what's next. Read-only — the mode skill handles state transitions.
+**Skill completion hook:** When a mode is active and you complete the current step's skill, shows your progress and what's next. Read-only — it never writes `.active-modes`.
 
 **Pair hook (`UserPromptSubmit`):** While pair is on for the repo (`kivna/.pair` = `on`), injects the partner-mode reminder into every prompt. Silent when pair is off or absent. See the pair skill above.
 
@@ -359,13 +343,11 @@ python3 tools/gates/gate.py audit
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` to start your first session.
 
-**Picking a workflow:** Before diving in, run `/mode` to see what's available. If you're building something new, `/mode greenfield` sequences you through spec writing, planning, execution, and review. Fixing a bug? `/mode quickfix` strips the ceremony down to the essentials. Writing a blog post or strategy doc? `/mode writing` or `/mode strategy` loads the right tools (skriv for voice, brainstorming for exploration). The mode presents each phase as an interactive selection where you enable or disable steps, then asks for session instructions (narrow the scope, set constraints, pick an output format). Once you confirm, it tracks progress and resurfaces your instructions at each step.
-
-**Day to day:** You sit down at your laptop and run `/switch in`. It pulls and reads exactly three files — CONTEXT.md (where the project stands, standing decisions, open questions), TODO.md (what's next), and the newest session log (what happened last time). If a mode was active when you left, switch tells you where you were in the flow. Then it offers to start a conductor session. You run `/conductor` to plan the session. Work happens, decisions get recorded in CONTEXT.md as they're made. When the work is done, conductor's close-out updates TODO.md and hands the boundary back to switch. You run `/slainte docs` to check nothing drifted. Then `/switch out` updates CONTEXT.md and TODO.md (closing done TODO items against session evidence), writes the session log, calls `/kivna save` to update the vault (one clean write, no prompt), commits, and pushes. Next session, same state, whether you pick up in a fresh session on this machine or on another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down at your laptop and run `/switch in`. It pulls and reads exactly three files — CONTEXT.md (where the project stands, standing decisions, open questions), TODO.md (what's next), and the newest session log (what happened last time). Then it offers to start a conductor session. You run `/conductor` to plan the session. Work happens, decisions get recorded in CONTEXT.md as they're made. When the work is done, conductor's close-out updates TODO.md and hands the boundary back to switch. You run `/slainte docs` to check nothing drifted. Then `/switch out` updates CONTEXT.md and TODO.md (closing done TODO items against session evidence), writes the session log, calls `/kivna save` to update the vault (one clean write, no prompt), commits, and pushes. Next session, same state, whether you pick up in a fresh session on this machine or on another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **Quick sessions:** Use the `light` modifier when token cost matters. `/switch in light` skips the smoke test, `/switch out light` skips vault saves and reflection. You still get CONTEXT.md, TODO.md, session logs, and git operations. Full context when you need it, lightweight handoff when you don't.
 
-**The layers:** Switch owns the session boundary — pull, and the session-state commit. Conductor owns session discipline, and commits its own work as it verifies. Kivna owns the knowledge vault. Mode sits above all of them, routing you to the right combination based on what you're doing. You can use any skill standalone, but mode ties them into a coherent flow.
+**The layers:** Switch owns the session boundary — pull, and the session-state commit. Conductor owns session discipline, and commits its own work as it verifies. Kivna owns the knowledge vault. Routing sits above all of them in the entry gates: `python3 tools/gates/gate.py route <slug>` reads what is on disk and names the rung where the work enters. Every skill works standalone.
 
 ## Naming
 

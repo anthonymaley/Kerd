@@ -1,35 +1,10 @@
 # Contributing to Kerd
 
-Kerd accepts contributions for new modes, skill improvements, and bug fixes. This doc sets expectations for PRs.
-
-## Modes (easiest contribution)
-
-Add a single `.md` file to `modes/`. No manifest changes, no version bumps. The file has YAML frontmatter and a markdown body:
-
-```yaml
----
-name: your-mode
-description: "One line describing the mode"
-category: development | business | operations | maintenance
-core_skills:
-  - plugin:skill-name
-discover_keywords:
-  - "keyword"
----
-
-## Phase Name
-
-- [ ] `/plugin:skill` -- what this step does
-```
-
-**Requirements:**
-- Core skills must reference real, published plugins and skills
-- Keep phases to 4 steps or fewer (the UI batches up to 4 questions per prompt)
-- Test by running `/kerd:mode your-mode` in a real project
+Kerd accepts contributions for new skills, skill improvements, and bug fixes. This doc sets expectations for PRs.
 
 ## Skills
 
-Skill PRs change behavior. They require more scrutiny.
+Skill PRs change behavior. They require scrutiny.
 
 **Before opening a PR:**
 1. Fork and branch from `main`
