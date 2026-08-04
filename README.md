@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.68.0)
+## What's New (v0.72.0)
+
+### v0.72.0
+
+**Interrogate now produces a tiered risk ledger.** The interview engine stays — one question per turn, no extrapolation, graduated adversarial lean, user-veto on stop, pause/resume, recitation before co-sign — but the output document is replaced by the risk ledger: eight columns (Risk / Killer? / Impact / Likelihood / Evidence / State / Countermeasure / Review trigger), five states, killer assumption tested first. FATAL discipline: impact is denominated in the declared value's units (the `## Value` section of `docs/product/<slug>.md`), likelihood is recorded separately and never multiplied in, and impact ≥ value at any likelihood is FATAL — set by impact alone. Two tiers: everyday work fills the ledger inside the framing conversation, straight into the living `## Risk ledger` section of `docs/product/<slug>.md`; a large bet runs the full session at `docs/interrogations/`, its co-sign written in the shape of the future dated viability gate record. The dead planning-skill exit is replaced by the walk's real flow: risks arrive pre-chewed at slicing and design. Design at `docs/design/risk-ledger.md`.
 
 ### v0.68.0
 
@@ -175,22 +179,22 @@ Durable state lives in a committed `kivna/sherpa.md` — one per repo (one repo 
 /sherpa
 ```
 
-### interrogate (Plan Readiness)
+### interrogate (Risk Ledger)
 
-Interrogate produces a co-signed plan-readiness document by interviewing you across every viability axis of a plan or idea: technical, business, legal, operational. It's built to resist the convergence pull in normal brainstorming — verbose framing that buries the question, premature multiple-choice that narrows the answer space, unilateral declarations of "done" before you've signed off. Discipline is anchored in three places: user-veto on stop (only you can end the interview), mandatory frontmatter session state so a fresh session can resume deterministically, and a structural document check before recitation so the model can't claim coverage that isn't on the page.
+Interrogate qualifies the risks of a plan or idea until every one is sized, evidenced, and left in exactly one state — because a named, unsized risk reads as managed, and that is the failure this skill exists to stop. The interview engine is unchanged: one question per turn, no extrapolation, graduated adversarial lean (gather → probe → stress-test → adversarial), user-veto on stop, deterministic pause/resume from frontmatter session state, and row-by-row recitation before co-sign. The output is the tiered risk ledger: eight columns (Risk / Killer? / Impact / Likelihood / Evidence / State / Countermeasure / Review trigger), five states (Countermeasure — permanent, Countermeasure — TEMPORARY, Accepted, Accepted unknown, FATAL), killer assumption first, always.
 
-Run it with no argument for a zero-path interview (start from an idea), or pass a plan reference to interrogate an existing draft. Output lives at `docs/interrogations/YYYY-MM-DD-<topic>.md`. Interrogate does not produce the implementation plan itself — it produces readiness. After sign-off, transition to `superpowers:writing-plans` to draft the plan.
+Two tiers. Everyday work fills the ledger inside the framing conversation — no skill invocation — directly into the living `## Risk ledger` section of `docs/product/<slug>.md`. A large bet runs the full interrogate session, exhaustive across the viability axes (technical, business, legal, operational), producing a dated session record at `docs/interrogations/YYYY-MM-DD-<slug>.md` whose co-signed ledger is copied into the living section at sign-off. Impact is denominated in the units of the declared value (the `## Value` section of `docs/product/<slug>.md`); FATAL means impact ≥ that value at any likelihood — set by impact alone, never by multiplying in likelihood. Interrogate does not produce the implementation plan — after sign-off the work moves down the walk to slicing and design with its risks pre-chewed, never re-assessed there.
 
-Design at `docs/plans/2026-05-02-interrogate-design.md`.
+Design at `docs/design/risk-ledger.md`; the interview engine's original design at `docs/plans/2026-05-02-interrogate-design.md`.
 
 ```
 /kerd:interrogate              # zero-path: interview from an idea
-/kerd:interrogate <plan-ref>   # interrogate an existing plan draft
+/kerd:interrogate <plan-ref>   # interrogate an existing plan
 ```
 
 ### capturerequirements (Requirements Capture)
 
-Capturerequirements is the fast, interview-based front door to building — the Reqs step of the jit mode. It interviews you one question at a time to lock the MVP must-haves, names what's explicitly *not* now, and stops as soon as the first slice is clear. It is deliberately lighter than interrogate: where interrogate exhaustively stress-tests viability across every axis and co-signs a readiness document, this just gets you moving. The principle is build-what-you-need: anything you can't tie to the core outcome goes to **Later**, not into the build. Output is a short note at `docs/requirements/YYYY-MM-DD-<topic>.md` that the jit loop revises as you learn — a starting point, not a contract.
+Capturerequirements is the fast, interview-based front door to building — the Reqs step of the jit mode. It interviews you one question at a time to lock the MVP must-haves, names what's explicitly *not* now, and stops as soon as the first slice is clear. It is deliberately lighter than interrogate: where interrogate exhaustively stress-tests viability across every axis and co-signs a qualified risk ledger, this just gets you moving. The principle is build-what-you-need: anything you can't tie to the core outcome goes to **Later**, not into the build. Output is a short note at `docs/requirements/YYYY-MM-DD-<topic>.md` that the jit loop revises as you learn — a starting point, not a contract.
 
 Use interrogate when the cost of being wrong is high; use capturerequirements when the cost of not starting is high.
 

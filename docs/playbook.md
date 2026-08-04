@@ -60,7 +60,7 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 
 **Twelve skills, each with a single responsibility, plus four opt-in hooks:**
 - **conductor**: session discipline (orient/plan/execute/close-out protocol)
-- **interrogate**: plan readiness (exhaustive viability interview, co-signed readiness doc)
+- **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
 - **capturerequirements**: requirements capture (fast MVP-must-have interview, jit front door)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
 - **switch**: session boundary (pull on arrive; session-state commit+push on leave). Not the only committer — conductor commits its own work per verified task.

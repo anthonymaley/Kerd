@@ -1,11 +1,11 @@
 ---
 name: interrogate
-description: "Use when the user says 'interrogate', 'interview me', 'walk me through this plan', 'stress-test this idea', 'help me figure out if this is viable', or has a plan/idea they want exhaustively interrogated across every viability axis (technical, business, legal, operational) until a co-signed readiness document is produced. Produces a markdown document at docs/interrogations/. Does NOT produce the implementation plan itself — produces readiness."
+description: "Use when the user says 'interrogate', 'risk ledger', 'qualify risks', 'killer assumption', 'interview me', 'walk me through this plan', 'stress-test this idea', 'help me figure out if this is viable', or has a plan/idea whose risks need qualifying — sized, evidenced, and left in exactly one state — across every viability axis (technical, business, legal, operational). Produces a tiered risk ledger: everyday work fills the ledger in the framing conversation without invoking this skill; a large bet runs the full co-signed session at docs/interrogations/. Does NOT produce the implementation plan itself — produces qualified risks."
 ---
 
-# Interrogate (Plan Readiness)
+# Interrogate (Risk Ledger)
 
-Interview the user relentlessly about every aspect of a plan or idea until shared understanding is reached and co-signed. Produces a comprehensive plan-readiness document covering all viability axes (technical, business, legal, operational), with mutual sign-off as the exit ritual.
+Interview the user relentlessly about a plan or idea until every risk is QUALIFIED — sized, evidenced, and left in exactly one state — because a named, unsized risk reads as managed, and that is the failure this skill exists to stop. The interview engine is the instrument; the tiered risk ledger is the output. For a large bet, the exit ritual is mutual co-sign of the ledger.
 
 This skill is the countermeasure to the convergence pull in normal brainstorming — verbose framing, premature multiple-choice, unilateral declarations of "done." It cannot be ratified with a yes/no.
 
@@ -16,13 +16,28 @@ This skill is the countermeasure to the convergence pull in normal brainstorming
 
 `<plan-ref>` is a file path, an idea description, or a reference like "current TODO" or "the latest session log."
 
+## Tiering
+
+| Tier | Instrument | Home |
+|---|---|---|
+| Everyday | the ledger filled inside the framing conversation — normal-sized work, no skill invocation | the living `## Risk ledger` section of `docs/product/<slug>.md`, overwritten in place |
+| Large bet | the full interrogate session — exhaustive across the axes (technical · business · legal · operational) | dated session record at `docs/interrogations/YYYY-MM-DD-<slug>.md`; the co-signed ledger is copied into the living section at sign-off |
+
+**Everyday.** This skill's Ledger section is the reference for the everyday practice: same eight columns, same five states, same rules — killer first, FATAL discipline, a risk without a countermeasure is a BLOCKER, an unqualified risk must not reach the next stage — applied inside the normal framing conversation without invoking this skill. The ledger is living state: states flip as countermeasures land and review triggers fire, so it is overwritten in place, never dated.
+
+**Large bet.** The full session below. Its co-sign is written in the shape of the viability gate record: when the entry gates are live, sign-off will also emit `docs/gates/YYYY-MM-DD-<slug>-viability.md` (dated, per the gate-record naming rule); until then the signed interrogation document is that record. Documented here — no record-emitting machinery ships with this skill.
+
 ## Entry Paths
 
 **Plan-ref path.** Read the plan at the given reference. Propose the viability axes you infer from the plan content (not a mandatory exhaustive checklist — inferred from the plan itself). Ask the user to prune: which axes to keep in scope, mark out-of-scope, or defer up front. Then enter the interview loop.
 
 **Zero path.** Ask one open question — *"what's the idea?"* — and build the document from blank. Axis identification happens organically as ideas surface. The universal core (see Default Axis List below) always applies.
 
-Both paths converge on the same artifact (a co-signed plan-readiness document) under the same exit rules.
+Both paths converge on the same artifact — a co-signed risk ledger — under the same exit rules.
+
+**The value declaration comes first.** Impact has no units until the value is declared. The canonical home is the `## Value` section of `docs/product/<slug>.md` — the same section the viability gate checks. If it exists, read it and denominate every Impact cell in its units. If it does not, the interview's first thread establishes it and writes it there (creating the file with legal `route`/`stage` front matter if needed) before any risk row is opened — frame first, then qualify.
+
+**The killer question comes next.** Immediately after scope pruning (plan-ref path) or once the idea is stated and the value declared (zero path), ask: *"What is the one assumption that, if false, kills this?"* That row opens first and gets the cheapest decisive evidence — a SPIKE, declared as such, if a test is needed — before any other risk is examined.
 
 ## Interview Discipline
 
@@ -39,21 +54,16 @@ These rules govern every turn during a session. They are not aspirational — th
 5. **User-veto on stop.** Never declare the session done. The interview continues until the user explicitly says stop. You *may* propose intermediate transitions — like *"I've exhausted my known unknowns; ready to enter recitation?"* — but the user can veto any proposal to keep interviewing.
 
 6. **Three "done" gates, all required for sign-off.**
-   - **(a)** You have exhausted your known unknowns AND the document passes a structural check before recitation can be proposed. The structural check requires every in-scope axis to have:
-     - at least one entry in **Known** or **Decision**
-     - explicit **Viability conditions**
-     - **Evidence / basis** for material claims (decisions, viability conditions)
-     - **Unknown** state matches **Status**:
-       - if `status: viable`, **Unknown** must be empty (no open questions remain)
-       - if `status: not-yet-viable`, **Unknown** must be non-empty (the open questions are why it's not yet viable)
-       - if `status: blocked`, **Unknown** may be empty or non-empty, but the blocker must be named in **Viability conditions**
-       - if `status: deferred`, **Unknown** may be in any state; the revisit trigger is in the top-level Deferred list
+   - **(a)** You have exhausted your known unknowns AND the ledger passes the qualification check before recitation can be proposed. The qualification check requires:
+     - every in-scope axis has at least one ledger row OR an explicit clear line in **Axis coverage** (*"no qualifying risk found — <basis>"*)
+     - every row fully qualified: **Impact** in declared-value units (never a vibe word) · **Likelihood** present, recorded separately · **Evidence** non-empty, naming a test or an analysis · **State** exactly one of the five · **Countermeasure** named with a confidence statement when State begins *Countermeasure* (plus a return condition when TEMPORARY) · **Review trigger** non-empty when State begins *Accepted*
+     - no row in **FATAL** — a FATAL row blocks recitation: the idea is killed (recorded in *What we ruled out* with the ledger row as evidence and its return condition attached) or reshaped until the row is no longer FATAL
 
-     If the document fails the structural check, continue interviewing on the failing axes — no recitation proposal. If it passes, *propose* entering recitation. User can veto ("more to discuss") to keep interviewing.
+     If the check fails, continue interviewing on the failing rows — no recitation proposal. If it passes, *propose* entering recitation. User can veto ("more to discuss") to keep interviewing.
    - **(b)** User has no more answers, requirements, or ideas to share.
-   - **(c)** Recite the plan back **axis-by-axis**; user confirms each axis individually. Whole-document recitation is rejected as the easy-ratification trap this skill is designed to avoid.
+   - **(c)** Recite the ledger back **row-by-row**; user confirms each risk individually. Whole-ledger recitation is rejected as the easy-ratification trap this skill is designed to avoid.
 
-7. **Tree-aware ordering.** Decisions that constrain other decisions get resolved first. Within each decision, depth-first: resolve fully — including per-axis viability where the decision affects an axis — before sliding sideways to the next branch.
+7. **Killer-first, then tree-aware ordering.** THE killer assumption is resolved first, always — the riskiest thing gets the cheapest test before anything else is examined. Below it, decisions that constrain other decisions get resolved first. Within each decision, depth-first: resolve fully — including the ledger rows the decision affects — before sliding sideways to the next branch.
 
 8. **Adversarial lean — graduated and user-dialable.** Default trajectory follows saturation:
    - **Gather** (early) — open questions, no challenges. *"Tell me about X."*
@@ -65,9 +75,50 @@ These rules govern every turn during a session. They are not aspirational — th
 
 **Pause/resume.** Sessions can run long. The document is persistent state — leaving and returning resumes from the document, not from conversation memory. Session state lives in document frontmatter (see Document Structure section). On resume, restate the level and target, then **re-ask the last unanswered question verbatim** from the `last-question` frontmatter field — e.g. *"Resuming at stress-test on Security. Last question: [verbatim]."* — and stop. The user can ask for refinement if needed; do not offer a meta-choice. The unanswered question is the active edge; re-present it, nothing more.
 
+## The Ledger
+
+Risks as rows, killer rows first. Columns:
+
+| Column | Rule |
+|---|---|
+| **Risk** | the concept, not the incident — one row per eliminated-or-carried idea |
+| **Killer?** | marks THE killer assumption — tested first, always |
+| **Impact** | in the units of the declared VALUE (`## Value` of `docs/product/<slug>.md`) — never a vibe word |
+| **Likelihood** | recorded SEPARATELY, never multiplied — expected value is the wrong maths for a bet taken once |
+| **Evidence** | a test OR an analysis — the same kind of evidence, differing in cost. Empty evidence = unqualified |
+| **State** | exactly one of the five below |
+| **Countermeasure** | named, with a CONFIDENCE statement |
+| **Review trigger** | for accepted states: the date or condition that brings the risk back |
+
+The table header is exact — downstream mechanical checks match it byte-for-byte:
+
+```
+| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
+```
+
+**The five states:**
+
+| State | Meaning |
+|---|---|
+| **Countermeasure — permanent** | closed by design |
+| **Countermeasure — TEMPORARY** | carries its return condition; an unmarked temporary countermeasure is permanent by neglect |
+| **Accepted** | by whom, when — and its review trigger |
+| **Accepted unknown** | by whom, when, why the evidence was not gathered — and its review trigger |
+| **FATAL** | impact ≥ the declared value, at ANY likelihood |
+
+**The rules:**
+
+- **FATAL is set by impact alone** — likelihood sets the response, never the class.
+- **A risk without a countermeasure is a BLOCKER** — silence stops work instead of passing it.
+- **The one unacceptable state**: high impact + high likelihood + no countermeasure = dead project. It cannot be accepted by name.
+- **Killer assumption first**: the riskiest thing gets the cheapest test before anything else is examined. The SPIKE is that instrument — declared up front, cheap, built for a kill-or-keep decision.
+- **An unqualified risk MUST NOT reach the next stage.**
+- Every △ verdict in an evaluation matrix lands its countermeasure here, with confidence and return condition.
+- An idea killed by a FATAL row is recorded in *What we ruled out* with the row as evidence and its return condition attached.
+
 ## Document Structure
 
-The output is a markdown file at `docs/interrogations/YYYY-MM-DD-<topic>.md`. Create the `docs/interrogations/` directory on first use if it doesn't exist. Update the file incrementally after each meaningful axis exchange — never reconstruct it wholesale at the end. The user can read it at any point.
+This section describes the **large-bet** session document only — the everyday tier writes straight into the living `## Risk ledger` section of `docs/product/<slug>.md` per Tiering above, no separate document. The output is a markdown file at `docs/interrogations/YYYY-MM-DD-<slug>.md`. `<slug>` is the work slug matching `docs/product/<slug>.md` when one exists, else a kebab-case topic name. Dated because it is a session record, immutable once signed; the *living* ledger home is `docs/product/<slug>.md` — this document is how it got there. Create the `docs/interrogations/` directory on first use if it doesn't exist. Update the file incrementally after each meaningful exchange — never reconstruct it wholesale at the end. The user can read it at any point.
 
 ### Outline
 
@@ -77,7 +128,10 @@ The output is a markdown file at `docs/interrogations/YYYY-MM-DD-<topic>.md`. Cr
   ### In scope
   ### Out of scope
 ## Deferred
-## [Per-axis sections, one per in-scope item]
+## Risk ledger
+## Axis coverage
+## Notes          (optional — overflow detail a cell references)
+## Sign-off       (present only after signing)
 ```
 
 ### Frontmatter
@@ -88,55 +142,39 @@ created: <ISO timestamp at session start>
 last-updated: <ISO timestamp of most recent update>
 status: draft           # draft | signed
 topic: <short human-readable topic name>
+slug: <work slug, when one exists>
 
-# Session state — present while status: draft, frozen or removed at sign-off
-current-axis: <axis name under interview>
+# Session state — present while status: draft
+current-axis: <axis under interview>
 current-thread: <sub-decision being resolved, or empty>
 last-question: <verbatim text of the last question asked>
 adversarial-level: gather   # gather | probe | stress-test | adversarial
 recitation-status:
-  <axis-name-1>: pending     # pending | recited | confirmed | pushed-back
-  <axis-name-2>: pending
-
-# Sign-off fields — set at sign-off, absent before
-# signed-at: <ISO timestamp>
-# signers:
-#   user: <name>
-#   agent: <model-id>
+  <risk-slug-1>: pending    # pending | recited | confirmed | pushed-back
+  <risk-slug-2>: pending
 ---
 ```
 
-`recitation-status` is initialized to `pending` for every in-scope axis as soon as the axis is added; transitions to `recited` after recitation, then `confirmed` (user accepted) or `pushed-back` (user pushed back; that axis re-enters interview). At document birth before any axes exist, the map is `{}`. Once axes are added, every in-scope axis must have an entry — no missing keys.
+`recitation-status` is keyed by **risk slug** — the kebab-case of the row's Risk cell — initialized to `pending` the moment a row is added; `{}` at document birth before any rows exist. Every ledger row must have an entry — no missing keys.
 
 ### Scope (defines project boundaries)
 
 Scope is a boundary concept, not a tracking concept. What's in *and* what's out together define the project. Both are scope.
 
-- **In scope** — list of axes/items the plan covers. This list is also the index — each entry has a per-axis section below.
-- **Out of scope** — list of axes/items the plan deliberately excludes. Each: item + one-line reason. These items do not have per-axis sections; they live only in this list.
+- **In scope** — list of axes/items the plan covers.
+- **Out of scope** — list of axes/items the plan deliberately excludes. Each: item + one-line reason.
 
 ### Deferred (separate from scope — tracks timing, not boundaries)
 
-Items in scope but pushed to a later round. Each: item + reason + revisit trigger (timeline, dependency, or condition that would reactivate it). If an item was deferred mid-interview after content was gathered, it retains its per-axis section with `status: deferred` AND appears in this list.
+Items in scope but pushed to a later round. Each: item + reason + revisit trigger (timeline, dependency, or condition that would reactivate it).
 
-### Per-axis sections
+### Risk ledger
 
-One section per in-scope item, in the order they appear in the In Scope list. Each has six fields:
+The eight-column table from The Ledger section above, killer rows first.
 
-- **Known** — what has been established about this axis (general context and facts)
-- **Unknown** — open questions still on the table
-- **Evidence / basis** — for each item in Known and each Decision, the source: a fetched doc, a user statement, a tested observation, an explicit "from training data; may be outdated." Viability conditions built on unsupported assumptions are surfaced as such, not laundered into Known.
-- **Decision / current position** — crisp resolved decisions for this axis (e.g. *"Storage: local markdown files under `docs/interrogations/`"*). Distinct from Known. A decision is something the plan has *committed to*, not just something the plan *knows*.
-- **Viability conditions** — what must be true for this axis to be considered viable
-- **Status** — `viable` | `not-yet-viable` | `blocked` | `deferred`
+### Axis coverage
 
-Status semantics:
-- `viable` — known enough, with stated viability conditions and evidence supporting them. The plan can proceed on this axis.
-- `not-yet-viable` — open unknowns remain, but no known blocker. More interview is needed.
-- `blocked` — a known condition currently prevents viability. The blocker is named in Viability conditions; status stays `blocked` until it's resolved.
-- `deferred` — intentionally postponed with a revisit trigger. Item appears in the top-level Deferred list with its trigger.
-
-`out-of-scope` is not a valid status value. Out-of-scope items don't have per-axis sections.
+One line per in-scope axis — either `- <axis> — <n> rows` or `- <axis> — clear: <one-line basis>` when no qualifying risk was found. This replaces the old per-axis six-field sections: qualification lives in rows, not prose; this section only proves no axis was skipped.
 
 ### Canonical template
 
@@ -148,13 +186,13 @@ created: 2026-05-02T18:30:00Z
 last-updated: 2026-05-02T18:30:00Z
 status: draft
 topic: <short human-readable name>
-current-axis: <axis-name>
+slug: <work slug, when one exists>
+current-axis: <axis under interview>
 current-thread: <sub-decision being resolved, or empty>
 last-question: <verbatim text of last question>
 adversarial-level: gather
 recitation-status:
-  <axis-name-1>: pending
-  <axis-name-2>: pending
+  <risk-slug>: pending
 ---
 
 # Interrogation: <topic>
@@ -162,56 +200,40 @@ recitation-status:
 ## Scope
 
 ### In scope
-- <axis-name>
-- <axis-name>
 
 ### Out of scope
-- <item> — <one-line reason>
 
 ## Deferred
-- <item> — <reason> — revisit when <trigger>
 
-## <Axis name>
+## Risk ledger
 
-### Known
-- <fact / context>
+| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
+|---|---|---|---|---|---|---|---|
+| <risk> | <yes/no> | <impact, in declared-value units> | <likelihood> | <test or analysis> | <one of the five states> | <named countermeasure + confidence> | <date or condition> |
 
-### Unknown
-- <open question>
-
-### Evidence / basis
-- <fact> — <source>
-
-### Decision / current position
-- <crisp resolved decision>
-
-### Viability conditions
-- <what must be true>
-
-### Status
-not-yet-viable
+## Axis coverage
 ```
 
-The template is the structural floor. Documents that do not match this shape break the resume / structural-check / recitation logic.
+The template is the structural floor. Documents that do not match this shape break the resume / qualification-check / recitation logic.
 
-**Zero-path initialization.** The template above shows a document with axes already established. In zero-path entry, the initial document begins before any axes exist: `current-axis` is empty, the In Scope list is empty, and `recitation-status` is `{}`. As the interview proceeds and axes get added, they appear in the In Scope list and `recitation-status` simultaneously. `current-axis` becomes populated as soon as the first axis is established and the interview moves into it.
+**Zero-path initialization.** The template above shows a document with a placeholder row already established. In zero-path entry, the initial document begins before any rows exist: `current-axis` is empty, In scope is empty, and `recitation-status` is `{}`. As the interview proceeds and rows get added, they appear in the Risk ledger and `recitation-status` simultaneously, keyed by risk slug. `current-axis` becomes populated as soon as the first axis is under interview.
 
 ## Recitation Gate
 
-Before sign-off can occur, do a final recitation pass. Read each axis back in summary form and ask the user to confirm — **axis by axis, not all at once**. Whole-document recitation is the easy-ratification trap this skill is designed to avoid.
+Before sign-off can occur, do a final recitation pass. Read each ledger row back and ask the user to confirm — **row by row, not all at once**. Whole-ledger recitation is the easy-ratification trap this skill is designed to avoid.
 
-For each axis:
-1. Update `recitation-status[axis]` to `recited` in frontmatter.
-2. Present the summary: Decision, Viability conditions, Status, and one-line gist of Known.
-3. Ask: *"Does this read right for [axis]?"*
-4. If user confirms: set `recitation-status[axis]: confirmed`. Continue to next axis.
-5. If user pushes back: set `recitation-status[axis]: pushed-back`. Re-enter the interview for that axis. Graduated lean continues from where it was. Loop until user vetoes the re-entry, then re-recite that axis. Repeat until all axes are `confirmed`.
+For each row:
+1. Update `recitation-status[risk-slug]` to `recited` in frontmatter.
+2. Present the row: Risk, Killer?, Impact, Likelihood, State, and the countermeasure or acceptance gist.
+3. Ask: *"Does this row read right?"*
+4. If user confirms: set `recitation-status[risk-slug]: confirmed`. Continue to next row.
+5. If user pushes back: set `recitation-status[risk-slug]: pushed-back`. Re-enter the interview for that row. Graduated lean continues from where it was. Loop until user vetoes the re-entry, then re-recite that row. Repeat until all rows are `confirmed`.
 
-Only after every in-scope axis is `confirmed` does sign-off become possible. This is gate (c) of the three "done" gates — the demonstration of understanding, not its declaration.
+Only after every ledger row is `confirmed` does sign-off become possible. This is gate (c) of the three "done" gates — the demonstration of understanding, not its declaration.
 
 ## Sign-off Ritual
 
-Once recitation passes for all axes:
+Once recitation passes for all rows:
 
 1. Present the document with timestamp and signer placeholders ready.
 2. Ask the user to type `signed` in chat to sign. (Commit-message signing was considered and rejected — it introduces git-state ambiguity. v1 keeps sign-off in-conversation.)
@@ -235,16 +257,21 @@ Once recitation passes for all axes:
      user: <user name>
      agent: <model id>
    topic: <topic>
+   slug: <work slug, when one exists>
    final-session-state:
      current-axis: <last axis>
      current-thread: <last sub-decision>
      last-question: <verbatim>
      adversarial-level: <last level>
      recitation-status:
-       <axis-1>: confirmed
-       <axis-2>: confirmed
+       <risk-slug-1>: confirmed
+       <risk-slug-2>: confirmed
    ---
    ```
+5. **Write the `## Sign-off` section into the document body**: signed-at, signers, row count, killer count, `FATAL rows: 0`.
+6. **Copy the ledger to its living home.** Overwrite the `## Risk ledger` section of `docs/product/<slug>.md` with the signed table (create the section if absent), so downstream reads one home regardless of tier. The signed interrogation document freezes as the dated record.
+
+The `## Sign-off` section written into the document (signed-at, signers, row count, killer count, `FATAL rows: 0`) is the content the viability gate record will carry; when the entry gates are live, sign-off will also emit `docs/gates/YYYY-MM-DD-<slug>-viability.md` — same date, same slug, `-viability` suffix. Until then, the signed interrogation document is the record.
 
 The document reads "complete as of [signed-at]," not eternally. Future revisits create new sign-off entries with new timestamps; the original signature is preserved as a point-in-time record.
 
@@ -252,7 +279,7 @@ The document reads "complete as of [signed-at]," not eternally. Future revisits 
 
 `/kerd:interrogate` is callable from anywhere — inside a conductor session, inside a mode, or standalone.
 
-- **Invoked mid-conductor:** return to conductor after sign-off. The signed interrogation document is referenced from conductor's plan phase.
+- **Invoked mid-conductor:** return to conductor after sign-off. The co-signed ledger arrives pre-chewed at conductor's plan phase.
 - **Invoked mid-mode:** return to the mode after sign-off.
 - **Invoked standalone:** exit cleanly after sign-off. No further workflow assumed.
 
@@ -260,7 +287,7 @@ If the user says "stop" without sign-off, save the document as `status: draft` a
 
 ## Default Axis List
 
-A small **universal core** applies to every interrogation regardless of domain:
+A small **universal core** applies to every interrogation regardless of domain. Every axis feeds the same ledger — axes organize the questioning; rows are the output.
 
 - **Scope viability** (whether the boundaries already declared in the top-level Scope section are coherent and complete — distinct from the structural Scope section)
 - **Users / stakeholders** (who is this for; who has a say)
@@ -268,7 +295,7 @@ A small **universal core** applies to every interrogation regardless of domain:
 - **Constraints** (what must hold; what cannot change)
 - **Risks** (what could fail; what consequences if it does)
 - **Dependencies** (what this requires from outside the plan)
-- **Overall viability** (the cross-axis "what must be true" set — distinct from the per-axis Viability conditions field)
+- **Overall viability** (the cross-axis "what must be true" set — distinct from any single risk row in the ledger)
 
 **Domain-specific starter sets** layer on top, proposed by you based on what the plan-ref or zero-mode discussion reveals:
 
@@ -281,8 +308,10 @@ The user prunes any of these via out-of-scope/defer. Full-list-by-default is rej
 
 ## What This Skill Does Not Do
 
-- **Does not produce the implementation plan itself.** This skill produces *readiness*. After sign-off, the user transitions to `superpowers:writing-plans` (or another planning skill) — explicitly outside the interrogate session. Boundary kept to prevent design synthesis from sneaking in too early.
+- **Does not produce the implementation plan itself.** This skill produces *qualified risks*. After sign-off, the work moves down the walk — slice a release, then design the solution — with its risks pre-chewed; they are never re-assessed there. In a Kerd session that continuation runs through `/kerd:conductor` (this session's build) or `/kerd:sherpa` (the lifecycle walk). Boundary kept to prevent design synthesis from sneaking in too early.
 - **Does not auto-detect sign-off.** You may *propose* entering recitation when known unknowns are exhausted, but you never declare the session over. User-veto on stop is absolute through to the final ritual.
 - **Does not use insight blocks, structured framing, or explanation during interview.** Those belong outside interrogate sessions. During interrogation, you are question-shaped only.
 - **Does not support multi-user sign-off in v1.** The signers map supports one user + one agent. Future versions may extend.
 - **Does not enforce a mandatory exhaustive axis checklist.** The universal core always applies; domain-specific axes are proposed and pruned by the user.
+- **Does not multiply impact by likelihood — ever.** Expected value is the wrong maths for a bet taken once. Impact sets the class; likelihood sets the response.
+- **Does not write `docs/gates/` records.** The co-sign is written in that record's shape; emitting it belongs to the entry gates when they are live.
