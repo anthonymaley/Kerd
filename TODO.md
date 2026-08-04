@@ -2,7 +2,7 @@
 
 ## Now
 
-**The spec package is COMPLETE — all six specs written and reviewed** (`docs/design/`: talk-formats · design-instrument · risk-ledger · progress-view · entry-gates · conductor-role). **Next: build the MVP sequence, entry gates first** — the keystone is also the easiest refusal instance (files + front matter + sections, trivially CI-able), so it delivers the router and the first refuser in one piece. Then: CI/refusal wider · progress renderer. The sherpa cut and other rips wait for the design-approval license.
+**Entry gates SHIPPED (2026-08-04, v0.69.0, commit 884d9c4)** — router + first refuser live; first entry-gate Actions run green. Spec archived at `docs/plans/2026-08-04-entry-gates-spec.md`. **Next MVP items: CI/refusal wider · progress renderer** (grows from `tools/diagram/`, consumes `gate.py --json`). Deferred from the gates piece: grounding-was-read (needs a grounding declaration shape — landing site sketched in spec A8). The sherpa cut and other rips wait for the design-approval license.
 
 Standing constraints: nothing ripped until the design is approved. Debt carried: `Frame the intent` route-specific acceptance checklists; accepted risks age with nothing to bring them back; one `(?)` left on the board (Design: machine-checkable interface values).
 
