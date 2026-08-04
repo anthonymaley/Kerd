@@ -72,3 +72,30 @@ bet tested rather than decided.
 
 Both comments were dispositioned above (commit `a976e11`) but the capture file
 lingered — deleting a dealt-with file is part of the queue policy. Deleted.
+
+---
+
+## 2026-08-03 — `2026-08-03-choose-what-matters-view` (canvas race incident)
+
+Both comments were written onto LAST SESSION'S view: Tony's open Excalidraw tab
+wrote its old scene back over the freshly pasted design flow, so the "new"
+diagram he reviewed was the previous one. Gotcha logged in the playbook.
+
+**"Forget Bree, im not working on that right now. also where has sherpa came
+back from? we should not be thinking solution (skills) at this point, just the
+requirments etc"**
+→ **Dealt with.** The Bree dogfood item is REMOVED from TODO (not blocked —
+gone). Sherpa was on the view because the blocked band mirrored TODO's backlog,
+which still names skills — solution vocabulary. Standing correction accepted:
+during the requirements walk, candidate views name REQUIREMENTS and outcomes,
+never skills. Skill-fate items (sherpa, mode, skriv wiring) stay in TODO's
+blocked section only, out of any candidate view, until the design pass decides
+solutions.
+
+**"Not really following what these diagrams are to be hnest, they are so vauge
+and high level and look identical to previous ones - or im tired."**
+→ **Partly dissolved, partly held.** Dissolved: it WAS the previous diagram —
+the race above. Held: the verdict on whether the actual design-the-solution
+flow reads clearly is still owed, on the correct artifact. If the real flow
+also reads vague/identical, that is a real defect in the shared flow template
+(every stage flow looks the same by construction) and gets treated as one.

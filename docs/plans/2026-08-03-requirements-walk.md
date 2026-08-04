@@ -28,7 +28,7 @@ This file is the **walk state**. Tick as we go.
 | Choose what matters next | yes — 2026-08-03 | `2026-08-03-choose-what-matters-view.excalidraw` | machine: pass · human: pending |
 | What we ruled out, and why | **added 2026-08-03** (cross-cutting) | `2026-08-03-what-we-ruled-out-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Hold product truth | **CUT 2026-08-03** | — | — |
-| Design the solution | yes — 2026-08-03 (was "Shape the solution" + 3 folded in) | `2026-08-03-design-the-solution-flow.excalidraw` | machine: pending · human: pending |
+| Design the solution | yes — 2026-08-03 (was "Shape the solution" + 3 folded in) | `2026-08-03-design-the-solution-flow.excalidraw` | machine: pass · human: **reviewed** |
 | *all others* | not yet | — | — |
 
 ### Settled on *Design the solution* (DESIGN rung collapsed 4→1)
