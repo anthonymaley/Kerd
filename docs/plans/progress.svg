@@ -152,7 +152,7 @@
 </text>
 <rect x="450.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="565.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="565.0" dy="0.0">need 8</tspan>
+<tspan x="565.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="680.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="795.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
@@ -164,14 +164,14 @@
 </text>
 <rect x="1140.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="1255.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="1255.0" dy="0.0">need 8</tspan>
+<tspan x="1255.0" dy="0.0">need 7</tspan>
 </text>
 <text x="300.0" y="641.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">loop</tspan>
 </text>
 <rect x="450.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="565.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="565.0" dy="0.0">need 9</tspan>
+<tspan x="565.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="680.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="795.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
@@ -183,7 +183,7 @@
 </text>
 <rect x="1140.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="1255.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="1255.0" dy="0.0">need 9</tspan>
+<tspan x="1255.0" dy="0.0">need 8</tspan>
 </text>
 <text x="300.0" y="720.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">ci-refusal</tspan>
@@ -197,10 +197,10 @@
 <rect x="480.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="510.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="540.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="570.0" y="734.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="600.0" y="734.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="570.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="600.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="300.0" y="783.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">9 landed · 0 in flight · 2 remaining</tspan>
+<tspan x="300.0" dy="0.0">11 landed · 0 in flight · 0 remaining</tspan>
 </text>
 <text x="300.0" y="826.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">conductor-effort-lever</tspan>
@@ -217,18 +217,18 @@
 <text x="300.0" y="966.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">progress-renderer</tspan>
 </text>
-<rect x="300.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="330.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="360.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="390.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="420.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="450.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="480.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="510.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="540.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<rect x="570.0" y="980.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="300.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="330.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="360.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="390.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="420.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="450.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="480.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="510.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="540.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="570.0" y="980.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="300.0" y="1029.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">0 landed · 0 in flight · 10 remaining</tspan>
+<tspan x="300.0" dy="0.0">10 landed · 0 in flight · 0 remaining</tspan>
 </text>
 <text x="300.0" y="1070.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">drift: none</tspan>
