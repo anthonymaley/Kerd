@@ -1,0 +1,11 @@
+name: entry-gate
+on: [push, pull_request]
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gate selftest
+        run: python3 tools/gates/gate.py selftest
+      - name: Repo audit
+        run: python3 tools/gates/gate.py audit

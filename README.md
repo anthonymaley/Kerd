@@ -353,6 +353,18 @@ Kerd ships four opt-in hooks that provide session boundary awareness and the pai
 
 The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, and the pair toggle's on/off/absent branches). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
 
+## Entry gates (tools/gates/)
+
+Entry gates route work by construction. Given a work slug, `tools/gates/gate.py` runs the gate table in series and enters at the lowest rung whose declared inputs all exist on disk — front matter, named sections, a qualified risk ledger, a checked-box count. It has no opinion on whether a claim is convincing or a design is sound, only whether the artifact is present; a refusal names exactly what's missing for the next rung, never a vague "not ready."
+
+It's the first check in the system that blocks from outside the model. The entry-gate CI workflow runs `audit` on every push, so a malformed `docs/gates/` record or a dated filename in `docs/design/` fails the build before a human or a model catches it in review.
+
+```
+python3 tools/gates/gate.py route <slug>
+python3 tools/gates/gate.py check <slug> <rung>
+python3 tools/gates/gate.py audit
+```
+
 ## How They Fit Together
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` to start your first session.
