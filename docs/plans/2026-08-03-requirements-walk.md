@@ -18,7 +18,7 @@ This file is the **walk state**. Tick as we go.
 
 ## Interview state
 
-**6 of 25 functions interviewed — PRODUCT RUNG COMPLETE, DESIGN RUNG COMPLETE (collapsed 4→1). 1 cut. 1 added. 3 folded.**
+**7 of 25 functions interviewed — PRODUCT, DESIGN (collapsed 4→1) and CONTRACT rungs COMPLETE. 1 cut. 1 added. 3 folded.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
@@ -29,7 +29,30 @@ This file is the **walk state**. Tick as we go.
 | What we ruled out, and why | **added 2026-08-03** (cross-cutting) | `2026-08-03-what-we-ruled-out-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Hold product truth | **CUT 2026-08-03** | — | — |
 | Design the solution | yes — 2026-08-03 (was "Shape the solution" + 3 folded in) | `2026-08-03-design-the-solution-flow.excalidraw` | machine: pass · human: **reviewed** |
+| Write the contract · Size and assign | yes — 2026-08-03 | `2026-08-03-write-the-contract-flow.excalidraw` | machine: pending · human: pending |
 | *all others* | not yet | — | — |
+
+### Settled on *Write the contract · Size and assign* (CONTRACT rung complete)
+
+- **The design package arrives INTACT** — full specs, documents, diagrams,
+  measurements, plans, UX design, systems. The contract is written from
+  upstream truth, never from a digest.
+- **Two-tier access, by role:** the overseer holds all upstream truth; a
+  builder gets the exact spec for their piece plus access to related
+  materials, and no more.
+- **No human gate at contract time** — provided every piece is measurable
+  against an upstream declaration. Tony: *"i dont need to approve contract if
+  we can measure it meets output of other stages."* A piece nothing declared
+  is a push-back to design, not a silent pass — DONE-assembled applied to the
+  contract itself. (This removes today's per-spec user approval when the
+  machine key holds.)
+- **Escalation contract:** the human hears only of a gap no agent role can
+  answer that is a blocker; otherwise the next report is goal achieved.
+  (Stricter than today's behaviour of surfacing score-corrections before
+  making them.)
+- **Carried from v0.66, now requirement-level:** implementable by a builder
+  who never saw the reasoning; every piece carries its own check; sized and
+  assigned after the piece is written.
 
 ### Settled on *Design the solution* (DESIGN rung collapsed 4→1)
 
@@ -236,7 +259,7 @@ approved. Rule is forward-only for now.
 | 7 | DESIGN | ~~Agree the shape~~ | — | — | **folded into 6** (2026-08-03) |
 | 8 | DESIGN | ~~Decide what proves it~~ | — | — | **folded into 6** (2026-08-03) |
 | 9 | DESIGN | ~~Design the interface → approved~~ | — | — | **folded into 6** (2026-08-03) |
-| 10 | CONTRACT | Write the contract · Size and assign | 1 | 0 | open |
+| 10 | CONTRACT | Write the contract · Size and assign | 6 | 0 | **walked** |
 | 11 | BUILD | Execute a unit · Prove it worked | 2 | 0 | open |
 | 12 | BUILD | Review unanchored | 1 | 0 | open |
 | 13 | BUILD | Refuse bad work | 1 | 0 | open |

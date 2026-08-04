@@ -46,8 +46,8 @@ FUNCTIONS = [
 
  ("CONTRACT", [
   ("Write the contract ·\nSize and assign", "conductor", "ok",
-   "the approved shape + terrain\nfetched for the orchestrator",
-   "spec file: per-step tags, sized\nmodel + effort, verify commands",
+   "the GO'd design package — full\nupstream truth, arriving intact",
+   "the written work order: self-contained\npieces, each carrying its own check,\nsized and assigned AFTER writing",
    "ACHIEVED: a delegated step passed on first return\nWATCH: keep/delegate ratio — 50/50 means tags are early"),
  ]),
 
@@ -419,6 +419,50 @@ DETAIL = {
    "score is written. NEVER to writing-plans: the working\n"
    "half of brainstorming exits into the dead half today.",
  },
+
+ "Write the contract · Size and assign": {
+  "in":
+   "the GO'd design package, arriving INTACT — full specs,\n"
+   "documents, diagrams, measurements, plans, UX design,\n"
+   "systems. nothing summarized on the way in: the contract\n"
+   "is written FROM upstream truth, not from a digest of it.\n\n"
+   "the qualified risks ride with it — a countermeasure is a\n"
+   "constraint the work order must build around.",
+  "grounding":
+   "the TERRAIN the work will change — the actual code, read\n"
+   "not summarized. the order must name exact paths,\n"
+   "signatures and values, and it cannot do that from memory.\n\n"
+   "WHAT WE RULED OUT — a contract proposes implementation\n"
+   "choices, so it reads the record like everything else\n"
+   "that proposes.\n\n"
+   "STANDING DECISIONS — the conventions a work order\n"
+   "cannot violate.",
+  "out":
+   "THE WRITTEN WORK ORDER: implementable by a builder who\n"
+   "NEVER SAW THE REASONING. every piece carries its exact\n"
+   "scope, the why behind any non-obvious choice, and ITS\n"
+   "OWN CHECK. sized and assigned AFTER the piece is written\n"
+   "— a tag assigned during planning measures how hard the\n"
+   "piece felt, not what judgment survived being written down.\n\n"
+   "TWO-TIER ACCESS, by role:\n"
+   "  the OVERSEER holds all upstream truth.\n"
+   "  a BUILDER gets the exact spec for their piece plus\n"
+   "  access to related materials — AND NO MORE.",
+  "acceptance":
+   "MACHINE, and machine ALONE when it holds: every piece is\n"
+   "measurable against an upstream declaration — the design\n"
+   "package, the measurements, the countermeasures. NO HUMAN\n"
+   "GATE at this rung, provided that measuring is real.\n"
+   "(Tony, 2026-08-03: 'i dont need to approve contract if\n"
+   "we can measure it meets output of other stages.')\n\n"
+   "a piece NOTHING upstream declared cannot be measured, so\n"
+   "it cannot pass by assertion — it is a PUSH-BACK to\n"
+   "design. the DONE-assembled rule applied to the contract.\n\n"
+   "ESCALATION CONTRACT: the human hears ONLY of a gap no\n"
+   "agent role can answer that is a BLOCKER — the blocker-\n"
+   "acceptance path from Test viability. otherwise the next\n"
+   "report is GOAL ACHIEVED.",
+ },
 }
 
 
@@ -504,7 +548,12 @@ REQUIREMENTS = [
  ]),
  ("CONTRACT", [
   ("Write the contract · Size and assign",
-   "MUST be implementable by a model that never saw the reasoning.\nTags assigned AFTER the step body is written, never before."),
+   "MUST be implementable by a builder that never saw the reasoning;\nevery piece carries its own check.\n"
+   "MUST tier access: the overseer holds ALL upstream truth; a builder\ngets the exact spec for their piece plus related materials, NO MORE.\n"
+   "MUST size and assign AFTER the piece is written, never before.\n"
+   "MUST NOT need human approval — provided every piece is measurable\nagainst an upstream declaration. an unmeasurable piece cannot ride\n"
+   "through on assertion: it is a push-back to design.\n"
+   "MUST escalate to the human only a BLOCKER no agent role can answer;\notherwise the next report is goal achieved."),
  ]),
  ("BUILD", [
   ("Execute a unit · Prove it worked",
