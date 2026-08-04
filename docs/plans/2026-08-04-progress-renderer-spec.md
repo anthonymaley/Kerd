@@ -284,7 +284,11 @@ but nothing except the JSON is printed.
 `tools/diagram/progress_kit.py` — exact signatures:
 
 ```python
-REPO = "/Users/anthonymaley/Kerd"      # default root; every function takes root
+# CORRECTED after CI refusal (commit 5e8fb68's run): a hardcoded absolute
+# path does not exist on the CI runner's checkout. Derive the repo root
+# from __file__, the gates precedent — progress_kit.py sits at
+# tools/diagram/, so root is three dirnames up.
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PIECE_RE   # re for '^- \[( |x)\] (.*)$'
 TRAILER_RE # re from A1
 
@@ -322,8 +326,12 @@ def load_gates_kit():
     return m
 ```
 
-The gates kit always loads from the real repo (its functions take
-fixture roots as parameters); only the DATA root varies.
+The gates kit always loads from the same checkout this file lives in —
+`REPO` is `__file__`-derived (see the corrected A8 line above), so the
+path resolves on any machine's checkout, CI runners included. Its
+functions take fixture roots as parameters; only the DATA root varies.
+Root-independence is part of the contract: the selftest must pass from a
+copy of the checkout at any absolute path, not just this one.
 
 ---
 
@@ -378,7 +386,7 @@ and the suite exits 1, else `selftest: 10 ok` exit 0.
 ### Step 5: selftest — the fixture suite [delegate, model: sonnet, effort: high]
 **What:** add `selftest()` to `progress_kit.py` implementing F1–F10 per Part B; wire `progress.py selftest` to `sys.exit(progress_kit.selftest())`.
 **Why:** the gates' fixture pattern is the precedent — anything with logic proves itself in a temp tree, from outside the model, before CI ever runs it.
-**Verify:** `cd /Users/anthonymaley/Kerd && python3 tools/diagram/progress.py selftest; echo exit=$?` → ten `ok` lines, `selftest: 10 ok`, `exit=0`.
+**Verify:** `cd /Users/anthonymaley/Kerd && python3 tools/diagram/progress.py selftest; echo exit=$?` → ten `ok` lines, `selftest: 10 ok`, `exit=0`. Then root-independence (the CI-refusal class): `rm -rf /tmp/kerd-ci-sim && cp -R /Users/anthonymaley/Kerd /tmp/kerd-ci-sim && python3 /tmp/kerd-ci-sim/tools/diagram/progress.py selftest; echo exit=$?` → `selftest: 10 ok`, `exit=0` from the copied checkout.
 
 ### Step 6: the truthful render — today's tree [delegate, model: haiku, effort: low]
 **What:** run `python3 tools/diagram/progress.py` from `/Users/anthonymaley/Kerd` and check the output against today's verified terrain. Do not fix the renderer here; if a check fails, report the diff between expected and actual and stop.

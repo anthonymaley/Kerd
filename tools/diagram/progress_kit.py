@@ -22,7 +22,7 @@ import tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from kit import Canvas, INK, RED, GREEN, GREY  # noqa: E402
 
-REPO = "/Users/anthonymaley/Kerd"      # default root; every function takes root
+REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))      # default root; every function takes root
 
 PIECE_RE = re.compile(r'^- \[( |x)\] (.*)$')
 TRAILER_RE = re.compile(r'^Piece:\s*([a-z0-9][a-z0-9-]*)/([1-9][0-9]*)\s*$')
