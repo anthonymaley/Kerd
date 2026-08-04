@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1463" height="1231" viewBox="260 40 1463 1231">
+<rect x="260" y="40" width="1463" height="1231" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SESSION — stage flow</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SESSION rung · one function + a rung-wide property · interviewed 2026-08-04</tspan>
+<tspan x="300.0" dy="18.8">4 → 1: Drive to done (the loop) survives — the other three dissolved: property, entry gates, construction.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">IN</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">The work order, already on disk</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">a cut release with its DONE condition — every piece carrying its</tspan>
+<tspan x="678.0" dy="15.0">own check, measurements declared, risks qualified. entered through</tspan>
+<tspan x="678.0" dy="15.0">the GATES: work enters at the LOWEST rung whose declared inputs all</tspan>
+<tspan x="678.0" dy="15.0">exist; missing inputs push work UP, never through. nothing passes</tspan>
+<tspan x="678.0" dy="15.0">a gate on assertion.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the one licensed bypass</tspan>
+<tspan x="1320.0" dy="15.0">is a SPIKE — declared up</tspan>
+<tspan x="1320.0" dy="15.0">front, cheap, built for a</tspan>
+<tspan x="1320.0" dy="15.0">kill-or-keep decision.</tspan>
+</text>
+<text x="1320.0" y="379.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">&#x27;just build it&#x27; is the anti-pattern</tspan>
+<tspan x="1320.0" dy="15.0">for MVP work: measurable results, a</tspan>
+<tspan x="1320.0" dy="15.0">spec reliably built against, risks</tspan>
+<tspan x="1320.0" dy="15.0">recorded. a spike that wants to</tspan>
+<tspan x="1320.0" dy="15.0">become real re-enters via the gates.</tspan>
+</text>
+<polyline points="960.0,455.0 960.0,489.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="489.0" x2="954.3" y2="479.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="489.0" x2="965.7" y2="479.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="521.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="514.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">LOOP</tspan>
+</text>
+<rect x="660.0" y="489.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="524.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Next unblocked item → build and prove → repeat</tspan>
+</text>
+<text x="678.0" y="569.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">unattended. each piece runs BUILD&#x27;s machinery on exactly its slice</tspan>
+<tspan x="678.0" dy="15.0">(two-tier access) and commits as it verifies. the driver holds</tspan>
+<tspan x="678.0" dy="15.0">nothing — state lives on disk — so it cuts and resumes fresh</tspan>
+<tspan x="678.0" dy="15.0">between pieces whenever conditions degrade. cutting costs nothing:</tspan>
+<tspan x="678.0" dy="15.0">cut liberally, even per piece.</tspan>
+</text>
+<text x="1320.0" y="505.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">no degradation detector</tspan>
+<tspan x="1320.0" dy="15.0">needed — the missing</tspan>
+<tspan x="1320.0" dy="15.0">signal dissolved rather</tspan>
+<tspan x="1320.0" dy="15.0">than found.</tspan>
+</text>
+<text x="1320.0" y="660.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">RUNG-WIDE PROPERTY: state lives in the DECLARED</tspan>
+<tspan x="1320.0" dy="15.0">ARTIFACTS, never in the session. anything worth keeping</tspan>
+<tspan x="1320.0" dy="15.0">is written the moment it exists. a session may die at</tspan>
+<tspan x="1320.0" dy="15.0">any instant — the loss is bounded to the in-flight</tspan>
+<tspan x="1320.0" dy="15.0">piece, redone from its spec.</tspan>
+</text>
+<polyline points="960.0,734.0 960.0,768.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="768.0" x2="954.3" y2="758.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="768.0" x2="965.7" y2="758.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="800.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="793.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">DECISION</tspan>
+</text>
+<rect x="660.0" y="768.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="803.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">A question the spec cannot answer</tspan>
+</text>
+<text x="678.0" y="848.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">answered at the LOWEST role with the knowledge AND the authority</tspan>
+<tspan x="678.0" dy="15.0">to answer it. escalates only on genuine inability — the intent-</tspan>
+<tspan x="678.0" dy="15.0">holding role may adjust within its declared power. the human is</tspan>
+<tspan x="678.0" dy="15.0">LAST, and hears only what no agent role can decide.</tspan>
+</text>
+<text x="1320.0" y="784.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">while an answer waits on</tspan>
+<tspan x="1320.0" dy="15.0">the human, nothing is</tspan>
+<tspan x="1320.0" dy="15.0">built the answer could</tspan>
+<tspan x="1320.0" dy="15.0">invalidate — park vs stop</tspan>
+<tspan x="1320.0" dy="15.0">is the driving role&#x27;s call.</tspan>
+</text>
+<text x="1320.0" y="874.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">fills the escalation contract&#x27;s</tspan>
+<tspan x="1320.0" dy="15.0">middle: the ladder of roles that</tspan>
+<tspan x="1320.0" dy="15.0">must fail before the human hears</tspan>
+<tspan x="1320.0" dy="15.0">anything.</tspan>
+</text>
+<polyline points="960.0,918.0 960.0,966.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="966.0" x2="954.3" y2="956.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="966.0" x2="965.7" y2="956.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="976.0" y="946.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="976.0" dy="0.0">answered — the loop continues</tspan>
+</text>
+<text x="300.0" y="998.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="991.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">STOP</tspan>
+</text>
+<rect x="660.0" y="966.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1001.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Two stops, nothing else</tspan>
+</text>
+<text x="678.0" y="1046.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">GOAL ACHIEVED — hands to Prove the whole · Goal gate, where the</tspan>
+<tspan x="678.0" dy="15.0">expert-user pass is the report the escalation contract promised.</tspan>
+<tspan x="678.0" dy="15.0">or a HUMAN-LEVEL BLOCKER — pause, wait. a degraded session is not</tspan>
+<tspan x="678.0" dy="15.0">a stop: cut between pieces and resume.</tspan>
+</text>
+<text x="300.0" y="1171.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OPEN on this stage — the loop MUST NOT run at all where nothing can refuse: unattended requires</tspan>
+<tspan x="300.0" dy="18.8">every gate able to BLOCK from outside the model. today: 0 CI, 0 hooks, every repo. CI (MVP</tspan>
+<tspan x="300.0" dy="18.8">sequence) is the precondition — until it exists this page describes a loop that may not be</tspan>
+<tspan x="300.0" dy="18.8">switched on.</tspan>
+</text>
+</svg>

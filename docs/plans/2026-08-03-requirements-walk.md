@@ -14,11 +14,11 @@ which is the first concrete instance of the **Show where we are** function.
 
 This file is the **walk state**. Tick as we go.
 
-`(?)` in the MUST text = drafted by Claude, not read from evidence. 12 of them.
+`(?)` in the MUST text = drafted by Claude, not read from evidence. 8 of them.
 
 ## Interview state
 
-**9 of 25 functions interviewed — PRODUCT, DESIGN (4→1), CONTRACT and BUILD (4→2 + a property) rungs COMPLETE. 1 cut. 1 added. 5 folded.**
+**10 of 25 functions walked — PRODUCT, DESIGN (4→1), CONTRACT, BUILD (4→2 + a property) and SESSION (4→1 + a property) rungs COMPLETE. 1 cut. 1 added. 5 folded. 3 dissolved.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
@@ -31,7 +31,62 @@ This file is the **walk state**. Tick as we go.
 | Design the solution | yes — 2026-08-03 (was "Shape the solution" + 3 folded in) | `2026-08-03-design-the-solution-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Write the contract · Size and assign | yes — 2026-08-03 | `2026-08-03-write-the-contract-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Build a piece · Prove it + Prove the whole · Goal gate | yes — 2026-08-03 (BUILD rung, one flow) | `2026-08-03-build-flow.excalidraw` | machine: pass · human: **reviewed** |
+| Drive to done (SESSION rung, one flow — 15/16/18 dissolved into it) | yes — 2026-08-04 | `2026-08-04-session-flow.excalidraw` | machine: pass · human: **reviewed** |
 | *all others* | not yet | — | — |
+
+### Settled on the SESSION rung (4→1 + a rung-wide property)
+
+- **Function 15 (Open / close · Keep tempo · Hold state) dissolves into a
+  property: state lives in the declared artifacts, never in the session;
+  anything worth keeping is written the moment it exists.** A session may die
+  at any instant and the loss is bounded to the in-flight piece, redone from
+  its spec. Sessions end *between* pieces by construction — the cut-point is
+  chosen, not suffered ("why would sessions end mid flight"). Open/close has
+  no job left (opening = read the work order); tempo (commit as it verifies)
+  already belongs to BUILD. Third caller for byproduct capture (after failed
+  verifies and mid-session decision recording), which by the three-callers
+  heuristic makes it a property, not a coincidence.
+- **Finding against current tooling:** today's boundary machinery defers some
+  capture to close-out (gotchas, reflections written at switch-out) — exactly
+  the loss window the property forbids. Logged for the post-walk skill-change
+  definition, not fixed now.
+- **Function 16 (Route to the altitude) dissolves into the entry gates in
+  series.** Work enters at the LOWEST rung whose declared inputs all exist —
+  a resumed build passes straight in because its declarations are on disk; a
+  bare idea is pushed up rung by rung to *Frame the intent*, whose triage
+  sorts idea / problem / question. No dispatcher decides anything. What
+  survives as requirement: nothing passes THROUGH a gate on assertion —
+  missing inputs push work up, never through. **The one licensed bypass is a
+  SPIKE**: declared up front, cheap, built to generate evidence for a
+  kill-or-keep decision; "just build it" is the anti-pattern for MVP work
+  ("mvp needs measurable results and a spec that can be reliably built
+  against, risks recorded"). A spike that wants to become real work re-enters
+  at the top with its evidence. The "sherpa is an orphan" gap is answered
+  structurally: gates route; nothing needs to reference a dispatcher.
+- **Function 17 (Drive to done) is the rung's one surviving function.** The
+  loop: next unblocked item → build and prove → goal check → repeat,
+  unattended. Own requirements (the rest it consumes from upstream): runs
+  unattended ONLY where every gate can block from outside the model; every
+  question answered at the lowest role with the knowledge AND authority to
+  answer it, escalating only on genuine inability, human last ("the conductor
+  role will answer the questions based on spec… if not then it truly
+  something only i can answer… we pause and wait for me"); while a question
+  waits on the human, nothing may be built that the pending answer could
+  invalidate — park-vs-stop is the driving role's call ("the conductor can
+  decide that"); stops at goal achieved or a human-level blocker; cuts and
+  resumes fresh between pieces whenever conditions degrade. Fills the
+  escalation contract's missing middle: the ladder of roles that must fail
+  before Tony hears anything.
+- **Function 18 (Keep context optimal) DISSOLVES structurally.** The draft's
+  `(?)` was honest — quality-degradation has no signal. It stays unneeded:
+  two-tier access means each piece runs on exactly its slice; the session
+  property means the driver restarts between pieces at zero cost. When
+  cutting costs nothing, no degradation detector is needed — cut liberally,
+  even per piece. The `(?)` dissolves by making the missing signal
+  unnecessary, not by finding it.
+- **Rung shape: 4 → 1 + a rung-wide property** — the same collapse DESIGN
+  (4→1) and BUILD (4→2+property) took. The property: state lives in the
+  declared artifacts, never in the session.
 
 ### Settled on the BUILD rung (4→2 + a rung-wide property)
 
@@ -288,10 +343,10 @@ approved. Rule is forward-only for now.
 | 12 | BUILD | ~~Review unanchored~~ | — | — | **folded into 14** (2026-08-03) |
 | 13 | BUILD | ~~Refuse bad work~~ | — | — | **became the BUILD rung-wide property** (2026-08-03) |
 | 14 | BUILD | Prove the whole · Goal gate (was Verify against what we said) | 8 | 0 | **walked** |
-| 15 | SESSION | Open / close · Keep tempo · Hold state | 1 | 0 | open |
-| 16 | SESSION | Route to the altitude | 1 | 0 | open |
-| 17 | SESSION | Drive to done  (/goal + /loop) | 2 | 0 | open |
-| 18 | SESSION | Keep context optimal (inside the loop) | 1 | 1 | open |
+| 15 | SESSION | ~~Open / close · Keep tempo · Hold state~~ | — | — | **became the SESSION rung-wide property** (2026-08-04) |
+| 16 | SESSION | ~~Route to the altitude~~ | — | — | **dissolved into the entry gates** (2026-08-04) |
+| 17 | SESSION | Drive to done  (/goal + /loop) | 3 | 0 | **walked** |
+| 18 | SESSION | ~~Keep context optimal (inside the loop)~~ | — | — | **dissolved by construction** (2026-08-04) |
 | 19 | CROSS-CUTTING | How we talk to each other | 4 | 4 | open |
 | 20 | CROSS-CUTTING | Do we have what we need? (entry gate) | 3 | 0 | open |
 | 21 | CROSS-CUTTING | Show where we are | 3 | 1 | open |

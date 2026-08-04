@@ -64,20 +64,10 @@ FUNCTIONS = [
  ]),
 
  ("SESSION", [
-  ("Open / close · Keep tempo ·\nHold state", "switch, conductor", "ok",
-   "repo state + the last session's\nhandoff",
-   "restored context, work committed as\nit verifies, a cold-readable handoff",
-   "ACHIEVED: next session picked up cold, no re-derivation\nWATCH: switch runs 20x/day — the one thing that holds"),
-
-  ("Route to the altitude", "", "GAP",
-   "the request, before any work\nis sized",
-   "which rung to enter at, and\nwhich function runs first",
-   "ACHIEVED: a session started at the right rung\nGAP: sherpa is an orphan; nothing references it"),
-
   ("Drive to done  (/goal + /loop)", "", "GAP",
-   "a cut release with its DONE condition,\nplans, tests — everything in place",
-   "next unblocked item → run → check goal →\nrepeat. AND when to cut a session and\nstart fresh to keep conditions good",
-   "ACHIEVED: a release reached done without being\ndriven by hand  GAP: nothing detects a degraded\nsession; conductor says restart, nothing says when"),
+   "a cut release with its DONE condition —\nentered through the GATES: work enters\nat the LOWEST rung whose declared inputs\nall exist. SPIKE = the one licensed bypass",
+   "next unblocked item → build and prove →\nrepeat, unattended. cut + resume fresh\nbetween pieces; stops only at GOAL\nACHIEVED or a human-level blocker",
+   "ACHIEVED: a release reached done without being driven\nby hand  GAP: nothing can refuse from outside the model\nCONSOLIDATED 2026-08-04 (4→1 + property): Open/close ·\nHold state became the RUNG-WIDE PROPERTY — state lives\nin the declared artifacts, never in the session. Route\nto the altitude dissolved into the ENTRY GATES in series.\nKeep context optimal dissolved by construction (exact\nslice per piece + free restarts between pieces)."),
  ]),
 
  ("SUPPORT", [
@@ -519,6 +509,48 @@ DETAIL = {
    "contract promised. the human re-enters here, and\n"
    "nowhere earlier short of an unanswerable blocker.",
  },
+
+ "Drive to done  (/goal + /loop)": {
+  "in":
+   "a cut release with its DONE condition — every piece\n"
+   "carrying its own check, measurements declared, risks\n"
+   "qualified. entered through the GATES: work enters at\n"
+   "the LOWEST rung whose declared inputs all exist;\n"
+   "missing inputs push work UP, never through.\n\n"
+   "the one licensed bypass is a SPIKE — declared up\n"
+   "front, cheap, built for a kill-or-keep decision.\n"
+   "'just build it' is the anti-pattern for MVP work; a\n"
+   "spike that wants to become real re-enters via the gates.",
+  "grounding":
+   "the work order and the declared artifacts — nothing\n"
+   "else exists to read, because the RUNG-WIDE PROPERTY\n"
+   "holds: state lives in the declared artifacts, never in\n"
+   "the session. anything worth keeping is written the\n"
+   "moment it exists. a session may die at any instant —\n"
+   "the loss is bounded to the in-flight piece, redone\n"
+   "from its spec. sessions end BETWEEN pieces: the cut\n"
+   "is chosen, not suffered.",
+  "out":
+   "next unblocked item → build and prove → repeat,\n"
+   "unattended. each piece runs BUILD's machinery on\n"
+   "exactly its slice (two-tier access) and commits as it\n"
+   "verifies. the driver holds nothing, so it cuts and\n"
+   "resumes fresh between pieces whenever conditions\n"
+   "degrade — cutting costs nothing; cut liberally, even\n"
+   "per piece. (no degradation detector needed: the\n"
+   "missing signal dissolved rather than found.)",
+  "acceptance":
+   "MACHINE: the loop stops at exactly two points — GOAL\n"
+   "ACHIEVED (hands to Prove the whole · Goal gate), or a\n"
+   "HUMAN-LEVEL blocker once the role ladder is exhausted:\n"
+   "every question answered at the lowest role with the\n"
+   "knowledge AND the authority, escalated only on genuine\n"
+   "inability. while an answer waits on the human, nothing\n"
+   "is built the answer could invalidate — park vs stop is\n"
+   "the driving role's call.\n\n"
+   "PRECONDITION: MUST NOT run at all where nothing can\n"
+   "refuse (today: 0 CI, 0 hooks, every repo).",
+ },
 }
 
 
@@ -624,14 +656,14 @@ REQUIREMENTS = [
    "RUNG-WIDE PROPERTY: every gate here MUST block from outside the model.\nadvisory output is not a check. (today: 0 CI, 0 hooks, every repo)"),
  ]),
  ("SESSION", [
-  ("Open / close · Keep tempo · Hold state",
-   "MUST survive going cold — the next session picks up without re-deriving"),
-  ("Route to the altitude",
-   "MUST decide before the work is sized, not after"),
+  ("Open / close · Keep tempo · Hold state\n— became the RUNG-WIDE PROPERTY 2026-08-04",
+   "state lives in the DECLARED ARTIFACTS, never in the session. anything\nworth keeping is written the moment it exists. a session may die at any\ninstant — the loss is bounded to the in-flight piece, redone from its\nspec. sessions end BETWEEN pieces: the cut is chosen, not suffered.\ntoday's close-out-deferred capture is the loss window this forbids."),
+  ("Route to the altitude\n— dissolved into the ENTRY GATES 2026-08-04",
+   "work enters at the LOWEST rung whose declared inputs all exist; missing\ninputs push work UP, never through — the gates in series ARE the routing.\nnothing passes a gate on assertion. the one licensed bypass is a SPIKE:\ndeclared up front, cheap, built for a kill-or-keep decision. 'just build\nit' is the anti-pattern for MVP work; a spike that wants to become real\nre-enters via the gates."),
   ("Drive to done  (/goal + /loop)",
-   "MUST stop at the stated hand-back point.\nMUST NOT run at all where nothing can refuse."),
-  ("Keep context optimal (inside the loop)",
-   "MUST cut on token headroom AND on quality degrading or drifting from\nintent. (?) the second has no signal — self-correction rate is the\nnearest proxy we have, and it was added for another reason"),
+   "MUST stop at exactly two points: GOAL ACHIEVED, or a HUMAN-LEVEL\nblocker once the role ladder is exhausted — every question answered at\nthe lowest role with the knowledge AND the authority; the human hears\nonly what no agent role can decide.\nMUST NOT build anything a pending human answer could invalidate.\nMUST NOT run at all where nothing can refuse."),
+  ("Keep context optimal (inside the loop)\n— dissolved by construction 2026-08-04",
+   "each piece runs on exactly its slice (two-tier access); the driver\nrestarts between pieces at zero cost (the property). when cutting costs\nnothing, no degradation detector is needed — cut liberally, even per\npiece. the missing quality signal dissolved rather than found."),
  ]),
  ("CROSS-CUTTING", [
   ("How we talk to each other",
