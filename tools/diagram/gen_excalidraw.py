@@ -200,6 +200,13 @@ from gen_functions import FUNCTIONS
 
 from gen_functions import DETAIL
 
+# FUNCTIONS names may wrap with \n; DETAIL keys are single-line. Normalize the
+# lookup or a two-line name silently renders as never-walked (found 08-03:
+# Slice a release's interview was absent from a reviewed board).
+_D = {k.replace("\n", " "): v for k, v in DETAIL.items()}
+def _detail(name): return _D.get(name.replace("\n", " "), {})
+def _walked(name): return name.replace("\n", " ") in _D
+
 W6 = 1560
 W6W = 2160          # the requirement view carries four text columns, not two
 y6 = ty + 230
@@ -245,7 +252,7 @@ fy = y6 + 118
 for layer, fns in FUNCTIONS:
     rows = []
     for name, today, status, ins, outs, mea in fns:
-        d = DETAIL.get(name, {})
+        d = _detail(name)
         rows.append((name, today, status,
                      d.get("in", ins), d.get("grounding", ""),
                      d.get("out", outs), d.get("acceptance", "")))
@@ -257,7 +264,7 @@ for layer, fns in FUNCTIONS:
     ry_ = fy + 36
     for (name, today, status, ins, gr, outs, acc), rh in zip(rows, heights):
         colour, fill = STATUS[status]
-        walked = name in DETAIL
+        walked = _walked(name)
         box(name, C_FN, ry_, W_FN, 50, stroke=colour, bg=fill, size=13)
         txt(today if today else "— nothing —", C_TD, ry_ + 4, 12, colour)
         txt(status.upper(), C_TD, ry_ + 34, 11, colour)
@@ -271,9 +278,12 @@ for layer, fns in FUNCTIONS:
     fy += h + 14
 
 _total = sum(len(f) for _, f in FUNCTIONS)
+_st = [s for _, fns in FUNCTIONS for _, _, s, *_ in fns]
 txt(f"{len(DETAIL)} of {_total} functions interviewed. "
     "the rest carry their first-cut in/out and nothing else.\n"
-    "5 gaps  ·  3 built but unused  ·  6 working.\n"
+    f"{_st.count('GAP')} gaps  ·  {_st.count('unused')} built but unused  ·  "
+    f"{_st.count('ok')} working  ·  {_st.count('external')} external  ·  "
+    f"{_st.count('dying')} dying  ·  {_st.count('cut')} cut.\n"
     "\"Route to the altitude\" is the keystone: nothing performs it, and it is what would\n"
     "decide whether the three unused ones are ever reached at all.",
     X + 18, fy + 10, 15, RED)
@@ -310,24 +320,24 @@ txt("not steps in the flow. drawn apart because putting them in the stack would 
     "they happen at a point in time.", X, y8 + 34, 15)
 
 cy = y8 + 74
-_cheights = [_rowh(ins, DETAIL.get(name, {}).get("grounding", ""), outs,
-                   DETAIL.get(name, {}).get("acceptance", "")) + 40
+_cheights = [_rowh(ins, _detail(name).get("grounding", ""), outs,
+                   _detail(name).get("acceptance", "")) + 40
              for name, today, status, ins, outs, ev in CROSSCUTTING]
 _ch = 40 + sum(_cheights)
 rect(X, cy, W6W, _ch, stroke=RED, dashed=True)
 txt("APPLIES AT EVERY RUNG", X + 18, cy + 10, 15, RED)
 iy = cy + 40
 for (name, today, status, ins, outs, ev), rh in zip(CROSSCUTTING, _cheights):
-    d = DETAIL.get(name, {})
+    d = _detail(name)
     box(name, C_FN, iy, W_FN, 60, stroke=RED, size=13)
     txt(today if today else "— nothing —", C_TD, iy + 6, 12, RED)
     txt(status, C_TD, iy + 34, 11, RED)
     txt(d.get("in", ins), C_IN, iy + 6, 12)
     txt(d.get("grounding", NOT_WALKED), C_GR, iy + 6, 12,
-        INK if name in DETAIL else RED)
+        INK if _walked(name) else RED)
     txt(d.get("out", outs), C_OUT, iy + 6, 12)
     txt(d.get("acceptance", NOT_WALKED), C_ACC, iy + 6, 12,
-        INK if name in DETAIL else RED)
+        INK if _walked(name) else RED)
     iy += rh
 
 txt("Both already have rules written — the communication contract exists in FIVE places\n"
@@ -423,16 +433,9 @@ txt(f"{len(DETAIL)} of {len(_all_fns)} functions interviewed. "
     "walk state and verdicts: docs/plans/2026-08-03-requirements-walk.md",
     X + 18, ry_ + 16, 15, RED)
 
-# ══ merge preserved annotations back in ══════════════════════════════════
-import os, json as _json
-_ann = "/Users/anthonymaley/Kerd/docs/plans/annotations/2026-08-02-tony.json"
-if os.path.exists(_ann):
-    _a = _json.load(open(_ann))["elements"]
-    for _e in _a:
-        _e.setdefault("customData", {})["author"] = "tony"
-        _e["index"] = "z" + str(len(els)).zfill(4)
-        els.append(_e)
-    print(f"merged {len(_a)} preserved annotation(s)")
+# Annotations are a queue, not an archive: read → act → delete, disposition
+# logged in docs/plans/annotations/log.md. The six 2026-08-02 board comments
+# were dispositioned 2026-08-03 and their file deleted — nothing merges here.
 
 doc = {"type": "excalidraw", "version": 2, "source": "https://excalidraw.com",
        "elements": els,

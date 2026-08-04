@@ -38,25 +38,10 @@ FUNCTIONS = [
  ]),
 
  ("DESIGN", [
-  ("Shape the solution", "superpowers\nbrainstorming", "external",
-   "intent, constraints, and the real\nterrain — actual code, not summaries",
-   "approaches with trade-offs,\nchosen architecture, boundaries",
-   "ACHIEVED: the contract never re-derives design\nGAP: 3of3 reached outside Kerd to find this"),
-
-  ("Agree the shape", "", "GAP",
-   "options on constant axes,\ncosts marked, bets named",
-   "an approved shape — a sensei A3\nstory, drawn, with bets discharged",
-   "ACHIEVED: one message resolved the decision\nGAP: 3 rounds produced no decision (dinner-tonight)"),
-
-  ("Decide what proves it", "", "GAP",
-   "the chosen shape + where the\nrisk actually sits",
-   "test strategy: heavy on business logic,\nbehaviour-level on UI, contract at seams",
-   "ACHIEVED: a contract test caught a breaking change\nGAP: movie-catalog-client-contract.md enforces nothing"),
-
-  ("Design the interface\ninitial → final → APPROVED", "", "GAP",
-   "product truth + the intent —\nwhat someone needs to do here",
-   "what the user sees and does: screens,\nstates, gestures, copy. Approved BEFORE\nany build starts — this gates the loop",
-   "ACHIEVED: the build had an approved design to\nbuild TO  GAP: dinner-tonight's came from a Claude\ndesign spec produced entirely outside Kerd"),
+  ("Design the solution", "superpowers\nbrainstorming", "external",
+   "stage 1's declarations: the intent\ndocument with its MEASUREMENTS +\nthe qualified risks",
+   "ONE PACKAGE from ONE conversation:\ndetailed specs, architecture plans,\ntesting strategy, and diagrams for\nas many aspects as we can",
+   "ACHIEVED: the contract never re-derives design\nGAP: 3of3 reached outside Kerd to find this.\nFOLDED IN 2026-08-03: Agree the shape · Decide\nwhat proves it · Design the interface. the four-way\nsplit was Claude's decomposition of the brainstorming\nchecklist, never Tony's shape — his answers describe\none conversation producing one package."),
  ]),
 
  ("CONTRACT", [
@@ -382,6 +367,58 @@ DETAIL = {
    "an UNQUALIFIED risk reaching the next stage is the exact\n"
    "failure this function exists to prevent."
  },
+
+ "Design the solution": {
+  "in":
+   "stage 1's declarations, arriving together:\n\n"
+   "the INTENT DOCUMENT — idea brief or problem statement —\n"
+   "with its MEASUREMENTS. those numbers are what the package\n"
+   "must answer, and what post-build conformance will measure\n"
+   "against.\n\n"
+   "the QUALIFIED RISKS with countermeasures attached, from\n"
+   "Test viability. a countermeasure is a CONSTRAINT on the\n"
+   "shape — design builds around it, not a note in a document\n"
+   "nobody opens.",
+  "grounding":
+   "read BEFORE proposing any approach:\n\n"
+   "WHAT WE RULED OUT — so a dead option is not re-pitched.\n\n"
+   "THE ACTUAL CODE — not summaries. the 08-02 failure: a\n"
+   "stale code comment trusted twice while the design doc\n"
+   "holding the answer went unread.\n\n"
+   "STANDING DECISIONS — conventions already agreed that a\n"
+   "design cannot violate. without them, settled ground gets\n"
+   "re-litigated.\n\n"
+   "LIVING DESIGN DOCS of whatever the work touches — the\n"
+   "exact class whose retrieval failed on 08-02. the code\n"
+   "cannot tell you WHY a neighbouring piece has its shape.\n"
+   "second caller for reachability.",
+  "out":
+   "ONE PACKAGE from ONE conversation — not four functions.\n"
+   "(the draft split — shape / agree / prove / interface —\n"
+   "was Claude's decomposition of the brainstorming checklist,\n"
+   "never Tony's shape.)\n\n"
+   "detailed specs · architecture plans · testing strategy ·\n"
+   "solution diagrams · flow diagrams · visualizations for\n"
+   "as many aspects as we can.\n\n"
+   "at least TWO approaches with trade-offs before one is\n"
+   "chosen — on constant axes, costs marked, bets named,\n"
+   "resolved in ONE message.\n\n"
+   "LIVES AT docs/design/<slug>.md + .excalidraw — living,\n"
+   "undated, same slug as the product doc, so the pair is\n"
+   "derivable. (chosen over folder-per-piece-of-work, 08-03.)",
+  "acceptance":
+   "TWO KEYS, neither sufficient alone:\n\n"
+   "HUMAN: every aspect Tony cares about is DRAWN, he has\n"
+   "reviewed the drawings, and nothing is left to annotate.\n\n"
+   "MACHINE: every measurement stage 1 declared has a NAMED\n"
+   "ANSWER in the package — point at where the design delivers\n"
+   "it. the MEASURING itself is post-build conformance, not\n"
+   "here. nothing declared upstream goes unaddressed.\n\n"
+   "GO writes a dated gate record — docs/gates/<date>-<slug>-\n"
+   "design.md — and hands to CONTRACT (stage 3), where the\n"
+   "score is written. NEVER to writing-plans: the working\n"
+   "half of brainstorming exits into the dead half today.",
+ },
 }
 
 
@@ -392,7 +429,7 @@ SEQUENCE = [
  ("MVP", "#e03131", [
    ("Route to the altitude",
     "the keystone — three gaps stay unreachable without it"),
-   ("Agree the shape",
+   ("Agree the shape — now in Design the solution",
     "sensei A3 story format, drawn in the whiteboard grammar"),
    ("Refuse bad work (CI)",
     "the only item that changes what is POSSIBLE, not just likely"),
@@ -406,13 +443,13 @@ SEQUENCE = [
  ("v1", "#1e1e1e", [
    ("Hold product truth + its read path",
     "the artifact is worthless without retrieval — measured, not feared"),
-   ("Decide what proves it",
+   ("Decide what proves it — now in Design the solution",
     "test bias by layer; contract tests where client meets server"),
    ("Choose what matters next",
     "rank by consequence — the vacuum conductor filled with session-fit"),
    ("Drive to done  (/goal + /loop)",
     "REQUIRES CI FIRST — a loop with nothing able to refuse compounds errors"),
-   ("Design the interface → approved",
+   ("Design the interface — now in Design the solution",
     "PRE-LOOP. approved design is what the loop builds to; nothing starts without it"),
    ("Verify against what we said",
     "the loop's hand-back. machine: code/logic/arch/pixel. human: product intent"),
@@ -457,14 +494,13 @@ REQUIREMENTS = [
    "any consequence.\nMUST NOT rank by what fits the session about to run."),
  ]),
  ("DESIGN", [
-  ("Shape the solution",
-   "MUST produce at least two approaches with trade-offs before one is chosen"),
-  ("Agree the shape",
-   "MUST present options on constant axes, costs marked, bets named —\nand resolve in ONE message, not a sequence of clarifications"),
-  ("Decide what proves it",
-   "MUST state test bias per layer, and name every seam needing a contract test"),
-  ("Design the interface → approved",
-   "MUST be approved before any build starts.\n(?) MUST output values a machine can check — tokens, hex, spacing, states"),
+  ("Design the solution",
+   "MUST produce ONE package: detailed specs, architecture plans, testing\nstrategy — and diagrams for as many aspects as we can. agreed in\ndiagrams, not prose.\n"
+   "MUST propose at least two approaches with trade-offs before one is\nchosen — options on constant axes, costs marked, bets named, resolved\nin ONE message, not a sequence of clarifications.\n"
+   "MUST be approved before any build starts, on TWO KEYS: every aspect\ndrawn and nothing left to annotate · every stage-1 measurement has a\nNAMED ANSWER in the package. the measuring itself is post-build.\n"
+   "MUST live at docs/design/<slug> — living, undated, same slug as the\nproduct doc. GO writes a dated gate record and hands to CONTRACT,\nnever to a plan-writing skill.\n"
+   "MUST state test bias per layer, and name every seam needing a\ncontract test.\n"
+   "(?) MUST output interface values a machine can check — tokens, hex,\nspacing, states"),
  ]),
  ("CONTRACT", [
   ("Write the contract · Size and assign",

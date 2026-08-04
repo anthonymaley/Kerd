@@ -18,7 +18,7 @@ This file is the **walk state**. Tick as we go.
 
 ## Interview state
 
-**5 of 25 functions interviewed — PRODUCT RUNG COMPLETE. 1 cut. 1 added.**
+**6 of 25 functions interviewed — PRODUCT RUNG COMPLETE, DESIGN RUNG COMPLETE (collapsed 4→1). 1 cut. 1 added. 3 folded.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
@@ -28,7 +28,34 @@ This file is the **walk state**. Tick as we go.
 | Choose what matters next | yes — 2026-08-03 | `2026-08-03-choose-what-matters-view.excalidraw` | machine: pass · human: pending |
 | What we ruled out, and why | **added 2026-08-03** (cross-cutting) | `2026-08-03-what-we-ruled-out-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Hold product truth | **CUT 2026-08-03** | — | — |
+| Design the solution | yes — 2026-08-03 (was "Shape the solution" + 3 folded in) | `2026-08-03-design-the-solution-flow.excalidraw` | machine: pending · human: pending |
 | *all others* | not yet | — | — |
+
+### Settled on *Design the solution* (DESIGN rung collapsed 4→1)
+
+- **The four-way DESIGN split was Claude's decomposition of the superpowers
+  brainstorming checklist, never Tony's shape.** Tony: "i dont know what agree
+  the shape is or shape the solution - they are the superpowers skill." His
+  answers describe ONE conversation producing ONE package.
+- **The package:** detailed specs, architecture plans, testing strategy, solution
+  diagrams, flow diagrams, visualizations for as many aspects as we can.
+- **Acceptance is two keys:** every aspect drawn and nothing left to annotate
+  (human) · every stage-1 measurement has a NAMED ANSWER in the package
+  (machine/trace). The measuring itself is post-build conformance.
+- **Home (chosen A over folder-per-piece-of-work):** `docs/design/<slug>.md` +
+  `.excalidraw`, living, undated, same slug as the product doc. GO writes a dated
+  gate record `docs/gates/<date>-<slug>-design.md` and hands to CONTRACT — never
+  to `writing-plans` (today the working half of brainstorming exits into the dead
+  half: "The terminal state is invoking writing-plans", superpowers 5.0.6).
+- **Grounding gained two entries from measured failures:** standing decisions
+  (or settled ground gets re-litigated) and the living design docs of whatever
+  the work touches — the exact class whose retrieval failed on 08-02. Second
+  caller for reachability.
+- **Diagnostic, from the installed skill text (5.0.6):** bundles five of our
+  functions in one flow; prose sections with per-section approval (a sequence of
+  clarifications); "multiple choice preferred"; dated-snapshot artifact in a
+  third home (`docs/superpowers/specs/`). The 2-3-approaches capability is the
+  part that earned its keep.
 
 ### Settled on *Slice a release · Set the goal*
 
@@ -205,10 +232,10 @@ approved. Rule is forward-only for now.
 | 3 | PRODUCT | Hold product truth | — | — | **CUT** |
 | 4 | PRODUCT | Slice a release · Set the goal | 6 | 0 | **walked** |
 | 5 | PRODUCT | Choose what matters next | 6 | 0 | **walked** |
-| 6 | DESIGN | Shape the solution | 1 | 0 | open |
-| 7 | DESIGN | Agree the shape | 1 | 0 | open |
-| 8 | DESIGN | Decide what proves it | 1 | 0 | open |
-| 9 | DESIGN | Design the interface → approved | 2 | 1 | open |
+| 6 | DESIGN | Design the solution | 6 | 1 | **walked** (folded 7–9 in) |
+| 7 | DESIGN | ~~Agree the shape~~ | — | — | **folded into 6** (2026-08-03) |
+| 8 | DESIGN | ~~Decide what proves it~~ | — | — | **folded into 6** (2026-08-03) |
+| 9 | DESIGN | ~~Design the interface → approved~~ | — | — | **folded into 6** (2026-08-03) |
 | 10 | CONTRACT | Write the contract · Size and assign | 1 | 0 | open |
 | 11 | BUILD | Execute a unit · Prove it worked | 2 | 0 | open |
 | 12 | BUILD | Review unanchored | 1 | 0 | open |
