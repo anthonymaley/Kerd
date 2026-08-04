@@ -91,27 +91,27 @@ CROSSCUTTING = [
  ("How we talk to each other", "scattered across 5 places", "GAP",
   "any moment of asking, reporting\nor escalating — at any rung",
   "ONE question, drilled. findings led, never\nstripped. the impact of the answer stated.\ngaps named, not smoothed. no vague X-or-Y,\nno menu built on unchecked assumptions",
-  "ACHIEVED: one message resolved the decision\nGAP: 3of3 needed 'too much noise' typed to get a\nsimple view — and shipped a 4-option menu anyway"),
+  "ACHIEVED: one message resolved the decision\nGAP: 3of3 needed 'too much noise' typed to get a\nsimple view — and shipped a 4-option menu anyway\nWALKED 2026-08-04: four rules — decision questions\ncarry what/why/gap/win/lose; facts never asked,\npositions never guessed; straw-man yourself first;\nmust bind from outside the model"),
 
  ("Do we have what we need?\n(entry gate, every rung)", "conductor orient only", "GAP",
   "the declared INPUTS of the function\nabout to start — product → design →\ncontract → build",
   "proceed, or PUSH BACK and name exactly what is\nmissing. never start a rung on assumed inputs.\nRENDERED, not prose: have / need / progress",
-  "ACHIEVED: a rung refused to start and said why\nGAP: exists at ONE rung — conductor's pre-flight\ninventory — and nowhere else in the flow"),
+  "ACHIEVED: a rung refused to start and said why\nGAP: exists at ONE rung — conductor's pre-flight\ninventory — and nowhere else in the flow\nWALKED 2026-08-04: thin gate riding the LADDER —\nrefusal is a question on it; spike = the one\nlicensed bypass; renders via Show where we are"),
 
  ("Stay in control of\nexternal tools", "", "GAP",
   "an external skill or tool we want\na specific capability from",
   "the capability extracted — and its process,\nquestion style, file conventions and handoff\ntargets explicitly NOT adopted. Kerd's\ncontract wins every conflict.",
-  "ACHIEVED: took brainstorming's spec quality without\nits waterfall  GAP: it captured the plan phase and\nrouted to writing-plans — and never came back"),
+  "ACHIEVED: took brainstorming's spec quality without\nits waterfall  GAP: it captured the plan phase and\nrouted to writing-plans — and never came back\nWALKED 2026-08-04: a tool is staffed like a PLAYER —\nbounded contract per invocation, returns to the\nCALLER, killable from outside"),
 
  ("Show where we are", "", "GAP",
   "every function's declared inputs and outputs,\nwhat is agreed vs drafted, what is built vs not",
   "a rendered board — have / need / progress — for\nONE rung and for the whole thing. invocable at\nany time; produced at every phase-gate close",
-  "ACHIEVED: 'where are we' got a render, not a paragraph\nGAP: the requirements agreement about to run has no\ninstrument — a chat thread is doing the job"),
+  "ACHIEVED: 'where are we' got a render, not a paragraph\nGAP: the requirements agreement about to run has no\ninstrument — a chat thread is doing the job\nWALKED 2026-08-04: push at stage close + pull anytime;\nLIVENESS at piece granularity — motion vs hang,\nderived from disk, never self-reported"),
 
  ("Size work to a model", "conductor, one rung", "GAP",
   "a unit of work, already specified —\nnever sized before it is written",
   "the model tier and the effort it needs, and why.\nnever the top tier for difficulty alone",
-  "ACHIEVED: a delegated step passed on first return\nGAP: exists at ONE rung. every other function picks\na model by accident, or does not pick at all"),
+  "ACHIEVED: a delegated step passed on first return\nGAP: exists at ONE rung. every other function picks\na model by accident, or does not pick at all\nWALKED 2026-08-04: the declaration makes the ladder's\n'lowest role' computable; wrong sizes never reach\nthe human — re-sized by the roles"),
 
  ("What we ruled out, and why", "", "GAP",
   "any option eliminated, at any rung —\nby analysis or by a failed attempt",
@@ -559,8 +559,8 @@ DETAIL = {
 # tested rather than decided.
 SEQUENCE = [
  ("MVP", "#e03131", [
-   ("Route to the altitude",
-    "the keystone — three gaps stay unreachable without it"),
+   ("The entry gates, in series — routing by construction",
+    "the keystone — three gaps stay unreachable without it.\n(was 'Route to the altitude', dissolved into the gates 2026-08-04)"),
    ("Agree the shape — now in Design the solution",
     "sensei A3 story format, drawn in the whiteboard grammar"),
    ("Refuse bad work (CI) — now the BUILD-wide property",
@@ -667,21 +667,22 @@ REQUIREMENTS = [
  ]),
  ("CROSS-CUTTING", [
   ("How we talk to each other",
-   "MUST be one question, drilled, carrying the findings it depends on.\n(?) MUST be agreed in diagrams, not prose — constant axes, colour marking\ncost only, bets named and discharged by name, containment over arrows,\nan altitude shift between movements.\n(?) MUST round-trip: the diagram goes out, annotations come back as\ninput, preserved across regeneration.\n(?) MUST pick a story format before drawing — proposal / compare-contrast\n(current → new → what changes) / roadmap / illumination.\n(?) needs an enforcement point — five written statements did not bind"),
+   "MUST be one question, drilled, carrying the findings it depends on —\nclear, visual, obvious: no rambling, no ambiguity, no noise. speech\nbubble + border marks a question needing the human's answer.\nMUST carry, for a DECISION question, five things in the simplest terms:\nwhat it is · why it matters · the gap · what we win · what we lose.\nnon-simple questions use the A3 storylines; a whiteboard diagram is a\nlegitimate question form. agreed in diagrams, not prose — was a guess, now proven.\nMUST ground before asking: FACTS are never asked, POSITIONS are never\nguessed — a fact question dies at a lower rung (code, docs, history);\na position question has exactly one source, the human.\nMUST straw-man itself first: 'is that really true or accurate?' — a\nquestion survives its own refutation before it travels the ladder.\nMUST bind from OUTSIDE the model — five written statements did not;\nthe one rule that holds is held by a hook firing on every prompt."),
   ("Do we have what we need? (entry gate)",
-   "MUST check the declared inputs of the rung about to start, and MUST push\nback naming what is missing rather than proceeding on assumption.\nMUST call 'Show where we are' rather than render a view of its own"),
+   "MUST check the DECLARED inputs of the rung about to start — mechanical:\ndeclarations exist on disk or they don't — and name exactly what is\nmissing. the refusal is not its own mechanism: it rides the LADDER as\n'a question the spec cannot answer', closed by a role or waiting on the\nhuman.\nMUST call 'Show where we are' rather than render a view of its own.\nMUST honour a declared SPIKE as the one licensed bypass.\nSYSTEM-WIDE PROPERTY (three callers: contract escalation, the loop's\nquestions, gate refusals): every blocker, question and refusal rides\nONE ladder — answered at the lowest role with the knowledge AND the\nauthority; the human is the last rung."),
   ("Show where we are",
-   "MUST be invocable at any time, and MUST be produced at every phase-gate\nclose. MUST render have / need / progress for ONE rung AND for the whole\nboard. Never prose.\n(?) the gate-close copy is the artifact of record for that gate — dated,\nkept, diffable against the next one"),
+   "MUST be pushed at every stage close and end of task, and MUST be\npullable at any time. the push is a REPORT, never an ask — it carries\nno question, so it costs the human nothing.\nMUST render have / need / progress for ONE rung AND the whole board.\nnever prose.\nMUST show LIVENESS during a long task — motion vs hang at PIECE\ngranularity: landed · in flight · remaining, updated at every piece\nboundary, derived from disk, never self-reported.\nthe gate-close copy is a dated RECORD (docs/gates/), the any-time view\nis living — the date split's third caller. was a guess, resolved."),
   ("Size work to a model",
-   "(?) every function that dispatches work MUST declare the model tier and\nthe effort it needs, and why. sized AFTER the work is specified, never\nbefore. MUST NOT default to the top tier for difficulty alone"),
+   "every function that dispatches work MUST declare the model tier and\nthe effort it needs, and why — the declaration is what makes the\nladder's 'lowest role' computable. sized AFTER the work is specified,\nnever before. MUST NOT default to the top tier for difficulty alone.\nwrong sizes surface to NO human: caught by the piece's own failing\ncheck, re-sized and re-dispatched by the roles. was a guess, resolved."),
   ("Where the work is written down",
    "every function's output MUST have exactly one home, and its name MUST be\nderivable without looking it up — know the subject, know the filename.\n"
    "MUST date records of EVENTS, and MUST NOT date living documents.\nthe test: would rewriting this tomorrow be CORRECT, or would it be\n"
    "FALSIFYING the record? correct -> living, no date, git history is the\narchive. falsifying -> a record, dated, never rewritten again.\n"
    "MUST state the git/vault split — git: machine-read, diffable, travels\nwith code. vault: human-read, assumes no prior context. never both.\n"
    "MUST carry route and stage in front matter, so that route-specific\nacceptance is machine-checkable rather than a human reading for it.\n"
-   "(?) MUST be reachable — an artifact nothing routes to is lost, not\nstored. naming solves findability, NOT reachability. still open: the\n"
-   "6 Jul design doc that held 1 Aug's answer was perfectly well named."),
+   "MUST be REACHABLE: named in at least one function's declared grounding,\nenforced by the entry gate. lost is a CHECKABLE state — an artifact in\n"
+   "no grounding list is lost by declaration. (closed 2026-08-04: naming\nsolves findability; grounding solves reachability. the 6 Jul doc went\n"
+   "unread because nothing's grounding pointed at it.)"),
   ("What we ruled out, and why",
    "MUST be its OWN artifact, reviewable in one pass — inside each solution doc,\n'what have we already ruled out?' cannot be answered without reading all\n"
    "of them.\nMUST record the CONCEPT, not the code: what was tried or considered, why\nit was eliminated, the evidence (a test OR an analysis — the same thing,\n"
@@ -690,7 +691,7 @@ REQUIREMENTS = [
    "MUST be captured as a BYPRODUCT of work already happening — a failed\nverify IS the record. an artifact needing discipline to maintain goes\n"
    "stale, and a stale 'already tried' list is worse than none.\nMUST NOT record slips. the filter is: was it ever a candidate?"),
   ("Stay in control of external tools",
-   "MUST name what is NOT being adopted before the tool is invoked"),
+   "a tool is staffed like a PLAYER. the driving role decides which tools\nare needed; every invocation carries a bounded contract — do this,\ndon't do that, return in this shape, to the CALLER. the tool never\nnames the next step.\nMUST name what is NOT being adopted before the tool is invoked.\nMUST retain KILL authority over a rogue task — control from outside\nthe tool."),
  ]),
 ]
 

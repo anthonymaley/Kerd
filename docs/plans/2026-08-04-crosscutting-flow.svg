@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1351" height="1497" viewBox="260 40 1351 1497">
+<rect x="260" y="40" width="1351" height="1497" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">CROSS-CUTTING — constraints, not steps</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">five functions walked 2026-08-04 · no order implied — each binds EVERY function on the board</tspan>
+<tspan x="300.0" dy="18.8">plus two system-wide properties and the closed reachable clause.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">TALK</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">How we talk to each other</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">one question, drilled, carrying the findings it depends on — clear,</tspan>
+<tspan x="678.0" dy="15.0">visual, obvious: no rambling, no ambiguity, no noise. a DECISION</tspan>
+<tspan x="678.0" dy="15.0">question carries five things in the simplest terms: what it is · why</tspan>
+<tspan x="678.0" dy="15.0">it matters · the gap · what we win · what we lose. non-simple</tspan>
+<tspan x="678.0" dy="15.0">questions use the A3 storylines; a whiteboard diagram is a legitimate</tspan>
+<tspan x="678.0" dy="15.0">question form. FACTS are never asked — they die at a lower rung</tspan>
+<tspan x="678.0" dy="15.0">(code, docs, history). POSITIONS are never guessed — one source, the</tspan>
+<tspan x="678.0" dy="15.0">human. and STRAW-MAN YOURSELF FIRST: &#x27;is that really true?&#x27;</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">speech bubble + border</tspan>
+<tspan x="1320.0" dy="15.0">marks a question needing</tspan>
+<tspan x="1320.0" dy="15.0">the human&#x27;s answer.</tspan>
+</text>
+<text x="1320.0" y="364.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">must BIND from outside the model —</tspan>
+<tspan x="1320.0" dy="15.0">five written statements did not bind;</tspan>
+<tspan x="1320.0" dy="15.0">the one rule that holds today is held</tspan>
+<tspan x="1320.0" dy="15.0">by a hook firing on every prompt.</tspan>
+</text>
+<text x="300.0" y="568.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="561.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GATE</tspan>
+</text>
+<rect x="660.0" y="536.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="571.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Do we have what we need?</tspan>
+</text>
+<text x="678.0" y="616.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">checks the DECLARED inputs of the rung about to start — mechanical:</tspan>
+<tspan x="678.0" dy="15.0">declarations exist on disk or they don&#x27;t — and names exactly what is</tspan>
+<tspan x="678.0" dy="15.0">missing. the refusal is not its own mechanism: it rides the LADDER</tspan>
+<tspan x="678.0" dy="15.0">as a question the spec cannot answer. renders via Show where we are,</tspan>
+<tspan x="678.0" dy="15.0">never a view of its own. honours a declared SPIKE as the one</tspan>
+<tspan x="678.0" dy="15.0">licensed bypass.</tspan>
+</text>
+<text x="1320.0" y="552.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the gates in series ARE</tspan>
+<tspan x="1320.0" dy="15.0">the routing — work enters</tspan>
+<tspan x="1320.0" dy="15.0">at the lowest rung whose</tspan>
+<tspan x="1320.0" dy="15.0">inputs all exist.</tspan>
+</text>
+<text x="300.0" y="782.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="775.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">VIEW</tspan>
+</text>
+<rect x="660.0" y="750.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="785.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Show where we are</tspan>
+</text>
+<text x="678.0" y="830.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">PUSHED at every stage close and end of task; PULLABLE at any time.</tspan>
+<tspan x="678.0" dy="15.0">have / need / progress for one rung AND the whole board — never</tspan>
+<tspan x="678.0" dy="15.0">prose. LIVENESS during a long task: landed · in flight · remaining</tspan>
+<tspan x="678.0" dy="15.0">at piece granularity, updated at every piece boundary, derived from</tspan>
+<tspan x="678.0" dy="15.0">disk — motion vs hang without asking, never self-reported.</tspan>
+</text>
+<text x="1320.0" y="766.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the push is a REPORT,</tspan>
+<tspan x="1320.0" dy="15.0">never an ask — it costs</tspan>
+<tspan x="1320.0" dy="15.0">the human nothing.</tspan>
+</text>
+<text x="1320.0" y="826.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">gate-close copy = dated RECORD</tspan>
+<tspan x="1320.0" dy="15.0">(docs/gates/); the any-time view is</tspan>
+<tspan x="1320.0" dy="15.0">living. the date split&#x27;s third caller.</tspan>
+</text>
+<text x="300.0" y="979.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="972.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SIZE</tspan>
+</text>
+<rect x="660.0" y="947.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="982.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Size work to a model</tspan>
+</text>
+<text x="678.0" y="1027.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">every dispatching function declares tier + effort + why — sized</tspan>
+<tspan x="678.0" dy="15.0">AFTER the work is written, never before; never the top tier for</tspan>
+<tspan x="678.0" dy="15.0">difficulty alone. wrong sizes surface to NO human: caught by the</tspan>
+<tspan x="678.0" dy="15.0">piece&#x27;s own failing check, re-sized and re-dispatched by the roles.</tspan>
+</text>
+<text x="1320.0" y="963.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the declaration makes</tspan>
+<tspan x="1320.0" dy="15.0">the ladder&#x27;s &#x27;lowest</tspan>
+<tspan x="1320.0" dy="15.0">role&#x27; computable.</tspan>
+</text>
+<text x="300.0" y="1159.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1152.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">TOOLS</tspan>
+</text>
+<rect x="660.0" y="1127.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1162.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Stay in control of external tools</tspan>
+</text>
+<text x="678.0" y="1207.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">a tool is staffed like a PLAYER. the driving role decides which</tspan>
+<tspan x="678.0" dy="15.0">tools are needed; every invocation carries a bounded contract — do</tspan>
+<tspan x="678.0" dy="15.0">this, don&#x27;t do that, return in this shape, to the CALLER. the tool</tspan>
+<tspan x="678.0" dy="15.0">never names the next step. what is NOT adopted is named before</tspan>
+<tspan x="678.0" dy="15.0">invocation. KILL authority over a rogue task — control from outside</tspan>
+<tspan x="678.0" dy="15.0">the tool.</tspan>
+</text>
+<text x="1320.0" y="1143.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the measured failure:</tspan>
+<tspan x="1320.0" dy="15.0">brainstorming captured</tspan>
+<tspan x="1320.0" dy="15.0">the plan phase and</tspan>
+<tspan x="1320.0" dy="15.0">never came back.</tspan>
+</text>
+<text x="300.0" y="1366.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SYSTEM-WIDE PROPERTY — THE ROLE LADDER: every blocker, question and refusal anywhere rides ONE</tspan>
+<tspan x="300.0" dy="18.8">ladder — answered at the lowest role with the knowledge AND the authority, escalated only on genuine</tspan>
+<tspan x="300.0" dy="18.8">inability; the human is the last rung. three callers surfaced it: the contract&#x27;s escalation, the loop&#x27;s</tspan>
+<tspan x="300.0" dy="18.8">questions, the gate&#x27;s refusals.</tspan>
+</text>
+<text x="300.0" y="1456.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">REACHABLE — CLOSED 2026-08-04: an artifact is reachable when at least one function&#x27;s declared</tspan>
+<tspan x="300.0" dy="18.8">grounding names it, enforced by the entry gate. lost is a CHECKABLE state — an artifact in no</tspan>
+<tspan x="300.0" dy="18.8">grounding list is lost by declaration. naming solves findability; grounding solves reachability.</tspan>
+</text>
+</svg>

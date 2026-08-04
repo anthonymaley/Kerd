@@ -14,11 +14,11 @@ which is the first concrete instance of the **Show where we are** function.
 
 This file is the **walk state**. Tick as we go.
 
-`(?)` in the MUST text = drafted by Claude, not read from evidence. 8 of them.
+`(?)` in the MUST text = drafted by Claude, not read from evidence. 1 remains (Design the solution: machine-checkable interface values).
 
 ## Interview state
 
-**10 of 25 functions walked — PRODUCT, DESIGN (4→1), CONTRACT, BUILD (4→2 + a property) and SESSION (4→1 + a property) rungs COMPLETE. 1 cut. 1 added. 5 folded. 3 dissolved.**
+**THE WALK IS COMPLETE — all 25 functions accounted for (2026-08-04). 15 walked/agreed, 1 cut, 5 folded, 3 dissolved, 1 added. Every rung: PRODUCT, DESIGN (4→1), CONTRACT, BUILD (4→2 + property), SESSION (4→1 + property), CROSS-CUTTING (5 + the reachable clause). Two properties promoted system-wide: the ROLE LADDER and STATE-IN-DECLARED-ARTIFACTS; the refusal property carries from BUILD.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
@@ -33,6 +33,92 @@ This file is the **walk state**. Tick as we go.
 | Build a piece · Prove it + Prove the whole · Goal gate | yes — 2026-08-03 (BUILD rung, one flow) | `2026-08-03-build-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Drive to done (SESSION rung, one flow — 15/16/18 dissolved into it) | yes — 2026-08-04 | `2026-08-04-session-flow.excalidraw` | machine: pass · human: **reviewed** |
 | *all others* | not yet | — | — |
+
+### Settled on CROSS-CUTTING (2026-08-04) — the walk is COMPLETE
+
+- **Function 20 (Do we have what we need?) is a thin gate riding the ladder.**
+  Its residue: check the DECLARED inputs of the rung about to start
+  (mechanical — declarations exist on disk or they don't), name exactly what
+  is missing, render via *Show where we are*, honour a declared SPIKE as the
+  one licensed bypass. The push-back is NOT its own mechanism — a refusal is
+  "a question the spec cannot answer" raised at the gate ("that is probably a
+  subagent telling conductor and we go into that problem loop to get answers
+  or provide info or make adjustments and if not it waits for me").
+- **SYSTEM-WIDE PROPERTY — the role ladder.** Three callers emerged
+  independently: the contract's escalation, the loop's questions, the gate's
+  refusals. By the three-callers heuristic it is a property of the whole
+  system, not a feature of any function: **every blocker, question, and
+  refusal anywhere rides ONE ladder — answered at the lowest role with the
+  knowledge and the authority, escalated only on genuine inability; the human
+  is the last rung.**
+
+- **Function 21 (Show where we are): push AND pull.** Pushed at every stage
+  close and end of task ("it should be pushed at each stage or end of a task
+  but if not i can ask for it or go pull it myself"); pull available at any
+  time. The push is a REPORT, never an ask — it carries no question, so it
+  does not violate the hear-nothing escalation contract (the ladder governs
+  asks; the render is ambient visibility). The gate-close copy is a dated
+  RECORD (`docs/gates/` shape) while the any-time view is living — third
+  caller for the date-records-of-events split, resolving the `(?)`. Machine
+  callers: the entry gate (renders through this, never its own view);
+  movement 11 is the first instance.
+- **21 addendum — LIVENESS during a long task is vital** ("if i can see where
+  we are at then i can work on other things without wondering if the long
+  task is actually moving and not just a static line on claude code
+  'working...'"). The view must distinguish motion from hang at PIECE
+  granularity: pieces landed · in flight · remaining, updated at every piece
+  boundary. Free by construction — pieces commit as they verify, so the
+  render derives from disk, no self-reporting by the working model.
+- **Function 22 (Size work to a model): the declaration that makes the ladder
+  computable.** Every dispatching function declares tier + effort + why,
+  sized AFTER the work is written, never the top tier for difficulty alone —
+  the `(?)` resolves to a requirement. Wrong sizes surface to NO human ("i
+  dont need to see it"): a too-small model is caught by the piece's own
+  failing check, re-sized and re-dispatched by the roles; it reaches Tony
+  only as a role-unanswerable blocker on the ladder. His window stays
+  liveness, "confirmation of activity not hang".
+- **Function 24 (Stay in control of external tools): a tool is staffed like a
+  player.** The driving role DECIDES which tools are needed ("conductor needs
+  to decide what tools are needed and have control over them"); every
+  invocation carries a bounded contract — do this, don't do that, return in
+  this shape, to the caller ("do this but dont do that and return with x or
+  y to me"); the caller holds KILL authority over a rogue task — control
+  from outside the tool. The tool never names the next step: brainstorming's
+  never-came-back failure is the class this forbids. Standing rules absorbed:
+  route declared, invoked on match never obligation; what is NOT adopted
+  named before invocation; Kerd's contract wins conflicts.
+- **Function 19 (How we talk to each other) — three requirements from Tony,
+  2026-08-04.** (1) A question to him is clear, visual, obvious — no
+  rambling, no ambiguity, no noise; speech bubble + border marks a question
+  needing his answer; a DECISION question carries five things in the
+  simplest terms: what it is · why it matters · what the gap is · what we
+  win · what we lose. Non-simple questions and issues use the TPS/A3
+  storylines; a diagram on the whiteboard is a legitimate question form
+  ("we can even just pop a diagram on excalidraw for me to whiteboard with
+  you"). (2) GROUND BEFORE ASKING: no assumptions or inferences before the
+  source is read — "if there is a problem GO TO THE CODE or documents first,
+  or session history… THEN ask." (3) NEVER assume his position — unsure
+  means ask. (2)+(3) are one rule, the ladder applied to questions: **facts
+  are never asked, positions are never guessed** — a fact question dies at a
+  lower rung (code/docs/history); a position question has exactly one
+  source, him. Three of the four `(?)` dropped by evidence (diagrams,
+  round-trip, story format all proven since drafting); the fourth —
+  the enforcement point — stays, resolved BY the refusal property: a talk
+  rule that cannot bind from outside the model is advisory (the one rule
+  that holds today is held by a hook firing on every prompt).
+  (4) STRAW-MAN YOURSELF FIRST: before raising a question or problem, ask
+  "is that really true or accurate?" — self-review before spending anyone
+  else's attention. A question or problem must survive its own refutation
+  attempt before it travels the ladder; a raised issue that dies on first
+  contact with its own evidence was noise, not signal.
+- **The `reachable` clause CLOSED (2026-08-04)** — the walk answered it
+  twice before naming it: reachability = **named in at least one function's
+  declared grounding, enforced by the entry gate.** Not a property of the
+  artifact but of the ladder's declared reads. Lost becomes a CHECKABLE
+  state: an artifact in no grounding list is lost by declaration, and a
+  machine can say so. The 6 Jul doc went unread because nothing's grounding
+  pointed at it; the cost of the fix is discipline — every new artifact
+  home is written into some function's grounding or it doesn't exist.
 
 ### Settled on the SESSION rung (4→1 + a rung-wide property)
 
@@ -347,12 +433,12 @@ approved. Rule is forward-only for now.
 | 16 | SESSION | ~~Route to the altitude~~ | — | — | **dissolved into the entry gates** (2026-08-04) |
 | 17 | SESSION | Drive to done  (/goal + /loop) | 3 | 0 | **walked** |
 | 18 | SESSION | ~~Keep context optimal (inside the loop)~~ | — | — | **dissolved by construction** (2026-08-04) |
-| 19 | CROSS-CUTTING | How we talk to each other | 4 | 4 | open |
-| 20 | CROSS-CUTTING | Do we have what we need? (entry gate) | 3 | 0 | open |
-| 21 | CROSS-CUTTING | Show where we are | 3 | 1 | open |
-| 22 | CROSS-CUTTING | Size work to a model | 2 | 1 | open |
-| 23 | CROSS-CUTTING | Where the work is written down | 5 | 1 | **agreed** (reachable still open) |
-| 24 | CROSS-CUTTING | Stay in control of external tools | 1 | 0 | open |
+| 19 | CROSS-CUTTING | How we talk to each other | 4 | 0 | **walked** (four rules 2026-08-04) |
+| 20 | CROSS-CUTTING | Do we have what we need? (entry gate) | 3 | 0 | **walked** (thin gate riding the ladder) |
+| 21 | CROSS-CUTTING | Show where we are | 4 | 0 | **walked** (push+pull, liveness) |
+| 22 | CROSS-CUTTING | Size work to a model | 2 | 0 | **walked** (makes the ladder computable) |
+| 23 | CROSS-CUTTING | Where the work is written down | 5 | 0 | **agreed** (reachable CLOSED 2026-08-04) |
+| 24 | CROSS-CUTTING | Stay in control of external tools | 3 | 0 | **walked** (a tool is staffed like a player) |
 
 | 25 | CROSS-CUTTING | What we ruled out, and why | 6 | 0 | **walked** (new) |
 
