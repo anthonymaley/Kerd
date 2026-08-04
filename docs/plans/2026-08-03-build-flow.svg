@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1476" height="1495" viewBox="260 40 1476 1495">
+<rect x="260" y="40" width="1476" height="1495" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BUILD — stage flow</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BUILD rung · two functions + a rung-wide property · interviewed 2026-08-03</tspan>
+<tspan x="300.0" dy="18.8">Build a piece · Prove it (the loop) → Prove the whole · Goal gate (where the human re-enters).</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">IN</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">One piece of the work order</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">under the two-tier rule: the exact spec — scope, the why, its own</tspan>
+<tspan x="678.0" dy="15.0">check — plus access to related materials. AND NO MORE. a builder</tspan>
+<tspan x="678.0" dy="15.0">holding the whole file re-derives intent from it; a builder holding</tspan>
+<tspan x="678.0" dy="15.0">one self-contained piece builds that piece.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the piece arrived with</tspan>
+<tspan x="1320.0" dy="15.0">its check already written</tspan>
+<tspan x="1320.0" dy="15.0">— a piece without one was</tspan>
+<tspan x="1320.0" dy="15.0">never handable at all.</tspan>
+</text>
+<polyline points="960.0,438.0 960.0,472.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="472.0" x2="954.3" y2="462.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="472.0" x2="965.7" y2="462.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="504.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="497.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">BUILD +</tspan>
+<tspan x="344.0" dy="16.2">MEASURE</tspan>
+</text>
+<rect x="660.0" y="472.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="507.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Checked against ALL RELEVANT specs</tspan>
+</text>
+<text x="678.0" y="552.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">the piece&#x27;s own criteria PLUS everything its change touches —</tspan>
+<tspan x="678.0" dy="15.0">relevance scoped by the overseer, who holds all truth. tests match</tspan>
+<tspan x="678.0" dy="15.0">the acceptance criteria / goal the work order carries.</tspan>
+</text>
+<text x="1320.0" y="488.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">&#x27;relevant&#x27; is what covers</tspan>
+<tspan x="1320.0" dy="15.0">collateral: neighbouring</tspan>
+<tspan x="1320.0" dy="15.0">terrain is relevant by</tspan>
+<tspan x="1320.0" dy="15.0">construction.</tspan>
+</text>
+<text x="1320.0" y="563.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the measured failure this guards: a</tspan>
+<tspan x="1320.0" dy="15.0">deletion range that swallowed three</tspan>
+<tspan x="1320.0" dy="15.0">helpers while passing every check</tspan>
+<tspan x="1320.0" dy="15.0">written for the piece itself.</tspan>
+</text>
+<polyline points="960.0,605.0 960.0,639.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="639.0" x2="954.3" y2="629.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="639.0" x2="965.7" y2="629.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="671.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="664.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">DECISION</tspan>
+</text>
+<rect x="660.0" y="639.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="674.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Piece done — or the overseer&#x27;s problem</tspan>
+</text>
+<text x="678.0" y="719.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">no human key per piece. a failing piece is re-dispatched, re-scored,</tspan>
+<tspan x="678.0" dy="15.0">or stopped BY THE ROLES — the human hears nothing unless a gap no</tspan>
+<tspan x="678.0" dy="15.0">agent role can answer becomes a BLOCKER (the escalation contract).</tspan>
+<tspan x="678.0" dy="15.0">pieces loop here until every piece has landed.</tspan>
+</text>
+<text x="1320.0" y="655.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">on-demand COLD EYES may</tspan>
+<tspan x="1320.0" dy="15.0">be ordered early for a</tspan>
+<tspan x="1320.0" dy="15.0">risky piece — one carrying</tspan>
+<tspan x="1320.0" dy="15.0">a countermeasure, or</tspan>
+<tspan x="1320.0" dy="15.0">touching fatal terrain.</tspan>
+</text>
+<polyline points="960.0,789.0 960.0,837.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="837.0" x2="954.3" y2="827.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="837.0" x2="965.7" y2="827.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="976.0" y="817.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="976.0" dy="0.0">every piece landed</tspan>
+</text>
+<text x="300.0" y="869.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="862.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">COLD</tspan>
+<tspan x="344.0" dy="16.2">EYES</tspan>
+</text>
+<rect x="660.0" y="837.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="872.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">The whole change, reviewed unanchored</tspan>
+</text>
+<text x="678.0" y="917.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">the reviewing eyes see ONLY the work order and the change — no build</tspan>
+<tspan x="678.0" dy="15.0">context, no session memory. the builder&#x27;s own context is what blinds</tspan>
+<tspan x="678.0" dy="15.0">it. once per goal, never routinely per piece.</tspan>
+</text>
+<text x="1320.0" y="853.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">verdict CAN BLOCK.</tspan>
+<tspan x="1320.0" dy="15.0">advice is not a check.</tspan>
+</text>
+<text x="1320.0" y="898.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the flaw class this catches is a gap in</tspan>
+<tspan x="1320.0" dy="15.0">the DECLARED TRUTH itself — &#x27;never</tspan>
+<tspan x="1320.0" dy="15.0">contacts your server&#x27; failed no check,</tspan>
+<tspan x="1320.0" dy="15.0">because nothing declared it. those gaps</tspan>
+<tspan x="1320.0" dy="15.0">live at ASSEMBLY, not per piece.</tspan>
+</text>
+<polyline points="960.0,970.0 960.0,1004.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1004.0" x2="954.3" y2="994.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1004.0" x2="965.7" y2="994.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1036.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1029.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CONFORM</tspan>
+</text>
+<rect x="660.0" y="1004.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1039.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Every declared layer — never one verdict</tspan>
+</text>
+<text x="678.0" y="1084.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">code · logic · architecture · pixel vs the approved design · the</tspan>
+<tspan x="678.0" dy="15.0">product measurements from stage 1. each layer reports its own</tspan>
+<tspan x="678.0" dy="15.0">conformance; a single green tick is how gaps hide.</tspan>
+</text>
+<text x="1320.0" y="1020.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">this is where every</tspan>
+<tspan x="1320.0" dy="15.0">upstream declaration</tspan>
+<tspan x="1320.0" dy="15.0">comes home to be checked.</tspan>
+</text>
+<text x="1320.0" y="1141.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">RUNG-WIDE PROPERTY: every gate on this rung must be able</tspan>
+<tspan x="1320.0" dy="15.0">to BLOCK from OUTSIDE the model. advisory output is not a</tspan>
+<tspan x="1320.0" dy="15.0">check. this is what makes the escalation contract</tspan>
+<tspan x="1320.0" dy="15.0">trustworthy: the human can only afford to hear nothing</tspan>
+<tspan x="1320.0" dy="15.0">if nothing bad can pass silently.</tspan>
+</text>
+<polyline points="960.0,1215.0 960.0,1249.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1249.0" x2="954.3" y2="1239.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1249.0" x2="965.7" y2="1239.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1281.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1274.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">APPROVAL</tspan>
+</text>
+<rect x="660.0" y="1249.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1284.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">GOAL ACHIEVED — the expert-user pass</tspan>
+</text>
+<text x="678.0" y="1329.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">MACHINE: every declared layer conforms, per layer.</tspan>
+<tspan x="678.0" dy="15.0">HUMAN:   Tony uses the OUTPUT ITSELF — the app feature, the</tspan>
+<tspan x="678.0" dy="15.0">         performance, the document, the diagram, whatever it finally</tspan>
+<tspan x="678.0" dy="15.0">         is — checked as the EXPERT USER, not as a reader of reports.</tspan>
+</text>
+<text x="1320.0" y="1265.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">Tony, 2026-08-03: &#x27;im</tspan>
+<tspan x="1320.0" dy="15.0">checking it as the</tspan>
+<tspan x="1320.0" dy="15.0">expert user.&#x27;</tspan>
+</text>
+<text x="1320.0" y="1325.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">this is the report the escalation</tspan>
+<tspan x="1320.0" dy="15.0">contract promised. the human re-enters</tspan>
+<tspan x="1320.0" dy="15.0">HERE, and nowhere earlier short of an</tspan>
+<tspan x="1320.0" dy="15.0">unanswerable blocker.</tspan>
+</text>
+<text x="300.0" y="1454.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OPEN on this stage — the property has no instance: nothing today can refuse from outside the model.</tspan>
+<tspan x="300.0" dy="18.8">CI on ~/3of3 is the first concrete build item (MVP sequence). Until it exists, every gate on this page</tspan>
+<tspan x="300.0" dy="18.8">is prompt-layer — the escalation contract is written but not enforceable.</tspan>
+</text>
+</svg>

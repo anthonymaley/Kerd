@@ -52,25 +52,15 @@ FUNCTIONS = [
  ]),
 
  ("BUILD", [
-  ("Execute a unit ·\nProve it worked", "conductor", "ok",
-   "one spec slice — scope, files,\nsignatures, the why, verify",
-   "the change + evidence: command\noutput, diff, collateral checked",
-   "ACHIEVED: collateral check caught an unintended edit\nGAP: 'my deletion range swallowed three helpers'"),
+  ("Build a piece · Prove it", "conductor", "ok",
+   "one piece of the work order —\nexact spec + related materials",
+   "the change + its measurement: checked\nagainst ALL RELEVANT specs and\nmeasurements, tests match acceptance",
+   "ACHIEVED: collateral check caught an unintended edit\nGAP: 'my deletion range swallowed three helpers'.\nFOLDED 2026-08-03: 'all relevant' covers the piece's\nown criteria PLUS everything its change touches —\nrelevance scoped by the overseer, who holds all truth"),
 
-  ("Review unanchored", "", "GAP",
-   "the spec and the diff — nothing\nelse. no session context",
-   "what is missing, what does not\nmatch what was agreed",
-   "ACHIEVED: it finds what the in-loop review missed\nGAP: 'never contacts your server' needed Tony to push"),
-
-  ("Refuse bad work", "", "GAP",
-   "the commit or the branch",
-   "pass, or blocked — outside the\nmodel, not a choice to comply",
-   "ACHIEVED: a bad change was blocked, not discussed\nGAP: 0 CI workflows, 0 pre-commit hooks, every repo"),
-
-  ("Verify against what we said\n(half machine, half human)", "", "GAP",
-   "the running thing + EVERYTHING declared\nupstream: product measurements, the\napproved design, architecture, the contract",
-   "conformance per layer — code, logic,\narchitecture, PIXEL-PERFECT UI vs design,\nthen: did we meet the product measurements",
-   "ACHIEVED: shipped EXACTLY what was specified, proven\nagainst the measurements set at the start\nGAP: 'NOT YET EYEBALLED' — nothing checks conformance"),
+  ("Prove the whole · Goal gate", "", "GAP",
+   "every piece landed + everything\ndeclared upstream: work order, design\npackage, product measurements",
+   "cold review of the whole change (can\nBLOCK) · per-layer conformance — code,\nlogic, architecture, pixel vs design,\nproduct measurements · then the EXPERT-\nUSER pass: Tony uses the output itself",
+   "ACHIEVED: shipped EXACTLY what was specified\nGAP: 'NOT YET EYEBALLED' — nothing checks conformance.\nFOLDED IN 2026-08-03: Review unanchored (cold eyes,\nonce per goal + on-demand for risky pieces — flaw\nclass is gaps in the DECLARED TRUTH, which live at\nassembly, not per piece). Refuse bad work became the\nRUNG-WIDE PROPERTY: a check that cannot block from\noutside the model is not a check. 0 CI anywhere."),
  ]),
 
  ("SESSION", [
@@ -463,6 +453,72 @@ DETAIL = {
    "acceptance path from Test viability. otherwise the next\n"
    "report is GOAL ACHIEVED.",
  },
+
+ "Build a piece · Prove it": {
+  "in":
+   "one piece of the work order, under the two-tier rule:\n"
+   "the exact spec — scope, the why, its own check — plus\n"
+   "access to related materials. AND NO MORE.",
+  "grounding":
+   "the piece's related materials, and nothing else. the\n"
+   "builder is not grounded in the whole file — a builder\n"
+   "holding everything re-derives intent from it; a builder\n"
+   "holding one self-contained piece builds that piece.",
+  "out":
+   "the change, plus its MEASUREMENT: checked against ALL\n"
+   "RELEVANT specs and measurements — the piece's own\n"
+   "criteria PLUS everything its change touches. relevance\n"
+   "is scoped by the overseer, who holds all truth.\n\n"
+   "'relevant' is what covers collateral: damage BESIDE the\n"
+   "piece shows up, because the neighbouring terrain is\n"
+   "relevant by construction. the measured failure this\n"
+   "guards: a deletion range that swallowed three helpers\n"
+   "while passing every check written for the piece itself.",
+  "acceptance":
+   "MACHINE: the measurements pass, and the tests match the\n"
+   "acceptance criteria / goal the work order carries.\n"
+   "no human key per piece — the human's key is at the goal\n"
+   "gate, and the escalation contract holds: a failing piece\n"
+   "is the overseer's problem until it is a blocker no agent\n"
+   "role can answer.",
+ },
+
+ "Prove the whole · Goal gate": {
+  "in":
+   "every piece landed, plus EVERYTHING declared upstream:\n"
+   "the work order, the design package, the product\n"
+   "measurements. this gate is where the declarations all\n"
+   "come home to be checked.",
+  "grounding":
+   "COLD, by design: the reviewing eyes see ONLY the work\n"
+   "order and the change — no build context, no session\n"
+   "memory. the builder's own context is what blinds it;\n"
+   "the flaw class this catches is a gap in the DECLARED\n"
+   "TRUTH itself ('never contacts your server' — no check\n"
+   "could fail, because nothing declared it). those gaps\n"
+   "live at assembly, not per piece — which is why cold\n"
+   "eyes run once per goal + on demand for risky pieces,\n"
+   "never routinely per piece.",
+  "out":
+   "conformance PER LAYER, never one verdict: code · logic ·\n"
+   "architecture · pixel vs the approved design · the\n"
+   "product measurements from stage 1.\n\n"
+   "and the verdicts can BLOCK. the rung-wide property:\n"
+   "every gate here refuses from OUTSIDE the model —\n"
+   "advisory output is not a check. (today: 0 CI workflows,\n"
+   "0 pre-commit hooks, every repo. every gate in the\n"
+   "system is a model choosing to comply.)",
+  "acceptance":
+   "MACHINE: every declared layer conforms, per layer.\n\n"
+   "HUMAN — the EXPERT-USER pass: Tony uses the output\n"
+   "itself. the app feature, the performance, the document,\n"
+   "the diagram — whatever the output finally is, checked\n"
+   "as the expert user, not as a reader of reports.\n"
+   "(Tony, 2026-08-03: 'im checking it as the expert user.')\n\n"
+   "this is GOAL ACHIEVED — the report the escalation\n"
+   "contract promised. the human re-enters here, and\n"
+   "nowhere earlier short of an unanswerable blocker.",
+ },
 }
 
 
@@ -475,7 +531,7 @@ SEQUENCE = [
     "the keystone — three gaps stay unreachable without it"),
    ("Agree the shape — now in Design the solution",
     "sensei A3 story format, drawn in the whiteboard grammar"),
-   ("Refuse bad work (CI)",
+   ("Refuse bad work (CI) — now the BUILD-wide property",
     "the only item that changes what is POSSIBLE, not just likely"),
  ]),
  ("SPIKE — not a decision", "#e03131", [
@@ -495,11 +551,11 @@ SEQUENCE = [
     "REQUIRES CI FIRST — a loop with nothing able to refuse compounds errors"),
    ("Design the interface — now in Design the solution",
     "PRE-LOOP. approved design is what the loop builds to; nothing starts without it"),
-   ("Verify against what we said",
-    "the loop's hand-back. machine: code/logic/arch/pixel. human: product intent"),
+   ("Verify against what we said — in Prove the whole",
+    "the loop's hand-back. machine: code/logic/arch/pixel. human: expert-user pass"),
  ]),
  ("SOMEDAY", "#1e1e1e", [
-   ("Review unanchored", "real, but it needs the rungs above it first"),
+   ("Review unanchored — now in Prove the whole", "real, but it needs the rungs above it first"),
    ("Measurement collection", "nothing counts today; premature until something does"),
    ("Rip what survives the spike", "post-approval only — evidence first"),
  ]),
@@ -556,14 +612,16 @@ REQUIREMENTS = [
    "MUST escalate to the human only a BLOCKER no agent role can answer;\notherwise the next report is goal achieved."),
  ]),
  ("BUILD", [
-  ("Execute a unit · Prove it worked",
-   "MUST produce evidence, and MUST check collateral — what changed that\nshould not have, not just whether the intended change landed"),
-  ("Review unanchored",
-   "MUST see only the spec and the diff. No session context, ever."),
-  ("Refuse bad work",
-   "MUST be able to block, from outside the model.\nAdvisory output does not satisfy this."),
-  ("Verify against what we said",
-   "MUST check every declared layer — code, logic, architecture, pixel, product\nmeasurements — and report conformance per layer, not one verdict"),
+  ("Build a piece · Prove it",
+   "MUST measure each piece against ALL RELEVANT specs and measurements —\nits own criteria plus everything its change touches, relevance scoped\n"
+   "by the overseer — and tests MUST match the acceptance criteria / goal.\ncollateral is covered by 'relevant': damage beside the piece shows up."),
+  ("Prove the whole · Goal gate",
+   "MUST run cold eyes over the whole change before 'goal achieved' is\ndeclared — seeing ONLY the work order and the change, no build context;\n"
+   "verdict CAN BLOCK. also on-demand for risky pieces. the flaw class is\ngaps in the DECLARED TRUTH, which live at assembly, not per piece.\n"
+   "MUST check every declared layer — code, logic, architecture, pixel vs\nthe approved design, product measurements — conformance per layer,\n"
+   "never one verdict.\n"
+   "MUST end with the EXPERT-USER pass: the human uses the output itself —\napp feature, performance, document, diagram, whatever it finally is.\n"
+   "RUNG-WIDE PROPERTY: every gate here MUST block from outside the model.\nadvisory output is not a check. (today: 0 CI, 0 hooks, every repo)"),
  ]),
  ("SESSION", [
   ("Open / close · Keep tempo · Hold state",

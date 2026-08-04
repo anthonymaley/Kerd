@@ -18,7 +18,7 @@ This file is the **walk state**. Tick as we go.
 
 ## Interview state
 
-**7 of 25 functions interviewed — PRODUCT, DESIGN (collapsed 4→1) and CONTRACT rungs COMPLETE. 1 cut. 1 added. 3 folded.**
+**9 of 25 functions interviewed — PRODUCT, DESIGN (4→1), CONTRACT and BUILD (4→2 + a property) rungs COMPLETE. 1 cut. 1 added. 5 folded.**
 
 | Function | Interviewed | Flow drawn | Two-key approval |
 |---|---|---|---|
@@ -30,7 +30,31 @@ This file is the **walk state**. Tick as we go.
 | Hold product truth | **CUT 2026-08-03** | — | — |
 | Design the solution | yes — 2026-08-03 (was "Shape the solution" + 3 folded in) | `2026-08-03-design-the-solution-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Write the contract · Size and assign | yes — 2026-08-03 | `2026-08-03-write-the-contract-flow.excalidraw` | machine: pass · human: **reviewed** |
+| Build a piece · Prove it + Prove the whole · Goal gate | yes — 2026-08-03 (BUILD rung, one flow) | `2026-08-03-build-flow.excalidraw` | machine: pending · human: pending |
 | *all others* | not yet | — | — |
+
+### Settled on the BUILD rung (4→2 + a rung-wide property)
+
+- **Build a piece · Prove it:** done = measured against ALL RELEVANT specs and
+  measurements — the piece's own criteria plus everything its change touches,
+  relevance scoped by the overseer — and tests match the acceptance criteria /
+  goal. "Relevant" is what covers collateral: the swallowed-helpers class shows
+  up because neighbouring terrain is relevant by construction. No human key per
+  piece.
+- **Prove the whole · Goal gate** (absorbs *Review unanchored* and *Verify
+  against what we said*): cold eyes on the whole change — work order + change
+  only, verdict can BLOCK — once per goal and on demand for risky pieces, never
+  routinely per piece. The flaw class cold eyes catch is a gap in the DECLARED
+  TRUTH itself, and those live at assembly. Then per-layer conformance (code,
+  logic, architecture, pixel vs design, product measurements — never one
+  verdict), then the human key: **the expert-user pass** — Tony uses the output
+  itself ("im checking it as the expert user"). This is the GOAL ACHIEVED
+  report of the escalation contract.
+- **Refuse bad work is not a function — it is the rung-wide property:** every
+  gate on this rung must be able to block from OUTSIDE the model. Advisory
+  output is not a check. (Today: 0 CI workflows, 0 pre-commit hooks, every
+  repo.) The CI build item stays in the MVP sequence as this property's first
+  concrete instance.
 
 ### Settled on *Write the contract · Size and assign* (CONTRACT rung complete)
 
@@ -260,10 +284,10 @@ approved. Rule is forward-only for now.
 | 8 | DESIGN | ~~Decide what proves it~~ | — | — | **folded into 6** (2026-08-03) |
 | 9 | DESIGN | ~~Design the interface → approved~~ | — | — | **folded into 6** (2026-08-03) |
 | 10 | CONTRACT | Write the contract · Size and assign | 6 | 0 | **walked** |
-| 11 | BUILD | Execute a unit · Prove it worked | 2 | 0 | open |
-| 12 | BUILD | Review unanchored | 1 | 0 | open |
-| 13 | BUILD | Refuse bad work | 1 | 0 | open |
-| 14 | BUILD | Verify against what we said | 1 | 0 | open |
+| 11 | BUILD | Build a piece · Prove it (was Execute a unit) | 4 | 0 | **walked** |
+| 12 | BUILD | ~~Review unanchored~~ | — | — | **folded into 14** (2026-08-03) |
+| 13 | BUILD | ~~Refuse bad work~~ | — | — | **became the BUILD rung-wide property** (2026-08-03) |
+| 14 | BUILD | Prove the whole · Goal gate (was Verify against what we said) | 8 | 0 | **walked** |
 | 15 | SESSION | Open / close · Keep tempo · Hold state | 1 | 0 | open |
 | 16 | SESSION | Route to the altitude | 1 | 0 | open |
 | 17 | SESSION | Drive to done  (/goal + /loop) | 2 | 0 | open |
