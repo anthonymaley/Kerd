@@ -2,7 +2,7 @@
 
 ## Now
 
-**Post-walk: define how the skills must change to support the agreed requirements.** The walk is COMPLETE — 25/25 accounted for (see `docs/plans/2026-08-03-requirements-walk.md`). Findings-against-tooling are logged in the walk doc as they surfaced (first: close-out-deferred capture violates the state-in-artifacts property). MVP sequence stands: entry gates (keystone) · CI/refusal (first property instance) · the SPIKE.
+**Post-walk design: turn the six tooling decisions into specs** (`docs/plans/2026-08-04-post-walk-tooling.md`): the format library into How-we-talk · the approaches capability + evaluation matrix (design instrument) · interrogate → tiered risk ledger · conductor's split (driving role; pieces graduate to the functions) · the sherpa cut executed when rips are licensed. MVP sequence: entry gates (keystone) · CI/refusal · progress renderer. The nine review questions are all answered (`annotations/log.md`).
 
 Standing constraints: nothing ripped until the design is approved. Debt carried: `Frame the intent` route-specific acceptance checklists; accepted risks age with nothing to bring them back; one `(?)` left on the board (Design: machine-checkable interface values).
 
@@ -15,7 +15,6 @@ Standing constraints: nothing ripped until the design is approved. Debt carried:
 - Repin `leru`, `krutho-strategy`, `krutho-founders` off `kerd/0.65.0` — high consequence, **no value**: pure hygiene, one cache GC from silent breakage. `obair` has no pin at all (deliberate, or drift — unchecked).
 
 **Medium**
-- **The SPIKE** — route ONE dead skill cheaply and watch whether it gets used. Highest value in this band: one cheap test settles the fate of four dead skills. Candidate: `capturerequirements`.
 - Regenerate the choose-what-matters view before its next use: Bree item removed, and candidate cards must carry no skill names (`gen_choose.py`).
 - Hook version staleness check in `/kerd:tend` — four occurrences now.
 - Guard switch-in step 3 smoke test against context bloat (delegate the run; absorb a verdict, never a full log).
