@@ -61,11 +61,14 @@ Evaluation.xls`) into our grammar. The format:
   carrying: **Target or Minimum Score** (the declared bar — measured against
   a declaration, never assertion) · **Category M/D** (mandatory/desirable —
   the fatal split) · **Weighting Factor**.
-- **Verdict per option per criterion, three states**: O = meets · D =
-  doesn't meet but countermeasure KNOWN · C = doesn't meet, NO
-  countermeasure — the walk's risk vocabulary exactly ("a risk without a
-  countermeasure is a BLOCKER"; a C on a mandatory criterion kills the
-  option).
+- **Verdict per option per criterion, the Toyota marks** (the xls letters
+  were stand-ins): **○ circle** = good — meets the requirement, no
+  countermeasure needed · **△ triangle** = meets the requirement but only
+  WITH a countermeasure · **× cross** = cannot meet it and no countermeasure
+  is available — the walk's risk vocabulary exactly ("a risk without a
+  countermeasure is a BLOCKER"; a × on a mandatory criterion kills the
+  option, and every △ carries its countermeasure with a confidence
+  statement).
 - **OVERALL + RANK**, then sections: Proposal + next steps · Risks or
   Countermeasures Required · Countermeasures per option, each with a
   CONFIDENCE statement.
