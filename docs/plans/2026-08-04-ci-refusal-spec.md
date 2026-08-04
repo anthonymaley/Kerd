@@ -94,8 +94,8 @@ verify closes with a `git diff` inspection to prove no demo residue.
 - [x] Step 7: version bump 0.69.0 → 0.70.0 in the three fields
 - [x] Step 8: full local gate — selftest + audit + release all clean
 - [x] Step 9: refusal demo — plant → exit 1 → revert → clean (replayed inline after a player API death; tree checked clean first)
-- [ ] Step 10: collateral diff review
-- [ ] Step 11: commit staged by name, push, watch CI green
+- [x] Step 10: collateral diff review
+- [x] Step 11: commit staged by name, push, watch CI green
 
 ### Step 1: kit.py — release rules R1–R3 + selftest T13/T14 [delegate, model: sonnet, effort: high]
 
