@@ -99,3 +99,60 @@ the race above. Held: the verdict on whether the actual design-the-solution
 flow reads clearly is still owed, on the correct artifact. If the real flow
 also reads vague/identical, that is a real defect in the shared flow template
 (every stage flow looks the same by construction) and gets treated as one.
+
+## 2026-08-04 — Celtic Ticket Exchange worked-example flow (six questions)
+
+All six are tooling-per-stage questions — exactly the post-walk phase's
+agenda. Each answered in chat, carried into the post-walk scope, and deleted
+from the canvas. They are the first six items of "define how the skills must
+change to support the agreed requirements."
+
+**"so, we will be using /conducter here?"** (at SPARK)
+→ **Answered: today yes, tomorrow is the post-walk decision.** Conductor is
+the only session-driving machinery that exists, so any work starts there
+now. But the flow is bigger than one session skill — conductor's shapes map
+onto the CONTRACT and BUILD rungs, and what conductor becomes (or splits
+into) is the post-walk phase's central question.
+
+**"Probably Fable as the model to compose?"** (at FRAME)
+→ **Answered: yes — the one place the top tier pays.** The framing
+conversation is where intent is captured; a wrong word there poisons every
+downstream declaration, and the sizing rule's "never top tier for difficulty
+alone" is about mechanical work, not the intent interview. Top tier at
+FRAME, sized-down players everywhere the work is specified.
+
+**"Is Sherpa the the right tool? do we need to review an modify?"** (at FRAME)
+→ **Answered: measure it, don't assume it.** Sherpa is unused by measurement
+(the orphan finding). Post-walk move: hold sherpa Explore against Frame the
+intent's agreed requirement (triage, two documents, two keys, grounding) and
+keep/modify/kill on conformance. Candidate for the SPIKE — route ONE dead
+skill and watch — possibly ahead of capturerequirements.
+
+**"Do we need to build or find a viablity tool or do we have it covered?"**
+(at VIABILITY)
+→ **Answered: partially covered; expect modify, not build.** Interrogate
+serves the exhaustive-interview shape today, but the agreed requirement adds
+risk machinery it doesn't enforce: impact in the value's units, likelihood
+separate, the fatal rule, countermeasure states with return conditions.
+Measure interrogate against function 2's MUSTs. The spike instrument needs
+no tool at all — it's a discipline.
+
+**"Do we need to superpowers at all?  what does it do for us that we need?"**
+(at DESIGN)
+→ **Answered: one capability, nothing else.** The walk already measured
+this: the 2-3-independent-approaches generation is the only part that earned
+its keep; the waterfall, the menus, the writing-plans handoff and the
+dated-snapshot home are explicitly not adopted, and writing-plans was
+superseded by conductor in July. Under the tool rule (bounded contract,
+returns to caller) superpowers survives as exactly that one capability —
+post-walk can test extracting or replacing it so the dependency drops.
+
+**"what about sensei skill for positioning of gaps, and problem solving ?"**
+(near GOAL GATE)
+→ **Answered: already routed, by the agreed rule.** Sensei declares its
+route — asserting a position, proving a gap with measurement, a complex
+problem needing point of cause / 5 whys — trigger: a problem that survived a
+few attempts. In this flow that fires at FRAME (problem route), VIABILITY
+(qualifying with analysis), and inside the LOOP when a piece keeps failing —
+feeding What we ruled out. Proven elsewhere; the bet is transfer. Invoked on
+match, never as obligation.

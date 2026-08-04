@@ -1,0 +1,336 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1305" height="2972" viewBox="260 40 1305 2972">
+<rect x="260" y="40" width="1305" height="2972" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">CELTIC TICKET EXCHANGE — the whole flow, spark to shipped</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">a worked example through every agreed rung · drawn 2026-08-04</tspan>
+<tspan x="300.0" dy="18.8">skills + tools in the right gutter · the flow is the WALK&#x27;s agreed system, not today&#x27;s tooling.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="266.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED BOX — a place where Tony must think more deeply before the flow may pass (overrides red=cost, boxes only)</tspan>
+</text>
+<text x="300.0" y="332.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="325.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SPARK</tspan>
+</text>
+<rect x="660.0" y="300.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="335.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">An idea arrives: Celtic Ticket Exchange</tspan>
+</text>
+<text x="678.0" y="380.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">&#x27;an app where Celtic season-ticket holders pass their seat to</tspan>
+<tspan x="678.0" dy="15.0">another fan for matches they can&#x27;t attend.&#x27; a bare idea — nothing</tspan>
+<tspan x="678.0" dy="15.0">declared, nothing on disk. the ENTRY GATES push it to the top:</tspan>
+<tspan x="678.0" dy="15.0">no rung below PRODUCT will admit work whose inputs don&#x27;t exist.</tspan>
+</text>
+<text x="1320.0" y="316.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">tools: none yet — the gates</tspan>
+<tspan x="1320.0" dy="15.0">themselves route. today&#x27;s only</tspan>
+<tspan x="1320.0" dy="15.0">gate instance is conductor&#x27;s</tspan>
+<tspan x="1320.0" dy="15.0">pre-flight inventory.</tspan>
+</text>
+<polyline points="960.0,450.0 960.0,484.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="484.0" x2="954.3" y2="474.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="484.0" x2="965.7" y2="474.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="516.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="509.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">FRAME</tspan>
+</text>
+<rect x="660.0" y="484.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="519.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Frame the intent → an IDEA BRIEF</tspan>
+</text>
+<text x="678.0" y="564.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">triage: NEW. one conversation produces docs/product/</tspan>
+<tspan x="678.0" dy="15.0">celtic-ticket-exchange.md + .excalidraw: what it is · what it must</tspan>
+<tspan x="678.0" dy="15.0">become · the gap (matchday seats sit empty while fans want in) ·</tspan>
+<tspan x="678.0" dy="15.0">comparison — Twickets, StubHub, the club&#x27;s own exchange · THE</tspan>
+<tspan x="678.0" dy="15.0">VALUE, measurable · a viability SIGNAL, not a verdict · the next</tspan>
+<tspan x="678.0" dy="15.0">stage&#x27;s inputs. grounding: competitor scan + evidence of need +</tspan>
+<tspan x="678.0" dy="15.0">what we ruled out (empty on day one — read anyway, by rule).</tspan>
+</text>
+<text x="1320.0" y="500.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">skills: sensei IF its route</tspan>
+<tspan x="1320.0" dy="15.0">matches (asserting a position).</tspan>
+<tspan x="1320.0" dy="15.0">sherpa Explore is the drafted</tspan>
+<tspan x="1320.0" dy="15.0">server — unused today.</tspan>
+<tspan x="1320.0" dy="15.0">acceptance: machine key +</tspan>
+<tspan x="1320.0" dy="15.0">Tony approves the brief.</tspan>
+</text>
+<rect x="660.0" y="685.0" width="600.0" height="101.0" rx="8" fill="none" stroke="#e03131" stroke-width="2"/>
+<text x="678.0" y="710.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">DEEPER — THE VALUE, IN UNITS. what is this worth, and to whom:</tspan>
+<tspan x="678.0" dy="15.0">empty seats filled? fan goodwill? money? every fatal-risk verdict</tspan>
+<tspan x="678.0" dy="15.0">and every priority call downstream divides by this number, and it</tspan>
+<tspan x="678.0" dy="15.0">has exactly one source: you.</tspan>
+</text>
+<polyline points="960.0,804.0 960.0,838.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="838.0" x2="954.3" y2="828.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="838.0" x2="965.7" y2="828.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="870.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="863.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">VIABILITY</tspan>
+</text>
+<rect x="660.0" y="838.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="873.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Test viability → qualify the killer assumption</tspan>
+</text>
+<text x="678.0" y="918.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">every candidate-fatal risk gets EVIDENCE — a test or an analysis —</tspan>
+<tspan x="678.0" dy="15.0">impact in the value&#x27;s units, likelihood recorded separately, never</tspan>
+<tspan x="678.0" dy="15.0">multiplied. candidates here: will fans list through a non-club</tspan>
+<tspan x="678.0" dy="15.0">app? can a seat actually transfer inside the club&#x27;s ticketing</tspan>
+<tspan x="678.0" dy="15.0">system? is resale even lawful? a risk left unqualified reads as</tspan>
+<tspan x="678.0" dy="15.0">managed — that is the failure this stage exists to stop.</tspan>
+</text>
+<text x="1320.0" y="854.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">skills: interrogate serves</tspan>
+<tspan x="1320.0" dy="15.0">this today. the SPIKE is the</tspan>
+<tspan x="1320.0" dy="15.0">cheapest test of the killer</tspan>
+<tspan x="1320.0" dy="15.0">assumption — declared, cheap,</tspan>
+<tspan x="1320.0" dy="15.0">kill-or-keep.</tspan>
+</text>
+<rect x="660.0" y="1022.0" width="600.0" height="157.0" rx="8" fill="none" stroke="#e03131" stroke-width="2"/>
+<text x="678.0" y="1047.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">DEEPER — UK LAW MAKES UNAUTHORISED FOOTBALL TICKET RESALE A</tspan>
+<tspan x="678.0" dy="15.0">CRIMINAL OFFENCE (s.166 CJPOA 1994 — from training data; have</tspan>
+<tspan x="678.0" dy="15.0">counsel verify). impact &gt;= the declared value at ANY likelihood =</tspan>
+<tspan x="678.0" dy="15.0">FATAL. the only countermeasure class visible is CLUB AUTHORISATION</tspan>
+<tspan x="678.0" dy="15.0">— which makes partner-with-Celtic the survival condition, not a</tspan>
+<tspan x="678.0" dy="15.0">feature. face-value-only exchange between verified holders may be</tspan>
+<tspan x="678.0" dy="15.0">the one lawful shape. this risk can reshape or kill the idea.</tspan>
+</text>
+<polyline points="960.0,1197.0 960.0,1231.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1231.0" x2="954.3" y2="1221.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1231.0" x2="965.7" y2="1221.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1263.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="1256.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SLICE</tspan>
+</text>
+<rect x="660.0" y="1231.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1266.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Slice a release · Set the goal</tspan>
+</text>
+<text x="678.0" y="1311.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">a release is a GROUPING, not a date. MVP candidate: verified</tspan>
+<tspan x="678.0" dy="15.0">season-ticket holders only · home league games · face value only</tspan>
+<tspan x="678.0" dy="15.0">(the lawful shape) · one club-blessed pilot stand. dependency</tspan>
+<tspan x="678.0" dy="15.0">forbids groupings, what a user can absorb caps them, effort/risk/</tspan>
+<tspan x="678.0" dy="15.0">opportunity shape the rest. DONE is ASSEMBLED: every item is a</tspan>
+<tspan x="678.0" dy="15.0">check against something an earlier stage declared.</tspan>
+</text>
+<text x="1320.0" y="1247.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">skills: sherpa Launch drafted</tspan>
+<tspan x="1320.0" dy="15.0">for this — unused today.</tspan>
+<tspan x="1320.0" dy="15.0">risk arrives PRE-QUALIFIED</tspan>
+<tspan x="1320.0" dy="15.0">from viability; never</tspan>
+<tspan x="1320.0" dy="15.0">re-argued here.</tspan>
+</text>
+<polyline points="960.0,1415.0 960.0,1449.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1449.0" x2="954.3" y2="1439.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1449.0" x2="965.7" y2="1439.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1481.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1474.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CHOOSE</tspan>
+</text>
+<rect x="660.0" y="1449.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1484.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Choose what matters next</tspan>
+</text>
+<text x="678.0" y="1529.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">two axes, both outcome: consequence × value. every candidate names</tspan>
+<tspan x="678.0" dy="15.0">WHAT WE LOSE by not choosing it; blocked items are separated, not</tspan>
+<tspan x="678.0" dy="15.0">ranked. the first pick writes itself: the club-authorisation</tspan>
+<tspan x="678.0" dy="15.0">conversation — highest consequence, and it gates everything else</tspan>
+<tspan x="678.0" dy="15.0">on this page.</tspan>
+</text>
+<text x="1320.0" y="1465.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">view: a choose-what-matters</tspan>
+<tspan x="1320.0" dy="15.0">board, regenerated per</tspan>
+<tspan x="1320.0" dy="15.0">decision.</tspan>
+</text>
+<polyline points="960.0,1616.0 960.0,1650.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1650.0" x2="954.3" y2="1640.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1650.0" x2="965.7" y2="1640.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1682.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1675.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">DESIGN</tspan>
+</text>
+<rect x="660.0" y="1650.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1685.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Design the solution → ONE package</tspan>
+</text>
+<text x="678.0" y="1730.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">one conversation → docs/design/celtic-ticket-exchange.md +</tspan>
+<tspan x="678.0" dy="15.0">.excalidraw: detailed specs, architecture (ticket custody, QR</tspan>
+<tspan x="678.0" dy="15.0">re-issue, seat map, identity), testing strategy, diagrams for as</tspan>
+<tspan x="678.0" dy="15.0">many aspects as we can. grounding: standing decisions · what we</tspan>
+<tspan x="678.0" dy="15.0">ruled out · the living design docs of whatever this touches.</tspan>
+<tspan x="678.0" dy="15.0">GO is two keys: everything drawn and nothing left to annotate</tspan>
+<tspan x="678.0" dy="15.0">(you) · every stage-2 measurement has a NAMED ANSWER (machine).</tspan>
+<tspan x="678.0" dy="15.0">GO writes docs/gates/&lt;date&gt;-celtic-ticket-exchange-design.md.</tspan>
+</text>
+<text x="1320.0" y="1666.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">tools: superpowers</tspan>
+<tspan x="1320.0" dy="15.0">brainstorming CAPABILITY</tspan>
+<tspan x="1320.0" dy="15.0">(2-3 approaches) without its</tspan>
+<tspan x="1320.0" dy="15.0">waterfall · excalidraw round</tspan>
+<tspan x="1320.0" dy="15.0">trip · A3 story formats.</tspan>
+<tspan x="1320.0" dy="15.0">hands to CONTRACT — never</tspan>
+<tspan x="1320.0" dy="15.0">writing-plans.</tspan>
+</text>
+<polyline points="960.0,1868.0 960.0,1902.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1902.0" x2="954.3" y2="1892.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1902.0" x2="965.7" y2="1892.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1934.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">7</tspan>
+</text>
+<text x="344.0" y="1927.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CONTRACT</tspan>
+</text>
+<rect x="660.0" y="1902.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1937.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Write the contract · Size and assign</tspan>
+</text>
+<text x="678.0" y="1982.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">the design package arrives INTACT — never a digest. the work</tspan>
+<tspan x="678.0" dy="15.0">order: self-contained pieces (&#x27;listing service&#x27;, &#x27;seat-transfer</tspan>
+<tspan x="678.0" dy="15.0">flow&#x27;, &#x27;holder-verification screen&#x27;), each carrying its own check,</tspan>
+<tspan x="678.0" dy="15.0">sized and assigned AFTER writing. two-tier access: the overseer</tspan>
+<tspan x="678.0" dy="15.0">holds all truth; each builder gets exactly its piece plus related</tspan>
+<tspan x="678.0" dy="15.0">materials. NO human gate — every piece measurable against an</tspan>
+<tspan x="678.0" dy="15.0">upstream declaration, or pushed back to design.</tspan>
+</text>
+<text x="1320.0" y="1918.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">tools: conductor&#x27;s spec</tspan>
+<tspan x="1320.0" dy="15.0">machinery is today&#x27;s instance.</tspan>
+<tspan x="1320.0" dy="15.0">sizing declares tier + effort</tspan>
+<tspan x="1320.0" dy="15.0">+ why, per piece — the</tspan>
+<tspan x="1320.0" dy="15.0">ladder&#x27;s roles made</tspan>
+<tspan x="1320.0" dy="15.0">computable.</tspan>
+</text>
+<polyline points="960.0,2103.0 960.0,2137.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="2137.0" x2="954.3" y2="2127.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="2137.0" x2="965.7" y2="2127.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="2169.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">8</tspan>
+</text>
+<text x="344.0" y="2162.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">LOOP</tspan>
+</text>
+<rect x="660.0" y="2137.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="2172.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Drive to done — unattended</tspan>
+</text>
+<text x="678.0" y="2217.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">next unblocked piece → build → prove against ALL RELEVANT specs →</tspan>
+<tspan x="678.0" dy="15.0">commit as it verifies → repeat. the driver holds nothing: state</tspan>
+<tspan x="678.0" dy="15.0">lives in the declared artifacts, so it cuts and resumes fresh</tspan>
+<tspan x="678.0" dy="15.0">between pieces. every question rides the LADDER — builder →</tspan>
+<tspan x="678.0" dy="15.0">overseer → intent-holder → you — and only a role-unanswerable</tspan>
+<tspan x="678.0" dy="15.0">blocker reaches you. the liveness view ticks at every piece</tspan>
+<tspan x="678.0" dy="15.0">boundary: landed · in flight · remaining. motion, not &#x27;working…&#x27;.</tspan>
+</text>
+<text x="1320.0" y="2153.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">tools: /goal + /loop (future),</tspan>
+<tspan x="1320.0" dy="15.0">conductor + sized players</tspan>
+<tspan x="1320.0" dy="15.0">(today). show-where-we-are</tspan>
+<tspan x="1320.0" dy="15.0">pushed at each piece boundary</tspan>
+<tspan x="1320.0" dy="15.0">and each stage close.</tspan>
+</text>
+<rect x="660.0" y="2338.0" width="600.0" height="119.0" rx="8" fill="none" stroke="#e03131" stroke-width="2"/>
+<text x="678.0" y="2363.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">DEEPER — THE LOOP MAY NOT RUN YET. nothing in any repo can refuse</tspan>
+<tspan x="678.0" dy="15.0">from outside the model: 0 CI workflows, 0 hooks. until a check can</tspan>
+<tspan x="678.0" dy="15.0">BLOCK, this page is a description, not a machine. CI is the first</tspan>
+<tspan x="678.0" dy="15.0">build item for exactly this reason — and deciding its shape (what</tspan>
+<tspan x="678.0" dy="15.0">refuses, where, on what signal) is yours.</tspan>
+</text>
+<polyline points="960.0,2475.0 960.0,2509.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="2509.0" x2="954.3" y2="2499.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="2509.0" x2="965.7" y2="2499.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="2541.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">9</tspan>
+</text>
+<text x="344.0" y="2534.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GOAL</tspan>
+<tspan x="344.0" dy="16.2">GATE</tspan>
+</text>
+<rect x="660.0" y="2509.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="2544.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Prove the whole · Goal gate</tspan>
+</text>
+<text x="678.0" y="2589.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">cold eyes see ONLY the work order and the change — verdict can</tspan>
+<tspan x="678.0" dy="15.0">BLOCK. per-layer conformance, never one verdict: code · logic ·</tspan>
+<tspan x="678.0" dy="15.0">architecture · pixel vs the approved design · the product</tspan>
+<tspan x="678.0" dy="15.0">measurements (an exchange completes end-to-end, the seat</tspan>
+<tspan x="678.0" dy="15.0">transfers, the empty-seat number moves). then the human key.</tspan>
+</text>
+<text x="1320.0" y="2525.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">this is the escalation</tspan>
+<tspan x="1320.0" dy="15.0">contract&#x27;s promised report:</tspan>
+<tspan x="1320.0" dy="15.0">GOAL ACHIEVED — the first</tspan>
+<tspan x="1320.0" dy="15.0">thing you hear since the</tspan>
+<tspan x="1320.0" dy="15.0">contract was written.</tspan>
+</text>
+<rect x="660.0" y="2676.0" width="600.0" height="101.0" rx="8" fill="none" stroke="#e03131" stroke-width="2"/>
+<text x="678.0" y="2701.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">DEEPER — YOUR EXPERT-USER PASS, DEFINED. what do you DO to say</tspan>
+<tspan x="678.0" dy="15.0">goal achieved: list a real ticket, transfer it to a real fan,</tspan>
+<tspan x="678.0" dy="15.0">stand at the turnstile when the QR scans? the pass is experiential</tspan>
+<tspan x="678.0" dy="15.0">by design — naming its scenario is the one gate only you can write.</tspan>
+</text>
+<polyline points="960.0,2795.0 960.0,2829.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="2829.0" x2="954.3" y2="2819.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="2829.0" x2="965.7" y2="2819.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="2861.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">10</tspan>
+</text>
+<text x="344.0" y="2854.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SHIPPED</tspan>
+</text>
+<rect x="660.0" y="2829.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="2864.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Release shipped → the flow repeats</tspan>
+</text>
+<text x="678.0" y="2909.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">the gate record is dated and kept; the code IS the product truth;</tspan>
+<tspan x="678.0" dy="15.0">what was ruled out is on the record and read in grounding by the</tspan>
+<tspan x="678.0" dy="15.0">next round — a dead option stays dead. the next slice (away</tspan>
+<tspan x="678.0" dy="15.0">fixtures? cup games? guest passes?) enters at the gates — and</tspan>
+<tspan x="678.0" dy="15.0">enters LOWER, because its upstream declarations now exist.</tspan>
+</text>
+<text x="1320.0" y="2845.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">switch + kivna keep the</tspan>
+<tspan x="1320.0" dy="15.0">boundary · the vault tells the</tspan>
+<tspan x="1320.0" dy="15.0">human story · git holds every</tspan>
+<tspan x="1320.0" dy="15.0">declaration the checks</tspan>
+<tspan x="1320.0" dy="15.0">measure against.</tspan>
+</text>
+</svg>
