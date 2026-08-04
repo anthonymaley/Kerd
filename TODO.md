@@ -2,9 +2,11 @@
 
 ## Now
 
-- **Continue the walk — CONTRACT rung next: `Write the contract · Size and assign` (function 10).** DESIGN is complete: collapsed 4→1 into `Design the solution`, interviewed and reviewed both-keys 2026-08-03. Walk state: `docs/plans/2026-08-03-requirements-walk.md`. Note for the interview: this function is served by conductor v0.66–0.68 — its session protocol ran live for the first time on 2026-08-03 (lean/inline path), but the orchestrator call and sized players have still never fired.
-- **Standing constraints:** no `/kerd:capturerequirements`; nothing gets ripped until the design is approved; **no skill names in candidate views during the requirements walk** — requirements and outcomes only (Tony, 2026-08-03).
+- **Continue the walk — SESSION rung next (4 functions: open/close · route to the altitude · drive to done · keep context optimal), then CROSS-CUTTING (5 open).** The spine (PRODUCT → DESIGN → CONTRACT → BUILD) is complete and reviewed. Same interview loop; expect consolidation — every drafted rung has shrunk under interview.
+- **Standing constraints:** no `/kerd:capturerequirements`; nothing gets ripped until the design is approved; no skill names in candidate views — requirements and outcomes only.
 - **Debt carried:** route-specific acceptance checklists for `Frame the intent`; the `reachable` clause; accepted risks age with nothing to bring them back.
+
+Standing constraints: no `/kerd:capturerequirements`; nothing ripped until the design is approved; no skill names in candidate views. Debt carried: `Frame the intent` acceptance checklists; `reachable`; accepted risks age.
 
 ## Backlog
 
