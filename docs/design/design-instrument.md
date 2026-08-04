@@ -46,7 +46,7 @@ Each criterion carries three declarations:
 |---|---|
 | **Target / Minimum Score** | the declared bar this criterion is measured against |
 | **Category M / D** | Mandatory (fatal class) or Desirable |
-| **Weighting Factor** | its weight in the overall score |
+| **Weighting Factor** | OPTIONAL — another mechanism for when the evaluation needs it; absent means criteria weigh equally |
 
 **Verdict per option per criterion — the Toyota marks:**
 
@@ -57,7 +57,10 @@ Each criterion carries three declarations:
 | **×** | cannot meet it, and no countermeasure available | on an M criterion: the option is DEAD, regardless of overall score |
 
 **Scoring — the arithmetic that makes the comparison honest.** The marks
-carry the risk semantics; the scores carry the comparison. Both, always:
+carry the risk semantics; the scores carry the comparison. The mechanisms
+layer in as the evaluation needs them: **marks always** · **scores** when
+options are close or the stakes are real · **weights** only when criteria
+genuinely differ in importance:
 
 - **Score per criterion per option** on the declared scale (1–5 in the
   exemplars), or measured directly against the target where the criterion
