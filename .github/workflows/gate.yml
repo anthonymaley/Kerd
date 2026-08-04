@@ -11,3 +11,5 @@ jobs:
         run: python3 tools/gates/gate.py audit
       - name: Release rules
         run: python3 tools/gates/gate.py release
+      - name: Progress selftest
+        run: python3 tools/diagram/progress.py selftest
