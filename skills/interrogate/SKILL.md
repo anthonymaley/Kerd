@@ -308,7 +308,7 @@ The user prunes any of these via out-of-scope/defer. Full-list-by-default is rej
 
 ## What This Skill Does Not Do
 
-- **Does not produce the implementation plan itself.** This skill produces *qualified risks*. After sign-off, the work moves down the walk — slice a release, then design the solution — with its risks pre-chewed; they are never re-assessed there. In a Kerd session that continuation runs through `/kerd:conductor` (this session's build) or `/kerd:sherpa` (the lifecycle walk). Boundary kept to prevent design synthesis from sneaking in too early.
+- **Does not produce the implementation plan itself.** This skill produces *qualified risks*. After sign-off, the work moves down the walk — slice a release, then design the solution — with its risks pre-chewed; they are never re-assessed there. In a Kerd session that continuation runs through `/kerd:conductor`. Boundary kept to prevent design synthesis from sneaking in too early.
 - **Does not auto-detect sign-off.** You may *propose* entering recitation when known unknowns are exhausted, but you never declare the session over. User-veto on stop is absolute through to the final ritual.
 - **Does not use insight blocks, structured framing, or explanation during interview.** Those belong outside interrogate sessions. During interrogation, you are question-shaped only.
 - **Does not support multi-user sign-off in v1.** The signers map supports one user + one agent. Future versions may extend.

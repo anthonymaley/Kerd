@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.73.0)
+## What's New (v0.74.0)
+
+### v0.74.0
+
+**sherpa is cut — a capability you had yesterday is gone.** Yesterday, `/kerd:sherpa` was the lifecycle PM: it walked one idea from spark to launch — Explore → Validate → Plan → Build → Launch across many sessions, rigor rising per stage, with jump-back and park. Today nothing answers that phrase. What replaces it: the ladder does this — the entry gates route each piece of work to its rung and refuse what hasn't earned passage (stages were advice; rungs are checked), the progress view shows position derived from `docs/product/` front matter on disk (never self-reported — which is why the promised `kivna/sherpa.md` expedition log dies with it; it never existed on disk), and the risk ledger qualifies viability, with FATAL rows + gate re-entry covering the jump-back. Rigor-rises-ceremony-stays-low survives in the gate design. Return condition: a need the gates + progress view cannot answer brings the lifecycle-conductor concept back.
 
 ### v0.73.0
 
@@ -169,18 +173,6 @@ Conductor doesn't touch git. No pulls, no pushes. That's switch's job.
 
 ```
 /conductor
-```
-
-### sherpa (Idea→Launch Lifecycle)
-
-Sherpa is the lifecycle conductor — the PM that walks one idea from spark to launch across many sessions, where conductor conducts a single session. It owns five stages — **Explore → Validate → Plan → Build → Launch** — and turns the rigor *up* as the idea matures (Explore is mins-not-hours and throwaway; Launch is public and hard to walk back) while keeping the decision style JIT the whole way: drill one question, decide, eyeball-gate, fail fast. Rigor rises; ceremony and noise stay low.
-
-Durable state lives in a committed `kivna/sherpa.md` — one per repo (one repo = one idea) — that travels in git like `TODO.md`. It records the current stage and each finished stage's *handoff* (what it produced, which feeds the next stage). `.active-modes` carries only a lightweight `sherpa: <stage>` pointer for the current session, so switch-in and hooks can report where on the mountain you are. You can start at any stage (a mature idea might begin at Plan), advance when a stage's exit test passes, jump back when a later stage proves the idea doesn't hold, or park the climb cleanly for a cold pickup. Sherpa announces its stage with a marker (`[sherpa: explore]` … `[sherpa: launch]`, `[sherpa: parked]`).
-
-**Build status:** all five stages are trained — the lifecycle is complete. **Explore** (folds in the spike mode's empirical-primitive-first probe, batched try matrix, provisional-loss survival gate, and strong-language/claim gates), **Validate** (risk-driven: find the killer assumption, cheapest test of it, across a five-category risk taxonomy — Demand / Feasibility / Economics / Differentiation / Access), **Plan** (the conductor's plan phase + the five-question "enough plan" exit test), **Build** (the jit loop: requirements → thin spec → slice → show → gate → revise, exit on all-area requirements), and **Launch** (the adaptive readiness checklist: distribution / marketing / social / staff / support / comms). The `dian`→`conductor` rename landed in v0.59.0; the remaining sherpa work is retiring the modes that folded into sherpa (spike → Explore, jit → Build).
-
-```
-/sherpa
 ```
 
 ### interrogate (Risk Ledger)

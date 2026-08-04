@@ -82,7 +82,7 @@ Create `CONTEXT.md` at the repo root if it doesn't exist. **Overwrite in place**
 ## Where We Are        — current working state, a short paragraph, overwritten
 ## Key Decisions       — standing decisions + their why; prune when superseded
 ## Open Questions      — genuinely unresolved; remove when answered
-## Active Mode         — mode/sherpa/conductor snapshot for cross-machine handoff
+## Active Mode         — mode/conductor snapshot for cross-machine handoff
 ```
 
 - Prune superseded decisions and answered questions — git history archives every version, so pruning loses nothing.
@@ -364,7 +364,7 @@ The pick-list is the point of the summary — the user reads it to pick their ne
 ```
 What's next:
 
-  1. [Now]      Dogfood sherpa on ~/Bree — mid-lifecycle vs fresh feature
+  1. [Now]      Wire the progress renderer into the entry gate
   2. [Backlog]  tend other repos onto the split
   3. [Backlog]  vault-repo-commit contract question
   4. [Backlog]  first /kerd:interrogate smoke test

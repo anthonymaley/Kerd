@@ -19,7 +19,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 ## Where We Are        — current working state, short, overwritten
 ## Key Decisions       — standing decisions + their why; pruned when superseded
 ## Open Questions      — genuinely unresolved; removed when answered
-## Active Mode         — mode/sherpa/conductor snapshot for cross-machine handoff
+## Active Mode         — mode/conductor snapshot for cross-machine handoff
 ```
 
 ### Rules
