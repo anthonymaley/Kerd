@@ -2,11 +2,9 @@
 
 ## Now
 
-- **Continue the walk — SESSION rung next (4 functions: open/close · route to the altitude · drive to done · keep context optimal), then CROSS-CUTTING (5 open).** The spine (PRODUCT → DESIGN → CONTRACT → BUILD) is complete and reviewed. Same interview loop; expect consolidation — every drafted rung has shrunk under interview.
-- **Standing constraints:** no `/kerd:capturerequirements`; nothing gets ripped until the design is approved; no skill names in candidate views — requirements and outcomes only.
-- **Debt carried:** route-specific acceptance checklists for `Frame the intent`; the `reachable` clause; accepted risks age with nothing to bring them back.
+**Post-walk: define how the skills must change to support the agreed requirements.** The walk is COMPLETE — 25/25 accounted for (see `docs/plans/2026-08-03-requirements-walk.md`). Findings-against-tooling are logged in the walk doc as they surfaced (first: close-out-deferred capture violates the state-in-artifacts property). MVP sequence stands: entry gates (keystone) · CI/refusal (first property instance) · the SPIKE.
 
-Standing constraints: no `/kerd:capturerequirements`; nothing ripped until the design is approved; no skill names in candidate views. Debt carried: `Frame the intent` acceptance checklists; `reachable`; accepted risks age.
+Standing constraints: nothing ripped until the design is approved. Debt carried: `Frame the intent` route-specific acceptance checklists; accepted risks age with nothing to bring them back; one `(?)` left on the board (Design: machine-checkable interface values).
 
 ## Backlog
 
@@ -19,7 +17,6 @@ Standing constraints: no `/kerd:capturerequirements`; nothing ripped until the d
 **Medium**
 - **The SPIKE** — route ONE dead skill cheaply and watch whether it gets used. Highest value in this band: one cheap test settles the fate of four dead skills. Candidate: `capturerequirements`.
 - Regenerate the choose-what-matters view before its next use: Bree item removed, and candidate cards must carry no skill names (`gen_choose.py`).
-- Settle the `reachable` clause (also in Now — it blocks every artifact from being useful rather than merely stored).
 - Hook version staleness check in `/kerd:tend` — four occurrences now.
 - Guard switch-in step 3 smoke test against context bloat (delegate the run; absorb a verdict, never a full log).
 
