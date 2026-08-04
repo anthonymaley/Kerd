@@ -58,16 +58,16 @@ The diff may touch ONLY these files (plus this spec file itself):
 
 ## Pieces
 
-- [ ] 1. Rip skills/mode and modes/
-- [ ] 2. README: identity, section out, fit-together rewrite, What's New 0.75.0
-- [ ] 3. CONTRIBUTING: modes path out, skills become the door
-- [ ] 4. CLAUDE.md + AGENTS.md: identity and structure lines
-- [ ] 5. Manifests: capability lists + marketplace one-liner + triple bump
-- [ ] 6. slainte: mode-count rule out, renumber
-- [ ] 7. playbook: roster, layout, composition section, Working list
-- [ ] 8. state-contract + switch: dead-skill references out
-- [ ] 9. Collateral diff review + mode sweep
-- [ ] 10. Ship
+- [x] 1. Rip skills/mode and modes/
+- [x] 2. README: identity, section out, fit-together rewrite, What's New 0.75.0
+- [x] 3. CONTRIBUTING: modes path out, skills become the door
+- [x] 4. CLAUDE.md + AGENTS.md: identity and structure lines
+- [x] 5. Manifests: capability lists + marketplace one-liner + triple bump
+- [x] 6. slainte: mode-count rule out, renumber
+- [x] 7. playbook: roster, layout, composition section, Working list
+- [x] 8. state-contract + switch: dead-skill references out
+- [x] 9. Collateral diff review + mode sweep
+- [x] 10. Ship
 
 ## Steps
 
