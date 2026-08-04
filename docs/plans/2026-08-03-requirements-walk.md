@@ -30,7 +30,7 @@ This file is the **walk state**. Tick as we go.
 | Hold product truth | **CUT 2026-08-03** | — | — |
 | Design the solution | yes — 2026-08-03 (was "Shape the solution" + 3 folded in) | `2026-08-03-design-the-solution-flow.excalidraw` | machine: pass · human: **reviewed** |
 | Write the contract · Size and assign | yes — 2026-08-03 | `2026-08-03-write-the-contract-flow.excalidraw` | machine: pass · human: **reviewed** |
-| Build a piece · Prove it + Prove the whole · Goal gate | yes — 2026-08-03 (BUILD rung, one flow) | `2026-08-03-build-flow.excalidraw` | machine: pending · human: pending |
+| Build a piece · Prove it + Prove the whole · Goal gate | yes — 2026-08-03 (BUILD rung, one flow) | `2026-08-03-build-flow.excalidraw` | machine: pass · human: **reviewed** |
 | *all others* | not yet | — | — |
 
 ### Settled on the BUILD rung (4→2 + a rung-wide property)
