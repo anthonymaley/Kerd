@@ -242,7 +242,8 @@ Marker: `[sherpa: build]`.
   eyeball-gate → revise.
 - **How to run it** (the jit loop — full mode in `modes/jit.md` until it folds in at
   Phase 3):
-  1. **Lock requirements, defer the rest.** Use `/kerd:capturerequirements` to pin
+  1. **Lock requirements, defer the rest.** Use the frame flow (the `Value` and
+     `Release slice` sections of `docs/product/<slug>.md`) to pin
      the MVP must-haves (the Plan stage's handoff seeds this). Then name the
      **first slice** — the smallest valuable thing to build and show.
   2. **Thin spec.** Just enough for the first slice, not exhaustive.

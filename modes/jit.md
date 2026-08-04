@@ -4,7 +4,6 @@ description: "Just-in-time MVP development: lock requirements by interview, writ
 category: development
 core_skills:
   - kerd:switch
-  - kerd:capturerequirements
   - superpowers:test-driven-development
   - superpowers:verification-before-completion
   - kerd:pair
@@ -24,7 +23,7 @@ discover_keywords:
 
 ## Requirements
 
-- [ ] `/kerd:capturerequirements` -- interview to lock MVP must-haves, defer the rest
+- [ ] Frame the work -- declare the `Value` and `Release slice` sections of `docs/product/<slug>.md`; everyday-tier work fills the `Risk ledger` in the same conversation
 - [ ] Name the first slice -- smallest valuable thing to build and show
 
 ## Spec

@@ -58,10 +58,9 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 
 The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd/`. The vault is a human knowledge base, living files updated in place, not append-only dumps. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions). The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Twelve skills, each with a single responsibility, plus four opt-in hooks:**
+**Eleven skills, each with a single responsibility, plus four opt-in hooks:**
 - **conductor**: session discipline (orient/plan/execute/close-out protocol)
 - **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
-- **capturerequirements**: requirements capture (fast MVP-must-have interview, jit front door)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
 - **switch**: session boundary (pull on arrive; session-state commit+push on leave). Not the only committer — conductor commits its own work per verified task.
 - **kivna**: knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)

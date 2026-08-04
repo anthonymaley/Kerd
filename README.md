@@ -2,7 +2,7 @@
 
 "Ceird" means skill in Gaelic. Respelled.
 
-Twelve workflow skills plus community-contributed modes for Claude Code. Skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, how to maintain structural health. Modes orchestrate skills from Kerd, Superpowers, and other plugins into guided flows for different types of work. They keep the plumbing clean so you can focus on the work.
+Eleven workflow skills plus community-contributed modes for Claude Code. Skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, how to maintain structural health. Modes orchestrate skills from Kerd, Superpowers, and other plugins into guided flows for different types of work. They keep the plumbing clean so you can focus on the work.
 
 ## Install
 
@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.72.0)
+## What's New (v0.73.0)
+
+### v0.73.0
+
+**capturerequirements is cut — a capability you had yesterday is gone.** Yesterday, saying "capture requirements" got you a fast one-question-at-a-time interview that pinned MVP must-haves into `docs/requirements/`. Today nothing answers that phrase. What replaces it: the frame flow — you declare the work's `Value` and `Release slice` sections in `docs/product/<slug>.md`, and everyday-tier work fills the `Risk ledger` in the same framing conversation (v0.72.0) — so requirements live where the entry gates read them instead of in a side note. jit's Reqs step now points there. Existing notes under `docs/requirements/` stay where they are; nothing writes new ones.
 
 ### v0.72.0
 
@@ -190,16 +194,6 @@ Design at `docs/design/risk-ledger.md`; the interview engine's original design a
 ```
 /kerd:interrogate              # zero-path: interview from an idea
 /kerd:interrogate <plan-ref>   # interrogate an existing plan
-```
-
-### capturerequirements (Requirements Capture)
-
-Capturerequirements is the fast, interview-based front door to building — the Reqs step of the jit mode. It interviews you one question at a time to lock the MVP must-haves, names what's explicitly *not* now, and stops as soon as the first slice is clear. It is deliberately lighter than interrogate: where interrogate exhaustively stress-tests viability across every axis and co-signs a qualified risk ledger, this just gets you moving. The principle is build-what-you-need: anything you can't tie to the core outcome goes to **Later**, not into the build. Output is a short note at `docs/requirements/YYYY-MM-DD-<topic>.md` that the jit loop revises as you learn — a starting point, not a contract.
-
-Use interrogate when the cost of being wrong is high; use capturerequirements when the cost of not starting is high.
-
-```
-/kerd:capturerequirements      # interview to lock MVP must-haves
 ```
 
 ### switch (Session Handoff)
