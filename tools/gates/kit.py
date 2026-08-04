@@ -13,6 +13,7 @@ question a machine can answer without reading for meaning.
 """
 
 import glob
+import json
 import os
 import re
 import tempfile
@@ -522,6 +523,189 @@ def audit(root):
     return problems
 
 
+# ── release rules (R1–R3) ────────────────────────────────────────────────
+
+def _release_files(root):
+    """Load .claude-plugin/plugin.json and .claude-plugin/marketplace.json.
+    Returns (plugin, marketplace, problems). When NEITHER file exists:
+    (None, None, []) — vacuous pass, a tree without plugin metadata is not
+    in violation. Otherwise each path that is absent or fails json.load
+    contributes the problem '<relpath> — missing or invalid JSON' and
+    loads as None."""
+    rel_plugin = ".claude-plugin/plugin.json"
+    rel_marketplace = ".claude-plugin/marketplace.json"
+    abs_plugin = os.path.join(root, ".claude-plugin", "plugin.json")
+    abs_marketplace = os.path.join(root, ".claude-plugin", "marketplace.json")
+
+    if not os.path.isfile(abs_plugin) and not os.path.isfile(abs_marketplace):
+        return None, None, []
+
+    problems = []
+    docs = []
+    for rel, path in ((rel_plugin, abs_plugin), (rel_marketplace, abs_marketplace)):
+        doc = None
+        if not os.path.isfile(path):
+            problems.append(f"{rel} — missing or invalid JSON")
+        else:
+            try:
+                with open(path, encoding="utf-8") as f:
+                    doc = json.load(f)
+            except ValueError:
+                problems.append(f"{rel} — missing or invalid JSON")
+                doc = None
+        docs.append(doc)
+
+    return docs[0], docs[1], problems
+
+
+def _release_versions(plugin, marketplace):
+    """R1 — the three version fields must be identical: plugin['version'],
+    marketplace['metadata']['version'], marketplace['plugins'][0]['version'].
+    A None document contributes nothing (its load problem is already
+    reported). Missing/non-string field → one problem naming it. All three
+    present but not all equal → ONE problem showing all three values."""
+    problems = []
+    vals = {}
+
+    if plugin is not None:
+        v = plugin.get("version")
+        if isinstance(v, str):
+            vals["plugin"] = v
+        else:
+            problems.append(".claude-plugin/plugin.json — 'version' missing")
+
+    if marketplace is not None:
+        metadata = marketplace.get("metadata") or {}
+        mv = metadata.get("version")
+        if isinstance(mv, str):
+            vals["metadata"] = mv
+        else:
+            problems.append(".claude-plugin/marketplace.json — 'metadata.version' missing")
+
+        plugins = marketplace.get("plugins")
+        pv = None
+        if isinstance(plugins, list) and plugins and isinstance(plugins[0], dict):
+            pv = plugins[0].get("version")
+        if isinstance(pv, str):
+            vals["plugins0"] = pv
+        else:
+            problems.append(".claude-plugin/marketplace.json — 'plugins[0].version' missing")
+
+    if len(vals) == 3 and not (vals["plugin"] == vals["metadata"] == vals["plugins0"]):
+        problems.append(
+            "version drift — plugin.json='{}' metadata.version='{}' plugins[0].version='{}' "
+            "(all three must match)".format(vals["plugin"], vals["metadata"], vals["plugins0"])
+        )
+
+    return problems
+
+
+def _release_capability(plugin, marketplace):
+    """R2 — plugin['description'] must be byte-identical to
+    marketplace['plugins'][0]['description']. metadata.description is
+    NEVER read — it is intentionally a different shape (marketplace
+    one-liner), and checking it would homogenize what CLAUDE.md says to
+    keep distinct."""
+    problems = []
+    plugin_desc = None
+    plugins0_desc = None
+
+    if plugin is not None:
+        d = plugin.get("description")
+        if isinstance(d, str):
+            plugin_desc = d
+        else:
+            problems.append(".claude-plugin/plugin.json — 'description' missing")
+
+    if marketplace is not None:
+        plugins = marketplace.get("plugins")
+        d = None
+        if isinstance(plugins, list) and plugins and isinstance(plugins[0], dict):
+            d = plugins[0].get("description")
+        if isinstance(d, str):
+            plugins0_desc = d
+        else:
+            problems.append(".claude-plugin/marketplace.json — 'plugins[0].description' missing")
+
+    if plugin_desc is not None and plugins0_desc is not None and plugin_desc != plugins0_desc:
+        i = 0
+        min_len = min(len(plugin_desc), len(plugins0_desc))
+        while i < min_len and plugin_desc[i] == plugins0_desc[i]:
+            i += 1
+        problems.append(
+            f"capability-list drift — plugin.json description != plugins[0].description "
+            f"(first differs at char {i}; metadata.description is exempt by design)"
+        )
+
+    return problems
+
+
+def _skill_names(root):
+    """Sorted names of skills/<name>/ directories that contain SKILL.md.
+    Derived from the tree, not hardcoded — a new skill extends R3
+    automatically, with no list to drift."""
+    names = []
+    skills_dir = os.path.join(root, "skills")
+    if not os.path.isdir(skills_dir):
+        return names
+    for entry in os.listdir(skills_dir):
+        full = os.path.join(skills_dir, entry)
+        if os.path.isdir(full) and os.path.isfile(os.path.join(full, "SKILL.md")):
+            names.append(entry)
+    return sorted(names)
+
+
+def _release_namespace(root):
+    """R3 — scan the living-file allowlist for bare slash references to
+    Kerd skills. The correct form is /kerd:<name>; a bare /<name> is a
+    violation. Allowlist (see spec): skills/**/*.md, modes/**/*.md,
+    docs/design/*.md, top-level docs/*.md, CLAUDE.md. docs/plans/,
+    docs/gates/, kivna/, README.md are out by construction — immutable
+    dated records never retroactively fail CI; README's shorthand
+    exception is human-adjudicated."""
+    names = _skill_names(root)
+    if not names:
+        return []
+
+    problems = []
+    patterns = [
+        (name, re.compile(r'(?<![\w:/.\-])/' + re.escape(name) + r'\b'))
+        for name in names
+    ]
+
+    targets = []
+    for d in ("skills", "modes", os.path.join("docs", "design")):
+        targets += glob.glob(os.path.join(root, d, "**", "*.md"), recursive=True)
+    targets += glob.glob(os.path.join(root, "docs", "*.md"))
+    claude_md = os.path.join(root, "CLAUDE.md")
+    if os.path.isfile(claude_md):
+        targets.append(claude_md)
+
+    for path in sorted(set(targets)):
+        rel = os.path.relpath(path, root)
+        with open(path, encoding="utf-8") as f:
+            for lineno, line in enumerate(f, start=1):
+                for name, pat in patterns:
+                    if pat.search(line):
+                        problems.append(
+                            f"{rel}:{lineno} — bare '/{name}' (write '/kerd:{name}')"
+                        )
+
+    return problems
+
+
+def release_audit(root):
+    """Release-rules sweep (R1–R3). Empty list = clean. R1/R2 skip
+    vacuously when neither plugin file exists; R3 runs regardless (it
+    depends only on the tree)."""
+    plugin, marketplace, problems = _release_files(root)
+    if plugin or marketplace or problems:
+        problems.extend(_release_versions(plugin, marketplace))
+        problems.extend(_release_capability(plugin, marketplace))
+    problems.extend(_release_namespace(root))
+    return problems
+
+
 # ── selftest ─────────────────────────────────────────────────────────────
 
 def _sw(path, content):
@@ -692,15 +876,68 @@ def _selftest_body():
         problems = audit(root_clean)
         assert problems == [], f"T12b: expected a clean audit, got {problems}"
 
+    # T13 — release rules: planted version drift, capability drift, and a
+    # bare '/tend' reference, with the metadata.description exemption
+    # proven by the count staying at 3 (not 4).
+    with tempfile.TemporaryDirectory() as root_r1:
+        _sw(
+            os.path.join(root_r1, ".claude-plugin", "plugin.json"),
+            '{"name": "kerd", "version": "1.0.0", "description": "caps A"}',
+        )
+        _sw(
+            os.path.join(root_r1, ".claude-plugin", "marketplace.json"),
+            '{"metadata": {"description": "one-liner, different by design", '
+            '"version": "1.0.1"}, "plugins": [{"version": "1.0.0", "description": "caps B"}]}',
+        )
+        _sw(
+            os.path.join(root_r1, "skills", "tend", "SKILL.md"),
+            "Run /tend to converge.\nThe path skills/tend/SKILL.md stays clean.\n",
+        )
+        problems = release_audit(root_r1)
+        assert len(problems) == 3, f"T13: expected 3 problems, got {len(problems)}: {problems}"
+        assert any("version drift" in p for p in problems), \
+            f"T13: expected 'version drift' in problems: {problems}"
+        assert any("capability-list drift" in p for p in problems), \
+            f"T13: expected 'capability-list drift' in problems: {problems}"
+        assert any("bare '/tend'" in p for p in problems), \
+            f"T13: expected \"bare '/tend'\" in problems: {problems}"
+
+    # T14 — clean tree: prefixed form passes, path text passes the
+    # lookbehind, and docs/plans/ + kivna/ stay excluded.
+    with tempfile.TemporaryDirectory() as root_r2:
+        _sw(
+            os.path.join(root_r2, ".claude-plugin", "plugin.json"),
+            '{"name": "kerd", "version": "1.0.0", "description": "caps A"}',
+        )
+        _sw(
+            os.path.join(root_r2, ".claude-plugin", "marketplace.json"),
+            '{"metadata": {"description": "different one-liner", "version": "1.0.0"}, '
+            '"plugins": [{"version": "1.0.0", "description": "caps A"}]}',
+        )
+        _sw(
+            os.path.join(root_r2, "skills", "tend", "SKILL.md"),
+            "Use /kerd:tend here.\nSee skills/tend/SKILL.md for the source.\n",
+        )
+        _sw(
+            os.path.join(root_r2, "docs", "plans", "2026-01-01-old-plan.md"),
+            "Historic record: we ran /tend that day.\n",
+        )
+        _sw(
+            os.path.join(root_r2, "kivna", "sessions", "2026-01-01-session.md"),
+            "session log: /tend output pasted\n",
+        )
+        problems = release_audit(root_r2)
+        assert problems == [], f"T14: expected a clean release audit, got {problems}"
+
 
 def selftest():
-    """Run the 12 fixture-built cases in temporary trees. Prints
-    'selftest: 12 cases passed' and returns 0 on success; on the first
+    """Run the 14 fixture-built cases in temporary trees. Prints
+    'selftest: 14 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 12 cases passed")
+    print("selftest: 14 cases passed")
     return 0

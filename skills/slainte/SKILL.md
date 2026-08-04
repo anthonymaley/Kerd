@@ -115,7 +115,7 @@ Kerd-specific release audit. Checks the release checklist rules from CLAUDE.md a
 3. **Skill count consistency**: count `skills/*/SKILL.md` files and compare against claims in `README.md` (e.g., "Nine workflow skills") and `docs/playbook.md`. Mismatches are high severity.
 4. **Mode count consistency**: count `modes/*.md` files and compare against claims in `README.md` mode table rows. Mismatch is medium severity.
 5. **SKILL frontmatter drift**: for each `skills/*/SKILL.md`, verify the `name` field matches the directory name. Flag mismatches as high.
-6. **Namespace sweep**: scan all `skills/*/SKILL.md` files for slash-command references missing the `kerd:` prefix (e.g., `/conductor` instead of `/kerd:conductor`). Skip README.md (allowed shorthand). Each hit is medium severity.
+6. **Namespace sweep**: scan all `skills/*/SKILL.md` files for slash-command references missing the `kerd:` prefix (e.g., `/<skill>` where it should be `/kerd:<skill>`). Skip README.md (allowed shorthand). Each hit is medium severity.
 7. **Marketplace URL**: verify `.claude-plugin/marketplace.json` `plugins[0].source.url` points to the canonical repo (not a fork). Mismatch is high severity.
 8. **Cross-doc claim verification**: verify that claims made in docs match the code and each other:
    - README "What's New" version numbers match the actual current version in plugin.json. If the latest What's New entry references a version that doesn't match the current version, flag as medium.

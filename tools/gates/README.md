@@ -14,11 +14,12 @@ outside the model, in CI, on every push.
     python3 tools/gates/gate.py route <slug> [--json]        # where work enters — always exit 0
     python3 tools/gates/gate.py check <slug> <rung> [--json] # the refuser — exit 0 pass / 1 refusal
     python3 tools/gates/gate.py audit [--json]                # repo-wide mechanical sweep — exit 0 clean / 1 problems
+    python3 tools/gates/gate.py release [--json]              # release rules — exit 0 clean / 1 problems
     python3 tools/gates/gate.py selftest                      # fixture suite in a temp tree — exit 0 / 1
 
 Exit codes: `0` pass/bypass/report, `1` refusal or audit problems, `2` bad
 argv (prints the module's usage docstring). `route` is a render and never
-refuses — `check` and `audit` are the only two subcommands that can exit 1.
+refuses — `check`, `audit`, and `release` are the only three subcommands that can exit 1.
 
 `route` prints one line per rung (`<rung>  pass` or `<rung>  need <n>`),
 then `enters at: <rung>`, then — when there is a next rung — `missing for
@@ -154,6 +155,26 @@ that carry `route`/`stage` at all.
 Output is `audit: clean` (exit 0) or one `problem:` line per finding
 followed by `audit: <n> problems` (exit 1).
 
+## Release rules
+
+The release sweep — `gate.py release` — enforces versioning and documentation
+consistency before a skill or mode is published.
+
+| # | Rule |
+|---|---|
+| R1 | the three version fields must be identical: `plugin.json` `version` · `marketplace.json` `metadata.version` · `marketplace.json` `plugins[0].version` |
+| R2 | `plugin.json` `description` must be byte-identical to `marketplace.json` `plugins[0].description`. `metadata.description` is NEVER checked — it is intentionally a different shape (the marketplace one-liner). |
+| R3 | living files must write Kerd slash-command references as `/kerd:<name>`, never bare `/<name>`. Skill names derive from `skills/<name>/SKILL.md` directories — no hardcoded list. |
+
+R3 runs against the allowlist: `skills/**`, `modes/**`, `docs/design/*.md`,
+top-level `docs/*.md`, and `CLAUDE.md`. Excluded: immutable dated records
+(`docs/plans/`, `docs/gates/`, `kivna/`) never retroactively fail CI, and
+`README.md` is exempt because its shorthand exception is human-adjudicated
+(CLAUDE.md rule 5).
+
+Output is `release: clean` (exit 0) or one `problem:` line per finding
+followed by `release: <n> problems` (exit 1).
+
 ## CI
 
 `.github/workflows/gate.yml` runs on every `push` and `pull_request`:
@@ -169,14 +190,18 @@ followed by `audit: <n> problems` (exit 1).
             run: python3 tools/gates/gate.py selftest
           - name: Repo audit
             run: python3 tools/gates/gate.py audit
+          - name: Release rules
+            run: python3 tools/gates/gate.py release
 
 No `setup-python` step — `ubuntu-latest` ships python3 and this tool has
-zero dependencies. Two things can fail the build: the fixture suite
-(`selftest`, exercising the 12 cases against a temp tree) and the real
-repo (`audit`, exercising AU1–AU4 against the actual `docs/` tree). A
-dated file dropped into `docs/design/`, a malformed `docs/gates/` record
-name, or a broken selftest fails CI — a refusal that fires from outside
-the model, on GitHub's infrastructure, not inside a session.
+zero dependencies. Three things can fail the build: the fixture suite
+(`selftest`, exercising the 14 cases against a temp tree), the real
+repo (`audit`, exercising AU1–AU4 against the actual `docs/` tree), and the
+release sweep (`release`, enforcing R1–R3 on plugin metadata and living
+files). A dated file dropped into `docs/design/`, a malformed `docs/gates/`
+record name, a bare `/<name>` reference in a living file, or a broken
+selftest fails CI — a refusal that fires from outside the model, on
+GitHub's infrastructure, not inside a session.
 
 ## Deferred: grounding-was-read
 

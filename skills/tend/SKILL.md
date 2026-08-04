@@ -232,7 +232,7 @@ Check:
 #### Category 8: Skill hygiene
 
 Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs/playbook.md`) for:
-- **Missing `kerd:` prefix**: any slash-command reference like `/conductor`, `/switch`, `/skriv` etc. that should be `/kerd:conductor`, `/kerd:switch`, `/kerd:skriv`. Check inside backtick-quoted commands and prose references. Skip README.md (allowed to use shorthand per CLAUDE.md convention).
+- **Missing `kerd:` prefix**: any bare `/<skill>` slash-command reference that should be its `/kerd:<skill>` form (`/kerd:conductor`, `/kerd:switch`, `/kerd:skriv`, …). Check inside backtick-quoted commands and prose references. Skip README.md (allowed to use shorthand per CLAUDE.md convention).
 - **Stale skill names**: references to deprecated skill names (`sotu`, `seach`, `shakh`) in active/instructional context (not CHANGELOG, session logs, or deprecated patterns lists). Each hit is a rename that was missed.
 - **Frontmatter drift**: the `name` field in SKILL.md should match its parent directory name. The `description` field should not reference deprecated skill names.
 

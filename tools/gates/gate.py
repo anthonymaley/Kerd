@@ -5,15 +5,17 @@ declared inputs are missing.
     python3 tools/gates/gate.py route <slug> [--json]
     python3 tools/gates/gate.py check <slug> <rung> [--json]
     python3 tools/gates/gate.py audit [--json]
+    python3 tools/gates/gate.py release [--json]
     python3 tools/gates/gate.py selftest
 
 route always exits 0 — it reports where work enters, it never refuses.
 check is the refuser: exit 0 on pass or spike bypass, 1 on refusal. audit is
-the repo-wide mechanical sweep: exit 0 clean, 1 with problems. selftest runs
-kit's fixture suite in a temp tree: exit 0 or 1. Any other invocation prints
-this usage text and exits 2. Every decision lives in kit.py; this module
-only parses argv and renders kit's dicts as line-based text, or as JSON via
---json.
+the repo-wide mechanical sweep: exit 0 clean, 1 with problems. release is
+the release-rules sweep (version sync, capability-list identity, kerd: namespace):
+exit 0 clean, 1 with problems. selftest runs kit's fixture suite in a temp tree:
+exit 0 or 1. Any other invocation prints this usage text and exits 2. Every
+decision lives in kit.py; this module only parses argv and renders kit's dicts
+as line-based text, or as JSON via --json.
 """
 import json
 import os
@@ -109,6 +111,28 @@ def _cmd_audit(argv):
     return 1
 
 
+def _cmd_release(argv):
+    as_json = "--json" in argv
+    argv = [a for a in argv if a != "--json"]
+    if argv:
+        print(__doc__)
+        return 2
+
+    problems = kit.release_audit(kit.ROOT)
+
+    if as_json:
+        print(json.dumps(problems))
+        return 0 if not problems else 1
+
+    if not problems:
+        print("release: clean")
+        return 0
+    for p in problems:
+        print(f"problem: {p}")
+    print(f"release: {len(problems)} problems")
+    return 1
+
+
 def _cmd_selftest(argv):
     if argv:
         print(__doc__)
@@ -120,6 +144,7 @@ COMMANDS = {
     "route": _cmd_route,
     "check": _cmd_check,
     "audit": _cmd_audit,
+    "release": _cmd_release,
     "selftest": _cmd_selftest,
 }
 

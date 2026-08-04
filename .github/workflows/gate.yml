@@ -9,3 +9,5 @@ jobs:
         run: python3 tools/gates/gate.py selftest
       - name: Repo audit
         run: python3 tools/gates/gate.py audit
+      - name: Release rules
+        run: python3 tools/gates/gate.py release

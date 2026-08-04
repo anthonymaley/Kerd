@@ -1,6 +1,6 @@
 ---
 name: trim
-description: "Use when the user says 'trim', '/trim', 'token trim', or 'feature complete cleanup'. Archives completed feature docs, prunes stale CLAUDE.md content, cleans stale memory entries, and trims completed TODO items. Run this after every feature is shipped."
+description: "Use when the user says 'trim', '/kerd:trim', 'token trim', or 'feature complete cleanup'. Archives completed feature docs, prunes stale CLAUDE.md content, cleans stale memory entries, and trims completed TODO items. Run this after every feature is shipped."
 ---
 
 # Trim (Token Optimization — Light Pass)
