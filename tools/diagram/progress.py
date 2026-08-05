@@ -3,16 +3,16 @@
 derived from disk — git log, gate route, Pieces checklists, docs/gates/ —
 never self-reported, never prose.
 
-    python3 tools/diagram/progress.py [--json]   # render: writes docs/plans/progress.{excalidraw,svg}; prints table (or the model as JSON)
+    python3 tools/diagram/progress.py [--json]   # render: writes docs/plans/progress.{excalidraw,svg,html}; prints table (or the model as JSON)
     python3 tools/diagram/progress.py selftest   # fixture suite in temp trees — exit 0 / 1
-    python3 tools/diagram/progress.py stale      # check-only: fresh temp render vs committed pair — exit 0 current / 1 stale
+    python3 tools/diagram/progress.py stale      # check-only: fresh temp render vs committed trio — exit 0 current / 1 stale
 
 Render always exits 0 — it is a report, like `gate.py route`; drift is
 shown, never failed on. With --json the canvas pair is still written, but
 nothing except the JSON model is printed. Any other invocation prints this
 usage text and exits 2. Every decision lives in progress_kit.py; this
 module only parses argv, writes files, and prints. stale is the refuser: it
-renders to a temp directory, byte-compares against the committed pair, and
+renders to a temp directory, byte-compares against the committed trio, and
 exits 1 naming each differing or missing file plus the fix command; it
 mutates nothing.
 """
@@ -35,8 +35,8 @@ def _cmd_render(argv):
     model = progress_kit.derive(progress_kit.REPO)
     canvas = progress_kit.build_canvas(model)
 
-    out, svg_out, w, h = progress_kit.write_pair(
-        canvas, os.path.join(progress_kit.REPO, "docs", "plans"))
+    out, svg_out, html_out, w, h = progress_kit.write_surfaces(
+        model, canvas, os.path.join(progress_kit.REPO, "docs", "plans"))
 
     if as_json:
         print(json.dumps(model))
@@ -46,6 +46,7 @@ def _cmd_render(argv):
     print()
     print("wrote", out)
     print("wrote", svg_out, f"({w:.0f}x{h:.0f})")
+    print("wrote", html_out)
 
     faults = overflow_report(canvas.els)
     if faults:

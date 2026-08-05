@@ -40,6 +40,11 @@ answer is "is this tree's render current?" — a dirty worktree can be
 stale locally before CI would see it, which fails safe. Usage errors keep the renderer's convention: any other argv prints
 usage, exit 2.
 
+*(Amended by the `progress-html` build, 2026-08-04: `write_pair` became
+`write_surfaces`, and the compare set grew from the pair to the trio —
+`docs/plans/progress.{excalidraw,svg,html}`. Read "both files" here as
+"all three"; the fix line now stages all three files.)*
+
 ## The ship flow
 
 **Now:** commit work (with its `Piece:` trailer) → push. The render

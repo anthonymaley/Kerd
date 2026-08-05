@@ -8,6 +8,8 @@ schema); progress.py only parses argv, writes files, and prints.
 """
 
 import glob
+import hashlib
+import html
 import importlib.util
 import json
 import os
@@ -116,21 +118,35 @@ def head_text(root, relpath):
 
 
 def piece_evidence(root):
-    """All (slug, n) pairs found by scanning every line of
-    `git log --format=%B` against TRAILER_RE. Empty set on git failure
+    """Landed-piece evidence: dict {(slug, n): {"sha": short_sha,
+    "subject": subject}} from scanning every commit body of `git log`
+    (newest first) against TRAILER_RE; when a pair is named by more than
+    one commit the newest wins. Insertion order IS recency order — the
+    first entry inserted comes from the newest trailer-carrying commit,
+    which is what derive's `newest` reads. Membership tests and (slug, n)
+    key iteration keep the old set semantics. Empty dict on git failure
     (e.g. a zero-commit repo) — never an exception."""
     result = subprocess.run(
-        ["git", "-C", root, "log", "--format=%B"],
+        ["git", "-C", root, "log", "--format=%x01%h%x02%s%x02%B"],
         capture_output=True, text=True,
     )
     if result.returncode != 0:
-        return set()
+        return {}
 
-    evidence = set()
-    for line in result.stdout.splitlines():
-        m = TRAILER_RE.match(line)
-        if m:
-            evidence.add((m.group(1), int(m.group(2))))
+    evidence = {}
+    for record in result.stdout.split("\x01"):
+        if not record:
+            continue
+        parts = record.split("\x02", 2)
+        if len(parts) != 3:
+            continue
+        sha, subject, body = parts
+        for line in body.splitlines():
+            m = TRAILER_RE.match(line)
+            if m:
+                key = (m.group(1), int(m.group(2)))
+                if key not in evidence:
+                    evidence[key] = {"sha": sha, "subject": subject}
     return evidence
 
 
@@ -177,10 +193,12 @@ def goal_for(root, slug, evidence):
             state = "remaining"
             counts["remaining"] += 1
 
+        ev = evidence.get((slug, n))
         pieces.append({
             "n": n, "text": text,
             "checked_worktree": checked_wt, "checked_head": checked_head,
             "state": state,
+            "evidence_sha": ev["sha"] if ev else None,
         })
 
     return {"slug": slug, "contract": contract, "mode": mode, "pieces": pieces, "counts": counts}
@@ -219,6 +237,7 @@ def board_for(root, slug, gates_kit):
         rungs.append({
             "rung": rung_name, "state": state,
             "have": len(r["have"]), "need": len(r["need"]),
+            "have_items": list(r["have"]), "need_items": list(r["need"]),
             "agreed": agreed,
         })
 
@@ -226,7 +245,8 @@ def board_for(root, slug, gates_kit):
 
 
 def derive(root):
-    """The full A5 model: audit_problems, slugs, board, goals, drift."""
+    """The full model: audit_problems, newest, slugs, board, goals,
+    drift."""
     gates_kit = load_gates_kit()
     slugs = discover_slugs(root)
     evidence = piece_evidence(root)
@@ -244,6 +264,7 @@ def derive(root):
 
     return {
         "audit_problems": len(gates_kit.audit(root)),
+        "newest": next(iter(evidence.values())) if evidence else None,
         "slugs": slugs,
         "board": board,
         "goals": goals,
@@ -253,15 +274,15 @@ def derive(root):
 
 FIX_LINE = ("run: python3 tools/diagram/progress.py && "
             "git add docs/plans/progress.excalidraw "
-            "docs/plans/progress.svg && git commit")
+            "docs/plans/progress.svg docs/plans/progress.html && git commit")
 
 
-def write_pair(canvas, dir_path):
-    """Serialize `canvas` to progress.excalidraw + progress.svg in
-    `dir_path`. The ONLY serializer of the pair — the render and the
-    stale check both write through here, so the byte-compare can never
-    be defeated by two drifting serializations. Returns
-    (excalidraw_path, svg_path, w, h)."""
+def write_surfaces(model, canvas, dir_path):
+    """Serialize the committed view surfaces — progress.excalidraw,
+    progress.svg, progress.html — into `dir_path`. The ONLY serializer
+    of the trio: the render and the stale check both write through here,
+    so the byte-compare can never be defeated by two drifting
+    serializations. Returns (excalidraw_path, svg_path, html_path, w, h)."""
     os.makedirs(dir_path, exist_ok=True)
     doc = {
         "type": "excalidraw", "version": 2, "source": "https://excalidraw.com",
@@ -274,23 +295,28 @@ def write_pair(canvas, dir_path):
         json.dump(doc, f, indent=2)
     svg_out = os.path.join(dir_path, "progress.svg")
     w, h = to_svg(canvas.els, svg_out)
-    return out, svg_out, w, h
+    html_out = os.path.join(dir_path, "progress.html")
+    with open(html_out, "w", encoding="utf-8", newline="\n") as f:
+        f.write(render_html(model))
+    return out, svg_out, html_out, w, h
 
 
 def stale(root):
-    """Check-only staleness verdict: render the pair to a temp directory
+    """Check-only staleness verdict: render the trio to a temp directory
     (never the working tree) and byte-compare each file against the
-    committed pair on disk under `root`. Returns (0, ["render current"])
-    when both are identical; else (1, lines) — 'stale: <relpath>' /
-    'missing: <relpath>' per file, excalidraw first, FIX_LINE last.
-    Mutates nothing under `root`."""
+    committed surfaces on disk under `root`. Returns
+    (0, ["render current"]) when all three are identical; else
+    (1, lines) — 'stale: <relpath>' / 'missing: <relpath>' per file —
+    excalidraw, then svg, then html — FIX_LINE last. Mutates nothing
+    under `root`."""
     model = derive(root)
     canvas = build_canvas(model)
     problems = []
     with tempfile.TemporaryDirectory() as td:
-        tmp_ex, tmp_svg, _w, _h = write_pair(canvas, td)
+        tmp_ex, tmp_svg, tmp_html, _w, _h = write_surfaces(model, canvas, td)
         for tmp, rel in ((tmp_ex, "docs/plans/progress.excalidraw"),
-                         (tmp_svg, "docs/plans/progress.svg")):
+                         (tmp_svg, "docs/plans/progress.svg"),
+                         (tmp_html, "docs/plans/progress.html")):
             committed = os.path.join(root, rel)
             if not os.path.exists(committed):
                 problems.append(f"missing: {rel}")
@@ -418,9 +444,9 @@ def render_table(model):
 
 def build_canvas(model):
     """A7: title, legend, board grid, goal strips, drift lines — the drawing
-    on the live canvas. Returns the kit.Canvas; writes nothing (write_pair
-    owns the .excalidraw/.svg serialization; the render and the stale check
-    both write through it)."""
+    on the live canvas. Returns the kit.Canvas; writes nothing
+    (write_surfaces owns the .excalidraw/.svg/.html serialization; the
+    render and the stale check both write through it)."""
     X = 300
     LABEL_W = 150
     COL_W = 230
@@ -534,14 +560,182 @@ def build_canvas(model):
     return c
 
 
+_CSS = (
+    "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', "
+    "Roboto, Helvetica, Arial, sans-serif; color: " + INK + "; "
+    "max-width: 960px; margin: 0 auto; padding: 24px 20px 60px; "
+    "line-height: 1.5; }"
+    "h1, h2 { font-weight: 600; }"
+    "h2 { margin-top: 40px; border-bottom: 1px solid " + GREY + "; "
+    "padding-bottom: 6px; }"
+    ".fresh, .audit, .legend { font-size: 14px; }"
+    ".red { color: " + RED + "; }"
+    ".green { color: " + GREEN + "; }"
+    "table { border-collapse: collapse; margin: 16px 0; }"
+    "th, td { border: 1px solid " + GREY + "; padding: 6px 12px; "
+    "font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; "
+    "text-align: left; }"
+    ".strip, .sha { font-family: ui-monospace, SFMono-Regular, Menlo, "
+    "Consolas, monospace; }"
+    ".goal { border-top: 1px solid " + GREY + "; padding: 12px 0; }"
+    ".goal-head { cursor: pointer; display: flex; gap: 16px; "
+    "align-items: baseline; }"
+    ".slug { font-weight: 600; }"
+    ".goal .detail { display: none; padding: 8px 0 4px 16px; }"
+    ".goal.open .detail { display: block; }"
+    ".piece, .rung-name, .have, .need, .spike { margin: 4px 0; }"
+    ".rung-name { font-weight: 600; }"
+)
+
+
+_JS = ("document.querySelectorAll('.goal-head').forEach(function (h) { "
+       "h.addEventListener('click', function () { "
+       "h.parentNode.classList.toggle('open'); }); });")
+
+
+def render_html(model):
+    """The self-contained progress page (docs/design/progress-html.md):
+    header + freshness line, board grid, goal strips with click-to-expand
+    detail, drift; model inlined as a JSON block. Pure function of
+    `model` — no time, no HEAD, no randomness, no set iteration; every
+    model-derived string is HTML-escaped."""
+    e = html.escape
+    canonical = json.dumps(model, sort_keys=True, separators=(",", ":"))
+    fingerprint = hashlib.md5(canonical.encode("utf-8")).hexdigest()
+
+    if model["newest"] is not None:
+        fresh = ("newest landed piece: " + e(model["newest"]["sha"]) + " — "
+                 + e(model["newest"]["subject"]) + " · state " + fingerprint)
+    else:
+        fresh = "no landed pieces yet · state " + fingerprint
+
+    out = [
+        "<!doctype html>",
+        '<html lang="en">',
+        "<head>",
+        '<meta charset="utf-8">',
+        "<title>Progress — derived from disk</title>",
+        "<style>", _CSS, "</style>",
+        "</head>",
+        "<body>",
+        "<h1>Progress — derived from disk</h1>",
+        '<p class="fresh">' + fresh + "</p>",
+    ]
+
+    if model["audit_problems"] == 0:
+        out.append('<p class="audit">audit: clean</p>')
+    else:
+        out.append('<p class="audit red">audit: '
+                   + str(model["audit_problems"]) + " problems</p>")
+
+    if not model["slugs"]:
+        out.append("<p>no work orders on disk</p>")
+    else:
+        non_bypass = [b for b in model["board"] if not b["bypass"]]
+        bypass = [b for b in model["board"] if b["bypass"]]
+
+        out.append("<h2>BOARD</h2>")
+        out.append('<p class="legend">[G] agreed · [#] built · '
+                   "[&gt;] in-flight · [.] missing</p>")
+        if non_bypass:
+            out.append("<table>")
+            out.append("<tr><th>rung</th>"
+                       + "".join("<th>" + e(b["slug"]) + "</th>" for b in non_bypass)
+                       + "</tr>")
+            rung_names = [r["rung"] for r in non_bypass[0]["rungs"]]
+            for ridx, rung_name in enumerate(rung_names):
+                cells = []
+                for b in non_bypass:
+                    r = b["rungs"][ridx]
+                    if r["state"] == "built":
+                        text, cls = "#", "built"
+                    elif r["state"] == "in-flight":
+                        text, cls = "&gt;", "inflight"
+                    else:
+                        text, cls = ". need " + str(r["need"]), "red"
+                    if r["agreed"]:
+                        text += ' <span class="green">G</span>'
+                    cells.append('<td class="' + cls + '">' + text + "</td>")
+                out.append("<tr><th>" + e(rung_name) + "</th>"
+                           + "".join(cells) + "</tr>")
+            out.append("</table>")
+        for b in bypass:
+            out.append('<p class="spike">SPIKE ' + e(b["slug"])
+                       + " — ladder bypassed</p>")
+
+        out.append("<h2>GOALS</h2>")
+        board_by_slug = {b["slug"]: b for b in model["board"]}
+        for g in model["goals"]:
+            out.append('<div class="goal">')
+            head = ['<div class="goal-head"><span class="slug">'
+                    + e(g["slug"]) + "</span>"]
+            if g["contract"] is None:
+                head.append('<span class="red">no contract on disk</span>')
+            elif g["counts"] is None:
+                head.append('<span class="red">no Pieces checklist in '
+                            + e(g["contract"]) + "</span>")
+            else:
+                strip = []
+                for p in g["pieces"]:
+                    if p["state"] == "landed":
+                        strip.append("#")
+                    elif p["state"] == "in flight":
+                        strip.append("&gt;")
+                    else:
+                        strip.append('<span class="red">.</span>')
+                c = g["counts"]
+                head.append('<span class="strip">' + "".join(strip) + "</span>")
+                head.append('<span class="counts">' + str(c["landed"])
+                            + " landed · " + str(c["in_flight"])
+                            + " in flight · " + str(c["remaining"])
+                            + " remaining</span>")
+            head.append("</div>")
+            out.append("".join(head))
+
+            detail = ['<div class="detail">']
+            for p in g["pieces"]:
+                line = str(p["n"]) + " [" + e(p["state"]) + "] " + e(p["text"])
+                if p["evidence_sha"] is not None:
+                    line += ' · <span class="sha">' + e(p["evidence_sha"]) + "</span>"
+                detail.append('<p class="piece">' + line + "</p>")
+            b = board_by_slug[g["slug"]]
+            if b["bypass"]:
+                detail.append('<p class="spike">SPIKE — ladder bypassed</p>')
+            else:
+                for r in b["rungs"]:
+                    detail.append('<p class="rung-name">' + e(r["rung"]) + "</p>")
+                    for item in r["have_items"]:
+                        detail.append('<p class="have">have: ' + e(item) + "</p>")
+                    for item in r["need_items"]:
+                        detail.append('<p class="need red">need: ' + e(item) + "</p>")
+            detail.append("</div>")
+            out.append("".join(detail))
+            out.append("</div>")
+
+        out.append("<h2>DRIFT</h2>")
+        if model["drift"]:
+            for d in model["drift"]:
+                out.append('<p class="red">drift: ' + e(d) + "</p>")
+        else:
+            out.append("<p>drift: none</p>")
+
+    out.append('<script type="application/json" id="progress-data">'
+               + canonical.replace("</", "<\\/") + "</script>")
+    out.append("<script>" + _JS + "</script>")
+    out.append("</body>")
+    out.append("</html>")
+    return "\n".join(out) + "\n"
+
+
 # ── selftest ─────────────────────────────────────────────────────────────
 #
-# Part B fixtures (F1-F10; F11-F13 come from the push-wiring spec): the
-# gates' own fixture idiom (tools/gates/kit.py's _selftest_body), plus git
-# — each case builds its tree in a tempfile.TemporaryDirectory, `git
-# init`s it, and commits with an explicit identity, because CI runners
-# carry no git identity and a bare `git commit` fails there. Slug 'alpha',
-# contract docs/plans/2026-01-02-alpha-spec.md, per Part B.
+# Part B fixtures (F1-F10; F11-F13 from the push-wiring spec, amended to
+# the trio, and F14 added by the progress-html spec): the gates' own
+# fixture idiom (tools/gates/kit.py's _selftest_body), plus git — each
+# case builds its tree in a tempfile.TemporaryDirectory, `git init`s it,
+# and commits with an explicit identity, because CI runners carry no git
+# identity and a bare `git commit` fails there. Slug 'alpha', contract
+# docs/plans/2026-01-02-alpha-spec.md, per Part B.
 
 _ST_SLUG = "alpha"
 _ST_CONTRACT_REL = "docs/plans/2026-01-02-alpha-spec.md"
@@ -621,7 +815,7 @@ def _f2():
         _git_init(d)
         contract_abs = os.path.join(d, _ST_CONTRACT_REL)
         _sw(contract_abs, _pieces_md([False, False, False]))
-        assert piece_evidence(d) == set(), "expected empty evidence set on a zero-commit repo"
+        assert piece_evidence(d) == {}, "expected empty evidence on a zero-commit repo"
         assert head_text(d, _ST_CONTRACT_REL) is None, \
             "expected head_text None on a zero-commit repo"
         model = derive(d)
@@ -766,8 +960,8 @@ def _f11():
         _mk_f8_tree(d)
         model = derive(d)
         canvas = build_canvas(model)
-        write_pair(canvas, os.path.join(d, "docs", "plans"))
-        _git_commit(d, "render pair")
+        write_surfaces(model, canvas, os.path.join(d, "docs", "plans"))
+        _git_commit(d, "render trio")
         code, lines = stale(d)
         assert code == 0, f"expected exit 0, got {code}: {lines}"
         assert lines == ["render current"], lines
@@ -782,16 +976,18 @@ def _f12():
         _git_commit(d, "add alpha contract, all unchecked")
         model = derive(d)
         canvas = build_canvas(model)
-        write_pair(canvas, os.path.join(d, "docs", "plans"))
-        _git_commit(d, "render pair")
+        write_surfaces(model, canvas, os.path.join(d, "docs", "plans"))
+        _git_commit(d, "render trio")
         _sw(os.path.join(d, _ST_CONTRACT_REL), _pieces_md([True, False, False]))
         code, lines = stale(d)
         assert code == 1, f"expected exit 1, got {code}: {lines}"
         assert lines == [
             "stale: docs/plans/progress.excalidraw",
             "stale: docs/plans/progress.svg",
+            "stale: docs/plans/progress.html",
             "run: python3 tools/diagram/progress.py && git add "
-            "docs/plans/progress.excalidraw docs/plans/progress.svg && git commit",
+            "docs/plans/progress.excalidraw docs/plans/progress.svg "
+            "docs/plans/progress.html && git commit",
         ], lines
 
 
@@ -803,15 +999,31 @@ def _f13():
         assert lines == [
             "missing: docs/plans/progress.excalidraw",
             "missing: docs/plans/progress.svg",
+            "missing: docs/plans/progress.html",
             FIX_LINE,
         ], lines
 
 
+def _f14():
+    with tempfile.TemporaryDirectory() as d:
+        _mk_f8_tree(d)
+        with tempfile.TemporaryDirectory() as ta, \
+                tempfile.TemporaryDirectory() as tb:
+            model_a = derive(d)
+            first = write_surfaces(model_a, build_canvas(model_a), ta)
+            model_b = derive(d)
+            second = write_surfaces(model_b, build_canvas(model_b), tb)
+            for pa, pb in zip(first[:3], second[:3]):
+                with open(pa, "rb") as a, open(pb, "rb") as b:
+                    assert a.read() == b.read(), \
+                        f"consecutive generations differ: {os.path.basename(pa)}"
+
+
 def selftest():
-    """Part B: F1-F13, each built fresh in its own temp tree (git init +
+    """Part B: F1-F14, each built fresh in its own temp tree (git init +
     committed history, per case). Prints one 'ok <n> — <name>' line per
     case; on the first failed assertion prints 'FAIL <n> — <name>: <why>'
-    and returns 1. On full success prints 'selftest: 13 ok' and returns 0.
+    and returns 1. On full success prints 'selftest: 14 ok' and returns 0.
 
     Two things this suite does NOT cover, named rather than silently
     skipped: a bypass (spike) slug — `route()`'s bypass:true path, which
@@ -830,8 +1042,9 @@ def selftest():
         (_f9, "agreed overlay: a docs/gates GO record marks only its own rung"),
         (_f10, "canvas layout checks clean on the F8 model"),
         (_f11, "stale: converged tree — render current, exit 0"),
-        (_f12, "stale: drifted tree — exit 1 naming both files and the verbatim fix"),
-        (_f13, "stale: missing pair — exit 1 naming both missing files"),
+        (_f12, "stale: drifted tree — exit 1 naming all three files and the verbatim fix"),
+        (_f13, "stale: missing trio — exit 1 naming all three missing files"),
+        (_f14, "determinism: two consecutive write_surfaces runs byte-identical"),
     ]
     for i, (fn, name) in enumerate(cases, start=1):
         try:
@@ -843,5 +1056,5 @@ def selftest():
             print(f"FAIL {i} — {name}: unexpected {type(e).__name__}: {e}")
             return 1
         print(f"ok {i} — {name}")
-    print("selftest: 13 ok")
+    print("selftest: 14 ok")
     return 0
