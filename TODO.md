@@ -2,7 +2,7 @@
 
 ## Now
 
-**Next: push-wiring's goal record** — the route's one remaining need (`docs/gates/*-push-wiring-goal.md` with a "Done condition" section): cold eyes on the whole change plus the expert-user pass, Tony using the refuser in a real ship. After it: grounding-was-read · gate.py rendering its have/need through the progress view. Standing flow change since v0.78.0: every push must carry a current render — CI step 7 refuses otherwise, the message names the fix. Session record: `kivna/sessions/2026-08-04.md`. Working default: per-piece evidence check before each transformation — no blanket license.
+**Next: frame the interactive HTML progress view** — the ladder's next passenger, born from Tony's expert-user finding at the push-wiring goal gate ("hard to consume quickly" is its Value line). Merges the named "gate.py rendering through the progress view" slice; walks frame → viability → slice → design like push-wiring did. After it: grounding-was-read. Standing flow change since v0.78.0: every push must carry a current render — CI step 7 goes red otherwise, the message names the fix. Session record: `kivna/sessions/2026-08-04.md`. Working default: per-piece evidence check before each transformation — no blanket license.
 
 Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.74.0, four versions behind (repin when convenient).
 
@@ -19,6 +19,7 @@ Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
 - AGENTS.md needs its own verdict: gitignored, machine-local, stale Codex-era fork (`.Codex-plugin`, `/kerd:dian` references); its identity line was fixed locally in the cut, the rest of the drift stands.
 - Regenerate the choose-what-matters view before its next use: Bree item removed, and candidate cards must carry no skill names (`gen_choose.py`).
 - Hook version staleness check in `/kerd:tend` — four occurrences now.
+- PR-event edge in the stale CI step (goal-gate cold review find): on `pull_request` the merge ref carries base-branch trailers the branch never rendered — a converged branch could go red. Unexercised (no PR flow); scope the step to `push` or contract PR behaviour when PRs become real.
 - Guard switch-in step 3 smoke test against context bloat (delegate the run; absorb a verdict, never a full log).
 
 **Low — genuinely ignorable, and you can see what ignoring costs**
