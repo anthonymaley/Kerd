@@ -145,7 +145,7 @@ push, not just against a named slug.
 | AU2 | `docs/product/*.md`: undated filename · front matter required and legal · stage-vs-sections within the file: `framed`+ requires `Value`, `viable`+ requires `Risk ledger`, `sliced`+ requires `Release slice` — a stage claiming more progress than the file's sections show is a named problem. |
 | AU3 | `docs/gates/*.md` filenames MUST match `^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-(frame\|viability\|slice\|design\|contract\|build\|goal\|loop)\.md$`. |
 | AU4 | Any `docs/**/*.md` whose front matter carries `route` or `stage`: both keys present, both values legal — this validates the front-matter schema against every file that opts into it, including dated spec files like this piece's own contract. |
-| AU5 | `docs/product/*.md` carrying a `## Grounding` section: every top-level list line must parse as `- <ref> — <why>` (split on the FIRST ` — `, the em-dash separator) and `<ref>` — a path or glob relative to the repo root — must resolve to ≥1 match on disk. Absent section = vacuous pass: declaring grounding is opting in. |
+| AU5 | `docs/product/*.md` carrying a `## Grounding` section: every `- ` list line must parse as `- <ref> — <why>` (split on the FIRST ` — `, the em-dash separator) and `<ref>` — a path or glob relative to the repo root — must resolve to ≥1 match on disk. Absent section = vacuous pass: declaring grounding is opting in. |
 
 Nonexistent directories pass vacuously — a repo that hasn't grown
 `docs/gates/` yet is not thereby in violation of its naming rule.
