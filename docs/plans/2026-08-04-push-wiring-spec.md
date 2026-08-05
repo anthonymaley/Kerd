@@ -1,6 +1,6 @@
 ---
 route: new
-stage: contracted
+stage: done
 ---
 
 # Push wiring — build spec (the score)

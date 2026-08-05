@@ -8,11 +8,15 @@ command.
 
 ## What it does
 
-Makes a lying render impossible to push. A seventh CI step re-renders the
+Makes a lying render impossible to MISS. A seventh CI step re-renders the
 progress view from the checkout and byte-compares it against the committed
-pair (`docs/plans/progress.{excalidraw,svg}`); any difference refuses the
-push naming both files and the exact fix. Forgetting the refresh stops
-being silent drift and becomes a named refusal.
+pair (`docs/plans/progress.{excalidraw,svg}`); any difference turns the
+tip's check red within one CI run, naming both files and the exact fix.
+Forgetting the refresh stops being silent drift and becomes a named red
+check. *(Amended at the goal gate, 2026-08-04: on a direct push CI runs
+after the ref has moved, so this is detection at the tip, not refusal
+before landing — true prevention sits on the product ledger as an
+accepted unknown with a named return condition.)*
 
 ## The `stale` subcommand
 
@@ -32,8 +36,8 @@ being silent drift and becomes a named refusal.
 
 Comparing against **disk** (not `HEAD:`) keeps one semantics everywhere:
 in CI the checkout is the pushed tip, so disk IS the tip; locally the
-answer is "would CI refuse this tree?" — the question a shipper actually
-has. Usage errors keep the renderer's convention: any other argv prints
+answer is "is this tree's render current?" — a dirty worktree can be
+stale locally before CI would see it, which fails safe. Usage errors keep the renderer's convention: any other argv prints
 usage, exit 2.
 
 ## The ship flow
@@ -121,8 +125,8 @@ cross-platform determinism proof.
 
 | Measurement (product doc, Value) | Target | Named answer |
 |---|---|---|
-| Staleness at a push tip | 0 commits | The seventh CI step byte-compares fresh vs committed at every pushed tip; any difference is a refusal, so no pushed HEAD can carry a lying render. Measured by: the both-ways refusal demonstration at ship + CI history thereafter. |
-| Remember-steps per ship | 0 | Enforcement lives outside the model: nothing must be remembered, because forgetting produces a refusal whose message contains the exact fix command (fixture 2 checks the message). Measured by: the fixture asserting the fix line verbatim. |
+| Staleness at a push tip | ≤ one CI run, never silent | The seventh CI step byte-compares fresh vs committed at every pushed tip; any difference goes red within the run, naming both files and the fix — a lying render cannot survive unnoticed. Measured by: the both-ways demonstration at ship + CI history thereafter. |
+| Remember-steps per ship | 0 silent | Nothing must be held in the head: forgetting surfaces as the red check whose message contains the exact fix command (fixture 2 asserts the message verbatim). Enforcement lives outside the model, at the tip, after landing. |
 
 ## Out of scope, named
 
