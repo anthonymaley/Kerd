@@ -511,8 +511,43 @@ def _audit_au4(root):
     return problems
 
 
+def _audit_au5(root):
+    """docs/product/*.md carrying a '## Grounding' section: every list
+    line ('- ...') must parse as '- <ref> — <why>' (split on the FIRST
+    ' — ') and <ref> — a path or glob relative to the repo root — must
+    resolve to at least one match on disk. Absent section = vacuous
+    pass: declaring grounding is opting in, and the audit refuses only
+    what was declared."""
+    problems = []
+    d = os.path.join(root, "docs", "product")
+    if not os.path.isdir(d):
+        return problems
+    for path in sorted(glob.glob(os.path.join(d, "*.md"))):
+        fname = os.path.basename(path)
+        rel = f"docs/product/{fname}"
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        body = find_section(text, "Grounding")
+        if not body:
+            continue
+        for line in body.splitlines():
+            if not line.startswith("- "):
+                continue
+            shown = line.rstrip()
+            rest = shown[2:]
+            if " — " not in rest:
+                problems.append(
+                    f"{rel} — grounding line malformed (want '- <ref> — <why>'): {shown}"
+                )
+                continue
+            ref = rest.split(" — ", 1)[0].strip()
+            if not glob.glob(os.path.join(root, ref)):
+                problems.append(f"{rel} — grounding reference does not resolve: {ref}")
+    return problems
+
+
 def audit(root):
-    """Repo-wide mechanical sweep (AU1-AU4). Empty list = clean. Nonexistent
+    """Repo-wide mechanical sweep (AU1-AU5). Empty list = clean. Nonexistent
     directories pass vacuously — a repo that hasn't grown docs/gates/ yet is
     not thereby in violation of docs/gates/'s naming rule."""
     problems = []
@@ -520,6 +555,7 @@ def audit(root):
     problems += _audit_au2(root)
     problems += _audit_au3(root)
     problems += _audit_au4(root)
+    problems += _audit_au5(root)
     return problems
 
 
@@ -929,15 +965,68 @@ def _selftest_body():
         problems = release_audit(root_r2)
         assert problems == [], f"T14: expected a clean release audit, got {problems}"
 
+    # T15 — AU5: resolving grounding (exact path + glob), audit clean.
+    with tempfile.TemporaryDirectory() as root_g1:
+        _sw(os.path.join(root_g1, "docs", "design", "beta.md"), "# Beta design\n\nHow it works.\n")
+        _sw(
+            os.path.join(root_g1, "docs", "product", "beta.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Grounding\n\n"
+            "- docs/design/beta.md — the design this work rides\n"
+            "- docs/design/*.md — every living design doc\n",
+        )
+        problems = audit(root_g1)
+        assert problems == [], f"T15: expected a clean audit, got {problems}"
+
+    # T16 — AU5: broken reference, named verbatim.
+    with tempfile.TemporaryDirectory() as root_g2:
+        _sw(
+            os.path.join(root_g2, "docs", "product", "beta.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Grounding\n\n"
+            "- docs/design/ghost.md — moved away and never fixed\n",
+        )
+        problems = audit(root_g2)
+        assert problems == [
+            "docs/product/beta.md — grounding reference does not resolve: docs/design/ghost.md"
+        ], f"T16: expected the verbatim broken-ref problem, got {problems}"
+
+    # T17 — AU5: malformed line (no ' — ' separator), named verbatim.
+    with tempfile.TemporaryDirectory() as root_g3:
+        _sw(
+            os.path.join(root_g3, "docs", "product", "beta.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Grounding\n\n"
+            "- docs/design/beta.md the why, but no separator\n",
+        )
+        problems = audit(root_g3)
+        assert problems == [
+            "docs/product/beta.md — grounding line malformed (want '- <ref> — <why>'): "
+            "- docs/design/beta.md the why, but no separator"
+        ], f"T17: expected the verbatim malformed-line problem, got {problems}"
+
+    # T18 — AU5: absent section = vacuous pass (opting in).
+    with tempfile.TemporaryDirectory() as root_g4:
+        _sw(
+            os.path.join(root_g4, "docs", "product", "beta.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n",
+        )
+        problems = audit(root_g4)
+        assert problems == [], f"T18: expected a vacuous pass, got {problems}"
+
 
 def selftest():
-    """Run the 14 fixture-built cases in temporary trees. Prints
-    'selftest: 14 cases passed' and returns 0 on success; on the first
+    """Run the 18 fixture-built cases in temporary trees. Prints
+    'selftest: 18 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 14 cases passed")
+    print("selftest: 18 cases passed")
     return 0

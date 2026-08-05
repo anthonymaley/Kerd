@@ -77,3 +77,10 @@ grounding lists (precise; authored every time, so they carry their own
 rot and ceremony risk). The design conversation owns the choice; the
 slice commits only to machine-readable declarations and a resolving
 audit, whichever shape wins.
+
+## Grounding
+
+- docs/design/grounding-was-read.md — the design this slice implements; AU5's semantics are measured against it
+- tools/gates/kit.py — the harness AU5 lands in
+- docs/gates/*-grounding-was-read-design.md — the design GO record that admitted this build
+- CONTEXT.md — standing decisions bind the implementation
