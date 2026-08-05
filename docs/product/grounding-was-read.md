@@ -1,6 +1,6 @@
 ---
 route: new
-stage: sliced
+stage: designed
 ---
 
 # Grounding-was-read — lost becomes a red light
