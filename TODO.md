@@ -2,9 +2,9 @@
 
 ## Now
 
-**Next: the journey-view frame conversation** — the human progress page, requirement captured from Tony 2026-08-05 (log tail, `kivna/sessions/2026-08-04.md`). Two levels: (1) *what's cooking* — what's happening right now and what's next; (2) *the end-to-end journey* per endeavour in human phase names (idea → validated → designed → spec → building X), traffic light per phase, work remaining, links opening the design canvases. Looks great, shareable as one file, READ-ONLY, derived from disk. Dropped outright (Tony): input-to-the-loop — likely unneeded if the flow is right. Separate unframed instrument: token/context usage + limits (harness state, not disk). The frame decides shipped `progress.html`'s fate — leading option: keep the trio plumbing, replace the page content. Context: progress-html slice 1 goal — machine keys passed, expert-user key REFUSED (product doc, Goal verdict section). After it: grounding-was-read. Working default: per-piece evidence check — no blanket license.
+**Next: grounding-was-read** — the remaining design-layer build (gates check the groundwork was actually read; spec A8 sketches the landing site — a `grounding` slot per rung + read-receipts on the `mark_reviewed` precedent). Working default: per-piece evidence check — no blanket license.
 
-Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.74.0, four versions behind (repin when convenient).
+Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.77.0, two versions behind (repin when convenient).
 
 ## Backlog
 
@@ -15,6 +15,7 @@ Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
 - Repin `leru`, `krutho-strategy`, `krutho-founders` off `kerd/0.65.0` — high consequence, **no value**: pure hygiene, one cache GC from silent breakage. `obair` has no pin at all (deliberate, or drift — unchecked).
 
 **Medium**
+- **Revisit the journey view when more data exists** (parked 2026-08-05, Tony's call, shape agreed on mock v4 — `docs/plans/2026-08-05-journey-view-mock.html`). Settled shape: one page per journey, the idea/problem as title; A3 Proposal head (current drawn · numbered pains · proposal drawn · targets in units · cost named) + measured-in-use strip; then the ladder as sections — steps with status + facts, "what we created" with links per rung; a front page above it: what's-cooking task cards (name · sentence · % · time-left · status word) + next-up queue. Revisit condition: more journeys walked through the gates. Prerequisite surfaced: progress % and time-left need declared on-disk homes before the real page can show them. progress-html stays held at proving meanwhile; the trio plumbing stays.
 - Clean krutho-strategy's stray `sessions-of-record/` — unblocked by the mode cut (v0.75.0).
 - AGENTS.md needs its own verdict: gitignored, machine-local, stale Codex-era fork (`.Codex-plugin`, `/kerd:dian` references); its identity line was fixed locally in the cut, the rest of the drift stands.
 - Regenerate the choose-what-matters view before its next use: Bree item removed, and candidate cards must carry no skill names (`gen_choose.py`).
