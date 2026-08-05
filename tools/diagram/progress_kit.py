@@ -9,6 +9,7 @@ schema); progress.py only parses argv, writes files, and prints.
 
 import glob
 import importlib.util
+import json
 import os
 import re
 import subprocess
@@ -21,6 +22,7 @@ import tempfile
 # silently shadow one.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from kit import Canvas, INK, RED, GREEN, GREY  # noqa: E402
+from to_svg import to_svg  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))      # default root; every function takes root
 
@@ -249,6 +251,58 @@ def derive(root):
     }
 
 
+FIX_LINE = ("run: python3 tools/diagram/progress.py && "
+            "git add docs/plans/progress.excalidraw "
+            "docs/plans/progress.svg && git commit")
+
+
+def write_pair(canvas, dir_path):
+    """Serialize `canvas` to progress.excalidraw + progress.svg in
+    `dir_path`. The ONLY serializer of the pair — the render and the
+    stale check both write through here, so the byte-compare can never
+    be defeated by two drifting serializations. Returns
+    (excalidraw_path, svg_path, w, h)."""
+    os.makedirs(dir_path, exist_ok=True)
+    doc = {
+        "type": "excalidraw", "version": 2, "source": "https://excalidraw.com",
+        "elements": canvas.els,
+        "appState": {"gridSize": None, "viewBackgroundColor": "#ffffff"},
+        "files": {},
+    }
+    out = os.path.join(dir_path, "progress.excalidraw")
+    with open(out, "w") as f:
+        json.dump(doc, f, indent=2)
+    svg_out = os.path.join(dir_path, "progress.svg")
+    w, h = to_svg(canvas.els, svg_out)
+    return out, svg_out, w, h
+
+
+def stale(root):
+    """Check-only staleness verdict: render the pair to a temp directory
+    (never the working tree) and byte-compare each file against the
+    committed pair on disk under `root`. Returns (0, ["render current"])
+    when both are identical; else (1, lines) — 'stale: <relpath>' /
+    'missing: <relpath>' per file, excalidraw first, FIX_LINE last.
+    Mutates nothing under `root`."""
+    model = derive(root)
+    canvas = build_canvas(model)
+    problems = []
+    with tempfile.TemporaryDirectory() as td:
+        tmp_ex, tmp_svg, _w, _h = write_pair(canvas, td)
+        for tmp, rel in ((tmp_ex, "docs/plans/progress.excalidraw"),
+                         (tmp_svg, "docs/plans/progress.svg")):
+            committed = os.path.join(root, rel)
+            if not os.path.exists(committed):
+                problems.append(f"missing: {rel}")
+                continue
+            with open(tmp, "rb") as a, open(committed, "rb") as b:
+                if a.read() != b.read():
+                    problems.append(f"stale: {rel}")
+    if not problems:
+        return 0, ["render current"]
+    return 1, problems + [FIX_LINE]
+
+
 def render_table(model):
     """A6: the terminal pull, exact. Board glyphs: '#' built, '>'
     in-flight, '. need <n>' missing, with ' G' appended when agreed.
@@ -364,8 +418,9 @@ def render_table(model):
 
 def build_canvas(model):
     """A7: title, legend, board grid, goal strips, drift lines — the drawing
-    on the live canvas. Returns the kit.Canvas; writes nothing (progress.py
-    owns the .excalidraw/.svg writes, per A8's gates-style split)."""
+    on the live canvas. Returns the kit.Canvas; writes nothing (write_pair
+    owns the .excalidraw/.svg serialization; the render and the stale check
+    both write through it)."""
     X = 300
     LABEL_W = 150
     COL_W = 230
@@ -481,12 +536,12 @@ def build_canvas(model):
 
 # ── selftest ─────────────────────────────────────────────────────────────
 #
-# Part B fixtures (F1-F10): the gates' own fixture idiom (tools/gates/
-# kit.py's _selftest_body), plus git — each case builds its tree in a
-# tempfile.TemporaryDirectory, `git init`s it, and commits with an
-# explicit identity, because CI runners carry no git identity and a bare
-# `git commit` fails there. Slug 'alpha', contract
-# docs/plans/2026-01-02-alpha-spec.md, per Part B.
+# Part B fixtures (F1-F10; F11-F13 come from the push-wiring spec): the
+# gates' own fixture idiom (tools/gates/kit.py's _selftest_body), plus git
+# — each case builds its tree in a tempfile.TemporaryDirectory, `git
+# init`s it, and commits with an explicit identity, because CI runners
+# carry no git identity and a bare `git commit` fails there. Slug 'alpha',
+# contract docs/plans/2026-01-02-alpha-spec.md, per Part B.
 
 _ST_SLUG = "alpha"
 _ST_CONTRACT_REL = "docs/plans/2026-01-02-alpha-spec.md"
@@ -706,11 +761,57 @@ def _f10():
         assert t == [], t
 
 
+def _f11():
+    with tempfile.TemporaryDirectory() as d:
+        _mk_f8_tree(d)
+        model = derive(d)
+        canvas = build_canvas(model)
+        write_pair(canvas, os.path.join(d, "docs", "plans"))
+        _git_commit(d, "render pair")
+        code, lines = stale(d)
+        assert code == 0, f"expected exit 0, got {code}: {lines}"
+        assert lines == ["render current"], lines
+        assert _git(d, "status", "--porcelain") == "", \
+            "stale mutated the fixture tree"
+
+
+def _f12():
+    with tempfile.TemporaryDirectory() as d:
+        _mk_f8_tree(d)
+        _sw(os.path.join(d, _ST_CONTRACT_REL), _pieces_md([False, False, False]))
+        _git_commit(d, "add alpha contract, all unchecked")
+        model = derive(d)
+        canvas = build_canvas(model)
+        write_pair(canvas, os.path.join(d, "docs", "plans"))
+        _git_commit(d, "render pair")
+        _sw(os.path.join(d, _ST_CONTRACT_REL), _pieces_md([True, False, False]))
+        code, lines = stale(d)
+        assert code == 1, f"expected exit 1, got {code}: {lines}"
+        assert lines == [
+            "stale: docs/plans/progress.excalidraw",
+            "stale: docs/plans/progress.svg",
+            "run: python3 tools/diagram/progress.py && git add "
+            "docs/plans/progress.excalidraw docs/plans/progress.svg && git commit",
+        ], lines
+
+
+def _f13():
+    with tempfile.TemporaryDirectory() as d:
+        _mk_f8_tree(d)
+        code, lines = stale(d)
+        assert code == 1, f"expected exit 1, got {code}: {lines}"
+        assert lines == [
+            "missing: docs/plans/progress.excalidraw",
+            "missing: docs/plans/progress.svg",
+            FIX_LINE,
+        ], lines
+
+
 def selftest():
-    """Part B: F1-F10, each built fresh in its own temp tree (git init +
+    """Part B: F1-F13, each built fresh in its own temp tree (git init +
     committed history, per case). Prints one 'ok <n> — <name>' line per
     case; on the first failed assertion prints 'FAIL <n> — <name>: <why>'
-    and returns 1. On full success prints 'selftest: 10 ok' and returns 0.
+    and returns 1. On full success prints 'selftest: 13 ok' and returns 0.
 
     Two things this suite does NOT cover, named rather than silently
     skipped: a bypass (spike) slug — `route()`'s bypass:true path, which
@@ -728,6 +829,9 @@ def selftest():
         (_f8, "board: frame built, viability in-flight, slice missing"),
         (_f9, "agreed overlay: a docs/gates GO record marks only its own rung"),
         (_f10, "canvas layout checks clean on the F8 model"),
+        (_f11, "stale: converged tree — render current, exit 0"),
+        (_f12, "stale: drifted tree — exit 1 naming both files and the verbatim fix"),
+        (_f13, "stale: missing pair — exit 1 naming both missing files"),
     ]
     for i, (fn, name) in enumerate(cases, start=1):
         try:
@@ -739,5 +843,5 @@ def selftest():
             print(f"FAIL {i} — {name}: unexpected {type(e).__name__}: {e}")
             return 1
         print(f"ok {i} — {name}")
-    print("selftest: 10 ok")
+    print("selftest: 13 ok")
     return 0

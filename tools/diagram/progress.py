@@ -5,12 +5,16 @@ never self-reported, never prose.
 
     python3 tools/diagram/progress.py [--json]   # render: writes docs/plans/progress.{excalidraw,svg}; prints table (or the model as JSON)
     python3 tools/diagram/progress.py selftest   # fixture suite in temp trees — exit 0 / 1
+    python3 tools/diagram/progress.py stale      # check-only: fresh temp render vs committed pair — exit 0 current / 1 stale
 
 Render always exits 0 — it is a report, like `gate.py route`; drift is
 shown, never failed on. With --json the canvas pair is still written, but
 nothing except the JSON model is printed. Any other invocation prints this
 usage text and exits 2. Every decision lives in progress_kit.py; this
-module only parses argv, writes files, and prints.
+module only parses argv, writes files, and prints. stale is the refuser: it
+renders to a temp directory, byte-compares against the committed pair, and
+exits 1 naming each differing or missing file plus the fix command; it
+mutates nothing.
 """
 import json
 import os
@@ -18,7 +22,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import progress_kit
-from to_svg import to_svg, overflow_report, collision_report, text_overlap_report
+from to_svg import overflow_report, collision_report, text_overlap_report
 
 
 def _cmd_render(argv):
@@ -31,18 +35,8 @@ def _cmd_render(argv):
     model = progress_kit.derive(progress_kit.REPO)
     canvas = progress_kit.build_canvas(model)
 
-    doc = {
-        "type": "excalidraw", "version": 2, "source": "https://excalidraw.com",
-        "elements": canvas.els,
-        "appState": {"gridSize": None, "viewBackgroundColor": "#ffffff"},
-        "files": {},
-    }
-    out = os.path.join(progress_kit.REPO, "docs", "plans", "progress.excalidraw")
-    with open(out, "w") as f:
-        json.dump(doc, f, indent=2)
-
-    svg_out = out.replace(".excalidraw", ".svg")
-    w, h = to_svg(canvas.els, svg_out)
+    out, svg_out, w, h = progress_kit.write_pair(
+        canvas, os.path.join(progress_kit.REPO, "docs", "plans"))
 
     if as_json:
         print(json.dumps(model))
@@ -80,9 +74,18 @@ def _cmd_render(argv):
     return 0
 
 
+def _cmd_stale():
+    code, lines = progress_kit.stale(progress_kit.REPO)
+    for line in lines:
+        print(line)
+    return code
+
+
 def main(argv):
     if argv == ["selftest"]:
         sys.exit(progress_kit.selftest())
+    if argv == ["stale"]:
+        return _cmd_stale()
     if not argv or argv == ["--json"]:
         return _cmd_render(argv)
     print(__doc__)
