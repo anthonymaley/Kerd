@@ -2,7 +2,7 @@
 
 ## Now
 
-**Next: frame the interactive HTML progress view** — the ladder's next passenger, born from Tony's expert-user finding at the push-wiring goal gate ("hard to consume quickly" is its Value line). Merges the named "gate.py rendering through the progress view" slice; walks frame → viability → slice → design like push-wiring did. After it: grounding-was-read. Standing flow change since v0.78.0: every push must carry a current render — CI step 7 goes red otherwise, the message names the fix. Session record: `kivna/sessions/2026-08-04.md`. Working default: per-piece evidence check before each transformation — no blanket license.
+**Next: the journey-view frame conversation** — the human progress page, requirement captured from Tony 2026-08-05 (log tail, `kivna/sessions/2026-08-04.md`). Two levels: (1) *what's cooking* — what's happening right now and what's next; (2) *the end-to-end journey* per endeavour in human phase names (idea → validated → designed → spec → building X), traffic light per phase, work remaining, links opening the design canvases. Looks great, shareable as one file, READ-ONLY, derived from disk. Dropped outright (Tony): input-to-the-loop — likely unneeded if the flow is right. Separate unframed instrument: token/context usage + limits (harness state, not disk). The frame decides shipped `progress.html`'s fate — leading option: keep the trio plumbing, replace the page content. Context: progress-html slice 1 goal — machine keys passed, expert-user key REFUSED (product doc, Goal verdict section). After it: grounding-was-read. Working default: per-piece evidence check — no blanket license.
 
 Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.74.0, four versions behind (repin when convenient).
 
@@ -21,6 +21,7 @@ Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
 - Hook version staleness check in `/kerd:tend` — four occurrences now.
 - PR-event edge in the stale CI step (goal-gate cold review find): on `pull_request` the merge ref carries base-branch trailers the branch never rendered — a converged branch could go red. Unexercised (no PR flow); scope the step to `push` or contract PR behaviour when PRs become real.
 - Guard switch-in step 3 smoke test against context bloat (delegate the run; absorb a verdict, never a full log).
+- Gate records can only say GO: a refused gate has no dated home — AU3 rejects any non-rung filename in docs/gates/ and a `*-goal.md` file would satisfy the route glob (found 2026-08-05 when progress-html's goal was refused; verdict lives in the product doc instead). Consider a refusal-record shape in the gates schema.
 
 **Low — genuinely ignorable, and you can see what ignoring costs**
 - README conductor section's closing line "Conductor doesn't touch git. No pulls, no pushes." contradicts the commits-its-own-work paragraph above it — stale since v0.67.0. One-line fix, next release that touches the section.

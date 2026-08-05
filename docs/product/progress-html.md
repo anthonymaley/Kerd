@@ -34,6 +34,18 @@ Value, in units:
 | Dashboard-itis: "interactive" creeps into controls, live refresh, a server, things that mutate | no | scope balloons; the read-only trust story breaks | medium (the pull is real — tonight's ask could grow) | tonight's conversation already reached for "interact" | countermeasure - permanent | Slice 1 is READ-ONLY by name: no server, no live refresh, nothing that writes; each excluded thing returns only through its own frame | |
 | Self-contained constraint fails: interactivity needs something a bare `file://` page can't do | no | page needs serving or external deps — friction returns | low | the model is already JSON (`--json` seams on both tools); embed + vanilla JS is standard, no fetch needed when data is inlined | countermeasure - permanent | All data inlined at generation; zero external requests; acceptance includes opening via `file://` cold | |
 
+## Goal verdict — slice 1 (2026-08-05)
+
+Machine keys passed (contract met 4/4 pieces, fixtures 14/14, CI trio
+compare green ×2, Mac↔Linux byte-identity proven). **Expert-user key
+REFUSED:** the page renders the machine's model faithfully and answers a
+machine's question — "it looks like a system level CI page, it means
+nothing to me as a human reader" (Tony, the cold open). The route
+truthfully shows this goal open; the gate schema has no refusal-record
+shape (backlogged). The finding seeded the journey-view frame, which
+owns this page's fate — leading option: keep the trio plumbing, replace
+the page content with the human telling.
+
 ## Release slice
 
 Smallest valuable slice: **one committed self-contained page** —
