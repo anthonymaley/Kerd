@@ -687,7 +687,7 @@ the progress-html spec)".
 - [x] model growth: trailer evidence carries sha+subject, newest landed piece, evidence_sha per piece, named have/need per rung
 - [x] write_surfaces trio: progress.html generation, FIX_LINE and stale grown to three files, fixtures F11-F14
 - [x] cross-doc trio amendment in the push-wiring design + version 0.79.0
-- [ ] shipped: both-ways refusal naming all three files, one push per round, CI green on the pushed SHA
+- [x] shipped: both-ways refusal naming all three files, one push per round, CI green on the pushed SHA
 
 ---
 
