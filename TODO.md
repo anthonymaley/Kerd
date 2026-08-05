@@ -2,9 +2,9 @@
 
 ## Now
 
-**Next: the push-wiring design conversation** — the ladder's first work item sits at the design gate (`docs/product/push-wiring.md`; the gate names contract's needs: `docs/design/push-wiring.md` + a GO record). Drawn package, two-key GO, then contract → build of the staleness-refuser slice. Session record: `kivna/sessions/2026-08-04.md`. Remaining design-layer builds after it: grounding-was-read · gate.py rendering through the progress view. Working default: per-piece evidence check before each transformation — no blanket license.
+**Next: push-wiring's goal record** — the route's one remaining need (`docs/gates/*-push-wiring-goal.md` with a "Done condition" section): cold eyes on the whole change plus the expert-user pass, Tony using the refuser in a real ship. After it: grounding-was-read · gate.py rendering its have/need through the progress view. Standing flow change since v0.78.0: every push must carry a current render — CI step 7 refuses otherwise, the message names the fix. Session record: `kivna/sessions/2026-08-04.md`. Working default: per-piece evidence check before each transformation — no blanket license.
 
-Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.70.0, seven versions behind (repin when convenient).
+Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.74.0, four versions behind (repin when convenient).
 
 ## Backlog
 
