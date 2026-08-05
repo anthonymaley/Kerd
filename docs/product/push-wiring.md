@@ -1,6 +1,6 @@
 ---
 route: new
-stage: sliced
+stage: designed
 ---
 
 # Push wiring — the progress render pushes itself
