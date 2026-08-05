@@ -2,7 +2,7 @@
 
 ## Now
 
-**Next: grounding-was-read** — the remaining design-layer build (gates check the groundwork was actually read; spec A8 sketches the landing site — a `grounding` slot per rung + read-receipts on the `mark_reviewed` precedent). Working default: per-piece evidence check — no blanket license.
+No work in flight — next focus picks from Backlog (see `kivna/sessions/2026-08-05.md` for the day's record). Freshest candidates: the rigor-level forcing function (framed 2026-08-05, High) · the journey view (parked, wake condition: more journeys walked). Working default: per-piece evidence check — no blanket license.
 
 Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.77.0, two versions behind (repin when convenient).
 
