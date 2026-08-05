@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.75.0)
+## What's New (v0.76.0)
+
+### v0.76.0
+
+**Conductor's talk moments now name their format.** Four moments in the conductor protocol are wired to the talk-format library (`docs/design/talk-formats.md`, extracted from the sensei A3 grammar): decision gates carry the Proposal fields with the loss named, user's-terms changes are named as Compare & Contrast, 3-fix failure reports follow Correcting Discrepancy from Standard (declaration → discrepancy → countermeasure), and three survived fixes now explicitly trigger the problem tier — the declared route for a point-of-cause tool such as `/sensei:work`. Format choice is a route match, not a taste call; a message claiming a format carries its sections. Deferred, named: the other four mapped moments (roadmap, educating, multi-topic reports) have no skill home yet; the conformance checker waits for its refusal instance; kit.py layout helpers remain a build item.
 
 ### v0.75.0
 
@@ -172,6 +176,8 @@ Conductor is mode-aware: if a mode is active, orient reports the mode context an
 Conductor announces its current phase with a mode marker (`[conductor: orient]`, `[conductor: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[conductor: closed]` so there's no ambiguity.
 
 **The gate message carries the content.** Any conductor message that asks for approval contains what's being approved — findings, summary, plan — in that same message, never assuming earlier mid-turn text was seen. This keeps conductor readable under Claude Code's focus mode, which shows only a turn's final message.
+
+**Conductor's gates speak the talk-format library.** A decision gate carries the Proposal fields (what · why it matters · the gap · what we win · **the loss, named**), a change lands as Compare & Contrast (now → the change → what it means), a failure report follows Correcting Discrepancy from Standard (the declaration it failed against → the discrepancy → countermeasure options), and a problem that survives three fixes triggers the problem tier — the declared route for a point-of-cause tool. The formats and their used-when triggers are canonical in `docs/design/talk-formats.md`.
 
 Conductor doesn't touch git. No pulls, no pushes. That's switch's job.
 

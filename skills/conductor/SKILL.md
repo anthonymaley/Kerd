@@ -135,6 +135,8 @@ Write this into TODO.md's `## Now` section with today's date — overwrite the s
 
 Every conductor gate ends a turn with a question — the model advisory, the task-framing approval, the plan/spec approval. The message that asks the question must itself contain what is being approved: the orient summary, the findings, the task boundaries, the plan or spec steps. Never assume text written earlier in the turn was seen — display modes like Claude Code's focus mode show the user only the final message of a turn, so analysis written between tool calls may be invisible. A gate message that is only the question ("execute the plan?") erases the analysis for those users. Lead with the findings, end with the one ask — a compact summary is fine; an absent one is not. This applies to every gate in this skill.
 
+When the gate's question is a **decision** — the user choosing between real alternatives, not confirming a plan — the message follows the **Proposal** format from the talk-formats library (`docs/design/talk-formats.md`): what the situation is, why it matters and the gap, what we win, and **what we lose, named**. Those five fields are Proposal's sections (current situation → problems & cause → proposal & benefits); a decision message missing the loss is missing a section.
+
 #### Say it in the user's terms
 
 The rule above governs *whether* the content is in the message. This one governs *what language it's in*. Both fail the same way — a message the user cannot act on — and this one is harder to spot, because the message looks complete. A wall of correct technical detail doesn't slow a decision down; it makes the decision unmakeable, because the user is being asked to arbitrate something that was never theirs to arbitrate.
@@ -146,6 +148,8 @@ The rule above governs *whether* the content is in the message. This one governs
 > **Now:** what they experience today
 > **The change:** what they'd experience instead
 > **What it means:** the consequence, including the cost
+
+This is the **Compare & Contrast** format from the talk-formats library (`docs/design/talk-formats.md`): current situation → new situation, in the reader's vocabulary.
 
 Write it in the vocabulary of *using* the thing, not building it. File paths, symbol names, table columns, line numbers and migration names belong in the spec and the commit message — not here. If a sentence can't be parsed without the codebase open, rewrite it.
 
@@ -244,7 +248,9 @@ If a task isn't working after 3 attempts, stop. Do not attempt fix #4. Instead:
 - Surface the problem to the user
 - Ask whether to continue with a different approach, skip the task, or rethink the plan
 
-Three failed fixes usually means the approach is wrong, not the execution. If the task framing itself was the problem (scope too broad, acceptance criteria unclear), suggest refining the task and restarting with a fresh conductor session rather than continuing in degraded context.
+The surfaced report follows the **Correcting Discrepancy from Standard** format (`docs/design/talk-formats.md`): the declaration the work was measured against, the discrepancy the evidence shows, then the countermeasure options. A failure report that never names the declaration it failed against is an anecdote, not a report.
+
+Three failed fixes usually means the approach is wrong, not the execution. It is also the talk-formats **problem-tier trigger** — "a problem that survived a few attempts" — the declared route for a point-of-cause tool (e.g. `/sensei:work`) where one is installed: route on the match, never by default. If the task framing itself was the problem (scope too broad, acceptance criteria unclear), suggest refining the task and restarting with a fresh conductor session rather than continuing in degraded context.
 
 #### Escalation — when the score is wrong
 
@@ -320,3 +326,4 @@ Then hand off: tell the user to run `/kerd:switch out` to write the session log,
 - **The spec is the contract.** The orchestrator's job is a score complete enough that a player never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the score, not the grind, and never delegate the *detail* to a cheaper model to save a few of them.
 - **The gate message carries the content.** Any message that asks for approval must contain what's being approved — findings, summary, plan — in that same message. Mid-turn text may be invisible to the user (focus mode shows only a turn's final message); a question-only gate erases the analysis.
 - **Say it in the user's terms.** When a change alters what the user can do, describe it as *now / the change / what it means* in the vocabulary of using the thing — and name any capability it removes as a loss, or it disappears into the good news. Ask only questions answerable without reading the code; if it needs the codebase to answer, it's usually your call, not theirs.
+- **Talk moments follow the format library.** Decision gates speak Proposal, user's-terms changes speak Compare & Contrast, failure reports speak Correcting Discrepancy from Standard, and three survived fixes trigger the problem tier. Formats and their used-when triggers are canonical in `docs/design/talk-formats.md`; a message claiming a format carries that format's sections.
