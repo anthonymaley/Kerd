@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A push can never lie about progress — Kerd journey</title>
+<style>
+  :root {
+    --paper: #F4F6F5;
+    --card: #FFFFFF;
+    --ink: #22312F;
+    --ink-soft: #5C6B67;
+    --moss: #3E7C4F;
+    --moss-chip: #E3EFE6;
+    --amber: #D9822B;
+    --amber-chip: #FAEDDD;
+    --signal: #C6453F;
+    --signal-chip: #F8E4E2;
+    --stone: #B9C0BD;
+    --rail: #D8DEDA;
+    --hairline: #E4E8E6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Avenir Next", "Nunito", Avenir, "Segoe UI", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    padding: 0 24px 96px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  /* ---------- masthead ---------- */
+  header { padding: 52px 0 8px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  h1 { font-size: 34px; font-weight: 600; letter-spacing: -0.01em; margin-top: 4px; max-width: 26ch; line-height: 1.22; }
+  .derived { margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
+  .derived code {
+    font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+    background: var(--hairline); padding: 1px 6px; border-radius: 6px;
+  }
+
+  /* ---------- A3 head: current | proposal ---------- */
+  .a3 {
+    margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  }
+  .panel {
+    background: var(--card); border: 1px solid var(--hairline);
+    border-radius: 14px; padding: 20px 22px;
+  }
+  .panel h2 {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-soft); margin-bottom: 10px;
+  }
+  .panel.proposal h2 { color: var(--moss); }
+  .panel svg { display: block; width: 100%; height: auto; margin: 6px 0 12px; }
+  .pains { list-style: none; counter-reset: pain; }
+  .pains li {
+    counter-increment: pain; position: relative;
+    padding: 6px 0 6px 30px; font-size: 14px; color: var(--ink); border-bottom: 1px dashed var(--hairline);
+  }
+  .pains li:last-child { border-bottom: none; }
+  .pains li::before {
+    content: counter(pain); position: absolute; left: 0; top: 7px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--signal-chip); color: var(--signal);
+    font-size: 11px; font-weight: 700; text-align: center; line-height: 20px;
+  }
+  .targets { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 2px; }
+  .target { flex: 1; min-width: 120px; background: var(--moss-chip); border-radius: 10px; padding: 10px 14px; }
+  .target .num { font-size: 22px; font-weight: 700; color: var(--moss); }
+  .target .cap { font-size: 12px; color: var(--ink-soft); line-height: 1.3; margin-top: 2px; }
+  .cost {
+    margin-top: 12px; font-size: 13px; color: var(--ink-soft);
+    padding: 8px 12px; background: var(--amber-chip); border-radius: 10px;
+  }
+  .cost b { color: #9A5A17; }
+
+  /* ---------- results strip ---------- */
+  .results {
+    margin-top: 18px; background: var(--card); border: 1px solid var(--hairline);
+    border-radius: 14px; padding: 16px 22px;
+    display: flex; gap: 26px; flex-wrap: wrap; align-items: baseline;
+  }
+  .results h2 {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-soft); width: 100%;
+  }
+  .res .num { font-size: 24px; font-weight: 700; }
+  .res .num.good { color: var(--moss); }
+  .res .cap { font-size: 12px; color: var(--ink-soft); max-width: 20ch; line-height: 1.3; }
+
+  /* ---------- mini-map ---------- */
+  .minimap {
+    margin-top: 36px; display: flex; align-items: flex-start;
+    padding: 0 6px;
+  }
+  .mm { flex: 1; position: relative; text-align: center; }
+  .mm::before {
+    content: ""; position: absolute; top: 6px; left: -50%; width: 100%;
+    height: 2px; background: var(--rail);
+  }
+  .mm:first-child::before { display: none; }
+  .mm.reached::before { background: var(--moss); }
+  .mm .dot {
+    position: relative; z-index: 1; width: 14px; height: 14px; margin: 0 auto;
+    border-radius: 50%; background: var(--stone); border: 3px solid var(--paper);
+  }
+  .mm.done .dot { background: var(--moss); }
+  .mm.now .dot  { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-chip); animation: breathe 2.4s ease-in-out infinite; }
+  .mm .l { margin-top: 6px; font-size: 11px; font-weight: 600; color: var(--ink-soft); }
+  .mm.done .l { color: var(--moss); }
+  .mm.now .l { color: var(--amber); }
+  .mapnote { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 14px; }
+  @keyframes breathe { 0%,100% { opacity: 1 } 50% { opacity: 0.35 } }
+  @media (prefers-reduced-motion: reduce) { .mm.now .dot, .stage.now .lamp { animation: none; } }
+
+  /* ---------- the ladder rail ---------- */
+  .ladder { margin-top: 36px; position: relative; }
+  .ladder::before {
+    content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--rail);
+  }
+  .stage { position: relative; padding: 0 0 32px 56px; }
+  .stage:last-child { padding-bottom: 0; }
+  .stage .lamp {
+    position: absolute; left: 6px; top: 2px; width: 20px; height: 20px;
+    border-radius: 50%; background: var(--stone); border: 4px solid var(--paper);
+    z-index: 1;
+  }
+  .stage.done .lamp { background: var(--moss); }
+  .stage.now .lamp  { background: var(--amber); box-shadow: 0 0 0 4px var(--amber-chip); animation: breathe 2.4s ease-in-out infinite; }
+
+  .stage .head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .stage h2 { font-size: 21px; font-weight: 600; }
+  .stage .when { font-size: 12px; color: var(--ink-soft); }
+  .status {
+    font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+  }
+  .status.done   { background: var(--moss-chip); color: var(--moss); }
+  .status.now    { background: var(--amber-chip); color: #9A5A17; }
+
+  .stage .card {
+    margin-top: 12px; background: var(--card); border: 1px solid var(--hairline);
+    border-radius: 14px; padding: 18px 22px;
+  }
+
+  .steps { list-style: none; }
+  .steps li {
+    display: flex; align-items: baseline; gap: 12px;
+    padding: 7px 0; border-bottom: 1px solid var(--hairline); flex-wrap: wrap;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .mark { font-weight: 700; width: 18px; flex: none; text-align: center; }
+  .mark.done { color: var(--moss); }
+  .mark.now { color: var(--amber); }
+  .steps .s-name { font-weight: 600; }
+  .steps .s-note { color: var(--ink-soft); font-size: 14px; }
+  .steps .s-fact {
+    margin-left: auto; font-size: 12px; font-weight: 600; color: var(--ink-soft);
+    white-space: nowrap; font-variant-numeric: tabular-nums;
+  }
+  .steps .s-fact.good { color: var(--moss); }
+
+  .made { margin-top: 14px; }
+  .made h4 {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px;
+  }
+  .made ul { list-style: none; }
+  .made li {
+    display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+    padding: 5px 0; border-bottom: 1px dashed var(--hairline);
+  }
+  .made li:last-child { border-bottom: none; }
+  .made .what { font-weight: 600; }
+  .made .why { color: var(--ink-soft); font-size: 14px; }
+  a.open {
+    font-size: 12px; font-weight: 600; color: var(--ink); text-decoration: none;
+    border: 1px solid var(--hairline); border-radius: 999px; padding: 2px 10px;
+    white-space: nowrap; margin-left: auto;
+  }
+  a.open:hover, a.open:focus-visible { border-color: var(--ink-soft); }
+  a.open::after { content: " ↗"; color: var(--ink-soft); }
+
+  footer { margin-top: 64px; font-size: 13px; color: var(--ink-soft); max-width: 60ch; }
+
+  @media (max-width: 700px) {
+    h1 { font-size: 26px; }
+    .a3 { grid-template-columns: 1fr; }
+    .mm .l { font-size: 9px; }
+    .stage { padding-left: 44px; }
+    .stage .card { padding: 14px 16px; }
+    .steps .s-fact { margin-left: 30px; }
+    a.open { margin-left: 30px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Kerd · journey</div>
+    <h1>A push can never lie about progress</h1>
+    <div class="derived">Drawn from the repo at <code>cec06b1</code> · 5 August 2026 · read-only — this page changes nothing</div>
+  </header>
+
+  <div class="a3">
+    <div class="panel">
+      <h2>Current situation</h2>
+      <svg viewBox="0 0 360 130" role="img" aria-label="Work moves ahead while the drawn board stays behind">
+        <line x1="20" y1="40" x2="330" y2="40" stroke="#D8DEDA" stroke-width="2"/>
+        <polygon points="338,40 328,35 328,45" fill="#D8DEDA"/>
+        <circle cx="60" cy="40" r="7" fill="#3E7C4F"/>
+        <circle cx="140" cy="40" r="7" fill="#3E7C4F"/>
+        <circle cx="220" cy="40" r="7" fill="#3E7C4F"/>
+        <circle cx="300" cy="40" r="7" fill="#3E7C4F"/>
+        <text x="60" y="22" font-size="11" fill="#5C6B67" text-anchor="middle">work</text>
+        <text x="300" y="22" font-size="11" fill="#5C6B67" text-anchor="middle">work</text>
+        <rect x="30" y="70" width="90" height="40" rx="8" fill="#FFFFFF" stroke="#C6453F" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="75" y="87" font-size="11" fill="#22312F" text-anchor="middle" font-weight="600">the board</text>
+        <text x="75" y="102" font-size="10" fill="#C6453F" text-anchor="middle">stuck in the past</text>
+        <line x1="120" y1="90" x2="296" y2="52" stroke="#C6453F" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <text x="225" y="98" font-size="10" fill="#C6453F" text-anchor="middle">drift — looks current, is not</text>
+      </svg>
+      <ol class="pains">
+        <li>The drawn board only updates when someone remembers to run the commands — nothing forces it.</li>
+        <li>A stale board reads exactly like a current one; a trusted picture can misstate where things stand.</li>
+        <li>Human memory was the only protection, and it had already slipped in real sessions.</li>
+      </ol>
+    </div>
+
+    <div class="panel proposal">
+      <h2>The proposal</h2>
+      <svg viewBox="0 0 360 130" role="img" aria-label="Every push is compared against a fresh drawing; a mismatch is refused with the fix named">
+        <rect x="12" y="48" width="64" height="34" rx="8" fill="#FFFFFF" stroke="#B9C0BD" stroke-width="1.5"/>
+        <text x="44" y="69" font-size="11" fill="#22312F" text-anchor="middle" font-weight="600">push</text>
+        <line x1="76" y1="65" x2="112" y2="65" stroke="#5C6B67" stroke-width="1.5"/>
+        <polygon points="118,65 109,61 109,69" fill="#5C6B67"/>
+        <rect x="122" y="40" width="104" height="50" rx="8" fill="#FFFFFF" stroke="#22312F" stroke-width="1.5"/>
+        <text x="174" y="60" font-size="11" fill="#22312F" text-anchor="middle" font-weight="600">redraw fresh,</text>
+        <text x="174" y="76" font-size="11" fill="#22312F" text-anchor="middle" font-weight="600">compare byte-for-byte</text>
+        <line x1="226" y1="52" x2="266" y2="30" stroke="#3E7C4F" stroke-width="1.5"/>
+        <polygon points="272,27 262,28 266,36" fill="#3E7C4F"/>
+        <rect x="276" y="12" width="74" height="30" rx="8" fill="#E3EFE6"/>
+        <text x="313" y="31" font-size="11" fill="#3E7C4F" text-anchor="middle" font-weight="700">same → lands</text>
+        <line x1="226" y1="80" x2="266" y2="100" stroke="#C6453F" stroke-width="1.5"/>
+        <polygon points="272,103 263,98 260,106" fill="#C6453F"/>
+        <rect x="276" y="88" width="74" height="30" rx="8" fill="#F8E4E2"/>
+        <text x="313" y="101" font-size="10" fill="#C6453F" text-anchor="middle" font-weight="700">differs → refused,</text>
+        <text x="313" y="113" font-size="10" fill="#C6453F" text-anchor="middle" font-weight="700">fix named</text>
+      </svg>
+      <div class="targets">
+        <div class="target"><div class="num">0</div><div class="cap">stale boards at any pushed tip — the target, in units</div></div>
+        <div class="target"><div class="num">0</div><div class="cap">steps anyone has to remember — enforced, not remembered</div></div>
+      </div>
+      <div class="cost"><b>The cost, priced in:</b> every push is now two commits — the work, then its refreshed board.</div>
+    </div>
+  </div>
+
+  <div class="results">
+    <h2>Measured, in use</h2>
+    <div class="res"><div class="num good">3</div><div class="cap">real stale pushes refused on day one</div></div>
+    <div class="res"><div class="num good">3</div><div class="cap">fixes applied by following the refusal's own instruction</div></div>
+    <div class="res"><div class="num good">0</div><div class="cap">stale boards at the tip since it went live</div></div>
+    <div class="res"><div class="num good">1 day</div><div class="cap">idea to live, every gate passed</div></div>
+  </div>
+
+  <div class="minimap">
+    <div class="mm done"><div class="dot"></div><div class="l">Idea</div></div>
+    <div class="mm done reached"><div class="dot"></div><div class="l">Validated</div></div>
+    <div class="mm done reached"><div class="dot"></div><div class="l">Scoped</div></div>
+    <div class="mm done reached"><div class="dot"></div><div class="l">Designed</div></div>
+    <div class="mm done reached"><div class="dot"></div><div class="l">Spec'd</div></div>
+    <div class="mm done reached"><div class="dot"></div><div class="l">Built</div></div>
+    <div class="mm done reached"><div class="dot"></div><div class="l">Proven</div></div>
+    <div class="mm now reached"><div class="dot"></div><div class="l">Live</div></div>
+  </div>
+  <div class="mapnote">Framed, designed, built, proven and live on 4 August 2026 — one day, every gate passed on the record.</div>
+
+  <div class="ladder">
+
+    <div class="stage done">
+      <span class="lamp"></span>
+      <div class="head"><h2>Idea</h2><span class="status done">done</span><span class="when">4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark done">✓</span><span class="s-name">The frame conversation</span><span class="s-note">problem named, winning stated in measurable units, your key turned</span><span class="s-fact good">2 targets, both 0</span></li>
+        </ul>
+        <div class="made">
+          <h4>What we created</h4>
+          <ul>
+            <li><span class="what">The frame</span><span class="why">why this matters and what winning is</span><a class="open" href="#">open</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage done">
+      <span class="lamp"></span>
+      <div class="head"><h2>Validated</h2><span class="status done">done</span><span class="when">4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark done">✓</span><span class="s-name">Probe the killer risk</span><span class="s-note">could the board checking itself loop forever? Measured before framing: it settles in one round</span><span class="s-fact good">probe: ~1 min, decisive</span></li>
+          <li><span class="mark done">✓</span><span class="s-name">Qualify every risk</span><span class="s-note">each sized and evidenced, none fatal</span><span class="s-fact good">3 risks, 3 qualified</span></li>
+        </ul>
+        <div class="made">
+          <h4>What we created</h4>
+          <ul>
+            <li><span class="what">The risk ledger</span><span class="why">every risk in exactly one state, killer first</span><a class="open" href="#">open</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage done">
+      <span class="lamp"></span>
+      <div class="head"><h2>Scoped</h2><span class="status done">done</span><span class="when">4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark done">✓</span><span class="s-name">Choose the smallest valuable slice</span><span class="s-note">the freshness check itself; auto-fixing pushes left out by name, with a condition for revisiting</span><span class="s-fact good">1 exclusion, named</span></li>
+        </ul>
+        <div class="made">
+          <h4>What we created</h4>
+          <ul>
+            <li><span class="what">The release slice</span><span class="why">what ships first, and what's excluded with reasons</span><a class="open" href="#">open</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage done">
+      <span class="lamp"></span>
+      <div class="head"><h2>Designed</h2><span class="status done">done</span><span class="when">4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark done">✓</span><span class="s-name">Draw the design</span><span class="s-note">the whole package on canvas — how the check works, where it runs, what a refusal says</span><span class="s-fact good">1 review round</span></li>
+          <li><span class="mark done">✓</span><span class="s-name">Two keys turned</span><span class="s-note">yours: nothing left to annotate · machine's: every measurement has a named answer</span><span class="s-fact good">2 of 2 keys</span></li>
+        </ul>
+        <div class="made">
+          <h4>What we created</h4>
+          <ul>
+            <li><span class="what">The design package</span><span class="why">drawn and agreed on canvas</span><a class="open" href="#">open canvas</a></li>
+            <li><span class="what">The go record</span><span class="why">dated proof of the approval — a defect caught here (a too-shallow checkout) cost a paragraph instead of a failed release</span><a class="open" href="#">open</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage done">
+      <span class="lamp"></span>
+      <div class="head"><h2>Spec'd</h2><span class="status done">done</span><span class="when">4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark done">✓</span><span class="s-name">Scope the terrain</span><span class="s-note">the architect names exactly which files matter</span><span class="s-fact good">9 files, bounded</span></li>
+          <li><span class="mark done">✓</span><span class="s-name">Write the contract</span><span class="s-note">every step carries its own proof command; three risks raised and approved before building</span><span class="s-fact good">6 steps · 4 deliverables</span></li>
+        </ul>
+        <div class="made">
+          <h4>What we created</h4>
+          <ul>
+            <li><span class="what">The contract</span><span class="why">precise enough that a builder who never saw the reasoning can't drift</span><a class="open" href="#">open</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage done">
+      <span class="lamp"></span>
+      <div class="head"><h2>Built</h2><span class="status done">done</span><span class="when">4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark done">✓</span><span class="s-name">The freshness check</span><span class="s-note">redraws the board and compares byte-for-byte</span><span class="s-fact good">passed first run</span></li>
+          <li><span class="mark done">✓</span><span class="s-name">The single writer</span><span class="s-note">one code path draws the board — two writers would drift apart</span><span class="s-fact good">passed first run</span></li>
+          <li><span class="mark done">✓</span><span class="s-name">The seventh gate</span><span class="s-note">the check joins the gauntlet every push runs</span><span class="s-fact good">passed first run</span></li>
+          <li><span class="mark done">✓</span><span class="s-name">The ship record</span><span class="s-note">the new push flow written where the next session finds it</span><span class="s-fact good">passed first run</span></li>
+        </ul>
+        <div class="made">
+          <h4>What we created</h4>
+          <ul>
+            <li><span class="what">4 of 4 deliverables, zero rework</span><span class="why">Mac and Linux drew byte-identical boards on first contact</span><a class="open" href="#">commits</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage done">
+      <span class="lamp"></span>
+      <div class="head"><h2>Proven</h2><span class="status done">done</span><span class="when">4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark done">✓</span><span class="s-name">Cold-eyes review</span><span class="s-note">a fresh reviewer, seeing only the order and the change: four layers passed, one overclaim caught — "prevents a bad push" was really "catches it at the tip", and the claim was corrected</span><span class="s-fact good">4 pass · 1 corrected</span></li>
+          <li><span class="mark done">✓</span><span class="s-name">Your expert-user pass</span><span class="s-note">you shipped real work under the new flow — value stands</span><span class="s-fact good">passed</span></li>
+        </ul>
+        <div class="made">
+          <h4>What we created</h4>
+          <ul>
+            <li><span class="what">The done condition</span><span class="why">assembled from what was declared upstream, never invented at the end</span><a class="open" href="#">open</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage now">
+      <span class="lamp"></span>
+      <div class="head"><h2>Live</h2><span class="status now">in use</span><span class="when">since 4 Aug</span></div>
+      <div class="card">
+        <ul class="steps">
+          <li><span class="mark now">●</span><span class="s-name">Watching its first weeks</span><span class="s-note">every push since has carried a current board or been turned away with the fix named</span><span class="s-fact">3 refusals · 0 escapes</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Everything on this page is derived from the repository — commits, gate records, and product documents. Nothing is self-reported: if the board is wrong, the repo is wrong, and the freshness guard would have caught that.
+  </footer>
+
+</div>
+</body>
+</html>
