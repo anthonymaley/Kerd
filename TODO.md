@@ -11,6 +11,7 @@ Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
 *Ranked by the function 5 axes — consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
+- **Rigor level as a forcing function** (framed with Tony 2026-08-05, post-boundary): the level (spike / MVP / production-v1 / …) is **declared in the Release slice definition** — machine-checked legal values, gate-refused when absent. Declaring a level expands into named rigor classes (security · performance · logic coverage · data integrity · …), each forced into exactly one state: measured-with-target · waived-by-name (accepted risk + review trigger) · n/a-with-reason. DONE then assembles the rigor checks by construction — silence becomes structurally impossible; a spike stays cheap because its classes land in waived-by-name. Reuses the ledger's state pattern; generalizes `route: spike` into a rigor axis; level climbs per slice. Gap it closes: today an undeclared rigor class fails nothing — it's just never checked.
 - **CI on `~/3of3`** — *3of3 is its own project, not part of Kerd* (clarified 2026-08-04); a possible trial ground for the refusal pattern, taken up only if that project wants it. `/loop` still cannot run there until something refuses.
 - Repin `leru`, `krutho-strategy`, `krutho-founders` off `kerd/0.65.0` — high consequence, **no value**: pure hygiene, one cache GC from silent breakage. `obair` has no pin at all (deliberate, or drift — unchecked).
 
