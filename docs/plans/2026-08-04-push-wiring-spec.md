@@ -355,7 +355,7 @@ docstring's count and the fixture-block header comment ("Part B fixtures
 - [x] stale verdict: write_pair + stale(root) in progress_kit.py, stale subcommand in progress.py
 - [x] fixtures F11-F13: converged / drifted / missing pair
 - [x] CI seventh step + fetch-depth 0 + version 0.78.0
-- [ ] shipped: both-ways refusal on the real tree, one push, CI green on the pushed SHA
+- [x] shipped: both-ways refusal on the real tree, one push, CI green on the pushed SHA
 
 ---
 
