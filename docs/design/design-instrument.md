@@ -26,8 +26,50 @@ wins, on evidence, in a form reviewable at a glance.
   decisions · *What we ruled out* (a dead option must not be re-proposed —
   and if one is proposed anyway, the record answers it) · the living design
   docs of whatever the work touches.
-- One-time salvage: brainstorming's probing questions get mined into this
-  instrument's prompt set; after that the superpowers dependency is cut.
+- One-time salvage (done 2026-08-04): brainstorming's probing questions
+  were mined into *The prompt set* below; the superpowers tie is cut.
+
+## The prompt set
+
+Mined once from the superpowers brainstorming skill (2026-08-04), adapted
+to this system's grammar: one question per turn, open questions — never
+multiple-choice menus, which pre-narrow the answer space. Used while
+generating approaches, before anything is scored.
+
+**Framing probes** — before any approach exists:
+
+- What is this for — what changes for whom when it works?
+- Which constraints are actually fixed (platform, budget, standing
+  decisions), as opposed to habits worth questioning?
+- What does success look like, in the declared VALUE's units?
+- Is this ONE piece of work? If it hides several independent subsystems,
+  decompose first and evaluate the first piece — a matrix over a bundle
+  compares nothing.
+
+**Independence probes** — while generating the 2–3 approaches:
+
+- What is this approach's riskiest assumption? If two approaches share
+  it, they are one approach — generate a genuinely different mechanism.
+- What does each approach look like drawn? No architecture overview, no
+  option row.
+- What is the smallest version of each approach that still wins its case
+  — what survives YAGNI?
+
+**Boundary probes** — per approach, before scoring:
+
+- For each unit: what does it do, how is it used, what does it depend on?
+- Could someone understand a unit without reading its internals? Could
+  the internals change without breaking consumers? If not, the
+  boundaries need work before the option is scoreable.
+- Does the approach follow the patterns of the code it touches, or
+  import a foreign idiom — and if foreign, is that cost on the matrix?
+
+**Self-review scans** — on the filled matrix, before the verdict:
+
+- Placeholder scan: any TBD, any vague target, any score without basis?
+- Consistency scan: does any closing section contradict a mark?
+- Ambiguity scan: could any criterion's target be read two ways? Pick
+  one reading and write it down.
 
 ## Half two — the evaluation matrix
 
@@ -94,6 +136,10 @@ confidence**.
 ## Rendering
 
 A movement-9-style table via the diagram toolkit (`tools/diagram/`) —
-never a spreadsheet. The matrix is an everyday-tier render during the
-design conversation; the design package's copy is part of the package
+never a spreadsheet. The instrument is `tools/design/matrix.py`: `check`
+validates a matrix section, `audit` sweeps every living design doc on
+every push (the CI instance), `render` draws the table to Excalidraw +
+SVG beside the doc. The section format standard is
+`tools/design/README.md`. The matrix is an everyday-tier render during
+the design conversation; the design package's copy is part of the package
 document.

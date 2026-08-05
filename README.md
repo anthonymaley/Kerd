@@ -11,7 +11,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.76.0)
+## What's New (v0.77.0)
+
+### v0.77.0
+
+**The evaluation matrix becomes machine-checked — new tool `tools/design/matrix.py`.** The design instrument (`docs/design/design-instrument.md`) settles which approach wins on evidence; its artifact now has a format standard and a refuser. A living design doc opts in by carrying a `## Evaluation matrix` section; the tool then validates the whole complex — criteria declared BEFORE options, each with a Target/Minimum, an M/D category and optional weights; options as rows with drawn architecture overviews; Toyota marks (○/△/×) per cell, scores citing a basis; recomputed OVERALL and RANK; every △ carrying a named countermeasure with a confidence statement; and the closing sections in the exemplar's order (Preferred solution · Proposal and next steps · Risks and countermeasures required · Countermeasures). The named refusals: a scored criterion tracing to no declaration, a score without basis, a △ without countermeasure + confidence, arithmetic drift, and a dead option (× on a Mandatory criterion) named Preferred — dead options cannot win, regardless of score. `check` validates one doc, `audit` sweeps `docs/design/` on every push as two new CI steps beside the gate and progress checks, `render` draws the movement-9-style table to Excalidraw + SVG via the diagram toolkit, refusing an invalid matrix. Format standard: `tools/design/README.md`. Scope, deliberate: validation covers living design docs only — records and fixtures are exempt — and the conversation half (approach generation) stays convention this release; its prompt set was mined once from the superpowers brainstorming skill into the design-instrument doc, and that tie is now cut.
 
 ### v0.76.0
 
@@ -343,6 +347,16 @@ It's the first check in the system that blocks from outside the model. The entry
 python3 tools/gates/gate.py route <slug>
 python3 tools/gates/gate.py check <slug> <rung>
 python3 tools/gates/gate.py audit
+```
+
+## Design matrix (tools/design/)
+
+The evaluation matrix is how options are compared — criteria with declared targets and M/D categories set before any option is scored, options as rows each with a drawn architecture overview, Toyota marks per cell (○ = meets · △ = meets only with a named countermeasure · × = cannot meet), scores citing evidence, and a recomputed OVERALL/RANK. The tool refuses what the format forbids: undeclared criteria, scores without basis, △ without countermeasure + confidence, arithmetic drift, and a dead option (× on a Mandatory criterion) named Preferred. Validation fires wherever a matrix section exists in `docs/design/*.md` — on every push, in CI.
+
+```
+python3 tools/design/matrix.py check <file>    # validate one design doc
+python3 tools/design/matrix.py audit           # sweep docs/design/ — the CI step
+python3 tools/design/matrix.py render <file>   # movement-9-style table → .excalidraw + .svg
 ```
 
 ## How They Fit Together

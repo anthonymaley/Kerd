@@ -13,3 +13,7 @@ jobs:
         run: python3 tools/gates/gate.py release
       - name: Progress selftest
         run: python3 tools/diagram/progress.py selftest
+      - name: Matrix selftest
+        run: python3 tools/design/matrix.py selftest
+      - name: Matrix audit
+        run: python3 tools/design/matrix.py audit
