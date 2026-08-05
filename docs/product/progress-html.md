@@ -1,6 +1,6 @@
 ---
 route: new
-stage: sliced
+stage: designed
 ---
 
 # Progress HTML — the view you open, not the command you run

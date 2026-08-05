@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1278" height="1669" viewBox="260 40 1278 1669">
+<rect x="260" y="40" width="1278" height="1669" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Progress HTML — the view you open · design package</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">slice 1 of docs/product/progress-html.md — born from the expert-user</tspan>
+<tspan x="300.0" dy="18.8">pass: &#x27;where are we?&#x27; becomes opening a file.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">NOW</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Terminal table, static SVG, drill-down by command</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">&#x27;really manual and hard to consume quickly&#x27; (Tony, at the</tspan>
+<tspan x="678.0" dy="15.0">push-wiring goal gate). detail on demand = more terminal commands.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the expert-user pass</tspan>
+<tspan x="1320.0" dy="15.0">found this - the machinery</tspan>
+<tspan x="1320.0" dy="15.0">was sound, the human pull</tspan>
+<tspan x="1320.0" dy="15.0">surface was not.</tspan>
+</text>
+<polyline points="960.0,404.0 960.0,438.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="438.0" x2="954.3" y2="428.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="438.0" x2="965.7" y2="428.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="470.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="463.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CHANGE</tspan>
+</text>
+<rect x="660.0" y="438.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="473.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">docs/plans/progress.html — committed, self-contained</tspan>
+</text>
+<text x="678.0" y="518.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">open it cold over file:// -&gt; board at a glance, every goal strip,</tspan>
+<tspan x="678.0" dy="15.0">click a goal -&gt; its pieces + per-rung named have/need, verbatim</tspan>
+<tspan x="678.0" dy="15.0">from the gate kit. read-only. zero external requests.</tspan>
+</text>
+<text x="1320.0" y="454.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">inline CSS + vanilla JS +</tspan>
+<tspan x="1320.0" dy="15.0">model and gate detail as an</tspan>
+<tspan x="1320.0" dy="15.0">inlined JSON block. system</tspan>
+<tspan x="1320.0" dy="15.0">font stack. nothing polls,</tspan>
+<tspan x="1320.0" dy="15.0">nothing mutates.</tspan>
+</text>
+<polyline points="960.0,571.0 960.0,605.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="605.0" x2="954.3" y2="595.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="605.0" x2="965.7" y2="595.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="637.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="630.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">MECHANISM</tspan>
+</text>
+<rect x="660.0" y="605.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="640.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">write_pair becomes write_surfaces(model, canvas, dir)</tspan>
+</text>
+<text x="678.0" y="685.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">ONE serializer of ALL committed view surfaces: .excalidraw, .svg,</tspan>
+<tspan x="678.0" dy="15.0">and now progress.html. render and stale both write through it;</tspan>
+<tspan x="678.0" dy="15.0">the byte-compare set becomes a TRIO. FIX_LINE grows to add the</tspan>
+<tspan x="678.0" dy="15.0">third file; F12&#x27;s spelled literal updated with it.</tspan>
+</text>
+<rect x="660.0" y="755.0" width="380.0" height="70.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="850.0" y="778.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="850.0" dy="0.0">no new CI step</tspan>
+<tspan x="850.0" dy="16.2">the existing seventh step covers the trio -</tspan>
+<tspan x="850.0" dy="16.2">stale compares whatever write_surfaces writes</tspan>
+</text>
+<text x="1320.0" y="769.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">amends push-wiring&#x27;s design</tspan>
+<tspan x="1320.0" dy="15.0">doc: &#x27;both files&#x27; becomes</tspan>
+<tspan x="1320.0" dy="15.0">&#x27;all three&#x27; when this ships</tspan>
+<tspan x="1320.0" dy="15.0">(named cross-doc impact).</tspan>
+</text>
+<polyline points="960.0,851.0 960.0,885.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="885.0" x2="954.3" y2="875.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="885.0" x2="965.7" y2="875.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="917.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="910.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CATCH</tspan>
+</text>
+<rect x="660.0" y="885.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="920.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">The freshness anchor must not be HEAD</tspan>
+</text>
+<text x="678.0" y="965.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">the page names what it reflects - but the commit that STORES the</tspan>
+<tspan x="678.0" dy="15.0">page moves HEAD, so a HEAD stamp re-stales every fresh compare:</tspan>
+<tspan x="678.0" dy="15.0">permanent deadlock. same killer class as push-wiring&#x27;s probe.</tspan>
+</text>
+<rect x="660.0" y="1018.0" width="600.0" height="110.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="1045.4" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">ANCHOR = MODEL-DERIVED, so it converges by construction:</tspan>
+<tspan x="960.0" dy="16.2">newest landed-piece commit (sha + subject, from trailer evidence)</tspan>
+<tspan x="960.0" dy="16.2">+ a state fingerprint (md5 of the canonical model JSON).</tspan>
+<tspan x="960.0" dy="16.2">both change exactly when the picture changes; render-only</tspan>
+<tspan x="960.0" dy="16.2">commits change neither. no timestamps, no HEAD, no randomness.</tspan>
+</text>
+<polyline points="960.0,1154.0 960.0,1188.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1188.0" x2="954.3" y2="1178.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1188.0" x2="965.7" y2="1178.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1220.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1213.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">EVIDENCE</tspan>
+</text>
+<rect x="660.0" y="1188.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1223.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Why the byte-compare stays safe</tspan>
+</text>
+<text x="678.0" y="1268.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">same discipline that proved the pair: sorted iteration, values</tspan>
+<tspan x="678.0" dy="15.0">derived only from model + gate detail, no time, no random.</tspan>
+<tspan x="678.0" dy="15.0">fixture F14 asserts two consecutive generations byte-identical.</tspan>
+</text>
+<polyline points="960.0,1321.0 960.0,1355.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1355.0" x2="954.3" y2="1345.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1355.0" x2="965.7" y2="1345.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1387.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1380.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">PROOF</tspan>
+</text>
+<rect x="660.0" y="1355.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1390.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Fixtures + the cold open</tspan>
+</text>
+<text x="678.0" y="1435.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">F14 determinism · F11-F13 amended to the trio (converged 0 /</tspan>
+<tspan x="678.0" dy="15.0">drifted 1 all three named, new fix line as spelled literal /</tspan>
+<tspan x="678.0" dy="15.0">missing 1) · both-ways demonstration at ship · then the</tspan>
+<tspan x="678.0" dy="15.0">expert-user pass: Tony opens the committed page cold over</tspan>
+<tspan x="678.0" dy="15.0">file:// and answers &#x27;where are we?&#x27; with zero terminal.</tspan>
+</text>
+<text x="1320.0" y="1371.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the three stage-1</tspan>
+<tspan x="1320.0" dy="15.0">measurements, ANSWERED:</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">actions -&gt; open one file.</tspan>
+<tspan x="1320.0" dy="15.0">detail -&gt; in the page,</tspan>
+<tspan x="1320.0" dy="15.0">one click. trust -&gt; the</tspan>
+<tspan x="1320.0" dy="15.0">freshness line + the trio</tspan>
+<tspan x="1320.0" dy="15.0">compare in CI step 7.</tspan>
+</text>
+<polyline points="960.0,1522.0 960.0,1556.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1556.0" x2="954.3" y2="1546.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1556.0" x2="965.7" y2="1546.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1588.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">7</tspan>
+</text>
+<text x="344.0" y="1581.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SCOPE</tspan>
+</text>
+<rect x="660.0" y="1556.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1591.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Out of scope, named (composer key on the frame)</tspan>
+</text>
+<text x="678.0" y="1636.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">live refresh / watch mode - any server - any control that</tspan>
+<tspan x="678.0" dy="15.0">mutates - replacing the SVG or terminal surfaces.</tspan>
+<tspan x="678.0" dy="15.0">each returns only through its own frame.</tspan>
+</text>
+</svg>
