@@ -347,10 +347,7 @@
 <text x="795.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 7</tspan>
 </text>
-<rect x="910.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1025.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1025.0" dy="0.0">enters at</tspan>
-</text>
+<rect x="910.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="1140.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="1255.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 8</tspan>
@@ -398,9 +395,9 @@
 <text x="795.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 8</tspan>
 </text>
-<rect x="910.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1025.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="1025.0" dy="0.0">need 1</tspan>
+<rect x="910.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="1025.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1025.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="1140.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="1255.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
