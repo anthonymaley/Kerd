@@ -58,6 +58,8 @@ know what to check.
 
 ## Release slice
 
+Rigor level: mvp
+
 Smallest valuable slice — **slice 1: declarations + the reachability
 audit** (Tony's call, 2026-08-05): a work item's grounding becomes
 machine-readable data in its own product doc — the `## Grounding`

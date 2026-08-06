@@ -53,6 +53,8 @@ catalog, the composer touches nothing.
 
 ## Release slice
 
+Rigor level: mvp
+
 Smallest valuable slice — **slice 1: the declared level + the refusal**
 (proposed; the fork below is the composer's call): a Release slice
 carries a machine-readable rigor level from a declared legal set

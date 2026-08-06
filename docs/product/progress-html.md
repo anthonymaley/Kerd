@@ -48,6 +48,8 @@ the page content with the human telling.
 
 ## Release slice
 
+Rigor level: mvp
+
 Smallest valuable slice: **one committed self-contained page** —
 `docs/plans/progress.html`, generated from the same derived model (+ the
 gate kit's named have/need), showing the board grid, every goal strip,

@@ -43,6 +43,11 @@ LEGAL_STATES = {
     "fatal",
 }
 
+# The legal rigor levels (AU6, design rung). A '## Release slice' section
+# declares how rigorously the slice is measured — one 'Rigor level:' line;
+# the legal set lives here and only here.
+RIGOR_LEVELS = ["spike", "mvp", "production-v1"]
+
 GATE_RECORD_RE = re.compile(
     r'^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-'
     r'(frame|viability|slice|design|contract|build|goal|loop)\.md$'
@@ -55,6 +60,8 @@ VERIFY_LINE_RE = re.compile(r'^\*\*Verify:\*\*')
 BOXED_LINE_RE = re.compile(r'^- \[[ x]\] ')
 UNCHECKED_LINE_RE = re.compile(r'^- \[ \] ')
 SEPARATOR_ROW_RE = re.compile(r'^[\s|:-]+$')
+RIGOR_LINE_RE = re.compile(r'^Rigor level:(.*)$')
+RIGOR_SECTION_HEADING_RE = re.compile(r'^## Release slice[ \t]*$')
 
 
 # ── front matter (A1) ───────────────────────────────────────────────────────
@@ -106,6 +113,56 @@ def find_section(text, title):
     next_m = re.search(r'^## ', rest, re.MULTILINE)
     end = start + next_m.start() if next_m else len(text)
     return text[start:end].strip()
+
+
+# ── rigor level (AU6, design rung) ──────────────────────────────────────────
+
+def rigor_problems(text):
+    """Judge one product doc's 'Rigor level:' declaration. Single-parser
+    rule: AU6 and the design rung both call THIS function — the law is
+    written once. The law: exactly one legal 'Rigor level: <value>' line
+    INSIDE the '## Release slice' section; a 'Rigor level:' line anywhere
+    else in the doc is a problem; a doc with no '## Release slice' section
+    passes vacuously (the section's absence is already the design rung's
+    own refusal — this rule does not double-refuse it). Returns problem
+    strings WITHOUT the 'docs/product/<S>.md — ' prefix; callers prepend
+    it. Emission order: the outside-line problem first, then exactly one
+    of missing / duplicate / illegal."""
+    inside = False
+    section_seen = False
+    inside_values = []
+    outside_count = 0
+    for line in text.splitlines():
+        if RIGOR_SECTION_HEADING_RE.match(line):
+            inside = True
+            section_seen = True
+            continue
+        if line.startswith("## "):
+            inside = False
+            continue
+        m = RIGOR_LINE_RE.match(line)
+        if not m:
+            continue
+        if inside:
+            inside_values.append(m.group(1).strip())
+        else:
+            outside_count += 1
+
+    problems = []
+    if outside_count:
+        problems.append("Rigor level line outside Release slice")
+    if section_seen:
+        if not inside_values:
+            problems.append(
+                "Release slice missing 'Rigor level: <spike|mvp|production-v1>' line"
+            )
+        elif len(inside_values) > 1:
+            problems.append("duplicate Rigor level lines (want exactly one)")
+        elif inside_values[0] not in RIGOR_LEVELS:
+            problems.append(
+                f"illegal rigor level '{inside_values[0]}' (legal: spike, mvp, production-v1)"
+            )
+    return problems
 
 
 # ── the risk ledger (A3, state normalization note) ──────────────────────────
@@ -291,6 +348,11 @@ def check_rung(root, slug, rung):
                 have.append(f'{rel_product} — section "Release slice"')
             else:
                 need.append(f'{rel_product} — section "Release slice"')
+            if rigor_problems(product_text):
+                need.append(
+                    f"{rel_product} — Release slice declares a legal rigor level "
+                    "(Rigor level: spike|mvp|production-v1)"
+                )
 
     if idx >= RUNGS.index("contract"):
         rel_design = f"docs/design/{slug}.md"
@@ -546,8 +608,25 @@ def _audit_au5(root):
     return problems
 
 
+def _audit_au6(root):
+    """docs/product/*.md: the 'Rigor level:' law — see rigor_problems
+    (single parser; the design rung is the second call site). Absent
+    '## Release slice' section = vacuous pass."""
+    problems = []
+    d = os.path.join(root, "docs", "product")
+    if not os.path.isdir(d):
+        return problems
+    for path in sorted(glob.glob(os.path.join(d, "*.md"))):
+        rel = f"docs/product/{os.path.basename(path)}"
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        for p in rigor_problems(text):
+            problems.append(f"{rel} — {p}")
+    return problems
+
+
 def audit(root):
-    """Repo-wide mechanical sweep (AU1-AU5). Empty list = clean. Nonexistent
+    """Repo-wide mechanical sweep (AU1-AU6). Empty list = clean. Nonexistent
     directories pass vacuously — a repo that hasn't grown docs/gates/ yet is
     not thereby in violation of docs/gates/'s naming rule."""
     problems = []
@@ -556,6 +635,7 @@ def audit(root):
     problems += _audit_au3(root)
     problems += _audit_au4(root)
     problems += _audit_au5(root)
+    problems += _audit_au6(root)
     return problems
 
 
@@ -821,7 +901,7 @@ def _selftest_body():
         assert r["enters_at"] == "slice", f"T7: expected slice, got {r['enters_at']!r}"
 
         # T8 — + Release slice -> design; then + design doc + design gate record -> contract.
-        _sw(product, ledger_good + "\n## Release slice\n\nShip the caching path first.\n")
+        _sw(product, ledger_good + "\n## Release slice\n\nRigor level: mvp\n\nShip the caching path first.\n")
         r = route(root, slug)
         assert r["enters_at"] == "design", f"T8a: expected design, got {r['enters_at']!r}"
 
@@ -1018,15 +1098,96 @@ def _selftest_body():
         problems = audit(root_g4)
         assert problems == [], f"T18: expected a vacuous pass, got {problems}"
 
+    # T19 — AU6: legal Rigor level line inside Release slice, audit clean.
+    with tempfile.TemporaryDirectory() as root_v1:
+        _sw(
+            os.path.join(root_v1, "docs", "product", "gamma.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Release slice\n\nRigor level: production-v1\n\nShip the smallest slice.\n",
+        )
+        problems = audit(root_v1)
+        assert problems == [], f"T19: expected a clean audit, got {problems}"
+
+    # T20 — AU6: Release slice without the line, named verbatim; the design
+    # rung refuses with its one need row (second call site, same parser).
+    with tempfile.TemporaryDirectory() as root_v2:
+        _sw(
+            os.path.join(root_v2, "docs", "product", "gamma.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Release slice\n\nShip the smallest slice.\n",
+        )
+        problems = audit(root_v2)
+        assert problems == [
+            "docs/product/gamma.md — Release slice missing 'Rigor level: <spike|mvp|production-v1>' line"
+        ], f"T20: expected the verbatim missing-line problem, got {problems}"
+        cr = check_rung(root_v2, "gamma", "design")
+        assert (
+            "docs/product/gamma.md — Release slice declares a legal rigor level "
+            "(Rigor level: spike|mvp|production-v1)"
+        ) in cr["need"], f"T20: expected the rigor need row: {cr['need']}"
+
+    # T21 — AU6: illegal value, named verbatim.
+    with tempfile.TemporaryDirectory() as root_v3:
+        _sw(
+            os.path.join(root_v3, "docs", "product", "gamma.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Release slice\n\nRigor level: prod\n\nShip it.\n",
+        )
+        problems = audit(root_v3)
+        assert problems == [
+            "docs/product/gamma.md — illegal rigor level 'prod' (legal: spike, mvp, production-v1)"
+        ], f"T21: expected the verbatim illegal-value problem, got {problems}"
+
+    # T22 — AU6: duplicate lines inside the section, named verbatim.
+    with tempfile.TemporaryDirectory() as root_v4:
+        _sw(
+            os.path.join(root_v4, "docs", "product", "gamma.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Release slice\n\nRigor level: mvp\nRigor level: spike\n\nShip it.\n",
+        )
+        problems = audit(root_v4)
+        assert problems == [
+            "docs/product/gamma.md — duplicate Rigor level lines (want exactly one)"
+        ], f"T22: expected the verbatim duplicate problem, got {problems}"
+
+    # T23 — AU6: a line outside the section, named verbatim (the section's
+    # own legal line keeps this the only problem).
+    with tempfile.TemporaryDirectory() as root_v5:
+        _sw(
+            os.path.join(root_v5, "docs", "product", "gamma.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nRigor level: mvp\n\nWorth it.\n\n"
+            "## Release slice\n\nRigor level: mvp\n\nShip it.\n",
+        )
+        problems = audit(root_v5)
+        assert problems == [
+            "docs/product/gamma.md — Rigor level line outside Release slice"
+        ], f"T23: expected the verbatim misplaced problem, got {problems}"
+
+    # T24 — AU6: no '## Release slice' section = vacuous pass (mirrors
+    # T18's rule for AU5: the rule scopes to docs carrying the section).
+    with tempfile.TemporaryDirectory() as root_v6:
+        _sw(
+            os.path.join(root_v6, "docs", "product", "gamma.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n",
+        )
+        problems = audit(root_v6)
+        assert problems == [], f"T24: expected a vacuous pass, got {problems}"
+
 
 def selftest():
-    """Run the 18 fixture-built cases in temporary trees. Prints
-    'selftest: 18 cases passed' and returns 0 on success; on the first
+    """Run the 24 fixture-built cases in temporary trees. Prints
+    'selftest: 24 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 18 cases passed")
+    print("selftest: 24 cases passed")
     return 0

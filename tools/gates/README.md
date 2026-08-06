@@ -39,7 +39,7 @@ EOF, for work slug `S`:
 | `frame` | nothing — always enterable |
 | `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) |
 | `slice` | section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` |
-| `design` | section `Release slice` in `docs/product/<S>.md` |
+| `design` | section `Release slice` in `docs/product/<S>.md` · that section declares its rigor level: exactly one `Rigor level: <spike\|mvp\|production-v1>` line inside it (see Rigor level, below) |
 | `contract` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
 | `build` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` |
 | `goal` | zero unchecked boxes (`- [ ] `) in the contract's `Pieces` section |
@@ -136,7 +136,7 @@ normally once it exists; the bypass only covers the spike itself.
 ## Audit
 
 The repo-wide mechanical sweep — `gate.py audit` — is the day-one live
-refusal surface: the five rules below run against the real tree on every
+refusal surface: the six rules below run against the real tree on every
 push, not just against a named slug.
 
 | # | Rule |
@@ -146,6 +146,7 @@ push, not just against a named slug.
 | AU3 | `docs/gates/*.md` filenames MUST match `^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-(frame\|viability\|slice\|design\|contract\|build\|goal\|loop)\.md$`. |
 | AU4 | Any `docs/**/*.md` whose front matter carries `route` or `stage`: both keys present, both values legal — this validates the front-matter schema against every file that opts into it, including dated spec files like this piece's own contract. |
 | AU5 | `docs/product/*.md` carrying a `## Grounding` section: every `- ` list line must parse as `- <ref> — <why>` (split on the FIRST ` — `, the em-dash separator) and `<ref>` — a path or glob relative to the repo root — must resolve to ≥1 match on disk. Absent section = vacuous pass: declaring grounding is opting in. |
+| AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Release slice` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Release slice` section = vacuous pass. |
 
 Nonexistent directories pass vacuously — a repo that hasn't grown
 `docs/gates/` yet is not thereby in violation of its naming rule.
@@ -196,8 +197,8 @@ followed by `release: <n> problems` (exit 1).
 
 No `setup-python` step — `ubuntu-latest` ships python3 and this tool has
 zero dependencies. Three things can fail the build: the fixture suite
-(`selftest`, exercising the 18 cases against a temp tree), the real
-repo (`audit`, exercising AU1–AU5 against the actual `docs/` tree), and the
+(`selftest`, exercising the 24 cases against a temp tree), the real
+repo (`audit`, exercising AU1–AU6 against the actual `docs/` tree), and the
 release sweep (`release`, enforcing R1–R3 on plugin metadata and living
 files). A dated file dropped into `docs/design/`, a malformed `docs/gates/`
 record name, a bare `/<name>` reference in a living file, or a broken
@@ -227,6 +228,34 @@ stays deferred. The earlier sketch of a `grounding` slot in a `kit.GATES`
 table is dead: no such table exists, and the design
 (`docs/design/grounding-was-read.md`) settled on per-item declarations over
 a static per-rung home.
+
+## Rigor level
+
+Every `## Release slice` section must declare how rigorously its slice
+is measured — one line, machine-checked:
+
+    Rigor level: mvp
+
+Grammar: the line starts at column 0 with `Rigor level:`; the value is
+the rest of the line, whitespace-stripped, case-sensitive. The legal
+set is `spike` · `mvp` · `production-v1`, living in exactly one place —
+`RIGOR_LEVELS` in `kit.py`. The law is written once (`rigor_problems`)
+and enforced at two call sites:
+
+- **AU6** (above) sweeps every `docs/product/*.md`: exactly one legal
+  line inside the `## Release slice` section; a `Rigor level:` line
+  anywhere else, a missing line, duplicates, or an illegal value is a
+  named problem.
+- **The design rung** refuses work whose product doc violates the law,
+  with one need row: `need: docs/product/<S>.md — Release slice
+  declares a legal rigor level (Rigor level: spike|mvp|production-v1)`.
+
+A doc with no `## Release slice` section passes vacuously — the
+section's absence is already the design rung's own refusal, and the
+rigor rule does not double-refuse it. The declared level is data for
+later slices (the rigor catalog and per-class disposition tables);
+this slice enforces only that the level question is asked and answered
+legally.
 
 ## Progress view
 

@@ -38,6 +38,8 @@ Value, in units:
 
 ## Release slice
 
+Rigor level: mvp
+
 Smallest valuable slice: **the staleness refuser** — `progress.py` gains a
 `stale` subcommand (fresh render byte-compared against the committed pair
 on disk at the checked-out tip; differing = exit 1 naming both files), wired as a seventh CI
