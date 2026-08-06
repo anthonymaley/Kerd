@@ -191,3 +191,4 @@ capability enters as a bounded tool declared for the terrain (e.g. the
 Apple build toolchain) when a piece needs it — invoked on match, returns to
 caller, killable. The post-walk inventory should map which domain tools
 exist vs are missing for the projects actually in flight.
+- 2026-08-06 · kerd-map · Tony: "Do we need these two still, lorg can go, never used — or does it have a place? Claude has plugin management now." → Disposition: lorg-cut queued as evidence-checked Backlog item (rip discipline); interrogate's skill-vs-engine question queued with it; comment cleared at next map re-paste.
