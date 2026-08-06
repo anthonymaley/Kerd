@@ -85,7 +85,7 @@ Save is deliberate and on-demand — switch no longer calls it at the session bo
    - Resolved vault path migration to ~/eolas/vault
 
    ### Risks
-   - [open] No .slainte config — health audits can't run
+   - [open] No playbook yet — /kerd:tend to create one
    - [mitigated] Vault path hardcoded in old sessions → fixed in v0.12.1
 
    ## Week of 2026-03-10

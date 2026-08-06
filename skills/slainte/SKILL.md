@@ -1,63 +1,37 @@
 ---
 name: slainte
-description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies. Read-only audit that reports issues without fixing them."
+description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when conductor's close-out fires the release close-out pass at a version bump. The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
 ---
 
 # Slainte (Project Health)
 
 From Irish "slàinte" (health). Pronounced "SLAHN-chuh".
 
-Read-only audit of project health. Reports issues with severity grades. Does not fix anything. That's the user's call.
+Slainte is the release close-out pass, plus on-demand health audits. The pass fixes what is drift and reports what it deliberately left; the on-demand area audits report issues with severity grades and fix only when the caller asks.
 
-## Config
+## Targets
 
-Slainte uses a `.slainte` config file at the project root to know what to audit. If no config exists on first run, prompt the user to register targets.
+Targets derive from the repo — there is no config file. The narrative surface is `README.md` (skill sections + What's New), `CLAUDE.md`, `docs/playbook.md`, `docs/state-contract.md`, the capability lists in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`, and any `docs/design/` living doc the release's diff touched. Each area audit below names how its own targets derive.
 
-### Config format (`.slainte`):
+## The release pass
 
-```
-# Slainte Audit Targets
+**Trigger: the version-field diff — CI's release definition, reused.** A work commit that changes the three `"version"` fields IS a release (release rule R1's set). The caller is conductor's close-out, which invokes this pass before running the boundary; standalone `/kerd:slainte release` runs the same judgment checks on demand.
 
-## docs
-- README.md
-- docs/
+**Charter: CI owns the mechanical layer (release rules R1–R3, audit rules AU1–6)** — version sync, capability-list sync, namespace prefixes, dated design filenames, gate-record shape, grounding references, rigor lines. The pass never re-checks any of those; anything newly machine-checkable belongs in CI (file a Backlog row), not here. The pass owns what no machine rule covers: the `release` area checks below, swept across the derived narrative surface.
 
-## code
-- src/
-- package.json
-- tsconfig.json
+**Fix discipline: fixes are work commits, and restraint is reported.** The pass edits what is drift, under the caller's verification gate — diff read in full, blast radius reviewed, staged by name — and any prose it writes passes `/kerd:skriv`'s one-shot audit before landing. Anything judged deliberate-not-drift is named in the report as left untouched, with the reason. Visible restraint is the countermeasure for an audit with hands: never fix silently, never leave silently.
 
-## site
-- public/
-- next.config.js
-
-## deps
-- package.json
-- package-lock.json
-
-## playbook
-- docs/playbook.md
-```
+**Output: the severity table, plus the left-untouched list** (see Output Format).
 
 ## Commands
 
-### `/kerd:slainte` (no args)
-
-Show the current `.slainte` config: what's registered under each area. If no config exists, say so and offer to create one.
-
-### `/kerd:slainte add <area> <path>`
-
-Register a file or directory under an area. Create `.slainte` if it doesn't exist. Valid areas: `docs`, `code`, `site`, `deps`, `playbook`.
-
-Example: `/kerd:slainte add docs README.md`
-
 ### `/kerd:slainte <area>`
 
-Run the audit for the specified area. Valid areas: `docs`, `code`, `site`, `deps`, `playbook`, `all`.
+Run the audit for the specified area. Valid areas: `docs`, `code`, `site`, `deps`, `playbook`, `release`, `all`.
 
 #### docs
 
-For each target registered under `## docs`:
+Targets: the repo's committed markdown surface — README.md and CLAUDE.md first, then `docs/` (excluding dated historical records: `docs/plans/`, `docs/gates/`, session logs).
 
 1. **Doc inventory**: if CLAUDE.md has a docs table, cross-reference: every file listed should exist, every doc file should be listed
 2. **Name consistency**: search for old or stale names across all docs. Check CLAUDE.md or README for the canonical project name.
@@ -69,7 +43,7 @@ For each target registered under `## docs`:
 
 #### code
 
-For each target registered under `## code`:
+Targets: the source directories the repo actually carries (for Kerd: `skills/`, `tools/`, `hooks/`) plus any manifest present (`package.json`, `pyproject.toml`, or equivalent).
 
 1. **Test suite**: run all tests, report failures
 2. **Build check**: run the project's build command, report errors
@@ -79,7 +53,7 @@ For each target registered under `## code`:
 
 #### site
 
-For each target registered under `## site`:
+Targets: the site build config and content directories where they exist (`public/`, `next.config.js`, or equivalent). Skip the area when none exist.
 
 1. **Build check**: run the site build command, must pass clean
 2. **Content sync**: if docs are synced from a source directory, check for drift
@@ -89,7 +63,7 @@ For each target registered under `## site`:
 
 #### deps
 
-For each target registered under `## deps`:
+Targets: every dependency manifest and lock file present. Skip the area when none exist.
 
 1. **Dependency freshness**: run package manager outdated commands (npm outdated, pip list --outdated, cargo outdated, etc.)
 2. **Lock file consistency**: lock files match manifests
@@ -97,7 +71,7 @@ For each target registered under `## deps`:
 
 #### playbook
 
-For each target registered under `## playbook`:
+Targets: `docs/playbook.md`.
 
 1. **Existence**: does `docs/playbook.md` exist? If not, high severity ("No playbook found. Run `/kerd:tend` to create one from the skeleton.")
 2. **Current Status accuracy**: compare the "Current Status" section against actual project state (working build, test results, deployed state if detectable)
@@ -108,21 +82,20 @@ For each target registered under `## playbook`:
 
 #### release
 
-Kerd-specific release audit. Checks the release checklist rules from CLAUDE.md automatically. Only runs when slainte detects `.claude-plugin/plugin.json` (i.e., in the Kerd repo itself or a Kerd-like plugin repo).
+Kerd-specific release audit — the judgment layer of the release pass, also runnable on demand. Only runs when slainte detects `.claude-plugin/plugin.json` (i.e., in the Kerd repo itself or a Kerd-like plugin repo).
 
-1. **Version sync**: compare version strings across `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` `metadata.version`, and `.claude-plugin/marketplace.json` `plugins[0].version`. All three must match. Any mismatch is high severity.
-2. **Description sync**: compare `description` in `plugin.json` with `plugins[0].description` in `marketplace.json`. They must match. Mismatch is medium severity.
-3. **Skill count consistency**: count `skills/*/SKILL.md` files and compare against claims in `README.md` (e.g., "Nine workflow skills") and `docs/playbook.md`. Mismatches are high severity.
-4. **SKILL frontmatter drift**: for each `skills/*/SKILL.md`, verify the `name` field matches the directory name. Flag mismatches as high.
-5. **Namespace sweep**: scan all `skills/*/SKILL.md` files for slash-command references missing the `kerd:` prefix (e.g., `/<skill>` where it should be `/kerd:<skill>`). Skip README.md (allowed shorthand). Each hit is medium severity.
-6. **Marketplace URL**: verify `.claude-plugin/marketplace.json` `plugins[0].source.url` points to the canonical repo (not a fork). Mismatch is high severity.
-7. **Cross-doc claim verification**: verify that claims made in docs match the code and each other:
+CI owns the mechanical checks that used to open this list (version sync, description sync, namespace sweep — release rules R1–R3); never re-check them here.
+
+1. **Skill count consistency**: count `skills/*/SKILL.md` files and compare against claims in `README.md` (e.g., "Nine workflow skills") and `docs/playbook.md`. Mismatches are high severity.
+2. **SKILL frontmatter drift**: for each `skills/*/SKILL.md`, verify the `name` field matches the directory name. Flag mismatches as high.
+3. **Marketplace URL**: verify `.claude-plugin/marketplace.json` `plugins[0].source.url` points to the canonical repo (not a fork). Mismatch is high severity.
+4. **Cross-doc claim verification**: verify that claims made in docs match the code and each other:
    - README "What's New" version numbers match the actual current version in plugin.json. If the latest What's New entry references a version that doesn't match the current version, flag as medium.
    - README skill descriptions match SKILL.md behavior. For each skill section in README, spot-check 2-3 specific claims (e.g., "conductor does not write session logs") against the actual SKILL.md. Flag contradictions as high.
    - `docs/playbook.md` "Working" list matches actual skill set and feature claims. Flag stale claims as medium.
    - `docs/state-contract.md` ownership table matches actual skill behavior. For each W (write) entry, verify the skill actually writes to that file. For each `-` (no interaction), verify the skill doesn't reference that file. Flag contradictions as high.
    - Vault Status.md version matches plugin.json version. Mismatch is informational only (v0.83.0: the vault is opt-in and refreshed solely by deliberate `/kerd:kivna save` — staleness of any depth is expected, never a finding).
-8. **Hook template currency**: verify `hooks/hooks.template.json` exists, is valid JSON, and references hook scripts that exist in `hooks/`. Flag missing scripts as high. Verify the template is not named `hooks.json` (would auto-load). Flag as high if found.
+5. **Hook template currency**: verify `hooks/hooks.template.json` exists, is valid JSON, and references hook scripts that exist in `hooks/`. Flag missing scripts as high. Verify the template is not named `hooks.json` (would auto-load). Flag as high if found.
 
 #### all
 
@@ -143,6 +116,8 @@ Then a severity table per area:
 | high | `docs/whitepaper.md:12` | References old project name | grep "OldName" → 3 hits at lines 12, 47, 89 |
 | medium | `CLAUDE.md` § Tests | Test count says 145, actual is 148 | `find . -name "*.test.*" \| wc -l` → 148; CLAUDE.md line 67 says 145 |
 | low | `README.md:23` | Minor formatting inconsistency | trailing whitespace per `git diff --check` |
+
+In the release pass, the table is followed by a **Left untouched** list — one line per deliberate non-fix, naming the finding and why it was judged deliberate rather than drift.
 
 ### Evidence specification
 

@@ -1,6 +1,6 @@
 ---
 route: new
-stage: framed
+stage: building
 ---
 
 # Release-closeout — every release checks its own story, and fixes it

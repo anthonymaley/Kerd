@@ -63,7 +63,7 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
 - **switch**: the boundary's single definition (pull on arrive is switch-in's; the Switch Out flow makes the session-state commit for either caller — standalone, or conductor close-out invoking it). Not the only committer — conductor commits its own work per verified task.
 - **kivna**: knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)
-- **slainte**: project health audits (docs, code, site, deps, playbook)
+- **slainte**: the release close-out pass (triggered by conductor at version bumps; fixes doc drift under the gate) + on-demand health audits
 - **skriv**: human writing voice enforcement (audit, fix, session mode, self-audit pass)
 - **tend**: structural health check and convergence
 - **trim**: token optimization (archive shipped docs, prune stale context, safety-gated cleanup)

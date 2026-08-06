@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.84.0)
+## What's New (v0.85.0)
+
+### v0.85.0
+
+**Releases now check their own story.** Before, slainte was a read-only audit you had to remember to run — and nobody did: the mechanical checks moved into CI, and the judgment layer (does the README still describe what shipped? is What's New honest?) ran never. Now the release moment itself triggers it: when a conductor session's work bumps the plugin version, close-out runs tend's drift check and slainte's narrative pass before the boundary. Slainte fixes what drifted — as normal work commits under the verification gate, with skriv auditing any prose it writes — and its report names what it deliberately left alone, so restraint is visible instead of assumed. The hand-kept `.slainte` config file is gone; audit targets derive from the repo. What it means: the doc surface gets one honest pass per release instead of zero, CI keeps the mechanical layer, and `/slainte` still answers on demand.
 
 ### v0.84.0
 
@@ -33,11 +37,7 @@ claude plugins install kerd
 
 **Every Release slice now declares how rigorously it will be measured.** A product doc's `## Release slice` section carries one machine-checked line — `Rigor level: spike|mvp|production-v1` — and silence stops being an option: a missing, illegal, duplicated, or misplaced declaration turns the push red with the fix named (audit rule AU6, plus a matching refusal at the design gate). The four existing product docs were retrofitted honestly in the same commit as the rule, proven byte-identical on the progress board before/after. What a level *requires* (the per-class disposition table: measured / waived-by-name / n-a-with-reason, with per-level floors like "production-v1 cannot waive security") is the named next slice. First feature whose contract-to-goal walk ran fully overnight: orchestrator spec, five players, cold-eyes review, all unattended.
 
-### v0.80.0
-
-**A document's reading list becomes machine-checkable — "lost" is now a red light.** A product doc may declare its background reading in a `## Grounding` section (`- <ref> — <why>`); audit rule AU5 proves every declared reference still resolves on disk at every push. A doc that moves, renames, or vanishes turns the push red naming the exact broken reference — the failure that used to be invisible (the well-named design doc that held the answer and went unread). Declaring is opting in; retrofitted reading lists would be hollow, so nothing is retrofitted. Whether the reading *happened* (read-receipts) is the named next slice.
-
-*Release notes for v0.79.0 and earlier live in git history — `git log --follow README.md`.*
+*Release notes for v0.80.0 and earlier live in git history — `git log --follow README.md`.*
 
 ## Skills
 
@@ -131,16 +131,14 @@ kivna/
 
 ### slainte (Project Health)
 
-Slainte audits project health across six areas: docs, code, site, deps, playbook, and release. It reads a `.slainte` config file at the project root to know what to check. Each area has specific checks. Docs gets cross-referenced against CLAUDE.md, scanned for stale names and broken links. Code runs tests and the build. Deps checks for outdated packages and security issues. Playbook checks whether `docs/playbook.md` exists, whether its Current Status is accurate, whether the tech stack listed still matches reality, and whether setup steps still point to files that exist. Release (Kerd-specific) catches version sync drift, description mismatches, skill count claims, namespace prefix issues, and marketplace URL changes.
+Slainte is the release close-out pass, plus on-demand health audits. When a conductor session ships a version bump, close-out triggers slainte before the boundary: it sweeps the repo's own narrative surfaces — README sections and What's New, the playbook, the state contract, the capability lists, any living design doc the release touched — fixes what is drift, and names in its report what it deliberately left untouched, so restraint is visible instead of assumed. Fixes land as normal work commits under the caller's verification gate, and prose it writes passes skriv's one-shot audit first. The mechanical layer stays CI's (version sync, capability lists, namespaces — R1–R3 and AU1–6); slainte owns the judgment layer: skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification. There is no config file — targets derive from the repo.
 
-Everything gets a severity grade: high (factually wrong, broken build, security vulnerability), medium (stale but not misleading), low (nitpick). Slainte reports problems. It doesn't fix them.
+The on-demand area audits (docs, code, site, deps, playbook, release) still run any time, report-only by default. Everything gets a severity grade: high (factually wrong, broken build, security vulnerability), medium (stale but not misleading), low (nitpick).
 
 ```
-/slainte              # show current config
-/slainte add docs README.md   # register a target
 /slainte docs         # audit docs area
 /slainte playbook     # audit the playbook
-/slainte release      # audit version sync, counts, namespaces (Kerd repos)
+/slainte release      # the release pass's judgment checks, on demand
 /slainte all          # audit everything
 ```
 

@@ -23,7 +23,7 @@ c = Canvas()
 X0 = 300
 
 # ── title + legend ───────────────────────────────────────────────────────
-c.txt("Kerd — the whole system, current state (v0.81.0)", X0, 80, 30)
+c.txt("Kerd — the whole system, current state (v0.85.0)", X0, 80, 30)
 c.txt("skills are what you invoke · the ladder is what work climbs · "
       "the machinery refuses from outside the model",
       X0, 122, 14)
@@ -52,7 +52,7 @@ cluster = [
 cluster2 = [
     ("HEALTH", X0, [
         ("tend", "converge repo structure\nto current conventions;\nnever commits", INK),
-        ("slainte", "read-only health audit:\ndocs, code, deps staleness;\nreports, never fixes", INK),
+        ("slainte", "release close-out pass: triggered\nat version bumps, fixes doc drift,\nrestraint reported", INK),
         ("trim", "DYING - jobs dissolved by\nconstruction; cut queued\n(coverage table per job)", RED),
     ]),
     ("QUALIFY & DISCOVER", X0 + (BW + GAP) * 3 + 40, [

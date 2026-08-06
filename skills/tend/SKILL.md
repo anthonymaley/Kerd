@@ -56,7 +56,6 @@ Check these files exist:
 - `CONTEXT.md`
 - `TODO.md`
 - `docs/playbook.md`
-- `.slainte`
 
 **TODO shape check (drift detection):** TODO.md must be lean — `## Now` + `## Backlog` only. Flag `⚠` if it contains a `## Current Session` block, a `### Context` section, or any `## Previous/Older Session` blocks (pre-split shape, v0.60.0). The fix is the next `/kerd:switch out`, which self-migrates; tend detects, switch heals. Same for a missing CONTEXT.md when TODO.md exists — flag as pre-split, don't create it here.
 
@@ -136,18 +135,6 @@ How to rebuild this project from scratch.
 [What's working, what's in progress, what's next]
 ```
 
-**.slainte:**
-```
-# Slainte Audit Targets
-
-## docs
-- README.md
-- docs/
-
-## playbook
-- docs/playbook.md
-```
-
 For existing repos, only report missing files. Don't create them with templates. The user may have a reason for their absence, or may want to create them with project-specific content.
 
 #### Category 3: Vault integration
@@ -178,7 +165,8 @@ Detect files/dirs from older Kerd versions:
 - `kivna/checkpoints/`: replaced by vault Status.md in v0.10.0 (was vault Context.md in v0.7.0)
 - `kivna/memories/`: replaced by vault in v0.7.0
 - `commands/`: removed in v0.7.0, plugin system loads skills directly
-- `.sotu`: renamed to `.slainte` in v0.11.0
+- `.sotu`: renamed to `.slainte` in v0.11.0 (both since removed)
+- `.slainte`: removed in v0.85.0 — targets derive from the repo; offer deletion
 - `skills/shakh/`: renamed back to `skills/switch/` in v0.14.0
 - `skills/seach/`: intermediate name, renamed to `skills/switch/` in v0.14.0
 
@@ -197,7 +185,7 @@ Scan for:
 - Screenshots (`*.png`, `*.jpg`, `*.jpeg`, `*.gif`, `*.webp`) in repo root or committed dirs
 - Temp files (`*.tmp`, `*.log`, `*.bak`, `*.swp`, `*~`)
 - `.DS_Store` anywhere in the repo
-- Files with no git commits touching them in 60+ days that aren't documentation (`.md`), config (`.json`, `.yaml`, `.toml`, `.slainte`), or gitignore. Use `git log -1 --format=%at -- <file>` to check the most recent commit touching the file.
+- Files with no git commits touching them in 60+ days that aren't documentation (`.md`), config (`.json`, `.yaml`, `.toml`), or gitignore. Use `git log -1 --format=%at -- <file>` to check the most recent commit touching the file.
 - Orphaned files not referenced by any other file in the repo (check with grep for the filename across all files). Only check for files in the repo root (subdirectory files are more likely intentional).
 
 #### Category 7: .gitignore hygiene
@@ -263,7 +251,7 @@ Format the report as a visual table. Show passing categories as one-liners. Show
   kivna/  kivna/sessions/  docs/
 
 ✓ Required files
-  README.md  CLAUDE.md  CONTEXT.md  TODO.md  docs/playbook.md  .slainte
+  README.md  CLAUDE.md  CONTEXT.md  TODO.md  docs/playbook.md
 
 ✗ Vault integration
   ┌──────────────────┬───────────────┬─────────────────────────────┐

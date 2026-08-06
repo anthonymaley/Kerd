@@ -70,6 +70,8 @@ Conductor runs inside an already-open session. Loading context is switch-in's jo
 
 **Cold path (conductor invoked with no switch-in this session):** Do a light orient — read only `CONTEXT.md` (`## Where We Are`) and `TODO.md` (`## Now`). That's enough to plan. Don't sweep the playbook, session logs, and progress files; that's switch-in's read. If you need the full picture, run `/kerd:switch in` first.
 
+**Bare repo (no Kerd structure detected — no CONTEXT.md, no TODO.md, no `kivna/`):** offer `/kerd:tend` to set the structure up before planning — one invoke; tend's own SKILL.md defines the setup. If declined, orient on what exists and continue.
+
 **Mode awareness:** Read `kivna/.active-modes`. If a mode is active, report it: what mode, which step, and the session instruction if one was set. Conductor operates within the mode's scope. If the mode says "focus on pricing strategy only," conductor's plan respects that constraint. If no mode is active, proceed normally.
 
 **Pre-flight inventory:** Ask the user for anything execution will need that isn't already in the repo: credentials/access not stored locally, sample inputs not in TODO.md, scope limits not in CLAUDE.md, hardware/environment state, fixtures or test data. Trickle-in friction (each missing input becomes a stop-and-ask round mid-execute) is 5-10x more expensive than collecting upfront. One round of questions now prevents many later. If the inventory is genuinely complete, say so explicitly and skip.
@@ -309,7 +311,8 @@ Close-out settles the work, then runs the boundary itself — one act, no handof
 3. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
 4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Conductor may be one step in a larger mode flow. After conductor's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
 5. **Clear the conductor marker**: remove the conductor line from `kivna/.active-modes`. Never touch the mode line — mode owns its own state.
-6. **Run the boundary**: invoke `/kerd:switch out` via the Skill tool — full mode, the standalone default. The flow is defined once, in `skills/switch/SKILL.md` Switch Out; do not re-describe its steps here or anywhere in this file. When it completes, output `[conductor: closed]` as the final marker.
+6. **Release close-out pass**: if this session's work commits changed the three plugin `"version"` fields (CI's release definition, rule R1), invoke `/kerd:tend` and then `/kerd:slainte` before the boundary — the structural drift check and the narrative pass with fixes, each defined in its own SKILL.md, not here. The pass's edits are work commits under the verification gate. No version change, no pass.
+7. **Run the boundary**: invoke `/kerd:switch out` via the Skill tool — full mode, the standalone default. The flow is defined once, in `skills/switch/SKILL.md` Switch Out; do not re-describe its steps here or anywhere in this file. When it completes, output `[conductor: closed]` as the final marker.
 
 ## Principles
 
