@@ -30,13 +30,15 @@ One line inside the `## Release slice` section of
 Rigor level: mvp
 ```
 
-- **Shape:** line starts `Rigor level: ` (column 0, case-sensitive),
-  followed by exactly one legal value. Exactly one such line per
-  Release slice section.
+- **Shape:** line starts `Rigor level:` (column 0, case-sensitive);
+  the value is the rest of the line, whitespace-stripped. Exactly one
+  such line per Release slice section, and none elsewhere in the file.
 - **Legal set:** `spike` · `mvp` · `production-v1` — a `RIGOR_LEVELS`
-  tuple in `tools/gates/kit.py`, canonically documented in
+  list in `tools/gates/kit.py`, canonically documented in
   `tools/gates/README.md` (the route/stage precedent: hardcoded in the
-  tool, written down in the standard). Amendable by commit.
+  tool, written down in the standard). Amendable by commit; the
+  refusal messages and fixtures repeat the set as literals, so an
+  amendment edits them together *(goal-gate finding, 2026-08-06)*.
 - **In slice 1 the value is data.** Level semantics — what `mvp`
   *requires* — arrive with slice 2's catalog. Declaring is the forcing
   function; expansion is deferred.

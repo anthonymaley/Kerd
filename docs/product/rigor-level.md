@@ -22,10 +22,11 @@ Value, in units:
 - **The level question cannot be skipped** — today: no slice declares a
   rigor level and nothing refuses; target: a Release slice without a
   declared, legal rigor level is a named refusal, uniformly across the
-  board *(amended at the design rung, 2026-08-05: mechanically the
-  check lands on the design gate — the Release slice section is
-  design's input — and the new-work-only carve-out died with the
-  no-retrofit clause below)*.
+  board *(amended at the design rung, 2026-08-05, and again at the goal
+  gate, 2026-08-06: mechanically the check lands on two surfaces — the
+  repo-wide audit, AU6, at every push, which is the surface that
+  delivers "uniformly" — and the design gate's input row at climb time;
+  the new-work-only carve-out died with the no-retrofit clause below)*.
 - **Every rigor class in exactly one state** (slice 2) —
   measured-with-target · waived-by-name · n/a-with-reason; a class in
   no state is a named refusal. Silence becomes structurally impossible:
@@ -58,8 +59,13 @@ Rigor level: mvp
 Smallest valuable slice — **slice 1: the declared level + the refusal**
 (proposed; the fork below is the composer's call): a Release slice
 carries a machine-readable rigor level from a declared legal set
-(starter set: `spike` · `mvp` · `production-v1`; the set lives in one
-declared place, amendable); the design gate — where the Release slice
+(starter set: `spike` · `mvp` · `production-v1`; `RIGOR_LEVELS` in
+`kit.py` is what the checker tests against — the refusal messages,
+fixtures, and the gates standard repeat the set as literals, so an
+amendment edits them all in one commit; *goal-gate amendment
+2026-08-06: the earlier "lives in one declared place" claim was
+false in the shipped code and nothing machine-checks the literals
+against the constant*); the design gate — where the Release slice
 section is an input — refuses work whose Release slice lacks a legal
 level, uniformly; the audit demands and validates the declaration in
 every product doc that carries a Release slice; the three existing

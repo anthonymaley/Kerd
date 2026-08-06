@@ -39,7 +39,7 @@ EOF, for work slug `S`:
 | `frame` | nothing — always enterable |
 | `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) |
 | `slice` | section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` |
-| `design` | section `Release slice` in `docs/product/<S>.md` · that section declares its rigor level: exactly one `Rigor level: <spike\|mvp\|production-v1>` line inside it (see Rigor level, below) |
+| `design` | section `Release slice` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
 | `contract` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
 | `build` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` |
 | `goal` | zero unchecked boxes (`- [ ] `) in the contract's `Pieces` section |
@@ -141,7 +141,7 @@ push, not just against a named slug.
 
 | # | Rule |
 |---|---|
-| AU1 | `docs/design/*.md` filenames must NOT start `YYYY-MM-DD-` — living docs are undated. Runs against six real files today. |
+| AU1 | `docs/design/*.md` filenames must NOT start `YYYY-MM-DD-` — living docs are undated. Runs against ten real files today. |
 | AU2 | `docs/product/*.md`: undated filename · front matter required and legal · stage-vs-sections within the file: `framed`+ requires `Value`, `viable`+ requires `Risk ledger`, `sliced`+ requires `Release slice` — a stage claiming more progress than the file's sections show is a named problem. |
 | AU3 | `docs/gates/*.md` filenames MUST match `^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-(frame\|viability\|slice\|design\|contract\|build\|goal\|loop)\.md$`. |
 | AU4 | Any `docs/**/*.md` whose front matter carries `route` or `stage`: both keys present, both values legal — this validates the front-matter schema against every file that opts into it, including dated spec files like this piece's own contract. |
@@ -188,19 +188,30 @@ followed by `release: <n> problems` (exit 1).
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0
           - name: Gate selftest
             run: python3 tools/gates/gate.py selftest
           - name: Repo audit
             run: python3 tools/gates/gate.py audit
           - name: Release rules
             run: python3 tools/gates/gate.py release
+          - name: Progress selftest
+            run: python3 tools/diagram/progress.py selftest
+          - name: Matrix selftest
+            run: python3 tools/design/matrix.py selftest
+          - name: Matrix audit
+            run: python3 tools/design/matrix.py audit
+          - name: Progress render current
+            run: python3 tools/diagram/progress.py stale
 
-No `setup-python` step — `ubuntu-latest` ships python3 and this tool has
-zero dependencies. Three things can fail the build: the fixture suite
-(`selftest`, exercising the 24 cases against a temp tree), the real
-repo (`audit`, exercising AU1–AU6 against the actual `docs/` tree), and the
-release sweep (`release`, enforcing R1–R3 on plugin metadata and living
-files). A dated file dropped into `docs/design/`, a malformed `docs/gates/`
+No `setup-python` step — `ubuntu-latest` ships python3 and these tools
+have zero dependencies. Seven things can fail the build; this tool owns
+the first three: the fixture suite (`selftest`, exercising the 24 cases
+against a temp tree), the real repo (`audit`, exercising AU1–AU6 against
+the actual `docs/` tree), and the release sweep (`release`, enforcing
+R1–R3 on plugin metadata and living files). The other four belong to the
+progress and matrix tools (see their own READMEs). A dated file dropped into `docs/design/`, a malformed `docs/gates/`
 record name, a bare `/<name>` reference in a living file, or a broken
 selftest fails CI — a refusal that fires from outside the model, on
 GitHub's infrastructure, not inside a session.
@@ -238,9 +249,13 @@ is measured — one line, machine-checked:
 
 Grammar: the line starts at column 0 with `Rigor level:`; the value is
 the rest of the line, whitespace-stripped, case-sensitive. The legal
-set is `spike` · `mvp` · `production-v1`, living in exactly one place —
-`RIGOR_LEVELS` in `kit.py`. The law is written once (`rigor_problems`)
-and enforced at two call sites:
+set is `spike` · `mvp` · `production-v1` — `RIGOR_LEVELS` in `kit.py`
+is the value the checker tests against; the refusal messages, the
+fixtures that pin them, and this standard repeat the set as literal
+text, so amending it means editing all of them in one commit — nothing
+machine-checks those literals against `RIGOR_LEVELS`, so the drift risk
+is named here rather than refused. The law is written once
+(`rigor_problems`) and enforced at two call sites:
 
 - **AU6** (above) sweeps every `docs/product/*.md`: exactly one legal
   line inside the `## Release slice` section; a `Rigor level:` line
