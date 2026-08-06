@@ -45,7 +45,7 @@ cluster = [
         ("pair", "partner-mode toggle (hook):\nrapid back-and-forth,\none speech-bubble question", INK),
     ]),
     ("KNOWLEDGE", X0 + (BW + GAP) * 3 + 40, [
-        ("kivna", "the vault interface:\nhuman-first knowledge base,\none write per boundary", INK),
+        ("kivna", "the vault interface:\nhuman-first knowledge base,\non-demand since v0.83.0", INK),
         ("skriv", "human voice for prose:\naudit, fix, or write —\nnever code or commits", INK),
     ]),
 ]

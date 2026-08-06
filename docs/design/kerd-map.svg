@@ -58,7 +58,7 @@
 <text x="1220.0" y="290.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1220.0" dy="0.0">the vault interface:</tspan>
 <tspan x="1220.0" dy="15.0">human-first knowledge base,</tspan>
-<tspan x="1220.0" dy="15.0">one write per boundary</tspan>
+<tspan x="1220.0" dy="15.0">on-demand since v0.83.0</tspan>
 </text>
 <rect x="1500.0" y="246.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="1635.0" y="264.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">

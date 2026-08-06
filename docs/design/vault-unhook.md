@@ -10,12 +10,28 @@ this rung). Routed here by `gate.py route` — enters at design.
 
 Removes the automatic vault write from the session boundary and every
 nag toward creating one, without touching the deliberate path. After
-this slice: switch-out neither writes nor mentions the vault beyond a
-one-line pointer when one exists; tend treats a vault-less project as a
-legitimate opt-out; `/kerd:kivna save` is the one way vault pages get
-written, invoked on purpose. Nothing in any existing vault is deleted
-or moved. The switch-IN path is not edited at all — the killer feature
-is out of bounds by construction.
+this slice: switch neither reads nor writes the vault in any mode —
+its surviving vault mentions are the deliberate-path pointer and the
+conditional banner line *(goal-gate amendment 2026-08-06: the original
+"nor mentions" claim overstated)*; tend treats a vault-less project as
+a legitimate opt-out; `/kerd:kivna save` is the deliberate way vault
+pages get written (lorg's report copy is the one automatic exception,
+per the coverage table). Nothing in any existing vault is deleted or
+moved. The switch-IN path is not edited at all — the killer feature is
+out of bounds by construction.
+
+*Goal-gate amendment, 2026-08-06 — the edit map below was incomplete
+as designed:* cold eyes found the two documents that actually route
+the boundary behaviour missing from it — `skills/conductor/SKILL.md`
+(four boundary-vault claims, including the close-out handoff
+instruction) and `docs/state-contract.md` (the ownership contract,
+four rows) — plus six lesser declared-truth sites (playbook gotcha,
+"only writer" overclaims, the kerd-map generator label,
+conductor-role.md, slainte's lag tolerance). All amended in the
+goal-gate commit. The cross-cutting grep the playbook has always
+demanded is now a named design-rung obligation for any slice touching
+a system-wide behaviour. The shipped README edits were nine (steps
+6+7 of the contract, the expansion declared there), tend's were four.
 
 ## The coverage table — every vault artifact's fate
 

@@ -56,7 +56,7 @@ never breaks.
 
 ## What conductor never was, and never becomes
 
-The session boundary (switch's), the vault (kivna's at the boundary),
+The session boundary (switch's), the vault (kivna's, on demand),
 context management (dissolved by construction — exact slice per piece,
 free restarts between pieces).
 

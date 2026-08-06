@@ -137,8 +137,8 @@ skriv: active
 ### Rules
 
 - Overwritten each save, not appended to. Save shows what changed but does not prompt for approval (v0.60.0); do-not-save markers remain the privacy control.
-- kivna save is the sole writer. One vault write per session (at close-out), not per-task.
-- Switch out calls kivna save at session close. Conductor no longer calls it; switch owns the vault save.
+- kivna save is the sole session-flow writer, and it runs on demand only (v0.83.0) — no skill calls it automatically. A vault is exactly as fresh as its last deliberate save.
+- Neither switch nor conductor writes or triggers a vault write. The vault is opt-in per project; absence is legitimate.
 - Never read at switch-in: it contains nothing CONTEXT.md + the latest session log don't. It exists for the human Obsidian reader.
 
 ## kivna/output/ (KIF exports)
@@ -195,7 +195,7 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Session log creation | **switch** | Conductor records decisions in TODO.md, not session logs |
 | Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills read but don't write TODO.md |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
-| Vault writes | **kivna** (save) | Switch calls kivna save, doesn't write vault directly |
+| Vault writes | **kivna** (save, on demand — v0.83.0) | No skill calls kivna save automatically; lorg's report copy is the one automatic exception |
 | Conductor state (.active-modes conductor line) | **conductor** | Other skills read conductor state but never write the conductor line |
 | Skriv state (.active-modes skriv line) | **skriv** | Same rule — each skill owns only its own line |
 | Structural audit and fix | **tend** | Slainte reports content issues but doesn't fix structure |
@@ -206,5 +206,5 @@ Which skill owns which responsibility. If two skills could do something, only on
 ### Conflict resolution
 
 If a skill needs to do something owned by another skill, it calls that skill rather than doing it directly:
-- Switch calls `/kerd:kivna save` at the boundary (switch owns the vault save; conductor no longer calls it)
+- Nothing calls `/kerd:kivna save` automatically (v0.83.0) — the user invokes it when they want the vault current
 - Switch suggests `/kerd:trim` but doesn't run trim's steps itself

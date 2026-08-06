@@ -436,3 +436,21 @@ Do NOT push — the push is Step 12's, single, after the render commit.
 5. `git -C /Users/anthonymaley/Kerd push` — ONE push carrying both commits.
 
 **Verify:** `git -C /Users/anthonymaley/Kerd status --porcelain` prints nothing; `git -C /Users/anthonymaley/Kerd rev-list origin/main..HEAD --count` prints `0`; `git -C /Users/anthonymaley/Kerd log -2 --format=%s` shows `Refresh progress render` above the work-commit subject (or only the work commit if step 3 was skipped).
+
+## Goal-gate amendments (2026-08-06, dated addendum — the steps above are the record as contracted)
+
+Three contract-vs-tree corrections from the cold-eyes review, resolved
+by amendment rather than rebuild:
+
+1. **Ninth commit path authorized**: `docs/product/vault-unhook.md`
+   (stage `designed` → `building`) rode the work commit as the
+   conductor's stage-discipline addition; Step 9 §4's eight-path list
+   and Step 11 §2's staging list are amended to include it.
+2. **Edit (9) anchor as-landed accepted**: the banner paragraph landed
+   after the "If the tree is not clean" paragraph, not before it —
+   behaviourally equivalent; the contracted anchor is corrected to
+   match the tree.
+3. **Step 2 §2 grep count corrected to four**: the fourth
+   `step [0-9]` hit is the pre-existing `greenfield (step 4 of 9)`
+   mode example inside Switch In (present in the parent commit) — the
+   contracted count of three was a terrain miscount.

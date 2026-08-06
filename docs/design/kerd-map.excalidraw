@@ -785,13 +785,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "the vault interface:\nhuman-first knowledge base,\none write per boundary",
+   "text": "the vault interface:\nhuman-first knowledge base,\non-demand since v0.83.0",
    "fontSize": 12,
    "fontFamily": 6,
    "textAlign": "left",
    "verticalAlign": "top",
    "containerId": null,
-   "originalText": "the vault interface:\nhuman-first knowledge base,\none write per boundary",
+   "originalText": "the vault interface:\nhuman-first knowledge base,\non-demand since v0.83.0",
    "autoResize": true,
    "lineHeight": 1.25
   },

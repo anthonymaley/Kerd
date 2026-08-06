@@ -19,7 +19,7 @@ claude plugins install kerd
 
 ### v0.83.0
 
-**The vault becomes opt-in everywhere.** Switch-out no longer writes the Obsidian vault at the session boundary — `/kivna save` is the one writer, invoked on purpose, and a vault is exactly as fresh as its last save. When a vault exists, the switch-out banner says so (vault not written, on-demand). tend stops nagging vault-less projects: an absent vault is a legitimate opt-out, one info line, never a warning. Switch-in is untouched byte-for-byte — same three files, same pickup. Nothing in any existing vault is deleted; the automatic writer stops, the files stay.
+**The vault becomes opt-in everywhere.** Switch-out no longer writes the Obsidian vault at the session boundary — `/kivna save` is the deliberate writer, invoked on purpose (lorg's report copy remains the one automatic exception), and a vault is exactly as fresh as its last save. When a vault exists, the switch-out banner says so (vault not written, on-demand). tend stops nagging vault-less projects: an absent vault is a legitimate opt-out, one info line, never a warning. Switch-in is untouched byte-for-byte — same three files, same pickup. Nothing in any existing vault is deleted; the automatic writer stops, the files stay.
 
 ### v0.82.0
 
