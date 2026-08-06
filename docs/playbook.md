@@ -175,7 +175,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Session logs, playbook creation, and health audits all operational
 - Obsidian vault integration. Kivna writes living vault files (Status.md, Weekly.md, domain knowledge) directly at save — changes reported, no approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is write-only from the session flow (never read at switch-in)
 - Tend audit verified (9 categories including hook hygiene). Reports structural drift and fixes with approval
-- Slainte release audit catches version sync, description sync, skill count drift, namespace issues
+- Slainte release audit catches skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification; CI owns version sync, description sync, and namespaces (R1–R3)
 - Unified `.active-modes` schema shared by conductor, skriv, and switch
 - Switch snapshots active mode state to CONTEXT.md `## Active Mode` for cross-machine handoff (v0.60.0; was TODO.md `### Context`)
 - Mode markers on conductor and skriv. Visible phase/state announcements with `.active-modes` state file
