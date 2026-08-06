@@ -2,16 +2,17 @@
 
 ## Now
 
-No work in flight — next focus picks from Backlog (see `kivna/sessions/2026-08-05.md` for the day's record). Freshest candidates: the rigor-level forcing function (framed 2026-08-05, High) · the journey view (parked, wake condition: more journeys walked). Working default: per-piece evidence check — no blanket license.
+**rigor-level sits at design** (framed + sliced 2026-08-05, Tony's key on Value / ledger / slice; `docs/product/rigor-level.md`, commits 6e5c37e/54fd552, CI green). The DESIGN rung is the natural next focus — one conversation, one package. Or pick from Backlog.
 
-Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.77.0, two versions behind (repin when convenient).
+Working default: per-piece evidence check — no blanket license.
+
+Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.79.0, one version behind (repin when convenient; corrected 2026-08-05 — both skills verifiably loaded from 0.79.0 this session).
 
 ## Backlog
 
 *Ranked by the function 5 axes — consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
-- **Rigor level as a forcing function** (framed with Tony 2026-08-05, post-boundary): the level (spike / MVP / production-v1 / …) is **declared in the Release slice definition** — machine-checked legal values, gate-refused when absent. Declaring a level expands into named rigor classes (security · performance · logic coverage · data integrity · …), each forced into exactly one state: measured-with-target · waived-by-name (accepted risk + review trigger) · n/a-with-reason. DONE then assembles the rigor checks by construction — silence becomes structurally impossible; a spike stays cheap because its classes land in waived-by-name. Reuses the ledger's state pattern; generalizes `route: spike` into a rigor axis; level climbs per slice. Gap it closes: today an undeclared rigor class fails nothing — it's just never checked. Help seating (Tony 2026-08-05): the system supplies the knowledge, the human only the judgment — declaring a level expands into a PRE-FILLED disposition table from a **rigor catalog** (living doc per level, on disk — expansion derived from artifact, not model memory); the composer key touches only deviations (waivers, targets in their units, domain-specific classes like the Celtic UK-resale-law class); no new gate — the table rides the slice's existing key; measured classes become CI checks, so guidance arrives as red lights with the fix named, not lectures.
 - **CI on `~/3of3`** — *3of3 is its own project, not part of Kerd* (clarified 2026-08-04); a possible trial ground for the refusal pattern, taken up only if that project wants it. `/loop` still cannot run there until something refuses.
 - Repin `leru`, `krutho-strategy`, `krutho-founders` off `kerd/0.65.0` — high consequence, **no value**: pure hygiene, one cache GC from silent breakage. `obair` has no pin at all (deliberate, or drift — unchecked).
 

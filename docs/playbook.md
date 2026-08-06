@@ -100,6 +100,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Gotchas
 
+- **zsh does not word-split unquoted variables** (2026-08-05): a loop running `python3 $cmd` with `cmd="tools/gates/gate.py selftest"` passes ONE argument in zsh — python tries to open a file literally named `gate.py selftest` and every step spuriously FAILs. The tell: the error quotes the whole string as a filename. Fix: `eval` (or zsh's `${=cmd}`). This machine's shell is zsh; bash word-splitting habits lie.
 - **`gh run list --limit 1` right after a push can return the PREVIOUS run** (2026-08-04): the new run hadn't registered yet; the stale run "completed" instantly and its step list was one short — nearly signed off the wrong SHA. Verify the run's `headSha` against the pushed SHA before `gh run watch`.
 - **A file "already in context" can be a stale snapshot** (2026-08-04): a subagent quoted CLAUDE.md as it stood at its spawn baseline, not after the session's own committed edit to it — the spec it wrote carried a wrong old-string. Validate spec old-strings against disk at execution time; "it's in my context" is not "it's current".
 - **`git rm -r` stages the deletion** (2026-08-04): a later ship step's `git add <deleted-path>` fails with "pathspec did not match" — the deletion is already in the index. Stage the *other* files by name; never re-add the deleted path.
