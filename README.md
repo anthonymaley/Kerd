@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.88.0)
+## What's New (v0.89.0)
+
+### v0.89.0
+
+**The session's clock stays honest between phases.** Before, conductor was told once — in a section near the top of its own skill — to write its phase marker to disk. A session that drifted past that one instruction left the marker sitting at an early phase, and close-out then read a stamp that no longer matched reality; on this feature's own first live use the model went one worse and invented a stamp that had never been written. Now the write instruction sits at every phase transition, where the write actually has to happen, and close-out states the consequence plainly: if the marker is not at `execute`, no open time exists, so the session log records a close time alone rather than a plausible-looking range. Gate records gained their missing write-side instruction too — the `**Clock:**` line is now owed by the skill that writes records, not merely documented by the standard that defines it. What it means: the times in your session logs and the durations derived from your gate records come from stamps that were actually taken. What this is *not*, named: a check. `kivna/.active-modes` is gitignored, so no CI step and no hook can refuse a stale marker — this is discipline moved to where it gets used, and its honest test is whether the next session's log carries a real range.
 
 ### v0.88.0
 
@@ -33,11 +37,7 @@ claude plugins install kerd
 
 **Releases now check their own story.** Before, slainte was a read-only audit you had to remember to run — and nobody did: the mechanical checks moved into CI, and the judgment layer (does the README still describe what shipped? is What's New honest?) ran never. Now the release moment itself triggers it: when a conductor session's work bumps the plugin version, close-out runs tend's drift check and slainte's narrative pass before the boundary. Slainte fixes what drifted — as normal work commits under the verification gate, with skriv auditing any prose it writes — and its report names what it deliberately left alone, so restraint is visible instead of assumed. The hand-kept `.slainte` config file is gone; audit targets derive from the repo. What it means: the doc surface gets one honest pass per release instead of zero, CI keeps the mechanical layer, and `/slainte` still answers on demand.
 
-### v0.84.0
-
-**A conductor session now ends itself.** Before, conductor's close-out finished by asking you to run `/switch out` — one more prompt to answer, and the session sat quiet until you did. Now close-out runs the boundary as its final act: the session log, the state commit, and the push happen in the same motion, and the close names the suggested next pick from TODO instead of waiting to be told. The completion banner ends with the reset ritual — type `/clear`, then `/switch in` — so freeing context is two keystrokes, never a guess. The boundary flow itself stays defined in exactly one place (switch), so the two callers can't drift apart. Standalone `/switch out` still closes sessions that never ran conductor; switch-in is untouched.
-
-*Release notes for v0.83.0 and earlier live in git history — `git log --follow README.md`.*
+*Release notes for v0.84.0 and earlier live in git history — `git log --follow README.md`.*
 
 ## Skills
 
@@ -63,7 +63,7 @@ The project playbook (`docs/playbook.md`) — a living guide for rebuilding the 
 
 Conductor is mode-aware: if a mode is active, orient reports the mode context and instruction, the plan respects the mode's scope, and close-out doesn't claim the session is done when running as part of a larger mode flow.
 
-Conductor announces its current phase with a mode marker (`[conductor: orient]`, `[conductor: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[conductor: closed]` so there's no ambiguity.
+Conductor announces its current phase with a mode marker (`[conductor: orient]`, `[conductor: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[conductor: closed]` so there's no ambiguity. The same marker is written to `kivna/.active-modes` with a real timestamp at every phase transition — that stamp is where the session log's start times come from, which is why the instruction to write it lives at each transition rather than once at the top.
 
 **The gate message carries the content.** Any conductor message that asks for approval contains what's being approved — findings, summary, plan — in that same message, never assuming earlier mid-turn text was seen. This keeps conductor readable under Claude Code's focus mode, which shows only a turn's final message.
 

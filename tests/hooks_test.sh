@@ -305,14 +305,17 @@ test_stop_uncommitted_reports() {
 }
 
 test_stop_active_mode_and_conductor_report() {
-  TNAME="stop: active mode + conductor lines both reported"
+  TNAME="stop: active mode + stamped conductor line both reported"
   local d; d=$(make_kerd_repo)
-  printf 'mode: research (step 1 of 4)\nconductor: orient\n' >"$d/kivna/.active-modes"
+  # The stamp is fixture data, not a record of anything. It exercises the only
+  # legal conductor-line shape (v0.88.0): stop.sh echoes the line whole, so the
+  # assertion below is what proves the stamp reaches the human.
+  printf 'mode: research (step 1 of 4)\nconductor: orient @ 2026-08-06 15:17 EDT\n' >"$d/kivna/.active-modes"
   run_hook "$d" stop.sh
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_contains "$OUT" "mode active: research (step 1 of 4)" || return
-  assert_contains "$OUT" "conductor: orient" || return
+  assert_contains "$OUT" "conductor: orient @ 2026-08-06 15:17 EDT" || return
   pass
 }
 

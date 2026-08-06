@@ -49,7 +49,7 @@ Conductor is a modal skill. It runs across multiple responses. Announce the curr
 
 **Why a step-boundary marker within execute:** phase markers fire 3-4 times per session — too coarse to gate claim-level failures (the Claim Discipline problem — gates asserted once don't bind the 50th claim). Step-boundary markers fire 5-30 times per session at the granularity where confident-wrong assertions actually happen. Each step marker is a reminder to re-engage the verification gate, not boilerplate. Don't re-emit the marker mid-step; only at the actual step transition.
 
-**State file:** When entering a phase, write the current phase to `kivna/.active-modes`. When closing out, remove the conductor line from the file (or delete the file if it's the only entry). This lets `/kerd:switch in` report active modes and hooks surface reminders.
+**State file:** the marker also lives on disk, in `kivna/.active-modes` — that is what lets `/kerd:switch in` report active modes and hooks surface reminders. The format and the stamp rule are defined here; **the instruction to write it sits in each phase section below**, at the transition where the write actually has to happen. Closing out removes the conductor line from the file (or deletes the file if it is the only entry).
 
 Format of `kivna/.active-modes` — conductor owns one line only:
 ```
@@ -60,11 +60,13 @@ Example: `conductor: execute @ 2026-08-06 15:17 EDT`. Remove the line entirely w
 
 **The stamp has to be real.** Run `date '+%Y-%m-%d %H:%M %Z'` in the same turn as the write and copy its output — the same-turn rule, defined once in `docs/state-contract.md`. Never write a remembered or inferred time. The `execute` marker's stamp is the first conducted task's start time, which is why it is worth a `date` call rather than a guess.
 
+**Nothing checks that the marker is current.** `kivna/.active-modes` is gitignored, so no CI step sees it, and the hooks that read it report rather than refuse — the file is exactly as true as its last write. A marker left at an earlier phase is worse than a missing one: close-out reads it for the session's actuals, and a wrong stamp is far harder to catch than an absent one. That is why the write instruction is repeated at every phase transition below instead of being stated once here.
+
 ## The Protocol
 
 ### 1. Orient
 
-Output `[conductor: orient]` at the top of your response.
+Output `[conductor: orient]` at the top of your response, and write the conductor line to `kivna/.active-modes` with a stamp from a `date` run in this same turn ([Mode Markers](#mode-markers) has the format). The file often does not exist yet — create it.
 
 Conductor runs inside an already-open session. Loading context is switch-in's job, not conductor's, so orient is conditional:
 
@@ -94,7 +96,7 @@ State your recommendation in one line and **gate on it**: ask the user to switch
 
 ### 2. Plan
 
-Output `[conductor: plan]` at the top of your response.
+Output `[conductor: plan]` at the top of your response, and rewrite the conductor line in `kivna/.active-modes` to this phase, restamped from a `date` run in this same turn. Rewriting is the whole point — a line left at `orient` while the session plans is the drift that costs the close-out its actuals.
 
 #### Critical review
 
@@ -210,7 +212,7 @@ Write the spec, write the pointer into TODO.md `## Now`, and wait for approval �
 
 ### 3. Execute
 
-Output `[conductor: execute]` at the top of your response when entering this phase.
+Output `[conductor: execute]` at the top of your response when entering this phase, and rewrite the conductor line in `kivna/.active-modes` to `execute`, restamped from a `date` run in this same turn. **This is the one marker write the session cannot reconstruct afterwards** — the stamp is the first conducted task's start time and the sitting's open time, and nothing else on disk holds it. Make the `date` call before you start the work, not after.
 
 Do the work. Stay focused on the plan.
 
@@ -281,6 +283,12 @@ When a significant decision is made during execution (architecture choice, rejec
 
 Do not write to `kivna/sessions/` during execution. Switch owns session log creation at the git boundary. Conductor's decisions accumulate in CONTEXT.md and flow into the session log when switch runs.
 
+#### Gate records carry a Clock line
+
+When a step writes a `docs/gates/` record, that record carries a `**Clock:**` line directly under its title. The format, the rule and what it buys are defined once in `tools/gates/README.md` (Gate records) — read them there; this skill only tells you the line is owed. It is written under the same-turn rule like every other time conductor writes: a `date` run in the turn the record is written.
+
+Nothing validates the line's presence, deliberately — a backfilled time is manufactured history, so a record that missed it stays missed. This bullet is the only write-side instruction that exists; the two records born with the line so far were written by a session that had the feature fresh in context, which is not a mechanism.
+
 #### Docs travel with code
 
 If a task changes behavior, update the affected docs (README, playbook, CLAUDE.md) in the same commit. Don't defer doc updates to close-out. No commit should leave docs inconsistent with code.
@@ -304,7 +312,7 @@ Work accumulates in repo-side files (TODO.md) during execution. Conductor never 
 
 ### 4. Close Out
 
-Output `[conductor: close-out]` at the top of your response.
+Output `[conductor: close-out]` at the top of your response. **Read the conductor line in `kivna/.active-modes` before you touch it** — the capture below depends on it — then rewrite it to this phase, restamped from a `date` run in this same turn.
 
 **Capture the actuals first.** Writing the close-out marker replaces the `execute` line, and that line's stamp is the first task's start time — read the line you are about to overwrite, before you overwrite it. Then, for each task this session committed, produce one line:
 
@@ -313,6 +321,8 @@ Output `[conductor: close-out]` at the top of your response.
 ```
 
 Start: the `execute` stamp for the first task, the previous task's work-commit time for each task after it. Landed: `git log -1 --format=%cd --date=format:'%H:%M' <sha>`. Both sources are machine-written, which is what makes copying them legal under the same-turn rule (defined once in `docs/state-contract.md`). Hand these lines — **and the `execute` stamp's `HH:MM`, which is the sitting's open time** — to the boundary; capture both before step 5 clears the marker, because nothing on disk holds them afterwards. The Switch Out flow writes them into the session log; conductor never writes the log itself.
+
+**If the line you read is not an `execute` line, there is no open time.** The phase never advanced, or the file was never written — either way the stamp does not exist. Hand the boundary nothing for the open side and let it write `(<label>, closed HH:MM TZ)` instead. Do not substitute another phase's stamp, and do not reconstruct one from when the work felt like it began: an invented time is precisely what the same-turn rule exists to prevent, and it has already happened once (2026-08-06, caught by the expert-user pass on this feature's own first use). A missing open time is an honest record; a plausible wrong one is not.
 
 Close-out settles the work, then runs the boundary itself — one act, no handoff ask. By now each verified task is already committed and pushed (see [Work commits](#work-commits)). Keep conductor's close-out short:
 
