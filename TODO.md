@@ -2,7 +2,7 @@
 
 ## Now
 
-**rigor-level sits at design** (framed + sliced 2026-08-05, Tony's key on Value / ledger / slice; `docs/product/rigor-level.md`, commits 6e5c37e/54fd552, CI green). The DESIGN rung is the natural next focus — one conversation, one package. Or pick from Backlog.
+**rigor-level: built and cold-eyes-amended — waiting on the morning keys.** v0.81.0 live (design GO 61d320b · build 6e65ff7/ee43b6c · goal amendments f671cdc, all CI-green). Cold eyes: layers 1–3 PASS, layer 4 blocked four declared-truth gaps, amended per precedent. **Morning: Tony's expert-user pass → goal record `docs/gates/` → loop rung.** Cold-eyes findings born tonight sit in Backlog Medium (derive-from-constant · gate.py root pin · fenced-block wart).
 
 Working default: per-piece evidence check — no blanket license.
 
@@ -24,6 +24,9 @@ Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
 - Hook version staleness check in `/kerd:tend` — four occurrences now.
 - PR-event edge in the stale CI step (goal-gate cold review find): on `pull_request` the merge ref carries base-branch trailers the branch never rendered — a converged branch could go red. Unexercised (no PR flow); scope the step to `push` or contract PR behaviour when PRs become real.
 - Guard switch-in step 3 smoke test against context bloat (delegate the run; absorb a verdict, never a full log).
+- Derive the rigor refusal messages (and their fixtures) from `RIGOR_LEVELS` via join — closes the goal gate's BLOCK 1 in code instead of by named risk (cold eyes 2026-08-06; doc amendment shipped meanwhile).
+- `gate.py` CLI pins root to `kit.ROOT` — run from any other cwd it silently audits Kerd, not the cwd tree (cold-eyes trap 2026-08-06); consider a `--root` flag.
+- A fenced code block containing a `Rigor level:` line inside a `## Release slice` section counts as a duplicate — the first product doc that documents the rule inside its own Release slice goes red (cold eyes 2026-08-06, robustness wart, nothing trips it today).
 - Gate records can only say GO: a refused gate has no dated home — AU3 rejects any non-rung filename in docs/gates/ and a `*-goal.md` file would satisfy the route glob (found 2026-08-05 when progress-html's goal was refused; verdict lives in the product doc instead). Consider a refusal-record shape in the gates schema.
 
 **Low — genuinely ignorable, and you can see what ignoring costs**
