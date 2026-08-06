@@ -1,6 +1,6 @@
 ---
 route: new
-stage: designed
+stage: done
 ---
 
 # Rigor level — silence stops passing DONE
