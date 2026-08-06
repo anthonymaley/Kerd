@@ -2,7 +2,7 @@
 
 ## Now
 
-**rigor-level: built and cold-eyes-amended — waiting on the morning keys.** v0.81.0 live (design GO 61d320b · build 6e65ff7/ee43b6c · goal amendments f671cdc, all CI-green). Cold eyes: layers 1–3 PASS, layer 4 blocked four declared-truth gaps, amended per precedent. **Morning: Tony's expert-user pass → goal record `docs/gates/` → loop rung.** Cold-eyes findings born tonight sit in Backlog Medium (derive-from-constant · gate.py root pin · fenced-block wart).
+**No work in flight — rigor-level is DONE** (goal record c0bfb55, both keys, loop rung passing; see `kivna/sessions/2026-08-06.md`). Next focus picks from Backlog — freshest: the three cold-eyes findings (Medium) · the journey view (parked, wake condition now one journey closer). Working default: per-piece evidence check — no blanket license.
 
 Working default: per-piece evidence check — no blanket license.
 
@@ -11,10 +11,6 @@ Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
 ## Backlog
 
 *Ranked by the function 5 axes — consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
-
-**High consequence**
-- **CI on `~/3of3`** — *3of3 is its own project, not part of Kerd* (clarified 2026-08-04); a possible trial ground for the refusal pattern, taken up only if that project wants it. `/loop` still cannot run there until something refuses.
-- Repin `leru`, `krutho-strategy`, `krutho-founders` off `kerd/0.65.0` — high consequence, **no value**: pure hygiene, one cache GC from silent breakage. `obair` has no pin at all (deliberate, or drift — unchecked).
 
 **Medium**
 - **Revisit the journey view when more data exists** (parked 2026-08-05, Tony's call, shape agreed on mock v4 — `docs/plans/2026-08-05-journey-view-mock.html`). Settled shape: one page per journey, the idea/problem as title; A3 Proposal head (current drawn · numbered pains · proposal drawn · targets in units · cost named) + measured-in-use strip; then the ladder as sections — steps with status + facts, "what we created" with links per rung; a front page above it: what's-cooking task cards (name · sentence · % · time-left · status word) + next-up queue. Revisit condition: more journeys walked through the gates. Prerequisite surfaced: progress % and time-left need declared on-disk homes before the real page can show them. progress-html stays held at proving meanwhile; the trio plumbing stays.
