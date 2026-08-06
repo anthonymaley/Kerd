@@ -41,7 +41,7 @@ EOF, for work slug `S`:
 | `slice` | section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` |
 | `design` | section `Release slice` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
 | `contract` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
-| `build` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` |
+| `build` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` — lines inside ``` fenced code blocks are invisible to this parse (a step may quote headings without splitting itself) |
 | `goal` | zero unchecked boxes (`- [ ] `) in the contract's `Pieces` section |
 | `loop` | ≥1 file matching `docs/gates/*-<S>-goal.md` containing section `Done condition` · `.github/workflows/gate.yml` exists (the live refusal instance) |
 
@@ -146,7 +146,7 @@ push, not just against a named slug.
 | AU3 | `docs/gates/*.md` filenames MUST match `^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-(frame\|viability\|slice\|design\|contract\|build\|goal\|loop)\.md$`. |
 | AU4 | Any `docs/**/*.md` whose front matter carries `route` or `stage`: both keys present, both values legal — this validates the front-matter schema against every file that opts into it, including dated spec files like this piece's own contract. |
 | AU5 | `docs/product/*.md` carrying a `## Grounding` section: every `- ` list line must parse as `- <ref> — <why>` (split on the FIRST ` — `, the em-dash separator) and `<ref>` — a path or glob relative to the repo root — must resolve to ≥1 match on disk. Absent section = vacuous pass: declaring grounding is opting in. |
-| AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Release slice` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Release slice` section = vacuous pass. |
+| AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Release slice` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Release slice` section = vacuous pass. Lines inside ``` fenced code blocks are invisible (a quoted example is content, not a declaration). |
 
 Nonexistent directories pass vacuously — a repo that hasn't grown
 `docs/gates/` yet is not thereby in violation of its naming rule.
@@ -207,7 +207,7 @@ followed by `release: <n> problems` (exit 1).
 
 No `setup-python` step — `ubuntu-latest` ships python3 and these tools
 have zero dependencies. Seven things can fail the build; this tool owns
-the first three: the fixture suite (`selftest`, exercising the 24 cases
+the first three: the fixture suite (`selftest`, exercising the 26 cases
 against a temp tree), the real repo (`audit`, exercising AU1–AU6 against
 the actual `docs/` tree), and the release sweep (`release`, enforcing
 R1–R3 on plugin metadata and living files). The other four belong to the
@@ -260,7 +260,8 @@ is named here rather than refused. The law is written once
 - **AU6** (above) sweeps every `docs/product/*.md`: exactly one legal
   line inside the `## Release slice` section; a `Rigor level:` line
   anywhere else, a missing line, duplicates, or an illegal value is a
-  named problem.
+  named problem. Fenced code blocks are invisible to the parse — a
+  quoted example line is content, not a declaration.
 - **The design rung** refuses work whose product doc violates the law,
   with one need row: `need: docs/product/<S>.md — Release slice
   declares a legal rigor level (Rigor level: spike|mvp|production-v1)`.

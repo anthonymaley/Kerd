@@ -115,6 +115,23 @@ def find_section(text, title):
     return text[start:end].strip()
 
 
+def _fence_mask(lines):
+    """mask[i] is True when lines[i] belongs to a fenced code block,
+    including the ``` fence lines themselves. Fenced lines are invisible
+    to the structural parsers here: a heading or declaration quoted inside
+    a fence is content, not structure — the substring-marker class (a
+    checker detecting by pattern is asserted by anything quoting it)."""
+    mask = []
+    in_fence = False
+    for line in lines:
+        if line.lstrip().startswith("```"):
+            mask.append(True)
+            in_fence = not in_fence
+        else:
+            mask.append(in_fence)
+    return mask
+
+
 # ── rigor level (AU6, design rung) ──────────────────────────────────────────
 
 def rigor_problems(text):
@@ -124,15 +141,21 @@ def rigor_problems(text):
     INSIDE the '## Release slice' section; a 'Rigor level:' line anywhere
     else in the doc is a problem; a doc with no '## Release slice' section
     passes vacuously (the section's absence is already the design rung's
-    own refusal — this rule does not double-refuse it). Returns problem
-    strings WITHOUT the 'docs/product/<S>.md — ' prefix; callers prepend
-    it. Emission order: the outside-line problem first, then exactly one
-    of missing / duplicate / illegal."""
+    own refusal — this rule does not double-refuse it). Lines inside
+    fenced code blocks are invisible — a quoted example is content, not a
+    declaration. Returns problem strings WITHOUT the
+    'docs/product/<S>.md — ' prefix; callers prepend it. Emission order:
+    the outside-line problem first, then exactly one of
+    missing / duplicate / illegal."""
     inside = False
     section_seen = False
     inside_values = []
     outside_count = 0
-    for line in text.splitlines():
+    lines = text.splitlines()
+    mask = _fence_mask(lines)
+    for line, fenced in zip(lines, mask):
+        if fenced:
+            continue
         if RIGOR_SECTION_HEADING_RE.match(line):
             inside = True
             section_seen = True
@@ -252,18 +275,21 @@ def parse_ledger(section_text):
 
 def _steps_missing_verify(spec_text):
     """Names of every '### Step ' heading not followed, before the next
-    '### ' heading or EOF, by a line starting '**Verify:**'."""
+    '### ' heading or EOF, by a line starting '**Verify:**'. Lines inside
+    fenced code blocks are invisible — a step body may quote headings and
+    Verify lines without them splitting or satisfying the step."""
     problems = []
     lines = spec_text.splitlines()
+    mask = _fence_mask(lines)
     n = len(lines)
     i = 0
     while i < n:
-        if STEP_HEADING_RE.match(lines[i]):
+        if not mask[i] and STEP_HEADING_RE.match(lines[i]):
             title = lines[i][len("### "):].strip()
             j = i + 1
             found = False
-            while j < n and not H3_RE.match(lines[j]):
-                if VERIFY_LINE_RE.match(lines[j]):
+            while j < n and (mask[j] or not H3_RE.match(lines[j])):
+                if not mask[j] and VERIFY_LINE_RE.match(lines[j]):
                     found = True
                     break
                 j += 1
@@ -1179,15 +1205,51 @@ def _selftest_body():
         problems = audit(root_v6)
         assert problems == [], f"T24: expected a vacuous pass, got {problems}"
 
+    # T25 — a fenced code block inside a Step body may quote '### ' headings
+    # without splitting the step: the vault-unhook spec quoted a deleted
+    # SKILL.md section and the parser lost the real **Verify:** line below
+    # it (found 2026-08-06 at the goal rung).
+    with tempfile.TemporaryDirectory() as root_f1:
+        spec_fenced = (
+            "# Alpha — build spec\n\n"
+            "## Pieces\n\n"
+            "- [ ] Step 1\n\n"
+            "### Step 1: delete the old section\n"
+            "**What:** delete this block:\n\n"
+            "```\n"
+            "### 4. Update the vault\n"
+            "Call the save.\n"
+            "```\n\n"
+            "**Verify:** `true`\n"
+        )
+        _sw(os.path.join(root_f1, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_fenced)
+        cr = check_rung(root_f1, slug, "build")
+        assert not any("**Verify:**" in n for n in cr["need"]), \
+            f"T25: fenced heading split the step: {cr['need']}"
+
+    # T26 — AU6: a fenced example 'Rigor level:' line inside the Release
+    # slice is content, not a second declaration (the fenced-block wart,
+    # closed by the same fence mask as T25).
+    with tempfile.TemporaryDirectory() as root_v7:
+        _sw(
+            os.path.join(root_v7, "docs", "product", "gamma.md"),
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Release slice\n\nRigor level: mvp\n\n"
+            "```\nRigor level: spike\n```\n\nShip it.\n",
+        )
+        problems = audit(root_v7)
+        assert problems == [], f"T26: fenced line counted as a declaration, got {problems}"
+
 
 def selftest():
-    """Run the 24 fixture-built cases in temporary trees. Prints
-    'selftest: 24 cases passed' and returns 0 on success; on the first
+    """Run the 26 fixture-built cases in temporary trees. Prints
+    'selftest: 26 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 24 cases passed")
+    print("selftest: 26 cases passed")
     return 0
