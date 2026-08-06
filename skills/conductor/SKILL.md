@@ -7,7 +7,7 @@ description: "Use when you need structured session discipline — frame a task, 
 
 The session conductor — keeps one session in tempo and coherent from open to close, the way an orchestra conductor holds a single performance together. (Renamed from `dian`, which was too opaque to signal the role.)
 
-A protocol for staying focused within a session. Conductor commits and pushes its own work as each task verifies, but never pulls and never commits session state — those are switch's. Conductor keeps you on track once you're working.
+A protocol for staying focused within a session. Conductor commits and pushes its own work as each task verifies, but never pulls and never writes session state by hand — the boundary is the Switch Out flow's, which close-out invokes as its final act. Conductor keeps you on track once you're working.
 
 ## The Stage
 

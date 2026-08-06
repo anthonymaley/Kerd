@@ -73,7 +73,7 @@ history, considered and named.
    close-out invoking the same flow as its final act. Either way the
    steps below are the only definition — no caller re-describes them."
 7. Switch Out section intro: one added line naming the second caller.
-8. Completion banner (step 8): two added lines in the template —
+8. Completion banner (Switch Out step 7): two added lines in the template —
    `Next: [suggested pick from TODO]` already exists; add
    `Free context: type /clear, then /kerd:switch in` beneath it.
    (Applies to the full-mode banner; low keeps its one-liner.)
