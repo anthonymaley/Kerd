@@ -4,7 +4,7 @@
 
 ![Kerd — the whole system](docs/design/kerd-map.svg)
 
-**What is Kerd?** Ten workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift. Underneath them, every piece of work climbs the same eight-rung ladder (frame → viability → slice → design → contract → build → goal → loop), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
+**What is Kerd?** Nine workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift. Underneath them, every piece of work climbs the same eight-rung ladder (frame → viability → slice → design → contract → build → goal → loop), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
 
 **Why should you care?** Because AI-assisted work has a silence problem. Things pass as "done" when nothing was in place to ask the question: was the risk sized? was the background read? was security ever even mentioned? A model choosing to comply is not a check. Kerd's answer is refusal from outside the model: CI that goes red at the exact push that broke a promise, with the fix named in the message. The skills keep you fast; the machinery keeps you honest.
 
@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.86.0)
+## What's New (v0.87.0)
+
+### v0.87.0
+
+**Trim is gone.** The token-cleanup skill's jobs all dissolved into machinery that runs anyway: completed specs are dated immutable records the gates and the progress board read in place (moving them to an archive would turn CI red by construction — the contract and build rungs require them where they are); switch's closure inference cleans TODO with evidence at every boundary; doc-drift pruning belongs to the release pass. What you lose, named: `/trim` no longer answers, and nothing archives docs to `docs/archive/` anymore — deliberately, because nothing should. Kerd is nine skills now. Dead solutions stay dead; the return condition is a cleanup need the boundary, the gates, and the release pass cannot answer.
 
 ### v0.86.0
 
@@ -33,11 +37,7 @@ claude plugins install kerd
 
 **The vault becomes opt-in everywhere.** Switch-out no longer writes the Obsidian vault at the session boundary — `/kivna save` is the deliberate writer, invoked on purpose (lorg's report copy remains the one automatic exception), and a vault is exactly as fresh as its last save. When a vault exists, the switch-out banner says so (vault not written, on-demand). tend stops nagging vault-less projects: an absent vault is a legitimate opt-out, one info line, never a warning. Switch-in is untouched byte-for-byte — same three files, same pickup. Nothing in any existing vault is deleted; the automatic writer stops, the files stay.
 
-### v0.82.0
-
-**The public pages catch up with the system.** The README gains the whole-system map as its hero, the "what is Kerd and why should you care" story, and honest statuses: trim is marked dying (its jobs dissolved by construction — completed specs are immutable dated records needing no archive, and switch's closure inference already trims TODO at every boundary), and the long-stale "conductor doesn't touch git" line is gone (conductor has committed its own work since v0.67.0). The capability list drops "token optimization" to match. Release notes now keep the last five versions here; everything older lives in git history.
-
-*Release notes for v0.81.0 and earlier live in git history — `git log --follow README.md`.*
+*Release notes for v0.82.0 and earlier live in git history — `git log --follow README.md`.*
 
 ## Skills
 
@@ -183,14 +183,6 @@ The report is saved to `docs/lorg-report.md` (committed) and the Obsidian vault 
 /lorg report         # show last saved report
 ```
 
-### trim (Token Optimization) — dying
-
-Trim archives completed docs, prunes stale CLAUDE.md blocks, cleans memory entries, and removes checked-off TODO items — and honestly, the system has grown past it. Completed specs are now dated immutable records that need no archiving; switch's closure inference trims TODO with evidence at every boundary; the CLAUDE.md and memory jobs belong to tend and slainte. Trim still works today, but it is queued for removal with a coverage table naming where each job lands. Don't build a habit on it.
-
-```
-/trim
-```
-
 ### pair (Partner Mode)
 
 Pair toggles how you and Claude work together. Off by default — the full, show-your-reasoning style stays the resting state so you keep learning. Turn it on to move fast: Claude keeps its thinking internal (surfacing it only when it changes your decision, it's stuck, or you ask), asks one clear question at a time — open by default, offering a tight set of 2-4 crisp options only when a menu genuinely clarifies a choice that's yours to make (never a lazy binary or a vague, verbose list) — interrupts early to flag or check in, and works like someone sitting beside you rather than narrating every step. It's per-repo state (`kivna/.pair`), enforced by an opt-in `UserPromptSubmit` hook that re-injects the partner-mode reminder each prompt while on. Pair governs interaction style only — your `CLAUDE.md` thinking discipline applies either way. (Renamed from `focus` in v0.64.0 to avoid colliding with the harness's native focus mode.)
@@ -271,7 +263,6 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 - **Lorg**: to seek, track down
-- **Trim**: from English "to trim" (cut away excess)
 
 ## License
 

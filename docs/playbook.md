@@ -44,7 +44,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill — ten skills, one folder each
+skills/           # SKILL.md per skill — nine skills, one folder each
 hooks/            # opt-in hooks (hooks.template.json + shell scripts, registered via tend)
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
@@ -57,7 +57,7 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 
 The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd/`. The vault is a human knowledge base, living files updated in place, not append-only dumps. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions). The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Ten skills, each with a single responsibility, plus four opt-in hooks:**
+**Nine skills, each with a single responsibility, plus four opt-in hooks:**
 - **conductor**: session discipline (orient/plan/execute/close-out protocol)
 - **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
@@ -66,7 +66,6 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 - **slainte**: the release close-out pass (triggered by conductor at version bumps and goal-record landings; fixes doc drift under the gate) + on-demand health audits
 - **skriv**: human writing voice enforcement (audit, fix, session mode, self-audit pass)
 - **tend**: structural health check and convergence
-- **trim**: token optimization (archive shipped docs, prune stale context, safety-gated cleanup)
 - **pair**: partner-mode toggle (per-repo rapid conversational style, default off)
 
 **Four opt-in hooks** (registered via `/kerd:tend`, stored in `.claude/settings.local.json`):
@@ -171,7 +170,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 **Version:** 0.60.0
 
 **Working:**
-- All ten skills functional: conductor, interrogate, lorg, switch, kivna, slainte, skriv, tend, trim, pair
+- All nine skills functional: conductor, interrogate, lorg, switch, kivna, slainte, skriv, tend, pair
 - Three opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (21 tests, shellcheck-clean)
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
@@ -223,5 +222,4 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - v0.15.0: Lorg `report` subcommand.
 
 **Next:**
-- Add trim to maintain mode flow after audit phase
 - Run `/kerd:tend` on other projects to migrate vaults

@@ -3,7 +3,7 @@
 
     python3 tools/diagram/gen_kerd_map.py
 
-One page: the ten skills and their jobs (trim marked dying), the ladder
+One page: the nine skills and their jobs, the ladder
 the work climbs, and the machinery that refuses from outside the model.
 Living doc — regenerate on structural change; blue deltas vs the last
 mark_reviewed baseline.
@@ -23,7 +23,7 @@ c = Canvas()
 X0 = 300
 
 # ── title + legend ───────────────────────────────────────────────────────
-c.txt("Kerd — the whole system, current state (v0.85.0)", X0, 80, 30)
+c.txt("Kerd — the whole system, current state (v0.87.0)", X0, 80, 30)
 c.txt("skills are what you invoke · the ladder is what work climbs · "
       "the machinery refuses from outside the model",
       X0, 122, 14)
@@ -32,8 +32,8 @@ c.txt("GREEN — Tony's keys live here", X0, 168, 12, GREEN)
 c.txt("grey — machinery, not skills: nothing to install, push-to-main = released",
       X0 + 260, 168, 12)
 
-# ── band 1: the ten skills ───────────────────────────────────────────────
-c.txt("THE TEN SKILLS — invoked as /kerd:<name>, loaded from the installed plugin version",
+# ── band 1: the nine skills ───────────────────────────────────────────────
+c.txt("THE NINE SKILLS — invoked as /kerd:<name>, loaded from the installed plugin version",
       X0, 196, 16)
 
 BW, BH, GAP = 270, 96, 20
@@ -53,7 +53,6 @@ cluster2 = [
     ("HEALTH", X0, [
         ("tend", "converge repo structure\nto current conventions;\nnever commits", INK),
         ("slainte", "release close-out pass: triggered\nat version bumps + goal records,\nfixes doc drift, restraint reported", INK),
-        ("trim", "DYING - jobs dissolved by\nconstruction; cut queued\n(coverage table per job)", RED),
     ]),
     ("QUALIFY & DISCOVER", X0 + (BW + GAP) * 3 + 40, [
         ("interrogate", "UNDER REVIEW - the ledger\nSTANDARD is load-bearing;\ndoes the skill earn its place?", RED),

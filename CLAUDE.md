@@ -1,6 +1,6 @@
 # Kerd
 
-Claude Code plugin: ten workflow skills for session discipline, risk qualification, machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, and conversational pair mode.
+Claude Code plugin: nine workflow skills for session discipline, risk qualification, machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, and conversational pair mode.
 
 ## Commit Rules
 

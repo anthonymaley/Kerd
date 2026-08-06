@@ -50,7 +50,6 @@ If no argument is given, check for uncommitted changes. If changes exist, assume
 | Progress tracking | Yes | Skip | Skip |
 | Untracked file triage | Yes | Yes | Skip (unless obviously risky files like .env) |
 | Pre-commit summary | Full with evidence | Full with evidence | One-line: "Committing N files: [list]" |
-| Trim suggestion | Yes | No | No |
 | Final confirmation | Evidence-cited | Evidence-cited | One-line: commit hash + push target |
 | **Switch-in** | | | |
 | Pull | Yes | Yes | Yes |
@@ -219,8 +218,6 @@ Before staging anything, run `git status` to see the actual state of the working
 #### Normal path (no unexpected files)
 
 Stage session files by name, commit with a descriptive message, and push. No confirmation prompt. Then show the completion banner (step 7).
-
-**Trim suggestion (full only):** If `docs/plans/` or `docs/` contains spec, plan, or design docs whose features are marked complete in TODO.md or playbook, append to the completion banner: "Completed plan docs detected. Consider `/kerd:trim` to archive them."
 
 #### Exception path (unexpected files found)
 

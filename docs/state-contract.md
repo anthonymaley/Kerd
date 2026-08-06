@@ -54,7 +54,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 - `## Now` is **overwritten in place** by conductor (plan phase) or switch (out) — never accumulated.
 - **Anti-pattern — demote-and-keep.** `## Previous Session` / `## Older Session` blocks (and the pre-split `## Current Session` / `### Context` shapes) must not exist; `switch out` self-migrates any that appear (rescue-before-remove into CONTEXT.md and session logs).
 - **Closure inference (switch out):** every open item gets a verdict — done (evidence required; removed, recorded in the session log), open (kept), or unsure (kept, tagged `(done? — confirm)`). The verdict list is shown to the user as information, never a prompt; switch-in asks one question about tagged items.
-- `## Backlog` is append-only (items added, never silently removed outside closure inference). Completed items can also be cleaned by trim.
+- `## Backlog` is append-only (items added, never silently removed outside closure inference).
 - conductor writes the plan, switch writes the wrap-up. They don't conflict because conductor runs within a session and switch runs at the boundary.
 
 ## kivna/.active-modes
@@ -202,11 +202,9 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Skriv state (.active-modes skriv line) | **skriv** | Same rule — each skill owns only its own line |
 | Structural audit and fix | **tend** | Tend keeps structure; slainte fixes *content* drift under the caller's gate |
 | Content audit and fix | **slainte** — triggered by conductor at releases and feature closes, on demand otherwise | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |
-| Archiving completed docs | **trim** | Switch suggests trim but doesn't archive |
 | Skill/plugin recommendations | **lorg** | Lorg recommends, never auto-installs |
 
 ### Conflict resolution
 
 If a skill needs to do something owned by another skill, it calls that skill rather than doing it directly:
 - Nothing calls `/kerd:kivna save` automatically (v0.83.0) — the user invokes it when they want the vault current
-- Switch suggests `/kerd:trim` but doesn't run trim's steps itself

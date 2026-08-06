@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1550" height="825" viewBox="260 40 1550 825">
 <rect x="260" y="40" width="1550" height="825" fill="#ffffff"/>
 <text x="300.0" y="110.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="30" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Kerd — the whole system, current state (v0.85.0)</tspan>
+<tspan x="300.0" dy="0.0">Kerd — the whole system, current state (v0.87.0)</tspan>
 </text>
 <text x="300.0" y="136.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">skills are what you invoke · the ladder is what work climbs · the machinery refuses from outside the model</tspan>
@@ -16,7 +16,7 @@
 <tspan x="560.0" dy="0.0">grey — machinery, not skills: nothing to install, push-to-main = released</tspan>
 </text>
 <text x="300.0" y="212.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">THE TEN SKILLS — invoked as /kerd:&lt;name&gt;, loaded from the installed plugin version</tspan>
+<tspan x="300.0" dy="0.0">THE NINE SKILLS — invoked as /kerd:&lt;name&gt;, loaded from the installed plugin version</tspan>
 </text>
 <text x="300.0" y="240.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">SESSION FLOW   </tspan>
@@ -89,15 +89,6 @@
 <tspan x="600.0" dy="0.0">release close-out pass: triggered</tspan>
 <tspan x="600.0" dy="15.0">at version bumps + goal records,</tspan>
 <tspan x="600.0" dy="15.0">fixes doc drift, restraint reported</tspan>
-</text>
-<rect x="880.0" y="362.0" width="270.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="1015.0" y="380.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="1015.0" dy="0.0">trim</tspan>
-</text>
-<text x="890.0" y="406.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="890.0" dy="0.0">DYING - jobs dissolved by</tspan>
-<tspan x="890.0" dy="15.0">construction; cut queued</tspan>
-<tspan x="890.0" dy="15.0">(coverage table per job)</tspan>
 </text>
 <text x="1210.0" y="356.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1210.0" dy="0.0">QUALIFY &amp; DISCOVER   </tspan>
