@@ -6,12 +6,17 @@ wired into conductor. Canvas: `docs/design/release-closeout.excalidraw`
 
 ## The mechanism
 
-**The trigger is the version-field diff — CI's own release definition,
-reused.** A conductor task whose work commit changes the three
-`"version"` fields (R1's set) IS a release; at close-out, before the
-boundary step, conductor runs the release close-out pass. One
-definition of "release", shared with the machine layer; no second
-heuristic.
+**Two triggers, either alone: the version-field diff — CI's own
+release definition, reused — or a goal-record landing.** A conductor
+task whose work commit changes the three `"version"` fields (R1's set)
+IS a release; a session that lands a goal record (a new
+`docs/gates/*-goal.md`) closed a feature as complete. Either moment:
+at close-out, before the boundary step, conductor runs the release
+close-out pass. One definition of "release", shared with the machine
+layer; the completion clause is a second firing moment, not a second
+release heuristic. (Goal-rung amendment, Tony's key: his release model
+is ladder completion, and the shipped trigger diverged from it exactly
+at goal-record sessions — no bump, no pass at the completion moment.)
 
 **The pass is two invokes and a charter — the invoke pattern's third
 and fourth uses.** Conductor calls `/kerd:tend` for the structural

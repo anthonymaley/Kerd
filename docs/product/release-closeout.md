@@ -23,8 +23,9 @@ blocks, all of them stale-narrative gaps found *after* shipping.
 Value, in units:
 
 - **Doc-surface passes per release: 0 → 1.** A release-shipping task
-  (the diff bumps the version) triggers the close-out pass by
-  contract — prompted by the machinery, never by memory.
+  (the diff bumps the version) or a feature-closing one (a goal
+  record lands) triggers the close-out pass by contract — prompted by
+  the machinery, never by memory.
 - **slainte fixes instead of reporting.** Findings become edits,
   applied under conductor's verification gate as a normal work commit
   (diff read, blast radius reviewed) — "reports, never fixes" dies as
@@ -53,7 +54,7 @@ declared-surfaces mechanism — slice 2, not tonight.
 | The fix mode edits away something a human wrote deliberately — an audit with hands rewrites voice, nuance, or a decision it misread as drift | yes | trust in the pass dies on the first bad edit; docs regress silently | medium — narrative judgment is exactly where models overreach | five layer-4 blocks show models also *miss* narrative drift; the inverse error (overcorrecting) is untested | countermeasure - permanent | fixes are work commits under conductor's verification gate: diff read in full, blast radius reviewed, staged by name; anything judged deliberate-not-drift is reported, not edited — the pass's report names what it chose not to touch | |
 | The pass duplicates CI and rots into noise (checks what R1–R3/AU1–6 already refuse) | no | wasted tokens per release; findings ignored | medium | the .slainte config already targets CHANGELOG.md, dead since 0.14.0 — stale target lists rot | countermeasure - permanent | the pass's charter names its layer: narrative truth only — anything machine-checkable belongs in CI and gets a Backlog row instead of a slainte check; the target list derives from the repo (README, playbook, capability lists, What's New, docs/design living docs), not a hand-kept config | |
 | Prompt-layer trigger silently skipped (the conductor text isn't honored some session) | no | one release ships unchecked — today's status quo, not a regression | medium | the invoke-is-literal precedent held on first run (v0.84.0); prompt-layer instructions in this repo are honored but unenforced | accepted | | a release demonstrably ships with the pass skipped: graduate the cheapest subset to a CI rule (e.g. version-bump-without-What's-New refusal) |
-| Release moment misdetected (version bump absent from a release-shaped change, or present in a non-release edit) | no | a pass fires needlessly or misses once | low — the three-field bump is the release definition here (R1) | CLAUDE.md release checklist + gate release rules define release = version bump | countermeasure - permanent | the trigger is the version-field diff, same definition CI uses — one definition, no second heuristic | |
+| Release moment misdetected (version bump absent from a release-shaped change, or present in a non-release edit) | no | a pass fires needlessly or misses once | low — the three-field bump is the release definition here (R1) | CLAUDE.md release checklist + gate release rules define release = version bump | countermeasure - permanent | release detection is the version-field diff, same definition CI uses — one release definition; the goal-record clause (goal-rung amendment, Tony's key) adds a completion firing moment, not a second release heuristic | |
 
 ## Release slice
 
@@ -62,8 +63,9 @@ Rigor level: mvp
 Smallest valuable slice — **slice 1: the repo-surface pass, wired into
 conductor**: slainte's SKILL.md re-founded as the release close-out
 pass — triggered, not remembered: when a conductor task's diff bumps
-the plugin version, the close-out (before running the boundary)
-executes the pass: tend's drift check plus a narrative-truth sweep of
+the plugin version — or, per the goal-rung amendment (Tony's key), the
+session lands a goal record — the close-out (before running the
+boundary) executes the pass: tend's drift check plus a narrative-truth sweep of
 the repo's own surfaces (README sections + What's New, playbook
 architecture/role lines, capability lists, living docs/design docs
 touched by the release), fixing what is drift and reporting what it

@@ -52,7 +52,7 @@ cluster = [
 cluster2 = [
     ("HEALTH", X0, [
         ("tend", "converge repo structure\nto current conventions;\nnever commits", INK),
-        ("slainte", "release close-out pass: triggered\nat version bumps, fixes doc drift,\nrestraint reported", INK),
+        ("slainte", "release close-out pass: triggered\nat version bumps + goal records,\nfixes doc drift, restraint reported", INK),
         ("trim", "DYING - jobs dissolved by\nconstruction; cut queued\n(coverage table per job)", RED),
     ]),
     ("QUALIFY & DISCOVER", X0 + (BW + GAP) * 3 + 40, [

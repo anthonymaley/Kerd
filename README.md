@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.85.0)
+## What's New (v0.86.0)
+
+### v0.86.0
+
+**The release pass now fires when a feature closes, not only when a version ships.** Before, close-out ran the doc-surface pass only if the session's work bumped the plugin version — so the session that lands a feature's goal record (its formal "closed as complete" moment, usually a doc-only diff with no bump) got no pass, exactly when the narrative surfaces most need checking. Now either moment fires it: a version bump, or a goal record landing. One definition of "release" stays (the version-field diff, CI's R1); the completion clause is a second firing moment, not a second release heuristic. What it means: no feature closes without its story being checked.
 
 ### v0.85.0
 
@@ -33,17 +37,13 @@ claude plugins install kerd
 
 **The public pages catch up with the system.** The README gains the whole-system map as its hero, the "what is Kerd and why should you care" story, and honest statuses: trim is marked dying (its jobs dissolved by construction — completed specs are immutable dated records needing no archive, and switch's closure inference already trims TODO at every boundary), and the long-stale "conductor doesn't touch git" line is gone (conductor has committed its own work since v0.67.0). The capability list drops "token optimization" to match. Release notes now keep the last five versions here; everything older lives in git history.
 
-### v0.81.0
-
-**Every Release slice now declares how rigorously it will be measured.** A product doc's `## Release slice` section carries one machine-checked line — `Rigor level: spike|mvp|production-v1` — and silence stops being an option: a missing, illegal, duplicated, or misplaced declaration turns the push red with the fix named (audit rule AU6, plus a matching refusal at the design gate). The four existing product docs were retrofitted honestly in the same commit as the rule, proven byte-identical on the progress board before/after. What a level *requires* (the per-class disposition table: measured / waived-by-name / n-a-with-reason, with per-level floors like "production-v1 cannot waive security") is the named next slice. First feature whose contract-to-goal walk ran fully overnight: orchestrator spec, five players, cold-eyes review, all unattended.
-
-*Release notes for v0.80.0 and earlier live in git history — `git log --follow README.md`.*
+*Release notes for v0.81.0 and earlier live in git history — `git log --follow README.md`.*
 
 ## Skills
 
 ### conductor (Session Discipline)
 
-Conductor gives an open session structure. It runs *after* switch-in has loaded context (switch-in is the session-opener; conductor is the disciplined middle), and walks through: orient (warm path — confirm the state switch-in just loaded; cold path — a light CONTEXT + TODO read if conductor was invoked without switch-in; on a bare repo it offers tend's setup first), plan (decompose the request into scoped tasks with acceptance criteria, approve boundaries, then write concrete implementation steps), execute (do the work, verify each task with evidence before claiming done, escalate after 3 failed fixes), close out (update TODO, confirm docs are current, run checks, fire the release close-out pass when the session bumped the version, then run the boundary itself — invoking switch out as its final act). It writes the session plan to TODO.md and enforces scope: out-of-plan work goes to backlog immediately, no tangents. Default one task per session.
+Conductor gives an open session structure. It runs *after* switch-in has loaded context (switch-in is the session-opener; conductor is the disciplined middle), and walks through: orient (warm path — confirm the state switch-in just loaded; cold path — a light CONTEXT + TODO read if conductor was invoked without switch-in; on a bare repo it offers tend's setup first), plan (decompose the request into scoped tasks with acceptance criteria, approve boundaries, then write concrete implementation steps), execute (do the work, verify each task with evidence before claiming done, escalate after 3 failed fixes), close out (update TODO, confirm docs are current, run checks, fire the release close-out pass when the session bumped the version or landed a goal record, then run the boundary itself — invoking switch out as its final act). It writes the session plan to TODO.md and enforces scope: out-of-plan work goes to backlog immediately, no tangents. Default one task per session.
 
 **Four roles: composer, orchestrator, conductor, players.** Conductor coordinates four distinct roles, and keeping their authority from overlapping is what makes both the quality and the cost work. **You are the composer** — the intent and the boundaries. The **orchestrator** is a top-tier model called as a *subagent* to write the score, then gone: it never holds session context, watches the build, or reviews returned work. The **conductor** is the session model you're on, holding the baton for orient, dispatch, verification and escalation. **Players** are cheaper subagents, sized per step.
 
@@ -131,7 +131,7 @@ kivna/
 
 ### slainte (Project Health)
 
-Slainte is the release close-out pass, plus on-demand health audits. When a conductor session ships a version bump, close-out triggers slainte before the boundary: it sweeps the repo's own narrative surfaces — README sections and What's New, the playbook, the state contract, the capability lists, any living design doc the release touched — fixes what is drift, and names in its report what it deliberately left untouched, so restraint is visible instead of assumed. Fixes land as normal work commits under the caller's verification gate, and prose it writes passes skriv's one-shot audit first. The mechanical layer stays CI's (version sync, capability lists, namespaces — R1–R3 and AU1–6); slainte owns the judgment layer: skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification. There is no config file — targets derive from the repo.
+Slainte is the release close-out pass, plus on-demand health audits. When a conductor session ships a version bump or lands a goal record, close-out triggers slainte before the boundary: it sweeps the repo's own narrative surfaces — README sections and What's New, the playbook, the state contract, the capability lists, any living design doc the release touched — fixes what is drift, and names in its report what it deliberately left untouched, so restraint is visible instead of assumed. Fixes land as normal work commits under the caller's verification gate, and prose it writes passes skriv's one-shot audit first. The mechanical layer stays CI's (version sync, capability lists, namespaces — R1–R3 and AU1–6); slainte owns the judgment layer: skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification. There is no config file — targets derive from the repo.
 
 The on-demand area audits (docs, code, site, deps, playbook, release) still run any time, report-only by default. Everything gets a severity grade: high (factually wrong, broken build, security vulnerability), medium (stale but not misleading), low (nitpick).
 

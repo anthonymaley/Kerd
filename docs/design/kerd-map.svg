@@ -87,8 +87,8 @@
 </text>
 <text x="600.0" y="406.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="600.0" dy="0.0">release close-out pass: triggered</tspan>
-<tspan x="600.0" dy="15.0">at version bumps, fixes doc drift,</tspan>
-<tspan x="600.0" dy="15.0">restraint reported</tspan>
+<tspan x="600.0" dy="15.0">at version bumps + goal records,</tspan>
+<tspan x="600.0" dy="15.0">fixes doc drift, restraint reported</tspan>
 </text>
 <rect x="880.0" y="362.0" width="270.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
 <text x="1015.0" y="380.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">

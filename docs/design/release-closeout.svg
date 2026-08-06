@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1312" height="1670" viewBox="260 40 1312 1670">
-<rect x="260" y="40" width="1312" height="1670" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1312" height="1687" viewBox="260 40 1312 1687">
+<rect x="260" y="40" width="1312" height="1687" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Release-closeout — every release checks its own story · design package</tspan>
 </text>
@@ -86,8 +86,9 @@
 <tspan x="960.0" dy="0.0">One release definition, two invokes, a charter split</tspan>
 </text>
 <text x="678.0" y="821.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="678.0" dy="0.0">trigger = the version-field diff - CI&#x27;s R1 set, reused; no</tspan>
-<tspan x="678.0" dy="15.0">second heuristic. conductor INVOKES /kerd:tend and</tspan>
+<tspan x="678.0" dy="0.0">triggers = the version-field diff (CI&#x27;s R1 set, reused) OR a</tspan>
+<tspan x="678.0" dy="15.0">goal record landing (feature closed as complete) - one release</tspan>
+<tspan x="678.0" dy="15.0">definition, two firing moments. conductor INVOKES /kerd:tend and</tspan>
 <tspan x="678.0" dy="15.0">/kerd:slainte (the invoke pattern&#x27;s 3rd + 4th uses; zero</tspan>
 <tspan x="678.0" dy="15.0">re-description, same law as v0.84.0). charter split: CI owns</tspan>
 <tspan x="678.0" dy="15.0">mechanical (R1-R3, AU1-6 - slainte&#x27;s duplicated rules 1/2/5</tspan>
@@ -101,20 +102,20 @@
 <tspan x="1320.0" dy="15.0">repo; the on-demand area</tspan>
 <tspan x="1320.0" dy="15.0">audits survive config-less.</tspan>
 </text>
-<polyline points="960.0,959.0 960.0,993.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="960.0" y1="993.0" x2="954.3" y2="983.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<line x1="960.0" y1="993.0" x2="965.7" y2="983.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1025.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<polyline points="960.0,976.0 960.0,1010.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1010.0" x2="954.3" y2="1000.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1010.0" x2="965.7" y2="1000.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1042.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">4</tspan>
 </text>
-<text x="344.0" y="1018.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1035.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">EDIT MAP</tspan>
 </text>
-<rect x="660.0" y="993.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="1028.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="660.0" y="1010.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1045.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">21 edits, six files + a deletion - concept-swept</tspan>
 </text>
-<text x="678.0" y="1073.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1090.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">slainte SKILL.md RE-FOUNDED (6): identity, config section</tspan>
 <tspan x="678.0" dy="15.0">deleted, release-pass charter, pruned rules, derived targets.</tspan>
 <tspan x="678.0" dy="15.0">tend (5): .slainte leaves required-files/scaffold/report,</tspan>
@@ -125,7 +126,7 @@
 <tspan x="678.0" dy="15.0">section + What&#x27;s New v0.85.0 cap-five) - kerd-map one-liner +</tspan>
 <tspan x="678.0" dy="15.0">regen - git rm .slainte - version 0.85.0 (3 fields).</tspan>
 </text>
-<text x="1320.0" y="1009.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1026.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">sweep ran by CONCEPT per</tspan>
 <tspan x="1320.0" dy="15.0">the newest playbook gotcha:</tspan>
 <tspan x="1320.0" dy="15.0">read-only / never-fixes /</tspan>
@@ -133,20 +134,20 @@
 <tspan x="1320.0" dy="15.0">phrasings, sections read</tspan>
 <tspan x="1320.0" dy="15.0">whole.</tspan>
 </text>
-<polyline points="960.0,1228.0 960.0,1262.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="960.0" y1="1262.0" x2="954.3" y2="1252.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<line x1="960.0" y1="1262.0" x2="965.7" y2="1252.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1294.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<polyline points="960.0,1245.0 960.0,1279.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1279.0" x2="954.3" y2="1269.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1279.0" x2="965.7" y2="1269.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1311.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5</tspan>
 </text>
-<text x="344.0" y="1287.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">PROOF</tspan>
 </text>
-<rect x="660.0" y="1262.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="1297.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="660.0" y="1279.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1314.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Six measurement families, each a named command</tspan>
 </text>
-<text x="678.0" y="1342.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1359.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">config dead: git ls-files .slainte empty; zero refs in</tspan>
 <tspan x="678.0" dy="15.0">slainte; tend refs = deprecated rows only (count derived at</tspan>
 <tspan x="678.0" dy="15.0">contract). read-only identity dead: zero hits in slainte +</tspan>
@@ -155,7 +156,7 @@
 <tspan x="678.0" dy="15.0">split written: CI-owns pointer &gt;= 1, &#x27;Version sync&#x27; as kept</tspan>
 <tspan x="678.0" dy="15.0">rule = 0. skriv wire &gt;= 1. map one-liner new + pair regen&#x27;d.</tspan>
 </text>
-<text x="1320.0" y="1278.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1295.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">honest limit, NAMED: the</tspan>
 <tspan x="1320.0" dy="15.0">trigger is prompt-layer -</tspan>
 <tspan x="1320.0" dy="15.0">a skipped pass is today&#x27;s</tspan>
@@ -167,20 +168,20 @@
 <tspan x="1320.0" dy="15.0">= first triggered pass at</tspan>
 <tspan x="1320.0" dy="15.0">the next real release.</tspan>
 </text>
-<polyline points="960.0,1463.0 960.0,1497.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="960.0" y1="1497.0" x2="954.3" y2="1487.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<line x1="960.0" y1="1497.0" x2="965.7" y2="1487.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1529.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<polyline points="960.0,1480.0 960.0,1514.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1514.0" x2="954.3" y2="1504.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1514.0" x2="965.7" y2="1504.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1546.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">6</tspan>
 </text>
-<text x="344.0" y="1522.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1539.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">SCOPE</tspan>
 </text>
-<rect x="660.0" y="1497.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="960.0" y="1532.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<rect x="660.0" y="1514.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1549.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Out of scope, named (composer keys on the frame)</tspan>
 </text>
-<text x="678.0" y="1577.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1594.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">EXTERNAL/DECLARED SURFACES (websites, SDK docs, portals,</tspan>
 <tspan x="678.0" dy="15.0">marketplace beyond this repo): slice 2, own mechanism.</tspan>
 <tspan x="678.0" dy="15.0">CI GRADUATION (What&#x27;s-New-untouched refusal): review trigger.</tspan>
@@ -189,7 +190,7 @@
 <tspan x="678.0" dy="15.0">SWITCH: untouched entirely - the pass runs before the</tspan>
 <tspan x="678.0" dy="15.0">boundary; the boundary contract stays v0.84.0&#x27;s.</tspan>
 </text>
-<text x="1320.0" y="1513.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1530.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">options not close - marks</tspan>
 <tspan x="1320.0" dy="15.0">suffice, no matrix.</tspan>
 </text>

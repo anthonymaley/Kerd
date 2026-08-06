@@ -52,8 +52,9 @@ f.down()
 
 # ── 3 — the mechanism ────────────────────────────────────────────────────
 f.step("3", "MECHANISM", "One release definition, two invokes, a charter split",
-       "trigger = the version-field diff - CI's R1 set, reused; no\n"
-       "second heuristic. conductor INVOKES /kerd:tend and\n"
+       "triggers = the version-field diff (CI's R1 set, reused) OR a\n"
+       "goal record landing (feature closed as complete) - one release\n"
+       "definition, two firing moments. conductor INVOKES /kerd:tend and\n"
        "/kerd:slainte (the invoke pattern's 3rd + 4th uses; zero\n"
        "re-description, same law as v0.84.0). charter split: CI owns\n"
        "mechanical (R1-R3, AU1-6 - slainte's duplicated rules 1/2/5\n"

@@ -1,6 +1,6 @@
 ---
 name: slainte
-description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when conductor's close-out fires the release close-out pass at a version bump. The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
+description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when conductor's close-out fires the release close-out pass at a version bump or a goal-record landing. The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
 ---
 
 # Slainte (Project Health)
@@ -15,7 +15,7 @@ Targets derive from the repo — there is no config file. The narrative surface 
 
 ## The release pass
 
-**Trigger: the version-field diff — CI's release definition, reused.** A work commit that changes the three `"version"` fields IS a release (release rule R1's set). The caller is conductor's close-out, which invokes this pass before running the boundary; standalone `/kerd:slainte release` runs the same judgment checks on demand.
+**Two triggers, either alone: the version-field diff — CI's release definition, reused (a work commit that changes the three `"version"` fields IS a release, rule R1's set) — or a goal-record landing (a new `docs/gates/*-goal.md` in the session's work commits: a feature closed as complete).** The release definition stays single; the completion moment fires the same pass. The caller is conductor's close-out, which invokes this pass before running the boundary; standalone `/kerd:slainte release` runs the same judgment checks on demand.
 
 **Charter: CI owns the mechanical layer (release rules R1–R3, audit rules AU1–6)** — version sync, capability-list sync, namespace prefixes, dated design filenames, gate-record shape, grounding references, rigor lines. The pass never re-checks any of those; anything newly machine-checkable belongs in CI (file a Backlog row), not here. The pass owns what no machine rule covers: the `release` area checks below, swept across the derived narrative surface.
 
