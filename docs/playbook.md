@@ -170,11 +170,11 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.60.0
+**Version:** 0.89.0
 
 **Working:**
 - All nine skills functional: conductor, interrogate, lorg, switch, kivna, slainte, skriv, tend, pair
-- Three opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (21 tests, shellcheck-clean)
+- Three opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (26 tests, shellcheck-clean)
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
 - Obsidian vault integration. Kivna writes living vault files (Status.md, Weekly.md, domain knowledge) directly at save — changes reported, no approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is write-only from the session flow (never read at switch-in)
