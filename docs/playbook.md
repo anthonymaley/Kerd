@@ -56,7 +56,7 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 .claude-plugin/   # plugin.json + marketplace.json
 ```
 
-The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd/`. The vault is a human knowledge base, living files updated in place, not append-only dumps. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions). The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
+This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is opt-in and never on the session path (v0.83.0) — a human knowledge base of living files updated in place, not append-only dumps, and not a machine sync layer. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions) only when you run `/kerd:kivna save`. The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
 **Nine skills, each with a single responsibility, plus four opt-in hooks:**
 - **conductor**: session discipline (orient/plan/execute/close-out protocol)
@@ -177,7 +177,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Three opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (26 tests, shellcheck-clean)
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
-- Obsidian vault integration. Kivna writes living vault files (Status.md, Weekly.md, domain knowledge) directly at save — changes reported, no approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is write-only from the session flow (never read at switch-in)
+- Obsidian vault integration is **optional, opt-in per project** (v0.83.0). Nothing writes the vault automatically — not the boundary, not close-out; `/kerd:kivna save` is the deliberate on-demand writer, and a vault is exactly as fresh as its last save. When invoked, save writes living vault files (Status.md, Weekly.md, domain knowledge) in place, reporting changes without an approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is never read at switch-in
 - Tend audit verified (9 categories including hook hygiene). Reports structural drift and fixes with approval
 - Slainte release audit catches skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification; CI owns version sync, description sync, and namespaces (R1–R3)
 - Unified `.active-modes` schema shared by conductor, skriv, and switch
