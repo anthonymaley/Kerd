@@ -37,9 +37,9 @@ touched — it renders kit dicts and enumerates no rules.
 - [x] Step 7 — tools/gates/README.md: gate row, AU6 row, Rigor level section
 - [x] Step 8 — Version bump to 0.81.0 (three fields)
 - [x] Step 9 — Full local suite
-- [ ] Step 10 — Work commit (one commit, with trailer)
-- [ ] Step 11 — Both-ways demo (strip → red verbatim; restore → clean)
-- [ ] Step 12 — Progress refresh, render commit, stale check, single push
+- [x] Step 10 — Work commit (one commit, with trailer)
+- [x] Step 11 — Both-ways demo (strip → red verbatim; restore → clean)
+- [x] Step 12 — Progress refresh, render commit, stale check, single push
 
 ### Step 1 — Capture before-route baselines
 
