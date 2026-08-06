@@ -7,7 +7,7 @@ description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'sav
 
 Clean handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case.
 
-**Switch owns `git pull` and the session-state commit.** Nothing else pulls. The session-state commit is CONTEXT.md, TODO.md, and the session log — written and committed once, here, at the boundary.
+**This file is the single definition of the boundary.** Switch-in owns `git pull` — nothing else pulls, ever. Switch Out makes the session-state commit and has two callers: standalone `/kerd:switch out`, and conductor's close-out invoking the same flow as its final act. Either way the steps below are the only definition — no caller re-describes them. The session-state commit is CONTEXT.md, TODO.md, and the session log — written and committed once, here, at the boundary.
 
 **Switch does not own every commit.** Conductor commits and pushes its own work — code plus the docs travelling with it — at each verified task boundary, staged by name (see `/kerd:conductor`). That is deliberate: holding work until the boundary piles a whole session's interleaved change into one diff, which is where collateral damage hides. So expect the tree at switch-out to hold mostly session state, with the session's actual work already pushed.
 
@@ -69,6 +69,8 @@ The vault is neither read nor written by switch in any mode — it is kivna's, o
 ## Switch Out (Wrapping Up a Session)
 
 Wrap up everything so the next session can pick up cold, whether that's a fresh session on this machine or another.
+
+Two callers run this flow: standalone `/kerd:switch out`, and conductor's close-out invoking it as its final act. The steps below are identical either way — the flow cannot tell who called it, and doesn't need to.
 
 ### 1. Update CONTEXT.md (state)
 
@@ -253,6 +255,7 @@ Run `git status` and `git log --oneline -1` fresh. Read the output. Show a compl
 │  → origin/[branch] ([N files])              │
 │  Tree: clean                                │
 │  Next: [what to pick up]                    │
+│  Free context: type /clear, then /kerd:switch in  │
 └─────────────────────────────────────────────┘
 ```
 

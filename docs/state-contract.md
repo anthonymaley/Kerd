@@ -6,7 +6,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 
 ## CONTEXT.md
 
-**Owner:** switch (writes at out), conductor (records decisions during execution)
+**Owner:** the Switch Out flow (standalone, or invoked by conductor close-out), conductor (records decisions during execution)
 **Readers:** switch (in), conductor (cold orient)
 **Committed:** yes
 
@@ -31,7 +31,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 
 ## TODO.md
 
-**Owner:** conductor (writes session plan into `## Now`), switch (writes wrap-up, runs closure inference)
+**Owner:** conductor (writes session plan into `## Now`), the Switch Out flow (writes wrap-up, runs closure inference — standalone, or invoked by conductor close-out)
 **Readers:** switch (in), lorg (work signals), kivna out (backlog export)
 **Committed:** yes
 
@@ -83,7 +83,7 @@ skriv: active
 
 ## kivna/sessions/YYYY-MM-DD.md
 
-**Owner:** switch (creates on out)
+**Owner:** the Switch Out flow (creates on out — standalone, or invoked by conductor close-out)
 **Readers:** switch (in), conductor (orient), lorg (work signals), kivna out (decisions export)
 **Committed:** yes
 
@@ -110,7 +110,7 @@ skriv: active
 ### Rules
 
 - One file per day. Multiple sessions append with `---` separator.
-- Switch is the sole creator. Conductor records decisions in CONTEXT.md during execution; switch captures them in the session log at the boundary.
+- The Switch Out flow is the sole creator (either caller). Conductor records decisions in CONTEXT.md during execution; the Switch Out flow captures them in the session log at the boundary.
 - Session logs are immutable history: append-only within a day, never rewritten. Switch-in reads **only the newest file**; older logs are archive (grep/read on demand). This is the fidelity guarantee that lets CONTEXT.md stay lean.
 
 ## Vault Status.md
@@ -191,7 +191,9 @@ Which skill owns which responsibility. If two skills could do something, only on
 
 | Responsibility | Owner | Others must NOT |
 |----------------|-------|-----------------|
-| Git pull/push/commit | **switch** | No other skill touches git boundaries |
+| Git pull | **switch-in** | Nothing else pulls, ever — pulling mid-session changes files under in-flight work |
+| Session-state commit + push | **the Switch Out flow** (standalone, or invoked by conductor close-out) | No other skill commits CONTEXT.md, TODO.md, or session logs |
+| Work commits + push | **conductor** (per verified task, since v0.67.0) | Session-state files never ride along in a work commit |
 | Session log creation | **switch** | Conductor records decisions in TODO.md, not session logs |
 | Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills read but don't write TODO.md |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |

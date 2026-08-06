@@ -61,7 +61,7 @@ The project's knowledge layer lives in the Obsidian vault at `~/eolas/vault/kerd
 - **conductor**: session discipline (orient/plan/execute/close-out protocol)
 - **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
-- **switch**: session boundary (pull on arrive; session-state commit+push on leave). Not the only committer — conductor commits its own work per verified task.
+- **switch**: the boundary's single definition (pull on arrive is switch-in's; the Switch Out flow makes the session-state commit for either caller — standalone, or conductor close-out invoking it). Not the only committer — conductor commits its own work per verified task.
 - **kivna**: knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)
 - **slainte**: project health audits (docs, code, site, deps, playbook)
 - **skriv**: human writing voice enforcement (audit, fix, session mode, self-audit pass)

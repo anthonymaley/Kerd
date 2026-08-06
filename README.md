@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.83.0)
+## What's New (v0.84.0)
+
+### v0.84.0
+
+**A conductor session now ends itself.** Before, conductor's close-out finished by asking you to run `/switch out` — one more prompt to answer, and the session sat quiet until you did. Now close-out runs the boundary as its final act: the session log, the state commit, and the push happen in the same motion, and the close names the suggested next pick from TODO instead of waiting to be told. The completion banner ends with the reset ritual — type `/clear`, then `/switch in` — so freeing context is two keystrokes, never a guess. The boundary flow itself stays defined in exactly one place (switch), so the two callers can't drift apart. Standalone `/switch out` still closes sessions that never ran conductor; switch-in is untouched.
 
 ### v0.83.0
 
@@ -33,11 +37,7 @@ claude plugins install kerd
 
 **A document's reading list becomes machine-checkable — "lost" is now a red light.** A product doc may declare its background reading in a `## Grounding` section (`- <ref> — <why>`); audit rule AU5 proves every declared reference still resolves on disk at every push. A doc that moves, renames, or vanishes turns the push red naming the exact broken reference — the failure that used to be invisible (the well-named design doc that held the answer and went unread). Declaring is opting in; retrofitted reading lists would be hollow, so nothing is retrofitted. Whether the reading *happened* (read-receipts) is the named next slice.
 
-### v0.79.0
-
-**The progress board becomes a page.** `tools/diagram/progress.py` renders the derived board — every work item's position on the ladder, computed from git log, gate routes, contract checklists, and gate records, never self-reported — as a committed trio: Excalidraw canvas, SVG, and a self-contained HTML page. One serializer writes all three, so converged trees compare equal byte-for-byte.
-
-*Release notes for v0.78.0 and earlier live in git history — `git log --follow README.md`.*
+*Release notes for v0.79.0 and earlier live in git history — `git log --follow README.md`.*
 
 ## Skills
 
@@ -59,7 +59,7 @@ The project playbook (`docs/playbook.md`) — a living guide for rebuilding the 
 
 **Changes get described in your terms, not the code's.** When a change alters what you can *do*, conductor states it as **now / the change / what it means** — in the vocabulary of using the thing, with paths and symbol names left in the spec and the commit. A removed capability must be named as a loss, because the same removal written as a feature disappears into the good news and gets approved unseen. Questions carry a test: *could you answer this without reading the code?* If not, it's restated as an outcome or recognised as conductor's own call. Framed well, a question needs no options — you answer in your own terms instead of picking from a menu that pre-narrows the space.
 
-**Conductor commits its own work.** As each task's verification gate passes, conductor commits the code and its travelling docs — staged by name, pushed immediately, no approval beat. It never pulls, and never stages session-state files. This exists so you don't have to end a session just to get work committed, and because the collateral check only works on a small diff: a whole session interleaved into one boundary commit is where a swallowed helper hides. Decisions accumulate in CONTEXT.md; conductor doesn't touch the vault or write session logs. At close-out it updates TODO.md and hands off; switch then writes the session log and makes the session-state commit.
+**Conductor commits its own work.** As each task's verification gate passes, conductor commits the code and its travelling docs — staged by name, pushed immediately, no approval beat. It never pulls, and never stages session-state files. This exists so you don't have to end a session just to get work committed, and because the collateral check only works on a small diff: a whole session interleaved into one boundary commit is where a swallowed helper hides. Decisions accumulate in CONTEXT.md; conductor doesn't touch the vault or write session logs. At close-out it updates TODO.md, then runs the boundary itself — invoking switch out as its final act, one act instead of two — naming the next pick from TODO and offering `/clear` to free context. Standalone `/switch out` remains for conductor-less sessions.
 
 Conductor is mode-aware: if a mode is active, orient reports the mode context and instruction, the plan respects the mode's scope, and close-out doesn't claim the session is done when running as part of a larger mode flow.
 
@@ -256,11 +256,11 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` to start your first session.
 
-**Day to day:** You sit down at your laptop and run `/switch in`. It pulls and reads exactly three files — CONTEXT.md (where the project stands, standing decisions, open questions), TODO.md (what's next), and the newest session log (what happened last time). Then it offers to start a conductor session. You run `/conductor` to plan the session. Work happens, decisions get recorded in CONTEXT.md as they're made. When the work is done, conductor's close-out updates TODO.md and hands the boundary back to switch. You run `/slainte docs` to check nothing drifted. Then `/switch out` updates CONTEXT.md and TODO.md (closing done TODO items against session evidence), writes the session log, commits, and pushes. The Obsidian vault refreshes only when you ask — `/kivna save`, on demand, whenever you want the export current. Next session, same state, whether you pick up in a fresh session on this machine or on another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down at your laptop and run `/switch in`. It pulls and reads exactly three files — CONTEXT.md (where the project stands, standing decisions, open questions), TODO.md (what's next), and the newest session log (what happened last time). Then it offers to start a conductor session. You run `/conductor` to plan the session. Work happens, decisions get recorded in CONTEXT.md as they're made. When the work is done, conductor's close-out runs the boundary itself — the session log, the state commit, and the push happen as its final act, and the close names the suggested next pick from TODO and offers `/clear`. Run `/slainte docs` any time to check nothing drifted. A session without conductor still ends with `/switch out` directly. The Obsidian vault refreshes only when you ask — `/kivna save`, on demand, whenever you want the export current. Next session, same state, whether you pick up in a fresh session on this machine or on another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **Quick sessions:** Use the `light` modifier when token cost matters. `/switch in light` skips the smoke test, `/switch out light` skips reflection. You still get CONTEXT.md, TODO.md, session logs, and git operations. Full context when you need it, lightweight handoff when you don't.
 
-**The layers:** Switch owns the session boundary — pull, and the session-state commit. Conductor owns session discipline, and commits its own work as it verifies. Kivna owns the knowledge vault. Above them sits the ladder: every piece of work is a slug climbing frame → viability → slice → design → contract → build → goal → loop, with `python3 tools/gates/gate.py route <slug>` reading what is on disk and naming the rung where the work enters, the progress board showing derived position, and CI refusing at every push what a document promised and the tree no longer delivers. Every skill works standalone.
+**The layers:** The session boundary is defined once, in switch — pull on switch-in, the session-state commit at switch out — and has two callers: standalone, or conductor's close-out invoking it. Conductor owns session discipline, commits its own work as it verifies, and closes the session it conducted. Kivna owns the knowledge vault. Above them sits the ladder: every piece of work is a slug climbing frame → viability → slice → design → contract → build → goal → loop, with `python3 tools/gates/gate.py route <slug>` reading what is on disk and naming the rung where the work enters, the progress board showing derived position, and CI refusing at every push what a document promised and the tree no longer delivers. Every skill works standalone.
 
 ## Naming
 

@@ -1,6 +1,6 @@
 ---
 route: new
-stage: framed
+stage: building
 ---
 
 # Conductor-boundary — the close-out runs the boundary and names what's next

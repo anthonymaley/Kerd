@@ -292,6 +292,8 @@ If a task changes behavior, update the affected docs (README, playbook, CLAUDE.m
 
 Why per-task rather than per-session: the collateral check (verification gate step 5) is only affordable when the diff is small. Three tasks' worth of interleaved change in one boundary commit hides exactly the drift that check exists to catch — a swallowed helper is obvious in one task's diff and invisible in a session's.
 
+**At each task's verified commit, name what's next in one line.** While the plan still has steps, that's the next plan step; when the plan is done, it's the top pick from TODO's `## Now` or `## Backlog`. Suggestion only — starting it stays a human reply; no loop, no hook, no auto-start.
+
 #### No vault writes
 
 Work accumulates in repo-side files (TODO.md) during execution. Conductor never writes the vault — and since v0.83.0 neither does the boundary: `/kerd:kivna save` is the deliberate, on-demand export for projects that keep one.
@@ -300,15 +302,14 @@ Work accumulates in repo-side files (TODO.md) during execution. Conductor never 
 
 Output `[conductor: close-out]` at the top of your response.
 
-Conductor closes the *work*, not the *session boundary*. By now each verified task is already committed and pushed (see [Work commits](#work-commits)); what remains for switch is the session-state commit — the session log and the CONTEXT.md/TODO.md updates below. Keep conductor's close-out short:
+Close-out settles the work, then runs the boundary itself — one act, no handoff ask. By now each verified task is already committed and pushed (see [Work commits](#work-commits)). Keep conductor's close-out short:
 
 1. **Update TODO.md and CONTEXT.md**: remove completed tasks from TODO, add new ones discovered during work, then overwrite `## Now` to forward-only state (what's next, a few lines — the completed record is the session log switch writes at the boundary). Record any *unresolved* decisions or questions in CONTEXT.md (`## Key Decisions` / `## Open Questions`). Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
 2. **Doc impact**: docs should already be current (docs travel with code, see Execute). Confirm nothing was missed against the CLAUDE.md Doc Impact Table if one exists. Don't carry doc updates into the boundary.
 3. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
 4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Conductor may be one step in a larger mode flow. After conductor's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
-5. **Clear the conductor marker**: remove the conductor line from `kivna/.active-modes`. Output `[conductor: closed]` as the final marker. Never touch the mode line — mode owns its own state.
-
-Then hand off: tell the user to run `/kerd:switch out` to write the session log and make the session-state commit. Conductor does not pull, does not write session logs, and does not call `/kerd:kivna save` — but its own work is already committed and pushed, task by task, so the boundary has only session state left to carry.
+5. **Clear the conductor marker**: remove the conductor line from `kivna/.active-modes`. Never touch the mode line — mode owns its own state.
+6. **Run the boundary**: invoke `/kerd:switch out` via the Skill tool — full mode, the standalone default. The flow is defined once, in `skills/switch/SKILL.md` Switch Out; do not re-describe its steps here or anywhere in this file. When it completes, output `[conductor: closed]` as the final marker.
 
 ## Principles
 
@@ -317,7 +318,7 @@ Then hand off: tell the user to run `/kerd:switch out` to write the session log 
 - **Hard stop on scope creep.** Out-of-plan work goes to backlog. No exceptions without reopening the plan.
 - **Three fixes, then escalate.** Don't thrash. Surface the problem.
 - **Docs travel with code.** If you change behavior, update the docs in the same commit.
-- **Conductor doesn't own the boundary — but it does own its work.** Two kinds of commit, two owners: *work commits* (code and its docs) are conductor's, made and pushed as each task verifies; the *session-state commit* (CONTEXT.md, TODO.md, session log) is switch's, made once at the boundary. No pull, no session log, no vault writes — the vault is on-demand via `/kerd:kivna save`, never part of the flow. Decisions accumulate in CONTEXT.md and flow into the session log when switch runs.
+- **Conductor closes the session it conducted.** Work commits per verified task, then close-out invokes the Switch Out flow (`/kerd:switch out`) as its final act — one definition of the boundary, two callers. Standalone switch out serves sessions without conductor. Conductor still never pulls (pull is switch-in's) and never writes session state by hand.
 - **Four roles, kept distinct.** Composer owns intent, orchestrator owns the score, conductor owns the performance, players execute. Nobody's authority overlaps — that's what makes each one affordable to staff correctly.
 - **The orchestrator is a call, not a mode.** Top-tier reasoning is summoned for a brief and a score, then leaves. It never holds session context, watches the build, or reviews returned work. Buying it this way costs one brief and one score instead of a whole session at premium rates.
 - **Re-dispatch, never re-specify.** A failing step is either a player problem (re-dispatch) or a score problem (hand back to the orchestrator). The conductor never edits the score to make a failure go away — that silently voids the contract the composer approved.
