@@ -7,9 +7,15 @@ estimates. Canvas: `docs/design/time-awareness.excalidraw`
 ## The mechanism
 
 **The same-turn rule — one definition, in the state contract.** A
-wall-clock time may be written into any artifact only in a turn that
-ran `date` and read its output; a time the model "remembers" or infers
-is never written. The rule's single definition lives in
+wall-clock time may be written into any artifact only when it came
+from one of two sources read in the same turn: a `date` invocation, or
+a machine-written record (a marker stamp, a git commit timestamp). A
+time the model "remembers" or infers is never written. (Amended at
+contract time, Tony's approval: the one-source form banned this
+feature's own mechanism — the close-out ranges and per-task lines copy
+git timestamps and marker stamps, neither of which comes from a
+same-turn `date`. What the rule defends against is a fabricated time,
+and both admitted sources are machine-produced.) The rule's single definition lives in
 `docs/state-contract.md` (the cross-skill conventions file); switch
 and conductor carry one-line pointers at their write moments, per the
 single-definition law (v0.84.0 precedent). The machine layer checks
