@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1171" height="1990" viewBox="260 40 1171 1990">
+<rect x="260" y="40" width="1171" height="1990" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Time-awareness — the machine consults a clock · design package</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">slice 1 of docs/product/time-awareness.md</tspan>
+<tspan x="300.0" dy="18.8">honest actuals first; estimates wait for the journey view.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">NOW</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">The model cannot tell time - two wrong-by-hours labels in one day</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">&#x27;late-evening sitting&#x27; written at midday; a TODO item dated</tspan>
+<tspan x="678.0" dy="15.0">itself &#x27;midnight&#x27; without checking. every honest time so far</tspan>
+<tspan x="678.0" dy="15.0">exists because a hand ran date. git already timestamps every</tspan>
+<tspan x="678.0" dy="15.0">commit - rung LANDINGS are boundable today; missing: start</tspan>
+<tspan x="678.0" dy="15.0">times, in-session moments, the human&#x27;s clock, and the model</tspan>
+<tspan x="678.0" dy="15.0">consulting one while writing prose.</tspan>
+</text>
+<polyline points="960.0,472.0 960.0,506.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="506.0" x2="954.3" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="506.0" x2="965.7" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="538.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="531.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">AIM</tspan>
+</text>
+<rect x="660.0" y="506.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
+<text x="960.0" y="541.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Tony&#x27;s framing at approval: actuals calibrate estimates</tspan>
+</text>
+<text x="678.0" y="586.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">task start + task end = duration; accumulated durations =</tspan>
+<tspan x="678.0" dy="15.0">the base that makes effort estimates for future tasks</tspan>
+<tspan x="678.0" dy="15.0">accurate instead of guessed. slice 1 captures HONEST ACTUALS</tspan>
+<tspan x="678.0" dy="15.0">only - estimates themselves are the parked journey view&#x27;s</tspan>
+<tspan x="678.0" dy="15.0">slice when it wakes (its named prerequisite: time data needs</tspan>
+<tspan x="678.0" dy="15.0">an on-disk home).</tspan>
+</text>
+<polyline points="960.0,690.0 960.0,724.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="724.0" x2="954.3" y2="714.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="724.0" x2="965.7" y2="714.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="756.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="749.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">RULE</tspan>
+</text>
+<rect x="660.0" y="724.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="759.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">The same-turn rule - one definition, in the state contract</tspan>
+</text>
+<text x="678.0" y="804.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">a wall-clock time is written ONLY in a turn that ran date and</tspan>
+<tspan x="678.0" dy="15.0">read its output; a remembered or inferred time is never</tspan>
+<tspan x="678.0" dy="15.0">written (the killer risk: a plausible false time in an</tspan>
+<tspan x="678.0" dy="15.0">immutable record poisons the calibration base). definition</tspan>
+<tspan x="678.0" dy="15.0">lives ONCE in docs/state-contract.md; switch + conductor carry</tspan>
+<tspan x="678.0" dy="15.0">one-line pointers (single-definition law, v0.84.0 precedent).</tspan>
+<tspan x="678.0" dy="15.0">machine layer checks presence/format only - time HONESTY is</tspan>
+<tspan x="678.0" dy="15.0">the declared limit (retrieval-not-comprehension class).</tspan>
+</text>
+<polyline points="960.0,942.0 960.0,976.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="976.0" x2="954.3" y2="966.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="976.0" x2="965.7" y2="966.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1008.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="1001.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CAPTURE</tspan>
+</text>
+<rect x="660.0" y="976.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1011.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Four mechanisms - no new write moments invented</tspan>
+</text>
+<text x="678.0" y="1056.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">MARKER STAMP: conductor writes &#x27;conductor: &lt;phase&gt; @ date&#x27; -</tspan>
+<tspan x="678.0" dy="15.0">the execute stamp IS task start. all 4 .active-modes readers</tspan>
+<tspan x="678.0" dy="15.0">are prefix-greps (swept, proven safe); stop.sh echoes the</tspan>
+<tspan x="678.0" dy="15.0">stamp to the human free.</tspan>
+<tspan x="678.0" dy="15.0">TASK END: the work commit&#x27;s git timestamp - already exact.</tspan>
+<tspan x="678.0" dy="15.0">SITTING RANGES: headings get real (HH:MM-HH:MM TZ); per-task</tspan>
+<tspan x="678.0" dy="15.0">line at boundary: started (marker) / landed (git).</tspan>
+<tspan x="678.0" dy="15.0">CLOCK LINE: new gate records carry **Clock:** under the title</tspan>
+<tspan x="678.0" dy="15.0">- documented in tools/gates/README.md, NOT validated (the</tspan>
+<tspan x="678.0" dy="15.0">accepted risk holds the CI graduation), goal records first.</tspan>
+</text>
+<polyline points="960.0,1228.0 960.0,1262.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1262.0" x2="954.3" y2="1252.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1262.0" x2="965.7" y2="1252.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1294.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1287.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">HUMAN</tspan>
+</text>
+<rect x="660.0" y="1262.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1297.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">hooks/statusline.sh - composes, never claims the slot</tspan>
+</text>
+<text x="678.0" y="1342.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">prints HH:MM; with an argument naming an existing statusline</tspan>
+<tspan x="678.0" dy="15.0">command, prints &#x27;HH:MM . &lt;its output&gt;&#x27; forwarding stdin (the</tspan>
+<tspan x="678.0" dy="15.0">context JSON). the slot may be occupied - THIS machine runs</tspan>
+<tspan x="678.0" dy="15.0">scorched-earth&#x27;s burn-rate wrapper, the live example. wiring</tspan>
+<tspan x="678.0" dy="15.0">machine-local + opt-in, absolute paths (hook-path gotcha):</tspan>
+<tspan x="678.0" dy="15.0">free slot -&gt; point statusLine at the script; occupied -&gt;</tspan>
+<tspan x="678.0" dy="15.0">pass the current command as the argument. the model never</tspan>
+<tspan x="678.0" dy="15.0">sees the statusline - the frame&#x27;s accepted limit.</tspan>
+</text>
+<polyline points="960.0,1480.0 960.0,1514.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1514.0" x2="954.3" y2="1504.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1514.0" x2="965.7" y2="1504.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1546.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1539.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">EDITS</tspan>
+</text>
+<rect x="660.0" y="1514.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1549.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Six files - sweep run at design time</tspan>
+</text>
+<text x="678.0" y="1594.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">1 hooks/statusline.sh NEW (chainable segment)</tspan>
+<tspan x="678.0" dy="15.0">2 skills/conductor/SKILL.md - stamped marker format +</tspan>
+<tspan x="678.0" dy="15.0">  close-out per-task range line + same-turn pointer</tspan>
+<tspan x="678.0" dy="15.0">3 skills/switch/SKILL.md - sitting heading range, per-task</tspan>
+<tspan x="678.0" dy="15.0">  lines, banner close time + same-turn pointer</tspan>
+<tspan x="678.0" dy="15.0">4 docs/state-contract.md - the rule&#x27;s single definition</tspan>
+<tspan x="678.0" dy="15.0">5 tools/gates/README.md - Clock row (optional, unvalidated)</tspan>
+<tspan x="678.0" dy="15.0">6 README.md - statusline wiring beside the hooks</tspan>
+<tspan x="678.0" dy="15.0">UNTOUCHED, NAMED: docs/gates/* (no retrofits) . AU rules .</tspan>
+<tspan x="678.0" dy="15.0">spec templates (per-step stamps excluded) .</tspan>
+<tspan x="678.0" dy="15.0">hooks.template.json (statusline is not a hook event).</tspan>
+</text>
+<polyline points="960.0,1783.0 960.0,1817.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1817.0" x2="954.3" y2="1807.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1817.0" x2="965.7" y2="1807.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1849.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">7</tspan>
+</text>
+<text x="344.0" y="1842.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">MEASURE</tspan>
+</text>
+<rect x="660.0" y="1817.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
+<text x="960.0" y="1852.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Stage-1 measurements - each with a named answer</tspan>
+</text>
+<text x="678.0" y="1897.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">standalone: echo &#x27;{}&#x27; | statusline.sh matches ^HH:MM$ .</tspan>
+<tspan x="678.0" dy="15.0">chained: stub cmd -&gt; &#x27;HH:MM . STUB&#x27; . marker: grep</tspan>
+<tspan x="678.0" dy="15.0">&#x27;^conductor: execute @ &#x27; = 1 AND all four hook scripts exit 0</tspan>
+<tspan x="678.0" dy="15.0">against a stamped file . single definition: &#x27;same-turn&#x27;</tspan>
+<tspan x="678.0" dy="15.0">defined once (state-contract), pointed &gt;=1 in each skill .</tspan>
+<tspan x="678.0" dy="15.0">Clock row grep = 1 AND git diff docs/gates/ empty . board</tspan>
+<tspan x="678.0" dy="15.0">byte-compare: gate.py route identical for all existing slugs.</tspan>
+</text>
+</svg>
