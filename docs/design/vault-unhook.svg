@@ -1,0 +1,214 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1272" height="1788" viewBox="260 40 1272 1788">
+<rect x="260" y="40" width="1272" height="1788" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Vault-unhook — the vault becomes opt-in everywhere · design package</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">slice 1 of docs/product/vault-unhook.md</tspan>
+<tspan x="300.0" dy="18.8">the boundary stops paying for pages nobody reads; the deliberate path stays whole.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">NOW</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">The boundary pays a toll nobody collects</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">every full switch-out writes the vault - Status, Weekly, domain</tspan>
+<tspan x="678.0" dy="15.0">files - real tokens, every boundary, every project. readers:</tspan>
+<tspan x="678.0" dy="15.0">ZERO. no human opens Obsidian (all three users, interviewed</tspan>
+<tspan x="678.0" dy="15.0">2026-08-06); no machine reads it (write-only by design). one</tspan>
+<tspan x="678.0" dy="15.0">user hit session limits MID-switch-out paying this bill.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the insurance is already</tspan>
+<tspan x="1320.0" dy="15.0">delivered twice: immutable</tspan>
+<tspan x="1320.0" dy="15.0">kivna/sessions/ logs +</tspan>
+<tspan x="1320.0" dy="15.0">git history of every</tspan>
+<tspan x="1320.0" dy="15.0">CONTEXT.md version.</tspan>
+</text>
+<polyline points="960.0,455.0 960.0,489.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="489.0" x2="954.3" y2="479.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="489.0" x2="965.7" y2="479.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="521.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="514.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CHANGE</tspan>
+</text>
+<rect x="660.0" y="489.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="524.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Opt-in everywhere, deliberate path untouched</tspan>
+</text>
+<text x="678.0" y="569.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">switch-out: vault step DELETED (all modes collapse on the vault</tspan>
+<tspan x="678.0" dy="15.0">axis). tend: a missing vault is a legitimate opt-out, one info</tspan>
+<tspan x="678.0" dy="15.0">line, never a warning. kivna save: THE one way vault pages get</tspan>
+<tspan x="678.0" dy="15.0">written - invoked on purpose at natural breakpoints.</tspan>
+<tspan x="678.0" dy="15.0">nothing in any existing vault is deleted or moved.</tspan>
+</text>
+<text x="1320.0" y="505.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the switch-IN path is not</tspan>
+<tspan x="1320.0" dy="15.0">edited AT ALL - the killer</tspan>
+<tspan x="1320.0" dy="15.0">feature (fresh session,</tspan>
+<tspan x="1320.0" dy="15.0">switch in, one second ago)</tspan>
+<tspan x="1320.0" dy="15.0">is out of bounds by</tspan>
+<tspan x="1320.0" dy="15.0">construction.</tspan>
+</text>
+<polyline points="960.0,656.0 960.0,690.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="690.0" x2="954.3" y2="680.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="690.0" x2="965.7" y2="680.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="722.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="715.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">COVERAGE</tspan>
+</text>
+<rect x="660.0" y="690.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="725.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Every vault artifact&#x27;s fate — nothing dies silently</tspan>
+</text>
+<text x="678.0" y="770.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">Status.md -&gt; duplicated in repo (CONTEXT + newest log).</tspan>
+<tspan x="678.0" dy="15.0">Weekly.md -&gt; re-curation of repo records; deliberate save.</tspan>
+<tspan x="678.0" dy="15.0">MOC -&gt; static index; deliberate save.</tspan>
+<tspan x="678.0" dy="15.0">domain files (Architecture, Playbook, guides) -&gt; human-curated</tspan>
+<tspan x="678.0" dy="15.0">re-statements; vault-only prose kept via deliberate save.</tspan>
+<tspan x="678.0" dy="15.0">people/ -&gt; VAULT-ONLY, the genuine residue - untouched, writable.</tspan>
+<tspan x="678.0" dy="15.0">client/engagement/research slots -&gt; vault-only where they exist.</tspan>
+</text>
+<text x="1320.0" y="706.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the killer risk&#x27;s</tspan>
+<tspan x="1320.0" dy="15.0">countermeasure IS this</tspan>
+<tspan x="1320.0" dy="15.0">table. the one truly</tspan>
+<tspan x="1320.0" dy="15.0">vault-only class (people/,</tspan>
+<tspan x="1320.0" dy="15.0">curated prose) keeps its</tspan>
+<tspan x="1320.0" dy="15.0">full write path.</tspan>
+</text>
+<polyline points="960.0,891.0 960.0,925.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="925.0" x2="954.3" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="925.0" x2="965.7" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="957.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="950.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">EDITS</tspan>
+</text>
+<rect x="660.0" y="925.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="960.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Four files, one principle</tspan>
+</text>
+<text x="678.0" y="1005.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">switch SKILL.md (the bulk): step 4 deleted + renumber; modifier</tspan>
+<tspan x="678.0" dy="15.0">table drops the Vault row; description, intro, usage, triage,</tspan>
+<tspan x="678.0" dy="15.0">fallback all drop vault language; banner gains ONE conditional</tspan>
+<tspan x="678.0" dy="15.0">line when vault.json exists (&#x27;vault not written - on-demand&#x27;).</tspan>
+<tspan x="678.0" dy="15.0">kivna SKILL.md: ONE sentence added (save is deliberate; switch</tspan>
+<tspan x="678.0" dy="15.0">no longer calls it). tend SKILL.md: Cat-3 missing-vault nag -&gt;</tspan>
+<tspan x="678.0" dy="15.0">info line; present vault keeps every check. vault-spec: opt-in</tspan>
+<tspan x="678.0" dy="15.0">sentence in Ownership. plus README x3 sections, v0.83.0.</tspan>
+</text>
+<text x="1320.0" y="941.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">kivna&#x27;s touch is minimal</tspan>
+<tspan x="1320.0" dy="15.0">BY DESIGN - the kivna</tspan>
+<tspan x="1320.0" dy="15.0">verdict review (Backlog)</tspan>
+<tspan x="1320.0" dy="15.0">should meet an unmodified</tspan>
+<tspan x="1320.0" dy="15.0">surface.</tspan>
+</text>
+<polyline points="960.0,1143.0 960.0,1177.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1177.0" x2="954.3" y2="1167.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1177.0" x2="965.7" y2="1167.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1209.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1202.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">DECISION</tspan>
+</text>
+<rect x="660.0" y="1177.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1212.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Delete-and-renumber beats a tombstone step</tspan>
+</text>
+<text x="678.0" y="1257.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">delete + renumber: O - the skill reads clean to a new user;</tspan>
+<tspan x="678.0" dy="15.0">living docs describe what IS, git archives what was.</tspan>
+<tspan x="678.0" dy="15.0">tombstone &#x27;step 4 (removed)&#x27;: X - a numbered hole documents</tspan>
+<tspan x="678.0" dy="15.0">history, not behavior.</tspan>
+<tspan x="678.0" dy="15.0">cost, named: one playbook gotcha cites &#x27;step 5&#x27; - a dated</tspan>
+<tspan x="678.0" dy="15.0">incident record, left as archaeology.</tspan>
+</text>
+<text x="1320.0" y="1193.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">options not close - marks</tspan>
+<tspan x="1320.0" dy="15.0">suffice, no matrix.</tspan>
+</text>
+<polyline points="960.0,1361.0 960.0,1395.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1395.0" x2="954.3" y2="1385.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1395.0" x2="965.7" y2="1385.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1427.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1420.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">PROOF</tspan>
+</text>
+<rect x="660.0" y="1395.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1430.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Three diff-scoped measurements + the honest limit</tspan>
+</text>
+<text x="678.0" y="1475.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">writes per boundary 1 -&gt; 0: the deletion itself; grep lands at</tspan>
+<tspan x="678.0" dy="15.0">exactly two deliberate-path pointers.</tspan>
+<tspan x="678.0" dy="15.0">on-demand unchanged: kivna diff = one added sentence, zero</tspan>
+<tspan x="678.0" dy="15.0">removals.</tspan>
+<tspan x="678.0" dy="15.0">killer feature byte-for-byte: ZERO diff hunks inside ## Switch</tspan>
+<tspan x="678.0" dy="15.0">In - any hunk there is a build refusal.</tspan>
+<tspan x="678.0" dy="15.0">plus: full suite (no tool edits), release sweep R1-R3.</tspan>
+</text>
+<text x="1320.0" y="1411.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">honest limit, NAMED: skill</tspan>
+<tspan x="1320.0" dy="15.0">text is prompt-layer - no</tspan>
+<tspan x="1320.0" dy="15.0">runtime refuser observes a</tspan>
+<tspan x="1320.0" dy="15.0">session&#x27;s tool calls.</tspan>
+<tspan x="1320.0" dy="15.0">rigor mvp disposition:</tspan>
+<tspan x="1320.0" dy="15.0">measured = 3 diff checks +</tspan>
+<tspan x="1320.0" dy="15.0">sweep; waived-by-name =</tspan>
+<tspan x="1320.0" dy="15.0">live-boundary observation</tspan>
+<tspan x="1320.0" dy="15.0">(first real switch-out,</tspan>
+<tspan x="1320.0" dy="15.0">next session log).</tspan>
+</text>
+<polyline points="960.0,1596.0 960.0,1630.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1630.0" x2="954.3" y2="1620.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1630.0" x2="965.7" y2="1620.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1662.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">7</tspan>
+</text>
+<text x="344.0" y="1655.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SCOPE</tspan>
+</text>
+<rect x="660.0" y="1630.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1665.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Out of scope, named (composer key on the frame)</tspan>
+</text>
+<text x="678.0" y="1710.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">BOUNDARY AUTO-SIZING (light/low die): Backlog, own slice -</tspan>
+<tspan x="678.0" dy="15.0">the modifier table&#x27;s shape is left alone bar the vault row.</tspan>
+<tspan x="678.0" dy="15.0">CYCLE AUTOMATION (out -&gt; clear -&gt; in): Backlog High, own frame.</tspan>
+<tspan x="678.0" dy="15.0">KIVNA VERDICT (import/export/scaffold archaeology): Backlog.</tspan>
+<tspan x="678.0" dy="15.0">VAULT DELETION OR MIGRATION: never in this slice.</tspan>
+<tspan x="678.0" dy="15.0">SCHEDULED SAVES: only if the stale-insurance trigger fires.</tspan>
+</text>
+</svg>
