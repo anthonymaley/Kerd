@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1278" height="1869" viewBox="260 40 1278 1869">
+<rect x="260" y="40" width="1278" height="1869" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Rigor level — the declared level + the refusal · design package</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">slice 1 of docs/product/rigor-level.md</tspan>
+<tspan x="300.0" dy="18.8">the rigor question is asked by construction; what a level requires stays slice 2.</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">NOW</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Rigor today: never asked</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">DONE assembles only what upstream declared - an undeclared rigor</tspan>
+<tspan x="678.0" dy="15.0">class fails nothing. it is not waived, not failed, just never</tspan>
+<tspan x="678.0" dy="15.0">asked. zero product docs declare any measurement level; security</tspan>
+<tspan x="678.0" dy="15.0">has never been asked once, and nothing went red.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">honest finding at design</tspan>
+<tspan x="1320.0" dy="15.0">time: grandfathering-for-</tspan>
+<tspan x="1320.0" dy="15.0">free was REFUTED here -</tspan>
+<tspan x="1320.0" dy="15.0">board_for re-derives route</tspan>
+<tspan x="1320.0" dy="15.0">for EVERY slug per render,</tspan>
+<tspan x="1320.0" dy="15.0">so a new gate row is</tspan>
+<tspan x="1320.0" dy="15.0">retroactive in effect.</tspan>
+</text>
+<polyline points="960.0,438.0 960.0,472.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="472.0" x2="954.3" y2="462.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="472.0" x2="965.7" y2="462.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="504.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="497.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">CHANGE</tspan>
+</text>
+<rect x="660.0" y="472.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="507.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">The Release slice declares its level, one line</tspan>
+</text>
+<text x="678.0" y="552.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">docs/product/&lt;slug&gt;.md ## Release slice gains one line:</tspan>
+<tspan x="678.0" dy="15.0">Rigor level: mvp</tspan>
+<tspan x="678.0" dy="15.0">legal set: spike · mvp · production-v1 - RIGOR_LEVELS tuple in</tspan>
+<tspan x="678.0" dy="15.0">tools/gates/kit.py, canonical write-down in tools/gates/README.md</tspan>
+<tspan x="678.0" dy="15.0">(the route/stage precedent). exactly one line per slice.</tspan>
+</text>
+<text x="1320.0" y="488.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">in slice 1 the value is</tspan>
+<tspan x="1320.0" dy="15.0">DATA. what a level</tspan>
+<tspan x="1320.0" dy="15.0">REQUIRES (the catalog,</tspan>
+<tspan x="1320.0" dy="15.0">the disposition table)</tspan>
+<tspan x="1320.0" dy="15.0">arrives with slice 2.</tspan>
+<tspan x="1320.0" dy="15.0">declaring is the forcing</tspan>
+<tspan x="1320.0" dy="15.0">function.</tspan>
+</text>
+<polyline points="960.0,639.0 960.0,673.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="673.0" x2="954.3" y2="663.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="673.0" x2="965.7" y2="663.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="705.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="698.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">DECISION</tspan>
+</text>
+<rect x="660.0" y="673.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="708.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Where the declaration lives — marks, not a matrix</tspan>
+</text>
+<text x="678.0" y="753.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">line in ## Release slice: O - matches the keyed frame (&#x27;declared</tspan>
+<tspan x="678.0" dy="15.0">in the Release slice definition&#x27;); nothing invented.</tspan>
+<tspan x="678.0" dy="15.0">front-matter key: X - a third key breaks the route/stage</tspan>
+<tspan x="678.0" dy="15.0">both-or-nothing pair.</tspan>
+<tspan x="678.0" dy="15.0">new ## Rigor section: X - empty until slice 2; RESERVED as the</tspan>
+<tspan x="678.0" dy="15.0">disposition table&#x27;s home, nothing built for it now.</tspan>
+</text>
+<text x="1320.0" y="689.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">options are not close, so</tspan>
+<tspan x="1320.0" dy="15.0">marks suffice - scores</tspan>
+<tspan x="1320.0" dy="15.0">only when close, weights</tspan>
+<tspan x="1320.0" dy="15.0">only when criteria differ.</tspan>
+</text>
+<polyline points="960.0,857.0 960.0,891.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="891.0" x2="954.3" y2="881.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="891.0" x2="965.7" y2="881.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="923.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="916.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">DECISION</tspan>
+</text>
+<rect x="660.0" y="891.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
+<text x="960.0" y="926.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Uniform rule, honest retrofit — the frame amendment</tspan>
+</text>
+<text x="678.0" y="971.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">exempt list in kit: X - board says &#x27;never asked&#x27; about three done</tspan>
+<tspan x="678.0" dy="15.0">journeys forever; a special case that only shrinks.</tspan>
+<tspan x="678.0" dy="15.0">audit-only, no gate row: X - nothing refuses a new slice; the</tspan>
+<tspan x="678.0" dy="15.0">forcing function loses its teeth.</tspan>
+<tspan x="678.0" dy="15.0">honest retrofit: O - one falsifiable line each, landing in the</tspan>
+<tspan x="678.0" dy="15.0">SAME COMMIT as the rule; no tip ever has one without the other.</tspan>
+</text>
+<text x="1320.0" y="907.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">Tony&#x27;s key 2026-08-05:</tspan>
+<tspan x="1320.0" dy="15.0">a level is one falsifiable</tspan>
+<tspan x="1320.0" dy="15.0">value - it cannot be</tspan>
+<tspan x="1320.0" dy="15.0">hollow the way a</tspan>
+<tspan x="1320.0" dy="15.0">reconstructed reading</tspan>
+<tspan x="1320.0" dy="15.0">list can.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">proposed, annotate if</tspan>
+<tspan x="1320.0" dy="15.0">dishonest: all four mvp</tspan>
+<tspan x="1320.0" dy="15.0">(push-wiring, grounding-</tspan>
+<tspan x="1320.0" dy="15.0">was-read, progress-html,</tspan>
+<tspan x="1320.0" dy="15.0">rigor-level).</tspan>
+</text>
+<polyline points="960.0,1075.0 960.0,1109.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1109.0" x2="954.3" y2="1099.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1109.0" x2="965.7" y2="1099.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1141.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1134.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">MECHANISM</tspan>
+</text>
+<rect x="660.0" y="1109.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1144.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">AU6 + the design-rung row — refusals verbatim</tspan>
+</text>
+<text x="678.0" y="1189.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">for every docs/product/*.md: a Rigor level line OUTSIDE Release</tspan>
+<tspan x="678.0" dy="15.0">slice -&gt; named. section present -&gt; exactly one legal line inside.</tspan>
+<tspan x="678.0" dy="15.0">no Release slice section -&gt; vacuous (framed docs, spikes).</tspan>
+<tspan x="678.0" dy="15.0">design rung gains the matching need row - same kit function,</tspan>
+<tspan x="678.0" dy="15.0">two call sites, one parser.</tspan>
+</text>
+<rect x="660.0" y="1276.0" width="250.0" height="96.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="785.0" y="1304.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="785.0" dy="0.0">CLEAN</tspan>
+<tspan x="785.0" dy="16.2">every Release slice declares</tspan>
+<tspan x="785.0" dy="16.2">a legal level</tspan>
+<tspan x="785.0" dy="16.2">audit stays: audit: clean</tspan>
+</text>
+<rect x="930.0" y="1276.0" width="460.0" height="96.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1160.0" y="1304.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1160.0" dy="0.0">PROBLEMS, named verbatim:</tspan>
+<tspan x="1160.0" dy="16.2">Release slice missing &#x27;Rigor level: &lt;...&gt;&#x27; line</tspan>
+<tspan x="1160.0" dy="16.2">illegal rigor level &#x27;&lt;v&gt;&#x27; (legal: spike, mvp, production-v1)</tspan>
+<tspan x="1160.0" dy="16.2">duplicate Rigor level lines (want exactly one)</tspan>
+</text>
+<text x="1320.0" y="1396.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">rides gate.py audit =</tspan>
+<tspan x="1320.0" dy="15.0">CI step two. silence is</tspan>
+<tspan x="1320.0" dy="15.0">caught at the push that</tspan>
+<tspan x="1320.0" dy="15.0">ships it. CI STAYS SEVEN</tspan>
+<tspan x="1320.0" dy="15.0">STEPS.</tspan>
+</text>
+<polyline points="960.0,1444.0 960.0,1478.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1478.0" x2="954.3" y2="1468.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1478.0" x2="965.7" y2="1468.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1510.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1503.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">PROOF</tspan>
+</text>
+<rect x="660.0" y="1478.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="1513.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Fixtures + dogfood + the measurements answered</tspan>
+</text>
+<text x="678.0" y="1558.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">selftest gains six temp-tree cases (18 -&gt; 24): legal -&gt; clean ·</tspan>
+<tspan x="678.0" dy="15.0">missing -&gt; named verbatim · illegal -&gt; named · duplicate -&gt; named</tspan>
+<tspan x="678.0" dy="15.0">· misplaced -&gt; named · no section -&gt; vacuous.</tspan>
+<tspan x="678.0" dy="15.0">at ship: both-ways demo on the real tree (strip a retrofit line</tspan>
+<tspan x="678.0" dy="15.0">-&gt; exit 1 naming it; restore -&gt; clean). dogfood: this item&#x27;s OWN</tspan>
+<tspan x="678.0" dy="15.0">Release slice declares its level in the same commit.</tspan>
+</text>
+<text x="1320.0" y="1494.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">stage-1 measurements,</tspan>
+<tspan x="1320.0" dy="15.0">ANSWERED:</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">undeclared level at a tip</tspan>
+<tspan x="1320.0" dy="15.0">-&gt; AU6 red within one CI</tspan>
+<tspan x="1320.0" dy="15.0">run, fix named.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">three done journeys&#x27;</tspan>
+<tspan x="1320.0" dy="15.0">board render -&gt; unchanged:</tspan>
+<tspan x="1320.0" dy="15.0">same-commit retrofit,</tspan>
+<tspan x="1320.0" dy="15.0">route pre/post identical,</tspan>
+<tspan x="1320.0" dy="15.0">stale harness byte-compare.</tspan>
+</text>
+<polyline points="960.0,1662.0 960.0,1696.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1696.0" x2="954.3" y2="1686.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1696.0" x2="965.7" y2="1686.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1728.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">7</tspan>
+</text>
+<text x="344.0" y="1721.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SCOPE</tspan>
+</text>
+<rect x="660.0" y="1696.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="960.0" y="1731.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Out of scope, named (composer key on the frame)</tspan>
+</text>
+<text x="678.0" y="1776.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">CATALOG + disposition table: slice 2 - the legal-set home</tspan>
+<tspan x="678.0" dy="15.0">migrates from kit constant to catalog when it exists.</tspan>
+<tspan x="678.0" dy="15.0">MEASURED CLASSES as CI checks: slice 3.</tspan>
+<tspan x="678.0" dy="15.0">route: spike FOLD into the rigor axis: unframed, untouched -</tspan>
+<tspan x="678.0" dy="15.0">a spike doc without a Release slice passes AU6 vacuously.</tspan>
+<tspan x="678.0" dy="15.0">LEVEL SEMANTICS: slice 1 refuses silence and illegality,</tspan>
+<tspan x="678.0" dy="15.0">never judges fit.</tspan>
+</text>
+</svg>

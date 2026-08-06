@@ -1,6 +1,6 @@
 ---
 route: new
-stage: sliced
+stage: designed
 ---
 
 # Rigor level — silence stops passing DONE
@@ -20,10 +20,12 @@ been asked once, and nothing went red.
 Value, in units:
 
 - **The level question cannot be skipped** — today: no slice declares a
-  rigor level and nothing refuses; target: a Release slice reaching the
-  slice gate without a declared, legal rigor level is a named refusal —
-  refusal at the gate for new work, validation wherever a declaration
-  exists.
+  rigor level and nothing refuses; target: a Release slice without a
+  declared, legal rigor level is a named refusal, uniformly across the
+  board *(amended at the design rung, 2026-08-05: mechanically the
+  check lands on the design gate — the Release slice section is
+  design's input — and the new-work-only carve-out died with the
+  no-retrofit clause below)*.
 - **Every rigor class in exactly one state** (slice 2) —
   measured-with-target · waived-by-name · n/a-with-reason; a class in
   no state is a named refusal. Silence becomes structurally impossible:
@@ -55,11 +57,17 @@ Smallest valuable slice — **slice 1: the declared level + the refusal**
 (proposed; the fork below is the composer's call): a Release slice
 carries a machine-readable rigor level from a declared legal set
 (starter set: `spike` · `mvp` · `production-v1`; the set lives in one
-declared place, amendable); the slice gate refuses new work whose
-Release slice lacks a legal level; the audit validates any declaration
-wherever it appears, without demanding one from the three existing
-product docs (retrofits would manufacture hollow declarations — the
-grounding precedent). Win: **the rigor question is asked by
+declared place, amendable); the design gate — where the Release slice
+section is an input — refuses work whose Release slice lacks a legal
+level, uniformly; the audit demands and validates the declaration in
+every product doc that carries a Release slice; the three existing
+product docs each receive one honest retrofit line *(amended at the
+design rung, 2026-08-05, Tony's key: the original no-retrofit clause
+borrowed grounding's hollow-declaration precedent, but a level is one
+falsifiable value, not a reconstructed reading list — and the progress
+board re-derives the route for every slug on every render, so an
+exemption would either live forever in the checker or falsify three
+done journeys on the board)*. Win: **the rigor question is asked by
 construction, and its answer is data** — the substrate slices 2 and 3
 stand on.
 
