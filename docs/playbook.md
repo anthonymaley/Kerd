@@ -44,7 +44,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill (conductor, lorg, kivna, skriv, slainte, tend, switch)
+skills/           # SKILL.md per skill — ten skills, one folder each
 hooks/            # opt-in hooks (hooks.template.json + shell scripts, registered via tend)
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
