@@ -176,7 +176,7 @@ Two files per export:
 | File | conductor | switch | skriv | kivna | slainte | tend | lorg | hooks |
 |------|------|--------|-------|-------|---------|------|------|-------|
 | CONTEXT.md | W/R | W/R | - | - | - | R | - | - |
-| TODO.md | W | W/R | - | R | - | R | R | - |
+| TODO.md | W | W/R | - | R | R | R | R | - |
 | .active-modes | W/R | R | W | - | - | - | - | R |
 | sessions/ | - | W/R | - | R | - | - | R | R |
 | vault Status | - | - | - | W | R | - | R | - |
@@ -201,7 +201,7 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Conductor state (.active-modes conductor line) | **conductor** | Other skills read conductor state but never write the conductor line |
 | Skriv state (.active-modes skriv line) | **skriv** | Same rule — each skill owns only its own line |
 | Structural audit and fix | **tend** | Tend keeps structure; slainte fixes *content* drift under the caller's gate |
-| Content audit and fix | **slainte** — triggered at release by conductor, on demand otherwise | Fixes drift under the caller's verification gate; reports what it leaves |
+| Content audit and fix | **slainte** — triggered by conductor at releases and feature closes, on demand otherwise | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |
 | Archiving completed docs | **trim** | Switch suggests trim but doesn't archive |
 | Skill/plugin recommendations | **lorg** | Lorg recommends, never auto-installs |
 
