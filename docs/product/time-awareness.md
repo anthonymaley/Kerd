@@ -1,6 +1,6 @@
 ---
 route: new
-stage: building
+stage: done
 ---
 
 # Time-awareness — the machine consults a clock, and effort becomes data
