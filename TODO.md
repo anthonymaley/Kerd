@@ -2,18 +2,22 @@
 
 ## Now
 
-**vault-unhook at goal, one move from done.** The expert-user pass = the 2026-08-06 boundary observation (recorded in that session log: no vault write, banner line). Next session: write the goal record `docs/gates/` citing the observation → loop rung → conductor close-out. Then pick from Backlog — freshest: the skriv/slainte/tend review (today's queue item 4) · boundary-cycle (High). Working default: per-piece evidence check — no blanket license.
+**vault-unhook DONE — the fifth full ladder walk** (goal record `docs/gates/2026-08-06-vault-unhook-goal.md`, both keys, loop pass). v0.83.1 shipped alongside: the gate parsers went fence-aware after the record was refused once by the fence-blind step parse — fixtures T25/T26, the fenced-block wart closed with the same mask. No work in flight.
+
+Next pick: the skriv / slainte / tend review vs the new thinking (queued 2026-08-06) · Backlog High freshest: boundary-cycle · auto-sizing · stop-hook.
+
+The tend/slainte review's widened brief (Tony, 2026-08-06 evening): consider *automatic* post-release use — every update/feature/release should verify the whole doc surface is good, not just repo files: GitHub README, website narrative, SDK docs, developer portals, skill-marketplace listings. Tend/slainte as a release-triggered conformance sweep, not only an on-demand audit.
 
 Working default: per-piece evidence check — no blanket license.
 
-Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); cache pinned at kerd/0.79.0, one version behind (repin when convenient; corrected 2026-08-05 — both skills verifiably loaded from 0.79.0 this session).
+Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values); the plugin cache still serves 0.79.0 skill text (observed again this session in both skill loads) while the repo is at 0.83.1 — repin/update before relying on new skill behavior.
 
 ## Backlog
 
 *Ranked by the function 5 axes — consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
-- **boundary-cycle** (Tony 2026-08-06): one act replaces the manual quit-terminal → restart → switch-in ritual — e.g. a cycle command that switches out, clears the window, switches back in. **Killer feasibility question first, verified against harness docs at frame, never from memory**: a session cannot run `/clear` on itself; candidate mechanism is a marker file + SessionStart/UserPromptSubmit hooks getting it to ~two keystrokes. Used at every 50%-context reset — the highest-frequency ritual in the workflow.
+- **boundary-cycle** (Tony 2026-08-06): one act replaces the manual quit-terminal → restart → switch-in ritual — e.g. a cycle command that switches out, clears the window, switches back in. **Killer feasibility question first, verified against harness docs at frame, never from memory**: a session cannot run `/clear` on itself; candidate mechanism is a marker file + SessionStart/UserPromptSubmit hooks getting it to ~two keystrokes. Used at every 50%-context reset — the highest-frequency ritual in the workflow. **The out half too (Tony, 2026-08-06 evening): conductor close-out should flow into switch-out automatically** — tonight's close ended with "run /kerd:switch out when ready", a wait-for-human ask carrying no decision; when the mode flow is complete and no other mode is active, the handoff is mechanical and conductor should have the authority to run it.
 - **Boundary auto-sizing**: light/low have zero users ever (interview 2026-08-06) — kill them as user-facing modifiers; switch reads what the session changed and sizes its own boundary. Protect the three-file switch-in path absolutely.
 - **Stop-hook over-prescription**: the hook nudges full switch-out when the honest need is a conductor work commit or a TODO touch — distinguish work-dirty from session-state-dirty at a real stopping point.
 
@@ -30,7 +34,6 @@ Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
 - **trim-cut** — gate-routed rip (the mode-cut pattern): the functions map verdict is "dying — no job of its own" and its GAP (TODO closure not holding) has closed on evidence (closure held at every boundary since the split; completed specs are dated immutable records needing no archive). Coverage table per piece; the switch SKILL.md trim-suggestion step (line 228) dies with it — that step is why switch-out still suggests trim today (found 2026-08-06: the live skill predates the verdict); release checklist applies (count Ten→Nine, README, capability lists, version).
 - Derive the rigor refusal messages (and their fixtures) from `RIGOR_LEVELS` via join — closes the goal gate's BLOCK 1 in code instead of by named risk (cold eyes 2026-08-06; doc amendment shipped meanwhile).
 - `gate.py` CLI pins root to `kit.ROOT` — run from any other cwd it silently audits Kerd, not the cwd tree (cold-eyes trap 2026-08-06); consider a `--root` flag.
-- A fenced code block containing a `Rigor level:` line inside a `## Release slice` section counts as a duplicate — the first product doc that documents the rule inside its own Release slice goes red (cold eyes 2026-08-06, robustness wart, nothing trips it today).
 - Gate records can only say GO: a refused gate has no dated home — AU3 rejects any non-rung filename in docs/gates/ and a `*-goal.md` file would satisfy the route glob (found 2026-08-05 when progress-html's goal was refused; verdict lives in the product doc instead). Consider a refusal-record shape in the gates schema.
 
 **Low — genuinely ignorable, and you can see what ignoring costs**
