@@ -1,13 +1,13 @@
 ---
 name: switch
-description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session. The same mechanism carries across machines as the secondary case. Owns `git pull` and the session-state commit (CONTEXT.md, TODO.md, session log, vault); conductor commits its own work per verified task. Writes state to CONTEXT.md, work to TODO.md, history to kivna/sessions/; pickup reads only those three. Supports 'light' modifier to skip vault and reflection, or 'low' modifier for minimum viable handoff on tight token budgets."
+description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session. The same mechanism carries across machines as the secondary case. Owns `git pull` and the session-state commit (CONTEXT.md, TODO.md, session log); conductor commits its own work per verified task. Writes state to CONTEXT.md, work to TODO.md, history to kivna/sessions/; pickup reads only those three. Supports 'light' modifier to skip reflection, or 'low' modifier for minimum viable handoff on tight token budgets."
 ---
 
 # Switch (Session Handoff)
 
 Clean handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case.
 
-**Switch owns `git pull` and the session-state commit.** Nothing else pulls. The session-state commit is CONTEXT.md, TODO.md, the session log, and vault files — written and committed once, here, at the boundary.
+**Switch owns `git pull` and the session-state commit.** Nothing else pulls. The session-state commit is CONTEXT.md, TODO.md, and the session log — written and committed once, here, at the boundary.
 
 **Switch does not own every commit.** Conductor commits and pushes its own work — code plus the docs travelling with it — at each verified task boundary, staged by name (see `/kerd:conductor`). That is deliberate: holding work until the boundary piles a whole session's interleaved change into one diff, which is where collateral damage hides. So expect the tree at switch-out to hold mostly session state, with the session's actual work already pushed.
 
@@ -28,7 +28,7 @@ Completeness comes from full-fidelity session logs plus git history of every pru
 ## Usage
 
 `/kerd:switch out` wrapping up a session (full)
-`/kerd:switch out light` wrapping up a session (skip vault, reflection, progress tracking)
+`/kerd:switch out light` wrapping up a session (skip reflection, progress tracking)
 `/kerd:switch out low` wrapping up a session (minimum viable handoff, tight token budget)
 `/kerd:switch in` picking up a session (full)
 `/kerd:switch in light` picking up a session (skip smoke test)
@@ -46,7 +46,6 @@ If no argument is given, check for uncommitted changes. If changes exist, assume
 | TODO.md update | Lean (Now + Backlog) | Lean (Now + Backlog) | Now only, 3-5 lines max |
 | Closure inference | Yes (verdict list) | Yes (verdict list) | Skip |
 | Session log | Full template (all sections) | Full template | Skeleton: What Was Done + What's Next only |
-| Vault update | Yes (kivna save, no approval) | Skip | Skip |
 | Reflection/gotchas | Yes (+ playbook mirror check) | Skip | Skip (unless something critical) |
 | Progress tracking | Yes | Skip | Skip |
 | Untracked file triage | Yes | Yes | Skip (unless obviously risky files like .env) |
@@ -65,7 +64,7 @@ If no argument is given, check for uncommitted changes. If changes exist, assume
 | Check active modes | Yes | Yes | Yes |
 | Offer conductor | Yes | Yes | Skip |
 
-The vault is never read at switch-in in any mode — Status.md is write-only from switch's perspective; it exists for the human Obsidian reader and contains nothing CONTEXT.md + the latest log don't.
+The vault is neither read nor written by switch in any mode — it is kivna's, on demand.
 
 ## Switch Out (Wrapping Up a Session)
 
@@ -182,19 +181,13 @@ The session log captures what happened in this session for the next session to p
 ## What's Next
 ```
 
-### 4. Update the vault
-
-**Skip this step if `light` or `low` modifier is set.**
-
-Call `/kerd:kivna save`. Switch owns the vault save; conductor no longer touches the vault. This updates Status.md and the relevant domain files **directly, without an approval prompt** — report what was written. The vault stays human-first: Status.md is written here but never read at switch-in.
-
-### 5. Update progress tracking
+### 4. Update progress tracking
 
 **Skip this step if `light` or `low` modifier is set.**
 
 If progress tracking exists (check for `docs/project/progress.md`, `progress.md`, or similar), update it.
 
-### 6. Reflect and capture learnings
+### 5. Reflect and capture learnings
 
 **Skip this step if `light` or `low` modifier is set** — with one exception: if something genuinely critical broke or a dangerous gotcha was discovered during the session, capture it even in low mode. One line in the session log is enough. The bar for "critical" in low mode is: would the next person waste significant time without this information?
 
@@ -208,22 +201,22 @@ Before committing, reflect on the session:
 Write actionable learnings to the appropriate place:
 - **Gotchas** → add to `docs/playbook.md` Gotchas section (duplicates what's in the session log, but the playbook is the living reference; session logs are archives)
 - **Project conventions and enforcement rules** → add to `CLAUDE.md` (so they're enforced in future sessions)
-- **Conventions and patterns** → flag for the appropriate vault file (Architecture Decisions, Positioning Contract, etc.), written during the `/kerd:kivna save` step
+- **Conventions and patterns** → record in CONTEXT.md Key Decisions; a project that keeps a vault updates it on demand via `/kerd:kivna save`
 
 **Gotcha-mirror verification (all modes, before commit):** for every entry in this session's `## Gotchas`, verify `docs/playbook.md` contains a counterpart (cheap grep). If one is missing, add it now. Older session logs are never skimmed at switch-in, so the playbook — not the log tail — is the durable gotcha net; an unmirrored gotcha is effectively lost.
 
 Skip the reflection (not the mirror check) if the session was trivial (quick fix, single file change). But for any session with meaningful work, take the time. Compounding small improvements across sessions is how projects stay healthy.
 
-### 7. Triage, commit, and push
+### 6. Triage, commit, and push
 
 Before staging anything, run `git status` to see the actual state of the working tree. Classify every changed or untracked file into two buckets:
 
-- **Session files** — files this session created or modified (CONTEXT.md, TODO.md, session log, playbook updates, vault files, etc.). These are auto-committed without asking.
+- **Session files** — files this session created or modified (CONTEXT.md, TODO.md, session log, playbook updates, etc.). These are auto-committed without asking.
 - **Unexpected files** — untracked files that existed before switch-out started, or modifications the session didn't make. These need a decision.
 
 #### Normal path (no unexpected files)
 
-Stage session files by name, commit with a descriptive message, and push. No confirmation prompt. Then show the completion banner (step 8).
+Stage session files by name, commit with a descriptive message, and push. No confirmation prompt. Then show the completion banner (step 7).
 
 **Trim suggestion (full only):** If `docs/plans/` or `docs/` contains spec, plan, or design docs whose features are marked complete in TODO.md or playbook, append to the completion banner: "Completed plan docs detected. Consider `/kerd:trim` to archive them."
 
@@ -248,7 +241,7 @@ Wait for the user to decide on each unexpected file. Then stage, commit, and pus
 
 **Low:** Skip triage entirely unless an obviously risky file is untracked (`.env`, credentials, secrets). Auto-commit session files without any banner.
 
-### 8. Completion banner
+### 7. Completion banner
 
 Run `git status` and `git log --oneline -1` fresh. Read the output. Show a completion banner with evidence:
 
@@ -265,7 +258,9 @@ Run `git status` and `git log --oneline -1` fresh. Read the output. Show a compl
 
 If the tree is not clean, report what remains and why (e.g., "3 untracked files left per triage decision"). If the push failed, stop and surface the error.
 
-If `light` modifier was used, note: "Light handoff: vault and reflection skipped."
+If `kivna/vault.json` exists, append one line inside the banner: `vault not written (on-demand since v0.83.0) — /kerd:kivna save for the Obsidian export`.
+
+If `light` modifier was used, note: "Light handoff: reflection skipped."
 
 **Low:** Compress to one line:
 
@@ -395,7 +390,5 @@ Ask: "Start a `/kerd:conductor` session?" If yes, flow into `/kerd:conductor` or
 If no CONTEXT.md, TODO.md, or session logs exist (fresh repo), say so cleanly:
 
 "Fresh repo. No previous session state found. No CONTEXT.md, no TODO.md, no session logs in kivna/sessions/. Ready to start from scratch."
-
-If no vault is found at switch-out (no `kivna/vault.json` and no vault folder at `~/eolas/vault/[folder]/`), report this gracefully. Suggest running `/kerd:kivna scaffold` to set up the vault.
 
 Do not fail silently or produce errors for missing files.

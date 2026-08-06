@@ -1,6 +1,6 @@
 ---
 route: new
-stage: designed
+stage: building
 ---
 
 # Vault-unhook — the boundary stops paying for pages nobody reads

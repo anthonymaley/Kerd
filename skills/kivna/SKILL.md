@@ -40,6 +40,8 @@ Every kivna command starts here. Resolve the vault location before doing anythin
 
 Update the vault to reflect the current session state. Use it at natural breakpoints: after finishing a task, before context gets long, when switching topics, or when something important was decided.
 
+Save is deliberate and on-demand — switch no longer calls it at the session boundary as of v0.83.0, so a vault is exactly as fresh as its last save.
+
 #### The mechanic
 
 1. **Discover vault.** Follow the vault discovery steps above. Stop if no vault is found and user declines scaffold.

@@ -57,7 +57,6 @@ Check these files exist:
 - `TODO.md`
 - `docs/playbook.md`
 - `.slainte`
-- `kivna/vault.json`
 
 **TODO shape check (drift detection):** TODO.md must be lean — `## Now` + `## Backlog` only. Flag `⚠` if it contains a `## Current Session` block, a `### Context` section, or any `## Previous/Older Session` blocks (pre-split shape, v0.60.0). The fix is the next `/kerd:switch out`, which self-migrates; tend detects, switch heals. Same for a missing CONTEXT.md when TODO.md exists — flag as pre-split, don't create it here.
 
@@ -149,15 +148,6 @@ How to rebuild this project from scratch.
 - docs/playbook.md
 ```
 
-**kivna/vault.json:**
-```json
-{
-  "vault": "~/eolas/vault",
-  "folder": "[project-name-lowercase]",
-  "name": "[Project Name]"
-}
-```
-
 For existing repos, only report missing files. Don't create them with templates. The user may have a reason for their absence, or may want to create them with project-specific content.
 
 #### Category 3: Vault integration
@@ -173,22 +163,10 @@ Check:
 - **MOC links resolve**: every `[[wikilink]]` in the MOC should point to a file that exists in the vault folder.
 - **No append-only patterns**: flag files with multiple dated `## YYYY-MM-DD` section headers (remnants of old pattern). Exempt `[Name] Weekly.md` — it is the one sanctioned append-style spine file, and its `## Week of YYYY-MM-DD` sections are by design.
 
-If `kivna/vault.json` does not exist, report with context:
+If `kivna/vault.json` does not exist, the vault is simply not opted in — this is not a finding. Report one info line, never a ⚠ or ✗ state, and count the category as passing:
 
 ```
-⚠ Vault integration
-  ┌──────────────────┬───────────────┬─────────────────────────────┐
-  │ Item             │ Current       │ Proposed                    │
-  ├──────────────────┼───────────────┼─────────────────────────────┤
-  │ vault.json       │ not configured│ run /kerd:kivna scaffold    │
-  └──────────────────┴───────────────┴─────────────────────────────┘
-  Kerd stores project context, decisions, and activity logs
-  in an Obsidian vault. This works as plain markdown files
-  even without Obsidian installed, but Obsidian adds graph
-  view, search, and cross-project linking.
-
-  To set up: /kerd:kivna scaffold
-  It will ask where your vault lives (or create one).
+ℹ Vault integration: no vault configured — opt-in via /kerd:kivna scaffold when this project wants a knowledge base
 ```
 
 If vault needs full setup, the fix is to run the `/kerd:kivna scaffold` mechanic (not to reimplement it here; kivna owns vault operations).
@@ -285,7 +263,7 @@ Format the report as a visual table. Show passing categories as one-liners. Show
   kivna/  kivna/sessions/  docs/
 
 ✓ Required files
-  README.md  CLAUDE.md  CONTEXT.md  TODO.md  docs/playbook.md  .slainte  vault.json
+  README.md  CLAUDE.md  CONTEXT.md  TODO.md  docs/playbook.md  .slainte
 
 ✗ Vault integration
   ┌──────────────────┬───────────────┬─────────────────────────────┐
