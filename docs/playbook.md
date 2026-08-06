@@ -46,6 +46,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 ```
 skills/           # SKILL.md per skill — nine skills, one folder each
 hooks/            # opt-in hooks (hooks.template.json + shell scripts, registered via tend)
+hooks/statusline.sh # the clock segment — not a hook; wired via statusLine by hand, never by tend
 docs/plans/       # historical design docs
 docs/playbook.md  # this file
 docs/state-contract.md # shared state ownership and format rules

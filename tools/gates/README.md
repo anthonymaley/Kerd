@@ -97,7 +97,8 @@ A gate record is a dated file in `docs/gates/` whose name AU3 pins:
 `YYYY-MM-DD-<slug>-<rung>.md`. The body is prose for the human — the gate
 reads exactly two things from it, both already in the table above: that
 the file exists (the `contract` rung's design GO) and, for a goal record,
-a `Done condition` section (the `loop` rung).
+a `Done condition` section (the `loop` rung) — plus the front matter every
+`docs/gates/` record carries (Front-matter schema, above).
 
 One optional line is standardized. Directly under the `# ` title:
 

@@ -138,9 +138,9 @@ Report: "Healed TODO: N legacy block(s) migrated (M rescued)." If none exist, sk
 
 Create `kivna/sessions/YYYY-MM-DD.md` (or append if one already exists for today).
 
-If appending to an existing file for today (multiple sessions), add a `---` separator and a new section with a time or sequence number.
+If appending to an existing file for today (multiple sessions), add a `---` separator and a new section whose heading follows the shape below — the range is what distinguishes one sitting from another, so no separate sequence number is needed.
 
-**The sitting heading carries a real time range** — all modes. Shape: `# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)`. Close time: `date '+%H:%M %Z'`, run at the boundary, this turn. Open time: the session's earliest `conductor: <phase> @ ...` marker stamp. If the session had no marker — no conductor ran — there is no honest open time, so write `(<sitting label>, closed HH:MM TZ)` instead. Never estimate the open side; a heading labelled hours wrong is the exact failure this rule exists to remove. The same-turn rule governing every time written here is defined once in `docs/state-contract.md`.
+**The sitting heading carries a real time range** — all modes. Shape: `# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)`. Close time: `date '+%H:%M %Z'`, run at the boundary, this turn. Open time: the `HH:MM` conductor's close-out hands over (its `execute` stamp). Standalone, with no hand-off, use the stamp on the `conductor:` line still in `kivna/.active-modes`, if one is there. If neither exists — no conductor ran this session — there is no honest open time, so write `(<sitting label>, closed HH:MM TZ)` instead. Never estimate the open side; a heading labelled hours wrong is the exact failure this rule exists to remove. The same-turn rule governing every time written here is defined once in `docs/state-contract.md`.
 
 **Per-task actuals.** When conductor conducted this session, its close-out hands over one line per task; put them in `## What Was Done` verbatim, shape `<task> — started HH:MM (marker) · landed HH:MM (work commit)`. Nothing was handed over, nothing is written — switch never reconstructs a start it was not given.
 

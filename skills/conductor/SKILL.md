@@ -312,7 +312,7 @@ Output `[conductor: close-out]` at the top of your response.
 <task> — started HH:MM (marker) · landed HH:MM (work commit)
 ```
 
-Start: the `execute` stamp for the first task, the previous task's work-commit time for each task after it. Landed: `git log -1 --format=%cd --date=format:'%H:%M' <sha>`. Both sources are machine-written, which is what makes copying them legal under the same-turn rule (defined once in `docs/state-contract.md`). Hand these lines to the boundary — the Switch Out flow writes them into the session log; conductor never writes the log itself.
+Start: the `execute` stamp for the first task, the previous task's work-commit time for each task after it. Landed: `git log -1 --format=%cd --date=format:'%H:%M' <sha>`. Both sources are machine-written, which is what makes copying them legal under the same-turn rule (defined once in `docs/state-contract.md`). Hand these lines — **and the `execute` stamp's `HH:MM`, which is the sitting's open time** — to the boundary; capture both before step 5 clears the marker, because nothing on disk holds them afterwards. The Switch Out flow writes them into the session log; conductor never writes the log itself.
 
 Close-out settles the work, then runs the boundary itself — one act, no handoff ask. By now each verified task is already committed and pushed (see [Work commits](#work-commits)). Keep conductor's close-out short:
 

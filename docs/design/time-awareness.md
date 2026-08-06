@@ -24,19 +24,26 @@ limit.
 
 **The marker stamp — task start rides a write that already happens.**
 Conductor's phase-marker writes become
-`conductor: <phase> @ YYYY-MM-DD HH:MM TZ`. All four readers are
-prefix-greps (`^conductor:`, `^mode:` in stop.sh, session-start.sh,
-skill-complete.sh — swept, proven safe); stop.sh echoes the whole
-line, so the stamp reaches the human for free. The `execute` marker's
+`conductor: <phase> @ YYYY-MM-DD HH:MM TZ`. Three hook scripts read
+the file by prefix-grep (`^conductor:` in stop.sh; `^mode:` in
+session-start.sh and skill-complete.sh — swept, proven safe; pair.sh
+reads `kivna/.pair`, not this file), so the suffix is inert to them;
+stop.sh echoes the whole line, so the stamp reaches the human for
+free. Switch reads the line whole, carrying the stamp into CONTEXT.md. The `execute` marker's
 stamp IS the task's start time.
 
 **Task end is git's, already exact.** The work commit timestamp closes
 the range; nothing new is written. At the boundary, the sitting
 section records each conducted task as one line: `task — started
 HH:MM (marker) · landed HH:MM (work commit)`. Sitting headings carry a
-real `(HH:MM–HH:MM TZ)` range: open time from the session's earliest
-marker stamp (omitted honestly if none), close time from `date` at the
-boundary.
+real `(HH:MM–HH:MM TZ)` range: open time handed over by conductor's
+close-out (its `execute` stamp, captured before the marker is cleared)
+or read from a surviving marker line standalone (omitted honestly if
+neither), close time from `date` at the boundary. (Corrected at the
+goal gate: `.active-modes` holds one conductor line, overwritten per
+phase, so "the session's earliest stamp" was never derivable — and
+close-out clears the marker before invoking the boundary, so the
+hand-over is the only path that works.)
 
 **The Clock line — new gate records only.** The gate-record schema
 gains an optional `**Clock:** YYYY-MM-DD HH:MM TZ` line under the
@@ -58,8 +65,9 @@ never sees the statusline — the frame's accepted limit.
 
 ## Edit map
 
-Design-time cross-cutting sweep run (`.active-modes` readers: 4 hook
-scripts, all prefix-safe; no other living doc defines the marker
+Design-time cross-cutting sweep run (`.active-modes` readers: 3 hook
+scripts prefix-safe, plus switch reading the line whole — the sweep's
+"4 hook scripts" was wrong, corrected at the goal gate; no other living doc defines the marker
 format; no existing time-format conventions collide):
 
 1. `hooks/statusline.sh` — NEW: stdin-forwarding, chainable, `HH:MM`
@@ -90,7 +98,9 @@ lives beside them, wired via `statusLine`, not `hooks`).
    `HH:MM · STUB`.
 3. Marker stamp: after a stamped write,
    `grep -c '^conductor: execute @ ' kivna/.active-modes` = 1, and
-   all four hook scripts run against the stamped file exit 0.
+   the four hook scripts run against the stamped file all exit 0
+   (three read it; pair.sh reads `kivna/.pair` and is included as a
+   no-regression control).
 4. Single definition: `grep -c 'same-turn'` — exactly one definition
    block in state-contract; ≥1 pointer each in switch and conductor.
 5. Clock row present in `tools/gates/README.md` — grep = 1; and

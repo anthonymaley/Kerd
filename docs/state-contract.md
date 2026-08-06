@@ -86,7 +86,7 @@ skriv: active
 - Each skill writes only its own line(s). Never touch another skill's entries.
 - Removing a line means the skill is inactive. Don't write `skill: off`.
 - Hooks read this file but never write to it.
-- Conductor's line carries an `@ YYYY-MM-DD HH:MM TZ` stamp (the same-turn rule above). All four readers are prefix-greps (`^conductor:`, `^mode:`), so the suffix is inert to them; `hooks/stop.sh` echoes the whole line, which is how the stamp reaches the human for free.
+- Conductor's line carries an `@ YYYY-MM-DD HH:MM TZ` stamp (the same-turn rule above). The three hook readers grep by prefix (`^conductor:` in `hooks/stop.sh`; `^mode:` in `session-start.sh` and `skill-complete.sh`), so the suffix is inert to them; `hooks/stop.sh` echoes the whole line, which is how the stamp reaches the human for free. Switch reads the line whole and carries the stamp into CONTEXT.md `## Active Mode`.
 - PostToolUse hook receives a full envelope on stdin (confirmed 2026-04-04):
   `{session_id, cwd, hook_event_name, tool_name, tool_input: {skill, args}, tool_response: {success, commandName}, tool_use_id}`
   The hook checks `tool_response.success` before reporting progress and extracts `tool_input.skill` via sed.
@@ -101,7 +101,7 @@ skriv: active
 ### Format
 
 ```markdown
-# Session — YYYY-MM-DD
+# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)
 
 **Machine:** [hostname]
 
@@ -121,6 +121,7 @@ skriv: active
 ### Rules
 
 - One file per day. Multiple sessions append with `---` separator.
+- The heading carries the sitting label and a real `HH:MM–HH:MM TZ` range; with no conductor stamp to open it, `(<label>, closed HH:MM TZ)` instead. The rule is defined in `skills/switch/SKILL.md` step 3 (single-definition law), under the same-turn rule above.
 - The Switch Out flow is the sole creator (either caller). Conductor records decisions in CONTEXT.md during execution; the Switch Out flow captures them in the session log at the boundary.
 - Session logs are immutable history: append-only within a day, never rewritten. Switch-in reads **only the newest file**; older logs are archive (grep/read on demand). This is the fidelity guarantee that lets CONTEXT.md stay lean.
 
