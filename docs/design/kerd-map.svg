@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1550" height="825" viewBox="260 40 1550 825">
 <rect x="260" y="40" width="1550" height="825" fill="#ffffff"/>
 <text x="300.0" y="110.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="30" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Kerd — the whole system, current state (v0.87.0)</tspan>
+<tspan x="300.0" dy="0.0">Kerd — the whole system, current state (v0.88.0)</tspan>
 </text>
 <text x="300.0" y="136.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">skills are what you invoke · the ladder is what work climbs · the machinery refuses from outside the model</tspan>

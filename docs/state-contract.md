@@ -4,6 +4,16 @@ Kerd skills share state through a small set of files. This document defines who 
 
 The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`): **state, work, and history are three different things, one file each.** CONTEXT.md holds what's currently true (overwritten), TODO.md holds what's still to do (forward-only, lean), `kivna/sessions/` holds what happened (immutable, full fidelity). Switch-in reads exactly those three; everything else is on-demand reference.
 
+## The same-turn rule (time)
+
+**One definition, here.** Every skill that writes a wall-clock time points at this section; nothing restates it.
+
+A time is written into an artifact only when a machine produced it in the same turn as the write. Two sources, no third: `date` was run in this turn and its output read, or the time was copied from a machine-written record read in this turn — a `conductor: <phase> @ ...` marker stamp, a git commit timestamp. A time the model remembers, infers from the conversation, or estimates from how long the work felt is never written.
+
+Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Clock:**` lines), `HH:MM TZ` where the date is already established (session-log headings, the switch-out banner), `HH:MM–HH:MM TZ` for a range. Produce them with `date '+%Y-%m-%d %H:%M %Z'` and `date '+%H:%M %Z'`.
+
+**The machine layer checks presence and format only.** A grep can see that a stamp is there and well-shaped; nothing on disk distinguishes a real `date` output from a plausible invention. Time honesty is this frame's declared limit — the retrieval-not-comprehension class. It is held by the write discipline above, not by a checker, and a wrong time is a failure of the discipline rather than of a missing validator.
+
 ## CONTEXT.md
 
 **Owner:** the Switch Out flow (standalone, or invoked by conductor close-out), conductor (records decisions during execution)
@@ -67,7 +77,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 
 ```
 # One line per skill: <skill>: <state>
-conductor: execute
+conductor: execute @ 2026-08-06 15:17 EDT
 skriv: active
 ```
 
@@ -76,6 +86,7 @@ skriv: active
 - Each skill writes only its own line(s). Never touch another skill's entries.
 - Removing a line means the skill is inactive. Don't write `skill: off`.
 - Hooks read this file but never write to it.
+- Conductor's line carries an `@ YYYY-MM-DD HH:MM TZ` stamp (the same-turn rule above). All four readers are prefix-greps (`^conductor:`, `^mode:`), so the suffix is inert to them; `hooks/stop.sh` echoes the whole line, which is how the stamp reaches the human for free.
 - PostToolUse hook receives a full envelope on stdin (confirmed 2026-04-04):
   `{session_id, cwd, hook_event_name, tool_name, tool_input: {skill, args}, tool_response: {success, commandName}, tool_use_id}`
   The hook checks `tool_response.success` before reporting progress and extracts `tool_input.skill` via sed.

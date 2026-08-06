@@ -140,6 +140,10 @@ Create `kivna/sessions/YYYY-MM-DD.md` (or append if one already exists for today
 
 If appending to an existing file for today (multiple sessions), add a `---` separator and a new section with a time or sequence number.
 
+**The sitting heading carries a real time range** — all modes. Shape: `# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)`. Close time: `date '+%H:%M %Z'`, run at the boundary, this turn. Open time: the session's earliest `conductor: <phase> @ ...` marker stamp. If the session had no marker — no conductor ran — there is no honest open time, so write `(<sitting label>, closed HH:MM TZ)` instead. Never estimate the open side; a heading labelled hours wrong is the exact failure this rule exists to remove. The same-turn rule governing every time written here is defined once in `docs/state-contract.md`.
+
+**Per-task actuals.** When conductor conducted this session, its close-out hands over one line per task; put them in `## What Was Done` verbatim, shape `<task> — started HH:MM (marker) · landed HH:MM (work commit)`. Nothing was handed over, nothing is written — switch never reconstructs a start it was not given.
+
 The session log captures what happened in this session for the next session to pick up cold. This is the canonical record and the fidelity guarantee — it is never compressed and never rewritten. Two sections are **required**: `## What Was Done` and `## What's Next`. Four sections are **optional**: `## Key Decisions`, `## Commits`, `## Gotchas`, `## Insights`. Read the rules below before writing.
 
 **Anti-hallucination rule.** Include an optional section ONLY if you can point to specific moments in this session that produced its content. If a section would be empty, **omit the header entirely**. Empty headers are padding. Inventing content to fill structure is hallucination. Do not write "None" or "N/A" — omit the section.
@@ -153,7 +157,7 @@ The session log captures what happened in this session for the next session to p
 **Full/light template** (bare headers — fill with content from this session, omit any optional header that would be empty):
 
 ```
-# Session YYYY-MM-DD
+# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)
 
 **Machine:** {hostname}
 **Branch:** {current branch}
@@ -175,7 +179,7 @@ The session log captures what happened in this session for the next session to p
 **Low template:** Two required sections only, no metadata headers, no optional sections. Use bullets, 3-5 items in What Was Done, 1-2 lines in What's Next.
 
 ```
-# Session YYYY-MM-DD
+# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)
 
 ## What Was Done
 
@@ -242,7 +246,7 @@ Wait for the user to decide on each unexpected file. Then stage, commit, and pus
 
 ### 7. Completion banner
 
-Run `git status` and `git log --oneline -1` fresh. Read the output. Show a completion banner with evidence:
+Run `git status`, `git log --oneline -1`, and `date '+%H:%M %Z'` fresh. Read the output. Show a completion banner with evidence — the `Closed:` line is this turn's `date`, never a recalled time:
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -251,6 +255,7 @@ Run `git status` and `git log --oneline -1` fresh. Read the output. Show a compl
 │  Pushed: [hash] [message]                   │
 │  → origin/[branch] ([N files])              │
 │  Tree: clean                                │
+│  Closed: [HH:MM TZ]                         │
 │  Next: [what to pick up]                    │
 │  Free context: type /clear, then /kerd:switch in  │
 └─────────────────────────────────────────────┘
@@ -265,7 +270,7 @@ If `light` modifier was used, note: "Light handoff: reflection skipped."
 **Low:** Compress to one line:
 
 ```
-Pushed: [commit-hash] → origin/[branch]. Next: [what to pick up]
+Pushed: [commit-hash] → origin/[branch]. Closed: [HH:MM TZ]. Next: [what to pick up]
 ```
 
 ## Switch In (Picking Up a Session)

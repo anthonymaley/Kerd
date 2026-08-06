@@ -33,13 +33,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "Kerd \u2014 the whole system, current state (v0.87.0)",
+   "text": "Kerd \u2014 the whole system, current state (v0.88.0)",
    "fontSize": 30,
    "fontFamily": 6,
    "textAlign": "left",
    "verticalAlign": "top",
    "containerId": null,
-   "originalText": "Kerd \u2014 the whole system, current state (v0.87.0)",
+   "originalText": "Kerd \u2014 the whole system, current state (v0.88.0)",
    "autoResize": true,
    "lineHeight": 1.25
   },

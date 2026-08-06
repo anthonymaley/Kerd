@@ -53,10 +53,12 @@ Conductor is a modal skill. It runs across multiple responses. Announce the curr
 
 Format of `kivna/.active-modes` — conductor owns one line only:
 ```
-conductor: <phase>
+conductor: <phase> @ YYYY-MM-DD HH:MM TZ
 ```
 
-Example: `conductor: execute`. Remove the line entirely when closing out (don't write `conductor: closed`). Never touch other skills' lines in this file.
+Example: `conductor: execute @ 2026-08-06 15:17 EDT`. Remove the line entirely when closing out (don't write `conductor: closed`). Never touch other skills' lines in this file.
+
+**The stamp has to be real.** Run `date '+%Y-%m-%d %H:%M %Z'` in the same turn as the write and copy its output — the same-turn rule, defined once in `docs/state-contract.md`. Never write a remembered or inferred time. The `execute` marker's stamp is the first conducted task's start time, which is why it is worth a `date` call rather than a guess.
 
 ## The Protocol
 
@@ -303,6 +305,14 @@ Work accumulates in repo-side files (TODO.md) during execution. Conductor never 
 ### 4. Close Out
 
 Output `[conductor: close-out]` at the top of your response.
+
+**Capture the actuals first.** Writing the close-out marker replaces the `execute` line, and that line's stamp is the first task's start time — read the line you are about to overwrite, before you overwrite it. Then, for each task this session committed, produce one line:
+
+```
+<task> — started HH:MM (marker) · landed HH:MM (work commit)
+```
+
+Start: the `execute` stamp for the first task, the previous task's work-commit time for each task after it. Landed: `git log -1 --format=%cd --date=format:'%H:%M' <sha>`. Both sources are machine-written, which is what makes copying them legal under the same-turn rule (defined once in `docs/state-contract.md`). Hand these lines to the boundary — the Switch Out flow writes them into the session log; conductor never writes the log itself.
 
 Close-out settles the work, then runs the boundary itself — one act, no handoff ask. By now each verified task is already committed and pushed (see [Work commits](#work-commits)). Keep conductor's close-out short:
 

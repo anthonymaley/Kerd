@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.87.0)
+## What's New (v0.88.0)
+
+### v0.88.0
+
+**The machine consults a clock, and effort becomes data.** Before, nothing in a session knew what time it was: session logs got headings like "late-evening sitting" written at midday, and how long a task actually took was unrecoverable. Now the clock is captured where artifacts are already written — the conductor's phase marker carries a real stamp (`conductor: execute @ 2026-08-06 15:17 EDT`), which is the task's start; the work commit's git timestamp is its end; session-log headings and the switch-out banner carry real times; and new gate records can carry an optional `**Clock:**` line, so how long a rung took becomes derivable. One rule governs all of it, defined once: a time is written only when a machine produced it in the same turn — a `date` run, or a machine-written record read that turn. A remembered or estimated time is never written. There is also an opt-in statusline segment (`hooks/statusline.sh`) that shows you the time, and **composes** rather than claims the slot — hand it your existing statusline command and it prints both. What you don't get yet, named: estimates. This slice captures honest actuals; using them to predict how long the next task will take is the next slice.
 
 ### v0.87.0
 
@@ -33,11 +37,7 @@ claude plugins install kerd
 
 **A conductor session now ends itself.** Before, conductor's close-out finished by asking you to run `/switch out` — one more prompt to answer, and the session sat quiet until you did. Now close-out runs the boundary as its final act: the session log, the state commit, and the push happen in the same motion, and the close names the suggested next pick from TODO instead of waiting to be told. The completion banner ends with the reset ritual — type `/clear`, then `/switch in` — so freeing context is two keystrokes, never a guess. The boundary flow itself stays defined in exactly one place (switch), so the two callers can't drift apart. Standalone `/switch out` still closes sessions that never ran conductor; switch-in is untouched.
 
-### v0.83.0
-
-**The vault becomes opt-in everywhere.** Switch-out no longer writes the Obsidian vault at the session boundary — `/kivna save` is the deliberate writer, invoked on purpose (lorg's report copy remains the one automatic exception), and a vault is exactly as fresh as its last save. When a vault exists, the switch-out banner says so (vault not written, on-demand). tend stops nagging vault-less projects: an absent vault is a legitimate opt-out, one info line, never a warning. Switch-in is untouched byte-for-byte — same three files, same pickup. Nothing in any existing vault is deleted; the automatic writer stops, the files stay.
-
-*Release notes for v0.82.0 and earlier live in git history — `git log --follow README.md`.*
+*Release notes for v0.83.0 and earlier live in git history — `git log --follow README.md`.*
 
 ## Skills
 
@@ -208,6 +208,28 @@ Kerd ships four opt-in hooks that provide session boundary awareness and the pai
 ```
 /tend                # registers hooks in .claude/settings.local.json
 ```
+
+**Statusline segment (`hooks/statusline.sh`):** not a hook — it sits beside them and wires into `statusLine`, never into `hooks`. It prints the wall-clock time as `HH:MM`, and it **composes rather than claims** the slot: hand it an existing statusline command as its single argument and it prints `HH:MM · <that command's output>`, forwarding the context JSON on stdin unchanged. Machine-local and opt-in — `/tend` does not register it.
+
+Free slot — point `statusLine` at the script:
+
+```json
+"statusLine": {
+  "type": "command",
+  "command": "/absolute/path/to/Kerd/hooks/statusline.sh"
+}
+```
+
+Slot already taken — pass the command that is there now as the argument, quoted:
+
+```json
+"statusLine": {
+  "type": "command",
+  "command": "/absolute/path/to/Kerd/hooks/statusline.sh '/absolute/path/to/existing/statusline.sh'"
+}
+```
+
+Both paths must be absolute and already resolved: `${CLAUDE_PLUGIN_ROOT}` does not expand inside a settings file (the v0.29.1 hook-path gotcha).
 
 The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, and the pair toggle's on/off/absent branches). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
 

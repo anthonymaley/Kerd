@@ -23,7 +23,7 @@ c = Canvas()
 X0 = 300
 
 # ── title + legend ───────────────────────────────────────────────────────
-c.txt("Kerd — the whole system, current state (v0.87.0)", X0, 80, 30)
+c.txt("Kerd — the whole system, current state (v0.88.0)", X0, 80, 30)
 c.txt("skills are what you invoke · the ladder is what work climbs · "
       "the machinery refuses from outside the model",
       X0, 122, 14)

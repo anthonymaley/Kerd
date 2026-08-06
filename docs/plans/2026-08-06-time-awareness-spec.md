@@ -59,17 +59,17 @@ Out of scope — a hunk in any of these is a refusal:
 
 ## Pieces
 
-- [ ] Step 1 — hooks/statusline.sh: new, chainable, stdin-forwarding
-- [ ] Step 2 — docs/state-contract.md: the same-turn rule + stamped marker format
-- [ ] Step 3 — skills/conductor/SKILL.md: stamped phase marker + close-out actuals
-- [ ] Step 4 — skills/switch/SKILL.md: sitting-heading range, per-task lines, banner close time
-- [ ] Step 5 — tools/gates/README.md: the Gate records section + optional Clock line
-- [ ] Step 6 — README.md: the statusline wiring paragraph
-- [ ] Step 7 — docs/product/time-awareness.md: stage sliced → building
-- [ ] Step 8 — Diff-review all seven edits (blast radius)
-- [ ] Step 9 — Proof obligations: the six stage-1 measurements
-- [ ] Step 10 — Full local suite (CI's seven commands + the hook harness)
-- [ ] Step 11 — Ship: boxes checked, render refresh, one work commit, one push
+- [x] Step 1 — hooks/statusline.sh: new, chainable, stdin-forwarding
+- [x] Step 2 — docs/state-contract.md: the same-turn rule + stamped marker format
+- [x] Step 3 — skills/conductor/SKILL.md: stamped phase marker + close-out actuals
+- [x] Step 4 — skills/switch/SKILL.md: sitting-heading range, per-task lines, banner close time
+- [x] Step 5 — tools/gates/README.md: the Gate records section + optional Clock line
+- [x] Step 6 — README.md: the statusline wiring paragraph
+- [x] Step 7 — docs/product/time-awareness.md: stage sliced → building
+- [x] Step 8 — Diff-review all seven edits (blast radius)
+- [x] Step 9 — Proof obligations: the six stage-1 measurements
+- [x] Step 10 — Full local suite (CI's seven commands + the hook harness)
+- [x] Step 11 — Ship: boxes checked, render refresh, one work commit, one push
 
 ### Step 1 — hooks/statusline.sh: new, chainable, stdin-forwarding
 

@@ -91,6 +91,31 @@ markdown file in `docs/`, not just the two required directories).
 The six system design docs in `docs/design/` are the system's own specs,
 not work climbing the ladder — they do NOT get retrofitted front matter.
 
+## Gate records
+
+A gate record is a dated file in `docs/gates/` whose name AU3 pins:
+`YYYY-MM-DD-<slug>-<rung>.md`. The body is prose for the human — the gate
+reads exactly two things from it, both already in the table above: that
+the file exists (the `contract` rung's design GO) and, for a goal record,
+a `Done condition` section (the `loop` rung).
+
+One optional line is standardized. Directly under the `# ` title:
+
+    **Clock:** YYYY-MM-DD HH:MM TZ
+
+when the record was written. Git already times the commits at both ends
+of a rung exactly; the Clock line is the missing end that makes rung
+*duration* derivable for new records. Write it under the same-turn rule
+(`docs/state-contract.md`): a `date` run in the same turn as the record,
+never a remembered time.
+
+**Deliberately not validated.** No rule checks the line — not AU3, not a
+rung input. Nothing retrofits it into an existing record either: a
+backfilled time is manufactured history. Goal records adopt it first.
+Graduating presence to a checked rule is held by the accepted risk's
+review trigger in `docs/product/time-awareness.md` ("first observed
+missing Clock line in a new record"), not by this README.
+
 ## Refusals
 
 `check` is the refuser. Passing prints one line:
