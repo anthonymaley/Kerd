@@ -46,8 +46,11 @@ f.down()
 
 # ── 3 — the rule ─────────────────────────────────────────────────────────
 f.step("3", "RULE", "The same-turn rule - one definition, in the state contract",
-       "a wall-clock time is written ONLY in a turn that ran date and\n"
-       "read its output; a remembered or inferred time is never\n"
+       "a wall-clock time is written ONLY when a machine produced it\n"
+       "in the same turn: a date run, or a machine-written record read\n"
+       "that turn (marker stamp, git timestamp). Tony's amendment at\n"
+       "contract - the one-source form banned this feature's own\n"
+       "mechanism. a remembered or inferred time is never\n"
        "written (the killer risk: a plausible false time in an\n"
        "immutable record poisons the calibration base). definition\n"
        "lives ONCE in docs/state-contract.md; switch + conductor carry\n"
@@ -59,9 +62,9 @@ f.down()
 # ── 4 — the mechanisms ───────────────────────────────────────────────────
 f.step("4", "CAPTURE", "Four mechanisms - no new write moments invented",
        "MARKER STAMP: conductor writes 'conductor: <phase> @ date' -\n"
-       "the execute stamp IS task start. all 4 .active-modes readers\n"
-       "are prefix-greps (swept, proven safe); stop.sh echoes the\n"
-       "stamp to the human free.\n"
+       "the execute stamp IS task start. 3 hook scripts read it by\n"
+       "prefix-grep (pair.sh reads .pair, not this file); switch reads\n"
+       "the line whole. stop.sh echoes the stamp to the human free.\n"
        "TASK END: the work commit's git timestamp - already exact.\n"
        "SITTING RANGES: headings get real (HH:MM-HH:MM TZ); per-task\n"
        "line at boundary: started (marker) / landed (git).\n"
