@@ -35,23 +35,26 @@ The target state:
 > idea, the gaps, the analysis, **the big picture that it could lead to — and
 > not just the next task.** We have all of that in our SHARED MEMORY.
 
-### The line this work item turns on
+### What these pages are for
 
-> **"I know you don't need this but I do. This is how I give you what you
-> need."**
+**Primary function: state visualization.** Tony, stated directly when an
+earlier draft of this document called them an input channel: *"its primary
+function is state visualization."* The pages show where things are. They are
+not a form, not a console, and not where direction is entered — direction is
+given in conversation, as it always has been.
 
-Said about the visuals — the whiteboard, the story layouts, the diagrams.
-It reverses what a visual is for. These pages are not a report rendered *for*
-the human after the work is done. They are **the surface through which the
-human supplies direction**, and therefore they are an input channel, not an
-output format.
+What they change is the *quality* of that conversation. In his words, about
+the visual stories: *"we also need to tell our stories visually, like the
+sensei story layouts I shared, so we have shared alignment. I know you don't
+need this but I do — this is how I give you what you need."* Seeing true
+state is what lets him direct well. The direction is still spoken; the wall is
+what makes it well-aimed.
 
-That closes the loop on the root cause recorded in switch-fidelity: *"we
-solve for code level but all the context is not code — much of it is human
-input that we lose."* Human input leaves no artifact because **there is
-nowhere for it to land.** Code has commits, files, gates and rungs. Judgement
-has a conversation and nothing else. A wall in the room is where judgement
-becomes an artifact.
+The design consequence is narrower than an input channel would imply, and
+sharper: **every page is judged on whether the state it shows is true and
+obvious**, not on what can be done to it. A page that is accurate and
+unreadable fails. A page with affordances for entering data is out of scope
+unless something else argues for it.
 
 ### Two people, two views, one state
 
@@ -159,10 +162,11 @@ four live iterations: story head (current situation → proposal → measured in
 use), then the ladder as sections — Idea, Validated, Scoped, Designed,
 Spec'd, Built, Proven, Live — with a what's-cooking card set above it.
 
-It was parked 2026-08-05 pending "more journeys on the ladder." **That
-parking decision was made on the premise that this was a visualization.**
-Under the input-channel framing above it is not optional tooling; it is one
-half of the shared memory. Five journeys have since walked the ladder.
+It was parked 2026-08-05 pending "more journeys on the ladder." Five journeys
+have since walked it, so the parking condition is met on its own terms. What
+changed independently is weight: the page was treated as optional tooling, and
+this document establishes that it is one half of the shared memory rather than
+a nice-to-have rendering of the machine's half.
 
 Prerequisite, and it is thinner than it looked. The status word Tony wants —
 *on plan / taking longer / encountered issues* — has three legs and only one
@@ -452,6 +456,16 @@ forward from switch-fidelity, where it was first recorded.
 The split is now a standing rule rather than a preference: markdown is the
 model's medium, HTML is the human's, both rendered from one state.
 
+**Framing the pages as an input channel** — rejected by Tony 2026-08-07, in
+the framing conversation, against an earlier draft of this document that made
+it the centerpiece. The claim was the model's extrapolation from his line
+*"this is how I give you what you need,"* not something he said: seeing true
+state lets him direct well, which is not the same as the page being where
+direction lands. His correction: *"its primary function is state
+visualization."* Recorded because the extrapolation had already produced a
+design question (whether the mock's agreed shape needed to change) that had no
+premise under it — a rejected option that was one step from becoming work.
+
 **Building the wall before fixing capture** — rejected on the killer risk
 above. It is the obvious first move and it is wrong: seven of the ten views
 render blank today, and a blank page that looks like coverage is worse than an
@@ -473,8 +487,10 @@ them.
 - **Not a second source of truth.** Every page here is derived from disk. A
   page that would need its own hand-maintained fact is not built until that
   fact has a declared home.
-- **Not a visualization project.** The pages are the channel through which
-  direction is given, not a report produced after the fact. A page that only
-  makes existing information prettier does not belong in this item.
+- **Not a console.** State visualization is the primary function (Tony,
+  2026-08-07). The pages show where things are; direction continues to be
+  given in conversation. Affordances for entering or editing data are out of
+  scope unless a specific need argues for them — the kanban board in gap 8 is
+  the one open case.
 - **Not the boundary.** switch-fidelity continues separately and keeps the
   handoff mechanics. This item is about what exists to hand over.
