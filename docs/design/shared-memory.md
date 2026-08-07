@@ -125,6 +125,32 @@ all.** So alignment has never actually been forced at the head of any of them,
 including the two that are done. That is not a rendering gap; it is a real one,
 and this note is the first time it has been named.
 
+### 7. Every stage is agreed by a drawing, not just the head
+
+> *"And that is true for each stage on the funnel — a diagram or drawing can
+> secure alignment before the next stage."*
+
+Tony, 2026-08-07, generalising note 6. The head's drawing agrees the *problem*;
+each stage's drawing agrees *that stage's output* before the next one opens.
+
+This turns an existing standing decision into a special case. "Design is agreed
+in diagrams, not prose" (2026-08-02) was recorded as a fact about the design
+rung specifically. It is not — it is the general rule, and design was simply
+where it was first noticed. Every stage has the same failure mode: two people
+read one sentence and picture two different things, and the divergence is only
+discovered downstream where it is expensive.
+
+Taken: every stage carries its own drawing slot,
+`docs/plans/journey-<slug>-<stage>.svg`, embedded in the stage card. A started
+stage with no drawing renders as a blocker — "not drawn, so this stage is not
+agreed". Not-started stages are silent, because there is nothing to agree yet.
+
+Consequence not yet paid: **no stage of any journey has a drawing today.** Under
+this rule every completed journey in the repo passed its stages without the
+thing that secures agreement. That is a real finding about how the work has been
+done, not a rendering gap, and it is the second one this page has surfaced by
+being honest about what is absent.
+
 ## Open at design
 
 - **Where a drawing lives.** Blocks note 1, and therefore the head of every

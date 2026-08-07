@@ -470,7 +470,18 @@ def render(slug):
              + (f'<span class="when">{E(dates[s])}</span>' if s in dates else "") +
              f'</div><div class="card"><div class="blurb">{E(blurb)}</div>']
 
-        # The rungs — the work inside the stage.
+        # Every stage carries its own drawing. Tony 2026-08-07: "a diagram or
+        # drawing can secure alignment before the next stage" — so an undrawn
+        # stage is an unagreed stage, not merely an undocumented one.
+        sd = drawing(slug, s)
+        if sd:
+            H.append(f'<div class="stagedraw">{sd}</div>')
+        elif cls != "todo":
+            H.append('<div class="slot blocking stageslot"><b>Not drawn — so this '
+                     'stage is not agreed.</b> A drawing here is what secures '
+                     'alignment before the next stage opens.</div>')
+
+        # The steps — the work inside the stage.
         steps = rungs.get(label, [])
         if steps:
             H.append('<ul class="rungs">')
@@ -607,6 +618,10 @@ padding:20px 24px}
 color:var(--slate);line-height:1.5;background:#FCFCFB}
 .slot.blocking{border-color:#E3A9A5;background:#FEF7F6;color:#8C5450}
 .slot.blocking b{color:var(--red);display:block;margin-bottom:5px}
+.stageslot{margin-bottom:13px;font-size:12.5px;padding:13px 16px}
+.stagedraw{margin-bottom:14px;border:1px solid var(--hairline);border-radius:12px;
+padding:14px;background:#FCFCFB}
+.stagedraw svg{width:100%;height:auto;display:block}
 .pains{margin-top:14px;padding-left:18px;display:grid;gap:7px}
 .pains li{font-size:13.5px;line-height:1.45}
 .pains li::marker{color:var(--red);font-weight:700}
