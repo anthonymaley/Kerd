@@ -1,0 +1,36 @@
+<svg viewBox="0 0 340 232" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="A session where both people share everything on a whiteboard, then the window clears"
+     font-family="ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+
+  <rect x="4" y="4" width="332" height="146" rx="10" fill="#FFFFFF" stroke="#B9C0BD" stroke-width="1.5"/>
+  <text x="16" y="23" font-size="9.5" font-weight="700" fill="#5C6B67" letter-spacing="1.1">THE SESSION</text>
+
+  <circle cx="42" cy="47" r="12" fill="#E3EFE6" stroke="#3E7C4F" stroke-width="1.5"/>
+  <text x="42" y="51" font-size="10" font-weight="700" fill="#3E7C4F" text-anchor="middle">T</text>
+  <text x="42" y="74" font-size="8.5" fill="#5C6B67" text-anchor="middle">direction</text>
+
+  <circle cx="298" cy="47" r="12" fill="#EFEFEC" stroke="#5C6B67" stroke-width="1.5"/>
+  <text x="298" y="51" font-size="10" font-weight="700" fill="#22312F" text-anchor="middle">M</text>
+  <text x="298" y="74" font-size="8.5" fill="#5C6B67" text-anchor="middle">the build</text>
+
+  <line x1="58" y1="47" x2="108" y2="47" stroke="#5C6B67" stroke-width="1.2"/>
+  <polygon points="114,47 105,43.5 105,50.5" fill="#5C6B67"/>
+  <line x1="282" y1="47" x2="232" y2="47" stroke="#5C6B67" stroke-width="1.2"/>
+  <polygon points="226,47 235,43.5 235,50.5" fill="#5C6B67"/>
+
+  <rect x="118" y="30" width="104" height="34" rx="6" fill="#FBFAF7" stroke="#B9C0BD" stroke-width="1.2"/>
+  <text x="170" y="45" font-size="9" font-weight="600" fill="#22312F" text-anchor="middle">talking, both ways,</text>
+  <text x="170" y="57" font-size="9" font-weight="600" fill="#22312F" text-anchor="middle">all the time</text>
+
+  <rect x="34" y="86" width="272" height="50" rx="7" fill="#FBFAF7" stroke="#22312F" stroke-width="1.5"/>
+  <text x="170" y="101" font-size="9" font-weight="700" fill="#22312F" text-anchor="middle" letter-spacing="0.6">THE WHITEBOARD</text>
+  <text x="170" y="116" font-size="9" fill="#22312F" text-anchor="middle">the idea · the gaps · the analysis · the plan</text>
+  <text x="170" y="129" font-size="9" fill="#3E7C4F" text-anchor="middle" font-weight="600">shared context — both of us hold all of it</text>
+
+  <line x1="170" y1="150" x2="170" y2="176" stroke="#5C6B67" stroke-width="1.5"/>
+  <polygon points="170,182 166,172 174,172" fill="#5C6B67"/>
+
+  <rect x="76" y="188" width="188" height="34" rx="7" fill="#F1F0EC" stroke="#B9C0BD" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="170" y="203" font-size="9.5" font-weight="700" fill="#22312F" text-anchor="middle">we go to lunch</text>
+  <text x="170" y="215" font-size="8.5" fill="#5C6B67" text-anchor="middle">the context window clears</text>
+</svg>
