@@ -4,12 +4,13 @@ How to rebuild this project from scratch.
 
 ## Tech Stack
 
-Pure markdown and JSON. No runtime dependencies, no build step, no package manager.
+Markdown, JSON, and stdlib Python 3. No third-party dependencies, no build step, no package manager.
 
 - **Claude Code plugin system**: skills (SKILL.md), plugin manifest (plugin.json/marketplace.json)
 - **Markdown**: all skill definitions, docs, session logs, and the playbook itself
 - **JSON**: plugin.json and marketplace.json in `.claude-plugin/`
 - **Git**: version control and the distribution mechanism (plugins install from the git repo)
+- **Python 3** (stdlib only, nothing to install): the entry gates (`tools/gates/`), the progress board and diagram generators (`tools/diagram/`), and the design-matrix checker (`tools/design/`) — every CI step is a `python3 tools/…` invocation
 
 There is no package.json, no node_modules, no compiled output. The plugin is consumed directly by Claude Code from the repo.
 
@@ -47,13 +48,24 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 skills/           # SKILL.md per skill — nine skills, one folder each
 hooks/            # opt-in hooks (hooks.template.json + shell scripts, registered via tend)
 hooks/statusline.sh # the clock segment — not a hook; wired via statusLine by hand, never by tend
-docs/plans/       # historical design docs
+tests/            # hooks_test.sh
+tools/gates/      # entry-gate router and refusers (gate.py, kit.py, fidelity.py)
+tools/diagram/    # progress board, journey pages, and diagram generators
+tools/design/     # the evaluation-matrix checker
+docs/product/     # the funnel board — one <slug>.md per work item, written at the frame stage
+docs/design/      # living design docs (undated filenames — CI-enforced)
+docs/gates/       # dated gate records, immutable
+docs/plans/       # dated contract specs and generated progress renders
 docs/playbook.md  # this file
 docs/state-contract.md # shared state ownership and format rules
+docs/vault-spec.md # what belongs in the Obsidian vault
+CONTEXT.md        # current state, overwritten each session
+TODO.md           # open work (## Now + ## Backlog)
 kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs written by switch
 kivna/.active-modes # ephemeral mode/skill state (gitignored)
 .claude-plugin/   # plugin.json + marketplace.json
+.github/workflows/gate.yml # the entry-gate workflow
 ```
 
 This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is opt-in and never on the session path (v0.83.0) — a human knowledge base of living files updated in place, not append-only dumps, and not a machine sync layer. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions) only when you run `/kerd:kivna save`. The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
@@ -96,7 +108,7 @@ Kerd is distributed as a Claude Code marketplace plugin.
 3. Commit and push to `main`
 4. Users get the update on next `claude plugins install kerd`
 
-No CI/CD pipeline, no build artifacts, no environment variables.
+CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running on every push — selftests, repo audit, release rules, progress-render currency, and handoff fidelity. It refuses the push rather than producing anything: still no build artifacts and no environment variables.
 
 ## Gotchas
 
@@ -104,12 +116,17 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - **`unmitigated` is not a legal risk-ledger state** (2026-08-07): the closed set in `kit.py` `LEGAL_STATES` is `countermeasure - permanent`, `countermeasure - temporary`, `accepted`, `accepted unknown`, `fatal`. This is the machine enforcing the standing "a risk without a countermeasure is a BLOCKER" decision. An honestly-unresolved risk is `accepted unknown` with a non-empty Review trigger, never `unmitigated`.
 - **Grounding references must not be wrapped in backticks** (2026-08-07): AU5 reports "grounding reference does not resolve" for `` `path/to/file.md` `` even when the file exists. Plain paths only, `- path — why`.
 - **The sitting's open time is not always the `execute` marker stamp** (2026-08-07): the v0.89.0 rule equates them, but a session that spends real time at frame/plan reaches execute much later. The 2026-08-07 morning sitting opened 08:28 and hit execute at 09:25 — using the execute stamp would have logged 105 minutes as 48. Both stamps are machine-written and same-turn, so the honest range uses the earliest marker written that sitting.
+- **SVG does not paste into Excalidraw as editable elements** (2026-08-07): it lands as a flat image and cannot be annotated. The repo's `tools/diagram/kit.py` → `to_svg.py` pipeline is the answer and predates this by weeks — hand-writing SVG bypasses it and produces a canvas nobody can mark up.
+- **`progress.py --json` writes three files on every invocation** (2026-08-07), the `--json` path included, with no read-only flag. Anything polling position mid-build dirties the tree and contaminates the collateral diff read. Use `gate.py route`, which is read-only.
+- **`html.escape` defaults to `quote=True`** (2026-08-07), which turns `Spec'd` into `Spec&#x27;d` inside a text node. Pass `quote=False` for text; keep the default only for attribute values.
+- **The entry gates report requirements cumulatively** (2026-08-07): each stage's list contains every earlier stage's. Render them literally per stage and all eight stages read identically, which looks like a data bug and hides the real one. Show the delta.
+- **A rename sweep must be ordered** (2026-08-07): `composer→producer` had to run before `orchestrator→composer`, or the second pass overwrites what the first just wrote. When two renames share a term, sequence them so no target is also a source still waiting its turn.
 
 - **A claim corrected in prose stays alive in the diagram that renders from code** (2026-08-06, release pass v0.88.0): cold eyes falsified a reader-count claim and it was fixed in the design doc — but the same sentence lived in `tools/diagram/gen_*.py`, so the rendered `.excalidraw`/`.svg` kept asserting it, invisible to every markdown grep. When a claim is retired, sweep the generators too, then regenerate; the canvas is downstream of code, not of prose.
 - **Nothing machine-checks that the conductor's phase marker is current** (2026-08-06, time-awareness expert-user pass): the marker sat at `plan` from orient through close-out while phases advanced, and the model then reached for an `execute` stamp that never existed — inventing the exact value class the same-turn rule forbids. Write the marker at every phase transition with a real `date`, and never source a time from a marker you did not just read.
 - **A build can falsify a doc line that was true at design time** (2026-08-06, cold eyes' sixth-run block): the concept sweep runs against the OLD tree, so a line describing behaviour the build is about to move reads as accurate and never enters the edit map (playbook's slainte-release line credited checks the same commit moved to CI). The design-time sweep needs a companion at goal time — which is exactly the release close-out pass shipped in v0.85.0, firing since its maiden run at the close that shipped it (and at feature closes too since v0.86.0).
 - **The edit-map sweep must grep by concept, not by phrase** (2026-08-06, cold eyes' fifth-run block 1): README narrated the dead boundary-handoff in two sentences of the same section with different wording; the design-time cross-cutting sweep's phrase-grep caught one and missed its sibling. When retiring a claim, sweep with multiple phrasings/synonyms of the claim (ownership verbs, hand-off verbs, the old skill name), then read each surviving section WHOLE — a mapped edit's neighbour sentence is the likeliest stale survivor.
-- **Orchestrator grep-count predictions keep missing pre-existing terrain** (2026-08-06, three instances across two builds): spec verify steps that predict a count ("exactly three `step [0-9]` hits", "exactly 3 vault.json lines") keep undercounting lines that already existed in the parent tree. The work was correct every time; the contract was wrong. Countermeasure: the orchestrator derives expected counts empirically at spec-write time — run the grep against the tree it just read, never predict from memory of it.
+- **Composer grep-count predictions keep missing pre-existing terrain** (2026-08-06, three instances across two builds): spec verify steps that predict a count ("exactly three `step [0-9]` hits", "exactly 3 vault.json lines") keep undercounting lines that already existed in the parent tree. The work was correct every time; the contract was wrong. Countermeasure: the composer derives expected counts empirically at spec-write time — run the grep against the tree it just read, never predict from memory of it. (This role was called the orchestrator when the gotcha was recorded — renamed at v0.92.0.)
 - **Background-task notifications outlive their session** (2026-08-06): CI watchers launched before a boundary deliver their completion notifications into whatever session is active next — the output-file path names the *originating* session's task directory, which is how to tell them apart. They can carry real signal (one surfaced a red tip), but never treat them as this session's work or as user input. Companion signature: a GitHub Actions outage cancellation shows `conclusion: cancelled` with zero steps run and an empty failure log — check job steps and githubstatus.com before rerunning repeatedly or hunting a gate failure that never executed. Deeper into the same incident the failures stop looking like failures at all: `The job was not acquired by Runner of type hosted`, and then no run object is created for a push whatsoever, so `gh run list --commit <sha>` returns empty rather than red. Absence of a run is not a green tip and not a bug in your workflow — confirm against githubstatus.com and say "unverified", never "passing".
 - **Excalidraw paste — the mechanism that actually works** (2026-08-06): the Chrome extension's synthetic cmd+V lands at most once (fresh navigation, canvas focused); writing the scene into localStorage is silently clobbered by Excalidraw's own autosave on reload; the reliable path is in-page JS — `navigator.clipboard.readText()` then dispatch a synthetic `ClipboardEvent('paste', {clipboardData})`. And keep exactly ONE excalidraw.com tab open: two tabs share one saved scene, last writer wins, and the loser's paste vanishes without error.
 - **Spec box-checks must not ride the render commit** (2026-08-06, stale refuser's fifth catch): the contract's Pieces checkboxes are part of the derived progress model, so checking boxes inside the "Refresh progress render" commit makes that commit move the very page it just rendered — `progress.py stale` refuses the push. Check boxes in the work commit, or budget a second, pure render commit to converge.
@@ -176,11 +193,11 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.90.0
+**Version:** 0.95.0
 
 **Working:**
 - All nine skills functional: conductor, interrogate, lorg, switch, kivna, slainte, skriv, tend, pair
-- Three opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (26 tests, shellcheck-clean)
+- Four opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress), UserPromptSubmit (pair-mode banner). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (26 tests, shellcheck-clean)
 - Plugin installs from marketplace
 - Session logs, playbook creation, and health audits all operational
 - Obsidian vault integration is **optional, opt-in per project** (v0.83.0). Nothing writes the vault automatically — not the boundary, not close-out; `/kerd:kivna save` is the deliberate on-demand writer, and a vault is exactly as fresh as its last save. When invoked, save writes living vault files (Status.md, Weekly.md, domain knowledge) in place, reporting changes without an approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is never read at switch-in
@@ -200,6 +217,10 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - CONTEXT.md is append-only between licensed prune events (v0.90.0): pruning happens only at a goal record landing (`docs/gates/*-goal.md`) or an explicit agreed drop, and every removal is reported in the session log. A short session structurally cannot erode a deeper session's record
 - Switch records and recovers **position on the ladder** (v0.90.0): switch-out step 4 and switch-in step 8 prefer a derived-from-disk progress board over any hand-maintained file, and the pickup summary carries which rung each in-flight item has reached
 - Lorg tiered subcommands: installed (default), available, explore, all, report. Per-tier freshness. Incremental saves.
+- Entry gates supply conductor's pre-flight inventory (v0.91.0): `gate.py route <slug> --json` derives an item's stage from disk before any question reaches the human, and work commits carry a `Piece:` trailer
+- The four roles are producer → composer → conductor → players (v0.92.0) — the old composer/orchestrator names inverted under reading and are retired; the architecture did not change
+- Handoff fidelity is machine-checked (v0.93.0): `tools/gates/fidelity.py` verifies every artifact a session produced is reachable from switch-in's read set, wired as CI step 8 and switch-out step 5b
+- New work entering the funnel produces a frame on disk, not a TODO stub (v0.94.0): conductor's framing writes `docs/product/<slug>.md`, because untracked work is invisible to every machine surface and cannot be noticed when it stalls
 
 **Recent changes (as of 2026-04-25):**
 

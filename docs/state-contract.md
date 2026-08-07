@@ -42,7 +42,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 ## TODO.md
 
 **Owner:** conductor (writes session plan into `## Now`), the Switch Out flow (writes wrap-up, runs closure inference — standalone, or invoked by conductor close-out)
-**Readers:** switch (in), lorg (work signals), kivna out (backlog export)
+**Readers:** switch (in), conductor (cold orient), lorg (work signals), kivna out (backlog export)
 **Committed:** yes
 
 ### Format
@@ -90,12 +90,12 @@ skriv: active
 - PostToolUse hook receives a full envelope on stdin (confirmed 2026-04-04):
   `{session_id, cwd, hook_event_name, tool_name, tool_input: {skill, args}, tool_response: {success, commandName}, tool_use_id}`
   The hook checks `tool_response.success` before reporting progress and extracts `tool_input.skill` via sed.
-- Switch out snapshots `.active-modes` state to CONTEXT.md `## Active Mode` before committing (cross-machine handoff).
+- Switch out snapshots `.active-modes` state to CONTEXT.md `## Active Mode` before committing (cross-machine handoff); switch in restores that snapshot back into `.active-modes` when the file is absent or empty, with the user's assent. The restore rehydrates a whole file — it never edits a line that is already there.
 
 ## kivna/sessions/YYYY-MM-DD.md
 
 **Owner:** the Switch Out flow (creates on out — standalone, or invoked by conductor close-out)
-**Readers:** switch (in), conductor (orient), lorg (work signals), kivna out (decisions export)
+**Readers:** switch (in), lorg (work signals), kivna out (decisions export)
 **Committed:** yes
 
 ### Format
@@ -174,7 +174,7 @@ Two files per export:
 ## docs/lorg-report.md
 
 **Owner:** lorg
-**Readers:** lorg report (display), switch (in, mentioned in summary if relevant)
+**Readers:** lorg (report display, and each scan to preserve unscanned tier sections)
 **Committed:** yes
 
 ### Rules
@@ -188,12 +188,12 @@ Two files per export:
 | File | conductor | switch | skriv | kivna | slainte | tend | lorg | hooks |
 |------|------|--------|-------|-------|---------|------|------|-------|
 | CONTEXT.md | W/R | W/R | - | - | - | R | - | - |
-| TODO.md | W | W/R | - | R | R | R | R | - |
-| .active-modes | W/R | R | W | - | - | - | - | R |
-| sessions/ | - | W/R | - | R | - | - | R | R |
-| vault Status | - | - | - | W | R | - | R | - |
+| TODO.md | W/R | W/R | - | W/R | R | R | R | - |
+| .active-modes | W/R | W/R | W | R | - | - | - | R |
+| sessions/ | - | W/R | - | W/R | - | - | R | R |
+| vault Status | - | - | - | W/R | R | - | R | - |
 | KIF exports | - | - | - | W | - | - | - | - |
-| lorg-report | - | - | - | - | - | - | W | - |
+| lorg-report | - | - | - | - | - | - | W/R | - |
 
 W = writes, R = reads, - = no interaction
 
@@ -207,7 +207,7 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Session-state commit + push | **the Switch Out flow** (standalone, or invoked by conductor close-out) | No other skill commits CONTEXT.md, TODO.md, or session logs |
 | Work commits + push | **conductor** (per verified task, since v0.67.0) | Session-state files never ride along in a work commit |
 | Session log creation | **switch** | Conductor records decisions in TODO.md, not session logs |
-| Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills read but don't write TODO.md |
+| Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills don't write `## Now`; kivna import may merge approved KIF items into `## Backlog` |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
 | Vault writes | **kivna** (save, on demand — v0.83.0) | No skill calls kivna save automatically; lorg's report copy is the one automatic exception |
 | Conductor state (.active-modes conductor line) | **conductor** | Other skills read conductor state but never write the conductor line |

@@ -41,6 +41,13 @@ declared inputs all exist; missing inputs push work UP, never through.**
   grounding was READ (the reachability rule: an artifact is reachable
   because a gate makes some function read it).
 
+  **Amended 2026-08-07:** as built this landed on the AUDIT, not the rung
+  gate — AU5 (`gate.py audit`, v0.80.0) checks that a declared `## Grounding`
+  reference RESOLVES; `check_rung` carries no grounding row and the
+  `kit.GATES` landing site this assumed does not exist
+  (`docs/design/grounding-was-read.md`). That the reading HAPPENED is
+  receipts — slice 2, deliberately unqueued.
+
 ## The spike bypass
 
 The ONE licensed way past the ladder: a **SPIKE**, declared as such up
@@ -61,5 +68,6 @@ inventory, its only living instance)". That has been false since v0.69.0: the
 gate landed, `tools/gates/gate.py` runs in CI on every push, and
 `gate.py route <slug>` prints the exact missing-input list without asking a
 human anything. Conductor's inventory is no longer the only living instance —
-it is a superseded one that has not yet shed, which is graduation row 1 of
-`conductor-role.md` and gap 2 of `docs/product/funnel-driver.md`.
+and as of v0.91.0 it has shed: the inventory runs `gate.py route` first and
+asks the human only for what the gates cannot know (graduation row 1 of
+`conductor-role.md`, gap 2 of `docs/product/funnel-driver.md`).

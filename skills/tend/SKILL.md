@@ -208,7 +208,7 @@ Check whether Kerd hooks are registered in the project's `.claude/settings.local
 
 Check:
 - `.claude/settings.local.json` exists
-- It contains hook entries for Kerd's Stop, SessionStart, and PostToolUse events pointing to `${CLAUDE_PLUGIN_ROOT}/hooks/`
+- It contains hook entries for Kerd's Stop, SessionStart, PostToolUse, and UserPromptSubmit events pointing to `${CLAUDE_PLUGIN_ROOT}/hooks/`
 
 If hooks are not registered:
 

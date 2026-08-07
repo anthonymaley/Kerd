@@ -23,7 +23,7 @@ c = Canvas()
 X0 = 300
 
 # ── title + legend ───────────────────────────────────────────────────────
-c.txt("Kerd — the whole system, current state (v0.88.0)", X0, 80, 30)
+c.txt("Kerd — the whole system, current state (v0.95.0)", X0, 80, 30)
 c.txt("skills are what you invoke · the ladder is what work climbs · "
       "the machinery refuses from outside the model",
       X0, 122, 14)
@@ -41,7 +41,7 @@ row1_y, row2_y = 246, 362
 cluster = [
     ("SESSION FLOW", X0, [
         ("switch", "the boundary: pull, handoff,\nsession-state commit;\nreads 3 files, writes 3 kinds", INK),
-        ("conductor", "the performance: orient, plan,\nexecute, close; four roles —\nyou compose, players execute", INK),
+        ("conductor", "the performance: orient, plan,\nexecute, close; four roles —\nyou produce, players execute", INK),
         ("pair", "partner-mode toggle (hook):\nrapid back-and-forth,\none speech-bubble question", INK),
     ]),
     ("KNOWLEDGE", X0 + (BW + GAP) * 3 + 40, [
@@ -105,10 +105,10 @@ c.txt("THE MACHINERY — refuses from outside the model, on every push; "
       X0, mach_y - 26, 16)
 MW, MH = 270, 110
 mach = [
-    ("tools/gates", "router + refuser:\ngate table per rung,\naudit AU1-AU6,\nrelease rules R1-R3"),
+    ("tools/gates", "router + refuser:\ngate table per rung,\naudit AU1-AU6, release\nrules R1-R3, fidelity"),
     ("tools/diagram", "progress board derived\nfrom disk + the stale\nrefuser (5 catches) +\ndesign canvas kit"),
     ("tools/design", "evaluation matrix\nchecker: declared\ncriteria, scored basis,\narithmetic recomputed"),
-    ("CI - seven steps", "gate selftest · audit ·\nrelease · progress selftest\n· matrix selftest · matrix\naudit · render current"),
+    ("CI - eight steps", "gate selftest · audit ·\nrelease · progress selftest\n· matrix selftest · matrix\naudit · render current ·\nhandoff fidelity"),
 ]
 for i, (name, job) in enumerate(mach):
     x = X0 + i * (MW + GAP)

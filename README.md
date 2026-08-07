@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.94.0)
+## What's New (v0.95.0)
+
+### v0.95.0
+
+**The release pass ran on four releases at once, and what it found was a counting problem.** v0.93.0 added an eighth CI step and never swept the places that said there were seven — the README, the system map's rendered box, two design docs, and the state file. That is the exact failure this repo made a standing rule against: a change to system-wide behaviour owes a cross-cutting grep before it ships. The pass fixed all of them, and where a doc only meant "this feature adds no step", the absolute number is gone rather than corrected — a count in prose rots on someone else's release. It also mirrored five gotchas that never reached the playbook, corrected eight ownership cells in `docs/state-contract.md` against what the skills actually do (kivna's import writes TODO and the session log; conductor does not read session logs at orient), and gave `tend` its missing fourth hook: a repo wired with three of four passed hook hygiene, because the check enumerated a list that stopped being complete. **What it means:** the narrative surface now describes the repo that exists. **What this is not:** a check — nothing in CI reads the playbook or the README, so the next count to rot will rot silently too.
 
 ### v0.94.0
 
@@ -32,6 +36,10 @@ claude plugins install kerd
 ### v0.91.0
 
 **Conductor asks the machine before it asks you, and its commits name what they landed.** Two things a decision from 2026-08-04 had already called for and nothing had built. Before, conductor opened every session by asking you for anything the work might need — including things already sitting on disk, which the entry gates have been able to report since v0.69.0. Now the pre-flight inventory runs `gate.py route` first where a repo has gates, reads what it says, and asks you only for what no file can answer: credentials, hardware state, fixtures. Where no gates exist the behaviour is unchanged. Separately, a work commit running against a contract with numbered pieces now carries a `Piece: <slug>/<n>` trailer — a checked box is a claim, a commit trailer is a fact, and it is the one progress signal that cannot be falsified by ticking a box. What this is *not*, named: the driver. Conductor still does not know which work item it is on or which stage that item is at — that is framed at `docs/product/funnel-driver.md` and deliberately not built here, because conductor is the only working instance of half this system's functions and it sheds one piece at a time.
+
+### v0.90.0
+
+**The boundary lost its cheap modes, and that is a real loss.** `/switch out light` and `/switch in low` are gone — the argument is told in full under [On cheap boundaries](#how-they-fit-together). The same release put ladder position on both halves of the boundary (the old steps named two progress files that had never existed here, so they silently did nothing while the derived board went unread), made CONTEXT.md append-only between licensed prune events, added a no-silent-truncation rule to "read in full", and gave closure inference its fourth verdict, `dead`, for a row that is undone but whose reason has gone. Switch got shorter while gaining four rules, because deleting the modes deleted every "skip this if light" clause with them.
 
 ### v0.89.0
 
@@ -108,14 +116,14 @@ Design at `docs/design/risk-ledger.md`; the interview engine's original design a
 
 Switch-in owns `git pull`; the Switch Out flow makes the session-state commit — CONTEXT.md, TODO.md, and the session log, committed once at the boundary — and has two callers: standalone, or conductor's close-out invoking it. It is not the only thing that commits: conductor pushes each task's own work as that task verifies, so switch-out finds mostly session state rather than a session's worth of undelivered change. Nothing else pulls. The primary use is session handoff: you wrap up at a clean point, exit, and start fresh later with full context restored from disk. The same operations carry across machines as the secondary case. Switch keeps state, work, and history in three files — `CONTEXT.md` (what's currently true, overwritten in place), `TODO.md` (what's still to do, lean: `## Now` + `## Backlog`), and `kivna/sessions/` (what happened, immutable full-fidelity logs).
 
-When you wrap up a session, it updates CONTEXT.md and TODO.md, runs closure inference over open TODO items — each gets a done/open/unsure verdict against session evidence, shown as a readable list; done items close into the session log, unsure ones get tagged `(done? — confirm)` — writes the session log with branch metadata, reflects on the session (capturing gotchas and learnings, with a check that every gotcha reached the playbook), then shows a pre-commit summary of what's about to ship. Untracked files get triaged (commit, gitignore, or leave) so nothing drifts silently. The final confirmation cites evidence: commit hash, push target, clean tree status.
+When you wrap up a session, it updates CONTEXT.md and TODO.md, then runs closure inference over open TODO items. Each gets a done/open/unsure/dead verdict against session evidence, shown as a readable list: done items close into the session log, unsure ones get tagged `(done? — confirm)`, and a row whose premise died — still undone, but the reason it was filed no longer holds — is struck with a one-line reason. It writes the session log with branch metadata, reflects on the session (capturing gotchas and learnings, with a check that every gotcha reached the playbook), and runs the fidelity check where the repo has one: `tools/gates/fidelity.py` compares every file the session changed against what CONTEXT.md, TODO.md and the session log actually name, and refuses when something was produced that nothing a pickup reads points at. Then it shows a pre-commit summary of what's about to ship. Untracked files get triaged (commit, gitignore, or leave) so nothing drifts silently. The final confirmation cites evidence: commit hash, push target, clean tree status.
 
 When you pick up a session, it pulls, verifies the handoff was complete, runs a smoke test if tests exist, then reads exactly three files: CONTEXT.md, TODO.md, and the newest session log — each in full, with no silent shortening. It also recovers **where the work sits on the ladder** from the derived progress board, because the three files carry what was said better than they carry position. Older logs and the vault are never read per-session — session logs are archive, and vault Status.md exists for the human Obsidian reader. It asks one question about any `(done? — confirm)` items, reports any active modes left from a previous session, and tells you where you left off — closing with a short-form "what's next" pick-list — a numbered menu of every `## Now` and `## Backlog` item, one terse line each, so you can pick one by number or steer elsewhere. The first switch-out on a pre-split repo self-migrates the old TODO shape into CONTEXT.md and the session logs (rescue-before-remove), so there's no separate migration step.
 
 If you run it without arguments, it checks for uncommitted changes. Changes present means you're leaving. Clean repo means you're arriving.
 
 ```
-/switch out          # wrap up (closure inference, reflection, ladder position, commit, push)
+/switch out          # wrap up (closure inference, reflection, ladder position, fidelity check, commit, push)
 /switch in           # pick up (pull, smoke test, CONTEXT + TODO + newest log, ladder position)
 ```
 
@@ -253,7 +261,7 @@ The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tes
 
 Entry gates route work by construction. Given a work slug, `tools/gates/gate.py` runs the gate table in series and enters at the lowest rung whose declared inputs all exist on disk — front matter, named sections, a qualified risk ledger, a declared rigor level, a checked-box count. It has no opinion on whether a claim is convincing or a design is sound, only whether the artifact is present; a refusal names exactly what's missing for the next rung, never a vague "not ready."
 
-It's the first check in the system that blocks from outside the model. The repo-wide audit (rules AU1–AU6) runs on every push: dated filenames in `docs/design/`, malformed gate records, broken `## Grounding` references, and a `## Release slice` without its `Rigor level:` line all fail the build before a human or a model catches them in review. CI runs seven steps in total — the three gate sweeps plus the progress and matrix checks below.
+It's the first check in the system that blocks from outside the model. The repo-wide audit (rules AU1–AU6) runs on every push: dated filenames in `docs/design/`, malformed gate records, broken `## Grounding` references, and a `## Release slice` without its `Rigor level:` line all fail the build before a human or a model catches them in review. CI runs eight steps in total — the three gate sweeps, the progress and matrix checks below, and the handoff fidelity check (`tools/gates/fidelity.py`), which skips itself unless the push writes a session log.
 
 ```
 python3 tools/gates/gate.py route <slug>

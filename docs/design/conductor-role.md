@@ -54,7 +54,7 @@ never breaks.
 
 | Protocol piece (today) | Graduates to | Trigger |
 |---|---|---|
-| Pre-flight inventory | **Entry gates** | the mechanical gate check lands (CI-able: files · front matter · sections) |
+| Pre-flight inventory | **Entry gates** | fired at v0.69.0; **shed at v0.91.0** — the inventory runs `gate.py route <slug> --json` first and asks the human only for what the gates cannot know (`skills/conductor/SKILL.md`) |
 | Model advisory + sized tags | **Size work to a model** | sizing declarations ride the work order (the contract carries tier + effort + why per piece) |
 | Spec-file machinery | **Write the contract** | work orders with per-piece checks + two-tier access exist as the contract instrument — **⚠ untestable as written: "two-tier access" appears in no other file in the repo and has no acceptance criterion derivable from disk. A trigger nobody can test never fires. Define the term or strike it before this row can be acted on (2026-08-07)** |
 | Plan-gate approval | **Design GO + contract measurability** | the design package GO (two keys) + machine-measurable pieces remove the per-spec human gate |

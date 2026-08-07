@@ -1,6 +1,6 @@
 # Kerd
 
-Claude Code plugin: nine workflow skills for session discipline, risk qualification, machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, and conversational pair mode.
+Claude Code plugin: nine workflow skills for session discipline, risk qualification, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, and conversational pair mode.
 
 ## Commit Rules
 
@@ -41,11 +41,23 @@ Use semver: `MAJOR.MINOR.PATCH`
 
 ```
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
-docs/plans/       # design docs and implementation plans
+tools/gates/      # entry-gate ladder + release/audit/fidelity checks (gate.py, kit.py, fidelity.py)
+tools/diagram/    # progress board and journey renders
+tools/design/     # the evaluation-matrix checker
+docs/product/     # the funnel board — one <slug>.md per work item, written at the frame stage
+docs/design/      # living design docs (undated filenames — CI-enforced)
+docs/gates/       # dated gate records, immutable
+docs/plans/       # dated contract specs and generated progress renders
 docs/playbook.md  # living project guide, updated by conductor close-out
+docs/state-contract.md # who owns and reads CONTEXT.md, TODO.md, kivna/sessions/
+CONTEXT.md        # current state, overwritten each session
+TODO.md           # open work (## Now + ## Backlog)
+hooks/            # session hooks (statusline, pair toggle, session-start/stop, skill-complete)
+tests/            # hooks_test.sh
 kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs from switch (committed)
 .claude-plugin/   # plugin.json and marketplace.json
+.github/workflows/gate.yml # the entry-gate workflow
 ```
 
 ## Conventions

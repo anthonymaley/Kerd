@@ -102,7 +102,7 @@ Extends `kit.audit` (AU1–AU5 precedent), swept over every
    vacuous pass for this rule.
 
 Runs wherever audit already runs — `gate.py audit`, CI step two. **CI
-stays at seven steps**; the level rides the existing refusal surface.
+gains no step**; the level rides the existing refusal surface.
 
 ## The gate row — design rung
 

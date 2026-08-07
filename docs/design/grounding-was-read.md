@@ -57,7 +57,7 @@ Extends `kit.audit` (AU1–AU4 precedent), swept over every
    `docs/product/<S>.md — grounding reference does not resolve: <ref>`
 
 Runs wherever audit already runs — `gate.py audit`, CI step two. **CI
-stays at seven steps**; reachability rides the existing refusal
+gains no step**; reachability rides the existing refusal
 surface, and rot is caught at the push that causes it.
 
 ## The decision — where declarations live

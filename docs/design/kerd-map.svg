@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1550" height="825" viewBox="260 40 1550 825">
 <rect x="260" y="40" width="1550" height="825" fill="#ffffff"/>
 <text x="300.0" y="110.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="30" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Kerd — the whole system, current state (v0.88.0)</tspan>
+<tspan x="300.0" dy="0.0">Kerd — the whole system, current state (v0.95.0)</tspan>
 </text>
 <text x="300.0" y="136.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">skills are what you invoke · the ladder is what work climbs · the machinery refuses from outside the model</tspan>
@@ -37,7 +37,7 @@
 <text x="600.0" y="290.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="600.0" dy="0.0">the performance: orient, plan,</tspan>
 <tspan x="600.0" dy="15.0">execute, close; four roles —</tspan>
-<tspan x="600.0" dy="15.0">you compose, players execute</tspan>
+<tspan x="600.0" dy="15.0">you produce, players execute</tspan>
 </text>
 <rect x="880.0" y="246.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="1015.0" y="264.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
@@ -186,8 +186,8 @@
 <text x="310.0" y="722.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="310.0" dy="0.0">router + refuser:</tspan>
 <tspan x="310.0" dy="15.0">gate table per rung,</tspan>
-<tspan x="310.0" dy="15.0">audit AU1-AU6,</tspan>
-<tspan x="310.0" dy="15.0">release rules R1-R3</tspan>
+<tspan x="310.0" dy="15.0">audit AU1-AU6, release</tspan>
+<tspan x="310.0" dy="15.0">rules R1-R3, fidelity</tspan>
 </text>
 <rect x="590.0" y="678.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="725.0" y="696.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
@@ -211,13 +211,14 @@
 </text>
 <rect x="1170.0" y="678.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="1305.0" y="696.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1305.0" dy="0.0">CI - seven steps</tspan>
+<tspan x="1305.0" dy="0.0">CI - eight steps</tspan>
 </text>
 <text x="1180.0" y="722.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1180.0" dy="0.0">gate selftest · audit ·</tspan>
 <tspan x="1180.0" dy="15.0">release · progress selftest</tspan>
 <tspan x="1180.0" dy="15.0">· matrix selftest · matrix</tspan>
-<tspan x="1180.0" dy="15.0">audit · render current</tspan>
+<tspan x="1180.0" dy="15.0">audit · render current ·</tspan>
+<tspan x="1180.0" dy="15.0">handoff fidelity</tspan>
 </text>
 <text x="300.0" y="822.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">the skills advise and structure; the machinery is what can say no. rigor level (AU6) is the newest refusal: every Release slice declares spike / mvp / production-v1.</tspan>
