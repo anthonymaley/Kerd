@@ -164,9 +164,31 @@ parking decision was made on the premise that this was a visualization.**
 Under the input-channel framing above it is not optional tooling; it is one
 half of the shared memory. Five journeys have since walked the ladder.
 
-Prerequisite already known: progress % and time-left have no on-disk home, so
-the status word and the cards need declared artifact lines before the real
-page can show them.
+Prerequisite, and it is thinner than it looked. The status word Tony wants —
+*on plan / taking longer / encountered issues* — has three legs and only one
+of them needs timing:
+
+- **"encountered issues"** is derivable today: a refused gate, a risk in the
+  `fatal` state, or a risk with no countermeasure — all machine-readable now.
+- **"on plan"** is the default when neither of the others fires.
+- **"taking longer"** needs a comparison basis, which is what time-awareness
+  (v0.88.0/v0.89.0) exists to produce. Tony, 2026-08-07: *"that's why we added
+  time to things recently — start/end allows us to compare and estimate
+  better."* The mechanism is right and the corpus is one day old.
+
+Measured 2026-08-07: **5 per-task actuals** exist across all 34 session logs,
+all written after the mechanism shipped. **2 of 15 gate records** carry a
+`**Clock:**` line. And gate-record filenames are day-granular, so 6 of the 7
+completed journeys show design and goal on the *same date* — day resolution
+collapses almost every journey to zero elapsed and cannot support the
+comparison at all.
+
+Consequence for the page: it shows **a fact and a comparison, never a
+verdict** — "frame: 4 min · typical 4 min (n=1)" with the sample size
+visible, so the reader can see how much the comparison is worth. A bare
+"taking longer" with no arithmetic behind it is the class of thing that makes
+a wall lie. The leg gets stronger every session at no extra cost, because the
+actuals are already being written.
 
 ### Gap 3 — there is no diagram of what we are building
 
@@ -333,9 +355,22 @@ gap list whose sources hold real content today.
   immutable
 
 That is four of the five things Tony asked the journey to show, from sources
-that cannot be blank. The fifth — a status word and progress percentage per
-item — has no on-disk home, and slice 1 either declares that artifact line or
-honestly omits the field rather than estimating it.
+that cannot be blank.
+
+The fifth — the status word — is mostly derivable too, as gap 2 records: two
+of its three legs read off gates and risk states that already exist. Only
+"taking longer" waits on a comparison basis, and that basis is now being
+written automatically by time-awareness (5 actuals on disk, one day in). Slice
+1 therefore carries the status word with the timing leg **shown with its
+sample size** rather than omitted or estimated. Progress percentage stays out
+until it has a declared home; a percentage with nothing declaring the
+denominator is an estimate wearing a fact's clothes.
+
+One measured finding worth carrying into design: **gate-record dates are
+day-granular and that is too coarse** — 6 of 7 completed journeys show design
+and goal on the same date. The `**Clock:**` line is the finer signal and sits
+at 2 of 15 records. Making it routine costs nothing and is the difference
+between a rung-duration comparison that works and one that reads zero forever.
 
 Slice 1 also answers gap 10: a page showing the plan, the position and the
 open thread is what makes "up to speed" checkable in seconds instead of
