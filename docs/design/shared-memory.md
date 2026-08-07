@@ -106,6 +106,25 @@ Tony ruled out is showing it on the wall — it is worked through in
 conversation, not monitored. Cutting the record would be a different decision
 and was not made.
 
+### 6. The drawing is the alignment gate, not decoration
+
+> *"The visual at the start of the page forces alignment. If we don't agree on
+> that drawing we won't agree on the solution."*
+
+Tony, 2026-08-07, and it settles what an undrawn head means. The drawing is not
+a nicer presentation of text that already exists — it is the thing that makes
+disagreement visible early enough to be cheap. Prose lets two people read the
+same sentence and picture different systems; a diagram does not.
+
+Consequence, taken: an undrawn panel no longer renders as a soft grey note. It
+renders as a blocker — "not drawn, so this is not agreed" — because everything
+agreed below an unagreed head is softer than it looks.
+
+Measured the same day: **all three journeys rendered so far have no drawing at
+all.** So alignment has never actually been forced at the head of any of them,
+including the two that are done. That is not a rendering gap; it is a real one,
+and this note is the first time it has been named.
+
 ## Open at design
 
 - **Where a drawing lives.** Blocks note 1, and therefore the head of every

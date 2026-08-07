@@ -409,8 +409,11 @@ def render(slug):
         A(f'<div class="panel"><h3>{heading}</h3>')
         d = drawing(slug, kind)
         A(f'<div class="draw">{d}</div>' if d else
-          '<div class="slot">Not drawn yet — the one thing here that cannot be derived. '
-          'Drawn while pairing, committed like any other diagram.</div>')
+          '<div class="slot blocking"><b>Not drawn — so this is not agreed.</b> '
+          'The drawing is what forces alignment: if we do not agree on the picture '
+          'we will not agree on the solution, and every agreement below this point '
+          'is softer than it looks. Drawn while pairing, committed like any other '
+          'diagram.</div>')
         chunk = all_pains[i * per:(i + 1) * per] if i < len(headings) - 1 else []
         if chunk:
             A('<ul class="pl">')
@@ -602,6 +605,8 @@ padding:20px 24px}
 .draw svg{width:100%;height:auto;display:block}
 .slot{border:1.5px dashed #D3D8D5;border-radius:12px;padding:18px;font-size:13px;
 color:var(--slate);line-height:1.5;background:#FCFCFB}
+.slot.blocking{border-color:#E3A9A5;background:#FEF7F6;color:#8C5450}
+.slot.blocking b{color:var(--red);display:block;margin-bottom:5px}
 .pains{margin-top:14px;padding-left:18px;display:grid;gap:7px}
 .pains li{font-size:13.5px;line-height:1.45}
 .pains li::marker{color:var(--red);font-weight:700}
