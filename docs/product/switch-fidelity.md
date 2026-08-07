@@ -174,6 +174,130 @@ is currently unexercised rather than safe.
 
 Evidence: per-log line counts across all 34 logs.
 
+### Gap 8 — gotchas are mirrored into a file the pickup never reads
+
+Switch-out's reflection step verifies, before every commit, that each gotcha
+reached `docs/playbook.md`. Switch-in's opening states that the playbook is
+*not* loaded per-session. And the justification for not reading older logs is,
+verbatim, "gotchas live durably in `docs/playbook.md`".
+
+The reasoning is circular: don't read old logs because the gotchas are in the
+playbook; don't read the playbook because it is an on-demand reference. The
+mirror check therefore guarantees a gotcha reaches a destination nothing loads
+— an active check producing false assurance.
+
+**Tony's ruling (2026-08-07), which settles the shape:** a gotcha should
+surface *when you are about to touch the thing it is about*, not at every
+pickup. So the read policy is right and the justification is wrong. A gotcha
+that must always be known belongs in `CLAUDE.md`, which loads automatically
+every session. A gotcha about a specific area stays in the playbook and must
+name its subject well enough to be found by grep at the moment of touching it.
+
+Evidence: `skills/switch/SKILL.md` — 4 playbook mentions in Switch Out, 2 in
+Switch In, both of the latter declaring it unread.
+
+### Gap 9 — the playbook duplicates CONTEXT.md, and the unread copy is the one that rots
+
+`docs/playbook.md` is 229 lines: Gotchas 70, **Current Status 59**, and the
+rest genuine project reference (tech stack, setup, architecture, deployment).
+Current Status restates what CONTEXT.md holds — and it is the section that
+drifted: the release pass of 2026-08-06 found it claiming version 0.60.0
+against a repo at 0.89.0, and 21 hook tests where the harness reports 26.
+
+Two homes for one fact, and the one nothing reads is the one that lies.
+
+### Gap 10 — "what we considered" has a rigorous home that has never been used
+
+The evaluation matrix (`tools/design/`) is built, fixture-tested and
+CI-enforced. `matrix audit` reports **0 matrices**. A checker guarding an
+artifact nobody produces reports clean forever.
+
+### Gap 11 — "what we threw away" was decided as an artifact and never created
+
+"What we ruled out, and why is its own artifact" is a standing decision from
+2026-08-03, reached because four separate functions independently demanded it.
+There are **zero such files on disk**. `tools/diagram/gen_flow_ruledout.py`
+exists — the flow was drawn and the artifact was never written. Four months of
+rejected approaches live scattered through CONTEXT.md prose and session logs.
+
+### Gap 12 — 27 dormant conditions exist and nothing ever fires them
+
+Counted 2026-08-07: 15 review triggers in product-doc risk ledgers, plus 8
+return conditions and 4 review triggers named in CONTEXT.md. Every one is a
+parked judgement meant to wake when a condition becomes true. **Nothing checks
+any of them** — the only files mentioning the phrases are a diagram generator
+and a README.
+
+**Tony's ruling on when they wake (2026-08-07):** not by notification. The
+review is a **phase**, not a ping — at roadmap and release planning, the
+someday/maybe pile is re-examined for what has become more feasible or more
+relevant, and candidates are pulled into the release. Once a release is
+sliced, the pile goes invisible and work is focused solely on what made the
+release until "release shipped" is met. Same shape as the licensed-prune rule:
+an event, not a judgement call and not an interrupt.
+
+### Gap 13 — the handoff is written as though every session ended at `build`
+
+Switch records commits, tests and tree state. It has no step that asks what
+was considered, what died, or what is now worth watching.
+
+**Tony's framing (2026-08-07): roughly 90% of his input is the thinking layer
+— spec, direction, problem definition, evaluation — and the code is the
+model's job.** The boundary is built for the other 10%.
+
+Sessions are not all code: analysis, strategy, writing, research, ideation and
+non-technical problem solving all need the same guarantee. This is not a
+special case needing separate machinery — **the ladder's rungs above `build`
+are already the non-code work.** A strategy session is a frame session,
+research is grounding, ideation is design's option generation. What is missing
+is that switch never asks which rung the session was actually working at.
+
+The seven things Tony named as unlosable, and their state on disk:
+
+| must not be lost | home | populated |
+|---|---|---|
+| the work done | session log `## What Was Done` | yes |
+| the spec given | `docs/product/<slug>.md`, `docs/plans/*-spec.md` | yes |
+| the direction / goal | `## Value`, in units | yes, gate-refused when absent |
+| what we considered | evaluation matrix | **no — 0 on disk (gap 10)** |
+| what was thrown away | ruled-out artifact | **no — 0 on disk (gap 11)** |
+| roadmap items | TODO `## Backlog` | partial — prose, no rung, no premise check |
+| track later when relevant | review triggers, return conditions | **write-only — 27 exist, none fire (gap 12)** |
+
+The three with no working home are the three that are pure judgement. The four
+that hold up all touch a code artifact.
+
+**Tony, reading this table (2026-08-07): "all of the x's are where I see the
+problem regularly — I drive input and direction and we revisit next session."**
+That is first-party confirmation and it should be treated as the strongest
+evidence in this document. The three unpopulated rows are not a structural
+tidiness observation; they are the felt failure, reported by the person losing
+the work. It also names the shape precisely: the loss is not of *output* but of
+**direction given** — input that shaped the work and then had to be given
+again.
+
+Consequence for slicing: gaps 10, 11 and 12 outrank the rest of slice 2. They
+are the ones costing something today.
+
+### Gap 14 — three pickup steps are shaped for code sessions or for laziness
+
+Raised by Tony 2026-08-07 reviewing the plain-English description:
+
+- **The smoke test (switch-in step 3)** runs every pickup, but most sessions
+  are not coding, and switch-*out* ran the same checks minutes earlier. Fix:
+  switch-out records what it ran and what happened; switch-in reads that and
+  re-runs only if the tree moved or the session will touch code. For a
+  non-code session the recorded answer is "no checks apply", which is honest
+  and free.
+- **`(done? — confirm)`** exists because the closing session did not look, not
+  because the item is unlookable — "did the edit ship" is a grep. The tag
+  should be rare and reserved for facts with no on-disk evidence: was the
+  email sent, did the client agree.
+- **Steps 8 and 9 should read straight off the ladder.** `gate.py route`
+  already emits exact position and exactly what the next rung needs, so the
+  pick-list should say "switch-fidelity — at design, needs a design doc and a
+  GO record" rather than a prose title.
+
 ## Risk ledger
 
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
@@ -237,6 +361,13 @@ not edited; a superseding entry is added instead.
 
 MINOR version bump, three fields in sync. README switch section rewritten.
 
+**Slice 2, scoped by gaps 8-14 and not yet framed:** capture the thinking
+layer — the 90%. It carries the three empty homes (what we considered, what we
+threw away, the someday/maybe pile with its 27 dormant conditions), the
+release-planning phase that reviews them, the rung-aware pickup, and the three
+step fixes in gap 14. Slice 1 fixed how faithfully the boundary records what it
+already knew about; slice 2 is about it knowing the right things at all.
+
 Deliberately excluded, named:
 
 - **The fidelity check itself** — a check that a pickup restored what the
@@ -252,6 +383,49 @@ Deliberately excluded, named:
   structural answer to gaps 2 and 7, and much larger than this slice.
 - **The boundary cycle** (`switch out → clear → in` as one act) — Backlog
   High, its own frame.
+
+## What we ruled out
+
+The standing decision of 2026-08-03 says this is its own artifact and it has
+never been written anywhere (gap 11). This section is the first instance —
+kept with the work item it belongs to rather than in a global graveyard,
+because a rejected option is only meaningful next to the thing it was rejected
+for.
+
+**A handoff manifest of git state** (`HANDOFF.md` with branch, remote, local
+and pushed hashes, tree status) — proposed in an external review, 2026-08-07.
+Rejected on the standing derived-from-disk rule: every one of those values is
+available live and truthfully at switch-in, and writing them into a file turns
+a fact that cannot lie into a snapshot that rots between sessions. The review's
+own goal — proving the handoff is complete — is better served by *checking*
+git at pickup than by *recording* git at close.
+
+**Recording `git status` output at close-out** — same source, same date, same
+reason. Two things in that proposal survive and are not derivable: **stashes**
+(zero mentions in `skills/switch/SKILL.md` today; a stash survives a window
+clear and is invisible to every other check) and an explicit local-HEAD-equals-
+remote assertion after push.
+
+**Environment versions and package-manager state in the handoff** — already
+the playbook's Tech Stack section, and stable enough that duplicating it would
+create the same two-homes rot as gap 9. What is *not* covered and is genuinely
+volatile: running dev servers and background processes.
+
+**A written artifact index** — rejected for in-repo artifacts, which the
+derived board and `## Grounding` already reach. Genuinely uncovered:
+out-of-repo artifacts (PRs, URLs, decks, external docs), which have no home at
+all.
+
+**Notifying the user when a parked item becomes relevant** — rejected by Tony
+2026-08-07 in favour of a phase: the someday/maybe review happens at roadmap
+and release planning, and once a release is sliced the pile is invisible until
+it ships. An interrupt would break the focus the slicing exists to create.
+
+**Measuring drift frequency across the 34-log corpus before designing** —
+proposed and abandoned the same session. The corpus can only record drift that
+was *caught*, so it undercounts by exactly the amount that matters, and Tony
+had already supplied the requirement, which made frequency irrelevant to
+whether the work was worth doing.
 
 ## What this is not
 
