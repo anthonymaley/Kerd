@@ -1,34 +1,50 @@
-<svg viewBox="0 0 340 232" xmlns="http://www.w3.org/2000/svg" role="img"
-     aria-label="Back in the room: code artifacts survive, human input does not, so the direction has to be given again"
-     font-family="ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif">
-
-  <text x="170" y="14" font-size="9.5" font-weight="700" fill="#5C6B67" text-anchor="middle" letter-spacing="0.8">BACK IN THE ROOM</text>
-
-  <rect x="4" y="24" width="160" height="88" rx="9" fill="#FFFFFF" stroke="#3E7C4F" stroke-width="1.5"/>
-  <text x="84" y="41" font-size="9" font-weight="700" fill="#3E7C4F" text-anchor="middle">STILL THERE</text>
-  <text x="84" y="57" font-size="9" fill="#22312F" text-anchor="middle">commits · files · gates</text>
-  <text x="84" y="70" font-size="9" fill="#22312F" text-anchor="middle">tests · the code</text>
-  <line x1="24" y1="79" x2="144" y2="79" stroke="#E4E7E4" stroke-width="1"/>
-  <text x="84" y="93" font-size="8.5" fill="#5C6B67" text-anchor="middle">code leaves artifacts,</text>
-  <text x="84" y="104" font-size="8.5" fill="#5C6B67" text-anchor="middle">and they cannot lie</text>
-
-  <rect x="176" y="24" width="160" height="88" rx="9" fill="#FDFBFB" stroke="#C6453F" stroke-width="1.5" stroke-dasharray="5 4"/>
-  <text x="256" y="41" font-size="9" font-weight="700" fill="#C6453F" text-anchor="middle">GONE</text>
-  <text x="256" y="57" font-size="9" fill="#8C5450" text-anchor="middle">the idea · the direction</text>
-  <text x="256" y="70" font-size="9" fill="#8C5450" text-anchor="middle">what we considered</text>
-  <line x1="196" y1="79" x2="316" y2="79" stroke="#F0DEDC" stroke-width="1"/>
-  <text x="256" y="93" font-size="8.5" fill="#8C5450" text-anchor="middle">≈90% of Tony's input,</text>
-  <text x="256" y="104" font-size="8.5" fill="#8C5450" text-anchor="middle">and it leaves nothing</text>
-
-  <line x1="170" y1="114" x2="170" y2="132" stroke="#C6453F" stroke-width="1.5"/>
-  <polygon points="170,138 166,128 174,128" fill="#C6453F"/>
-  <text x="178" y="128" font-size="8.5" fill="#C6453F" font-weight="600">cause</text>
-
-  <rect x="18" y="142" width="304" height="30" rx="7" fill="#FFFFFF" stroke="#C6453F" stroke-width="1.5"/>
-  <text x="170" y="161" font-size="9.5" font-weight="700" fill="#C6453F" text-anchor="middle">human input has nowhere to land — nothing derives it</text>
-
-  <rect x="18" y="182" width="304" height="46" rx="7" fill="#F8E4E2"/>
-  <text x="170" y="199" font-size="9.5" font-weight="700" fill="#C6453F" text-anchor="middle">so Tony checks, reminds, and explains it again</text>
-  <text x="170" y="214" font-size="9" fill="#8C5450" text-anchor="middle">nervous → dejected → &#8220;I wasted my time and</text>
-  <text x="170" y="225" font-size="9" fill="#8C5450" text-anchor="middle">we lost the opportunity&#8221;</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="568" height="400" viewBox="-24 -24 568 400">
+<rect x="-24" y="-24" width="568" height="400" fill="#ffffff"/>
+<text x="207.2" y="13.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="207.2" dy="0.0">BACK IN THE ROOM</tspan>
+</text>
+<rect x="0.0" y="34.0" width="235.0" height="28.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="117.5" y="52.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="117.5" dy="0.0">STILL THERE</tspan>
+</text>
+<text x="112.2" y="87.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="112.2" dy="0.0">commits · files · gates</tspan>
+<tspan x="112.2" dy="16.2">tests · the code</tspan>
+</text>
+<text x="102.6" y="134.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="102.6" dy="0.0">code leaves artifacts,</tspan>
+<tspan x="102.6" dy="15.0">and they cannot lie</tspan>
+</text>
+<rect x="285.0" y="34.0" width="235.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="402.5" y="52.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="402.5" dy="0.0">GONE</tspan>
+</text>
+<text x="395.8" y="87.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="395.8" dy="0.0">the idea · the direction</tspan>
+<tspan x="395.8" dy="16.2">what we considered</tspan>
+</text>
+<text x="381.3" y="134.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="381.3" dy="0.0">≈90% of the input,</tspan>
+<tspan x="381.3" dy="15.0">and it leaves nothing</tspan>
+</text>
+<polyline points="260.0,168.0 260.0,205.0" fill="none" stroke="#e03131" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="260.0" y1="205.0" x2="254.3" y2="195.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
+<line x1="260.0" y1="205.0" x2="265.7" y2="195.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
+<text x="272.0" y="188.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="272.0" dy="0.0">cause</tspan>
+</text>
+<rect x="30.0" y="215.0" width="460.0" height="34.0" rx="8" fill="#f8f9fa" stroke="#e03131" stroke-width="1"/>
+<text x="260.0" y="237.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="260.0" dy="0.0">human input has nowhere to land</tspan>
+</text>
+<text x="256.6" y="269.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="256.6" dy="0.0">nothing derives it — there is no git log for a decision</tspan>
+</text>
+<rect x="10.0" y="292.0" width="500.0" height="34.0" rx="8" fill="#e9ecef" stroke="#e03131" stroke-width="1"/>
+<text x="260.0" y="313.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="260.0" dy="0.0">so it gets checked, reminded, and explained again</tspan>
+</text>
+<text x="261.5" y="349.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="261.5" dy="0.0">nervous → dejected → &quot;I wasted my time and we lost the opportunity&quot;</tspan>
+</text>
 </svg>

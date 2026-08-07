@@ -1,34 +1,51 @@
-<svg viewBox="0 0 340 232" xmlns="http://www.w3.org/2000/svg" role="img"
-     aria-label="One shared state on disk, rendered twice: files for the model, a wall of pages for the human"
-     font-family="ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif">
-
-  <rect x="66" y="6" width="208" height="42" rx="8" fill="#FFFFFF" stroke="#22312F" stroke-width="1.5"/>
-  <text x="170" y="23" font-size="9.5" font-weight="700" fill="#22312F" text-anchor="middle">ONE SHARED STATE, ON DISK</text>
-  <text x="170" y="38" font-size="8.5" fill="#5C6B67" text-anchor="middle">derived, never hand-kept — it cannot go stale</text>
-
-  <line x1="120" y1="48" x2="76" y2="72" stroke="#5C6B67" stroke-width="1.3"/>
-  <polygon points="70,75 79,70 82,77" fill="#5C6B67"/>
-  <line x1="220" y1="48" x2="264" y2="72" stroke="#3E7C4F" stroke-width="1.3"/>
-  <polygon points="270,75 258,77 261,70" fill="#3E7C4F"/>
-
-  <rect x="4" y="80" width="156" height="66" rx="9" fill="#FBFAF7" stroke="#B9C0BD" stroke-width="1.5"/>
-  <text x="82" y="97" font-size="9" font-weight="700" fill="#5C6B67" text-anchor="middle">THE MODEL READS</text>
-  <text x="82" y="113" font-size="9" fill="#22312F" text-anchor="middle">files · markdown · gates</text>
-  <text x="82" y="126" font-size="9" fill="#22312F" text-anchor="middle">commits · the code</text>
-  <text x="82" y="139" font-size="8.5" fill="#5C6B67" text-anchor="middle">mechanical — its world</text>
-
-  <rect x="180" y="80" width="156" height="66" rx="9" fill="#F4FAF6" stroke="#3E7C4F" stroke-width="1.5"/>
-  <text x="258" y="97" font-size="9" font-weight="700" fill="#3E7C4F" text-anchor="middle">TONY SEES A WALL</text>
-  <text x="258" y="113" font-size="9" fill="#22312F" text-anchor="middle">the funnel · stages · steps</text>
-  <text x="258" y="126" font-size="9" fill="#22312F" text-anchor="middle">risks · architecture · plan</text>
-  <text x="258" y="139" font-size="8.5" fill="#3E7C4F" text-anchor="middle">the product, in his language</text>
-
-  <text x="170" y="163" font-size="8.5" fill="#5C6B67" text-anchor="middle" font-style="italic">every stage agreed by a drawing before the next one opens</text>
-
-  <line x1="170" y1="170" x2="170" y2="184" stroke="#3E7C4F" stroke-width="1.5"/>
-  <polygon points="170,190 166,180 174,180" fill="#3E7C4F"/>
-
-  <rect x="14" y="194" width="312" height="34" rx="7" fill="#E3EFE6"/>
-  <text x="170" y="210" font-size="9.5" font-weight="700" fill="#3E7C4F" text-anchor="middle">we walk back in and carry on</text>
-  <text x="170" y="223" font-size="9" fill="#2F6440" text-anchor="middle">a quick recap, then work — nothing re-explained</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="568" height="434" viewBox="-24 -24 568 434">
+<rect x="-24" y="-24" width="568" height="434" fill="#ffffff"/>
+<rect x="60.0" y="0.0" width="400.0" height="32.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="260.0" y="21.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="260.0" dy="0.0">ONE SHARED STATE, ON DISK</tspan>
+</text>
+<text x="265.9" y="55.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="265.9" dy="0.0">derived, never hand-kept — it cannot go stale</tspan>
+</text>
+<polyline points="180.0,76.0 120.0,116.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="120.0" y1="116.0" x2="124.7" y2="106.1" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="120.0" y1="116.0" x2="131.0" y2="115.5" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<polyline points="340.0,76.0 400.0,116.0" fill="none" stroke="#2f9e44" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="400.0" y1="116.0" x2="389.0" y2="115.5" stroke="#2f9e44" stroke-width="1" stroke-linecap="round"/>
+<line x1="400.0" y1="116.0" x2="395.3" y2="106.1" stroke="#2f9e44" stroke-width="1" stroke-linecap="round"/>
+<rect x="0.0" y="124.0" width="236.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1"/>
+<text x="118.0" y="142.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="118.0" dy="0.0">THE MODEL READS</tspan>
+</text>
+<text x="117.8" y="177.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="117.8" dy="0.0">files · markdown · gates</tspan>
+<tspan x="117.8" dy="16.2">commits · the code</tspan>
+</text>
+<text x="116.6" y="224.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="116.6" dy="0.0">mechanical — its world</tspan>
+</text>
+<rect x="284.0" y="124.0" width="236.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#2f9e44" stroke-width="1"/>
+<text x="402.0" y="142.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="402.0" dy="0.0">THE HUMAN SEES A WALL</tspan>
+</text>
+<text x="402.5" y="177.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="402.5" dy="0.0">the funnel · stages · steps</tspan>
+<tspan x="402.5" dy="16.2">risks · architecture · plan</tspan>
+</text>
+<text x="402.4" y="224.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="402.4" dy="0.0">the product, in his language</tspan>
+</text>
+<text x="249.8" y="267.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="249.8" dy="0.0">every stage agreed by a drawing before the next one opens</tspan>
+</text>
+<polyline points="260.0,286.0 260.0,318.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="260.0" y1="318.0" x2="254.3" y2="308.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="260.0" y1="318.0" x2="265.7" y2="308.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<rect x="20.0" y="328.0" width="480.0" height="34.0" rx="8" fill="#f8f9fa" stroke="#2f9e44" stroke-width="1"/>
+<text x="260.0" y="350.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="260.0" dy="0.0">we walk back in and carry on</tspan>
+</text>
+<text x="258.0" y="383.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="258.0" dy="0.0">a quick recap, then work — nothing re-explained</tspan>
+</text>
 </svg>
