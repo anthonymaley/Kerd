@@ -78,7 +78,14 @@ Conductor runs inside an already-open session. Loading context is switch-in's jo
 
 **Mode awareness:** Read `kivna/.active-modes`. If a mode is active, report it: what mode, which step, and the session instruction if one was set. Conductor operates within the mode's scope. If the mode says "focus on pricing strategy only," conductor's plan respects that constraint. If no mode is active, proceed normally.
 
-**Pre-flight inventory:** Ask the user for anything execution will need that isn't already in the repo: credentials/access not stored locally, sample inputs not in TODO.md, scope limits not in CLAUDE.md, hardware/environment state, fixtures or test data. Trickle-in friction (each missing input becomes a stop-and-ask round mid-execute) is 5-10x more expensive than collecting upfront. One round of questions now prevents many later. If the inventory is genuinely complete, say so explicitly and skip.
+**Pre-flight inventory — ask the machine first, then the human for what's left.**
+
+- **If the repo has entry gates** (in Kerd: `python3 tools/gates/gate.py route <slug> --json`, which reports the work item's exact stage and names every missing input for the next one), run it and read what it says. It derives from disk, so it is never out of date and it never asks a question whose answer is already committed. Prefer it over asking. If the work has no slug yet, that itself is the first finding: the item is not on the board and nothing can notice it stalling.
+- **Then ask the user only for what the gates cannot know**: credentials or access not stored locally, sample inputs not in the repo, scope limits not in CLAUDE.md, hardware or environment state, fixtures and test data.
+
+Trickle-in friction (each missing input becomes a stop-and-ask round mid-execute) is 5-10x more expensive than collecting upfront. One round of questions now prevents many later. If the inventory is genuinely complete, say so explicitly and skip.
+
+This is the entry gates taking a job conductor used to do alone. Where no gate exists the behaviour is unchanged — ask the human for all of it.
 
 **Consistency sniff test:** Quick cross-check against what's in context — does CLAUDE.md or the playbook reference files, conventions, or a tech stack that no longer match reality? Flag contradictions before planning. This is a light pass; the deep audit is `/kerd:slainte`.
 
@@ -301,6 +308,7 @@ If a task changes behavior, update the affected docs (README, playbook, CLAUDE.m
 - **Push immediately.** Commits piling up unpushed until switch-out reintroduce exactly the risk the always-push convention exists to prevent.
 - **Never pull.** Pulling is a boundary sync and belongs to switch — pulling mid-execute can change files under an in-flight task.
 - **Commit per task, not per step.** A multi-phase spec may warrant a commit per completed phase; a single task is one commit. If the project's CLAUDE.md defines a pre-commit checklist (version bumps, changelog entries), it governs — and an expensive checklist is a reason to commit per phase rather than per step, not a reason to defer to the boundary.
+- **Name the piece in the commit.** When the work is running against a contract with a numbered `## Pieces` checklist, the work commit carries a trailer naming what landed: `Piece: <slug>/<n>`. One line, last in the message. This is what makes progress *derived* rather than reported — a checked box is a claim, a commit trailer is a fact, and where a repo renders progress from git the trailer is the only signal that cannot be falsified by ticking a box. No contract, no trailer.
 
 Why per-task rather than per-session: the collateral check (verification gate step 5) is only affordable when the diff is small. Three tasks' worth of interleaved change in one boundary commit hides exactly the drift that check exists to catch — a swallowed helper is obvious in one task's diff and invisible in a session's.
 
