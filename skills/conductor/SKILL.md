@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides an orient-plan-execute-close protocol. Coordinates four roles: you are the producer holding the intent and the approvals, a top-tier model is called as the composer to write the spec and leaves, the session model conducts the build, and cheaper subagents play the steps. It advises the conductor model up front, sizes each step's model and effort, and hands a failing step back to the composer rather than rewriting the spec itself."
+description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides an orient-plan-execute-close protocol, and where a repo routes work through entry gates it frames new work onto the board rather than into a TODO stub. Coordinates four roles: you are the producer holding the intent and the approvals, a top-tier model is called as the composer to write the spec and leaves, the session model conducts the build, and cheaper subagents play the steps. It advises the conductor model up front, sizes each step's model and effort, and hands a failing step back to the composer rather than rewriting the spec itself."
 ---
 
 # Conductor (Session Discipline)
@@ -137,6 +137,27 @@ Before planning implementation, decompose the request into one or more task cand
 Ask the user to approve the task boundaries before writing the detailed plan. Default to one task per conductor session. If the user's request naturally splits into multiple tasks, present them as candidates and ask: tackle all in this session, or pick one?
 
 If the output from a task is not good enough after execution, the right move is to refine the task framing (scope, acceptance criteria) and restart with a fresh conductor session rather than digging deeper into muddy context.
+
+#### New work entering the funnel gets a frame on disk, not a TODO stub
+
+**If the repo routes work through entry gates** (in Kerd: `tools/gates/`), the framing above is not the whole job when the request is *new work* rather than a task inside work already tracked. New work needs an artifact the machine can see, or nothing will ever notice it stalling.
+
+Tell the two apart by asking the gates, not by judgement: pick a slug and run `python3 tools/gates/gate.py route <slug>`. If it reports missing inputs at the first rung, this work is not tracked and the framing conversation should produce the frame artifact — in Kerd `docs/product/<slug>.md`, whose required sections the gate names for you.
+
+**What the frame must carry**, and each of these is checked rather than encouraged:
+
+- **The value, in the producer's own words and in units.** What winning is, stated so it can later be measured. Quote them verbatim; a paraphrase of intent is the first thing to rot.
+- **The grounding** — what was read to get here.
+- **A risk ledger** where every risk is sized, evidenced, and in exactly one state. A risk with no countermeasure is a blocker, not a row.
+- **The smallest valuable slice**, and what is deliberately excluded with the reason.
+
+**The producer's key belongs here.** Framing is their rung — the value statement is theirs and the model's job is to write it down accurately, not to author it. Ask, record, and read it back.
+
+**Why this is worth the extra beat, stated plainly because it looks like ceremony:** untracked work is invisible to every machine surface. It has no board row, no gate demanding anything, no render showing it unbuilt. This repo has already paid for that once at the top: the decision to give the funnel a driver was taken, specced in full, and sat unbuilt for three days — not because anyone forgot, but because it never entered through a frame, so nothing was capable of noticing. See `docs/product/funnel-driver.md`.
+
+**Where no entry gates exist the behaviour above is unchanged** — frame the task, write the plan into TODO.md, and carry on.
+
+**Not yet owned, and named so nobody assumes otherwise:** the design and contract stages. Nothing in `skills/` writes a design doc, a design GO record, or a release slice. Conductor sheds one piece at a time — its own spec's transition rule 4 — so those are separate work, not an oversight here.
 
 #### Write the plan
 
