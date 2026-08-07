@@ -341,9 +341,9 @@ def stage_steps():
     for name, body in sections(path.read_text()).items():
         steps = []
         for line in body.splitlines():
-            m = re.match(r'^\d+\.\s*`([^`]+)`\s*—\s*(.+)$', line.strip())
+            m = re.match(r'^\d+\.\s+(.+)$', line.strip())
             if m:
-                steps.append({"status": m.group(1).strip(), "text": md_text(m.group(2))})
+                steps.append({"status": None, "text": md_text(m.group(1))})
         if steps:
             out[name] = steps
     return out
@@ -477,10 +477,16 @@ def render(slug):
         if steps:
             H.append('<ul class="rungs">')
             for i, st_ in enumerate(steps, 1):
-                pill = PILL.get(st_["status"], "todo")
+                # No status is declared per work item yet, so none is shown.
+                # A grey "not tracked" is the honest state; a green tick would
+                # be a claim nothing on disk supports.
+                if st_["status"]:
+                    badge = (f'<span class="pill {PILL.get(st_["status"], "todo")}">'
+                             f'{E(st_["status"])}</span>')
+                else:
+                    badge = '<span class="pill none">not tracked</span>'
                 H.append(f'<li><span class="rn">Step {i}</span>'
-                         f'<span class="rt">{E(st_["text"])}</span>'
-                         f'<span class="pill {pill}">{E(st_["status"])}</span></li>')
+                         f'<span class="rt">{E(st_["text"])}</span>{badge}</li>')
             H.append('</ul>')
         else:
             H.append('<div class="norungs">Rungs not defined for this stage yet — '
@@ -588,6 +594,7 @@ padding:4px 11px;border-radius:999px;flex:none;margin-left:auto}
 .pill.open{background:#DFF1EC;color:#1F6F62}
 .pill.now{background:var(--amber-chip);color:#9A5A17}
 .pill.todo{background:#EDEDEA;color:#77817D}
+.pill.none{background:transparent;color:#B4BCB8;border:1px dashed #DCE0DD}
 .norungs{font-size:13px;color:var(--slate);line-height:1.5;
 border:1.5px dashed #D3D8D5;border-radius:10px;padding:13px 15px;background:#FCFCFB}
 .blocker{margin-top:9px;font-size:13px;color:var(--red);line-height:1.45}
