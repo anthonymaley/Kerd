@@ -4,6 +4,16 @@ Living design doc. Source: post-walk decision 6 — conductor's protocol is
 a seedbed; the pieces graduate out to the system's functions as each
 instrument proves. What remains is the DRIVING ROLE.
 
+## Vocabulary — out of scope for the funnel rename
+
+**Added 2026-08-07.** A cross-cutting rename is queued: the machine's `rung`
+becomes a **stage** of a **funnel**, per Tony's call that the work flow is a
+funnel with stages and steps inside them. **That sweep must not touch this
+file.** Here "rung" and "ladder" name *authority* — who may decide what, and
+who hears a blocker — not a position in the work flow. Renaming them would
+convert the role ladder into a role funnel by accident and change the seat
+diagram's meaning without anyone deciding to.
+
 ## The seat
 
 Rung two of the role ladder:
@@ -46,7 +56,7 @@ never breaks.
 |---|---|---|
 | Pre-flight inventory | **Entry gates** | the mechanical gate check lands (CI-able: files · front matter · sections) |
 | Model advisory + sized tags | **Size work to a model** | sizing declarations ride the work order (the contract carries tier + effort + why per piece) |
-| Spec-file machinery | **Write the contract** | work orders with per-piece checks + two-tier access exist as the contract instrument |
+| Spec-file machinery | **Write the contract** | work orders with per-piece checks + two-tier access exist as the contract instrument — **⚠ untestable as written: "two-tier access" appears in no other file in the repo and has no acceptance criterion derivable from disk. A trigger nobody can test never fires. Define the term or strike it before this row can be acted on (2026-08-07)** |
 | Plan-gate approval | **Design GO + contract measurability** | the design package GO (two keys) + machine-measurable pieces remove the per-spec human gate |
 | Verification gate + collateral check | **Build a piece · Prove it** | checks refuse from outside the model (CI instance) — behaviour unchanged, ownership moves |
 | 3-fix + orchestrator hand-back | **The role ladder** | the intent-holder exists as an agent with declared adjustment power |

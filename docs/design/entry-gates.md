@@ -53,6 +53,13 @@ re-enters through the gates with its evidence.
 The gate is the EASIEST refusal instance in the whole system: file
 existence + front-matter fields + section presence are trivially CI-able.
 Building it delivers the router and the refusal property's first working
-instance in one piece — which is why it leads the MVP sequence. Until that
-lands, the gate runs as convention inside the driving role (today:
-conductor's pre-flight inventory, its only living instance).
+instance in one piece — which is why it leads the MVP sequence.
+
+**Amended 2026-08-07.** This paragraph used to end "until that lands, the gate
+runs as convention inside the driving role (today: conductor's pre-flight
+inventory, its only living instance)". That has been false since v0.69.0: the
+gate landed, `tools/gates/gate.py` runs in CI on every push, and
+`gate.py route <slug>` prints the exact missing-input list without asking a
+human anything. Conductor's inventory is no longer the only living instance —
+it is a superseded one that has not yet shed, which is graduation row 1 of
+`conductor-role.md` and gap 2 of `docs/product/funnel-driver.md`.
