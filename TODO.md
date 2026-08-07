@@ -47,6 +47,14 @@ replace the gate has never once run. **Trigger: the first design GO record that
 lands for a funnel-driver slice.** At that point the replacement has an
 instance and the gate can go. Detail in `docs/product/funnel-driver.md` gap 3.
 
+**OWED — the release close-out pass.** Four version bumps shipped 2026-08-07
+(v0.91.0 → v0.94.0) and `/kerd:tend` + `/kerd:slainte` did not run. The
+mechanical checklist ran at each release — versions in sync, README updated,
+capability lists byte-identical, eight CI steps green — but the narrative audit
+did not. Deferred at 15:15 to protect the boundary at the end of a five-hour
+window, named rather than skipped silently. **Do this before new work next
+session.**
+
 **Queued, not started:** the `rung`→`stage` machine rename across `gate.py`,
 its JSON and CI (cross-cutting, owes the standing grep sweep); the gap-analysis
 region on the journey head; automating the fidelity check.
