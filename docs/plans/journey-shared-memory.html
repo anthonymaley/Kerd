@@ -20,7 +20,47 @@ h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 font-weight:700;margin-bottom:13px}
 section{margin-bottom:36px}
 
-.a3{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:36px}
+.story{margin-bottom:34px}
+.storybox{background:var(--card);border:1px solid var(--hairline);border-radius:16px;
+padding:22px 26px}
+.outline{font-style:italic;font-size:15px;line-height:1.5;color:var(--ink-soft);
+max-width:78ch;margin-bottom:20px}
+.a3{display:flex;gap:10px;align-items:stretch;margin-bottom:0}
+.a3 .panel{flex:1;min-width:0}
+.arrow{align-self:center;color:var(--slate);font-size:20px;flex:none}
+.panel h3{font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--ink);
+margin-bottom:9px}
+.pl{margin-top:11px;padding-left:16px;display:grid;gap:6px}
+.pl li{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+.pl li::marker{color:var(--red);font-weight:700}
+.funnel-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+color:var(--ink-soft);font-weight:700;margin-bottom:6px}
+.rungs{list-style:none;display:grid;gap:0}
+.rungs li{display:flex;align-items:center;gap:12px;padding:11px 0;
+border-bottom:1px solid var(--hairline);flex-wrap:wrap}
+.rungs li:last-child{border-bottom:none}
+.rn{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+color:var(--slate);flex:none;width:56px}
+.rt{flex:1;min-width:220px;font-size:14px;line-height:1.45}
+.pill{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+padding:4px 11px;border-radius:999px;flex:none;margin-left:auto}
+.pill.ok{background:var(--moss-chip);color:var(--moss)}
+.pill.open{background:#DFF1EC;color:#1F6F62}
+.pill.now{background:var(--amber-chip);color:#9A5A17}
+.pill.todo{background:#EDEDEA;color:#77817D}
+.norungs{font-size:13px;color:var(--slate);line-height:1.5;
+border:1.5px dashed #D3D8D5;border-radius:10px;padding:13px 15px;background:#FCFCFB}
+.blocker{margin-top:9px;font-size:13px;color:var(--red);line-height:1.45}
+.openslot{margin-top:8px;font-size:13px;color:var(--slate);line-height:1.45}
+.openslot .nt{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+details.rest{margin-top:16px}
+details.rest>summary{cursor:pointer;list-style:none;background:var(--card);
+border:1px solid var(--hairline);border-radius:12px;padding:14px 20px;
+font-size:11.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+color:var(--ink-soft);text-align:center}
+details.rest>summary::-webkit-details-marker{display:none}
+details.rest>summary:hover{border-color:var(--ink-soft)}
+details.rest[open]>summary{margin-bottom:16px}
 .panel{background:var(--card);border:1px solid var(--hairline);border-radius:16px;
 padding:20px 24px}
 .panel.proposal{border-color:#CFDDD3;background:linear-gradient(180deg,#FCFEFC,#FFF)}
@@ -124,33 +164,43 @@ footer li::before{content:"—";position:absolute;left:0;color:var(--slate)}
 footer li b{color:var(--ink)}
 .foot{margin-top:15px;font-size:13px;color:var(--ink-soft);max-width:74ch;line-height:1.5}
 
-@media (max-width:820px){.a3{grid-template-columns:1fr}}
+@media (max-width:900px){.a3{flex-direction:column}.arrow{transform:rotate(90deg)}}
 @media (max-width:700px){h1{font-size:26px}.mm .l{font-size:9px}.stage{padding-left:26px}
 .rt,.rt tbody,.rt tr,.rt td{display:block}.rt thead{display:none}
 .rt td{border-bottom:none;padding:4px 14px}
 .rt tr{border-bottom:1px solid var(--hairline);padding:10px 0}}
 </style></head><body><div class="wrap">
-<header><div class="eyebrow">Kerd · journey</div><h1>Shared memory — the room has a wall, and both of us can see it</h1><div class="derived">Drawn from the repo at <code>4cd4cc2</code> · 7 August 2026, 11:49 · read-only — this page changes nothing</div></header>
-<div class="a3">
-<div class="panel"><h2>Where we are</h2>
-<div class="slot">Not drawn yet — the one thing on this page that cannot be derived. Drawn while pairing and committed like any other artifact.</div>
-<ol class="pains">
+<header><div class="eyebrow">Kerd · journey</div><h1>Shared memory — the room has a wall, and both of us can see it</h1><div class="derived">Drawn from the repo at <code>06192b6</code> · 7 August 2026, 12:19 · read-only — this page changes nothing</div></header>
+<section class="story"><h2>Proposal</h2><div class="storybox">
+<p class="outline">This outline is used when a proposal is being made to improve the condition as a result of reducing problems or gaining benefits not currently available.</p><div class="a3">
+<div class="panel"><h3>Current Situation &amp; Background</h3>
+<div class="slot">Not drawn yet — the one thing here that cannot be derived. Drawn while pairing, committed like any other diagram.</div>
+<ul class="pl">
 <li>the master plan has no artifact, and the decision saying it should is four days old</li>
 <li>the journey view is mocked, agreed, and parked</li>
 <li>there is no diagram of what we are building</li>
-</ol>
-<div class="more">8 more, in the frame</div>
+</ul>
 </div>
-<div class="panel proposal"><h2>Where we are going</h2>
-<div class="slot">Not drawn yet.</div>
+<div class="arrow">→</div>
+<div class="panel"><h3>Problems &amp; Cause</h3>
+<div class="slot">Not drawn yet — the one thing here that cannot be derived. Drawn while pairing, committed like any other diagram.</div>
+<ul class="pl">
+<li>risks have data and no view, and issues have neither</li>
+<li>the evaluation matrix is enforced, empty, and has no exemption</li>
+<li>three tries then root cause is specced and has never fired</li>
+</ul>
+</div>
+<div class="arrow">→</div>
+<div class="panel"><h3>Proposal &amp; Benefits</h3>
+<div class="slot">Not drawn yet — the one thing here that cannot be derived. Drawn while pairing, committed like any other diagram.</div>
 <p class="pitch">You are sitting beside me in a room, with a whiteboard, and we are pairing on a project. We start with ideation and we draw on the whiteboard to capture current condition and show the ideal, and then we figure out the gaps that stop ideal from becoming reality. We then design the solution (and…</p>
 <div class="targets">
 <div class="target"><div class="num">1 observed → 0</div><div class="cap">Re-explanations required per pickup</div></div>
 <div class="target"><div class="num">0 of 10 → all 10</div><div class="cap">Human-facing views of project state</div></div>
 <div class="target"><div class="num">3 of 10 → 10 of 10</div><div class="cap">Sources populated behind those views</div></div>
-<div class="target"><div class="num">none → shown</div><div class="cap">Evidence that the model is up to speed at pickup</div></div>
 </div>
-</div></div>
+</div>
+</div></div></section>
 <section class="risks"><h2>Risks</h2><table class="rt"><thead><tr><th></th><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Countermeasure</th></tr></thead><tbody>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The views get built over empty sources — seven of the ten render blank because the state they display is… <span class="killer">killer</span></td><td>the whole item delivers nothing: a wall of empty pages is worse than no wall, because it looks like coverage and reports clean…</td><td>high — this has already happened once at smaller scale: the evaluation matrix is built, fixture-tested and…</td><td>slice order is driven by source population, not by page appeal: the first slice renders only from sources that already hold real content, and every later slice pairs…</td></tr>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">Capture stays discipline-dependent — a model must choose to record human input, and the model least likely to… <span class="killer">killer</span></td><td>the root cause is untouched and every view decays to stale, which returns Tony to checking and reminding, the exact failure this…</td><td>high — this is the measured status quo, and the only human input that reliably survives today survives…</td><td>capture becomes a declared artifact with a gate, on the Value precedent — a rung cannot pass while its human-input artifact is absent, so recording is refused-into…</td></tr>
@@ -158,7 +208,7 @@ footer li b{color:var(--ink)}
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The human view and the machine view drift apart and become two sources of truth</td><td>Tony reads a wall that contradicts the repo, which is worse than no wall — he would be making decisions on stale state without…</td><td>medium — the repo already has one instance: docs/playbook.md Current Status duplicates CONTEXT.md and is the…</td><td>every human-facing page is derived from disk and CI-refused if stale, on the progress.py precedent — no page holds a fact of its own, and a page that cannot be derived…</td></tr>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The reference-design exemption becomes a silent skip and the matrix stays empty</td><td>gap 5 persists behind a rule that now looks satisfied, which is worse than an unmet rule because it reports clean</td><td>medium — the identical failure was named and countered in rigor-level as hollow waiving, so the pattern is…</td><td>an exemption is a declared artifact carrying its reason, machine-checked in the same sweep as a matrix, reusing the accepted-state discipline verbatim — never an absence</td></tr>
 </tbody></table><div class="legend">○ handled · △ handled only by a countermeasure, or watched · × no countermeasure — a blocker</div></section>
-<div class="minimap">
+<div class="funnel-label">The funnel</div><div class="minimap">
 <div class="mm done reached"><div class="dot"></div><div class="l">Idea</div></div>
 <div class="mm done reached"><div class="dot"></div><div class="l">Validated</div></div>
 <div class="mm done reached"><div class="dot"></div><div class="l">Scoped</div></div>
@@ -168,81 +218,19 @@ footer li b{color:var(--ink)}
 <div class="mm "><div class="dot"></div><div class="l">Proven</div></div>
 <div class="mm "><div class="dot"></div><div class="l">Live</div></div>
 </div>
-<div class="mapnote">At <b>Designed</b> · 3 of 8 rungs behind it · entered the ladder at <b>Designed</b></div>
+<div class="mapnote">At <b>Designed</b> · 3 of 8 stages behind it · entered the funnel at <b>Designed</b></div>
 <div class="ladder">
-<div class="stage done"><span class="lamp"></span><div class="head"><h2>Idea</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the problem named, and what winning would be</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">Nothing had to be on disk to start — this is where work enters</span></li>
-<li><span class="mark open">·</span><span class="s-name open">The idea, drawn current-to-ideal</span><span class="s-note">drawn, not described</span><span class="s-fact">not there</span></li>
-</ul>
-</div></div>
-<div class="stage done"><span class="lamp"></span><div class="head"><h2>Validated</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the risks sized, the killer one answered</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">The idea is written down</span></li>
-<li><span class="mark ok">○</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
-<li><span class="mark ok">○</span><span class="s-name">What winning looks like, stated in units</span></li>
-<li><span class="mark open">·</span><span class="s-name open">What we considered</span><span class="s-note">options compared against declared criteria</span><span class="s-fact">not there</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage done"><span class="lamp"></span><div class="head"><h2>Scoped</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the smallest slice worth shipping</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">Every risk sized and evidenced — 5 of them</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">The smallest valuable slice named</span></li>
-<li><span class="mark open">·</span><span class="s-name open">Architecture — how the parts connect</span><span class="s-note">high-level blocks and lines</span><span class="s-fact">not there</span></li>
-<li><span class="mark open">·</span><span class="s-name open">The proposal, drawn</span><span class="s-note">current versus new</span><span class="s-fact">not there</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Spec'd</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece written down precisely enough to hand over</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">The solution designed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Built</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece made, and measured against its own spec</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Proven</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">the whole thing checked against what we said winning was</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Live</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">in use, and the machine can refuse a regression</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">The machine can refuse bad work</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Proven against its done condition, on the record</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
-<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
-<li><span class="what">gate.yml</span><a class="open" href="../../.github/workflows/gate.yml">open</a></li>
-</ul></div>
-</div></div>
+<div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="openslot">· Architecture — how the parts connect — high-level blocks and lines <span class="nt">not there</span></div><div class="openslot">· The proposal, drawn — current versus new <span class="nt">not there</span></div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li></ul></div></div></div>
 </div>
+<details class="rest"><summary>All other stages</summary><div class="ladder">
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Idea</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the problem named, and what winning would be</div><ul class="rungs"><li><span class="rn">Step 1</span><span class="rt">CAPTURE THE IDEA/PROBLEM: do so from the prompt input as typed</span><span class="pill open">open</span></li><li><span class="rn">Step 2</span><span class="rt">Supporting or comparable documents, diagrams, references, experience inputs, sites, images</span><span class="pill open">open</span></li><li><span class="rn">Step 3</span><span class="rt">Perform interview in rapid Q&amp;A style to capture the requirement — one at a time, on purpose / constraints / success criteria</span><span class="pill now">in progress</span></li><li><span class="rn">Step 4</span><span class="rt">Visualize the idea, diagram or HTML, and iterate in a paired session with the user</span><span class="pill todo">not started</span></li></ul><div class="openslot">· The idea, drawn current-to-ideal — drawn, not described <span class="nt">not there</span></div></div></div>
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Validated</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the risks sized, the killer one answered</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="openslot">· What we considered — options compared against declared criteria <span class="nt">not there</span></div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li></ul></div></div></div>
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Scoped</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the smallest slice worth shipping</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Spec'd</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece written down precisely enough to hand over</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Built</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece made, and measured against its own spec</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="blocker">× The build contract written — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Proven</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">the whole thing checked against what we said winning was</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="blocker">× The build contract written — still needed</div><div class="blocker">× Every piece built and checked off — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Live</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">in use, and the machine can refuse a regression</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="blocker">× The build contract written — still needed</div><div class="blocker">× Every piece built and checked off — still needed</div><div class="blocker">× Proven against its done condition, on the record — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li><li><span class="what">gate.yml</span><a class="open" href="../../.github/workflows/gate.yml">open</a></li></ul></div></div></div>
+</div></details>
 <footer><h3>What this page cannot show yet, and why</h3><ul>
 <li><b>How long each rung took.</b> Gate records are dated to the day and most journeys land two rungs on one date, so day resolution reads zero. Per-task start and end stamps began on 2026-08-06; too few yet for a comparison that would not mislead.</li>
 <li><b>What it measured once in use.</b> Nothing on disk records post-ship measurement, so there is nothing to read.</li>

@@ -32,7 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 # ---------------------------------------------------------------------------
-# The ladder, in the language of the product rather than the machine.
+# The funnel, in the language of the product rather than the machine.
 #
 # `expects` are the artifacts a rung ought to carry. They are NOT gate
 # requirements — the gates refuse on a smaller, harder set. These are what a
@@ -99,6 +99,44 @@ GLYPH = {
 }
 
 
+# The story an item tells at its head. Canonical library with the sections:
+# docs/design/talk-formats.md. A product doc declares `story: <key>` in front
+# matter; proposal is the default because every item framed so far is one.
+STORIES = {
+    "proposal": ("Proposal",
+                 "This outline is used when a proposal is being made to improve the "
+                 "condition as a result of reducing problems or gaining benefits not "
+                 "currently available.",
+                 ["Current Situation &amp; Background", "Problems &amp; Cause",
+                  "Proposal &amp; Benefits"]),
+    "compare": ("Compare &amp; Contrast",
+                "This outline is used when showing a situation now versus after some "
+                "change.",
+                ["Current Situation", "New Situation"]),
+    "discrepancy": ("Correcting Discrepancy from Standard",
+                    "This outline is used when the current situation differs from an "
+                    "established standard and countermeasure activity is in order.",
+                    ["Current Situation", "Standard &amp; Discrepancy", "Countermeasure"]),
+    "roadmap": ("Develop the Roadmap",
+                "This outline is used when trends have been identified and analysed "
+                "and a strategic direction is being decided.",
+                ["Trends &amp; Analysis", "Strategic Direction"]),
+    "illumination": ("Illumination of the Unknown",
+                     "This outline is used when sharing information by starting from "
+                     "what the reader already knows.",
+                     ["Known", "Unknown"]),
+    "educate": ("Educate to the Detail",
+                "This outline is used when teaching detail that needs the bigger "
+                "picture first.",
+                ["Simplest", "Medium", "Detail"]),
+    "problem": ("Problem Solving A3",
+                "This outline is used for a perceived problem, worked to its point of "
+                "cause and root cause before any countermeasure.",
+                ["Happy path", "As-is — the gap, measured", "Point of cause",
+                 "Root cause", "Countermeasure &amp; plan"]),
+}
+
+
 def plain(req):
     for pat, rep in PLAIN:
         m = re.match(pat, req)
@@ -154,7 +192,12 @@ def read_product(slug):
         sys.exit(f"no product doc: docs/product/{slug}.md")
     text = path.read_text()
     title = next((l[2:].strip() for l in text.splitlines() if l.startswith("# ")), slug)
-    return {"title": title, "sec": sections(text), "text": text}
+    story = "proposal"
+    if text.startswith("---"):
+        for line in text.split("---", 2)[1].splitlines():
+            if line.lower().startswith("story:"):
+                story = line.split(":", 1)[1].strip().lower()
+    return {"title": title, "sec": sections(text), "text": text, "story": story}
 
 
 def pitch(value_body):
@@ -284,6 +327,29 @@ def drawing(slug, kind):
     return re.sub(r'<\?xml[^>]*\?>', '', p.read_text()).strip()
 
 
+def stage_steps():
+    """The numbered steps inside each stage. Defined once for the method, not
+    per work item — the gates check a stage's outputs, this defines its work.
+    A stage with no rungs written yet renders as an open slot, which is the
+    honest state for seven of the eight (see docs/design/funnel-steps.md)."""
+    path = ROOT / "docs" / "design" / "funnel-steps.md"
+    if not path.exists():
+        return {}
+    out = {}
+    for name, body in sections(path.read_text()).items():
+        steps = []
+        for line in body.splitlines():
+            m = re.match(r'^\d+\.\s*`([^`]+)`\s*—\s*(.+)$', line.strip())
+            if m:
+                steps.append({"status": m.group(1).strip(), "text": md_text(m.group(2))})
+        if steps:
+            out[name] = steps
+    return out
+
+
+PILL = {"done": "ok", "open": "open", "in progress": "now", "not started": "todo"}
+
+
 def expected_present(slug, spec):
     if spec is None:
         return False
@@ -311,6 +377,7 @@ def render(slug):
     tg = targets(value)
     rk = risks(doc["sec"].get("Risk ledger", ""))
     pieces = spec_pieces(slug)
+    rungs = stage_steps()
     all_pains = pains(doc["text"])
     sha = run("git", "rev-parse", "--short", "HEAD")
     when = run("git", "log", "-1", "--format=%cd", "--date=format:%-d %B %Y, %H:%M")
@@ -329,34 +396,37 @@ def render(slug):
       f'<div class="derived">Drawn from the repo at <code>{E(sha)}</code> · {E(when)} · '
       f'read-only — this page changes nothing</div></header>')
 
-    # ---- the story: where we are → where we are going, drawn -------------
-    A('<div class="a3">')
-
-    cur = drawing(slug, "current")
-    A('<div class="panel"><h2>Where we are</h2>')
-    A(f'<div class="draw">{cur}</div>' if cur else
-      '<div class="slot">Not drawn yet — the one thing on this page that cannot be '
-      'derived. Drawn while pairing and committed like any other artifact.</div>')
-    if all_pains:
-        A('<ol class="pains">')
-        for p in all_pains[:3]:
-            A(f'<li>{E(clip(p, 150))}</li>')
-        A('</ol>')
-        if len(all_pains) > 3:
-            A(f'<div class="more">{len(all_pains) - 3} more, in the frame</div>')
-    A('</div>')
-
-    prop = drawing(slug, "proposal")
-    A('<div class="panel proposal"><h2>Where we are going</h2>')
-    A(f'<div class="draw">{prop}</div>' if prop else '<div class="slot">Not drawn yet.</div>')
-    A(f'<p class="pitch">{E(pitch(value))}</p>')
-    if tg:
-        A('<div class="targets">')
-        for t in tg[:4]:
-            A(f'<div class="target"><div class="num">{E(t["move"])}</div>'
-              f'<div class="cap">{E(clip(t["label"], 60))}</div></div>')
+    # ---- the story head. Which story is declared, not assumed ----------
+    sname, outline, headings = STORIES.get(doc["story"], STORIES["proposal"])
+    A(f'<section class="story"><h2>{sname}</h2><div class="storybox">')
+    A(f'<p class="outline">{outline}</p><div class="a3">')
+    # Pains spread across the middle panels; the last panel carries the pitch.
+    per = max(1, len(all_pains) // max(1, len(headings)))
+    for i, heading in enumerate(headings):
+        if i:
+            A('<div class="arrow">\u2192</div>')
+        kind = ["current", "problem", "proposal", "d", "e"][i] if i < 5 else f"p{i}"
+        A(f'<div class="panel"><h3>{heading}</h3>')
+        d = drawing(slug, kind)
+        A(f'<div class="draw">{d}</div>' if d else
+          '<div class="slot">Not drawn yet — the one thing here that cannot be derived. '
+          'Drawn while pairing, committed like any other diagram.</div>')
+        chunk = all_pains[i * per:(i + 1) * per] if i < len(headings) - 1 else []
+        if chunk:
+            A('<ul class="pl">')
+            for l in chunk[:3]:
+                A(f'<li>{E(clip(l, 130))}</li>')
+            A('</ul>')
+        if i == len(headings) - 1:
+            A(f'<p class="pitch">{E(pitch(value))}</p>')
+            if tg:
+                A('<div class="targets">')
+                for t in tg[:3]:
+                    A(f'<div class="target"><div class="num">{E(t["move"])}</div>'
+                      f'<div class="cap">{E(clip(t["label"], 52))}</div></div>')
+                A('</div>')
         A('</div>')
-    A('</div></div>')
+    A('</div></div></section>')
 
     # ---- risks ------------------------------------------------------------
     if rk:
@@ -374,71 +444,82 @@ def render(slug):
           'countermeasure, or watched · × no countermeasure — a blocker</div></section>')
 
     # ---- tracker ----------------------------------------------------------
-    A('<div class="minimap">')
+    A('<div class="funnel-label">The funnel</div><div class="minimap">')
     for s, label, _, _ in STAGES:
         st = by_rung.get(s, {}).get("state", "missing")
         cls = "done reached" if st == "built" else ("now reached" if st == "in-flight" else "")
         A(f'<div class="mm {cls}"><div class="dot"></div><div class="l">{E(label)}</div></div>')
     A('</div>')
     pos = f'At <b>{E(labels.get(now, now))}</b>' if now else "<b>Every rung reached</b>"
-    A(f'<div class="mapnote">{pos} · {len(reached)} of {len(STAGES)} rungs behind it · '
-      f'entered the ladder at <b>{E(labels.get(b["enters_at"], b["enters_at"]))}</b></div>')
+    A(f'<div class="mapnote">{pos} · {len(reached)} of {len(STAGES)} stages behind it · '
+      f'entered the funnel at <b>{E(labels.get(b["enters_at"], b["enters_at"]))}</b></div>')
 
-    # ---- the ladder is the spine -----------------------------------------
-    A('<div class="ladder">')
-    seen_have = set()
-    for s, label, blurb, expects in STAGES:
+    # ---- the funnel is the spine -----------------------------------------
+    # Current stage open, the rest folded behind one bar — the reader is here
+    # to see where we are, not to scroll eight cards to find it.
+    def stage_html(s, label, blurb, expects):
         r = by_rung.get(s, {})
         st = r.get("state", "missing")
         cls = {"built": "done", "in-flight": "now"}.get(st, "todo")
         word = {"built": "done", "in-flight": "in flight"}.get(st, "not started")
-        A(f'<div class="stage {cls}"><span class="lamp"></span><div class="head">'
-          f'<h2>{E(label)}</h2><span class="status {cls}">{E(word)}</span>'
-          + (f'<span class="when">{E(dates[s])}</span>' if s in dates else "") +
-          f'</div><div class="card"><div class="blurb">{E(blurb)}</div><ul class="steps">')
+        H = [f'<div class="stage {cls}"><span class="lamp"></span><div class="head">'
+             f'<h2>{E(label)}</h2><span class="status {cls}">{E(word)}</span>'
+             + (f'<span class="when">{E(dates[s])}</span>' if s in dates else "") +
+             f'</div><div class="card"><div class="blurb">{E(blurb)}</div>']
 
-        # The gates report cumulatively; a rung MEANS what it added.
-        fresh = [it for it in r.get("have_items", []) if it not in seen_have]
-        seen_have.update(r.get("have_items", []))
-        for it in fresh:
-            A(f'<li><span class="mark ok">○</span><span class="s-name">{E(plain(it))}</span></li>')
+        # The rungs — the work inside the stage.
+        steps = rungs.get(label, [])
+        if steps:
+            H.append('<ul class="rungs">')
+            for i, st_ in enumerate(steps, 1):
+                pill = PILL.get(st_["status"], "todo")
+                H.append(f'<li><span class="rn">Step {i}</span>'
+                         f'<span class="rt">{E(st_["text"])}</span>'
+                         f'<span class="pill {pill}">{E(st_["status"])}</span></li>')
+            H.append('</ul>')
+        else:
+            H.append('<div class="norungs">Rungs not defined for this stage yet — '
+                     'the gates check what it produces, not what it involves. '
+                     'Defining them is queued.</div>')
+
         for it in r.get("need_items", []):
-            A(f'<li><span class="mark bad">×</span><span class="s-name todo">{E(plain(it))}</span>'
-              f'<span class="s-fact">still needed</span></li>')
-        if not fresh and not r.get("need_items"):
-            A('<li><span class="mark ok">○</span><span class="s-name">'
-              'Nothing had to be on disk to start — this is where work enters</span></li>')
-
-        # Expected-but-absent artifacts, listed so they can be accepted or
-        # pushed back on rather than silently omitted.
+            H.append(f'<div class="blocker">× {E(plain(it))} — still needed</div>')
         for name, spec, note in expects:
-            if expected_present(slug, spec):
-                continue
-            A(f'<li><span class="mark open">·</span><span class="s-name open">{E(name)}</span>'
-              f'<span class="s-note">{E(note)}</span>'
-              f'<span class="s-fact">not there</span></li>')
-        A('</ul>')
+            if not expected_present(slug, spec):
+                H.append(f'<div class="openslot">· {E(name)} — {E(note)} '
+                         f'<span class="nt">not there</span></div>')
 
         if s == "build" and pieces:
-            n = sum(1 for p in pieces if p["done"])
-            A(f'<div class="made"><h4>The pieces — {n} of {len(pieces)}, each measured '
-              f'against its own spec</h4><ul class="pieces">')
-            for p in pieces:
-                g = "ok" if p["done"] else "bad"
-                gl = "○" if p["done"] else "×"
-                A(f'<li><span class="mark {g}">{gl}</span>'
-                  f'<span class="what">{E(p["name"])}</span></li>')
-            A('</ul></div>')
+            n = sum(1 for x in pieces if x["done"])
+            H.append(f'<div class="made"><h4>The pieces — {n} of {len(pieces)}, each '
+                     f'measured against its own spec</h4><ul class="pieces">')
+            for x in pieces:
+                g, gl = ("ok", "○") if x["done"] else ("bad", "×")
+                H.append(f'<li><span class="mark {g}">{gl}</span>'
+                         f'<span class="what">{E(x["name"])}</span></li>')
+            H.append('</ul></div>')
 
         made = artefacts(r.get("have_items", []))
         if made:
-            A('<div class="made"><h4>What we created</h4><ul>')
+            H.append('<div class="made"><h4>What we created</h4><ul>')
             for a in made:
-                A(f'<li><span class="what">{E(a["name"])}</span>'
-                  f'<a class="open" href="../../{E(a["file"])}">open</a></li>')
-            A('</ul></div>')
-        A('</div></div>')
+                H.append(f'<li><span class="what">{E(a["name"])}</span>'
+                         f'<a class="open" href="../../{E(a["file"])}">open</a></li>')
+            H.append('</ul></div>')
+        H.append('</div></div>')
+        return "".join(H)
+
+    focus = now or (STAGES[-1][0] if not now else None)
+    A('<div class="ladder">')
+    A(stage_html(*next(x for x in STAGES if x[0] == focus)))
     A('</div>')
+    others = [x for x in STAGES if x[0] != focus]
+    if others:
+        A('<details class="rest"><summary>All other stages</summary>'
+          '<div class="ladder">')
+        for x in others:
+            A(stage_html(*x))
+        A('</div></details>')
 
     A('<footer><h3>What this page cannot show yet, and why</h3><ul>')
     A('<li><b>How long each rung took.</b> Gate records are dated to the day and most '
@@ -474,7 +555,47 @@ h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 font-weight:700;margin-bottom:13px}
 section{margin-bottom:36px}
 
-.a3{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:36px}
+.story{margin-bottom:34px}
+.storybox{background:var(--card);border:1px solid var(--hairline);border-radius:16px;
+padding:22px 26px}
+.outline{font-style:italic;font-size:15px;line-height:1.5;color:var(--ink-soft);
+max-width:78ch;margin-bottom:20px}
+.a3{display:flex;gap:10px;align-items:stretch;margin-bottom:0}
+.a3 .panel{flex:1;min-width:0}
+.arrow{align-self:center;color:var(--slate);font-size:20px;flex:none}
+.panel h3{font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--ink);
+margin-bottom:9px}
+.pl{margin-top:11px;padding-left:16px;display:grid;gap:6px}
+.pl li{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+.pl li::marker{color:var(--red);font-weight:700}
+.funnel-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+color:var(--ink-soft);font-weight:700;margin-bottom:6px}
+.rungs{list-style:none;display:grid;gap:0}
+.rungs li{display:flex;align-items:center;gap:12px;padding:11px 0;
+border-bottom:1px solid var(--hairline);flex-wrap:wrap}
+.rungs li:last-child{border-bottom:none}
+.rn{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+color:var(--slate);flex:none;width:56px}
+.rt{flex:1;min-width:220px;font-size:14px;line-height:1.45}
+.pill{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+padding:4px 11px;border-radius:999px;flex:none;margin-left:auto}
+.pill.ok{background:var(--moss-chip);color:var(--moss)}
+.pill.open{background:#DFF1EC;color:#1F6F62}
+.pill.now{background:var(--amber-chip);color:#9A5A17}
+.pill.todo{background:#EDEDEA;color:#77817D}
+.norungs{font-size:13px;color:var(--slate);line-height:1.5;
+border:1.5px dashed #D3D8D5;border-radius:10px;padding:13px 15px;background:#FCFCFB}
+.blocker{margin-top:9px;font-size:13px;color:var(--red);line-height:1.45}
+.openslot{margin-top:8px;font-size:13px;color:var(--slate);line-height:1.45}
+.openslot .nt{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+details.rest{margin-top:16px}
+details.rest>summary{cursor:pointer;list-style:none;background:var(--card);
+border:1px solid var(--hairline);border-radius:12px;padding:14px 20px;
+font-size:11.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+color:var(--ink-soft);text-align:center}
+details.rest>summary::-webkit-details-marker{display:none}
+details.rest>summary:hover{border-color:var(--ink-soft)}
+details.rest[open]>summary{margin-bottom:16px}
 .panel{background:var(--card);border:1px solid var(--hairline);border-radius:16px;
 padding:20px 24px}
 .panel.proposal{border-color:#CFDDD3;background:linear-gradient(180deg,#FCFEFC,#FFF)}
@@ -578,7 +699,7 @@ footer li::before{content:"—";position:absolute;left:0;color:var(--slate)}
 footer li b{color:var(--ink)}
 .foot{margin-top:15px;font-size:13px;color:var(--ink-soft);max-width:74ch;line-height:1.5}
 
-@media (max-width:820px){.a3{grid-template-columns:1fr}}
+@media (max-width:900px){.a3{flex-direction:column}.arrow{transform:rotate(90deg)}}
 @media (max-width:700px){h1{font-size:26px}.mm .l{font-size:9px}.stage{padding-left:26px}
 .rt,.rt tbody,.rt tr,.rt td{display:block}.rt thead{display:none}
 .rt td{border-bottom:none;padding:4px 14px}

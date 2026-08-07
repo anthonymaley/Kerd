@@ -20,7 +20,47 @@ h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-
 font-weight:700;margin-bottom:13px}
 section{margin-bottom:36px}
 
-.a3{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:36px}
+.story{margin-bottom:34px}
+.storybox{background:var(--card);border:1px solid var(--hairline);border-radius:16px;
+padding:22px 26px}
+.outline{font-style:italic;font-size:15px;line-height:1.5;color:var(--ink-soft);
+max-width:78ch;margin-bottom:20px}
+.a3{display:flex;gap:10px;align-items:stretch;margin-bottom:0}
+.a3 .panel{flex:1;min-width:0}
+.arrow{align-self:center;color:var(--slate);font-size:20px;flex:none}
+.panel h3{font-size:12px;font-weight:700;letter-spacing:.03em;color:var(--ink);
+margin-bottom:9px}
+.pl{margin-top:11px;padding-left:16px;display:grid;gap:6px}
+.pl li{font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
+.pl li::marker{color:var(--red);font-weight:700}
+.funnel-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+color:var(--ink-soft);font-weight:700;margin-bottom:6px}
+.rungs{list-style:none;display:grid;gap:0}
+.rungs li{display:flex;align-items:center;gap:12px;padding:11px 0;
+border-bottom:1px solid var(--hairline);flex-wrap:wrap}
+.rungs li:last-child{border-bottom:none}
+.rn{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+color:var(--slate);flex:none;width:56px}
+.rt{flex:1;min-width:220px;font-size:14px;line-height:1.45}
+.pill{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+padding:4px 11px;border-radius:999px;flex:none;margin-left:auto}
+.pill.ok{background:var(--moss-chip);color:var(--moss)}
+.pill.open{background:#DFF1EC;color:#1F6F62}
+.pill.now{background:var(--amber-chip);color:#9A5A17}
+.pill.todo{background:#EDEDEA;color:#77817D}
+.norungs{font-size:13px;color:var(--slate);line-height:1.5;
+border:1.5px dashed #D3D8D5;border-radius:10px;padding:13px 15px;background:#FCFCFB}
+.blocker{margin-top:9px;font-size:13px;color:var(--red);line-height:1.45}
+.openslot{margin-top:8px;font-size:13px;color:var(--slate);line-height:1.45}
+.openslot .nt{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+details.rest{margin-top:16px}
+details.rest>summary{cursor:pointer;list-style:none;background:var(--card);
+border:1px solid var(--hairline);border-radius:12px;padding:14px 20px;
+font-size:11.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+color:var(--ink-soft);text-align:center}
+details.rest>summary::-webkit-details-marker{display:none}
+details.rest>summary:hover{border-color:var(--ink-soft)}
+details.rest[open]>summary{margin-bottom:16px}
 .panel{background:var(--card);border:1px solid var(--hairline);border-radius:16px;
 padding:20px 24px}
 .panel.proposal{border-color:#CFDDD3;background:linear-gradient(180deg,#FCFEFC,#FFF)}
@@ -124,40 +164,50 @@ footer li::before{content:"—";position:absolute;left:0;color:var(--slate)}
 footer li b{color:var(--ink)}
 .foot{margin-top:15px;font-size:13px;color:var(--ink-soft);max-width:74ch;line-height:1.5}
 
-@media (max-width:820px){.a3{grid-template-columns:1fr}}
+@media (max-width:900px){.a3{flex-direction:column}.arrow{transform:rotate(90deg)}}
 @media (max-width:700px){h1{font-size:26px}.mm .l{font-size:9px}.stage{padding-left:26px}
 .rt,.rt tbody,.rt tr,.rt td{display:block}.rt thead{display:none}
 .rt td{border-bottom:none;padding:4px 14px}
 .rt tr{border-bottom:1px solid var(--hairline);padding:10px 0}}
 </style></head><body><div class="wrap">
-<header><div class="eyebrow">Kerd · journey</div><h1>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost</h1><div class="derived">Drawn from the repo at <code>4cd4cc2</code> · 7 August 2026, 11:49 · read-only — this page changes nothing</div></header>
-<div class="a3">
-<div class="panel"><h2>Where we are</h2>
-<div class="slot">Not drawn yet — the one thing on this page that cannot be derived. Drawn while pairing and committed like any other artifact.</div>
-<ol class="pains">
+<header><div class="eyebrow">Kerd · journey</div><h1>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost</h1><div class="derived">Drawn from the repo at <code>06192b6</code> · 7 August 2026, 12:19 · read-only — this page changes nothing</div></header>
+<section class="story"><h2>Proposal</h2><div class="storybox">
+<p class="outline">This outline is used when a proposal is being made to improve the condition as a result of reducing problems or gaining benefits not currently available.</p><div class="a3">
+<div class="panel"><h3>Current Situation &amp; Background</h3>
+<div class="slot">Not drawn yet — the one thing here that cannot be derived. Drawn while pairing, committed like any other diagram.</div>
+<ul class="pl">
 <li>the one artifact stating our exact ladder position is the one the pickup does not read</li>
 <li>"read the newest log in full" is unbounded, and was silently truncated at this very pickup</li>
 <li>the prune instruction has never fired, in 34 closes</li>
-</ol>
-<div class="more">11 more, in the frame</div>
+</ul>
 </div>
-<div class="panel proposal"><h2>Where we are going</h2>
-<div class="slot">Not drawn yet.</div>
+<div class="arrow">→</div>
+<div class="panel"><h3>Problems &amp; Cause</h3>
+<div class="slot">Not drawn yet — the one thing here that cannot be derived. Drawn while pairing, committed like any other diagram.</div>
+<ul class="pl">
+<li>erosion and accretion are the same knob</li>
+<li>even removals add text</li>
+<li>the cross-day log erosion path</li>
+</ul>
+</div>
+<div class="arrow">→</div>
+<div class="panel"><h3>Proposal &amp; Benefits</h3>
+<div class="slot">Not drawn yet — the one thing here that cannot be derived. Drawn while pairing, committed like any other diagram.</div>
 <p class="pitch">When context window is filling, we can switch out to record EXACTLY where we are against the agreed stage/ladder/plan to allow us to clear the context window and start as if it was the same exact session and no memory or agreed points or input had been forgotten or lost. Whatever we need to make…</p>
 <div class="targets">
 <div class="target"><div class="num">2 observed → 0</div><div class="cap">Course-correction interventions per pickup</div></div>
 <div class="target"><div class="num">no → yes</div><div class="cap">Ladder position available at pickup</div></div>
 <div class="target"><div class="num">unmeasured → 0, and measurable</div><div class="cap">Agreed points lost across a boundary</div></div>
-<div class="target"><div class="num">unbounded → bounded and complete</div><div class="cap">Read-set determinism</div></div>
 </div>
-</div></div>
+</div>
+</div></div></section>
 <section class="risks"><h2>Risks</h2><table class="rt"><thead><tr><th></th><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Countermeasure</th></tr></thead><tbody>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">Pruning to fix accretion introduces erosion — a short session's close overwrites CONTEXT.md and drops an… <span class="killer">killer</span></td><td>a lost agreed point IS the failure this work exists to remove, so impact equals the declared value — fatal by impact alone if…</td><td>medium — mechanism confirmed and unguarded, but incidence is zero across 34 closes because nothing currently…</td><td>pruning is licensed only at defined events — a goal record landing (docs/gates/*-goal.md) or an explicit agreed drop; CONTEXT.md is append-only between them, so a short…</td></tr>
 <tr class="warn"><td class="g"><span class="glyph">△</span><span class="gw">watching</span></td><td class="rt-title">Reading more at pickup fills the window faster, forcing more boundaries — each boundary is itself a fidelity…</td><td>more switches per unit of work, compounding every other risk here</td><td>high — CONTEXT.md at 54KB is already a large share of a cold reload, and every gap fix adds to the read set</td><td>none — which is why it is open</td></tr>
 <tr class="warn"><td class="g"><span class="glyph">△</span><span class="gw">watching</span></td><td class="rt-title">The fidelity property stays unfalsifiable — no check exists that a pickup restored what the close recorded…</td><td>the work cannot be proven to have worked; regressions stay invisible exactly as they are today</td><td>high — no such check exists anywhere in the repo today</td><td>none — which is why it is open</td></tr>
 <tr class="warn"><td class="g"><span class="glyph">△</span><span class="gw">watching</span></td><td class="rt-title">"Read in full" instructions get silently bounded by the reader when the target is large</td><td>the pickup reads less than specified and reports it as complete, which is indistinguishable from a faithful read</td><td>high — one observed instance on the same day the requirement was stated</td><td>none — which is why it is open</td></tr>
 </tbody></table><div class="legend">○ handled · △ handled only by a countermeasure, or watched · × no countermeasure — a blocker</div></section>
-<div class="minimap">
+<div class="funnel-label">The funnel</div><div class="minimap">
 <div class="mm done reached"><div class="dot"></div><div class="l">Idea</div></div>
 <div class="mm done reached"><div class="dot"></div><div class="l">Validated</div></div>
 <div class="mm done reached"><div class="dot"></div><div class="l">Scoped</div></div>
@@ -167,81 +217,19 @@ footer li b{color:var(--ink)}
 <div class="mm "><div class="dot"></div><div class="l">Proven</div></div>
 <div class="mm "><div class="dot"></div><div class="l">Live</div></div>
 </div>
-<div class="mapnote">At <b>Designed</b> · 3 of 8 rungs behind it · entered the ladder at <b>Designed</b></div>
+<div class="mapnote">At <b>Designed</b> · 3 of 8 stages behind it · entered the funnel at <b>Designed</b></div>
 <div class="ladder">
-<div class="stage done"><span class="lamp"></span><div class="head"><h2>Idea</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the problem named, and what winning would be</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">Nothing had to be on disk to start — this is where work enters</span></li>
-<li><span class="mark open">·</span><span class="s-name open">The idea, drawn current-to-ideal</span><span class="s-note">drawn, not described</span><span class="s-fact">not there</span></li>
-</ul>
-</div></div>
-<div class="stage done"><span class="lamp"></span><div class="head"><h2>Validated</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the risks sized, the killer one answered</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">The idea is written down</span></li>
-<li><span class="mark ok">○</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
-<li><span class="mark ok">○</span><span class="s-name">What winning looks like, stated in units</span></li>
-<li><span class="mark open">·</span><span class="s-name open">What we considered</span><span class="s-note">options compared against declared criteria</span><span class="s-fact">not there</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage done"><span class="lamp"></span><div class="head"><h2>Scoped</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the smallest slice worth shipping</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">The smallest valuable slice named</span></li>
-<li><span class="mark open">·</span><span class="s-name open">The design</span><span class="s-note">how it works, in detail</span><span class="s-fact">not there</span></li>
-<li><span class="mark open">·</span><span class="s-name open">Architecture — how the parts connect</span><span class="s-note">high-level blocks and lines</span><span class="s-fact">not there</span></li>
-<li><span class="mark open">·</span><span class="s-name open">The proposal, drawn</span><span class="s-note">current versus new</span><span class="s-fact">not there</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Spec'd</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece written down precisely enough to hand over</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Built</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece made, and measured against its own spec</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Proven</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">the whole thing checked against what we said winning was</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
-</ul></div>
-</div></div>
-<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Live</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">in use, and the machine can refuse a regression</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">The machine can refuse bad work</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">Proven against its done condition, on the record</span><span class="s-fact">still needed</span></li>
-</ul>
-<div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
-<li><span class="what">gate.yml</span><a class="open" href="../../.github/workflows/gate.yml">open</a></li>
-</ul></div>
-</div></div>
+<div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="openslot">· The design — how it works, in detail <span class="nt">not there</span></div><div class="openslot">· Architecture — how the parts connect — high-level blocks and lines <span class="nt">not there</span></div><div class="openslot">· The proposal, drawn — current versus new <span class="nt">not there</span></div><div class="made"><h4>What we created</h4><ul><li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li></ul></div></div></div>
 </div>
+<details class="rest"><summary>All other stages</summary><div class="ladder">
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Idea</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the problem named, and what winning would be</div><ul class="rungs"><li><span class="rn">Step 1</span><span class="rt">CAPTURE THE IDEA/PROBLEM: do so from the prompt input as typed</span><span class="pill open">open</span></li><li><span class="rn">Step 2</span><span class="rt">Supporting or comparable documents, diagrams, references, experience inputs, sites, images</span><span class="pill open">open</span></li><li><span class="rn">Step 3</span><span class="rt">Perform interview in rapid Q&amp;A style to capture the requirement — one at a time, on purpose / constraints / success criteria</span><span class="pill now">in progress</span></li><li><span class="rn">Step 4</span><span class="rt">Visualize the idea, diagram or HTML, and iterate in a paired session with the user</span><span class="pill todo">not started</span></li></ul><div class="openslot">· The idea, drawn current-to-ideal — drawn, not described <span class="nt">not there</span></div></div></div>
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Validated</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the risks sized, the killer one answered</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="openslot">· What we considered — options compared against declared criteria <span class="nt">not there</span></div><div class="made"><h4>What we created</h4><ul><li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li></ul></div></div></div>
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Scoped</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the smallest slice worth shipping</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="made"><h4>What we created</h4><ul><li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Spec'd</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece written down precisely enough to hand over</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× The solution designed — still needed</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Built</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece made, and measured against its own spec</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× The solution designed — still needed</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="blocker">× The build contract written — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Proven</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">the whole thing checked against what we said winning was</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× The solution designed — still needed</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="blocker">× The build contract written — still needed</div><div class="blocker">× Every piece built and checked off — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li></ul></div></div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Live</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">in use, and the machine can refuse a regression</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× The solution designed — still needed</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="blocker">× The build contract written — still needed</div><div class="blocker">× Every piece built and checked off — still needed</div><div class="blocker">× Proven against its done condition, on the record — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li><li><span class="what">gate.yml</span><a class="open" href="../../.github/workflows/gate.yml">open</a></li></ul></div></div></div>
+</div></details>
 <footer><h3>What this page cannot show yet, and why</h3><ul>
 <li><b>How long each rung took.</b> Gate records are dated to the day and most journeys land two rungs on one date, so day resolution reads zero. Per-task start and end stamps began on 2026-08-06; too few yet for a comparison that would not mislead.</li>
 <li><b>What it measured once in use.</b> Nothing on disk records post-ship measurement, so there is nothing to read.</li>
