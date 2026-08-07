@@ -71,6 +71,76 @@ merely unique — all three are the producer's, none of them are a build activit
   not a time axis, which has had no artifact for four days because there was
   nothing stable to group.
 
+### The chain, in the producer's words
+
+> A useful traceability model usually links these as:
+> `Business Goal → Stakeholder Need → Product Requirement →
+> Functional/Technical Requirement → Design → Implementation → Test Case →
+> Release Evidence → Post-Launch Metric`
+
+**Measured against what this repo has on disk, the funnel covers the middle of
+that chain and has nothing at either end:**
+
+| Chain link | Artifact today | State |
+|---|---|---|
+| Business Goal | — | absent |
+| Stakeholder Need | — | absent |
+| Product Requirement | `docs/product/<slug>.md` `## Value` | prose, no identity |
+| Functional/Technical Requirement | — | absent (this is the register) |
+| Design | `docs/design/<slug>.md` | present |
+| Implementation | work commit + `Piece:` trailer | present, never exercised |
+| Test Case | spec verify commands + the measurement table | present |
+| Release Evidence | `docs/gates/*-goal.md` | present |
+| Post-Launch Metric | — | absent |
+
+**This explains a hole nobody could name.** `docs/design/funnel-steps.md`
+(2026-08-07) defines the steps inside each funnel stage and leaves **Live**
+deliberately empty, because no source of any kind could be found for it. Live
+*is* post-launch. Category 20 below — adoption tracking, feedback loops,
+support metrics, defect triage, iteration backlog — is its missing vocabulary.
+The stage was not empty because the work was hard; it was empty because nothing
+in the system had words for it.
+
+### The category scheme, supplied by the producer
+
+Given 2026-08-07 as a standard product-definition-to-launch taxonomy. It is
+**discipline-based** — which specialism owns the requirement — rather than
+domain-based, which is why it travels to any project rather than being fitted
+to one.
+
+| # | Code | Category | Covers |
+|---|---|---|---|
+| 1 | BUS | Business | revenue goals · strategic objectives · market positioning · success metrics · business constraints |
+| 2 | STA | Stakeholder | executive · customer · sales · support · partner needs |
+| 3 | USR | User | personas · jobs to be done · user workflows · accessibility needs · usability expectations |
+| 4 | PRD | Product | product scope · feature requirements · use cases · MVP definition · out-of-scope items |
+| 5 | FUN | Functional | system behaviours · feature logic · user actions · rules and calculations · workflow states |
+| 6 | NFR | Non-functional | performance · scalability · reliability · availability · maintainability |
+| 7 | UX | UX/UI | interaction patterns · navigation · visual design constraints · content requirements · responsive behaviour |
+| 8 | TECH | Technical | architecture · APIs · data models · infrastructure · platform/browser/device support |
+| 9 | INT | Integration | third-party services · internal systems · import/export · webhooks · API contracts |
+| 10 | DATA | Data | capture · retention · quality · reporting data · migration |
+| 11 | SEC | Security | authentication · authorization · encryption · audit logging · threat mitigations |
+| 12 | PRIV | Privacy | consent · personal data handling · deletion · user controls · disclosures |
+| 13 | CMP | Regulatory / Compliance | legal obligations · industry standards · certification · records retention · compliance evidence |
+| 14 | ANA | Analytics / Measurement | events · funnels · KPIs · experimentation · launch success tracking |
+| 15 | OPS | Operational | monitoring · alerting · incident response · admin tools · runbooks |
+| 16 | SUP | Support | help content · support workflows · troubleshooting tools · known-issue handling · customer communications |
+| 17 | TST | Testing / Validation | acceptance criteria · test cases · verification methods · UAT · regression coverage |
+| 18 | REL | Release | launch criteria · rollout plan · feature flags · migration plan · rollback plan |
+| 19 | DOC | Documentation | user docs · internal docs · API docs · training materials · release notes |
+| 20 | POST | Post-Launch | adoption tracking · feedback loops · support metrics · defect triage · iteration backlog |
+
+**ID format:** `<CODE>-<NNN>`, e.g. `UX-001`, `DATA-001`. Stable for the life of
+the project; never renumbered, never reused.
+
+**This scheme ships as the default.** An earlier draft of this frame claimed
+every hardcoded scheme is wrong; that was falsified by the producer supplying
+one. The distinction it missed: *domain* categories cannot be hardcoded because
+they describe the thing being built, but *discipline* categories can, because
+they describe who owns a requirement — and that is the same in every project. A
+project may extend the set; it does not have to invent one.
+
 ### The unit, and why prose fails at it
 
 The unit of value is **a sentence the producer can say and the machine can
@@ -118,22 +188,33 @@ Extracted from this session's own conversation on 2026-08-07, which is the
 demonstration Tony asked for (*"a lot of the converstation we have had today is
 requirment initial or final development right?"*):
 
-| Proposed ID | Requirement (compressed) | State |
+Filed under the producer's own taxonomy above:
+
+| ID | Requirement (compressed) | State |
 |---|---|---|
-| ROLE001 | Approving the design is enough — no plan-approval gate | final |
-| ROLE002 | A plan is execution of the design, carrying the measurements that prove the goals met | final |
-| TRACE001 | The plan must check the design's measurements are carried in accurately, and show it | final |
-| TRACE002 | Every requirement gets a Category and ID, traceable back and forward | final |
-| TRACE003 | Any request is qualified; if durable it becomes a requirement, through stages to final | proposed |
-| DIST001 | Kerd gives consuming projects this capability; Kerd is only a user of it | final |
-| DIST002 | The user's repo holds funnel state, requirements, stage data, steps, journey — nothing in Kerd, ever | final |
-| STATE001 | The boundary records everything agreed; efficiency is a tiebreaker, never a reason to record less | final |
+| FUN-001 | Approving the design is enough — no plan-approval gate | final |
+| FUN-002 | A plan is execution of the design, carrying the measurements that prove the goals met | final |
+| FUN-003 | Every requirement gets a Category and ID, traceable back and forward | final |
+| FUN-004 | Any request is qualified; if durable it becomes a requirement, through stages to final | proposed |
+| TST-001 | The plan must check the design's measurements are carried in accurately, and show it | final |
+| PRD-001 | Kerd gives consuming projects this capability; Kerd is only a user of it | final |
+| TECH-001 | The user's repo holds funnel state, requirements, stage data, steps, journey — nothing in Kerd, ever | final |
+| NFR-001 | The boundary records everything agreed; efficiency is a tiebreaker, never a reason to record less | final |
 
 All eight currently live as prose bullets. The extraction took one pass and
-immediately exposed something invisible in prose: `TRACE003` is the only one
+immediately exposed something invisible in prose: `FUN-004` is the only one
 still `proposed`. A state column made a distinction visible that paragraphs had
 hidden — which is the argument for the whole item, and the same result the
 journey page produced on its first render.
+
+**Two things the filing exercise itself showed.** Four of the eight land in
+`FUN`, while `UX`, `INT`, `SEC`, `PRIV` and `CMP` stay empty — Kerd has no UI,
+no integrations, no user data and no security surface. That is evidence the
+scheme is general rather than fitted to this repo, and a warning that **Kerd is
+a thin dogfood for it**: the capability will ship having exercised about a
+quarter of its own categories. And `NFR-001` filed itself — "fidelity beats
+efficiency" is a textbook non-functional requirement, and it had spent four
+months as a paragraph nobody could reference.
 
 ### Gap 3 — requirements have no identity anywhere in the chain
 
@@ -173,13 +254,28 @@ never got that treatment because they were written as Kerd's own build
 machinery and never as something that travels. This is one class of file
 missing a pattern the repo already proved, not a new design problem.
 
-### Gap 6 — every category scheme that could be hardcoded is wrong
+### Gap 6 — the chain has nine links and this repo holds the middle five
 
-`UI001` and `DATA001` are the producer's examples from general software. Kerd
-itself has no UI; its own categories are something else entirely. A fixed scheme
-is wrong for every project including this one, so categories are **declared per
-project** — which makes the declaration an artifact the gates must check, on the
-`## Grounding` / AU5 precedent.
+Set against the producer's chain (Value, above), `Business Goal` and
+`Stakeholder Need` have no artifact at the top, and `Post-Launch Metric` has
+none at the bottom. The funnel starts at Product Requirement and stops at
+Release Evidence.
+
+The bottom hole is already visible in the machine and nobody could name it:
+`docs/design/funnel-steps.md` leaves the **Live** stage empty because no source
+for its steps could be found. Live is post-launch, and the missing vocabulary is
+category 20.
+
+The top hole is quieter and probably worse. Nothing in this repo records *why a
+piece of work is worth doing in business terms*, so every prioritisation
+argument is re-had from memory — which is what the 2026-08-03
+choose-what-matters work was trying to fix from the other end, with axes rather
+than with recorded goals.
+
+**Slice 1 does not close either end.** It builds the register at the link where
+the break is (`Functional/Technical Requirement`), and both holes are recorded
+here so that a later slice has somewhere to start rather than rediscovering
+them.
 
 ## Risk ledger
 
@@ -189,7 +285,8 @@ project** — which makes the declaration an artifact the gates must check, on t
 | Retrofitting IDs onto finished work manufactures requirements nobody ever stated | yes | fabricated traceability passes its own check and cannot be told apart from the real thing, which destroys the register's only value | high — 20 slugs exist, 8 have walked the full ladder, and the backfill looks cheap and tidy | the grounding-was-read precedent (2026-08-05) refused retrofits for exactly this reason and made declaring the act of opting in | countermeasure - permanent | forward-only by construction; no retrofit of any existing slug, and the hole where finished work sits is recorded as the honest state | the first request to backfill IDs onto a completed slug re-argues this row |
 | The machinery cannot aim at a consuming project, so the capability degrades to a naming convention nobody checks | no | traceability is asserted and unenforced in every repo that is not Kerd, which is every repo the capability is for | high — certain as built today, not probabilistic | gap 5: kit.py:24 derives ROOT from the tool's own path; gate.py has no argument parser; the cache ships tools/ so the code is present and merely misaimed | countermeasure - permanent | apply the hooks' existing pattern — `${CLAUDE_PLUGIN_ROOT}` for the script, project dir for the state; lands in slice 1 as a hard dependency, and the library already takes `root` as a parameter everywhere so this is a CLI argument rather than a refactor | the first consuming project whose check audits the cache instead of itself re-argues this row |
 | The machine can check an ID is present and mapped; it cannot check the mapping is true — a piece naming a requirement it does not build passes green | no | the check certifies structure and gets read as certifying substance, so a requirement gap survives a green run | high — a property of the design, not a defect that might not occur | the same declared limit already carried by AU5 (resolution is not comprehension) and fidelity.py (reachability is not comprehension) | accepted | | the first requirement that passes the check and turns out unbuilt re-argues this row |
-| The producer authors requirement IDs and the model authors everything downstream, so categories drift toward what is convenient to build rather than what was asked for | no | the vocabulary stops meaning what the producer meant, which destroys "speak in IDs that mean something" | medium — the same drift already happened once, with role names the producer chose himself | the v0.92.0 rename: names ratified at v0.66.0 came back three weeks later describing the opposite roles, in one sentence | countermeasure - temporary | the category scheme is a declared artifact the producer signs, quoted verbatim like `## Value`; no session adds a category without the producer naming it | the first category added by a session rather than by the producer re-argues this row |
+| The producer authors requirement IDs and the model authors everything downstream, so filing drifts toward what is convenient to build rather than what was asked for | no | the vocabulary stops meaning what the producer meant, which destroys "speak in IDs that mean something" | low — downgraded when the producer supplied a standard discipline taxonomy on 2026-08-07; a fixed external scheme is far harder to drift than one a session invents | the v0.92.0 rename shows the failure is real (names ratified at v0.66.0 came back describing the opposite roles), but that scheme was authored in-session, which this one is not | countermeasure - permanent | the twenty categories are fixed and shipped; a project may extend the set, but no session adds a category without the producer naming it | the first category added by a session rather than by the producer re-argues this row |
+| Kerd exercises about a quarter of its own taxonomy, so the capability ships tested against a narrow slice of what it claims to cover | no | filing rules for UX, INT, SEC, PRIV and CMP requirements are unexercised at ship; a consuming project meets those bugs first | high — structural, not probabilistic: this repo has no UI, no integrations, no user data and no security surface | gap 2: filing today's eight requirements put four in FUN and left five categories empty | accepted unknown | | the first consuming project to file a UX, INT, SEC, PRIV or CMP requirement re-argues this row |
 | The `Piece:` trailer, the code end of the chain, has never once been written | no | the forward trace stops at the contract and "requirement to code" is unproven | medium — built and untested rather than known-broken; the product is unfinished so no usage metric exists either way | zero trailers across the 40 commits since v0.91.0, explainable by no contract-run work in that window | accepted unknown | | the first work commit that should carry a trailer and does not re-argues this row |
 
 ## Killer risk, read out
@@ -234,9 +331,10 @@ project that is not Kerd gets the value.
   requirement rows: ID, category, the requirement in the producer's words, and
   exactly one state from a closed legal set — the risk-ledger shape, which this
   repo has already proven and machine-checks today.
-- **A declared category scheme, per project.** Where a project names its
-  categories and what each means. Declaring is opting in; an undeclared project
-  is silent, never red.
+- **The category scheme ships as a default.** The producer's twenty
+  discipline-based categories, with the `<CODE>-<NNN>` ID format. A project may
+  extend the set; it never has to invent one. Categories that a project never
+  uses stay empty rather than being pruned — an empty `SEC` is information.
 - **The promotion beat.** Request → qualified → durable? → requirement, with
   the producer's key on the promotion. This is the killer risk's countermeasure
   and it is what makes the register non-empty.
