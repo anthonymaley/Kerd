@@ -134,6 +134,50 @@ to one.
 **ID format:** `<CODE>-<NNN>`, e.g. `UX-001`, `DATA-001`. Stable for the life of
 the project; never renumbered, never reused.
 
+### Not every project owes every category — applicability must be declared
+
+Tony, 2026-08-07, on seeing that Kerd fills four categories and leaves five
+empty:
+
+> not every project is the same structure, so requirments are not the same
+> everytime, so we dont have a structure for storeing all rquirments types so
+> maybe we need to have a minimum set or temolates that we use for types of
+> projects or sugest classifications from a list?
+
+**The requirement underneath the three options: emptiness carries no meaning
+until applicability is declared.** An empty `SEC` in Kerd is correct — there is
+no security surface. An empty `SEC` in a payments product is a defect. Today
+those two are indistinguishable, so "empty" is not a signal at all. This
+falsifies a line in an earlier draft of this frame which claimed an empty
+category is information; it is information only once the project has said
+whether it owes that category.
+
+Each category therefore carries one of two dispositions, and **`n/a` requires a
+named reason** — the same discipline the risk ledger already enforces on
+`accepted`, and the rigor design on a waiver:
+
+| Disposition | Meaning | Empty means |
+|---|---|---|
+| `applies` | this project owes requirements here | a gap |
+| `n/a — <reason>` | it does not, and why | correct |
+
+The three options in the quote are then one mechanism, not a choice between
+three:
+
+- **the full twenty** is the catalog
+- **templates by project type** pre-fill the disposition so the producer edits
+  deviations rather than ruling on twenty rows
+- **a minimum set** is the floor — a `production-v1` project cannot mark `SEC`
+  or `PRIV` as `n/a`, exactly as `docs/design/rigor-level.md` decided that
+  production-v1 cannot waive security
+
+**This is `rigor-level` slice 2's object, not a new one.** That slice is
+designed and unbuilt, and its own description is *"catalog + pre-filled
+disposition table (producer touches deviations only)"*. Two disposition
+mechanisms declaring what a project does and does not owe would eventually
+disagree with each other. Whether they share one table or one pattern is a
+design-rung decision; that they must not be invented twice is recorded here.
+
 **This scheme ships as the default.** An earlier draft of this frame claimed
 every hardcoded scheme is wrong; that was falsified by the producer supplying
 one. The distinction it missed: *domain* categories cannot be hardcoded because
@@ -333,8 +377,12 @@ project that is not Kerd gets the value.
   repo has already proven and machine-checks today.
 - **The category scheme ships as a default.** The producer's twenty
   discipline-based categories, with the `<CODE>-<NNN>` ID format. A project may
-  extend the set; it never has to invent one. Categories that a project never
-  uses stay empty rather than being pruned — an empty `SEC` is information.
+  extend the set; it never has to invent one.
+- **A declared disposition per category** — `applies`, or `n/a` with a named
+  reason. Without it an empty category cannot be told from a missing one, which
+  is the state today. Pre-filling by project type and the per-level floors are
+  excluded from this slice (below); slice 1 only requires the declaration to
+  exist and be one of the two legal values.
 - **The promotion beat.** Request → qualified → durable? → requirement, with
   the producer's key on the promotion. This is the killer risk's countermeasure
   and it is what makes the register non-empty.
@@ -349,6 +397,13 @@ project that is not Kerd gets the value.
 - **Wiring requirements into the measurement table and the contract pieces.**
   The forward half of the trace. It needs the register to exist first, and
   building both at once means neither gets a real test. Slice 2.
+- **Project-type templates and the per-level floors.** The pre-filled
+  disposition (producer edits deviations only) and the rule that a
+  `production-v1` project cannot mark `SEC` or `PRIV` as `n/a`. Both are real
+  requirements and both are the *same object* as `rigor-level` slice 2, which
+  is designed and unbuilt — building a second disposition mechanism here would
+  guarantee two places that disagree about what a project owes. Excluded until
+  that overlap is settled at the design rung.
 - **The release-planning artifact.** This slice makes it expressible; building
   it is its own work.
 - **Rendering the trace on the journey page.** The page should render something
