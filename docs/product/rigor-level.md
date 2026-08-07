@@ -42,7 +42,7 @@ refused when absent.
 
 Cheapness preserved (rigor rises, ceremony low): a spike's declaration
 costs one line — its classes pre-fill to waived-by-name from the
-catalog, the composer touches nothing.
+catalog, the producer touches nothing.
 
 ## Risk ledger
 
@@ -57,7 +57,7 @@ catalog, the composer touches nothing.
 Rigor level: mvp
 
 Smallest valuable slice — **slice 1: the declared level + the refusal**
-(proposed; the fork below is the composer's call): a Release slice
+(proposed; the fork below is the producer's call): a Release slice
 carries a machine-readable rigor level from a declared legal set
 (starter set: `spike` · `mvp` · `production-v1`; `RIGOR_LEVELS` in
 `kit.py` is what the checker tests against — the refusal messages,
@@ -84,14 +84,14 @@ disposition table for one level, making class-silence impossible
 immediately for that level. Cost: the catalog's shape (living doc,
 floors, per-class defaults) gets designed under slice pressure instead
 of on its own rung — and grounding's precedent (declarations first,
-instrument second) argues thin. Composer decides.
+instrument second) argues thin. Producer decides.
 
 Deliberately excluded, named:
 
 - **The rigor catalog + pre-filled disposition table** — slice 2:
   living doc per level, on disk; expansion derived from the artifact,
   never model memory; each class forced into exactly one state;
-  per-level floors; composer key on deviations only.
+  per-level floors; producer key on deviations only.
 - **Measured classes become CI checks** — slice 3: a
   measured-with-target class lands as a red light with the fix named.
 - **Any proof the measurement itself was competent** — never: the

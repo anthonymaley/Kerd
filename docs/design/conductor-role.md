@@ -59,7 +59,7 @@ never breaks.
 | Spec-file machinery | **Write the contract** | work orders with per-piece checks + two-tier access exist as the contract instrument — **⚠ untestable as written: "two-tier access" appears in no other file in the repo and has no acceptance criterion derivable from disk. A trigger nobody can test never fires. Define the term or strike it before this row can be acted on (2026-08-07)** |
 | Plan-gate approval | **Design GO + contract measurability** | the design package GO (two keys) + machine-measurable pieces remove the per-spec human gate |
 | Verification gate + collateral check | **Build a piece · Prove it** | checks refuse from outside the model (CI instance) — behaviour unchanged, ownership moves |
-| 3-fix + orchestrator hand-back | **The role ladder** | the intent-holder exists as an agent with declared adjustment power |
+| 3-fix + composer hand-back | **The role ladder** | the intent-holder exists as an agent with declared adjustment power |
 | Close-out doc updates | **Byproduct capture** | dissolves — anything worth keeping is written the moment it exists (the state-in-artifacts property; the close-out-deferred loss window closes) |
 | Scope-creep hard stop | **The work order** | out-of-plan work becomes a work-order change request riding the ladder |
 | Decision recording | already byproduct | done — records at the moment of decision today |

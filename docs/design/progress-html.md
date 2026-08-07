@@ -104,7 +104,7 @@ grown fix line.
 | Detail on demand | in the page, zero terminal | Pieces and per-rung named have/need inlined at generation from the model + gate kit; expand on click. Measured by: the drill-down present for every slug in the fixture model. |
 | Trust in what you're seeing | freshness named; stale page reds the tip | The freshness line (newest landed-piece sha + state fingerprint, both model-derived so the compare converges); the trio byte-compare in the existing CI step. Measured by: F11–F14 + the both-ways demonstration. |
 
-## Out of scope, named (composer key on the frame)
+## Out of scope, named (producer key on the frame)
 
 Live refresh / watch mode · any server · any control that mutates ·
 replacing the SVG or terminal surfaces. Each returns only through its

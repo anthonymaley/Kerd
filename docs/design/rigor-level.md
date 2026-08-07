@@ -80,7 +80,7 @@ precedent covers reading lists, not scalars). The retrofit lands in the
 **same commit** as the rule, so no pushed tip ever has the rule without
 the lines.
 
-Retrofit values, proposed (composer annotates on the canvas if any is
+Retrofit values, proposed (producer annotates on the canvas if any is
 dishonest): `push-wiring: mvp` · `grounding-was-read: mvp` ·
 `progress-html: mvp` · `rigor-level: mvp` — internal tooling, in real
 use, no hardening pass claimed.

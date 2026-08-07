@@ -242,14 +242,14 @@ an event, not a judgement call and not an interrupt.
 much of it is human input that we lose."**
 
 That names why the repo's strongest principle has a blind spot precisely where
-the composer lives. **Derived-from-disk works because code leaves artifacts.**
+the producer lives. **Derived-from-disk works because code leaves artifacts.**
 Commits, files, gate records and rungs are real, they cannot lie, and the
 machine recovers them without anyone choosing to write anything down. That is
 why gaps 1-7 were fixable by pointing the boundary at artifacts that already
 existed.
 
 **Human input leaves no artifact at all.** There is no `git log` for "the goal
-is fidelity, not cost." Every word the composer contributes stays undeclared
+is fidelity, not cost." Every word the producer contributes stays undeclared
 until a model deliberately records it — and the model least likely to record it
 is one that has already drifted, which is exactly the case where recording
 matters most. The loss is therefore not random; it is systematically biased

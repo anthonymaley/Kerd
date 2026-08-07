@@ -121,12 +121,28 @@ Musically his usage is the correct one: a composer writes the score, a
 conductor directs the performance. The current assignment fights the metaphor
 it borrowed.
 
-**Working default, correctable:** the agent that writes specs becomes the
-**Composer**; Tony is named as himself — the ladder in `conductor-role.md`
-already does exactly that and never uses "composer" at all. This is a rename
-across `skills/conductor/SKILL.md`, `README.md` and CONTEXT.md, and it is
-**not** in slice 1 — it is a cross-cutting sweep and owes the standing grep
-obligation.
+**RESOLVED and shipped, v0.92.0.** Tony named his own seat: *"I am the
+producer, I have the idea or input to the work and approval to ensure we are
+making the show we want."* That completes the metaphor and every name now does
+the job its word already means:
+
+| Role | Who | Owns |
+|---|---|---|
+| **Producer** | Tony | the idea or the input, and the approvals |
+| **Composer** | a top-tier model (Fable), called as a subagent | the score |
+| **Conductor** | the session model (Opus) | the performance |
+| **Players** | subagents at a sized model and effort | one step each |
+
+Swept across 9 living files, 67 replacements, ordered composer→producer before
+orchestrator→composer so the new names could not be overwritten by the second
+pass. Session logs and gate records are immutable and keep their original
+wording. This document is deliberately **not** swept: the quotations above are
+the record of why the rename happened, and rewriting them would erase the
+evidence.
+
+Nothing about the architecture changed — the composer was always Fable, the
+conductor always Opus, the players always sized. Only the labels were wrong.
+The model tiers are now stated in the roles table rather than left in prose.
 
 **Scope, stated as an assumption:** the driver covers **idea → goal**, seven
 stages. `Live`/loop is excluded, because `funnel-steps.md` leaves that stage
