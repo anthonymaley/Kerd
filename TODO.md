@@ -35,27 +35,20 @@ region on the journey head; automating the fidelity check.
 
 ## Now
 
-**Read first: `docs/product/switch-fidelity.md`.** It is the live work item, at the design rung, and its gap list is the spec. Everything below is a pointer into it.
+**Read `## In flight` above — it is written live and supersedes this section.**
 
-**Slice 1 SHIPPED — v0.90.0** (`47b30ad` + `04d561e`, 2026-08-07): one complete boundary mode (`light`/`low` removed), CONTEXT.md append-only between licensed prune events, ladder position in both halves, no silent truncation of "read in full", `dead` added as a fourth closure verdict. Skipped the design rung on Tony's call. **Ships unverified** — nothing checks that a pickup restored what the close recorded.
+`## Now` is the current focus in one line: **funnel-driver slice 2 (the three
+unowned funnel stages) and switch-fidelity's fidelity check.** Everything else
+is Backlog.
 
-**Slice 2 is the real work and is NOT framed yet: capture human input.** Tony's root cause — *"we solve for code level but all the context is not code, much of it is human input that we lose"* — and his confirmation on the seven-item table: *"all of the x's are where I see the problem regularly, I drive input and direction and we revisit next session."* Priority order within it is gaps 10, 11, 12 (what we considered · what we threw away · the 27 dormant conditions), because those are what cost something today. Then 8, 9, 13, 14.
+**Standing conduct (2026-08-07):** Tony's rungs are frame, viability, slice and
+design, plus evaluation at goal; contract and build are the model's. Do not
+narrate build mechanics — commits carry the detail.
 
-**Standing conduct change (2026-08-07):** Tony's rungs are frame/viability/slice/design plus evaluation at goal; contract and build are the model's. Do not narrate build mechanics to him — commits carry the detail.
+**Working default:** per-piece evidence check, no blanket license.
 
-Next pick: frame slice 2, or the release-planning artifact below (they interlock — the someday/maybe review is a release-planning phase).
-
-**Three time-awareness follow-ups DONE — v0.89.0** (`ffa327e`, started 18:19 · landed 18:22): conductor's marker write moved out of Mode Markers into all four phase sections, close-out's no-execute-stamp consequence named, the `**Clock:**` line given its first write-side instruction, the hook fixture stamped and its assertion strengthened. Prompt-layer discipline placed at the drift's own granularity — **not a check**, and named as such in the skill, the README and the commit.
-
-**The sitting-range unit got its live test this session.** The plugin cache is current (0.88.0 served at switch-in — the repin debt is closed), and the marker was written and restamped at every transition: orient 18:10 · plan 18:13 · execute 18:19 · close-out 18:28, each from a same-turn `date`. This sitting's log heading is the first with a derivable open time.
-
-**CI honesty — still unverified, and not this session's fault**: GitHub's Actions incident has run all day (`major_outage`, confirmed live at 21:30Z). Every tip from `4889293` onward has no run; `ffa327e` did not even queue one. All seven gate steps plus the 26-test hook harness are green locally on every tip.
-
-Next pick: Backlog High freshest — auto-sizing · stop-hook · boundary-cycle · release-closeout slice 2 (declared external surfaces).
-
-Working default: per-piece evidence check — no blanket license.
-
-Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)` left on the board (Design: machine-checkable interface values).
+Debt carried: `Frame the intent` route-specific acceptance checklists; one `(?)`
+on the board (Design: machine-checkable interface values).
 
 ## Backlog
 
