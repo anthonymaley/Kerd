@@ -1,5 +1,26 @@
 # TODO
 
+## In flight — three threads, one at a time
+
+1. **shared-memory slice 1 — the journey page.** THE ACTIVE ONE. Framed and
+   keyed 2026-08-07, at the design rung. Page built and rendered for three
+   slugs; annotation round 1 taken in full (`docs/design/shared-memory.md`).
+   **Waiting on: Tony's round-2 review of the HTML.** Nothing else moves until
+   this closes.
+2. **switch-fidelity — parked at design.** Slice 1 shipped (v0.90.0). Slice 2
+   is unframed and is NOT being worked. The board shows design in-flight, which
+   is true but reads as active; it is not.
+3. **The four roles — raised 2026-08-07, deliberately parked.** Tony: *"the
+   orchestrator role is the one who needs to drive all this, so they need to
+   understand expectations, switch-fidelity, stages, ladders, progress etc
+   etc."* Today the orchestrator's brief is deliberately starved — intent,
+   terrain, constraints, players, and explicitly not the ladder or the
+   declared targets. That was a cost decision and is probably wrong under the
+   above. **Trigger: after the journey page closes.** Open question at that
+   point: whether the brief simply carries ladder position and targets, or
+   whether the orchestrator owns the journey — a different seat from
+   "called, writes a score, leaves".
+
 ## Now
 
 **Read first: `docs/product/switch-fidelity.md`.** It is the live work item, at the design rung, and its gap list is the spec. Everything below is a pointer into it.
