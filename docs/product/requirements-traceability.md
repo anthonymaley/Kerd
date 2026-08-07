@@ -1,0 +1,292 @@
+---
+route: new
+stage: framed
+story: proposal
+---
+
+# Human input has no address — it becomes prose, and prose cannot be traced, grouped, or reviewed
+
+## Value
+
+Tony, 2026-08-07, arriving at it across one afternoon. The short form first,
+because it is the whole item:
+
+> Your input finally gets an address. — yes! input get clarified into a
+> requirment and approved as such. love it.
+
+What the address is for, in his words:
+
+> feature to code traceablity (requirments traceablity basically)
+
+> perhapos we need to ensure we are doing requirements tracebility properly?
+> give each requirment a Category and ID (UI001, DATA001 for example) and trace
+> it back and forward easily. also helps enhacements, release planning etc
+
+> also allows producer (me) to review requirments and consider
+> changes/enhancements and release planning and speak in IDs that mean
+> something
+
+How a requirement comes into being — the beat that does not exist today:
+
+> any request should be qualified and if its durable we should make it a
+> requirement, might go through stages to be final etc but a lot of the
+> converstation we have had today is requirment initial or final development
+> right? but we are not tracking or categorizing it yet
+
+And whose capability this is, stated as a standing correction after the session
+framed it as Kerd's own bookkeeping:
+
+> so KERD is the skill that people use to build things. kerd needs to give
+> those projects this capability ( perversley we need it to build kerd too) so
+> i am talking about the scope of the skill here all the time.
+
+> it needs to also write the funnel state, requirments, stage data steps,
+> journey etc - right? nothing in kerd, ever. we only do it here to build kerd
+> skills.
+
+### What winning is
+
+**A durable human input becomes an addressable thing, in the user's own repo,
+and stays addressable for the life of the project.**
+
+The chain that address unlocks, in both directions:
+
+- **Forward** — requirement → the measurement that defines it as met → the
+  contract piece that builds it → the commit that landed it. *"What satisfies
+  `DATA001`?"* is answerable from disk.
+- **Backward** — a commit → the requirement it exists to serve. *"Why does this
+  exist?"* is answerable without archaeology.
+- **Gaps in both directions become states a machine can name** — a requirement
+  nothing builds, and work that serves no requirement.
+
+And the three jobs that are the reason IDs must be **categorised** rather than
+merely unique — all three are the producer's, none of them are a build activity:
+
+- **Review** — read a category and judge it as a set, instead of re-reading
+  prose to reconstruct what was asked for.
+- **Enhancements** — a change is expressible as a new requirement against an
+  existing category, so its blast radius is a category rather than a guess.
+- **Release planning** — a release becomes a named set of IDs. This is the
+  missing artifact from the 2026-08-03 decision that a release is a GROUPING,
+  not a time axis, which has had no artifact for four days because there was
+  nothing stable to group.
+
+### The unit, and why prose fails at it
+
+The unit of value is **a sentence the producer can say and the machine can
+check**: *"`DATA001` is unbuilt"*, *"this commit serves no requirement"*,
+*"`ROLE001` through `ROLE004` are the next release"*. Every one of those is
+answerable today only by reading everything, which means in practice it is not
+answerable.
+
+Prose loses the thread for a nameable reason: it gets summarised, paraphrased
+and compressed at every boundary, and none of those operations preserve a
+handle. An ID survives all three. That is the entire mechanism.
+
+This is the 2026-08-07 root cause with a countermeasure attached. Tony that
+morning: *"we solve for code level but all the context is not code — much of it
+is human input that we lose."* Code leaves artifacts that cannot lie; human
+input leaves nothing unless a model chooses to write it down. An ID is the
+cheapest artifact that makes a human contribution un-losable, because it makes
+it referenceable — and a reference can be checked.
+
+## Grounding
+
+- docs/design/conductor-role.md — the graduation map; deleting the plan gate is what surfaced this
+- docs/design/funnel-steps.md — the steps inside each stage, where a requirement obligation would land
+- docs/design/risk-ledger.md — the precedent this borrows: every row in exactly one state from a closed set
+- docs/product/funnel-driver.md — the driver frame; this item was cut out of its slice 2
+- docs/product/switch-fidelity.md — gaps 8-14, the diagnosis of losing human input
+- docs/state-contract.md — who owns and reads which files
+- tools/gates/kit.py — the gate ladder, and the ROOT derivation that stops the machinery travelling
+- hooks/session-start.sh — the CLAUDE_PROJECT_DIR pattern that already solves aiming
+- CONTEXT.md — the standing decisions this must not violate
+
+## The gap list
+
+### Gap 1 — the register already exists, disguised as a decisions list
+
+`CONTEXT.md` `## Key Decisions` is doing the job of a requirements register and
+cannot do it: append-only prose, no IDs, no categories, no state. It cannot
+answer *show me every ROLE requirement*, *what changed since Tuesday*, or
+*which of these are in the next release* — which are exactly the three jobs
+named in Value.
+
+### Gap 2 — measured live: eight requirements produced in one afternoon, none tracked
+
+Extracted from this session's own conversation on 2026-08-07, which is the
+demonstration Tony asked for (*"a lot of the converstation we have had today is
+requirment initial or final development right?"*):
+
+| Proposed ID | Requirement (compressed) | State |
+|---|---|---|
+| ROLE001 | Approving the design is enough — no plan-approval gate | final |
+| ROLE002 | A plan is execution of the design, carrying the measurements that prove the goals met | final |
+| TRACE001 | The plan must check the design's measurements are carried in accurately, and show it | final |
+| TRACE002 | Every requirement gets a Category and ID, traceable back and forward | final |
+| TRACE003 | Any request is qualified; if durable it becomes a requirement, through stages to final | proposed |
+| DIST001 | Kerd gives consuming projects this capability; Kerd is only a user of it | final |
+| DIST002 | The user's repo holds funnel state, requirements, stage data, steps, journey — nothing in Kerd, ever | final |
+| STATE001 | The boundary records everything agreed; efficiency is a tiebreaker, never a reason to record less | final |
+
+All eight currently live as prose bullets. The extraction took one pass and
+immediately exposed something invisible in prose: `TRACE003` is the only one
+still `proposed`. A state column made a distinction visible that paragraphs had
+hidden — which is the argument for the whole item, and the same result the
+journey page produced on its first render.
+
+### Gap 3 — requirements have no identity anywhere in the chain
+
+| Link | Artifact | Identity today |
+|---|---|---|
+| Requirement | `docs/product/<slug>.md` `## Value` | prose, quoted verbatim — none |
+| Gaps | `### Gap N` | numbered per-doc, not addressable across docs |
+| Measurement | the design doc's stage-1 measurement table | table rows — none |
+| Piece | `docs/plans/*-<slug>-spec.md` `## Pieces` | numbered `Step N` |
+| Code | work commit `Piece: <slug>/<n>` trailer | built at v0.91.0 |
+
+Piece → code is wired. Requirement → measurement → piece is not, so no question
+about a requirement can be answered mechanically.
+
+### Gap 4 — the promotion beat does not exist
+
+Today a request becomes prose inside `## Value` and is never promoted to
+anything. Tony's sequence — **request → qualified → durable? → requirement →
+stages → final** — has no step, no artifact and no approval anywhere in
+`skills/`. `/kerd:interrogate` qualifies *risks* on exactly this shape (sized,
+evidenced, in exactly one state); nothing does it for requirements.
+
+### Gap 5 — the machinery cannot aim at the project that owns the state
+
+`tools/gates/kit.py:24` derives `ROOT` from the tool file's own path. The plugin
+cache ships `tools/`, so the code travels — but run from a consuming project it
+resolves to **the cache**, not that project. `gate.py` has no argument parser.
+
+Since the funnel state belongs to the user's repo (DIST002), the tools that
+derive and render it have to read it there.
+
+**The pattern is already in this repo and predates the problem.** All four
+hooks solve exactly this: `${CLAUDE_PLUGIN_ROOT}` finds the *script*,
+`$CLAUDE_PROJECT_DIR` finds the *state*, and each hook guards the variable and
+`cd`s there before doing anything. Shipping since v0.19.0. The Python tools
+never got that treatment because they were written as Kerd's own build
+machinery and never as something that travels. This is one class of file
+missing a pattern the repo already proved, not a new design problem.
+
+### Gap 6 — every category scheme that could be hardcoded is wrong
+
+`UI001` and `DATA001` are the producer's examples from general software. Kerd
+itself has no UI; its own categories are something else entirely. A fixed scheme
+is wrong for every project including this one, so categories are **declared per
+project** — which makes the declaration an artifact the gates must check, on the
+`## Grounding` / AU5 precedent.
+
+## Risk ledger
+
+| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
+|---|---|---|---|---|---|---|---|
+| Requirements are recorded but the promotion beat is skipped under time pressure, so the register holds the easy requirements and loses the contested ones — which are the valuable ones | yes | the capability is delivered and the loss it exists to stop continues, now with a register that looks complete; worse than absent because it reads as coverage | high — the beat costs producer attention at the exact moment work wants to start, and today's session shows the pull is strong | gap 2: eight requirements produced in one afternoon and zero promoted, in a session explicitly about this problem | countermeasure - permanent | promotion is a declared artifact with a gate, on the `## Value` precedent — the one piece of human input that reliably survives is the one gate.py refuses without; a project that declares no categories is silent rather than red, so opting in is explicit | the first session that produces a durable requirement and records it only as prose re-argues this row |
+| Retrofitting IDs onto finished work manufactures requirements nobody ever stated | yes | fabricated traceability passes its own check and cannot be told apart from the real thing, which destroys the register's only value | high — 20 slugs exist, 8 have walked the full ladder, and the backfill looks cheap and tidy | the grounding-was-read precedent (2026-08-05) refused retrofits for exactly this reason and made declaring the act of opting in | countermeasure - permanent | forward-only by construction; no retrofit of any existing slug, and the hole where finished work sits is recorded as the honest state | the first request to backfill IDs onto a completed slug re-argues this row |
+| The machinery cannot aim at a consuming project, so the capability degrades to a naming convention nobody checks | no | traceability is asserted and unenforced in every repo that is not Kerd, which is every repo the capability is for | high — certain as built today, not probabilistic | gap 5: kit.py:24 derives ROOT from the tool's own path; gate.py has no argument parser; the cache ships tools/ so the code is present and merely misaimed | countermeasure - permanent | apply the hooks' existing pattern — `${CLAUDE_PLUGIN_ROOT}` for the script, project dir for the state; lands in slice 1 as a hard dependency, and the library already takes `root` as a parameter everywhere so this is a CLI argument rather than a refactor | the first consuming project whose check audits the cache instead of itself re-argues this row |
+| The machine can check an ID is present and mapped; it cannot check the mapping is true — a piece naming a requirement it does not build passes green | no | the check certifies structure and gets read as certifying substance, so a requirement gap survives a green run | high — a property of the design, not a defect that might not occur | the same declared limit already carried by AU5 (resolution is not comprehension) and fidelity.py (reachability is not comprehension) | accepted | | the first requirement that passes the check and turns out unbuilt re-argues this row |
+| The producer authors requirement IDs and the model authors everything downstream, so categories drift toward what is convenient to build rather than what was asked for | no | the vocabulary stops meaning what the producer meant, which destroys "speak in IDs that mean something" | medium — the same drift already happened once, with role names the producer chose himself | the v0.92.0 rename: names ratified at v0.66.0 came back three weeks later describing the opposite roles, in one sentence | countermeasure - temporary | the category scheme is a declared artifact the producer signs, quoted verbatim like `## Value`; no session adds a category without the producer naming it | the first category added by a session rather than by the producer re-argues this row |
+| The `Piece:` trailer, the code end of the chain, has never once been written | no | the forward trace stops at the contract and "requirement to code" is unproven | medium — built and untested rather than known-broken; the product is unfinished so no usage metric exists either way | zero trailers across the 40 commits since v0.91.0, explainable by no contract-run work in that window | accepted unknown | | the first work commit that should carry a trailer and does not re-argues this row |
+
+## Killer risk, read out
+
+**The two killers pull in opposite directions, and together they set the
+slice.**
+
+The first is the discipline risk, and it is the one that actually kills this.
+Every other row is about machinery; this one is about a beat costing the
+producer attention at the exact moment work wants to begin. The evidence is not
+hypothetical or borrowed — this session produced eight durable requirements
+while explicitly discussing the need to capture them, and promoted none. The
+countermeasure is the only one this repo has ever seen work on human input: make
+it a declared artifact the machine refuses without, exactly as `## Value` is.
+Encouragement has a measured success rate of zero here.
+
+The second says the obvious way to make the register look complete is the way
+that ruins it. Twenty slugs exist; eight have finished. Giving them IDs
+retroactively would take an afternoon and would produce requirements nobody
+stated — the hollow-declaration failure the grounding retrofit was refused for.
+Forward-only leaves a visible hole where the finished work is, and that hole is
+the honest state.
+
+**The third row is loud but not a killer, and an earlier draft of this frame
+had it wrong.** It reads as fatal — a capability that cannot enforce itself
+outside this repo. It is not, because the fix is a pattern the repo has shipped
+since v0.19.0 in four files, and the library it applies to is already
+parameterised for it. It was graded a killer once on the reasoning that Kerd
+treats refusal as the test that counts; that test was set for Kerd policing
+itself, and importing it here promoted a known, cheap, solved problem into a
+blocker.
+
+## Release slice
+
+Rigor level: mvp
+
+**Slice 1 — a durable input becomes an addressable requirement, in the user's
+own repo, and the machinery can read it there.** The smallest cut where a
+project that is not Kerd gets the value.
+
+- **The register.** One declared artifact in the user's project holding
+  requirement rows: ID, category, the requirement in the producer's words, and
+  exactly one state from a closed legal set — the risk-ledger shape, which this
+  repo has already proven and machine-checks today.
+- **A declared category scheme, per project.** Where a project names its
+  categories and what each means. Declaring is opting in; an undeclared project
+  is silent, never red.
+- **The promotion beat.** Request → qualified → durable? → requirement, with
+  the producer's key on the promotion. This is the killer risk's countermeasure
+  and it is what makes the register non-empty.
+- **The tools can aim.** `${CLAUDE_PLUGIN_ROOT}` for the script, the project
+  directory for the state — the hooks' existing pattern applied to
+  `tools/gates/`. Hard dependency, not a follow-up.
+
+**Deliberately excluded, each with its reason:**
+
+- **Any retrofit of the twenty existing slugs.** The second killer risk. The
+  hole closes as those items are next touched.
+- **Wiring requirements into the measurement table and the contract pieces.**
+  The forward half of the trace. It needs the register to exist first, and
+  building both at once means neither gets a real test. Slice 2.
+- **The release-planning artifact.** This slice makes it expressible; building
+  it is its own work.
+- **Rendering the trace on the journey page.** The page should render something
+  that already exists, not be where it is defined.
+- **File-level backward trace.** Commit-level backwards comes free with the
+  `Piece:` trailer. File-level needs something this repo does not have, and is
+  not required by the producer's three jobs.
+
+## What we ruled out
+
+- **IDs on the `## Value` statement itself.** Traces one link further up, and
+  was rejected because the value statement is quoted verbatim from the producer
+  — imposing structure on it is the fastest way to stop it being his words. The
+  register references the statement; it never replaces it.
+- **Framing this as funnel-driver slice 2.** It was cut out of that item on
+  2026-08-07. Different value, different risks, and the gates would report it
+  untracked. funnel-driver keeps the plan-gate work, which is small and now
+  unblocked.
+- **Splitting "requirements" from "the state lives in your project".** They
+  were briefly two candidate items. Split, each is a half-feature: traceability
+  without the state in the user's repo is a naming convention, and the state
+  without requirements has no handle.
+- **Adopting an external memory or session-report tool to hold the register.**
+  Standing decision (memory tools: adopt none) — they break git-portable
+  handoff, and the register must live in the user's repo as ordinary committed
+  files like everything else Kerd writes.
+
+## What this is not
+
+- **Not a ticketing system.** No status workflow, no assignee, no sprint. The
+  ladder already carries where work *is*; this carries what the work is *for*.
+- **Not a replacement for the value statement.** The prose stays, verbatim. IDs
+  are handles onto it, never a compression of it.
+- **Not machine-verified correctness.** The check proves presence and mapping.
+  Whether a piece truly builds the requirement it names is human judgment at the
+  goal gate, and the ledger records that limit rather than implying it away.
+- **Not Kerd's own bookkeeping.** Everything this repo carries under
+  `docs/product/`, `docs/design/`, `docs/gates/` and the boards is dogfood —
+  Kerd is a user of the capability, never where the data lives.
