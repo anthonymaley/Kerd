@@ -47,7 +47,7 @@ def panel_current(c):
     c.box("THE SESSION", 0, 0, W, 30, INK, FAINT, S1)
 
     c.ellipse(30, 55, 46, 46, INK, FAINT)
-    c.txt("T", 47, 68, S1, INK)
+    c.txt("H", 47, 68, S1, INK)
     c.txt("direction,\nthe spec", 18, 108, S3, INK, "center")
 
     c.ellipse(W - 76, 55, 46, 46, INK, FAINT)
@@ -101,7 +101,8 @@ def panel_proposal(c):
 
     c.box("THE MODEL READS", 0, 124, 236, 28, INK, FAINT, S2)
     c.txt("files · markdown · gates\ncommits · the code", 32, 164, S2, INK, "center")
-    c.txt("mechanical — its world", 44, 212, S3, INK, "center")
+    c.txt("mechanical — its world, and understands\nthe product in human language",
+          8, 212, S3, INK, "center")
 
     c.box("THE HUMAN SEES A WALL", W - 236, 124, 236, 28, GREEN, FAINT, S2)
     c.txt("the funnel · stages · steps\nrisks · architecture · plan", W - 214, 164, S2, INK, "center")
@@ -120,30 +121,58 @@ PANELS = [("current", panel_current), ("problem", panel_problem),
 
 
 def main():
+    """The head is ONE composition, not three loose panels.
+
+    Tony's annotation, 2026-08-07: the first two panels sit inside CURRENT
+    SITUATION, the third inside IDEAL SITUATION, and a GAP marker sits between
+    them. That is his opening description of the room made literal — "capture
+    current condition and show the ideal, then figure out the gaps that stop
+    ideal from becoming reality". The gap ANALYSIS is deliberately not drawn:
+    "the GAP analysis can come later btw — just showing the fit", so the region
+    is reserved and labelled rather than filled or omitted.
+    """
     out_dir = os.path.join(ROOT, "docs", "plans")
     merged = Canvas()
 
     for i, (kind, draw) in enumerate(PANELS):
         c = Canvas()
         draw(c)
-
-        svg_path = os.path.join(out_dir, f"journey-{SLUG}-{kind}.svg")
-        w, h = to_svg(c.els, svg_path, pad=24)
-        print(f"wrote {os.path.basename(svg_path)}  {w:.0f}x{h:.0f}")
-
-        for label, faults in (("bound-text overflow", overflow_report(c.els)),
-                              ("text/box collision", collision_report(c.els)),
-                              ("text/text overlap", text_overlap_report(c.els))):
-            if faults:
-                print(f"  !! {len(faults)} {label}(s): {faults[:2]}")
-
-        # Same elements again, shifted, onto the one canvas Tony opens.
-        dx = i * (W + GAP)
+        dx = i * (W + GAP) + (GAP * 2 if kind == "proposal" else 0)
         for e in c.els:
             e = dict(e)
             e["x"] = e["x"] + dx
             e["id"] = f"{kind}-{e['id']}"
             merged.els.append(e)
+
+    # Frames, drawn under everything so the panels sit inside them.
+    cur_w = W * 2 + GAP
+    ideal_x = (W + GAP) * 2 + GAP * 2
+    frames = Canvas()
+    frames.rect(-30, -74, cur_w + 60, 470, INK)
+    frames.txt("CURRENT SITUATION", -14, -66, S1, INK)
+    frames.rect(ideal_x - 30, -74, W + 60, 470, INK)
+    frames.txt("IDEAL SITUATION", ideal_x - 14, -66, S1, INK)
+
+    gx = cur_w + 46
+    frames.ellipse(gx, 120, 96, 106, RED)
+    frames.txt("GAP", gx + 28, 160, S1, RED)
+
+    # Reserved, not filled — the analysis comes later.
+    frames.rect(-30, 452, cur_w + 60, 150, RED, dashed=True)
+    frames.txt("GAP ANALYSIS — what stops ideal from being reality", -14, 466, S1, RED)
+    frames.txt("comes later; the frame's numbered gaps land here", -14, 492, S2, RED)
+    frames.arrow([(gx + 48, 226), (gx + 48, 430), (cur_w / 2, 430), (cur_w / 2, 452)], RED)
+
+    merged.els = frames.els + merged.els
+
+    head_svg = os.path.join(out_dir, f"journey-{SLUG}-head.svg")
+    w, h = to_svg(merged.els, head_svg, pad=30)
+    print(f"wrote {os.path.basename(head_svg)}  {w:.0f}x{h:.0f}")
+    for label, faults in (("bound-text overflow", overflow_report(merged.els)),
+                          ("text/box collision", collision_report(merged.els)),
+                          ("text/text overlap", text_overlap_report(merged.els))):
+        if faults:
+            print(f"  !! {len(faults)} {label}(s): {faults[:2]}")
 
     ann = os.path.join(out_dir, "annotations", f"journey-{SLUG}-head-tony.json")
     if os.path.exists(ann):

@@ -65,6 +65,8 @@ details.rest[open]>summary{margin-bottom:16px}
 padding:20px 24px}
 .panel.proposal{border-color:#CFDDD3;background:linear-gradient(180deg,#FCFEFC,#FFF)}
 .draw svg{width:100%;height:auto;display:block}
+.draw.wide{overflow-x:auto}
+.draw.wide svg{min-width:760px}
 .slot{border:1.5px dashed #D3D8D5;border-radius:12px;padding:18px;font-size:13px;
 color:var(--slate);line-height:1.5;background:#FCFCFB}
 .slot.blocking{border-color:#E3A9A5;background:#FEF7F6;color:#8C5450}
@@ -179,185 +181,185 @@ footer li b{color:var(--ink)}
 .rt td{border-bottom:none;padding:4px 14px}
 .rt tr{border-bottom:1px solid var(--hairline);padding:10px 0}}
 </style></head><body><div class="wrap">
-<header><div class="eyebrow">Kerd · journey</div><h1>Shared memory — the room has a wall, and both of us can see it</h1><div class="derived">Drawn from the repo at <code>ff0d05a</code> · 7 August 2026, 13:38 · read-only — this page changes nothing</div></header>
+<header><div class="eyebrow">Kerd · journey</div><h1>Shared memory — the room has a wall, and both of us can see it</h1><div class="derived">Drawn from the repo at <code>718ae20</code> · 7 August 2026, 13:41 · read-only — this page changes nothing</div></header>
 <section class="story"><h2>Proposal</h2><div class="storybox">
-<p class="outline">This outline is used when a proposal is being made to improve the condition as a result of reducing problems or gaining benefits not currently available.</p><div class="a3">
-<div class="panel"><h3>Current Situation &amp; Background</h3>
-<div class="draw"><svg xmlns="http://www.w3.org/2000/svg" width="568" height="396" viewBox="-24 -24 568 396">
-<rect x="-24" y="-24" width="568" height="396" fill="#ffffff"/>
+<p class="outline">This outline is used when a proposal is being made to improve the condition as a result of reducing problems or gaining benefits not currently available.</p>
+<div class="draw wide"><svg xmlns="http://www.w3.org/2000/svg" width="2040" height="736" viewBox="-60 -104 2040 736">
+<rect x="-60" y="-104" width="2040" height="736" fill="#ffffff"/>
+<rect x="-30.0" y="-74.0" width="1190.0" height="470.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="0.0" y="0.0" width="520.0" height="30.0" rx="8" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1"/>
+<text x="817.2" y="13.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="817.2" dy="0.0">BACK IN THE ROOM</tspan>
+</text>
+<rect x="1460.0" y="0.0" width="400.0" height="32.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="-14.0" y="-51.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="-14.0" dy="0.0">CURRENT SITUATION</tspan>
+</text>
 <text x="260.0" y="20.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="260.0" dy="0.0">THE SESSION</tspan>
 </text>
-<ellipse cx="53.0" cy="78.0" rx="23.0" ry="23.0" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1"/>
-<text x="47.0" y="83.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="47.0" dy="0.0">T</tspan>
+<rect x="610.0" y="34.0" width="235.0" height="28.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1660.0" y="21.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1660.0" dy="0.0">ONE SHARED STATE, ON DISK</tspan>
 </text>
+<rect x="1370.0" y="-74.0" width="580.0" height="470.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<ellipse cx="53.0" cy="78.0" rx="23.0" ry="23.0" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1"/>
+<text x="727.5" y="52.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="727.5" dy="0.0">STILL THERE</tspan>
+</text>
+<text x="1665.9" y="55.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1665.9" dy="0.0">derived, never hand-kept — it cannot go stale</tspan>
+</text>
+<text x="1386.0" y="-51.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1386.0" dy="0.0">IDEAL SITUATION</tspan>
+</text>
+<text x="47.0" y="83.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="47.0" dy="0.0">H</tspan>
+</text>
+<text x="722.2" y="87.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="722.2" dy="0.0">commits · files · gates</tspan>
+<tspan x="722.2" dy="16.2">tests · the code</tspan>
+</text>
+<polyline points="1580.0,76.0 1520.0,116.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="1520.0" y1="116.0" x2="1524.7" y2="106.1" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="1520.0" y1="116.0" x2="1531.0" y2="115.5" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<ellipse cx="1224.0" cy="173.0" rx="48.0" ry="53.0" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="51.0" y="120.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="51.0" dy="0.0">direction,</tspan>
 <tspan x="51.0" dy="15.0">the spec</tspan>
 </text>
+<text x="712.6" y="134.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="712.6" dy="0.0">code leaves artifacts,</tspan>
+<tspan x="712.6" dy="15.0">and they cannot lie</tspan>
+</text>
+<polyline points="1740.0,76.0 1800.0,116.0" fill="none" stroke="#2f9e44" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="1800.0" y1="116.0" x2="1789.0" y2="115.5" stroke="#2f9e44" stroke-width="1" stroke-linecap="round"/>
+<line x1="1800.0" y1="116.0" x2="1795.3" y2="106.1" stroke="#2f9e44" stroke-width="1" stroke-linecap="round"/>
+<text x="1204.0" y="175.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1204.0" dy="0.0">GAP</tspan>
+</text>
 <ellipse cx="467.0" cy="78.0" rx="23.0" ry="23.0" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="895.0" y="34.0" width="235.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
+<rect x="1400.0" y="124.0" width="236.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="-30.0" y="452.0" width="1190.0" height="150.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
 <text x="461.0" y="83.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="461.0" dy="0.0">M</tspan>
+</text>
+<text x="1012.5" y="52.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1012.5" dy="0.0">GONE</tspan>
+</text>
+<text x="1518.0" y="142.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1518.0" dy="0.0">THE MODEL READS</tspan>
+</text>
+<text x="-14.0" y="481.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="-14.0" dy="0.0">GAP ANALYSIS — what stops ideal from being reality</tspan>
 </text>
 <text x="461.7" y="120.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="461.7" dy="0.0">analysis,</tspan>
 <tspan x="461.7" dy="15.0">the build</tspan>
 </text>
+<text x="1005.8" y="87.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1005.8" dy="0.0">the idea · the direction</tspan>
+<tspan x="1005.8" dy="16.2">what we considered</tspan>
+</text>
+<text x="1517.8" y="177.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1517.8" dy="0.0">files · markdown · gates</tspan>
+<tspan x="1517.8" dy="16.2">commits · the code</tspan>
+</text>
+<text x="-14.0" y="505.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="-14.0" dy="0.0">comes later; the frame&#x27;s numbered gaps land here</tspan>
+</text>
 <polyline points="88.0,78.0 168.0,78.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="168.0" y1="78.0" x2="158.6" y2="83.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="168.0" y1="78.0" x2="158.6" y2="72.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="991.3" y="134.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="991.3" dy="0.0">≈90% of the input,</tspan>
+<tspan x="991.3" dy="15.0">and it leaves nothing</tspan>
+</text>
+<text x="1536.7" y="224.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1536.7" dy="0.0">mechanical — its world, and understands</tspan>
+<tspan x="1536.7" dy="15.0">the product in human language</tspan>
+</text>
+<polyline points="1224.0,226.0 1224.0,430.0 565.0,430.0 565.0,452.0" fill="none" stroke="#e03131" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="565.0" y1="452.0" x2="559.3" y2="442.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
+<line x1="565.0" y1="452.0" x2="570.7" y2="442.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
 <polyline points="432.0,78.0 352.0,78.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="352.0" y1="78.0" x2="361.4" y2="72.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="352.0" y1="78.0" x2="361.4" y2="83.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<polyline points="870.0,168.0 870.0,205.0" fill="none" stroke="#e03131" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="870.0" y1="205.0" x2="864.3" y2="195.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
+<line x1="870.0" y1="205.0" x2="875.7" y2="195.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
+<rect x="1684.0" y="124.0" width="236.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#2f9e44" stroke-width="1"/>
 <text x="253.9" y="75.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="253.9" dy="0.0">talking, both ways,</tspan>
 <tspan x="253.9" dy="16.2">all the time</tspan>
 </text>
+<text x="882.0" y="188.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="882.0" dy="0.0">cause</tspan>
+</text>
+<text x="1802.0" y="142.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1802.0" dy="0.0">THE HUMAN SEES A WALL</tspan>
+</text>
 <rect x="40.0" y="150.0" width="440.0" height="30.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="640.0" y="215.0" width="460.0" height="34.0" rx="8" fill="#f8f9fa" stroke="#e03131" stroke-width="1"/>
+<text x="1802.5" y="177.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1802.5" dy="0.0">the funnel · stages · steps</tspan>
+<tspan x="1802.5" dy="16.2">risks · architecture · plan</tspan>
+</text>
 <text x="260.0" y="169.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="260.0" dy="0.0">THE WHITEBOARD</tspan>
+</text>
+<text x="870.0" y="237.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="870.0" dy="0.0">human input has nowhere to land</tspan>
+</text>
+<text x="1802.4" y="224.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1802.4" dy="0.0">the product, in his language</tspan>
 </text>
 <text x="254.3" y="205.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="254.3" dy="0.0">the idea  ·  the gaps  ·  the analysis  ·  the plan</tspan>
 <tspan x="254.3" dy="16.2">both of us hold all of it</tspan>
 </text>
+<text x="866.6" y="269.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="866.6" dy="0.0">nothing derives it — there is no git log for a decision</tspan>
+</text>
+<text x="1649.8" y="267.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1649.8" dy="0.0">every stage agreed by a drawing before the next one opens</tspan>
+</text>
 <polyline points="260.0,240.0 260.0,280.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="260.0" y1="280.0" x2="254.3" y2="270.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="260.0" y1="280.0" x2="265.7" y2="270.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<rect x="620.0" y="292.0" width="500.0" height="34.0" rx="8" fill="#e9ecef" stroke="#e03131" stroke-width="1"/>
+<polyline points="1660.0,286.0 1660.0,318.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="1660.0" y1="318.0" x2="1654.3" y2="308.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="1660.0" y1="318.0" x2="1665.7" y2="308.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="110.0" y="290.0" width="300.0" height="34.0" rx="8" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
+<text x="870.0" y="313.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="870.0" dy="0.0">so it gets checked, reminded, and explained again</tspan>
+</text>
+<rect x="1420.0" y="328.0" width="480.0" height="34.0" rx="8" fill="#f8f9fa" stroke="#2f9e44" stroke-width="1"/>
 <text x="260.0" y="312.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="260.0" dy="0.0">we go to lunch</tspan>
+</text>
+<text x="871.5" y="349.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="871.5" dy="0.0">nervous → dejected → &quot;I wasted my time and we lost the opportunity&quot;</tspan>
+</text>
+<text x="1660.0" y="350.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1660.0" dy="0.0">we walk back in and carry on</tspan>
 </text>
 <text x="239.4" y="345.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="239.4" dy="0.0">the context window clears</tspan>
 </text>
-</svg></div>
-<ul class="pl">
-<li>the master plan has no artifact, and the decision saying it should is four days old</li>
-<li>the journey view is mocked, agreed, and parked</li>
-<li>there is no diagram of what we are building</li>
-</ul>
-</div>
-<div class="arrow">→</div>
-<div class="panel"><h3>Problems &amp; Cause</h3>
-<div class="draw"><svg xmlns="http://www.w3.org/2000/svg" width="568" height="400" viewBox="-24 -24 568 400">
-<rect x="-24" y="-24" width="568" height="400" fill="#ffffff"/>
-<text x="207.2" y="13.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="207.2" dy="0.0">BACK IN THE ROOM</tspan>
-</text>
-<rect x="0.0" y="34.0" width="235.0" height="28.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="117.5" y="52.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="117.5" dy="0.0">STILL THERE</tspan>
-</text>
-<text x="112.2" y="87.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="112.2" dy="0.0">commits · files · gates</tspan>
-<tspan x="112.2" dy="16.2">tests · the code</tspan>
-</text>
-<text x="102.6" y="134.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="102.6" dy="0.0">code leaves artifacts,</tspan>
-<tspan x="102.6" dy="15.0">and they cannot lie</tspan>
-</text>
-<rect x="285.0" y="34.0" width="235.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="402.5" y="52.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="402.5" dy="0.0">GONE</tspan>
-</text>
-<text x="395.8" y="87.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="395.8" dy="0.0">the idea · the direction</tspan>
-<tspan x="395.8" dy="16.2">what we considered</tspan>
-</text>
-<text x="381.3" y="134.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="381.3" dy="0.0">≈90% of the input,</tspan>
-<tspan x="381.3" dy="15.0">and it leaves nothing</tspan>
-</text>
-<polyline points="260.0,168.0 260.0,205.0" fill="none" stroke="#e03131" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="260.0" y1="205.0" x2="254.3" y2="195.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
-<line x1="260.0" y1="205.0" x2="265.7" y2="195.6" stroke="#e03131" stroke-width="1" stroke-linecap="round"/>
-<text x="272.0" y="188.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="272.0" dy="0.0">cause</tspan>
-</text>
-<rect x="30.0" y="215.0" width="460.0" height="34.0" rx="8" fill="#f8f9fa" stroke="#e03131" stroke-width="1"/>
-<text x="260.0" y="237.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="260.0" dy="0.0">human input has nowhere to land</tspan>
-</text>
-<text x="256.6" y="269.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="256.6" dy="0.0">nothing derives it — there is no git log for a decision</tspan>
-</text>
-<rect x="10.0" y="292.0" width="500.0" height="34.0" rx="8" fill="#e9ecef" stroke="#e03131" stroke-width="1"/>
-<text x="260.0" y="313.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="260.0" dy="0.0">so it gets checked, reminded, and explained again</tspan>
-</text>
-<text x="261.5" y="349.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="261.5" dy="0.0">nervous → dejected → &quot;I wasted my time and we lost the opportunity&quot;</tspan>
-</text>
-</svg></div>
-<ul class="pl">
-<li>risks have data and no view, and issues have neither</li>
-<li>the evaluation matrix is enforced, empty, and has no exemption</li>
-<li>three tries then root cause is specced and has never fired</li>
-</ul>
-</div>
-<div class="arrow">→</div>
-<div class="panel"><h3>Proposal &amp; Benefits</h3>
-<div class="draw"><svg xmlns="http://www.w3.org/2000/svg" width="568" height="434" viewBox="-24 -24 568 434">
-<rect x="-24" y="-24" width="568" height="434" fill="#ffffff"/>
-<rect x="60.0" y="0.0" width="400.0" height="32.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="260.0" y="21.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="260.0" dy="0.0">ONE SHARED STATE, ON DISK</tspan>
-</text>
-<text x="265.9" y="55.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="265.9" dy="0.0">derived, never hand-kept — it cannot go stale</tspan>
-</text>
-<polyline points="180.0,76.0 120.0,116.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="120.0" y1="116.0" x2="124.7" y2="106.1" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<line x1="120.0" y1="116.0" x2="131.0" y2="115.5" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<polyline points="340.0,76.0 400.0,116.0" fill="none" stroke="#2f9e44" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="400.0" y1="116.0" x2="389.0" y2="115.5" stroke="#2f9e44" stroke-width="1" stroke-linecap="round"/>
-<line x1="400.0" y1="116.0" x2="395.3" y2="106.1" stroke="#2f9e44" stroke-width="1" stroke-linecap="round"/>
-<rect x="0.0" y="124.0" width="236.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#1e1e1e" stroke-width="1"/>
-<text x="118.0" y="142.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="118.0" dy="0.0">THE MODEL READS</tspan>
-</text>
-<text x="117.8" y="177.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="117.8" dy="0.0">files · markdown · gates</tspan>
-<tspan x="117.8" dy="16.2">commits · the code</tspan>
-</text>
-<text x="116.6" y="224.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="116.6" dy="0.0">mechanical — its world</tspan>
-</text>
-<rect x="284.0" y="124.0" width="236.0" height="28.0" rx="8" fill="#f8f9fa" stroke="#2f9e44" stroke-width="1"/>
-<text x="402.0" y="142.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="402.0" dy="0.0">THE HUMAN SEES A WALL</tspan>
-</text>
-<text x="402.5" y="177.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="402.5" dy="0.0">the funnel · stages · steps</tspan>
-<tspan x="402.5" dy="16.2">risks · architecture · plan</tspan>
-</text>
-<text x="402.4" y="224.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="402.4" dy="0.0">the product, in his language</tspan>
-</text>
-<text x="249.8" y="267.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="249.8" dy="0.0">every stage agreed by a drawing before the next one opens</tspan>
-</text>
-<polyline points="260.0,286.0 260.0,318.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="260.0" y1="318.0" x2="254.3" y2="308.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<line x1="260.0" y1="318.0" x2="265.7" y2="308.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<rect x="20.0" y="328.0" width="480.0" height="34.0" rx="8" fill="#f8f9fa" stroke="#2f9e44" stroke-width="1"/>
-<text x="260.0" y="350.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="260.0" dy="0.0">we walk back in and carry on</tspan>
-</text>
-<text x="258.0" y="383.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="258.0" dy="0.0">a quick recap, then work — nothing re-explained</tspan>
+<text x="1658.0" y="383.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1658.0" dy="0.0">a quick recap, then work — nothing re-explained</tspan>
 </text>
 </svg></div>
 <div class="targets">
 <div class="target"><div class="num">1 observed → 0</div><div class="cap">Re-explanations required per pickup</div></div>
 <div class="target"><div class="num">0 of 10 → all 10</div><div class="cap">Human-facing views of project state</div></div>
 <div class="target"><div class="num">3 of 10 → 10 of 10</div><div class="cap">Sources populated behind those views</div></div>
+<div class="target"><div class="num">none → shown</div><div class="cap">Evidence that the model is up to speed at pickup</div></div>
 </div>
-</div>
-</div></div></section>
+</div></section>
 <section class="risks"><h2>Risks</h2><table class="rt"><thead><tr><th></th><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Countermeasure</th></tr></thead><tbody>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The views get built over empty sources — seven of the ten render blank because the state they display is… <span class="killer">killer</span></td><td>the whole item delivers nothing: a wall of empty pages is worse than no wall, because it looks like coverage and reports clean…</td><td>high — this has already happened once at smaller scale: the evaluation matrix is built, fixture-tested and…</td><td>slice order is driven by source population, not by page appeal: the first slice renders only from sources that already hold real content, and every later slice pairs…</td></tr>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">Capture stays discipline-dependent — a model must choose to record human input, and the model least likely to… <span class="killer">killer</span></td><td>the root cause is untouched and every view decays to stale, which returns Tony to checking and reminding, the exact failure this…</td><td>high — this is the measured status quo, and the only human input that reliably survives today survives…</td><td>capture becomes a declared artifact with a gate, on the Value precedent — a rung cannot pass while its human-input artifact is absent, so recording is refused-into…</td></tr>
@@ -377,10 +379,10 @@ footer li b{color:var(--ink)}
 </div>
 <div class="mapnote">At <b>Designed</b> · 3 of 8 stages behind it · entered the funnel at <b>Designed</b></div>
 <div class="ladder">
-<div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><div class="slot blocking stageslot"><b>Not drawn — so this stage is not agreed.</b> A drawing here is what secures alignment before the next stage opens.</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="openslot">· Architecture — how the parts connect — high-level blocks and lines <span class="nt">not there</span></div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li></ul></div></div></div>
+<div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><div class="slot blocking stageslot"><b>Not drawn — so this stage is not agreed.</b> A drawing here is what secures alignment before the next stage opens.</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="openslot">· Architecture — how the parts connect — high-level blocks and lines <span class="nt">not there</span></div><div class="openslot">· The proposal, drawn — current versus new <span class="nt">not there</span></div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li></ul></div></div></div>
 </div>
 <details class="rest"><summary>All other stages</summary><div class="ladder">
-<div class="stage done"><span class="lamp"></span><div class="head"><h2>Idea</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the problem named, and what winning would be</div><div class="slot blocking stageslot"><b>Not drawn — so this stage is not agreed.</b> A drawing here is what secures alignment before the next stage opens.</div><ul class="rungs"><li><span class="rn">Step 1</span><span class="rt">CAPTURE THE IDEA/PROBLEM: do so from the prompt input as typed</span><span class="pill open">open</span></li><li><span class="rn">Step 2</span><span class="rt">Supporting or comparable documents, diagrams, references, experience inputs, sites, images</span><span class="pill open">open</span></li><li><span class="rn">Step 3</span><span class="rt">Perform interview in rapid Q&amp;A style to capture the requirement — one at a time, on purpose / constraints / success criteria</span><span class="pill now">in progress</span></li><li><span class="rn">Step 4</span><span class="rt">Visualize the idea, diagram or HTML, and iterate in a paired session with the user</span><span class="pill todo">not started</span></li></ul></div></div>
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Idea</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the problem named, and what winning would be</div><div class="slot blocking stageslot"><b>Not drawn — so this stage is not agreed.</b> A drawing here is what secures alignment before the next stage opens.</div><ul class="rungs"><li><span class="rn">Step 1</span><span class="rt">CAPTURE THE IDEA/PROBLEM: do so from the prompt input as typed</span><span class="pill open">open</span></li><li><span class="rn">Step 2</span><span class="rt">Supporting or comparable documents, diagrams, references, experience inputs, sites, images</span><span class="pill open">open</span></li><li><span class="rn">Step 3</span><span class="rt">Perform interview in rapid Q&amp;A style to capture the requirement — one at a time, on purpose / constraints / success criteria</span><span class="pill now">in progress</span></li><li><span class="rn">Step 4</span><span class="rt">Visualize the idea, diagram or HTML, and iterate in a paired session with the user</span><span class="pill todo">not started</span></li></ul><div class="openslot">· The idea, drawn current-to-ideal — drawn, not described <span class="nt">not there</span></div></div></div>
 <div class="stage done"><span class="lamp"></span><div class="head"><h2>Validated</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the risks sized, the killer one answered</div><div class="slot blocking stageslot"><b>Not drawn — so this stage is not agreed.</b> A drawing here is what secures alignment before the next stage opens.</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="openslot">· What we considered — options compared against declared criteria <span class="nt">not there</span></div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li></ul></div></div></div>
 <div class="stage done"><span class="lamp"></span><div class="head"><h2>Scoped</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the smallest slice worth shipping</div><div class="slot blocking stageslot"><b>Not drawn — so this stage is not agreed.</b> A drawing here is what secures alignment before the next stage opens.</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li></ul></div></div></div>
 <div class="stage todo"><span class="lamp"></span><div class="head"><h2>Spec'd</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece written down precisely enough to hand over</div><div class="norungs">Rungs not defined for this stage yet — the gates check what it produces, not what it involves. Defining them is queued.</div><div class="blocker">× Design agreed, and signed off on the record — still needed</div><div class="made"><h4>What we created</h4><ul><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li><li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li></ul></div></div></div>

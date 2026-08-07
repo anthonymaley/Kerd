@@ -398,43 +398,29 @@ def render(slug):
       f'<div class="derived">Drawn from the repo at <code>{E(sha)}</code> · {E(when)} · '
       f'read-only — this page changes nothing</div></header>')
 
-    # ---- the story head. Which story is declared, not assumed ----------
+    # ---- the story head: ONE composition, drawn ------------------------
+    # Tony's annotation, 2026-08-07: the sections are grouped and framed inside
+    # the drawing (Current Situation | GAP | Ideal Situation), not laid out as
+    # separate HTML panels. The page names the story and gets out of the way.
     sname, outline, headings = STORIES.get(doc["story"], STORIES["proposal"])
     A(f'<section class="story"><h2>{sname}</h2><div class="storybox">')
-    A(f'<p class="outline">{outline}</p><div class="a3">')
-    # Pains spread across the middle panels; the last panel carries the pitch.
-    per = max(1, len(all_pains) // max(1, len(headings)))
-    for i, heading in enumerate(headings):
-        if i:
-            A('<div class="arrow">\u2192</div>')
-        kind = ["current", "problem", "proposal", "d", "e"][i] if i < 5 else f"p{i}"
-        A(f'<div class="panel"><h3>{heading}</h3>')
-        d = drawing(slug, kind)
-        A(f'<div class="draw">{d}</div>' if d else
-          '<div class="slot blocking"><b>Not drawn — so this is not agreed.</b> '
+    A(f'<p class="outline">{outline}</p>')
+    head = drawing(slug, "head")
+    if head:
+        A(f'<div class="draw wide">{head}</div>')
+    else:
+        A('<div class="slot blocking"><b>Not drawn — so this is not agreed.</b> '
           'The drawing is what forces alignment: if we do not agree on the picture '
           'we will not agree on the solution, and every agreement below this point '
-          'is softer than it looks. Drawn while pairing, committed like any other '
-          'diagram.</div>')
-        chunk = all_pains[i * per:(i + 1) * per] if i < len(headings) - 1 else []
-        if chunk:
-            A('<ul class="pl">')
-            for l in chunk[:3]:
-                A(f'<li>{E(clip(l, 130))}</li>')
-            A('</ul>')
-        if i == len(headings) - 1:
-            # No prose here. The drawing carries the statement — Tony 2026-08-07,
-            # looking at a 300-char clip of the Value section trailing off
-            # mid-sentence: "this can go i think, drawing replaces?". The target
-            # numbers stay: they are the checkable version of the same claim.
-            if tg:
-                A('<div class="targets">')
-                for t in tg[:3]:
-                    A(f'<div class="target"><div class="num">{E(t["move"])}</div>'
-                      f'<div class="cap">{E(clip(t["label"], 52))}</div></div>')
-                A('</div>')
+          'is softer than it looks. Drawn while pairing through '
+          'tools/diagram/gen_journey_head.py, committed like any other diagram.</div>')
+    if tg:
+        A('<div class="targets">')
+        for t in tg[:4]:
+            A(f'<div class="target"><div class="num">{E(t["move"])}</div>'
+              f'<div class="cap">{E(clip(t["label"], 60))}</div></div>')
         A('</div>')
-    A('</div></div></section>')
+    A('</div></section>')
 
     # ---- risks ------------------------------------------------------------
     if rk:
@@ -619,6 +605,8 @@ details.rest[open]>summary{margin-bottom:16px}
 padding:20px 24px}
 .panel.proposal{border-color:#CFDDD3;background:linear-gradient(180deg,#FCFEFC,#FFF)}
 .draw svg{width:100%;height:auto;display:block}
+.draw.wide{overflow-x:auto}
+.draw.wide svg{min-width:760px}
 .slot{border:1.5px dashed #D3D8D5;border-radius:12px;padding:18px;font-size:13px;
 color:var(--slate);line-height:1.5;background:#FCFCFB}
 .slot.blocking{border-color:#E3A9A5;background:#FEF7F6;color:#8C5450}

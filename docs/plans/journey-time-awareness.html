@@ -65,6 +65,8 @@ details.rest[open]>summary{margin-bottom:16px}
 padding:20px 24px}
 .panel.proposal{border-color:#CFDDD3;background:linear-gradient(180deg,#FCFEFC,#FFF)}
 .draw svg{width:100%;height:auto;display:block}
+.draw.wide{overflow-x:auto}
+.draw.wide svg{min-width:760px}
 .slot{border:1.5px dashed #D3D8D5;border-radius:12px;padding:18px;font-size:13px;
 color:var(--slate);line-height:1.5;background:#FCFCFB}
 .slot.blocking{border-color:#E3A9A5;background:#FEF7F6;color:#8C5450}
@@ -179,26 +181,17 @@ footer li b{color:var(--ink)}
 .rt td{border-bottom:none;padding:4px 14px}
 .rt tr{border-bottom:1px solid var(--hairline);padding:10px 0}}
 </style></head><body><div class="wrap">
-<header><div class="eyebrow">Kerd · journey</div><h1>Time-awareness — the machine consults a clock, and effort becomes data</h1><div class="derived">Drawn from the repo at <code>f0f257d</code> · 7 August 2026, 13:34 · read-only — this page changes nothing</div></header>
+<header><div class="eyebrow">Kerd · journey</div><h1>Time-awareness — the machine consults a clock, and effort becomes data</h1><div class="derived">Drawn from the repo at <code>718ae20</code> · 7 August 2026, 13:41 · read-only — this page changes nothing</div></header>
 <section class="story"><h2>Proposal</h2><div class="storybox">
-<p class="outline">This outline is used when a proposal is being made to improve the condition as a result of reducing problems or gaining benefits not currently available.</p><div class="a3">
-<div class="panel"><h3>Current Situation &amp; Background</h3>
-<div class="slot blocking"><b>Not drawn — so this is not agreed.</b> The drawing is what forces alignment: if we do not agree on the picture we will not agree on the solution, and every agreement below this point is softer than it looks. Drawn while pairing, committed like any other diagram.</div>
-</div>
-<div class="arrow">→</div>
-<div class="panel"><h3>Problems &amp; Cause</h3>
-<div class="slot blocking"><b>Not drawn — so this is not agreed.</b> The drawing is what forces alignment: if we do not agree on the picture we will not agree on the solution, and every agreement below this point is softer than it looks. Drawn while pairing, committed like any other diagram.</div>
-</div>
-<div class="arrow">→</div>
-<div class="panel"><h3>Proposal &amp; Benefits</h3>
-<div class="slot blocking"><b>Not drawn — so this is not agreed.</b> The drawing is what forces alignment: if we do not agree on the picture we will not agree on the solution, and every agreement below this point is softer than it looks. Drawn while pairing, committed like any other diagram.</div>
+<p class="outline">This outline is used when a proposal is being made to improve the condition as a result of reducing problems or gaining benefits not currently available.</p>
+<div class="slot blocking"><b>Not drawn — so this is not agreed.</b> The drawing is what forces alignment: if we do not agree on the picture we will not agree on the solution, and every agreement below this point is softer than it looks. Drawn while pairing through tools/diagram/gen_journey_head.py, committed like any other diagram.</div>
 <div class="targets">
 <div class="target"><div class="num">2 observed → 0</div><div class="cap">Wrong-by-hours labels in new artifacts</div></div>
 <div class="target"><div class="num">statusline segments 0 → 1</div><div class="cap">Human clock</div></div>
 <div class="target"><div class="num">0 → captured</div><div class="cap">Effort actuals per conducted task</div></div>
+<div class="target"><div class="num">underivable → derivable for new gate records</div><div class="cap">Duration-per-rung</div></div>
 </div>
-</div>
-</div></div></section>
+</div></section>
 <section class="risks"><h2>Risks</h2><table class="rt"><thead><tr><th></th><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Countermeasure</th></tr></thead><tbody>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The model writes a plausible time instead of running date — the birth failure <span class="killer">killer</span></td><td>false times land in immutable records (worse than no time) and poison the calibration base</td><td>medium — it happened twice on the birth day</td><td>the same-turn rule: a time is written only when a machine produced it in the same turn — a date run, or a machine-written record read that turn (marker stamp, git…</td></tr>
 <tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">Retrofitted timestamps manufacture history</td><td>false records at any depth, silently plausible</td><td>low once named</td><td>new records only; nothing backfills a time into an existing artifact</td></tr>
