@@ -1,25 +1,37 @@
 # TODO
 
-## In flight — three threads, one at a time
+## In flight — written live, not at close-out
 
-1. **shared-memory slice 1 — the journey page.** THE ACTIVE ONE. Framed and
-   keyed 2026-08-07, at the design rung. Page built and rendered for three
-   slugs; annotation round 1 taken in full (`docs/design/shared-memory.md`).
-   **Waiting on: Tony's round-2 review of the HTML.** Nothing else moves until
-   this closes.
-2. **switch-fidelity — parked at design.** Slice 1 shipped (v0.90.0). Slice 2
-   is unframed and is NOT being worked. The board shows design in-flight, which
-   is true but reads as active; it is not.
-3. **The four roles — raised 2026-08-07, deliberately parked.** Tony: *"the
-   orchestrator role is the one who needs to drive all this, so they need to
-   understand expectations, switch-fidelity, stages, ladders, progress etc
-   etc."* Today the orchestrator's brief is deliberately starved — intent,
-   terrain, constraints, players, and explicitly not the ladder or the
-   declared targets. That was a cost decision and is probably wrong under the
-   above. **Trigger: after the journey page closes.** Open question at that
-   point: whether the brief simply carries ladder position and targets, or
-   whether the orchestrator owns the journey — a different seat from
-   "called, writes a score, leaves".
+*Updated 14:59 EDT mid-session. switch-fidelity gap 13: anything worth keeping
+is written the moment it exists. Tony declined to close this session because
+the boundary is unverified — this section and the session log are the manual
+countermeasure.*
+
+1. **funnel-driver — THE ACTIVE ITEM.** Framed 2026-08-07
+   (`docs/product/funnel-driver.md`), at the **design** rung — the 2026-08-04
+   spec `docs/design/conductor-role.md` is its design. **Slice 1 shipped
+   (v0.91.0):** the entry gates took conductor's pre-flight inventory, and work
+   commits carry a `Piece:` trailer. **Slice 2 is the substantive one and is
+   NOT framed: the three funnel stages with no owner in any skill** — nothing
+   in `skills/` writes `docs/product/<slug>.md`, `docs/design/<slug>.md`, or a
+   `## Release slice`. Killer risk on any further work: conductor is the only
+   working instance of half the system's functions across three repos, so it
+   sheds one piece at a time — additions and guarded substitutions only.
+2. **switch-fidelity — MUST BE FIXED, Tony 2026-08-07.** At design. Slice 1
+   shipped as v0.90.0 and **ships unverified by design**: nothing checks that a
+   pickup restored what the close recorded. That is why this session could not
+   safely be closed. Its slice 2 (capture the thinking layer, gaps 8-14)
+   remains unframed. **Open: "let's go to slice 2" was ambiguous between this
+   item and funnel-driver — not resolved.**
+3. **shared-memory — journey page agreed as directional.** Three annotation
+   rounds taken and recorded in `docs/design/shared-memory.md`. Steps per stage
+   now defined in `docs/design/funnel-steps.md` (six harvested, Idea is Tony's,
+   Live deliberately empty). Remaining stages are undrawn, which the page
+   renders as blockers — correctly.
+
+**Queued, not started:** the `rung`→`stage` machine rename across `gate.py`,
+its JSON and CI (cross-cutting, owes the standing grep sweep); the gap-analysis
+region on the journey head; automating the fidelity check.
 
 ## Now
 
