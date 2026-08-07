@@ -78,11 +78,14 @@ padding:14px;background:#FCFCFB}
 .pains li::marker{color:var(--red);font-weight:700}
 .more{margin-top:9px;font-size:12.5px;color:var(--slate)}
 .pitch{margin-top:14px;font-size:15px;line-height:1.5;max-width:52ch}
-.targets{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding-top:14px;
+.targets{display:grid;gap:11px;margin-top:14px;padding-top:13px;
 border-top:1px solid var(--hairline)}
-.target .num{font-size:19px;font-weight:700;color:var(--moss);
-font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.target .cap{font-size:12px;color:var(--ink-soft);max-width:19ch;line-height:1.35;margin-top:3px}
+.targets::before{content:"How we will know it worked";font-size:10px;font-weight:700;
+letter-spacing:.09em;text-transform:uppercase;color:var(--slate)}
+.target{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.target .num{font-size:15px;font-weight:700;color:var(--moss);
+font-variant-numeric:tabular-nums;letter-spacing:-.01em;flex:none}
+.target .cap{font-size:12.5px;color:var(--ink-soft);line-height:1.35}
 
 .rt{width:100%;border-collapse:collapse;background:var(--card);
 border:1px solid var(--hairline);border-radius:14px;overflow:hidden;font-size:13.5px}
@@ -176,7 +179,7 @@ footer li b{color:var(--ink)}
 .rt td{border-bottom:none;padding:4px 14px}
 .rt tr{border-bottom:1px solid var(--hairline);padding:10px 0}}
 </style></head><body><div class="wrap">
-<header><div class="eyebrow">Kerd · journey</div><h1>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost</h1><div class="derived">Drawn from the repo at <code>a99361c</code> · 7 August 2026, 13:33 · read-only — this page changes nothing</div></header>
+<header><div class="eyebrow">Kerd · journey</div><h1>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost</h1><div class="derived">Drawn from the repo at <code>f0f257d</code> · 7 August 2026, 13:34 · read-only — this page changes nothing</div></header>
 <section class="story"><h2>Proposal</h2><div class="storybox">
 <p class="outline">This outline is used when a proposal is being made to improve the condition as a result of reducing problems or gaining benefits not currently available.</p><div class="a3">
 <div class="panel"><h3>Current Situation &amp; Background</h3>
@@ -199,7 +202,6 @@ footer li b{color:var(--ink)}
 <div class="arrow">→</div>
 <div class="panel"><h3>Proposal &amp; Benefits</h3>
 <div class="slot blocking"><b>Not drawn — so this is not agreed.</b> The drawing is what forces alignment: if we do not agree on the picture we will not agree on the solution, and every agreement below this point is softer than it looks. Drawn while pairing, committed like any other diagram.</div>
-<p class="pitch">When context window is filling, we can switch out to record EXACTLY where we are against the agreed stage/ladder/plan to allow us to clear the context window and start as if it was the same exact session and no memory or agreed points or input had been forgotten or lost. Whatever we need to make…</p>
 <div class="targets">
 <div class="target"><div class="num">2 observed → 0</div><div class="cap">Course-correction interventions per pickup</div></div>
 <div class="target"><div class="num">no → yes</div><div class="cap">Ladder position available at pickup</div></div>

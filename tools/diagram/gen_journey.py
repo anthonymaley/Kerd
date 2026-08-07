@@ -201,8 +201,10 @@ def read_product(slug):
 
 
 def pitch(value_body):
-    """Elevator-pitch length, not the full requirement. The page states it short
-    and shows it drawn; the verbatim record stays in the product doc."""
+    """Kept but unused since 2026-08-07: the drawing carries the statement, so
+    the panel holds no prose. Retained because a story format without a drawing
+    slot (roadmap, illumination) may still want a sentence — and because
+    deleting it would hide that this was a decision rather than an oversight."""
     quote = []
     for l in value_body.splitlines():
         if l.startswith(">"):
@@ -421,7 +423,10 @@ def render(slug):
                 A(f'<li>{E(clip(l, 130))}</li>')
             A('</ul>')
         if i == len(headings) - 1:
-            A(f'<p class="pitch">{E(pitch(value))}</p>')
+            # No prose here. The drawing carries the statement — Tony 2026-08-07,
+            # looking at a 300-char clip of the Value section trailing off
+            # mid-sentence: "this can go i think, drawing replaces?". The target
+            # numbers stay: they are the checkable version of the same claim.
             if tg:
                 A('<div class="targets">')
                 for t in tg[:3]:
@@ -627,11 +632,14 @@ padding:14px;background:#FCFCFB}
 .pains li::marker{color:var(--red);font-weight:700}
 .more{margin-top:9px;font-size:12.5px;color:var(--slate)}
 .pitch{margin-top:14px;font-size:15px;line-height:1.5;max-width:52ch}
-.targets{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding-top:14px;
+.targets{display:grid;gap:11px;margin-top:14px;padding-top:13px;
 border-top:1px solid var(--hairline)}
-.target .num{font-size:19px;font-weight:700;color:var(--moss);
-font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.target .cap{font-size:12px;color:var(--ink-soft);max-width:19ch;line-height:1.35;margin-top:3px}
+.targets::before{content:"How we will know it worked";font-size:10px;font-weight:700;
+letter-spacing:.09em;text-transform:uppercase;color:var(--slate)}
+.target{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.target .num{font-size:15px;font-weight:700;color:var(--moss);
+font-variant-numeric:tabular-nums;letter-spacing:-.01em;flex:none}
+.target .cap{font-size:12.5px;color:var(--ink-soft);line-height:1.35}
 
 .rt{width:100%;border-collapse:collapse;background:var(--card);
 border:1px solid var(--hairline);border-radius:14px;overflow:hidden;font-size:13.5px}
