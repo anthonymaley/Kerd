@@ -352,6 +352,7 @@ def render(slug):
 
     # ---- the ladder -------------------------------------------------------
     A('<div class="ladder">')
+    seen_have = set()
     for s, label, blurb in STAGES:
         r = by_rung.get(s, {})
         st = r.get("state", "missing")
@@ -362,12 +363,17 @@ def render(slug):
           f'<h2>{E(label)}</h2><span class="status {cls}">{E(word)}</span>'
           + (f'<span class="when">{E(when_s)}</span>' if when_s else "") +
           f'</div><div class="card"><div class="blurb">{E(blurb)}</div><ul class="steps">')
-        for it in r.get("have_items", []):
+        # The gates report cumulatively — every rung repeats every earlier
+        # rung's requirements. Rendered literally that reads as eight identical
+        # stages. What a rung MEANS is what it added over the one before it.
+        fresh = [it for it in r.get("have_items", []) if it not in seen_have]
+        seen_have.update(r.get("have_items", []))
+        for it in fresh:
             A(f'<li><span class="mark done">✓</span><span class="s-name">{E(plain(it))}</span></li>')
         for it in r.get("need_items", []):
             A(f'<li><span class="mark todo">○</span><span class="s-name todo">{E(plain(it))}</span>'
               f'<span class="s-fact">still needed</span></li>')
-        if not r.get("have_items") and not r.get("need_items"):
+        if not fresh and not r.get("need_items"):
             A('<li><span class="mark done">✓</span><span class="s-name">'
               'Nothing had to be on disk to start — this is where work enters</span></li>')
         A('</ul>')
