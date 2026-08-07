@@ -1,0 +1,274 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost — journey</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--paper:#FBFAF7;--card:#FFF;--ink:#22312F;--ink-soft:#5C6B67;--hairline:#E4E7E4;
+--moss:#3E7C4F;--moss-chip:#E3EFE6;--amber:#C98A2E;--amber-chip:#FBF0DC;
+--red:#C6453F;--red-chip:#F8E4E2;--slate:#8C9793;
+}
+body{background:var(--paper);color:var(--ink);
+font:16px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+padding:44px 24px 90px}
+.wrap{max-width:980px;margin:0 auto}
+header{margin-bottom:38px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+color:var(--ink-soft);font-weight:600;margin-bottom:10px}
+h1{font-size:33px;line-height:1.18;letter-spacing:-.015em;max-width:22ch}
+.derived{margin-top:12px;font-size:13px;color:var(--ink-soft)}
+code{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;background:#F1F0EC;
+padding:1px 6px;border-radius:5px}
+h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+color:var(--ink-soft);font-weight:700;margin-bottom:14px}
+section{margin-bottom:38px}
+
+.whybox{background:var(--card);border:1px solid var(--hairline);
+border-left:4px solid var(--moss);border-radius:14px;padding:22px 26px}
+.whybox blockquote{font-size:19px;line-height:1.5;max-width:62ch}
+.whybox .src{margin-top:12px;font-size:13px;color:var(--ink-soft)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.res{background:var(--card);border:1px solid var(--hairline);border-radius:14px;
+padding:18px 20px}
+.res .num{font-size:23px;font-weight:700;letter-spacing:-.02em;color:var(--moss);
+font-variant-numeric:tabular-nums}
+.res .cap{margin-top:5px;font-size:13px;color:var(--ink-soft);line-height:1.4}
+
+.rl{display:grid;gap:12px}
+.risk{background:var(--card);border:1px solid var(--hairline);border-radius:14px;
+padding:16px 20px;border-left:5px solid var(--slate)}
+.risk.green{border-left-color:var(--moss)}
+.risk.amber{border-left-color:var(--amber)}
+.risk.red{border-left-color:var(--red)}
+.rhead{display:flex;gap:9px;align-items:center;margin-bottom:7px}
+.lightword{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+padding:3px 10px;border-radius:999px}
+.risk.green .lightword{background:var(--moss-chip);color:var(--moss)}
+.risk.amber .lightword{background:var(--amber-chip);color:#9A5A17}
+.risk.red .lightword{background:var(--red-chip);color:var(--red)}
+.killer{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+color:var(--red)}
+.rtext{font-weight:600;line-height:1.45;max-width:78ch}
+.rcm,.rtr{margin-top:7px;font-size:13.5px;color:var(--ink-soft);line-height:1.45;max-width:82ch}
+.rcm b,.rtr b{color:var(--ink)}
+
+.minimap{display:flex;gap:0;align-items:flex-start;margin:34px 0 8px}
+.mm{flex:1;text-align:center;position:relative}
+.mm::before{content:"";position:absolute;top:7px;left:0;right:0;height:2px;
+background:var(--hairline)}
+.mm:first-child::before{left:50%}
+.mm:last-child::before{right:50%}
+.mm.reached::before{background:var(--moss)}
+.mm .dot{width:16px;height:16px;border-radius:50%;background:#FFF;
+border:2px solid var(--hairline);margin:0 auto 7px;position:relative;z-index:1}
+.mm.done .dot{background:var(--moss);border-color:var(--moss)}
+.mm.now .dot{background:var(--amber);border-color:var(--amber)}
+.mm .l{font-size:11px;color:var(--ink-soft);font-weight:600}
+.mapnote{font-size:13.5px;color:var(--ink-soft);margin-bottom:34px}
+
+.ladder{display:grid;gap:16px}
+.stage{position:relative;padding-left:34px}
+.lamp{position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;
+background:#FFF;border:2px solid var(--hairline)}
+.stage.done .lamp{background:var(--moss);border-color:var(--moss)}
+.stage.now .lamp{background:var(--amber);border-color:var(--amber)}
+.head{display:flex;gap:11px;align-items:center;flex-wrap:wrap}
+.head h2{font-size:17px;letter-spacing:-.01em;text-transform:none;color:var(--ink);
+margin-bottom:0}
+.status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;
+letter-spacing:.05em}
+.status.done{background:var(--moss-chip);color:var(--moss)}
+.status.now{background:var(--amber-chip);color:#9A5A17}
+.status.todo{background:#F1F0EC;color:var(--slate)}
+.when{font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.stage .card{margin-top:11px;background:var(--card);border:1px solid var(--hairline);
+border-radius:14px;padding:17px 21px}
+.stage.todo .card{background:#FCFCFB;border-style:dashed}
+.blurb{font-size:13.5px;color:var(--ink-soft);margin-bottom:11px}
+.steps{list-style:none}
+.steps li{display:flex;align-items:baseline;gap:11px;padding:6px 0;
+border-bottom:1px solid var(--hairline);flex-wrap:wrap}
+.steps li:last-child{border-bottom:none}
+.mark{font-weight:700;width:16px;flex:none;text-align:center}
+.mark.done{color:var(--moss)}
+.mark.todo{color:var(--slate)}
+.s-name{font-weight:600}
+.s-name.todo{font-weight:500;color:var(--ink-soft)}
+.s-fact{margin-left:auto;font-size:12px;font-weight:600;color:var(--slate);white-space:nowrap}
+.made{margin-top:13px}
+.made h4{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+color:var(--ink-soft);margin-bottom:4px}
+.made ul{list-style:none}
+.made li{display:flex;gap:10px;align-items:baseline;padding:5px 0;
+border-bottom:1px dashed var(--hairline)}
+.made li:last-child{border-bottom:none}
+.made .what{font-weight:600;font-size:14px}
+a.open{font-size:11.5px;font-weight:600;color:var(--ink);text-decoration:none;
+border:1px solid var(--hairline);border-radius:999px;padding:2px 10px;
+white-space:nowrap;margin-left:auto}
+a.open:hover{border-color:var(--ink-soft)}
+a.open::after{content:" ↗";color:var(--ink-soft)}
+
+.ruled ul{list-style:none;display:grid;gap:9px}
+.ruled li{background:var(--card);border:1px solid var(--hairline);border-radius:12px;
+padding:13px 18px}
+.ruled .what{font-weight:700;display:block;margin-bottom:3px}
+.ruled .why{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+
+footer{margin-top:54px;padding-top:24px;border-top:1px solid var(--hairline)}
+footer h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+color:var(--ink-soft);margin-bottom:12px}
+footer ul{list-style:none;display:grid;gap:8px;max-width:80ch}
+footer li{font-size:13.5px;color:var(--ink-soft);line-height:1.5;
+padding-left:16px;position:relative}
+footer li::before{content:"—";position:absolute;left:0;color:var(--slate)}
+footer li b{color:var(--ink)}
+.foot{margin-top:16px;font-size:13px;color:var(--ink-soft);max-width:72ch;line-height:1.5}
+
+@media (max-width:700px){
+h1{font-size:26px}
+.mm .l{font-size:9px}
+.stage{padding-left:26px}
+.s-fact,a.open{margin-left:27px}
+}
+</style></head><body><div class="wrap">
+<header><div class="eyebrow">Kerd · journey</div>
+<h1>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost</h1>
+<div class="derived">Drawn from the repo at <code>9243b98</code> · 7 August 2026, 11:24 · read-only — this page changes nothing</div></header>
+<section class="whybox"><h2>Why this exists</h2>
+<blockquote>When context window is filling, we can switch out to record EXACTLY where we are against the agreed stage/ladder/plan to allow us to clear the context window and start as if it was the same exact session and no memory or agreed points or input had been forgotten or lost. Whatever we need to make that happen we should do. If we can do that in a super efficient way even better (efficient means faster to switch in/out and fewest tokens required to do those steps) but NEVER at the expense of memory or context quality.</blockquote>
+<div class="src">Straight from the frame — this is the requirement in the words it was given in, not a retelling.</div></section>
+<section class="results"><h2>What winning looks like</h2><div class="grid">
+<div class="res"><div class="num">2 observed → 0</div><div class="cap">Course-correction interventions per pickup</div></div>
+<div class="res"><div class="num">no → yes</div><div class="cap">Ladder position available at pickup</div></div>
+<div class="res"><div class="num">unmeasured → 0, and measurable</div><div class="cap">Agreed points lost across a boundary</div></div>
+<div class="res"><div class="num">unbounded → bounded and complete</div><div class="cap">Read-set determinism</div></div>
+</div></section>
+<section class="risks"><h2>Risks</h2><div class="rl">
+<div class="risk green"><div class="rhead"><span class="lightword">handled</span> <span class="killer">killer</span></div><div class="rtext">Pruning to fix accretion introduces erosion — a short session's close overwrites CONTEXT.md and drops an agreed point recorded by an earlier, deeper session</div><div class="rcm"><b>What we do about it:</b> pruning is licensed only at defined events — a goal record landing (docs/gates/*-goal.md) or an explicit agreed drop; CONTEXT.md is append-only between them, so a short session structurally cannot prune (Tony 2026-08-07)</div><div class="rtr"><b>Revisit when:</b> the first prune that removes something a later session needed re-argues this row</div></div>
+<div class="risk amber"><div class="rhead"><span class="lightword">watching</span></div><div class="rtext">Reading more at pickup fills the window faster, forcing more boundaries — each boundary is itself a fidelity risk</div><div class="rcm"><b>What we do about it:</b> — none —</div><div class="rtr"><b>Revisit when:</b> design rung — a design that increases the read set without a compensating reduction re-argues this row</div></div>
+<div class="risk amber"><div class="rhead"><span class="lightword">watching</span></div><div class="rtext">The fidelity property stays unfalsifiable — no check exists that a pickup restored what the close recorded, so every countermeasure here ships unverified</div><div class="rcm"><b>What we do about it:</b> — none —</div><div class="rtr"><b>Revisit when:</b> design rung — this must be answered before the build rung, or the goal gate has nothing to measure</div></div>
+<div class="risk amber"><div class="rhead"><span class="lightword">watching</span></div><div class="rtext">"Read in full" instructions get silently bounded by the reader when the target is large</div><div class="rcm"><b>What we do about it:</b> — none —</div><div class="rtr"><b>Revisit when:</b> design rung — bound the read set explicitly, or restructure logs so the bound is structural</div></div>
+</div></section>
+<div class="minimap">
+<div class="mm done reached"><div class="dot"></div><div class="l">Idea</div></div>
+<div class="mm done reached"><div class="dot"></div><div class="l">Validated</div></div>
+<div class="mm done reached"><div class="dot"></div><div class="l">Scoped</div></div>
+<div class="mm now reached"><div class="dot"></div><div class="l">Designed</div></div>
+<div class="mm "><div class="dot"></div><div class="l">Spec'd</div></div>
+<div class="mm "><div class="dot"></div><div class="l">Built</div></div>
+<div class="mm "><div class="dot"></div><div class="l">Proven</div></div>
+<div class="mm "><div class="dot"></div><div class="l">Live</div></div>
+</div>
+<div class="mapnote">At <b>Designed</b> · 3 of 8 rungs behind it · entered the ladder at <b>Designed</b></div>
+<div class="ladder">
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Idea</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the problem named, and what winning would be</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">Nothing had to be on disk to start — this is where work enters</span></li>
+</ul>
+</div></div>
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Validated</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the risks sized, the killer one answered</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">The idea is written down</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
+<li><span class="mark done">✓</span><span class="s-name">What winning looks like, stated in units</span></li>
+</ul>
+<div class="made"><h4>What we created</h4><ul>
+<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+</ul></div>
+</div></div>
+<div class="stage done"><span class="lamp"></span><div class="head"><h2>Scoped</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the smallest slice worth shipping</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">The idea is written down</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
+<li><span class="mark done">✓</span><span class="s-name">What winning looks like, stated in units</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
+</ul>
+<div class="made"><h4>What we created</h4><ul>
+<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+</ul></div>
+</div></div>
+<div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">The idea is written down</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
+<li><span class="mark done">✓</span><span class="s-name">What winning looks like, stated in units</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
+<li><span class="mark done">✓</span><span class="s-name">The smallest valuable slice named</span></li>
+</ul>
+<div class="made"><h4>What we created</h4><ul>
+<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+</ul></div>
+</div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Spec'd</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">the build written down precisely enough to hand over</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">The idea is written down</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
+<li><span class="mark done">✓</span><span class="s-name">What winning looks like, stated in units</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
+<li><span class="mark done">✓</span><span class="s-name">The smallest valuable slice named</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
+</ul>
+<div class="made"><h4>What we created</h4><ul>
+<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+</ul></div>
+</div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Built</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece made and proved</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">The idea is written down</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
+<li><span class="mark done">✓</span><span class="s-name">What winning looks like, stated in units</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
+<li><span class="mark done">✓</span><span class="s-name">The smallest valuable slice named</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
+</ul>
+<div class="made"><h4>What we created</h4><ul>
+<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+</ul></div>
+</div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Proven</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">the whole thing checked against what we said winning was</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">The idea is written down</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
+<li><span class="mark done">✓</span><span class="s-name">What winning looks like, stated in units</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
+<li><span class="mark done">✓</span><span class="s-name">The smallest valuable slice named</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
+</ul>
+<div class="made"><h4>What we created</h4><ul>
+<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+</ul></div>
+</div></div>
+<div class="stage todo"><span class="lamp"></span><div class="head"><h2>Live</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">in use, and the machine can refuse a regression</div><ul class="steps">
+<li><span class="mark done">✓</span><span class="s-name">The idea is written down</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Tagged with how it enters and where it stands</span></li>
+<li><span class="mark done">✓</span><span class="s-name">What winning looks like, stated in units</span></li>
+<li><span class="mark done">✓</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
+<li><span class="mark done">✓</span><span class="s-name">The smallest valuable slice named</span></li>
+<li><span class="mark done">✓</span><span class="s-name">The machine can refuse bad work</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
+<li><span class="mark todo">○</span><span class="s-name todo">Proven against its done condition, on the record</span><span class="s-fact">still needed</span></li>
+</ul>
+<div class="made"><h4>What we created</h4><ul>
+<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">gate.yml</span><a class="open" href="../../.github/workflows/gate.yml">open</a></li>
+</ul></div>
+</div></div>
+</div>
+<section class="ruled"><h2>What we considered and threw away</h2><ul>
+<li><span class="what">A handoff manifest of git state</span><span class="why">proposed in an external review, 2026-08-07. Rejected on the standing derived-from-disk rule: every one of those values is available live and truthfully at switch-in, and writing them into a file turns a fact that cannot lie into a snapshot…</span></li>
+<li><span class="what">Recording git status output at close-out</span><span class="why">same source, same date, same reason. Two things in that proposal survive and are not derivable: stashes (zero mentions in skills/switch/SKILL.md today; a stash survives a window clear and is invisible to every other check) and an explicit…</span></li>
+<li><span class="what">Environment versions and package-manager state in the handoff</span><span class="why">already the playbook's Tech Stack section, and stable enough that duplicating it would create the same two-homes rot as gap 9. What is not covered and is genuinely volatile: running dev servers and background processes.</span></li>
+<li><span class="what">A written artifact index</span><span class="why">rejected for in-repo artifacts, which the derived board and ## Grounding already reach. Genuinely uncovered: out-of-repo artifacts (PRs, URLs, decks, external docs), which have no home at all.</span></li>
+<li><span class="what">Notifying the user when a parked item becomes relevant</span><span class="why">rejected by Tony 2026-08-07 in favour of a phase: the someday/maybe review happens at roadmap and release planning, and once a release is sliced the pile is invisible until it ships. An interrupt would break the focus the slicing exists to…</span></li>
+<li><span class="what">Measuring drift frequency across the 34-log corpus before designing</span><span class="why">proposed and abandoned the same session. The corpus can only record drift that was caught, so it undercounts by exactly the amount that matters, and Tony had already supplied the requirement, which made frequency irrelevant to whether the…</span></li>
+</ul></section>
+<footer><h3>What this page cannot show yet, and why</h3><ul>
+<li><b>How long each rung took.</b> Gate records are dated to the day, and most journeys land two rungs on one date — so day resolution reads zero. Per-task start/end stamps started being written on 2026-08-06; there are few enough that a comparison would mislead.</li>
+<li><b>The drawn current-situation and proposal panels.</b> Agreed in the mock, and a drawing has no source on disk to derive from. It needs a declared home before this page can carry it.</li>
+<li><b>What it measured once in use.</b> No artifact records post-ship measurement, so there is nothing to read.</li>
+<li><b>An evaluation matrix of what we considered.</b> The machinery is built and CI-enforced and holds zero matrices, so there is nothing to render.</li>
+</ul><p class="foot">Every other value above is derived from the repo at the commit named in the header. Nothing on this page is hand-maintained, so it cannot quietly go stale — but it also cannot show what was never written down.</p></footer>
+</div></body></html>
