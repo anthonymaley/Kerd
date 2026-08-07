@@ -3,17 +3,23 @@
 
     python3 tools/diagram/gen_journey.py <slug> [--out PATH]
 
-Every value on the page is derived from disk — the product doc, the entry
-gates, the gate records and git. Nothing is hand-maintained, so the page
-cannot drift from the repo the way a written summary does.
+Every value is derived from disk — the product doc, the entry gates, the
+contract spec, the gate records and git. Nothing is hand-maintained, so the
+page cannot drift from the repo the way a written summary does.
 
-Where a field has no source on disk the page SAYS SO rather than estimating.
-That is deliberate: an honest hole is information (it shows what capture is
-missing), and a plausible number is not.
+Two things it does that a status page usually does not:
 
-The shape is the one agreed on 2026-08-05 over four live iterations
-(docs/plans/2026-08-05-journey-view-mock.html): the idea as the title, the
-story at the top, the ladder below, what we created per rung.
+**It lists what is missing.** Each rung declares the artifacts it ought to
+carry. Ones that do not exist are listed as open slots rather than omitted, so
+a gap is visible from across the room and can be accepted or pushed back on
+(Tony, 2026-08-07: "list when empty so we can accept that or push back").
+
+**It says what it cannot show.** A field with no source on disk is named as
+such rather than estimated. An honest hole is information; a plausible number
+hides one.
+
+Shape agreed 2026-08-05 over four live iterations, amended by annotation round
+one on 2026-08-07 — see docs/design/shared-memory.md.
 """
 
 import html
@@ -27,24 +33,36 @@ ROOT = Path(__file__).resolve().parents[2]
 
 # ---------------------------------------------------------------------------
 # The ladder, in the language of the product rather than the machine.
+#
+# `expects` are the artifacts a rung ought to carry. They are NOT gate
+# requirements — the gates refuse on a smaller, harder set. These are what a
+# reader would expect to find, and listing the missing ones is the point:
+# an absent evaluation matrix should be visible, not silently omitted.
 # ---------------------------------------------------------------------------
 
 STAGES = [
-    ("frame", "Idea", "the problem named, and what winning would be"),
-    ("viability", "Validated", "the risks sized, the killer one answered"),
-    ("slice", "Scoped", "the smallest slice worth shipping"),
-    ("design", "Designed", "the solution drawn and agreed"),
-    ("contract", "Spec'd", "the build written down precisely enough to hand over"),
-    ("build", "Built", "each piece made and proved"),
-    ("goal", "Proven", "the whole thing checked against what we said winning was"),
-    ("loop", "Live", "in use, and the machine can refuse a regression"),
+    ("frame", "Idea", "the problem named, and what winning would be", [
+        ("The idea, drawn current-to-ideal", "journey-{slug}-current.svg", "drawn, not described"),
+    ]),
+    ("viability", "Validated", "the risks sized, the killer one answered", [
+        ("What we considered", "matrix", "options compared against declared criteria"),
+    ]),
+    ("slice", "Scoped", "the smallest slice worth shipping", []),
+    ("design", "Designed", "the solution drawn and agreed", [
+        ("The design", "docs/design/{slug}.md", "how it works, in detail"),
+        ("Architecture — how the parts connect", "docs/design/{slug}-architecture.svg",
+         "high-level blocks and lines"),
+        ("The proposal, drawn", "journey-{slug}-proposal.svg", "current versus new"),
+    ]),
+    ("contract", "Spec'd", "each piece written down precisely enough to hand over", []),
+    ("build", "Built", "each piece made, and measured against its own spec", []),
+    ("goal", "Proven", "the whole thing checked against what we said winning was", []),
+    ("loop", "Live", "in use, and the machine can refuse a regression", []),
 ]
 
-# The full requirement vocabulary the gates emit, in plain English. Collected
-# by sweeping every rung of every slug — the set is closed and small, so a
-# lookup is honest here rather than a guess. An unmapped requirement falls
-# through to its raw text, which is visibly ugly on purpose: it is the signal
-# that the vocabulary grew and this table did not.
+# The requirement vocabulary the gates emit, in plain English. The set is
+# closed and small. An unmapped requirement falls through as raw text, which is
+# visibly ugly on purpose — that is the signal the vocabulary grew.
 PLAIN = [
     (r'^docs/product/\S+ — file exists$', "The idea is written down"),
     (r'^docs/product/\S+ — front matter route.*stage', "Tagged with how it enters and where it stands"),
@@ -57,32 +75,31 @@ PLAIN = [
     (r'^docs/gates/\S+ — design GO record.*$', "Design agreed, and signed off on the record"),
     (r'^docs/plans/\S+ — contract spec$', "The build contract written"),
     (r'^docs/plans/\S+ — section "Pieces" \((\d+) items\)$',
-     lambda m: f"The build broken into {m.group(1)} pieces"),
-    (r'^docs/plans/\S+ — section "Pieces"$', "The build broken into pieces"),
+     lambda m: f"Broken into {m.group(1)} pieces, each with its own measure"),
+    (r'^docs/plans/\S+ — section "Pieces"$', "Broken into pieces, each with its own measure"),
     (r'^docs/plans/\S+ — every Step carries \*\*Verify:\*\*$',
-     "Every piece carries a way to prove it worked"),
+     "Every piece carries the check that proves it"),
     (r'^docs/plans/\S+ — "(.+?)" missing a "\*\*Verify:\*\*" line$',
-     lambda m: f"No way to prove it worked: {m.group(1)}"),
+     lambda m: f"No check written for: {m.group(1)}"),
     (r'^docs/plans/\S+ — zero unchecked boxes.*$', "Every piece built and checked off"),
     (r'^docs/gates/\S+ — goal record with section "Done condition".*$',
      "Proven against its done condition, on the record"),
     (r'^\.github/workflows/gate\.yml — file exists$', "The machine can refuse bad work"),
 ]
 
-# Risk state → traffic light. The five states are the closed set the gates
-# enforce; "no countermeasure" is not among them because a risk without one is
-# a blocker by standing decision, which is what red means here.
-LIGHTS = {
-    "countermeasure - permanent": ("green", "handled"),
-    "countermeasure - temporary": ("amber", "handled for now"),
-    "accepted": ("green", "accepted"),
-    "accepted unknown": ("amber", "watching"),
-    "fatal": ("red", "blocker"),
+# Risk state → glyph. ○ meets · △ meets only with a countermeasure · × cannot
+# meet. Deliberately the evaluation matrix's own vocabulary, so the system
+# carries one symbol set rather than two competing ones.
+GLYPH = {
+    "countermeasure - permanent": ("ok", "○", "handled"),
+    "countermeasure - temporary": ("warn", "△", "handled for now"),
+    "accepted": ("ok", "○", "accepted"),
+    "accepted unknown": ("warn", "△", "watching"),
+    "fatal": ("bad", "×", "blocker"),
 }
 
 
 def plain(req):
-    """Machine requirement → product language."""
     for pat, rep in PLAIN:
         m = re.match(pat, req)
         if m:
@@ -103,9 +120,6 @@ def run(*args):
 
 
 def md_text(s):
-    """Strip inline markdown. The product doc is written for a reader who sees
-    the source; this page is for one who does not, so bold stars and backticks
-    are noise rather than emphasis."""
     s = re.sub(r'\*\*(.+?)\*\*', r'\1', s)
     s = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'\1', s)
     s = re.sub(r'`([^`]+)`', r'\1', s)
@@ -114,14 +128,12 @@ def md_text(s):
 
 
 def clip(s, n):
-    """Truncate on a word boundary — a cut mid-word reads as corruption."""
     if len(s) <= n:
         return s
     return s[:n].rsplit(" ", 1)[0].rstrip(" ,;:—-") + "…"
 
 
 def sections(text):
-    """Split markdown into {heading: body} for level-2 headings."""
     out, cur, buf = {}, None, []
     for line in text.splitlines():
         m = re.match(r'^## (.+)$', line)
@@ -142,60 +154,54 @@ def read_product(slug):
         sys.exit(f"no product doc: docs/product/{slug}.md")
     text = path.read_text()
     title = next((l[2:].strip() for l in text.splitlines() if l.startswith("# ")), slug)
-    fm = {}
-    if text.startswith("---"):
-        head = text.split("---", 2)[1]
-        for line in head.splitlines():
-            if ":" in line:
-                k, v = line.split(":", 1)
-                fm[k.strip()] = v.strip()
-    return {"path": path, "title": title, "front": fm, "sec": sections(text), "text": text}
+    return {"title": title, "sec": sections(text), "text": text}
 
 
-def why(value_body):
-    """The requirement in the words it was given in — the quoted block if there
-    is one, else the opening paragraph. This is the field whose absence cost an
-    hour on 2026-08-07: the record held the mechanism and dropped the purpose."""
-    quote = [l[1:].strip() for l in value_body.splitlines() if l.startswith(">")]
-    if quote:
-        # keep only the first quoted block
+def pitch(value_body):
+    """Elevator-pitch length, not the full requirement. The page states it short
+    and shows it drawn; the verbatim record stays in the product doc."""
+    quote = []
+    for l in value_body.splitlines():
+        if l.startswith(">"):
+            quote.append(l[1:].strip())
+        elif quote:
+            break
+    src = " ".join(x for x in quote if x)
+    if not src:
         out = []
-        for l in quote:
-            if not l and out:
-                break
-            if l:
-                out.append(l)
-        return md_text(" ".join(out))
-    para = []
-    for line in value_body.splitlines():
-        if not line.strip():
-            if para:
-                break
-            continue
-        if line.startswith(("#", "-", "|")):
-            continue
-        para.append(line.strip())
-    return md_text(" ".join(para))
+        for line in value_body.splitlines():
+            if not line.strip():
+                if out:
+                    break
+                continue
+            if line.startswith(("#", "-", "|", ">")):
+                continue
+            out.append(line.strip())
+        src = " ".join(out)
+    return clip(md_text(src), 300)
+
+
+def pains(text):
+    """The numbered problems, from the gap-list headings — already written, and
+    already one line each."""
+    return [md_text(m.group(1)) for m in re.finditer(r'^### Gap \d+ — (.+)$', text, re.M)]
 
 
 def targets(value_body):
-    """`- **name: X → Y.** note` lines under "Value, in units"."""
     out = []
     for line in value_body.splitlines():
         m = re.match(r'^- \*\*(.+?)\*\*\s*(.*)$', line.strip())
         if not m:
             continue
-        claim, note = m.group(1).rstrip('.'), m.group(2)
-        if "→" not in claim and "->" not in claim:
+        claim = m.group(1).rstrip('.')
+        if "→" not in claim:
             continue
         label, _, arrow = claim.partition(":")
-        out.append({"label": md_text(label), "move": md_text(arrow), "note": md_text(note)})
+        out.append({"label": md_text(label), "move": md_text(arrow)})
     return out
 
 
 def risks(body):
-    """The eight-column ledger. Non-table lines are skipped rather than parsed —
-    the gates' own parser treats every line as a row, which is a known trap."""
     out = []
     for line in body.splitlines():
         line = line.strip()
@@ -204,31 +210,16 @@ def risks(body):
         cells = [c.strip() for c in line.strip("|").split("|")]
         if len(cells) < 8 or cells[0].lower() == "risk":
             continue
-        state = cells[5].lower()
-        colour, word = LIGHTS.get(state, ("red", "unhandled"))
+        cls, glyph, word = GLYPH.get(cells[5].lower(), ("bad", "×", "unhandled"))
         out.append({
-            "risk": md_text(cells[0]), "killer": cells[1].lower().startswith("y"),
-            "impact": cells[2], "likelihood": cells[3],
-            "state": cells[5], "counter": md_text(cells[6]) or "— none —",
-            "trigger": md_text(cells[7]), "colour": colour, "word": word,
+            "title": clip(md_text(cells[0]), 110),
+            "killer": cells[1].lower().startswith("y"),
+            "impact": clip(md_text(cells[2]), 130),
+            "likelihood": clip(md_text(cells[3]), 110),
+            "counter": clip(md_text(cells[6]), 170) or "none — which is why it is open",
+            "cls": cls, "glyph": glyph, "word": word,
         })
-    out.sort(key=lambda r: (not r["killer"], r["colour"] != "red"))
-    return out
-
-
-def ruled_out(body):
-    """Each entry opens `**What**` and gives its reason after an em-dash. The
-    lead-in may carry a parenthetical before the dash, so the split is on the
-    first em-dash rather than on the bold run ending."""
-    out = []
-    for para in body.split("\n\n"):
-        para = para.strip().replace("\n", " ")
-        m = re.match(r'^\*\*(.+?)\*\*(.*)$', para)
-        if not m:
-            continue
-        what, rest = m.group(1), m.group(2)
-        why_ = rest.split("—", 1)[1] if "—" in rest else rest
-        out.append({"what": md_text(what), "why": clip(md_text(why_), 240)})
+    out.sort(key=lambda r: (not r["killer"], {"bad": 0, "warn": 1, "ok": 2}[r["cls"]]))
     return out
 
 
@@ -236,17 +227,13 @@ def board(slug):
     raw = run("python3", "tools/diagram/progress.py", "--json")
     if not raw:
         sys.exit("progress.py --json produced nothing")
-    data = json.loads(raw)
-    for b in data["board"]:
+    for b in json.loads(raw)["board"]:
         if b["slug"] == slug:
             return b
     sys.exit(f"{slug} is not on the board")
 
 
 def rung_dates(slug):
-    """Gate records are dated in their filename. Day granularity is all they
-    carry — 6 of 7 completed journeys land design and goal on one date, so
-    this cannot support a duration comparison. Named, not hidden."""
     out = {}
     for p in sorted((ROOT / "docs" / "gates").glob(f"*-{slug}-*.md")):
         m = re.match(r'^(\d{4}-\d{2}-\d{2})-' + re.escape(slug) + r'-(\w+)\.md$', p.name)
@@ -255,20 +242,57 @@ def rung_dates(slug):
     return out
 
 
-def artefacts(slug, rung, have):
-    """What we created at this rung — the real files, with a link."""
+def spec_pieces(slug):
+    """The contract's own steps, each a measurable unit. This is the level Tony
+    asked for (2026-08-07): "each step needs a measurable spec to be successful
+    and to produce the tests we need to check"."""
+    specs = sorted((ROOT / "docs" / "plans").glob(f"*-{slug}-spec.md"))
+    if not specs:
+        return []
+    body = sections(specs[-1].read_text()).get("Pieces", "")
+    out = []
+    for line in body.splitlines():
+        m = re.match(r'^- \[([ xX])\]\s*(.+)$', line.strip())
+        if m:
+            name = re.sub(r'^Step \d+\s*—\s*', '', md_text(m.group(2)))
+            out.append({"done": m.group(1).lower() == "x", "name": clip(name, 120)})
+    return out
+
+
+def artefacts(have):
     out, seen = [], set()
     for item in have:
-        m = re.match(r'^(\S+\.(?:md|py|yml|excalidraw))\b', item)
+        m = re.match(r'^(\S+\.(?:md|py|yml|svg|excalidraw))\b', item)
         if not m:
             continue
         f = m.group(1)
-        if "*" in f or f in seen:
+        if "*" in f or f in seen or not (ROOT / f).exists():
             continue
         seen.add(f)
-        if (ROOT / f).exists():
-            out.append({"file": f, "name": Path(f).name})
+        out.append({"file": f, "name": Path(f).name})
     return out
+
+
+def drawing(slug, kind):
+    """Diagrams are made while pairing and committed like any other artifact —
+    the excalidraw pipeline that already renders every flow in this repo. The
+    page embeds the SVG if it is there and lists the slot if it is not; it never
+    invents a picture."""
+    p = ROOT / "docs" / "plans" / f"journey-{slug}-{kind}.svg"
+    if not p.exists():
+        return None
+    return re.sub(r'<\?xml[^>]*\?>', '', p.read_text()).strip()
+
+
+def expected_present(slug, spec):
+    if spec is None:
+        return False
+    if spec == "matrix":
+        return "Evaluation matrix" in (ROOT / "docs" / "product" / f"{slug}.md").read_text()
+    path = spec.format(slug=slug)
+    if not path.startswith("docs/"):
+        path = f"docs/plans/{path}"
+    return (ROOT / path).exists()
 
 
 # ---------------------------------------------------------------------------
@@ -276,9 +300,6 @@ def artefacts(slug, rung, have):
 # ---------------------------------------------------------------------------
 
 def E(s):
-    # quote=False: these are text nodes, and escaping apostrophes turns
-    # "Spec'd" into "Spec&#x27;d" on the page. The only attribute use is a
-    # repo-relative path from a disk glob, which cannot carry a quote.
     return html.escape(str(s), quote=False)
 
 
@@ -287,97 +308,129 @@ def render(slug):
     b = board(slug)
     dates = rung_dates(slug)
     value = doc["sec"].get("Value", "")
-    the_why = why(value)
     tg = targets(value)
     rk = risks(doc["sec"].get("Risk ledger", ""))
-    ro = ruled_out(doc["sec"].get("What we ruled out", ""))
+    pieces = spec_pieces(slug)
+    all_pains = pains(doc["text"])
     sha = run("git", "rev-parse", "--short", "HEAD")
     when = run("git", "log", "-1", "--format=%cd", "--date=format:%-d %B %Y, %H:%M")
-
     by_rung = {r["rung"]: r for r in b["rungs"]}
-    reached = [s for s, _, _ in STAGES if by_rung.get(s, {}).get("state") == "built"]
-    now = next((s for s, _, _ in STAGES if by_rung.get(s, {}).get("state") == "in-flight"), None)
+    labels = {s: l for s, l, _, _ in STAGES}
+    reached = [s for s, _, _, _ in STAGES if by_rung.get(s, {}).get("state") == "built"]
+    now = next((s for s, _, _, _ in STAGES if by_rung.get(s, {}).get("state") == "in-flight"), None)
 
     P = []
     A = P.append
-
-    A(f'<!doctype html><html lang="en"><head><meta charset="utf-8">')
-    A(f'<meta name="viewport" content="width=device-width, initial-scale=1">')
+    A('<!doctype html><html lang="en"><head><meta charset="utf-8">')
+    A('<meta name="viewport" content="width=device-width, initial-scale=1">')
     A(f'<title>{E(doc["title"])} — journey</title>{CSS}</head><body><div class="wrap">')
 
-    # ---- header -----------------------------------------------------------
-    A('<header><div class="eyebrow">Kerd · journey</div>')
-    A(f'<h1>{E(doc["title"])}</h1>')
-    A(f'<div class="derived">Drawn from the repo at <code>{E(sha)}</code> · '
-      f'{E(when)} · read-only — this page changes nothing</div></header>')
+    A(f'<header><div class="eyebrow">Kerd · journey</div><h1>{E(doc["title"])}</h1>'
+      f'<div class="derived">Drawn from the repo at <code>{E(sha)}</code> · {E(when)} · '
+      f'read-only — this page changes nothing</div></header>')
 
-    # ---- why (gap 11: the purpose, next to the thing, permanently) --------
-    if the_why:
-        A('<section class="whybox"><h2>Why this exists</h2>')
-        A(f'<blockquote>{E(the_why)}</blockquote>')
-        A('<div class="src">Straight from the frame — this is the requirement in '
-          'the words it was given in, not a retelling.</div></section>')
+    # ---- the story: where we are → where we are going, drawn -------------
+    A('<div class="a3">')
 
-    # ---- what winning looks like -----------------------------------------
+    cur = drawing(slug, "current")
+    A('<div class="panel"><h2>Where we are</h2>')
+    A(f'<div class="draw">{cur}</div>' if cur else
+      '<div class="slot">Not drawn yet — the one thing on this page that cannot be '
+      'derived. Drawn while pairing and committed like any other artifact.</div>')
+    if all_pains:
+        A('<ol class="pains">')
+        for p in all_pains[:3]:
+            A(f'<li>{E(clip(p, 150))}</li>')
+        A('</ol>')
+        if len(all_pains) > 3:
+            A(f'<div class="more">{len(all_pains) - 3} more, in the frame</div>')
+    A('</div>')
+
+    prop = drawing(slug, "proposal")
+    A('<div class="panel proposal"><h2>Where we are going</h2>')
+    A(f'<div class="draw">{prop}</div>' if prop else '<div class="slot">Not drawn yet.</div>')
+    A(f'<p class="pitch">{E(pitch(value))}</p>')
     if tg:
-        A('<section class="results"><h2>What winning looks like</h2><div class="grid">')
-        for t in tg:
-            A(f'<div class="res"><div class="num">{E(t["move"])}</div>'
-              f'<div class="cap">{E(t["label"])}</div></div>')
-        A('</div></section>')
+        A('<div class="targets">')
+        for t in tg[:4]:
+            A(f'<div class="target"><div class="num">{E(t["move"])}</div>'
+              f'<div class="cap">{E(clip(t["label"], 60))}</div></div>')
+        A('</div>')
+    A('</div></div>')
 
-    # ---- risks, as lights -------------------------------------------------
+    # ---- risks ------------------------------------------------------------
     if rk:
-        A('<section class="risks"><h2>Risks</h2><div class="rl">')
+        A('<section class="risks"><h2>Risks</h2><table class="rt"><thead><tr>'
+          '<th></th><th>Risk</th><th>Impact</th><th>Likelihood</th>'
+          '<th>Countermeasure</th></tr></thead><tbody>')
         for r in rk:
             k = ' <span class="killer">killer</span>' if r["killer"] else ""
-            A(f'<div class="risk {r["colour"]}"><div class="rhead">'
-              f'<span class="lightword">{E(r["word"])}</span>{k}</div>'
-              f'<div class="rtext">{E(r["risk"])}</div>'
-              f'<div class="rcm"><b>What we do about it:</b> {E(r["counter"])}</div>'
-              f'<div class="rtr"><b>Revisit when:</b> {E(r["trigger"])}</div></div>')
-        A('</div></section>')
+            A(f'<tr class="{r["cls"]}"><td class="g"><span class="glyph">{r["glyph"]}</span>'
+              f'<span class="gw">{E(r["word"])}</span></td>'
+              f'<td class="rt-title">{E(r["title"])}{k}</td>'
+              f'<td>{E(r["impact"])}</td><td>{E(r["likelihood"])}</td>'
+              f'<td>{E(r["counter"])}</td></tr>')
+        A('</tbody></table><div class="legend">○ handled · △ handled only by a '
+          'countermeasure, or watched · × no countermeasure — a blocker</div></section>')
 
-    # ---- minimap ----------------------------------------------------------
+    # ---- tracker ----------------------------------------------------------
     A('<div class="minimap">')
-    for s, label, _ in STAGES:
+    for s, label, _, _ in STAGES:
         st = by_rung.get(s, {}).get("state", "missing")
         cls = "done reached" if st == "built" else ("now reached" if st == "in-flight" else "")
         A(f'<div class="mm {cls}"><div class="dot"></div><div class="l">{E(label)}</div></div>')
     A('</div>')
-    labels = {s: label for s, label, _ in STAGES}
-    pos = f'At <b>{E(labels.get(now, now))}</b>' if now else "Every rung reached"
+    pos = f'At <b>{E(labels.get(now, now))}</b>' if now else "<b>Every rung reached</b>"
     A(f'<div class="mapnote">{pos} · {len(reached)} of {len(STAGES)} rungs behind it · '
       f'entered the ladder at <b>{E(labels.get(b["enters_at"], b["enters_at"]))}</b></div>')
 
-    # ---- the ladder -------------------------------------------------------
+    # ---- the ladder is the spine -----------------------------------------
     A('<div class="ladder">')
     seen_have = set()
-    for s, label, blurb in STAGES:
+    for s, label, blurb, expects in STAGES:
         r = by_rung.get(s, {})
         st = r.get("state", "missing")
         cls = {"built": "done", "in-flight": "now"}.get(st, "todo")
         word = {"built": "done", "in-flight": "in flight"}.get(st, "not started")
-        when_s = dates.get(s, "")
         A(f'<div class="stage {cls}"><span class="lamp"></span><div class="head">'
           f'<h2>{E(label)}</h2><span class="status {cls}">{E(word)}</span>'
-          + (f'<span class="when">{E(when_s)}</span>' if when_s else "") +
+          + (f'<span class="when">{E(dates[s])}</span>' if s in dates else "") +
           f'</div><div class="card"><div class="blurb">{E(blurb)}</div><ul class="steps">')
-        # The gates report cumulatively — every rung repeats every earlier
-        # rung's requirements. Rendered literally that reads as eight identical
-        # stages. What a rung MEANS is what it added over the one before it.
+
+        # The gates report cumulatively; a rung MEANS what it added.
         fresh = [it for it in r.get("have_items", []) if it not in seen_have]
         seen_have.update(r.get("have_items", []))
         for it in fresh:
-            A(f'<li><span class="mark done">✓</span><span class="s-name">{E(plain(it))}</span></li>')
+            A(f'<li><span class="mark ok">○</span><span class="s-name">{E(plain(it))}</span></li>')
         for it in r.get("need_items", []):
-            A(f'<li><span class="mark todo">○</span><span class="s-name todo">{E(plain(it))}</span>'
+            A(f'<li><span class="mark bad">×</span><span class="s-name todo">{E(plain(it))}</span>'
               f'<span class="s-fact">still needed</span></li>')
         if not fresh and not r.get("need_items"):
-            A('<li><span class="mark done">✓</span><span class="s-name">'
+            A('<li><span class="mark ok">○</span><span class="s-name">'
               'Nothing had to be on disk to start — this is where work enters</span></li>')
+
+        # Expected-but-absent artifacts, listed so they can be accepted or
+        # pushed back on rather than silently omitted.
+        for name, spec, note in expects:
+            if expected_present(slug, spec):
+                continue
+            A(f'<li><span class="mark open">·</span><span class="s-name open">{E(name)}</span>'
+              f'<span class="s-note">{E(note)}</span>'
+              f'<span class="s-fact">not there</span></li>')
         A('</ul>')
-        made = artefacts(slug, s, r.get("have_items", []))
+
+        if s == "build" and pieces:
+            n = sum(1 for p in pieces if p["done"])
+            A(f'<div class="made"><h4>The pieces — {n} of {len(pieces)}, each measured '
+              f'against its own spec</h4><ul class="pieces">')
+            for p in pieces:
+                g = "ok" if p["done"] else "bad"
+                gl = "○" if p["done"] else "×"
+                A(f'<li><span class="mark {g}">{gl}</span>'
+                  f'<span class="what">{E(p["name"])}</span></li>')
+            A('</ul></div>')
+
+        made = artefacts(r.get("have_items", []))
         if made:
             A('<div class="made"><h4>What we created</h4><ul>')
             for a in made:
@@ -387,93 +440,81 @@ def render(slug):
         A('</div></div>')
     A('</div>')
 
-    # ---- what we ruled out ------------------------------------------------
-    if ro:
-        A('<section class="ruled"><h2>What we considered and threw away</h2><ul>')
-        for r in ro:
-            A(f'<li><span class="what">{E(r["what"])}</span>'
-              f'<span class="why">{E(r["why"][:260])}</span></li>')
-        A('</ul></section>')
-
-    # ---- honest holes -----------------------------------------------------
     A('<footer><h3>What this page cannot show yet, and why</h3><ul>')
-    A('<li><b>How long each rung took.</b> Gate records are dated to the day, and '
-      'most journeys land two rungs on one date — so day resolution reads zero. '
-      'Per-task start/end stamps started being written on 2026-08-06; there are '
-      'few enough that a comparison would mislead.</li>')
-    A('<li><b>The drawn current-situation and proposal panels.</b> Agreed in the '
-      'mock, and a drawing has no source on disk to derive from. It needs a '
-      'declared home before this page can carry it.</li>')
-    A('<li><b>What it measured once in use.</b> No artifact records post-ship '
+    A('<li><b>How long each rung took.</b> Gate records are dated to the day and most '
+      'journeys land two rungs on one date, so day resolution reads zero. Per-task '
+      'start and end stamps began on 2026-08-06; too few yet for a comparison that '
+      'would not mislead.</li>')
+    A('<li><b>What it measured once in use.</b> Nothing on disk records post-ship '
       'measurement, so there is nothing to read.</li>')
-    A('<li><b>An evaluation matrix of what we considered.</b> The machinery is '
-      'built and CI-enforced and holds zero matrices, so there is nothing to '
-      'render.</li>')
-    A('</ul><p class="foot">Every other value above is derived from the repo at the '
-      'commit named in the header. Nothing on this page is hand-maintained, so it '
-      'cannot quietly go stale — but it also cannot show what was never '
-      'written down.</p></footer>')
-
-    A('</div></body></html>')
+    A('</ul><p class="foot">Everything else above is read from the repo at the commit '
+      'named in the header. Nothing here is hand-maintained, so it cannot quietly go '
+      'stale — but it also cannot show what was never written down, which is why the '
+      'open slots are listed rather than hidden.</p></footer></div></body></html>')
     return "\n".join(P)
 
 
 CSS = """<style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
---paper:#FBFAF7;--card:#FFF;--ink:#22312F;--ink-soft:#5C6B67;--hairline:#E4E7E4;
+:root{--paper:#FBFAF7;--card:#FFF;--ink:#22312F;--ink-soft:#5C6B67;--hairline:#E4E7E4;
 --moss:#3E7C4F;--moss-chip:#E3EFE6;--amber:#C98A2E;--amber-chip:#FBF0DC;
---red:#C6453F;--red-chip:#F8E4E2;--slate:#8C9793;
-}
+--red:#C6453F;--red-chip:#F8E4E2;--slate:#9AA5A1}
 body{background:var(--paper);color:var(--ink);
 font:16px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
 padding:44px 24px 90px}
-.wrap{max-width:980px;margin:0 auto}
-header{margin-bottom:38px}
+.wrap{max-width:1040px;margin:0 auto}
+header{margin-bottom:34px}
 .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;
 color:var(--ink-soft);font-weight:600;margin-bottom:10px}
 h1{font-size:33px;line-height:1.18;letter-spacing:-.015em;max-width:22ch}
 .derived{margin-top:12px;font-size:13px;color:var(--ink-soft)}
 code{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;background:#F1F0EC;
 padding:1px 6px;border-radius:5px}
-h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-color:var(--ink-soft);font-weight:700;margin-bottom:14px}
-section{margin-bottom:38px}
+h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+font-weight:700;margin-bottom:13px}
+section{margin-bottom:36px}
 
-.whybox{background:var(--card);border:1px solid var(--hairline);
-border-left:4px solid var(--moss);border-radius:14px;padding:22px 26px}
-.whybox blockquote{font-size:19px;line-height:1.5;max-width:62ch}
-.whybox .src{margin-top:12px;font-size:13px;color:var(--ink-soft)}
+.a3{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:36px}
+.panel{background:var(--card);border:1px solid var(--hairline);border-radius:16px;
+padding:20px 24px}
+.panel.proposal{border-color:#CFDDD3;background:linear-gradient(180deg,#FCFEFC,#FFF)}
+.draw svg{width:100%;height:auto;display:block}
+.slot{border:1.5px dashed #D3D8D5;border-radius:12px;padding:18px;font-size:13px;
+color:var(--slate);line-height:1.5;background:#FCFCFB}
+.pains{margin-top:14px;padding-left:18px;display:grid;gap:7px}
+.pains li{font-size:13.5px;line-height:1.45}
+.pains li::marker{color:var(--red);font-weight:700}
+.more{margin-top:9px;font-size:12.5px;color:var(--slate)}
+.pitch{margin-top:14px;font-size:15px;line-height:1.5;max-width:52ch}
+.targets{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding-top:14px;
+border-top:1px solid var(--hairline)}
+.target .num{font-size:19px;font-weight:700;color:var(--moss);
+font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.target .cap{font-size:12px;color:var(--ink-soft);max-width:19ch;line-height:1.35;margin-top:3px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
-.res{background:var(--card);border:1px solid var(--hairline);border-radius:14px;
-padding:18px 20px}
-.res .num{font-size:23px;font-weight:700;letter-spacing:-.02em;color:var(--moss);
-font-variant-numeric:tabular-nums}
-.res .cap{margin-top:5px;font-size:13px;color:var(--ink-soft);line-height:1.4}
+.rt{width:100%;border-collapse:collapse;background:var(--card);
+border:1px solid var(--hairline);border-radius:14px;overflow:hidden;font-size:13.5px}
+.rt th{text-align:left;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+color:var(--ink-soft);padding:11px 14px;border-bottom:1px solid var(--hairline);
+font-weight:700;background:#FAFAF8}
+.rt td{padding:13px 14px;border-bottom:1px solid var(--hairline);vertical-align:top;
+line-height:1.45;color:var(--ink-soft)}
+.rt tr:last-child td{border-bottom:none}
+.rt-title{color:var(--ink);font-weight:600;max-width:26ch}
+.rt td.g{width:80px;white-space:nowrap}
+.glyph{font-size:17px;font-weight:700;margin-right:5px}
+.gw{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+tr.ok .glyph,tr.ok .gw{color:var(--moss)}
+tr.warn .glyph,tr.warn .gw{color:#9A5A17}
+tr.bad .glyph,tr.bad .gw{color:var(--red)}
+.killer{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+color:var(--red);background:var(--red-chip);padding:2px 7px;border-radius:999px;
+white-space:nowrap}
+.legend{margin-top:10px;font-size:12.5px;color:var(--slate)}
 
-.rl{display:grid;gap:12px}
-.risk{background:var(--card);border:1px solid var(--hairline);border-radius:14px;
-padding:16px 20px;border-left:5px solid var(--slate)}
-.risk.green{border-left-color:var(--moss)}
-.risk.amber{border-left-color:var(--amber)}
-.risk.red{border-left-color:var(--red)}
-.rhead{display:flex;gap:9px;align-items:center;margin-bottom:7px}
-.lightword{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-padding:3px 10px;border-radius:999px}
-.risk.green .lightword{background:var(--moss-chip);color:var(--moss)}
-.risk.amber .lightword{background:var(--amber-chip);color:#9A5A17}
-.risk.red .lightword{background:var(--red-chip);color:var(--red)}
-.killer{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-color:var(--red)}
-.rtext{font-weight:600;line-height:1.45;max-width:78ch}
-.rcm,.rtr{margin-top:7px;font-size:13.5px;color:var(--ink-soft);line-height:1.45;max-width:82ch}
-.rcm b,.rtr b{color:var(--ink)}
-
-.minimap{display:flex;gap:0;align-items:flex-start;margin:34px 0 8px}
+.minimap{display:flex;margin:34px 0 8px}
 .mm{flex:1;text-align:center;position:relative}
-.mm::before{content:"";position:absolute;top:7px;left:0;right:0;height:2px;
-background:var(--hairline)}
+.mm::before{content:"";position:absolute;top:7px;left:0;right:0;height:2px;background:var(--hairline)}
 .mm:first-child::before{left:50%}
 .mm:last-child::before{right:50%}
 .mm.reached::before{background:var(--moss)}
@@ -482,73 +523,66 @@ border:2px solid var(--hairline);margin:0 auto 7px;position:relative;z-index:1}
 .mm.done .dot{background:var(--moss);border-color:var(--moss)}
 .mm.now .dot{background:var(--amber);border-color:var(--amber)}
 .mm .l{font-size:11px;color:var(--ink-soft);font-weight:600}
-.mapnote{font-size:13.5px;color:var(--ink-soft);margin-bottom:34px}
+.mapnote{font-size:13.5px;color:var(--ink-soft);margin-bottom:30px}
 
-.ladder{display:grid;gap:16px}
+.ladder{display:grid;gap:14px}
 .stage{position:relative;padding-left:34px}
 .lamp{position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;
 background:#FFF;border:2px solid var(--hairline)}
 .stage.done .lamp{background:var(--moss);border-color:var(--moss)}
 .stage.now .lamp{background:var(--amber);border-color:var(--amber)}
 .head{display:flex;gap:11px;align-items:center;flex-wrap:wrap}
-.head h2{font-size:17px;letter-spacing:-.01em;text-transform:none;color:var(--ink);
-margin-bottom:0}
-.status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;
-letter-spacing:.05em}
+.head h2{font-size:17px;letter-spacing:-.01em;text-transform:none;color:var(--ink);margin-bottom:0}
+.status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;letter-spacing:.04em}
 .status.done{background:var(--moss-chip);color:var(--moss)}
 .status.now{background:var(--amber-chip);color:#9A5A17}
 .status.todo{background:#F1F0EC;color:var(--slate)}
 .when{font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 .stage .card{margin-top:11px;background:var(--card);border:1px solid var(--hairline);
-border-radius:14px;padding:17px 21px}
+border-radius:14px;padding:16px 20px}
 .stage.todo .card{background:#FCFCFB;border-style:dashed}
-.blurb{font-size:13.5px;color:var(--ink-soft);margin-bottom:11px}
-.steps{list-style:none}
-.steps li{display:flex;align-items:baseline;gap:11px;padding:6px 0;
+.blurb{font-size:13px;color:var(--slate);margin-bottom:10px}
+.steps,.pieces{list-style:none}
+.steps li,.pieces li{display:flex;align-items:baseline;gap:10px;padding:6px 0;
 border-bottom:1px solid var(--hairline);flex-wrap:wrap}
-.steps li:last-child{border-bottom:none}
-.mark{font-weight:700;width:16px;flex:none;text-align:center}
-.mark.done{color:var(--moss)}
-.mark.todo{color:var(--slate)}
+.steps li:last-child,.pieces li:last-child{border-bottom:none}
+.mark{font-weight:700;width:15px;flex:none;text-align:center}
+.mark.ok{color:var(--moss)}
+.mark.bad{color:var(--red)}
+.mark.open{color:var(--slate)}
 .s-name{font-weight:600}
-.s-name.todo{font-weight:500;color:var(--ink-soft)}
-.s-fact{margin-left:auto;font-size:12px;font-weight:600;color:var(--slate);white-space:nowrap}
-.made{margin-top:13px}
-.made h4{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-color:var(--ink-soft);margin-bottom:4px}
+.s-name.todo,.s-name.open{font-weight:500;color:var(--ink-soft)}
+.s-note{font-size:13px;color:var(--slate)}
+.s-fact{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--slate);white-space:nowrap}
+.made{margin-top:12px;padding-top:11px;border-top:1px solid var(--hairline)}
+.made h4{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+color:var(--ink-soft);margin-bottom:5px}
 .made ul{list-style:none}
 .made li{display:flex;gap:10px;align-items:baseline;padding:5px 0;
 border-bottom:1px dashed var(--hairline)}
 .made li:last-child{border-bottom:none}
-.made .what{font-weight:600;font-size:14px}
+.what{font-weight:600;font-size:14px}
+.pieces .what{font-weight:500;font-size:13.5px;color:var(--ink-soft)}
 a.open{font-size:11.5px;font-weight:600;color:var(--ink);text-decoration:none;
 border:1px solid var(--hairline);border-radius:999px;padding:2px 10px;
 white-space:nowrap;margin-left:auto}
 a.open:hover{border-color:var(--ink-soft)}
 a.open::after{content:" ↗";color:var(--ink-soft)}
 
-.ruled ul{list-style:none;display:grid;gap:9px}
-.ruled li{background:var(--card);border:1px solid var(--hairline);border-radius:12px;
-padding:13px 18px}
-.ruled .what{font-weight:700;display:block;margin-bottom:3px}
-.ruled .why{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
-
-footer{margin-top:54px;padding-top:24px;border-top:1px solid var(--hairline)}
+footer{margin-top:50px;padding-top:22px;border-top:1px solid var(--hairline)}
 footer h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-color:var(--ink-soft);margin-bottom:12px}
-footer ul{list-style:none;display:grid;gap:8px;max-width:80ch}
-footer li{font-size:13.5px;color:var(--ink-soft);line-height:1.5;
-padding-left:16px;position:relative}
+color:var(--ink-soft);margin-bottom:11px}
+footer ul{list-style:none;display:grid;gap:7px;max-width:80ch}
+footer li{font-size:13.5px;color:var(--ink-soft);line-height:1.5;padding-left:15px;position:relative}
 footer li::before{content:"—";position:absolute;left:0;color:var(--slate)}
 footer li b{color:var(--ink)}
-.foot{margin-top:16px;font-size:13px;color:var(--ink-soft);max-width:72ch;line-height:1.5}
+.foot{margin-top:15px;font-size:13px;color:var(--ink-soft);max-width:74ch;line-height:1.5}
 
-@media (max-width:700px){
-h1{font-size:26px}
-.mm .l{font-size:9px}
-.stage{padding-left:26px}
-.s-fact,a.open{margin-left:27px}
-}
+@media (max-width:820px){.a3{grid-template-columns:1fr}}
+@media (max-width:700px){h1{font-size:26px}.mm .l{font-size:9px}.stage{padding-left:26px}
+.rt,.rt tbody,.rt tr,.rt td{display:block}.rt thead{display:none}
+.rt td{border-bottom:none;padding:4px 14px}
+.rt tr{border-bottom:1px solid var(--hairline);padding:10px 0}}
 </style>"""
 
 

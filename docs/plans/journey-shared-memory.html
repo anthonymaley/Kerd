@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost — journey</title><style>
+<title>Shared memory — the room has a wall, and both of us can see it — journey</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--paper:#FBFAF7;--card:#FFF;--ink:#22312F;--ink-soft:#5C6B67;--hairline:#E4E7E4;
 --moss:#3E7C4F;--moss-chip:#E3EFE6;--amber:#C98A2E;--amber-chip:#FBF0DC;
@@ -130,32 +130,33 @@ footer li b{color:var(--ink)}
 .rt td{border-bottom:none;padding:4px 14px}
 .rt tr{border-bottom:1px solid var(--hairline);padding:10px 0}}
 </style></head><body><div class="wrap">
-<header><div class="eyebrow">Kerd · journey</div><h1>Switch fidelity — the handoff records exactly where we are, and nothing agreed is lost</h1><div class="derived">Drawn from the repo at <code>4cd4cc2</code> · 7 August 2026, 11:49 · read-only — this page changes nothing</div></header>
+<header><div class="eyebrow">Kerd · journey</div><h1>Shared memory — the room has a wall, and both of us can see it</h1><div class="derived">Drawn from the repo at <code>4cd4cc2</code> · 7 August 2026, 11:49 · read-only — this page changes nothing</div></header>
 <div class="a3">
 <div class="panel"><h2>Where we are</h2>
 <div class="slot">Not drawn yet — the one thing on this page that cannot be derived. Drawn while pairing and committed like any other artifact.</div>
 <ol class="pains">
-<li>the one artifact stating our exact ladder position is the one the pickup does not read</li>
-<li>"read the newest log in full" is unbounded, and was silently truncated at this very pickup</li>
-<li>the prune instruction has never fired, in 34 closes</li>
+<li>the master plan has no artifact, and the decision saying it should is four days old</li>
+<li>the journey view is mocked, agreed, and parked</li>
+<li>there is no diagram of what we are building</li>
 </ol>
-<div class="more">11 more, in the frame</div>
+<div class="more">8 more, in the frame</div>
 </div>
 <div class="panel proposal"><h2>Where we are going</h2>
 <div class="slot">Not drawn yet.</div>
-<p class="pitch">When context window is filling, we can switch out to record EXACTLY where we are against the agreed stage/ladder/plan to allow us to clear the context window and start as if it was the same exact session and no memory or agreed points or input had been forgotten or lost. Whatever we need to make…</p>
+<p class="pitch">You are sitting beside me in a room, with a whiteboard, and we are pairing on a project. We start with ideation and we draw on the whiteboard to capture current condition and show the ideal, and then we figure out the gaps that stop ideal from becoming reality. We then design the solution (and…</p>
 <div class="targets">
-<div class="target"><div class="num">2 observed → 0</div><div class="cap">Course-correction interventions per pickup</div></div>
-<div class="target"><div class="num">no → yes</div><div class="cap">Ladder position available at pickup</div></div>
-<div class="target"><div class="num">unmeasured → 0, and measurable</div><div class="cap">Agreed points lost across a boundary</div></div>
-<div class="target"><div class="num">unbounded → bounded and complete</div><div class="cap">Read-set determinism</div></div>
+<div class="target"><div class="num">1 observed → 0</div><div class="cap">Re-explanations required per pickup</div></div>
+<div class="target"><div class="num">0 of 10 → all 10</div><div class="cap">Human-facing views of project state</div></div>
+<div class="target"><div class="num">3 of 10 → 10 of 10</div><div class="cap">Sources populated behind those views</div></div>
+<div class="target"><div class="num">none → shown</div><div class="cap">Evidence that the model is up to speed at pickup</div></div>
 </div>
 </div></div>
 <section class="risks"><h2>Risks</h2><table class="rt"><thead><tr><th></th><th>Risk</th><th>Impact</th><th>Likelihood</th><th>Countermeasure</th></tr></thead><tbody>
-<tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">Pruning to fix accretion introduces erosion — a short session's close overwrites CONTEXT.md and drops an… <span class="killer">killer</span></td><td>a lost agreed point IS the failure this work exists to remove, so impact equals the declared value — fatal by impact alone if…</td><td>medium — mechanism confirmed and unguarded, but incidence is zero across 34 closes because nothing currently…</td><td>pruning is licensed only at defined events — a goal record landing (docs/gates/*-goal.md) or an explicit agreed drop; CONTEXT.md is append-only between them, so a short…</td></tr>
-<tr class="warn"><td class="g"><span class="glyph">△</span><span class="gw">watching</span></td><td class="rt-title">Reading more at pickup fills the window faster, forcing more boundaries — each boundary is itself a fidelity…</td><td>more switches per unit of work, compounding every other risk here</td><td>high — CONTEXT.md at 54KB is already a large share of a cold reload, and every gap fix adds to the read set</td><td>none — which is why it is open</td></tr>
-<tr class="warn"><td class="g"><span class="glyph">△</span><span class="gw">watching</span></td><td class="rt-title">The fidelity property stays unfalsifiable — no check exists that a pickup restored what the close recorded…</td><td>the work cannot be proven to have worked; regressions stay invisible exactly as they are today</td><td>high — no such check exists anywhere in the repo today</td><td>none — which is why it is open</td></tr>
-<tr class="warn"><td class="g"><span class="glyph">△</span><span class="gw">watching</span></td><td class="rt-title">"Read in full" instructions get silently bounded by the reader when the target is large</td><td>the pickup reads less than specified and reports it as complete, which is indistinguishable from a faithful read</td><td>high — one observed instance on the same day the requirement was stated</td><td>none — which is why it is open</td></tr>
+<tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The views get built over empty sources — seven of the ten render blank because the state they display is… <span class="killer">killer</span></td><td>the whole item delivers nothing: a wall of empty pages is worse than no wall, because it looks like coverage and reports clean…</td><td>high — this has already happened once at smaller scale: the evaluation matrix is built, fixture-tested and…</td><td>slice order is driven by source population, not by page appeal: the first slice renders only from sources that already hold real content, and every later slice pairs…</td></tr>
+<tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">Capture stays discipline-dependent — a model must choose to record human input, and the model least likely to… <span class="killer">killer</span></td><td>the root cause is untouched and every view decays to stale, which returns Tony to checking and reminding, the exact failure this…</td><td>high — this is the measured status quo, and the only human input that reliably survives today survives…</td><td>capture becomes a declared artifact with a gate, on the Value precedent — a rung cannot pass while its human-input artifact is absent, so recording is refused-into…</td></tr>
+<tr class="warn"><td class="g"><span class="glyph">△</span><span class="gw">watching</span></td><td class="rt-title">Drag-and-drop requires a write path from a browser into the repo, which nothing here has ever needed</td><td>either the board is read-only and Tony edits it by speaking, or a new and unproven mechanism enters the system</td><td>medium — the requirement is the overview, not the dragging, and Tony has explicitly left the mechanism open</td><td>none — which is why it is open</td></tr>
+<tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The human view and the machine view drift apart and become two sources of truth</td><td>Tony reads a wall that contradicts the repo, which is worse than no wall — he would be making decisions on stale state without…</td><td>medium — the repo already has one instance: docs/playbook.md Current Status duplicates CONTEXT.md and is the…</td><td>every human-facing page is derived from disk and CI-refused if stale, on the progress.py precedent — no page holds a fact of its own, and a page that cannot be derived…</td></tr>
+<tr class="ok"><td class="g"><span class="glyph">○</span><span class="gw">handled</span></td><td class="rt-title">The reference-design exemption becomes a silent skip and the matrix stays empty</td><td>gap 5 persists behind a rule that now looks satisfied, which is worse than an unmet rule because it reports clean</td><td>medium — the identical failure was named and countered in rigor-level as hollow waiving, so the pattern is…</td><td>an exemption is a declared artifact carrying its reason, machine-checked in the same sweep as a matrix, reusing the accepted-state discipline verbatim — never an absence</td></tr>
 </tbody></table><div class="legend">○ handled · △ handled only by a countermeasure, or watched · × no countermeasure — a blocker</div></section>
 <div class="minimap">
 <div class="mm done reached"><div class="dot"></div><div class="l">Idea</div></div>
@@ -181,63 +182,63 @@ footer li b{color:var(--ink)}
 <li><span class="mark open">·</span><span class="s-name open">What we considered</span><span class="s-note">options compared against declared criteria</span><span class="s-fact">not there</span></li>
 </ul>
 <div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
 </ul></div>
 </div></div>
 <div class="stage done"><span class="lamp"></span><div class="head"><h2>Scoped</h2><span class="status done">done</span></div><div class="card"><div class="blurb">the smallest slice worth shipping</div><ul class="steps">
-<li><span class="mark ok">○</span><span class="s-name">Every risk sized and evidenced — 4 of them</span></li>
+<li><span class="mark ok">○</span><span class="s-name">Every risk sized and evidenced — 5 of them</span></li>
 </ul>
 <div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
 </ul></div>
 </div></div>
 <div class="stage now"><span class="lamp"></span><div class="head"><h2>Designed</h2><span class="status now">in flight</span></div><div class="card"><div class="blurb">the solution drawn and agreed</div><ul class="steps">
 <li><span class="mark ok">○</span><span class="s-name">The smallest valuable slice named</span></li>
-<li><span class="mark open">·</span><span class="s-name open">The design</span><span class="s-note">how it works, in detail</span><span class="s-fact">not there</span></li>
 <li><span class="mark open">·</span><span class="s-name open">Architecture — how the parts connect</span><span class="s-note">high-level blocks and lines</span><span class="s-fact">not there</span></li>
 <li><span class="mark open">·</span><span class="s-name open">The proposal, drawn</span><span class="s-note">current versus new</span><span class="s-fact">not there</span></li>
 </ul>
 <div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
 </ul></div>
 </div></div>
 <div class="stage todo"><span class="lamp"></span><div class="head"><h2>Spec'd</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece written down precisely enough to hand over</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
+<li><span class="mark ok">○</span><span class="s-name">The solution designed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
 </ul>
 <div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
 </ul></div>
 </div></div>
 <div class="stage todo"><span class="lamp"></span><div class="head"><h2>Built</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">each piece made, and measured against its own spec</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
 </ul>
 <div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
 </ul></div>
 </div></div>
 <div class="stage todo"><span class="lamp"></span><div class="head"><h2>Proven</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">the whole thing checked against what we said winning was</div><ul class="steps">
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
 </ul>
 <div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
 </ul></div>
 </div></div>
 <div class="stage todo"><span class="lamp"></span><div class="head"><h2>Live</h2><span class="status todo">not started</span></div><div class="card"><div class="blurb">in use, and the machine can refuse a regression</div><ul class="steps">
 <li><span class="mark ok">○</span><span class="s-name">The machine can refuse bad work</span></li>
-<li><span class="mark bad">×</span><span class="s-name todo">The solution designed</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">Design agreed, and signed off on the record</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">The build contract written</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">Every piece built and checked off</span><span class="s-fact">still needed</span></li>
 <li><span class="mark bad">×</span><span class="s-name todo">Proven against its done condition, on the record</span><span class="s-fact">still needed</span></li>
 </ul>
 <div class="made"><h4>What we created</h4><ul>
-<li><span class="what">switch-fidelity.md</span><a class="open" href="../../docs/product/switch-fidelity.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/product/shared-memory.md">open</a></li>
+<li><span class="what">shared-memory.md</span><a class="open" href="../../docs/design/shared-memory.md">open</a></li>
 <li><span class="what">gate.yml</span><a class="open" href="../../.github/workflows/gate.yml">open</a></li>
 </ul></div>
 </div></div>
