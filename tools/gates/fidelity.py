@@ -17,12 +17,24 @@ lost from the handoff: the next session has no path to it, which is the failure
 this repo has now hit at its own highest altitude (`docs/design/conductor-role.md`
 sat unbuilt for three days because nothing pointed at it).
 
-**What it does NOT check, and this limit is the point of stating it.** It tests
-*reachability*, never *comprehension*. A path named in a sentence passes even if
-the sentence misdescribes it. That is the same declared limit as
-grounding-was-read: the machine can prove a reference resolves, and cannot prove
-anyone understood it. A check that claimed more would be the "model choosing to
-comply" failure wearing a green tick.
+**What it does NOT check, and these limits are the point of stating them.**
+
+1. *Reachability, never comprehension.* A path named in a sentence passes even
+   if the sentence misdescribes it. Same declared limit as grounding-was-read:
+   the machine can prove a reference resolves and cannot prove anyone
+   understood it.
+2. **File reachability is not FINDING reachability, and this one has already
+   bitten.** The check asks whether a produced *file* is named. It cannot ask
+   whether a *finding inside* that file is. On 2026-08-07 it passed green while
+   `docs/product/funnel-driver.md` held a live contradiction between a standing
+   decision and shipped skill text — the file was mentioned, the finding was
+   unreachable, and product docs are not in the pickup's read set at all. Tony
+   found it by asking "will that be picked up next session?", which no check
+   asked. A finding that must survive a boundary belongs in `CONTEXT.md` or
+   `TODO.md` in full, not behind a pointer.
+
+A check that claimed more than this would be the "model choosing to comply"
+failure wearing a green tick.
 
 Exit 0 when everything produced is reachable, 1 when something is not. Noise is
 the enemy of a check nobody heeds, so generated and immutable artifacts are

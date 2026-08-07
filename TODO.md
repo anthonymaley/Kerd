@@ -29,6 +29,24 @@ countermeasure.*
    Live deliberately empty). Remaining stages are undrawn, which the page
    renders as blockers — correctly.
 
+**BLOCKED AND LIVE — the plan-gate contradiction.** Carried here in full
+because a pickup reads this file and does not read `docs/product/`, where the
+detail lives. `docs/design/conductor-role.md` graduation row 4 decided the
+plan-gate approval is **deleted, not moved** — replaced by an upstream design
+GO (two keys) plus downstream pieces the machine can measure. `funnel-steps.md`
+says the same in Spec'd step 5: *"approval by machine key alone — no human gate
+where the machine can measure."* And `skills/conductor/SKILL.md` still makes it
+unconditional at two places: *"Wait for user approval before executing. Do not
+proceed until the user confirms the plan."*
+
+That is a standing decision contradicted by shipped skill text, and it has been
+rediscovered rather than resolved at least twice. **It is deliberately not
+fixed:** no-rip requires the replacement to prove itself in real use first, and
+**zero design GO records exist for any driver item** — so the thing meant to
+replace the gate has never once run. **Trigger: the first design GO record that
+lands for a funnel-driver slice.** At that point the replacement has an
+instance and the gate can go. Detail in `docs/product/funnel-driver.md` gap 3.
+
 **Queued, not started:** the `rung`→`stage` machine rename across `gate.py`,
 its JSON and CI (cross-cutting, owes the standing grep sweep); the gap-analysis
 region on the journey head; automating the fidelity check.
