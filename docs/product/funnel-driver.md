@@ -79,28 +79,59 @@ than the sum of what it absorbs, the evaluation was wrong.
 Measured 2026-08-07 by five parallel readers against the spec, the skill, the
 funnel's machine surface, the other eight skills, and every standing decision.
 
-### Gap 1 — the seat is contested, and nothing on disk reconciles it
+### Gap 1 — RESOLVED 2026-08-07: the conductor drives. The role NAMES are the real defect.
 
-`conductor-role.md:9-20` defines a four-level ladder: Tony → **intent-holder**
-(an agent with declared adjustment power) → CONDUCTOR → players and tools.
-`skills/conductor/SKILL.md:14-21` defines a different four: Composer (Tony) →
-**Orchestrator** (*"a call, not a mode"*) → Conductor → Players.
+**Tony, closing it:** *"I think I used orchestrator when I meant conductor
+earlier. What I thought we had decided was that the conductor would drive from
+idea to goal and manage the other roles as sub agents, including the composer
+who writes the specs etc."*
 
-"intent-holder" appears nowhere in `skills/`. Nothing anywhere states whether
-it and "orchestrator" are the same seat.
+So the seat matches post-walk decision 6 and `conductor-role.md` unchanged: the
+**conductor** is the driving role, it drives **idea → goal**, and it manages
+every other role as subagents it calls — including whichever agent writes the
+specs.
 
-Tony, 2026-08-07: *"the orchestrator role is the one who needs to drive all
-this, so they need to understand expectations, switch-fidelity, stages,
-ladders, progress etc etc"* — while post-walk decision 6 seats the
-**conductor** as the driving role.
+That also reconciles the two ladders, which are not in conflict once read
+correctly:
 
-The consequence is not cosmetic. Build the driver into conductor and the ask is
-unmet. Build it into the orchestrator and *"a call, not a mode"* breaks — that
-role explicitly never holds session context, which is the one thing driving
-requires, and the cost model of the four-role split rests on it.
+```
+Tony
+  ↑
+intent-holder — an agent above the conductor with declared adjustment power.
+  DOES NOT EXIST. Graduation row 6's trigger has not fired.
+  ↑
+CONDUCTOR — drives idea → goal
+  ↓ calls, as subagents
+the spec-writer  ·  players  ·  tools
+```
 
-**This blocks everything past the frame.** It also decides whether one
-graduation trigger has already fired or is years away.
+The intent-holder sits **above** the conductor; the spec-writer is **called
+by** it. They were never the same seat — the frame's first draft treated them
+as a contradiction because nothing on disk says which direction each sits.
+
+**The real defect this exposed is the naming.** Kerd assigns *Composer* to
+Tony and *Orchestrator* to the agent that writes specs. Tony used *composer*
+for the spec-writer and *orchestrator* for the driver — both swapped, in one
+sentence, by the person who ratified the names at v0.66.0. That is first-party
+evidence that the vocabulary does not survive contact with its own author, and
+a driver skill whose whole job is coordinating these roles cannot afford
+names that invert under use.
+
+Musically his usage is the correct one: a composer writes the score, a
+conductor directs the performance. The current assignment fights the metaphor
+it borrowed.
+
+**Working default, correctable:** the agent that writes specs becomes the
+**Composer**; Tony is named as himself — the ladder in `conductor-role.md`
+already does exactly that and never uses "composer" at all. This is a rename
+across `skills/conductor/SKILL.md`, `README.md` and CONTEXT.md, and it is
+**not** in slice 1 — it is a cross-cutting sweep and owes the standing grep
+obligation.
+
+**Scope, stated as an assumption:** the driver covers **idea → goal**, seven
+stages. `Live`/loop is excluded, because `funnel-steps.md` leaves that stage
+deliberately empty — no flow was ever drawn for it — and the unattended tempo
+that would live there is blocked behind its own undefined gate.
 
 ### Gap 2 — a graduation trigger fired at v0.69.0 and nothing shed
 
@@ -203,7 +234,7 @@ it.
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
 |---|---|---|---|---|---|---|---|
 | Editing conductor breaks the only working instance of half the system's functions | yes | the daily working protocol goes down in three repos at once with no fallback, and the damage is invisible until a session tries to plan | medium — every edit to a 353-line load-bearing skill carries it, and the skill is in active daily use | conductor-role.md transition rule 4 states it directly: breaking it breaks the only working instance of half the system's functions; ~/leru holds 6 spec files written under this protocol | countermeasure - permanent | one graduation at a time, and only a row whose trigger has demonstrably fired; every funnel-touching edit uses switch's proven conditional idiom so absence of the tool degrades to today's exact text; additions and guarded substitutions only, never removals | the first edit that removes rather than guards re-argues this row |
-| The seat is unresolved — conductor versus orchestrator as the driving role | no | build it into the wrong one and either Tony's ask is unmet or the four-role cost model breaks, and the error is only visible after the build | high — the contradiction is live and dated, between decision 6 of 2026-08-04 and Tony's own statement of 2026-08-07 | conductor-role.md defines Tony to intent-holder to conductor; SKILL.md defines composer to orchestrator to conductor; intent-holder appears nowhere in skills/ | countermeasure - permanent | every slice-1 step is seat-neutral by construction — the entry-gate graduation, the commit trailer and the doc amendments are all true whichever seat drives; no roles-table edit appears anywhere in slice 1 | the first step that requires naming the driver re-argues this row, and slice 2 cannot start until it closes |
+| The four role names invert under use — Composer is assigned to the human while the spec-writing agent is the Orchestrator | no | the driver's whole job is coordinating these roles, and instructions written in names that swap under reading will be misread by the model exactly as they were by their author | high — observed first-party on 2026-08-07, both names swapped in one sentence by the person who ratified them at v0.66.0 | Tony: "I used orchestrator when I meant conductor... including the composer who writes the specs"; conductor-role.md's own ladder avoids "composer" entirely and names Tony as himself | countermeasure - temporary | slice 1 touches no roles table and no role name, so nothing is built on the ambiguous vocabulary; the rename is queued as its own cross-cutting item under the standing grep-sweep obligation | the first slice that must instruct the driver to call another role by name — at that point the rename lands first or the instruction inherits the defect |
 | A driver that reads the funnel but obliges nothing leaves the machinery unwalked | yes | the whole item delivers a better-informed skill and zero behaviour change, which is the failure this repo has already shipped twice | high — measured twice on this repo: 0 evaluation matrices against built and CI-enforced machinery, and switch-fidelity live at v0.90.0 with zero gate records | matrix.py audit reports clean with 0 matrices; docs/gates/ holds no record for switch-fidelity | countermeasure - permanent | every slice pairs the instrument with the obligation that consumes it — the gate becomes the inventory's source rather than an optional reference, and the commit trailer makes skipping it visible as a stalled progress strip | the first slice shipping a capability with no obligation attached re-argues this row |
 | Prompt-layer instruction is not a call — a skill telling the model to run gate.py is advice it can skip | no | funnel awareness reads as a guarantee in the skill text while being a suggestion in practice, and in consuming repos the tool does not exist at all | high — this is the measured status quo, named as a standing limit already | CONTEXT.md 2026-08-06: the refusal surface is Kerd's own and prompt-layer-only in consuming projects is the intended contract; grep of skills/ for tool invocations returns zero | accepted | | the first time the funnel is driven in a repo that is not Kerd |
 | The queued funnel rename silently rewrites the authority model | no | the role ladder becomes a role funnel by accident and the seat diagram changes meaning without a decision | medium — the rename is queued and conductor-role.md uses rung and ladder to mean authority, not work position | funnel-steps.md queues the cross-cutting rename; conductor-role.md lines 9, 12 and 52 use the words for the seat, not the stage | countermeasure - permanent | an explicit out-of-scope line lands in conductor-role.md before any sweep runs, and the 2026-08-06 standing rule already requires a cross-cutting grep sweep at design time | the sweep touching any line of conductor-role.md re-argues this row |
@@ -254,8 +285,9 @@ up driving.
 
 **Deliberately excluded, each with its reason:**
 
-- **Naming the driver.** Gap 1 is open and it is Tony's. Nothing in slice 1
-  requires it.
+- **The role rename.** Gap 1 resolved the seat but exposed a naming defect
+  that inverts under use. Renaming is cross-cutting and owes a grep sweep;
+  slice 1 touches no role name, so nothing is built on the ambiguity.
 - **Removing the plan gate.** Gap 3 is a real contradiction, and no-rip
   requires the replacement to prove itself in real use first. Zero design GO
   records exist for any driver item, so the replacement has never run. Recorded
