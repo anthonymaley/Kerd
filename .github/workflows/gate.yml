@@ -21,3 +21,5 @@ jobs:
         run: python3 tools/design/matrix.py audit
       - name: Progress render current
         run: python3 tools/diagram/progress.py stale
+      - name: Handoff fidelity (artifacts produced are reachable from the read set)
+        run: python3 tools/gates/fidelity.py

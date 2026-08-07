@@ -186,6 +186,31 @@ Write actionable learnings to the appropriate place:
 
 Skip the reflection (not the mirror check) if the session was trivial (quick fix, single file change). But for any session with meaningful work, take the time. Compounding small improvements across sessions is how projects stay healthy.
 
+### 5b. Fidelity check — is everything this session produced reachable?
+
+Run `python3 tools/gates/fidelity.py --force` if the repo has it (Kerd does).
+It compares every file the session changed against what `CONTEXT.md`, `TODO.md`
+and this session's log actually name, and refuses when something was produced
+that nothing a pickup reads points at.
+
+An unreachable artifact is not lost from disk — it is lost from the **handoff**.
+The next session has no path to it. This repo has already paid for that at its
+highest altitude: `docs/design/conductor-role.md` decided the most important
+question in the rewrite and sat unbuilt for three days because nothing pointed
+at it.
+
+When it refuses, name each file in whichever of the three is its honest home,
+then run it again. Do not exempt your way to green — the exemption list in the
+tool is for artifacts that are *derived* or *immutable*, and adding to it is a
+design decision, not a fix.
+
+**What it cannot do, stated so nobody reads more into a green run:** it proves
+*reachability*, never *comprehension*. A path named in a sentence passes even if
+the sentence misdescribes it — the same declared limit as grounding-was-read.
+
+In CI it runs on every push and skips itself unless HEAD writes a session log,
+so it bites at the boundary and stays silent during normal work.
+
 ### 6. Triage, commit, and push
 
 Before staging anything, run `git status` to see the actual state of the working tree. Classify every changed or untracked file into two buckets:
