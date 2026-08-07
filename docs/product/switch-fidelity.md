@@ -236,6 +236,30 @@ sliced, the pile goes invisible and work is focused solely on what made the
 release until "release shipped" is met. Same shape as the licensed-prune rule:
 an event, not a judgement call and not an interrupt.
 
+### The root cause under gaps 8-14
+
+**Tony, 2026-08-07: "we solve for code level but all the context is not code —
+much of it is human input that we lose."**
+
+That names why the repo's strongest principle has a blind spot precisely where
+the composer lives. **Derived-from-disk works because code leaves artifacts.**
+Commits, files, gate records and rungs are real, they cannot lie, and the
+machine recovers them without anyone choosing to write anything down. That is
+why gaps 1-7 were fixable by pointing the boundary at artifacts that already
+existed.
+
+**Human input leaves no artifact at all.** There is no `git log` for "the goal
+is fidelity, not cost." Every word the composer contributes stays undeclared
+until a model deliberately records it — and the model least likely to record it
+is one that has already drifted, which is exactly the case where recording
+matters most. The loss is therefore not random; it is systematically biased
+against the 90% of input that is human.
+
+Consequence for slice 2: no amount of better *derivation* closes gaps 10-12.
+Those three need capture to become a **declared artifact with a gate**, the way
+`## Value` already is — the one piece of human input that reliably survives
+today, and it survives because `gate.py` refuses without it.
+
 ### Gap 13 — the handoff is written as though every session ended at `build`
 
 Switch records commits, tests and tree state. It has no step that asks what
