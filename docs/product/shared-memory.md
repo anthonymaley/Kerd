@@ -309,6 +309,51 @@ what the close recorded*; this asks *can Tony tell.* A claim cannot answer it.
 Only showing him the plan, the position and the open thread — and letting him
 spot what is wrong in seconds — can.
 
+### Gap 11 — the why is recorded, and the pickup cannot reach it
+
+Demonstrated live during the framing of this document, 2026-08-07, by the
+model writing it. Tony's naming of it: *"time is another example of forgetting
+key things we worked on and why."*
+
+The model asked Tony how a page could honestly say "taking longer" when
+nothing declares what "on time" was. That question was answered on
+2026-08-06 in `docs/product/time-awareness.md` `## Value`, quoting Tony at
+approval: *"task start and end give duration; accumulated durations are the
+base that makes effort estimates for future tasks accurate instead of
+guessed"* — with a declared unit, *effort actuals per conducted task: 0 →
+captured*. The record was correct, in his words, and one day old.
+
+Three distinct failures, none of them a missing record:
+
+1. **The read-set structurally cannot reach it.** Switch-in reads CONTEXT.md,
+   TODO.md, the newest session log and the derived board. It never opens a
+   product doc. Ten product docs carry ten `## Value` sections — the single
+   most reliable human input in the repo, because `gate.py` refuses a rung
+   without one — and **zero are read at pickup.**
+2. **CONTEXT.md records mechanism and drops purpose.** Its time-awareness
+   entry is among the longest in the file — same-turn rule, cold-eyes blocks,
+   marker restamping, statusline, four amendments — and contains no statement
+   of what the feature was *for*. The file that is read carries the how; the
+   why stayed in the file that is not.
+3. **Append-only preserves falsified claims beside their falsifiers.** The
+   2026-08-05 line "progress % and time-left have no on-disk home" still sits
+   twenty lines from the 2026-08-06 entry that made it false, with nothing
+   marking which won. The model read both and reasoned from the older one.
+   This is a cost of the licensed-prune rule shipped in v0.90.0 and was not
+   named when that rule was designed.
+
+The bias is the same one named in the root cause, one level up: **when a
+decision is retold, the machine-checkable part survives the retelling and the
+human part does not.** Mechanism is easy to restate because it is verifiable;
+purpose is a sentence someone has to choose to carry forward.
+
+Consequence for this item: a journey page that shows position and status but
+not *why each thing exists* would not have prevented this. The why has to be
+on the wall, next to the thing, permanently.
+
+Boundary half of the fix — reading product-doc `## Value` at pickup — belongs
+to switch-fidelity, not here.
+
 ## Risk ledger
 
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
