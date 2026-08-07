@@ -194,6 +194,65 @@ work item is dead by its own standard.
 The three accepted unknowns all carry the design rung as their review
 trigger. None may reach the build rung unanswered.
 
+## Release slice
+
+Rigor level: mvp
+
+Smallest valuable slice — **slice 1: the boundary stops losing things it
+already knows.** Four gaps closed, all prompt-layer, all in
+`skills/switch/SKILL.md` plus the docs that travel with it:
+
+- **Gap 1 — position against the ladder joins the pickup.** Switch Out step 4
+  and Switch In step 8 stop naming `docs/project/progress.md` and
+  `progress.md` (neither has ever existed here) and instead prefer a
+  derived-from-disk board where one exists. In this repo that is
+  `tools/diagram/progress.py`, which reports every slug's exact rung. Written
+  generically so a consuming project without one degrades to today's
+  behaviour rather than breaking.
+- **Gap 2 — "in full" gains a no-silent-truncation rule.** If the newest
+  session log is large, it is read in full anyway, in chunks if needed. A
+  reader that cannot read it all says so explicitly and names what it
+  skipped. Sampling a large file and reporting it as read is banned in
+  words, because it happened.
+- **Gaps 3-6 — the licensed-events prune rule.** CONTEXT.md is append-only
+  except at two events: a goal record landing (`docs/gates/*-goal.md`) or an
+  explicit agreed drop. At those moments pruning is expected; between them it
+  is forbidden. A short session structurally cannot erode a deep one's
+  record, and the file stops growing without bound at the moments where
+  decisions genuinely collapse (Tony 2026-08-07).
+- **Gap 7 — mitigated, not closed.** With CONTEXT.md append-only between
+  licensed events, standing state survives a thin day even though the thin
+  day's log is the only one read. What is *not* fixed: episodic detail in a
+  fat day's log becomes unreachable once a thinner day follows it. Named as a
+  residual, not claimed as solved.
+
+**The `light` and `low` modifiers die in this slice**, and they belong here
+rather than in a separate item: both are specced to reduce what the pickup
+reads, which requirement 5 forbids outright. Removing them also *lowers* the
+cost of the four fixes above — every rule otherwise needs its own "skip this
+if light or low" clause, and the modifier progression table would need a row
+per change. Sixteen references in `skills/switch/SKILL.md`, six in
+`README.md`. The `docs/playbook.md` entry for v0.30.0 is a **record** and is
+not edited; a superseding entry is added instead.
+
+MINOR version bump, three fields in sync. README switch section rewritten.
+
+Deliberately excluded, named:
+
+- **The fidelity check itself** — a check that a pickup restored what the
+  close recorded. It is the third accepted-unknown risk above and the reason
+  this slice ships unverifiable: nothing proves the gaps stayed closed. It
+  needs the design rung. Without it, slice 1's value rests on the gaps being
+  correctly diagnosed, not on the fixes being measured.
+- **Pruning CONTEXT.md's current 59 decisions.** Under the very rule this
+  slice introduces, today is not a licensed event — no goal record lands
+  here. The 54KB file stays until one does. This is the rule binding its own
+  author, which is the point of it.
+- **Restructuring session logs from per-day to per-sitting.** The cleanest
+  structural answer to gaps 2 and 7, and much larger than this slice.
+- **The boundary cycle** (`switch out → clear → in` as one act) — Backlog
+  High, its own frame.
+
 ## What this is not
 
 - Not the `light`/`low` modifier cut. That is queued separately and is a

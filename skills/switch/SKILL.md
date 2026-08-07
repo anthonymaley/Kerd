@@ -1,6 +1,6 @@
 ---
 name: switch
-description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session. The same mechanism carries across machines as the secondary case. Owns `git pull` and the session-state commit (CONTEXT.md, TODO.md, session log); conductor commits its own work per verified task. Writes state to CONTEXT.md, work to TODO.md, history to kivna/sessions/; pickup reads only those three. Supports 'light' modifier to skip reflection, or 'low' modifier for minimum viable handoff on tight token budgets."
+description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session that behaves as if it were the same session with a cleared window. The same mechanism carries across machines as the secondary case. Owns `git pull` and the session-state commit (CONTEXT.md, TODO.md, session log); conductor commits its own work per verified task. Writes state to CONTEXT.md, work to TODO.md, history to kivna/sessions/; pickup reads exactly those three, in full, every time. Fidelity outranks cost: there are no reduced modes."
 ---
 
 # Switch (Session Handoff)
@@ -17,53 +17,32 @@ Switch keeps three kinds of information in three files — one kind each, never 
 
 | File | Kind | Discipline |
 |---|---|---|
-| `CONTEXT.md` (root) | **State** — what's currently true | Overwritten in place, bounded size |
+| `CONTEXT.md` (root) | **State** — what's currently true | Overwritten in place; append-only between licensed prune events |
 | `TODO.md` (root) | **Work** — what's still to do | Forward-only, lean |
 | `kivna/sessions/` | **History** — what happened | Immutable, append-forever, full fidelity |
 
-Completeness comes from full-fidelity session logs plus git history of every pruned CONTEXT.md version — nothing is lost in storage. Efficiency comes from reading less, not storing less: switch-in reads only CONTEXT.md + TODO.md + the newest session log.
+Completeness comes from full-fidelity session logs plus git history of every CONTEXT.md version — nothing is lost in storage. Switch-in reads exactly three files: CONTEXT.md, TODO.md, and the newest session log. That read set is deliberately small **so that reading it completely is affordable** — it is never a licence to read part of it.
 
-**The sharp edge: CONTEXT.md must never become a diary.** The session log is the diary. If a fact is episodic (what happened), it belongs in the log; if it's standing (a decision, a constraint, the current stage), it belongs in CONTEXT.md. Superseded content is pruned — git keeps it.
+**The purpose of the boundary, and the bar every rule here answers to:** the next session must behave as if it were the same session with a cleared window — nothing agreed, decided, or contributed by the user is forgotten or lost. Speed and token cost are tiebreakers between designs that all preserve that. They are never a reason to record less, read less, or skip a step. This is why there are no reduced modes.
+
+**The sharp edge: CONTEXT.md must never become a diary.** The session log is the diary. If a fact is episodic (what happened), it belongs in the log; if it's standing (a decision, a constraint, the current stage), it belongs in CONTEXT.md.
+
+**Pruning is event-licensed, not discretionary.** CONTEXT.md is **append-only** except at two moments: a **goal record landing** (a new `docs/gates/*-goal.md` — a work item closed as complete) or an **explicit agreed drop** (the user and the session agree something dies). At those moments pruning is expected. Between them it is forbidden, even when the file feels long. The rule exists because erosion and unbounded growth are the same dial: a short session that prunes can silently delete an agreed point a deeper session recorded, and that loss is exactly what this boundary exists to prevent. A short session is structurally not a licensed event, so it cannot prune.
 
 ## Usage
 
-`/kerd:switch out` wrapping up a session (full)
-`/kerd:switch out light` wrapping up a session (skip reflection, progress tracking)
-`/kerd:switch out low` wrapping up a session (minimum viable handoff, tight token budget)
-`/kerd:switch in` picking up a session (full)
-`/kerd:switch in light` picking up a session (skip smoke test)
-`/kerd:switch in low` picking up a session (minimum viable pickup, tight token budget)
+`/kerd:switch out` wrapping up a session
+`/kerd:switch in` picking up a session
 
 The same path serves a fresh session on this machine (the common case) and a move to another machine (the same git boundary operations either way).
 
 If no argument is given, check for uncommitted changes. If changes exist, assume `out`. If clean, assume `in`.
 
-### Modifier progression
+**There is one mode, and it is the complete one.** The `light` and `low` modifiers were removed in v0.90.0. Both were specced to reduce what the boundary recorded or what the pickup read, which is the one trade this skill may never make. Every step below runs every time. Steps that were genuinely conditional stay conditional on *the repo* (does a test command exist? does a progress board exist?) — never on a budget.
 
-| | Full | Light | Low |
-|---|---|---|---|
-| CONTEXT.md update | Full (all sections) | Full | Where We Are + Active Mode only |
-| TODO.md update | Lean (Now + Backlog) | Lean (Now + Backlog) | Now only, 3-5 lines max |
-| Closure inference | Yes (verdict list) | Yes (verdict list) | Skip |
-| Session log | Full template (all sections) | Full template | Skeleton: What Was Done + What's Next only |
-| Reflection/gotchas | Yes (+ playbook mirror check) | Skip | Skip (unless something critical) |
-| Progress tracking | Yes | Skip | Skip |
-| Untracked file triage | Yes | Yes | Skip (unless obviously risky files like .env) |
-| Pre-commit summary | Full with evidence | Full with evidence | One-line: "Committing N files: [list]" |
-| Final confirmation | Evidence-cited | Evidence-cited | One-line: commit hash + push target |
-| **Switch-in** | | | |
-| Pull | Yes | Yes | Yes |
-| Handoff verification | Yes | Yes | Skip |
-| Smoke test | Yes | Skip | Skip |
-| Read CONTEXT.md | Full | Full | Where We Are only |
-| Read TODO.md | Full | Full | Now only |
-| Read session logs | Newest only, in full | Newest only, in full | Latest What's Next only |
-| Confirm `(done? — confirm)` items | Yes | Yes | Skip |
-| Read progress | Yes | Skip | Skip |
-| Check active modes | Yes | Yes | Yes |
-| Offer conductor | Yes | Yes | Skip |
+Cost is controlled instead by the read set being small — three files — and by pruning at licensed events so those files do not grow without bound. If a boundary feels expensive, the answer is a shorter CONTEXT.md at the next goal landing, not a shallower read.
 
-The vault is neither read nor written by switch in any mode — it is kivna's, on demand.
+The vault is neither read nor written by switch — it is kivna's, on demand.
 
 ## Switch Out (Wrapping Up a Session)
 
@@ -85,11 +64,10 @@ Create `CONTEXT.md` at the repo root if it doesn't exist. **Overwrite in place**
 ## Active Mode         — conductor snapshot for cross-machine handoff
 ```
 
-- Prune superseded decisions and answered questions — git history archives every version, so pruning loses nothing.
+- **Add, don't remove — unless this is a licensed event.** The default is append-only: a new decision joins `## Key Decisions`, a resolved question leaves `## Open Questions`, `## Where We Are` is rewritten. Nothing else is deleted. Overwriting the file is how it is *edited*; it is not permission to shorten it.
+- **At a licensed event, prune — and say what you pruned.** The two events are a goal record landing this session (`docs/gates/*-goal.md`) and an explicit agreed drop. When one fires, remove decisions the closed work superseded and report each removal in the session log's `## Key Decisions`, so the deletion is reachable from the record rather than only from git. If no event fired, prune nothing, however long the file looks.
 - **Not a copy of the session narrative.** If it's in the session log and episodic, it does not belong here.
 - **Mode snapshot:** if `kivna/.active-modes` contains mode state, snapshot it into `## Active Mode` so cross-machine handoff works without the ephemeral file. Include: mode name, current step number and total, session instruction (if any), and the steps list with status markers.
-
-**Low:** update only `## Where We Are` (a few lines) and `## Active Mode` if a mode is active. Leave the rest untouched.
 
 ### 2. Update TODO.md (work)
 
@@ -121,7 +99,11 @@ TODO closure review:
 
 A "done" verdict requires pointing at session evidence (a commit, a file, a log entry). When in doubt, the verdict is open or unsure — never silently close an item you can't evidence. Switch-in asks about tagged items; that's the only place a question happens.
 
-**Low:** keep `## Now` to 3-5 lines max; skip closure inference.
+**Closure inference asks "is it done?" — also ask "is it still true?"** An item can be complete, or it can be *premise-dead*: still undone, but the reason it was filed no longer holds because something else shipped. A row whose premise died is worse than a stale one, because a later session will faithfully execute it and the drift is invisible. When an item's justification depends on a condition, check the condition. A dead premise is reported as a fourth verdict and the row is struck with a one-line reason:
+
+```
+  ✗ dead   — "boundary auto-sizing" (filed for a cost that vault-unhook v0.83.0 already removed)
+```
 
 ### 2b. Heal and self-migrate
 
@@ -132,7 +114,7 @@ TODO.md must contain no legacy shapes: no `## Current Session` block, no `### Co
 3. **`## Previous Session` / `## Older Session` blocks** → read the date from the heading or any `kivna/sessions/<date>.md` reference inside. If a log already exists for that date, the block is archived — remove it. If not, **rescue first**: create the log from the block's content (or append under a `---` separator), then remove. Undated blocks rescue to `kivna/sessions/undated-<slug>.md`.
 4. Never delete a block whose content is not first preserved in CONTEXT.md or a session log — rescue is mandatory before removal.
 
-Report: "Healed TODO: N legacy block(s) migrated (M rescued)." If none exist, skip silently. This runs in all modes (full/light/low) — it is cheap, it is the backstop against unbounded TODO growth, and it makes the split **self-migrating**: the first switch-out on a pre-split repo converts it with no separate migration step.
+Report: "Healed TODO: N legacy block(s) migrated (M rescued)." If none exist, skip silently. It is cheap, it is the backstop against unbounded TODO growth, and it makes the split **self-migrating**: the first switch-out on a pre-split repo converts it with no separate migration step.
 
 ### 3. Write session log (history)
 
@@ -154,7 +136,7 @@ The session log captures what happened in this session for the next session to p
 
 **Commits section** applies only when commits were made in this session. For non-code sessions or sessions with no commits, omit it.
 
-**Full/light template** (bare headers — fill with content from this session, omit any optional header that would be empty):
+**Template** (bare headers — fill with content from this session, omit any optional header that would be empty):
 
 ```
 # Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)
@@ -176,25 +158,17 @@ The session log captures what happened in this session for the next session to p
 ## Insights
 ```
 
-**Low template:** Two required sections only, no metadata headers, no optional sections. Use bullets, 3-5 items in What Was Done, 1-2 lines in What's Next.
+### 4. Update position on the ladder
 
-```
-# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)
+Where the work stands must be recorded as a **location**, not only as narrative. Prefer a **derived-from-disk** board over any hand-maintained file — a self-reported position is the thing the derived-from-disk rule exists to forbid.
 
-## What Was Done
+- **If the repo has a progress renderer** (in Kerd: `python3 tools/diagram/progress.py`, which reports every slug's exact rung on the ladder), run it and let it rewrite its own artifacts. Do not hand-edit its output.
+- **If the repo has a hand-maintained progress file**, update it.
+- **If neither exists**, skip — and do not invent one.
 
-## What's Next
-```
-
-### 4. Update progress tracking
-
-**Skip this step if `light` or `low` modifier is set.**
-
-If progress tracking exists (check for `docs/project/progress.md`, `progress.md`, or similar), update it.
+Whatever it reports, the session log's `## What's Next` names the rung the work now sits on, so the next pickup gets position from the record as well as from the board.
 
 ### 5. Reflect and capture learnings
-
-**Skip this step if `light` or `low` modifier is set** — with one exception: if something genuinely critical broke or a dangerous gotcha was discovered during the session, capture it even in low mode. One line in the session log is enough. The bar for "critical" in low mode is: would the next person waste significant time without this information?
 
 Before committing, reflect on the session:
 
@@ -208,7 +182,7 @@ Write actionable learnings to the appropriate place:
 - **Project conventions and enforcement rules** → add to `CLAUDE.md` (so they're enforced in future sessions)
 - **Conventions and patterns** → record in CONTEXT.md Key Decisions; a project that keeps a vault updates it on demand via `/kerd:kivna save`
 
-**Gotcha-mirror verification (all modes, before commit):** for every entry in this session's `## Gotchas`, verify `docs/playbook.md` contains a counterpart (cheap grep). If one is missing, add it now. Older session logs are never skimmed at switch-in, so the playbook — not the log tail — is the durable gotcha net; an unmirrored gotcha is effectively lost.
+**Gotcha-mirror verification (before commit):** for every entry in this session's `## Gotchas`, verify `docs/playbook.md` contains a counterpart (cheap grep). If one is missing, add it now. Older session logs are never skimmed at switch-in, so the playbook — not the log tail — is the durable gotcha net; an unmirrored gotcha is effectively lost.
 
 Skip the reflection (not the mirror check) if the session was trivial (quick fix, single file change). But for any session with meaningful work, take the time. Compounding small improvements across sessions is how projects stay healthy.
 
@@ -242,8 +216,6 @@ If there are unexpected untracked or modified files, stop and show a decision ba
 
 Wait for the user to decide on each unexpected file. Then stage, commit, and push everything together.
 
-**Low:** Skip triage entirely unless an obviously risky file is untracked (`.env`, credentials, secrets). Auto-commit session files without any banner.
-
 ### 7. Completion banner
 
 Run `git status`, `git log --oneline -1`, and `date '+%H:%M %Z'` fresh. Read the output. Show a completion banner with evidence — the `Closed:` line is this turn's `date`, never a recalled time:
@@ -265,13 +237,7 @@ If the tree is not clean, report what remains and why (e.g., "3 untracked files 
 
 If `kivna/vault.json` exists, append one line inside the banner: `vault not written (on-demand since v0.83.0) — /kerd:kivna save for the Obsidian export`.
 
-If `light` modifier was used, note: "Light handoff: reflection skipped."
-
-**Low:** Compress to one line:
-
-```
-Pushed: [commit-hash] → origin/[branch]. Closed: [HH:MM TZ]. Next: [what to pick up]
-```
+If this session was a licensed prune event, append one line naming what was removed from CONTEXT.md: `Pruned: N decisions superseded by <slug>`. A prune that happens silently is indistinguishable from erosion.
 
 ## Switch In (Picking Up a Session)
 
@@ -282,8 +248,6 @@ Pick up where the last session left off. The read set is three files: CONTEXT.md
 `git pull`. If there are conflicts, resolve them before proceeding.
 
 ### 2. Handoff contract verification
-
-**Skip this step if `low` modifier is set.**
 
 After pulling, verify the outgoing machine completed its handoff. Check:
 
@@ -307,39 +271,37 @@ Do not pretend the pickup is clean when the handoff was incomplete.
 
 ### 3. Smoke test
 
-**Skip this step if `light` or `low` modifier is set.**
-
 If the project has a test command (check `package.json` scripts, `Makefile`, `pyproject.toml`, or similar), run it. If tests fail, report the failures in the summary. The user should know the state of the codebase before planning new work. If no test command exists, skip this step.
 
 ### 4. Read CONTEXT.md
 
-The state file: what the project is, where it stands, standing decisions, open questions, active mode snapshot.
-
-**Low:** Read only `## Where We Are`.
+The state file: what the project is, where it stands, standing decisions, open questions, active mode snapshot. Read all of it — the standing decisions are the thing a fresh session is most likely to contradict, and they are the last section a hurried reader reaches.
 
 ### 5. Read TODO.md
 
 The work file: current focus (`## Now`) and queued items (`## Backlog`).
 
-**Low:** Read only `## Now`.
+**A row states what to do, not whether it is still worth doing.** An item filed weeks ago can be premise-dead — the work is undone, but the reason it was filed no longer holds. Before planning against any row, check whether its justification still stands; if the row names a condition, verify the condition. Faithfully executing a dead row is indistinguishable from drift, and it is the most common way a clean pickup still ends up on the wrong work.
 
 ### 6. Read the newest session log
 
 Read the most recent file in `kivna/sessions/` in full. **Older logs are archive — do not skim or read them per-session.** Forward-only discipline guarantees anything still relevant was carried into CONTEXT.md, TODO.md, or the newest log's What's Next; gotchas live durably in `docs/playbook.md`. Grep or read older logs only when the user asks or a specific question needs history.
 
-**Low:** Read only the `## What's Next` section of the latest log.
+**"In full" means in full — no silent bound.** Logs are per-day and a busy day holds many sittings; the newest file can run to a thousand lines or more. Read all of it, in successive chunks if one read will not hold it. **Reading the last sitting and reporting the log as read is the failure this rule exists to stop** — it has happened, and it is undetectable from the outside because the summary looks complete either way. If for any reason the whole file cannot be read, say so explicitly and name the line range that was skipped. An admitted gap is recoverable; a silent one is not.
 
 ### 7. Confirm uncertain closures
 
-**Skip this step if `low` modifier is set.**
-
 If any TODO items carry a `(done? — confirm)` tag, collect them and ask the user **one** question: which of these are actually done? Remove the confirmed ones (recording the closure in the summary); untag the rest back to open. If no tags exist, skip silently.
 
-### 8. Read progress tracking
+### 8. Read position on the ladder
 
-**Skip this step if `light` or `low` modifier is set.**
+Recover **where the work sits**, not just what was said about it. This is the half of the handoff that the three files carry worst: they are prose, and position is a location.
 
-If progress tracking exists, read it.
+- **If the repo has a progress renderer**, run it and read what it reports — in Kerd, `python3 tools/diagram/progress.py`, which derives every slug's exact rung from disk and is CI-refused if stale, so it is never out of date.
+- **If the repo has a hand-maintained progress file**, read it.
+- **If neither exists**, skip.
+
+Carry the position into the summary alongside the narrative: which work items are in flight, and which rung each one has reached. A pickup that knows what happened but not where we are will re-enter the work at the wrong rung.
 
 ### 9. Check active modes
 
@@ -355,7 +317,8 @@ Report any active modes in the summary (e.g., "**Active modes:** `greenfield (st
 Tell the user:
 - What was done last session
 - Any open questions or decisions from the previous session
-- Any test failures from the smoke test (if applicable, full mode only)
+- **Where the work sits on the ladder** (step 8) — the in-flight items and their rungs
+- Any test failures from the smoke test
 - Any handoff issues detected in step 2
 - **A short-form "what's next" pick-list** — a numbered menu of every `## Now` and `## Backlog` item, one terse line each. TODO is forward-only and lean by design, so list it in full — don't truncate to "+N more". This is a compact menu, not a re-narration: title-only, no re-explaining what each item is, no reply-instructions (the user just types a number or says what they want).
 
@@ -375,18 +338,9 @@ What's next:
 
 A number-reply picks that item as the session's focus; any freeform reply steers elsewhere. Don't auto-start work on a picked item — surface it and let the next step (offer conductor) frame it.
 
-If `light` modifier was used, note: "Light pickup: smoke test skipped. Run `/kerd:switch in` for full context."
-
-**Low:** Compress the summary to 2-3 lines: what was done last, what's next, active mode if any. Skip suggestions, skip open questions. Example:
-
-```
-Last session: fixed hook paths in krutho-founders and krutho-strategy (v0.29.1)
-Next: tend on other repos, wire the progress render into CI
-```
+**Say what you did not manage to read.** If any part of the read set was incomplete — a log chunked and one chunk missed, a file that failed to open — name it here rather than letting the summary imply a clean pickup. Step 2 does this for missing files; this covers files that were present and only partly read.
 
 ### 11. Offer conductor
-
-**Skip this step if `low` modifier is set.**
 
 Ask: "Start a `/kerd:conductor` session?" If yes, flow into `/kerd:conductor` orient. If no, stop. The user wants to do something quick without full session discipline.
 

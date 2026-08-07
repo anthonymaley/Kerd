@@ -171,7 +171,7 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 
 ## Current Status
 
-**Version:** 0.89.0
+**Version:** 0.90.0
 
 **Working:**
 - All nine skills functional: conductor, interrogate, lorg, switch, kivna, slainte, skriv, tend, pair
@@ -191,7 +191,9 @@ No CI/CD pipeline, no build artifacts, no environment variables.
 - Switch-out closure inference (v0.60.0): every open TODO item gets a done/open/unsure verdict against session evidence — shown as an informational list, done items closed into the session log, unsure items tagged `(done? — confirm)` for one switch-in question
 - TODO.md is forward-only (v0.41.0, lean shape v0.60.0): switch-out overwrites `## Now` and self-migrates legacy `## Current Session`/`### Context`/`## Previous Session` shapes into CONTEXT.md and `kivna/sessions/` (rescue-before-remove). state-contract names the demote-and-keep anti-pattern; conductor close-out + plan-phase aligned
 - vault-spec.md defines the project-spine convention (MOC + Status + Weekly always-scaffolded, explicit repo/vault boundary, canonical lazy-created slots, kivna-scaffold intake interview). Wiring into kivna/tend is the pending Heavier step
-- Switch `light` modifier for lower-token handoffs
+- Switch has one mode and it is the complete one (v0.90.0). The `light` and `low` modifiers are removed — both bought their saving by recording less or reading less, which is the one trade the boundary may never make. Every step runs every time; steps that were conditional are now conditional on the repo (a test command exists, a progress board exists), never on a budget. The v0.30.0 and v0.16.0 entries below are records of when those modifiers shipped and are left standing
+- CONTEXT.md is append-only between licensed prune events (v0.90.0): pruning happens only at a goal record landing (`docs/gates/*-goal.md`) or an explicit agreed drop, and every removal is reported in the session log. A short session structurally cannot erode a deeper session's record
+- Switch records and recovers **position on the ladder** (v0.90.0): switch-out step 4 and switch-in step 8 prefer a derived-from-disk progress board over any hand-maintained file, and the pickup summary carries which rung each in-flight item has reached
 - Lorg tiered subcommands: installed (default), available, explore, all, report. Per-tier freshness. Incremental saves.
 
 **Recent changes (as of 2026-04-25):**

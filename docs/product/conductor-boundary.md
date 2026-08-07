@@ -73,7 +73,10 @@ Deliberately excluded, named:
   without a loop; the boundary-cycle backlog item keeps the wider
   automation question with its own killer feasibility check.
 - **Boundary auto-sizing and the light/low modifier question** —
-  separate Backlog item, untouched here.
+  separate Backlog item, untouched here. *(Resolved 2026-08-07 by
+  switch-fidelity v0.90.0: the modifiers were removed because they trade
+  fidelity for cost; auto-sizing was closed as premise-dead — the cost it
+  targeted was the vault write, already removed at v0.83.0.)*
 - **Release-triggered whole-doc-surface conformance** — the widened
   tend/slainte review, its own queued item.
 
