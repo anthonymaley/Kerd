@@ -49,8 +49,42 @@ COUNTERMEASURES_COLUMNS = [
 # rating in a cell we need to say why if its not circle, just a few words" —
 # and the point of a table is to replace reading, so forcing the whole matrix
 # into scored mode just to earn a four-word reason was the wrong trade.
+#
+# The mark set, defined by the producer 2026-08-08:
+#   ◎  DOUBLE CIRCLE — a perfect fit (the conventional form of ○+)
+#   ○  CIRCLE        — fully meets the requirement          (○+ / ○- refine it)
+#   △  TRIANGLE      — CAN meet it, with a countermeasure   (△+ / △- refine it)
+#   ×  CROSS         — CANNOT meet it, even with a countermeasure
+# "CROSS is always just CROSS" — it takes no modifier, because there is no
+# degree of impossibility. The + / - refinements exist for when three marks do
+# not separate the options finely enough.
+MARK_RE_SRC = r'(?:◎|○[+\-−]?|△[+\-−]?|×)'
 MARK_CELL_RE = re.compile(
-    r'^([○△×])(?:[ \t]+(?:([1-5])[ \t]+)?—[ \t]+(\S.*))?$')
+    r'^(' + MARK_RE_SRC + r')(?:[ \t]+(?:([1-5])[ \t]+)?—[ \t]+(\S.*))?$')
+
+#: A bare mark needs no reason only when it is an unqualified pass.
+BARE_OK = ("◎", "○")
+
+#: The Category letters, spelled out for the render. M and D describe the
+#: CRITERION's status — mandatory versus nice-to-have — not the option's
+#: performance against it. Kept as letters in the markdown (the machine's
+#: format) and expanded on the canvas (the human's).
+CATEGORY_WORD = {"M": "MANDATORY", "D": "DESIRABLE"}
+
+
+def mark_family(mark):
+    """'circle' | 'triangle' | 'cross' — the mark's meaning, modifiers ignored.
+
+    Every rule in this module keys off the FAMILY, never the exact glyph, so
+    adding or retiring a refinement never silently changes which options are
+    dead or which cells owe a countermeasure.
+    """
+    head = mark[:1]
+    if head in ("◎", "○"):
+        return "circle"
+    if head == "△":
+        return "triangle"
+    return "cross"
 
 OPTION_ID_RE = re.compile(r'^[A-Z][A-Za-z0-9-]*$')
 
@@ -295,7 +329,17 @@ def _parse_evaluation_matrix(section_text, rel, criteria, options):
             raw = row[idx]
             m = MARK_CELL_RE.match(raw)
             if not m:
-                if raw[:1] in ("○", "△", "×"):
+                if re.match(r'^×[+\-−]', raw):
+                    # Naming this separately matters: "score without basis" is
+                    # what the generic branch would have said, and it points
+                    # the reader at the wrong half of the cell.
+                    problems.append(
+                        f"{rel} — Evaluation matrix cell '{name}'/'{oid}': "
+                        f"invalid mark '{raw}' — × takes no modifier "
+                        "(cross is always just cross)"
+                    )
+                    continue
+                if raw[:1] in ("◎", "○", "△", "×"):
                     problems.append(
                         f"{rel} — Evaluation matrix cell '{name}'/'{oid}': score without basis "
                         f"(found '{raw}')"
@@ -306,12 +350,14 @@ def _parse_evaluation_matrix(section_text, rel, criteria, options):
             mark = m.group(1)
             score = int(m.group(2)) if m.group(2) else None
             basis = m.group(3)
-            # A mark that is not ○ must say why. ○ needs no reason — it met the
-            # declared target, which the Criteria table already states.
-            if mark != "○" and not basis:
+            # Anything other than an unqualified pass must say why. ◎ and
+            # ○ need no reason — they met the declared target, which the
+            # Criteria table already states. A refinement (○-, △+) carries no
+            # information without one.
+            if mark not in BARE_OK and not basis:
                 problems.append(
                     f"{rel} — Evaluation matrix cell '{name}'/'{oid}': "
-                    f"'{mark}' with no reason (a mark that is not ○ must say why)"
+                    f"'{mark}' with no reason (only ◎ and ○ may stand bare)"
                 )
                 continue
             if score is not None:
@@ -340,7 +386,7 @@ def _compute_dead(criteria, options, cells):
         oid = opt["id"]
         for c in m_criteria:
             cell = cells.get(oid, {}).get(c["name"])
-            if cell and cell["mark"] == "×":
+            if cell and mark_family(cell["mark"]) == "cross":
                 dead[oid] = c["name"]
                 break
     return dead
@@ -429,23 +475,39 @@ def _compute_arithmetic(rel, criteria, options, cells, mode, extra_rows):
 
 # ── M6 — ## Countermeasures ──────────────────────────────────────────────
 
-def _parse_countermeasures(section_text, rel, triangle_set):
+def _parse_countermeasures(section_text, rel, triangle_set, allowed_set=None):
     """(rows, problems). Every (option_id, criterion_name) in triangle_set
-    (the △ cells) requires exactly one row; a row citing a cell not in
-    triangle_set is a violation. When triangle_set is empty, no table is
-    required — the section body just must be non-empty."""
+    REQUIRES exactly one row. A row citing a cell outside allowed_set (all △
+    cells, whatever their criterion's category) is a violation. triangle_set is
+    the REQUIRED subset — △ on MANDATORY criteria — while allowed_set is the
+    permitted superset, so a team may write a countermeasure for a DESIRABLE
+    △ without being forced to write one for every such cell. When triangle_set
+    is empty, no table is required — the section body just must be non-empty."""
+    if allowed_set is None:
+        allowed_set = triangle_set
     problems = []
     rows_out = []
     seen = set()
 
-    if not triangle_set:
+    # Gate on allowed_set, not triangle_set. Gating on the REQUIRED set meant
+    # that a matrix with no mandatory △ skipped row validation entirely, so a
+    # table written voluntarily for desirable △ cells was never checked — a
+    # temporary countermeasure could omit its return condition and pass. Found
+    # by fixture F6 the moment the rule was narrowed.
+    if not allowed_set:
         if not section_text.strip():
             problems.append(f"{rel} — Countermeasures: section body must be non-empty")
         return rows_out, problems
 
     lines = [l for l in section_text.splitlines() if l.strip()]
     if not lines:
-        problems.append(f"{rel} — Countermeasures: no table but △ cells exist")
+        if triangle_set:
+            problems.append(f"{rel} — Countermeasures: no table but △ cells exist")
+        else:
+            problems.append(f"{rel} — Countermeasures: section body must be non-empty")
+    elif not _split_row(lines[0]) == COUNTERMEASURES_COLUMNS and not triangle_set:
+        # Prose instead of a table is fine when no row is required.
+        pass
     else:
         header = _split_row(lines[0])
         if header != COUNTERMEASURES_COLUMNS:
@@ -466,7 +528,7 @@ def _parse_countermeasures(section_text, rel, triangle_set):
                     continue
                 opt, crit, cm, typ, conf, ret = cells
 
-                if (opt, crit) not in triangle_set:
+                if (opt, crit) not in allowed_set:
                     problems.append(
                         f"{rel} — Countermeasures row {i}: countermeasure cites '{opt}'/'{crit}' "
                         "which is not marked △"
@@ -582,12 +644,30 @@ def parse_matrix(text, rel):
     overall, rank, p = _compute_arithmetic(rel, criteria, options, cells, mode, extra_rows)
     problems += p
 
+    crit_category = {c["name"]: c["category"] for c in criteria}
     triangle_set = set()
     for oid, crit_cells in cells.items():
         for cname, cell in crit_cells.items():
-            if cell["mark"] == "△":
+            # A countermeasure row is owed only where the △ DECIDES something —
+            # on a MANDATORY criterion, where a × would have killed the option.
+            # Narrowed 2026-08-08: once "building it ourselves" became a legal
+            # countermeasure, △ went from rare to the default mark (64 of 138
+            # cells in this repo's first real matrix), and demanding a prose row
+            # for every one buries the table in exactly the reading UX-006 says
+            # a table exists to avoid. On a DESIRABLE criterion the few-word
+            # reason in the cell is the whole statement; a row may still be
+            # written and is accepted, it is simply not required.
+            if (cell and mark_family(cell["mark"]) == "triangle"
+                    and crit_category.get(cname) == "M"):
                 triangle_set.add((oid, cname))
-    countermeasures, p = _parse_countermeasures(bodies["Countermeasures"] or "", rel, triangle_set)
+    all_triangles = {
+        (oid, cname)
+        for oid, crit_cells in cells.items()
+        for cname, cell in crit_cells.items()
+        if cell and mark_family(cell["mark"]) == "triangle"
+    }
+    countermeasures, p = _parse_countermeasures(
+        bodies["Countermeasures"] or "", rel, triangle_set, all_triangles)
     problems += p
 
     preferred, p = _parse_preferred(bodies["Preferred solution"] or "", rel, options, dead_map)
@@ -781,7 +861,7 @@ def build_canvas(model, title):
     # and the mark is drawn as its own centred element rather than as bound
     # text. This overrides the earlier grammar in which × cells, dead option
     # rows and cost-group headers were stroked RED.
-    MARK_COLOUR = {"○": GREEN, "△": YELLOW, "×": RED}
+    MARK_COLOUR = {"circle": GREEN, "triangle": YELLOW, "cross": RED}
     MARK_FRACTION = 0.4
     REASON_SIZE = 11
 
@@ -795,11 +875,17 @@ def build_canvas(model, title):
     c.txt(f"{title} — evaluation matrix", X, 80, 32)
 
     legend = [
-        ("○  meets — no countermeasure needed", GREEN),
-        ("△  meets ONLY with a countermeasure, named below, with confidence", YELLOW),
-        ("×  cannot meet — on an M criterion the option is DEAD regardless of score", RED),
-        ("Boxes are never coloured; the verdict is the mark. "
-         "BLUE — text changed since the last reviewed snapshot", BLUE),
+        ("◎  PERFECT FIT — exceeds the declared target", GREEN),
+        ("○  FULLY MEETS the target as it stands, nothing added"
+         "        ○+ comfortably  ·  ○- only just", GREEN),
+        ("△  MEETS IT ONLY WITH A COUNTERMEASURE, named below with a confidence"
+         "        △+ cheap, likely  ·  △- expensive, uncertain", YELLOW),
+        ("×  CANNOT MEET IT, even with a countermeasure — never takes a modifier,"
+         " because there is no degree of impossibility", RED),
+        ("MANDATORY — a × here kills the option outright."
+         "        DESIRABLE — a × here does not.", INK),
+        ("Boxes are never coloured: the verdict is the mark."
+         "        BLUE — text changed since the last reviewed snapshot", BLUE),
     ]
     ly = 132
     for text, colour in legend:
@@ -827,9 +913,15 @@ def build_canvas(model, title):
 
     for crit in criteria:
         weight = crit["weight"] if crit["weight"] is not None else 1
+        # Spell the category out. The markdown carries `M`/`D` because the
+        # machine reads it; a human reading the render asked in 2026-08-08
+        # whether M meant "meets" — a fair reading, and a dangerous one, since
+        # "meets" is already what ○ means. The letter describes the CRITERION's
+        # status, never the option's performance against it.
+        cat = CATEGORY_WORD.get(crit["category"], crit["category"])
         header_lines = [
             f"{crit['group'].upper()}: {crit['name'].upper()}", ""
-        ] + _wrap(f"({crit['category']} · {crit['target']} · w{weight})")
+        ] + _wrap(f"({cat} · {crit['target']} · weight {weight})")
         bodies = []
         for opt in options:
             cd = model["cells"].get(opt["id"], {}).get(crit["name"])
@@ -911,7 +1003,7 @@ def build_canvas(model, title):
             # the table is to be read at a glance rather than read at all.
             size = max(20, int(min(rh, w) * MARK_FRACTION))
             _marked_box(c, mark, x, ry, w, rh, size, cell_bg,
-                        MARK_COLOUR.get(mark, INK))
+                        MARK_COLOUR.get(mark_family(mark), INK))
             if reason:
                 rt = c.txt("\n".join(reason), 0, 0, REASON_SIZE, INK, "center")
                 rw, rhh = rt["width"], rt["height"]
@@ -1133,24 +1225,41 @@ def _f4():
 
 
 def _f5():
-    old = (
+    """A △ on a MANDATORY criterion owes a countermeasure row; a △ on a
+    DESIRABLE one does not. Both halves, because the rule was narrowed on
+    2026-08-08 and the looser half is the one that silently stops firing."""
+    cm_table = (
         "## Countermeasures\n\n"
         "| Option | Criterion | Countermeasure | Type | Confidence | Return condition |\n"
         "|---|---|---|---|---|---|\n"
         "| B | Setup cost | reuse the gates kit's parsing idiom wholesale | permanent | high — same idiom shipped in tools/gates and tools/diagram | |\n"
     )
-    new = (
+    no_table = (
         "## Countermeasures\n\n"
-        "A countermeasure is still owed for B's Setup cost triangle, but the table was dropped by mistake.\n"
+        "None owed — B's only triangle sits on a DESIRABLE criterion.\n"
     )
-    text = _F1_TEXT.replace(old, new)
-    assert text != _F1_TEXT, "F5 setup: replace target not found"
     with tempfile.TemporaryDirectory() as root:
-        rel = "docs/design/case.md"
-        _sw(os.path.join(root, rel), text)
         _write_stubs(root)
-        problems = check_file(root, rel)
-        assert any("countermeasure" in p and "B" in p and "Setup cost" in p for p in problems), problems
+
+        # Setup cost is DESIRABLE, so dropping its countermeasure is legal.
+        lax = _F1_TEXT.replace(cm_table, no_table)
+        assert lax != _F1_TEXT, "F5 setup: replace target not found"
+        rel_lax = "docs/design/lax.md"
+        _sw(os.path.join(root, rel_lax), lax)
+        assert check_file(root, rel_lax) == [], check_file(root, rel_lax)
+
+        # Refusal fires in CI is MANDATORY — a △ there without a row is refused.
+        strict = lax.replace(
+            "| Refusal fires in CI | ○ 5 — canary refused in the T12 fixture | "
+            "○ 5 — canary refused via its own audit step |",
+            "| Refusal fires in CI | ○ 5 — canary refused in the T12 fixture | "
+            "△ 3 — audit step not wired |")
+        assert strict != lax, "F5 setup: mandatory-row replace target not found"
+        rel_strict = "docs/design/strict.md"
+        _sw(os.path.join(root, rel_strict), strict)
+        problems = check_file(root, rel_strict)
+        assert any("no countermeasure row" in p and "Refusal fires in CI" in p
+                   for p in problems), problems
 
 
 def _f6():
@@ -1278,9 +1387,19 @@ def _f13():
 
 
 def _f14():
+    # The worked example is scored ○/△/×; swap one cell to ◎ and one to a
+    # refinement so every glyph in the mark set is exercised through the SVG
+    # writer. A mark that dies in export is invisible until Tony opens the file.
+    text = _F1_TEXT.replace(
+        "| Refusal fires in CI | ○ 5 — canary refused in the T12 fixture | "
+        "○ 5 — canary refused via its own audit step |",
+        "| Refusal fires in CI | ◎ 5 — canary refused in the T12 fixture | "
+        "○+ 5 — canary refused via its own audit step |",
+    )
+    assert text != _F1_TEXT, "F14 setup: replace target not found"
     with tempfile.TemporaryDirectory() as root:
         rel = "docs/design/case.md"
-        _sw(os.path.join(root, rel), _F1_TEXT)
+        _sw(os.path.join(root, rel), text)
         _write_stubs(root)
 
         problems, out, svg_out, dims, deltas = render(root, rel)
@@ -1302,7 +1421,7 @@ def _f14():
 
         with open(svg_out, encoding="utf-8") as f:
             svg_text = f.read()
-        for glyph in ("○", "△", "×"):
+        for glyph in ("◎", "○", "△", "×"):
             assert glyph in svg_text, f"glyph {glyph!r} missing from written SVG — a mark that " \
                 "dies in SVG export dies here, not on Tony's canvas"
 
@@ -1349,8 +1468,71 @@ def _f15():
         assert check_file(root, rel2) == [], check_file(root, rel2)
 
 
+def _f16():
+    """The 2026-08-08 mark set: × takes no modifier; refinements key off the
+    family for deadness and countermeasures; a refinement must say why."""
+    scored_table = (
+        "| Criterion | A | B |\n"
+        "|---|---|---|\n"
+        "| Setup cost | ○ 4 — one rule block added, measured on a branch | △ 3 — new directory, but the kit idiom is proven twice |\n"
+        "| Refusal fires in CI | ○ 5 — canary refused in the T12 fixture | ○ 5 — canary refused via its own audit step |\n"
+        "| Render legibility | × 1 — audit output is line-based, no canvas | ○ 4 — movement-9 table, layout checks clean |\n"
+        "| OVERALL | 21 | 26 |\n"
+        "| RANK | 2 | 1 |\n"
+    )
+    with tempfile.TemporaryDirectory() as root:
+        _write_stubs(root)
+
+        # "CROSS is always just CROSS" — a modified cross is not a mark.
+        bad_cross = _F1_TEXT.replace(scored_table, (
+            "| Criterion | A | B |\n"
+            "|---|---|---|\n"
+            "| Setup cost | ○ | △ — a reason |\n"
+            "| Refusal fires in CI | ○ | ○ |\n"
+            "| Render legibility | ×- — no canvas | ○ |\n"
+        ))
+        assert bad_cross != _F1_TEXT, "F16 setup: replace target not found"
+        rel = "docs/design/cross.md"
+        _sw(os.path.join(root, rel), bad_cross)
+        problems = check_file(root, rel)
+        assert any("invalid mark" in p for p in problems), problems
+
+        # A refinement with no reason is refused; ◎ may stand bare.
+        bare_refine = _F1_TEXT.replace(scored_table, (
+            "| Criterion | A | B |\n"
+            "|---|---|---|\n"
+            "| Setup cost | ◎ | △+ |\n"
+            "| Refusal fires in CI | ○ | ○ |\n"
+            "| Render legibility | × — no canvas | ○ |\n"
+        ))
+        rel2 = "docs/design/refine.md"
+        _sw(os.path.join(root, rel2), bare_refine)
+        problems2 = check_file(root, rel2)
+        assert any("only ◎ and ○ may stand bare" in p for p in problems2), problems2
+
+        # △+ is still a triangle: it owes a countermeasure, and the ◎/○+ pair
+        # is still a circle, so neither kills the option.
+        good = _F1_TEXT.replace(scored_table, (
+            "| Criterion | A | B |\n"
+            "|---|---|---|\n"
+            "| Setup cost | ◎ | △+ — one directory to add |\n"
+            "| Refusal fires in CI | ○+ — canary refused | ○ |\n"
+            "| Render legibility | ○- — line-based but readable | ○ |\n"
+        )).replace(
+            "| B | Setup cost | reuse the gates kit's parsing idiom wholesale | permanent | high — same idiom shipped in tools/gates and tools/diagram | |",
+            "| B | Setup cost | reuse the gates kit's parsing idiom wholesale | permanent | high — same idiom shipped in tools/gates and tools/diagram | |")
+        rel3 = "docs/design/good.md"
+        _sw(os.path.join(root, rel3), good)
+        assert check_file(root, rel3) == [], check_file(root, rel3)
+        model, _ = parse_matrix(good, rel3)
+        assert model["dead"] == [], model["dead"]
+        assert mark_family("△+") == "triangle"
+        assert mark_family("○-") == "circle"
+        assert mark_family("◎") == "circle"
+
+
 def selftest():
-    """Runs F1-F15, each in its own tempfile.TemporaryDirectory (no git
+    """Runs F1-F16, each in its own tempfile.TemporaryDirectory (no git
     required — matrices are pure files). Prints one 'ok <n> — <name>' line
     per case; on the first failure prints 'FAIL <n> — <name>: <why>' and
     returns 1. On full success prints 'selftest: 15 ok' and returns 0.
@@ -1374,6 +1556,7 @@ def selftest():
         (_f13, "audit sweep — count and problems scoped to the broken doc"),
         (_f14, "render: layout clean, glyphs survive to SVG"),
         (_f15, "non-○ mark with no reason — refused; bare ○ stays legal"),
+        (_f16, "mark set: × takes no modifier, refinements key off the family"),
     ]
     for i, (fn, name) in enumerate(cases, start=1):
         try:

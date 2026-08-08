@@ -31,6 +31,8 @@ Criteria-before-options-before-scores is the file-order encoding of "targets and
 
 Per row: Criterion non-empty and unique; Group non-empty; Target / Minimum non-empty (the declared bar); Category ∈ {`M`, `D`}; Weight either empty or a positive integer — and across the table, ALL empty (criteria weigh equally, weight 1) or ALL integers. Mixed is a violation.
 
+**`M` is MANDATORY; `D` is DESIRABLE.** The letter describes the *criterion's status* — mandatory versus nice-to-have — and never the option's performance against it. A `×` on an `M` kills the option outright; a `×` on a `D` does not. This was never written down until a reader asked on 2026-08-08 whether `M` meant "meets", which is the natural reading and a dangerous one, since *meets* is already the definition of `○`. The markdown keeps the letters because the machine parses them; **the render spells them out**, because the canvas is read by a person.
+
 ## Options
 
 **M3 — `## Options`.** Header exactly `Option | Description | Architecture overview`. ≥2 data rows (one option is not a comparison).
@@ -41,18 +43,40 @@ Option ID matches `^[A-Z][A-Za-z0-9-]*$`, unique. Description non-empty. Archite
 
 **M4 — `## Evaluation matrix`.** Header exactly `Criterion` followed by the declared option IDs, in declared order. One data row per declared criterion, in declared order — a row whose Criterion traces to no declaration is a named refusal ("scored criterion with no declaration"), a declared criterion with no row is a named refusal.
 
-Cell grammar: `^([○△×])(?:[ \t]+(?:([1-5])[ \t]+)?—[ \t]+(\S.*))?$` — mark ○ (U+25CB), △ (U+25B3), × (U+00D7), then an optional em-dash-separated basis which may itself carry a score on the declared 1–5 scale. All four shapes are legal: `○`, `○ — reason`, `○ 4 — reason`, and (in scored mode) any of those with the score present.
+Cell grammar: `^((?:◎|○[+\-−]?|△[+\-−]?|×))(?:[ \t]+(?:([1-5])[ \t]+)?—[ \t]+(\S.*))?$` — a mark from the set below, then an optional em-dash-separated basis which may itself carry a score on the declared 1–5 scale. So `○`, `△- — reason`, and `◎ 5 — reason` are all legal shapes.
 
-**A mark that is not ○ MUST carry a reason** (2026-08-08). A bare `△` or `×` is a named refusal — *"'△' with no reason (a mark that is not ○ must say why)"*. Bare `○` stays legal: it met the declared target, and the Criteria table already states what that target was. Tony's reason for the rule: *"when we give a rating in a cell we need to say why if its not circle, just a few words"* — and *"the point of the table is to avoid the reading of lots of text to understand the eval"*, so reasons are a few words, not a sentence. Fixture F15 pins both halves.
+**Only `◎` and bare `○` may stand without a reason** (2026-08-08). Everything else — including the refinements `○+` and `○-` — is a named refusal without one: *"'△+' with no reason (only ◎ and ○ may stand bare)"*. An unqualified pass needs no explanation because the Criteria table already declares the target it met; a refinement carries no information at all without one. Tony's rule: *"when we give a rating in a cell we need to say why if its not circle, just a few words"* — and *"the point of the table is to avoid the reading of lots of text to understand the eval"*, so reasons are a few words, not a sentence. Fixtures F15 and F16 pin it.
 
 The score being optional **inside** the basis group is what lets a marks-only matrix carry reasons without being forced into scored mode — which would have obliged a 1–5 score and a basis on every cell, plus OVERALL/RANK, to earn a four-word reason.
 
 Mode is uniform: every cell scored, or no cell scored ("marks always, scores when the stakes are real"). A score whose basis is absent fails the cell grammar and is named as "score without basis".
 
-The three marks and their meanings:
-- ○ meets, no countermeasure needed
-- △ meets only WITH a countermeasure, named, with confidence
-- × cannot meet, no countermeasure — on an M criterion the option is DEAD regardless of score
+### The mark set
+
+Defined by the producer, 2026-08-08. The classic four-mark scale, with refinements available when three marks do not separate the options finely enough.
+
+| Mark | Name | Means |
+|---|---|---|
+| `◎` | double circle | a **perfect fit** — exceeds the declared target. The conventional form of `○+`. |
+| `○` | circle | **fully meets** the target as it stands, nothing added. Refine with `○+` / `○-`. |
+| `△` | triangle | **can meet it, but only with a countermeasure.** Refine with `△+` (cheap, likely) / `△-` (expensive, uncertain). |
+| `×` | cross | **cannot meet it, even with a countermeasure.** On an M criterion the option is DEAD regardless of score. |
+
+**`×` takes no modifier** — "cross is always just cross", because there is no degree of impossibility. `×-` is a named refusal that says so, rather than the misleading "score without basis" the generic branch would have produced.
+
+**The decisive test between `×` and `△`:** is there *any* countermeasure that reaches the declared target? If yes the mark is `△`, however expensive. `×` is reserved for genuine impossibility. **"We have not built it yet" is not `×`** — it is `△` with the build as the countermeasure, and that distinction is what the producer's 2026-08-08 definition exists to force.
+
+**Building the missing piece ourselves IS a legal countermeasure** — the producer's ruling, 2026-08-08, which overrode a draft rule of mine that forbade it:
+
+> *"If the fix is 'also build a register' yes but it does make it viable, we would reflect that as TRIANGLE - and then show more effort in complexity, cost, due date to weight it down compared to build. but it could mean that everything else with that option is double circle and we just need to invest in build on one aspect and it could be ideal kind of thing"*
+
+So an option that reaches the target only because we build the gap ourselves is `△-`, never `×`. **The cost of that investment is not hidden in the mark — it is carried by the summary criteria** (Cost, Quality, Due date), which weigh the option down against the pure build.
+
+**Why the draft rule was wrong, recorded because it is the instructive part:** forbidding option-swap countermeasures marks the gap `×`, and an M-category `×` kills the option outright. That would erase exactly the shape worth finding — an option that is `◎` on twelve criteria and `△-` on one, where the right answer is *use the tool for what it is excellent at and build the one missing piece*. A rule that hides the best hybrid is worse than a rule that lets a weak option survive to be judged on cost.
+
+The consequence is that **`×` becomes rare**, and that is intended. Reserve it for genuine impossibility: a grammar the vendor controls and will not change, a target stated in absolute terms that no investment can reach (*"nothing beyond Python 3 stdlib"* cannot be reached by anything requiring an install), a dead project that will never ship the feature.
+
+Every rule in `kit.py` keys off `mark_family()` — `circle` / `triangle` / `cross` — never the exact glyph, so adding or retiring a refinement can never silently change which options are dead or which cells owe a countermeasure.
 
 ## Arithmetic
 

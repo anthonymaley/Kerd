@@ -1,209 +1,246 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="7265" height="3296" viewBox="260 40 7265 3296">
-<rect x="260" y="40" width="7265" height="3296" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="7494" height="2768" viewBox="260 40 7494 2768">
+<rect x="260" y="40" width="7494" height="2768" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Requirements traceability — slice 1 design — evaluation matrix</tspan>
 </text>
 <text x="300.0" y="146.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">○  meets — no countermeasure needed</tspan>
+<tspan x="300.0" dy="0.0">◎  PERFECT FIT — exceeds the declared target</tspan>
 </text>
-<text x="300.0" y="166.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#f08c00" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">△  meets ONLY with a countermeasure, named below, with confidence</tspan>
+<text x="300.0" y="166.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">○  FULLY MEETS the target as it stands, nothing added        ○+ comfortably  ·  ○- only just</tspan>
 </text>
-<text x="300.0" y="186.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">×  cannot meet — on an M criterion the option is DEAD regardless of score</tspan>
+<text x="300.0" y="186.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#f08c00" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">△  MEETS IT ONLY WITH A COUNTERMEASURE, named below with a confidence        △+ cheap, likely  ·  △- expensive, uncertain</tspan>
 </text>
-<text x="300.0" y="206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Boxes are never coloured; the verdict is the mark. BLUE — text changed since the last reviewed snapshot</tspan>
+<text x="300.0" y="206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">×  CANNOT MEET IT, even with a countermeasure — never takes a modifier, because there is no degree of impossibility</tspan>
 </text>
-<rect x="300.0" y="232.0" width="248.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="424.0" y="293.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="300.0" y="226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">MANDATORY — a × here kills the option outright.        DESIRABLE — a × here does not.</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Boxes are never coloured: the verdict is the mark.        BLUE — text changed since the last reviewed snapshot</tspan>
+</text>
+<rect x="300.0" y="272.0" width="248.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="365.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="424.0" dy="0.0">OPTION</tspan>
 </text>
-<rect x="560.0" y="232.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="693.5" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="560.0" y="272.0" width="267.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="693.5" dy="0.0">FIT: THE SAME FILES</tspan>
 <tspan x="693.5" dy="16.2"></tspan>
-<tspan x="693.5" dy="16.2">(M · the register IS the project&#x27;s</tspan>
-<tspan x="693.5" dy="16.2">own committed files — no parallel</tspan>
-<tspan x="693.5" dy="16.2">store, no export-only copy · w3)</tspan>
+<tspan x="693.5" dy="16.2">(MANDATORY · the register IS the</tspan>
+<tspan x="693.5" dy="16.2">project&#x27;s own committed files — no</tspan>
+<tspan x="693.5" dy="16.2">parallel store, no export-only</tspan>
+<tspan x="693.5" dy="16.2">copy · weight 3)</tspan>
 </text>
-<rect x="839.0" y="232.0" width="252.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="965.0" y="252.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">FIT: NO ARTIFACT SCATTER</tspan>
-<tspan x="965.0" dy="16.2"></tspan>
-<tspan x="965.0" dy="16.2">(M · requirements live in one</tspan>
-<tspan x="965.0" dy="16.2">declared location; generated</tspan>
-<tspan x="965.0" dy="16.2">output is absent or gitignorable</tspan>
-<tspan x="965.0" dy="16.2">without loss · w3)</tspan>
+<rect x="839.0" y="272.0" width="259.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="968.5" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">FIT: NO ARTIFACT SCATTER</tspan>
+<tspan x="968.5" dy="16.2"></tspan>
+<tspan x="968.5" dy="16.2">(MANDATORY · requirements live in</tspan>
+<tspan x="968.5" dy="16.2">one declared location; generated</tspan>
+<tspan x="968.5" dy="16.2">output is absent or gitignorable</tspan>
+<tspan x="968.5" dy="16.2">without loss · weight 3)</tspan>
 </text>
-<rect x="1103.0" y="232.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1232.5" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">FIT: GIT-REPO NATIVE</tspan>
-<tspan x="1232.5" dy="16.2"></tspan>
-<tspan x="1232.5" dy="16.2">(M · plain text, meaningful line-</tspan>
-<tspan x="1232.5" dy="16.2">level diffs, no binary, no server</tspan>
-<tspan x="1232.5" dy="16.2">needed to read it · w3)</tspan>
+<rect x="1110.0" y="272.0" width="252.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1236.0" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1236.0" dy="0.0">FIT: GIT-REPO NATIVE</tspan>
+<tspan x="1236.0" dy="16.2"></tspan>
+<tspan x="1236.0" dy="16.2">(MANDATORY · plain text,</tspan>
+<tspan x="1236.0" dy="16.2">meaningful line-level diffs, no</tspan>
+<tspan x="1236.0" dy="16.2">binary, no server needed to read</tspan>
+<tspan x="1236.0" dy="16.2">it · weight 3)</tspan>
 </text>
-<rect x="1374.0" y="232.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1503.5" y="252.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">FIT: CLAUDE CODE FRIENDLY</tspan>
-<tspan x="1503.5" dy="16.2"></tspan>
-<tspan x="1503.5" dy="16.2">(M · a model reads and WRITES a</tspan>
-<tspan x="1503.5" dy="16.2">requirement with Read/Edit alone,</tspan>
-<tspan x="1503.5" dy="16.2">no tool invocation in the capture</tspan>
-<tspan x="1503.5" dy="16.2">path · w3)</tspan>
+<rect x="1374.0" y="272.0" width="252.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1500.0" y="317.1" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">FIT: CLAUDE CODE FRIENDLY</tspan>
+<tspan x="1500.0" dy="16.2"></tspan>
+<tspan x="1500.0" dy="16.2">(MANDATORY · a model reads and</tspan>
+<tspan x="1500.0" dy="16.2">WRITES a requirement with</tspan>
+<tspan x="1500.0" dy="16.2">Read/Edit alone, no tool</tspan>
+<tspan x="1500.0" dy="16.2">invocation in the capture path ·</tspan>
+<tspan x="1500.0" dy="16.2">weight 3)</tspan>
 </text>
-<rect x="1645.0" y="232.0" width="288.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1789.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">FIT: BELONGS TO THE CONSUMING PROJECT</tspan>
-<tspan x="1789.0" dy="16.2"></tspan>
-<tspan x="1789.0" dy="16.2">(M · the register lives in the</tspan>
-<tspan x="1789.0" dy="16.2">user&#x27;s repo and Kerd holds none of</tspan>
-<tspan x="1789.0" dy="16.2">its own · w3)</tspan>
+<rect x="1638.0" y="272.0" width="288.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1782.0" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">FIT: BELONGS TO THE CONSUMING PROJECT</tspan>
+<tspan x="1782.0" dy="16.2"></tspan>
+<tspan x="1782.0" dy="16.2">(MANDATORY · the register lives in</tspan>
+<tspan x="1782.0" dy="16.2">the user&#x27;s repo and Kerd holds</tspan>
+<tspan x="1782.0" dy="16.2">none of its own · weight 3)</tspan>
 </text>
-<rect x="1945.0" y="232.0" width="331.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2110.5" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">READABILITY: HUMAN-READABLE WITH NO TOOLING</tspan>
-<tspan x="2110.5" dy="16.2"></tspan>
-<tspan x="2110.5" dy="16.2">(M · a person opening the raw file</tspan>
-<tspan x="2110.5" dy="16.2">in git understands a requirement</tspan>
-<tspan x="2110.5" dy="16.2">without installing anything · w2)</tspan>
+<rect x="1938.0" y="272.0" width="331.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2103.5" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2103.5" dy="0.0">READABILITY: HUMAN-READABLE WITH NO TOOLING</tspan>
+<tspan x="2103.5" dy="16.2"></tspan>
+<tspan x="2103.5" dy="16.2">(MANDATORY · a person opening the</tspan>
+<tspan x="2103.5" dy="16.2">raw file in git understands a</tspan>
+<tspan x="2103.5" dy="16.2">requirement without installing</tspan>
+<tspan x="2103.5" dy="16.2">anything · weight 2)</tspan>
 </text>
-<rect x="2288.0" y="232.0" width="302.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2439.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">READABILITY: MACHINE-READABLE BY STDLIB</tspan>
-<tspan x="2439.0" dy="16.2"></tspan>
-<tspan x="2439.0" dy="16.2">(M · a stdlib-only Python script</tspan>
-<tspan x="2439.0" dy="16.2">parses the register with the tool</tspan>
-<tspan x="2439.0" dy="16.2">NOT installed · w2)</tspan>
+<rect x="2281.0" y="272.0" width="302.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2432.0" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">READABILITY: MACHINE-READABLE BY STDLIB</tspan>
+<tspan x="2432.0" dy="16.2"></tspan>
+<tspan x="2432.0" dy="16.2">(MANDATORY · a stdlib-only Python</tspan>
+<tspan x="2432.0" dy="16.2">script parses the register with</tspan>
+<tspan x="2432.0" dy="16.2">the tool NOT installed · weight 2)</tspan>
 </text>
-<rect x="2602.0" y="232.0" width="324.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2764.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">COST: INSTALL BURDEN ON CONSUMING PROJECTS</tspan>
-<tspan x="2764.0" dy="16.2"></tspan>
-<tspan x="2764.0" dy="16.2">(M · what every project using Kerd</tspan>
-<tspan x="2764.0" dy="16.2">must install; target is nothing</tspan>
-<tspan x="2764.0" dy="16.2">beyond Python 3 stdlib · w2)</tspan>
+<rect x="2595.0" y="272.0" width="267.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2728.5" y="317.1" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">COST: INSTALLABLE AT ALL</tspan>
+<tspan x="2728.5" dy="16.2"></tspan>
+<tspan x="2728.5" dy="16.2">(MANDATORY · installs on the</tspan>
+<tspan x="2728.5" dy="16.2">developer&#x27;s own platform via one</tspan>
+<tspan x="2728.5" dy="16.2">documented command — not &quot;how</tspan>
+<tspan x="2728.5" dy="16.2">much&quot;, but &quot;can you get it at all&quot;</tspan>
+<tspan x="2728.5" dy="16.2">· weight 3)</tspan>
 </text>
-<rect x="2938.0" y="232.0" width="310.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3093.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">EXPRESSIVENESS: THE PRODUCER&#x27;S ID FORMAT</tspan>
-<tspan x="3093.0" dy="16.2"></tspan>
-<tspan x="3093.0" dy="16.2">(M · `&lt;CODE&gt;-&lt;NNN&gt;` across all</tspan>
-<tspan x="3093.0" dy="16.2">twenty codes, including the two-</tspan>
-<tspan x="3093.0" dy="16.2">letter `UX-001` · w2)</tspan>
+<rect x="2874.0" y="272.0" width="310.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3029.0" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">EXPRESSIVENESS: THE PRODUCER&#x27;S ID FORMAT</tspan>
+<tspan x="3029.0" dy="16.2"></tspan>
+<tspan x="3029.0" dy="16.2">(MANDATORY · `&lt;CODE&gt;-&lt;NNN&gt;` across</tspan>
+<tspan x="3029.0" dy="16.2">all twenty codes, including the</tspan>
+<tspan x="3029.0" dy="16.2">two-letter `UX-001` · weight 2)</tspan>
 </text>
-<rect x="3260.0" y="232.0" width="338.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3429.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">EXPRESSIVENESS: THE TWENTY-CATEGORY TAXONOMY</tspan>
-<tspan x="3429.0" dy="16.2"></tspan>
-<tspan x="3429.0" dy="16.2">(M · discipline categories as a</tspan>
-<tspan x="3429.0" dy="16.2">first-class field, extensible, not</tspan>
-<tspan x="3429.0" dy="16.2">invented per project · w2)</tspan>
+<rect x="3196.0" y="272.0" width="338.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3365.0" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">EXPRESSIVENESS: THE TWENTY-CATEGORY TAXONOMY</tspan>
+<tspan x="3365.0" dy="16.2"></tspan>
+<tspan x="3365.0" dy="16.2">(MANDATORY · discipline categories</tspan>
+<tspan x="3365.0" dy="16.2">as a first-class field,</tspan>
+<tspan x="3365.0" dy="16.2">extensible, not invented per</tspan>
+<tspan x="3365.0" dy="16.2">project · weight 2)</tspan>
 </text>
-<rect x="3610.0" y="232.0" width="310.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3765.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">EXPRESSIVENESS: THE FIVE-STATE LIFECYCLE</tspan>
-<tspan x="3765.0" dy="16.2"></tspan>
-<tspan x="3765.0" dy="16.2">(M · proposed / qualified / final</tspan>
-<tspan x="3765.0" dy="16.2">/ superseded / dropped as a</tspan>
-<tspan x="3765.0" dy="16.2">closed, validated set · w2)</tspan>
+<rect x="3546.0" y="272.0" width="310.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3701.0" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">EXPRESSIVENESS: THE FIVE-STATE LIFECYCLE</tspan>
+<tspan x="3701.0" dy="16.2"></tspan>
+<tspan x="3701.0" dy="16.2">(MANDATORY · proposed / qualified</tspan>
+<tspan x="3701.0" dy="16.2">/ final / superseded / dropped as</tspan>
+<tspan x="3701.0" dy="16.2">a closed, validated set · weight</tspan>
+<tspan x="3701.0" dy="16.2">2)</tspan>
 </text>
-<rect x="3932.0" y="232.0" width="310.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4087.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">DOCTRINE: REFUSAL FROM OUTSIDE THE MODEL</tspan>
-<tspan x="4087.0" dy="16.2"></tspan>
-<tspan x="4087.0" dy="16.2">(M · a malformed or incomplete</tspan>
-<tspan x="4087.0" dy="16.2">register fails a run — not a</tspan>
-<tspan x="4087.0" dy="16.2">warning a model may ignore · w3)</tspan>
+<rect x="3868.0" y="272.0" width="310.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4023.0" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">DOCTRINE: REFUSAL FROM OUTSIDE THE MODEL</tspan>
+<tspan x="4023.0" dy="16.2"></tspan>
+<tspan x="4023.0" dy="16.2">(MANDATORY · a malformed or</tspan>
+<tspan x="4023.0" dy="16.2">incomplete register fails a run —</tspan>
+<tspan x="4023.0" dy="16.2">not a warning a model may ignore ·</tspan>
+<tspan x="4023.0" dy="16.2">weight 3)</tspan>
 </text>
-<rect x="4254.0" y="232.0" width="402.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4455.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">EXPRESSIVENESS: REQUIREMENT-TO-REQUIREMENT DEPENDENCY</tspan>
-<tspan x="4455.0" dy="16.2"></tspan>
-<tspan x="4455.0" dy="16.2">(D · one requirement declares its</tspan>
-<tspan x="4455.0" dy="16.2">dependency on another ID, and a</tspan>
-<tspan x="4455.0" dy="16.2">dangling link is refused · w2)</tspan>
+<rect x="4190.0" y="272.0" width="402.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4391.0" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">EXPRESSIVENESS: REQUIREMENT-TO-REQUIREMENT DEPENDENCY</tspan>
+<tspan x="4391.0" dy="16.2"></tspan>
+<tspan x="4391.0" dy="16.2">(DESIRABLE · one requirement</tspan>
+<tspan x="4391.0" dy="16.2">declares its dependency on another</tspan>
+<tspan x="4391.0" dy="16.2">ID, and a dangling link is refused</tspan>
+<tspan x="4391.0" dy="16.2">· weight 2)</tspan>
 </text>
-<rect x="4668.0" y="232.0" width="281.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4808.5" y="252.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">EXPRESSIVENESS: CATEGORY DISPOSITION</tspan>
-<tspan x="4808.5" dy="16.2"></tspan>
-<tspan x="4808.5" dy="16.2">(D · all twenty categories</tspan>
-<tspan x="4808.5" dy="16.2">declared `applies` or `n/a`-with-</tspan>
-<tspan x="4808.5" dy="16.2">reason; an omission is refused ·</tspan>
-<tspan x="4808.5" dy="16.2">w2)</tspan>
+<rect x="4604.0" y="272.0" width="281.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4744.5" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">EXPRESSIVENESS: CATEGORY DISPOSITION</tspan>
+<tspan x="4744.5" dy="16.2"></tspan>
+<tspan x="4744.5" dy="16.2">(DESIRABLE · all twenty categories</tspan>
+<tspan x="4744.5" dy="16.2">declared `applies` or `n/a`-with-</tspan>
+<tspan x="4744.5" dy="16.2">reason; an omission is refused ·</tspan>
+<tspan x="4744.5" dy="16.2">weight 2)</tspan>
 </text>
-<rect x="4961.0" y="232.0" width="360.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5141.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">EXPRESSIVENESS: FORWARD TRACE TO CODE AND TESTS</tspan>
-<tspan x="5141.0" dy="16.2"></tspan>
-<tspan x="5141.0" dy="16.2">(D · a requirement links to the</tspan>
-<tspan x="5141.0" dy="16.2">commit or test that satisfies it ·</tspan>
-<tspan x="5141.0" dy="16.2">w1)</tspan>
+<rect x="4897.0" y="272.0" width="360.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5077.0" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">EXPRESSIVENESS: FORWARD TRACE TO CODE AND TESTS</tspan>
+<tspan x="5077.0" dy="16.2"></tspan>
+<tspan x="5077.0" dy="16.2">(DESIRABLE · a requirement links</tspan>
+<tspan x="5077.0" dy="16.2">to the commit or test that</tspan>
+<tspan x="5077.0" dy="16.2">satisfies it · weight 1)</tspan>
 </text>
-<rect x="5333.0" y="232.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5466.5" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">DESTINATION: RELEASE GROUPING</tspan>
-<tspan x="5466.5" dy="16.2"></tspan>
-<tspan x="5466.5" dy="16.2">(D · requirements group into named</tspan>
-<tspan x="5466.5" dy="16.2">releases as a first-class artifact</tspan>
-<tspan x="5466.5" dy="16.2">· w1)</tspan>
+<rect x="5269.0" y="272.0" width="245.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5391.5" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">DESTINATION: RELEASE GROUPING</tspan>
+<tspan x="5391.5" dy="16.2"></tspan>
+<tspan x="5391.5" dy="16.2">(DESIRABLE · requirements group</tspan>
+<tspan x="5391.5" dy="16.2">into named releases as a first-</tspan>
+<tspan x="5391.5" dy="16.2">class artifact · weight 1)</tspan>
 </text>
-<rect x="5612.0" y="232.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5745.5" y="269.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5745.5" dy="0.0">DESTINATION: GENERATED HUMAN VIEW</tspan>
-<tspan x="5745.5" dy="16.2"></tspan>
-<tspan x="5745.5" dy="16.2">(D · an HTML view derived from the</tspan>
-<tspan x="5745.5" dy="16.2">files, not hand-built · w1)</tspan>
+<rect x="5526.0" y="272.0" width="259.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5655.5" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">DESTINATION: GENERATED HUMAN VIEW</tspan>
+<tspan x="5655.5" dy="16.2"></tspan>
+<tspan x="5655.5" dy="16.2">(DESIRABLE · an HTML view derived</tspan>
+<tspan x="5655.5" dy="16.2">from the files, not hand-built ·</tspan>
+<tspan x="5655.5" dy="16.2">weight 1)</tspan>
 </text>
-<rect x="5891.0" y="232.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6020.5" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">DESTINATION: WRITE-BACK EDITING</tspan>
-<tspan x="6020.5" dy="16.2"></tspan>
-<tspan x="6020.5" dy="16.2">(D · a human changes a</tspan>
-<tspan x="6020.5" dy="16.2">requirement&#x27;s state from the view</tspan>
-<tspan x="6020.5" dy="16.2">and it lands in the files · w1)</tspan>
+<rect x="5797.0" y="272.0" width="267.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5930.5" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">DESTINATION: WRITE-BACK EDITING</tspan>
+<tspan x="5930.5" dy="16.2"></tspan>
+<tspan x="5930.5" dy="16.2">(DESIRABLE · a human changes a</tspan>
+<tspan x="5930.5" dy="16.2">requirement&#x27;s state from the view</tspan>
+<tspan x="5930.5" dy="16.2">and it lands in the files · weight</tspan>
+<tspan x="5930.5" dy="16.2">1)</tspan>
 </text>
-<rect x="6162.0" y="232.0" width="245.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6284.5" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">COST: MAINTENANCE AND SURVIVAL</tspan>
-<tspan x="6284.5" dy="16.2"></tspan>
-<tspan x="6284.5" dy="16.2">(D · actively maintained, or so</tspan>
-<tspan x="6284.5" dy="16.2">simple that abandonment costs</tspan>
-<tspan x="6284.5" dy="16.2">nothing · w2)</tspan>
+<rect x="6076.0" y="272.0" width="259.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6205.5" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">COST: MAINTENANCE AND SURVIVAL</tspan>
+<tspan x="6205.5" dy="16.2"></tspan>
+<tspan x="6205.5" dy="16.2">(DESIRABLE · actively maintained,</tspan>
+<tspan x="6205.5" dy="16.2">or so simple that abandonment</tspan>
+<tspan x="6205.5" dy="16.2">costs nothing · weight 2)</tspan>
 </text>
-<rect x="6419.0" y="232.0" width="252.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6545.0" y="269.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">SUMMARY: COST</tspan>
-<tspan x="6545.0" dy="16.2"></tspan>
-<tspan x="6545.0" dy="16.2">(D · no money, and no runtime a</tspan>
-<tspan x="6545.0" dy="16.2">consuming project must own · w3)</tspan>
+<rect x="6347.0" y="272.0" width="259.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6476.5" y="292.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">COST: ADDED DEPENDENCY BURDEN</tspan>
+<tspan x="6476.5" dy="16.2"></tspan>
+<tspan x="6476.5" dy="16.2">(DESIRABLE · what the option adds</tspan>
+<tspan x="6476.5" dy="16.2">BEYOND what the project already</tspan>
+<tspan x="6476.5" dy="16.2">needs, weighed against the share</tspan>
+<tspan x="6476.5" dy="16.2">of value it buys — an ecosystem-</tspan>
+<tspan x="6476.5" dy="16.2">normal install is not a burden; a</tspan>
+<tspan x="6476.5" dy="16.2">whole new runtime bought for a</tspan>
+<tspan x="6476.5" dy="16.2">fraction of the value is · weight</tspan>
+<tspan x="6476.5" dy="16.2">3)</tspan>
 </text>
-<rect x="6683.0" y="232.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6812.5" y="269.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">SUMMARY: QUALITY</tspan>
-<tspan x="6812.5" dy="16.2"></tspan>
-<tspan x="6812.5" dy="16.2">(D · solves the whole need rather</tspan>
-<tspan x="6812.5" dy="16.2">than a part of it · w3)</tspan>
+<rect x="6618.0" y="272.0" width="259.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6747.5" y="325.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6747.5" dy="0.0">SUMMARY: COST</tspan>
+<tspan x="6747.5" dy="16.2"></tspan>
+<tspan x="6747.5" dy="16.2">(MANDATORY · MONEY. Free to use:</tspan>
+<tspan x="6747.5" dy="16.2">no licence fee, no subscription,</tspan>
+<tspan x="6747.5" dy="16.2">no per-seat charge — &quot;cant expect</tspan>
+<tspan x="6747.5" dy="16.2">anyone to pay to use&quot; · weight 3)</tspan>
 </text>
-<rect x="6954.0" y="232.0" width="252.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7080.0" y="260.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">SUMMARY: EFFORT</tspan>
-<tspan x="7080.0" dy="16.2"></tspan>
-<tspan x="7080.0" dy="16.2">(D · lands in one session — a</tspan>
-<tspan x="7080.0" dy="16.2">TIEBREAKER only, never an axis ·</tspan>
-<tspan x="7080.0" dy="16.2">w1)</tspan>
+<rect x="6889.0" y="272.0" width="267.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7022.5" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">SUMMARY: QUALITY</tspan>
+<tspan x="7022.5" dy="16.2"></tspan>
+<tspan x="7022.5" dy="16.2">(DESIRABLE · solves the whole need</tspan>
+<tspan x="7022.5" dy="16.2">rather than a part of it · weight</tspan>
+<tspan x="7022.5" dy="16.2">3)</tspan>
 </text>
-<rect x="7218.0" y="232.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7351.5" y="269.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">VERDICT: RATING</tspan>
-<tspan x="7351.5" dy="16.2"></tspan>
-<tspan x="7351.5" dy="16.2">(D · the option a producer would</tspan>
-<tspan x="7351.5" dy="16.2">pick with everything weighed · w3)</tspan>
+<rect x="7168.0" y="272.0" width="267.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7301.5" y="317.1" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">SUMMARY: DUE DATE</tspan>
+<tspan x="7301.5" dy="16.2"></tspan>
+<tspan x="7301.5" dy="16.2">(DESIRABLE · usable in the next</tspan>
+<tspan x="7301.5" dy="16.2">working session — NO plan artifact</tspan>
+<tspan x="7301.5" dy="16.2">exists to test against, so this is</tspan>
+<tspan x="7301.5" dy="16.2">the only declared horizon · weight</tspan>
+<tspan x="7301.5" dy="16.2">2)</tspan>
 </text>
-<rect x="300.0" y="355.0" width="248.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="424.0" y="382.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="7447.0" y="272.0" width="267.0" height="178.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7580.5" y="333.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">VERDICT: RATING</tspan>
+<tspan x="7580.5" dy="16.2"></tspan>
+<tspan x="7580.5" dy="16.2">(DESIRABLE · the option a producer</tspan>
+<tspan x="7580.5" dy="16.2">would pick with everything weighed</tspan>
+<tspan x="7580.5" dy="16.2">· weight 3)</tspan>
+</text>
+<rect x="300.0" y="460.0" width="248.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="487.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="424.0" dy="0.0">OPTION 1: BUILD</tspan>
 <tspan x="424.0" dy="15.0"></tspan>
 <tspan x="424.0" dy="15.0">A markdown register in the</tspan>
@@ -213,118 +250,134 @@
 <tspan x="424.0" dy="15.0"></tspan>
 <tspan x="424.0" dy="15.0">PREFERRED</tspan>
 </text>
-<rect x="560.0" y="355.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="693.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<rect x="560.0" y="460.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
 <tspan x="693.5" dy="0.0">○</tspan>
 </text>
-<rect x="839.0" y="355.0" width="252.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="965.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">○</tspan>
+<rect x="839.0" y="460.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="968.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">○</tspan>
 </text>
-<rect x="1103.0" y="355.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1232.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">○</tspan>
+<rect x="1110.0" y="460.0" width="252.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1236.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1236.0" dy="0.0">○</tspan>
 </text>
-<rect x="1374.0" y="355.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1503.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">○</tspan>
+<rect x="1374.0" y="460.0" width="252.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1500.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">○</tspan>
 </text>
-<rect x="1645.0" y="355.0" width="288.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1789.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">△</tspan>
+<rect x="1638.0" y="460.0" width="288.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1782.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">△</tspan>
 </text>
-<text x="1789.0" y="494.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">needs gate.py --root</tspan>
+<text x="1782.0" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">gate.py --root not landed</tspan>
 </text>
-<rect x="1945.0" y="355.0" width="331.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2110.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">○</tspan>
+<rect x="1938.0" y="460.0" width="331.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2103.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2103.5" dy="0.0">○</tspan>
 </text>
-<rect x="2288.0" y="355.0" width="302.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2439.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">○</tspan>
+<rect x="2281.0" y="460.0" width="302.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2432.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">◎</tspan>
 </text>
-<rect x="2602.0" y="355.0" width="324.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2764.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">○</tspan>
+<rect x="2595.0" y="460.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2728.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">○</tspan>
 </text>
-<rect x="2938.0" y="355.0" width="310.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3093.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">○</tspan>
+<rect x="2874.0" y="460.0" width="310.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3029.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">○</tspan>
 </text>
-<rect x="3260.0" y="355.0" width="338.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3429.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">○</tspan>
+<rect x="3196.0" y="460.0" width="338.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3365.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">△+</tspan>
 </text>
-<rect x="3610.0" y="355.0" width="310.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3765.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">○</tspan>
+<text x="3365.0" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">codes hardcoded in kit.py</tspan>
 </text>
-<rect x="3932.0" y="355.0" width="310.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4087.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">△</tspan>
+<rect x="3546.0" y="460.0" width="310.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3701.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">◎</tspan>
 </text>
-<text x="4087.0" y="494.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">CI is Kerd&#x27;s own</tspan>
+<rect x="3868.0" y="460.0" width="310.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4023.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">△-</tspan>
 </text>
-<rect x="4254.0" y="355.0" width="402.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4455.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">○</tspan>
+<text x="4023.0" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">no CI outside Kerd</tspan>
 </text>
-<rect x="4668.0" y="355.0" width="281.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4808.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">○</tspan>
+<rect x="4190.0" y="460.0" width="402.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4391.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">△+</tspan>
 </text>
-<rect x="4961.0" y="355.0" width="360.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5141.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">△</tspan>
+<text x="4391.0" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">field absent from the row</tspan>
 </text>
-<text x="5141.0" y="494.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">trailer never exercised</tspan>
+<rect x="4604.0" y="460.0" width="281.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4744.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">○</tspan>
 </text>
-<rect x="5333.0" y="355.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5466.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">×</tspan>
+<rect x="4897.0" y="460.0" width="360.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5077.0" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">△-</tspan>
 </text>
-<text x="5466.5" y="494.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">nothing exists</tspan>
+<text x="5077.0" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">requirement-to-code unbuilt</tspan>
 </text>
-<rect x="5612.0" y="355.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5745.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5745.5" dy="0.0">○</tspan>
+<rect x="5269.0" y="460.0" width="245.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5391.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">△-</tspan>
 </text>
-<rect x="5891.0" y="355.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6020.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">×</tspan>
+<text x="5391.5" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">board unbuilt, own slice</tspan>
 </text>
-<text x="6020.5" y="494.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">every page read-only</tspan>
+<rect x="5526.0" y="460.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5655.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">△+</tspan>
 </text>
-<rect x="6162.0" y="355.0" width="245.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6284.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">○</tspan>
+<text x="5655.5" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">no register view yet</tspan>
 </text>
-<rect x="6419.0" y="355.0" width="252.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6545.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">○</tspan>
+<rect x="5797.0" y="460.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5930.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">△-</tspan>
 </text>
-<rect x="6683.0" y="355.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6812.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">△</tspan>
+<text x="5930.5" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">never built here</tspan>
 </text>
-<text x="6812.5" y="494.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">no write-back, no ReqIF</tspan>
+<rect x="6076.0" y="460.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6205.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">◎</tspan>
 </text>
-<rect x="6954.0" y="355.0" width="252.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7080.0" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">○</tspan>
+<rect x="6347.0" y="460.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6476.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">◎</tspan>
 </text>
-<rect x="7218.0" y="355.0" width="267.0" height="150.0" rx="8" fill="#d3f9d8" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7351.5" y="452.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">○</tspan>
+<rect x="6618.0" y="460.0" width="259.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6747.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6747.5" dy="0.0">○</tspan>
 </text>
-<rect x="300.0" y="515.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="424.0" y="549.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="6889.0" y="460.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7022.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">△-</tspan>
+</text>
+<text x="7022.5" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">four asked-for gaps</tspan>
+</text>
+<rect x="7168.0" y="460.0" width="267.0" height="150.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7301.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">○-</tspan>
+</text>
+<text x="7301.5" y="599.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">--root and rework first</tspan>
+</text>
+<rect x="7447.0" y="460.0" width="267.0" height="150.0" rx="8" fill="#d3f9d8" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7580.5" y="557.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">○</tspan>
+</text>
+<rect x="300.0" y="620.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="654.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="424.0" dy="0.0">OPTION 2: STRICTDOC</tspan>
 <tspan x="424.0" dy="15.0"></tspan>
 <tspan x="424.0" dy="15.0">Apache-2.0 Python requirements</tspan>
@@ -333,127 +386,125 @@
 <tspan x="424.0" dy="15.0">a local web UI that writes back to</tspan>
 <tspan x="424.0" dy="15.0">source</tspan>
 </text>
-<rect x="560.0" y="515.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="693.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">△</tspan>
+<rect x="560.0" y="620.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">○</tspan>
 </text>
-<text x="693.5" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">.sdoc, not your markdown</tspan>
+<rect x="839.0" y="620.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="968.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">○</tspan>
 </text>
-<rect x="839.0" y="515.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="965.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">○</tspan>
+<rect x="1110.0" y="620.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1236.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1236.0" dy="0.0">○</tspan>
 </text>
-<rect x="1103.0" y="515.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1232.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">○</tspan>
+<rect x="1374.0" y="620.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1500.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">○</tspan>
 </text>
-<rect x="1374.0" y="515.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1503.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">○</tspan>
+<rect x="1638.0" y="620.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1782.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">○</tspan>
 </text>
-<rect x="1645.0" y="515.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1789.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">○</tspan>
+<rect x="1938.0" y="620.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2103.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2103.5" dy="0.0">○</tspan>
 </text>
-<rect x="1945.0" y="515.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2110.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">○</tspan>
+<rect x="2281.0" y="620.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2432.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">△+</tspan>
 </text>
-<rect x="2288.0" y="515.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2439.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">△</tspan>
+<text x="2432.0" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">a .sdoc parser is ours</tspan>
 </text>
-<text x="2439.0" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">own parser needed</tspan>
+<rect x="2595.0" y="620.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2728.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">○</tspan>
 </text>
-<rect x="2602.0" y="515.0" width="324.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2764.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">×</tspan>
+<rect x="2874.0" y="620.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3029.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">○</tspan>
 </text>
-<text x="2764.0" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">373 MB, 87 packages</tspan>
+<rect x="3196.0" y="620.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3365.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">○</tspan>
 </text>
-<rect x="2938.0" y="515.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3093.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">○</tspan>
+<rect x="3546.0" y="620.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3701.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">○</tspan>
 </text>
-<rect x="3260.0" y="515.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3429.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">○</tspan>
+<rect x="3868.0" y="620.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4023.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">○</tspan>
 </text>
-<rect x="3610.0" y="515.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3765.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">○</tspan>
+<rect x="4190.0" y="620.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4391.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">○</tspan>
 </text>
-<rect x="3932.0" y="515.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4087.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">○</tspan>
+<rect x="4604.0" y="620.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4744.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">△+</tspan>
 </text>
-<rect x="4254.0" y="515.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4455.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">○</tspan>
+<text x="4744.5" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">our completeness check</tspan>
 </text>
-<rect x="4668.0" y="515.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4808.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">△</tspan>
+<rect x="4897.0" y="620.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5077.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">○</tspan>
 </text>
-<text x="4808.5" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">custom field plus our check</tspan>
+<rect x="5269.0" y="620.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5391.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">△-</tspan>
 </text>
-<rect x="4961.0" y="515.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5141.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">○</tspan>
+<text x="5391.5" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">custom field, board is ours</tspan>
 </text>
-<rect x="5333.0" y="515.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5466.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">×</tspan>
+<rect x="5526.0" y="620.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5655.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">◎</tspan>
 </text>
-<text x="5466.5" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">authors use GitHub milestones</tspan>
+<rect x="5797.0" y="620.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5930.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">◎</tspan>
 </text>
-<rect x="5612.0" y="515.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5745.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5745.5" dy="0.0">○</tspan>
+<rect x="6076.0" y="620.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6205.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">○</tspan>
 </text>
-<rect x="5891.0" y="515.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6020.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">○</tspan>
+<rect x="6347.0" y="620.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6476.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">△-</tspan>
 </text>
-<rect x="6162.0" y="515.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6284.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">△</tspan>
+<text x="6476.5" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">87 packages onto existing Python</tspan>
 </text>
-<text x="6284.5" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">two people, pre-1.0</tspan>
+<rect x="6618.0" y="620.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6747.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6747.5" dy="0.0">○</tspan>
 </text>
-<rect x="6419.0" y="515.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6545.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">×</tspan>
+<rect x="6889.0" y="620.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7022.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">△-</tspan>
 </text>
-<text x="6545.0" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">373 MB per project</tspan>
+<text x="7022.5" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">three pieces still ours</tspan>
 </text>
-<rect x="6683.0" y="515.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6812.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">○</tspan>
+<rect x="7168.0" y="620.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7301.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">△+</tspan>
 </text>
-<rect x="6954.0" y="515.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7080.0" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">△</tspan>
+<text x="7301.5" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">install plus a reader</tspan>
 </text>
-<text x="7080.0" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">convert 14 docs first</tspan>
+<rect x="7447.0" y="620.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7580.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">△-</tspan>
 </text>
-<rect x="7218.0" y="515.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7351.5" y="612.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">△</tspan>
+<text x="7580.5" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">only if 373 MB is bearable</tspan>
 </text>
-<text x="7351.5" y="654.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">best if cost is relaxed</tspan>
-</text>
-<rect x="300.0" y="675.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="424.0" y="717.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<rect x="300.0" y="780.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="822.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="424.0" dy="0.0">OPTION 3: DOORSTOP</tspan>
 <tspan x="424.0" dy="15.0"></tspan>
 <tspan x="424.0" dy="15.0">LGPLv3 Python tool storing one</tspan>
@@ -461,148 +512,158 @@
 <tspan x="424.0" dy="15.0">requirement in a linked document</tspan>
 <tspan x="424.0" dy="15.0">tree</tspan>
 </text>
-<rect x="560.0" y="675.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="693.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">△</tspan>
+<rect x="560.0" y="780.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">△-</tspan>
 </text>
-<text x="693.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">parallel layout, own tree</tspan>
+<text x="693.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">its own tree, not your docs</tspan>
 </text>
-<rect x="839.0" y="675.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="965.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">×</tspan>
+<rect x="839.0" y="780.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="968.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">△-</tspan>
 </text>
-<text x="965.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">~65 files, 20 dirs</tspan>
+<text x="968.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">~65 files across 20 dirs</tspan>
 </text>
-<rect x="1103.0" y="675.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1232.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">○</tspan>
+<rect x="1110.0" y="780.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1236.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1236.0" dy="0.0">○</tspan>
 </text>
-<rect x="1374.0" y="675.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1503.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">△</tspan>
+<rect x="1374.0" y="780.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1500.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">△</tspan>
 </text>
-<text x="1503.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">the UID is the filename</tspan>
+<text x="1500.0" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">the UID is the filename</tspan>
 </text>
-<rect x="1645.0" y="675.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1789.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">○</tspan>
+<rect x="1638.0" y="780.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1782.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">○</tspan>
 </text>
-<rect x="1945.0" y="675.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2110.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">○</tspan>
+<rect x="1938.0" y="780.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2103.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2103.5" dy="0.0">○</tspan>
 </text>
-<rect x="2288.0" y="675.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2439.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">○</tspan>
+<rect x="2281.0" y="780.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2432.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">○</tspan>
 </text>
-<rect x="2602.0" y="675.0" width="324.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2764.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">×</tspan>
+<rect x="2595.0" y="780.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2728.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">○</tspan>
 </text>
-<text x="2764.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">28 MB, 15 packages</tspan>
+<rect x="2874.0" y="780.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3029.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">△+</tspan>
 </text>
-<rect x="2938.0" y="675.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3093.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">△</tspan>
+<text x="3029.0" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">needs -s - at creation</tspan>
 </text>
-<text x="3093.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">needs -s - every time</tspan>
+<rect x="3196.0" y="780.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3365.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">△-</tspan>
 </text>
-<rect x="3260.0" y="675.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3429.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">△</tspan>
+<text x="3365.0" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">unvalidated, our checker</tspan>
 </text>
-<text x="3429.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">single-rooted tree only</tspan>
+<rect x="3546.0" y="780.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3701.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">△-</tspan>
 </text>
-<rect x="3610.0" y="675.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3765.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">△</tspan>
+<text x="3701.0" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">BANANA passed, our checker</tspan>
 </text>
-<text x="3765.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">values unvalidated</tspan>
+<rect x="3868.0" y="780.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4023.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">○-</tspan>
 </text>
-<rect x="3932.0" y="675.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4087.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">○</tspan>
+<text x="4023.0" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">structure yes, values no</tspan>
 </text>
-<rect x="4254.0" y="675.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4455.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">○</tspan>
+<rect x="4190.0" y="780.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4391.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">○-</tspan>
 </text>
-<rect x="4668.0" y="675.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4808.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">△</tspan>
+<text x="4391.0" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">UID links, tier-shaped</tspan>
 </text>
-<text x="4808.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">custom field plus our check</tspan>
+<rect x="4604.0" y="780.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4744.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">△-</tspan>
 </text>
-<rect x="4961.0" y="675.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5141.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">△</tspan>
+<text x="4744.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">custom attr, our check</tspan>
 </text>
-<text x="5141.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">document-tier links only</tspan>
+<rect x="4897.0" y="780.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5077.0" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">△-</tspan>
 </text>
-<rect x="5333.0" y="675.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5466.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">×</tspan>
+<text x="5077.0" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">no source-file link</tspan>
 </text>
-<text x="5466.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">no concept at all</tspan>
+<rect x="5269.0" y="780.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5391.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">△-</tspan>
 </text>
-<rect x="5612.0" y="675.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5745.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5745.5" dy="0.0">○</tspan>
+<text x="5391.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">no concept, our board</tspan>
 </text>
-<rect x="5891.0" y="675.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6020.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">×</tspan>
+<rect x="5526.0" y="780.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5655.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">○+</tspan>
 </text>
-<text x="6020.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">read-only server</tspan>
+<text x="5655.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">publish built in</tspan>
 </text>
-<rect x="6162.0" y="675.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6284.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">△</tspan>
+<rect x="5797.0" y="780.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5930.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">△-</tspan>
 </text>
-<text x="6284.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">one maintainer</tspan>
+<text x="5930.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">server read-only</tspan>
 </text>
-<rect x="6419.0" y="675.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6545.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">×</tspan>
+<rect x="6076.0" y="780.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6205.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">○-</tspan>
 </text>
-<text x="6545.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">28 MB per project</tspan>
+<text x="6205.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">recent, one maintainer</tspan>
 </text>
-<rect x="6683.0" y="675.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6812.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">△</tspan>
+<rect x="6347.0" y="780.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6476.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">△</tspan>
 </text>
-<text x="6812.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">validates nothing custom</tspan>
+<text x="6476.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">15 packages onto existing Python</tspan>
 </text>
-<rect x="6954.0" y="675.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7080.0" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">△</tspan>
+<rect x="6618.0" y="780.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6747.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6747.5" dy="0.0">○</tspan>
 </text>
-<text x="7080.0" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">lay out ~65 files</tspan>
+<rect x="6889.0" y="780.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7022.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">△-</tspan>
 </text>
-<rect x="7218.0" y="675.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7351.5" y="772.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">△</tspan>
+<text x="7022.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">no validation or board</tspan>
 </text>
-<text x="7351.5" y="814.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">right shape, wrong storage</tspan>
+<rect x="7168.0" y="780.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7301.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">△+</tspan>
 </text>
-<rect x="300.0" y="835.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="424.0" y="877.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="7301.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">script the tree layout</tspan>
+</text>
+<rect x="7447.0" y="780.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7580.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">△-</tspan>
+</text>
+<text x="7580.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">the format survives, not the tool</tspan>
+</text>
+<rect x="300.0" y="940.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="982.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="424.0" dy="0.0">OPTION 4: SPHINXNEEDS</tspan>
 <tspan x="424.0" dy="15.0"></tspan>
 <tspan x="424.0" dy="15.0">MIT Sphinx extension defining</tspan>
@@ -610,278 +671,287 @@
 <tspan x="424.0" dy="15.0">prose documents, with filtering</tspan>
 <tspan x="424.0" dy="15.0">and reporting</tspan>
 </text>
-<rect x="560.0" y="835.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="693.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">×</tspan>
+<rect x="560.0" y="940.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">△-</tspan>
 </text>
-<text x="693.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">0 needs in your real docs</tspan>
+<text x="693.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">14 docs need rewriting</tspan>
 </text>
-<rect x="839.0" y="835.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="965.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">×</tspan>
+<rect x="839.0" y="940.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="968.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">△+</tspan>
 </text>
-<text x="965.0" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">73 files, 5 MB</tspan>
+<text x="968.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">gitignore the build output</tspan>
 </text>
-<rect x="1103.0" y="835.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1232.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">△</tspan>
+<rect x="1110.0" y="940.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1236.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1236.0" dy="0.0">○</tspan>
 </text>
-<text x="1232.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">build output needs hosting</tspan>
+<rect x="1374.0" y="940.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1500.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">○-</tspan>
 </text>
-<rect x="1374.0" y="835.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1503.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">△</tspan>
+<text x="1500.0" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">directive syntax is fiddly</tspan>
 </text>
-<text x="1503.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">directives buried in prose</tspan>
+<rect x="1638.0" y="940.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1782.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">○</tspan>
 </text>
-<rect x="1645.0" y="835.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1789.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">○</tspan>
+<rect x="1938.0" y="940.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2103.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2103.5" dy="0.0">○</tspan>
 </text>
-<rect x="1945.0" y="835.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2110.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">○</tspan>
+<rect x="2281.0" y="940.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2432.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">○</tspan>
 </text>
-<rect x="2288.0" y="835.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2439.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">○</tspan>
+<rect x="2595.0" y="940.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2728.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">○</tspan>
 </text>
-<rect x="2602.0" y="835.0" width="324.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2764.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">×</tspan>
+<rect x="2874.0" y="940.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3029.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">○</tspan>
 </text>
-<text x="2764.0" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">118 MB, 30 packages</tspan>
+<rect x="3196.0" y="940.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3365.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">○</tspan>
 </text>
-<rect x="2938.0" y="835.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3093.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">○</tspan>
+<rect x="3546.0" y="940.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3701.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">○</tspan>
 </text>
-<rect x="3260.0" y="835.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3429.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">○</tspan>
+<rect x="3868.0" y="940.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4023.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">○</tspan>
 </text>
-<rect x="3610.0" y="835.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3765.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">○</tspan>
+<rect x="4190.0" y="940.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4391.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">○+</tspan>
 </text>
-<rect x="3932.0" y="835.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4087.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">○</tspan>
+<text x="4391.0" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">typed links, dangling caught</tspan>
 </text>
-<rect x="4254.0" y="835.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4455.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">○</tspan>
+<rect x="4604.0" y="940.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4744.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">△-</tspan>
 </text>
-<rect x="4668.0" y="835.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4808.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">△</tspan>
+<text x="4744.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">our completeness check</tspan>
 </text>
-<text x="4808.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">custom field plus our check</tspan>
+<rect x="4897.0" y="940.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5077.0" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">△-</tspan>
 </text>
-<rect x="4961.0" y="835.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5141.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">△</tspan>
+<text x="5077.0" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">code convention is ours</tspan>
 </text>
-<text x="5141.0" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">convention ours to invent</tspan>
+<rect x="5269.0" y="940.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5391.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">△-</tspan>
 </text>
-<rect x="5333.0" y="835.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5466.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">△</tspan>
+<text x="5391.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">no release object</tspan>
 </text>
-<text x="5466.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">a filter, not a board</tspan>
+<rect x="5526.0" y="940.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5655.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">◎</tspan>
 </text>
-<rect x="5612.0" y="835.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5745.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5745.5" dy="0.0">○</tspan>
+<rect x="5797.0" y="940.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5930.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">△-</tspan>
 </text>
-<rect x="5891.0" y="835.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6020.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">×</tspan>
+<text x="5930.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">static HTML only</tspan>
 </text>
-<text x="6020.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">no form at all</tspan>
+<rect x="6076.0" y="940.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6205.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">○+</tspan>
 </text>
-<rect x="6162.0" y="835.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6284.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">○</tspan>
+<text x="6205.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">active at 8.3.0</tspan>
 </text>
-<rect x="6419.0" y="835.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6545.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">×</tspan>
+<rect x="6347.0" y="940.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6476.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">△-</tspan>
 </text>
-<text x="6545.0" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">118 MB per project</tspan>
+<text x="6476.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">packages plus a build pipeline</tspan>
 </text>
-<rect x="6683.0" y="835.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6812.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">△</tspan>
+<rect x="6618.0" y="940.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6747.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6747.5" dy="0.0">○</tspan>
 </text>
-<text x="6812.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">great model, heavy shell</tspan>
+<rect x="6889.0" y="940.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7022.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">△-</tspan>
 </text>
-<rect x="6954.0" y="835.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7080.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">×</tspan>
+<text x="7022.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">board and write-back ours</tspan>
 </text>
-<text x="7080.0" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">rewrite every product doc</tspan>
+<rect x="7168.0" y="940.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7301.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">△-</tspan>
 </text>
-<rect x="7218.0" y="835.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7351.5" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">×</tspan>
+<text x="7301.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">greenfield now, rewrite later</tspan>
 </text>
-<text x="7351.5" y="974.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">heaviest, worst fit</tspan>
+<rect x="7447.0" y="940.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7580.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">△-</tspan>
 </text>
-<rect x="300.0" y="995.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="424.0" y="1044.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="7580.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">heavy shell, good model</tspan>
+</text>
+<rect x="300.0" y="1100.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="1149.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="424.0" dy="0.0">OPTION 5: OPENFASTTRACE</tspan>
 <tspan x="424.0" dy="15.0"></tspan>
 <tspan x="424.0" dy="15.0">GPL-3.0 Java requirement tracer</tspan>
 <tspan x="424.0" dy="15.0">reading markdown specifications</tspan>
 <tspan x="424.0" dy="15.0">and linking them to annotated code</tspan>
 </text>
-<rect x="560.0" y="995.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="693.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">×</tspan>
+<rect x="560.0" y="1100.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">○</tspan>
 </text>
-<text x="693.5" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">stores nothing</tspan>
+<rect x="839.0" y="1100.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="968.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">○+</tspan>
 </text>
-<rect x="839.0" y="995.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="965.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">○</tspan>
+<text x="968.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">writes nothing by default</tspan>
 </text>
-<rect x="1103.0" y="995.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1232.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">○</tspan>
+<rect x="1110.0" y="1100.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1236.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1236.0" dy="0.0">○</tspan>
 </text>
-<rect x="1374.0" y="995.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1503.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">○</tspan>
+<rect x="1374.0" y="1100.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1500.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">○</tspan>
 </text>
-<rect x="1645.0" y="995.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1789.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">○</tspan>
+<rect x="1638.0" y="1100.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1782.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">○</tspan>
 </text>
-<rect x="1945.0" y="995.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2110.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">○</tspan>
+<rect x="1938.0" y="1100.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2103.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2103.5" dy="0.0">○</tspan>
 </text>
-<rect x="2288.0" y="995.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2439.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">○</tspan>
+<rect x="2281.0" y="1100.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2432.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">○</tspan>
 </text>
-<rect x="2602.0" y="995.0" width="324.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2764.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">×</tspan>
+<rect x="2595.0" y="1100.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2728.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">△-</tspan>
 </text>
-<text x="2764.0" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">a Java 17 runtime</tspan>
+<text x="2728.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">install a JVM first</tspan>
 </text>
-<rect x="2938.0" y="995.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3093.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">×</tspan>
+<rect x="2874.0" y="1100.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3029.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">△-</tspan>
 </text>
-<text x="3093.0" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">UX-001 inexpressible</tspan>
+<text x="3029.0" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">tilde grammar, second ID</tspan>
 </text>
-<rect x="3260.0" y="995.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3429.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">△</tspan>
+<rect x="3196.0" y="1100.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3365.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">△-</tspan>
 </text>
-<text x="3429.0" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">unvalidated free tags</tspan>
+<text x="3365.0" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">unvalidated free tags</tspan>
 </text>
-<rect x="3610.0" y="995.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3765.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">×</tspan>
+<rect x="3546.0" y="1100.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3701.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">△-</tspan>
 </text>
-<text x="3765.0" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">a closed set of four</tspan>
+<text x="3701.0" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">closed four, state in tags</tspan>
 </text>
-<rect x="3932.0" y="995.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4087.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">○</tspan>
+<rect x="3868.0" y="1100.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4023.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">○</tspan>
 </text>
-<rect x="4254.0" y="995.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4455.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">△</tspan>
+<rect x="4190.0" y="1100.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4391.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">△</tspan>
 </text>
-<text x="4455.0" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">Depends is inert</tspan>
+<text x="4391.0" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">Depends is inert</tspan>
 </text>
-<rect x="4668.0" y="995.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4808.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">×</tspan>
+<rect x="4604.0" y="1100.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4744.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">△-</tspan>
 </text>
-<text x="4808.5" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">no field for it</tspan>
+<text x="4744.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">no field, separate file</tspan>
 </text>
-<rect x="4961.0" y="995.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5141.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">○</tspan>
+<rect x="4897.0" y="1100.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5077.0" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">◎</tspan>
 </text>
-<rect x="5333.0" y="995.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5466.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">×</tspan>
+<rect x="5269.0" y="1100.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5391.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">△-</tspan>
 </text>
-<text x="5466.5" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">no concept at all</tspan>
+<text x="5391.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">no concept, we build it</tspan>
 </text>
-<rect x="5612.0" y="995.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5745.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5745.5" dy="0.0">○</tspan>
+<rect x="5526.0" y="1100.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5655.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">○</tspan>
 </text>
-<rect x="5891.0" y="995.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6020.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">×</tspan>
+<rect x="5797.0" y="1100.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5930.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">△-</tspan>
 </text>
-<text x="6020.5" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">no UI at all</tspan>
+<text x="5930.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">no UI at all</tspan>
 </text>
-<rect x="6162.0" y="995.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6284.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">○</tspan>
+<rect x="6076.0" y="1100.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6205.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">○</tspan>
 </text>
-<rect x="6419.0" y="995.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6545.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">×</tspan>
+<rect x="6347.0" y="1100.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6476.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">×</tspan>
 </text>
-<text x="6545.0" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">a JVM per project</tspan>
+<text x="6476.5" y="1225.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">a whole new runtime, for tracing</tspan>
+<tspan x="6476.5" dy="13.8">only</tspan>
 </text>
-<rect x="6683.0" y="995.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6812.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">×</tspan>
+<rect x="6618.0" y="1100.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6747.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6747.5" dy="0.0">○</tspan>
 </text>
-<text x="6812.5" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">cannot hold the IDs</tspan>
+<rect x="6889.0" y="1100.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7022.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">△-</tspan>
 </text>
-<rect x="6954.0" y="995.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7080.0" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">×</tspan>
+<text x="7022.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">tracer only, register ours</tspan>
 </text>
-<text x="7080.0" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">new ID scheme everywhere</tspan>
+<rect x="7168.0" y="1100.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7301.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">△-</tspan>
 </text>
-<rect x="7218.0" y="995.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7351.5" y="1092.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">×</tspan>
+<text x="7301.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">JVM plus a register build</tspan>
 </text>
-<text x="7351.5" y="1134.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">a tracer, not a register</tspan>
+<rect x="7447.0" y="1100.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7580.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">△-</tspan>
 </text>
-<rect x="300.0" y="1155.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="424.0" y="1197.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="7580.5" y="1239.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">only if a runtime is allowed</tspan>
+</text>
+<rect x="300.0" y="1260.0" width="248.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="1302.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="424.0" dy="0.0">OPTION 6: REQFLOW</tspan>
 <tspan x="424.0" dy="15.0"></tspan>
 <tspan x="424.0" dy="15.0">GPLv2+ C++ tracer that finds</tspan>
@@ -889,315 +959,263 @@
 <tspan x="424.0" dy="15.0">existing documents and reports</tspan>
 <tspan x="424.0" dy="15.0">coverage</tspan>
 </text>
-<rect x="560.0" y="1155.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="693.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">×</tspan>
+<rect x="560.0" y="1260.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">○</tspan>
 </text>
-<text x="693.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="693.5" dy="0.0">stores nothing</tspan>
+<rect x="839.0" y="1260.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="968.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="968.5" dy="0.0">○</tspan>
 </text>
-<rect x="839.0" y="1155.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="965.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="965.0" dy="0.0">○</tspan>
+<rect x="1110.0" y="1260.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1236.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1236.0" dy="0.0">○</tspan>
 </text>
-<rect x="1103.0" y="1155.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1232.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1232.5" dy="0.0">○</tspan>
+<rect x="1374.0" y="1260.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1500.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">△-</tspan>
 </text>
-<rect x="1374.0" y="1155.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1503.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">×</tspan>
+<text x="1500.0" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1500.0" dy="0.0">the format is ours</tspan>
 </text>
-<text x="1503.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1503.5" dy="0.0">no authoring format</tspan>
+<rect x="1638.0" y="1260.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1782.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="1782.0" dy="0.0">○</tspan>
 </text>
-<rect x="1645.0" y="1155.0" width="288.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1789.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="1789.0" dy="0.0">○</tspan>
+<rect x="1938.0" y="1260.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2103.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="2103.5" dy="0.0">○</tspan>
 </text>
-<rect x="1945.0" y="1155.0" width="331.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2110.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">×</tspan>
+<rect x="2281.0" y="1260.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2432.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">△-</tspan>
 </text>
-<text x="2110.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2110.5" dy="0.0">no source format</tspan>
+<text x="2432.0" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2432.0" dy="0.0">our parser, not the tool</tspan>
 </text>
-<rect x="2288.0" y="1155.0" width="302.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2439.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">×</tspan>
+<rect x="2595.0" y="1260.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2728.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">×</tspan>
 </text>
-<text x="2439.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2439.0" dy="0.0">CSV needs the binary</tspan>
+<text x="2728.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2728.5" dy="0.0">no macOS build exists</tspan>
 </text>
-<rect x="2602.0" y="1155.0" width="324.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="2764.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">×</tspan>
+<rect x="2874.0" y="1260.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3029.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="3029.0" dy="0.0">○</tspan>
 </text>
-<text x="2764.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="2764.0" dy="0.0">no macOS build exists</tspan>
+<rect x="3196.0" y="1260.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3365.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">△-</tspan>
 </text>
-<rect x="2938.0" y="1155.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3093.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3093.0" dy="0.0">○</tspan>
+<text x="3365.0" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3365.0" dy="0.0">the field is ours</tspan>
 </text>
-<rect x="3260.0" y="1155.0" width="338.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3429.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">×</tspan>
+<rect x="3546.0" y="1260.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3701.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">△-</tspan>
 </text>
-<text x="3429.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3429.0" dy="0.0">no taxonomy</tspan>
+<text x="3701.0" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">the field is ours</tspan>
 </text>
-<rect x="3610.0" y="1155.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3765.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">×</tspan>
+<rect x="3868.0" y="1260.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4023.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">△-</tspan>
 </text>
-<text x="3765.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="3765.0" dy="0.0">only &#x27;uncovered&#x27;</tspan>
+<text x="4023.0" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4023.0" dy="0.0">our checker, not the tool</tspan>
 </text>
-<rect x="3932.0" y="1155.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4087.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">×</tspan>
+<rect x="4190.0" y="1260.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4391.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">△-</tspan>
 </text>
-<text x="4087.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4087.0" dy="0.0">cannot run on macOS</tspan>
+<text x="4391.0" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4391.0" dy="0.0">our field, our check</tspan>
 </text>
-<rect x="4254.0" y="1155.0" width="402.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4455.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">△</tspan>
+<rect x="4604.0" y="1260.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4744.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">△-</tspan>
 </text>
-<text x="4455.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4455.0" dy="0.0">one untyped relation</tspan>
+<text x="4744.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4744.5" dy="0.0">wholly ours</tspan>
 </text>
-<rect x="4668.0" y="1155.0" width="281.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="4808.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">×</tspan>
+<rect x="4897.0" y="1260.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5077.0" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="5077.0" dy="0.0">○</tspan>
 </text>
-<text x="4808.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4808.5" dy="0.0">no field for it</tspan>
+<rect x="5269.0" y="1260.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5391.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">△-</tspan>
 </text>
-<rect x="4961.0" y="1155.0" width="360.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5141.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5141.0" dy="0.0">○</tspan>
+<text x="5391.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5391.5" dy="0.0">grouping is ours</tspan>
 </text>
-<rect x="5333.0" y="1155.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5466.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">×</tspan>
+<rect x="5526.0" y="1260.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5655.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">△+</tspan>
 </text>
-<text x="5466.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="5466.5" dy="0.0">no concept at all</tspan>
+<text x="5655.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5655.5" dy="0.0">CSV only, we render</tspan>
 </text>
-<rect x="5612.0" y="1155.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="5745.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="5745.5" dy="0.0">○</tspan>
+<rect x="5797.0" y="1260.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5930.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">△-</tspan>
 </text>
-<rect x="5891.0" y="1155.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6020.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">×</tspan>
+<text x="5930.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5930.5" dy="0.0">report-only, one-way</tspan>
 </text>
-<text x="6020.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6020.5" dy="0.0">report-only, one-way</tspan>
+<rect x="6076.0" y="1260.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6205.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">○-</tspan>
 </text>
-<rect x="6162.0" y="1155.0" width="245.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6284.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">×</tspan>
+<text x="6205.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6205.5" dy="0.0">dead, register survives</tspan>
 </text>
-<text x="6284.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6284.5" dy="0.0">2019, 3 commits since</tspan>
+<rect x="6347.0" y="1260.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6476.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">×</tspan>
 </text>
-<rect x="6419.0" y="1155.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6545.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">×</tspan>
+<text x="6476.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">new toolchain, and uninstallable</tspan>
 </text>
-<text x="6545.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6545.0" dy="0.0">compile from source</tspan>
+<rect x="6618.0" y="1260.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="6747.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="6747.5" dy="0.0">○</tspan>
 </text>
-<rect x="6683.0" y="1155.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="6812.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">×</tspan>
+<rect x="6889.0" y="1260.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7022.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">△-</tspan>
 </text>
-<text x="6812.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6812.5" dy="0.0">no schema at all</tspan>
+<text x="7022.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7022.5" dy="0.0">almost everything is ours</tspan>
 </text>
-<rect x="6954.0" y="1155.0" width="252.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7080.0" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">×</tspan>
+<rect x="7168.0" y="1260.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7301.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">△-</tspan>
 </text>
-<text x="7080.0" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7080.0" dy="0.0">build a toolchain first</tspan>
+<text x="7301.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7301.5" dy="0.0">a toolchain first</tspan>
 </text>
-<rect x="7218.0" y="1155.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="7351.5" y="1252.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">×</tspan>
+<rect x="7447.0" y="1260.0" width="267.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="7580.5" y="1357.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">△-</tspan>
 </text>
-<text x="7351.5" y="1294.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="7351.5" dy="0.0">not installable here</tspan>
+<text x="7580.5" y="1399.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="7580.5" dy="0.0">cannot install on macOS</tspan>
 </text>
-<text x="300.0" y="1353.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1458.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">PREFERRED SOLUTION: Build</tspan>
 </text>
-<text x="300.0" y="1385.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1490.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Build · Belongs to the consuming project · `gate.py --root &lt;path&gt;`, defaulting to</tspan>
-<tspan x="300.0" dy="15.0">`kit.ROOT` so every existing invocation is byte-identical; the library already takes</tspan>
-<tspan x="300.0" dy="15.0">`root` as a parameter everywhere, so only the CLI entry point pins it · permanent · high —</tspan>
-<tspan x="300.0" dy="15.0">`kit.py:22-24`&#x27;s own comment says the CLI passes ROOT and the selftest passes a temp tree,</tspan>
-<tspan x="300.0" dy="15.0">so the parameterisation is proven · —</tspan>
+<tspan x="300.0" dy="15.0">`kit.ROOT`; the library already takes `root` everywhere, so only the CLI entry point pins</tspan>
+<tspan x="300.0" dy="15.0">it · permanent · medium — the parameterisation is proven by the selftest passing temp</tspan>
+<tspan x="300.0" dy="15.0">trees, but the SCRIPT-location half is undesigned: `${CLAUDE_PLUGIN_ROOT}` expands nowhere</tspan>
+<tspan x="300.0" dy="15.0">in this repo and `$CLAUDE_PROJECT_DIR` measured unset · —</tspan>
 </text>
-<text x="300.0" y="1472.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Build · Refusal from outside the model · ship the checker in `tools/`, which the plugin</tspan>
-<tspan x="300.0" dy="15.0">cache already carries, and give it a locatable entry point so a consuming project&#x27;s own CI</tspan>
-<tspan x="300.0" dy="15.0">can invoke it · temporary · low — `${CLAUDE_PLUGIN_ROOT}` is expanded nowhere in this repo</tspan>
-<tspan x="300.0" dy="15.0">and `$CLAUDE_PROJECT_DIR` measured unset in the tool environment; the script-location half</tspan>
-<tspan x="300.0" dy="15.0">is genuinely undesigned · the first consuming project that runs the audit against itself,</tspan>
-<tspan x="300.0" dy="15.0">or the first release that ships a locatable entry point</tspan>
+<text x="300.0" y="1577.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Build · The twenty-category taxonomy · move the twenty codes out of `kit.py` into the</tspan>
+<tspan x="300.0" dy="15.0">project&#x27;s own `categories.md`, so a consuming project extends rather than inherits a</tspan>
+<tspan x="300.0" dy="15.0">hardcode · permanent · high — the disposition file already has to exist and already lists</tspan>
+<tspan x="300.0" dy="15.0">all twenty · —</tspan>
 </text>
-<text x="300.0" y="1574.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Build · Forward trace to code and tests · adopt OpenFastTrace&#x27;s comment-tag convention and</tspan>
-<tspan x="300.0" dy="15.0">check it with a stdlib parser; the `Piece:` trailer already carries the commit end of the</tspan>
-<tspan x="300.0" dy="15.0">chain · temporary · medium — the trailer shipped at v0.91.0 and has never been written, so</tspan>
-<tspan x="300.0" dy="15.0">the mechanism is built but unproven · the first work commit that should carry a trailer</tspan>
-<tspan x="300.0" dy="15.0">and does not</tspan>
+<text x="300.0" y="1649.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Build · Refusal from outside the model · ship the checker in `tools/` and give it an entry</tspan>
+<tspan x="300.0" dy="15.0">point a consuming project&#x27;s own CI can invoke · temporary · low — Kerd&#x27;s CI audits Kerd; a</tspan>
+<tspan x="300.0" dy="15.0">consuming project gets the skills&#x27; judgment, not the machine&#x27;s refusal, and every external</tspan>
+<tspan x="300.0" dy="15.0">option scores ○ here · the first consuming project that runs the audit against itself</tspan>
 </text>
-<text x="300.0" y="1661.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">StrictDoc · The same files · adopt the `.sdoc` format without requiring the tool — the</tspan>
-<tspan x="300.0" dy="15.0">files stay plain text and readable, and StrictDoc becomes optional producer-side tooling</tspan>
-<tspan x="300.0" dy="15.0">over them · permanent · medium — byte-for-byte round-trip was verified, but `.sdoc` is not</tspan>
-<tspan x="300.0" dy="15.0">the project&#x27;s existing markdown and every product doc would need converting · —</tspan>
-</text>
-<text x="300.0" y="1733.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">StrictDoc · Machine-readable by stdlib · write a stdlib parser against `.sdoc` rather than</tspan>
+<text x="300.0" y="1721.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">StrictDoc · Machine-readable by stdlib · write a stdlib parser for `.sdoc` rather than</tspan>
 <tspan x="300.0" dy="15.0">using the JSON export, which requires the tool to run · permanent · medium — the format is</tspan>
 <tspan x="300.0" dy="15.0">regular enough to parse, but this is work the adoption was meant to avoid · —</tspan>
 </text>
-<text x="300.0" y="1790.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">StrictDoc · Category disposition · declare disposition as a custom grammar field and check</tspan>
-<tspan x="300.0" dy="15.0">completeness with Kerd&#x27;s own checker · permanent · high — custom grammar fields are a</tspan>
-<tspan x="300.0" dy="15.0">documented, working feature · —</tspan>
+<text x="300.0" y="1778.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The same files · accept the `reqs/**/` tree as the register&#x27;s declared home; it</tspan>
+<tspan x="300.0" dy="15.0">cannot annotate `docs/product/&lt;slug&gt;.md` at all · permanent · low — a parallel layout by</tspan>
+<tspan x="300.0" dy="15.0">design, and the tool&#x27;s whole merge story depends on it · —</tspan>
 </text>
-<text x="300.0" y="1847.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">StrictDoc · Maintenance and survival · pin the version and keep the register readable</tspan>
-<tspan x="300.0" dy="15.0">without the tool, so abandonment costs only the viewer · permanent · medium — two-person</tspan>
-<tspan x="300.0" dy="15.0">project, pre-1.0, with a documented history of breaking format migrations · —</tspan>
+<text x="300.0" y="1835.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · No artifact scatter · flatten to one document per category rather than per</tspan>
+<tspan x="300.0" dy="15.0">item, trading merge-friendliness for file count · permanent · low — file-per-item is HOW</tspan>
+<tspan x="300.0" dy="15.0">it earns clean diffs; the evidence states the scatter cannot be configured away · —</tspan>
 </text>
-<text x="300.0" y="1904.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · The same files · accept the `reqs/**/` tree as the register&#x27;s declared home</tspan>
-<tspan x="300.0" dy="15.0">rather than annotating existing product docs · permanent · low — it is a parallel layout</tspan>
-<tspan x="300.0" dy="15.0">by design and cannot annotate `docs/product/&lt;slug&gt;.md` at all · —</tspan>
+<text x="300.0" y="1892.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · Claude Code friendly · give the model the filename convention and the per-</tspan>
+<tspan x="300.0" dy="15.0">document `.doorstop.yml` so capture is a Write to a computable path · permanent · medium —</tspan>
+<tspan x="300.0" dy="15.0">the UID IS the filename, so the model must compute the next free number before writing · —</tspan>
 </text>
-<text x="300.0" y="1961.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · Claude Code friendly · give the model the exact filename convention and the</tspan>
-<tspan x="300.0" dy="15.0">per-document `.doorstop.yml`, so capture is a Write to a computable path · permanent ·</tspan>
-<tspan x="300.0" dy="15.0">medium — the UID is the filename, so the model must compute the next free number before</tspan>
-<tspan x="300.0" dy="15.0">writing · —</tspan>
-</text>
-<text x="300.0" y="2033.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · The producer&#x27;s ID format · pass `-s -` on every document creation; the default</tspan>
+<text x="300.0" y="1949.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The producer&#x27;s ID format · pass `-s -` at every document creation; the default</tspan>
 <tspan x="300.0" dy="15.0">separator is empty and yields `UX001` · permanent · high — verified hands-on, `FUN-001`</tspan>
 <tspan x="300.0" dy="15.0">and `UX-001` both produced verbatim · —</tspan>
 </text>
-<text x="300.0" y="2090.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · The twenty-category taxonomy · model the twenty categories as one document each</tspan>
-<tspan x="300.0" dy="15.0">under a single synthetic root, since a second root document is rejected · permanent · low</tspan>
-<tspan x="300.0" dy="15.0">— the tree is single-rooted by design and a flat taxonomy is not expressible natively · —</tspan>
+<text x="300.0" y="2006.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The twenty-category taxonomy · model the categories as documents under one</tspan>
+<tspan x="300.0" dy="15.0">synthetic root, since a second root is rejected, and validate the set with our own checker</tspan>
+<tspan x="300.0" dy="15.0">· permanent · low — the tree is single-rooted by design and a flat taxonomy is not</tspan>
+<tspan x="300.0" dy="15.0">expressible natively · —</tspan>
 </text>
-<text x="300.0" y="2147.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · The five-state lifecycle · validate the state field with Kerd&#x27;s own checker,</tspan>
-<tspan x="300.0" dy="15.0">because Doorstop does not validate custom attribute values · permanent · high — `state:</tspan>
-<tspan x="300.0" dy="15.0">BANANA_NOT_A_LIFECYCLE_STATE` passed the strictest run, so the gap is measured and the fix</tspan>
+<text x="300.0" y="2078.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The five-state lifecycle · validate the state field with our own checker,</tspan>
+<tspan x="300.0" dy="15.0">because Doorstop validates no custom attribute values · permanent · high — `state:</tspan>
+<tspan x="300.0" dy="15.0">BANANA_NOT_A_LIFECYCLE_STATE` passed its strictest run, so the gap is measured and the fix</tspan>
 <tspan x="300.0" dy="15.0">is ours · —</tspan>
 </text>
-<text x="300.0" y="2219.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · Category disposition · a custom `disposition` attribute plus a Kerd-side</tspan>
-<tspan x="300.0" dy="15.0">completeness check · permanent · high — custom attributes are preserved and can carry per-</tspan>
-<tspan x="300.0" dy="15.0">document defaults · —</tspan>
+<text x="300.0" y="2150.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SphinxNeeds · The same files · rewrite the fourteen product docs into directive syntax ·</tspan>
+<tspan x="300.0" dy="15.0">permanent · low — the decisive test found ZERO needs in the real docs, and `needs.json` is</tspan>
+<tspan x="300.0" dy="15.0">a build artifact, i.e. a derived second copy · —</tspan>
 </text>
-<text x="300.0" y="2276.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · Forward trace to code and tests · use `links:` to a synthetic implementation</tspan>
-<tspan x="300.0" dy="15.0">document, or fall back to the `Piece:` trailer · temporary · low — `links:` is designed</tspan>
-<tspan x="300.0" dy="15.0">for document-tier tracing, not for pointing at source files · the first requirement that</tspan>
-<tspan x="300.0" dy="15.0">needs to name the commit that satisfied it</tspan>
+<text x="300.0" y="2207.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SphinxNeeds · No artifact scatter · gitignore `_build/` and publish the HTML from CI</tspan>
+<tspan x="300.0" dy="15.0">rather than committing it · permanent · medium — works, but the shareable artifact then</tspan>
+<tspan x="300.0" dy="15.0">needs hosting that does not exist · —</tspan>
 </text>
-<text x="300.0" y="2348.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · Maintenance and survival · pin the version; the source files are plain text and</tspan>
-<tspan x="300.0" dy="15.0">parse without the tool · permanent · medium — alive and released four days before</tspan>
-<tspan x="300.0" dy="15.0">evaluation, but effectively one maintainer · —</tspan>
+<text x="300.0" y="2264.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OpenFastTrace · Installable at all · install a system JVM; Java 17 is a common machine-</tspan>
+<tspan x="300.0" dy="15.0">level dependency · temporary · low — no JVM exists on this machine, and a consuming</tspan>
+<tspan x="300.0" dy="15.0">project cannot be assumed to have one · the first consuming project confirmed to carry a</tspan>
+<tspan x="300.0" dy="15.0">JVM already</tspan>
 </text>
-<text x="300.0" y="2405.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">SphinxNeeds · Git-repo native · gitignore `_build/` and publish the HTML from CI rather</tspan>
-<tspan x="300.0" dy="15.0">than committing it · permanent · medium — works, but the shareable artifact then requires</tspan>
-<tspan x="300.0" dy="15.0">hosting that does not exist today · —</tspan>
+<text x="300.0" y="2336.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OpenFastTrace · The producer&#x27;s ID format · keep `&lt;CODE&gt;-&lt;NNN&gt;` in the register we own and</tspan>
+<tspan x="300.0" dy="15.0">carry OFT&#x27;s `artifacttype~name~revision` as a second, derived ID for tracing only ·</tspan>
+<tspan x="300.0" dy="15.0">permanent · low — two ID namespaces is exactly the confusion the register exists to remove</tspan>
+<tspan x="300.0" dy="15.0">· —</tspan>
 </text>
-<text x="300.0" y="2462.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">SphinxNeeds · Claude Code friendly · author in MyST markdown rather than RST so a model</tspan>
-<tspan x="300.0" dy="15.0">edits ordinary prose · permanent · medium — MyST is a further install on top of an already</tspan>
-<tspan x="300.0" dy="15.0">heavy toolchain · —</tspan>
+<text x="300.0" y="2408.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OpenFastTrace · The twenty-category taxonomy · put the category in free-form `Tags:`,</tspan>
+<tspan x="300.0" dy="15.0">since artifact types are tracing-hierarchy levels rather than a taxonomy, and validate it</tspan>
+<tspan x="300.0" dy="15.0">ourselves · permanent · low — tags are unvalidated free text, so the taxonomy would be</tspan>
+<tspan x="300.0" dy="15.0">enforced only by our own checker · —</tspan>
 </text>
-<text x="300.0" y="2519.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">SphinxNeeds · Category disposition · a custom `needs_extra_options` field plus a Kerd-side</tspan>
-<tspan x="300.0" dy="15.0">completeness check · permanent · medium — works, but three of the documented options</tspan>
-<tspan x="300.0" dy="15.0">emitted deprecation warnings in 8.3.0 · —</tspan>
+<text x="300.0" y="2480.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OpenFastTrace · The five-state lifecycle · hold the five states in our register and map</tspan>
+<tspan x="300.0" dy="15.0">only the four OFT understands · permanent · low — the closed set is the vendor&#x27;s and has</tspan>
+<tspan x="300.0" dy="15.0">no documented extension point · —</tspan>
 </text>
-<text x="300.0" y="2576.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">SphinxNeeds · Forward trace to code and tests · link needs to source via a custom link</tspan>
-<tspan x="300.0" dy="15.0">type and a code-side annotation convention · permanent · medium — link types are a working</tspan>
-<tspan x="300.0" dy="15.0">feature; the code-side convention would be ours to invent · —</tspan>
+<text x="300.0" y="2537.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Reqflow · Claude Code friendly · author requirements in our own markdown and let reqflow</tspan>
+<tspan x="300.0" dy="15.0">regex-match them · permanent · low — reqflow contributes nothing to authoring; the format</tspan>
+<tspan x="300.0" dy="15.0">would be entirely ours · —</tspan>
 </text>
-<text x="300.0" y="2633.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">SphinxNeeds · Release grouping · a custom release field plus `needtable` filtering to</tspan>
-<tspan x="300.0" dy="15.0">produce a per-release view · temporary · low — this yields a filtered document, not a</tspan>
-<tspan x="300.0" dy="15.0">board, and the same approach in StrictDoc was ignored by JSON export · the first time a</tspan>
-<tspan x="300.0" dy="15.0">filtered view is asked to reorder or move an item</tspan>
+<text x="300.0" y="2594.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Reqflow · Machine-readable by stdlib · parse our own markdown with stdlib and use reqflow</tspan>
+<tspan x="300.0" dy="15.0">only for coverage reports · permanent · low — its only structured export is a two-column</tspan>
+<tspan x="300.0" dy="15.0">CSV, produced by a binary that will not install here · —</tspan>
 </text>
-<text x="300.0" y="2705.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">OpenFastTrace · The twenty-category taxonomy · use free-form `Tags:` for category, since</tspan>
-<tspan x="300.0" dy="15.0">artifact types are tracing-hierarchy levels rather than an orthogonal taxonomy · permanent</tspan>
-<tspan x="300.0" dy="15.0">· low — tags are unvalidated free text, so the taxonomy would be unenforced · —</tspan>
+<text x="300.0" y="2651.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Reqflow · The twenty-category taxonomy · carry the category in our own field; reqflow has</tspan>
+<tspan x="300.0" dy="15.0">no schema at all · permanent · low — a requirement is whatever a PCRE regex matched · —</tspan>
 </text>
-<text x="300.0" y="2762.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">OpenFastTrace · Requirement-to-requirement dependency · record dependency in `Depends` and</tspan>
-<tspan x="300.0" dy="15.0">read it from the `aspec` XML report · permanent · low — the docs state `Depends` &quot;has no</tspan>
-<tspan x="300.0" dy="15.0">effect on the coverage&quot;, so nothing refuses a dangling one · —</tspan>
+<text x="300.0" y="2693.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Reqflow · The five-state lifecycle · carry the state in our own field; the tool&#x27;s only</tspan>
+<tspan x="300.0" dy="15.0">status is `U` for uncovered · permanent · low — same absence of schema · —</tspan>
 </text>
-<text x="300.0" y="2819.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Reqflow · Requirement-to-requirement dependency · express dependency through the single</tspan>
-<tspan x="300.0" dy="15.0">untyped covers / covered-by relation · permanent · low — one untyped relation cannot</tspan>
-<tspan x="300.0" dy="15.0">distinguish dependency from coverage · —</tspan>
-</text>
-<text x="300.0" y="2876.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Build · Quality · ship the register first and treat write-back and interchange as later</tspan>
-<tspan x="300.0" dy="15.0">slices, generated from the markdown rather than stored in a tool&#x27;s format · temporary ·</tspan>
-<tspan x="300.0" dy="15.0">medium — the generator pattern for HTML is proven three times over, but no page in</tspan>
-<tspan x="300.0" dy="15.0">`tools/` has ever written back · the first time the producer needs to change a</tspan>
-<tspan x="300.0" dy="15.0">requirement&#x27;s state without editing the file</tspan>
-</text>
-<text x="300.0" y="2963.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">StrictDoc · Effort · convert the fourteen product docs once, then author only in `.sdoc` ·</tspan>
-<tspan x="300.0" dy="15.0">permanent · medium — round-trip is verified, but the conversion is a one-way door for</tspan>
-<tspan x="300.0" dy="15.0">anything that reads markdown today · —</tspan>
-</text>
-<text x="300.0" y="3020.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">StrictDoc · Rating · relax *install burden* from M to D and this becomes the live option;</tspan>
-<tspan x="300.0" dy="15.0">it still loses *the same files* and still has no release board · temporary · medium — the</tspan>
-<tspan x="300.0" dy="15.0">trade is real and stated, but the decision is the producer&#x27;s and has not been made · the</tspan>
-<tspan x="300.0" dy="15.0">producer rules on whether 373 MB is a fair thing to ask a consuming project to own</tspan>
-</text>
-<text x="300.0" y="3092.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · Quality · validate every custom value with Kerd&#x27;s own checker, since Doorstop</tspan>
-<tspan x="300.0" dy="15.0">validates none of them · permanent · high — `state: BANANA_NOT_A_LIFECYCLE_STATE` passed</tspan>
-<tspan x="300.0" dy="15.0">its strictest run, so the gap is measured · —</tspan>
-</text>
-<text x="300.0" y="3149.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · Effort · script the tree layout rather than creating documents by hand ·</tspan>
-<tspan x="300.0" dy="15.0">permanent · medium — the layout is mechanical, but ~65 files across 20 directories is a</tspan>
-<tspan x="300.0" dy="15.0">large first commit · —</tspan>
-</text>
-<text x="300.0" y="3206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">Doorstop · Rating · adopt only the markdown itemformat — frontmatter plus body — and none</tspan>
-<tspan x="300.0" dy="15.0">of the tool · permanent · high — a stdlib script parsed every field with PyYAML *not*</tspan>
-<tspan x="300.0" dy="15.0">installed, so the idea travels without the dependency · —</tspan>
-</text>
-<text x="300.0" y="3263.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">SphinxNeeds · Quality · keep the data model and reject the build shell — author the same</tspan>
-<tspan x="300.0" dy="15.0">fields in markdown and check them ourselves · permanent · medium — this is the strongest</tspan>
-<tspan x="300.0" dy="15.0">data model of the six, and taking only the model is most of what BUILD now does · —</tspan>
+<text x="300.0" y="2735.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Reqflow · Refusal from outside the model · run our own checker; reqflow cannot run on</tspan>
+<tspan x="300.0" dy="15.0">macOS at all · permanent · low — the refusal would come from the part we wrote, not from</tspan>
+<tspan x="300.0" dy="15.0">the option being evaluated · —</tspan>
 </text>
 </svg>

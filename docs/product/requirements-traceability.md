@@ -226,7 +226,7 @@ answer *show me every ROLE requirement*, *what changed since Tuesday*, or
 *which of these are in the next release* — which are exactly the three jobs
 named in Value.
 
-### Gap 2 — measured live: thirty-one requirements produced in one session, none tracked
+### Gap 2 — measured live: forty-three requirements produced across one session and its follow-on, none tracked
 
 Extracted from this session's own conversation on 2026-08-07, which is the
 demonstration Tony asked for (*"a lot of the converstation we have had today is
@@ -235,7 +235,7 @@ requirment initial or final development right?"*):
 Filed under the producer's own taxonomy above. **Extended at the session's close
 (2026-08-07 21:30) when Tony asked "okay we captured all requirements we defined
 today before we close out?"** — the honest answer was no. The count went from
-eight to thirty-one, because the afternoon kept producing requirements while
+eight to forty-three, because the session kept producing requirements while
 the register that would hold them did not exist.
 
 | ID | Requirement (compressed) | State |
@@ -279,16 +279,31 @@ the register that would hold them did not exist.
 | OPS-001 | Funnel interaction requires a conductor session; Q&A, reports and admin work stay available outside it | final |
 | **PRD (cont.)** | | |
 | PRD-007 | The register is the data source for release planning, dependency and visualization tooling — not merely a record | final |
+| PRD-008 | The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) · `△` meets with a countermeasure (`△+`/`△-`) · `×` cannot meet | final |
+| PRD-009 | `×` means cannot meet **even with a countermeasure**; cross takes no modifier, because there is no degree of impossibility | final |
+| PRD-010 | Building the missing piece ourselves **is** a legal countermeasure — marked `△-`, with its cost carried by the summary columns rather than hidden in the mark | final |
+| PRD-011 | Every evaluation carries four summary columns: **COST · QUALITY · DUE DATE · RATING** | final |
+| PRD-012 | A mark that is not `◎` or `○` states why, in a few words — never a sentence | final |
+| PRD-013 | Dependency cost is judged **marginally and proportionately**: what the option adds beyond what the project already needs, weighed against the share of value it buys. An ecosystem-normal install is not a burden; a whole new runtime bought for a fraction of the value is | final |
+| **UX** | | |
+| UX-001 | Boxes are never coloured; the mark carries the verdict — `○` green, `△` yellow, `×` red | final |
+| UX-002 | A mark is drawn at 40–50% of the cell it sits in | final |
+| UX-003 | Column and row headings render as headings — `GROUP: CRITERION NAME`, `OPTION n: ID`, with the declaration below | final |
+| UX-004 | Diagrams render in a sans-serif font | final |
+| UX-005 | The preferred option's verdict cell is filled green | final |
+| UX-006 | The point of a table is to **avoid reading lots of text** to understand it — brevity is the requirement, not a preference | final |
+| **TST (cont.)** | | |
+| TST-003 | **DUE DATE, not EFFORT** — can it meet the plan in time, an outcome measure, rather than how much work it is, an input measure | final |
 
 **States are honest, not flattering.** `final` means Tony stated it directly.
 `qualified` means the wording is agreed but was synthesised rather than spoken.
 `proposed` means it is the model's derivation from his input and he has not
 ratified it — NFR-002 and TST-002 are both consequences drawn while writing,
 and TECH-003's framing was corrected twice before settling. Four of
-thirty-one are not `final`, and marking them so is the difference between a
+forty-three are not `final`, and marking them so is the difference between a
 register and a flattering list.
 
-**The measurement this table is: thirty-one durable requirements produced in
+**The measurement this table is: forty-three durable requirements produced in
 one session, zero promoted through any beat, because no beat exists.** Eight
 were counted at 18:00 and the number more than tripled over the next three
 hours while the session discussed building the thing that would have caught
@@ -313,16 +328,16 @@ matters — the register is a **data source**, not a record. It becomes a
 nineteenth block against the design package, and the first thing to fix when it
 is re-worked.
 
-All thirty-one lived as prose until this table. The extraction took one pass
-and immediately exposed something invisible in prose: **four of the thirty-one
+All forty-three lived as prose until this table. The extraction took one pass
+and immediately exposed something invisible in prose: **four of the forty-three
 are not `final`** — `NFR-002` and `TST-002` are `proposed`, `FUN-009` and
 `TECH-003` are `qualified`. A state column made a distinction visible that
 paragraphs had hidden — which is the argument for the whole item, and the same
 result the journey page produced on its first render.
 
-**Two things the filing exercise itself showed.** Nine of the thirty-one land
-in `FUN`, and the whole set fills only **six of the twenty categories** —
-`UX`, `INT`, `SEC`, `PRIV` and `CMP` are among the fourteen left empty, because
+**Two things the filing exercise itself showed.** Nine of the forty-three land
+in `FUN`, and the whole set fills only **seven of the twenty categories** —
+`UX`, `INT`, `SEC`, `PRIV` and `CMP` are among the thirteen left empty, because
 Kerd has no UI, no integrations, no user data and no security surface. That is
 evidence the scheme is general rather than fitted to this repo, and a warning
 that **Kerd is a thin dogfood for it**: the capability will ship having
@@ -395,12 +410,12 @@ them.
 
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
 |---|---|---|---|---|---|---|---|
-| Requirements are recorded but the promotion beat is skipped under time pressure, so the register holds the easy requirements and loses the contested ones — which are the valuable ones | yes | the capability is delivered and the loss it exists to stop continues, now with a register that looks complete; worse than absent because it reads as coverage | high — the beat costs producer attention at the exact moment work wants to start, and today's session shows the pull is strong | gap 2: thirty-one requirements produced in one session and zero promoted, in a session explicitly about this problem | countermeasure - permanent | promotion is a declared artifact with a gate, on the `## Value` precedent — the one piece of human input that reliably survives is the one gate.py refuses without; a project that declares no categories is silent rather than red, so opting in is explicit | the first session that produces a durable requirement and records it only as prose re-argues this row |
+| Requirements are recorded but the promotion beat is skipped under time pressure, so the register holds the easy requirements and loses the contested ones — which are the valuable ones | yes | the capability is delivered and the loss it exists to stop continues, now with a register that looks complete; worse than absent because it reads as coverage | high — the beat costs producer attention at the exact moment work wants to start, and today's session shows the pull is strong | gap 2: forty-three requirements produced across one session and its follow-on and zero promoted, in a session explicitly about this problem | countermeasure - permanent | promotion is a declared artifact with a gate, on the `## Value` precedent — the one piece of human input that reliably survives is the one gate.py refuses without; a project that declares no categories is silent rather than red, so opting in is explicit | the first session that produces a durable requirement and records it only as prose re-argues this row |
 | Retrofitting IDs onto finished work manufactures requirements nobody ever stated | yes | fabricated traceability passes its own check and cannot be told apart from the real thing, which destroys the register's only value | high — 20 slugs exist, 8 have walked the full ladder, and the backfill looks cheap and tidy | the grounding-was-read precedent (2026-08-05) refused retrofits for exactly this reason and made declaring the act of opting in | countermeasure - permanent | forward-only by construction; no retrofit of any existing slug, and the hole where finished work sits is recorded as the honest state | the first request to backfill IDs onto a completed slug re-argues this row |
 | The machinery cannot aim at a consuming project, so the capability degrades to a naming convention nobody checks | no | traceability is asserted and unenforced in every repo that is not Kerd, which is every repo the capability is for | high — certain as built today, not probabilistic | gap 5: kit.py:24 derives ROOT from the tool's own path; gate.py has no argument parser; the cache ships tools/ so the code is present and merely misaimed | countermeasure - permanent | apply the hooks' existing pattern — `${CLAUDE_PLUGIN_ROOT}` for the script, project dir for the state; lands in slice 1 as a hard dependency, and the library already takes `root` as a parameter everywhere so this is a CLI argument rather than a refactor | the first consuming project whose check audits the cache instead of itself re-argues this row |
 | The machine can check an ID is present and mapped; it cannot check the mapping is true — a piece naming a requirement it does not build passes green | no | the check certifies structure and gets read as certifying substance, so a requirement gap survives a green run | high — a property of the design, not a defect that might not occur | the same declared limit already carried by AU5 (resolution is not comprehension) and fidelity.py (reachability is not comprehension) | accepted | | the first requirement that passes the check and turns out unbuilt re-argues this row |
 | The producer authors requirement IDs and the model authors everything downstream, so filing drifts toward what is convenient to build rather than what was asked for | no | the vocabulary stops meaning what the producer meant, which destroys "speak in IDs that mean something" | low — downgraded when the producer supplied a standard discipline taxonomy on 2026-08-07; a fixed external scheme is far harder to drift than one a session invents | the v0.92.0 rename shows the failure is real (names ratified at v0.66.0 came back describing the opposite roles), but that scheme was authored in-session, which this one is not | countermeasure - permanent | the twenty categories are fixed and shipped; a project may extend the set, but no session adds a category without the producer naming it | the first category added by a session rather than by the producer re-argues this row |
-| Kerd exercises about a quarter of its own taxonomy, so the capability ships tested against a narrow slice of what it claims to cover | no | filing rules for UX, INT, SEC, PRIV and CMP requirements are unexercised at ship; a consuming project meets those bugs first | high — structural, not probabilistic: this repo has no UI, no integrations, no user data and no security surface | gap 2: filing today's thirty-one requirements put nine in FUN and left fourteen of the twenty categories empty | accepted unknown | | the first consuming project to file a UX, INT, SEC, PRIV or CMP requirement re-argues this row |
+| Kerd exercises about a quarter of its own taxonomy, so the capability ships tested against a narrow slice of what it claims to cover | no | filing rules for UX, INT, SEC, PRIV and CMP requirements are unexercised at ship; a consuming project meets those bugs first | high — structural, not probabilistic: this repo has no UI, no integrations, no user data and no security surface | gap 2: filing this session's forty-three requirements put twelve in PRD and left thirteen of the twenty categories empty | accepted unknown | | the first consuming project to file a UX, INT, SEC, PRIV or CMP requirement re-argues this row |
 | The `Piece:` trailer, the code end of the chain, has never once been written | no | the forward trace stops at the contract and "requirement to code" is unproven | medium — built and untested rather than known-broken; the product is unfinished so no usage metric exists either way | zero trailers across the 40 commits since v0.91.0, explainable by no contract-run work in that window | accepted unknown | | the first work commit that should carry a trailer and does not re-argues this row |
 
 ## Killer risk, read out
@@ -411,7 +426,7 @@ slice.**
 The first is the discipline risk, and it is the one that actually kills this.
 Every other row is about machinery; this one is about a beat costing the
 producer attention at the exact moment work wants to begin. The evidence is not
-hypothetical or borrowed — this session produced thirty-one durable
+hypothetical or borrowed — this session produced forty-three durable
 requirements while explicitly discussing the need to capture them, and promoted
 none. The
 countermeasure is the only one this repo has ever seen work on human input: make

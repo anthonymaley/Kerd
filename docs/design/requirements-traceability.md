@@ -47,19 +47,29 @@ written after StrictDoc's write-back UI was demonstrated, weighting that
 capability heavily would have felt obvious and the matrix would have been
 rigged in a way no later reader could detect.
 
-**Nineteen criteria: twelve M, seven D.** *Effort to build is deliberately
+**Twenty-three criteria: twelve M, eleven D.** *Effort to build is deliberately
 absent* — the 2026-08-03 standing decision that effort is an input measure, and
 putting it beside outcome measures makes the grid incoherent and flatters cheap
-work. It survives as a tiebreaker.
+work. **`Due date` replaced it** (`TST-003`, 2026-08-08): *can it meet the plan
+in time* is an outcome measured against a declared bar, which is a legitimate
+axis rather than the tiebreaker effort was demoted to. Its target records that
+no plan artifact exists to test against — the same missing release-grouping
+artifact that `Release grouping` and `TECH-006` both hit.
 
 Three criteria are the producer's own words, 2026-08-07 23:41: *"needs to be git
 repo and claude code friendly per project and not scatter arifacts, needs to be
 the same files"* — filed as `TECH-007`, `NFR-004`, `TECH-008`, all `final`.
 
-**The matrix is marks-only.** Twelve of nineteen criteria are M, and a `×` on an
-M kills an option regardless of any score, so the marks decide this before
+**The matrix is marks-only.** Twelve of twenty-three criteria are M, and a `×`
+on an M kills an option regardless of any score, so the marks decide this before
 arithmetic could — the standard's own rule, *"marks always, scores when the
-stakes are real"*. Five of six options die on at least one M.
+stakes are real"*.
+
+**The mark set and its rules are `PRD-008` … `PRD-012` and `UX-001` … `UX-006`**,
+stated by the producer on 2026-08-08 and captured as requirements rather than
+left in conversation — including the ruling that decides many cells here:
+**building the missing piece ourselves is a legal countermeasure**, marked `△-`,
+with its cost carried by the summary columns rather than hidden in the mark.
 
 ## Criteria
 
@@ -72,7 +82,7 @@ stakes are real"*. Five of six options die on at least one M.
 | Belongs to the consuming project | fit | the register lives in the user's repo and Kerd holds none of its own | M | 3 |
 | Human-readable with no tooling | readability | a person opening the raw file in git understands a requirement without installing anything | M | 2 |
 | Machine-readable by stdlib | readability | a stdlib-only Python script parses the register with the tool NOT installed | M | 2 |
-| Install burden on consuming projects | cost | what every project using Kerd must install; target is nothing beyond Python 3 stdlib | M | 2 |
+| Installable at all | cost | installs on the developer's own platform via one documented command — not "how much", but "can you get it at all" | M | 3 |
 | The producer's ID format | expressiveness | `<CODE>-<NNN>` across all twenty codes, including the two-letter `UX-001` | M | 2 |
 | The twenty-category taxonomy | expressiveness | discipline categories as a first-class field, extensible, not invented per project | M | 2 |
 | The five-state lifecycle | expressiveness | proposed / qualified / final / superseded / dropped as a closed, validated set | M | 2 |
@@ -84,9 +94,10 @@ stakes are real"*. Five of six options die on at least one M.
 | Generated human view | destination | an HTML view derived from the files, not hand-built | D | 1 |
 | Write-back editing | destination | a human changes a requirement's state from the view and it lands in the files | D | 1 |
 | Maintenance and survival | cost | actively maintained, or so simple that abandonment costs nothing | D | 2 |
-| Cost | summary | no money, and no runtime a consuming project must own | D | 3 |
+| Added dependency burden | cost | what the option adds BEYOND what the project already needs, weighed against the share of value it buys — an ecosystem-normal install is not a burden; a whole new runtime bought for a fraction of the value is | D | 3 |
+| Cost | summary | MONEY. Free to use: no licence fee, no subscription, no per-seat charge — "cant expect anyone to pay to use" | M | 3 |
 | Quality | summary | solves the whole need rather than a part of it | D | 3 |
-| Effort | summary | lands in one session — a TIEBREAKER only, never an axis | D | 1 |
+| Due date | summary | usable in the next working session — NO plan artifact exists to test against, so this is the only declared horizon | D | 2 |
 | Rating | verdict | the option a producer would pick with everything weighed | D | 3 |
 
 ## Options
@@ -104,29 +115,30 @@ stakes are real"*. Five of six options die on at least one M.
 
 | Criterion | Build | StrictDoc | Doorstop | SphinxNeeds | OpenFastTrace | Reqflow |
 |---|---|---|---|---|---|---|
-| The same files | ○ | △ — .sdoc, not your markdown | △ — parallel layout, own tree | × — 0 needs in your real docs | × — stores nothing | × — stores nothing |
-| No artifact scatter | ○ | ○ | × — ~65 files, 20 dirs | × — 73 files, 5 MB | ○ | ○ |
-| Git-repo native | ○ | ○ | ○ | △ — build output needs hosting | ○ | ○ |
-| Claude Code friendly | ○ | ○ | △ — the UID is the filename | △ — directives buried in prose | ○ | × — no authoring format |
-| Belongs to the consuming project | △ — needs gate.py --root | ○ | ○ | ○ | ○ | ○ |
-| Human-readable with no tooling | ○ | ○ | ○ | ○ | ○ | × — no source format |
-| Machine-readable by stdlib | ○ | △ — own parser needed | ○ | ○ | ○ | × — CSV needs the binary |
-| Install burden on consuming projects | ○ | × — 373 MB, 87 packages | × — 28 MB, 15 packages | × — 118 MB, 30 packages | × — a Java 17 runtime | × — no macOS build exists |
-| The producer's ID format | ○ | ○ | △ — needs -s - every time | ○ | × — UX-001 inexpressible | ○ |
-| The twenty-category taxonomy | ○ | ○ | △ — single-rooted tree only | ○ | △ — unvalidated free tags | × — no taxonomy |
-| The five-state lifecycle | ○ | ○ | △ — values unvalidated | ○ | × — a closed set of four | × — only 'uncovered' |
-| Refusal from outside the model | △ — CI is Kerd's own | ○ | ○ | ○ | ○ | × — cannot run on macOS |
-| Requirement-to-requirement dependency | ○ | ○ | ○ | ○ | △ — Depends is inert | △ — one untyped relation |
-| Category disposition | ○ | △ — custom field plus our check | △ — custom field plus our check | △ — custom field plus our check | × — no field for it | × — no field for it |
-| Forward trace to code and tests | △ — trailer never exercised | ○ | △ — document-tier links only | △ — convention ours to invent | ○ | ○ |
-| Release grouping | × — nothing exists | × — authors use GitHub milestones | × — no concept at all | △ — a filter, not a board | × — no concept at all | × — no concept at all |
-| Generated human view | ○ | ○ | ○ | ○ | ○ | ○ |
-| Write-back editing | × — every page read-only | ○ | × — read-only server | × — no form at all | × — no UI at all | × — report-only, one-way |
-| Maintenance and survival | ○ | △ — two people, pre-1.0 | △ — one maintainer | ○ | ○ | × — 2019, 3 commits since |
-| Cost | ○ | × — 373 MB per project | × — 28 MB per project | × — 118 MB per project | × — a JVM per project | × — compile from source |
-| Quality | △ — no write-back, no ReqIF | ○ | △ — validates nothing custom | △ — great model, heavy shell | × — cannot hold the IDs | × — no schema at all |
-| Effort | ○ | △ — convert 14 docs first | △ — lay out ~65 files | × — rewrite every product doc | × — new ID scheme everywhere | × — build a toolchain first |
-| Rating | ○ | △ — best if cost is relaxed | △ — right shape, wrong storage | × — heaviest, worst fit | × — a tracer, not a register | × — not installable here |
+| The same files | ○ | ○ | △- — its own tree, not your docs | △- — 14 docs need rewriting | ○ | ○ |
+| No artifact scatter | ○ | ○ | △- — ~65 files across 20 dirs | △+ — gitignore the build output | ○+ — writes nothing by default | ○ |
+| Git-repo native | ○ | ○ | ○ | ○ | ○ | ○ |
+| Claude Code friendly | ○ | ○ | △ — the UID is the filename | ○- — directive syntax is fiddly | ○ | △- — the format is ours |
+| Belongs to the consuming project | △ — gate.py --root not landed | ○ | ○ | ○ | ○ | ○ |
+| Human-readable with no tooling | ○ | ○ | ○ | ○ | ○ | ○ |
+| Machine-readable by stdlib | ◎ | △+ — a .sdoc parser is ours | ○ | ○ | ○ | △- — our parser, not the tool |
+| Installable at all | ○ | ○ | ○ | ○ | △- — install a JVM first | × — no macOS build exists |
+| The producer's ID format | ○ | ○ | △+ — needs -s - at creation | ○ | △- — tilde grammar, second ID | ○ |
+| The twenty-category taxonomy | △+ — codes hardcoded in kit.py | ○ | △- — unvalidated, our checker | ○ | △- — unvalidated free tags | △- — the field is ours |
+| The five-state lifecycle | ◎ | ○ | △- — BANANA passed, our checker | ○ | △- — closed four, state in tags | △- — the field is ours |
+| Refusal from outside the model | △- — no CI outside Kerd | ○ | ○- — structure yes, values no | ○ | ○ | △- — our checker, not the tool |
+| Requirement-to-requirement dependency | △+ — field absent from the row | ○ | ○- — UID links, tier-shaped | ○+ — typed links, dangling caught | △ — Depends is inert | △- — our field, our check |
+| Category disposition | ○ | △+ — our completeness check | △- — custom attr, our check | △- — our completeness check | △- — no field, separate file | △- — wholly ours |
+| Forward trace to code and tests | △- — requirement-to-code unbuilt | ○ | △- — no source-file link | △- — code convention is ours | ◎ | ○ |
+| Release grouping | △- — board unbuilt, own slice | △- — custom field, board is ours | △- — no concept, our board | △- — no release object | △- — no concept, we build it | △- — grouping is ours |
+| Generated human view | △+ — no register view yet | ◎ | ○+ — publish built in | ◎ | ○ | △+ — CSV only, we render |
+| Write-back editing | △- — never built here | ◎ | △- — server read-only | △- — static HTML only | △- — no UI at all | △- — report-only, one-way |
+| Maintenance and survival | ◎ | ○ | ○- — recent, one maintainer | ○+ — active at 8.3.0 | ○ | ○- — dead, register survives |
+| Added dependency burden | ◎ | △- — 87 packages onto existing Python | △ — 15 packages onto existing Python | △- — packages plus a build pipeline | × — a whole new runtime, for tracing only | × — new toolchain, and uninstallable |
+| Cost | ○ | ○ | ○ | ○ | ○ | ○ |
+| Quality | △- — four asked-for gaps | △- — three pieces still ours | △- — no validation or board | △- — board and write-back ours | △- — tracer only, register ours | △- — almost everything is ours |
+| Due date | ○- — --root and rework first | △+ — install plus a reader | △+ — script the tree layout | △- — greenfield now, rewrite later | △- — JVM plus a register build | △- — a toolchain first |
+| Rating | ○ | △- — only if 373 MB is bearable | △- — the format survives, not the tool | △- — heavy shell, good model | △- — only if a runtime is allowed | △- — cannot install on macOS |
 
 ## Preferred solution
 
@@ -207,40 +219,39 @@ Three risks are specific to the preferred option:
 - **No write-back and no board, today.** Both are `×`, both are real capability
   the producer asked for, and both are deferred rather than dismissed.
 
+A row is required for every △ on a **MANDATORY** criterion — the marks that
+would otherwise have been `×` and killed the option. There are 21. The other 43
+triangles sit on DESIRABLE criteria, where the few-word reason in the cell is
+the whole statement; the rule was narrowed on 2026-08-08 because demanding
+prose for all 64 buries the table in exactly the reading `UX-006` says a table
+exists to avoid.
+
 ## Countermeasures
+
 
 | Option | Criterion | Countermeasure | Type | Confidence | Return condition |
 |---|---|---|---|---|---|
-| Build | Belongs to the consuming project | `gate.py --root <path>`, defaulting to `kit.ROOT` so every existing invocation is byte-identical; the library already takes `root` as a parameter everywhere, so only the CLI entry point pins it | permanent | high — `kit.py:22-24`'s own comment says the CLI passes ROOT and the selftest passes a temp tree, so the parameterisation is proven | |
-| Build | Refusal from outside the model | ship the checker in `tools/`, which the plugin cache already carries, and give it a locatable entry point so a consuming project's own CI can invoke it | temporary | low — `${CLAUDE_PLUGIN_ROOT}` is expanded nowhere in this repo and `$CLAUDE_PROJECT_DIR` measured unset in the tool environment; the script-location half is genuinely undesigned | the first consuming project that runs the audit against itself, or the first release that ships a locatable entry point |
-| Build | Forward trace to code and tests | adopt OpenFastTrace's comment-tag convention and check it with a stdlib parser; the `Piece:` trailer already carries the commit end of the chain | temporary | medium — the trailer shipped at v0.91.0 and has never been written, so the mechanism is built but unproven | the first work commit that should carry a trailer and does not |
-| StrictDoc | The same files | adopt the `.sdoc` format without requiring the tool — the files stay plain text and readable, and StrictDoc becomes optional producer-side tooling over them | permanent | medium — byte-for-byte round-trip was verified, but `.sdoc` is not the project's existing markdown and every product doc would need converting | |
-| StrictDoc | Machine-readable by stdlib | write a stdlib parser against `.sdoc` rather than using the JSON export, which requires the tool to run | permanent | medium — the format is regular enough to parse, but this is work the adoption was meant to avoid | |
-| StrictDoc | Category disposition | declare disposition as a custom grammar field and check completeness with Kerd's own checker | permanent | high — custom grammar fields are a documented, working feature | |
-| StrictDoc | Maintenance and survival | pin the version and keep the register readable without the tool, so abandonment costs only the viewer | permanent | medium — two-person project, pre-1.0, with a documented history of breaking format migrations | |
-| Doorstop | The same files | accept the `reqs/**/` tree as the register's declared home rather than annotating existing product docs | permanent | low — it is a parallel layout by design and cannot annotate `docs/product/<slug>.md` at all | |
-| Doorstop | Claude Code friendly | give the model the exact filename convention and the per-document `.doorstop.yml`, so capture is a Write to a computable path | permanent | medium — the UID is the filename, so the model must compute the next free number before writing | |
-| Doorstop | The producer's ID format | pass `-s -` on every document creation; the default separator is empty and yields `UX001` | permanent | high — verified hands-on, `FUN-001` and `UX-001` both produced verbatim | |
-| Doorstop | The twenty-category taxonomy | model the twenty categories as one document each under a single synthetic root, since a second root document is rejected | permanent | low — the tree is single-rooted by design and a flat taxonomy is not expressible natively | |
-| Doorstop | The five-state lifecycle | validate the state field with Kerd's own checker, because Doorstop does not validate custom attribute values | permanent | high — `state: BANANA_NOT_A_LIFECYCLE_STATE` passed the strictest run, so the gap is measured and the fix is ours | |
-| Doorstop | Category disposition | a custom `disposition` attribute plus a Kerd-side completeness check | permanent | high — custom attributes are preserved and can carry per-document defaults | |
-| Doorstop | Forward trace to code and tests | use `links:` to a synthetic implementation document, or fall back to the `Piece:` trailer | temporary | low — `links:` is designed for document-tier tracing, not for pointing at source files | the first requirement that needs to name the commit that satisfied it |
-| Doorstop | Maintenance and survival | pin the version; the source files are plain text and parse without the tool | permanent | medium — alive and released four days before evaluation, but effectively one maintainer | |
-| SphinxNeeds | Git-repo native | gitignore `_build/` and publish the HTML from CI rather than committing it | permanent | medium — works, but the shareable artifact then requires hosting that does not exist today | |
-| SphinxNeeds | Claude Code friendly | author in MyST markdown rather than RST so a model edits ordinary prose | permanent | medium — MyST is a further install on top of an already heavy toolchain | |
-| SphinxNeeds | Category disposition | a custom `needs_extra_options` field plus a Kerd-side completeness check | permanent | medium — works, but three of the documented options emitted deprecation warnings in 8.3.0 | |
-| SphinxNeeds | Forward trace to code and tests | link needs to source via a custom link type and a code-side annotation convention | permanent | medium — link types are a working feature; the code-side convention would be ours to invent | |
-| SphinxNeeds | Release grouping | a custom release field plus `needtable` filtering to produce a per-release view | temporary | low — this yields a filtered document, not a board, and the same approach in StrictDoc was ignored by JSON export | the first time a filtered view is asked to reorder or move an item |
-| OpenFastTrace | The twenty-category taxonomy | use free-form `Tags:` for category, since artifact types are tracing-hierarchy levels rather than an orthogonal taxonomy | permanent | low — tags are unvalidated free text, so the taxonomy would be unenforced | |
-| OpenFastTrace | Requirement-to-requirement dependency | record dependency in `Depends` and read it from the `aspec` XML report | permanent | low — the docs state `Depends` "has no effect on the coverage", so nothing refuses a dangling one | |
-| Reqflow | Requirement-to-requirement dependency | express dependency through the single untyped covers / covered-by relation | permanent | low — one untyped relation cannot distinguish dependency from coverage | |
-| Build | Quality | ship the register first and treat write-back and interchange as later slices, generated from the markdown rather than stored in a tool's format | temporary | medium — the generator pattern for HTML is proven three times over, but no page in `tools/` has ever written back | the first time the producer needs to change a requirement's state without editing the file |
-| StrictDoc | Effort | convert the fourteen product docs once, then author only in `.sdoc` | permanent | medium — round-trip is verified, but the conversion is a one-way door for anything that reads markdown today | |
-| StrictDoc | Rating | relax *install burden* from M to D and this becomes the live option; it still loses *the same files* and still has no release board | temporary | medium — the trade is real and stated, but the decision is the producer's and has not been made | the producer rules on whether 373 MB is a fair thing to ask a consuming project to own |
-| Doorstop | Quality | validate every custom value with Kerd's own checker, since Doorstop validates none of them | permanent | high — `state: BANANA_NOT_A_LIFECYCLE_STATE` passed its strictest run, so the gap is measured | |
-| Doorstop | Effort | script the tree layout rather than creating documents by hand | permanent | medium — the layout is mechanical, but ~65 files across 20 directories is a large first commit | |
-| Doorstop | Rating | adopt only the markdown itemformat — frontmatter plus body — and none of the tool | permanent | high — a stdlib script parsed every field with PyYAML *not* installed, so the idea travels without the dependency | |
-| SphinxNeeds | Quality | keep the data model and reject the build shell — author the same fields in markdown and check them ourselves | permanent | medium — this is the strongest data model of the six, and taking only the model is most of what BUILD now does | |
+| Build | Belongs to the consuming project | `gate.py --root <path>`, defaulting to `kit.ROOT`; the library already takes `root` everywhere, so only the CLI entry point pins it | permanent | medium — the parameterisation is proven by the selftest passing temp trees, but the SCRIPT-location half is undesigned: `${CLAUDE_PLUGIN_ROOT}` expands nowhere in this repo and `$CLAUDE_PROJECT_DIR` measured unset | |
+| Build | The twenty-category taxonomy | move the twenty codes out of `kit.py` into the project's own `categories.md`, so a consuming project extends rather than inherits a hardcode | permanent | high — the disposition file already has to exist and already lists all twenty | |
+| Build | Refusal from outside the model | ship the checker in `tools/` and give it an entry point a consuming project's own CI can invoke | temporary | low — Kerd's CI audits Kerd; a consuming project gets the skills' judgment, not the machine's refusal, and every external option scores ○ here | the first consuming project that runs the audit against itself |
+| StrictDoc | Machine-readable by stdlib | write a stdlib parser for `.sdoc` rather than using the JSON export, which requires the tool to run | permanent | medium — the format is regular enough to parse, but this is work the adoption was meant to avoid | |
+| Doorstop | The same files | accept the `reqs/**/` tree as the register's declared home; it cannot annotate `docs/product/<slug>.md` at all | permanent | low — a parallel layout by design, and the tool's whole merge story depends on it | |
+| Doorstop | No artifact scatter | flatten to one document per category rather than per item, trading merge-friendliness for file count | permanent | low — file-per-item is HOW it earns clean diffs; the evidence states the scatter cannot be configured away | |
+| Doorstop | Claude Code friendly | give the model the filename convention and the per-document `.doorstop.yml` so capture is a Write to a computable path | permanent | medium — the UID IS the filename, so the model must compute the next free number before writing | |
+| Doorstop | The producer's ID format | pass `-s -` at every document creation; the default separator is empty and yields `UX001` | permanent | high — verified hands-on, `FUN-001` and `UX-001` both produced verbatim | |
+| Doorstop | The twenty-category taxonomy | model the categories as documents under one synthetic root, since a second root is rejected, and validate the set with our own checker | permanent | low — the tree is single-rooted by design and a flat taxonomy is not expressible natively | |
+| Doorstop | The five-state lifecycle | validate the state field with our own checker, because Doorstop validates no custom attribute values | permanent | high — `state: BANANA_NOT_A_LIFECYCLE_STATE` passed its strictest run, so the gap is measured and the fix is ours | |
+| SphinxNeeds | The same files | rewrite the fourteen product docs into directive syntax | permanent | low — the decisive test found ZERO needs in the real docs, and `needs.json` is a build artifact, i.e. a derived second copy | |
+| SphinxNeeds | No artifact scatter | gitignore `_build/` and publish the HTML from CI rather than committing it | permanent | medium — works, but the shareable artifact then needs hosting that does not exist | |
+| OpenFastTrace | Installable at all | install a system JVM; Java 17 is a common machine-level dependency | temporary | low — no JVM exists on this machine, and a consuming project cannot be assumed to have one | the first consuming project confirmed to carry a JVM already |
+| OpenFastTrace | The producer's ID format | keep `<CODE>-<NNN>` in the register we own and carry OFT's `artifacttype~name~revision` as a second, derived ID for tracing only | permanent | low — two ID namespaces is exactly the confusion the register exists to remove | |
+| OpenFastTrace | The twenty-category taxonomy | put the category in free-form `Tags:`, since artifact types are tracing-hierarchy levels rather than a taxonomy, and validate it ourselves | permanent | low — tags are unvalidated free text, so the taxonomy would be enforced only by our own checker | |
+| OpenFastTrace | The five-state lifecycle | hold the five states in our register and map only the four OFT understands | permanent | low — the closed set is the vendor's and has no documented extension point | |
+| Reqflow | Claude Code friendly | author requirements in our own markdown and let reqflow regex-match them | permanent | low — reqflow contributes nothing to authoring; the format would be entirely ours | |
+| Reqflow | Machine-readable by stdlib | parse our own markdown with stdlib and use reqflow only for coverage reports | permanent | low — its only structured export is a two-column CSV, produced by a binary that will not install here | |
+| Reqflow | The twenty-category taxonomy | carry the category in our own field; reqflow has no schema at all | permanent | low — a requirement is whatever a PCRE regex matched | |
+| Reqflow | The five-state lifecycle | carry the state in our own field; the tool's only status is `U` for uncovered | permanent | low — same absence of schema | |
+| Reqflow | Refusal from outside the model | run our own checker; reqflow cannot run on macOS at all | permanent | low — the refusal would come from the part we wrote, not from the option being evaluated | |
 
 ## The design package — BLOCKED, not yet reworked
 
@@ -354,7 +365,7 @@ state is the one that must be argued for.
 > capture on the fly as `proposed`, rule to `final` or `dropped` later on the
 > board. The single beat below rides conductor's task framing, which fires only
 > for new work and only where entry gates exist — so it would have caught none
-> of the session's thirty-one requirements, which is the evidence the frame's
+> of the session's forty-three requirements, which is the evidence the frame's
 > own gap 2 records. The paragraph below is retained as the record of what was
 > wrong, not as the design.
 
