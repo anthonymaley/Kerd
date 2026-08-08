@@ -52,6 +52,46 @@ A refusal, not a convention — and one no skill text can enforce on itself, sin
 a model choosing to comply is not a check. The layer that can enforce it is a
 hook, which fires outside the model.
 
+## Annotation round 2 (2026-08-07, in conversation)
+
+**Conductor may propose a type change, and the producer agrees it.** Tony:
+*"'/conductor' can suggest or agree to a project type change also. i.e. we need
+a spike before MVP now that we have done a little analysis, or we completed
+goal so suggest pilot not beta as tests are good."* Two mechanisms, and they
+carry different risk:
+
+| Trigger | What moves | Risk |
+|---|---|---|
+| **At the goal gate** | the type advances, and the next one is chosen on evidence rather than taken from a fixed order | low — a gate fires, the producer's key is already on it |
+| **Mid-flight** | the type changes because what was learned invalidated the type chosen | higher — no gate fires; nothing is checking |
+
+**The transition is worth more than the state.** *"We are in Spike"* is
+recoverable from disk cheaply. *"We went MVP → Spike because the analysis
+showed X"* is the expensive half, and it is the class of human input the
+2026-08-07 root cause says is lost by default. A type change writes a dated
+record carrying the reason and the producer's key — the shape
+`docs/gates/<date>-<slug>-<rung>.md` already has.
+
+**Named risk — type-thrash.** Each change is individually reasonable; the
+sequence can be pathological. A project that keeps stepping back to Spike never
+ships, and with only the current type on disk nothing would show it. The
+transition record is the countermeasure and is free once transitions are
+written: thrash is a visible shape in a history and invisible in a current
+value.
+
+**A nested type is a stack, not a replacement.** Tony: *"a spike can be run
+within MVP imo."* The project keeps its type; a piece of work inside it may
+declare its own. Items **inherit** the project's type by default, so the
+retrofit dissolution from round 1 still holds — an override is opt-in and
+forward-only, and nothing existing needs a type it cannot honestly claim.
+
+**The floor rule that follows: a nested type may raise rigor, never lower it
+below the project's floor.** An MVP requires security review before
+prod/user/data exposure; Spike marks it Conditional. If the inner type won,
+"run a spike" would become the documented way around G6. Same shape as the
+standing rigor decision that production-v1 cannot waive security — the outer
+floor holds and a nested piece can only be stricter.
+
 These templates sit on top of the stable requirement category scheme:
 
 `BUS`, `STA`, `USR`, `PRD`, `FUN`, `NFR`, `UX`, `TECH`, `INT`, `DATA`,
