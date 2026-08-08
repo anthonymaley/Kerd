@@ -1,7 +1,10 @@
 # Requirements traceability — slice 1 design
 
-> **STATUS 2026-08-08: the MECHANISM is decided; the rest of the design is
-> still BLOCKED.** The build-vs-adopt evaluation below is complete and is the
+> **STATUS 2026-08-08: the MECHANISM is decided ON MERIT; the rest of the design
+> is still BLOCKED.** The matrix was re-scored under the producer's own mark
+> semantics after the first version decided everything by elimination. Only
+> Reqflow now dies on a mandatory criterion, and StrictDoc is a genuine
+> runner-up — it meets MORE criteria outright than Build does. The build-vs-adopt evaluation below is complete and is the
 > repo's first evaluation matrix. It settles which mechanism holds the
 > register. The design sections *after* the matrix are the 2026-08-07 package
 > that was blocked at cold eyes — 19 findings across eight themes, plus roughly
@@ -47,7 +50,7 @@ written after StrictDoc's write-back UI was demonstrated, weighting that
 capability heavily would have felt obvious and the matrix would have been
 rigged in a way no later reader could detect.
 
-**Twenty-three criteria: twelve M, eleven D.** *Effort to build is deliberately
+**Twenty-four criteria: twelve MANDATORY, twelve DESIRABLE.** *Effort to build is deliberately
 absent* — the 2026-08-03 standing decision that effort is an input measure, and
 putting it beside outcome measures makes the grid incoherent and flatters cheap
 work. **`Due date` replaced it** (`TST-003`, 2026-08-08): *can it meet the plan
@@ -60,10 +63,11 @@ Three criteria are the producer's own words, 2026-08-07 23:41: *"needs to be git
 repo and claude code friendly per project and not scatter arifacts, needs to be
 the same files"* — filed as `TECH-007`, `NFR-004`, `TECH-008`, all `final`.
 
-**The matrix is marks-only.** Twelve of twenty-three criteria are M, and a `×`
-on an M kills an option regardless of any score, so the marks decide this before
-arithmetic could — the standard's own rule, *"marks always, scores when the
-stakes are real"*.
+**The matrix is marks-only.** A `×` on a MANDATORY criterion kills an option
+regardless of any score, so the marks decide this before arithmetic could — the
+standard's own rule, *"marks always, scores when the stakes are real"*. Under
+the 2026-08-08 semantics only **one** option dies that way, so the verdict is
+carried by the four summary columns rather than by elimination.
 
 **The dependency baseline was measured, not assumed** (2026-08-08, 76 installed
 plugins across 11 marketplaces on the producer's own machine — the sample is one
@@ -174,89 +178,126 @@ with its cost carried by the summary columns rather than hidden in the mark.
 
 ## Preferred solution
 
-Build — the register is a markdown file in the consuming project's own git
-repo, and it is the only option that satisfies *the same files* by construction
-rather than by policy.
+Build — it adds nothing to what a consuming project already carries, lands
+soonest, and every gap it has is one we control and can close on our own
+schedule.
 
-**Five of six options are dead on at least one M criterion.** Build is the only
-living option, and it carries two `×` — both on D criteria in the *destination*
-group, both real losses named below.
+**Only Reqflow is dead**, and only because it cannot be installed on macOS at
+all. The elimination that decided the first version of this matrix is gone: the
+producer's 2026-08-08 ruling that *building the missing piece ourselves is a
+legal countermeasure* moved most crosses to `△-`, and splitting `Cost` into
+money, installability and added dependency burden removed the single criterion
+that had been killing five options at once. **This is now a decision on merit,
+not by disqualification.**
 
-**Say plainly which criterion decides this, because one does.** *Install burden
-on consuming projects*, M, target "nothing beyond Python 3 stdlib", kills all
-five external options on its own: StrictDoc 87 distributions / 373 MB, Doorstop
-15 / 28 MB, Sphinx-Needs 30 / 118 MB, OpenFastTrace a Java 17 runtime, Reqflow
-an autotools compile against a Homebrew formula Homebrew itself marks
-unmaintained. Every one of those lands on **every consuming project**, because
-`TECH-001` puts the state in the user's repo, so the tool must run there.
+**Say the uncomfortable part, because the marks say it.** On distribution alone
+StrictDoc edges Build:
 
-**And say what changes if the producer relaxes that target**, because that is
-his call and not the model's. Relax install burden from M to D and StrictDoc
-becomes a living option with a genuine case: verified write-back, ReqIF and
-Excel export, and a validator that refuses. It would still lose *the same files*
-to Build and it would still have no release board — but it would be a real
-comparison rather than an elimination. The target was declared before the
-evidence; changing it after is the producer's prerogative and nobody else's.
+| | ◎ | circle family | triangle family | × |
+|---|---|---|---|---|
+| Build | 4 | **15** | 9 | 0 |
+| StrictDoc | 2 | **17** | 7 | 0 |
+| SphinxNeeds | 1 | 14 | 10 | 0 |
+| OpenFastTrace | 1 | 12 | 11 | 1 |
+| Doorstop | 0 | 10 | 14 | 0 |
+| Reqflow | 0 | 9 | 13 | 2 |
 
-**Two independent findings survived the eliminations and belong in the build:**
+StrictDoc meets more criteria outright and needs fewer countermeasures. It also
+holds the two `◎` Build cannot touch — a generated view and **verified
+write-back**, both capabilities the producer asked for and Build does not have
+today.
 
-- **Doorstop's markdown itemformat** — YAML frontmatter plus a prose body, with
-  text and metadata in one file. A stdlib script parsed every field with PyYAML
-  *not installed*. That is exactly `TECH-005`'s "read quickly by a person and
-  directly by a tool", and it can be implemented without adopting Doorstop.
+**Build wins on the summary columns, which is where this decision now lives:**
+
+- **Added dependency burden `◎` against `△-`.** Build adds nothing. StrictDoc
+  adds 87 distributions and 373 MB to every consuming project — bearable, per
+  the producer, but never welcome, and the ecosystem norm is to *fetch* such
+  dependencies invisibly rather than ask for them.
+- **Due date `○-` against `△+`.** Build is usable in the next working session;
+  StrictDoc needs an install plus a stdlib reader written before Kerd's own
+  machinery can read the register.
+- **Every Build triangle sits on something we own.** `--root`, the hardcoded
+  category codes, the missing dependency field, the register view, the write
+  path — all ours to close, on our own schedule, with no vendor between us and
+  the fix. StrictDoc's triangles are ours to close *too*, which is the point:
+  adopting it does not remove the work, it adds a dependency on top of it.
+
+**What would change the answer, stated so it can be checked rather than
+re-argued:** if a rendered view and write-back editing are wanted sooner than we
+would build them, StrictDoc's case is real and its `△-` rating is a genuine
+runner-up rather than a courtesy. The producer has already said the board is
+where he wants to end up. If that timeline shortens, this decision should be
+re-opened rather than inherited.
+
+**Two findings survived and belong in the build regardless of which option
+wins:**
+
+- **Doorstop's markdown itemformat** — YAML frontmatter plus a prose body, text
+  and metadata in one file. A stdlib script parsed every field with PyYAML *not
+  installed*. That is exactly `TECH-005`, and it needs none of Doorstop.
 - **OpenFastTrace's tag convention** — `# [impl->dsn~some-item~1]` is a plain
-  comment in Python or shell. *Writing* a tag costs nothing; only *checking* one
-  needs the JVM. Kerd can adopt the convention and write a stdlib checker,
-  which is the forward-trace half of slice 2 at no dependency cost.
+  comment. *Writing* a tag costs nothing; only *checking* one needs the JVM. The
+  convention is the forward-trace half of slice 2 at no dependency cost.
 
 ## Proposal and next steps
 
-1. **Build AU7 and AU8 on the existing audit**, on the AU5/AU6 precedent — no
-   new CI step. The prototype against the real `kit.py` was 117 non-blank
+1. **Land `gate.py --root` first.** A hard dependency, not a follow-up:
+   `tools/gates/kit.py:24` derives `ROOT` from the tool file's own path, so a
+   consuming project would audit the plugin cache. The *script*-location half is
+   undesigned and is the real work — `${CLAUDE_PLUGIN_ROOT}` expands nowhere in
+   this repo and `$CLAUDE_PROJECT_DIR` measured unset.
+2. **Build AU7 and AU8 on the existing audit**, on the AU5/AU6 precedent — no
+   new CI step. Prototyped against the real `kit.py` at 117 non-blank
    non-comment lines plus 11 fixtures, passing first run, including the
    dependency column and two-letter IDs.
-2. **Land `gate.py --root` first.** It is a hard dependency, not a follow-up:
-   `tools/gates/kit.py:24` derives `ROOT` from the tool file's own path, so a
-   consuming project would audit the plugin cache. See the countermeasure below
-   — the *script*-location half is undesigned and is the real work.
-3. **Adopt the frontmatter-plus-body item shape** for the register's rows and
-   the `<CODE>-<NNN>` ID format with the regex widened to `^[A-Z]{2,4}-\d{3}$`,
-   which accepts all twenty codes exactly and nothing longer.
-4. **Keep ReqIF and `.sdoc` as export targets, never as storage.** If a
-   consuming project ever needs interchange, generating it from a markdown
-   register is a rendering problem; storing in a tool's format to get it is a
-   dependency problem.
-5. **The release board is not in this slice**, and after this evaluation we know
-   something new about it: no tool on the market that met the other criteria has
-   a release-grouping concept either. StrictDoc's own authors use GitHub
-   milestones. Building it is not us declining an easy win.
+3. **Adopt the frontmatter-plus-body item shape** and the `<CODE>-<NNN>` format
+   with the regex widened to `^[A-Z]{2,4}-\d{3}$` — all twenty codes exactly,
+   nothing longer.
+4. **Move the twenty category codes out of `kit.py`** into the project's own
+   disposition file. Build scores `△+` on the taxonomy criterion precisely
+   because they are hardcoded, which contradicts the standing rule that
+   project-specific schemes are declared per project.
+5. **Keep ReqIF and `.sdoc` as export targets, never as storage.** Interchange
+   generated from a markdown register is a rendering problem; storing in a
+   tool's format to get it is a dependency problem.
+6. **If a dependency is ever taken, fetch it — do not ask.** Measured across 76
+   installed plugins: only two ask a user to `pip install` anything, while
+   `serena`, `data-engineering` and `security-guidance` all pull packages with
+   zero user steps. The norm is invisibility.
+7. **The release board is its own work, and the evaluation taught us something
+   about it:** no option surveyed has a release-grouping concept. StrictDoc's
+   own authors use GitHub milestones. Building it is not us declining an easy
+   win — there is no easy win to decline.
 
 ## Risks and countermeasures required
 
-**The killer risk is untouched by this decision, and that is the point of
-recording it here.** *Requirements are recorded but the promotion beat is
-skipped under time pressure* is unaffected by which mechanism holds the
-register — no external tool supplies the countermeasure either. It scores
-identically across all six options and must not be charged to Build.
+**The killer risk is untouched by this decision, and that is why it is recorded
+here.** *Requirements are recorded but the promotion beat is skipped under time
+pressure* is unaffected by which mechanism holds the register — no external tool
+supplies the countermeasure either. It scores identically across all six options
+and must not be charged to Build.
 
 Three risks are specific to the preferred option:
 
-- **The refusal does not travel.** Build's `△` on *refusal from outside the
-  model* is the standing decision that Kerd's CI audits Kerd, and a consuming
-  project gets the skills' judgment rather than the machine's refusal. Every
-  external option scored `○` here. This is the one criterion where adopting
-  would genuinely have bought something.
+- **The refusal does not travel.** Build's `△-` on *refusal from outside the
+  model* is the standing decision that Kerd's CI audits Kerd, so a consuming
+  project gets the skills' judgment rather than the machine's refusal. **Every
+  external option scores `○` here.** This is the one criterion where adopting
+  would genuinely have bought something Build cannot.
 - **The forward trace is built and never exercised.** The `Piece:` trailer
   shipped at v0.91.0 and zero commits have carried one.
-- **No write-back and no board, today.** Both are `×`, both are real capability
-  the producer asked for, and both are deferred rather than dismissed.
+- **No write-back and no board today.** Both are now `△-` rather than `×`,
+  because we could build them — but the countermeasure for write-back carries
+  **low** confidence honestly: no page in `tools/` has ever written back, and no
+  mechanism is designed. StrictDoc has it working. Marking it achievable is not
+  the same as having it.
 
 A row is required for every △ on a **MANDATORY** criterion — the marks that
 would otherwise have been `×` and killed the option. There are 21. The other 43
 triangles sit on DESIRABLE criteria, where the few-word reason in the cell is
-the whole statement; the rule was narrowed on 2026-08-08 because demanding
-prose for all 64 buries the table in exactly the reading `UX-006` says a table
-exists to avoid.
+the whole statement; the rule was narrowed on 2026-08-08 because demanding prose
+for all 64 buries the table in exactly the reading `UX-006` says a table exists
+to avoid.
 
 ## Countermeasures
 
