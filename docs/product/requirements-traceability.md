@@ -269,8 +269,12 @@ the register that would hold them did not exist.
 | **TST** | | |
 | TST-001 | The plan must check the design's measurements are carried in accurately, and show it | final |
 | TST-002 | Every project type owes every gate unless that type explicitly marks it `n/a` with a reason | proposed |
+| TECH-005 | The register is a standalone file at a known location — never embedded in a product doc — so it can be read quickly by a person and directly by a tool | final |
+| TECH-006 | A requirement row carries its **dependencies** on other requirement IDs | final |
 | **OPS** | | |
 | OPS-001 | Funnel interaction requires a conductor session; Q&A, reports and admin work stay available outside it | final |
+| **PRD (cont.)** | | |
+| PRD-007 | The register is the data source for release planning, dependency and visualization tooling — not merely a record | final |
 
 **States are honest, not flattering.** `final` means Tony stated it directly.
 `qualified` means the wording is agreed but was synthesised rather than spoken.
@@ -280,12 +284,30 @@ and TECH-003's framing was corrected twice before settling. Four of
 twenty-five are not `final`, and marking them so is the difference between a
 register and a flattering list.
 
-**The measurement this table is: twenty-five durable requirements produced in
+**The measurement this table is: twenty-eight durable requirements produced in
 one session, zero promoted through any beat, because no beat exists.** Eight
-were counted at 18:00 and the number tripled over the next three hours while
-the session discussed building the thing that would have caught them. Filed
-here as frame evidence — this is not the register, which is slice 1's build and
-whose design is currently blocked.
+were counted at 18:00 and the number more than tripled over the next three
+hours while the session discussed building the thing that would have caught
+them. Filed here as frame evidence — **this is not the register**, which is
+slice 1's build and whose design is currently blocked.
+
+**TECH-005 makes this table's own location a defect.** Tony at 21:33: *"i think
+we also have to separate the requirements table to its own file or location so
+we can use that quickly. its also the basis of any visualization or tooling
+around releases and dependency."* A table buried inside a product doc's gap
+list cannot be read quickly by a person or at all by a tool. Its placement here
+is deliberate and temporary — frame evidence must live in the frame — and it is
+the first thing slice 1's build moves.
+
+**TECH-006 is new and has no home in the current design.** The design package
+defines a five-column row with no dependency field. Dependency is also the
+missing artifact from a standing decision: 2026-08-03 settled that a release is
+a GROUPING whose five deciding factors begin with *"dependency forbids (hard
+constraint)"*, and nothing on disk has ever expressed a dependency. Requirement
+IDs linked to other requirement IDs are that artifact, which is why PRD-007
+matters — the register is a **data source**, not a record. It becomes a
+nineteenth block against the design package, and the first thing to fix when it
+is re-worked.
 
 All eight currently live as prose bullets. The extraction took one pass and
 immediately exposed something invisible in prose: `FUN-004` is the only one

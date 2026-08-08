@@ -35,6 +35,14 @@
 > 6. **The edit map is incomplete.** `tools/gates/README.md` is the AU law's
 >    declared home and states "the six rules" and "AU1–AU6"; adding AU7/AU8
 >    without amending it manufactures a declared-truth gap.
+> 8. **No dependency field, added 2026-08-07 21:33.** The register row below
+>    has five columns and cannot express that one requirement depends on
+>    another. Tony: the register is *"the basis of any visualization or tooling
+>    around releases and dependency"*. Dependency is also the missing artifact
+>    from the 2026-08-03 release decision, whose first deciding factor is
+>    *"dependency forbids (hard constraint)"* — never expressed on disk. The
+>    row needs a dependency field and the checks need to refuse a link to a
+>    non-existent ID.
 > 7. **An obligation the frame placed on this rung was declined.** The frame
 >    said whether category dispositions and rigor classes share one table or one
 >    pattern "is a design-rung decision". This doc restates the exclusion
