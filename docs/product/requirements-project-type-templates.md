@@ -118,11 +118,22 @@ type unless the type explicitly says the gate is not applicable"* — so omissio
 is not exemption. But the per-type gate tables list only *some* gates: Spike's
 names Entry, Spec, Build, Security and Exit, and never mentions G3 design or
 G4 build-traceability. A reader who reads the Spike section alone would
-conclude a spike owes no design. **The per-type tables are partial views, not
-the law**, and nothing on the page says so. Every type's table needs either the
-full nine rows or an explicit `n/a` per omitted gate, or the same
-omission-reads-as-exemption failure that hollow waiving describes will happen
-by reading rather than by intent.
+conclude a spike owes no design. **The per-type tables were partial views, not
+the law**, and nothing on the page said so.
+
+**FIXED in the same round (2026-08-07).** All fifteen tables now carry all nine
+gates — 135 cells — with every omission converted to an explicit `n/a` carrying
+its reason. Tony's original wording is preserved verbatim in every row he
+wrote; only the missing rows are new. Omission can no longer read as exemption,
+because there are no omissions.
+
+**What filling them out showed: only 6 of 135 cells are `n/a`, and 5 of those
+are Ideation.** The gates are very nearly universal. Ideation is exempt from
+almost everything because it builds nothing; Spike's single `n/a` is G7 launch,
+and even that is conditional — *"n/a unless the prototype is deployed, and if
+it is deployed this stops being a spike."* Every other type owes every gate.
+That is a stronger claim than the original document made, and it was invisible
+until the empty cells had to be filled one at a time.
 
 **This closes the killer risk on a different work item.**
 `docs/product/rigor-level.md:51` grades **hollow waiving** as fatal, and the
@@ -225,11 +236,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 required. State the problem, user, and decision needed. |
-| Discovery | G1 required. Empty categories only mean something after disposition is declared. |
-| Build | No build. If build is needed, convert to Spike, MVP, or Experiment first. |
-| Security | G6 required before using real user data, production data, third-party data, or external participants. |
-| Exit | Continue, kill, reframe, or create Spike/MVP/Experiment with linked source. |
+| G0 Intake | Required. State the problem, user, and decision needed. |
+| G1 Disposition | Required. Empty categories only mean something after disposition is declared. |
+| G2 Spec | **n/a** — nothing is built, so there is nothing to spec against. The Opportunity / Hypothesis artifact is the record. |
+| G3 Design | **n/a** — nothing is being built. |
+| G4 Build | **n/a** — no build. If build is needed, convert to Spike, MVP, or Experiment first. |
+| G5 Verification | **n/a** — evidence needed is *named* here, not gathered. Gathering it is a Spike or an Experiment. |
+| G6 Security | Required before using real user data, production data, third-party data, or external participants. |
+| G7 Launch | **n/a** — nothing ships. |
+| G8 Post-launch | Discovery decision only. Continue, kill, reframe, or create Spike/MVP/Experiment with linked source. |
 
 ## 2. Spike
 
@@ -263,11 +278,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 required. The question and uncertainty must be explicit. |
-| Spec | G2 required, but the spec is the spike plan, not a product spec. |
-| Build | Prototype work may start only after timebox, scope boundary, and output are approved. |
-| Security | G6 required before touching production data, credentials, external integrations, or deployable environments. |
-| Exit | Feasible, not feasible, feasible with constraints, or needs another spike. Product work cannot continue until findings are written. |
+| G0 Intake | Required. The question and uncertainty must be explicit. |
+| G1 Disposition | Required. A spike inherits the project's disposition and may add to it; it may not drop a category the project marked `applies`. |
+| G2 Spec | Required, but the spec is the spike plan, not a product spec. |
+| G3 Design | Required — the design is *how the spike will answer its question*: the approach, and why that approach settles the uncertainty. Small, but not absent. |
+| G4 Build | Prototype work may start only after timebox, scope boundary, and output are approved. Prototype code is not required to trace to product requirement IDs; it is required to stay inside the scope boundary. |
+| G5 Verification | Required against the **decision criteria**, which are the spike's measurements. A spike that cannot say what result would answer its question has not been scoped. |
+| G6 Security | Required before touching production data, credentials, external integrations, or deployable environments. |
+| G7 Launch | **n/a** unless the prototype is deployed. If it is deployed, this stops being a spike. |
+| G8 Post-launch | Findings required. Feasible, not feasible, feasible with constraints, or needs another spike. Product work cannot continue until findings are written. |
 
 ## 3. MVP
 
@@ -300,14 +319,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 and G1 required. |
-| Spec | G2 is a hard stop. MVP scope and out-of-scope must be approved before build. |
-| Design | G3 required for core flows, architecture, data, and integrations. |
-| Build | G4 requires every build item to trace to an approved requirement ID. |
-| Verification | G5 required for acceptance criteria and core regression tests. |
-| Security | G6 required before any production or external-user exposure. |
-| Launch | G7 required for rollout, monitoring, support, and rollback. |
-| Close | G8 required after launch metric is collected. |
+| G0 Intake | Required. |
+| G1 Disposition | Required. |
+| G2 Spec | Hard stop. MVP scope and out-of-scope must be approved before build. |
+| G3 Design | Required for core flows, architecture, data, and integrations. |
+| G4 Build | Requires every build item to trace to an approved requirement ID. |
+| G5 Verification | Required for acceptance criteria and core regression tests. |
+| G6 Security | Required before any production or external-user exposure. |
+| G7 Launch | Required for rollout, monitoring, support, and rollback. |
+| G8 Post-launch | Required after launch metric is collected. |
 
 ## 4. Pilot
 
@@ -341,13 +361,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 and G1 required. Pilot audience and success criteria must be named. |
-| Spec | G2 required. Pilot scope, entry criteria, and exit criteria must be approved. |
-| Design | G3 required for operational path, feedback path, and rollback. |
-| Verification | G5 required before the first pilot user. |
-| Security | G6 required before pilot users, production data, or partner systems are involved. |
-| Launch | G7 required, including support owner and rollback plan. |
-| Close | G8 required. Decision must be scale, extend, fix and retry, or stop. |
+| G0 Intake | Required. Pilot audience and success criteria must be named. |
+| G1 Disposition | Required. |
+| G2 Spec | Required. Pilot scope, entry criteria, and exit criteria must be approved. |
+| G3 Design | Required for operational path, feedback path, and rollback. |
+| G4 Build | Required where the pilot builds anything. A pilot of existing functionality traces to the requirement IDs it is exercising rather than to new ones. |
+| G5 Verification | Required before the first pilot user. |
+| G6 Security | Required before pilot users, production data, or partner systems are involved. |
+| G7 Launch | Required, including support owner and rollback plan. |
+| G8 Post-launch | Required. Decision must be scale, extend, fix and retry, or stop. |
 
 ## 5. Full Release
 
@@ -382,14 +404,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 and G1 required. |
-| Spec | G2 required. No build without approved full-release scope. |
-| Design | G3 required for architecture, operations, data, security, and user experience. |
-| Build | G4 requires traceability from every shipped change to requirement IDs. |
-| Verification | G5 required, including regression, performance where applicable, and acceptance evidence. |
-| Security | G6 is a hard stop. No production release without security and privacy review. |
-| Launch | G7 required, including support, monitoring, rollback, documentation, and final approval. |
-| Close | G8 required. Adoption, incidents, support load, and launch metrics are recorded. |
+| G0 Intake | Required. |
+| G1 Disposition | Required. |
+| G2 Spec | Required. No build without approved full-release scope. |
+| G3 Design | Required for architecture, operations, data, security, and user experience. |
+| G4 Build | Requires traceability from every shipped change to requirement IDs. |
+| G5 Verification | Required, including regression, performance where applicable, and acceptance evidence. |
+| G6 Security | Hard stop. No production release without security and privacy review. |
+| G7 Launch | Required, including support, monitoring, rollback, documentation, and final approval. |
+| G8 Post-launch | Required. Adoption, incidents, support load, and launch metrics are recorded. |
 
 ## 6. Maintenance Release
 
@@ -424,13 +447,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 required. Affected area and reason must be explicit. |
-| Spec | G2 required. Even small changes need an approved change statement. |
-| Design | G3 required when architecture, data, security, UX, or integrations change. |
-| Verification | G5 required, focused on regression and affected behavior. |
-| Security | G6 required for any security-sensitive, privacy-sensitive, auth, data, dependency, integration, or infrastructure change. |
-| Launch | G7 required when deployed to production. Rollback notes are mandatory. |
-| Close | G8 required when the release was intended to move a metric or fix a production issue. |
+| G0 Intake | Required. Affected area and reason must be explicit. |
+| G1 Disposition | Inherited from the project. A maintenance release does not re-declare the disposition; it may add a category the change newly touches. |
+| G2 Spec | Required. Even small changes need an approved change statement. |
+| G3 Design | Required when architecture, data, security, UX, or integrations change. Otherwise **n/a by exception, stated in the change statement** — not by silence. |
+| G4 Build | Required. Every change traces to the requirement or defect ID it serves. |
+| G5 Verification | Required, focused on regression and affected behavior. |
+| G6 Security | Required for any security-sensitive, privacy-sensitive, auth, data, dependency, integration, or infrastructure change. |
+| G7 Launch | Required when deployed to production. Rollback notes are mandatory. |
+| G8 Post-launch | Required when the release was intended to move a metric or fix a production issue. |
 
 ## 7. Security Review
 
@@ -467,13 +492,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 required. Scope, assets, and review trigger must be named. |
-| Spec | G2 required. The review cannot start until scope and assets are approved. |
-| Review | G6 is the primary gate. Findings must be accepted, remediated, or risk-accepted according to policy. |
-| Build | Remediation work cannot start without approved SEC requirement IDs. |
-| Verification | G5 required for every remediation or control. |
-| Launch | No production exposure until blocking findings are closed or formally accepted. |
-| Close | Residual risk, evidence, and approval are recorded. |
+| G0 Intake | Required. Scope, assets, and review trigger must be named. |
+| G1 Disposition | Required for the review's own scope — which categories the review covers. It does not alter the reviewed project's disposition. |
+| G2 Spec | Required. The review cannot start until scope and assets are approved. |
+| G3 Design | Required when a remediation changes system behaviour, data flow, access, or operations. A finding that needs no code change needs no design. |
+| G4 Build | Remediation work cannot start without approved SEC requirement IDs. |
+| G5 Verification | Required for every remediation or control. |
+| G6 Security | **The primary gate.** Findings must be accepted, remediated, or risk-accepted according to policy. |
+| G7 Launch | No production exposure until blocking findings are closed or formally accepted. |
+| G8 Post-launch | Residual risk, evidence, and approval are recorded. |
 
 ## Additional project types worth adding
 
@@ -509,10 +536,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Spec | G2 required. Hypothesis, metric, population, and decision rule must be approved before build. |
-| Security | G6 required before using personal data, sensitive segmentation, production traffic, or external users. |
-| Launch | G7 required with stop conditions and monitoring. |
-| Close | G8 required. Result must be ship, iterate, stop, or inconclusive with reason. |
+| G0 Intake | Required. Owner and the decision the experiment informs must be named. |
+| G1 Disposition | Inherited from the project; `ANA` must be `applies` or the experiment cannot be measured. |
+| G2 Spec | Required. Hypothesis, metric, population, and decision rule must be approved before build. |
+| G3 Design | Required for instrumentation and assignment — how users are split, how events are recorded, and why that measures the hypothesis. |
+| G4 Build | Required. Variant and instrumentation trace to the experiment's requirement IDs. |
+| G5 Verification | Required. Instrumentation is validated before the experiment runs; an experiment measured by broken telemetry produces a confident wrong answer. |
+| G6 Security | Required before using personal data, sensitive segmentation, production traffic, or external users. |
+| G7 Launch | Required with stop conditions and monitoring. |
+| G8 Post-launch | Required. Result must be ship, iterate, stop, or inconclusive with reason. |
 
 ## 9. Hotfix / Emergency Patch
 
@@ -541,12 +573,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Entry | G0 required, even if brief. Incident, impact, and owner must be named. |
-| Spec | G2 is the minimal approved fix statement. No broad cleanup under a hotfix. |
-| Verification | G5 required with the fastest credible regression evidence. |
-| Security | G6 required for security, auth, dependency, data, privacy, integration, or infrastructure hotfixes. |
-| Launch | G7 required with rollback and monitor owner. |
-| Close | G8 required. A normal follow-up ticket captures anything skipped under emergency constraints. |
+| G0 Intake | Required, even if brief. Incident, impact, and owner must be named. |
+| G1 Disposition | Inherited from the project. A hotfix never re-declares it — that is the one thing emergency pressure would corrupt. |
+| G2 Spec | The minimal approved fix statement. No broad cleanup under a hotfix. |
+| G3 Design | **n/a for the minimal fix**, by design — that is what makes it a hotfix. If the fix needs a design, it is not a hotfix; the emergency measure is a mitigation and the real fix follows as a Maintenance Release. |
+| G4 Build | Required. The change traces to the incident or defect ID. |
+| G5 Verification | Required with the fastest credible regression evidence. |
+| G6 Security | Required for security, auth, dependency, data, privacy, integration, or infrastructure hotfixes. |
+| G7 Launch | Required with rollback and monitor owner. |
+| G8 Post-launch | Required. A normal follow-up ticket captures anything skipped under emergency constraints. |
 
 ## 10. Migration / Cutover
 
@@ -576,11 +611,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Spec | G2 required. Source, target, mapping, and backout must be approved before build. |
-| Dry run | G5 required on rehearsal or sampled validation before production cutover. |
-| Security | G6 required before moving production data, credentials, identity, or access controls. |
-| Launch | G7 required with communication, monitoring, and rollback owner. |
-| Close | G8 required with validation evidence and incident record if anything failed. |
+| G0 Intake | Required. Source, target, and the owner accountable for the cutover must be named. |
+| G1 Disposition | Required. `DATA` and `SEC` cannot be `n/a` for a migration. |
+| G2 Spec | Required. Source, target, mapping, and backout must be approved before build. |
+| G3 Design | Required for the mapping and transformation, the cutover sequence, and the backout path. |
+| G4 Build | Required. Migration scripts and transformations trace to the mapping they implement. |
+| G5 Verification | Required on rehearsal or sampled validation before production cutover — the dry run. |
+| G6 Security | Required before moving production data, credentials, identity, or access controls. |
+| G7 Launch | Required with communication, monitoring, and rollback owner. |
+| G8 Post-launch | Required with validation evidence and incident record if anything failed. |
 
 ## 11. Platform / Infrastructure Change
 
@@ -610,12 +649,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Spec | G2 required. Required state, blast radius, and rollback must be approved. |
-| Design | G3 required for architecture, access, reliability, and operational model. |
-| Verification | G5 required through staging, canary, load test, or equivalent evidence. |
-| Security | G6 required before production infrastructure or secrets are changed. |
-| Launch | G7 required with monitoring, alerting, and incident owner. |
-| Close | G8 required for reliability, incident, and performance evidence. |
+| G0 Intake | Required. System, current state, and the operational owner must be named. |
+| G1 Disposition | Required. `NFR`, `OPS` and `SEC` cannot be `n/a` for a platform change. |
+| G2 Spec | Required. Required state, blast radius, and rollback must be approved. |
+| G3 Design | Required for architecture, access, reliability, and operational model. |
+| G4 Build | Required. Infrastructure-as-code and configuration changes trace to the requirement IDs they serve. |
+| G5 Verification | Required through staging, canary, load test, or equivalent evidence. |
+| G6 Security | Required before production infrastructure or secrets are changed. |
+| G7 Launch | Required with monitoring, alerting, and incident owner. |
+| G8 Post-launch | Required for reliability, incident, and performance evidence. |
 
 ## 12. Compliance / Regulatory Release
 
@@ -645,12 +687,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Spec | G2 required. Obligation, control, evidence, and approver must be approved before build. |
-| Design | G3 required when controls affect system behavior, data, UX, or operations. |
-| Verification | G5 required with audit-ready evidence. |
-| Security | G6 required when the obligation touches data, privacy, access, retention, or security controls. |
-| Launch | G7 required with documentation and support readiness where users are affected. |
-| Close | G8 required with evidence retained in the declared location. |
+| G0 Intake | Required. Obligation, jurisdiction, deadline, and accountable approver must be named. |
+| G1 Disposition | Required. `CMP` and `DOC` cannot be `n/a` for a compliance release. |
+| G2 Spec | Required. Obligation, control, evidence, and approver must be approved before build. |
+| G3 Design | Required when controls affect system behavior, data, UX, or operations. |
+| G4 Build | Required. Every control traces to the `CMP` requirement it satisfies — this trace *is* the audit evidence, not a by-product of it. |
+| G5 Verification | Required with audit-ready evidence. |
+| G6 Security | Required when the obligation touches data, privacy, access, retention, or security controls. |
+| G7 Launch | Required with documentation and support readiness where users are affected. |
+| G8 Post-launch | Required with evidence retained in the declared location. |
 
 ## 13. Beta / Limited Availability
 
@@ -679,11 +724,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Spec | G2 required. Audience, limitations, feedback path, and exit criteria must be approved. |
-| Verification | G5 required before the first beta user. |
-| Security | G6 required before any external user or production data. |
-| Launch | G7 required with support and rollback. |
-| Close | G8 required. Decision must be GA, extend beta, fix and retry, or stop. |
+| G0 Intake | Required. Audience, eligibility, and the GA decision this beta informs must be named. |
+| G1 Disposition | Required. |
+| G2 Spec | Required. Audience, limitations, feedback path, and exit criteria must be approved. |
+| G3 Design | Required for the feedback path, eligibility/gating mechanism, and removal path. |
+| G4 Build | Required. Beta-gated functionality traces to requirement IDs, including the flag or entitlement that scopes it. |
+| G5 Verification | Required before the first beta user. |
+| G6 Security | Required before any external user or production data. |
+| G7 Launch | Required with support and rollback. |
+| G8 Post-launch | Required. Decision must be GA, extend beta, fix and retry, or stop. |
 
 ## 14. Decommission / Sunsetting
 
@@ -713,12 +762,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Spec | G2 required. Removal scope, affected users, and replacement path must be approved. |
-| Design | G3 required when data, integrations, access, or operational dependencies change. |
-| Verification | G5 required for removal checks and regression of dependent systems. |
-| Security | G6 required when access, data retention, deletion, privacy, or compliance is affected. |
-| Launch | G7 required with communication and rollback/restore plan. |
-| Close | G8 required with completion evidence and support signal. |
+| G0 Intake | Required. The thing being removed, the reason, and who is affected must be named. |
+| G1 Disposition | Required. `DATA` cannot be `n/a` — removal always has a retention-or-deletion answer, including "none held". |
+| G2 Spec | Required. Removal scope, affected users, and replacement path must be approved. |
+| G3 Design | Required when data, integrations, access, or operational dependencies change. |
+| G4 Build | Required. Shutdown steps trace to the requirements being retired — and the retired requirement IDs move to `superseded` or `dropped` rather than vanishing. |
+| G5 Verification | Required for removal checks and regression of dependent systems. |
+| G6 Security | Required when access, data retention, deletion, privacy, or compliance is affected. |
+| G7 Launch | Required with communication and rollback/restore plan. |
+| G8 Post-launch | Required with completion evidence and support signal. |
 
 ## 15. Internal Tooling
 
@@ -747,12 +799,15 @@ Gates:
 
 | Gate | Rule |
 |---|---|
-| Spec | G2 required. Workflow, owner, permission model, and failure mode must be approved. |
-| Design | G3 required for access, data, audit logging, and operational model. |
-| Verification | G5 required before internal rollout. |
-| Security | G6 required before touching production systems, customer data, secrets, admin access, or privileged operations. |
-| Launch | G7 required if the tool is relied on operationally. |
-| Close | G8 required when the tool is tied to efficiency, quality, or incident goals. |
+| G0 Intake | Required. Internal user, workflow, and owning team must be named. |
+| G1 Disposition | Required. `SEC` cannot be `n/a` — an internal tool with production access is a privileged surface, and "internal" is not a security boundary. |
+| G2 Spec | Required. Workflow, owner, permission model, and failure mode must be approved. |
+| G3 Design | Required for access, data, audit logging, and operational model. |
+| G4 Build | Required. The tool's behaviour traces to the workflow requirements it automates. |
+| G5 Verification | Required before internal rollout. |
+| G6 Security | Required before touching production systems, customer data, secrets, admin access, or privileged operations. |
+| G7 Launch | Required if the tool is relied on operationally. |
+| G8 Post-launch | Required when the tool is tied to efficiency, quality, or incident goals. |
 
 ## Minimum floors by project type
 
