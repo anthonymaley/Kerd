@@ -275,6 +275,8 @@ the register that would hold them did not exist.
 | TECH-006 | A requirement row carries its **dependencies** on other requirement IDs | final |
 | TECH-007 | The mechanism must be git-repo native and Claude Code friendly, per project | final |
 | TECH-008 | The register must be **the same files** — one representation, never a parallel store alongside the project's own | final |
+| TECH-009 | A requirement is a **block**, not a table row — heading, bolded meta lines, statement as text, links as a trailing list. It must be readable and **liftable as a unit**: copy-pasteable elsewhere without reassembly | final |
+| TECH-010 | A `final` requirement carries a **hash of its statement as keyed**. When they diverge the audit **REFUSES** — it never rewrites the state, because a silent downgrade is a decision made for the producer rather than a question put to them | final |
 | **OPS** | | |
 | OPS-001 | Funnel interaction requires a conductor session; Q&A, reports and admin work stay available outside it | final |
 | **PRD (cont.)** | | |

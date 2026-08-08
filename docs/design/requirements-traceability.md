@@ -327,7 +327,21 @@ to avoid.
 | Reqflow | The five-state lifecycle | carry the state in our own field; the tool's only status is `U` for uncovered | permanent | low — same absence of schema | |
 | Reqflow | Refusal from outside the model | run our own checker; reqflow cannot run on macOS at all | permanent | low — the refusal would come from the part we wrote, not from the option being evaluated | |
 
-## The register data model — PROPOSED 2026-08-08, after the schema study
+## The register data model — the two SHAPE decisions are KEYED, 2026-08-08
+
+> **Producer's key on both, 12:26.** *"if blocks work for you to parse, then I
+> prefer them, easier to read and copy/paste if i have to for other reasons.
+> Hash is fine for me."*
+>
+> - **`TECH-009` — a requirement is a BLOCK, not a table row.** His reason adds
+>   one the design had not captured: a block is **liftable as a unit**. A table
+>   row cannot be copy-pasted anywhere useful without reassembling it from its
+>   columns.
+> - **`TECH-010` — a `final` requirement carries a hash of its statement, and
+>   divergence REFUSES rather than rewrites.**
+>
+> The rest of this section remains PROPOSED and unkeyed: the three-file split,
+> the link roles, the views, and the state obligations.
 
 Drawn at `docs/design/register-model.svg` (generator:
 `tools/diagram/gen_register_model.py`). The drawing is the alignment artifact;
