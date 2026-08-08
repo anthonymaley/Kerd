@@ -85,12 +85,60 @@ declare its own. Items **inherit** the project's type by default, so the
 retrofit dissolution from round 1 still holds — an override is opt-in and
 forward-only, and nothing existing needs a type it cannot honestly claim.
 
-**The floor rule that follows: a nested type may raise rigor, never lower it
-below the project's floor.** An MVP requires security review before
-prod/user/data exposure; Spike marks it Conditional. If the inner type won,
-"run a spike" would become the documented way around G6. Same shape as the
-standing rigor decision that production-v1 cannot waive security — the outer
-floor holds and a nested piece can only be stricter.
+**The floor rule that follows: floors COMPOSE AS A UNION.** A nested piece
+satisfies its own type's floor *and* every floor of the project containing it.
+A spike inside an MVP owes scope-and-timebox (its own) plus
+security-before-exposure (the MVP's). Without this, "run a spike" becomes the
+documented way around G6.
+
+> **Amended in the same round.** The first wording was *"a nested type may
+> raise rigor, never lower it"*, which assumes `spike < mvp < production-v1` is
+> an ordering. It is not — see below — so "raise, never lower" is undefined
+> between them. Union needs no ordering and says the same thing where an
+> ordering does exist.
+
+## Annotation round 3 (2026-08-07, in conversation)
+
+> spikes need rigor also, the need to be scoped
+
+> there is a spec and measurermnt as well as a design - its not a free for all
+
+**A spike is not the low-rigor case; it is rigor on a different axis.** Its
+floor is already written into the Spike template above — **scope boundary,
+timebox, output expected, decision criteria** — enforced by that type's own
+gate: *"Prototype work may start only after timebox, scope boundary, and output
+are approved."* And it carries **a spec, a design and measurements** like any
+other type: the spec is the spike plan rather than a product spec (G2 in the
+Spike table says exactly that), the measurements are its decision criteria, and
+the design is how it will answer its question.
+
+**This exposes a readability defect in this document, of the hollow-waiving
+shape.** The universal-gates section says the gates *"apply to every project
+type unless the type explicitly says the gate is not applicable"* — so omission
+is not exemption. But the per-type gate tables list only *some* gates: Spike's
+names Entry, Spec, Build, Security and Exit, and never mentions G3 design or
+G4 build-traceability. A reader who reads the Spike section alone would
+conclude a spike owes no design. **The per-type tables are partial views, not
+the law**, and nothing on the page says so. Every type's table needs either the
+full nine rows or an explicit `n/a` per omitted gate, or the same
+omission-reads-as-exemption failure that hollow waiving describes will happen
+by reading rather than by intent.
+
+**This closes the killer risk on a different work item.**
+`docs/product/rigor-level.md:51` grades **hollow waiving** as fatal, and the
+reason it grades the likelihood *medium* rather than low is stated there:
+*"waiving IS the designed cheap path for spikes, so the habit is licensed."*
+Spike was the level at which waiving everything was legitimate, which is what
+licensed the habit everywhere else. With a spike carrying mandatory items of
+its own, waiving is no longer the cheap path at any level, and the row's
+likelihood argument no longer holds as written.
+
+**Consequence for the rigor axis: the three levels are not a ladder.** An MVP
+requires no timebox; a spike requires no launch readiness. They are three
+disposition *profiles*, not three rungs, and comparisons of the form "more
+rigorous than" are not defined between them. Only the union rule above is.
+
+These templates sit on top of the stable requirement category scheme:
 
 These templates sit on top of the stable requirement category scheme:
 
