@@ -26,7 +26,7 @@ the gate `n/a`.
 | PRD | Product | applies | filled |
 | FUN | Functional | applies | filled |
 | NFR | Non-functional | applies | filled |
-| UX | UX/UI | applies | filled — six requirements, all from 2026-08-08 |
+| UX | UX/UI | applies | filled — eight requirements, all from 2026-08-08 |
 | TECH | Technical | applies | filled |
 | INT | Integration | applies | **judgment call** — Kerd integrates with Claude Code's hook and skill surfaces, with git, and optionally with an Obsidian vault. No `INT` requirement is filed, which makes this a gap |
 | DATA | Data | applies | it writes and reads durable files, and has retention rules (immutable session logs, overwritten state) |
@@ -41,7 +41,6 @@ the gate `n/a`.
 | DOC | Documentation | applies | living design docs, dated gate records and a playbook, with rules about which is which |
 | POST | Post-Launch | applies | **the identified hole** — `docs/design/funnel-steps.md` leaves the Live stage empty because no source for its steps could be found, and Live *is* post-launch. This category is that stage's missing vocabulary |
 
-**Eleven of the twenty are `applies` and unfilled**, which is now visible rather
-than invisible — the whole point of declaring the disposition. Before this file
-existed, `BUS`, `STA`, `USR`, `INT`, `SUP` and `REL` being empty looked
-identical to `SEC` being empty, and only one of those is correct.
+**Ten of the seventeen `applies` categories are unfilled** — `BUS`, `STA`, `USR`, `INT`, `DATA`, `PRIV`, `SUP`, `REL`, `DOC` and `POST`, which is now visible rather
+than invisible — the whole point of declaring the disposition. Before this file existed, all ten looked identical to `SEC` being empty, and
+only the three `n/a` rows are correct.

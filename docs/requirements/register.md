@@ -1,5 +1,8 @@
 # Requirements register
 
+Written against the schema in `catalog.md`, which declares every field, state,
+obligation and link role used below.
+
 One block per requirement — heading, meta lines, statement, links (`TECH-009`).
 A block is liftable as a unit: copy one out and it is still complete.
 
@@ -26,7 +29,7 @@ was the evidence table that carried these until the register existed.
 
 Kerd gives consuming projects this capability; Kerd is only a user of it
 
-### PRD-002 — Requirements exist so the producer can review, plan enhancements, plan r…
+### PRD-002 — Requirements exist so the producer can review, plan enhancements, plan…
 
 **Category**: PRD
 **State**: final
@@ -53,7 +56,10 @@ The twenty-category discipline taxonomy ships as the default; projects extend it
 
 Applicability is declared per category — `applies`, or `n/a` with a named reason
 
-### PRD-005 — Project type and release type are the same thing for the twelve types th…
+**Links**
+- depends-on → PRD-003 (sha256:9b0e0ade5df5)
+
+### PRD-005 — Project type and release type are the same thing for the twelve types that…
 
 **Category**: PRD
 **State**: final
@@ -71,7 +77,7 @@ Project type and release type are the same thing for the twelve types that ship;
 
 The alignment gate is a shared structure both parties can point at — a drawing is its usual form, not its only one
 
-### PRD-007 — The register is the data source for release planning, dependency and vis…
+### PRD-007 — The register is the data source for release planning, dependency and…
 
 **Category**: PRD
 **State**: final
@@ -80,7 +86,10 @@ The alignment gate is a shared structure both parties can point at — a drawing
 
 The register is the data source for release planning, dependency and visualization tooling — not merely a record
 
-### PRD-008 — The evaluation mark set is ◎ perfect · ○ fully meets (○+/○-) · △ meets w…
+**Links**
+- depends-on → TECH-006 (sha256:3c21e2c5416f)
+
+### PRD-008 — The evaluation mark set is ◎ perfect · ○ fully meets (○+/○-) · △ meets with a…
 
 **Category**: PRD
 **State**: final
@@ -89,7 +98,7 @@ The register is the data source for release planning, dependency and visualizati
 
 The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) · `△` meets with a countermeasure (`△+`/`△-`) · `×` cannot meet
 
-### PRD-009 — × means cannot meet **even with a countermeasure**
+### PRD-009 — × means cannot meet even with a countermeasure
 
 **Category**: PRD
 **State**: final
@@ -101,7 +110,7 @@ The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) ·
 **Links**
 - refines → PRD-008 (sha256:31a310b5f422)
 
-### PRD-010 — Building the missing piece ourselves **is** a legal countermeasure
+### PRD-010 — Building the missing piece ourselves is a legal countermeasure
 
 **Category**: PRD
 **State**: final
@@ -111,9 +120,10 @@ The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) ·
 Building the missing piece ourselves **is** a legal countermeasure — marked `△-`, with its cost carried by the summary columns rather than hidden in the mark
 
 **Links**
-- refines → PRD-009 (sha256:4153bd6015d5)
+- refines → PRD-008 (sha256:31a310b5f422)
+- depends-on → PRD-011 (sha256:4d708711ca10)
 
-### PRD-011 — Every evaluation carries four summary columns
+### PRD-011 — Every evaluation carries four summary columns: COST · QUALITY · DUE DATE ·…
 
 **Category**: PRD
 **State**: final
@@ -134,7 +144,7 @@ A mark that is not `◎` or `○` states why, in a few words — never a sentenc
 **Links**
 - refines → PRD-008 (sha256:31a310b5f422)
 
-### PRD-013 — Dependency cost is judged **marginally and proportionately**
+### PRD-013 — Dependency cost is judged marginally and proportionately: what the option…
 
 **Category**: PRD
 **State**: final
@@ -154,7 +164,7 @@ Dependency cost is judged **marginally and proportionately**: what the option ad
 
 Approving the design is enough — no plan-approval gate
 
-### FUN-002 — A plan is execution of the design, carrying the measurements that prove…
+### FUN-002 — A plan is execution of the design, carrying the measurements that prove the…
 
 **Category**: FUN
 **State**: final
@@ -175,7 +185,7 @@ A plan is execution of the design, carrying the measurements that prove the goal
 
 Every requirement gets a Category and ID, traceable back and forward
 
-### FUN-004 — Any request is qualified
+### FUN-004 — Any request is qualified; if durable it becomes a requirement
 
 **Category**: FUN
 **State**: final
@@ -217,7 +227,7 @@ Conductor may suggest a type change — at the gate or mid-flight — and the pr
 **Links**
 - depends-on → FUN-005 (sha256:b76da5ae7fe2)
 
-### FUN-008 — Type is a stack
+### FUN-008 — Type is a stack: items inherit the project's type, an override is opt-in and…
 
 **Category**: FUN
 **State**: final
@@ -259,7 +269,7 @@ The boundary records everything agreed; efficiency is a tiebreaker, never a reas
 
 Floors compose as a union — a nested piece owes its own type's floor plus every floor of the project containing it
 
-### NFR-003 — A spike carries its own rigor
+### NFR-003 — A spike carries its own rigor: scope boundary, timebox, spec, design, and…
 
 **Category**: NFR
 **State**: final
@@ -287,6 +297,9 @@ The mechanism must not scatter artifacts
 **Approved**: sha256:78ce341d07d6
 
 Boxes are never coloured; the mark carries the verdict — `○` green, `△` yellow, `×` red
+
+**Links**
+- depends-on → PRD-008 (sha256:31a310b5f422)
 
 ### UX-002 — A mark is drawn at 40–50% of the cell it sits in
 
@@ -324,7 +337,7 @@ Diagrams render in a sans-serif font
 
 The preferred option's verdict cell is filled green
 
-### UX-006 — The point of a table is to **avoid reading lots of text** to understand…
+### UX-006 — The point of a table is to avoid reading lots of text to understand it
 
 **Category**: UX
 **State**: final
@@ -333,7 +346,7 @@ The preferred option's verdict cell is filled green
 
 The point of a table is to **avoid reading lots of text** to understand it — brevity is the requirement, not a preference
 
-### UX-007 — The producer marks requirements **on the page without typing**
+### UX-007 — The producer marks requirements on the page without typing
 
 **Category**: UX
 **State**: final
@@ -342,7 +355,7 @@ The point of a table is to **avoid reading lots of text** to understand it — b
 
 The producer marks requirements **on the page without typing** — status, release assignment — and the page saves those marks to a file the next session applies on the word "updated"
 
-### UX-008 — A generated page carries the hash of the state it was rendered from, so…
+### UX-008 — A generated page carries the hash of the state it was rendered from, so marks…
 
 **Category**: UX
 **State**: final
@@ -374,7 +387,7 @@ The user's repo holds funnel state, requirements, stage data, steps and journey 
 
 Traceability runs the nine-link chain: Business Goal → Stakeholder Need → Product Requirement → Functional/Technical → Design → Implementation → Test Case → Release Evidence → Post-Launch Metric
 
-### TECH-003 — The machinery must aim at the consuming project, never at its own instal…
+### TECH-003 — The machinery must aim at the consuming project, never at its own install path
 
 **Category**: TECH
 **State**: qualified
@@ -400,7 +413,7 @@ Never route to superpowers
 
 The register is a standalone file at a known location — never embedded in a product doc — so it can be read quickly by a person and directly by a tool
 
-### TECH-006 — A requirement row carries its **dependencies** on other requirement IDs
+### TECH-006 — A requirement row carries its dependencies on other requirement IDs
 
 **Category**: TECH
 **State**: final
@@ -409,7 +422,7 @@ The register is a standalone file at a known location — never embedded in a pr
 
 A requirement row carries its **dependencies** on other requirement IDs
 
-### TECH-007 — The mechanism must be git-repo native and Claude Code friendly, per proj…
+### TECH-007 — The mechanism must be git-repo native and Claude Code friendly, per project
 
 **Category**: TECH
 **State**: final
@@ -418,7 +431,7 @@ A requirement row carries its **dependencies** on other requirement IDs
 
 The mechanism must be git-repo native and Claude Code friendly, per project
 
-### TECH-008 — The register must be **the same files**
+### TECH-008 — The register must be the same files — one representation, no parallel store
 
 **Category**: TECH
 **State**: final
@@ -427,7 +440,7 @@ The mechanism must be git-repo native and Claude Code friendly, per project
 
 The register must be **the same files** — one representation, never a parallel store alongside the project's own
 
-### TECH-009 — A requirement is a **block**, not a table row
+### TECH-009 — A requirement is a block, not a table row
 
 **Category**: TECH
 **State**: final
@@ -436,7 +449,7 @@ The register must be **the same files** — one representation, never a parallel
 
 A requirement is a **block**, not a table row — heading, bolded meta lines, statement as text, links as a trailing list. It must be readable and **liftable as a unit**: copy-pasteable elsewhere without reassembly
 
-### TECH-010 — A final requirement carries a **hash of its statement as keyed**
+### TECH-010 — A final requirement carries a hash of its statement as keyed. When they…
 
 **Category**: TECH
 **State**: final
@@ -458,7 +471,7 @@ Funnel interaction requires a conductor session; Q&A, reports and admin work sta
 
 ## TST — Testing / Validation
 
-### TST-001 — The plan must check the design's measurements are carried in accurately,…
+### TST-001 — The plan must check the design's measurements are carried in accurately, and…
 
 **Category**: TST
 **State**: final
@@ -467,7 +480,7 @@ Funnel interaction requires a conductor session; Q&A, reports and admin work sta
 
 The plan must check the design's measurements are carried in accurately, and show it
 
-### TST-002 — Every project type owes every gate unless that type explicitly marks it…
+### TST-002 — Every project type owes every gate unless that type explicitly marks it n/a…
 
 **Category**: TST
 **State**: proposed
@@ -478,7 +491,7 @@ Every project type owes every gate unless that type explicitly marks it `n/a` wi
 **Links**
 - depends-on → FUN-005 (sha256:b76da5ae7fe2)
 
-### TST-003 — **DUE DATE, not EFFORT**
+### TST-003 — 
 
 **Category**: TST
 **State**: final
@@ -486,6 +499,9 @@ Every project type owes every gate unless that type explicitly marks it `n/a` wi
 **Approved**: sha256:4459ab786c0b
 
 **DUE DATE, not EFFORT** — can it meet the plan in time, an outcome measure, rather than how much work it is, an input measure
+
+**Links**
+- refines → PRD-011 (sha256:4d708711ca10)
 
 ## Archive
 

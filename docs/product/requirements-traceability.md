@@ -297,6 +297,8 @@ the register that would hold them did not exist.
 | UX-007 | The producer marks requirements **on the page without typing** — status, release assignment — and the page saves those marks to a file the next session applies on the word "updated" | final |
 | UX-008 | A generated page carries the hash of the state it was rendered from, so marks made against a stale view are refused rather than applied blind | final |
 | **TST (cont.)** | | |
+| TST-004 | **The completeness check is tiered: the LIGHT check fires at every step; BOTH light and heavy fire at the design GO.** Light is machine facts only — did the register move, do approval hashes still match, are link stamps stale, does declared grounding resolve. Heavy is N independent readers working from the RAW sources, never from a summary, with convergence as the signal | final |
+| TST-005 | A completeness check must not be a step the model can assume or skip — it binds on countable facts, from outside the model, never on a question the model answers about itself | final |
 | TST-003 | **DUE DATE, not EFFORT** — can it meet the plan in time, an outcome measure, rather than how much work it is, an input measure | final |
 
 **States are honest, not flattering.** `final` means Tony stated it directly.
