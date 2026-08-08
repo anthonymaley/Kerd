@@ -1,0 +1,286 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1278" height="2471" viewBox="260 40 1278 2471">
+<rect x="260" y="40" width="1278" height="2471" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">The register data model — after the schema study</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">StrictDoc · ReqIF 1.2 · Doorstop 3.2 · Sphinx-Needs 8.3.0, all read as grammars and run hands-on</tspan>
+<tspan x="300.0" dy="18.8">the seven-column proposal never saw these findings — it was written in parallel with them</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">BEFORE</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">A markdown table with seven columns</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">| ID | Category | State | Requirement | Depends | Superseded by | Source |</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">one flat table. fields and links in the same row. the field set</tspan>
+<tspan x="678.0" dy="15.0">hardcoded in the checker. one rendering. a state is a label.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">every mature model surveyed rejects at least two of those choices.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the producer&#x27;s own 15-field</tspan>
+<tspan x="1320.0" dy="15.0">row could not fit this</tspan>
+<tspan x="1320.0" dy="15.0">shape either - which was</tspan>
+<tspan x="1320.0" dy="15.0">the tension nobody</tspan>
+<tspan x="1320.0" dy="15.0">resolved.</tspan>
+</text>
+<polyline points="960.0,472.0 960.0,506.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="506.0" x2="954.3" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="506.0" x2="965.7" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="538.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="531.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">MODEL</tspan>
+</text>
+<rect x="660.0" y="506.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
+<text x="960.0" y="541.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Five things, declared separately — not one table</tspan>
+</text>
+<text x="678.0" y="586.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">CATALOG      the field set, the twenty codes, the legal states,</tspan>
+<tspan x="678.0" dy="15.0">             the legal link types.  DECLARED ONCE, SHARED.</tspan>
+<tspan x="678.0" dy="15.0">             StrictDoc: [GRAMMAR] with IMPORT_FROM_FILE - one</tspan>
+<tspan x="678.0" dy="15.0">             schema file serving many documents.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">DISPOSITION  which categories this project owes, and its type.</tspan>
+<tspan x="678.0" dy="15.0">             already designed; this is the producer&#x27;s G1.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">REGISTER     the requirement records themselves.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">RELATIONS    typed links. NOT a column. first-class objects.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">VIEWS        named field subsets, stored as DATA.</tspan>
+</text>
+<text x="1320.0" y="522.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">MEASURED: StrictDoc&#x27;s</tspan>
+<tspan x="1320.0" dy="15.0">default REQUIREMENT is</tspan>
+<tspan x="1320.0" dy="15.0">eight fields and NONE is</tspan>
+<tspan x="1320.0" dy="15.0">mandatory. required-ness</tspan>
+<tspan x="1320.0" dy="15.0">is a per-project</tspan>
+<tspan x="1320.0" dy="15.0">declaration, not a vendor</tspan>
+<tspan x="1320.0" dy="15.0">opinion. that is the</tspan>
+<tspan x="1320.0" dy="15.0">whole reason the catalog</tspan>
+<tspan x="1320.0" dy="15.0">is separate from the</tspan>
+<tspan x="1320.0" dy="15.0">register.</tspan>
+</text>
+<polyline points="960.0,809.0 960.0,843.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="843.0" x2="954.3" y2="833.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="843.0" x2="965.7" y2="833.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="875.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="868.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">RELATIONS</tspan>
+</text>
+<rect x="660.0" y="843.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
+<text x="960.0" y="878.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">A link is an object with a type — never a column</tspan>
+</text>
+<text x="678.0" y="923.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">ReqIF SpecRelation: TYPE, SOURCE and TARGET are ALL MANDATORY.</tspan>
+<tspan x="678.0" dy="15.0">a relation cannot be untyped. it is a first-class object beside</tspan>
+<tspan x="678.0" dy="15.0">the requirement, not an attribute of it.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">StrictDoc: ROLE must be REGISTERED IN THE GRAMMAR - &#x27;ROLE:</tspan>
+<tspan x="678.0" dy="15.0">Refines&#x27; was refused until declared - and REVERSE_ROLE means one</tspan>
+<tspan x="678.0" dy="15.0">declaration gives BOTH reading directions.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">  depends-on / required-by      supersedes / superseded-by</tspan>
+<tspan x="678.0" dy="15.0">  satisfied-by / satisfies      verified-by / verifies</tspan>
+<tspan x="678.0" dy="15.0">  refines / refined-by</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">the producer&#x27;s single &#x27;Trace Links:&#x27; field is four different</tspan>
+<tspan x="678.0" dy="15.0">relations in one bag. TECH-006 is a LINK TYPE, not a column.</tspan>
+</text>
+<text x="1320.0" y="859.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">this kills two columns</tspan>
+<tspan x="1320.0" dy="15.0">from the seven: Depends</tspan>
+<tspan x="1320.0" dy="15.0">and Superseded by both</tspan>
+<tspan x="1320.0" dy="15.0">become links.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">and it gives supersession</tspan>
+<tspan x="1320.0" dy="15.0">a typed edge instead of a</tspan>
+<tspan x="1320.0" dy="15.0">prose convention.</tspan>
+</text>
+<polyline points="960.0,1163.0 960.0,1197.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1197.0" x2="954.3" y2="1187.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1197.0" x2="965.7" y2="1187.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1229.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="1222.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">VIEWS</tspan>
+</text>
+<rect x="660.0" y="1197.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
+<text x="960.0" y="1232.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">One model, many renderings — the 15-vs-7 tension dissolves</tspan>
+</text>
+<text x="678.0" y="1277.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">StrictDoc stores named VISIBLE_FIELDS sets as data. the model</tspan>
+<tspan x="678.0" dy="15.0">carries every field the producer&#x27;s row names; a VIEW decides</tspan>
+<tspan x="678.0" dy="15.0">which of them a given surface shows.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">  card      ID · Category · State · Requirement       (the board)</tspan>
+<tspan x="678.0" dy="15.0">  table     + Depends · Source                        (the file)</tspan>
+<tspan x="678.0" dy="15.0">  full      every declared field                      (one record)</tspan>
+<tspan x="678.0" dy="15.0">  release   ID · Title · State · release              (planning)</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">so the argument was never 15 versus 7. it was ONE MODEL versus</tspan>
+<tspan x="678.0" dy="15.0">ONE RENDERING, and we had conflated them.</tspan>
+</text>
+<text x="1320.0" y="1213.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">UX-006 - &#x27;avoid reading</tspan>
+<tspan x="1320.0" dy="15.0">lots of text&#x27; - is a VIEW</tspan>
+<tspan x="1320.0" dy="15.0">requirement, not a schema</tspan>
+<tspan x="1320.0" dy="15.0">requirement. it was</tspan>
+<tspan x="1320.0" dy="15.0">shrinking the model when</tspan>
+<tspan x="1320.0" dy="15.0">it should have been</tspan>
+<tspan x="1320.0" dy="15.0">choosing a view.</tspan>
+</text>
+<polyline points="960.0,1466.0 960.0,1500.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1500.0" x2="954.3" y2="1490.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1500.0" x2="965.7" y2="1490.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1532.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">5</tspan>
+</text>
+<text x="344.0" y="1525.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">HOLES</tspan>
+</text>
+<rect x="660.0" y="1500.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="1535.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Two things the ratified design gets wrong</tspan>
+</text>
+<text x="678.0" y="1580.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">FINAL IS UNFALSIFIABLE.  Doorstop&#x27;s `reviewed` is a SHA256</tspan>
+<tspan x="678.0" dy="15.0">fingerprint of the item, not a label. MEASURED: editing one line</tspan>
+<tspan x="678.0" dy="15.0">of a requirement&#x27;s text immediately reported &#x27;unreviewed</tspan>
+<tspan x="678.0" dy="15.0">changes&#x27;. Kerd&#x27;s `final` survives any later edit - so an approval</tspan>
+<tspan x="678.0" dy="15.0">cannot be told from one whose subject changed underneath it.</tspan>
+<tspan x="678.0" dy="15.0">  -&gt; the record stores a hash of the statement at approval.</tspan>
+<tspan x="678.0" dy="15.0">     edit the statement and the state degrades, by construction.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">A STATE OWES NOTHING.  Sphinx-Needs attaches OBLIGATIONS to a</tspan>
+<tspan x="678.0" dy="15.0">state. MEASURED: &#x27;a fun in status final must be verified_by at</tspan>
+<tspan x="678.0" dy="15.0">least one tst&#x27; produced a real refusal.</tspan>
+<tspan x="678.0" dy="15.0">  -&gt; the producer&#x27;s own G0-G8 gates already state the</tspan>
+<tspan x="678.0" dy="15.0">     obligations. In PROSE. this is their machine form.</tspan>
+</text>
+<text x="1320.0" y="1516.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">SUSPECT LINKS follow from</tspan>
+<tspan x="1320.0" dy="15.0">the same fingerprint: a</tspan>
+<tspan x="1320.0" dy="15.0">link stores the target&#x27;s</tspan>
+<tspan x="1320.0" dy="15.0">stamp, so one edit marks</tspan>
+<tspan x="1320.0" dy="15.0">its dependents for</tspan>
+<tspan x="1320.0" dy="15.0">re-look. MEASURED: one</tspan>
+<tspan x="1320.0" dy="15.0">edit flagged three</tspan>
+<tspan x="1320.0" dy="15.0">dependents in two</tspan>
+<tspan x="1320.0" dy="15.0">documents.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">DERIVED licenses an</tspan>
+<tspan x="1320.0" dy="15.0">origin requirement to</tspan>
+<tspan x="1320.0" dy="15.0">have no parent - without</tspan>
+<tspan x="1320.0" dy="15.0">it every BUS/STA/USR row</tspan>
+<tspan x="1320.0" dy="15.0">reads as a broken trace.</tspan>
+</text>
+<polyline points="960.0,1803.0 960.0,1837.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="1837.0" x2="954.3" y2="1827.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="1837.0" x2="965.7" y2="1827.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="1869.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">6</tspan>
+</text>
+<text x="344.0" y="1862.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">SURFACE</tspan>
+</text>
+<rect x="660.0" y="1837.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
+<text x="960.0" y="1872.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">A mature tool already designed the markdown surface</tspan>
+</text>
+<text x="678.0" y="1917.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">StrictDoc 0.27.1 ships a MARKDOWN backend whose default grammar</tspan>
+<tspan x="678.0" dy="15.0">is field-for-field identical to its .sdoc one:</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">    ## &lt;Title&gt;</tspan>
+<tspan x="678.0" dy="15.0">    **UID**: FUN-001</tspan>
+<tspan x="678.0" dy="15.0">    **STATUS**: final</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">    &lt;the statement, a blank-line-separated block&gt;</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">short meta lines, long text as blocks. no pipes to escape, no</tspan>
+<tspan x="678.0" dy="15.0">column-width tyranny, and a statement can be a paragraph.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">DO NOT copy one thing: StrictDoc enforces FIELD ORDER. that is</tspan>
+<tspan x="678.0" dy="15.0">the single decision in the format actively hostile to a model</tspan>
+<tspan x="678.0" dy="15.0">editing a file.</tspan>
+</text>
+<text x="1320.0" y="1853.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the pipe problem is real</tspan>
+<tspan x="1320.0" dy="15.0">and we hit it: the</tspan>
+<tspan x="1320.0" dy="15.0">proposed schema declared</tspan>
+<tspan x="1320.0" dy="15.0">\| as the escape and the</tspan>
+<tspan x="1320.0" dy="15.0">matrix parser does not</tspan>
+<tspan x="1320.0" dy="15.0">honour it - an escaped</tspan>
+<tspan x="1320.0" dy="15.0">pipe split a row into</tspan>
+<tspan x="1320.0" dy="15.0">eight columns. a format</tspan>
+<tspan x="1320.0" dy="15.0">rule nothing implements.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">a block format has no</tspan>
+<tspan x="1320.0" dy="15.0">pipe problem at all.</tspan>
+</text>
+<polyline points="960.0,2174.0 960.0,2208.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="2208.0" x2="954.3" y2="2198.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="2208.0" x2="965.7" y2="2198.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="2240.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">7</tspan>
+</text>
+<text x="344.0" y="2233.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">COST</tspan>
+</text>
+<rect x="660.0" y="2208.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="2243.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Named before the design, not discovered during it</tspan>
+</text>
+<text x="678.0" y="2288.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">1. the register stops being one file. catalog, disposition,</tspan>
+<tspan x="678.0" dy="15.0">   register and relations are four declared things - which is</tspan>
+<tspan x="678.0" dy="15.0">   NFR-004 pressure (&#x27;not scatter artifacts&#x27;) and must be</tspan>
+<tspan x="678.0" dy="15.0">   argued, not assumed. one directory, four files, is the</tspan>
+<tspan x="678.0" dy="15.0">   defensible reading.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">2. a block format is harder to scan raw than a table. the VIEW</tspan>
+<tspan x="678.0" dy="15.0">   answers it - but only once the board exists, and the board</tspan>
+<tspan x="678.0" dy="15.0">   is unbuilt.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">3. fingerprinted approval means a state can change without a</tspan>
+<tspan x="678.0" dy="15.0">   human acting. that is the point, and it will surprise</tspan>
+<tspan x="678.0" dy="15.0">   someone the first time it fires.</tspan>
+</text>
+<text x="1320.0" y="2224.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">none of these is a</tspan>
+<tspan x="1320.0" dy="15.0">blocker. all three are</tspan>
+<tspan x="1320.0" dy="15.0">unqualified, which is the</tspan>
+<tspan x="1320.0" dy="15.0">dangerous state - a named</tspan>
+<tspan x="1320.0" dy="15.0">unsized risk reads as</tspan>
+<tspan x="1320.0" dy="15.0">managed.</tspan>
+</text>
+</svg>

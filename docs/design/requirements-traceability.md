@@ -327,6 +327,146 @@ to avoid.
 | Reqflow | The five-state lifecycle | carry the state in our own field; the tool's only status is `U` for uncovered | permanent | low — same absence of schema | |
 | Reqflow | Refusal from outside the model | run our own checker; reqflow cannot run on macOS at all | permanent | low — the refusal would come from the part we wrote, not from the option being evaluated | |
 
+## The register data model — PROPOSED 2026-08-08, after the schema study
+
+Drawn at `docs/design/register-model.svg` (generator:
+`tools/diagram/gen_register_model.py`). The drawing is the alignment artifact;
+this is its concrete form.
+
+**Why this replaces the seven-column row.** That proposal was written by an
+agent running *in parallel* with the study of StrictDoc, ReqIF, Doorstop and
+Sphinx-Needs — it was told not to wait — so it saw none of their findings. The
+producer caught it: *"did we actually learn from the study and alter our
+thinking into a proposed model?"* It had not. This does.
+
+### Three files, one directory
+
+`docs/requirements/` — one declared location, which is `NFR-004`'s bar.
+
+| File | Holds | Written by | Ships as |
+|---|---|---|---|
+| `catalog.md` | the schema — field definitions, the twenty codes, legal states and what each owes, legal link types, named views | the producer, rarely | a Kerd default the project copies and may extend |
+| `categories.md` | the disposition — twenty rows, `applies` or `n/a` with a reason | the producer, at opt-in | empty; this is the producer's `G1` evidence |
+| `register.md` | the requirement records, and their links | the promotion beat | empty |
+
+**The catalog is separate from the register because required-ness is a
+project's declaration, not a vendor's.** Measured: StrictDoc's default
+`REQUIREMENT` node has eight fields and **none of them is mandatory** — every
+one carries `required="False"`, and mandatoriness is declared per project in a
+`[GRAMMAR]` block, which can be shared across documents via
+`IMPORT_FROM_FILE`. That is the shape `catalog.md` takes.
+
+### A record is a block, not a table row
+
+Measured: StrictDoc 0.27.1 ships a **markdown backend** whose default grammar is
+field-for-field identical to its `.sdoc` one — `## Title`, bolded meta lines,
+blank-line-separated long-text blocks. A mature tool has already designed the
+surface this design was about to invent, so it is adopted rather than
+re-derived.
+
+```
+## FUN-001 — Approving the design is enough
+
+**Category**: FUN
+**State**: final
+**Source**: 2026-08-07 session — Tony, stated directly
+**Approved**: sha256:9f2a…  (the statement as it read when keyed)
+
+Approving the design is enough — no plan-approval gate. A plan is the
+execution of an already-approved design, carrying the measurements that
+prove the goals were met.
+
+**Links**
+- refines → PRD-001
+- verified-by → TST-001
+```
+
+Short fields as meta lines, the statement as a block. **No pipes to escape** —
+and the escape matters, because the seven-column proposal declared `\|` as the
+rule while the matrix parser does not honour it; an escaped pipe split a
+countermeasure row into eight columns on this very page. A rule nothing
+implements is not a rule. A block format has no pipe problem at all.
+
+**One thing deliberately NOT copied: StrictDoc enforces field ORDER.** That is
+the single decision in the format actively hostile to a model editing a file,
+and Kerd's whole capture beat is a model editing a file.
+
+### Links are typed objects, not columns
+
+ReqIF's `SpecRelation` makes `TYPE`, `SOURCE` and `TARGET` **all mandatory** —
+a relation cannot be untyped. StrictDoc requires a relation's `ROLE` to be
+**registered in the grammar** (`ROLE: Refines` was refused until declared) and
+its `REVERSE_ROLE` gives both reading directions from one declaration.
+
+Declared in `catalog.md`, each with its reverse:
+
+| Role | Reverse | For |
+|---|---|---|
+| `depends-on` | `required-by` | `TECH-006` — the dependency the design was recorded as lacking |
+| `supersedes` | `superseded-by` | supersession as a typed edge, not a prose convention |
+| `satisfied-by` | `satisfies` | requirement → the piece that builds it (slice 2) |
+| `verified-by` | `verifies` | requirement → the test (slice 2) |
+| `refines` | `refined-by` | a functional requirement under a product one |
+
+**This removes two of the seven columns.** `Depends` and `Superseded by` were
+both links wearing a column's clothes. It also settles theme 8: the producer's
+single `Trace Links:` field is four different relations in one bag, and the
+dependency gap is closed by a link *type*, not a sixteenth column.
+
+### Views resolve fifteen fields against `UX-006`
+
+StrictDoc stores named `VISIBLE_FIELDS` sets **as data**. Declared in
+`catalog.md`:
+
+| View | Shows | Used by |
+|---|---|---|
+| `card` | ID · Category · State · Requirement | the board |
+| `table` | + Source | a scan of the file |
+| `full` | every declared field | one record open |
+| `release` | ID · Title · State · release | release planning |
+
+**The argument was never 15 fields against 7.** It was one *model* against one
+*rendering*, and this design had conflated them. `UX-006` — *"avoid reading
+lots of text"* — is a **view** requirement. It was shrinking the model when it
+should have been choosing a view.
+
+### Two holes in the ratified design, both measured
+
+**`final` is unfalsifiable.** Doorstop's `reviewed` is a **sha256 fingerprint**,
+not a label; editing one line of a requirement's text immediately reported
+*"unreviewed changes"*. Kerd's `final` survives any later edit, so an approval
+today cannot be told from one whose subject has changed underneath it.
+**Countermeasure:** the record carries `**Approved**: sha256:…` of the statement
+as keyed. Edit the statement and the state degrades by construction — no
+discipline required, which is the only kind of countermeasure this repo trusts.
+
+**A state owes nothing.** Sphinx-Needs attaches **obligations** to a state:
+*"a `fun` in status `final` must be `verified_by` at least one `tst`"* was
+written and produced a real refusal. Kerd's five states are labels.
+**The producer's own `G0`–`G8` gates already state those obligations — in
+prose.** `catalog.md`'s state table is their machine form, and it is the bridge
+between the register and `requirements-project-type-templates.md`.
+
+Two further concepts adopted from the same source: **suspect links** (a link
+stores its target's stamp, so one edit marks dependents for re-look — measured:
+one edit flagged three dependents across two documents) and **`derived`**, which
+licenses an origin requirement to have no parent. Without `derived`, every
+`BUS`, `STA` and `USR` row reads as a broken trace.
+
+### What this costs, named before the design rather than found during it
+
+1. **The register stops being one file.** Three declared things in one
+   directory. That is `NFR-004` pressure and must be argued rather than
+   assumed — one directory, three files, against Doorstop's ~65 across 20 is
+   the defensible reading, but it is a reading.
+2. **A block format is harder to scan raw than a table.** The `card` view
+   answers it — but only once the board exists, and the board is unbuilt.
+3. **Fingerprinted approval means a state can change without a human acting.**
+   That is the point, and it will surprise someone the first time it fires.
+
+None of the three is a blocker. All three are **unqualified**, which is the
+dangerous state — a named, unsized risk reads as managed.
+
 ## The design package — BLOCKED, not yet reworked
 
 Everything below this line is the 2026-08-07 18:56 package. It was written
