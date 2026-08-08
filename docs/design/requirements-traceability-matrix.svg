@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="7494" height="2768" viewBox="260 40 7494 2768">
-<rect x="260" y="40" width="7494" height="2768" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="7494" height="2885" viewBox="260 40 7494 2885">
+<rect x="260" y="40" width="7494" height="2885" fill="#ffffff"/>
 <text x="300.0" y="112.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Requirements traceability — slice 1 design — evaluation matrix</tspan>
 </text>
@@ -430,8 +430,11 @@
 <tspan x="3365.0" dy="0.0">○</tspan>
 </text>
 <rect x="3546.0" y="620.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="3701.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
-<tspan x="3701.0" dy="0.0">○</tspan>
+<text x="3701.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">△+</tspan>
+</text>
+<text x="3701.0" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3701.0" dy="0.0">needs a custom grammar</tspan>
 </text>
 <rect x="3868.0" y="620.0" width="310.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="4023.0" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
@@ -1132,89 +1135,98 @@
 <tspan x="300.0" dy="15.0">regular enough to parse, but this is work the adoption was meant to avoid · —</tspan>
 </text>
 <text x="300.0" y="1778.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">StrictDoc · The five-state lifecycle · declare a custom grammar field `TYPE:</tspan>
+<tspan x="300.0" dy="15.0">SingleChoice(proposed, qualified, final, superseded, dropped)` with `REQUIRED: True`,</tspan>
+<tspan x="300.0" dy="15.0">which refuses a bad value by name and an omission by name · permanent · high — built and</tspan>
+<tspan x="300.0" dy="15.0">verified hands-on against a Kerd-shaped grammar; but it IS a countermeasure, because the</tspan>
+<tspan x="300.0" dy="15.0">shipped `STATUS` field is an unconstrained free string (`STATUS: BANANA_NOT_A_REAL_STATUS`</tspan>
+<tspan x="300.0" dy="15.0">round-tripped clean, and the `Draft / Active / Deleted` rule in the grammar is dead code</tspan>
+<tspan x="300.0" dy="15.0">referenced by no production) · —</tspan>
+</text>
+<text x="300.0" y="1895.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Doorstop · The same files · accept the `reqs/**/` tree as the register&#x27;s declared home; it</tspan>
 <tspan x="300.0" dy="15.0">cannot annotate `docs/product/&lt;slug&gt;.md` at all · permanent · low — a parallel layout by</tspan>
 <tspan x="300.0" dy="15.0">design, and the tool&#x27;s whole merge story depends on it · —</tspan>
 </text>
-<text x="300.0" y="1835.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1952.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Doorstop · No artifact scatter · flatten to one document per category rather than per</tspan>
 <tspan x="300.0" dy="15.0">item, trading merge-friendliness for file count · permanent · low — file-per-item is HOW</tspan>
 <tspan x="300.0" dy="15.0">it earns clean diffs; the evidence states the scatter cannot be configured away · —</tspan>
 </text>
-<text x="300.0" y="1892.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2009.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Doorstop · Claude Code friendly · give the model the filename convention and the per-</tspan>
 <tspan x="300.0" dy="15.0">document `.doorstop.yml` so capture is a Write to a computable path · permanent · medium —</tspan>
 <tspan x="300.0" dy="15.0">the UID IS the filename, so the model must compute the next free number before writing · —</tspan>
 </text>
-<text x="300.0" y="1949.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2066.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Doorstop · The producer&#x27;s ID format · pass `-s -` at every document creation; the default</tspan>
 <tspan x="300.0" dy="15.0">separator is empty and yields `UX001` · permanent · high — verified hands-on, `FUN-001`</tspan>
 <tspan x="300.0" dy="15.0">and `UX-001` both produced verbatim · —</tspan>
 </text>
-<text x="300.0" y="2006.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2123.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Doorstop · The twenty-category taxonomy · model the categories as documents under one</tspan>
 <tspan x="300.0" dy="15.0">synthetic root, since a second root is rejected, and validate the set with our own checker</tspan>
 <tspan x="300.0" dy="15.0">· permanent · low — the tree is single-rooted by design and a flat taxonomy is not</tspan>
 <tspan x="300.0" dy="15.0">expressible natively · —</tspan>
 </text>
-<text x="300.0" y="2078.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2195.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Doorstop · The five-state lifecycle · validate the state field with our own checker,</tspan>
 <tspan x="300.0" dy="15.0">because Doorstop validates no custom attribute values · permanent · high — `state:</tspan>
 <tspan x="300.0" dy="15.0">BANANA_NOT_A_LIFECYCLE_STATE` passed its strictest run, so the gap is measured and the fix</tspan>
 <tspan x="300.0" dy="15.0">is ours · —</tspan>
 </text>
-<text x="300.0" y="2150.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2267.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">SphinxNeeds · The same files · rewrite the fourteen product docs into directive syntax ·</tspan>
 <tspan x="300.0" dy="15.0">permanent · low — the decisive test found ZERO needs in the real docs, and `needs.json` is</tspan>
 <tspan x="300.0" dy="15.0">a build artifact, i.e. a derived second copy · —</tspan>
 </text>
-<text x="300.0" y="2207.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2324.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">SphinxNeeds · No artifact scatter · gitignore `_build/` and publish the HTML from CI</tspan>
 <tspan x="300.0" dy="15.0">rather than committing it · permanent · medium — works, but the shareable artifact then</tspan>
 <tspan x="300.0" dy="15.0">needs hosting that does not exist · —</tspan>
 </text>
-<text x="300.0" y="2264.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2381.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">OpenFastTrace · Installable at all · install a system JVM; Java 17 is a common machine-</tspan>
 <tspan x="300.0" dy="15.0">level dependency · temporary · low — no JVM exists on this machine, and a consuming</tspan>
 <tspan x="300.0" dy="15.0">project cannot be assumed to have one · the first consuming project confirmed to carry a</tspan>
 <tspan x="300.0" dy="15.0">JVM already</tspan>
 </text>
-<text x="300.0" y="2336.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2453.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">OpenFastTrace · The producer&#x27;s ID format · keep `&lt;CODE&gt;-&lt;NNN&gt;` in the register we own and</tspan>
 <tspan x="300.0" dy="15.0">carry OFT&#x27;s `artifacttype~name~revision` as a second, derived ID for tracing only ·</tspan>
 <tspan x="300.0" dy="15.0">permanent · low — two ID namespaces is exactly the confusion the register exists to remove</tspan>
 <tspan x="300.0" dy="15.0">· —</tspan>
 </text>
-<text x="300.0" y="2408.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2525.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">OpenFastTrace · The twenty-category taxonomy · put the category in free-form `Tags:`,</tspan>
 <tspan x="300.0" dy="15.0">since artifact types are tracing-hierarchy levels rather than a taxonomy, and validate it</tspan>
 <tspan x="300.0" dy="15.0">ourselves · permanent · low — tags are unvalidated free text, so the taxonomy would be</tspan>
 <tspan x="300.0" dy="15.0">enforced only by our own checker · —</tspan>
 </text>
-<text x="300.0" y="2480.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2597.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">OpenFastTrace · The five-state lifecycle · hold the five states in our register and map</tspan>
 <tspan x="300.0" dy="15.0">only the four OFT understands · permanent · low — the closed set is the vendor&#x27;s and has</tspan>
 <tspan x="300.0" dy="15.0">no documented extension point · —</tspan>
 </text>
-<text x="300.0" y="2537.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2654.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Reqflow · Claude Code friendly · author requirements in our own markdown and let reqflow</tspan>
 <tspan x="300.0" dy="15.0">regex-match them · permanent · low — reqflow contributes nothing to authoring; the format</tspan>
 <tspan x="300.0" dy="15.0">would be entirely ours · —</tspan>
 </text>
-<text x="300.0" y="2594.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2711.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Reqflow · Machine-readable by stdlib · parse our own markdown with stdlib and use reqflow</tspan>
 <tspan x="300.0" dy="15.0">only for coverage reports · permanent · low — its only structured export is a two-column</tspan>
 <tspan x="300.0" dy="15.0">CSV, produced by a binary that will not install here · —</tspan>
 </text>
-<text x="300.0" y="2651.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2768.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Reqflow · The twenty-category taxonomy · carry the category in our own field; reqflow has</tspan>
 <tspan x="300.0" dy="15.0">no schema at all · permanent · low — a requirement is whatever a PCRE regex matched · —</tspan>
 </text>
-<text x="300.0" y="2693.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2810.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Reqflow · The five-state lifecycle · carry the state in our own field; the tool&#x27;s only</tspan>
 <tspan x="300.0" dy="15.0">status is `U` for uncovered · permanent · low — same absence of schema · —</tspan>
 </text>
-<text x="300.0" y="2735.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2852.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Reqflow · Refusal from outside the model · run our own checker; reqflow cannot run on</tspan>
 <tspan x="300.0" dy="15.0">macOS at all · permanent · low — the refusal would come from the part we wrote, not from</tspan>
 <tspan x="300.0" dy="15.0">the option being evaluated · —</tspan>

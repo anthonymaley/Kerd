@@ -292,6 +292,8 @@ the register that would hold them did not exist.
 | UX-004 | Diagrams render in a sans-serif font | final |
 | UX-005 | The preferred option's verdict cell is filled green | final |
 | UX-006 | The point of a table is to **avoid reading lots of text** to understand it — brevity is the requirement, not a preference | final |
+| UX-007 | The producer marks requirements **on the page without typing** — status, release assignment — and the page saves those marks to a file the next session applies on the word "updated" | final |
+| UX-008 | A generated page carries the hash of the state it was rendered from, so marks made against a stale view are refused rather than applied blind | final |
 | **TST (cont.)** | | |
 | TST-003 | **DUE DATE, not EFFORT** — can it meet the plan in time, an outcome measure, rather than how much work it is, an input measure | final |
 
