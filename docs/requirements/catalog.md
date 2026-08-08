@@ -8,8 +8,13 @@ fields each surface shows.
 StrictDoc's default `REQUIREMENT` node has eight fields and **none of them is
 mandatory** — required-ness is a per-project declaration, not a vendor opinion,
 and it lives in a grammar block that can be shared across documents. This file
-is that grammar. Kerd ships it as a default; a consuming project copies it and
-may extend it.
+is that grammar.
+
+**A consuming project REFERENCES this catalog rather than copying it.**
+StrictDoc's mechanism is `IMPORT_FROM_FILE` — one schema file serving many
+documents — and the distinction is load-bearing: a copy drifts silently and
+nothing can tell you it has. A project extends the catalog by declaring
+additions beside the reference, never by editing a duplicate.
 
 > **On this directory's name.** `docs/requirements/` was the output path of
 > `capturerequirements`, the skill cut at v0.73.0 — cut partly *because* that
@@ -32,6 +37,15 @@ may extend it.
 | Approved | when `final` | `sha256:<12 hex>` | The statement as it read when keyed. See **State obligations**. |
 | Title | no | free text | Currently the heading. Earns its own field when a statement outgrows one line. |
 
+**An unknown field is a hard error**, not a warning — the same rule StrictDoc
+enforces under its default grammar. A field nobody declared is either a typo or
+an undeclared extension, and both should stop the run.
+
+**Field ORDER is NOT enforced, deliberately.** StrictDoc does enforce it, and it
+is the single decision in that format actively hostile to a model editing a
+file — Kerd's entire capture beat is a model editing a file, so the one thing
+not copied is copied nowhere.
+
 **Deferred, each with a return condition** — Priority (returns when a release
 object exists to consume it), Owner (returns on the first register with two
 writers), Acceptance Criteria and Verification Method (the forward trace, slice
@@ -49,9 +63,24 @@ rather than being fitted to one. Full definitions and the sub-types each covers
 are in `docs/product/requirements-traceability.md`. A project may extend the
 set; it never has to invent one.
 
-`Category` maps to **`ReqIF.Category`**, a reserved enumeration in the ReqIF 1.2
-interchange standard, so the taxonomy is portable by construction rather than
-by translation.
+### Portability — the ReqIF 1.2 mapping
+
+Carried so an export is a rendering rather than a re-modelling. Verified
+2026-08-08: `FUN-001` passes strict XSD validation as a ReqIF `IDENTIFIER`
+(an `NCName`), while `001-FUN`, `FUN 001` and `FUN:001` all fail it.
+
+| Kerd field | ReqIF |
+|---|---|
+| ID | `ReqIF.ForeignID` — **and** `IDENTIFIER`. The industry convention (prostep ivip Implementation Guide, mapping DOORS "Absolute Number" and PTC "Item ID") puts the human-visible number in `ForeignID` and leaves `IDENTIFIER` an opaque GUID. Carrying it in both is the portable move. |
+| Category | `ReqIF.Category` — a reserved enumeration, so the twenty codes fit the standard exactly |
+| Statement | `ReqIF.Text` |
+| Title | `ReqIF.Name` |
+| Acceptance Criteria *(deferred)* | `ReqIF.FitCriteria` |
+| State | **no reserved name exists.** `ReqIF.ForeignState` is defined only at Specification level, so the five states stay a custom enumeration Kerd validates itself |
+| Links | `SpecRelation`, a first-class object whose `TYPE`, `SOURCE` and `TARGET` are all mandatory |
+
+The Implementation Guide specifies XHTML for `Name` and `Text`; StrictDoc emits
+String. If Kerd ever writes its own exporter, XHTML is the conventional choice.
 
 ## States, and what each one owes
 
@@ -93,9 +122,24 @@ declaration.
 | `satisfied-by` | `satisfies` | requirement → the contract piece that builds it *(slice 2)* |
 | `verified-by` | `verifies` | requirement → the test that proves it *(slice 2)* |
 
-A link naming an ID that does not exist is refused. An **origin** requirement —
-`BUS`, `STA`, `USR` — may legitimately have no parent; without that allowance
-every such row reads as a broken trace.
+A link naming an ID that does not exist is refused.
+
+**A link carries its target's stamp — the suspect-link mechanism.** Written as
+`- depends-on → FUN-005 (sha256:…)`, where the hash is the target's statement
+as it read when the link was made. Edit `FUN-005` and every link pointing at it
+diverges, so its dependents are flagged for re-look rather than silently
+carrying a claim about words that have changed. Measured 2026-08-08 in Doorstop:
+one edit marked three dependents suspect across two documents. **Kerd's
+`superseded` names a replacement but never tells dependents to look again** —
+this is that gap closed, and it is the same idea as `TECH-010` applied to edges
+instead of nodes.
+
+**`derived` — an origin requirement may have no parent.** `BUS`, `STA` and `USR`
+requirements originate rather than refine; without an explicit allowance every
+such row reads as a broken trace the moment a completeness check exists. A
+requirement in an origin category needs no inbound `refines`; one in any other
+category that has none is a finding, not an error, until slice 2 wires the
+forward half.
 
 ## Views
 

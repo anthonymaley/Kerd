@@ -98,6 +98,9 @@ The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) ·
 
 `×` means cannot meet **even with a countermeasure**; cross takes no modifier, because there is no degree of impossibility
 
+**Links**
+- refines → PRD-008 (sha256:31a310b5f422)
+
 ### PRD-010 — Building the missing piece ourselves **is** a legal countermeasure
 
 **Category**: PRD
@@ -106,6 +109,9 @@ The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) ·
 **Approved**: sha256:c21fa58a63cb
 
 Building the missing piece ourselves **is** a legal countermeasure — marked `△-`, with its cost carried by the summary columns rather than hidden in the mark
+
+**Links**
+- refines → PRD-009 (sha256:4153bd6015d5)
 
 ### PRD-011 — Every evaluation carries four summary columns
 
@@ -124,6 +130,9 @@ Every evaluation carries four summary columns: **COST · QUALITY · DUE DATE · 
 **Approved**: sha256:6b58da638798
 
 A mark that is not `◎` or `○` states why, in a few words — never a sentence
+
+**Links**
+- refines → PRD-008 (sha256:31a310b5f422)
 
 ### PRD-013 — Dependency cost is judged **marginally and proportionately**
 
@@ -153,6 +162,9 @@ Approving the design is enough — no plan-approval gate
 **Approved**: sha256:19b119bb6265
 
 A plan is execution of the design, carrying the measurements that prove the goals met
+
+**Links**
+- refines → FUN-001 (sha256:800b79d0aaf9)
 
 ### FUN-003 — Every requirement gets a Category and ID, traceable back and forward
 
@@ -190,6 +202,9 @@ Project type is declared once at conductor start, from the list, and not re-aske
 
 The goal gate increments the project type to the next appropriate type
 
+**Links**
+- depends-on → FUN-005 (sha256:b76da5ae7fe2)
+
 ### FUN-007 — Conductor may suggest a type change
 
 **Category**: FUN
@@ -198,6 +213,9 @@ The goal gate increments the project type to the next appropriate type
 **Approved**: sha256:7a952d874cff
 
 Conductor may suggest a type change — at the gate or mid-flight — and the producer agrees it
+
+**Links**
+- depends-on → FUN-005 (sha256:b76da5ae7fe2)
 
 ### FUN-008 — Type is a stack
 
@@ -208,6 +226,9 @@ Conductor may suggest a type change — at the gate or mid-flight — and the pr
 
 Type is a stack: items inherit the project's type, an override is opt-in and forward-only
 
+**Links**
+- depends-on → FUN-005 (sha256:b76da5ae7fe2)
+
 ### FUN-009 — route and Rigor level are derived from project type, not declared
 
 **Category**: FUN
@@ -215,6 +236,9 @@ Type is a stack: items inherit the project's type, an override is opt-in and for
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 
 `route` and `Rigor level` are derived from project type, not declared
+
+**Links**
+- depends-on → FUN-005 (sha256:b76da5ae7fe2)
 
 ## NFR — Non-functional
 
@@ -326,6 +350,9 @@ The producer marks requirements **on the page without typing** — status, relea
 **Approved**: sha256:383c65601ef2
 
 A generated page carries the hash of the state it was rendered from, so marks made against a stale view are refused rather than applied blind
+
+**Links**
+- depends-on → UX-007 (sha256:4601babdb3e5)
 
 ## TECH — Technical
 
@@ -447,6 +474,9 @@ The plan must check the design's measurements are carried in accurately, and sho
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 
 Every project type owes every gate unless that type explicitly marks it `n/a` with a reason
+
+**Links**
+- depends-on → FUN-005 (sha256:b76da5ae7fe2)
 
 ### TST-003 — **DUE DATE, not EFFORT**
 
