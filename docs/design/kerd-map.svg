@@ -1,226 +1,226 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1550" height="825" viewBox="260 40 1550 825">
 <rect x="260" y="40" width="1550" height="825" fill="#ffffff"/>
-<text x="300.0" y="110.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="30" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="110.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="30" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Kerd — the whole system, current state (v0.95.0)</tspan>
 </text>
-<text x="300.0" y="136.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="136.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">skills are what you invoke · the ladder is what work climbs · the machinery refuses from outside the model</tspan>
 </text>
-<text x="300.0" y="162.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="162.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">RED (dashed) — dying or under review as a cut candidate</tspan>
 </text>
-<text x="300.0" y="180.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="180.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s keys live here</tspan>
 </text>
-<text x="560.0" y="180.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="560.0" y="180.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="560.0" dy="0.0">grey — machinery, not skills: nothing to install, push-to-main = released</tspan>
 </text>
-<text x="300.0" y="212.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="212.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">THE NINE SKILLS — invoked as /kerd:&lt;name&gt;, loaded from the installed plugin version</tspan>
 </text>
-<text x="300.0" y="240.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="240.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">SESSION FLOW   </tspan>
 </text>
 <rect x="300.0" y="246.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="435.0" y="264.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="435.0" y="264.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="435.0" dy="0.0">switch</tspan>
 </text>
-<text x="310.0" y="290.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="310.0" y="290.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="310.0" dy="0.0">the boundary: pull, handoff,</tspan>
 <tspan x="310.0" dy="15.0">session-state commit;</tspan>
 <tspan x="310.0" dy="15.0">reads 3 files, writes 3 kinds</tspan>
 </text>
 <rect x="590.0" y="246.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="725.0" y="264.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="725.0" y="264.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="725.0" dy="0.0">conductor</tspan>
 </text>
-<text x="600.0" y="290.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="600.0" y="290.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="600.0" dy="0.0">the performance: orient, plan,</tspan>
 <tspan x="600.0" dy="15.0">execute, close; four roles —</tspan>
 <tspan x="600.0" dy="15.0">you produce, players execute</tspan>
 </text>
 <rect x="880.0" y="246.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1015.0" y="264.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1015.0" y="264.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1015.0" dy="0.0">pair</tspan>
 </text>
-<text x="890.0" y="290.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="890.0" y="290.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="890.0" dy="0.0">partner-mode toggle (hook):</tspan>
 <tspan x="890.0" dy="15.0">rapid back-and-forth,</tspan>
 <tspan x="890.0" dy="15.0">one speech-bubble question</tspan>
 </text>
-<text x="1210.0" y="240.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1210.0" y="240.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1210.0" dy="0.0">KNOWLEDGE   </tspan>
 </text>
 <rect x="1210.0" y="246.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1345.0" y="264.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1345.0" y="264.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1345.0" dy="0.0">kivna</tspan>
 </text>
-<text x="1220.0" y="290.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1220.0" y="290.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1220.0" dy="0.0">the vault interface:</tspan>
 <tspan x="1220.0" dy="15.0">human-first knowledge base,</tspan>
 <tspan x="1220.0" dy="15.0">on-demand since v0.83.0</tspan>
 </text>
 <rect x="1500.0" y="246.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1635.0" y="264.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1635.0" y="264.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1635.0" dy="0.0">skriv</tspan>
 </text>
-<text x="1510.0" y="290.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1510.0" y="290.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1510.0" dy="0.0">human voice for prose:</tspan>
 <tspan x="1510.0" dy="15.0">audit, fix, or write —</tspan>
 <tspan x="1510.0" dy="15.0">never code or commits</tspan>
 </text>
-<text x="300.0" y="356.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="356.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">HEALTH   </tspan>
 </text>
 <rect x="300.0" y="362.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="435.0" y="380.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="435.0" y="380.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="435.0" dy="0.0">tend</tspan>
 </text>
-<text x="310.0" y="406.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="310.0" y="406.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="310.0" dy="0.0">converge repo structure</tspan>
 <tspan x="310.0" dy="15.0">to current conventions;</tspan>
 <tspan x="310.0" dy="15.0">never commits</tspan>
 </text>
 <rect x="590.0" y="362.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="725.0" y="380.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="725.0" y="380.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="725.0" dy="0.0">slainte</tspan>
 </text>
-<text x="600.0" y="406.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="600.0" y="406.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="600.0" dy="0.0">release close-out pass: triggered</tspan>
 <tspan x="600.0" dy="15.0">at version bumps + goal records,</tspan>
 <tspan x="600.0" dy="15.0">fixes doc drift, restraint reported</tspan>
 </text>
-<text x="1210.0" y="356.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1210.0" y="356.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1210.0" dy="0.0">QUALIFY &amp; DISCOVER   </tspan>
 </text>
 <rect x="1210.0" y="362.0" width="270.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="1345.0" y="380.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1345.0" y="380.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1345.0" dy="0.0">interrogate</tspan>
 </text>
-<text x="1220.0" y="406.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1220.0" y="406.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1220.0" dy="0.0">UNDER REVIEW - the ledger</tspan>
 <tspan x="1220.0" dy="15.0">STANDARD is load-bearing;</tspan>
 <tspan x="1220.0" dy="15.0">does the skill earn its place?</tspan>
 </text>
 <rect x="1500.0" y="362.0" width="270.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="1635.0" y="380.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1635.0" y="380.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1635.0" dy="0.0">lorg</tspan>
 </text>
-<text x="1510.0" y="406.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1510.0" y="406.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1510.0" dy="0.0">UNDER REVIEW - cut candidate:</tspan>
 <tspan x="1510.0" dy="15.0">claude plugin manages now;</tspan>
 <tspan x="1510.0" dy="15.0">gap analysis never exercised</tspan>
 </text>
-<text x="300.0" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="486.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">cut and gone (dead solutions stay dead): capturerequirements v0.73 · sherpa v0.74 · mode + all eleven modes/ v0.75</tspan>
 </text>
-<text x="300.0" y="524.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="524.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">THE LADDER — every work item climbs it; gates route by what exists on disk</tspan>
 </text>
 <rect x="300.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="359.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="359.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="359.0" dy="0.0">frame</tspan>
 </text>
 <rect x="442.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="501.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="501.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="501.0" dy="0.0">viability</tspan>
 </text>
 <polyline points="420.0,554.0 440.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="440.0" y1="554.0" x2="430.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="440.0" y1="554.0" x2="430.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="584.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="643.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="643.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="643.0" dy="0.0">slice</tspan>
 </text>
 <polyline points="562.0,554.0 582.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="582.0" y1="554.0" x2="572.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="582.0" y1="554.0" x2="572.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="726.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="785.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="785.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="785.0" dy="0.0">design</tspan>
 </text>
 <polyline points="704.0,554.0 724.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="724.0" y1="554.0" x2="714.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="724.0" y1="554.0" x2="714.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="868.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="927.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="927.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="927.0" dy="0.0">contract</tspan>
 </text>
 <polyline points="846.0,554.0 866.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="866.0" y1="554.0" x2="856.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="866.0" y1="554.0" x2="856.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="1010.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1069.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1069.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1069.0" dy="0.0">build</tspan>
 </text>
 <polyline points="988.0,554.0 1008.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="1008.0" y1="554.0" x2="998.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="1008.0" y1="554.0" x2="998.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="1152.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1211.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1211.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1211.0" dy="0.0">goal</tspan>
 </text>
 <polyline points="1130.0,554.0 1150.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="1150.0" y1="554.0" x2="1140.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="1150.0" y1="554.0" x2="1140.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="1294.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1353.0" y="559.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1353.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1353.0" dy="0.0">loop</tspan>
 </text>
 <polyline points="1272.0,554.0 1292.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="1292.0" y1="554.0" x2="1282.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="1292.0" y1="554.0" x2="1282.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="598.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="598.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">human keys (GREEN): frame value + slice · design GO on the canvas · the expert-user pass at goal — everything else is machine-checked</tspan>
 </text>
-<text x="300.0" y="618.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="618.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">records: docs/product/&lt;slug&gt;.md (living) · docs/gates/&lt;date&gt;-&lt;slug&gt;-&lt;rung&gt;.md (immutable) · docs/plans/&lt;date&gt;-&lt;slug&gt;-spec.md (the contract)</tspan>
 </text>
-<text x="300.0" y="668.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="668.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">THE MACHINERY — refuses from outside the model, on every push; not skills, not installed, released by push-to-main</tspan>
 </text>
 <rect x="300.0" y="678.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="435.0" y="696.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="435.0" y="696.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="435.0" dy="0.0">tools/gates</tspan>
 </text>
-<text x="310.0" y="722.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="310.0" y="722.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="310.0" dy="0.0">router + refuser:</tspan>
 <tspan x="310.0" dy="15.0">gate table per rung,</tspan>
 <tspan x="310.0" dy="15.0">audit AU1-AU6, release</tspan>
 <tspan x="310.0" dy="15.0">rules R1-R3, fidelity</tspan>
 </text>
 <rect x="590.0" y="678.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="725.0" y="696.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="725.0" y="696.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="725.0" dy="0.0">tools/diagram</tspan>
 </text>
-<text x="600.0" y="722.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="600.0" y="722.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="600.0" dy="0.0">progress board derived</tspan>
 <tspan x="600.0" dy="15.0">from disk + the stale</tspan>
 <tspan x="600.0" dy="15.0">refuser (5 catches) +</tspan>
 <tspan x="600.0" dy="15.0">design canvas kit</tspan>
 </text>
 <rect x="880.0" y="678.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1015.0" y="696.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1015.0" y="696.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1015.0" dy="0.0">tools/design</tspan>
 </text>
-<text x="890.0" y="722.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="890.0" y="722.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="890.0" dy="0.0">evaluation matrix</tspan>
 <tspan x="890.0" dy="15.0">checker: declared</tspan>
 <tspan x="890.0" dy="15.0">criteria, scored basis,</tspan>
 <tspan x="890.0" dy="15.0">arithmetic recomputed</tspan>
 </text>
 <rect x="1170.0" y="678.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1305.0" y="696.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1305.0" y="696.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1305.0" dy="0.0">CI - eight steps</tspan>
 </text>
-<text x="1180.0" y="722.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1180.0" y="722.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1180.0" dy="0.0">gate selftest · audit ·</tspan>
 <tspan x="1180.0" dy="15.0">release · progress selftest</tspan>
 <tspan x="1180.0" dy="15.0">· matrix selftest · matrix</tspan>
 <tspan x="1180.0" dy="15.0">audit · render current ·</tspan>
 <tspan x="1180.0" dy="15.0">handoff fidelity</tspan>
 </text>
-<text x="300.0" y="822.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="822.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">the skills advise and structure; the machinery is what can say no. rigor level (AU6) is the newest refusal: every Release slice declares spike / mvp / production-v1.</tspan>
 </text>
 </svg>

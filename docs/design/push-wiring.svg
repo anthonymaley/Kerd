@@ -1,39 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1305" height="1747" viewBox="260 40 1305 1747">
 <rect x="260" y="40" width="1305" height="1747" fill="#ffffff"/>
-<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="112.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Push wiring — the staleness refuser · design package</tspan>
 </text>
-<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="139.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">the ladder&#x27;s first passenger · slice 1 of docs/product/push-wiring.md</tspan>
 <tspan x="300.0" dy="18.8">forgetting the refresh becomes a refusal, not a drift.</tspan>
 </text>
-<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="186.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
 </text>
-<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
 </text>
-<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
 </text>
-<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="246.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
 </text>
-<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="320.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">1</tspan>
 </text>
-<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="313.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">NOW</tspan>
 </text>
 <rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="323.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">The ship flow today</tspan>
 </text>
-<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="368.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">commit work (Piece: trailer) -&gt; push. the render refreshes only when</tspan>
 <tspan x="678.0" dy="15.0">someone remembers, in a later commit, maybe a later push.</tspan>
 </text>
-<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="304.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">measured 2026-08-04:</tspan>
 <tspan x="1320.0" dy="15.0">two manual rounds in one</tspan>
 <tspan x="1320.0" dy="15.0">session; between them the</tspan>
@@ -44,22 +44,22 @@
 <polyline points="960.0,404.0 960.0,438.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="438.0" x2="954.3" y2="428.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="438.0" x2="965.7" y2="428.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="470.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="470.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">2</tspan>
 </text>
-<text x="344.0" y="463.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="463.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">CHANGE</tspan>
 </text>
 <rect x="660.0" y="438.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="473.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="473.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">The ship flow under the gate</tspan>
 </text>
-<text x="678.0" y="518.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="518.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">commit -&gt; refresh -&gt; commit the render pair -&gt; ONE push.</tspan>
 <tspan x="678.0" dy="15.0">CI step 7 byte-compares fresh vs committed at every pushed tip;</tspan>
 <tspan x="678.0" dy="15.0">different = refused, and the message carries the exact fix.</tspan>
 </text>
-<text x="1320.0" y="454.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="454.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">named cost (ledger row 3,</tspan>
 <tspan x="1320.0" dy="15.0">RED): a per-piece push is</tspan>
 <tspan x="1320.0" dy="15.0">now a two-commit pair; a</tspan>
@@ -73,17 +73,17 @@
 <polyline points="960.0,571.0 960.0,605.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="605.0" x2="954.3" y2="595.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="605.0" x2="965.7" y2="595.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="637.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="637.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">3</tspan>
 </text>
-<text x="344.0" y="630.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="630.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">MECHANISM</tspan>
 </text>
 <rect x="660.0" y="605.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="640.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="640.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">progress.py stale — check-only, mutates nothing</tspan>
 </text>
-<text x="678.0" y="685.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="685.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">render the pair to a TEMP dir (never the working tree) -&gt;</tspan>
 <tspan x="678.0" dy="15.0">byte-compare each against docs/plans/progress.{excalidraw,svg}</tspan>
 <tspan x="678.0" dy="15.0">on disk. in CI, disk IS the pushed tip; locally the answer is</tspan>
@@ -91,19 +91,19 @@
 <tspan x="678.0" dy="15.0">SVG is drift too.</tspan>
 </text>
 <rect x="660.0" y="772.0" width="250.0" height="84.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="785.0" y="802.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="785.0" y="802.6" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="785.0" dy="0.0">EXIT 0</tspan>
 <tspan x="785.0" dy="16.2">both identical</tspan>
 <tspan x="785.0" dy="16.2">prints: render current</tspan>
 </text>
 <rect x="930.0" y="772.0" width="330.0" height="84.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1095.0" y="794.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1095.0" y="794.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1095.0" dy="0.0">EXIT 1</tspan>
 <tspan x="1095.0" dy="16.2">any difference, or either file missing</tspan>
 <tspan x="1095.0" dy="16.2">names each file + the fix VERBATIM:</tspan>
 <tspan x="1095.0" dy="16.2">run the renderer, add the pair, commit</tspan>
 </text>
-<text x="1320.0" y="786.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="786.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">convergence: render-only</tspan>
 <tspan x="1320.0" dy="15.0">commits carry NO trailer,</tspan>
 <tspan x="1320.0" dy="15.0">so refresh divergence stops</tspan>
@@ -113,29 +113,29 @@
 <polyline points="960.0,882.0 960.0,916.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="916.0" x2="954.3" y2="906.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="916.0" x2="965.7" y2="906.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="948.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="948.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">4</tspan>
 </text>
-<text x="344.0" y="941.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="941.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">CI</tspan>
 </text>
 <rect x="660.0" y="916.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="951.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="951.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Seventh step — and a defect caught at design time</tspan>
 </text>
-<text x="678.0" y="996.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="996.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">gate.yml gains: &#x27;Progress render current&#x27; -&gt; python3</tspan>
 <tspan x="678.0" dy="15.0">tools/diagram/progress.py stale, after Matrix audit.</tspan>
 </text>
 <rect x="660.0" y="1032.0" width="600.0" height="110.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="960.0" y="1059.4" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1059.4" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">DEFECT FOUND: actions/checkout@v4 defaults to DEPTH 1.</tspan>
 <tspan x="960.0" dy="16.2">the renderer derives landed pieces from git log trailers -</tspan>
 <tspan x="960.0" dy="16.2">a shallow checkout sees ONE commit, derives an emptier model,</tspan>
 <tspan x="960.0" dy="16.2">and refuses EVERY push. the fix ships with this slice:</tspan>
 <tspan x="960.0" dy="16.2">checkout gains fetch-depth: 0.</tspan>
 </text>
-<text x="1320.0" y="1046.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1046.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">same bug class as the 0.71.1</tspan>
 <tspan x="1320.0" dy="15.0">absolute-REPO refusal: local</tspan>
 <tspan x="1320.0" dy="15.0">verifies pass in an environment</tspan>
@@ -146,23 +146,23 @@
 <polyline points="960.0,1168.0 960.0,1202.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1202.0" x2="954.3" y2="1192.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1202.0" x2="965.7" y2="1192.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1234.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1234.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5</tspan>
 </text>
-<text x="344.0" y="1227.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1227.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">EVIDENCE</tspan>
 </text>
 <rect x="660.0" y="1202.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="960.0" y="1237.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1237.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Why an exact byte-compare is safe</tspan>
 </text>
-<text x="678.0" y="1282.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1282.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">read from the toolkit 2026-08-04: ids counter-based, seeds</tspan>
 <tspan x="678.0" dy="15.0">arithmetic (10000 + n*7) · no random, no time/date anywhere ·</tspan>
 <tspan x="678.0" dy="15.0">every output-feeding glob sorted() · REPO root-independent since</tspan>
 <tspan x="678.0" dy="15.0">0.71.1 · SVG text metrics are pure arithmetic, no font query.</tspan>
 </text>
-<text x="1320.0" y="1218.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1218.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">RESIDUAL, named: Mac vs</tspan>
 <tspan x="1320.0" dy="15.0">Linux byte-identity is</tspan>
 <tspan x="1320.0" dy="15.0">UNPROVEN until the first CI</tspan>
@@ -175,17 +175,17 @@
 <polyline points="960.0,1352.0 960.0,1386.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1386.0" x2="954.3" y2="1376.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1386.0" x2="965.7" y2="1376.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1418.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1418.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">6</tspan>
 </text>
-<text x="344.0" y="1411.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1411.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">PROOF</tspan>
 </text>
 <rect x="660.0" y="1386.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="1421.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1421.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Fixtures + the both-ways demonstration</tspan>
 </text>
-<text x="678.0" y="1466.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1466.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">selftest gains three temp-tree fixtures: converged -&gt; 0 ·</tspan>
 <tspan x="678.0" dy="15.0">drifted (source changed after render) -&gt; 1 naming both files,</tspan>
 <tspan x="678.0" dy="15.0">fix line asserted VERBATIM · missing pair -&gt; 1.</tspan>
@@ -193,7 +193,7 @@
 <tspan x="678.0" dy="15.0">(planted stale render -&gt; 1; refreshed pair -&gt; 0), the 0.70.0</tspan>
 <tspan x="678.0" dy="15.0">pattern.</tspan>
 </text>
-<text x="1320.0" y="1402.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1402.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">the two stage-1 measurements,</tspan>
 <tspan x="1320.0" dy="15.0">ANSWERED:</tspan>
 <tspan x="1320.0" dy="15.0"></tspan>
@@ -208,17 +208,17 @@
 <polyline points="960.0,1570.0 960.0,1604.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1604.0" x2="954.3" y2="1594.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1604.0" x2="965.7" y2="1594.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1636.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1636.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">7</tspan>
 </text>
-<text x="344.0" y="1629.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1629.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">SCOPE</tspan>
 </text>
 <rect x="660.0" y="1604.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="960.0" y="1639.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1639.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Out of scope, named (composer key on the frame)</tspan>
 </text>
-<text x="678.0" y="1684.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1684.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">AUTO-PUSH of the refreshed render (hook or CI-side commit): the</tspan>
 <tspan x="678.0" dy="15.0">ledger&#x27;s accepted unknown stands untested - review trigger fires</tspan>
 <tspan x="678.0" dy="15.0">if any slice proposes CI write-back.</tspan>

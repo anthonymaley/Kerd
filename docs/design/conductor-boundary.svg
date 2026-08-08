@@ -1,42 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1294" height="1617" viewBox="260 40 1294 1617">
 <rect x="260" y="40" width="1294" height="1617" fill="#ffffff"/>
-<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="112.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Conductor-boundary — the close-out runs the boundary · design package</tspan>
 </text>
-<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="139.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">slice 1 of docs/product/conductor-boundary.md</tspan>
 <tspan x="300.0" dy="18.8">one act closes a conducted session; every close names what&#x27;s next.</tspan>
 </text>
-<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="186.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
 </text>
-<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
 </text>
-<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
 </text>
-<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="246.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
 </text>
-<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="320.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">1</tspan>
 </text>
-<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="313.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">NOW</tspan>
 </text>
 <rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="323.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">The close ends with an ask carrying no decision</tspan>
 </text>
-<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="368.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">conductor close-out finishes its five steps, then STOPS and</tspan>
 <tspan x="678.0" dy="15.0">tells the human: &#x27;run /kerd:switch out&#x27;. observed tonight</tspan>
 <tspan x="678.0" dy="15.0">(2026-08-06): the ask carried nothing to decide - the boundary</tspan>
 <tspan x="678.0" dy="15.0">was mechanical, the wait was pure friction. after the boundary</tspan>
 <tspan x="678.0" dy="15.0">the session sits quiet though TODO names the next pick.</tspan>
 </text>
-<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="304.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">three briefs in one evening,</tspan>
 <tspan x="1320.0" dy="15.0">all the same theme: the</tspan>
 <tspan x="1320.0" dy="15.0">session should flow further</tspan>
@@ -45,17 +45,17 @@
 <polyline points="960.0,455.0 960.0,489.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="489.0" x2="954.3" y2="479.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="489.0" x2="965.7" y2="479.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="521.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="521.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">2</tspan>
 </text>
-<text x="344.0" y="514.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="514.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">CHANGE</tspan>
 </text>
 <rect x="660.0" y="489.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
-<text x="960.0" y="524.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="524.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Close-out invokes the boundary; every close names what&#x27;s next</tspan>
 </text>
-<text x="678.0" y="569.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="569.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">conductor close-out gains step 6: INVOKE /kerd:switch out (the</tspan>
 <tspan x="678.0" dy="15.0">Skill tool - literal, proven: switch-in already chains into</tspan>
 <tspan x="678.0" dy="15.0">conductor the same way, observed twice tonight). the handoff</tspan>
@@ -63,7 +63,7 @@
 <tspan x="678.0" dy="15.0">next pick (plan step mid-spec; TODO Now/Backlog top after).</tspan>
 <tspan x="678.0" dy="15.0">the banner ends: &#x27;Free context: type /clear, then switch in&#x27;.</tspan>
 </text>
-<text x="1320.0" y="505.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="505.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">suggestion, never a loop:</tspan>
 <tspan x="1320.0" dy="15.0">starting the pick stays a</tspan>
 <tspan x="1320.0" dy="15.0">human reply. Tony&#x27;s key:</tspan>
@@ -73,17 +73,17 @@
 <polyline points="960.0,673.0 960.0,707.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="707.0" x2="954.3" y2="697.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="707.0" x2="965.7" y2="697.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="739.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="739.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">3</tspan>
 </text>
-<text x="344.0" y="732.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="732.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">MECHANISM</tspan>
 </text>
 <rect x="660.0" y="707.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="742.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="742.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Invoke is literal - the killer risk dissolves structurally</tspan>
 </text>
-<text x="678.0" y="787.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="787.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">the frame&#x27;s killer risk: two prompt-layer descriptions of the</tspan>
 <tspan x="678.0" dy="15.0">boundary drifting apart (best-evidenced failure class - the</tspan>
 <tspan x="678.0" dy="15.0">v0.83.0 goal block). dissolved, not mitigated: conductor holds</tspan>
@@ -91,7 +91,7 @@
 <tspan x="678.0" dy="15.0">of the flow. banner additions live in SWITCH&#x27;s template, so</tspan>
 <tspan x="678.0" dy="15.0">both callers get them. switch out cannot tell who called it.</tspan>
 </text>
-<text x="1320.0" y="723.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="723.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">one definition, two callers:</tspan>
 <tspan x="1320.0" dy="15.0">standalone /kerd:switch out</tspan>
 <tspan x="1320.0" dy="15.0">(Tony&#x27;s key: usable without</tspan>
@@ -101,17 +101,17 @@
 <polyline points="960.0,891.0 960.0,925.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="925.0" x2="954.3" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="925.0" x2="965.7" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="957.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="957.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">4</tspan>
 </text>
-<text x="344.0" y="950.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="950.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">EDIT MAP</tspan>
 </text>
 <rect x="660.0" y="925.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="960.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="960.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">17 edits, five files + version - swept, not predicted</tspan>
 </text>
-<text x="678.0" y="1005.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1005.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">conductor SKILL.md (5): close-out intro rewrite, new step 6</tspan>
 <tspan x="678.0" dy="15.0">invoke, handoff paragraph DELETED, execute next-pick paragraph,</tspan>
 <tspan x="678.0" dy="15.0">principles bullet -&gt; &#x27;closes the session it conducted&#x27;.</tspan>
@@ -122,7 +122,7 @@
 <tspan x="678.0" dy="15.0">README (3): conductor section, layers paragraph, What&#x27;s New</tspan>
 <tspan x="678.0" dy="15.0">v0.84.0 cap-five. playbook (1): role line. version: 0.84.0.</tspan>
 </text>
-<text x="1320.0" y="941.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="941.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">design-time cross-cutting</tspan>
 <tspan x="1320.0" dy="15.0">grep DONE (the standing</tspan>
 <tspan x="1320.0" dy="15.0">obligation): 8 truth sites;</tspan>
@@ -132,17 +132,17 @@
 <polyline points="960.0,1160.0 960.0,1194.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1194.0" x2="954.3" y2="1184.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1194.0" x2="965.7" y2="1184.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5</tspan>
 </text>
-<text x="344.0" y="1219.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1219.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">PROOF</tspan>
 </text>
 <rect x="660.0" y="1194.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="1229.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1229.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Six measurements, each a named command</tspan>
 </text>
-<text x="678.0" y="1274.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1274.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">handoff ask 1 -&gt; 0: grep &#x27;tell the user to run&#x27; = 0.</tspan>
 <tspan x="678.0" dy="15.0">single definition: no switch step-headings in conductor = 0;</tspan>
 <tspan x="678.0" dy="15.0">invoke line names /kerd:switch out &gt;= 1.</tspan>
@@ -151,7 +151,7 @@
 <tspan x="678.0" dy="15.0">Switch Out step-heading list unchanged bar banner body.</tspan>
 <tspan x="678.0" dy="15.0">next-pick naming present in execute phase.</tspan>
 </text>
-<text x="1320.0" y="1210.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1210.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">honest limit, NAMED: skill</tspan>
 <tspan x="1320.0" dy="15.0">text is prompt-layer - the</tspan>
 <tspan x="1320.0" dy="15.0">invoke is an instruction,</tspan>
@@ -164,17 +164,17 @@
 <polyline points="960.0,1395.0 960.0,1429.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1429.0" x2="954.3" y2="1419.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1429.0" x2="965.7" y2="1419.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1461.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1461.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">6</tspan>
 </text>
-<text x="344.0" y="1454.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1454.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">SCOPE</tspan>
 </text>
 <rect x="660.0" y="1429.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="960.0" y="1464.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1464.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Out of scope, named (composer keys on the frame)</tspan>
 </text>
-<text x="678.0" y="1509.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1509.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">/CLEAR AUTOMATION: CLI built-in wall confirmed - banner offers,</tspan>
 <tspan x="678.0" dy="15.0">human types.</tspan>
 <tspan x="678.0" dy="15.0">LOOPS / HOOKS / SCHEDULING: suggestion only, permanent</tspan>
@@ -184,7 +184,7 @@
 <tspan x="678.0" dy="15.0">SCAFFOLD/TEND FIRST-RUN WIRING: captured to the tend/slainte</tspan>
 <tspan x="678.0" dy="15.0">review brief.</tspan>
 </text>
-<text x="1320.0" y="1445.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1445.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">options not close - marks</tspan>
 <tspan x="1320.0" dy="15.0">suffice, no matrix.</tspan>
 </text>

@@ -1,40 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1785" viewBox="260 40 1400 1785">
 <rect x="260" y="40" width="1400" height="1785" fill="#ffffff"/>
-<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="112.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Grounding-was-read — declarations + the reachability audit · design package</tspan>
 </text>
-<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="139.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">slice 1 of docs/product/grounding-was-read.md</tspan>
 <tspan x="300.0" dy="18.8">lost becomes a red light; whether reading happened stays slice 2.</tspan>
 </text>
-<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="186.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
 </text>
-<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
 </text>
-<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
 </text>
-<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="246.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
 </text>
-<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="320.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">1</tspan>
 </text>
-<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="313.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">NOW</tspan>
 </text>
 <rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="323.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Grounding today: prose, memory, luck</tspan>
 </text>
-<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="368.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">what must be read before producing lives in walk detail and in</tspan>
 <tspan x="678.0" dy="15.0">heads. skipped reading leaves no trace - the 6 Jul design doc held</tspan>
 <tspan x="678.0" dy="15.0">1 Aug&#x27;s answer, well-named, on disk, unread.</tspan>
 </text>
-<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="304.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">honest finding at design</tspan>
 <tspan x="1320.0" dy="15.0">time: A8&#x27;s sketched landing</tspan>
 <tspan x="1320.0" dy="15.0">site does NOT exist -</tspan>
@@ -47,24 +47,24 @@
 <polyline points="960.0,421.0 960.0,455.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="455.0" x2="954.3" y2="445.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="455.0" x2="965.7" y2="445.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="487.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="487.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">2</tspan>
 </text>
-<text x="344.0" y="480.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="480.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">CHANGE</tspan>
 </text>
 <rect x="660.0" y="455.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="490.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="490.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">The product doc declares its reading list</tspan>
 </text>
-<text x="678.0" y="535.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="535.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">docs/product/&lt;slug&gt;.md gains an OPTIONAL section:</tspan>
 <tspan x="678.0" dy="15.0">## Grounding</tspan>
 <tspan x="678.0" dy="15.0">- &lt;ref&gt; — &lt;why&gt;   (ref = path or glob from repo root)</tspan>
 <tspan x="678.0" dy="15.0">the audit gains AU5: every declared ref resolves on disk, or the</tspan>
 <tspan x="678.0" dy="15.0">push goes red naming the doc and the broken reference.</tspan>
 </text>
-<text x="1320.0" y="471.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="471.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">lost is a checkable state.</tspan>
 <tspan x="1320.0" dy="15.0"></tspan>
 <tspan x="1320.0" dy="15.0">slice 1 checks RESOLUTION</tspan>
@@ -76,17 +76,17 @@
 <polyline points="960.0,622.0 960.0,656.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="656.0" x2="954.3" y2="646.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="656.0" x2="965.7" y2="646.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="688.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="688.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">3</tspan>
 </text>
-<text x="344.0" y="681.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="681.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">DECISION</tspan>
 </text>
 <rect x="660.0" y="656.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="691.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="691.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Where declarations live — marks, not a matrix</tspan>
 </text>
-<text x="678.0" y="736.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="736.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">static per-rung table: X - cannot name what THIS work touches;</tspan>
 <tspan x="678.0" dy="15.0">duplicates the gate&#x27;s existing existence checks; invents a data</tspan>
 <tspan x="678.0" dy="15.0">structure ahead of need.</tspan>
@@ -95,7 +95,7 @@
 <tspan x="678.0" dy="15.0">hybrid: deferred - slice 2&#x27;s rung-scoped receipts may want a</tspan>
 <tspan x="678.0" dy="15.0">static floor; an extension point, not a debt.</tspan>
 </text>
-<text x="1320.0" y="672.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="672.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">options are not close, so</tspan>
 <tspan x="1320.0" dy="15.0">marks suffice - the design</tspan>
 <tspan x="1320.0" dy="15.0">instrument&#x27;s own rule:</tspan>
@@ -106,35 +106,35 @@
 <polyline points="960.0,857.0 960.0,891.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="891.0" x2="954.3" y2="881.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="891.0" x2="965.7" y2="881.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="923.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="923.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">4</tspan>
 </text>
-<text x="344.0" y="916.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="916.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">MECHANISM</tspan>
 </text>
 <rect x="660.0" y="891.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="926.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="926.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">AU5 — parse and refusal, verbatim</tspan>
 </text>
-<text x="678.0" y="971.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="971.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">for every docs/product/*.md: find_section(&#x27;Grounding&#x27;) -&gt;</tspan>
 <tspan x="678.0" dy="15.0">absent = vacuous pass (declaring is opting in). per &#x27;- &#x27; line:</tspan>
 <tspan x="678.0" dy="15.0">split on the FIRST &#x27; — &#x27;; resolve exact path, or glob with &gt;=1</tspan>
 <tspan x="678.0" dy="15.0">match, against the repo root.</tspan>
 </text>
 <rect x="660.0" y="1041.0" width="250.0" height="84.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="785.0" y="1071.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="785.0" y="1071.6" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="785.0" dy="0.0">CLEAN</tspan>
 <tspan x="785.0" dy="16.2">every declared ref resolves</tspan>
 <tspan x="785.0" dy="16.2">audit stays: audit: clean</tspan>
 </text>
 <rect x="930.0" y="1041.0" width="340.0" height="84.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1100.0" y="1071.6" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1100.0" y="1071.6" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1100.0" dy="0.0">PROBLEMS, named verbatim:</tspan>
 <tspan x="1100.0" dy="16.2">grounding reference does not resolve: &lt;ref&gt;</tspan>
 <tspan x="1100.0" dy="16.2">grounding line malformed: &lt;line&gt;</tspan>
 </text>
-<text x="1320.0" y="1149.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1149.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">rides gate.py audit =</tspan>
 <tspan x="1320.0" dy="15.0">CI step two. rot is caught</tspan>
 <tspan x="1320.0" dy="15.0">at the push that causes it,</tspan>
@@ -143,23 +143,23 @@
 <polyline points="960.0,1191.0 960.0,1225.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1225.0" x2="954.3" y2="1215.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1225.0" x2="965.7" y2="1215.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1257.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1257.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5</tspan>
 </text>
-<text x="344.0" y="1250.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1250.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">EDGE</tspan>
 </text>
 <rect x="660.0" y="1225.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="960.0" y="1260.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1260.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Why optional, not required</tspan>
 </text>
-<text x="678.0" y="1305.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1305.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">retrofitting twelve product docs with invented reading lists</tspan>
 <tspan x="678.0" dy="15.0">would manufacture exactly the hollow declarations the frame&#x27;s</tspan>
 <tspan x="678.0" dy="15.0">killer risk names. grounding grows per new work; the audit</tspan>
 <tspan x="678.0" dy="15.0">enforces honesty about what WAS declared.</tspan>
 </text>
-<text x="1320.0" y="1241.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1241.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">residual, named (accepted,</tspan>
 <tspan x="1320.0" dy="15.0">per the frame): an absent</tspan>
 <tspan x="1320.0" dy="15.0">section means no</tspan>
@@ -169,17 +169,17 @@
 <polyline points="960.0,1375.0 960.0,1409.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1409.0" x2="954.3" y2="1399.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1409.0" x2="965.7" y2="1399.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1441.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1441.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">6</tspan>
 </text>
-<text x="344.0" y="1434.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1434.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">PROOF</tspan>
 </text>
 <rect x="660.0" y="1409.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="1444.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1444.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Fixtures + dogfood + the measurement answered</tspan>
 </text>
-<text x="678.0" y="1489.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1489.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">kit.selftest gains four temp-tree cases: resolving (exact +</tspan>
 <tspan x="678.0" dy="15.0">glob) -&gt; clean · broken ref -&gt; named verbatim · malformed line</tspan>
 <tspan x="678.0" dy="15.0">-&gt; named · absent section -&gt; vacuous pass.</tspan>
@@ -187,7 +187,7 @@
 <tspan x="678.0" dy="15.0">pattern). dogfood: this item&#x27;s OWN product doc gains its</tspan>
 <tspan x="678.0" dy="15.0">## Grounding section in the build.</tspan>
 </text>
-<text x="1320.0" y="1425.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1425.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">the stage-1 measurement,</tspan>
 <tspan x="1320.0" dy="15.0">ANSWERED:</tspan>
 <tspan x="1320.0" dy="15.0"></tspan>
@@ -200,17 +200,17 @@
 <polyline points="960.0,1593.0 960.0,1627.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1627.0" x2="954.3" y2="1617.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1627.0" x2="965.7" y2="1617.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1659.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1659.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">7</tspan>
 </text>
-<text x="344.0" y="1652.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1652.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">SCOPE</tspan>
 </text>
 <rect x="660.0" y="1627.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1" stroke-dasharray="8 6"/>
-<text x="960.0" y="1662.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1662.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Out of scope, named (composer key on the frame)</tspan>
 </text>
-<text x="678.0" y="1707.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1707.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">READ-RECEIPTS at gates: slice 2, carrying the hollow-stamping</tspan>
 <tspan x="678.0" dy="15.0">row and the retrieval-not-comprehension claim.</tspan>
 <tspan x="678.0" dy="15.0">RUNG-SCOPED grounding + any static floor: slice 2&#x27;s extension</tspan>

@@ -1,35 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1272" height="1635" viewBox="260 40 1272 1635">
 <rect x="260" y="40" width="1272" height="1635" fill="#ffffff"/>
-<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="112.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Project types — one declaration, or three?</tspan>
 </text>
-<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="139.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">input to the design conversation for docs/product/requirements-project-type-templates.md</tspan>
 <tspan x="300.0" dy="18.8">found 2026-08-07: the new declaration overlaps two that already refuse.</tspan>
 </text>
-<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="186.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
 </text>
-<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="206.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
 </text>
-<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
 </text>
-<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="246.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
 </text>
-<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="320.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">1</tspan>
 </text>
-<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="313.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">NOW</tspan>
 </text>
 <rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="323.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Three declarations, and &#x27;spike&#x27; is in all three</tspan>
 </text>
-<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="368.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">route         = new | problem | spike</tspan>
 <tspan x="678.0" dy="15.0">                front matter, kit.py:28, gate-checked per rung</tspan>
 <tspan x="678.0" dy="15.0">Rigor level   = spike | mvp | production-v1</tspan>
@@ -42,7 +42,7 @@
 <tspan x="678.0" dy="15.0">a spike would declare spike THREE times, in three places,</tspan>
 <tspan x="678.0" dy="15.0">against three different legal sets.</tspan>
 </text>
-<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="304.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">two of the three already</tspan>
 <tspan x="1320.0" dy="15.0">REFUSE. route and Rigor</tspan>
 <tspan x="1320.0" dy="15.0">level are machine-checked</tspan>
@@ -53,17 +53,17 @@
 <polyline points="960.0,557.0 960.0,591.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="591.0" x2="954.3" y2="581.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="591.0" x2="965.7" y2="581.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="623.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="623.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">2</tspan>
 </text>
-<text x="344.0" y="616.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="616.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">READ</tspan>
 </text>
 <rect x="660.0" y="591.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="960.0" y="626.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="626.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">They are not the same thing — but one contains the rest</tspan>
 </text>
-<text x="678.0" y="671.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="671.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">route          which rungs apply; spike licenses a bypass</tspan>
 <tspan x="678.0" dy="15.0">Rigor level    how much proof the release slice owes</tspan>
 <tspan x="678.0" dy="15.0">Project Type   required / conditional / n-a per category,</tspan>
@@ -74,7 +74,7 @@
 <tspan x="678.0" dy="15.0">&#x27;Spike&#x27; already implies route: spike and Rigor level: spike -</tspan>
 <tspan x="678.0" dy="15.0">it cannot mean anything else.</tspan>
 </text>
-<text x="1320.0" y="607.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="607.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">the overlap is not a</tspan>
 <tspan x="1320.0" dy="15.0">naming clash. it is one</tspan>
 <tspan x="1320.0" dy="15.0">decision currently taken</tspan>
@@ -84,17 +84,17 @@
 <polyline points="960.0,826.0 960.0,860.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="860.0" x2="954.3" y2="850.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="860.0" x2="965.7" y2="850.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="892.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="892.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">3</tspan>
 </text>
-<text x="344.0" y="885.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="885.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">CHANGE</tspan>
 </text>
 <rect x="660.0" y="860.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#2f9e44" stroke-width="1"/>
-<text x="960.0" y="895.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="895.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">One declaration replaces two — a subtraction</tspan>
 </text>
-<text x="678.0" y="940.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="940.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">declared ONCE, at G0 intake:      Project Type: MVP</tspan>
 <tspan x="678.0" dy="15.0"></tspan>
 <tspan x="678.0" dy="15.0">derived, never declared again:</tspan>
@@ -106,7 +106,7 @@
 <tspan x="678.0" dy="15.0"></tspan>
 <tspan x="678.0" dy="15.0">two legal sets die. one arrives. the system gets SMALLER.</tspan>
 </text>
-<text x="1320.0" y="876.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="876.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">reads as an addition on</tspan>
 <tspan x="1320.0" dy="15.0">first look and is the</tspan>
 <tspan x="1320.0" dy="15.0">opposite. derived-from-</tspan>
@@ -117,17 +117,17 @@
 <polyline points="960.0,1112.0 960.0,1146.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1146.0" x2="954.3" y2="1136.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1146.0" x2="965.7" y2="1136.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1178.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1178.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">4</tspan>
 </text>
-<text x="344.0" y="1171.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1171.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">COLLISION</tspan>
 </text>
 <rect x="660.0" y="1146.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="960.0" y="1181.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1181.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Nine gates against eight rungs — they do not align</tspan>
 </text>
-<text x="678.0" y="1226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">G0 intake qualified          ~ frame</tspan>
 <tspan x="678.0" dy="15.0">G1 disposition declared        - NO RUNG</tspan>
 <tspan x="678.0" dy="15.0">G2 spec approved             ~ contract</tspan>
@@ -139,7 +139,7 @@
 <tspan x="678.0" dy="15.0">G8 post-launch evidence      = loop  (the stage left EMPTY)</tspan>
 <tspan x="678.0" dy="15.0">                               - viability and slice have NO GATE</tspan>
 </text>
-<text x="1320.0" y="1162.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1162.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">G8 is the clean fit. loop</tspan>
 <tspan x="1320.0" dy="15.0">/ Live was left empty in</tspan>
 <tspan x="1320.0" dy="15.0">funnel-steps.md because</tspan>
@@ -151,17 +151,17 @@
 <polyline points="960.0,1398.0 960.0,1432.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="960.0" y1="1432.0" x2="954.3" y2="1422.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="960.0" y1="1432.0" x2="965.7" y2="1422.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<text x="300.0" y="1464.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1464.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5</tspan>
 </text>
-<text x="344.0" y="1457.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="344.0" y="1457.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="344.0" dy="0.0">COST</tspan>
 </text>
 <rect x="660.0" y="1432.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="960.0" y="1467.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="960.0" y="1467.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="960.0" dy="0.0">Named before the design, not discovered during it</tspan>
 </text>
-<text x="678.0" y="1512.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="678.0" y="1512.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">1. 20 slugs already carry route + Rigor level. a merge is</tspan>
 <tspan x="678.0" dy="15.0">   cross-cutting and owes the standing grep sweep.</tspan>
 <tspan x="678.0" dy="15.0">2. retrofit is FORBIDDEN by standing rule - so how does an</tspan>
@@ -172,7 +172,7 @@
 <tspan x="678.0" dy="15.0">   &#x27;no production exposure without G6&#x27; is currently</tspan>
 <tspan x="678.0" dy="15.0">   inexpressible - not failing, inexpressible.</tspan>
 </text>
-<text x="1320.0" y="1448.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="1320.0" y="1448.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">none of the three is a</tspan>
 <tspan x="1320.0" dy="15.0">blocker yet. all three</tspan>
 <tspan x="1320.0" dy="15.0">are unqualified, which is</tspan>

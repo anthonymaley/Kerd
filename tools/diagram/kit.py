@@ -13,6 +13,7 @@ express membership, which containment already says better.
 INK = "#1e1e1e"
 RED = "#e03131"          # cost, or a route that leaves / blocks
 GREEN = "#2f9e44"        # Tony's input into the work — his annotations
+YELLOW = "#f08c00"       # meets only with a countermeasure (matrix △ marks)
 BLUE = "#1971c2"         # changed since the file was last marked reviewed
 GREY = "#e9ecef"
 FAINT = "#f8f9fa"
@@ -67,7 +68,7 @@ class Canvas:
                        stroke, "transparent", 2, False)
         e["roundness"] = None
         e.update({
-            "text": s, "fontSize": size, "fontFamily": 5, "textAlign": align,
+            "text": s, "fontSize": size, "fontFamily": 6, "textAlign": align,
             "verticalAlign": "top", "containerId": container, "originalText": s,
             "autoResize": True, "lineHeight": 1.25,
         })

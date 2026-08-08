@@ -1,10 +1,16 @@
 """Render the same element model to SVG. No dependencies.
-Font differs from Excalifont, so metrics are approximate — this catches gross
-layout faults (overflow, collisions, bad coordinates), not kerning."""
+Font metrics are approximate — this catches gross layout faults (overflow,
+collisions, bad coordinates), not kerning.
+
+The SVG is what a human actually reads; the .excalidraw canvas is what gets
+annotated. Those had different fonts until 2026-08-08: the canvases took Tony's
+2026-08-04 "packages read in Nunito" call, and the SVGs kept a handwriting
+stack, so every rendered diagram he opened was in Comic Sans regardless. Both
+sides are sans-serif now, on his call ("can we make it a sans serif font?")."""
 import html
 import math
 
-FONT = "'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive"
+FONT = "Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif"
 
 
 def to_svg(els, path, pad=40):

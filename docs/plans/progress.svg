@@ -1,125 +1,125 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="5290" height="2806" viewBox="260 40 5290 2806">
 <rect x="260" y="40" width="5290" height="2806" fill="#ffffff"/>
-<text x="300.0" y="104.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="104.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Progress — derived from disk</tspan>
 </text>
-<text x="300.0" y="144.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="144.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">built / landed — INK stroke, GREY fill: the have</tspan>
 </text>
-<text x="300.0" y="164.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="164.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">in-flight / in flight — INK stroke, dashed, strokeWidth 2: the seam being worked</tspan>
 </text>
-<text x="300.0" y="184.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="184.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">missing / remaining — RED stroke: the need is the cost</tspan>
 </text>
-<text x="300.0" y="204.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="204.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">agreed — GREEN stroke replacing INK on that cell: a GO record is the human&#x27;s input</tspan>
 </text>
-<text x="300.0" y="224.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="224.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">drift — RED text: a named problem is cost</tspan>
 </text>
-<text x="300.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">rung</tspan>
 </text>
-<text x="454.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="454.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="454.0" dy="0.0">capturerequirements-cut</tspan>
 </text>
-<text x="684.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="684.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="684.0" dy="0.0">ci-refusal</tspan>
 </text>
-<text x="914.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="914.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="914.0" dy="0.0">conductor-boundary</tspan>
 </text>
-<text x="1144.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1144.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1144.0" dy="0.0">conductor-effort-lever</tspan>
 </text>
-<text x="1374.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1374.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1374.0" dy="0.0">design-instrument</tspan>
 </text>
-<text x="1604.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1604.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1604.0" dy="0.0">entry-gates</tspan>
 </text>
-<text x="1834.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="1834.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1834.0" dy="0.0">funnel-driver</tspan>
 </text>
-<text x="2064.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="2064.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="2064.0" dy="0.0">grounding-was-read</tspan>
 </text>
-<text x="2294.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="2294.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="2294.0" dy="0.0">mode-cut</tspan>
 </text>
-<text x="2524.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="2524.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="2524.0" dy="0.0">progress-html</tspan>
 </text>
-<text x="2754.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="2754.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="2754.0" dy="0.0">progress-renderer</tspan>
 </text>
-<text x="2984.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="2984.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="2984.0" dy="0.0">push-wiring</tspan>
 </text>
-<text x="3214.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="3214.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="3214.0" dy="0.0">release-closeout</tspan>
 </text>
-<text x="3444.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="3444.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="3444.0" dy="0.0">requirements-project-type-templates</tspan>
 </text>
-<text x="3674.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="3674.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="3674.0" dy="0.0">requirements-traceability</tspan>
 </text>
-<text x="3904.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="3904.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="3904.0" dy="0.0">rigor-level</tspan>
 </text>
-<text x="4134.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="4134.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="4134.0" dy="0.0">risk-ledger</tspan>
 </text>
-<text x="4364.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="4364.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="4364.0" dy="0.0">shared-memory</tspan>
 </text>
-<text x="4594.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="4594.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="4594.0" dy="0.0">sherpa-cut</tspan>
 </text>
-<text x="4824.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="4824.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="4824.0" dy="0.0">switch-fidelity</tspan>
 </text>
-<text x="5054.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="5054.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="5054.0" dy="0.0">time-awareness</tspan>
 </text>
-<text x="5284.0" y="262.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="5284.0" y="262.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="5284.0" dy="0.0">vault-unhook</tspan>
 </text>
-<text x="300.0" y="305.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="305.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">frame</tspan>
 </text>
 <rect x="450.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="565.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="680.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="795.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="910.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="1140.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1255.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="1370.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1485.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="1600.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1715.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="1830.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2060.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2290.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="2405.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="2520.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2750.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="2865.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="2980.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -128,490 +128,490 @@
 <rect x="3670.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3900.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4130.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="4245.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="4360.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4590.0" y="280.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="4705.0" y="304.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="304.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="4820.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5050.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5280.0" y="280.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="353.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="353.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">viability</tspan>
 </text>
 <rect x="450.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="565.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="680.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="795.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="910.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="1140.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1255.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="1370.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1485.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="1600.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1715.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="1830.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2060.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2290.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2405.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="2520.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2750.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2865.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="2980.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3210.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3440.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="3555.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="3555.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="3555.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="3670.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3900.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4130.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4245.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="4360.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4590.0" y="328.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4705.0" y="352.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="352.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="4820.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5050.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5280.0" y="328.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="401.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="401.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">slice</tspan>
 </text>
 <rect x="450.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="565.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="680.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="795.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="910.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="1140.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1255.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="1370.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1485.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="1600.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1715.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="1830.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2060.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2290.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2405.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="2520.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2750.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2865.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="2980.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3210.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3440.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3555.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3555.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3555.0" dy="0.0">need 1</tspan>
 </text>
 <rect x="3670.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3900.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4130.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4245.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="4360.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4590.0" y="376.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4705.0" y="400.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="400.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="4820.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5050.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5280.0" y="376.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="449.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="449.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">design</tspan>
 </text>
 <rect x="450.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="565.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="680.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="795.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="910.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="1140.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1255.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="1370.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1485.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="1600.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1715.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="1830.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1945.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1945.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1945.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="2060.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="2290.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2405.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="2520.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="2750.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2865.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="2980.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="3210.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="3440.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3555.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3555.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3555.0" dy="0.0">need 2</tspan>
 </text>
 <rect x="3670.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="3785.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="3785.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="3785.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="3900.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="4130.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4245.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="4360.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="4475.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="4475.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="4475.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="4590.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4705.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="4820.0" y="424.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="4935.0" y="448.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="4935.0" y="448.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="4935.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="5050.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="5280.0" y="424.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
-<text x="300.0" y="497.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="497.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">contract</tspan>
 </text>
 <rect x="450.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="565.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="680.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="795.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="910.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="1140.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1255.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="1370.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1485.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="1600.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1715.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="1830.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1945.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1945.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1945.0" dy="0.0">need 2</tspan>
 </text>
 <rect x="2060.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2290.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2405.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="2520.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2750.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2865.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="2980.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3210.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3440.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3555.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3555.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3555.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="3670.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3785.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3785.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3785.0" dy="0.0">need 1</tspan>
 </text>
 <rect x="3900.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4130.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4245.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="4360.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4475.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4475.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4475.0" dy="0.0">need 1</tspan>
 </text>
 <rect x="4590.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4705.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="4820.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4935.0" y="496.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4935.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4935.0" dy="0.0">need 2</tspan>
 </text>
 <rect x="5050.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5280.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="545.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="545.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">build</tspan>
 </text>
 <rect x="450.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="565.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">need 17</tspan>
 </text>
 <rect x="680.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="795.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="910.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="1140.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1255.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="1370.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1485.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="1600.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1715.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="1830.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1945.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1945.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1945.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="2060.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2290.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2405.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="2520.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="2750.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2865.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="2980.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3210.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="3440.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3555.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3555.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3555.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="3670.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3785.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3785.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3785.0" dy="0.0">need 2</tspan>
 </text>
 <rect x="3900.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="4130.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4245.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="4360.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4475.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4475.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4475.0" dy="0.0">need 2</tspan>
 </text>
 <rect x="4590.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4705.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 9</tspan>
 </text>
 <rect x="4820.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4935.0" y="544.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4935.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4935.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="5050.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5280.0" y="520.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="593.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="593.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">goal</tspan>
 </text>
 <rect x="450.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="565.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">need 17</tspan>
 </text>
 <rect x="680.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="795.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="910.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="1140.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1255.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="1370.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1485.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="1600.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1715.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="1830.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1945.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1945.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1945.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="2060.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="2290.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2405.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="2520.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="2635.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="2635.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="2635.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="2750.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2865.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="2980.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="3210.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="3440.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3555.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3555.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3555.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="3670.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3785.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3785.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3785.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="3900.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="4130.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4245.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">need 6</tspan>
 </text>
 <rect x="4360.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4475.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4475.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4475.0" dy="0.0">need 3</tspan>
 </text>
 <rect x="4590.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4705.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 9</tspan>
 </text>
 <rect x="4820.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4935.0" y="592.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4935.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4935.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="5050.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
 <rect x="5280.0" y="568.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#2f9e44" stroke-width="1"/>
-<text x="300.0" y="641.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="641.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">loop</tspan>
 </text>
 <rect x="450.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="565.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="565.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="565.0" dy="0.0">need 18</tspan>
 </text>
 <rect x="680.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="795.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="795.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="795.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="910.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1025.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="1025.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="1025.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="1140.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1255.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1255.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1255.0" dy="0.0">need 9</tspan>
 </text>
 <rect x="1370.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1485.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1485.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1485.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="1600.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1715.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1715.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1715.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="1830.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="1945.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="1945.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1945.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="2060.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="2175.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="2175.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="2175.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="2290.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2405.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2405.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2405.0" dy="0.0">need 9</tspan>
 </text>
 <rect x="2520.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2635.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2635.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2635.0" dy="0.0">need 1</tspan>
 </text>
 <rect x="2750.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="2865.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="2865.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="2865.0" dy="0.0">need 8</tspan>
 </text>
 <rect x="2980.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="3095.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="3095.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="3095.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="3210.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="3325.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="3325.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="3325.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="3440.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3555.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3555.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3555.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="3670.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="3785.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="3785.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="3785.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="3900.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="4015.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="4015.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="4015.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="4130.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4245.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4245.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4245.0" dy="0.0">need 7</tspan>
 </text>
 <rect x="4360.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4475.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4475.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4475.0" dy="0.0">need 4</tspan>
 </text>
 <rect x="4590.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4705.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4705.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 10</tspan>
 </text>
 <rect x="4820.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4935.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<text x="4935.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4935.0" dy="0.0">need 5</tspan>
 </text>
 <rect x="5050.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="5165.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="5165.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="5165.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="5280.0" y="616.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="5395.0" y="640.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<text x="5395.0" y="640.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="5395.0" dy="0.0">enters at</tspan>
 </text>
-<text x="300.0" y="720.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="720.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">capturerequirements-cut</tspan>
 </text>
 <rect x="300.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -624,10 +624,10 @@
 <rect x="510.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="540.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="570.0" y="734.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="783.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="783.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">10 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="826.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="826.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">ci-refusal</tspan>
 </text>
 <rect x="300.0" y="840.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -641,10 +641,10 @@
 <rect x="540.0" y="840.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="570.0" y="840.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="600.0" y="840.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="889.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="889.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">11 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="932.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="932.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">conductor-boundary</tspan>
 </text>
 <rect x="300.0" y="946.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -658,16 +658,16 @@
 <rect x="540.0" y="946.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="570.0" y="946.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="600.0" y="946.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="995.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="995.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">11 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1038.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1038.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">conductor-effort-lever</tspan>
 </text>
-<text x="300.0" y="1065.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1065.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no Pieces checklist in docs/plans/2026-07-07-conductor-effort-lever-spec.md</tspan>
 </text>
-<text x="300.0" y="1109.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1109.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">design-instrument</tspan>
 </text>
 <rect x="300.0" y="1123.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -681,22 +681,22 @@
 <rect x="540.0" y="1123.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="570.0" y="1123.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="600.0" y="1123.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="1172.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1172.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">11 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1215.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1215.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">entry-gates</tspan>
 </text>
-<text x="300.0" y="1242.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1242.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no Pieces checklist in docs/plans/2026-08-04-entry-gates-spec.md</tspan>
 </text>
-<text x="300.0" y="1285.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1285.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">funnel-driver</tspan>
 </text>
-<text x="300.0" y="1312.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1312.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="1355.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1355.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">grounding-was-read</tspan>
 </text>
 <rect x="300.0" y="1369.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -704,10 +704,10 @@
 <rect x="360.0" y="1369.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="390.0" y="1369.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="420.0" y="1369.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="1418.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1418.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1462.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1462.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">mode-cut</tspan>
 </text>
 <rect x="300.0" y="1476.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -720,20 +720,20 @@
 <rect x="510.0" y="1476.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="540.0" y="1476.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="570.0" y="1476.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="1525.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1525.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">10 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1568.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1568.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">progress-html</tspan>
 </text>
 <rect x="300.0" y="1582.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="330.0" y="1582.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="360.0" y="1582.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="390.0" y="1582.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="1631.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1631.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">4 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1674.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1674.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">progress-renderer</tspan>
 </text>
 <rect x="300.0" y="1688.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -746,20 +746,20 @@
 <rect x="510.0" y="1688.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="540.0" y="1688.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="570.0" y="1688.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="1737.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1737.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">10 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1780.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1780.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">push-wiring</tspan>
 </text>
 <rect x="300.0" y="1794.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="330.0" y="1794.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="360.0" y="1794.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="390.0" y="1794.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="1843.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1843.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">4 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1887.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1887.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">release-closeout</tspan>
 </text>
 <rect x="300.0" y="1901.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -777,22 +777,22 @@
 <rect x="660.0" y="1901.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="690.0" y="1901.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="720.0" y="1901.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="1950.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1950.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">15 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="1993.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="1993.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">requirements-project-type-templates</tspan>
 </text>
-<text x="300.0" y="2020.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2020.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="2063.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2063.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">requirements-traceability</tspan>
 </text>
-<text x="300.0" y="2090.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2090.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="2133.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2133.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">rigor-level</tspan>
 </text>
 <rect x="300.0" y="2147.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -807,10 +807,10 @@
 <rect x="570.0" y="2147.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="600.0" y="2147.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="630.0" y="2147.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2196.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2196.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">12 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2240.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2240.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">risk-ledger</tspan>
 </text>
 <rect x="300.0" y="2254.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -818,16 +818,16 @@
 <rect x="360.0" y="2254.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="390.0" y="2254.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="420.0" y="2254.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2303.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2303.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2346.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2346.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">shared-memory</tspan>
 </text>
-<text x="300.0" y="2373.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2373.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="2416.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2416.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">sherpa-cut</tspan>
 </text>
 <rect x="300.0" y="2430.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -839,16 +839,16 @@
 <rect x="480.0" y="2430.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="510.0" y="2430.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="540.0" y="2430.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2479.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2479.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">9 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2522.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2522.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">switch-fidelity</tspan>
 </text>
-<text x="300.0" y="2549.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2549.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="2593.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2593.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">time-awareness</tspan>
 </text>
 <rect x="300.0" y="2607.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -862,10 +862,10 @@
 <rect x="540.0" y="2607.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="570.0" y="2607.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="600.0" y="2607.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2656.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2656.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">11 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2699.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2699.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">vault-unhook</tspan>
 </text>
 <rect x="300.0" y="2713.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
@@ -880,10 +880,10 @@
 <rect x="570.0" y="2713.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="600.0" y="2713.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="630.0" y="2713.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2762.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2762.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">12 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2802.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2802.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">drift: none</tspan>
 </text>
 </svg>

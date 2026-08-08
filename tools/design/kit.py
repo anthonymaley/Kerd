@@ -716,6 +716,27 @@ def _footprint(lines, size):
     return tw, th
 
 
+def _marked_box(c, label, x, y, w, h, size, bg, text_colour):
+    """A cell whose BORDER and TEXT carry different colours.
+
+    `Canvas.box` paints both from one `stroke`, which cannot express Tony's
+    2026-08-08 rule that boxes are never coloured while the mark inside them
+    is. Binding the text to its rectangle (rather than floating it on top) is
+    also what keeps `collision_report` clean — it exempts bound text, and a
+    free glyph over a small box is a fault by that checker's definition.
+    """
+    dk = _load_diagram_kit()
+    r = c.rect(x, y, w, h, dk.INK, bg)
+    lines = label.split("\n")
+    tw = max(len(line) for line in lines) * size * 0.55
+    th = len(lines) * size * 1.25
+    t = c.txt(label, x + (w - tw) / 2, y + (h - th) / 2, size, text_colour,
+              "center", r["id"])
+    t["width"], t["height"], t["verticalAlign"] = tw, th, "middle"
+    r["boundElements"] = [{"type": "text", "id": t["id"]}]
+    return r
+
+
 def build_canvas(model, title):
     """Contract, not pixel geometry (the layout checks are the verify):
     title text `<title> — evaluation matrix` (size 32) with a three-line
@@ -727,16 +748,27 @@ def build_canvas(model, title):
     scored mode) with the basis as small text beneath, then OVERALL and
     RANK columns in scored mode. Row height follows the tallest cell (the
     movement-9 `_rowh` idiom, applied on both axes here since criteria are
-    columns rather than rows). Colour: × cells RED; a dead option's row
-    boxes RED; criteria whose Group is `cost` get a RED header; the
-    preferred option's row box gets GREY fill and a PREFERRED tag. Below
-    the table: the Preferred solution banner line, then one text block per
-    countermeasure row. GREEN is never emitted for generated content —
-    only the legend names what it would mean."""
+    columns rather than rows), with a floor so a half-height mark still
+    reads. Colour, amended 2026-08-08: BOXES ARE NEVER COLOURED — every
+    rectangle strokes INK, and the verdict lives in the mark instead
+    (`○` GREEN, `△` YELLOW, `×` RED), drawn at half the cell in marks-only
+    mode. The preferred option's row keeps its GREY fill and PREFERRED tag.
+    Below the table: the Preferred solution banner line, then one text
+    block per countermeasure row."""
     dk = _load_diagram_kit()
     Canvas, INK, RED, GREEN, BLUE, GREY = (
         dk.Canvas, dk.INK, dk.RED, dk.GREEN, dk.BLUE, dk.GREY,
     )
+    YELLOW = dk.YELLOW
+
+    # Tony, 2026-08-08: "boxes never colored, the circle is green, triangle
+    # yellow and cross is red — make the size of them at least 40-50% of the
+    # box they are in." The verdict now lives in the glyph, so every box is INK
+    # and the mark is drawn as its own centred element rather than as bound
+    # text. This overrides the earlier grammar in which × cells, dead option
+    # rows and cost-group headers were stroked RED.
+    MARK_COLOUR = {"○": GREEN, "△": YELLOW, "×": RED}
+    MARK_FRACTION = 0.5
 
     HEADER_SIZE = 13
     BODY_SIZE = 12
@@ -748,9 +780,11 @@ def build_canvas(model, title):
     c.txt(f"{title} — evaluation matrix", X, 80, 32)
 
     legend = [
-        ("RED — cost: × cells, dead option rows, cost-group criteria headers", RED),
-        ("GREEN — reserved for Tony's hand annotations, never generated", GREEN),
-        ("BLUE — text changed since the last reviewed snapshot", BLUE),
+        ("○  meets — no countermeasure needed", GREEN),
+        ("△  meets ONLY with a countermeasure, named below, with confidence", YELLOW),
+        ("×  cannot meet — on an M criterion the option is DEAD regardless of score", RED),
+        ("Boxes are never coloured; the verdict is the mark. "
+         "BLUE — text changed since the last reviewed snapshot", BLUE),
     ]
     ly = 132
     for text, colour in legend:
@@ -783,9 +817,12 @@ def build_canvas(model, title):
             if cd is None:
                 bodies.append(["—"])
                 continue
-            head = f"{cd['mark']} {cd['score']}" if cd["score"] is not None else cd["mark"]
-            lines = [head] + (_wrap(cd["basis"]) if cd.get("basis") else [])
-            bodies.append(lines)
+            # The mark is NOT bound text — it is drawn separately below so it
+            # can carry its own colour and a size set from the box, per Tony's
+            # 2026-08-08 call. Only the score and its basis stay in the box.
+            lines = [str(cd["score"])] if cd["score"] is not None else []
+            lines += _wrap(cd["basis"]) if cd.get("basis") else []
+            bodies.append(lines or [""])
         columns.append((crit["name"], header_lines, bodies, crit))
 
     if scored:
@@ -804,10 +841,13 @@ def build_canvas(model, title):
 
     header_h = int(max(_footprint(hl, HEADER_SIZE)[1] for _, hl, _, _ in columns)) + PAD_H
 
+    # A row must be tall enough for a mark drawn at MARK_FRACTION of its
+    # height and still read as a glyph rather than a speck.
+    MIN_ROW_H = 68
     row_heights = []
     for i in range(len(options)):
         h = max(_footprint(bodies[i], BODY_SIZE)[1] for _, _, bodies, _ in columns)
-        row_heights.append(int(h) + PAD_H)
+        row_heights.append(max(int(h) + PAD_H, MIN_ROW_H))
 
     col_x = []
     cx = X
@@ -817,27 +857,39 @@ def build_canvas(model, title):
 
     # ── draw: header band ────────────────────────────────────────────────
     table_y0 = ly + 20
-    for (_key, header_lines, _bodies, crit), x, w in zip(columns, col_x, col_widths):
-        stroke = RED if (crit and crit["group"] == "cost") else INK
-        c.box("\n".join(header_lines), x, table_y0, w, header_h, stroke=stroke, size=HEADER_SIZE)
+    for (_key, header_lines, _bodies, _crit), x, w in zip(columns, col_x, col_widths):
+        c.box("\n".join(header_lines), x, table_y0, w, header_h, stroke=INK,
+              size=HEADER_SIZE)
 
     # ── draw: option rows ────────────────────────────────────────────────
     ry = table_y0 + header_h + ROW_GAP
     for i, opt in enumerate(options):
         rh = row_heights[i]
-        is_dead = opt["id"] in dead_ids
         is_pref = opt["id"] == preferred
         bg = GREY if is_pref else "transparent"
 
         for (_key, _hl, bodies, crit), x, w in zip(columns, col_x, col_widths):
-            text = "\n".join(bodies[i])
-            if crit is not None:
-                cd = model["cells"].get(opt["id"], {}).get(crit["name"])
-                is_cross = cd is not None and cd["mark"] == "×"
-                stroke = RED if (is_cross or is_dead) else INK
+            cd = (model["cells"].get(opt["id"], {}).get(crit["name"])
+                  if crit is not None else None)
+            if cd is None:
+                c.box("\n".join(bodies[i]), x, ry, w, rh, stroke=INK, bg=bg,
+                      size=BODY_SIZE)
+                continue
+
+            mark = cd["mark"]
+            body = "\n".join(bodies[i]).strip()
+            if body:
+                # Scored mode: the mark shares the cell with its score and
+                # basis, so it keeps body size and lends the block its colour.
+                label, size = f"{mark} {body}", BODY_SIZE
             else:
-                stroke = RED if is_dead else INK
-            c.box(text, x, ry, w, rh, stroke=stroke, bg=bg, size=BODY_SIZE)
+                # Marks-only: the mark IS the cell. Half the box, bounded by
+                # the narrower axis so a tall row in a narrow column cannot
+                # push the glyph through its own sides.
+                label = mark
+                size = max(18, int(min(rh, w) * MARK_FRACTION))
+            _marked_box(c, label, x, ry, w, rh, size, bg,
+                        MARK_COLOUR.get(mark, INK))
         ry += rh + ROW_GAP
 
     # ── below the table: preferred banner, countermeasures ──────────────

@@ -131,7 +131,14 @@ Arithmetic is real: A = 4·1 + 5·3 + 1·2 = 21; B = 3·1 + 5·3 + 4·2 = 26. A'
 
 `render` draws options as rows and criteria as columns in the movement-9 table idiom (row height follows the tallest cell), writing `<stem>-matrix.excalidraw` + `.svg` beside the doc.
 
-Colour grammar honoured: RED marks cost — × cells, dead option rows, and the header of any criteria group named `cost`; GREEN is reserved for Tony's hand annotations and is never generated; BLUE marks text changed since the last reviewed snapshot (the diagram kit's mark_deltas). The three layout checks (overflow, box collision, text overlap) run on every render.
+**Colour grammar — amended 2026-08-08 on Tony's call** (*"boxes never colored, the circle is green, triangle yellow and cross is red — make the size of them at least 40-50% of the box they are in"*). The verdict lives in the mark, not in the border:
+
+- **Boxes are never coloured.** Every rectangle strokes INK, including cost-group headers and dead option rows, both of which used to stroke RED.
+- **`○` GREEN · `△` YELLOW · `×` RED**, and in marks-only mode the mark is drawn at **half the cell** (bounded by the narrower axis, floor 18pt) as the cell's own bound text. Bound rather than floating is what keeps `collision_report` clean — it exempts bound text, and a free glyph over a small box is a fault by that checker's definition. `Canvas.box` cannot express this because it paints border and text from one `stroke`; `_marked_box` exists for exactly that split.
+- **GREEN is no longer reserved for hand annotations in a matrix.** That reservation still holds everywhere else in `tools/diagram/`; if a matrix ever needs to distinguish generated green from annotated green, the annotation colour is the one that has to move.
+- **BLUE** still marks text changed since the last reviewed snapshot (the diagram kit's `mark_deltas`).
+
+The three layout checks (overflow, box collision, text overlap) run on every render.
 
 ## CI
 
