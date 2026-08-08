@@ -475,8 +475,9 @@
 <text x="6476.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#f08c00" text-anchor="middle" xml:space="preserve">
 <tspan x="6476.5" dy="0.0">△-</tspan>
 </text>
-<text x="6476.5" y="759.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6476.5" dy="0.0">87 packages onto existing Python</tspan>
+<text x="6476.5" y="745.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="6476.5" dy="0.0">87 packages onto a present</tspan>
+<tspan x="6476.5" dy="13.8">interpreter</tspan>
 </text>
 <rect x="6618.0" y="620.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="6747.5" y="717.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
@@ -635,7 +636,7 @@
 <tspan x="6476.5" dy="0.0">△</tspan>
 </text>
 <text x="6476.5" y="919.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6476.5" dy="0.0">15 packages onto existing Python</tspan>
+<tspan x="6476.5" dy="0.0">15 packages, the lightest</tspan>
 </text>
 <rect x="6618.0" y="780.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="6747.5" y="877.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
@@ -779,7 +780,7 @@
 <tspan x="6476.5" dy="0.0">△-</tspan>
 </text>
 <text x="6476.5" y="1079.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6476.5" dy="0.0">packages plus a build pipeline</tspan>
+<tspan x="6476.5" dy="0.0">30 packages plus a build pipeline</tspan>
 </text>
 <rect x="6618.0" y="940.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="6747.5" y="1037.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">
@@ -922,8 +923,8 @@
 <tspan x="6476.5" dy="0.0">×</tspan>
 </text>
 <text x="6476.5" y="1225.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="6476.5" dy="0.0">a whole new runtime, for tracing</tspan>
-<tspan x="6476.5" dy="13.8">only</tspan>
+<tspan x="6476.5" dy="0.0">a JVM: zero precedent in 76</tspan>
+<tspan x="6476.5" dy="13.8">plugins</tspan>
 </text>
 <rect x="6618.0" y="1100.0" width="259.0" height="150.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="6747.5" y="1197.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="60" fill="#2f9e44" text-anchor="middle" xml:space="preserve">

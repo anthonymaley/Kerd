@@ -65,6 +65,38 @@ on an M kills an option regardless of any score, so the marks decide this before
 arithmetic could — the standard's own rule, *"marks always, scores when the
 stakes are real"*.
 
+**The dependency baseline was measured, not assumed** (2026-08-08, 76 installed
+plugins across 11 marketplaces on the producer's own machine — the sample is one
+user's self-selected installs, which is stated because it bounds the claim):
+
+- **Claude Code guarantees NO language runtime.** Its published system
+  requirements list an OS, 4 GB RAM, a network, a shell and a bundled ripgrep.
+  The CLI is a standalone native binary; even the npm install path ships it and
+  does not invoke Node. The floor is zero.
+- **A Python interpreter is nevertheless a safe assumption on macOS, because it
+  is coupled to git.** `/usr/bin/python3` is the *same* `xcode-select` shim inode
+  as `/usr/bin/git` and `/usr/bin/clang`. Anyone who has run git from `/usr/bin`
+  already has the developer-tools install that resolves `python3`. **`/usr/bin/java`
+  is a different animal** — a separate stub that resolves to nothing and prints
+  *"Unable to locate a Java Runtime"*. A JVM is a from-zero install; an
+  interpreter is not.
+- **Requiring Python is ecosystem-normal:** 14 of 76 plugins ship
+  `python3`-shebanged executables, second only to bash's 22 and ahead of node's
+  4. Three of Anthropic's own name a Python version as a hard prerequisite —
+  `security-guidance` (3.8+), `remember` (3.9+), `hookify` (3.7+, "uses stdlib
+  only"). Kerd already sits in that group and needs no defence for it.
+- **Package dependencies are taken routinely — but the norm is to FETCH them,
+  never to ask.** `serena` runs `uvx --from git+…`; `data-engineering`'s Stop
+  hook is a `uv run` whose PEP 723 header pulls six packages with zero user
+  steps; `security-guidance`'s SessionStart hook builds a venv and pip-installs
+  the agent SDK for you. Only two plugins ask a user to `pip install` anything.
+- **A JVM has zero precedent:** across all 76 plugins, `java -jar` 0, `.jar` 0,
+  `JAVA_HOME` 0, sdkman 0, "requires Java" 0.
+
+That is what puts `OpenFastTrace` at `×` on dependency burden — not a preference
+for Python, but a measured absence of any precedent for asking a Claude Code
+user to install a runtime the platform does not already imply.
+
 **The mark set and its rules are `PRD-008` … `PRD-012` and `UX-001` … `UX-006`**,
 stated by the producer on 2026-08-08 and captured as requirements rather than
 left in conversation — including the ruling that decides many cells here:
@@ -134,7 +166,7 @@ with its cost carried by the summary columns rather than hidden in the mark.
 | Generated human view | △+ — no register view yet | ◎ | ○+ — publish built in | ◎ | ○ | △+ — CSV only, we render |
 | Write-back editing | △- — never built here | ◎ | △- — server read-only | △- — static HTML only | △- — no UI at all | △- — report-only, one-way |
 | Maintenance and survival | ◎ | ○ | ○- — recent, one maintainer | ○+ — active at 8.3.0 | ○ | ○- — dead, register survives |
-| Added dependency burden | ◎ | △- — 87 packages onto existing Python | △ — 15 packages onto existing Python | △- — packages plus a build pipeline | × — a whole new runtime, for tracing only | × — new toolchain, and uninstallable |
+| Added dependency burden | ◎ | △- — 87 packages onto a present interpreter | △ — 15 packages, the lightest | △- — 30 packages plus a build pipeline | × — a JVM: zero precedent in 76 plugins | × — new toolchain, and uninstallable |
 | Cost | ○ | ○ | ○ | ○ | ○ | ○ |
 | Quality | △- — four asked-for gaps | △- — three pieces still ours | △- — no validation or board | △- — board and write-back ours | △- — tracer only, register ours | △- — almost everything is ours |
 | Due date | ○- — --root and rework first | △+ — install plus a reader | △+ — script the tree layout | △- — greenfield now, rewrite later | △- — JVM plus a register build | △- — a toolchain first |
