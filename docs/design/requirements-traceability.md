@@ -84,6 +84,10 @@ stakes are real"*. Five of six options die on at least one M.
 | Generated human view | destination | an HTML view derived from the files, not hand-built | D | 1 |
 | Write-back editing | destination | a human changes a requirement's state from the view and it lands in the files | D | 1 |
 | Maintenance and survival | cost | actively maintained, or so simple that abandonment costs nothing | D | 2 |
+| Cost | summary | no money, and no runtime a consuming project must own | D | 3 |
+| Quality | summary | solves the whole need rather than a part of it | D | 3 |
+| Effort | summary | lands in one session — a TIEBREAKER only, never an axis | D | 1 |
+| Rating | verdict | the option a producer would pick with everything weighed | D | 3 |
 
 ## Options
 
@@ -100,25 +104,29 @@ stakes are real"*. Five of six options die on at least one M.
 
 | Criterion | Build | StrictDoc | Doorstop | SphinxNeeds | OpenFastTrace | Reqflow |
 |---|---|---|---|---|---|---|
-| The same files | ○ | △ | △ | × | × | × |
-| No artifact scatter | ○ | ○ | × | × | ○ | ○ |
-| Git-repo native | ○ | ○ | ○ | △ | ○ | ○ |
-| Claude Code friendly | ○ | ○ | △ | △ | ○ | × |
-| Belongs to the consuming project | △ | ○ | ○ | ○ | ○ | ○ |
-| Human-readable with no tooling | ○ | ○ | ○ | ○ | ○ | × |
-| Machine-readable by stdlib | ○ | △ | ○ | ○ | ○ | × |
-| Install burden on consuming projects | ○ | × | × | × | × | × |
-| The producer's ID format | ○ | ○ | △ | ○ | × | ○ |
-| The twenty-category taxonomy | ○ | ○ | △ | ○ | △ | × |
-| The five-state lifecycle | ○ | ○ | △ | ○ | × | × |
-| Refusal from outside the model | △ | ○ | ○ | ○ | ○ | × |
-| Requirement-to-requirement dependency | ○ | ○ | ○ | ○ | △ | △ |
-| Category disposition | ○ | △ | △ | △ | × | × |
-| Forward trace to code and tests | △ | ○ | △ | △ | ○ | ○ |
-| Release grouping | × | × | × | △ | × | × |
+| The same files | ○ | △ — .sdoc, not your markdown | △ — parallel layout, own tree | × — 0 needs in your real docs | × — stores nothing | × — stores nothing |
+| No artifact scatter | ○ | ○ | × — ~65 files, 20 dirs | × — 73 files, 5 MB | ○ | ○ |
+| Git-repo native | ○ | ○ | ○ | △ — build output needs hosting | ○ | ○ |
+| Claude Code friendly | ○ | ○ | △ — the UID is the filename | △ — directives buried in prose | ○ | × — no authoring format |
+| Belongs to the consuming project | △ — needs gate.py --root | ○ | ○ | ○ | ○ | ○ |
+| Human-readable with no tooling | ○ | ○ | ○ | ○ | ○ | × — no source format |
+| Machine-readable by stdlib | ○ | △ — own parser needed | ○ | ○ | ○ | × — CSV needs the binary |
+| Install burden on consuming projects | ○ | × — 373 MB, 87 packages | × — 28 MB, 15 packages | × — 118 MB, 30 packages | × — a Java 17 runtime | × — no macOS build exists |
+| The producer's ID format | ○ | ○ | △ — needs -s - every time | ○ | × — UX-001 inexpressible | ○ |
+| The twenty-category taxonomy | ○ | ○ | △ — single-rooted tree only | ○ | △ — unvalidated free tags | × — no taxonomy |
+| The five-state lifecycle | ○ | ○ | △ — values unvalidated | ○ | × — a closed set of four | × — only 'uncovered' |
+| Refusal from outside the model | △ — CI is Kerd's own | ○ | ○ | ○ | ○ | × — cannot run on macOS |
+| Requirement-to-requirement dependency | ○ | ○ | ○ | ○ | △ — Depends is inert | △ — one untyped relation |
+| Category disposition | ○ | △ — custom field plus our check | △ — custom field plus our check | △ — custom field plus our check | × — no field for it | × — no field for it |
+| Forward trace to code and tests | △ — trailer never exercised | ○ | △ — document-tier links only | △ — convention ours to invent | ○ | ○ |
+| Release grouping | × — nothing exists | × — authors use GitHub milestones | × — no concept at all | △ — a filter, not a board | × — no concept at all | × — no concept at all |
 | Generated human view | ○ | ○ | ○ | ○ | ○ | ○ |
-| Write-back editing | × | ○ | × | × | × | × |
-| Maintenance and survival | ○ | △ | △ | ○ | ○ | × |
+| Write-back editing | × — every page read-only | ○ | × — read-only server | × — no form at all | × — no UI at all | × — report-only, one-way |
+| Maintenance and survival | ○ | △ — two people, pre-1.0 | △ — one maintainer | ○ | ○ | × — 2019, 3 commits since |
+| Cost | ○ | × — 373 MB per project | × — 28 MB per project | × — 118 MB per project | × — a JVM per project | × — compile from source |
+| Quality | △ — no write-back, no ReqIF | ○ | △ — validates nothing custom | △ — great model, heavy shell | × — cannot hold the IDs | × — no schema at all |
+| Effort | ○ | △ — convert 14 docs first | △ — lay out ~65 files | × — rewrite every product doc | × — new ID scheme everywhere | × — build a toolchain first |
+| Rating | ○ | △ — best if cost is relaxed | △ — right shape, wrong storage | × — heaviest, worst fit | × — a tracer, not a register | × — not installable here |
 
 ## Preferred solution
 
@@ -226,6 +234,13 @@ Three risks are specific to the preferred option:
 | OpenFastTrace | The twenty-category taxonomy | use free-form `Tags:` for category, since artifact types are tracing-hierarchy levels rather than an orthogonal taxonomy | permanent | low — tags are unvalidated free text, so the taxonomy would be unenforced | |
 | OpenFastTrace | Requirement-to-requirement dependency | record dependency in `Depends` and read it from the `aspec` XML report | permanent | low — the docs state `Depends` "has no effect on the coverage", so nothing refuses a dangling one | |
 | Reqflow | Requirement-to-requirement dependency | express dependency through the single untyped covers / covered-by relation | permanent | low — one untyped relation cannot distinguish dependency from coverage | |
+| Build | Quality | ship the register first and treat write-back and interchange as later slices, generated from the markdown rather than stored in a tool's format | temporary | medium — the generator pattern for HTML is proven three times over, but no page in `tools/` has ever written back | the first time the producer needs to change a requirement's state without editing the file |
+| StrictDoc | Effort | convert the fourteen product docs once, then author only in `.sdoc` | permanent | medium — round-trip is verified, but the conversion is a one-way door for anything that reads markdown today | |
+| StrictDoc | Rating | relax *install burden* from M to D and this becomes the live option; it still loses *the same files* and still has no release board | temporary | medium — the trade is real and stated, but the decision is the producer's and has not been made | the producer rules on whether 373 MB is a fair thing to ask a consuming project to own |
+| Doorstop | Quality | validate every custom value with Kerd's own checker, since Doorstop validates none of them | permanent | high — `state: BANANA_NOT_A_LIFECYCLE_STATE` passed its strictest run, so the gap is measured | |
+| Doorstop | Effort | script the tree layout rather than creating documents by hand | permanent | medium — the layout is mechanical, but ~65 files across 20 directories is a large first commit | |
+| Doorstop | Rating | adopt only the markdown itemformat — frontmatter plus body — and none of the tool | permanent | high — a stdlib script parsed every field with PyYAML *not* installed, so the idea travels without the dependency | |
+| SphinxNeeds | Quality | keep the data model and reject the build shell — author the same fields in markdown and check them ourselves | permanent | medium — this is the strongest data model of the six, and taking only the model is most of what BUILD now does | |
 
 ## The design package — BLOCKED, not yet reworked
 

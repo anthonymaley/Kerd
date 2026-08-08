@@ -44,7 +44,13 @@ COUNTERMEASURES_COLUMNS = [
 
 # M4 — mark, optional score on the declared 1-5 scale with a mandatory
 # em-dash-separated basis.
-MARK_CELL_RE = re.compile(r'^([○△×])(?:[ \t]+([1-5])[ \t]+—[ \t]+(\S.*))?$')
+# The score is optional INSIDE the basis group as of 2026-08-08, so `△ — needs
+# a stdlib checker` is legal in marks-only mode. Tony's reason: "when we give a
+# rating in a cell we need to say why if its not circle, just a few words" —
+# and the point of a table is to replace reading, so forcing the whole matrix
+# into scored mode just to earn a four-word reason was the wrong trade.
+MARK_CELL_RE = re.compile(
+    r'^([○△×])(?:[ \t]+(?:([1-5])[ \t]+)?—[ \t]+(\S.*))?$')
 
 OPTION_ID_RE = re.compile(r'^[A-Z][A-Za-z0-9-]*$')
 
@@ -300,6 +306,14 @@ def _parse_evaluation_matrix(section_text, rel, criteria, options):
             mark = m.group(1)
             score = int(m.group(2)) if m.group(2) else None
             basis = m.group(3)
+            # A mark that is not ○ must say why. ○ needs no reason — it met the
+            # declared target, which the Criteria table already states.
+            if mark != "○" and not basis:
+                problems.append(
+                    f"{rel} — Evaluation matrix cell '{name}'/'{oid}': "
+                    f"'{mark}' with no reason (a mark that is not ○ must say why)"
+                )
+                continue
             if score is not None:
                 has_score = True
             else:
@@ -759,7 +773,7 @@ def build_canvas(model, title):
     Canvas, INK, RED, GREEN, BLUE, GREY = (
         dk.Canvas, dk.INK, dk.RED, dk.GREEN, dk.BLUE, dk.GREY,
     )
-    YELLOW = dk.YELLOW
+    YELLOW, GREEN_FILL = dk.YELLOW, dk.GREEN_FILL
 
     # Tony, 2026-08-08: "boxes never colored, the circle is green, triangle
     # yellow and cross is red — make the size of them at least 40-50% of the
@@ -768,7 +782,8 @@ def build_canvas(model, title):
     # text. This overrides the earlier grammar in which × cells, dead option
     # rows and cost-group headers were stroked RED.
     MARK_COLOUR = {"○": GREEN, "△": YELLOW, "×": RED}
-    MARK_FRACTION = 0.5
+    MARK_FRACTION = 0.4
+    REASON_SIZE = 11
 
     HEADER_SIZE = 13
     BODY_SIZE = 12
@@ -798,19 +813,23 @@ def build_canvas(model, title):
     preferred = model["preferred"]
 
     # ── column content: (key, header_lines, body_lines_per_option, crit) ──
+    # Headings read as headings — Tony's 2026-08-08 annotation on
+    # requirements-traceability-matrix.tm.excalidraw, which rewrote four of
+    # them by hand to show the pattern: the name in caps on its own line, a
+    # blank line, then the declaration in parentheses.
     label_bodies = []
-    for opt in options:
-        lines = _wrap(f"{opt['id']} — {opt['description']}")
+    for n, opt in enumerate(options, start=1):
+        lines = [f"OPTION {n}: {opt['id'].upper()}", ""] + _wrap(opt["description"])
         if opt["id"] == preferred:
-            lines = lines + ["PREFERRED"]
+            lines = lines + ["", "PREFERRED"]
         label_bodies.append(lines)
-    columns = [("__label__", ["Option"], label_bodies, None)]
+    columns = [("__label__", ["OPTION"], label_bodies, None)]
 
     for crit in criteria:
         weight = crit["weight"] if crit["weight"] is not None else 1
-        header_lines = [crit["group"], crit["name"]] + _wrap(
-            f"({crit['category']} · {crit['target']} · w{weight})"
-        )
+        header_lines = [
+            f"{crit['group'].upper()}: {crit['name'].upper()}", ""
+        ] + _wrap(f"({crit['category']} · {crit['target']} · w{weight})")
         bodies = []
         for opt in options:
             cd = model["cells"].get(opt["id"], {}).get(crit["name"])
@@ -842,8 +861,10 @@ def build_canvas(model, title):
     header_h = int(max(_footprint(hl, HEADER_SIZE)[1] for _, hl, _, _ in columns)) + PAD_H
 
     # A row must be tall enough for a mark drawn at MARK_FRACTION of its
-    # height and still read as a glyph rather than a speck.
-    MIN_ROW_H = 68
+    # height plus its reason underneath — and over 120, because that is the
+    # threshold at which collision_report stops calling a box "small" and
+    # allows free text to sit fully inside it.
+    MIN_ROW_H = 150
     row_heights = []
     for i in range(len(options)):
         h = max(_footprint(bodies[i], BODY_SIZE)[1] for _, _, bodies, _ in columns)
@@ -877,19 +898,25 @@ def build_canvas(model, title):
                 continue
 
             mark = cd["mark"]
-            body = "\n".join(bodies[i]).strip()
-            if body:
-                # Scored mode: the mark shares the cell with its score and
-                # basis, so it keeps body size and lends the block its colour.
-                label, size = f"{mark} {body}", BODY_SIZE
-            else:
-                # Marks-only: the mark IS the cell. Half the box, bounded by
-                # the narrower axis so a tall row in a narrow column cannot
-                # push the glyph through its own sides.
-                label = mark
-                size = max(18, int(min(rh, w) * MARK_FRACTION))
-            _marked_box(c, label, x, ry, w, rh, size, bg,
+            # The chosen option's verdict cell is filled green — Tony,
+            # 2026-08-08: "we highlight our preference by making that cell
+            # green too". Driven by the criterion's declared GROUP rather than
+            # its name, so the doc says which column is the verdict.
+            cell_bg = GREEN_FILL if (is_pref and crit["group"] == "verdict") else bg
+            reason = [ln for ln in bodies[i] if ln.strip()]
+
+            # The mark stays dominant and keeps its own size; the reason sits
+            # under it in small text. They cannot share one bound text because
+            # a text element carries a single font size, and the whole point of
+            # the table is to be read at a glance rather than read at all.
+            size = max(20, int(min(rh, w) * MARK_FRACTION))
+            _marked_box(c, mark, x, ry, w, rh, size, cell_bg,
                         MARK_COLOUR.get(mark, INK))
+            if reason:
+                rt = c.txt("\n".join(reason), 0, 0, REASON_SIZE, INK, "center")
+                rw, rhh = rt["width"], rt["height"]
+                rt["x"] = x + (w - rw) / 2
+                rt["y"] = ry + rh - rhh - 8
         ry += rh + ROW_GAP
 
     # ── below the table: preferred banner, countermeasures ──────────────
@@ -1055,12 +1082,15 @@ def _f2():
         "| OVERALL | 21 | 26 |\n"
         "| RANK | 2 | 1 |\n"
     )
+    # Marks-only with a REASON but no score on the non-○ cells — legal as of
+    # 2026-08-08, and the shape the law now demands: ○ may stand bare, △ and ×
+    # may not.
     new = (
         "| Criterion | A | B |\n"
         "|---|---|---|\n"
-        "| Setup cost | ○ | △ |\n"
+        "| Setup cost | ○ | △ — new directory to keep in idiom |\n"
         "| Refusal fires in CI | ○ | ○ |\n"
-        "| Render legibility | × | ○ |\n"
+        "| Render legibility | × — audit output has no canvas | ○ |\n"
     )
     text = _F1_TEXT.replace(old, new)
     assert text != _F1_TEXT, "F2 setup: replace target not found"
@@ -1072,6 +1102,9 @@ def _f2():
         assert problems == [], f"expected clean, got {problems}"
         model, _ = parse_matrix(text, rel)
         assert model["mode"] == "marks", f"expected marks, got {model['mode']!r}"
+        assert model["cells"]["B"]["Setup cost"]["score"] is None
+        assert model["cells"]["B"]["Setup cost"]["basis"] == (
+            "new directory to keep in idiom")
 
 
 def _f3():
@@ -1274,11 +1307,53 @@ def _f14():
                 "dies in SVG export dies here, not on Tony's canvas"
 
 
+def _f15():
+    """A mark that is not ○ carries no reason — refused (2026-08-08 law)."""
+    old = (
+        "| Setup cost | ○ 4 — one rule block added, measured on a branch | "
+        "△ 3 — new directory, but the kit idiom is proven twice |\n"
+    )
+    new = "| Setup cost | ○ 4 — one rule block added, measured on a branch | △ 3 |\n"
+    text = _F1_TEXT.replace(old, new)
+    assert text != _F1_TEXT, "F15 setup: replace target not found"
+    with tempfile.TemporaryDirectory() as root:
+        rel = "docs/design/case.md"
+        _sw(os.path.join(root, rel), text)
+        _write_stubs(root)
+        problems = check_file(root, rel)
+        assert any("must say why" in p or "score without basis" in p
+                   for p in problems), problems
+        # ○ with no reason stays legal — it met the declared target. Replace
+        # the WHOLE scored table, or the doc lands in mixed mode and fails for
+        # an unrelated reason.
+        scored_table = (
+            "| Criterion | A | B |\n"
+            "|---|---|---|\n"
+            "| Setup cost | ○ 4 — one rule block added, measured on a branch | △ 3 — new directory, but the kit idiom is proven twice |\n"
+            "| Refusal fires in CI | ○ 5 — canary refused in the T12 fixture | ○ 5 — canary refused via its own audit step |\n"
+            "| Render legibility | × 1 — audit output is line-based, no canvas | ○ 4 — movement-9 table, layout checks clean |\n"
+            "| OVERALL | 21 | 26 |\n"
+            "| RANK | 2 | 1 |\n"
+        )
+        bare_table = (
+            "| Criterion | A | B |\n"
+            "|---|---|---|\n"
+            "| Setup cost | ○ | △ — a stated reason |\n"
+            "| Refusal fires in CI | ○ | ○ |\n"
+            "| Render legibility | × — no canvas | ○ |\n"
+        )
+        bare_ok = _F1_TEXT.replace(scored_table, bare_table)
+        assert bare_ok != _F1_TEXT, "F15 setup: bare-table replace target not found"
+        rel2 = "docs/design/bare.md"
+        _sw(os.path.join(root, rel2), bare_ok)
+        assert check_file(root, rel2) == [], check_file(root, rel2)
+
+
 def selftest():
-    """Runs F1-F14, each in its own tempfile.TemporaryDirectory (no git
+    """Runs F1-F15, each in its own tempfile.TemporaryDirectory (no git
     required — matrices are pure files). Prints one 'ok <n> — <name>' line
     per case; on the first failure prints 'FAIL <n> — <name>: <why>' and
-    returns 1. On full success prints 'selftest: 14 ok' and returns 0.
+    returns 1. On full success prints 'selftest: 15 ok' and returns 0.
 
     Not covered here, named rather than silently skipped: a living-but-not-
     top preferred option in scored mode, and OVERALL ties, have no F-case
@@ -1298,6 +1373,7 @@ def selftest():
         (_f12, "missing architecture overview file"),
         (_f13, "audit sweep — count and problems scoped to the broken doc"),
         (_f14, "render: layout clean, glyphs survive to SVG"),
+        (_f15, "non-○ mark with no reason — refused; bare ○ stays legal"),
     ]
     for i, (fn, name) in enumerate(cases, start=1):
         try:
@@ -1309,5 +1385,8 @@ def selftest():
             print(f"FAIL {i} — {name}: unexpected {type(e).__name__}: {e}")
             return 1
         print(f"ok {i} — {name}")
-    print("selftest: 14 ok")
+    # Derived, not written down — a hardcoded count read "14 ok" while 15
+    # cases passed, which is the same class of defect as the CI-step count
+    # this repo swept on 2026-08-07.
+    print(f"selftest: {len(cases)} ok")
     return 0

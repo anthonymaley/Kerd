@@ -14,6 +14,7 @@ INK = "#1e1e1e"
 RED = "#e03131"          # cost, or a route that leaves / blocks
 GREEN = "#2f9e44"        # Tony's input into the work — his annotations
 YELLOW = "#f08c00"       # meets only with a countermeasure (matrix △ marks)
+GREEN_FILL = "#d3f9d8"   # the chosen option's verdict cell — a fill, not a stroke
 BLUE = "#1971c2"         # changed since the file was last marked reviewed
 GREY = "#e9ecef"
 FAINT = "#f8f9fa"

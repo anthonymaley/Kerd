@@ -41,7 +41,11 @@ Option ID matches `^[A-Z][A-Za-z0-9-]*$`, unique. Description non-empty. Archite
 
 **M4 — `## Evaluation matrix`.** Header exactly `Criterion` followed by the declared option IDs, in declared order. One data row per declared criterion, in declared order — a row whose Criterion traces to no declaration is a named refusal ("scored criterion with no declaration"), a declared criterion with no row is a named refusal.
 
-Cell grammar: `^([○△×])(?:[ \t]+([1-5])[ \t]+—[ \t]+(\S.*))?$` — mark ○ (U+25CB), △ (U+25B3), × (U+00D7); optional score on the declared 1–5 scale with a mandatory em-dash-separated basis.
+Cell grammar: `^([○△×])(?:[ \t]+(?:([1-5])[ \t]+)?—[ \t]+(\S.*))?$` — mark ○ (U+25CB), △ (U+25B3), × (U+00D7), then an optional em-dash-separated basis which may itself carry a score on the declared 1–5 scale. All four shapes are legal: `○`, `○ — reason`, `○ 4 — reason`, and (in scored mode) any of those with the score present.
+
+**A mark that is not ○ MUST carry a reason** (2026-08-08). A bare `△` or `×` is a named refusal — *"'△' with no reason (a mark that is not ○ must say why)"*. Bare `○` stays legal: it met the declared target, and the Criteria table already states what that target was. Tony's reason for the rule: *"when we give a rating in a cell we need to say why if its not circle, just a few words"* — and *"the point of the table is to avoid the reading of lots of text to understand the eval"*, so reasons are a few words, not a sentence. Fixture F15 pins both halves.
+
+The score being optional **inside** the basis group is what lets a marks-only matrix carry reasons without being forced into scored mode — which would have obliged a 1–5 score and a basis on every cell, plus OVERALL/RANK, to earn a four-word reason.
 
 Mode is uniform: every cell scored, or no cell scored ("marks always, scores when the stakes are real"). A score whose basis is absent fails the cell grammar and is named as "score without basis".
 
@@ -134,7 +138,7 @@ Arithmetic is real: A = 4·1 + 5·3 + 1·2 = 21; B = 3·1 + 5·3 + 4·2 = 26. A'
 **Colour grammar — amended 2026-08-08 on Tony's call** (*"boxes never colored, the circle is green, triangle yellow and cross is red — make the size of them at least 40-50% of the box they are in"*). The verdict lives in the mark, not in the border:
 
 - **Boxes are never coloured.** Every rectangle strokes INK, including cost-group headers and dead option rows, both of which used to stroke RED.
-- **`○` GREEN · `△` YELLOW · `×` RED**, and in marks-only mode the mark is drawn at **half the cell** (bounded by the narrower axis, floor 18pt) as the cell's own bound text. Bound rather than floating is what keeps `collision_report` clean — it exempts bound text, and a free glyph over a small box is a fault by that checker's definition. `Canvas.box` cannot express this because it paints border and text from one `stroke`; `_marked_box` exists for exactly that split.
+- **`○` GREEN · `△` YELLOW · `×` RED**, and in marks-only mode the mark is drawn at **half the cell** (bounded by the narrower axis, floor 18pt) as the cell's own bound text. Bound rather than floating is what keeps `collision_report` clean — it exempts bound text, and a free glyph over a small box is a fault by that checker's definition. `Canvas.box` cannot express this because it paints border and text from one `stroke`; `_marked_box` exists for exactly that split. A mark that is not `○` **must carry a reason** — `△ — needs a stdlib checker` is legal in marks-only mode as of 2026-08-08, the score being optional inside the basis group, and the checker refuses a bare `△` or `×`. Column and row headings render as headings (`FIT: SAME FILES`, `OPTION 1: BUILD`), and the preferred option's cell in the criteria group named `verdict` is filled green.
 - **GREEN is no longer reserved for hand annotations in a matrix.** That reservation still holds everywhere else in `tools/diagram/`; if a matrix ever needs to distinguish generated green from annotated green, the annotation colour is the one that has to move.
 - **BLUE** still marks text changed since the last reviewed snapshot (the diagram kit's `mark_deltas`).
 
