@@ -30,7 +30,7 @@ the gate `n/a`.
 | TECH | Technical | applies | filled |
 | INT | Integration | applies | **judgment call** — Kerd integrates with Claude Code's hook and skill surfaces, with git, and optionally with an Obsidian vault. No `INT` requirement is filed, which makes this a gap |
 | DATA | Data | applies | it writes and reads durable files, and has retention rules (immutable session logs, overwritten state) |
-| SEC | Security | n/a | a local CLI plugin: no authentication, no authorization surface, no network service, no credentials handled, no user data transmitted |
+| SEC | Security | applies | **corrected 2026-08-08 — the earlier `n/a` was falsified by code.** `hooks/session-start.sh:12` `cd`s into `$CLAUDE_PROJECT_DIR` and `:21` runs `git fetch --dry-run` against that repository's own declared remote, on every session, wired for all users by `hooks.template.json`. That is shipped code making an outbound network call inside a repo the operator may not have written. No authentication, credentials or user data are still true; "no network service" was not. No `SEC` requirement is filed, which makes this a gap |
 | PRIV | Privacy | applies | **judgment call, reversed from an earlier draft** — the vault's do-not-save markers *are* a privacy control, and session logs capture the producer's words verbatim |
 | CMP | Regulatory / Compliance | n/a | no regulated domain, no certification sought, no records-retention obligation imposed by any external body |
 | ANA | Analytics / Measurement | n/a | no telemetry, no event collection, no experimentation framework. **Note the near-miss**: Kerd measures itself extensively, but those are stage-1 measurements against declared targets, which live in design packages rather than as analytics requirements |
@@ -41,6 +41,6 @@ the gate `n/a`.
 | DOC | Documentation | applies | living design docs, dated gate records and a playbook, with rules about which is which |
 | POST | Post-Launch | applies | **the identified hole** — `docs/design/funnel-steps.md` leaves the Live stage empty because no source for its steps could be found, and Live *is* post-launch. This category is that stage's missing vocabulary |
 
-**Ten of the seventeen `applies` categories are unfilled** — `BUS`, `STA`, `USR`, `INT`, `DATA`, `PRIV`, `SUP`, `REL`, `DOC` and `POST`, which is now visible rather
+**Eleven of the eighteen `applies` categories are unfilled** — `BUS`, `STA`, `USR`, `INT`, `DATA`, `SEC`, `PRIV`, `SUP`, `REL`, `DOC` and `POST`, which is now visible rather
 than invisible — the whole point of declaring the disposition. Before this file existed, all ten looked identical to `SEC` being empty, and
-only the three `n/a` rows are correct.
+only the two `n/a` rows are correct.

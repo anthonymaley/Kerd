@@ -50,6 +50,7 @@ The twenty-category discipline taxonomy ships as the default; projects extend it
 ### PRD-004 — Applicability is declared per category
 
 **Category**: PRD
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:796aed8b3961
@@ -92,6 +93,7 @@ The register is the data source for release planning, dependency and visualizati
 ### PRD-008 — The evaluation mark set is ◎ perfect · ○ fully meets (○+/○-) · △ meets with a…
 
 **Category**: PRD
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:31a310b5f422
@@ -101,6 +103,7 @@ The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) ·
 ### PRD-009 — × means cannot meet even with a countermeasure
 
 **Category**: PRD
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:4153bd6015d5
@@ -113,6 +116,7 @@ The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) ·
 ### PRD-010 — Building the missing piece ourselves is a legal countermeasure
 
 **Category**: PRD
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:c21fa58a63cb
@@ -126,6 +130,7 @@ Building the missing piece ourselves **is** a legal countermeasure — marked `�
 ### PRD-011 — Every evaluation carries four summary columns: COST · QUALITY · DUE DATE ·…
 
 **Category**: PRD
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:4d708711ca10
@@ -135,6 +140,7 @@ Every evaluation carries four summary columns: **COST · QUALITY · DUE DATE · 
 ### PRD-012 — A mark that is not ◎ or ○ states why, in a few words
 
 **Category**: PRD
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:6b58da638798
@@ -147,6 +153,7 @@ A mark that is not `◎` or `○` states why, in a few words — never a sentenc
 ### PRD-013 — Dependency cost is judged marginally and proportionately: what the option…
 
 **Category**: PRD
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:8de61f1c1b2c
@@ -179,6 +186,7 @@ A plan is execution of the design, carrying the measurements that prove the goal
 ### FUN-003 — Every requirement gets a Category and ID, traceable back and forward
 
 **Category**: FUN
+**Tags**: TECH
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:6b8368a5fbaa
@@ -264,6 +272,7 @@ The boundary records everything agreed; efficiency is a tiebreaker, never a reas
 ### NFR-002 — Floors compose as a union
 
 **Category**: NFR
+**Tags**: FUN
 **State**: proposed
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 
@@ -292,6 +301,7 @@ The mechanism must not scatter artifacts
 ### UX-001 — Boxes are never coloured
 
 **Category**: UX
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:78ce341d07d6
@@ -358,6 +368,7 @@ The producer marks requirements **on the page without typing** — status, relea
 ### UX-008 — A generated page carries the hash of the state it was rendered from, so marks…
 
 **Category**: UX
+**Tags**: TECH
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:383c65601ef2
@@ -443,6 +454,7 @@ The register must be **the same files** — one representation, never a parallel
 ### TECH-009 — A requirement is a block, not a table row
 
 **Category**: TECH
+**Tags**: UX
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:7e833af32a5d
@@ -452,6 +464,7 @@ A requirement is a **block**, not a table row — heading, bolded meta lines, st
 ### TECH-010 — A final requirement carries a hash of its statement as keyed. When they…
 
 **Category**: TECH
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:83ec3c1f0fef
@@ -463,6 +476,7 @@ A `final` requirement carries a **hash of its statement as keyed**. When they di
 ### OPS-001 — Funnel interaction requires a conductor session
 
 **Category**: OPS
+**Tags**: FUN
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:bb9cc221d399
@@ -494,6 +508,7 @@ Every project type owes every gate unless that type explicitly marks it `n/a` wi
 ### TST-003 — 
 
 **Category**: TST
+**Tags**: PRD
 **State**: final
 **Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
 **Approved**: sha256:4459ab786c0b
@@ -502,6 +517,24 @@ Every project type owes every gate unless that type explicitly marks it `n/a` wi
 
 **Links**
 - refines → PRD-011 (sha256:4d708711ca10)
+
+### TST-004 — The completeness check is tiered: the LIGHT check fires at every step
+
+**Category**: TST
+**State**: final
+**Source**: 2026-08-08 session — `docs/product/requirements-traceability.md`
+**Approved**: sha256:1d711127b148
+
+**The completeness check is tiered: the LIGHT check fires at every step; BOTH light and heavy fire at the design GO.** Light is machine facts only — did the register move, do approval hashes still match, are link stamps stale, does declared grounding resolve. Heavy is N independent readers working from the RAW sources, never from a summary, with convergence as the signal
+
+### TST-005 — A completeness check must not be a step the model can assume or skip
+
+**Category**: TST
+**State**: final
+**Source**: 2026-08-08 session — `docs/product/requirements-traceability.md`
+**Approved**: sha256:e7d2019bff0f
+
+A completeness check must not be a step the model can assume or skip — it binds on countable facts, from outside the model, never on a question the model answers about itself
 
 ## Archive
 
