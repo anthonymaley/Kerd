@@ -232,18 +232,60 @@ Extracted from this session's own conversation on 2026-08-07, which is the
 demonstration Tony asked for (*"a lot of the converstation we have had today is
 requirment initial or final development right?"*):
 
-Filed under the producer's own taxonomy above:
+Filed under the producer's own taxonomy above. **Extended at the session's close
+(2026-08-07 21:30) when Tony asked "okay we captured all requirements we defined
+today before we close out?"** — the honest answer was no. The count went from
+eight to twenty-five, because the afternoon kept producing requirements while
+the register that would hold them did not exist.
 
 | ID | Requirement (compressed) | State |
 |---|---|---|
+| **FUN** | | |
 | FUN-001 | Approving the design is enough — no plan-approval gate | final |
 | FUN-002 | A plan is execution of the design, carrying the measurements that prove the goals met | final |
 | FUN-003 | Every requirement gets a Category and ID, traceable back and forward | final |
-| FUN-004 | Any request is qualified; if durable it becomes a requirement, through stages to final | proposed |
-| TST-001 | The plan must check the design's measurements are carried in accurately, and show it | final |
+| FUN-004 | Any request is qualified; if durable it becomes a requirement, through stages to final | final |
+| FUN-005 | Project type is declared once at conductor start, from the list, and not re-asked once a project has started | final |
+| FUN-006 | The goal gate increments the project type to the next appropriate type | final |
+| FUN-007 | Conductor may suggest a type change — at the gate or mid-flight — and the producer agrees it | final |
+| FUN-008 | Type is a stack: items inherit the project's type, an override is opt-in and forward-only | final |
+| FUN-009 | `route` and `Rigor level` are derived from project type, not declared | qualified |
+| **PRD** | | |
 | PRD-001 | Kerd gives consuming projects this capability; Kerd is only a user of it | final |
-| TECH-001 | The user's repo holds funnel state, requirements, stage data, steps, journey — nothing in Kerd, ever | final |
+| PRD-002 | Requirements exist so the producer can review, plan enhancements, plan releases, and speak in IDs that mean something | final |
+| PRD-003 | The twenty-category discipline taxonomy ships as the default; projects extend it, never invent one | final |
+| PRD-004 | Applicability is declared per category — `applies`, or `n/a` with a named reason | final |
+| PRD-005 | Project type and release type are the same thing for the twelve types that ship; Ideation, Spike and Security Review produce findings instead | final |
+| PRD-006 | The alignment gate is a shared structure both parties can point at — a drawing is its usual form, not its only one | final |
+| **TECH** | | |
+| TECH-001 | The user's repo holds funnel state, requirements, stage data, steps and journey — nothing in Kerd, ever | final |
+| TECH-002 | Traceability runs the nine-link chain: Business Goal → Stakeholder Need → Product Requirement → Functional/Technical → Design → Implementation → Test Case → Release Evidence → Post-Launch Metric | final |
+| TECH-003 | The machinery must aim at the consuming project, never at its own install path | qualified |
+| TECH-004 | Never route to superpowers | final |
+| **NFR** | | |
 | NFR-001 | The boundary records everything agreed; efficiency is a tiebreaker, never a reason to record less | final |
+| NFR-002 | Floors compose as a union — a nested piece owes its own type's floor plus every floor of the project containing it | proposed |
+| NFR-003 | A spike carries its own rigor: scope boundary, timebox, spec, design, and measurements | final |
+| **TST** | | |
+| TST-001 | The plan must check the design's measurements are carried in accurately, and show it | final |
+| TST-002 | Every project type owes every gate unless that type explicitly marks it `n/a` with a reason | proposed |
+| **OPS** | | |
+| OPS-001 | Funnel interaction requires a conductor session; Q&A, reports and admin work stay available outside it | final |
+
+**States are honest, not flattering.** `final` means Tony stated it directly.
+`qualified` means the wording is agreed but was synthesised rather than spoken.
+`proposed` means it is the model's derivation from his input and he has not
+ratified it — NFR-002 and TST-002 are both consequences drawn while writing,
+and TECH-003's framing was corrected twice before settling. Four of
+twenty-five are not `final`, and marking them so is the difference between a
+register and a flattering list.
+
+**The measurement this table is: twenty-five durable requirements produced in
+one session, zero promoted through any beat, because no beat exists.** Eight
+were counted at 18:00 and the number tripled over the next three hours while
+the session discussed building the thing that would have caught them. Filed
+here as frame evidence — this is not the register, which is slice 1's build and
+whose design is currently blocked.
 
 All eight currently live as prose bullets. The extraction took one pass and
 immediately exposed something invisible in prose: `FUN-004` is the only one
