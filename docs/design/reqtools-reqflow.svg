@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1576" height="1083" viewBox="260 40 1576 1083">
+<rect x="260" y="40" width="1576" height="1083" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">REQFLOW — no macOS install path exists, and a requirement is whatever a regex matched</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GPLv2+ · last release 2019-03-11 · three commits in 2025</tspan>
+<tspan x="300.0" dy="18.8">TECH-008 the same files  ·  NFR-004 no scatter  ·  TECH-007 git + Claude Code native</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">STORE</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Where a requirement actually lives</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">nothing, and there is no schema. the entire data model is</tspan>
+<tspan x="678.0" dy="15.0">struct Requirement { id; seqnum; parentDocument; covers;</tspan>
+<tspan x="678.0" dy="15.0">coveredBy; text; }.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">a requirement exists only where a PCRE regex matched inside a</tspan>
+<tspan x="678.0" dy="15.0">scanned document. the ID is an opaque matched string.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">no category taxonomy.</tspan>
+<tspan x="1320.0" dy="15.0">no lifecycle states —</tspan>
+<tspan x="1320.0" dy="15.0">the only status in the</tspan>
+<tspan x="1320.0" dy="15.0">tool is &#x27;U&#x27; for</tspan>
+<tspan x="1320.0" dy="15.0">uncovered.</tspan>
+</text>
+<polyline points="960.0,472.0 960.0,506.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="506.0" x2="954.3" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="506.0" x2="965.7" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="538.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="531.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">INSTALL</tspan>
+</text>
+<rect x="660.0" y="506.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="541.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What every consuming project must have — measured, not read</tspan>
+</text>
+<text x="678.0" y="586.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">THERE IS NO MACOS INSTALL PATH.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">brew search -&gt; not found. pip3 index -&gt; no distribution. every</tspan>
+<tspan x="678.0" dy="15.0">release ships Windows .exe only; configure.ac&#x27;s *darwin* case is</tspan>
+<tspan x="678.0" dy="15.0">empty. macOS means an autotools compile against libzip, libxml2,</tspan>
+<tspan x="678.0" dy="15.0">poppler-cpp — and libpcreposix from PCRE1, whose Homebrew formula</tspan>
+<tspan x="678.0" dy="15.0">Homebrew itself marks deprecated: unmaintained.</tspan>
+</text>
+<text x="1320.0" y="522.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">this would be Kerd&#x27;s</tspan>
+<tspan x="1320.0" dy="15.0">first native-compiled</tspan>
+<tspan x="1320.0" dy="15.0">dependency. that is a</tspan>
+<tspan x="1320.0" dy="15.0">category change in what</tspan>
+<tspan x="1320.0" dy="15.0">a consuming project must</tspan>
+<tspan x="1320.0" dy="15.0">own.</tspan>
+</text>
+<polyline points="960.0,707.0 960.0,741.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="741.0" x2="954.3" y2="731.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="741.0" x2="965.7" y2="731.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="773.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="766.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GENERATED</tspan>
+</text>
+<rect x="660.0" y="741.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="776.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What appears that nobody wrote by hand</tspan>
+</text>
+<text x="678.0" y="821.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">text · CSV · HTML. the HTML claim is true and verified in source.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">the only machine-readable export is CSV — the export enum is</tspan>
+<tspan x="678.0" dy="15.0">literally { REQ_X_TXT, REQ_X_CSV }. no JSON, no XML.</tspan>
+</text>
+<text x="1320.0" y="757.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">enough to diff a coverage</tspan>
+<tspan x="1320.0" dy="15.0">matrix in CI. not enough</tspan>
+<tspan x="1320.0" dy="15.0">to round-trip a register.</tspan>
+</text>
+<polyline points="960.0,891.0 960.0,925.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="925.0" x2="954.3" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="925.0" x2="965.7" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="957.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="950.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">VERDICT</tspan>
+</text>
+<rect x="660.0" y="925.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="960.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Against the producer&#x27;s three MUST criteria</tspan>
+</text>
+<text x="678.0" y="1005.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">markdown is handled only by the unknown-extension fallthrough to</tspan>
+<tspan x="678.0" dy="15.0">plain text — no notion of headings, frontmatter, tables or lists.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">no UI, no write-back, no board. report-only, one-way. it cannot</tspan>
+<tspan x="678.0" dy="15.0">be the place a requirement&#x27;s state changes, which is most of</tspan>
+<tspan x="678.0" dy="15.0">what a register does.</tspan>
+</text>
+<text x="1320.0" y="941.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">a plausible tool for a</tspan>
+<tspan x="1320.0" dy="15.0">team already tracing</tspan>
+<tspan x="1320.0" dy="15.0">requirements through Word</tspan>
+<tspan x="1320.0" dy="15.0">and PDF deliverables.</tspan>
+<tspan x="1320.0" dy="15.0">not a dependency Kerd can</tspan>
+<tspan x="1320.0" dy="15.0">ask an arbitrary project</tspan>
+<tspan x="1320.0" dy="15.0">to install.</tspan>
+</text>
+</svg>

@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1541" height="1098" viewBox="260 40 1541 1098">
+<rect x="260" y="40" width="1541" height="1098" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OPENFASTTRACE — a tracer with a fixed ID grammar the producer&#x27;s format cannot enter</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GPL-3.0 · v4.9.0 released the same day it was evaluated · and a JVM</tspan>
+<tspan x="300.0" dy="18.8">TECH-008 the same files  ·  NFR-004 no scatter  ·  TECH-007 git + Claude Code native</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">STORE</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Where a requirement actually lives</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">nothing. OFT stores no requirements — it READS markdown you already</tspan>
+<tspan x="678.0" dy="15.0">have and reports coverage. &#x27;OFT is a requirement tracing tool.&#x27;</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">it defines a native authoring syntax, so it is a SCHEMA plus a</tspan>
+<tspan x="678.0" dy="15.0">LINKER over your files — which makes it a COMPETING schema for</tspan>
+<tspan x="678.0" dy="15.0">the same docs/product/*.md that Kerd already owns.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">register vs tracer: this</tspan>
+<tspan x="1320.0" dy="15.0">is a tracer. it never</tspan>
+<tspan x="1320.0" dy="15.0">answers where a</tspan>
+<tspan x="1320.0" dy="15.0">requirement lives.</tspan>
+</text>
+<polyline points="960.0,472.0 960.0,506.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="506.0" x2="954.3" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="506.0" x2="965.7" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="538.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="531.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">INSTALL</tspan>
+</text>
+<rect x="660.0" y="506.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="541.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What every consuming project must have — measured, not read</tspan>
+</text>
+<text x="678.0" y="586.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">Java 17+, verified three ways: the README, the 4.9.0 JAR&#x27;s</tspan>
+<tspan x="678.0" dy="15.0">MANIFEST.MF (Java-Version: 17), and the class-file header</tspan>
+<tspan x="678.0" dy="15.0">(major=61). no JVM exists on this machine.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">ships as a .jar only — no brew, no pip, no npm, no docker,</tspan>
+<tspan x="678.0" dy="15.0">no native image. grep over the README returned zero hits.</tspan>
+</text>
+<text x="1320.0" y="522.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the largest install</tspan>
+<tspan x="1320.0" dy="15.0">burden of the six, and</tspan>
+<tspan x="1320.0" dy="15.0">the only one that is not</tspan>
+<tspan x="1320.0" dy="15.0">a Python package.</tspan>
+</text>
+<polyline points="960.0,690.0 960.0,724.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="724.0" x2="954.3" y2="714.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="724.0" x2="965.7" y2="714.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="756.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="749.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GENERATED</tspan>
+</text>
+<rect x="660.0" y="724.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="759.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What appears that nobody wrote by hand</tspan>
+</text>
+<text x="678.0" y="804.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">plain text · HTML · an aspec XML report carrying id, version,</tspan>
+<tspan x="678.0" dy="15.0">status, sourcefile, sourceline, coverage and dependencies —</tspan>
+<tspan x="678.0" dy="15.0">parseable by stdlib xml.etree, with CI exit codes 0/1/2.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">no UI · no write-back · no release or board concept.</tspan>
+</text>
+<text x="1320.0" y="740.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the XML report is good</tspan>
+<tspan x="1320.0" dy="15.0">and a stdlib script can</tspan>
+<tspan x="1320.0" dy="15.0">read it.</tspan>
+</text>
+<polyline points="960.0,891.0 960.0,925.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="925.0" x2="954.3" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="925.0" x2="965.7" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="957.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="950.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">VERDICT</tspan>
+</text>
+<rect x="660.0" y="925.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="960.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Against the producer&#x27;s three MUST criteria</tspan>
+</text>
+<text x="678.0" y="1005.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">ID GRAMMAR IS FIXED: artifacttype~name~revision, and names must</tspan>
+<tspan x="678.0" dy="15.0">start with a unicode letter. FUN-001 and UX-001 are NOT</tspan>
+<tspan x="678.0" dy="15.0">EXPRESSIBLE AT ALL. even FUN~001~1 is illegal.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">lifecycle is a closed set of four — draft, proposed, approved,</tspan>
+<tspan x="678.0" dy="15.0">rejected — with no extension point. Depends exists but is INERT:</tspan>
+<tspan x="678.0" dy="15.0">the docs say it &#x27;has no effect on the coverage&#x27;.</tspan>
+</text>
+<text x="1320.0" y="941.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">worth stealing anyway:</tspan>
+<tspan x="1320.0" dy="15.0">writing an OFT tag costs</tspan>
+<tspan x="1320.0" dy="15.0">nothing — # [impl-&gt;dsn~x~1]</tspan>
+<tspan x="1320.0" dy="15.0">is a plain comment. only</tspan>
+<tspan x="1320.0" dy="15.0">CHECKING needs the JVM,</tspan>
+<tspan x="1320.0" dy="15.0">so Kerd could adopt the</tspan>
+<tspan x="1320.0" dy="15.0">convention and write its</tspan>
+<tspan x="1320.0" dy="15.0">own stdlib checker.</tspan>
+</text>
+</svg>

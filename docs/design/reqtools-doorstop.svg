@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1558" height="1068" viewBox="260 40 1558 1068">
+<rect x="260" y="40" width="1558" height="1068" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DOORSTOP — one file per requirement, and referential integrity that actually refuses</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">LGPLv3 · v3.2 · the closest external fit, killed by arithmetic rather than opinion</tspan>
+<tspan x="300.0" dy="18.8">TECH-008 the same files  ·  NFR-004 no scatter  ·  TECH-007 git + Claude Code native</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">STORE</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Where a requirement actually lives</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">one DIRECTORY per document, one FILE per requirement, one</tspan>
+<tspan x="678.0" dy="15.0">.doorstop.yml per directory. the UID is not inside the file —</tspan>
+<tspan x="678.0" dy="15.0">it IS the filename.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">item format is YAML, or markdown with YAML frontmatter. a</tspan>
+<tspan x="678.0" dy="15.0">stdlib-only Python script parsed every field with PyYAML NOT</tspan>
+<tspan x="678.0" dy="15.0">installed, so there is genuinely no lock-in.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the markdown itemformat</tspan>
+<tspan x="1320.0" dy="15.0">is the idea worth</tspan>
+<tspan x="1320.0" dy="15.0">stealing: frontmatter +</tspan>
+<tspan x="1320.0" dy="15.0">body is exactly &#x27;read by</tspan>
+<tspan x="1320.0" dy="15.0">a person, parsed by a</tspan>
+<tspan x="1320.0" dy="15.0">tool&#x27;.</tspan>
+</text>
+<polyline points="960.0,489.0 960.0,523.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="523.0" x2="954.3" y2="513.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="523.0" x2="965.7" y2="513.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="555.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="548.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">INSTALL</tspan>
+</text>
+<rect x="660.0" y="523.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="558.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What every consuming project must have — measured, not read</tspan>
+</text>
+<text x="678.0" y="603.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">15 transitive distributions.  28 MB.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">bottle · requests · openpyxl · PyYAML · plantuml-markdown.</tspan>
+<tspan x="678.0" dy="15.0">requires Python &gt;=3.10,&lt;3.15 — a ceiling a consuming project</tspan>
+<tspan x="678.0" dy="15.0">does not control.</tspan>
+</text>
+<text x="1320.0" y="539.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the lightest of the five</tspan>
+<tspan x="1320.0" dy="15.0">external options, and</tspan>
+<tspan x="1320.0" dy="15.0">still not nothing.</tspan>
+</text>
+<polyline points="960.0,690.0 960.0,724.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="724.0" x2="954.3" y2="714.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="724.0" x2="965.7" y2="714.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="756.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="749.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GENERATED</tspan>
+</text>
+<rect x="660.0" y="724.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="759.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What appears that nobody wrote by hand</tspan>
+</text>
+<text x="678.0" y="804.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">published HTML; nothing generated needs committing.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">but plain `doorstop` MUTATES the source files — alphabetises keys</tspan>
+<tspan x="678.0" dy="15.0">and injects SHA256 fingerprints — so CI must pass -F. and the web</tspan>
+<tspan x="678.0" dy="15.0">server is read-only bar one number-reservation POST.</tspan>
+</text>
+<text x="1320.0" y="740.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">no release, board,</tspan>
+<tspan x="1320.0" dy="15.0">milestone or grouping</tspan>
+<tspan x="1320.0" dy="15.0">concept exists — grep</tspan>
+<tspan x="1320.0" dy="15.0">confirmed.</tspan>
+</text>
+<polyline points="960.0,891.0 960.0,925.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="925.0" x2="954.3" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="925.0" x2="965.7" y2="915.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="957.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="950.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">VERDICT</tspan>
+</text>
+<rect x="660.0" y="925.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="960.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Against the producer&#x27;s three MUST criteria</tspan>
+</text>
+<text x="678.0" y="1005.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">NFR-004  FAILS ON ARITHMETIC. 4 documents + 5 requirements already</tspan>
+<tspan x="678.0" dy="15.0">         cost 13 tracked files. 20 categories + 31 requirements is</tspan>
+<tspan x="678.0" dy="15.0">         ~65 files across 20 directories, against one register.</tspan>
+<tspan x="678.0" dy="15.0">TECH-008 half-pass — not a parallel STORE, but a parallel LAYOUT:</tspan>
+<tspan x="678.0" dy="15.0">         it cannot annotate docs/product/&lt;slug&gt;.md.</tspan>
+</text>
+<text x="1320.0" y="941.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">the scatter is intrinsic.</tspan>
+<tspan x="1320.0" dy="15.0">file-per-item is HOW it</tspan>
+<tspan x="1320.0" dy="15.0">earns clean diffs; it</tspan>
+<tspan x="1320.0" dy="15.0">cannot be configured</tspan>
+<tspan x="1320.0" dy="15.0">away.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">and values are unvalidated</tspan>
+<tspan x="1320.0" dy="15.0">— state: BANANA passed.</tspan>
+</text>
+</svg>

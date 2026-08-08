@@ -1,0 +1,803 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="5549" height="2418" viewBox="260 40 5549 2418">
+<rect x="260" y="40" width="5549" height="2418" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Requirements traceability — slice 1 design — evaluation matrix</tspan>
+</text>
+<text x="300.0" y="146.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost: × cells, dead option rows, cost-group criteria headers</tspan>
+</text>
+<text x="300.0" y="166.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — reserved for Tony&#x27;s hand annotations, never generated</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — text changed since the last reviewed snapshot</tspan>
+</text>
+<rect x="300.0" y="212.0" width="248.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="273.4" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="424.0" dy="0.0">Option</tspan>
+</text>
+<rect x="560.0" y="212.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">fit</tspan>
+<tspan x="693.5" dy="16.2">The same files</tspan>
+<tspan x="693.5" dy="16.2">(M · the register IS the project&#x27;s</tspan>
+<tspan x="693.5" dy="16.2">own committed files — no parallel</tspan>
+<tspan x="693.5" dy="16.2">store, no export-only copy · w3)</tspan>
+</text>
+<rect x="839.0" y="212.0" width="252.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="965.0" y="232.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="965.0" dy="0.0">fit</tspan>
+<tspan x="965.0" dy="16.2">No artifact scatter</tspan>
+<tspan x="965.0" dy="16.2">(M · requirements live in one</tspan>
+<tspan x="965.0" dy="16.2">declared location; generated</tspan>
+<tspan x="965.0" dy="16.2">output is absent or gitignorable</tspan>
+<tspan x="965.0" dy="16.2">without loss · w3)</tspan>
+</text>
+<rect x="1103.0" y="212.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1232.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1232.5" dy="0.0">fit</tspan>
+<tspan x="1232.5" dy="16.2">Git-repo native</tspan>
+<tspan x="1232.5" dy="16.2">(M · plain text, meaningful line-</tspan>
+<tspan x="1232.5" dy="16.2">level diffs, no binary, no server</tspan>
+<tspan x="1232.5" dy="16.2">needed to read it · w3)</tspan>
+</text>
+<rect x="1374.0" y="212.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1503.5" y="232.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1503.5" dy="0.0">fit</tspan>
+<tspan x="1503.5" dy="16.2">Claude Code friendly</tspan>
+<tspan x="1503.5" dy="16.2">(M · a model reads and WRITES a</tspan>
+<tspan x="1503.5" dy="16.2">requirement with Read/Edit alone,</tspan>
+<tspan x="1503.5" dy="16.2">no tool invocation in the capture</tspan>
+<tspan x="1503.5" dy="16.2">path · w3)</tspan>
+</text>
+<rect x="1645.0" y="212.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1778.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1778.5" dy="0.0">fit</tspan>
+<tspan x="1778.5" dy="16.2">Belongs to the consuming project</tspan>
+<tspan x="1778.5" dy="16.2">(M · the register lives in the</tspan>
+<tspan x="1778.5" dy="16.2">user&#x27;s repo and Kerd holds none of</tspan>
+<tspan x="1778.5" dy="16.2">its own · w3)</tspan>
+</text>
+<rect x="1924.0" y="212.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2057.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2057.5" dy="0.0">readability</tspan>
+<tspan x="2057.5" dy="16.2">Human-readable with no tooling</tspan>
+<tspan x="2057.5" dy="16.2">(M · a person opening the raw file</tspan>
+<tspan x="2057.5" dy="16.2">in git understands a requirement</tspan>
+<tspan x="2057.5" dy="16.2">without installing anything · w2)</tspan>
+</text>
+<rect x="2203.0" y="212.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2332.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2332.5" dy="0.0">readability</tspan>
+<tspan x="2332.5" dy="16.2">Machine-readable by stdlib</tspan>
+<tspan x="2332.5" dy="16.2">(M · a stdlib-only Python script</tspan>
+<tspan x="2332.5" dy="16.2">parses the register with the tool</tspan>
+<tspan x="2332.5" dy="16.2">NOT installed · w2)</tspan>
+</text>
+<rect x="2474.0" y="212.0" width="281.0" height="113.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2614.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2614.5" dy="0.0">cost</tspan>
+<tspan x="2614.5" dy="16.2">Install burden on consuming projects</tspan>
+<tspan x="2614.5" dy="16.2">(M · what every project using Kerd</tspan>
+<tspan x="2614.5" dy="16.2">must install; target is nothing</tspan>
+<tspan x="2614.5" dy="16.2">beyond Python 3 stdlib · w2)</tspan>
+</text>
+<rect x="2767.0" y="212.0" width="252.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2893.0" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2893.0" dy="0.0">expressiveness</tspan>
+<tspan x="2893.0" dy="16.2">The producer&#x27;s ID format</tspan>
+<tspan x="2893.0" dy="16.2">(M · `&lt;CODE&gt;-&lt;NNN&gt;` across all</tspan>
+<tspan x="2893.0" dy="16.2">twenty codes, including the two-</tspan>
+<tspan x="2893.0" dy="16.2">letter `UX-001` · w2)</tspan>
+</text>
+<rect x="3031.0" y="212.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3164.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3164.5" dy="0.0">expressiveness</tspan>
+<tspan x="3164.5" dy="16.2">The twenty-category taxonomy</tspan>
+<tspan x="3164.5" dy="16.2">(M · discipline categories as a</tspan>
+<tspan x="3164.5" dy="16.2">first-class field, extensible, not</tspan>
+<tspan x="3164.5" dy="16.2">invented per project · w2)</tspan>
+</text>
+<rect x="3310.0" y="212.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3439.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3439.5" dy="0.0">expressiveness</tspan>
+<tspan x="3439.5" dy="16.2">The five-state lifecycle</tspan>
+<tspan x="3439.5" dy="16.2">(M · proposed / qualified / final</tspan>
+<tspan x="3439.5" dy="16.2">/ superseded / dropped as a</tspan>
+<tspan x="3439.5" dy="16.2">closed, validated set · w2)</tspan>
+</text>
+<rect x="3581.0" y="212.0" width="252.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3707.0" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3707.0" dy="0.0">doctrine</tspan>
+<tspan x="3707.0" dy="16.2">Refusal from outside the model</tspan>
+<tspan x="3707.0" dy="16.2">(M · a malformed or incomplete</tspan>
+<tspan x="3707.0" dy="16.2">register fails a run — not a</tspan>
+<tspan x="3707.0" dy="16.2">warning a model may ignore · w3)</tspan>
+</text>
+<rect x="3845.0" y="212.0" width="288.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3989.0" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3989.0" dy="0.0">expressiveness</tspan>
+<tspan x="3989.0" dy="16.2">Requirement-to-requirement dependency</tspan>
+<tspan x="3989.0" dy="16.2">(D · one requirement declares its</tspan>
+<tspan x="3989.0" dy="16.2">dependency on another ID, and a</tspan>
+<tspan x="3989.0" dy="16.2">dangling link is refused · w2)</tspan>
+</text>
+<rect x="4145.0" y="212.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4274.5" y="232.8" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4274.5" dy="0.0">expressiveness</tspan>
+<tspan x="4274.5" dy="16.2">Category disposition</tspan>
+<tspan x="4274.5" dy="16.2">(D · all twenty categories</tspan>
+<tspan x="4274.5" dy="16.2">declared `applies` or `n/a`-with-</tspan>
+<tspan x="4274.5" dy="16.2">reason; an omission is refused ·</tspan>
+<tspan x="4274.5" dy="16.2">w2)</tspan>
+</text>
+<rect x="4416.0" y="212.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4549.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4549.5" dy="0.0">expressiveness</tspan>
+<tspan x="4549.5" dy="16.2">Forward trace to code and tests</tspan>
+<tspan x="4549.5" dy="16.2">(D · a requirement links to the</tspan>
+<tspan x="4549.5" dy="16.2">commit or test that satisfies it ·</tspan>
+<tspan x="4549.5" dy="16.2">w1)</tspan>
+</text>
+<rect x="4695.0" y="212.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4828.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4828.5" dy="0.0">destination</tspan>
+<tspan x="4828.5" dy="16.2">Release grouping</tspan>
+<tspan x="4828.5" dy="16.2">(D · requirements group into named</tspan>
+<tspan x="4828.5" dy="16.2">releases as a first-class artifact</tspan>
+<tspan x="4828.5" dy="16.2">· w1)</tspan>
+</text>
+<rect x="4974.0" y="212.0" width="267.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5107.5" y="249.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5107.5" dy="0.0">destination</tspan>
+<tspan x="5107.5" dy="16.2">Generated human view</tspan>
+<tspan x="5107.5" dy="16.2">(D · an HTML view derived from the</tspan>
+<tspan x="5107.5" dy="16.2">files, not hand-built · w1)</tspan>
+</text>
+<rect x="5253.0" y="212.0" width="259.0" height="113.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5382.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5382.5" dy="0.0">destination</tspan>
+<tspan x="5382.5" dy="16.2">Write-back editing</tspan>
+<tspan x="5382.5" dy="16.2">(D · a human changes a</tspan>
+<tspan x="5382.5" dy="16.2">requirement&#x27;s state from the view</tspan>
+<tspan x="5382.5" dy="16.2">and it lands in the files · w1)</tspan>
+</text>
+<rect x="5524.0" y="212.0" width="245.0" height="113.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5646.5" y="240.9" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5646.5" dy="0.0">cost</tspan>
+<tspan x="5646.5" dy="16.2">Maintenance and survival</tspan>
+<tspan x="5646.5" dy="16.2">(D · actively maintained, or so</tspan>
+<tspan x="5646.5" dy="16.2">simple that abandonment costs</tspan>
+<tspan x="5646.5" dy="16.2">nothing · w2)</tspan>
+</text>
+<rect x="300.0" y="335.0" width="248.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="424.0" y="355.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="424.0" dy="0.0">Build — A markdown register in the</tspan>
+<tspan x="424.0" dy="15.0">consuming project, checked by two</tspan>
+<tspan x="424.0" dy="15.0">new rules on the existing gate</tspan>
+<tspan x="424.0" dy="15.0">audit</tspan>
+<tspan x="424.0" dy="15.0">PREFERRED</tspan>
+</text>
+<rect x="560.0" y="335.0" width="267.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="693.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">○</tspan>
+</text>
+<rect x="839.0" y="335.0" width="252.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="965.0" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="965.0" dy="0.0">○</tspan>
+</text>
+<rect x="1103.0" y="335.0" width="259.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1232.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1232.5" dy="0.0">○</tspan>
+</text>
+<rect x="1374.0" y="335.0" width="259.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1503.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1503.5" dy="0.0">○</tspan>
+</text>
+<rect x="1645.0" y="335.0" width="267.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="1778.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="1778.5" dy="0.0">△</tspan>
+</text>
+<rect x="1924.0" y="335.0" width="267.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2057.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2057.5" dy="0.0">○</tspan>
+</text>
+<rect x="2203.0" y="335.0" width="259.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2332.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2332.5" dy="0.0">○</tspan>
+</text>
+<rect x="2474.0" y="335.0" width="281.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2614.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2614.5" dy="0.0">○</tspan>
+</text>
+<rect x="2767.0" y="335.0" width="252.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="2893.0" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="2893.0" dy="0.0">○</tspan>
+</text>
+<rect x="3031.0" y="335.0" width="267.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3164.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3164.5" dy="0.0">○</tspan>
+</text>
+<rect x="3310.0" y="335.0" width="259.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3439.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3439.5" dy="0.0">○</tspan>
+</text>
+<rect x="3581.0" y="335.0" width="252.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3707.0" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3707.0" dy="0.0">△</tspan>
+</text>
+<rect x="3845.0" y="335.0" width="288.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="3989.0" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="3989.0" dy="0.0">○</tspan>
+</text>
+<rect x="4145.0" y="335.0" width="259.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4274.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4274.5" dy="0.0">○</tspan>
+</text>
+<rect x="4416.0" y="335.0" width="267.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="4549.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4549.5" dy="0.0">△</tspan>
+</text>
+<rect x="4695.0" y="335.0" width="267.0" height="91.0" rx="8" fill="#e9ecef" stroke="#e03131" stroke-width="1"/>
+<text x="4828.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4828.5" dy="0.0">×</tspan>
+</text>
+<rect x="4974.0" y="335.0" width="267.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5107.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5107.5" dy="0.0">○</tspan>
+</text>
+<rect x="5253.0" y="335.0" width="259.0" height="91.0" rx="8" fill="#e9ecef" stroke="#e03131" stroke-width="1"/>
+<text x="5382.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5382.5" dy="0.0">×</tspan>
+</text>
+<rect x="5524.0" y="335.0" width="245.0" height="91.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="5646.5" y="385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="5646.5" dy="0.0">○</tspan>
+</text>
+<rect x="300.0" y="436.0" width="248.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="424.0" y="456.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="424.0" dy="0.0">StrictDoc — Apache-2.0 Python</tspan>
+<tspan x="424.0" dy="15.0">requirements tool; `.sdoc` files,</tspan>
+<tspan x="424.0" dy="15.0">HTML/JSON/Excel/ReqIF export, and</tspan>
+<tspan x="424.0" dy="15.0">a local web UI that writes back to</tspan>
+<tspan x="424.0" dy="15.0">source</tspan>
+</text>
+<rect x="560.0" y="436.0" width="267.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="693.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">△</tspan>
+</text>
+<rect x="839.0" y="436.0" width="252.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="965.0" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="965.0" dy="0.0">○</tspan>
+</text>
+<rect x="1103.0" y="436.0" width="259.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1232.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1232.5" dy="0.0">○</tspan>
+</text>
+<rect x="1374.0" y="436.0" width="259.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1503.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1503.5" dy="0.0">○</tspan>
+</text>
+<rect x="1645.0" y="436.0" width="267.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1778.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1778.5" dy="0.0">○</tspan>
+</text>
+<rect x="1924.0" y="436.0" width="267.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2057.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2057.5" dy="0.0">○</tspan>
+</text>
+<rect x="2203.0" y="436.0" width="259.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2332.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2332.5" dy="0.0">△</tspan>
+</text>
+<rect x="2474.0" y="436.0" width="281.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2614.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2614.5" dy="0.0">×</tspan>
+</text>
+<rect x="2767.0" y="436.0" width="252.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2893.0" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2893.0" dy="0.0">○</tspan>
+</text>
+<rect x="3031.0" y="436.0" width="267.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3164.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3164.5" dy="0.0">○</tspan>
+</text>
+<rect x="3310.0" y="436.0" width="259.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3439.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3439.5" dy="0.0">○</tspan>
+</text>
+<rect x="3581.0" y="436.0" width="252.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3707.0" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3707.0" dy="0.0">○</tspan>
+</text>
+<rect x="3845.0" y="436.0" width="288.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3989.0" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3989.0" dy="0.0">○</tspan>
+</text>
+<rect x="4145.0" y="436.0" width="259.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4274.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4274.5" dy="0.0">△</tspan>
+</text>
+<rect x="4416.0" y="436.0" width="267.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4549.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4549.5" dy="0.0">○</tspan>
+</text>
+<rect x="4695.0" y="436.0" width="267.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4828.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4828.5" dy="0.0">×</tspan>
+</text>
+<rect x="4974.0" y="436.0" width="267.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5107.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5107.5" dy="0.0">○</tspan>
+</text>
+<rect x="5253.0" y="436.0" width="259.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5382.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5382.5" dy="0.0">○</tspan>
+</text>
+<rect x="5524.0" y="436.0" width="245.0" height="91.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5646.5" y="486.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5646.5" dy="0.0">△</tspan>
+</text>
+<rect x="300.0" y="537.0" width="248.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="424.0" y="557.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="424.0" dy="0.0">Doorstop — LGPLv3 Python tool</tspan>
+<tspan x="424.0" dy="15.0">storing one YAML-or-markdown file</tspan>
+<tspan x="424.0" dy="15.0">per requirement in a linked</tspan>
+<tspan x="424.0" dy="15.0">document tree</tspan>
+</text>
+<rect x="560.0" y="537.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="693.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">△</tspan>
+</text>
+<rect x="839.0" y="537.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="965.0" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="965.0" dy="0.0">×</tspan>
+</text>
+<rect x="1103.0" y="537.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1232.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1232.5" dy="0.0">○</tspan>
+</text>
+<rect x="1374.0" y="537.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1503.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1503.5" dy="0.0">△</tspan>
+</text>
+<rect x="1645.0" y="537.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1778.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1778.5" dy="0.0">○</tspan>
+</text>
+<rect x="1924.0" y="537.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2057.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2057.5" dy="0.0">○</tspan>
+</text>
+<rect x="2203.0" y="537.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2332.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2332.5" dy="0.0">○</tspan>
+</text>
+<rect x="2474.0" y="537.0" width="281.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2614.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2614.5" dy="0.0">×</tspan>
+</text>
+<rect x="2767.0" y="537.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2893.0" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2893.0" dy="0.0">△</tspan>
+</text>
+<rect x="3031.0" y="537.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3164.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3164.5" dy="0.0">△</tspan>
+</text>
+<rect x="3310.0" y="537.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3439.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3439.5" dy="0.0">△</tspan>
+</text>
+<rect x="3581.0" y="537.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3707.0" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3707.0" dy="0.0">○</tspan>
+</text>
+<rect x="3845.0" y="537.0" width="288.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3989.0" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3989.0" dy="0.0">○</tspan>
+</text>
+<rect x="4145.0" y="537.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4274.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4274.5" dy="0.0">△</tspan>
+</text>
+<rect x="4416.0" y="537.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4549.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4549.5" dy="0.0">△</tspan>
+</text>
+<rect x="4695.0" y="537.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4828.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4828.5" dy="0.0">×</tspan>
+</text>
+<rect x="4974.0" y="537.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5107.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5107.5" dy="0.0">○</tspan>
+</text>
+<rect x="5253.0" y="537.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5382.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5382.5" dy="0.0">×</tspan>
+</text>
+<rect x="5524.0" y="537.0" width="245.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5646.5" y="579.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5646.5" dy="0.0">△</tspan>
+</text>
+<rect x="300.0" y="623.0" width="248.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="424.0" y="643.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="424.0" dy="0.0">SphinxNeeds — MIT Sphinx extension</tspan>
+<tspan x="424.0" dy="15.0">defining requirements as</tspan>
+<tspan x="424.0" dy="15.0">directives inside prose documents,</tspan>
+<tspan x="424.0" dy="15.0">with filtering and reporting</tspan>
+</text>
+<rect x="560.0" y="623.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="693.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">×</tspan>
+</text>
+<rect x="839.0" y="623.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="965.0" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="965.0" dy="0.0">×</tspan>
+</text>
+<rect x="1103.0" y="623.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1232.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1232.5" dy="0.0">△</tspan>
+</text>
+<rect x="1374.0" y="623.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1503.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1503.5" dy="0.0">△</tspan>
+</text>
+<rect x="1645.0" y="623.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1778.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1778.5" dy="0.0">○</tspan>
+</text>
+<rect x="1924.0" y="623.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2057.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2057.5" dy="0.0">○</tspan>
+</text>
+<rect x="2203.0" y="623.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2332.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2332.5" dy="0.0">○</tspan>
+</text>
+<rect x="2474.0" y="623.0" width="281.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2614.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2614.5" dy="0.0">×</tspan>
+</text>
+<rect x="2767.0" y="623.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2893.0" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2893.0" dy="0.0">○</tspan>
+</text>
+<rect x="3031.0" y="623.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3164.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3164.5" dy="0.0">○</tspan>
+</text>
+<rect x="3310.0" y="623.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3439.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3439.5" dy="0.0">○</tspan>
+</text>
+<rect x="3581.0" y="623.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3707.0" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3707.0" dy="0.0">○</tspan>
+</text>
+<rect x="3845.0" y="623.0" width="288.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3989.0" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3989.0" dy="0.0">○</tspan>
+</text>
+<rect x="4145.0" y="623.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4274.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4274.5" dy="0.0">△</tspan>
+</text>
+<rect x="4416.0" y="623.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4549.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4549.5" dy="0.0">△</tspan>
+</text>
+<rect x="4695.0" y="623.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4828.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4828.5" dy="0.0">△</tspan>
+</text>
+<rect x="4974.0" y="623.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5107.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5107.5" dy="0.0">○</tspan>
+</text>
+<rect x="5253.0" y="623.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5382.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5382.5" dy="0.0">×</tspan>
+</text>
+<rect x="5524.0" y="623.0" width="245.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5646.5" y="665.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5646.5" dy="0.0">○</tspan>
+</text>
+<rect x="300.0" y="709.0" width="248.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="424.0" y="729.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="424.0" dy="0.0">OpenFastTrace — GPL-3.0 Java</tspan>
+<tspan x="424.0" dy="15.0">requirement tracer reading</tspan>
+<tspan x="424.0" dy="15.0">markdown specifications and</tspan>
+<tspan x="424.0" dy="15.0">linking them to annotated code</tspan>
+</text>
+<rect x="560.0" y="709.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="693.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">×</tspan>
+</text>
+<rect x="839.0" y="709.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="965.0" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="965.0" dy="0.0">○</tspan>
+</text>
+<rect x="1103.0" y="709.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1232.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1232.5" dy="0.0">○</tspan>
+</text>
+<rect x="1374.0" y="709.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1503.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1503.5" dy="0.0">○</tspan>
+</text>
+<rect x="1645.0" y="709.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1778.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1778.5" dy="0.0">○</tspan>
+</text>
+<rect x="1924.0" y="709.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2057.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2057.5" dy="0.0">○</tspan>
+</text>
+<rect x="2203.0" y="709.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2332.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2332.5" dy="0.0">○</tspan>
+</text>
+<rect x="2474.0" y="709.0" width="281.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2614.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2614.5" dy="0.0">×</tspan>
+</text>
+<rect x="2767.0" y="709.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2893.0" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2893.0" dy="0.0">×</tspan>
+</text>
+<rect x="3031.0" y="709.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3164.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3164.5" dy="0.0">△</tspan>
+</text>
+<rect x="3310.0" y="709.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3439.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3439.5" dy="0.0">×</tspan>
+</text>
+<rect x="3581.0" y="709.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3707.0" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3707.0" dy="0.0">○</tspan>
+</text>
+<rect x="3845.0" y="709.0" width="288.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3989.0" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3989.0" dy="0.0">△</tspan>
+</text>
+<rect x="4145.0" y="709.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4274.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4274.5" dy="0.0">×</tspan>
+</text>
+<rect x="4416.0" y="709.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4549.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4549.5" dy="0.0">○</tspan>
+</text>
+<rect x="4695.0" y="709.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4828.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4828.5" dy="0.0">×</tspan>
+</text>
+<rect x="4974.0" y="709.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5107.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5107.5" dy="0.0">○</tspan>
+</text>
+<rect x="5253.0" y="709.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5382.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5382.5" dy="0.0">×</tspan>
+</text>
+<rect x="5524.0" y="709.0" width="245.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5646.5" y="751.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5646.5" dy="0.0">○</tspan>
+</text>
+<rect x="300.0" y="795.0" width="248.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="424.0" y="815.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="424.0" dy="0.0">Reqflow — GPLv2+ C++ tracer that</tspan>
+<tspan x="424.0" dy="15.0">finds requirements by regex inside</tspan>
+<tspan x="424.0" dy="15.0">existing documents and reports</tspan>
+<tspan x="424.0" dy="15.0">coverage</tspan>
+</text>
+<rect x="560.0" y="795.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="693.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="693.5" dy="0.0">×</tspan>
+</text>
+<rect x="839.0" y="795.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="965.0" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="965.0" dy="0.0">○</tspan>
+</text>
+<rect x="1103.0" y="795.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1232.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1232.5" dy="0.0">○</tspan>
+</text>
+<rect x="1374.0" y="795.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1503.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1503.5" dy="0.0">×</tspan>
+</text>
+<rect x="1645.0" y="795.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="1778.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="1778.5" dy="0.0">○</tspan>
+</text>
+<rect x="1924.0" y="795.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2057.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2057.5" dy="0.0">×</tspan>
+</text>
+<rect x="2203.0" y="795.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2332.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2332.5" dy="0.0">×</tspan>
+</text>
+<rect x="2474.0" y="795.0" width="281.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2614.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2614.5" dy="0.0">×</tspan>
+</text>
+<rect x="2767.0" y="795.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="2893.0" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="2893.0" dy="0.0">○</tspan>
+</text>
+<rect x="3031.0" y="795.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3164.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3164.5" dy="0.0">×</tspan>
+</text>
+<rect x="3310.0" y="795.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3439.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3439.5" dy="0.0">×</tspan>
+</text>
+<rect x="3581.0" y="795.0" width="252.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3707.0" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3707.0" dy="0.0">×</tspan>
+</text>
+<rect x="3845.0" y="795.0" width="288.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="3989.0" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="3989.0" dy="0.0">△</tspan>
+</text>
+<rect x="4145.0" y="795.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4274.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4274.5" dy="0.0">×</tspan>
+</text>
+<rect x="4416.0" y="795.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4549.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4549.5" dy="0.0">○</tspan>
+</text>
+<rect x="4695.0" y="795.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="4828.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="4828.5" dy="0.0">×</tspan>
+</text>
+<rect x="4974.0" y="795.0" width="267.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5107.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5107.5" dy="0.0">○</tspan>
+</text>
+<rect x="5253.0" y="795.0" width="259.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5382.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5382.5" dy="0.0">×</tspan>
+</text>
+<rect x="5524.0" y="795.0" width="245.0" height="76.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="5646.5" y="837.5" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="5646.5" dy="0.0">×</tspan>
+</text>
+<text x="300.0" y="919.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">PREFERRED SOLUTION: Build</tspan>
+</text>
+<text x="300.0" y="951.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Build · Belongs to the consuming project · `gate.py --root &lt;path&gt;`, defaulting to</tspan>
+<tspan x="300.0" dy="15.0">`kit.ROOT` so every existing invocation is byte-identical; the library already takes</tspan>
+<tspan x="300.0" dy="15.0">`root` as a parameter everywhere, so only the CLI entry point pins it · permanent · high —</tspan>
+<tspan x="300.0" dy="15.0">`kit.py:22-24`&#x27;s own comment says the CLI passes ROOT and the selftest passes a temp tree,</tspan>
+<tspan x="300.0" dy="15.0">so the parameterisation is proven · —</tspan>
+</text>
+<text x="300.0" y="1038.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Build · Refusal from outside the model · ship the checker in `tools/`, which the plugin</tspan>
+<tspan x="300.0" dy="15.0">cache already carries, and give it a locatable entry point so a consuming project&#x27;s own CI</tspan>
+<tspan x="300.0" dy="15.0">can invoke it · temporary · low — `${CLAUDE_PLUGIN_ROOT}` is expanded nowhere in this repo</tspan>
+<tspan x="300.0" dy="15.0">and `$CLAUDE_PROJECT_DIR` measured unset in the tool environment; the script-location half</tspan>
+<tspan x="300.0" dy="15.0">is genuinely undesigned · the first consuming project that runs the audit against itself,</tspan>
+<tspan x="300.0" dy="15.0">or the first release that ships a locatable entry point</tspan>
+</text>
+<text x="300.0" y="1140.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Build · Forward trace to code and tests · adopt OpenFastTrace&#x27;s comment-tag convention and</tspan>
+<tspan x="300.0" dy="15.0">check it with a stdlib parser; the `Piece:` trailer already carries the commit end of the</tspan>
+<tspan x="300.0" dy="15.0">chain · temporary · medium — the trailer shipped at v0.91.0 and has never been written, so</tspan>
+<tspan x="300.0" dy="15.0">the mechanism is built but unproven · the first work commit that should carry a trailer</tspan>
+<tspan x="300.0" dy="15.0">and does not</tspan>
+</text>
+<text x="300.0" y="1227.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">StrictDoc · The same files · adopt the `.sdoc` format without requiring the tool — the</tspan>
+<tspan x="300.0" dy="15.0">files stay plain text and readable, and StrictDoc becomes optional producer-side tooling</tspan>
+<tspan x="300.0" dy="15.0">over them · permanent · medium — byte-for-byte round-trip was verified, but `.sdoc` is not</tspan>
+<tspan x="300.0" dy="15.0">the project&#x27;s existing markdown and every product doc would need converting · —</tspan>
+</text>
+<text x="300.0" y="1299.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">StrictDoc · Machine-readable by stdlib · write a stdlib parser against `.sdoc` rather than</tspan>
+<tspan x="300.0" dy="15.0">using the JSON export, which requires the tool to run · permanent · medium — the format is</tspan>
+<tspan x="300.0" dy="15.0">regular enough to parse, but this is work the adoption was meant to avoid · —</tspan>
+</text>
+<text x="300.0" y="1356.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">StrictDoc · Category disposition · declare disposition as a custom grammar field and check</tspan>
+<tspan x="300.0" dy="15.0">completeness with Kerd&#x27;s own checker · permanent · high — custom grammar fields are a</tspan>
+<tspan x="300.0" dy="15.0">documented, working feature · —</tspan>
+</text>
+<text x="300.0" y="1413.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">StrictDoc · Maintenance and survival · pin the version and keep the register readable</tspan>
+<tspan x="300.0" dy="15.0">without the tool, so abandonment costs only the viewer · permanent · medium — two-person</tspan>
+<tspan x="300.0" dy="15.0">project, pre-1.0, with a documented history of breaking format migrations · —</tspan>
+</text>
+<text x="300.0" y="1470.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The same files · accept the `reqs/**/` tree as the register&#x27;s declared home</tspan>
+<tspan x="300.0" dy="15.0">rather than annotating existing product docs · permanent · low — it is a parallel layout</tspan>
+<tspan x="300.0" dy="15.0">by design and cannot annotate `docs/product/&lt;slug&gt;.md` at all · —</tspan>
+</text>
+<text x="300.0" y="1527.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · Claude Code friendly · give the model the exact filename convention and the</tspan>
+<tspan x="300.0" dy="15.0">per-document `.doorstop.yml`, so capture is a Write to a computable path · permanent ·</tspan>
+<tspan x="300.0" dy="15.0">medium — the UID is the filename, so the model must compute the next free number before</tspan>
+<tspan x="300.0" dy="15.0">writing · —</tspan>
+</text>
+<text x="300.0" y="1599.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The producer&#x27;s ID format · pass `-s -` on every document creation; the default</tspan>
+<tspan x="300.0" dy="15.0">separator is empty and yields `UX001` · permanent · high — verified hands-on, `FUN-001`</tspan>
+<tspan x="300.0" dy="15.0">and `UX-001` both produced verbatim · —</tspan>
+</text>
+<text x="300.0" y="1656.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The twenty-category taxonomy · model the twenty categories as one document each</tspan>
+<tspan x="300.0" dy="15.0">under a single synthetic root, since a second root document is rejected · permanent · low</tspan>
+<tspan x="300.0" dy="15.0">— the tree is single-rooted by design and a flat taxonomy is not expressible natively · —</tspan>
+</text>
+<text x="300.0" y="1713.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · The five-state lifecycle · validate the state field with Kerd&#x27;s own checker,</tspan>
+<tspan x="300.0" dy="15.0">because Doorstop does not validate custom attribute values · permanent · high — `state:</tspan>
+<tspan x="300.0" dy="15.0">BANANA_NOT_A_LIFECYCLE_STATE` passed the strictest run, so the gap is measured and the fix</tspan>
+<tspan x="300.0" dy="15.0">is ours · —</tspan>
+</text>
+<text x="300.0" y="1785.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · Category disposition · a custom `disposition` attribute plus a Kerd-side</tspan>
+<tspan x="300.0" dy="15.0">completeness check · permanent · high — custom attributes are preserved and can carry per-</tspan>
+<tspan x="300.0" dy="15.0">document defaults · —</tspan>
+</text>
+<text x="300.0" y="1842.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · Forward trace to code and tests · use `links:` to a synthetic implementation</tspan>
+<tspan x="300.0" dy="15.0">document, or fall back to the `Piece:` trailer · temporary · low — `links:` is designed</tspan>
+<tspan x="300.0" dy="15.0">for document-tier tracing, not for pointing at source files · the first requirement that</tspan>
+<tspan x="300.0" dy="15.0">needs to name the commit that satisfied it</tspan>
+</text>
+<text x="300.0" y="1914.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Doorstop · Maintenance and survival · pin the version; the source files are plain text and</tspan>
+<tspan x="300.0" dy="15.0">parse without the tool · permanent · medium — alive and released four days before</tspan>
+<tspan x="300.0" dy="15.0">evaluation, but effectively one maintainer · —</tspan>
+</text>
+<text x="300.0" y="1971.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SphinxNeeds · Git-repo native · gitignore `_build/` and publish the HTML from CI rather</tspan>
+<tspan x="300.0" dy="15.0">than committing it · permanent · medium — works, but the shareable artifact then requires</tspan>
+<tspan x="300.0" dy="15.0">hosting that does not exist today · —</tspan>
+</text>
+<text x="300.0" y="2028.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SphinxNeeds · Claude Code friendly · author in MyST markdown rather than RST so a model</tspan>
+<tspan x="300.0" dy="15.0">edits ordinary prose · permanent · medium — MyST is a further install on top of an already</tspan>
+<tspan x="300.0" dy="15.0">heavy toolchain · —</tspan>
+</text>
+<text x="300.0" y="2085.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SphinxNeeds · Category disposition · a custom `needs_extra_options` field plus a Kerd-side</tspan>
+<tspan x="300.0" dy="15.0">completeness check · permanent · medium — works, but three of the documented options</tspan>
+<tspan x="300.0" dy="15.0">emitted deprecation warnings in 8.3.0 · —</tspan>
+</text>
+<text x="300.0" y="2142.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SphinxNeeds · Forward trace to code and tests · link needs to source via a custom link</tspan>
+<tspan x="300.0" dy="15.0">type and a code-side annotation convention · permanent · medium — link types are a working</tspan>
+<tspan x="300.0" dy="15.0">feature; the code-side convention would be ours to invent · —</tspan>
+</text>
+<text x="300.0" y="2199.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SphinxNeeds · Release grouping · a custom release field plus `needtable` filtering to</tspan>
+<tspan x="300.0" dy="15.0">produce a per-release view · temporary · low — this yields a filtered document, not a</tspan>
+<tspan x="300.0" dy="15.0">board, and the same approach in StrictDoc was ignored by JSON export · the first time a</tspan>
+<tspan x="300.0" dy="15.0">filtered view is asked to reorder or move an item</tspan>
+</text>
+<text x="300.0" y="2271.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OpenFastTrace · The twenty-category taxonomy · use free-form `Tags:` for category, since</tspan>
+<tspan x="300.0" dy="15.0">artifact types are tracing-hierarchy levels rather than an orthogonal taxonomy · permanent</tspan>
+<tspan x="300.0" dy="15.0">· low — tags are unvalidated free text, so the taxonomy would be unenforced · —</tspan>
+</text>
+<text x="300.0" y="2328.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">OpenFastTrace · Requirement-to-requirement dependency · record dependency in `Depends` and</tspan>
+<tspan x="300.0" dy="15.0">read it from the `aspec` XML report · permanent · low — the docs state `Depends` &quot;has no</tspan>
+<tspan x="300.0" dy="15.0">effect on the coverage&quot;, so nothing refuses a dangling one · —</tspan>
+</text>
+<text x="300.0" y="2385.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">Reqflow · Requirement-to-requirement dependency · express dependency through the single</tspan>
+<tspan x="300.0" dy="15.0">untyped covers / covered-by relation · permanent · low — one untyped relation cannot</tspan>
+<tspan x="300.0" dy="15.0">distinguish dependency from coverage · —</tspan>
+</text>
+</svg>

@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1062" viewBox="260 40 1400 1062">
+<rect x="260" y="40" width="1400" height="1062" fill="#ffffff"/>
+<text x="300.0" y="112.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="32" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">SPHINX-NEEDS — the best data model of the six, inside a documentation build</tspan>
+</text>
+<text x="300.0" y="139.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="15" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">MIT · v8.3.0 · validation that genuinely refuses · and 4.6 MB of vendored JavaScript</tspan>
+<tspan x="300.0" dy="18.8">TECH-008 the same files  ·  NFR-004 no scatter  ·  TECH-007 git + Claude Code native</tspan>
+</text>
+<text x="300.0" y="186.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">DECISIONS are dashed  ·  ARTIFACTS are listed right</tspan>
+</text>
+<text x="300.0" y="206.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">RED — cost, or a route that leaves the stage / blocks it</tspan>
+</text>
+<text x="300.0" y="226.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#2f9e44" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">GREEN — Tony&#x27;s input into the work: his annotations, his corrections</tspan>
+</text>
+<text x="300.0" y="246.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#1971c2" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">BLUE — changed since you last marked this reviewed</tspan>
+</text>
+<text x="300.0" y="320.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">1</tspan>
+</text>
+<text x="344.0" y="313.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">STORE</tspan>
+</text>
+<rect x="660.0" y="288.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="323.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Where a requirement actually lives</tspan>
+</text>
+<text x="678.0" y="368.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">requirements live as DIRECTIVES INSIDE prose documents, in RST</tspan>
+<tspan x="678.0" dy="15.0">or markdown-via-MyST.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">the decisive test: Kerd&#x27;s real 14 product docs were copied into a</tspan>
+<tspan x="678.0" dy="15.0">Sphinx tree and built. Sphinx first refused outright for lack of a</tspan>
+<tspan x="678.0" dy="15.0">master document; given one, it discovered ZERO needs.</tspan>
+</text>
+<text x="1320.0" y="304.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">adoption means rewriting</tspan>
+<tspan x="1320.0" dy="15.0">every existing product</tspan>
+<tspan x="1320.0" dy="15.0">doc into directive</tspan>
+<tspan x="1320.0" dy="15.0">syntax.</tspan>
+</text>
+<polyline points="960.0,472.0 960.0,506.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="506.0" x2="954.3" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="506.0" x2="965.7" y2="496.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="538.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">2</tspan>
+</text>
+<text x="344.0" y="531.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">INSTALL</tspan>
+</text>
+<rect x="660.0" y="506.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="541.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What every consuming project must have — measured, not read</tspan>
+</text>
+<text x="678.0" y="586.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">30 distributions / 118 MB — or 35 / 122 MB with MyST for markdown.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">its own diagrams need non-Python binaries: Java + plantuml.jar,</tspan>
+<tspan x="678.0" dy="15.0">or Graphviz. absent them, needflow bakes &#x27;Error: PlantUML is not</tspan>
+<tspan x="678.0" dy="15.0">available!&#x27; into the PUBLISHED HTML rather than failing the build.</tspan>
+</text>
+<text x="1320.0" y="522.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">a silent-corruption mode</tspan>
+<tspan x="1320.0" dy="15.0">in the artifact a human</tspan>
+<tspan x="1320.0" dy="15.0">is meant to read.</tspan>
+</text>
+<polyline points="960.0,673.0 960.0,707.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="707.0" x2="954.3" y2="697.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="707.0" x2="965.7" y2="697.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="739.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">3</tspan>
+</text>
+<text x="344.0" y="732.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">GENERATED</tspan>
+</text>
+<rect x="660.0" y="707.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="742.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">What appears that nobody wrote by hand</tspan>
+</text>
+<text x="678.0" y="787.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">three requirements produced a 5.0 MB, 73-FILE build output.</tspan>
+<tspan x="678.0" dy="15.0">4.6 MB of it is vendored JavaScript the extension ships:</tspan>
+<tspan x="678.0" dy="15.0">DataTables · JSZip · pdfmake · and a Flash .swf.</tspan>
+<tspan x="678.0" dy="15.0"></tspan>
+<tspan x="678.0" dy="15.0">actual content: 48 KB.</tspan>
+</text>
+<text x="1320.0" y="723.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">to share the HTML you</tspan>
+<tspan x="1320.0" dy="15.0">commit that tree, or</tspan>
+<tspan x="1320.0" dy="15.0">stand up hosting.</tspan>
+</text>
+<polyline points="960.0,874.0 960.0,908.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="960.0" y1="908.0" x2="954.3" y2="898.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<line x1="960.0" y1="908.0" x2="965.7" y2="898.6" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
+<text x="300.0" y="940.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="26" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">4</tspan>
+</text>
+<text x="344.0" y="933.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="344.0" dy="0.0">VERDICT</tspan>
+</text>
+<rect x="660.0" y="908.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="960.0" y="943.2" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
+<tspan x="960.0" dy="0.0">Against the producer&#x27;s three MUST criteria</tspan>
+</text>
+<text x="678.0" y="988.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="678.0" dy="0.0">what it DOES do, and no other external option does as well:</tspan>
+<tspan x="678.0" dy="15.0">UX-001 IDs · a five-state enum · custom dependency field ·</tspan>
+<tspan x="678.0" dy="15.0">req-to-req links with automatic backlinks · needtable filtering.</tspan>
+<tspan x="678.0" dy="15.0">and its validation REFUSES — malformed ID, bogus status and</tspan>
+<tspan x="678.0" dy="15.0">dangling dependency all rejected; sphinx-build -W exits 1.</tspan>
+</text>
+<text x="1320.0" y="924.0" font-family="'Segoe Print','Bradley Hand','Chalkboard SE','Comic Sans MS',cursive" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="1320.0" dy="0.0">it would score O on the</tspan>
+<tspan x="1320.0" dy="15.0">doctrine criterion where</tspan>
+<tspan x="1320.0" dy="15.0">Kerd&#x27;s own four hooks</tspan>
+<tspan x="1320.0" dy="15.0">score X.</tspan>
+<tspan x="1320.0" dy="15.0"></tspan>
+<tspan x="1320.0" dy="15.0">needs.json is a BUILD</tspan>
+<tspan x="1320.0" dy="15.0">ARTIFACT — a derived</tspan>
+<tspan x="1320.0" dy="15.0">second copy, which is the</tspan>
+<tspan x="1320.0" dy="15.0">parallel store TECH-008</tspan>
+<tspan x="1320.0" dy="15.0">forbids.</tspan>
+</text>
+</svg>
