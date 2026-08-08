@@ -19,6 +19,39 @@ mandatory.
 *(Drafted from Tony's framing 2026-08-07 and approved by him verbatim: "yes
 thats it".)*
 
+## Annotation round 1 (2026-08-07, on `docs/plans/project-types.excalidraw`)
+
+Tony's annotations on the drawing, verbatim, and what each settles:
+
+> on conducter start, we show the list and ask user to pick STARTING POINT but
+> only if project has not already started.
+
+**The type is declared once, at conductor start, from the floors table below —
+not per work item, and not re-asked once the project is under way.**
+
+> Then we have the correct project type that can increment upon goal achieved
+> to the next appropriate project type and avoid the confusion.
+
+**The type is a project's current STATE, and the goal gate advances it.** This
+answers the open question the drawing posed — whether the type belongs to the
+work item or to the release. It is neither: the project holds one current type,
+every item inherits it, and achieving a goal increments it to the next
+appropriate type (Ideation → Spike → MVP → Pilot → Beta → Full Release →
+Maintenance). **Consequence: movement 5's second cost dissolves.** There is no
+retrofit problem for the twenty existing slugs, because the type was never
+per-slug — nothing needs a type it cannot honestly acquire.
+
+> any not /conductor session does not interact with project funnel and is
+> blocked - needs to be in a /conductor session to proceed.
+>
+> this allows for basic q and a or reports or admin work to be done outside of
+> that funnel flow by users in repo
+
+**Funnel interaction requires a conductor session; everything else stays open.**
+A refusal, not a convention — and one no skill text can enforce on itself, since
+a model choosing to comply is not a check. The layer that can enforce it is a
+hook, which fires outside the model.
+
 These templates sit on top of the stable requirement category scheme:
 
 `BUS`, `STA`, `USR`, `PRD`, `FUN`, `NFR`, `UX`, `TECH`, `INT`, `DATA`,
