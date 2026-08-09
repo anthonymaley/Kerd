@@ -298,36 +298,36 @@ The mechanism must not scatter artifacts
 
 ## UX — UX/UI
 
-### UX-001 — Boxes are never coloured
+### UX-001 — In the evaluation matrix, boxes are never coloured — the mark carries the verdict
 
 **Category**: UX
 **Tags**: FUN
 **State**: final
-**Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
-**Approved**: sha256:78ce341d07d6
+**Source**: 2026-08-08 session — producer's tweaks to the evaluation-matrix render; **scope corrected 21:23 on his statement** "UX-001 was for the eval matrix only", and re-keyed
+**Approved**: sha256:2932b739a162
 
-Boxes are never coloured; the mark carries the verdict — `○` green, `△` yellow, `×` red
+**In the evaluation matrix**, boxes are never coloured; the mark carries the verdict — `○` green, `△` yellow, `×` red
 
 **Links**
 - depends-on → PRD-008 (sha256:31a310b5f422)
 
-### UX-002 — A mark is drawn at 40–50% of the cell it sits in
+### UX-002 — In the evaluation matrix, a mark is drawn at 40–50% of its cell
 
 **Category**: UX
 **State**: final
-**Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
-**Approved**: sha256:0712b78cf41b
+**Source**: 2026-08-08 session — producer's tweaks to the evaluation-matrix render; **scope corrected 21:23 on his statement** "UX-001 was for the eval matrix only", and re-keyed
+**Approved**: sha256:6551ae3e1292
 
-A mark is drawn at 40–50% of the cell it sits in
+**In the evaluation matrix**, a mark is drawn at 40–50% of the cell it sits in
 
-### UX-003 — Column and row headings render as headings
+### UX-003 — In the evaluation matrix, column and row headings render as headings
 
 **Category**: UX
 **State**: final
-**Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
-**Approved**: sha256:9d442f9ed7e6
+**Source**: 2026-08-08 session — producer's tweaks to the evaluation-matrix render; **scope corrected 21:23 on his statement** "UX-001 was for the eval matrix only", and re-keyed
+**Approved**: sha256:cfe0b9ef6e54
 
-Column and row headings render as headings — `GROUP: CRITERION NAME`, `OPTION n: ID`, with the declaration below
+**In the evaluation matrix**, column and row headings render as headings — `GROUP: CRITERION NAME`, `OPTION n: ID`, with the declaration below
 
 ### UX-004 — Diagrams render in a sans-serif font
 
@@ -338,14 +338,14 @@ Column and row headings render as headings — `GROUP: CRITERION NAME`, `OPTION 
 
 Diagrams render in a sans-serif font
 
-### UX-005 — The preferred option's verdict cell is filled green
+### UX-005 — In the evaluation matrix, the preferred option's verdict cell is filled green
 
 **Category**: UX
 **State**: final
-**Source**: 2026-08-07/08 session — `docs/product/requirements-traceability.md`
-**Approved**: sha256:35adaa7c8fd6
+**Source**: 2026-08-08 session — producer's tweaks to the evaluation-matrix render; **scope corrected 21:23 on his statement** "UX-001 was for the eval matrix only", and re-keyed
+**Approved**: sha256:d27c4ceff485
 
-The preferred option's verdict cell is filled green
+**In the evaluation matrix**, the preferred option's verdict cell is filled green
 
 ### UX-006 — The point of a table is to avoid reading lots of text to understand it
 
