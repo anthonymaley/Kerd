@@ -373,6 +373,34 @@ the model's summary of Q1–Q6:**
 
 ---
 
+## What "launch" means — the span of the process
+
+Asked because the goals are bounded by it, and the answer changes how much of
+the process exists.
+
+**Tony, 2026-08-13 17:48 EDT, verbatim:**
+
+> launch: product, feature, document, olan or whatever we are building is ready
+> for use to react to and approve as done or not. i does bring up a thought
+> though, design UI/UX etc needs to be part of the pre build and measurable by
+> the model during build so that the end result is exactly what we expect and we
+> can have an outcome that is launcable - release to customers, send to client
+> etc
+
+**Launch is the approve-as-done moment, not market release.** The thing is ready
+for the producer to react to and rule done. What that produces must itself be
+*releasable* — to customers, to a client — but putting it in front of them is
+outside the span.
+
+**A new requirement surfaced by the question:** design, including UI/UX, is a
+**pre-build artifact that the model measures against during the build**. Not a
+picture reviewed once and set aside — something the build is checked against
+while it runs, so the end result is exactly what was expected and the outcome is
+launchable. This makes the design spec machine-checkable, which is a
+considerably stronger claim than "we drew it and agreed".
+
+---
+
 ## Q6 — Why would someone else want it?
 
 **Tony, 2026-08-13 17:34 EDT, verbatim:**
