@@ -52,6 +52,7 @@ the design.
 
 **High consequence**
 
+- **Verify hooks auto-load fires on this machine — the one open risk on hooks-autoload (v0.96.0).** Shipped and proven from docs + a valid config, but never empirically fired here: the cache is still 0.95.0 (no `hooks.json`). Repin to 0.96.0 (`/plugin` update or reinstall kerd), then a fresh session in the Kerd repo must show `📋 Last session: …` from `session-start.sh` — sourced only from auto-load, since the manual wiring is now stripped. If it does NOT appear, auto-load failed and the fallback is resolved absolute paths (worse, but working). See `docs/product/hooks-autoload.md` risk ledger.
 - **`gate.py --root` — promoted from Medium.** No longer a nice-to-have: it is
   a hard dependency of requirements-traceability slice 1. `tools/gates/kit.py:24`
   derives `ROOT` from the tool's own path, so a consuming project would audit
@@ -83,7 +84,9 @@ the design.
   feasibility question first, verified against harness docs at frame.
 - **Plugin cache repin debt.** Reopened by v0.95.0: the cache was current at
   0.94.0 this afternoon and the repo has since shipped. Structural — the only
-  session running current cache text is one where nothing shipped.
+  session running current cache text is one where nothing shipped. (Narrowed by
+  v0.96.0: this is now about stale *skill text* only — hooks no longer rot with
+  the cache version, they auto-load and resolve `${CLAUDE_PLUGIN_ROOT}` at runtime.)
 - **Stashes and local-equals-remote are unchecked at the boundary.**
 - **The playbook's `## Current Status` duplicates CONTEXT.md.** Its stale
   content was fixed this session (v0.90.0 → v0.95.0, three hooks → four); the
@@ -114,6 +117,11 @@ the design.
 - Hook version staleness check in `/kerd:tend`.
 - PR-event edge in the stale CI step (unexercised; no PR flow).
 - Guard switch-in step 3 smoke test against context bloat.
+- **`tests/hooks_test.sh` behind-upstream test fails environmentally** — `git
+  fetch --dry-run` against the fixture's local bare remote emits no `->` line in
+  this sandbox, so the behind-remote assertion gets an empty message. Fails on
+  HEAD too (pre-existing, not from the v0.96.0 hooks work). Fix the fixture's
+  remote setup or the hook's behind-detection to not depend on fetch dry-run output.
 - **lorg-cut candidate** — evidence check per the rip discipline before any
   license. **Interrogate rides the same review** — and note it now has a second
   caller: requirement qualification is the same shape as risk qualification.
