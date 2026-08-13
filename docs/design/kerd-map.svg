@@ -186,7 +186,7 @@
 <text x="310.0" y="722.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="310.0" dy="0.0">router + refuser:</tspan>
 <tspan x="310.0" dy="15.0">gate table per rung,</tspan>
-<tspan x="310.0" dy="15.0">audit AU1-AU6, release</tspan>
+<tspan x="310.0" dy="15.0">audit AU1-AU8, release</tspan>
 <tspan x="310.0" dy="15.0">rules R1-R3, fidelity</tspan>
 </text>
 <rect x="590.0" y="678.0" width="270.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>

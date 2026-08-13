@@ -162,7 +162,7 @@ normally once it exists; the bypass only covers the spike itself.
 ## Audit
 
 The repo-wide mechanical sweep — `gate.py audit` — is the day-one live
-refusal surface: the six rules below run against the real tree on every
+refusal surface: the rules below run against the real tree on every
 push, not just against a named slug.
 
 | # | Rule |
@@ -173,6 +173,8 @@ push, not just against a named slug.
 | AU4 | Any `docs/**/*.md` whose front matter carries `route` or `stage`: both keys present, both values legal — this validates the front-matter schema against every file that opts into it, including dated spec files like this piece's own contract. |
 | AU5 | `docs/product/*.md` carrying a `## Grounding` section: every `- ` list line must parse as `- <ref> — <why>` (split on the FIRST ` — `, the em-dash separator) and `<ref>` — a path or glob relative to the repo root — must resolve to ≥1 match on disk. Absent section = vacuous pass: declaring grounding is opting in. |
 | AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Release slice` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Release slice` section = vacuous pass. Lines inside ``` fenced code blocks are invisible (a quoted example is content, not a declaration). |
+| AU7 | `docs/requirements/register.md` blocks and states, against the schema `docs/requirements/catalog.md` declares: legal ID (`^[A-Z]{2,4}-\d{3}$`, prefix agreeing with `Category`), no duplicate IDs, an unknown field is a hard error, `State` in the five, `Source` and statement present, `Category`/`Tags` declared `applies`/declared in the project's own `categories.md` (nothing hardcoded — the legal set is per-project; a register without the disposition file is one named problem and category judgments are skipped, not guessed), `final` owes an `Approved` hash that MATCHES the statement — divergence is refused and the state never rewritten — and `Approved` may not ride a non-final block; `superseded` owes its `superseded-by` link. Absent register = vacuous pass. One mechanical limit, stated: `dropped` owes a *reason* in Source; the machine checks only that Source is non-empty. |
+| AU8 | Register links: every `- <role> → <ID> (sha256:<12 hex>)` line must parse, carry a role registered in the catalog grammar (both directions writable), and name an ID that exists. Two catalog rules are non-blocking FINDINGS, in the catalog's own flag-vs-refuse vocabulary: a link stamp diverging from its target's current statement ("flagged for re-look") and a non-origin block with no `refines` parent (aggregated to one line; "a finding, not an error, until slice 2"). Findings print in the audit's text output and never turn it red; the `--json` shape stays a bare problems list. |
 
 Nonexistent directories pass vacuously — a repo that hasn't grown
 `docs/gates/` yet is not thereby in violation of its naming rule.
@@ -233,8 +235,8 @@ followed by `release: <n> problems` (exit 1).
 
 No `setup-python` step — `ubuntu-latest` ships python3 and these tools
 have zero dependencies. Seven things can fail the build; this tool owns
-the first three: the fixture suite (`selftest`, exercising the 26 cases
-against a temp tree), the real repo (`audit`, exercising AU1–AU6 against
+the first three: the fixture suite (`selftest`, exercising the 32 cases
+against a temp tree), the real repo (`audit`, exercising AU1–AU8 against
 the actual `docs/` tree), and the release sweep (`release`, enforcing
 R1–R3 on plugin metadata and living files). The other four belong to the
 progress and matrix tools (see their own READMEs). A dated file dropped into `docs/design/`, a malformed `docs/gates/`

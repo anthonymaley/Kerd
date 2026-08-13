@@ -218,9 +218,11 @@ instead of nodes.
 **`derived` — an origin requirement may have no parent.** `BUS`, `STA` and `USR`
 requirements originate rather than refine; without an explicit allowance every
 such row reads as a broken trace the moment a completeness check exists. A
-requirement in an origin category needs no inbound `refines`; one in any other
-category that has none is a finding, not an error, until slice 2 wires the
-forward half.
+requirement in an origin category needs no `refines` parent; one in any other
+category that declares none is a finding, not an error, until slice 2 wires the
+forward half. *(Wording corrected at the validator's build, 2026-08-13: an
+earlier draft said "inbound `refines`", but the trace a completeness check
+follows is the outbound edge naming your parent — AU8 checks that reading.)*
 
 ## Views
 

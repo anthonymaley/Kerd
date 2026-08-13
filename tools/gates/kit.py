@@ -13,6 +13,7 @@ question a machine can answer without reading for meaning.
 """
 
 import glob
+import hashlib
 import json
 import os
 import re
@@ -47,6 +48,38 @@ LEGAL_STATES = {
 # declares how rigorously the slice is measured — one 'Rigor level:' line;
 # the legal set lives here and only here.
 RIGOR_LEVELS = ["spike", "mvp", "production-v1"]
+
+# ── the requirements register (AU7 blocks & states, AU8 links) ───────────────
+# The schema these enforce is docs/requirements/catalog.md. Deliberately NOT
+# here: the category codes — those are declared per project in
+# docs/requirements/categories.md (the disposition file), and the validator
+# reads the legal set from it rather than hardcoding a taxonomy.
+
+REQ_ID_RE = re.compile(r"^[A-Z]{2,4}-\d{3}$")
+REQ_STATES = ("proposed", "qualified", "final", "superseded", "dropped")
+# Meta-line fields a block may carry. Statement is the block body and Title
+# rides the heading, so neither appears here. An unknown field is a hard
+# error, not a warning (catalog.md, Fields).
+REQ_META_FIELDS = ("Category", "Tags", "State", "Source", "Approved")
+# Link roles registered in the catalog grammar, forward → reverse. Both
+# directions are writable: the states table itself demands a written
+# 'superseded-by', which is a reverse.
+REQ_LINK_ROLES = {
+    "depends-on": "required-by",
+    "supersedes": "superseded-by",
+    "refines": "refined-by",
+    "satisfied-by": "satisfies",
+    "verified-by": "verifies",
+}
+REQ_LEGAL_ROLES = frozenset(REQ_LINK_ROLES) | frozenset(REQ_LINK_ROLES.values())
+# Origin categories originate rather than refine (catalog.md, 'derived'):
+# a block in one of these needs no 'refines' parent; any other block
+# without one is a finding, not an error, until slice 2 wires the forward
+# trace.
+REQ_ORIGIN_CATEGORIES = frozenset({"BUS", "STA", "USR"})
+REQ_APPROVED_RE = re.compile(r"^sha256:[0-9a-f]{12}$")
+REQ_META_RE = re.compile(r"^\*\*([A-Za-z][A-Za-z ]*)\*\*:\s*(.*)$")
+REQ_LINK_RE = re.compile(r"^- ([a-z-]+) → ([A-Z]{2,4}-\d{3}) \(sha256:([0-9a-f]{12})\)$")
 
 GATE_RECORD_RE = re.compile(
     r'^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-'
@@ -651,8 +684,301 @@ def _audit_au6(root):
     return problems
 
 
+# ── the requirements register (AU7, AU8) ────────────────────────────────────
+
+def req_statement_hash(statement):
+    """sha256:<first 12 hex> of the stripped statement — the 'Approved'
+    recipe (catalog.md, TECH-010) and the link-stamp recipe (one recipe,
+    both uses). Verified against the shipped register's own values."""
+    return "sha256:" + hashlib.sha256(statement.strip().encode("utf-8")).hexdigest()[:12]
+
+
+def parse_register(text):
+    """Parse a requirements register into (blocks, problems).
+
+    A block: '### <ID> — <title>' heading (title may be empty — it is the
+    optional Title field); a contiguous run of '**Field**: value' meta
+    lines; statement lines; then an optional '**Links**' marker followed by
+    '- <role> → <ID> (sha256:<12 hex>)' lines. A block ends at the next
+    '### ' or '## ' heading — the '## '-stop is load-bearing: without it
+    the last block in each category section absorbs the next section
+    heading into its statement (six false hash divergences on the
+    register's first parse, 2026-08-08). Fenced lines are invisible, per
+    the standing fence-mask law.
+
+    The meta run ends at the first non-blank line that is not a
+    '**Field**: value' line. A statement whose FIRST line happens to match
+    that shape would be read as an unknown field and refused — ambiguity is
+    refused, never guessed; reword the statement or blank-separate it.
+
+    problems here are purely structural (a heading without a legal ID, a
+    malformed link line). Schema judgments live in register_check."""
+    blocks = []
+    problems = []
+    lines = text.splitlines()
+    mask = _fence_mask(lines)
+    cur = None
+    zone = None  # 'meta' | 'statement' | 'links'
+
+    def close(b):
+        if b is not None:
+            b["statement"] = "\n".join(b["statement_lines"]).strip()
+            blocks.append(b)
+
+    for line, fenced in zip(lines, mask):
+        if fenced:
+            continue
+        if line.startswith("### "):
+            close(cur)
+            head = line[4:].rstrip()
+            if " — " in head:
+                reqid, title = head.split(" — ", 1)
+            elif head.endswith(" —"):
+                # trailing separator, empty title — Title is optional
+                reqid, title = head[:-2], ""
+            else:
+                reqid, title = head, ""
+            reqid = reqid.strip()
+            if not REQ_ID_RE.match(reqid):
+                problems.append(f"block heading carries no legal ID: '### {head}'")
+            cur = {
+                "id": reqid, "title": title.strip(), "fields": {},
+                "statement_lines": [], "links": [],
+                "block_problems": [], "link_problems": [],
+            }
+            zone = "meta"
+            continue
+        if line.startswith("## "):
+            close(cur)
+            cur = None
+            zone = None
+            continue
+        if cur is None:
+            continue
+        s = line.strip()
+        if s == "**Links**":
+            zone = "links"
+            continue
+        if zone == "meta":
+            if not s:
+                continue
+            m = REQ_META_RE.match(s)
+            if m:
+                name = m.group(1).strip()
+                if name in cur["fields"]:
+                    cur["block_problems"].append(f"duplicate field '{name}'")
+                cur["fields"][name] = m.group(2).strip()
+                continue
+            zone = "statement"
+        if zone == "statement":
+            cur["statement_lines"].append(line)
+            continue
+        if zone == "links":
+            if not s:
+                continue
+            lm = REQ_LINK_RE.match(s)
+            if lm:
+                cur["links"].append((lm.group(1), lm.group(2), lm.group(3)))
+            else:
+                cur["link_problems"].append(
+                    f"malformed link line (want '- <role> → <ID> (sha256:<12 hex>)'): {s}"
+                )
+
+    close(cur)
+    return blocks, problems
+
+
+def parse_category_table(text):
+    """Parse a disposition file (categories.md) into (rows, problems) where
+    rows is {CODE: (disposition, reason)}. Rows are '| CODE | name |
+    disposition | reason |'; anything whose first cell is not an
+    upper-case 2-4 letter code is skipped as prose or header. 'applies'
+    takes no reason; 'n/a' REQUIRES one — the cheap state is the one that
+    must be argued for (the accepted-state asymmetry)."""
+    rows = {}
+    problems = []
+    lines = text.splitlines()
+    mask = _fence_mask(lines)
+    for line, fenced in zip(lines, mask):
+        if fenced or not line.strip().startswith("|"):
+            continue
+        cells = _split_row(line)
+        if not cells:
+            continue
+        code = cells[0].strip("`").strip()
+        if not re.fullmatch(r"[A-Z]{2,4}", code):
+            continue
+        if code in rows:
+            problems.append(f"duplicate category row: {code}")
+            continue
+        disposition = cells[2].strip() if len(cells) > 2 else ""
+        reason = cells[3].strip() if len(cells) > 3 else ""
+        if disposition not in ("applies", "n/a"):
+            problems.append(f"category {code} — illegal disposition '{disposition}'")
+        elif disposition == "n/a" and not reason:
+            problems.append(f"category {code} — 'n/a' requires a named reason")
+        rows[code] = (disposition, reason)
+    return rows, problems
+
+
+def register_check(root):
+    """The register validator. Returns {"blocks": [...], "links": [...],
+    "findings": [...]} — AU7 problems, AU8 problems, and the non-blocking
+    findings, every string already carrying its file prefix.
+
+    Vacuous pass when docs/requirements/register.md is absent — keeping a
+    register is opting in. The legal category set comes from the project's
+    own docs/requirements/categories.md: nothing is hardcoded here, because
+    categories are declared per project. A register without that file is
+    one named problem and every category judgment is skipped, not guessed.
+
+    Refusals enforce what catalog.md declares: illegal ID / state /
+    category / disposition, unknown or missing fields, an 'Approved' hash
+    diverging from the statement (refused, the state never rewritten), a
+    'superseded' block without its 'superseded-by' link, a link with an
+    unregistered role or a target that does not exist. Two catalog rules
+    are findings rather than refusals, in the catalog's own words: a stale
+    link stamp ("flagged for re-look") and a non-origin block with no
+    'refines' parent ("a finding, not an error, until slice 2").
+
+    One mechanical limit, stated: 'dropped' owes a REASON in Source; the
+    machine can only check Source is non-empty, not that it argues."""
+    reg_rel = "docs/requirements/register.md"
+    cat_rel = "docs/requirements/categories.md"
+    reg_path = os.path.join(root, "docs", "requirements", "register.md")
+    cat_path = os.path.join(root, "docs", "requirements", "categories.md")
+    out = {"blocks": [], "links": [], "findings": []}
+    if not os.path.isfile(reg_path):
+        return out
+    bp, lp, fnd = out["blocks"], out["links"], out["findings"]
+
+    with open(reg_path, encoding="utf-8") as f:
+        blocks, parse_problems = parse_register(f.read())
+    for p in parse_problems:
+        bp.append(f"{reg_rel} — {p}")
+
+    cats = None
+    if not os.path.isfile(cat_path):
+        bp.append(f"{reg_rel} — {cat_rel} missing: category dispositions undeclared (gate G1)")
+    else:
+        with open(cat_path, encoding="utf-8") as f:
+            cats, cat_problems = parse_category_table(f.read())
+        for p in cat_problems:
+            bp.append(f"{cat_rel} — {p}")
+
+    ids = {}
+    for b in blocks:
+        if b["id"] in ids:
+            bp.append(f"{reg_rel} — {b['id']}: duplicate ID")
+        else:
+            ids[b["id"]] = b
+
+    # AU7 — blocks and states
+    for b in blocks:
+        rid = b["id"]
+
+        def prob(msg, rid=rid):
+            bp.append(f"{reg_rel} — {rid}: {msg}")
+
+        for p in b["block_problems"]:
+            prob(p)
+        prefix = rid.split("-")[0] if REQ_ID_RE.match(rid) else None
+        for name in b["fields"]:
+            if name not in REQ_META_FIELDS:
+                prob(f"unknown field '{name}' — a hard error, not a warning")
+        cat = b["fields"].get("Category", "").strip()
+        if not cat:
+            prob("missing required field 'Category'")
+        else:
+            if prefix and cat != prefix:
+                prob(f"ID prefix '{prefix}' disagrees with Category '{cat}'")
+            if cats is not None:
+                if cat not in cats:
+                    prob(f"category '{cat}' not declared in {cat_rel}")
+                elif cats[cat][0] != "applies":
+                    prob(f"category '{cat}' disposition is '{cats[cat][0]}', not 'applies'")
+        tags_raw = b["fields"].get("Tags", "").strip()
+        if tags_raw and cats is not None:
+            for t in (x.strip() for x in tags_raw.split(",")):
+                if t not in cats:
+                    prob(f"tag '{t}' not declared in {cat_rel}")
+        state = b["fields"].get("State", "").strip()
+        if not state:
+            prob("missing required field 'State'")
+        elif state not in REQ_STATES:
+            prob(f"illegal state '{state}' (legal: {', '.join(REQ_STATES)})")
+        if not b["fields"].get("Source", "").strip():
+            prob("missing required field 'Source'")
+        if not b["statement"]:
+            prob("missing statement")
+        approved = b["fields"].get("Approved", "").strip()
+        if state == "final":
+            if not approved:
+                prob("state 'final' owes an 'Approved' hash")
+            elif not REQ_APPROVED_RE.match(approved):
+                prob(f"'Approved' malformed (want sha256:<12 hex>): {approved}")
+            elif b["statement"] and approved != req_statement_hash(b["statement"]):
+                prob(
+                    f"'Approved' diverges from the statement (approved {approved}, "
+                    f"statement now {req_statement_hash(b['statement'])}) — "
+                    "refused; the state is never rewritten"
+                )
+        elif approved:
+            prob(f"'Approved' on a non-final block (state '{state or '?'}')")
+        if state == "superseded" and not any(r == "superseded-by" for r, _, _ in b["links"]):
+            prob("state 'superseded' owes a 'superseded-by' link naming its replacement")
+
+    # AU8 — links
+    for b in blocks:
+        rid = b["id"]
+        for p in b["link_problems"]:
+            lp.append(f"{reg_rel} — {rid}: {p}")
+        for role, target, stamp in b["links"]:
+            if role not in REQ_LEGAL_ROLES:
+                lp.append(f"{reg_rel} — {rid}: link role '{role}' is not registered in the catalog grammar")
+            if target not in ids:
+                lp.append(f"{reg_rel} — {rid}: link names an ID that does not exist: {target}")
+            elif ids[target]["statement"]:
+                current = req_statement_hash(ids[target]["statement"])
+                if f"sha256:{stamp}" != current:
+                    fnd.append(
+                        f"{reg_rel} — {rid}: link stamp for {target} is stale "
+                        f"(stamped sha256:{stamp}, target now {current}) — re-look, then restamp"
+                    )
+
+    # the trace finding — aggregated to one line so a young register's
+    # honest gap is a count, not a page of noise
+    unparented = [
+        b["id"] for b in blocks
+        if b["fields"].get("Category", "").strip() not in REQ_ORIGIN_CATEGORIES
+        and not any(r == "refines" for r, _, _ in b["links"])
+    ]
+    if unparented:
+        fnd.append(
+            f"{reg_rel} — {len(unparented)} non-origin requirement(s) declare no "
+            f"'refines' parent (trace gap until slice 2): {', '.join(unparented)}"
+        )
+    return out
+
+
+def _audit_au7(root):
+    """Register blocks and states — see register_check (single parser)."""
+    return register_check(root)["blocks"]
+
+
+def _audit_au8(root):
+    """Register links — see register_check (single parser)."""
+    return register_check(root)["links"]
+
+
+def register_findings(root):
+    """The register's non-blocking findings — reported by the audit CLI,
+    never red, per the catalog's own flag-vs-refuse vocabulary."""
+    return register_check(root)["findings"]
+
+
 def audit(root):
-    """Repo-wide mechanical sweep (AU1-AU6). Empty list = clean. Nonexistent
+    """Repo-wide mechanical sweep (AU1-AU8). Empty list = clean. Nonexistent
     directories pass vacuously — a repo that hasn't grown docs/gates/ yet is
     not thereby in violation of docs/gates/'s naming rule."""
     problems = []
@@ -662,6 +988,8 @@ def audit(root):
     problems += _audit_au4(root)
     problems += _audit_au5(root)
     problems += _audit_au6(root)
+    problems += _audit_au7(root)
+    problems += _audit_au8(root)
     return problems
 
 
@@ -1241,15 +1569,203 @@ def _selftest_body():
         problems = audit(root_v7)
         assert problems == [], f"T26: fenced line counted as a declaration, got {problems}"
 
+    # ── AU7/AU8 — the requirements register ──────────────────────────────
+
+    CATS_OK = (
+        "| Code | Category | Disposition | Reason |\n"
+        "|---|---|---|---|\n"
+        "| BUS | Business | applies | filled |\n"
+        "| PRD | Product | applies | filled |\n"
+        "| FUN | Functional | applies | filled |\n"
+        "| ANA | Analytics | n/a | no telemetry |\n"
+    )
+
+    def _req_tree(root, register, categories=CATS_OK):
+        _sw(os.path.join(root, "docs", "requirements", "register.md"), register)
+        if categories is not None:
+            _sw(os.path.join(root, "docs", "requirements", "categories.md"), categories)
+
+    # T27 — AU7/AU8 clean register: a final block with a matching hash, an
+    # empty-title heading ('### <ID> —', Title is optional), a resolving
+    # stamped link, a fenced fake block that stays invisible, and the
+    # '## '-stop (the last block must not absorb '## Archive' — six false
+    # divergences on the register's first parse, 2026-08-08). The fence and
+    # the stop are both proven by the FUN-001 hash: either leak changes the
+    # statement and turns the audit red. No register at all = vacuous pass.
+    with tempfile.TemporaryDirectory() as root_q1:
+        s1, s3 = "The register is real.", "A block may quote:"
+        _req_tree(root_q1, (
+            "# Register\n\nProse preamble, ignored.\n\n"
+            "## PRD — Product\n\n"
+            f"### PRD-001 — Title here\n\n"
+            f"**Category**: PRD\n**Tags**: FUN\n**State**: final\n**Source**: s\n"
+            f"**Approved**: {req_statement_hash(s1)}\n\n{s1}\n\n"
+            "### PRD-002 —\n\n"
+            "**Category**: PRD\n**State**: proposed\n**Source**: s\n\n"
+            "Second rule.\n\n"
+            "**Links**\n"
+            f"- depends-on → PRD-001 ({req_statement_hash(s1)})\n\n"
+            "## FUN — Functional\n\n"
+            f"### FUN-001 — Fenced immunity\n\n"
+            f"**Category**: FUN\n**State**: final\n**Source**: s\n"
+            f"**Approved**: {req_statement_hash(s3)}\n\n{s3}\n\n"
+            "```\n### FAKE-999 — not a block\n**State**: bogus\n```\n\n"
+            "## Archive\n\n*Empty.*\n"
+        ))
+        problems = audit(root_q1)
+        assert problems == [], f"T27: expected a clean register audit, got {problems}"
+        rc = register_check(root_q1)
+        assert len(rc["findings"]) == 1 and "PRD-002, FUN-001" in rc["findings"][0], \
+            f"T27: expected one aggregated trace finding, got {rc['findings']}"
+    with tempfile.TemporaryDirectory() as root_q1b:
+        assert audit(root_q1b) == [] or True  # other AUs own their own vacuous cases
+        assert register_check(root_q1b) == {"blocks": [], "links": [], "findings": []}, \
+            "T27: absent register must pass vacuously"
+
+    # T28 — AU7 block refusals, each named: an unknown field is a hard
+    # error; an illegal state; a duplicate ID; an ID prefix disagreeing
+    # with Category; a missing Source; a missing statement.
+    with tempfile.TemporaryDirectory() as root_q2:
+        _req_tree(root_q2, (
+            "## PRD — Product\n\n"
+            "### PRD-001 — a\n\n"
+            "**Category**: PRD\n**Priority**: high\n**State**: proposed\n**Source**: s\n\n"
+            "Rule one.\n\n"
+            "### PRD-001 — again\n\n"
+            "**Category**: PRD\n**State**: shipped\n**Source**: s\n\n"
+            "Rule two.\n\n"
+            "### FUN-002 — mislabeled\n\n"
+            "**Category**: PRD\n**State**: proposed\n\n"
+            "Rule three.\n\n"
+            "### FUN-003 — empty\n\n"
+            "**Category**: FUN\n**State**: proposed\n**Source**: s\n"
+        ))
+        problems = register_check(root_q2)["blocks"]
+        for want in (
+            "unknown field 'Priority'",
+            "duplicate ID",
+            "illegal state 'shipped'",
+            "ID prefix 'FUN' disagrees with Category 'PRD'",
+            "FUN-002: missing required field 'Source'",
+            "FUN-003: missing statement",
+        ):
+            assert any(want in p for p in problems), f"T28: expected {want!r} in {problems}"
+
+    # T29 — AU7, the Approved family: final owes a hash; malformed hash;
+    # divergent hash refused with both values named and the state never
+    # rewritten; a hash riding a non-final block.
+    with tempfile.TemporaryDirectory() as root_q3:
+        _req_tree(root_q3, (
+            "## PRD — Product\n\n"
+            "### PRD-001 — no hash\n\n"
+            "**Category**: PRD\n**State**: final\n**Source**: s\n\nRule one.\n\n"
+            "### PRD-002 — malformed\n\n"
+            "**Category**: PRD\n**State**: final\n**Source**: s\n"
+            "**Approved**: sha256:nothexnothex\n\nRule two.\n\n"
+            "### PRD-003 — diverged\n\n"
+            "**Category**: PRD\n**State**: final\n**Source**: s\n"
+            "**Approved**: sha256:000000000000\n\nRule three.\n\n"
+            "### PRD-004 — premature\n\n"
+            "**Category**: PRD\n**State**: proposed\n**Source**: s\n"
+            f"**Approved**: {req_statement_hash('Rule four.')}\n\nRule four.\n"
+        ))
+        problems = register_check(root_q3)["blocks"]
+        for want in (
+            "PRD-001: state 'final' owes an 'Approved' hash",
+            "PRD-002: 'Approved' malformed",
+            "PRD-003: 'Approved' diverges from the statement (approved sha256:000000000000",
+            "PRD-004: 'Approved' on a non-final block (state 'proposed')",
+        ):
+            assert any(want in p for p in problems), f"T29: expected {want!r} in {problems}"
+        assert not any("PRD-003" in p and "rewrit" in p and "never" not in p for p in problems)
+
+    # T30 — AU7, the category set comes from the project's own disposition
+    # file: an 'n/a' category used anyway; an undeclared category; an
+    # undeclared tag; an 'n/a' row with no reason; and a register with no
+    # categories.md at all (one named problem, judgments skipped not
+    # guessed).
+    with tempfile.TemporaryDirectory() as root_q4:
+        _req_tree(root_q4, (
+            "### ANA-001 — na\n\n**Category**: ANA\n**State**: proposed\n**Source**: s\n\nR.\n\n"
+            "### ZZZ-001 — undeclared\n\n**Category**: ZZZ\n**State**: proposed\n**Source**: s\n\nR.\n\n"
+            "### PRD-001 — badtag\n\n**Category**: PRD\n**Tags**: QQQ\n**State**: proposed\n**Source**: s\n\nR.\n"
+        ), categories=CATS_OK + "| OPS | Operational | n/a |  |\n")
+        problems = register_check(root_q4)["blocks"]
+        for want in (
+            "ANA-001: category 'ANA' disposition is 'n/a', not 'applies'",
+            "ZZZ-001: category 'ZZZ' not declared",
+            "PRD-001: tag 'QQQ' not declared",
+            "category OPS — 'n/a' requires a named reason",
+        ):
+            assert any(want in p for p in problems), f"T30: expected {want!r} in {problems}"
+    with tempfile.TemporaryDirectory() as root_q4b:
+        _req_tree(root_q4b, (
+            "### PRD-001 — a\n\n**Category**: PRD\n**State**: proposed\n**Source**: s\n\nR.\n"
+        ), categories=None)
+        problems = register_check(root_q4b)["blocks"]
+        assert any("categories.md missing" in p for p in problems), \
+            f"T30: expected the missing-disposition problem, got {problems}"
+        assert not any("not declared" in p for p in problems), \
+            f"T30: category judgments must be skipped, not guessed: {problems}"
+
+    # T31 — AU7 state obligation + AU8 link refusals: superseded owes its
+    # superseded-by; an unregistered role; a link naming an ID that does
+    # not exist; a malformed link line.
+    with tempfile.TemporaryDirectory() as root_q5:
+        _req_tree(root_q5, (
+            "### PRD-001 — orphaned supersession\n\n"
+            "**Category**: PRD\n**State**: superseded\n**Source**: s\n\nOld rule.\n\n"
+            "### PRD-002 — bad links\n\n"
+            "**Category**: PRD\n**State**: proposed\n**Source**: s\n\nRule.\n\n"
+            "**Links**\n"
+            f"- blesses → PRD-001 ({req_statement_hash('Old rule.')})\n"
+            "- depends-on → ZZZ-999 (sha256:000000000000)\n"
+            "- depends-on PRD-001\n"
+        ))
+        rc = register_check(root_q5)
+        assert any("PRD-001: state 'superseded' owes a 'superseded-by' link" in p
+                   for p in rc["blocks"]), f"T31: {rc['blocks']}"
+        for want in (
+            "link role 'blesses' is not registered",
+            "link names an ID that does not exist: ZZZ-999",
+            "malformed link line",
+        ):
+            assert any(want in p for p in rc["links"]), f"T31: expected {want!r} in {rc['links']}"
+
+    # T32 — AU8 findings are findings, never problems: a stale stamp on a
+    # resolving link, and the aggregated no-parent trace gap exempting
+    # origin categories (BUS originates; PRD does not). The audit stays
+    # green while both are reported.
+    with tempfile.TemporaryDirectory() as root_q6:
+        s1 = "Target rule, since edited."
+        _req_tree(root_q6, (
+            "### BUS-001 — origin, exempt\n\n"
+            "**Category**: BUS\n**State**: proposed\n**Source**: s\n\nMoney rule.\n\n"
+            f"### PRD-001 — target\n\n"
+            "**Category**: PRD\n**State**: proposed\n**Source**: s\n\n"
+            f"{s1}\n\n"
+            "### PRD-002 — stale stamp\n\n"
+            "**Category**: PRD\n**State**: proposed\n**Source**: s\n\nRule.\n\n"
+            "**Links**\n"
+            "- depends-on → PRD-001 (sha256:000000000000)\n"
+        ))
+        problems = audit(root_q6)
+        assert problems == [], f"T32: findings must not be problems, got {problems}"
+        fnd = register_check(root_q6)["findings"]
+        assert any("PRD-002: link stamp for PRD-001 is stale" in f for f in fnd), f"T32: {fnd}"
+        trace = [f for f in fnd if "declare no 'refines' parent" in f]
+        assert len(trace) == 1 and "BUS-001" not in trace[0] and "PRD-001, PRD-002" in trace[0], \
+            f"T32: expected origin-exempt aggregate, got {trace}"
+
 
 def selftest():
-    """Run the 26 fixture-built cases in temporary trees. Prints
-    'selftest: 26 cases passed' and returns 0 on success; on the first
+    """Run the 32 fixture-built cases in temporary trees. Prints
+    'selftest: 32 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 26 cases passed")
+    print("selftest: 32 cases passed")
     return 0

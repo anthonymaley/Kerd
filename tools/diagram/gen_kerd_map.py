@@ -105,7 +105,7 @@ c.txt("THE MACHINERY — refuses from outside the model, on every push; "
       X0, mach_y - 26, 16)
 MW, MH = 270, 110
 mach = [
-    ("tools/gates", "router + refuser:\ngate table per rung,\naudit AU1-AU6, release\nrules R1-R3, fidelity"),
+    ("tools/gates", "router + refuser:\ngate table per rung,\naudit AU1-AU8, release\nrules R1-R3, fidelity"),
     ("tools/diagram", "progress board derived\nfrom disk + the stale\nrefuser (5 catches) +\ndesign canvas kit"),
     ("tools/design", "evaluation matrix\nchecker: declared\ncriteria, scored basis,\narithmetic recomputed"),
     ("CI - eight steps", "gate selftest · audit ·\nrelease · progress selftest\n· matrix selftest · matrix\naudit · render current ·\nhandoff fidelity"),

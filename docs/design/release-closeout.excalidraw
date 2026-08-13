@@ -1001,13 +1001,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "triggers = the version-field diff (CI's R1 set, reused) OR a\ngoal record landing (feature closed as complete) - one release\ndefinition, two firing moments. conductor INVOKES /kerd:tend and\n/kerd:slainte (the invoke pattern's 3rd + 4th uses; zero\nre-description, same law as v0.84.0). charter split: CI owns\nmechanical (R1-R3, AU1-6 - slainte's duplicated rules 1/2/5\nprune to a pointer); the pass owns narrative (rule 7's family:\nREADME claims vs SKILL behaviour, What's New honesty,\nstate-contract truth, skill counts, hook template).",
+   "text": "triggers = the version-field diff (CI's R1 set, reused) OR a\ngoal record landing (feature closed as complete) - one release\ndefinition, two firing moments. conductor INVOKES /kerd:tend and\n/kerd:slainte (the invoke pattern's 3rd + 4th uses; zero\nre-description, same law as v0.84.0). charter split: CI owns\nmechanical (R1-R3, AU1-8 - slainte's duplicated rules 1/2/5\nprune to a pointer); the pass owns narrative (rule 7's family:\nREADME claims vs SKILL behaviour, What's New honesty,\nstate-contract truth, skill counts, hook template).",
    "fontSize": 12,
    "fontFamily": 6,
    "textAlign": "left",
    "verticalAlign": "top",
    "containerId": null,
-   "originalText": "triggers = the version-field diff (CI's R1 set, reused) OR a\ngoal record landing (feature closed as complete) - one release\ndefinition, two firing moments. conductor INVOKES /kerd:tend and\n/kerd:slainte (the invoke pattern's 3rd + 4th uses; zero\nre-description, same law as v0.84.0). charter split: CI owns\nmechanical (R1-R3, AU1-6 - slainte's duplicated rules 1/2/5\nprune to a pointer); the pass owns narrative (rule 7's family:\nREADME claims vs SKILL behaviour, What's New honesty,\nstate-contract truth, skill counts, hook template).",
+   "originalText": "triggers = the version-field diff (CI's R1 set, reused) OR a\ngoal record landing (feature closed as complete) - one release\ndefinition, two firing moments. conductor INVOKES /kerd:tend and\n/kerd:slainte (the invoke pattern's 3rd + 4th uses; zero\nre-description, same law as v0.84.0). charter split: CI owns\nmechanical (R1-R3, AU1-8 - slainte's duplicated rules 1/2/5\nprune to a pointer); the pass owns narrative (rule 7's family:\nREADME claims vs SKILL behaviour, What's New honesty,\nstate-contract truth, skill counts, hook template).",
    "autoResize": true,
    "lineHeight": 1.25
   },

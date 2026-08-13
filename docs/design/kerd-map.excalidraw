@@ -2726,13 +2726,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "router + refuser:\ngate table per rung,\naudit AU1-AU6, release\nrules R1-R3, fidelity",
+   "text": "router + refuser:\ngate table per rung,\naudit AU1-AU8, release\nrules R1-R3, fidelity",
    "fontSize": 12,
    "fontFamily": 6,
    "textAlign": "left",
    "verticalAlign": "top",
    "containerId": null,
-   "originalText": "router + refuser:\ngate table per rung,\naudit AU1-AU6, release\nrules R1-R3, fidelity",
+   "originalText": "router + refuser:\ngate table per rung,\naudit AU1-AU8, release\nrules R1-R3, fidelity",
    "autoResize": true,
    "lineHeight": 1.25
   },

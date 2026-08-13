@@ -97,13 +97,19 @@ def _cmd_audit(argv):
         return 2
 
     problems = kit.audit(kit.ROOT)
+    findings = kit.register_findings(kit.ROOT)
 
     if as_json:
+        # the JSON shape stays a bare problems list — the stable contract;
+        # findings are non-blocking and ride the text output only
         print(json.dumps(problems))
         return 0 if not problems else 1
 
+    for f in findings:
+        print(f"finding: {f}")
     if not problems:
-        print("audit: clean")
+        tail = f" ({len(findings)} findings)" if findings else ""
+        print(f"audit: clean{tail}")
         return 0
     for p in problems:
         print(f"problem: {p}")

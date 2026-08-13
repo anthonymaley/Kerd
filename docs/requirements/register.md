@@ -258,6 +258,15 @@ Type is a stack: items inherit the project's type, an override is opt-in and for
 **Links**
 - depends-on → FUN-005 (sha256:b76da5ae7fe2)
 
+### FUN-010 — Conductor manages model usage and effort in both directions
+
+**Category**: FUN
+**Tags**: BUS
+**State**: proposed
+**Source**: producer, 2026-08-13, verbatim mid-session: "we need kerd conductor to effectively manage model usage and effort, i.e. if we are at fable xhigh, it should tell us to change to opus medium or whatever and then bring fable and other models in to do the work at the right effort too"
+
+Conductor effectively manages model usage and effort in both directions: an overpowered session (e.g. Fable xhigh) is advised down to the right conductor tier and effort (e.g. Opus medium), and Fable and other models are then brought in per-call to do the work at the right effort too
+
 ## NFR — Non-functional
 
 ### NFR-001 — The boundary records everything agreed
@@ -505,7 +514,7 @@ Every project type owes every gate unless that type explicitly marks it `n/a` wi
 **Links**
 - depends-on → FUN-005 (sha256:b76da5ae7fe2)
 
-### TST-003 — 
+### TST-003 — DUE DATE, not EFFORT
 
 **Category**: TST
 **Tags**: PRD

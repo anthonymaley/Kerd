@@ -57,7 +57,7 @@ f.step("3", "MECHANISM", "One release definition, two invokes, a charter split",
        "definition, two firing moments. conductor INVOKES /kerd:tend and\n"
        "/kerd:slainte (the invoke pattern's 3rd + 4th uses; zero\n"
        "re-description, same law as v0.84.0). charter split: CI owns\n"
-       "mechanical (R1-R3, AU1-6 - slainte's duplicated rules 1/2/5\n"
+       "mechanical (R1-R3, AU1-8 - slainte's duplicated rules 1/2/5\n"
        "prune to a pointer); the pass owns narrative (rule 7's family:\n"
        "README claims vs SKILL behaviour, What's New honesty,\n"
        "state-contract truth, skill counts, hook template).",
