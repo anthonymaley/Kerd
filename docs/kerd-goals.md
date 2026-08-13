@@ -150,6 +150,45 @@ Two candidate designs are floated in his words and **neither is chosen**: a
 dedicated process for fine tuning, or rapid traversal of the normal path from
 first step to last. That choice is design work.
 
+### What decides a change is a fine tune
+
+**Tony, 2026-08-13 18:22, verbatim:**
+
+> have we already built the item and are looking to change it? does the change go
+> agaist the spec or design or requirment? how much effort or impact is the
+> change, how critical is the chage, are users blocked or having poor experience?
+>
+> the composer or conductor roles (if we keep them) should have the approval
+
+**The classifier is a set of questions, not a size threshold:**
+
+1. Have we already built the item and are we changing it?
+2. **Does the change go *against* the spec, design, or requirements?**
+3. How much effort or impact does it carry?
+4. How critical is it?
+5. Are users blocked or having a poor experience?
+
+**Question 2 is the discriminator**, and it resolves what looked like a
+contradiction earlier. Every change *lands in* the spec (Law 2) — but that is
+not the same as going *against* it. A font choice the spec left open is filling
+detail in: fine tuning, recorded. A font change that contradicts what the spec
+says is a change to the agreement, and it goes the long way round with the
+agreement's owner. Question 5 admits urgency as a legitimate input: users
+blocked or suffering is grounds to move.
+
+**Who approves a fine tune:** *"the composer or conductor roles (if we keep
+them) should have the approval"* — not the producer. The agent roles hold
+approval for this class, which is what makes the fast path fast when the spec's
+owner is not in the room.
+
+**Straw-man, unresolved:** this puts classification *and* approval in the same
+hands. If the conductor decides a change is a fine tune and also approves its
+spec update, the producer is out of the loop for a class of changes the
+conductor itself defines — and the cheap path is the one the model is under
+standing pressure to pick. Nothing here yet separates those two authorities.
+The self-check ladder (critical work draws an adversarial reviewer) is the
+nearest available countermeasure but has not been assigned to this.
+
 *Superseded:* the model's earlier "stages satisfied, not performed" reading was
 invented to serve this goal. It survives only where it agrees with the input
 above — the input is his and the reading was not.

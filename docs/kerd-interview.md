@@ -554,6 +554,27 @@ typo"), which would have decayed into "significant changes only" — a judgement
 call, and therefore a hole. Tony's version puts the dial on the ceremony and
 never on whether the document stays true.
 
+**Tony, 2026-08-13 18:22, verbatim — what decides a change is a fine tune, and
+who approves it:**
+
+> have we already built the item and are looking to change it? does the change go
+> agaist the spec or design or requirment? how much effort or impact is the
+> change, how critical is the chage, are users blocked or having poor experience?
+>
+> the composer or conductor roles (if we keep them) should have the approval
+
+The classifier is five questions rather than a size threshold, and the second —
+*does the change go against the spec, design or requirement?* — is the one that
+discriminates. It also dissolves an apparent contradiction: every change **lands
+in** the spec under Law 2, but that is not the same as going **against** it.
+Filling in detail the spec left open is fine tuning; contradicting what the spec
+says is a change to the agreement. Urgency is admitted as an input — *"are users
+blocked or having poor experience?"*
+
+Approval for this class sits with **the composer or conductor roles**, not the
+producer — which is what lets the fast path stay fast when the spec's owner is
+not in the room. The roles are still provisional: *"if we keep them"*.
+
 **Also stated, as a presentation rule:**
 
 > when we ask for inout, put a flag or ascii border aroud the questions to ensure
