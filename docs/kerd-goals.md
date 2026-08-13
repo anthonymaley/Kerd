@@ -25,16 +25,42 @@ matters:** four of the eight measures (G1, G2, G4, G7) counted only the absence
 of a failure, so a system that produced nothing at all would have scored
 perfectly on every one.
 
-## The law — not a goal, and not scored
+## The laws — not goals, and not scored
 
-**Every project has its own repo.** Kerd installs into a user's own project and
-operates inside that repository's boundaries; the Kerd project never holds
-sessions for anybody else's work. Tony raised this unprompted, interrupted his
-own answer to insist on it, and ruled on it directly: *"the way i work, every
-project has its own repo, its non negotiable."*
+Listed here rather than among the goals because they are obeyed, not achieved.
 
-It is listed here rather than among the goals because it is obeyed, not
-achieved.
+### Law 1 — Every project has its own repo
+
+Kerd installs into a user's own project and operates inside that repository's
+boundaries; the Kerd project never holds sessions for anybody else's work. Tony
+raised this unprompted, interrupted his own answer to insist on it, and ruled on
+it directly: *"the way i work, every project has its own repo, its non
+negotiable."*
+
+### Law 2 — Every change lands in the spec, the design, or the requirements
+
+**Tony, 2026-08-13 18:15 EDT:** *"so each change should result in a chnage to
+spec or design or requirement"*
+
+Stated while sharpening G3, but it is not a fine-tuning rule — it is universal.
+Nothing changes in the artifact without the governing document changing with it.
+This is the anti-drift law, and it is what makes the other goals mean anything:
+G2's promise that nobody has to guess holds only while the documents are true,
+and G6's *"should not look different or behave differt fromt he agreed spec"* is
+empty once the spec has drifted from what exists.
+
+**Tony, immediately after:** *"but doesnt have to be huge process"*
+
+**Which resolves the obvious objection, and resolves it better than the model's
+version of it.** The model's straw-man was that enforcing this on trivia
+manufactures the overhead G3 exists to prevent — so there must be a threshold
+below which the law does not apply. There isn't one. **The law is absolute; the
+ceremony is proportionate.** Every change updates its governing document; for a
+small change that update may be one line and a quick confirmation.
+
+The scaling dial is on the *process*, never on *whether the document stays
+true*. That distinction is what keeps Law 2 from decaying into "significant
+changes only" — a judgement call, and therefore a hole.
 
 ---
 

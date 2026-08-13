@@ -535,6 +535,25 @@ So the guard is not "fine tunes avoid the spec". It is:
 
 The failure this prevents is not slowness. It is a spec quietly becoming a lie.
 
+**Tony, 2026-08-13 18:15 EDT, generalising it into a law:**
+
+> so each change should result in a chnage to spec or design or requirement
+
+and immediately:
+
+> but doesnt have to be huge process
+
+**The law is absolute; the ceremony is proportionate.** Every change lands in
+the spec, the design, or the requirements — there is no threshold below which a
+change may leave its governing document untouched. What scales with the size of
+the work is the *process* around that update, which for a small change may be a
+one-line edit and a quick confirmation.
+
+The model had straw-manned this as needing a threshold ("surely not for a
+typo"), which would have decayed into "significant changes only" — a judgement
+call, and therefore a hole. Tony's version puts the dial on the ceremony and
+never on whether the document stays true.
+
 **Also stated, as a presentation rule:**
 
 > when we ask for inout, put a flag or ascii border aroud the questions to ensure
