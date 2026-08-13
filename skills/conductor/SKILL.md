@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides an orient-plan-execute-close protocol, and where a repo routes work through entry gates it frames new work onto the board rather than into a TODO stub. Coordinates four roles: you are the producer holding the intent and the approvals, a top-tier model is called as the composer to write the spec and leaves, the session model conducts the build, and cheaper subagents play the steps. It advises the conductor model up front, sizes each step's model and effort, and hands a failing step back to the composer rather than rewriting the spec itself."
+description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides an orient-plan-execute-close protocol, and where a repo routes work through entry gates it frames new work onto the board rather than into a TODO stub. Coordinates four roles: you are the producer holding the intent and the approvals, a top-tier model is called as the composer to write the spec and leaves, the session model conducts the build, and cheaper subagents play the steps. It advises the conductor model and effort up front — down from an overpowered session as readily as up — sizes each call's model and effort (composer and players alike), and hands a failing step back to the composer rather than rewriting the spec itself."
 ---
 
 # Conductor (Session Discipline)
@@ -37,7 +37,7 @@ The conductor holds the baton for everything else: orient, dispatch, verificatio
 
 `/kerd:conductor` run a structured session: orient, advise the conductor model, plan, execute, close.
 
-Conductor runs inside whatever session and model you already started — a skill can't read or change its own model. So it **advises the conductor model** (the one holding the baton for the session) and gates on your confirmation. That advice is now modest: because the hardest reasoning happens in a composer *call* rather than in the session, a hard task no longer requires running the whole session on a top-tier model. From there conductor sizes each mechanical step's model and effort and hands it to a player. There is no toggle — right-sizing is conductor's default behavior, scaled to the task in front of it. See [Model advisory](#model-advisory) and [Delegated execution](#delegated-execution--the-spec-is-the-contract).
+Conductor runs inside whatever session, model and effort you already started — a skill can't read or change any of them. So it **advises the conductor pair** (the model and effort holding the baton for the session) and gates on your confirmation — down from an overpowered session as readily as up from an underpowered one. Because the hardest reasoning happens in a composer *call* rather than in the session, a hard task never requires running the whole session on a top-tier model or a high effort: the expensive tiers are bought per-call, at a sized effort of their own. From there conductor sizes each mechanical step's model and effort and hands it to a player. There is no toggle — right-sizing is conductor's default behavior, scaled to the task in front of it. See [Model + effort advisory](#model--effort-advisory) and [Delegated execution](#delegated-execution--the-spec-is-the-contract).
 
 ## Mode Markers
 
@@ -98,15 +98,20 @@ This is the entry gates taking a job conductor used to do alone. Where no gate e
 
 Summarize the current state for the user, including any inconsistencies found, active mode context, and inventory gaps surfaced.
 
-#### Model advisory
+#### Model + effort advisory
 
-Before planning, size the work and advise the **conductor model** — the one holding the baton for this session. Judge it on what the *conductor* has to do (dispatch, verify returned evidence, decide whether a failure is the player's or the score's), not on how hard the underlying problem is. The hard problem goes to the composer call, not the session.
+Before planning, size the work and advise the **conductor pair** — the model AND reasoning effort holding the baton for this session (`FUN-010`). Judge it on what the *conductor* has to do (dispatch, verify returned evidence, decide whether a failure is the player's or the score's), not on how hard the underlying problem is. The hard problem goes to the composer call, not the session.
 
-- **Mechanical / small** (a rename, a config edit, a well-trodden fix): the model you're on is almost certainly fine. Say so and move on.
-- **Anything with a real build** — including hard, architectural, or novel work: recommend a strong mid-to-upper model (e.g. Opus). It must judge returned evidence well, because bad conformance judgment is the most expensive failure in the system: it wastes player runs *and* buys a composer callback.
-- **Never recommend switching the session to the top tier for difficulty alone.** That was the old shape. Difficulty is now handled by [calling the composer](#calling-the-composer), which costs one brief and one score instead of an entire session at premium rates.
+**First, establish the current pair — belief plus confirmation, never detection.** The harness names the session model in the system prompt, but that goes stale on every mid-session `/model` switch, and the session's effort setting is exposed nowhere at all. State what you believe the pair is and where the belief comes from, and have the user confirm the actual pair in the same breath as the gate below — one extra word in their answer, never a separate exchange.
 
-State your recommendation in one line and **gate on it**: ask the user to switch (or confirm they're already there) before you plan. Conductor can't read or set its own model, so this is advice plus a confirmation beat, not detection — proceed on whatever model the user confirms. Skip the gate only when the work is trivially small and the current model obviously suffices; say why you're skipping.
+Then advise the cheapest pair that conducts well:
+
+- **Mechanical / small** (a rename, a config edit, a well-trodden fix): the pair you're on is almost certainly fine — or more than fine. Say so and move on.
+- **Anything with a real build** — including hard, architectural, or novel work: a strong mid-to-upper model (e.g. Opus) at a middling effort. It must judge returned evidence well, because bad conformance judgment is the most expensive failure in the system: it wastes player runs *and* buys a composer callback.
+- **An overpowered session is advised DOWN, by name.** A session opened at the top tier or a high effort (e.g. Fable xhigh) for work that needs neither gets the explicit downgrade with its reasoning: "conducting this needs Opus medium — difficulty is bought per-call, the composer at Fable and the players at their sized tags, each at the right effort." Saying nothing approves the burn: the four-role cost model exists so nobody idles at premium rates between the calls that need them.
+- **Never recommend switching the session to the top tier for difficulty alone.** That was the old shape. Difficulty is handled by [calling the composer](#calling-the-composer), which costs one brief and one score instead of an entire session at premium rates.
+
+State your recommendation in one line and **gate on it**: ask the user to switch (or confirm the pair) before you plan. Conductor can't set its own model or effort, so this is advice plus a confirmation beat — proceed on whatever pair the user confirms. Skip the gate only when the work is trivially small and the current pair obviously suffices; say why you're skipping.
 
 ### 2. Plan
 
@@ -220,7 +225,7 @@ When delegating, the plan is not a lean TODO stub — it is a **spec file**, the
 
 #### Calling the composer
 
-The score is written by a top-tier model invoked as a **subagent** (the Agent tool's `model` accepts the top tier, e.g. `fable`), not by the conductor itself. Two passes, both deliberately small:
+The score is written by a top-tier model invoked as a **subagent** (the Agent tool's `model` accepts the top tier, e.g. `fable`), not by the conductor itself — **at a sized effort of its own**: tier buys capability, effort buys deliberation, and they are sized independently, exactly like player tags. A routine spec earns the composer at a middling effort; a novel architecture earns high. Name the pair when dispatching the call, so the cost is a decision rather than a default. Two passes, both deliberately small:
 
 **Pass 1 — scoping.** Send intent, boundaries, and constraints only. Ask one question: *what do you need to see to write this score?* The composer replies with specific files. **Bound the request in the prompt — name files, not directories.** An unbounded scoping answer collapses this back into a full context dump and forfeits the entire saving.
 
@@ -382,7 +387,7 @@ Close-out settles the work, then runs the boundary itself — one act, no handof
 - **The composer is a call, not a mode.** Top-tier reasoning is summoned for a brief and a score, then leaves. It never holds session context, watches the build, or reviews returned work. Buying it this way costs one brief and one score instead of a whole session at premium rates.
 - **Re-dispatch, never re-specify.** A failing step is either a player problem (re-dispatch) or a score problem (hand back to the composer). The conductor never edits the score to make a failure go away — that silently voids the contract the producer approved.
 - **Tag the step after writing it.** Writing a spec slice well is what removes the judgment from the model and puts it in the document. A tag assigned during planning measures how hard the step *felt*, not what judgment survives being written down. If you can write it precisely enough to verify by command, it's delegatable — and if you can't, that's the evidence it isn't.
-- **Advise the model, don't assume it.** Conductor can't read or set its own model. It sizes the work, recommends the *conductor* model, and gates on the user confirming (or switching) before it plans — then sizes each delegated step's model and effort down from there. Difficulty never argues for running the whole session at the top tier; that's what the composer call is for.
+- **Advise the pair, don't assume it.** Conductor can't set its own model or effort, and what it believes about the current pair goes stale on every mid-session switch. It states its belief, confirms, and recommends the cheapest pair that conducts well — down from an overpowered session as readily as up — then sizes each call's model and effort from there: composer, players, all per-call. Difficulty never argues for running the whole session at the top tier or a high effort; that's what the composer call is for.
 - **The spec is the contract.** The composer's job is a score complete enough that a player never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the score, not the grind, and never delegate the *detail* to a cheaper model to save a few of them.
 - **The gate message carries the content.** Any message that asks for approval must contain what's being approved — findings, summary, plan — in that same message. Mid-turn text may be invisible to the user (focus mode shows only a turn's final message); a question-only gate erases the analysis.
 - **Say it in the user's terms.** When a change alters what the user can do, describe it as *now / the change / what it means* in the vocabulary of using the thing — and name any capability it removes as a loss, or it disappears into the good news. Ask only questions answerable without reading the code; if it needs the codebase to answer, it's usually your call, not theirs.
