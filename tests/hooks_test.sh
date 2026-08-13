@@ -224,7 +224,7 @@ test_session_start_behind_remote_reports() {
   rm -rf "$base"
   assert_exit 0 "$RC" || return
   assert_matches "$OUT" 'behind remote \([0-9]+ commits\)' "behind message" || return
-  assert_contains "$OUT" "Run /switch in" || return
+  assert_contains "$OUT" "Run /kerd:switch in" || return
   pass
 }
 
@@ -241,7 +241,7 @@ test_session_start_last_session_date() {
   assert_exit 0 "$RC" || return
   assert_contains "$OUT" "Last session: 2026-06-25" || return
   # No remote, no mode -> no "switch in" suggestion appended.
-  case "$OUT" in *"Run /switch in"*) fail "unexpected switch-in suggestion: $OUT"; return ;; esac
+  case "$OUT" in *"Run /kerd:switch in"*) fail "unexpected switch-in suggestion: $OUT"; return ;; esac
   pass
 }
 
@@ -254,7 +254,7 @@ test_session_start_mode_interrupted() {
   assert_exit 0 "$RC" || return
   # First/only message is capitalized by the report builder -> "Mode interrupted".
   assert_contains "$OUT" "Mode interrupted: greenfield (step 4 of 9)" || return
-  assert_contains "$OUT" "Run /switch in" || return
+  assert_contains "$OUT" "Run /kerd:switch in" || return
   pass
 }
 

@@ -69,7 +69,7 @@ done
 
 # Add suggestion if behind remote or mode interrupted
 if echo "${messages[*]}" | grep -qE 'behind remote|mode interrupted'; then
-  output+=". Run /switch in to sync and pick up."
+  output+=". Run /kerd:switch in to sync and pick up."
 fi
 
 echo "$output"
