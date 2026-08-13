@@ -64,8 +64,8 @@ before we answer question two."*
 
 ## Q2 — What does it have to do?
 
-*(open — the walkthrough from idea to launch is still unanswered; what follows
-is what Tony gave first, on roles and model economy.)*
+*Answered in two parts: first on roles and model economy, then the full
+idea-to-launch walkthrough.*
 
 **Tony, 2026-08-13 17:07 EDT, verbatim:**
 
@@ -398,6 +398,110 @@ picture reviewed once and set aside — something the build is checked against
 while it runs, so the end result is exactly what was expected and the outcome is
 launchable. This makes the design spec machine-checkable, which is a
 considerably stronger claim than "we drew it and agreed".
+
+---
+
+## Self-reflection and straw-manning
+
+**Tony, 2026-08-13 17:50 EDT, verbatim:**
+
+> self reflection and straw man steps are critical for this too.
+
+**Why this matters against the rest of the interview:** the producer has already
+named false approval as the system's central failure — a gate message the user
+cannot parse buys a signature instead of alignment. Self-reflection and
+straw-manning attack that same failure from the other side. If the model
+examines its own reasoning for error, and argues against its own proposal before
+presenting it, then catching mistakes is no longer the producer's job alone. A
+process where the only quality check is the human's approval has put its entire
+weight on the one gate this interview says cannot bear it.
+
+Both are stated as **critical steps in the process**, not as conduct advice.
+
+**Tony, 2026-08-13 17:53 EDT, verbatim — extending it:**
+
+> can even have a formal review (even advesrial) by a subagent at appropraite
+> model/effort baked in
+
+So the quality check is not only the model examining itself. A **formal,
+optionally adversarial review by an independent subagent, sized to the work, is
+baked into the process** rather than invoked when someone remembers. This is the
+same staffing principle as the rest of the model economy — the reviewer gets the
+model and effort the review deserves — applied to quality rather than to
+production.
+
+**Tony, 2026-08-13 17:52 EDT, verbatim — the third one:**
+
+> and the occasional "are you sure" check by the model to itself
+
+**Three quality mechanisms are now named, and they form a graded ladder** —
+cheap and frequent at one end, expensive and rare at the other, which is the
+same shape as the model economy applied to correctness:
+
+1. **"Are you sure?"** — occasional, lightweight, the model challenging its own
+   claim in passing. Costs almost nothing.
+2. **Self-reflection and straw-manning** — structured, the model examining its
+   own reasoning and arguing against its own proposal before presenting it.
+3. **Formal, optionally adversarial review** — an independent subagent at a
+   sized model and effort, baked into the process.
+
+Whether the tiers fire by stage, by risk, or by cost is a design question and is
+not answered here.
+
+---
+
+## Correction — the goals are not measured, they are designed against
+
+The model drafted G1–G8 each carrying a *measure*, mostly counts of failures
+trending to zero. Tony rejected the framing outright.
+
+**Tony, 2026-08-13 18:06 EDT, verbatim:**
+
+> 1. these are not measurement, these are inouts to design to avoid what those
+> g1-g8 from happening, they cant be measured. we need to bake into the process
+> g1: strong visuals and specs for approval so we are clear with each other.  g2:
+> agents should not guess or infer from memory something, they should never have
+> to, we shoudl ensure the spec has those memory items in the work g4. Clear
+> communication, questions and requests, visual confirmations, status etc vs wall
+> of noise text and an "approve?" g5. show the work, show the state, show the
+> tools being used g6. we have a spec and the measurement of done is clear,
+> should not look different or behave differt fromt he agreed spec. g7. never
+> sumarize memories or requirments or achievements etc g8. build something
+> valuable that there is a need for that does a thing that people want and can
+> use easily without deep knowledge
+>
+> 2. dont understand that either. the way i work, every project has its own repo,
+> its non negotiable.
+>
+> 3. for me any mechanisim we can use to bake in self checks is good, many times
+> if i ask you "is that true" or "explain that" you see a flaw in your work, but
+> if its not asked you wouldnt see. so these mechanisims are important to help you
+> review and not just produce as done.
+
+**What this settles:**
+
+- **A goal does not carry a metric; it carries a design input.** The goals name
+  failures to be *prevented by construction*, and each one converts into
+  something baked into the process. Counting occurrences after the fact was the
+  wrong instrument — his words: *"they cant be measured"*.
+- **The repo boundary is a law, not a goal.** *"every project has its own repo,
+  its non negotiable."* It is not scored; it is obeyed.
+- **Self-checks are wanted wherever they can be baked in**, and his reason is a
+  precise observation about how the failure works: *"many times if i ask you 'is
+  that true' or 'explain that' you see a flaw in your work, but if its not asked
+  you wouldnt see."* The flaw is already visible to the model — what is missing
+  is the prompt to look. So the mechanism's job is to **trigger the look**, not
+  to supply capability the model lacks. Its purpose is *"to help you review and
+  not just produce as done."*
+
+**Also stated, as a presentation rule:**
+
+> when we ask for inout, put a flag or ascii border aroud the questions to ensure
+> users dont think its noise.
+
+Requests for input carry a visible flag or ASCII border so they are not lost in
+the surrounding text. This is the same defect as the buried "X or Y" question:
+an ask the user does not notice is an ask that gets a reflex answer.
 
 ---
 
