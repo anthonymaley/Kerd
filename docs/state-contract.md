@@ -86,7 +86,7 @@ skriv: active
 - Each skill writes only its own line(s). Never touch another skill's entries.
 - Removing a line means the skill is inactive. Don't write `skill: off`.
 - Hooks read this file but never write to it.
-- Conductor's line carries an `@ YYYY-MM-DD HH:MM TZ` stamp (the same-turn rule above). The three hook readers grep by prefix (`^conductor:` in `hooks/stop.sh`; `^mode:` in `session-start.sh` and `skill-complete.sh`), so the suffix is inert to them; `hooks/stop.sh` echoes the whole line, which is how the stamp reaches the human for free. Switch reads the line whole and carries the stamp into CONTEXT.md `## Active Mode`.
+- Conductor's line carries an `@ YYYY-MM-DD HH:MM TZ` stamp (the same-turn rule above). The two hook readers grep by prefix (`^mode:` in `session-start.sh` and `skill-complete.sh`), so the conductor line's stamp suffix is inert to them. No hook echoes the conductor line any more — `hooks/stop.sh` did, and it was cut in v0.96.0 — so the stamp reaches the human only through switch, which reads the line whole and carries it into CONTEXT.md `## Active Mode`.
 - PostToolUse hook receives a full envelope on stdin (confirmed 2026-04-04):
   `{session_id, cwd, hook_event_name, tool_name, tool_input: {skill, args}, tool_response: {success, commandName}, tool_use_id}`
   The hook checks `tool_response.success` before reporting progress and extracts `tool_input.skill` via sed.

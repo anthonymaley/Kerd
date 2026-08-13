@@ -1,8 +1,8 @@
 #!/bin/bash
 # Kerd hooks test harness
 #
-# Exercises the three session-boundary hooks (session-start.sh, stop.sh,
-# skill-complete.sh) against the failure classes that have actually bitten us:
+# Exercises the session hooks (session-start.sh, skill-complete.sh, pair.sh)
+# against the failure classes that have actually bitten us:
 #
 #   - Path resolution: the hook must degrade SILENTLY (exit 0, no stderr) when
 #     CLAUDE_PROJECT_DIR is unset or empty — i.e. when the ${CLAUDE_PLUGIN_ROOT}/
@@ -116,15 +116,6 @@ test_session_start_empty_projectdir_is_silent() {
   pass
 }
 
-test_stop_unset_projectdir_is_silent() {
-  TNAME="stop: unset CLAUDE_PROJECT_DIR exits silently"
-  run_hook UNSET stop.sh
-  assert_exit 0 "$RC" || return
-  assert_empty "$OUT" stdout || return
-  assert_empty "$ERR" stderr || return
-  pass
-}
-
 test_skill_complete_unset_projectdir_is_silent() {
   TNAME="skill-complete: unset CLAUDE_PROJECT_DIR exits silently"
   run_hook UNSET skill-complete.sh '{"tool_response":{"success":true}}'
@@ -134,17 +125,18 @@ test_skill_complete_unset_projectdir_is_silent() {
   pass
 }
 
-test_template_references_existing_executable_scripts() {
-  # ${CLAUDE_PLUGIN_ROOT}/hooks/X.sh must resolve to a real, runnable script.
-  # If a referenced path is wrong, the hook silently never runs — exactly the
-  # class of bug that left hooks dead after the path rewrite.
-  TNAME="template: every referenced hook script exists and is executable"
-  local tmpl="$HOOKS/hooks.template.json" refs missing=""
+test_hooks_json_references_existing_executable_scripts() {
+  # The plugin's auto-loaded hooks/hooks.json is the standard mechanism: every
+  # ${CLAUDE_PLUGIN_ROOT}/hooks/X.sh it names must resolve to a real, runnable
+  # script. A wrong path means the hook silently never runs — exactly the class
+  # of bug that left hooks dead under the old version-pinned wiring.
+  TNAME="hooks.json: every referenced hook script exists and is executable"
+  local tmpl="$HOOKS/hooks.json" refs missing=""
   # The literal ${CLAUDE_PLUGIN_ROOT}/ is the prefix we strip — not a var to expand.
   # shellcheck disable=SC2016
   refs=$(grep -oE '\$\{CLAUDE_PLUGIN_ROOT\}/hooks/[A-Za-z0-9._-]+\.sh' "$tmpl" \
            | sed 's#${CLAUDE_PLUGIN_ROOT}/##' | sort -u)
-  [ -n "$refs" ] || { fail "no hook script references found in template"; return; }
+  [ -n "$refs" ] || { fail "no hook script references found in hooks.json"; return; }
   local rel
   while IFS= read -r rel; do
     [ -f "$REPO/$rel" ] || missing+="$rel(absent) "
@@ -195,16 +187,6 @@ test_session_start_no_todo_no_modes_silent() {
   TNAME="session-start: Kerd repo, no TODO/modes/remote -> silent"
   local d; d=$(make_kerd_repo)
   run_hook "$d" session-start.sh
-  rm -rf "$d"
-  assert_exit 0 "$RC" || return
-  assert_empty "$OUT" stdout || return
-  pass
-}
-
-test_stop_clean_tree_silent() {
-  TNAME="stop: clean tree with no active mode -> silent"
-  local d; d=$(make_kerd_repo)
-  run_hook "$d" stop.sh
   rm -rf "$d"
   assert_exit 0 "$RC" || return
   assert_empty "$OUT" stdout || return
@@ -290,35 +272,6 @@ test_session_start_combined_report() {
   pass
 }
 
-# --- stop hook reporting -----------------------------------------------------
-
-test_stop_uncommitted_reports() {
-  TNAME="stop: uncommitted change -> warns + suggests switch out"
-  local d; d=$(make_kerd_repo)
-  echo dirty >"$d/newfile.txt"
-  run_hook "$d" stop.sh
-  rm -rf "$d"
-  assert_exit 0 "$RC" || return
-  assert_contains "$OUT" "uncommitted changes detected" || return
-  assert_contains "$OUT" "Run /switch out" || return
-  pass
-}
-
-test_stop_active_mode_and_conductor_report() {
-  TNAME="stop: active mode + stamped conductor line both reported"
-  local d; d=$(make_kerd_repo)
-  # The stamp is fixture data, not a record of anything. It exercises the only
-  # legal conductor-line shape (v0.88.0): stop.sh echoes the line whole, so the
-  # assertion below is what proves the stamp reaches the human.
-  printf 'mode: research (step 1 of 4)\nconductor: orient @ 2026-08-06 15:17 EDT\n' >"$d/kivna/.active-modes"
-  run_hook "$d" stop.sh
-  rm -rf "$d"
-  assert_exit 0 "$RC" || return
-  assert_contains "$OUT" "mode active: research (step 1 of 4)" || return
-  assert_contains "$OUT" "conductor: orient @ 2026-08-06 15:17 EDT" || return
-  pass
-}
-
 # --- skill-complete progress -------------------------------------------------
 
 # Shared .active-modes fixture: step 2 current, step 3 pending.
@@ -380,7 +333,7 @@ test_shellcheck_clean() {
     return 0
   fi
   local out
-  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/stop.sh" "$HOOKS/skill-complete.sh" "$HOOKS/pair.sh" 2>&1)
+  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/skill-complete.sh" "$HOOKS/pair.sh" 2>&1)
   if [ -n "$out" ]; then
     fail "shellcheck reported issues:"$'\n'"$out"
     return

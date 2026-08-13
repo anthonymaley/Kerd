@@ -204,37 +204,37 @@ Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs
 
 #### Category 9: Hook hygiene
 
-Check whether Kerd hooks are registered in the project's `.claude/settings.local.json`. This is collaborator-local (each developer opts in independently).
+**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — `${CLAUDE_PLUGIN_ROOT}` expands correctly there. **No per-repo wiring is needed, and none should be added.** Each hook is silent unless the repo carries Kerd state (`kivna/.pair`, `kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
 
-Check:
-- `.claude/settings.local.json` exists
-- It contains hook entries for Kerd's Stop, SessionStart, PostToolUse, and UserPromptSubmit events pointing to `${CLAUDE_PLUGIN_ROOT}/hooks/`
+The only job left for tend is **migration**: find and remove *stale manual hook entries* left in `.claude/settings.local.json` by the old (pre-0.96.0) wiring mechanism. Those entries either point at a garbage-collected cache version (dead — Claude Code prunes old versions, see the playbook GC gotcha) or duplicate a hook the plugin now auto-loads (double-fire). Both are fixed by deletion.
 
-If hooks are not registered:
+Check `.claude/settings.local.json` for hook `command` strings that reference the Kerd plugin cache (`cache/kerd-marketplace/.../hooks/`) or a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path (the latter never expands in settings and was always inert). Any such entry is stale.
+
+If stale entries are found:
 
 ```
-⚠ Hook hygiene
-  ┌──────────────────┬───────────────┬─────────────────────────────────┐
-  │ Item             │ Current       │ Proposed                        │
-  ├──────────────────┼───────────────┼─────────────────────────────────┤
-  │ Stop hook        │ not registered│ remind about uncommitted changes │
-  │ SessionStart     │ not registered│ surface stale state on resume    │
-  │ PostToolUse      │ not registered│ mode progress after skill runs   │
-  └──────────────────┴───────────────┴─────────────────────────────────┘
-  Why: Kerd hooks provide session boundary reminders and mode
-       progress tracking. They are read-only and non-blocking.
-  Fix: merge hook entries into .claude/settings.local.json
+⚠ Hook hygiene — stale manual hook wiring found
+  ┌──────────────────┬──────────────────────────────┬──────────┐
+  │ Hook             │ Wired path                   │ Proposed │
+  ├──────────────────┼──────────────────────────────┼──────────┤
+  │ SessionStart     │ .../kerd/0.65.0/hooks/...    │ remove   │
+  │ PostToolUse      │ .../kerd/0.65.0/hooks/...    │ remove   │
+  │ UserPromptSubmit │ .../kerd/0.65.0/hooks/...    │ remove   │
+  └──────────────────┴──────────────────────────────┴──────────┘
+  Why: Kerd hooks now auto-load from the plugin (hooks/hooks.json).
+       These manual entries are dead (pruned cache version) or
+       duplicate the auto-loaded hooks. Removing them restores the
+       standard behaviour and prevents double-firing.
+  Fix: remove the Kerd hook entries from .claude/settings.local.json
+       (leave any non-Kerd hooks and other settings untouched).
+  Verify: after removal, the hooks still fire (auto-loaded) — a new
+       session in this repo shows partner-mode injection when
+       kivna/.pair is on.
 ```
 
-When fixing, read existing `.claude/settings.local.json` (create if missing), merge the hook entries from `hooks/hooks.template.json` (relative to the Kerd plugin root) into the settings without overwriting existing hook entries. Preserve any existing permissions or other settings.
+When fixing, read `.claude/settings.local.json`, remove only the Kerd hook entries (matched by the cache path, a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path, or — in the Kerd source repo — a local `.../Kerd/hooks/` path), and preserve every non-Kerd hook, permission, and other setting. Do not add replacement entries — the plugin provides them.
 
-**Critical: resolve absolute paths.** `${CLAUDE_PLUGIN_ROOT}` does NOT expand in `settings.local.json`. It only works inside the plugin's own `hooks.json`. When writing hook commands to settings.local.json, resolve the absolute path at wiring time:
-- For the installed plugin: find the cache path at `~/.claude/plugins/cache/kerd-marketplace/kerd/<version>/hooks/`
-- For local dev (the Kerd repo itself): use the repo path directly (e.g., `/Users/<name>/Kerd/hooks/`)
-
-The hook command must use the resolved absolute path, e.g.: `bash /Users/anthonymaley/.claude/plugins/cache/kerd-marketplace/kerd/0.29.0/hooks/stop.sh`
-
-Note: when the plugin is updated to a new version, the cache path changes. Hooks wired to the old version path will break. Tend should detect this (hook script file doesn't exist at the wired path) and offer to re-wire.
+Auto-load covers the Kerd source repo too, so it needs no local hook wiring either: a repo that kept local entries *and* got the plugin's auto-loaded hooks would fire each hook twice. Hook changes under development are validated by `tests/hooks_test.sh` (which runs the local scripts directly), not by live session behaviour, so nothing is lost by letting live sessions use the cached version.
 
 ### 4. Display report
 

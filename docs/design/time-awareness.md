@@ -24,13 +24,14 @@ limit.
 
 **The marker stamp — task start rides a write that already happens.**
 Conductor's phase-marker writes become
-`conductor: <phase> @ YYYY-MM-DD HH:MM TZ`. Three hook scripts read
-the file by prefix-grep (`^conductor:` in stop.sh; `^mode:` in
-session-start.sh and skill-complete.sh — swept, proven safe; pair.sh
-reads `kivna/.pair`, not this file), so the suffix is inert to them;
-stop.sh echoes the whole line, so the stamp reaches the human for
-free. Switch reads the line whole, carrying the stamp into CONTEXT.md. The `execute` marker's
-stamp IS the task's start time.
+`conductor: <phase> @ YYYY-MM-DD HH:MM TZ`. Two hook scripts read
+the file by prefix-grep (`^mode:` in session-start.sh and
+skill-complete.sh — swept, proven safe; pair.sh reads `kivna/.pair`,
+not this file), so the conductor suffix is inert to them. The stamp
+reaches the human through switch, which reads the line whole and
+carries it into CONTEXT.md — not through a hook: stop.sh echoed the
+conductor line, and it was cut in v0.96.0 when the hooks moved to
+plugin auto-load. The `execute` marker's stamp IS the task's start time.
 
 **Task end is git's, already exact.** The work commit timestamp closes
 the range; nothing new is written. At the boundary, the sitting

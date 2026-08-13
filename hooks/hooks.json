@@ -1,0 +1,41 @@
+{
+  "description": "Kerd session hooks, auto-loaded when the plugin is enabled: surface stale state on session start, show mode progress after skill completion, and inject partner-mode while pair is on. Each is silent unless the repo carries Kerd state, so they no-op cleanly in non-Kerd repos.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/pair.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\"",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/skill-complete.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -15,7 +15,11 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.95.0)
+## What's New (v0.96.0)
+
+### v0.96.0
+
+**Kerd's hooks now ship the standard way, so updating Kerd never breaks them again.** The old mechanism wired each repo's hooks by pasting an absolute path to a specific plugin-cache version into `settings.local.json` — and Claude Code garbage-collects old cache versions, so the moment your installed version was pruned, every hook in every repo pointing at it went silently dead, including repos you never touched. That is what happened: eleven repos with broken hooks and a `/switch out` reminder that named a command that no longer exists. The fix is the mechanism plugins are *supposed* to use — `hooks/hooks.json` in the plugin, which Claude Code auto-registers the instant the plugin is enabled and resolves at runtime, so there is no version-pinned path anywhere to rot. You wire nothing; updating Kerd changes nothing to keep in sync. **What it means:** enable Kerd and its hooks work, everywhere, forever. `/kerd:tend` now *removes* leftover manual wiring instead of adding it. **Named as a loss:** the Stop hook is gone — it was the only thing that nudged "you have uncommitted changes, run switch" at turn-end, but it fired after every response (not once when you left), its reminder pointed at a dead command, and its mode half was already covered by the statusline. The uncommitted-work safety net is the thing you're giving up; the switch discipline itself is unchanged.
 
 ### v0.95.0
 
@@ -219,19 +223,15 @@ Pair toggles how you and Claude work together. Off by default — the full, show
 
 ## Hooks
 
-Kerd ships four opt-in hooks that provide session boundary awareness and the pair toggle. They are not active by default. Run `/tend` to register them in your local settings.
+Kerd ships three hooks that provide session boundary awareness and the pair toggle. They **auto-load from the plugin** — the moment the Kerd plugin is enabled, Claude Code registers them from `hooks/hooks.json`. There is no per-repo wiring, and nothing to keep in sync when Kerd updates: the standard plugin-hook mechanism resolves the path at runtime, so it never version-rots. Each hook is silent unless the repo carries Kerd state, so they no-op cleanly in non-Kerd repos.
 
-**Stop hook:** When a session ends with uncommitted changes or an active mode, prints a one-line reminder to run `/switch out`. Silent when the repo is clean.
-
-**SessionStart hook:** On same-machine resume, checks if the local branch is behind remote, reads the last session date from TODO.md, and reports any interrupted mode. Suggests `/switch in` when there's stale state. Silent on a fresh start.
+**SessionStart hook:** On same-machine resume, checks if the local branch is behind remote, reads the last session date from TODO.md, and reports any interrupted mode. Suggests `/kerd:switch in` when there's stale state. Silent on a fresh start.
 
 **Skill completion hook:** When a mode is active and you complete the current step's skill, shows your progress and what's next. Read-only — it never writes `.active-modes`.
 
 **Pair hook (`UserPromptSubmit`):** While pair is on for the repo (`kivna/.pair` = `on`), injects the partner-mode reminder into every prompt. Silent when pair is off or absent. See the pair skill above.
 
-```
-/tend                # registers hooks in .claude/settings.local.json
-```
+Older repos may still carry manual hook entries in `.claude/settings.local.json` from the pre-0.96.0 wiring mechanism — version-pinned cache paths that break the moment Claude Code garbage-collects that cache version. `/tend` (category 9) detects and removes those; the plugin provides the hooks itself now.
 
 **Statusline segment (`hooks/statusline.sh`):** not a hook — it sits beside them and wires into `statusLine`, never into `hooks`. It prints the wall-clock time as `HH:MM`, and it **composes rather than claims** the slot: hand it an existing statusline command as its single argument and it prints `HH:MM · <that command's output>`, forwarding the context JSON on stdin unchanged. Machine-local and opt-in — `/tend` does not register it.
 
@@ -255,7 +255,7 @@ Slot already taken — pass the command that is there now as the argument, quote
 
 Both paths must be absolute and already resolved: `${CLAUDE_PLUGIN_ROOT}` does not expand inside a settings file (the v0.29.1 hook-path gotcha).
 
-The four hooks are covered by a bash test harness, `tests/hooks_test.sh` (26 tests: path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, and the pair toggle's on/off/absent branches). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
+The three hooks are covered by a bash test harness, `tests/hooks_test.sh` (path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, the pair toggle's on/off/absent branches, and a check that every script named in `hooks/hooks.json` exists and is executable). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
 
 ## Entry gates (tools/gates/)
 
