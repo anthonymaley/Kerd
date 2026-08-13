@@ -78,10 +78,29 @@ exception, no skipped stages — and yet a small clear change never costs an hou
 of process. A stage whose inputs are already clear passes instantly; a stage
 whose inputs are missing stops and gets them instead of inventing them.
 
-**Design input: NOT YET GIVEN.** Tony supplied inputs for G1, G2, G4, G5, G6,
-G7 and G8 and did not supply one for G3. The interview holds a proposed
-reconciliation — stages *satisfied, not performed* — but that is the model's
-reading, not his input, and it is the mechanism this goal most depends on.
+**Design input, his words:** *"the process should allow and recognize and
+understand for small changes without breaking the process or cirumventing it.
+example. color or text change or spacing chnage on app, this is fine tuning, so
+maybe we have a process that handles this aspect or we need to be able to
+quickly advance from step 1 to step 8 to make those changes and not havea huge
+overhead to make them but also not let these small changes break the design spec
+or the archtecure or requirments without agreed change"*
+
+**The mechanism this names is classification, and it comes with its own guard.**
+The process must *recognise* small work as a class — he calls it **fine
+tuning** — and let it move without either breaking the process or circumventing
+it. What makes the fast path legitimate is the guard on the other side: a fine
+tune may not alter the design spec, the architecture, or the requirements
+**without agreed change**. The moment a change would touch those, it is not a
+fine tune any more and it goes the long way round.
+
+Two candidate designs are floated in his words and **neither is chosen**: a
+dedicated process for fine tuning, or rapid traversal of the normal path from
+first step to last. That choice is design work.
+
+*Superseded:* the model's earlier "stages satisfied, not performed" reading was
+invented to serve this goal. It survives only where it agrees with the input
+above — the input is his and the reading was not.
 
 **Grounded in:** *"My two minutes or four weeks, it doesn't matter... We do it
 the same way"* · *"Hey, can we change the font on the screen?... It doesn't take
@@ -217,8 +236,11 @@ design work.
    causes rubber stamps. Tony named this himself: *"we need to find a way to
    communicate that solves for this."*
 3. **One unvarying path against the two-minute change (inside G3).** The stages
-   never vary, yet a font change must not take an hour. G3 has no design input
-   yet, so this tension currently has nothing assigned to resolve it.
+   never vary, yet a font change must not take an hour. G3's design input
+   assigns a resolution — recognise fine tuning as a class, guarded by "may not
+   change the spec, architecture or requirements without agreed change" — but
+   *how* that is delivered is undecided between a dedicated fine-tuning path and
+   fast traversal of the normal one.
 4. **Consume-before-build against owning the process (G8 vs G1/G5).** *"we
    should consume what we can and build the differentitor"* against *"i just
    want the process to be ours and visable"*. Bounded by *"never at the cost of
@@ -229,9 +251,10 @@ design work.
 
 ## Open questions
 
-1. **G3 has no design input.** Every other goal has one in his words. G3 is the
-   goal the "stages satisfied, not performed" reading was invented to serve, and
-   that reading is still the model's.
+1. **Which shape does fine tuning take?** G3's input floats two and chooses
+   neither: a dedicated process for fine tuning, or rapid traversal of the
+   normal path. Also unstated: what decides that a change *is* a fine tune, and
+   who makes that call when it is borderline.
 2. **Who is "someone else", and does adoption count?** *"Many people should
    install this"*, and G8 now requires real need and real want — but whether
    Kerd fails if only Tony ever uses it is unstated.

@@ -494,6 +494,25 @@ trending to zero. Tony rejected the framing outright.
   to supply capability the model lacks. Its purpose is *"to help you review and
   not just produce as done."*
 
+**Tony, 2026-08-13 18:14 EDT, verbatim — G3's design input, supplied after the
+model flagged it as the one goal without one:**
+
+> g3 is simple, the process should allow and recognize and understand for small
+> changes without breaking the process or cirumventing it. example. color or text
+> change or spacing chnage on app, this is fine tuning, so maybe we have a
+> process that handles this aspect or we need to be able to quickly advance from
+> step 1 to step 8 to make those changes and not havea huge overhead to make them
+> but also not let these small changes break the design spec or the archtecure or
+> requirments without agreed change
+
+**This names a class and a guard.** *Fine tuning* is recognised work — a colour,
+text or spacing change — that moves without breaking or circumventing the
+process. What licenses the speed is the guard: a fine tune may not change the
+design spec, the architecture, or the requirements **without agreed change**.
+The moment it would, it stops being a fine tune. Two delivery shapes are floated
+and neither chosen: a dedicated fine-tuning process, or fast traversal of the
+normal path.
+
 **Also stated, as a presentation rule:**
 
 > when we ask for inout, put a flag or ascii border aroud the questions to ensure
