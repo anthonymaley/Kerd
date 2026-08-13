@@ -4,13 +4,21 @@
 Every goal below is grounded in a quoted phrase from that interview and nothing
 else — no existing artifact, decision, or skill was consulted.
 
-**Status: AWAITING TONY'S APPROVAL — BLOCKING.** Nothing downstream may cite
-these goals as settled until he has read them and either approved them or pushed
-back. This is not a status field to note and move past.
+**Status: APPROVED BY TONY, 2026-08-13 18:30.** His word: *"approved"*. He also
+added a second design input to G1 directly into this file in the same beat.
+These goals may now be cited as settled by everything downstream, including the
+still-open decision of whether to build Kerd or adopt something existing.
 
-**Tony, 2026-08-13 18:18, on that exact distinction:** *"the process demand
-approval or push back until approval, 'not yet keyed' suggests recored as status
-and moved on"*. An approval that can be deferred by recording that it is
+**Recorded because it is a defect worth not repeating:** the model asked for
+approval three times without ever clearly asking him to *read the file* — *"didnt
+see you ask for a reviwe of that file"*. An approval requested without an
+explicit request to review is the same failure as an unreadable gate message
+under G4: the ask cannot be acted on properly, so whatever comes back is worth
+less than it appears.
+
+**Tony, 2026-08-13 18:18, on what an approval gate has to be:** *"the process
+demand approval or push back until approval, 'not yet keyed' suggests recored as
+status and moved on"*. An approval that can be deferred by recording that it is
 outstanding is not a gate. The process demands the answer; it does not note its
 absence and continue.
 
@@ -83,6 +91,15 @@ appear inline without the agreed steps; *"just make that change"* never happens.
 
 **Design input, his words:** *"strong visuals and specs for approval so we are
 clear with each other"*
+
+**Second design input, added by Tony directly into this file, 2026-08-13
+18:30:** *"a user never feels overwhelmed by the process"*
+
+This is a distinct requirement from G4's false approval, though they share a
+cause. G4 is about a single message being unreadable. This is about the
+*cumulative* weight of the process — a user can understand every individual step
+and still be worn down by how many there are. A process that is clear at every
+point and exhausting in aggregate fails G1 even though no single gate failed.
 
 **Grounded in:** *"a robust but quick and clear and concise visual process that
 allows us to trust what we're building"* · *"This will stop the inline new
