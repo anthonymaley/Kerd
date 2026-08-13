@@ -513,6 +513,28 @@ The moment it would, it stops being a fine tune. Two delivery shapes are floated
 and neither chosen: a dedicated fine-tuning process, or fast traversal of the
 normal path.
 
+**Tony, 2026-08-13 18:16 EDT, verbatim — sharpening it immediately:**
+
+> imagine for g3 if the design spec designer saw his font being changed without
+> his approval.....
+
+**This corrects the model's reading of its own paragraph above.** The model had
+split the world into fine tunes that *don't* touch the spec (fast) and changes
+that *do* (slow). But a font **is** the design spec. The designer who owns that
+spec would object to it changing without their approval — and they would be
+right.
+
+So the guard is not "fine tunes avoid the spec". It is:
+
+- A fine tune **still lands in the spec**, and still gets the agreement of
+  whoever owns it. What makes it fast is that the approval is *proportionate*,
+  not that it is skipped.
+- The spec must remain **the truth**. A change that alters the artifact without
+  being reflected back into the spec creates silent drift, and after enough of
+  them the spec describes something that no longer exists.
+
+The failure this prevents is not slowness. It is a spec quietly becoming a lie.
+
 **Also stated, as a presentation rule:**
 
 > when we ask for inout, put a flag or ascii border aroud the questions to ensure

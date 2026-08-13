@@ -89,10 +89,24 @@ or the archtecure or requirments without agreed change"*
 **The mechanism this names is classification, and it comes with its own guard.**
 The process must *recognise* small work as a class — he calls it **fine
 tuning** — and let it move without either breaking the process or circumventing
-it. What makes the fast path legitimate is the guard on the other side: a fine
-tune may not alter the design spec, the architecture, or the requirements
-**without agreed change**. The moment a change would touch those, it is not a
-fine tune any more and it goes the long way round.
+it.
+
+**The guard, sharpened by Tony immediately afterwards:** *"imagine for g3 if the
+design spec designer saw his font being changed without his approval....."*
+
+A font **is** the design spec. So the fast path is not "fine tunes avoid the
+spec" — it is:
+
+- A fine tune **still lands in the spec** and still gets the agreement of
+  whoever owns it. The speed comes from the approval being *proportionate*, not
+  from it being skipped.
+- The spec stays **the truth**. An artifact that changes without the spec
+  changing with it is silent drift, and enough of it leaves a spec describing
+  something that no longer exists.
+
+The failure being prevented is not slowness. It is a spec quietly becoming a
+lie — which would also defeat G6, since "does not look or behave differently
+from the agreed spec" means nothing once the spec has stopped being accurate.
 
 Two candidate designs are floated in his words and **neither is chosen**: a
 dedicated process for fine tuning, or rapid traversal of the normal path from
