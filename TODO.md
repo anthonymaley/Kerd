@@ -6,18 +6,9 @@
 **requirements → features → releases**. The middle layer partly exists — 13
 product docs. Both other ends are empty.
 
-**DONE and pushed this sitting** — see `kivna/sessions/2026-08-08.md`:
-the build-vs-adopt evaluation (verdict BUILD, on merit), the mark set and its
-machinery, the schema study, the register data model, and
-**`docs/requirements/` itself** — catalog, disposition and 50 requirements as
-blocks with 15 typed links.
-
-**BLOCKING, and it is the honest next move:** `docs/requirements/catalog.md`
-declares refusals — *"an unknown field is a hard error"*, *"the audit REFUSES"*
-— and **nothing enforces any of them.** No AU7, no AU8, no validator. A
-declaration of refusals with no refuser is exactly the criticism this design
-makes of the `Piece:` trailer. AU7/AU8 were prototyped at 117 lines and 11
-fixtures, passing first run; the working stdlib parser is in this sitting's log.
+**DONE 2026-08-13 afternoon sitting** — see `kivna/sessions/2026-08-13.md`:
+AU7/AU8 the register validator (v0.97.0, `8b7f52d`) and the bidirectional
+model+effort advisory building `FUN-010` (v0.98.0, `f4c51c0`), both CI-green.
 
 **Then, in order:**
 
@@ -27,13 +18,23 @@ fixtures, passing first run; the working stdlib parser is in this sitting's log.
    `$CLAUDE_PROJECT_DIR` measured unset).
 2. **Rework the blocked design package** against everything keyed today. It has
    ~19 original findings, ~15 from the terrain pass, ~5 from the schema study
-   and ~60 surviving the verification pass.
-3. **Move the twenty category codes out of `kit.py`** into the project's own
-   catalog — Build scores `△+` on its own taxonomy criterion because they are
-   hardcoded, contradicting the standing "declared per project" rule.
-4. The release grouping artifact, then the board.
+   and ~60 surviving the verification pass. **Absorbs the trace gap (agreed
+   2026-08-13):** after the producer files the origin rows, the model drafts
+   `refines` parents in category batches and he keys them as sets; the forward
+   half is slice 2. The AU8 finding (46 unparented at last audit) is the live
+   tracker.
+3. The release grouping artifact, then the board.
+
+*(Retired 2026-08-13: "move the twenty category codes out of kit.py" — the
+validator reads the legal set from `categories.md` and the codes were never
+hardcoded anywhere.)*
 
 **Owed by the producer, neither blocking:**
+
+- **File the origin rows — BUS/STA/USR.** The trace's top: the handful of
+  requirements stating what Kerd is for and who is asking (~5-10 blocks, frame
+  rung, his stakes). The disposition file already calls all three categories
+  a gap. Prerequisite for wiring the 46 `refines` parents.
 
 - **`categories.md` needs his key.** The disposition is his by design; it is
   model-drafted, and three rows are flagged as genuine judgment calls. `SEC` was
