@@ -4,8 +4,20 @@
 Every goal below is grounded in a quoted phrase from that interview and nothing
 else — no existing artifact, decision, or skill was consulted.
 
-**Status: DRAFTED BY THE MODEL, NOT YET KEYED BY TONY.** Nothing here is binding
-until he has read each goal, corrected it or confirmed it, and keyed it.
+**Status: AWAITING TONY'S APPROVAL — BLOCKING.** Nothing downstream may cite
+these goals as settled until he has read them and either approved them or pushed
+back. This is not a status field to note and move past.
+
+**Tony, 2026-08-13 18:18, on that exact distinction:** *"the process demand
+approval or push back until approval, 'not yet keyed' suggests recored as status
+and moved on"*. An approval that can be deferred by recording that it is
+outstanding is not a gate. The process demands the answer; it does not note its
+absence and continue.
+
+*(Vocabulary note: this file previously said "keyed", which is the repo's own
+jargon and not language Tony uses. It says approval now. Machine vocabulary in a
+gate is the same defect as an over-technical gate message under G4 — it makes
+the ask harder to act on than it needs to be.)*
 
 ## How to read a goal — corrected 2026-08-13 18:06
 
@@ -258,8 +270,19 @@ look. So these mechanisms supply a trigger, not a capability — which is why
 baking them in works at all, and why relying on the model to remember to do them
 would not.
 
-Whether the tiers fire by stage, by risk, or by cost is a design question and is
-not answered here.
+**What triggers each tier — answered by Tony, 2026-08-13 18:18:** *"doing a
+thing, check it yourself, doing a bigger thing, strawman, doing a critical
+thing, get adveserial model to check"*
+
+| The work | The check |
+|---|---|
+| Doing a thing | Check it yourself |
+| Doing a bigger thing | Straw-man it |
+| Doing a critical thing | Adversarial model checks it |
+
+So the trigger is the **weight of the work**, not the stage it sits in and not
+a cost budget. The ladder is staffed the same way production is — the check
+gets the effort the work deserves.
 
 ---
 
@@ -295,11 +318,16 @@ design work.
    neither: a dedicated process for fine tuning, or rapid traversal of the
    normal path. Also unstated: what decides that a change *is* a fine tune, and
    who makes that call when it is borderline.
-2. **Who is "someone else", and does adoption count?** *"Many people should
-   install this"*, and G8 now requires real need and real want — but whether
-   Kerd fails if only Tony ever uses it is unstated.
-3. **What evidence settles build-vs-adopt, and who takes the decision?** Q4 is
+2. **What evidence settles build-vs-adopt, and who takes the decision?** Q4 is
    explicitly open. The prior evaluation in this repo is to be re-examined as
    evidence, not treated as precedent.
-4. **What triggers each tier of the self-check ladder?** By stage, by risk, by
-   cost — unanswered.
+
+**Closed 2026-08-13 18:18:**
+
+- ~~*Does adoption by others count?*~~ **Yes** — *"adoption by other yes
+  important"*. Kerd being used only by Tony is a failure against G8.
+- ~~*What triggers each tier of the self-check ladder?*~~ **The weight of the
+  work** — see the ladder table above.
+- ~~*Effort against meeting the requirements*~~ — already answered by *"never at
+  the cost of meeting our goals or quality"*; effort is a constraint on how, not
+  on whether.
