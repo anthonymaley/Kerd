@@ -1,0 +1,397 @@
+# Kerd — the reset interview
+
+**Started 2026-08-13 17:05 EDT.** Called by Tony after a session framed two
+solutions in a row and neither party could say whether what exists serves the
+goal. His words: *"honestly i feel we are lost here, i have no clue if what we
+have build and what the requirments will build is what we need now. the fact
+that we are both confused tells me we need a reset."*
+
+**The operating rule for this document:** nothing here is grounded in what
+already exists. Not the register, not the board, not the standing decisions, not
+any shipped skill. Tony's words are captured verbatim and are the record; the
+model does not paraphrase, summarise, or reconcile them against the repo. His
+instruction: *"we need to go back to this interview level and not be confused by
+any existing knowledge until we capture this as the source of truth."*
+
+Once captured and keyed, **this file is the source of truth** and everything
+that exists gets checked against it — not the other way round.
+
+---
+
+## Q1 — What are we building?
+
+**Tony, 2026-08-13 17:05 EDT, verbatim:**
+
+> We are building a skill that will take us from an idea through to the launch
+> of an idea. It could be:
+> - a product
+> - a document
+> - a business idea
+> - a code project for enhancing something that exists
+>
+> It doesn't really matter. Idea through a robust but quick and clear and
+> concise visual process that allows us to trust what we're building and to make
+> it perform incredibly well between human and agent
+>
+> We also want to make sure we have session memory and contextual memory
+> transferred between sessions, and long-term memory of what we've spoken about.
+> Right now we have Switch as a skill that works really well but we want to make
+> it work perfectly. That's the basis of this skill and it's something we can use
+> on its own just for non-conductor (as we call it). It can be anything when we
+> design conductor sessions.
+>
+> The Switch in and Switch out is a super powerful GitHub-based session for:
+> - long-term memory
+> - context clearing
+> - and restarting without losing any context memory
+
+---
+
+## The boundary — stated first, at Tony's insistence
+
+Raised unprompted during Q2, with the instruction to *"Make that super clear
+before we answer question two."*
+
+**Tony, 2026-08-13 17:13 EDT, verbatim:**
+
+> Let's make a very important point here: this is a skill that lives in people's
+> repos, in their own projects. Kerd is the skill that can live there but the
+> Kerd project should never have sessions for any of those other repos or
+> projects. Many people should install this and use Kerd inside those projects
+> and the boundaries within that repository, that project.
+
+---
+
+## Q2 — What does it have to do?
+
+*(open — the walkthrough from idea to launch is still unanswered; what follows
+is what Tony gave first, on roles and model economy.)*
+
+**Tony, 2026-08-13 17:07 EDT, verbatim:**
+
+> We also want the conductor role, if we keep that, to To make sure we're not
+> wasting tokens by using the correct model and using the correct effort. We also
+> control and delegate tasks to agents (sub-agents) of the appropriate level. We
+> make sure we're using the best models to design and own the actual solution so
+> we're not degrading ideas. If we use lower models, we always push it to the
+> correct model
+
+**Tony, 2026-08-13 17:13 EDT, verbatim — the walkthrough:**
+
+> Question two: we start a session. It could be in an existing repo or a new
+> repo, but we start with an idea or a request, maybe: "Hey I've got a new
+> product. Let's figure out if it's viable." We go through ideation:
+> - What is the product?
+> - What is the idea?
+> - How will it work?
+> - Who are the competitors?
+>
+> Let's do analysis and make sure we understand and capture the requirements, or
+> what will become requirements, in a way that we can use to measure the success
+> of the next step, which will probably be validation or design. We go through
+> that validation or design and make sure that we have everything we need. We
+> know all of the goals, the measurements, what makes it successful, whether it
+> already exists, and whether we should leverage other technology.
+>
+> All of that goes into an architecture design phase. It may not be technology.
+> It could be, "Hey I want to write a book," but it goes into the next phase, and
+> then the next phase, until we have everything the model needs to go and execute
+> to build the thing.
+>
+> It should loop and measure itself against those goals and requirements, and
+> design to make sure we build what we agreed we're going to build. That way we
+> don't have to be in this constant back-and-forth conversation. We can do all of
+> that upfront.
+>
+> It can take an hour, two minutes, or four weeks. It doesn't matter but we get
+> to the point where we are super aligned on:
+> - what we're going to build
+> - how it has to work
+> - what good looks like
+>
+> Then you just go and build it
+>
+> Now through all of that process, we need to keep the technical chat to a
+> minimum unless that is what's being requested. If we're building a code project
+> and a developer wants to use it and see the code, that's a conversation that
+> can emerge. Mostly this is a guiding conductor hand that is making sure
+> everything is thought through and it's clear what we have to build
+>
+> To do that we need to visualize each stage. Hey, this is the idea that I heard.
+> Does this look right? This is back to how we visualize things in the Toyota
+> skill sensei, which is one of my other skills. Very simple, very clear: here's
+> the current view, here's the goal. Does that look correct? OK well at least now
+> I know we're aligned on what we're trying to achieve
+>
+> Then we can also use the same thing for problems. Here's what I think is
+> happening: we can visualize it.
+>
+> For the architecture we should have a hybrid diagram showing:
+> - the architecture
+> - the tech stack
+> - the flow between them
+> - where we're going to host that
+> - the tools we're going to use
+>
+> All of that should be visualized in a very simple, easy-to-understand diagram
+> that the user can approve. Boxes, not code
+>
+> We need some way to visualize the state:
+> - Where are we in the journey?
+> - What's happening next?
+> - What content or artifacts have we produced and can I view them?
+> - Reference numbers
+>
+> Maybe this is requirements management coming in. This feature: I've changed my
+> mind. Even though we have a design, can we look at the impact of changing that
+> now or does this go to the next release, the next version? We need to be able
+> to manage that
+>
+> This will stop the inline new solutions happening without all the appropriate
+> steps being taken
+
+**Tony, 2026-08-13 17:16 EDT, verbatim — asked what is different between a
+two-minute pass and a four-week one, after the model proposed that the stages
+never get skipped and only compress:**
+
+> No I agree with everything you say there. My two minutes or four weeks, it
+> doesn't matter. How long does it take to capture the idea? I don't care if
+> that's a two-minute thing, a four-hour thing, or a four-week thing. We do it
+> the same way
+>
+> And we need to avoid. Hey can we change this skill to do this thing the way I
+> like it? Just make that change. That's verboten. We cannot do that
+
+**Settled by this answer:** duration varies, the path never does. The stages are
+walked the same way every time; what changes is how long capture takes, not how
+many stages there are. There is no small-work exception, and "just make that
+change" is prohibited outright.
+
+---
+
+## Q3 — What does good look like?
+
+**Tony, 2026-08-13 17:22 EDT, verbatim:**
+
+> If this works, we have a way to work together on a project forever without
+> losing the knowledge that we've gained along the way. The changes, what we
+> built, what worked, and what didn't work: we have all of that knowledge and we
+> refer to it in the appropriate way.
+>
+> We don't read the whole book of what we've done every session but we know how
+> to find that and we don't just infer things. We don't guess. We go back to the
+> desk to get that knowledge so that we know what we're doing.
+>
+> Now what does good look like in that situation? We have a new idea or a
+> problem/enhancement and you release. We can instantly work on that together as
+> if we are sitting across the desk from each other in a paired way. We can
+> whiteboard together and share ideas back and forward but then we'll lock it and
+> go, "Oh that sounds like what we're building. This is what it looks like. This
+> is how we measure it. This is how it's going to work from an architecture point
+> of view."
+>
+> Formalize all of those back-and-forth conversations into a spec that becomes
+> measurable, linked to the goals and the requirements, and then we can build it
+> together. That usually means you and the subagent are building that but I can
+> see the progress and the artifacts as you make them. I can be clear that we're
+> building the right thing and I can start planning the next release in my head.
+> I never feel that you don't understand me when I speak.
+>
+> What I mean by that is we've already spoken about this and we've already agreed
+> you understand me. You don't have to reinvent something, change your mind, or
+> infer it. You should instinctively know or know how to know about what we're
+> talking about. Switch-ins and switch-outs should be really fast and clear but
+> they should wait on quality, not speed. We should make sure it's as fast as it
+> can be without losing that quality so we don't cut corners. We optimize to make
+> sure that session knowledge is captured exactly the way we need it so that we
+> don't have to guess the next time We should also make sure that we have quick
+> things to work on.
+>
+> Hey, can we change the font on the screen? I've got a better idea!
+>
+> It doesn't take us one hour to go through a process. We should be able to
+> fast-track that by making sure the goal is clear, the architecture is clear, and
+> the measurement is clear. We shouldn't be doing things for the sake of it. We
+> should be doing things the right way.
+>
+> That change requires recording and checking everything but we shouldn't be
+> overly building and testing without checking to see what comes next. Let's not
+> do a build and check if the next thing is to change the spacing on that font. We
+> need to optimize when we test and when we build to test
+
+---
+
+## Q4 — Why not use another existing skill?
+
+**Tony, 2026-08-13 17:22 EDT, verbatim:**
+
+> Another measurement and benchmark is superpowers brainstorming and
+> problem-solving. The tests it writes are great but it's just too much for how we
+> work. I would like people to say, "Oh are you superpowers but what you're using
+> is way better for how we work? Can we try that because that looks great?"
+
+**The benchmark, therefore:** superpowers, beaten on *fit* rather than on
+capability — its test-writing is named as genuinely good. The win condition is
+an observer's reaction, and it is partly visual: *"that looks great."*
+
+**Tony, 2026-08-13 17:23 EDT, verbatim — correcting the model's reading of what
+this question is for:**
+
+> q4: Great question but this is what we have to answer. Do we stick with
+> superpowers? Is it perfect or do we build this?
+
+**Q4 IS AN OPEN DECISION, not a justification to be collected.** Whether Kerd
+should exist at all is unsettled and this interview has to answer it. The
+options on the table are: stick with superpowers, or build this. Nothing in this
+document may assume the answer.
+
+*Noted for honesty rather than as an answer:* a prior evaluation of superpowers
+exists in this repo from before the reset. It is deliberately not being used to
+settle this, because it was made under the assumptions the reset is questioning.
+It gets re-examined as evidence when this decision is actually taken, not
+treated as precedent.
+
+**Tony, 2026-08-13 17:25 EDT, verbatim — asked what is happening in the moment
+superpowers feels like too much:**
+
+> it immedialy kicks in to "brainstorm" and build "spec" then "imolementation
+> plan" etc etc even when its a small thing or we dont have all the input
+
+**Two distinct failures named, and the second is the sharper one:** it runs the
+pipeline when the work is small, *and* it runs the pipeline when the inputs do
+not exist — producing a spec and a plan out of information it does not have.
+
+**Tony, 2026-08-13 17:32 EDT, verbatim — the first movement toward answering
+the Q4 decision:**
+
+> superpowers does some great things, testing covergae, showing options, showing
+> progress through build etc. so we can learn from it, i just want the process to
+> be ours and visable
+
+**Three superpowers strengths named as worth learning from:** test coverage,
+showing options, showing progress through the build. **The stated want:** the
+process is *ours* and it is *visible*. This is not a decision to build
+everything from scratch, and it is not adoption — it is ownership of the process
+with deliberate borrowing. The Q4 decision remains formally open until it is
+taken with evidence, but this is the direction of travel and the grounds are
+ownership plus visibility rather than capability.
+
+**Tony, 2026-08-13 17:25 EDT, verbatim — continuing:**
+
+> so it feels labourous and its not clear what or why its doing in a black box
+> way
+
+**Three attributes of "too much", now complete:** it is **heavy** (the full
+pipeline for small work), it is **ungrounded** (it proceeds without the inputs),
+and it is **opaque** — laborious to sit through, with no visibility into what it
+is doing or why. The third connects directly to the Q2 requirement that every
+stage is visualized and confirmed (*"this is the idea that I heard. Does this
+look right?"*): the visual gate is the countermeasure to the black box, not
+decoration on top of the process.
+
+**The model's reading of how this reconciles with "we do it the same way"
+(Tony to confirm or correct):** the stages are **satisfied, not performed**. A
+stage whose inputs are already clear is already met and costs nothing to pass;
+a stage whose inputs are missing **stops and gets them** rather than generating
+the artifact anyway. superpowers performs each stage on schedule regardless of
+whether it is already met or cannot yet be met. That is the difference between
+"too much" and "the same way every time" — and it means the fast-track for a
+font change and the refusal to guess are the same mechanism, not two.
+
+---
+
+## Q5 — Why would you use it?
+
+**Tony, 2026-08-13 17:30 EDT, verbatim:**
+
+> i dont mind robust, i just mind overhead and overwork. if we can agree quickly
+> and it aligns to the existing requirements and architecture and its clear what
+> to do.. go !  but if it doesnt then take our time and make sure we understand
+> what to do.  what i really dont want is a super verbose complex technical
+> response or questions that lose the audience and results in "sure" or
+> "approved" becuase the user feels dumb or cant read all the text and map it
+> quickly so jsut agrees.  we need to present options and explain then concicely,
+> clearly and visual if possible, give them time to react and think and answer.
+> then approve or change, or even coach them to the answer. but brevity is good
+> as it shows we understand, but not explaining properly or too technical can
+> result in the wring agreements. so we need to find a way to communicate that
+> solves for this
+
+**The failure mode named here is FALSE APPROVAL, and it is load-bearing for the
+whole system.** A verbose or over-technical gate message produces "sure" /
+"approved" from a user who could not read it, did not map it, and felt stupid
+saying so. Every gate in the process depends on approval meaning something; if
+approvals are rubber stamps, every gate is theatre and the alignment the whole
+front-loaded process exists to buy was never actually bought.
+
+**The stated tension, which forbids the easy answer:** brevity is itself a
+signal of understanding — but under-explaining causes *wrong* agreements. So
+"be brief" is not the solution and neither is "be thorough". Tony's own framing:
+*"we need to find a way to communicate that solves for this."*
+
+**Also stated:** the response to a gate is not binary. Approve, change, **or be
+coached to the answer** — the user may not know what they want yet, and that is
+a supported path rather than a failure.
+
+**And the go condition, stated plainly:** aligned to existing requirements and
+architecture + clear what to do → **go**. Not aligned or not clear → take the
+time. Robustness is welcome; overhead and overwork are not.
+
+---
+
+## Confirmation of the read-back, and what it opened
+
+**Tony, 2026-08-13 17:41 EDT, verbatim — answering "does this look right?" on
+the model's summary of Q1–Q6:**
+
+> yes, we can havce multiple commands that support the main skill, like we have
+> already in conductor, skriv, slainte, tend, kiva, switch etc.  thats okay but
+> the conductor should know how and when yo use them. they can be used on there
+> own too possibly or as an option inline (skriv for writting in users voice or
+> with persona rules etc) but we can consider all of this and build the best
+> solution. nothing is a sacred cow. we can also start from scratch in new repo
+> and build a clean solution if that makes it easier to do, no noise.
+>
+> we can also consider calling other skills or tools that meet our needs vs
+> build, we should consume what we can and build the differentitor but never at
+> the cost of meeting our goals or quality.
+
+**The read-back is confirmed — this document is the source of truth from here.**
+
+**Four things this opened:**
+
+1. **Supporting commands are legitimate.** One main skill with commands beneath
+   it, possibly usable standalone or inline. **The conductor must know how and
+   when to use them** — routing is the conductor's job, not the user's memory.
+2. **Nothing is a sacred cow.** Every existing skill, artifact and decision is a
+   candidate for change or removal.
+3. **A clean-repo restart is a live option** if it produces a better solution
+   with no noise.
+4. **Consume before building.** Call other skills or tools where they meet the
+   need; build only the differentiator — **but never at the cost of the goals or
+   the quality.**
+
+---
+
+## Q6 — Why would someone else want it?
+
+**Tony, 2026-08-13 17:34 EDT, verbatim:**
+
+> someone else would want it to help them manage and build a product or project
+> and feel in control the whole time, feel safe that the effort is not lost, the
+> interface is clear, the output is clear and the results are professional and
+> complete.  it needs to make sense, be understandable, be optinal where options
+> are possible but not so complex you dont use have the features or know they
+> exist. the visual control should explain the process and the capablities too.
+> nothing you dont know exists etc
+
+**The visual layer now carries three jobs, not one.** It is the alignment gate
+(*"does this look right?"*), it is the state view (where we are, what artifacts
+exist), and it is **the discovery mechanism for the tool's own capabilities** —
+*"nothing you don't know exists"*. A feature the user never learns about is
+functionally absent, and the visual control is what prevents that.
+
+**The felt requirements, which are outcomes rather than features:** in control
+the whole time · safe that the effort is not lost · interface clear · output
+clear · results professional and complete. "Effort is not lost" is the same
+requirement as the memory foundation in Q1, stated from the user's side.
