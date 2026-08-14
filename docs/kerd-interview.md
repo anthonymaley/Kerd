@@ -782,6 +782,152 @@ an ask the user does not notice is an ask that gets a reflex answer.
 
 ---
 
+# 2026-08-14 — the morning's rulings, consolidated
+
+**Why this section exists, and it is a failure worth recording.** A fidelity
+audit on 2026-08-14 12:21 checked the requirement-shape document against this
+file and found six of its producer citations unverifiable. The citations were
+**true** — he said every one of them — but his words had been captured into
+whichever document was in front of the model at the time (a spike frame, the
+prior-art file, commit messages) rather than here. **This file is the declared
+source of truth, and it had stopped holding the truth.** The audit did exactly
+the right thing and was right to refuse.
+
+Everything below is verbatim, in order, with the time it was said.
+
+---
+
+**08:16 — the objection to a markdown file, and what a view must do:**
+
+> okay lets step back, we did a whole evaluation, it came out build, you ranked
+> them. now i objected to a simple markdown file last night because there was no
+> simple way for me to see the requirments and their dependencies, i would expect
+> a html view at least for me to interact with and edit the text, see its status
+> (for each requirment) and to add comments perhaps for you to pick up or to
+> record notes around the requirments, add links or images perhaps as input ? a
+> ingle huge markdown for me to interact with is not the answer. However, im not
+> going to declare how we store that data, it could be a markdown file that you
+> manage and create. im open to trying strictdoc, but i cant remember why it lost
+> specifically. im also open to doing two spikes to try a html view of our
+> markdown files for requirments and one for strictdoc to see how that i/f works
+> etc - your thoughts?
+
+**08:20 — write-back, staged:**
+
+> ideally directly to reduce overhead for many requirments but we can start with
+> a paste option while we build the proess and ui out if you want as a first step
+
+**08:22 — on spiking StrictDoc:**
+
+> what are the two spikes, i thought we jsut agreed to build - so no need to
+> spike strcit dc?
+
+**08:23 — status, later withdrawn by him as unresearched:**
+
+> status is DRAFT, ACCEPTED, FINAL V1.0, V1.2 kind of status
+
+**08:27 — the instruction that produced Law 4:**
+
+> so lets be clever here. dont just take "he asked for them" as fact that is the
+> best way. lets compare against other systems and well known requirments
+> mamagement plafforms or processes that are known to work. so how IDs should
+> work, Status names etc - lets do that analysis now vs later and we can cherry
+> pick or rework the best approaches to find a solution that works for us. lets
+> not invernt fire to make meal, lets turn on the stove to cook one
+
+**08:32 — widening the research brief:**
+
+> yes great idea, and we dont have to record "requirements" is any specifc way as
+> we mandate, lets learn from ADrs, RFCs, spec driven deverlopmetn, Jama,
+> Strictdoc etc and find the best way from whats out there. dont limit the
+> research to mapping ID schemas, status names etc to how we think - lets see how
+> they manage requirements and then decide what we do from there. maybe we are
+> missing something
+
+**08:36 — on ADRs, and the clarification that followed it:**
+
+> ADR is the requirement in detail when approved. we should look at other skills
+> too - what does superpowers do or other skills in this area. how doea anthropic
+> on openai work in this area?
+
+> im not saying use ADR btw, just noting that ADRs come post requirement approval
+> in process flow, not saying we need to use them
+
+**08:43 — Jira ruled out, and the correction to how the survey evidence reads:**
+
+> jira is overkill to imo, and not easy to work with, too complex, and cost
+> prohibitive, puts dependency on users projects.  what Adzic doesnt say is that
+> the 12% might be the most productive and the 57% might not actually know the
+> requirments that are lost to complexity
+
+**08:43 — lifecycle over status:**
+
+> yeah maybe lifecycle is a better way vs status
+
+**08:45 — the language linter adopted:**
+
+> agree on the The language linter, we should have that as a help or listed under
+> the field etc
+
+**08:46 — release and roadmap de-prioritised:**
+
+> release-and-roadmap maybe be downstream of requirements in reality
+
+**08:49 — the one-field insight:**
+
+> i am sure at its core, it might be a one field system based on description, as
+> that defines the requirement,  but do we have IDs, lifecycles, notes, version
+> history etc etc?
+
+**08:53 — withdrawing the status answer, and stating the real need:**
+
+> ignore "You've already said DRAFT / ACCEPTED / FINAL v1.0, v1.2."  you asked me
+> directly that was my thinking without research.  i agree with the other systems
+> but we do need a process to say "requirment x y z go forward, a b c dont" or 'X
+> is final and approved' or 'y is not ready or approved' otherwise we build
+> everything all the time
+
+**08:56 — confirming the split, and the fingerprint:**
+
+> yes, i like the fingerprint idea also.
+
+**09:00 — the jargon correction, and the fingerprint's scope:**
+
+> you say AU7 but how do i know what that is?   i would say NO also, no point
+> doing half of the fingerprint
+
+**09:26 — versions dropped:**
+
+> we already discounted the FINAL 1.0 etc - ignore, we use fingerprint and
+> lifecycle.
+
+**09:28 — the graveyard:**
+
+> we need a graveyard so we dont add them again and learn from them
+
+**09:29 — on how to be asked:**
+
+> give me something i can say yes to
+
+**09:32 — "yes"**, to two things put to him together: **the set is a document**
+(requirements as blocks in reading order, order free, git carrying history, the
+view generated and disposable), and **the Why joins the fingerprint** alongside
+the statement and the links.
+
+**11:53 — "agree"**, to the precedence rule: **the plain-language word list
+governs the Statement and never touches quoted words inside the Why**, carrying
+the derived-statement flag with it.
+
+---
+
+**Two of the above are him overruling his own earlier words, and both matter:**
+he withdrew `DRAFT / ACCEPTED / FINAL v1.0` twice — once as *"my thinking
+without research"* and once as *"already discounted"* — which is Law 4's second
+half applied to himself. And he corrected the ADR remark from a position back to
+an observation the moment the model inflated it.
+
+---
+
 ## Q6 — Why would someone else want it?
 
 **Tony, 2026-08-13 17:34 EDT, verbatim:**

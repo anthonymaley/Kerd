@@ -260,7 +260,17 @@ The failure being prevented is not slowness. It is a spec quietly becoming a
 lie — which would also defeat G6, since "does not look or behave differently
 from the agreed spec" means nothing once the spec has stopped being accurate.
 
-Two candidate designs are floated in his words and **neither is chosen**: a
+> ⚠ **SUPERSEDED THE SAME EVENING — 2026-08-13 22:39.** He closed this: *"fine
+> tunes move the way everything else does, just faster, assuming they dont break
+> the specs etc."* **Not a separate process — the same path, traversed faster,
+> conditional on the specs holding.** The paragraph below records the state
+> before that ruling and is kept for the record only.
+>
+> *This line was stale for fourteen hours and a composer read it as current,
+> reproducing an answered question as an open one. A Law 2 violation in the file
+> that carries Law 2 — found by the fidelity audit of 2026-08-14, not by us.*
+
+Two candidate designs were floated in his words and **neither was chosen**: a
 dedicated process for fine tuning, or rapid traversal of the normal path from
 first step to last. That choice is design work.
 
