@@ -250,7 +250,7 @@ time is spent once, not twice.
 
 ---
 
-## Precedence between the word list and his verbatim words — PROPOSED, HIS RULING NEEDED
+## Precedence between the word list and his verbatim words — DECIDED 2026-08-14 11:53
 
 The writing test found a genuine collision, not a gap. The adopted word list
 bans totality words and vague subjects; the never-summarise law carries his
@@ -269,10 +269,20 @@ derivation happened — so the act the never-summarise law worries about,
 interpretation wearing transcription's clothes, is named on the page instead
 of hidden.
 
-**This is a proposal, not a decision.** It decides which of two of his own
-rules yields where they meet, which makes it his to settle. Until he rules,
-writers follow it flagged: it is the only reading found that honours both
-rules at once, but that is an argument for it, not an approval of it.
+**RULED BY TONY, 2026-08-14 11:53 — "agree".** The rule is settled and binding:
+**the word list governs the Statement; quoted words inside the Why are never
+linted.**
+
+It was escalated rather than decided by the model because it settles which of
+two of his own rules yields where they meet. That is the shape of question that
+belongs to him, and this is what the escalation was for.
+
+**What follows from it, so nobody re-derives it:** the writing help appears at
+the Statement field and nowhere else. A quoted passage in the Why is evidence,
+and evidence is not edited to read better. Where a statement is derived from
+his words rather than being his words, the derivation is marked on the page —
+so interpretation can never wear transcription's clothes, which is the exact
+thing the never-summarise law exists to prevent.
 
 ---
 
