@@ -350,6 +350,36 @@ Recorded as *their* opinions, not decisions.
 
 ---
 
+## Tony's position on the two-artifact recommendation
+
+**Tony, 2026-08-14 08:36:** *"ADR is the requirement in detail when approved."*
+
+This **rejects the researchers' recommendation 1** — "two artifact types, not
+one" — and replaces it with a **lifecycle**: a requirement and its detailed
+decision record are the *same thing at different stages*. Light while proposed;
+when approved, it becomes the detailed, rationale-bearing, ADR-shaped record.
+
+**Recorded as his position, with the tension named rather than hidden.** The
+argument for two artifacts was that a decision record (immutable, past-tense,
+carrying rationale and rejected options) and an acceptance criterion (present-
+tense, executable, verifiable) are different in kind, and one schema attempting
+both flattens each. His model says they are one object maturing.
+
+**What his model has to answer, if it is to hold:**
+
+- **Immutability.** An ADR is conventionally frozen once accepted, and the whole
+  Groundhog-Day defence rests on that. A requirement that continues to version
+  (`FINAL v1.0` → `v1.2`) is by definition not frozen. Either the ADR half gives
+  up immutability, or a version bump mints a new record.
+- **The rejected options.** An ADR's real payload is **Context** — the reasoning
+  and what was ruled out. A requirement statement has no natural home for that.
+  Under his model it must arrive at approval time and persist.
+- **The verification half.** BDD's lesson is that a requirement and its test can
+  be the same artifact. An ADR cannot be executed. If the requirement-in-detail
+  is ADR-shaped, what carries the acceptance criterion?
+
+None of these refute him; all three are unanswered by the position as stated.
+
 ## Still outstanding
 
 The **standards and enterprise tools** researcher (ISO/IEC/IEEE 29148, IEEE 830,
