@@ -380,6 +380,46 @@ One line each: what it does that nothing else does.
 
 ---
 
+## For the producer — ANSWERED 2026-08-14 14:36
+
+**Three referred outward, three settled.** His answers, verbatim, against each
+question below.
+
+**Q1 (the twenty subject areas) — RESEARCH.** *"so what do others do, similar to
+the analysis we did on requirments, what should we do? learn from whats out
+there and come back"*
+
+**Q2 (the twelve project types) — RESEARCH.** *"as above"*
+
+**Q3 (sans-serif diagrams) — SETTLED.** *"dont have a preference other than the
+font just needs to be legible and not hard to read"*. The requirement stops
+naming a font family and states the property: **legible, and not hard to read.**
+A named typeface was a mechanism standing in for the thing actually wanted.
+
+**Q4 (the nine-step chain) — RESEARCH.** *"see 1 and 2, lets look externally and
+decide"*
+
+**Q5 (when the deep check fires) — SETTLED.** *"seems right yes"* — **Law 3
+wins: the trigger is the weight of the work, not the stage**, and the
+conflicting requirement bends to it. **Carrying his caveat:** *"(caveat on
+changes that may come from 1, 2 and 4)"* — if the research reopens how work is
+classified, what counts as "weighty" may move with it.
+
+**Q6 (totality words) — SETTLED, and against the model's proposal.** *"they
+pre-dataed that rule - so need to rework or redo"*. The model had proposed the
+word list bend for genuine absolutes. **He ruled the other way: the statements
+predate the rule, so the statements yield.** That is Law 4's ordering rule
+applied consistently — the newer, evidence-backed rule outranks the older
+statement, and it does not stop being true because the older statement is ours
+and inconvenient to rewrite. Twelve statements to rework.
+
+*Research dispatched 2026-08-14 14:38 covering Q1, Q2 and Q4 together: whether a
+subject-area checklist earns its place, whether fixed work-type taxonomies
+change anything in practice, and what traceability depth anyone actually
+maintains as opposed to specifies.*
+
+---
+
 ## For the producer
 
 Five questions. Answer each in a sentence.
