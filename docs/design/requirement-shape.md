@@ -23,8 +23,19 @@ writing rules are adopted, shown as help where the writing happens**; and
 requirements using only this document and the goals, and its verdict was that
 the reasoning holds and the format did not exist. This document now opens
 with a **normative form** — the exact thing to write, shown before it is
-argued — a resolution of each of the test's ten findings, and one precedence
-proposal awaiting Tony's ruling. The reasoning below is unchanged.
+argued — and a resolution of each of that test's ten findings. The precedence
+collision it surfaced has since been **ruled by Tony** (*"agree"*, 2026-08-14
+11:53) and is settled.
+
+**What changed 2026-08-14, third pass:** the form was re-tested by a second
+fresh agent barred from the first test's output. It held — inventions fell
+from eleven to three, and the fingerprint recipe reproduced its published
+vector from the text alone — and it surfaced five gaps at the edges of the
+block: minting outside the register, the document frame, a machine-name
+contradiction, the unrecorded kill authoriser, and a label-stripping crack in
+the fingerprint recipe. All five are closed in the rules, with a second
+computed test vector chosen to discriminate the fingerprint fix. The
+reasoning below is unchanged.
 
 **The bar this draft is held to:** across everything surveyed, the mandatory
 minimum anywhere is **one field**. The most modern, most industry-negotiated
@@ -55,9 +66,13 @@ reader can take the arguments on trust until they want them.
 
 The blocks are shown fenced so that heading levels and delimiters are
 unambiguous. **The references and content are illustrative — nothing below is
-in the register, and these numbers are not allocations.** The fingerprint on
-the first block is a genuinely computed value under the recipe given after the
-examples, so an implementer can test against it.
+in the register, and these numbers are not allocations.** That is not just a
+label: under rule 2, a number outside the register names nothing, and filing
+refuses a block that arrives with a pre-written number — so these examples
+cannot collide with anything even if copied. The fingerprints on the first
+and third blocks are genuinely computed values under the recipe given after
+the examples; the third is chosen specifically so that an implementation
+which strips labels wrongly, or drops the derived prefix, fails against it.
 
 ```markdown
 ### R-0101 — spec lives in the work's repo
@@ -87,7 +102,29 @@ examples, so an implementer can test against it.
 **Depends on.** R-0101
 
 **Approval.** none — blocked by [OPEN-R-0102-1]
+
+---
+
+### R-0104 — the producer sees the weight of what remains
+<!-- machine: 01a0010a-8a08-7baf-8c50-742a3ab20b6f -->
+
+**Statement (derived).** Kerd shall state, at each request for a producer decision, how many producer decisions the remainder of the work item's journey requires, and shall present that count with the request.
+
+**Why.** Tony added this input to the goals himself: *"a user never feels overwhelmed by the process"* — and ruled inputs of this kind unmeasurable: *"these are not measurement, these are inouts to design to avoid what those g1-g8 from happening, they cant be measured."* His words are the authority; the statement is our derivation of one countermeasure from them — the weight of what remains is shown before it is spent, so accumulation is seen coming rather than discovered. Approving this block approves that derivation.
+
+**Traces to.** G1, G5
+
+**Depends on.** none
+
+**Approval.** Tony, 2026-08-14 · fp:e45b7b2d80a2
 ```
+
+The third block is the discriminating test vector: its statement is derived,
+so under rule 9 the hashed statement line begins `derived: `. An
+implementation that strips only the plain label (leaving `(derived)` in the
+text), or strips the whole label but forgets the prefix, produces a different
+value — one vector that only proves the easy case is a vector that hides
+this class of bug.
 
 And the dead twin, in the graveyard at the end of the same document:
 
@@ -97,7 +134,7 @@ And the dead twin, in the graveyard at the end of the same document:
 ### R-0103 — DEAD — effort threshold below which the spec need not change
 <!-- machine: 01a000da-8cb2-7e68-b8b5-dbc9a74f54ac -->
 
-**Killed.** 2026-08-14, by the plain text of Law 2 in the approved goals. Killed by analysis, not by a test.
+**Killed.** 2026-08-14, by analysis against the plain text of Law 2 in the approved goals — not by a test. Kill authorised by Tony.
 
 **Statement as proposed.** Kerd shall define an effort threshold, and a change falling below it shall land without an update to its governing spec, design, or requirement.
 
@@ -120,12 +157,17 @@ hand-written reverse is a copy that drifts.
 
 1. **A requirement is a level-three heading block.** Heading:
    `### <reference> — <handle>`. Blocks are separated by a `---` line. The
-   machine name sits in an HTML comment on the line directly under the
-   heading. Then the five labelled lines, bold label, full stop, one blank
+   machine name, when present, sits in an HTML comment on the line directly
+   under the heading — and a freshly hand-written block legitimately lacks
+   it until the checking tool's next run, which is the one sanctioned
+   absence in the form: rule 4 says who writes it, and it is never a
+   person. Then the five labelled lines, bold label, full stop, one blank
    line between fields, always in this order: **Statement**, **Why**,
    **Traces to**, **Depends on**, **Approval**. All five are required on
    every live requirement — a field that does not apply says so explicitly
-   (`none`), it is never omitted. Absence must be written, not implied.
+   (`none`), it is never omitted. The absence-must-be-written rule governs
+   the five labelled fields; it never obliges a person to write the machine
+   comment, which would break rule 4.
 
 2. **The reference** is `R-` plus a four-digit number: opaque, permanent,
    never changed, never reused. The uniform `R-` prefix carries no meaning —
@@ -138,6 +180,24 @@ hand-written reverse is a copy that drifts.
    one fact about a requirement that can never change, so a sequence number
    is the one encoding that can never go stale. That is why sequence
    survives the scale lesson and category prefixes do not.
+
+   **Outside the register, references do not exist.** A number becomes a
+   reference only by being present in the register; written anywhere else —
+   a draft, a proposal, a branch that has not merged, a test — `R-` plus
+   digits is the name of nothing. A writer drafting elsewhere therefore
+   never mints: a draft block carries a **draft mark** in place of the
+   reference — `R-@<handle>`, for example `R-@spec-in-repo` — and draft
+   blocks point at each other by their draft marks. **Minting happens at
+   filing, and only there:** when a draft lands in the register, the tool
+   assigns the next number by the rule above and rewrites every draft mark
+   that points at the block. **Filing refuses a block that arrives with a
+   pre-written number** — the filer's tool assigns, always, so a collision
+   cannot be typed into existence. A draft that is never filed consumed
+   nothing: its draft mark was never a reference, so there is nothing to
+   retire and no number is burned. This is the same shape as the machine
+   name — identity is minted by the tool at the boundary, never composed by
+   hand — and it is why the illustrative numbers in this document are
+   harmless by mechanism rather than by warning label.
 
 3. **The handle** is a short human name after the reference. It is
    notation, not a seventh element: it is outside the fingerprint, may be
@@ -170,7 +230,13 @@ hand-written reverse is a copy that drifts.
    because the syntax is fixed; until the checking tool exists the cap is a
    convention, and an unenforced cap is the *looks like a contract and
    isn't one* failure — so the counter is part of the tool's first duty,
-   not a later nicety.
+   not a later nicety. **The live set is defined:** the blocks under the
+   register's requirements heading (rule 13), and nothing else. Markers in
+   a draft count for nothing — a draft's markers are questions in a draft,
+   not holes in the set — and the cap cannot be evaded through drafts,
+   because the cap is enforced **at filing**: a block whose markers would
+   push the live set past three is refused until a marker somewhere is
+   closed.
 
 6. **His words, in the Why**, are marked by one reserved form: an italic
    quotation with attribution — `Tony: *"…"*`, or *"…"* directly following
@@ -194,12 +260,22 @@ hand-written reverse is a copy that drifts.
 9. **The approval line** is either `none` (with an optional reason after a
    dash) or `Tony, <date> · fp:<12 hex characters>`. **The fingerprint
    recipe:** take the text of Statement, Why, Traces to and Depends on, in
-   that order; strip each bold label and its full stop; trim each field and
+   that order; strip each bold label **entirely — everything between the
+   opening and closing double asterisks, modifier included, plus its full
+   stop** — so `**Statement (derived).**` is removed whole, never leaving a
+   stray `(derived)` in the hashed text; **then, if and only if the
+   statement label carried the derived modifier, prefix the statement text
+   with `derived: `** (lowercase, colon, one space), so that flipping the
+   flag invalidates the approval — approving a derived block is approving
+   the derivation, and un-flagging it un-says that. Trim each field and
    collapse every internal whitespace run to a single space; join the four
    with single newline characters; hash the UTF-8 bytes with SHA-256;
-   record the first twelve hex characters. The value on the first example
-   above is computed by exactly this recipe and can be used as a test
-   vector. A recorded fingerprint that no longer matches means **not
+   record the first twelve hex characters. **Two test vectors are
+   published in the examples above:** the first block proves the plain
+   case; the third block is chosen to discriminate — an implementation
+   that strips the label wrongly or drops the `derived: ` prefix fails
+   against it while passing the first. A recorded fingerprint that no
+   longer matches means **not
    approved** — that state is computed and reported by the tool, never
    written into the file. Collapsing whitespace is deliberate: a
    formatting-only edit must not un-approve a requirement; the recipe, not
@@ -207,7 +283,13 @@ hand-written reverse is a copy that drifts.
    exactly.
 
 10. **A graveyard entry** replaces the five live fields with six:
-    **Killed** (date, and what killed it — a test or an analysis),
+    **Killed** (three facts, all required: the date; what killed it — a
+    ruling, an analysis, or a test; and **who authorised the kill**, named.
+    Killing a requirement is a change to the set, and a change to the set
+    reaches the same approval theory as everything else — an entry that
+    cannot say who agreed the death is a change nobody approved. A model
+    may propose a kill; a kill lands with a named authoriser or the tool
+    refuses the entry),
     **Statement as proposed**, **Why it was proposed**, **Why it is dead**
     (carrying the words that killed it, verbatim under the same reserved
     form), **What was learned** (the payload — written so the next
@@ -241,7 +323,24 @@ hand-written reverse is a copy that drifts.
     presented in the same clothes as transcription, on exactly the
     requirements where his words are all there is.
 
-**Cost of this section, stated plainly:** the existing register's blocks do
+13. **The document frame — what the register looks like as a whole.** The
+    register is one file with exactly this skeleton, top to bottom: a
+    level-one title naming the set (`# Requirements — <project>`); an
+    optional preamble — prose about the set, never requirement content, and
+    nothing in it is fingerprinted; then a `## Requirements` heading
+    holding every live block; then the `## Graveyard` heading holding
+    every dead one, always last, so a reader scanning to the end passes
+    the dead ideas on the way. Nothing else sits at heading level two.
+    **Ordering rule: blocks appear in ascending reference order, in both
+    sections, always.** Reading order is creation order — the story of the
+    set in the order it was thought — and it is the one order that never
+    needs maintaining, because the tool appends at filing and nothing ever
+    moves. Grouping by theme is a rendering job for the generated view,
+    never a reason to reorder the file. **"The register" in every rule
+    above means this file; "the live set" means the blocks under its
+    requirements heading.** A document that is not the register may quote
+    blocks, draft them, or test them — it allocates nothing, approves
+    nothing, and its markers count for nothing until filing. the existing register's blocks do
 not yet match this form and must be converged once — a mechanical pass, but a
 real one. And every existing approval re-fingerprints under this recipe,
 which lands on top of the migration cost already flagged for widening the
@@ -711,13 +810,12 @@ read better. It carries the derived-statement flag with it, which names the
 act of interpretation the collision forces. Full reasoning in its own
 section above.
 
-**6 — The Statement/Why boundary was unreliable. SETTLED, with one edge
-riding on finding 5.** The boundary test is rule 11: statement content is
+**6 — The Statement/Why boundary was unreliable. SETTLED — the edge closed
+with finding 5's ruling.** The boundary test is rule 11: statement content is
 what a build can be rejected against, manner included; the Why explains and
 never restates a binding clause. The inversion case — where his words in the
 Why are the authority and the statement is derived — is exactly what the
-derived-statement flag marks, so its final shape lands with his ruling on
-finding 5.
+derived-statement flag marks, now settled by the same ruling.
 
 **7 — The open-marker rules were half actionable. SETTLED.** Syntax,
 identity, granularity and location are all fixed in rule 5: bracketed
@@ -746,10 +844,61 @@ that the Why is where the real work happens is recorded as evidence *for*
 the required Why, against this document's own earlier doubt — the Why is the
 element that caught a dead requirement.
 
-**The score: eight settled, two riding on one ruling.** Findings 5 and 6's
-edge both land with the same decision — the precedence rule and its
-derived-statement flag — which is therefore the single thing awaiting him
-from this pass.
+**The score: all ten settled.** Findings 5 and 6's edge landed together with
+his ruling of 2026-08-14 11:53 on the precedence rule and its
+derived-statement flag.
+
+## Findings resolved — the second test's five gaps, each answered
+
+The form was re-tested: same brief, a fresh agent barred from the first
+test's output. Inventions fell from eleven to three, the fingerprint recipe
+reproduced its published vector from the text alone on the first attempt,
+and the graveyard entry — unwritable in the first test — was the easiest
+block in the file, because the learning payload is a field, not a
+discipline. The three remaining inventions were all at the edges of the
+block, not in it. Five gaps came back; each is answered:
+
+**1 — A reference could not be minted outside the register. SETTLED, and it
+was the worst one.** Its damage was unique: every other gap costs a rewrite;
+this one costs a permanent identifier under a doctrine that forbids changing
+one — and this document had sprung the trap on itself, countermeasuring its
+own example numbers with a warning label. Rule 2 now closes it by mechanism:
+outside the register, references do not exist; drafts carry draft marks
+(`R-@<handle>`) and never numbers; minting happens only at filing, where the
+tool assigns and **refuses any block arriving with a pre-written number**. A
+draft never filed consumed nothing. Collision cannot be typed into
+existence.
+
+**2 — The register had no document frame, and the live set was undefined.
+SETTLED.** Rule 13: title, optional non-fingerprinted preamble, a
+requirements heading holding the live set, the graveyard always last, blocks
+in ascending reference order in both sections — creation order, the one
+order that never needs maintaining. The live set is defined as the blocks
+under the register's requirements heading; a draft's markers count for
+nothing, and the cap cannot be evaded through drafts because it is enforced
+at filing (rule 5).
+
+**3 — Two rules gave opposite instructions about the machine name.
+SETTLED.** The second test's reading was right and is now written: nobody
+hand-writes one, a fresh block legitimately lacks the comment until the
+tool's next run, and the absence-must-be-written rule governs the five
+labelled fields only (rule 1).
+
+**4 — Nothing recorded who authorised a kill. SETTLED.** The Killed field
+now carries three required facts: the date, what killed it, and the named
+authoriser (rule 10). Killing a requirement is a change to the set, so it
+reaches the same approval theory as everything else — a model may propose a
+kill; it lands with a named authoriser or the tool refuses the entry. The
+worked graveyard entry shows the form.
+
+**5 — The derived label had an undefined interaction with the fingerprint,
+and one vector could not catch it. SETTLED.** Rule 9 now strips the label
+whole — modifier included — and then prefixes a derived statement's text
+with `derived: `, so flipping the flag invalidates the approval, which is
+what "approving the derivation" demands. A second worked example with a
+computed fingerprint is published, chosen specifically so an implementation
+that strips wrongly or drops the prefix fails against it while passing the
+first vector.
 
 ---
 
@@ -861,30 +1010,46 @@ looks like.
 The form section fixed the writing test's findings and created its own
 exposures. Named here so they are findable, not discovered:
 
-- **The example references could be mistaken for allocations.** Three
-  reference numbers now appear in this document that are not in the register.
-  They are labelled illustrative twice, but a copy-paste into the register
-  would plant a collision under a never-reuse doctrine. The checking tool's
-  duplicate refusal is the countermeasure; until it exists, the label is.
-- **The minting rule assumes one document.** "Highest number across live and
-  graveyard, plus one" works because everything is in one file. The
-  deliberately open question of one-document-versus-several now has a cost
-  attached: splitting the set re-opens reference allocation, which must then
-  find a new home before the split lands.
-- **The cap has syntax but still no counter.** The marker cap is countable
-  now and counted by nothing. Until the checking tool runs, the cap is
-  exactly the unenforced contract this document warns about — that is why
-  the counter is named as the tool's first duty, and it is still a promise.
-- **The fingerprint recipe, not the file, is now the contract.** Whitespace
-  collapsing means two implementations that disagree on any detail of the
-  recipe silently disagree on what is approved. The computed test vector in
-  the example is the countermeasure; one vector is thin, and a real test
-  suite around the recipe is owed before a second implementation exists.
+- **~~The example references could be mistaken for allocations.~~ CLOSED,
+  2026-08-14 second pass:** closed by mechanism rather than label — outside
+  the register a number names nothing, and filing refuses a block arriving
+  with a pre-written number (rule 2). The second test named the warning
+  label as evidence of the gap, not a fix; the mechanism is the fix.
+- **The minting rule assumes one document — still true, now with the frame
+  behind it.** Rule 13 declares the register one file, so the assumption is
+  now stated rather than silent. The deliberately open question of
+  one-document-versus-several keeps its cost: splitting the set re-opens
+  both reference allocation and the marker cap's scope, and both must find
+  a new home before any split lands.
+- **The cap has syntax and a defined scope, and still no counter.** The
+  live set is defined and filing-time refusal is specified, but both are
+  duties of a tool that does not yet exist. Until it runs, the cap is
+  exactly the unenforced contract this document warns about.
+- **The fingerprint recipe, not the file, is the contract — and it now has
+  a branch.** The derived prefix means the recipe does one thing for plain
+  statements and another for derived ones, which is a second way for two
+  implementations to silently disagree. The discriminating second vector is
+  the countermeasure — chosen so the wrong readings fail against it — but
+  two vectors are still thin, and a real test suite around the recipe is
+  owed before a second implementation exists.
+- **The tool now rewrites prose.** At filing it mints the reference and
+  rewrites every draft mark pointing at the block — the first time the
+  tool writes into requirement text rather than beside it (the machine
+  comment sits beside; a depends-on line is content). The write is
+  mechanical and bounded to draft marks, but a tool that edits content is
+  a new class of actor in a file whose whole theory is that the producer's
+  words are never touched. The bound must hold: the tool rewrites draft
+  marks and nothing else, ever.
 - **The handle is meaning on the record.** It will go stale, by design, and
   the design's answer — rename freely, nothing breaks — is only true while
   every tool treats the heading after the reference as decoration. A tool
   that ever parses the handle inherits the staleness the reference was built
   to avoid.
+- **The kill authoriser is a name in prose, not a fingerprint.** Approval
+  of a live requirement is cryptographic; authorisation of a death is a
+  written name (rule 10). The asymmetry is accepted for now — a graveyard
+  entry's content is frozen by convention, not by hash — and it is the
+  weakest link in the approval theory this pass leaves standing.
 
 ### Outward — where this falls short of the territory
 
@@ -945,14 +1110,18 @@ to invent. Each is a real decision awaiting him, not a doubt.
    (2026-08-14 09:32) and the normative form defines the block. **Still
    open: one document or several** — and the minting rule now attaches a
    cost to splitting, named in the straw-man.
-5. **Does the writing help ever refuse, or only advise?** Still open — and
-   now paired with the precedence proposal awaiting his ruling: whatever the
-   help does, the proposal is that it does it to the Statement only and
-   never to his quoted words.
+5. **Does the writing help ever refuse, or only advise?** Still open — its
+   scope is now settled by his precedence ruling (the Statement only, never
+   his quoted words), but whether it refuses or advises within that scope
+   is not. The second test surfaced a related documentation gap worth
+   settling with it: a statement deriving from an absolute law has to carry
+   universal force without a banned totality word, and the technique for
+   that (an indefinite subject — "a change that lands shall…") is nowhere
+   taught, so writers who do not know it will quietly weaken absolute laws.
 6. **Where exactly is the beside-space, and at which moments does the model
    read it?** His *"for you to pick up"* is a reading obligation, not just a
    storage location.
-7. **The precedence rule and the derived-statement flag — proposed, his
-   ruling needed.** The one decision this pass explicitly leaves for him;
-   the proposal and its reasoning have their own section after the normative
-   form.
+7. ~~**The precedence rule and the derived-statement flag — proposed, his
+   ruling needed.**~~ **CLOSED — RULED BY TONY, 2026-08-14 11:53:
+   *"agree"*.** The rule and what follows from it are recorded in their own
+   section after the normative form; rule 12 carries the flag as settled.
