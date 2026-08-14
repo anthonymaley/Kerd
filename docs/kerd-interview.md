@@ -661,6 +661,60 @@ against outside practice, not only against our own stated intent.
 
 ---
 
+## Three rulings, 2026-08-13 22:58
+
+**Tony, verbatim:**
+
+> "Nothing we've written requires an approval to demonstrate mapping." sure it
+> does, every requirement is traceable through analysis, verification, design,
+> spec, plannong, releases build testing etc etc. we build in measurements and
+> tracability to use to check goals and requirments are met - what am i missing
+> still?
+>
+> what document are you referring too? we cannot consider this markdown file as
+> how we capture and version and work on requirements. we need a robust and easy
+> to engage with solution. pre reset we did a day of work on evakuating
+> requirements and tooling and process for this very issue
+>
+> goals are inputs to requirements, they are vision and wants and outcomes, they
+> need to be translated, drafted, worked on and finalized as requirements.
+
+**1 — Traceability and consent are different failures, and only one of them is
+covered.** His traceability point is correct and stronger than the model had
+credited: requirements traced through analysis, verification, design, spec,
+planning, release, build and test, with measurements built in, is a real chain
+and it does prove something. What it proves is that **we built what the spec
+says**. It cannot prove that **the spec says what he meant**. The approval gate
+is where meaning enters the system, and it is the only link in that chain
+carrying no verification — the sole evidence he understood what he approved is
+that he said yes. That is precisely the failure he named himself: *"not
+explaining properly or too technical can result in the wring agreements."*
+Drift is covered. Wrong agreement at the gate is not. Whether that needs a
+countermeasure is his call, not the model's.
+
+**2 — THE MARKDOWN FILE IS NOT THE REQUIREMENTS SYSTEM.** *"we cannot consider
+this markdown file as how we capture and version and work on requirements. we
+need a robust and easy to engage with solution."* `docs/kerd-requirements.md` is
+a drafting artifact, not the mechanism. The model had let a working document
+stand in for the capability, which is the same substitution the whole reset
+exists to stop.
+
+**And the bracketing rule now expires on this point:** *"pre reset we did a day
+of work on evakuating requirements and tooling and process for this very issue."*
+That evaluation was deliberately excluded while the interview was being captured
+— its assumptions were the ones under question. The interview is captured and
+the goals are approved, so the evaluation is now legitimate **input**, to be
+re-examined against the approved goals rather than treated as precedent.
+
+**3 — Goals are INPUTS to requirements, not requirements.** *"they are vision
+and wants and outcomes, they need to be translated, drafted, worked on and
+finalized as requirements."* So the composer's pass produced a **draft**, and
+finalisation is a worked process rather than one dispatch and an approval. The
+document's own status line ("awaiting approval") overstates how close it is:
+what is awaited is the working-through, not a yes.
+
+---
+
 **Also stated, as a presentation rule:**
 
 > when we ask for inout, put a flag or ascii border aroud the questions to ensure
