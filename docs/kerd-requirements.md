@@ -1,8 +1,10 @@
 # Kerd — the requirements
 
-**Source:** `docs/kerd-goals.md` (APPROVED by Tony 2026-08-13 18:30) and
-`docs/kerd-interview.md` (the reset interview, confirmed as source of truth
-2026-08-13 17:41). Nothing else in this repo was read. Drafted 2026-08-13.
+**Source:** `docs/kerd-goals.md` (APPROVED by Tony 2026-08-13 18:30; Law 3
+added 22:39) and `docs/kerd-interview.md` (the reset interview, confirmed as
+source of truth 2026-08-13 17:41; six rulings added 22:39). Nothing else in
+this repo was read. Drafted 2026-08-13; revised the same day for the
+adversarial review and again for Tony's six rulings.
 
 **Status: AWAITING TONY'S REVIEW AND APPROVAL — BLOCKING.**
 Nothing downstream may cite this document until Tony has read it and said so.
@@ -101,9 +103,12 @@ Then you just go and build it."*
 
 **B4.** A stage whose inputs are missing stops and gets them. The process
 never generates a stage's artifact out of information it does not have.
-*Traces to: G3 and G2.* Grounded in his diagnosis of the benchmark's failure:
-*"it immedialy kicks in to 'brainstorm' and build 'spec' then 'imolementation
-plan' etc etc even when its a small thing or we dont have all the input."*
+*Traces to: G3 and G2.* Re-grounded after Tony's ruling that the superpowers
+passages are experience, not requirement: this now stands on approved G3
+text — *"a stage whose inputs are missing stops and gets them instead of
+inventing them"* — and on G2's design input that agents *"should never have
+to"* guess. The superpowers experience that first surfaced it is recorded in
+the tool-analysis input below, where it now belongs.
 
 **B5.** New solutions never appear inline without the agreed steps. *"Hey can
 we change this skill to do this thing the way I like it? Just make that
@@ -183,12 +188,17 @@ approval being proportionate, never from it being skipped. His warning:
 without his approval....."*
 *Traces to: G3 and Law 2.*
 
-**C4.** Approval for the fine-tune class sits with the composer or conductor
-roles, not the producer — *"the composer or conductor roles (if we keep them)
-should have the approval"* — which is what keeps the fast path fast when the
-spec's owner is not in the room. (The roles themselves are provisional; his
-own parenthesis says so.)
-*Traces to: G3.*
+**C4.** The approval held by the composer or conductor roles is
+**operational, never contractual**. Tony's ruling, 22:39: *"if there is a
+gap in the spec or a conflict or issue implementing... the sub agent can ask
+for help to conductor who can either correct the sub agent or ask the
+composer to tweak the solution to fix the issue, thats what approval means
+in that context. other approvals can be conductor checking artifacts against
+spec etc."* So the agent roles may unblock a stuck sub-agent, route a spec
+defect back to the composer, and check artifacts against the spec — and they
+may never change what was agreed with the producer. (The roles themselves
+remain provisional: *"if we keep them"*.)
+*Traces to: G3 and G6.*
 
 **C5.** When the work is aligned and clear, it goes — immediately, without
 overhead: *"if we can agree quickly and it aligns to the existing
@@ -196,18 +206,23 @@ requirements and architecture and its clear what to do.. go !"* When it is
 not aligned or not clear, the process takes the time.
 *Traces to: G3.*
 
-**Tension C-T1 — formal, named, unresolved: C4 against B1 and E6.** B1 says
-there is no small-work exception; C4 creates one in **who approves** — for
-the fine-tune class, approval moves from the producer to the agent roles.
-E6 says every stage is visualized and confirmed before it counts — confirmed
-by whom, when the producer is out of the loop for a class the agent itself
-defines? Both sides are Tony's own words (*"We do it the same way"* against
-*"the composer or conductor roles (if we keep them) should have the
-approval"*), so this document may not resolve it; it records it. The nearest
-available reading — the stages never vary, only the approver of this one
-class does — narrows the contradiction but does not close it, because the
-approver **is** part of what a gate is. Resolving this is design work, and
-it interacts with Gaps 4 and 5.
+**Note — the former Tension C-T1, dissolved 22:39.** This document, and the
+adversarial review before it, recorded a formal contradiction here: C4 was
+read as moving approval of the agreements from the producer to the agent
+roles, which collided with B1 ("no small-work exception") and E6 ("confirmed
+before it counts"). The contradiction was **apparent, not real** — both
+readers over-read the one word *approval* as authority over the agreements,
+when in Tony's usage it is operational: unblocking, routing defects to the
+composer, checking artifacts against the spec (see C4 as now written). The
+producer's authority over what was agreed was never in question, so there
+was nothing for B1 or E6 to conflict with. Dissolved, not resolved — no
+compromise was needed and none is in place.
+
+**C6.** Fine tunes have their delivery shape, ruled 22:39: *"fine tunes move
+the way everything else does, just faster, assuming they dont break the
+specs etc."* Not a separate process — the same path as everything else,
+traversed faster, on condition the specs, design, and requirements hold.
+*Traces to: G3.*
 
 ---
 
@@ -239,6 +254,9 @@ and requests, visual confirmations, status etc vs wall of noise text and an
 **D4.** Every request for input carries a visible flag so it cannot be
 mistaken for surrounding text: *"when we ask for inout, put a flag or ascii
 border aroud the questions to ensure users dont think its noise."*
+Confirmed by Tony 22:39 with a concrete instance: *"the border as you have
+it above on PLEASE READ is perfect if that is what you mean"* — the bordered
+block is the shape he wants.
 *Traces to: G4.*
 
 **D5.** The response to a gate is never only yes-or-no. The user may approve,
@@ -322,11 +340,11 @@ even available.
 
 **F4.** Knowledge is fetched, not re-read wholesale: *"We don't read the
 whole book of what we've done every session but we know how to find that and
-we don't just infer things. We don't guess. We go back to the desk to get
+we don't just infer things. We don't guess. We go back to the disk to get
 that knowledge."*
 *Traces to: G2 and G7.*
 
-**F5.** Tony never re-explains something already settled: *"You should
+**F5.** Tony shouldnt have to re-explain something already settled: *"You should
 instinctively know or know how to know about what we're talking about."*
 *Traces to: G2.*
 
@@ -352,20 +370,40 @@ non-conductor."*
 *These exist so the producer's approval is not the only quality gate — the
 one gate the interview says cannot bear the whole weight. Lettered S, not G,
 so no requirement here can ever be confused with a goal (see the scheme
-note).*
+note). Since 22:39 this group traces to* ***Law 3 — check your own work
+before it counts*** *— which closes the tracing defect the first draft
+confessed: these entries no longer hang off a section.*
 
 **S1.** Three self-check mechanisms are baked into the process, and the
 weight of the work selects the tier — his words: *"doing a thing, check it
 yourself, doing a bigger thing, strawman, doing a critical thing, get
 adveserial model to check."* The third tier is *"a formal review (even
-advesrial) by a subagent at appropraite model/effort baked in."*
-*Traces to: G4 and G7, via the self-check ladder in the approved goals.*
+advesrial) by a subagent at appropraite model/effort baked in"*, used
+*"where appropraite"*.
+*Traces to: Law 3.*
 
 **S2.** The checks fire because the process triggers them, never because
 the model remembers to. His diagnosis: *"many times if i ask you 'is that
 true' or 'explain that' you see a flaw in your work, but if its not asked you
 wouldnt see."* The mechanism supplies the prompt to look, not a capability.
-*Traces to: G4 and G7, via the self-check ladder in the approved goals.*
+*Traces to: Law 3.*
+
+**S3.** Work has to survive Law 3's four named questions before it counts,
+each naming a specific way confident output goes wrong: *"did i infer
+that"* · *"did i read from file or stale memory"* · *"have we tried this
+before"* · *"has this already been answered or recorded"*. Inference dressed
+as knowledge, a stale recollection standing in for a read, repeating a dead
+end, and re-deriving something already settled.
+*Traces to: Law 3.*
+
+**S4.** Checking runs in both of Law 3's required dimensions. **Inward:** is
+what is here correct, and *"we should ask what is absent"* — self-criticism
+that audits only what made it in structurally misses omissions. **Outward:**
+*"we should also compare to what best practices do, other skills, standard
+methodologies, emerging thinking in AI human pairing process"* — work
+measured only against its own stated intent cannot detect that the intent is
+behind the field.
+*Traces to: Law 3.*
 
 ---
 
@@ -413,14 +451,21 @@ done means the result does not *"look different or behave differt fromt he
 agreed spec"* — how it looks and how it behaves are both covered.
 *Traces to: G6.*
 
-**I4.** The work is tested, and to a standard Tony has already pointed at:
-the benchmark's testing is the one capability he praised twice — *"The tests
-it writes are great"* and *"superpowers does some great things, testing
-covergae... so we can learn from it."* Testing this thing does must be worth
-learning from, not merely present. **When** testing happens is governed by
-H4 (*"We need to optimize when we test and when we build to test"*); this
-requirement is that it happens and holds that standard.
-*Traces to: G6 and G8.*
+**I4.** The work is tested, and testing is what earns the claim that the
+result does not *"look different or behave differt fromt he agreed spec"* —
+done cannot be ruled without it. Testing exists in his own non-superpowers
+words: *"That change requires recording and checking everything"* and *"We
+need to optimize when we test and when we build to test"* (Q3, on how good
+looks) — you cannot optimise when you test unless testing is a standing part
+of the work. **Re-grounding note, reasoning stated per the ruling:** this
+requirement was first grounded in his praise of superpowers' tests. That
+praise is experience, not requirement, and has moved to the tool-analysis
+input below. The requirement survives without it because G6 demands a
+checked outcome and Law 2 demands the documents and artifact agree — both
+unverifiable without testing. What moved is the *standard* ("tests worth
+learning from"): that was superpowers-derived and is now analysis input, not
+obligation.
+*Traces to: G6 and Law 2.*
 
 ---
 
@@ -441,15 +486,49 @@ can and build the differentitor but never at the cost of meeting our goals or
 quality."*
 *Traces to: G8.*
 
-**J4.** The process is ours and it is visible: *"i just want the process to
-be ours and visable."* Borrowing capability never means surrendering the
-process or its visibility.
-*Traces to: G8 and G5.*
+**J4.** *Moved, 22:39 revision — not silently deleted.* This entry required
+"the process is ours and it is visible", quoting *"i just want the process
+to be ours and visable"*. That sentence sits inside the Q4 superpowers
+passage, which Tony has ruled is experience, not requirement — so it may not
+ground an entry here. The visibility half is already carried by E4 and E5;
+the ownership half is recorded in the tool-analysis input below, where it
+weighs on the build-vs-adopt decision. The number is retained so J5 does not
+shift.
 
 **J5.** The user never has to remember which supporting capability to
 invoke — routing is the tool's job: *"the conductor should know how and when
 yo use them."*
 *Traces to: G8 and G5.*
+
+---
+
+## Input to the tool analysis
+
+Not requirements. Tony's ruling, 22:39: *"on superpowers, i am not
+critisizing; i am sharing my expereince with it. these words should be used
+when the analysis of superpowers and other tools is done as an input, for
+consideration. my words are not laws or requirements there but frustrations
+or experiences."* Everything here is experience to weigh when the
+build-vs-adopt evaluation (interview Q4, still open) is actually taken.
+Recorded rather than deleted, per the same ruling's spirit: nothing moves
+silently.
+
+- **What he rates in superpowers:** *"The tests it writes are great"* and
+  *"superpowers does some great things, testing covergae, showing options,
+  showing progress through build etc. so we can learn from it."* The
+  "tests worth learning from" standard, formerly part of I4, lives here now.
+- **His frustrations with it:** *"it immedialy kicks in to 'brainstorm' and
+  build 'spec' then 'imolementation plan' etc etc even when its a small
+  thing or we dont have all the input"* and *"it feels labourous and its not
+  clear what or why its doing in a black box way."* These experiences first
+  surfaced what became B4 and reinforce E4/E6 — but those requirements now
+  stand on the goals, not on this.
+- **The ownership want, formerly J4:** *"i just want the process to be ours
+  and visable."* Direction-of-travel for the Q4 decision; the visibility
+  half is required independently by E4/E5.
+- **The observer reaction he'd like:** *"Oh are you superpowers but what
+  you're using is way better for how we work? Can we try that because that
+  looks great?"* An aspiration to weigh, not a requirement to meet.
 
 ---
 
@@ -470,67 +549,76 @@ as the process requires.
 2. **H3 (sub-agents at the appropriate level).** It is H1 restated for
    helpers. One quoted clause, no independent content. It exists because the
    quote exists, which is padding logic, not requirement logic.
-3. **J4 (the process is ours).** As written it is barely testable — "ours"
+3. **J4 (the process is ours).** As written it was barely testable — "ours"
    is a feeling about ownership, and the observable half (visible) is
-   already E4/E5/J3's guard clause. It records direction-of-travel on the
-   open Q4 decision more than it states what must be true of the thing.
+   already E4/E5/J3's guard clause. It recorded direction-of-travel on the
+   open Q4 decision more than it stated what must be true of the thing.
+   *(Since 22:39 this cut has been executed for a stronger reason: its
+   grounding quote is superpowers commentary, which Tony ruled is
+   experience, not requirement. J4 now lives in the tool-analysis input.)*
 
-**The one I am least confident in: C4.** It assigns fine-tune approval to
-"the composer or conductor roles" — roles Tony himself marked provisional
-(*"if we keep them"*). A requirement that names provisional machinery is
-standing on sand. Worse, the goals file records an **unresolved straw-man
-directly against it**: C4 puts classification and approval in the same
-hands, so the model both decides a change is a fine tune and approves it,
-with the producer out of the loop for a class the model defines — under
-standing pressure to pick the cheap path. I have carried the requirement
-because his words state it, but it must not be read as settling that
-tension. It doesn't. **And my first straw-man confessed the softer problem
-while missing the harder one:** C4 does not just wobble, it contradicts B1
-("There is no small-work exception") and sits badly with E6 ("confirmed
-before it counts" — by whom?). An adversarial reviewer caught that; it is
-now recorded as Tension C-T1 in Group C, formally and unresolved.
+**The one I was least confident in: C4 — and the lesson survives its
+repair.** Two drafts running, C4 was this document's weakest entry: first
+flagged as standing on provisional roles, then formally recorded (as Tension
+C-T1) as contradicting B1 and E6. Tony's 22:39 ruling dissolved all of it —
+both the reviewer and I had over-read the single word *approval* as
+authority over the agreements, when he meant operational approval:
+unblocking, defect routing, conformance checking. What remains worth keeping
+from the episode: an entire named tension, carried through an adversarial
+review, was manufactured by one word read in the wrong register. That is
+precisely the paraphrase failure G7 warns about, occurring not in a summary
+but in a *reading* — and neither the inward pass nor the adversarial review
+caught it; only asking Tony did. The residual soft spot in C4 is unchanged:
+it names roles he still marks provisional (*"if we keep them"*).
 
 **Where the list bends its own rules.**
 
-- **S1 and S2 trace to a section, not a goal.** Law 2 as applied to this
-  document says every requirement traces to a goal or a law. The self-check
-  ladder is neither — it is its own section of the approved goals file. I
-  traced the pair to G4 and G7 "via the ladder", which is honest but
-  stretched. If Tony wants the tracing strict, the ladder should be promoted
-  to a law or a goal; as it stands it is approved content without a letter.
+- **S1 and S2 traced to a section, not a goal — RESOLVED 22:39.** The first
+  draft confessed that the self-check entries hung off a section of the
+  goals file rather than a goal or a law, and said the fix was promotion to
+  a law. Tony did exactly that: *"self checking can be a law"* — Law 3 now
+  exists and the whole S group traces to it. Kept here because it is the one
+  straw-man item that produced a change upstream instead of downstream.
 - **D4 (the ASCII border) is presentation-level HOW.** I kept it because it
   is a verbatim design input, and design inputs are the one place the goals
-  deliberately carry mechanism. But it is the most concrete sentence in the
-  document and a reviewer could fairly ask why a border earned a reference
-  number when the fine-tuning delivery shape did not.
+  deliberately carry mechanism. Tony has since confirmed the shape
+  explicitly (*"perfect if that is what you mean"*), which settles the
+  keep — and the fine-tuning delivery shape it was unfavourably compared to
+  now has its own entry (C6), so the asymmetry this bullet complained about
+  is gone.
 
-**Where it may over-reach.** B4's quote is Tony describing what is wrong
-with superpowers, not stating a requirement — I converted a criticism into
-an obligation. I believe the conversion is safe because the goals file makes
-the same move ("a stage whose inputs are missing stops and gets them" is
-approved G3 text), but the quoted evidence under B4 is diagnostic, not
-prescriptive, and a strict reader should know that. **D2 performs the
-identical conversion and my first draft flagged only B4** — D2 turns a
-recorded process defect (*"didnt see you ask for a reviwe of that file"*)
-into a standing obligation. The justification for both is the same and is
-stated in the goals file itself: the defect is *"Recorded because it is a
-defect worth not repeating"* — recording something in the approved goals as
-worth-not-repeating is prescriptive intent, not mere history. If Tony
-rejects that reading, B4 and D2 fall together and both belong in Gaps.
+**Where it over-reached — confirmed and repaired.** The first draft flagged
+that B4 converted a superpowers criticism into an obligation; Tony's 22:39
+ruling confirmed the class of error was real and bigger than one entry:
+*"my words are not laws or requirements there but frustrations or
+experiences."* B4 survived only because it could be re-grounded on approved
+G3 and G2 text; I4 survived on G6 and Law 2 with its superpowers-derived
+standard stripped out; J4 could not be re-grounded and moved to the
+tool-analysis input. **D2 performs a similar conversion** — a recorded
+process defect (*"didnt see you ask for a reviwe of that file"*) turned into
+a standing obligation — but its source is different in kind: the defect is
+recorded in the **approved goals file** as *"a defect worth not
+repeating"*, which is prescriptive intent inside an approved document, not
+experience commentary Tony has ruled off-limits. D2 therefore stands, on
+that stated justification. If Tony rejects the reading, D2 falls to Gaps.
 
-**Where it under-specifies.** Group C describes how fine tunes are
-classified, guarded, and approved — and never says how they *move*, because
-the goals deliberately leave the delivery shape open. So C is a set of
-constraints on a mechanism that does not exist yet. That is correct per the
-goals, but it means C cannot be verified against anything until the open
-question in Gaps is answered, and a reviewer should not mistake C's
-completeness of *constraints* for completeness of *behaviour*.
+**Where it under-specified — since repaired.** The first two drafts of
+Group C described how fine tunes are classified, guarded, and approved, but
+never how they *move*, because the goals then left the delivery shape open.
+Tony's 22:39 ruling closed it (*"fine tunes move the way everything else
+does, just faster"*), carried as C6 — so C now covers classification,
+guard, approval, and movement. The paragraph is kept because the pattern
+generalises: constraints on an unbuilt mechanism can look complete while
+the mechanism itself is undefined, and Group C sat in that state for two
+drafts without either straw-man noticing.
 
 **The count itself, and its provenance.** Fifty-one requirements existed
 before the reset — **that number was supplied in the composer's brief; the
 register itself was not read**, and the isolation claim in the header
-stands. This list first landed at 53, suspiciously near it, and now lands
-at 57 after the omission pass below added four. The residual worry is not
+stands. This list first landed at 53, suspiciously near it, rose to 57 after
+the omission pass below added four, and now stands at 59 active entries
+after the six rulings (C6, S3, S4 added; J4 moved to the tool-analysis
+input, its number retained as a tombstone). The residual worry is not
 the number but the shape: a composer who knows a register existed may
 unconsciously produce register-shaped output. The defence is that every
 entry above carries a trace and most carry verbatim words — but the
@@ -545,9 +633,9 @@ is shaky, this trace is stretched. None of it asked what is **absent** —
 and checking presence never catches absence. An adversarial review caught
 three omissions by running the interview forward, passage by passage, and
 asking what each demands that no requirement carried. All three are now in
-the list: **testing** (I4 — the one superpowers capability Tony praised
-twice, and my draft had dropped it entirely), **the whiteboard and the
-lock** (B11 — the lock moment and the spec's required linkage to goals and
+the list: **testing** (I4 — dropped entirely from my first draft; since
+re-grounded on G6 and Law 2 after the superpowers ruling), **the whiteboard
+and the lock** (B11 — the lock moment and the spec's required linkage to goals and
 requirements; my document practised traceability and never required it of
 the product), and **viability and competitors** (B10 — stage *content* Tony
 stated, which my Gap 9 had wrongly filed under stage *names*). I then ran
@@ -562,14 +650,52 @@ things to work on"* — a sentence whose meaning I genuinely cannot pin
 flagged for Tony to gloss rather than for me to guess. This pass is now a
 standing part of the straw-man, not a one-off repair.
 
+**The outward pass — required by Law 3's second dimension.** Where this
+document falls short measured against outside practice, not its own intent.
+Four concrete findings:
+
+1. **Verifiability.** Standard requirements practice (the IEEE-style rule
+   that every requirement must be verifiable) fails several entries as
+   written: D6 ("never overwhelmed"), J1 ("valuable... people want"), and
+   F5 ("never re-explains") state felt outcomes with no way to tell pass
+   from fail. The goals deliberately carry no metrics — *"they cant be
+   measured"* — but that ruling was about **goals**; whether *requirements*
+   may inherit unverifiability is a distinct question nobody has answered,
+   and this document quietly assumed yes.
+2. **Traceability runs one direction.** Best practice is bidirectional:
+   trace each requirement up, and check each goal is carried down. This
+   document only did the first, so I ran the second for this pass: every
+   goal and law now has at least one carrying requirement (G1→B3/B5/D6,
+   G2→group F, G3→B1/group C, G4→group D, G5→group E, G6→group I/B7/B12,
+   G7→F7/group H, G8→J1–J3/B10, Law 1→A1, Law 2→A2–A4, Law 3→group S). The
+   check passes today, but nothing makes it re-run when either file
+   changes — coverage is a snapshot, not a property.
+3. **Register hygiene.** Standard registers carry per-entry status,
+   priority, and change history. This document has one document-level
+   status and no per-entry lifecycle — yet B8 *requires the product* to
+   manage requirement changes (impact, defer, versions). The register
+   demands of the product a discipline it does not practise on itself.
+4. **AI-human pairing.** Current thinking on human-in-the-loop review
+   treats rubber-stamping as an *attention* failure with known
+   countermeasures that make confirmation active — the human selects,
+   states back, or answers a question about the content — rather than
+   passive ("approve?"). Group D attacks false approval almost entirely
+   through presentation: borders, brevity, visuals. Only D5's coaching path
+   gestures at active confirmation. Nothing here requires that an approval
+   demonstrate mapping, which is the field's stronger tool against exactly
+   the failure G4 names. That may be a deliberate design question rather
+   than a missing requirement — but the outward comparison says our D group
+   is one generation behind the failure it targets.
+
 ## Gaps
 
 What the goals and interview do not determine, and I would have had to
 invent. Per the brief, none of these became requirements.
 
-1. **The delivery shape of fine tuning.** Two candidates floated, neither
-   chosen: a dedicated fine-tuning process, or rapid traversal of the normal
-   path. Group C is written to be true under either.
+1. ~~**The delivery shape of fine tuning.**~~ **CLOSED 22:39** by Tony's
+   ruling: *"fine tunes move the way everything else does, just faster,
+   assuming they dont break the specs etc."* Same path, faster traversal,
+   conditional on the specs holding — now carried as C6.
 2. **Build vs adopt (Q4).** Open. Also unstated: what evidence settles it
    and who takes the decision. This whole document is written to be the
    yardstick for that decision, not its outcome.
@@ -578,10 +704,14 @@ invent. Per the brief, none of these became requirements.
    requirements is never assigned. When the producer is the only human in
    the project, it is undefined who the "design spec designer" of his own
    example actually is.
-4. **Separation of classification and approval.** The unresolved straw-man
-   under C4 (see above). The goals name the self-check ladder as the nearest
-   countermeasure but never assign it. Whether a fine-tune approval by the
-   conductor draws a check, and at which tier, is undecided.
+4. **Separation of classification and approval — mostly dissolved 22:39,
+   one residue.** The alarming version (the agent approving changes to the
+   agreements it also classifies) rested on the misreading dissolved with
+   Tension C-T1: conductor approval is operational, and the producer's
+   authority over the agreements is untouched. What remains open is
+   smaller: who classifies a **borderline** fine tune, and whether an
+   operational approval (a conductor unblocking a sub-agent, or accepting a
+   composer tweak) itself draws a Law 3 check, and at which tier.
 5. **Who judges the weight of the work.** The ladder's trigger is settled
    (the weight of the work), but who or what assesses that weight — and what
    counts as "critical" for the adversarial tier — is not.
