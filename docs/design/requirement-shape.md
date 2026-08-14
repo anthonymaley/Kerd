@@ -355,16 +355,26 @@ Law 3, both passes.
 
 ### Inward — what is wrong or missing in what I wrote
 
-**The versions are not carried, and that is the sharpest hole.** His words:
-*"status is DRAFT, ACCEPTED, FINAL V1.0, V1.2 kind of status"*. The settled
-decision removed the status half — but his phrase had a second half, **named
-versions**, and his change-of-mind requirement needs *"the old and new to be
-comparable"* and the change to be schedulable. This draft answers "is it
-approved?" and "what changed since approval?" but nowhere gives him a thing he
-can *say* — "the v1.2 wording" — or plan against. I have implicitly moved that
-job to the release side (a release names its members as they read at a moment),
-and that move is **my inference, not his ruling**. If it is wrong, the shape is
-missing an element.
+**~~The versions are not carried.~~ CLOSED by Tony, 2026-08-14 09:26:** *"we
+already discounted the FINAL 1.0 etc - ignore, we use fingerprint and
+lifecycle."*
+
+**Named version numbers are dropped entirely.** They were part of an
+off-the-cuff answer he later withdrew as unresearched, and nothing replaces
+them: the fingerprint answers *"has this changed since we agreed it?"*, and
+that is the question versions were being asked to answer.
+
+**"Lifecycle" here means the DERIVED progression, not a restored field** — the
+model's reading, recorded so it is checkable rather than assumed: approval comes
+from the fingerprint, and where a requirement has reached comes from **what
+links to it** (a design cites it, so it is designed; a test cites it, so it is
+tested). Nothing is stored and nothing is maintained. This is consistent with
+the settled decision that there is no lifecycle field, and with his own
+correction that *"lifecycle is a better way vs status"* — a progression rather
+than a flag. **If he meant a stored field, this reading is wrong and an element
+is missing.**
+
+*The shape therefore stands at six elements.*
 
 **"Superseded" and "dropped" have no home.** The old schema could say "this
 requirement was replaced by that one" and "this was deliberately abandoned,
