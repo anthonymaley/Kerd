@@ -1201,3 +1201,37 @@ instinct and caught nothing: laid out link by link, none of them existed.*
 **Killing the chain does not remove the need for releases or tests.** It removes
 the obligation to maintain a hand-curated trail to them — the part with a
 measured benefit only inside compliance regimes, and no measured cost anywhere.
+
+### The chain was two different things glued together — Tony, 2026-08-14 14:56
+
+> so i think those links though are development lifecycles not requirment ?
+
+**Confirmed, and it corrects what we should say we killed.** Split the nine and
+the seam is obvious:
+
+- **Business Goal → Stakeholder Need → Product Requirement → Functional/Technical**
+  — a **requirements decomposition**. Four nodes, the same kind of thing at
+  decreasing altitude. This is the only part that was ever a traceability
+  question.
+- **Design → Implementation → Test Case → Release Evidence → Post-Launch Metric**
+  — **not requirements at all. This is the development lifecycle**: the stages
+  work passes through.
+
+They were glued into one chain and treated as one problem, which is why it
+presented as eight links to maintain. It never was.
+
+**So we killed less than first stated. We killed eight LINKS. The lifecycle is
+untouched** — design, build, test, release, measure is the spine of the
+idea-to-launch process this whole project exists to build, and nothing decided
+today reaches it.
+
+**And it sharpens a decision already taken:** where a requirement has got to in
+that lifecycle is **derived, never linked**. A design exists that cites it, so it
+is designed; a test exists, so it is tested. You observe the artifact rather than
+maintaining a claim about it — the same reasoning that made approval a
+fingerprint rather than a status.
+
+**The honest final summary:** the requirements chain was four nodes, of which two
+were always empty and one was the category split killed the same afternoon. **One
+link survives and it is the right one.** The back five were never a traceability
+question, and they stay.
