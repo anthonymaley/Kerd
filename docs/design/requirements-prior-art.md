@@ -1019,3 +1019,127 @@ DOORS Created By / Last Modified By / Last Modified On.
 **Explicitly retracted by a researcher:** a claim of *"9 to 26% oversight
 intervention success across every oversight strategy tested"* could not be
 located or verified. **Do not use it.**
+
+---
+
+# Second research round — the structures around the set
+
+Law 4 step 1 on the three questions Tony referred outward on 2026-08-14:
+*"so what do others do, similar to the analysis we did on requirments, what
+should we do? learn from whats out there and come back."*
+
+## Subject-area checklists — the evidence is a null result
+
+**Schemes that are genuinely used cluster at five to nine items, not twenty.**
+Volere's quality block is 8; ISO 25010 has 9 characteristics; FURPS has 5. The
+27-item schemes (Volere's full outline, NASA's SRS) are **document outlines you
+fill in over weeks**, not lists anyone runs through. Gawande's rule, from
+Boeing's Daniel Boorman: **five to nine items, 60–90 seconds, killer items only,
+anchored to a defined pause point.**
+
+**Neither ISO 29148 nor INCOSE ships a subject-area list at all.** Their
+completeness checks are about the requirement statement and the set's internal
+coherence — 9 characteristics for a requirement, 5 for a set.
+
+**And a topic checklist has a measured effect of approximately zero.** Porter,
+Votta & Basili (IEEE TSE 21(6), 1995) found the **checklist method no more
+effective than ad hoc** — the reviewer with no checklist did as well.
+**Perspective-based reading beat both by about 35%.** Later replications found
+perspective-based teams finding more unique defects at lower cost.
+
+> **The generalisable result: a list of topics adds nothing. A defined
+> perspective to read from adds a lot.**
+
+**The ritual failure is measured too, outside software.** The WHO 19-item
+surgical checklist produced large gains in its 2009 trial. Ontario then
+**mandated** it: 109,341 procedures before, 106,370 after — complications
+3.86% → 3.82%, mortality 0.71% → 0.65%, **neither significant**. The list did not
+change. Being imposed rather than adopted did.
+
+**Recommendation:** the twenty areas survive as a **reference list consulted when
+stuck**, never as a checklist worked through. Where a real check is wanted, give
+a **perspective** rather than a topic — *"read this as the person who gets paged
+at 3am"*. That is the intervention with a measured edge; the topic list has a
+measured zero. **This is what our own adversarial reviewer already does**, which
+the evidence now supports rather than merely permits.
+
+## Work types — only two systems make type change anything
+
+- **ITIL 4** is the clearest real case: Standard (pre-authorised, never sees a
+  board), Normal (risk-scaled authorisation), Emergency (expedited, mandatory
+  post-implementation review). Type changes who approves and whether a board
+  convenes.
+- **SAFe's Epic** triggers a genuine gate — business case, portfolio kanban,
+  go/no-go. But **SAFe's Enabler, the type closest to our "produces findings"
+  idea, changes nothing procedurally**: its own text says enablers are *"treated
+  and managed similarly to customer-facing backlog items."*
+- **Scrum has zero work item types.** One noun: Product Backlog Item. No bug, no
+  task, no spike.
+- **Shape Up refuses them too** — its only axes are appetite and batch size, and
+  it denies bugs privileged status outright: *"There is nothing special about
+  bugs that makes them automatically more important than everything else."*
+
+**The failure mode is measured.** Herzig, Just & Zeller (ICSE 2013): manual
+review of 7,000+ issue reports across five projects found **33.8% of bug reports
+misclassified**, and 39% of files marked defective never had a bug. **Human type
+assignment is wrong about a third of the time.**
+
+**One distinction recurs everywhere:** discovery versus delivery — work that
+produces *"changed ideas or killed concepts"* against work that produces
+shippable change. And what it changes is **the definition of done, not the
+pipeline**.
+
+**Recommendation:** twelve types is about ten too many for two people, and a
+third of the assignments would be wrong anyway. Keep the one distinction every
+system converges on — **does this produce a shipped change, or a finding?** —
+and let it change the definition of done and nothing else. Refuse types that
+only change a label, approval gates keyed to type, and any type whose sole
+consequence is which template opens.
+
+## Traceability depth — nine steps is deeper than aerospace
+
+- **DO-178C**, for software in aircraft: roughly **8 link types**. Its real
+  advance over DO-178B was making trace data an explicit lifecycle item.
+- **ISO 26262 and IEC 62304**: about **4 links**. IEC 62304's distinguishing
+  feature is a *side branch* — risk controls traced into requirements and tests
+  — not more depth.
+
+**Our nine-step chain is deeper than what is mandated for aircraft.**
+
+**The benefit has one good number.** Mäder & Egyed, 71 subjects on real
+maintenance tasks: with traceability, **24% faster and 50% more correct
+solutions.** That measures the value of *having* links, not of keeping them.
+
+**The cost side is empty, and that is the finding.** No published figure exists
+for the share of project effort spent on traceability. What exists is
+practitioner sentiment recorded at a traceability research workshop — by the
+field's own researchers, about their own users: *"Cost is high, Benefit is low in
+the short term"* · *"Not worth the effort"* · *"Cost is way greater than
+benefit"* · *"Just for Validation, Certification, Compliance."*
+
+**What decays first is the links**, and the field says so plainly: trace quality
+*"can dramatically degrade over time as the system evolves"*, maintenance is
+*"cumbersome, error-prone and costly"*, and *"outdated trace links invalidate
+safety-cases."* **The field's own remedy is automated re-derivation — that is,
+to stop maintaining links by hand.**
+
+**Recommendation:** keep the single link we have — requirement → goal. It is the
+one with an arguable payoff (it is what lets a requirement be deleted when its
+goal dies) and it is cheap because it is written once at framing and never needs
+maintaining. **Add a second link only if it is derived rather than maintained** —
+from a commit trailer, a test name, a filename — never hand-curated. Refuse
+bidirectional links, requirement→code, requirement→metric, and any periodic
+"trace review".
+
+**Stated honestly, because the researcher volunteered it:** the cost of
+maintaining a traceability chain is **genuinely unmeasured**. The benefit side
+has one study; the cost side has complaints. That ratio cannot be computed from
+the literature — one can only observe that the people closest to it say it is
+not worth it outside compliance.
+
+**Blocked or unverified in this round, named rather than softened:** the INCOSE
+summary sheet (403), the ACM Digital Library for Porter et al. and Herzig et al.
+(403 — results confirmed via secondary sources), RTCA's DO-178C text (paid), and
+any effort-reduction percentage for value-based tracing (could not be verified;
+treat such claims as unsupported). The *"$100 per line of code at DAL A"* figure
+is **from training data and unverified**.
