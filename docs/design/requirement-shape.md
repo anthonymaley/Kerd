@@ -37,6 +37,19 @@ the fingerprint recipe. All five are closed in the rules, with a second
 computed test vector chosen to discriminate the fingerprint fix. The
 reasoning below is unchanged.
 
+**What changed 2026-08-14, fourth pass — the fidelity audit:** every citation
+was checked against its declared source. The research citations verified
+exactly; six producer citations did not, because his words had been captured
+into working files instead of the interview — now consolidated there,
+verbatim, with times, and re-cited here against it. Approved proposals are no
+longer dressed as stated positions (his 09:32 "yes" and 11:53 "agree"
+answered proposals he did not author); the exemplar's open marker moved off a
+question he had already ruled (fine tunes: *"fine tunes move the way
+everything else does, just faster, assuming they dont break the specs
+etc."*); one invented attribution and one truncated quote are corrected; and
+the exemplar no longer breaks its own reserved-form rule. Both published
+fingerprint vectors survive unchanged.
+
 **The bar this draft is held to:** across everything surveyed, the mandatory
 minimum anywhere is **one field**. The most modern, most industry-negotiated
 specification requires a title and nothing else; the exchange standard beneath
@@ -74,6 +87,14 @@ and third blocks are genuinely computed values under the recipe given after
 the examples; the third is chosen specifically so that an implementation
 which strips labels wrongly, or drops the derived prefix, fails against it.
 
+**And one thing must be unmistakable: the approval lines and the kill
+authoriser inside these blocks are fabricated by the model to show the
+form.** Tony has approved nothing and authorised no kill on this page — a
+model-written approval is a contradiction in terms under this document's own
+theory. The approval line sits outside the fingerprint, so the fabrication
+costs the test vectors nothing; a real approval is his to record and only
+his.
+
 ```markdown
 ### R-0101 — spec lives in the work's repo
 <!-- machine: 01a000da-8cb2-7a8c-812e-e2df8a27e480 -->
@@ -93,9 +114,9 @@ which strips labels wrongly, or drops the derived prefix, fails against it.
 ### R-0102 — how a fine tune lands
 <!-- machine: 01a000da-8cb2-7e00-8e72-10c058360c22 -->
 
-**Statement.** A change classified as fine tuning shall reach a landed spec update by [OPEN-R-0102-1: whether fine tuning is a dedicated path of its own, or a rapid traversal of the normal path], and shall in either case land its change in the governing spec with the approval of the role that owns it.
+**Statement.** A change classified as fine tuning shall move along the same path as every other change, faster; shall land only if it does not break the governing spec, design document, or requirements; and in a borderline case its classification shall be made by [OPEN-R-0102-1: who makes the fine-tuning call when a change is borderline, given that role approval was later ruled to be operational help rather than authority over the agreements].
 
-**Why.** G3 names the class and the guard in his words: *"the process should allow and recognize and understand for small changes without breaking the process or cirumventing it… but also not let these small changes break the design spec or the archtecure or requirments without agreed change"*. The shape of the path is recorded in the goals as unchosen — that is the open marker above. The second half of the statement is not open: the guard binds whichever path is picked.
+**Why.** His ruling of 2026-08-13 22:39 closed the shape of the path: *"fine tunes move the way everything else does, just faster, assuming they dont break the specs etc."* Not a separate process — the same path, faster, on condition the specs hold; the second clause of the statement binds that condition. What remains genuinely unstated is the borderline call: the goals record names it open ("who makes that call when it is borderline" — the record's phrasing, not his), and the same 22:39 rulings reread role approval as operational help rather than authority over the agreements, so the earlier answer no longer covers it. That is the open marker.
 
 **Traces to.** G3
 
@@ -140,7 +161,7 @@ And the dead twin, in the graveyard at the end of the same document:
 
 **Why it was proposed.** It follows directly from the pressure G3 names — *"i dont mind robust, i just mind overhead and overwork"* — and it is the design a reader arrives at independently from G3 alone.
 
-**Why it is dead.** The goals rule it out by name: *"The law is absolute; the ceremony is proportionate."* And the reason it is harmful rather than merely unnecessary: a threshold decays Law 2 into *"significant changes only"* — a judgement call, and therefore a hole.
+**Why it is dead.** His words behind the ruling: *"so each change should result in a chnage to spec or design or requirement"*, and immediately after, *"but doesnt have to be huge process"*. The goals record draws the line in its own words, not his: "The law is absolute; the ceremony is proportionate" — and names why a threshold is harmful rather than merely unnecessary: it decays Law 2 into "significant changes only", a judgement call, and therefore a hole.
 
 **What was learned.** When cost pressure argues for an exemption, the dial to reach for is the ceremony, never whether the document stays true. Any future requirement that scales process by size is checked against that split before it is written.
 
@@ -368,9 +389,12 @@ derivation happened — so the act the never-summarise law worries about,
 interpretation wearing transcription's clothes, is named on the page instead
 of hidden.
 
-**RULED BY TONY, 2026-08-14 11:53 — "agree".** The rule is settled and binding:
-**the word list governs the Statement; quoted words inside the Why are never
-linted.**
+**RULED BY TONY, 2026-08-14 11:53 — his whole word was "agree", given to a
+proposal he did not author** (interview record, consolidated morning
+rulings). The rule is settled and binding: **the word list governs the
+Statement; quoted words inside the Why are never linted.** The phrasing is
+ours; the authority is his — an approved proposal, not a stated position,
+and the two are recorded as what they are.
 
 It was escalated rather than decided by the model because it settles which of
 two of his own rules yields where they meet. That is the shape of question that
@@ -468,8 +492,12 @@ memories or requirments or achievements etc"*.
 the sanctioned home for everything that must not live in the statement — *"All
 assumptions made regarding a requirement shall be documented and validated in
 one of the requirement's attributes (e.g., rationale)"* — and the research
-named it *the only attribute that reliably pays for itself*, because it is the
-one that answers **"can we delete this yet?"** A statement says what must be
+named it *"the only attribute that answers 'can we delete this yet?'"* — a
+correction recorded by the fidelity audit of 2026-08-14: an earlier revision
+of this sentence attributed the phrase "the only attribute that reliably pays
+for itself" to the research, and the research never said it; the payoff
+framing was this document's gloss wearing quotation's clothes. The verified
+words stand alone now. A statement says what must be
 true; only the rationale says whether the reason still holds. The adaptation is
 ours: the standard's rationale is prose anybody writes; ours is required, and
 where the producer's words exist they are carried whole under the
@@ -495,7 +523,9 @@ Two connections, each stored in one direction only, with the reverse derived:
   are — and some originate rather than refine, and the marker is what lets a
   checker tell the two apart instead of drowning real findings in false ones.
 - **depends on** — other requirements this one needs. His ask, verbatim: *"no
-  simple way for me to see the requirments and their dependencies"*.
+  simple way for me to see the requirments and their dependencies"* — from his
+  objection of 2026-08-14 08:16, carried whole in the interview record's
+  consolidated morning rulings.
 
 **ADOPTED — the storage rule is the strongest convergence in the whole
 survey:** all five docs-as-code tools store a link at exactly one end and
@@ -504,8 +534,8 @@ consistent and a conflict every time they touch. A link naming a requirement
 that does not exist is an error that stops the run — also unanimous. The
 derived reverse is not decoration: it is what answers his change-of-mind
 question — *"change requirement x and the impact can be measured and planned"*
-— because "what depends on this?" is the reverse direction, computed, never
-maintained by hand.
+(2026-08-13 23:05, in the interview record) — because "what depends on this?"
+is the reverse direction, computed, never maintained by hand.
 
 **Links are inside the approval fingerprint** — settled: change what a
 requirement depends on and its approval is invalidated exactly as if the words
@@ -528,13 +558,19 @@ ruling:** Doorstop's fingerprint covers what its project chooses; ours covers
 **the statement, the Why and the links, always** — *"no point doing half of the
 fingerprint."*
 
-**The Why was added to the fingerprint by Tony, 2026-08-14 09:32**, correcting a
-choice the composer had made silently. Its reasoning was that a reason can gain
-detail without un-saying the agreement; the correction is that **a reason can
-also change what a statement means**, and if it can, an approval must not
-survive an edit to it. This is his own "no point doing half of the fingerprint"
-applied one element further. The composer had flagged the omission itself: *"I
-applied his ruling narrowly where I could have asked."*
+**The Why joined the fingerprint at 2026-08-14 09:32 — and the provenance is
+recorded exactly, because approved and authored are different things.** The
+composer had left the Why out silently and flagged its own omission: *"I
+applied his ruling narrowly where I could have asked."* The correction — that
+a reason can change what a statement means, so an approval must not survive
+an edit to it — was then **put to him as one half of a two-part proposal**
+(the other half being the document decision below), after his own instruction
+at 09:29: *"give me something i can say yes to."* **His word at 09:32 was
+"yes"** — he approved both parts together; he authored neither phrasing. The
+interview record's consolidated morning rulings carry this. The reasoning is
+his own "no point doing half of the fingerprint" applied one element further,
+and the approval makes it binding — but the sentence was ours, and a proposal
+he approved must never be dressed as a position he stated.
 
 **What stays outside the fingerprint, deliberately:** the reference, the hidden
 machine name, and everything beside the requirement — comments, notes,
@@ -557,12 +593,33 @@ looks like a contract and isn't one."*
 ## The set is a DOCUMENT — decided 2026-08-14 09:32
 
 The research called this a trilemma where every corner bleeds, and the earlier
-draft never chose one. **Tony chose the document corner.**
+draft never chose one. **The document corner was put to Tony as one half of a
+two-part proposal — his instruction, 09:29: *"give me something i can say yes
+to"* — and his word at 09:32 was "yes".** He approved the corner; the framing
+of it was ours. The interview record's consolidated morning rulings carry
+both the proposal shape and the answer.
 
 **Requirements are blocks in a file you can read top to bottom.** Reading order
 is meaningful and costs nothing to keep. Git carries the history. The HTML view
 is generated *from* the document and stays disposable — the file is the only
 writable surface, which is the one thing every tool in the survey agreed on.
+
+**This does not override his objection to a markdown file — it answers a
+different question, and the reconciliation deserves stating because both
+rulings are real.** On 2026-08-13 22:58 he ruled: *"we cannot consider this
+markdown file as how we capture and version and work on requirements. we need
+a robust and easy to engage with solution."* The next morning, 08:16, he
+separated the two things that ruling could have meant: *"a ingle huge
+markdown for me to interact with is not the answer. However, im not going to
+declare how we store that data, it could be a markdown file that you manage
+and create."* **What he rejected is a file as the thing he must interact
+with; what he left open — and then approved — is a file as the thing the
+model manages underneath.** The document corner is the storage decision; his
+interface is the generated view, which owes him what his 08:16 objection
+itemises: seeing the requirements and their dependencies, editing the text,
+seeing each one's standing, and leaving comments, links and images. Anyone
+reading the document decision as "Tony works in a markdown file" has read it
+backwards.
 
 **Why this corner, on the evidence:**
 
@@ -575,7 +632,7 @@ writable surface, which is the one thing every tool in the survey agreed on.
   We would pay the cost and collect almost none of the benefit.
 - **The graph corner has no reviewable narrative at all**, which fails his
   stated need outright: *"no simple way for me to see the requirments and their
-  dependencies"*.
+  dependencies"* (2026-08-14 08:16, in the interview record).
 
 **And it is the corner we already stand in.** The register is already a document
 with requirements as blocks in reading order. This confirms rather than
@@ -598,7 +655,8 @@ Three things the old draft put on the record that belong next to it. None of
 these is an element of the shape.
 
 **Comments and notes.** His ask stands in full: *"to add comments perhaps for
-you to pick up or to record notes around the requirments"* — note his own
+you to pick up or to record notes around the requirments"* (2026-08-14 08:16,
+in the interview record's consolidated morning rulings) — note his own
 preposition, **around**. **ADOPTED as a discipline — it is unanimous across
 the territory:** discussion lives outside the record everywhere (proposals
 mandate a discussion address; decision processes keep debate in the thread and
@@ -609,7 +667,7 @@ question about a requirement must not un-approve it. So comments live beside
 the record, addressable to it by its reference, and the model reads them there.
 
 **Attachments — links and images.** His ask: *"add links or images perhaps as
-input"*. **This is the one place we are on our own, and it is flagged loudly:
+input"* (2026-08-14 08:16, in the interview record). **This is the one place we are on our own, and it is flagged loudly:
 attachments on a requirement appear in NO surveyed system.** Not the standards,
 not the tools, not the vendors. So nothing here can be justified by prior art
 — only on its own terms, which are his words above. The honest reading of his
@@ -623,7 +681,10 @@ needed, on no evidence.
 **History.** Cut as a field entirely — see the cut list. The record's history
 is the version history the repository already keeps; the research's line:
 *"Git commits already give you immutable snapshots that span every file at
-once — which is precisely the thing DOORS makes hard and expensive."* One
+once — which is precisely the thing DOORS makes hard and expensive via
+baseline sets."* (An earlier revision truncated this quote at "expensive"
+with a full stop, silently dropping the mechanism it names; the full sentence
+is restored.) One
 signal from the standard survives the cut, derived rather than stored: ISO
 29148 values a version count as a **volatility sensor** — *"a requirement that
 has a lot of change could indicate a problem or risk to the project."* That
@@ -900,6 +961,60 @@ computed fingerprint is published, chosen specifically so an implementation
 that strips wrongly or drops the prefix fails against it while passing the
 first vector.
 
+## Findings resolved — the fidelity audit of 2026-08-14 12:21
+
+An audit checked every citation in this document against its declared
+sources. **The research citations verified exactly** — standards, tool
+findings, figures. **Six producer citations did not**, and the cause sat
+upstream: his words had been captured into whichever file was in front of
+the model rather than into the interview, so the source of truth had
+stopped holding the truth. The interview record now carries the morning's
+rulings consolidated, verbatim, with times. What was done here:
+
+**Citations re-grounded.** The dependencies objection, the comments ask,
+and the attachments ask now cite his 08:16 words against the consolidated
+record; the 09:26, 09:28, 09:32 and 11:53 rulings cite it likewise.
+
+**Approved and authored, separated everywhere.** The 09:32 "yes" answered a
+two-part proposal — the document corner and the Why joining the fingerprint
+— put to him together after his own *"give me something i can say yes
+to"*; the 11:53 word was "agree", to a proposal he did not author. Every
+passage that dressed an approved proposal as a stated position is
+corrected. The distinction is not pedantry: a proposal he approved binds,
+but citing it as his authorship manufactures words he never said, which is
+the exact offence the never-summarise law names.
+
+**The exemplar's open marker was spent on an answered question.** R-0102
+marked the fine-tuning path as open — but he had ruled it at 2026-08-13
+22:39: *"fine tunes move the way everything else does, just faster,
+assuming they dont break the specs etc."* The goals file was fourteen hours
+stale when it was read, and the exemplar failed his own check — *"did i
+read from file or stale memory"* — in its worked example. R-0102 is
+rewritten: the statement now carries the ruling (same path, faster,
+conditional on the specs holding), and its marker moved to a question that
+is genuinely open — who makes the borderline fine-tuning call, now that
+role approval is ruled operational help rather than authority over the
+agreements. No fingerprint was invalidated: R-0102 was never approved, and
+both published vectors are untouched and re-verified.
+
+**The exemplar broke its own reserved form.** The graveyard block wrote two
+of the goals record's phrases in the italic-quoted form rule 6 reserves for
+his verbatim words. Fixed: the record's phrasings are plain-quoted and
+attributed as the record's; his actual words behind the ruling are quoted
+in the reserved form. The remaining example blocks were checked — every
+italic quotation in them is his.
+
+**An invented attribution.** The research was credited with "the only
+attribute that reliably pays for itself"; it said *"the only attribute that
+answers 'can we delete this yet?'"*. Corrected, with the correction left
+visible rather than silently patched.
+
+**Minor, both fixed:** the DOORS quote is restored to its full sentence
+(the truncation had dropped "via baseline sets" behind a full stop), and
+the fabricated approval lines in the examples now say loudly that they are
+fabricated — a model-written approval is a contradiction in terms here, and
+the page a writer copies from must not normalise one.
+
 ---
 
 ## Straw-man
@@ -910,7 +1025,7 @@ Law 3, both passes.
 
 **~~The versions are not carried.~~ CLOSED by Tony, 2026-08-14 09:26:** *"we
 already discounted the FINAL 1.0 etc - ignore, we use fingerprint and
-lifecycle."*
+lifecycle."* (Interview record, consolidated morning rulings.)
 
 **Named version numbers are dropped entirely.** They were part of an
 off-the-cuff answer he later withdrew as unresearched, and nothing replaces
@@ -931,6 +1046,7 @@ is missing.**
 
 **~~"Superseded" and "dropped" have no home.~~ ANSWERED by Tony, 2026-08-14
 09:28:** *"we need a graveyard so we dont add them again and learn from them"*
+(interview record, consolidated morning rulings)
 
 **Two purposes, and they are different:** stop a dead requirement being proposed
 again, and keep what was learned from killing it. The second is the ADR finding
@@ -1001,9 +1117,9 @@ carried in name only, see above. *"never sumarize"* — carried. What **nothing
 carries**: who approved (the fingerprint proves *what* was approved — the
 approval line now writes his name and a date beside it, though how that line
 is itself verified remains undesigned); ~~and the *set* has no shape at
-all~~ — **CLOSED in two steps:** Tony chose the document corner (2026-08-14
-09:32), and the normative form now shows what a block inside that document
-looks like.
+all~~ — **CLOSED in two steps:** Tony approved the document corner, put to
+him as a proposal (his "yes", 2026-08-14 09:32), and the normative form now
+shows what a block inside that document looks like.
 
 ### What the normative form newly breaks — added 2026-08-14, the same pass inward
 
@@ -1050,6 +1166,16 @@ exposures. Named here so they are findable, not discovered:
   written name (rule 10). The asymmetry is accepted for now — a graveyard
   entry's content is frozen by convention, not by hash — and it is the
   weakest link in the approval theory this pass leaves standing.
+- **An open marker is minted against whatever the writer last read, and
+  nothing checks it is still open.** The fidelity audit caught this
+  document's own exemplar spending a marker on a question the producer had
+  ruled fourteen hours earlier — the goals file was stale and the ruling
+  lived elsewhere. The fix here was manual; the exposure is structural: a
+  marker is a claim about the current state of the record of decisions,
+  and the form provides no freshness check on it. Until one exists, "is
+  this still open?" is a question the writer must put to the interview
+  record at minting time, as discipline — which is exactly the kind of
+  answer this document distrusts everywhere else.
 
 ### Outward — where this falls short of the territory
 
@@ -1104,10 +1230,12 @@ to invent. Each is a real decision awaiting him, not a doubt.
    entry form shown in the normative form section — a durable record, its
    reference retained, superseded-by as a named field.
 3. ~~**Is the Why inside the fingerprint?**~~ **CLOSED by Tony, 2026-08-14
-   09:32:** yes — his correction is recorded in the approval-mark element,
-   and the fingerprint recipe hashes it.
-4. **What is the container** — partly closed: Tony chose the document
-   (2026-08-14 09:32) and the normative form defines the block. **Still
+   09:32:** yes — approved as half of a two-part proposal put to him
+   together; the provenance is recorded in the approval-mark element, and
+   the fingerprint recipe hashes it.
+4. **What is the container** — partly closed: Tony approved the document
+   corner as the other half of the same 09:32 proposal, and the normative
+   form defines the block. **Still
    open: one document or several** — and the minting rule now attaches a
    cost to splitting, named in the straw-man.
 5. **Does the writing help ever refuse, or only advise?** Still open — its
