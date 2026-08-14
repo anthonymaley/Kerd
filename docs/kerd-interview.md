@@ -223,6 +223,14 @@ change" is prohibited outright.
 
 ## Q4 — Why not use another existing skill?
 
+> ⚠ **READ THIS SECTION AS EXPERIENCE, NOT AS REQUIREMENT.** Tony ruled on this
+> at 22:39: *"i am not critisizing; i am sharing my expereince with it... my
+> words are not laws or requirements there but frustrations or experiences."*
+> Everything below is **input to the analysis** of superpowers and other tools,
+> to be weighed when that evaluation is done. No requirement may be derived from
+> it. The model made this mistake once already — converting his description of
+> what frustrates him into standing obligations.
+
 **Tony, 2026-08-13 17:22 EDT, verbatim:**
 
 > Another measurement and benchmark is superpowers brainstorming and
@@ -574,6 +582,84 @@ blocked or having poor experience?"*
 Approval for this class sits with **the composer or conductor roles**, not the
 producer — which is what lets the fast path stay fast when the spec's owner is
 not in the room. The roles are still provisional: *"if we keep them"*.
+
+---
+
+## Six rulings, 2026-08-13 22:39
+
+Given in response to the reviewed requirements draft. Verbatim, then what each
+settles.
+
+> yeah Tension C-T1 :  when i say composer or conducter can approve, what i mean
+> by that, if there is a gap in the spec or a conflict or issue implementingm the
+> sub agent can ask for help to conductor who can either correct the sub agent or
+> ask the composer to tweak the solutuon to fix the issue, thats what approval
+> means in that context. other approvals can be conductor checking artifacts
+> against spec etc.  2. "S1 and S2 trace to a section, not a goal" self checking
+> can be a law - "check your work, use self analysis, askyourself is this
+> correct?, use a straw man to explain your work and see if there are gaps, use an
+> agent in advesrial review to challenge your thinking where appropraite., ask
+> simple questions, "did i infer that", "did i read from file or stale memory",
+> "have we tried this before", "Has this already been answered or recorded" etc
+> d4: the border as you have it above on PLEASE READ is perfect if that is what
+> you mean.
+>
+> on superpowers, i am not critisizing; i am sharing my expereince with it. these
+> words should be used when the analysis of superpowers and other tools is done as
+> an input, for consideration. my words are not laws or requirements there but
+> frustrations or experiences.
+>
+> fine tunes move the way everything else does, just faster, assuming they dont
+> break the specs etc.
+>
+> we should ask what is absent. we should also compare to what best practices do,
+> other skills, standard methodologies, emerging thinking in AI human pairing
+> process.
+
+**1 — Tension C-T1 DISSOLVES; it was never a contradiction.** Both the composer
+and the model read *"the composer or conductor roles should have the approval"*
+as authority over the agreements — the agent approving a change to the spec in
+the producer's place. That is not what it meant. In that context **approval is
+operational**: a sub-agent hits a gap in the spec, a conflict, or an
+implementation problem, and asks the conductor for help; the conductor either
+corrects the sub-agent or asks the composer to tweak the solution. Plus
+conformance work — *"conductor checking artifacts against spec"*. The producer's
+authority over the agreements is untouched, so B1's "no small-work exception"
+never conflicted with it. The requirement must be rewritten, and the tension
+closed as dissolved rather than compromised.
+
+**2 — Self-checking becomes a LAW,** which fixes S1/S2 tracing to a section. Its
+content is his: *check your work · use self analysis · ask yourself is this
+correct? · use a straw man to explain your work and see if there are gaps · use
+an agent in adversarial review to challenge your thinking where appropriate*.
+And a named set of simple questions: **"did I infer that?" · "did I read from
+file or stale memory?" · "have we tried this before?" · "has this already been
+answered or recorded?"**
+
+**3 — The border format is confirmed.** The bordered PLEASE READ block used in
+conversation is the shape he wants for input requests.
+
+**4 — THE SUPERPOWERS COMMENTARY IS EXPERIENCE, NOT REQUIREMENT.** *"i am not
+critisizing; i am sharing my expereince with it... my words are not laws or
+requirements there but frustrations or experiences."* They are **input to the
+analysis** of superpowers and other tools, for consideration when that
+evaluation is done. Any requirement derived from the superpowers passages is
+mis-sourced and must be re-grounded elsewhere or reclassified — this hits the
+testing requirement, the "runs without inputs" requirement, and the observer
+reaction.
+
+**5 — Fine tuning has its delivery shape:** *"fine tunes move the way everything
+else does, just faster, assuming they dont break the specs etc."* Not a separate
+process. The same path, traversed faster, on condition the specs hold. This
+closes the open question that floated two candidates.
+
+**6 — Analysis owes an outward look, not only an inward one.** *"we should ask
+what is absent. we should also compare to what best practices do, other skills,
+standard methodologies, emerging thinking in AI human pairing process."* The
+omission pass is confirmed, and a second dimension joins it: measure the work
+against outside practice, not only against our own stated intent.
+
+---
 
 **Also stated, as a presentation rule:**
 

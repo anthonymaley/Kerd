@@ -82,6 +82,46 @@ The scaling dial is on the *process*, never on *whether the document stays
 true*. That distinction is what keeps Law 2 from decaying into "significant
 changes only" — a judgement call, and therefore a hole.
 
+### Law 3 — Check your own work before it counts
+
+**Added by Tony 2026-08-13 22:39**, resolving the fact that the self-check
+ladder was approved content with no status — requirements could only trace to a
+*section*, which bent Law 2 as applied to this document. His ruling: *"self
+checking can be a law"*.
+
+The law, in his words: *"check your work, use self analysis, askyourself is this
+correct?, use a straw man to explain your work and see if there are gaps, use an
+agent in advesrial review to challenge your thinking where appropraite."*
+
+And a named set of simple questions the work has to survive:
+
+- **"did i infer that"**
+- **"did i read from file or stale memory"**
+- **"have we tried this before"**
+- **"has this already been answered or recorded"**
+
+Those four are worth their own line because each names a specific way confident
+output goes wrong: inference dressed as knowledge, a stale recollection standing
+in for a read, repeating a dead end, and re-deriving something already settled.
+
+**Two dimensions of checking, both required** — the second added at the same
+moment (*"we should ask what is absent. we should also compare to what best
+practices do, other skills, standard methodologies, emerging thinking in AI human
+pairing process"*):
+
+- **Inward** — is what is here correct, and **what is absent?** The omission pass
+  exists because self-criticism structurally audits only what made it in. Proven
+  live 2026-08-13: the requirements straw-man attacked five things it had
+  written and missed three things it had never written; an independent reviewer
+  found all three.
+- **Outward** — how does this compare to best practice, other skills, standard
+  methodologies, and emerging thinking in AI-human pairing? Measuring the work
+  only against our own stated intent cannot detect that the intent itself is
+  behind the field.
+
+*Wording drafted by the model from his ruling and his content; the ruling and the
+content are his, the phrasing is not yet confirmed.*
+
 ---
 
 ## G1 — We trust what we're building
