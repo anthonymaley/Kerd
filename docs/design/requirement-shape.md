@@ -4,7 +4,7 @@
 built against this shape until he has worked through it. Approval here is a
 gate, not a status to record and move past: the process demands the answer, it
 does not note its absence and continue — his rule, *"the process demand
-approval or push back until approval"*.
+approval or push back until approval…"*.
 
 **What changed since the last draft:** the first version was written from his
 words alone, before any research existed. He stopped it himself: *"dont just
@@ -553,9 +553,10 @@ for.
 
 **ADOPTED from Doorstop**, which fingerprints an item's content and reports
 *"unreviewed changes"* on any mismatch — and which deliberately excludes
-housekeeping details so metadata edits do not nag. **ADAPTED by his own
-ruling:** Doorstop's fingerprint covers what its project chooses; ours covers
-**the statement, the Why and the links, always** — *"no point doing half of the
+housekeeping details so metadata edits do not nag. **ADAPTED in two steps, and
+their provenance differs:** Doorstop's fingerprint covers what its project
+chooses; ours covers **the statement, the Why and the links, always**. **His
+ruling of 09:00 covers the statement and the links** — *"no point doing half of the
 fingerprint."*
 
 **The Why joined the fingerprint at 2026-08-14 09:32 — and the provenance is
@@ -643,9 +644,12 @@ conflicts, not field conflicts. Reordering is free. Anything that needs to
 query across requirements is computed by reading the document, not by asking a
 database — which is affordable at this scale and would not be at ten thousand.
 
-**Deliberately still open:** whether it is *one* document or several, and how
-the graveyard sits relative to it. Both are cheap to decide later and expensive
-to guess at now.
+**Deliberately still open:** whether it is *one* document or several. Cheap to
+decide later and expensive to guess at now.
+
+*(Where the graveyard sits was open when this section was written and is now
+closed — it lives under a graveyard heading at the end of the same document.
+See the rules.)*
 
 ---
 
@@ -1038,8 +1042,8 @@ from the fingerprint, and where a requirement has reached comes from **what
 links to it** (a design cites it, so it is designed; a test cites it, so it is
 tested). Nothing is stored and nothing is maintained. This is consistent with
 the settled decision that there is no lifecycle field, and with his own
-correction that *"lifecycle is a better way vs status"* — a progression rather
-than a flag. **If he meant a stored field, this reading is wrong and an element
+suggestion — offered as one, not as a ruling — that *"maybe lifecycle is a
+better way vs status"*: a progression rather than a flag. **If he meant a stored field, this reading is wrong and an element
 is missing.**
 
 *The shape therefore stands at six elements.*
@@ -1095,8 +1099,9 @@ building a replacement. A deleted requirement and a rejected one currently look
 identical: gone.
 
 **~~The Why sits outside the fingerprint, and I chose that silently.~~
-CLOSED by Tony, 2026-08-14 09:32 — the Why is inside the fingerprint; his
-correction is recorded in the approval-mark element.** The original
+CLOSED by Tony, 2026-08-14 09:32 — the Why is inside the fingerprint. It was
+the model's correction, put to him and approved, not his own; the provenance is
+recorded in the approval-mark element.** The original
 admission stands below as the record of the failure mode. His
 ruling named the statement and the links. I left the Why out on the logic that
 the reason can gain detail without un-saying the agreement — but a rationale
@@ -1222,9 +1227,13 @@ false approval recoverable, not rarer.
 Things I could not settle from his words or the evidence, and would have had
 to invent. Each is a real decision awaiting him, not a doubt.
 
-1. **What carries the named versions?** "FINAL v1.0 → v1.2" — release-side
-   membership at a moment, a name minted at approval, or something else. The
-   change-of-mind requirement hangs on this.
+1. ~~**What carries the named versions?**~~ **CLOSED — he withdrew the want
+   itself, twice.** 08:53: *"ignore 'You've already said DRAFT / ACCEPTED /
+   FINAL v1.0, v1.2.'  you asked me directly that was my thinking without
+   research."* And 09:26: *"we already discounted the FINAL 1.0 etc - ignore, we
+   use fingerprint and lifecycle."* Nothing carries named versions because
+   nothing needs to: the fingerprint answers *has this changed since we agreed
+   it?*, which is the question versions were being asked to carry.
 2. ~~**Where do superseded and rejected requirements go?**~~ **CLOSED,
    2026-08-14:** the graveyard, at the end of the same document, with the
    entry form shown in the normative form section — a durable record, its
