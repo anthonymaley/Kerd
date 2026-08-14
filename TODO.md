@@ -2,13 +2,60 @@
 
 ## Now
 
-**Requirements is the live subject.** The producer's shape, 2026-08-07:
-**requirements → features → releases**. The middle layer partly exists — 13
-product docs. Both other ends are empty.
+**THE PROJECT RESET, 2026-08-13 evening.** Tony called a full stop:
+*"honestly i feel we are lost here, i have no clue if what we have build and
+what the requirments will build is what we need now. the fact that we are both
+confused tells me we need a reset."* Everything below supersedes the previous
+plan for this sitting.
 
-**DONE 2026-08-13 afternoon sitting** — see `kivna/sessions/2026-08-13.md`:
-AU7/AU8 the register validator (v0.97.0, `8b7f52d`) and the bidirectional
-model+effort advisory building `FUN-010` (v0.98.0, `f4c51c0`), both CI-green.
+**What now exists** (all committed, see `kivna/sessions/2026-08-13.md`):
+
+- `docs/kerd-interview.md` — the reset interview, verbatim, **confirmed by Tony
+  as the source of truth**. Deliberately grounded in nothing that already
+  existed. Everything else gets checked against it, not the reverse.
+- `docs/kerd-goals.md` — **APPROVED 18:30**. Three laws, eight goals, each
+  carrying a design input in his own words.
+- `docs/kerd-requirements.md` — **a DRAFT, not awaiting a yes.** Goals are
+  inputs to requirements; finalisation is a worked process.
+
+**Next, in order:**
+
+1. **What the requirements system actually IS.** His ruling: *"we cannot
+   consider this markdown file as how we capture and version and work on
+   requirements. we need a robust and easy to engage with solution."* The
+   pre-reset tooling evaluation (`docs/design/requirements-traceability.md`, 6
+   options × 24 criteria) is **now legitimate input** — the bracketing rule
+   expired when the interview was captured. Re-examine it against the approved
+   goals rather than as precedent. Note the requirements draft's own finding:
+   the register demands per-entry change management of the product while
+   practising none on itself.
+2. **Work the requirements draft through to final** — translated, drafted,
+   worked on, finalised. Not one composer pass and an approval.
+3. **The build-vs-adopt decision (interview Q4), still open.** Now has criteria:
+   the approved goals. The superpowers material in Q4 is **experience, not
+   requirement** — input to that evaluation only.
+
+**Carried, unresolved, from the outward pass:** our answer to false approval is
+presentation-based (borders, brevity, visuals) while current human-in-the-loop
+practice uses *active confirmation*. Tony's ruling: proper requirements
+management plus strong pairing mitigates but does not cure — accepted, residue
+named.
+
+**Parked by the reset, not cancelled:** closing `model-effort-advisory` and
+`hooks-autoload` on the ladder (both shipped, both stuck below `goal` because a
+proportional build skips rungs the gates demand). `hooks-autoload` also fails at
+`slice` on an illegal risk-ledger State token — `accepted (named loss)` is not a
+legal value. The board is currently misreporting two live features. Do not walk
+these by hand: the reset may change what the ladder even is.
+
+**Also parked:** `docs/product/inline-composer.md` — framed during this sitting,
+deliberately left unbuilt. It is the funnel working correctly (captured without
+displacing), and the reset may supersede it entirely.
+
+**DONE 2026-08-13 afternoon sittings** — AU7/AU8 the register validator
+(v0.97.0, `8b7f52d`) and the model+effort advisory building `FUN-010` (v0.98.0,
+`f4c51c0`), both CI-green. Hooks auto-load was **empirically verified** at this
+sitting's switch-in — the top High backlog row, now closed.
 
 **Then, in order:**
 
@@ -53,7 +100,17 @@ the design.
 
 **High consequence**
 
-- **Verify hooks auto-load fires on this machine — the one open risk on hooks-autoload (v0.96.0).** Shipped and proven from docs + a valid config, but never empirically fired here: the cache is still 0.95.0 (no `hooks.json`). Repin to 0.96.0 (`/plugin` update or reinstall kerd), then a fresh session in the Kerd repo must show `📋 Last session: …` from `session-start.sh` — sourced only from auto-load, since the manual wiring is now stripped. If it does NOT appear, auto-load failed and the fallback is resolved absolute paths (worse, but working). See `docs/product/hooks-autoload.md` risk ledger.
+- ~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED 2026-08-13
+  ~16:40**, at this sitting's switch-in. Three confirming observations: the
+  cache carries 0.96.0 with `hooks/hooks.json`; neither `.claude/settings.local.json`
+  nor `~/.claude/settings.json` holds any Kerd hook wiring; and `📋 Last session:
+  2026-08-13` appeared at session start — a string built only by
+  `hooks/session-start.sh` (lines 39, 58, 63). Auto-load works and
+  `${CLAUDE_PLUGIN_ROOT}` resolves at runtime with zero per-repo wiring.
+  **Note for `docs/product/hooks-autoload.md`:** its risk ledger still calls
+  this open, and its acceptance test quotes the rendered string `Last session`
+  when the source literal is lowercase — a grep for the documented string
+  returns nothing and reads as "the hook didn't fire".
 - **`gate.py --root` — promoted from Medium.** No longer a nice-to-have: it is
   a hard dependency of requirements-traceability slice 1. `tools/gates/kit.py:24`
   derives `ROOT` from the tool's own path, so a consuming project would audit
