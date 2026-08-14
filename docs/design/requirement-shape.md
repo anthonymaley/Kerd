@@ -160,18 +160,33 @@ had changed.
 ### 6. The approval mark — a fingerprint, not a signature
 
 When Tony approves a requirement, the system records a fingerprint of the
-statement and the links as they read at that moment. The requirement is
-approved for exactly as long as its current fingerprint matches the recorded
-one. Change a word or a link and the approval is automatically no longer valid
-— nobody maintains a status, nobody forgets to downgrade one, and an approval
-can never quietly apply to words it was not given for.
+**statement, the Why, and the links** as they read at that moment. The
+requirement is approved for exactly as long as its current fingerprint matches
+the recorded one. Change a word, a reason, or a link and the approval is
+automatically no longer valid — nobody maintains a status, nobody forgets to
+downgrade one, and an approval can never quietly apply to words it was not given
+for.
 
 **ADOPTED from Doorstop**, which fingerprints an item's content and reports
 *"unreviewed changes"* on any mismatch — and which deliberately excludes
 housekeeping details so metadata edits do not nag. **ADAPTED by his own
 ruling:** Doorstop's fingerprint covers what its project chooses; ours covers
-**the statement and the links, always** — *"no point doing half of the
+**the statement, the Why and the links, always** — *"no point doing half of the
 fingerprint."*
+
+**The Why was added to the fingerprint by Tony, 2026-08-14 09:32**, correcting a
+choice the composer had made silently. Its reasoning was that a reason can gain
+detail without un-saying the agreement; the correction is that **a reason can
+also change what a statement means**, and if it can, an approval must not
+survive an edit to it. This is his own "no point doing half of the fingerprint"
+applied one element further. The composer had flagged the omission itself: *"I
+applied his ruling narrowly where I could have asked."*
+
+**What stays outside the fingerprint, deliberately:** the reference, the hidden
+machine name, and everything beside the requirement — comments, notes,
+attachments. Commenting must never invalidate an approval; that is unanimous
+across the surveyed territory, and it is the reason those things live beside a
+requirement rather than in it.
 
 This element replaces the entire status question. What the old draft tried to
 hold in a status field — is it agreed? — is computed here instead. And the
@@ -182,6 +197,44 @@ the requirement does not. Approval is an event that happens *to* a requirement,
 never a field carried *by* one. The two tools that did ship a status field
 shipped it unenforced, which the research called *"the worst of both worlds: it
 looks like a contract and isn't one."*
+
+---
+
+## The set is a DOCUMENT — decided 2026-08-14 09:32
+
+The research called this a trilemma where every corner bleeds, and the earlier
+draft never chose one. **Tony chose the document corner.**
+
+**Requirements are blocks in a file you can read top to bottom.** Reading order
+is meaningful and costs nothing to keep. Git carries the history. The HTML view
+is generated *from* the document and stays disposable — the file is the only
+writable surface, which is the one thing every tool in the survey agreed on.
+
+**Why this corner, on the evidence:**
+
+- **The document's known cost is rebuild speed, and it is nowhere near us.**
+  StrictDoc reaches a ten-second page load at 100 documents of 100–400 nodes
+  each. We have 51 requirements.
+- **The database corner buys clean merges under many authors — we have one
+  human and one agent.** It charges for that benefit by making you re-encode
+  reading order as a field, which is precisely Doorstop's densest bug cluster.
+  We would pay the cost and collect almost none of the benefit.
+- **The graph corner has no reviewable narrative at all**, which fails his
+  stated need outright: *"no simple way for me to see the requirments and their
+  dependencies"*.
+
+**And it is the corner we already stand in.** The register is already a document
+with requirements as blocks in reading order. This confirms rather than
+migrates — no conversion, no re-keying, no lost history.
+
+**What it commits us to, stated plainly:** merge conflicts here are prose
+conflicts, not field conflicts. Reordering is free. Anything that needs to
+query across requirements is computed by reading the document, not by asking a
+database — which is affordable at this scale and would not be at ten thousand.
+
+**Deliberately still open:** whether it is *one* document or several, and how
+the graveyard sits relative to it. Both are cheap to decide later and expensive
+to guess at now.
 
 ---
 
