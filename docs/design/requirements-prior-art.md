@@ -385,8 +385,241 @@ are open design questions, not objections to a proposal nobody made:**
 
 None of these refute him; all three are unanswered by the position as stated.
 
+---
+
+# Standards and enterprise tools
+
+ISO/IEC/IEEE 29148, IEEE 830, ReqIF, OSLC RM, DOORS Classic and Next, Jama,
+Polarion, INCOSE GtWR.
+
+**Blocked sources, named rather than softened:** `incose.org` returned **403**
+for both GtWR summary sheets; `ibm.com/support` returned **403** for the DOORS
+absolute-number page; the Springer *Requirements Anti-Patterns* chapter is
+paywalled. Claims resting on those are marked below.
+
+## No standard in this territory defines requirement status — the REVIEW has the lifecycle
+
+**This is the strongest finding in the section, and it is a negative one.**
+
+- **29148** — "Status" does not appear in the §5.2.8 attribute list at all. The
+  only mention is that the Owner *"reports the status of the requirement."*
+- **ReqIF** — none. **OSLC** — none.
+- **Jama** — item workflow is configurable, not shipped.
+- **Polarion / DOORS Next** — both ship a lifecycle for the **review object**,
+  not the requirement. DOORS Next, verbatim: `Draft > In Progress > Reviewed >
+  Finalized`, plus `Paused` and `Overdue`, with roles **Approver / Reviewer /
+  Optional reviewer**.
+
+**Two independent vendors converged on the same shape: the requirement has no
+mandated state machine; the review does. Approval is modelled as an event
+happening *to* a requirement, not a field *on* it.**
+
+*Approved and baselined are distinct.* 29148 §3.1.3 defines a baseline as a
+*"formally approved version of a configuration item… formally designated and
+fixed at a specific time"*, and names four: Functional (requirements),
+Allocated, Developmental, Product.
+
+## The mandatory minimum is one field, or zero
+
+| Source | Mandatory fields on a requirement |
+|---|---|
+| **OSLC RM 2.1** | **Exactly one** — `dcterms:title`. Everything else is Zero-or-one or Zero-or-many, *including* `identifier`. |
+| **ReqIF** | **None.** `SpecObject` declares "Attributes: No attributes." All domain fields are user-defined. |
+| **ISO 29148** | **None mandated.** §5.2.8.2 is headed "**Examples of** requirements attributes". |
+
+**There is no documented mandatory minimum attribute set anywhere in this
+territory, and the most modern spec converged on one field.** Our own draft
+carries nine.
+
+## IDs — the verified doctrine
+
+**ISO 29148 §5.2.8.2, verbatim:**
+
+> "Each requirement should be uniquely identified… **Once assigned, the
+> identification is unique — it is never changed (even if the identified
+> requirement changes) nor is it reused (even if the identified requirement is
+> deleted).**"
+
+Immutable, never reused, and the stated reason is tracing. The standard is
+deliberately agnostic on meaningful-versus-opaque.
+
+**ReqIF** defends immutability even against tool incompatibility: where a tool
+cannot handle the identifier it attaches an `AlternativeID` rather than mutating
+it. **OSLC**: identity is the resource URI.
+
+**Universal convergence: every system separates a stable identity from a display
+position.** DOORS keeps three — section number (renumbers freely), absolute
+number, object identifier. *Whether DOORS' absolute number is editable or reused
+after purge is unverified — the IBM page answering it returned 403.*
+
+## Version number is a VOLATILITY SENSOR
+
+29148 lists Version Number as a per-requirement attribute and gives a second
+reason beyond bookkeeping:
+
+> "to provide an indication of the **volatility** of the requirement. A
+> requirement that has a lot of change could indicate a problem or risk to the
+> project."
+
+**A requirement that keeps changing is a risk signal about the project, not just
+a record that moved.** Jama versions on any *field value* change; Polarion has no
+per-item counter (every save is a repository revision); ReqIF has no version at
+all, only `lastChange`.
+
+## Links — the OSLC convergence set
+
+The most recent and most cross-vendor-negotiated answer available. Seven inverse
+pairs plus four one-way, all Zero-or-many:
+
+| Paired | One-way |
+|---|---|
+| `elaboratedBy` / `elaborates` | `validatedBy` |
+| `specifiedBy` / `specifies` | `implementedBy` |
+| `decomposedBy` / `decomposes` | `affectedBy` |
+| `satisfiedBy` / `satisfies` | `trackedBy` |
+| `constrainedBy` / `constrains` | |
+
+**Polarion makes the inverse mandatory** — "ID, Name, and **Opposite Name** are
+required." That constraint forces you to say what a link means *from both ends*,
+which is where sloppy link semantics get caught.
+
+**ReqIF is the outlier:** `SpecRelation` has source, target, type — and **no
+predefined types whatsoever.**
+
+**The minimum set everyone reaches independently: parent/child (decomposition),
+satisfied-by (implementation), verified-by (test), and a weak catch-all
+"relates to".**
+
+## The language linter — highest value-per-effort in the territory
+
+29148 §5.2.7 is **normative and mechanically checkable**. Avoid: superlatives ·
+subjective language ("user friendly", "easy to use") · vague pronouns ("it",
+"this") · ambiguous adverbs ("significant", "minimal") · ambiguous logic
+("and/or") · open-ended terms ("provide support", "but not limited to") ·
+comparatives · loopholes ("if possible", "as appropriate") · totality terms
+("all", "always", "never") · incomplete references.
+
+And §5.2.4 on modal verbs: **'shall' is binding · 'will' is context · 'should'
+is a goal and is NOT a requirement · 'may' is permission · avoid 'must' entirely
+(misread as binding) · avoid passive voice.**
+
+Femmer et al. built exactly this as "Requirements Smells" and report **59%
+average precision at 82% average recall** (arXiv:1611.08847).
+
+**The researcher's verdict: a greppable word list catching real defects, with no
+process, no roles and no tool. It runs on prose in a file.**
+
+## Mechanisms our frame had no slot for
+
+- **TBD / TBS / TBR as first-class closable markers.** 29148: the set *"cannot
+  be considered complete until all the TBx designated requirements have been
+  resolved."* **A tracked hole is a mechanism, not a smell** — and "no TBx open"
+  is a release gate.
+- **Rationale as the sanctioned home for excluded design.** 29148: *"All
+  assumptions made regarding a requirement **shall** be documented and validated
+  in one of the requirement's attributes (e.g., rationale)."*
+- **Set-level quality as a separate class from row-level quality** — nine
+  characteristics for a requirement (§5.2.5), five for the *set* (§5.2.6).
+  Quality is a property of the collection, checked once, not a question asked of
+  every row.
+- **Two independent ranking dimensions** (IEEE 830 §4.3.5): degree of
+  **stability** and degree of **necessity** (Essential / Conditional /
+  Optional). **Priority is not one number.**
+- **Tailoring as a delete-only operation.** 29148 Annex C: you may delete
+  sections; you may not modify them. *"Tailoring is not permitted if a claim of
+  'full conformance' is to be made."*
+- **Attribute-level declaration of semantic significance** — DOORS' "Affect
+  change dates" flag, set on the *attribute definition*, so the schema author
+  declares which fields are load-bearing before any automation runs.
+- **The link graph as a measurement instrument** — volatility, change rate,
+  *"percentage of parents without children"*, *"average number of child
+  requirements per parent — an indicator of design complexity"*, TBx closure
+  progress.
+- **SysML v2 models a requirement as a constraint**, not as text with attributes.
+- **29148's primary artifact is a document with a mandated table of contents**,
+  not a database. Conformance is to an outline; attributes are one clause,
+  explicitly "examples of".
+
+## Named anti-patterns
+
+- **Requirements creep** — 29148 twice: *"excessive uncontrolled changes can
+  result in 'requirements creep' that can result in cost overruns, schedule
+  delays, design errors, buyer dissatisfaction or even cancellation."*
+- **Design inside the requirement** — *"including design solutions in the
+  requirements creates the risk that potential design solutions could be
+  overlooked or eliminated."*
+- **Duplication without cross-reference** — IEEE 830 §4.3.7: *"the same
+  requirement should not appear in more than one place… a requirement may be
+  altered in only one of the places where it appears."*
+- **Suspect-link noise is treated by every vendor as *the* defect.** Jama makes
+  triggers per-field; DOORS gates on "Affect change dates" and ships "suspect
+  profiles"; IBM holds patents on suspicion management. **If every edit marks
+  everything suspect, the flag gets discarded.**
+- **Silent trace decay** — *"traces degrade silently as requirements, code, and
+  tests evolve independently."*
+
+## Steal / refuse — the researcher's list
+
+**Steal:** the immutable-never-reused ID rule as 29148 states it, machine-minted,
+with identity always separated from display position · **the §5.2.7 language
+linter** · rationale as a required companion field (*the only attribute that
+answers "can we delete this yet?"*) · the four-link minimum with **named
+inverses** · declare which fields are load-bearing · TBx as a closable marker
+with "none open" as a release gate · set-level characteristics as a review
+checklist asked once · tailoring-by-deletion.
+
+**Refuse:** a configurable workflow engine · per-requirement version counters
+(git versions the file — but *keep the volatility signal*, derived from
+`git log`) · automated suspect-link propagation (steal the declaration, refuse
+the graph-walker) · the five-document information-item set · separate review
+objects with their own lifecycles, e-signatures, baselines-as-artifacts · **a
+large attribute set** (flagged by the researcher as their own opinion, resting
+on the mandatory-minimum trio rather than on INCOSE authority).
+
+**The sharpest strategic point in the whole survey:**
+
+> OSLC — the most recent and most industry-negotiated spec in this territory —
+> concluded that a requirement is a **URI, a title, and typed links**. Everything
+> else is local. That is the evidence-backed floor. 29148's language criteria are
+> the quality bar you apply to the title's prose. **The register is the cheap
+> part; the linter and the link semantics are where the value is.**
+
+---
+
 ## Still outstanding
 
-The **standards and enterprise tools** researcher (ISO/IEC/IEEE 29148, IEEE 830,
-ReqIF, DOORS, Jama, Polarion) has not yet reported. Its territory is the one
-most likely to change the status and attribute picture again.
+- **The release-and-roadmap question is unanswered by all three reports.** How a
+  requirement is linked to a release, a version, or a roadmap; whether release
+  membership is stored on the requirement or on the release; what happens to a
+  requirement that slips; and whether anything models a roadmap as distinct from
+  a release. Asked of the standards researcher; not yet returned. This is the
+  open TODO row *"the release-planning artifact"* and Tony's standing position
+  that **a release is a grouping, not a time axis**.
+- **Agent skills and vendor practice** — superpowers read from source on disk,
+  plus Anthropic, OpenAI and GitHub Spec Kit. Dispatched, not yet returned.
+
+## Verification status — carried from the researchers, not smoothed
+
+**Verified from primary text:** ISO 29148 (full standard), IEEE 830, ReqIF v1.2
+(OMG), OSLC RM 2.1 (OASIS), SysML v2 review document, Femmer et al., and the
+OpenFastTrace / Doorstop / StrictDoc / Sphinx-Needs source files and grammars.
+
+**Verified from vendor docs:** Jama, Polarion, and DOORS' three-way ID,
+delete-then-purge semantics, "Affect change dates", baseline sets, review
+lifecycle, partial system attributes.
+
+**Practitioner secondary source only:** DOORS Next link-type names.
+
+**Blocked (403), named rather than softened:** DOORS absolute-number editability
+and reuse (ibm.com/support); INCOSE GtWR summary sheets (incose.org).
+
+**Unverified — treat as training data:** the GtWR attributes appendix; INCOSE
+rule *numbers* (version-dependent: v3.1 has 41 rules, v4 has 42, so v3.1 R41 ≠
+v4 R41 — the rule *names* are reliable, the numbers must not be cited untagged);
+DOORS Created By / Last Modified By / Last Modified On.
+
+**Paywalled:** the Springer *Requirements Anti-Patterns* chapter.
+
+**Explicitly retracted by a researcher:** a claim of *"9 to 26% oversight
+intervention success across every oversight strategy tested"* could not be
+located or verified. **Do not use it.**
