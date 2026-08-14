@@ -340,7 +340,7 @@ is listed in `## Findings`.
 
 **Depends on.** R-0018
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** none — and this one was **never approved under the old rules either**: it stood at `qualified`, not final, when the register was migrated on 2026-08-14. It has never been agreed by anyone. The Why is unwritten.
 
 ---
 
@@ -382,7 +382,7 @@ is listed in `## Findings`.
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** none — and this one was **never approved under the old rules either**: it stood at `proposed`, not final, when the register was migrated on 2026-08-14. It has never been agreed by anyone. The Why is unwritten.
 
 ---
 
@@ -564,7 +564,7 @@ is listed in `## Findings`.
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** none — and this one was **never approved under the old rules either**: it stood at `qualified`, not final, when the register was migrated on 2026-08-14. It has never been agreed by anyone. The Why is unwritten.
 
 ---
 
@@ -704,7 +704,7 @@ is listed in `## Findings`.
 
 **Depends on.** R-0018
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** none — and this one was **never approved under the old rules either**: it stood at `proposed`, not final, when the register was migrated on 2026-08-14. It has never been agreed by anyone. The Why is unwritten.
 
 ---
 
