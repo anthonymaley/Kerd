@@ -710,6 +710,25 @@ indistinguishable from a change of mind.
 This is the first accepted residual risk of the reset, and it is accepted with
 its limit stated, which is the discipline the goals ask for everywhere else.
 
+**And he immediately corrected the framing, 23:05, verbatim:**
+
+> it also allows us to change our mind. but in a controlled way. change
+> requirement x and the impact can be measured and planned
+
+**The backbone is not primarily a recovery mechanism — it is what makes changing
+your mind a first-class operation.** The model had framed it defensively
+(a wrong agreement becomes traceable rather than archaeological). That is true
+and it is the smaller half. The larger half is that **deliberate change becomes
+safe**: change requirement X, and the impact of that change can be *measured and
+planned* rather than discovered.
+
+Without it, changing your mind is indistinguishable from disruption, so the
+pressure is always to leave the decision alone — which is how a project ends up
+executing an agreement nobody still believes in. This is the same capability the
+walkthrough asked for in Q2: *"This feature: I've changed my mind. Even though we
+have a design, can we look at the impact of changing that now or does this go to
+the next release, the next version? We need to be able to manage that"*.
+
 **2 — THE MARKDOWN FILE IS NOT THE REQUIREMENTS SYSTEM.** *"we cannot consider
 this markdown file as how we capture and version and work on requirements. we
 need a robust and easy to engage with solution."* `docs/kerd-requirements.md` is
