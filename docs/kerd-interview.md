@@ -692,6 +692,24 @@ explaining properly or too technical can result in the wring agreements."*
 Drift is covered. Wrong agreement at the gate is not. Whether that needs a
 countermeasure is his call, not the model's.
 
+**His ruling on it, 23:03, verbatim:**
+
+> "It cannot prove the spec says what you meant."  yes great point. if we can
+> manage requirments properly, with strong pairing, this can reduce this issue,
+> it wont stop lazy or confused approvals later though but it gives us a strong
+> backbone
+
+**So the countermeasure is a mitigation and is accepted as one, with the residue
+named rather than papered over.** Proper requirements management plus strong
+pairing **reduces** wrong agreement; it does not eliminate it. A lazy or
+confused approval remains possible and is accepted. What the backbone buys is
+that such an approval is *recoverable* — a wrong agreement caught later can be
+traced to what was agreed, when, and against which goal, instead of being
+indistinguishable from a change of mind.
+
+This is the first accepted residual risk of the reset, and it is accepted with
+its limit stated, which is the discipline the goals ask for everywhere else.
+
 **2 — THE MARKDOWN FILE IS NOT THE REQUIREMENTS SYSTEM.** *"we cannot consider
 this markdown file as how we capture and version and work on requirements. we
 need a robust and easy to engage with solution."* `docs/kerd-requirements.md` is
