@@ -97,7 +97,7 @@ block written rather than migrated, carries a real Why.
 
 ## Requirements
 
-### R-0005 — work is distinguished on one axis
+### R-0005 — ships a change, or produces a finding
 
 **Statement.** Work carries one distinction and no other: does it ship a change, or does it produce a finding. That distinction sets the definition of done, and no gate, approval or template is keyed to it
 
@@ -156,7 +156,7 @@ against it: a gate or template keyed to the distinction is a defect, not a desig
 
 ---
 
-### R-0008 — the evaluation mark set
+### R-0008 — the marks are ◎ ○ △ ×
 
 **Statement.** The evaluation mark set is `◎` perfect · `○` fully meets (`○+`/`○-`) · `△` meets with a countermeasure (`△+`/`△-`) · `×` cannot meet
 
@@ -198,7 +198,7 @@ against it: a gate or template keyed to the distinction is a defect, not a desig
 
 ---
 
-### R-0011 — the four summary columns
+### R-0011 — cost, quality, due date, rating on every evaluation
 
 **Statement.** Every evaluation carries four summary columns: **COST · QUALITY · DUE DATE · RATING**
 
@@ -268,7 +268,7 @@ against it: a gate or template keyed to the distinction is a defect, not a desig
 
 ---
 
-### R-0018 — the distinction is declared once
+### R-0018 — the distinction is declared once and never re-asked
 
 **Statement.** Whether a work item ships a change or produces a finding is declared once at conductor start, and not re-asked once the work has started
 
@@ -311,7 +311,7 @@ because the definite article pointed at the goal gate of R-0019, now dead.
 
 ---
 
-### R-0021 — the distinction is a stack
+### R-0021 — nested work inherits the distinction; an override is opt-in
 
 **Statement.** The distinction is a stack: an item inherits the distinction of the work containing it, and an override is opt-in and forward-only
 
@@ -414,7 +414,7 @@ called a spike.
 
 ---
 
-### R-0029 — mark size inside its cell
+### R-0029 — a mark fills 40–50% of its cell
 
 **Statement.** **In the evaluation matrix**, a mark is drawn at 40–50% of the cell it sits in
 
@@ -456,7 +456,7 @@ called a spike.
 
 ---
 
-### R-0032 — the preferred option's verdict cell
+### R-0032 — the preferred option's verdict cell is filled green
 
 **Statement.** **In the evaluation matrix**, the preferred option's verdict cell is filled green
 
@@ -684,7 +684,7 @@ coupling removed rather than a dangling reference fixed.
 
 ---
 
-### R-0050 — the completeness check is tiered
+### R-0050 — light check at every step, heavy at the design GO
 
 **Statement.** **The completeness check is tiered: the LIGHT check fires at every step; BOTH light and heavy fire at the design GO.** Light is machine facts only — did the register move, do approval hashes still match, are link stamps stale, does declared grounding resolve. Heavy is N independent readers working from the RAW sources, never from a summary, with convergence as the signal
 
@@ -1056,7 +1056,7 @@ marks and attributed to their source.)*
 
 ---
 
-### R-0002 — DEAD — what requirements are for
+### R-0002 — DEAD — requirements exist to be reviewed, planned and named aloud
 
 **Killed.** 2026-08-14, by analysis against the approved requirement shape — it is a statement of purpose and the shape gives purpose a home outside the set. Kill authorised by Tony.
 
@@ -1072,7 +1072,7 @@ marks and attributed to their source.)*
 
 ---
 
-### R-0003 — DEAD — the taxonomy ships as default
+### R-0003 — DEAD — the twenty-category taxonomy ships; projects extend it
 
 **Killed.** 2026-08-14 14:54, by analysis — superseded by the second research round the producer commissioned into the structures around the set, which measured the mechanism this requirement ships and found nothing there. Not by a test and not by a ruling on this requirement's own merits. Kill authorised by Tony.
 
@@ -1104,7 +1104,7 @@ marks and attributed to their source.)*
 
 ---
 
-### R-0016 — DEAD — every requirement is identified and traceable
+### R-0016 — DEAD — every requirement gets a category and an ID
 
 **Killed.** 2026-08-14, by analysis against the approved requirement shape — contradicted in one half, superseded in the other. Kill authorised by Tony.
 
@@ -1200,7 +1200,7 @@ marks and attributed to their source.)*
 
 ---
 
-### R-0037 — DEAD — the nine-link traceability chain
+### R-0037 — DEAD — traceability runs a nine-link chain, goal to metric
 
 **Killed.** 2026-08-14 14:54, by analysis — superseded by the second research round the producer commissioned into traceability depth, which found the chain deeper than aerospace mandates and its cost side unmeasured. Kill authorised by Tony.
 

@@ -224,10 +224,48 @@ hand-written reverse is a copy that drifts.
    notation, not a seventh element: it is outside the fingerprint, may be
    reworded at any time without touching identity or approval, and carries
    meaning deliberately — which is exactly why it is not the reference. It
-   exists because the set is a document read top to bottom, and a page of
+   exists because the set is a **document read top to bottom**: a page of
    bare `R-0101 … R-0105` headings is unreadable, which fails the reading
-   the document decision was chosen for. The writing test added this out of
-   necessity; it is adopted.
+   the document decision was chosen for. A database can leave the headings
+   meaningless because nobody scans a database; a document cannot. The
+   writing test added this out of necessity; it is adopted.
+
+   **What a handle is for — and the test.** A reader scanning the headings
+   must know what each block is *about* without reading its statement. So:
+   cover the statement, read the heading alone, and ask what the
+   requirement says. If the answer is "something about X" rather than a
+   thing you could act on, the handle has failed and is rewritten. A handle
+   that would be equally true of a dozen other blocks is not a handle.
+
+   **What a handle must do.** Say the thing the requirement says, in the
+   requirement's own terms, compressed — the rule itself rather than its
+   subject. Roughly three to eight words. Lower case, no full stop, no em
+   dash (the heading uses em dashes as delimiters). A noun phrase or a
+   short clause, whichever states the point more directly.
+
+   **What a handle must not do.** Three failures, all of them seen in this
+   register's migration, where thirty-nine handles were invented with no
+   standard to write them against:
+
+   - **Do not describe the category of thing.** Naming the *kind* of rule
+     and withholding the rule is the commonest failure and the emptiest.
+   - **Do not restate the reference or the section.** "a requirement about
+     dependencies" tells a reader only what they can already see.
+   - **Do not truncate the statement.** A handle clipped mid-clause reads
+     as a broken sentence rather than a name. Compress the point; never
+     chop the words.
+
+   **A good one and a bad one, both real.** Good: `R-0009 — the cross takes
+   no modifier`. It is the rule itself in five words, and a reader who
+   reads only that heading already knows what the block binds. Bad, and
+   rewritten under this rule: `R-0005 — work is distinguished on one axis`
+   announced that there was one axis and withheld which one, when the
+   statement says exactly which — so it became `R-0005 — ships a change, or
+   produces a finding`. Same length, and the second one says the thing.
+
+   **A graveyard entry carries a handle under the same rule.** The `— DEAD`
+   marker carries the death, so the handle stays a statement of what the
+   block *said*, never of the fact that it died.
 
 4. **The machine name** is a UUIDv7 in an HTML comment. "Hidden" means
    never rendered, never spoken, never typed by a person — not absent from
@@ -266,7 +304,27 @@ hand-written reverse is a copy that drifts.
    and readers distinguish his words from ours by form, not by judgement.
 
 7. **Traces to** takes one or more targets, comma-separated, or the
-   declared `no parent, by design`. A trace to a goal counts toward
+   declared `no parent, by design`.
+
+   **A rendering built for a human resolves every reference to its name.**
+   The register file may carry the bare `G4` — it is written for the
+   machine and for a reader with the goals open beside them. A generated
+   view is not: it is the artifact built for the producer to *read*, and
+   `**Traces to.** G4` asks him to hold eight goal numbers and four law
+   numbers in his head, thirty-nine times over. So a view shows
+   `G4 — Every approval is real`: **the reference stays**, because he has
+   to be able to say it out loud, and it never travels alone. The name is
+   quoted from its source, never paraphrased and never shortened into
+   something snappier; where it will not fit inline it goes in full on
+   hover or in a panel, never truncated into a different claim. **The rule
+   generalises past this field** — it is the same rule that killed
+   *"you say AU7 but how do i know what that is?"*: **name the behaviour,
+   never the identifier.** It binds on requirement references, goal and law
+   references, and any other identifier a rendering puts in front of a
+   person. A reference that appears without its name in a human-facing view
+   is a defect in the view, not a shorthand.
+
+   A trace to a goal counts toward
    coverage; a trace to a law is a constraint link and is excluded from
    coverage arithmetic — laws are obeyed, not achieved, and counting the
    two together would make coverage mean nothing. A secondary source a
