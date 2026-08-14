@@ -376,7 +376,46 @@ is missing.**
 
 *The shape therefore stands at six elements.*
 
-**"Superseded" and "dropped" have no home.** The old schema could say "this
+**~~"Superseded" and "dropped" have no home.~~ ANSWERED by Tony, 2026-08-14
+09:28:** *"we need a graveyard so we dont add them again and learn from them"*
+
+**Two purposes, and they are different:** stop a dead requirement being proposed
+again, and keep what was learned from killing it. The second is the ADR finding
+in another form — the payload is the reasoning, not the verdict.
+
+**This is the first decision made about the SET rather than about a
+requirement**, which matters because the set still has no shape (see the
+omission pass below).
+
+**It has roots in this repo already, verified rather than recalled:** a standing
+decision of 2026-08-03 — *"'What we ruled out, and why' is its own artifact…
+A rejected approach and a failed fix are the **same thing** — an option
+eliminated, one by analysis and one by a test. The unit is the **concept**, not
+the attempt and not the code"* — plus an `## Archive` section already sitting
+empty in the register, and a `dropped` state in the old schema that required a
+reason.
+
+**Two failure modes are already named by that same decision, and they are the
+whole design problem:**
+
+1. *"Read in GROUNDING by everything that proposes, which makes it **an input
+   rather than a graveyard**."* A graveyard that is not read **at the moment
+   someone proposes something** cannot stop a re-add. Storage is not the
+   mechanism; retrieval at the right moment is.
+2. *"Capture must be a **byproduct** — a discipline-dependent log is high impact
+   + high likelihood + no countermeasure = dead."* If killing a requirement
+   requires someone to remember to write the reason down, the graveyard will be
+   empty exactly when it matters.
+
+**And the reference number resolves itself:** 29148's never-reuse rule is
+already adopted, so a dead requirement keeps its reference forever. The
+graveyard *is* what makes never-reuse observable — the number is visibly taken,
+by a thing you can read.
+
+**Still to design:** where it lives, and what makes it readable at proposal
+time rather than at archaeology time.
+
+**Superseded and dropped, before this ruling:** The old schema could say "this
 requirement was replaced by that one" and "this was deliberately abandoned,
 with the reason". With no status field, this draft cannot say either. The
 research called recorded rejection *"the single most underrated feature in the
