@@ -275,6 +275,56 @@ The researcher's framing: *"this territory has already tried the thing you're
 probably about to build, and mostly failed at it for reasons that were social,
 not technical."*
 
+### That framing does not survive Tony's reading of it — 2026-08-14 08:43
+
+> what Adzic doesnt say is that the 12% might be the most productive and the 57%
+> might not actually know the requirments that are lost to complexity
+
+**The survey measures ADOPTION, not OUTCOME, and the two were quietly conflated
+— by the researcher and then by the model relaying it.** "Most teams abandoned
+living documentation" is a fact about what teams *did*. It is not evidence about
+whether it *worked*, and the numbers are compatible with two opposite readings:
+
+- **The researcher's reading:** the practice failed socially, so most teams
+  dropped it.
+- **Tony's reading:** the 12% who kept it may be the teams for whom it worked —
+  and the 57% on Jira **cannot report the requirements they lost**, because a
+  requirement lost to tool complexity leaves no trace in the tool that lost it.
+
+**Nothing in the statistic distinguishes these**, and the second reading has a
+structural argument behind it: **the failure is invisible from inside the
+population being surveyed.** Asking teams whether they are missing requirements
+they do not know about cannot return a number.
+
+This is the same shape as the false-approval failure the same research
+documents — the person best placed to report the problem is the one the problem
+prevents from seeing it.
+
+**What would actually settle it:** outcome data, not adoption data. None was
+found.
+
+**Calibration note, recorded because it is a repeat:** the model passed this
+finding on as *"the warning aimed straight at us"* without testing the
+inference. A researcher's conclusion is evidence about the researcher's
+reasoning, not a fact. The standing guidance is not to take agent output at face
+value; this is the second time in two days it was taken at face value and the
+producer caught it.
+
+## Jira is ruled out — Tony, 2026-08-14 08:43
+
+> jira is overkill to imo, and not easy to work with, too complex, and cost
+> prohibitive, puts dependency on users projects
+
+Four grounds, and the last is the decisive one: **it puts a dependency on the
+user's project.** Under Law 1 (Kerd installs into someone else's repo and
+operates inside its boundaries), anything Kerd requires is a cost imposed on
+every consuming project — the same arithmetic that ruled against StrictDoc's
+87 distributions and 373 MB. A commercial, hosted, per-seat dependency is
+strictly worse on that axis than a library.
+
+Recorded as a **ruled-out option with its reasons**, so the decision is
+reachable rather than re-argued.
+
 Related documented failures:
 
 - **ADRs quietly abandoned** after a few enthusiastic months. *A stale decision
@@ -583,6 +633,149 @@ on the mandatory-minimum trio rather than on INCOSE authority).
 > else is local. That is the evidence-backed floor. 29148's language criteria are
 > the quality bar you apply to the title's prose. **The register is the cheap
 > part; the linter and the link semantics are where the value is.**
+
+---
+
+---
+
+# Agent skills and AI-vendor practice
+
+superpowers read **from source on disk** rather than recalled, plus Claude Code,
+GitHub Spec Kit, AWS Kiro, OpenAI, Windsurf and Devin.
+
+*(A note on provenance: the harness flagged this researcher's output as
+instruction-shaped because it quoted Claude Code's `bypassPermissions` mode name.
+Benign — a quotation inside a finding, treated as data.)*
+
+## superpowers, end to end
+
+Source: `~/.claude/plugins/cache/superpowers-marketplace/superpowers/5.0.6/skills/`
+(a newer 6.2.0 also present).
+
+**Pipeline:** `using-superpowers` → `brainstorming` → `writing-plans` →
+`subagent-driven-development` *or* `executing-plans` →
+`finishing-a-development-branch`, with `test-driven-development` and
+`verification-before-completion` binding throughout.
+
+**Two artifacts on disk, both committed: a spec and a plan. There is NO
+requirements file.** Intent goes conversation → design doc → plan. The spec has
+**no template** (shipped ones use ad-hoc headings: Motivation, Architecture,
+What Changes / What Stays the Same, What This Drops, Testing). The plan *is*
+templated: mandatory Goal / Architecture / Tech Stack header, a File Map, then
+`### Task N` blocks with Files and checkbox steps that are literally the TDD
+cycle.
+
+**6.2.0 is drifting toward requirements**: it adds `## Global Constraints` —
+*"The spec's project-wide requirements — version floors, dependency limits,
+naming and copy rules… Every task's requirements implicitly include this
+section"* — and per-task `**Interfaces:** Consumes / Produces`.
+
+**Three human gates, all conversational, NONE RECORDED.** A `<HARD-GATE>` in
+brainstorming: *"Do NOT invoke any implementation skill, write any code… until
+you have presented a design and the user has approved it. This applies to EVERY
+project regardless of perceived simplicity"* — with an anti-rationalization
+section: *"'Simple' projects are where unexamined assumptions cause the most
+wasted work."* Then section-by-section design approval, then a written-spec gate.
+**The human reads and says yes. The approval leaves no artifact — only the git
+commit.**
+
+**The real rigor is agent-to-agent, not human-to-agent.** Per task: implementer
+→ **spec-compliance reviewer** → **code-quality reviewer**, each in a
+fix-and-re-review loop. The spec reviewer is adversarial *by instruction*:
+
+> "The implementer finished suspiciously quickly. Their report may be
+> incomplete, inaccurate, or optimistic… DO NOT: Take their word… DO: Compare
+> actual implementation to requirements line by line… Look for extra features
+> they didn't mention."
+
+Implementers must report `DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT`,
+and the controller must act — *"**Never** ignore an escalation or force the same
+model to retry without changes."* Escalation is destigmatized: *"It is always OK
+to stop and say 'this is too hard for me.' Bad work is worse than no work."*
+
+**Verification, verbatim:** *"NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION
+EVIDENCE"* · *"Claiming work is complete without verification is dishonesty, not
+efficiency"*. Its table demands a **line-by-line checklist** for "requirements
+met", states that **"tests passing" is explicitly insufficient**, and requires
+**"VCS diff shows changes"** rather than the agent's own report.
+
+**Deliberate absences worth noting:** plan self-review is *not* delegated
+(*"a checklist you run yourself — not a subagent dispatch"*) — yet a shipped
+design doc specifies exactly such a reviewer, designed then dropped. Plan
+placeholders are **failures**: *"'TBD', 'TODO', 'implement later'… 'Add
+appropriate error handling'"*. And agreement theatre is banned outright:
+*"NEVER: 'You're absolutely right!'… 'Great point!' (performative)"*.
+
+## What this territory does that requirements management never would
+
+- **Instruction as behavioural countermeasure.** Rules written against *the
+  agent's own rationalizations* — excuse→reality tables (*"I'm confident |
+  Confidence ≠ evidence"*), hard gates, "Iron Law". Rules for a mind that will
+  try to talk itself out of them, not for a process.
+- **The reviewer is instructed to distrust**, and it is cheap enough to run per
+  task.
+- **Context isolation as quality control** — *"They should never inherit your
+  session's context or history — you construct exactly what they need."*
+- **Cost-tiering the gate** — cheap model for mechanical work, most capable
+  model for architecture and review.
+- **PROGRAMMABLE APPROVAL.** Claude Code hooks return
+  `{"permissionDecision": "allow"|"deny"|"ask", "permissionDecisionReason": …}`
+  on `PreToolUse`; `Stop`, `SubagentStop`, `TaskCompleted` are blocking events
+  too. **Approval becomes executable policy rather than a request** — which is
+  the structural countermeasure the habituation research says is required.
+- **Authority as a formal ladder** (OpenAI Model Spec): Root → System →
+  Developer → User → Guideline, *"instructions with higher authority override
+  those with lower authority"*, and when two root principles conflict *"the
+  model should default to inaction."*
+
+**What this territory LACKS, and it is exactly our subject:** requirement
+identity (superpowers, Claude Code plan mode and Cursor have **no IDs and no
+trace from a shipped line back to the ask** — coverage is "skim the spec, can
+you point to a task?", by eye, once) · **no recorded approval** (no who, when,
+or what; no diff-since-approval) · no change control · no status on a
+requirement · no non-functional vocabulary.
+
+## Vendors
+
+**Claude Code plan mode** — the plan is **conversational, never written to
+disk**; approval is a menu. *(Note: `bypassPermissions` disables plan mode's
+blocks entirely.)*
+
+**GitHub Spec Kit — the only one with real traceability.** Its spec template
+mandates `## User Scenarios & Testing` with prioritised user stories
+(`### User Story 1 … (Priority: P1)`, `**Why this priority**`, `**Independent
+Test**`, Given/When/Then), `## Requirements` as `- **FR-001**: System MUST …`,
+and `## Success Criteria` as `- **SC-001**`. Tasks carry `[ID] [P?] [Story]` —
+`T012 [P] [US1]` — **linking every task back to a numbered story.**
+
+Three mechanisms worth stealing outright:
+
+- **`[NEEDS CLARIFICATION: auth method not specified - email/password, SSO,
+  OAuth?]` — and it is CAPPED**: *"LIMIT: Maximum 3 [NEEDS CLARIFICATION]
+  markers total"*. A bounded ambiguity budget, not an open TODO list.
+- **Machine gates rather than human ones** — a generated
+  `checklists/requirements.md` the agent self-validates against *"until all
+  items pass (max 3 iterations)"*; `/analyze` is *"STRICTLY READ-ONLY"*.
+- **`## Constitution Check`** — *"GATE: Must pass before Phase 0 research.
+  Re-check after Phase 1 design"* — and conflicts *"require adjustment of the
+  spec, plan, or tasks—not dilution, reinterpretation, or silent ignoring."*
+
+Its refusals: no tech stack in the spec, success criteria must be
+*"technology-agnostic"*, and tests are *"OPTIONAL - only include them if
+explicitly requested"*.
+
+**AWS Kiro — the only hard human loop.** `.kiro/specs/` holds `requirements.md`
+in **EARS** syntax (*"WHEN [condition] THE SYSTEM SHALL [behavior]"*),
+`design.md`, and `tasks.md`, with **explicit approval checkpoints between
+requirements→design and design→tasks**. Its "Quick Spec" mode deliberately
+bypasses them.
+
+**OpenAI** — `AGENTS.md` is standing context, not a spec: no IDs, no acceptance
+criteria. Codex's approval axis is permissions, not specs.
+
+**Windsurf / Devin** — plans are **persistent markdown**, `@`-mentionable to
+resume, human-editable; a larger model revises the plan while the session model
+acts, and *"you will be notified when this happens so that you can review."*
 
 ---
 

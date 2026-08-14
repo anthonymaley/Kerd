@@ -28,6 +28,27 @@ of 2026-08-14 08:16. Each field below names what put it there.
 | 8 | **Attachments** | Links, images | *"add links or images perhaps as input"* |
 | 9 | **History** | What changed, when, and why | Law 2 — every change lands somewhere; and his change-impact want |
 
+> **NAMING CORRECTION — Tony, 2026-08-14 08:43:** *"yeah maybe lifecycle is a
+> better way vs status"*.
+>
+> **"Status" names a flag; "lifecycle" names a progression with defined
+> transitions** — and what he described (`DRAFT → ACCEPTED → FINAL v1.0 → v1.2`)
+> is a progression, not a flag. The word was doing the wrong job.
+>
+> The prior art supports the change and sharpens it further
+> (`docs/design/requirements-prior-art.md`): **no standard in the territory puts
+> a state machine on the requirement — Polarion and DOORS Next both put it on the
+> REVIEW**, whose own lifecycle is `Draft > In Progress > Reviewed > Finalized`.
+> On that reading, approval is an **event that happens to a requirement**, not a
+> field carried by one, and what has a lifecycle may be the review rather than
+> the requirement itself.
+>
+> Three live answers are now on the table and none is chosen: PEP keeps both
+> Accepted and Final because implementation lags approval; Doorstop has no status
+> at all and derives everything from fingerprints and links; the enterprise tools
+> move the lifecycle onto the review object. **Field 3 is unresolved and is not
+> to be treated as settled.**
+
 ## Status, as he defined it
 
 A requirement's status is about **its own maturity and version**, not about how
