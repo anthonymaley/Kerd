@@ -1,6 +1,9 @@
 # Requirements — Kerd
 
 Written against the normative form in `docs/design/requirement-shape.md`.
+Findings about this set live beside it, in `docs/requirements/findings.md`:
+under rule 13 the register holds the requirements and the graveyard and
+nothing else, and the graveyard is last.
 
 **This file is a migration, not an authorship.** Every block below was
 transcribed from the previous register's 51 requirements. The old
@@ -72,13 +75,30 @@ when work touches it and the producer is reading it anyway.
 **Statements are carried verbatim, except the six the producer's rulings
 reworded.** The migration itself reworded nothing, and still does not: where a
 statement fails the adopted plain-language word list, that is recorded in
-`## Findings` rather than silently corrected, because rewording approved
+`docs/requirements/findings.md` rather than silently corrected, because rewording approved
 statements on the migration's own initiative is authorship and it is his call.
 The six reworded on 2026-08-14 14:54 are the exception the rulings made, and
 they are not silent — each block quotes its previous statement whole and names
-the ruling that changed it. Findings 3's word-list table still describes the
+the ruling that changed it. Finding 3's word-list table still describes the
 statements as they read before that round; R-0003's row in it is now a
 graveyard entry.
+
+**Cleaned to the parsing rules, 2026-08-14, and no statement was touched.**
+The first tool to read this file mechanically found three format defects the
+writing tests never could, and the shape document answered them with three
+rules. This file was converged onto them in one pass: eight in-place notes on
+seven blocks — the six rework notes, R-0035's re-pointing and the residue it
+names — are now blockquotes marked `> **Note — …**` and sit after the five
+fields, where no wrapped bold line can be read as a field label (rule 1);
+R-0031's `Traces to` carried a sentence, which split on its own comma into a
+trace target that did not exist, and now reads `not yet traced`, with the
+explanation moved into its Why (rule 7); and the `## Findings` section that
+sat between the requirements and the graveyard moved whole into
+`docs/requirements/findings.md` (rule 13). **The only field text that changed
+anywhere in the file is R-0031's `Traces to` and `Why`**, so R-0031 is the one
+block whose fingerprint would move — and nothing here is approved, so no
+approval broke. No statement was reworded, no Why was invented, no reference
+was renumbered.
 
 **Machine names are absent by design.** Rule 4: nobody hand-writes one. The
 checking tool mints and inserts them on its next run.
@@ -88,7 +108,7 @@ blocks carry an unwritten Why, because their migrated source recorded
 provenance and nothing else. No rationale is invented anywhere in this file,
 and the kills of 2026-08-14 invented none either — a dead requirement's
 `Why it was proposed` says that no reason was ever recorded, exactly as the
-live block did. All forty-six are listed in `## Findings`; **thirteen of them
+live block did. All forty-six are listed in `docs/requirements/findings.md`; **thirteen of them
 are now in the graveyard, so thirty-three live blocks await his words.** The
 six statements reworked on 2026-08-14 14:54 are among those thirty-three: a
 ruling that says what a requirement must now state does not say why it exists,
@@ -107,24 +127,24 @@ block written rather than migrated, carries a real Why.
 
 **Depends on.** none
 
-**Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
-read *(verbatim, as migrated)*: "Project type and release type are the same thing
-for the twelve types that ship; Ideation, Spike and Security Review produce
-findings instead". The twelve-type list is dead; the findings-versus-ships-a-change
-distinction inside it is what the ruling kept, so this block is reworked rather
-than killed and its reference is unchanged. The second research round Tony
-commissioned found human type assignment unreliable and the structure without
-prior art — Herzig, Just & Zeller (ICSE 2013) measured "33.8% of bug reports
-misclassified" across 7,000+ manually reviewed issue reports; "Scrum has zero work
-item types"; Shape Up "refuses them too"; and SAFe's Enabler, "the type closest to
-our 'produces findings' idea, changes nothing procedurally", its own text calling
-enablers "treated and managed similarly to customer-facing backlog items". What
-recurs everywhere is one axis — "discovery versus delivery" — and "what it changes
-is **the definition of done, not the pipeline**". The statement's final clause is
-the ruling's second half, written into the statement so a build can be rejected
-against it: a gate or template keyed to the distinction is a defect, not a design.
-
 **Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+
+> **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
+> read *(verbatim, as migrated)*: "Project type and release type are the same thing
+> for the twelve types that ship; Ideation, Spike and Security Review produce
+> findings instead". The twelve-type list is dead; the findings-versus-ships-a-change
+> distinction inside it is what the ruling kept, so this block is reworked rather
+> than killed and its reference is unchanged. The second research round Tony
+> commissioned found human type assignment unreliable and the structure without
+> prior art — Herzig, Just & Zeller (ICSE 2013) measured "33.8% of bug reports
+> misclassified" across 7,000+ manually reviewed issue reports; "Scrum has zero work
+> item types"; Shape Up "refuses them too"; and SAFe's Enabler, "the type closest to
+> our 'produces findings' idea, changes nothing procedurally", its own text calling
+> enablers "treated and managed similarly to customer-facing backlog items". What
+> recurs everywhere is one axis — "discovery versus delivery" — and "what it changes
+> is **the definition of done, not the pipeline**". The statement's final clause is
+> the ruling's second half, written into the statement so a build can be rejected
+> against it: a gate or template keyed to the distinction is a defect, not a design.
 
 ---
 
@@ -278,14 +298,14 @@ against it: a gate or template keyed to the distinction is a defect, not a desig
 
 **Depends on.** none
 
-**Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
-read *(verbatim, as migrated)*: "Project type is declared once at conductor start,
-from the list, and not re-asked once a project has started". "from the list" was
-the twelve-type list, which is dead. The live payload is the anti-nagging rule —
-asked once, never re-asked — and it applies unchanged to the one distinction that
-survives (R-0005). Only the subject of the declaration changed.
-
 **Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+
+> **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
+> read *(verbatim, as migrated)*: "Project type is declared once at conductor start,
+> from the list, and not re-asked once a project has started". "from the list" was
+> the twelve-type list, which is dead. The live payload is the anti-nagging rule —
+> asked once, never re-asked — and it applies unchanged to the one distinction that
+> survives (R-0005). Only the subject of the declaration changed.
 
 ---
 
@@ -299,15 +319,15 @@ survives (R-0005). Only the subject of the declaration changed.
 
 **Depends on.** R-0018
 
-**Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
-read *(verbatim, as migrated)*: "Conductor may suggest a type change — at the gate
-or mid-flight — and the producer agrees it". The payload is who decides, not what
-is decided: a change to how a work item is classified belongs to the producer
-rather than to the model's discretion. That holds over the one surviving
-distinction exactly as it held over twelve types. "the gate" became "a gate"
-because the definite article pointed at the goal gate of R-0019, now dead.
-
 **Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+
+> **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
+> read *(verbatim, as migrated)*: "Conductor may suggest a type change — at the gate
+> or mid-flight — and the producer agrees it". The payload is who decides, not what
+> is decided: a change to how a work item is classified belongs to the producer
+> rather than to the model's discretion. That holds over the one surviving
+> distinction exactly as it held over twelve types. "the gate" became "a gate"
+> because the definite article pointed at the goal gate of R-0019, now dead.
 
 ---
 
@@ -321,15 +341,15 @@ because the definite article pointed at the goal gate of R-0019, now dead.
 
 **Depends on.** R-0018
 
-**Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
-read *(verbatim, as migrated)*: "Type is a stack: items inherit the project's type,
-an override is opt-in and forward-only". Inheritance with an opt-in, forward-only
-override is not machinery keyed to type — it is how the value of the one surviving
-distinction is determined for nested work, and it is the only rule in the set
-covering nesting at all. A spike inside a shipping project is the case it exists
-for. Only the noun changed.
-
 **Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+
+> **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
+> read *(verbatim, as migrated)*: "Type is a stack: items inherit the project's type,
+> an override is opt-in and forward-only". Inheritance with an opt-in, forward-only
+> override is not machinery keyed to type — it is how the value of the one surviving
+> distinction is determined for nested work, and it is the only rule in the set
+> covering nesting at all. A spike inside a shipping project is the case it exists
+> for. Only the noun changed.
 
 ---
 
@@ -371,18 +391,18 @@ for. Only the noun changed.
 
 **Depends on.** none
 
-**Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
-read *(verbatim, as migrated)*: "A spike carries its own rigor: scope boundary,
-timebox, spec, design, and measurements". "A spike" was one of the twelve dead
-types, so the statement silently keyed itself to a list that no longer exists —
-the failure mode that gets no flag, because the dead word is not the dead
-structure's name. What it says is the definition of done for the findings side of
-the one surviving distinction, which is the single thing that distinction is
-allowed to change. Restated over the distinction, it survives whole and gains
-reach: every piece of findings work owes this, not only the one that used to be
-called a spike.
-
 **Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+
+> **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
+> read *(verbatim, as migrated)*: "A spike carries its own rigor: scope boundary,
+> timebox, spec, design, and measurements". "A spike" was one of the twelve dead
+> types, so the statement silently keyed itself to a list that no longer exists —
+> the failure mode that gets no flag, because the dead word is not the dead
+> structure's name. What it says is the definition of done for the findings side of
+> the one surviving distinction, which is the single thing that distinction is
+> allowed to change. Restated over the distinction, it survives whole and gains
+> reach: every piece of findings work owes this, not only the one that used to be
+> called a spike.
 
 ---
 
@@ -446,9 +466,9 @@ called a spike.
 
 **Statement.** Diagrams render in a sans-serif font
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here. The trace is unresolved for the same reason and is recorded here rather than in the field, under rule 7: no goal and no law is served by this statement without inventing a rationale for it, and the migration will not — see finding 2 in `docs/requirements/findings.md`.
 
-**Traces to.** not yet traced — see Findings. No goal or law is served by this statement without inventing a rationale for it, and the migration will not.
+**Traces to.** not yet traced
 
 **Depends on.** none
 
@@ -494,23 +514,23 @@ called a spike.
 
 **Depends on.** none
 
-**Re-pointed 2026-08-14, as a consequence of an authorised kill.** This declared
-`Depends on. R-0034` until R-0034 was moved to the graveyard, which left an
-unresolved reference — the error its own graveyard entry predicted. The
-dependency was **incidental rather than real**: this requirement guards a
-generated page against accepting marks made from a stale render, and that guard
-holds whatever a page lets a reader mark. It needed R-0034 only because R-0034
-happened to be the marking interface first written down.
-
-**Unhomed by that kill, and named here rather than lost:** R-0034's live half —
-marking on the page, saved to a file, applied later — survives its own death.
-The producer agreed that mechanism on 2026-08-14 08:20 as the first step:
-*"ideally directly to reduce overhead for many requirments but we can start with
-a paste option while we build the proess and ui out if you want as a first
-step"*. No live requirement carries it. Same residue shape as R-0002's *plan
-releases*.
-
 **Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+
+> **Note — Re-pointed 2026-08-14, as a consequence of an authorised kill.** This declared
+> `Depends on. R-0034` until R-0034 was moved to the graveyard, which left an
+> unresolved reference — the error its own graveyard entry predicted. The
+> dependency was **incidental rather than real**: this requirement guards a
+> generated page against accepting marks made from a stale render, and that guard
+> holds whatever a page lets a reader mark. It needed R-0034 only because R-0034
+> happened to be the marking interface first written down.
+
+> **Note — Unhomed by that kill, and named here rather than lost:** R-0034's live half —
+> marking on the page, saved to a file, applied later — survives its own death.
+> The producer agreed that mechanism on 2026-08-14 08:20 as the first step:
+> *"ideally directly to reduce overhead for many requirments but we can start with
+> a paste option while we build the proess and ui out if you want as a first
+> step"*. No live requirement carries it. Same residue shape as R-0002's *plan
+> releases*.
 
 ---
 
@@ -650,23 +670,23 @@ releases*.
 
 **Depends on.** none
 
-**Reworked 2026-08-14 14:54, on the producer's authorised ruling, and its
-dependency dropped in the same edit.** The statement read *(verbatim, as
-migrated)*: "Every project type owes every gate unless that type explicitly marks
-it `n/a` with a reason". Two things sat inside it. The dead one is gate
-applicability keyed to type — the research is explicit about refusing "approval
-gates keyed to type", and the ruling says the distinction changes the definition
-of done and nothing else. The live one is the obligation itself: a gate is never
-skipped silently, and an excused gate names its excuse. That obligation is
-load-bearing and now unique — R-0004 was killed on 2026-08-14 as a duplicate of
-this block, so killing this one would have taken the declared-applicability rule
-out of the set entirely with nothing left carrying it. Reworked onto the work item,
-it binds without a type vocabulary. **Depends on** went from `R-0018` to `none` in
-the same edit: R-0018 was needed only to supply the type being asked about, and
-the reworked statement asks about no type. R-0018 is live, so this is a false
-coupling removed rather than a dangling reference fixed.
-
 **Approval.** none — reworked 2026-08-14 and **never approved under the old rules either**: it stood at `proposed`, not final, when the register was migrated. It has never been agreed by anyone, the Why is unwritten, and the statement is no longer the migrated wording.
+
+> **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling, and its
+> dependency dropped in the same edit.** The statement read *(verbatim, as
+> migrated)*: "Every project type owes every gate unless that type explicitly marks
+> it `n/a` with a reason". Two things sat inside it. The dead one is gate
+> applicability keyed to type — the research is explicit about refusing "approval
+> gates keyed to type", and the ruling says the distinction changes the definition
+> of done and nothing else. The live one is the obligation itself: a gate is never
+> skipped silently, and an excused gate names its excuse. That obligation is
+> load-bearing and now unique — R-0004 was killed on 2026-08-14 as a duplicate of
+> this block, so killing this one would have taken the declared-applicability rule
+> out of the set entirely with nothing left carrying it. Reworked onto the work item,
+> it binds without a type vocabulary. **Depends on** went from `R-0018` to `none` in
+> the same edit: R-0018 was needed only to supply the type being asked about, and
+> the reworked statement asks about no type. R-0018 is live, so this is a false
+> coupling removed rather than a dangling reference fixed.
 
 ---
 
@@ -725,293 +745,6 @@ coupling removed rather than a dangling reference fixed.
 **Approval.** none — drafted 2026-08-14 as the replacement for R-0039. **The statement is the model's draft and awaits the producer's approval; the kill it replaces is authorised, this wording is not.**
 
 ---
-
-## Findings
-
-Written for the producer. Nothing below has been acted on.
-
-### 1 — Forty-six requirements have no honest Why, and one reason explains all of them
-
-Forty-four of the 51 blocks carry the same `Source` in the old register:
-
-> `2026-08-07/08 session — docs/product/requirements-traceability.md`
-
-Two more carry the same shape with a different date (`2026-08-08 session —
-docs/product/requirements-traceability.md`): R-0050 and R-0051.
-
-That string is a **pointer to where the words came from**, not a reason the
-requirement exists. It supports no Why at all. Writing one from it would be
-manufacturing rationale, so none was written. The forty-six:
-
-R-0001, R-0002, R-0003, R-0004, R-0005, R-0006, R-0007, R-0008, R-0009,
-R-0010, R-0011, R-0012, R-0013, R-0014, R-0015, R-0016, R-0017, R-0018,
-R-0019, R-0020, R-0021, R-0022, R-0024, R-0025, R-0026, R-0027, R-0031,
-R-0033, R-0034, R-0035, R-0036, R-0037, R-0038, R-0039, R-0040, R-0041,
-R-0042, R-0043, R-0044, R-0045, R-0046, R-0047, R-0048, R-0049, R-0050,
-R-0051.
-
-*(That list is 46 references; 44 carry the 2026-08-07/08 pointer and two —
-R-0050 and R-0051 — carry the 2026-08-08 one. All 46 need his words.)*
-
-**Four have a partial Why** — R-0028, R-0029, R-0030, R-0032. Their source
-carries one verbatim ruling of his, *"UX-001 was for the eval matrix only"*
-(2026-08-08 21:23), which honestly explains **the scope** of the statement
-and nothing else. What is written is exactly that, and it says on the page
-that the reason itself is still missing.
-
-**One has a full, honest Why** — R-0023. Its old source carried his words
-verbatim and in full; they are carried across unchanged, under the reserved
-italic-quotation form.
-
-The register is therefore 1 honest Why, 4 partial, 46 needing his words.
-
-**The single sentence that matters here:** the old register's `Source` field
-was a *provenance pointer*, and the new format's Why is a *reason*. The
-migration cannot convert one into the other, and no amount of care makes it
-possible. This is not a transcription defect — the content never existed.
-
-### 2 — One requirement could not be traced
-
-**R-0031 — "Diagrams render in a sans-serif font."** No goal and no law is
-served by it without inventing a rationale. G4 is about a message being
-readable rather than a wall of noise, and stretching that to cover a font
-family is exactly the forced trace the brief said to refuse. It is left as
-`not yet traced` and named here.
-
-Two traces I want you to check rather than trust, because they were the
-closest calls:
-
-- **R-0005** (project type and release type are one vocabulary) → **G3**. My
-  reasoning: collapsing two type vocabularies into one is in service of "one
-  path". It is a definitional claim, and G3 is a defensible but not obvious
-  home.
-- **R-0039** ("Never route to superpowers") → **G8**. My reasoning: G8's
-  grounding in the goals file carries *"i just want the process to be ours
-  and visable"*. That is the nearest honest anchor, but the requirement
-  itself names no goal.
-
-### 3 — No statement wording was changed
-
-Zero statements were reworded. The brief permitted fixing what the format's
-plain-language rules require; I did not exercise it, and the reason is a
-judgement you should be able to overturn.
-
-The adopted ISO 29148 word list bans totality words (`all`, `always`,
-`never`), superlatives, and vague subjects, and holds that `shall` binds.
-Rewriting 51 statements into shall-form is **authorship**, not
-transcription — it runs straight into your standing law against
-paraphrasing requirements, and the format's own open question 5 admits the
-technique for carrying universal force without a totality word *"is nowhere
-taught"*. So the statements are verbatim and the violations are listed
-instead.
-
-**Statements that fail the word list as they stand:**
-
-| Reference | The problem |
-|---|---|
-| R-0003 | `never invent one` — totality word |
-| R-0007 | `not merely a record` — not a checkable clause |
-| R-0012 | `never a sentence` — totality word |
-| R-0024 | `never a reason to record less` — totality word |
-| R-0028 | `boxes are never coloured` — totality word |
-| R-0036 | `nothing in Kerd, ever` — totality word |
-| R-0038 | `never at its own install path` — totality word |
-| R-0039 | `Never route to superpowers` — totality word **and** no subject at all |
-| R-0040 | `never embedded in a product doc` — totality word |
-| R-0043 | `never a parallel store` — totality word |
-| R-0045 | `it never rewrites the state` — totality word |
-| R-0051 | `never on a question the model answers about itself` — totality word |
-
-Most of these are absolute laws expressed with an absolute word, which is
-the exact case open question 5 has not settled. **Recommendation: settle
-open question 5 first, then reword these twelve as one pass — not
-requirement by requirement.**
-
-**One change I did make, and it is notation not content:** every heading
-handle is fresh. The old headings were mechanically truncated statements
-("…plan enhancements, plan…"), which rule 3 says a handle must not be. Under
-rule 3 a handle sits outside the fingerprint and may be reworded at any
-time, so this costs nothing and can be overruled freely.
-
-### 4 — What the new format has no home for
-
-Named so it does not vanish silently.
-
-**a. The `refines` link role — collapsed, and this is the one I am least
-comfortable with.** The old register had 15 link lines in two roles:
-11 `depends-on` and **4 `refines`** (R-0009, R-0010 and R-0012 refining
-R-0008; R-0049 refining R-0011). The new format's rule 8 gives one link
-between requirements — `Depends on` — and rule 7 reserves `Traces to` for
-goals and laws only. So `refines` has nowhere to go. I mapped all four onto
-`Depends on`, keeping the direction, on the ground that a refinement
-genuinely needs its parent to exist. **The parent/child relationship itself
-is lost**, and with it the "is this an origin requirement or a refinement?"
-question that the shape doc's own `no parent, by design` marker is built to
-answer. Recommend either a second link role or an explicit ruling that
-refinement is not modelled.
-
-**b. The suspect-link stamps — dropped, and the shape doc wants them
-kept.** Every old link carried its target's hash: `depends-on → FUN-005
-(sha256:b76da5ae7fe2)`. Fifteen stamps. Rule 8 says `Depends on` takes
-"references only", so there is no slot for them. This is a live
-contradiction inside the shape doc itself: its comparison section says of
-the suspect-link stamp *"Recommend keeping it; the new draft's links element
-is compatible with it"* — but the normative form has no place to write one.
-**Recommend resolving this in the format before the migration lands.**
-
-**c. The `Category` field.** All 51 carried one of the twenty codes. The new
-reference is deliberately meaning-free and the shape doc recommends
-categories become tags. There is no category slot in the block. The taxonomy
-survives as *content* (R-0003 requires it to ship) but the per-requirement
-filing key is gone.
-
-> **OVERTAKEN 2026-08-14 14:54.** The content half is gone too — R-0003 was
-> killed on the producer's ruling that the twenty subject areas are dead, not
-> demoted and not kept as a reference list. The taxonomy now survives in
-> neither form, so nothing here is left to decide.
-
-**d. The `Tags` field.** Twelve requirements carried tags recording the other
-disciplines they touch. No home, and unlike categories, nothing else in the
-new format records them.
-
-**e. The `State` field, and four requirements that were not `final`.** The
-no-status decision is settled, and the migration's blanket unapproval
-happens to be correct for all 51. But the old register distinguished
-*proposed* (captured, never qualified) from *final* (approved and later
-un-approved by a format change), and that distinction is now invisible. The
-four never-final requirements were:
-
-- **R-0022** (`route` and rigor derived) — was `qualified`
-- **R-0025** (floors compose as a union) — was `proposed`
-- **R-0038** (machinery aims at consuming project) — was `qualified`
-- **R-0048** (every type owes every gate) — was `proposed`
-
-Under the new file these read identically to the other 47. If "this was
-never agreed at all" is worth telling apart from "this was agreed and the
-format un-agreed it", the format has no way to say so.
-
-**f. Forty-seven approval hashes.** Deliberately dropped, per the brief.
-Recorded here as a count so the scale of the re-approval debt is visible:
-47 previously-approved requirements now sit unapproved.
-
-### 5 — What the format did not tell me how to handle
-
-1. **A Why that cannot be written.** Rule 1 requires all five fields and says
-   an inapplicable field writes `none`. But a Why is not *inapplicable* — it
-   is *missing*, and `none` would assert the requirement has no reason,
-   which is false. I wrote an explicit unwritten-Why sentence naming what
-   the source actually said. The format has no sanctioned form for this and
-   should get one, because a migration is not the last time it will happen.
-2. **A trace that is not yet known.** Rule 7 offers targets or
-   `no parent, by design`. It has no value for "not yet determined", and
-   using the by-design marker would be a false declaration. R-0031 carries a
-   written-out unknown instead.
-3. **Bulk minting.** Rule 2 says filing refuses a block arriving with a
-   pre-written number and the tool assigns. There is no tool, and 51 numbers
-   were assigned by hand. The rule has no migration path.
-4. **Migration ordering.** Rule 13 says ascending reference order is creation
-   order. A migration has no creation order, so I minted in the old
-   register's reading order (PRD → FUN → NFR → UX → TECH → OPS → TST). That
-   preserves the document you already read, but it bakes the dead category
-   taxonomy into the reference sequence permanently — the one encoding rule
-   2 exists to avoid. Worth a conscious ruling before this file replaces the
-   old one.
-5. **A forward dependency.** R-0007 depends on R-0041 — a higher number. The
-   format forbids nothing here, but under natural creation order a
-   dependency would normally precede its dependent, and this file has one
-   that does not.
-
-### 6 — Recommended for the graveyard, not moved
-
-> **ACTED ON 2026-08-14 — this section records the state before the kills and
-> is kept for the record only.** Four of the six named below were killed and
-> moved (R-0045, R-0016, R-0017, R-0002), together with four this section
-> never named (R-0001, R-0004, R-0034, R-0039), on the fuller triage in
-> `docs/requirements/triage.md` and with Tony as the named authoriser. **Two
-> of the six were not killed:** R-0003 stays live as this section recommends,
-> and **R-0044 stays live against this section's recommendation** — the
-> triage found its render detail *is* the approved render (level-three
-> heading, bold labelled lines, statement as text, links near the end,
-> liftable as a unit), so it predicted rule 1 rather than contradicting it.
->
-> **R-0003 did not stay live for long.** It was killed later the same day, at
-> 14:54, on the producer's ruling against the twenty subject areas — for a
-> reason this section could not reach, because the research that settled it had
-> not been commissioned when this was written. Its recommendation to leave
-> R-0003 live and decide the categories question separately is superseded: the
-> question was decided, and decided against it.
-
-Each of these is contradicted or overtaken by the format we are migrating
-*into*. I have left all six in the live set. Moving one is a kill, and rule
-10 requires a named authoriser, which is you.
-
-**R-0045 — "A `final` requirement carries a hash of its statement as
-keyed."** The strongest case. It names the `final` state, which no longer
-exists, and a fingerprint over the statement alone, which the recipe now
-overrides (statement, Why, links). Its surviving payload — *the audit
-refuses on divergence and never rewrites the state* — is genuinely valuable
-and is already carried by rule 9. Recommend: killed, superseded by whatever
-requirement eventually states the fingerprint recipe.
-
-**R-0016 — "Every requirement gets a Category and ID."** Half of it is dead
-outright: the shape has no Category. The other half is now rule 2.
-Recommend: killed and re-proposed as an identity requirement without the
-category clause.
-
-**R-0017 — "Any request is qualified; if durable it becomes a requirement,
-through stages to final."** *"through stages to final"* names the
-five-state lifecycle the shape deliberately cut. The qualification idea
-survives; the stages do not. Recommend: killed and re-proposed without the
-lifecycle clause.
-
-**R-0002 — "…and speak in IDs that mean something."** This is a direct
-collision, and it is the one I most want you to look at — see below.
-
-**R-0044 — "A requirement is a block, not a table row — heading, bolded meta
-lines, statement as text, links as a trailing list."** The principle
-(*liftable as a unit*) survives and is exactly what rule 1 implements. The
-render detail it specifies is no longer the render. Recommend: killed and
-re-proposed as the principle alone.
-
-**R-0003 — the twenty-category taxonomy ships as the default.** Not dead,
-but at risk: the shape doc recommends the categories become tags and the
-reference go opaque, and it flags that as its own decision with a real cost.
-Recommend: leave live, decide the categories question separately.
-
-### 7 — The one thing to look at first
-
-> **CLOSED 2026-08-14 — the question below no longer needs answering, and it
-> did not need escalating.** The migration had already struck the offending
-> clause in this same file under Law 4's ordering rule (*"if the analysis
-> proved a better way, then we go agaist what i said before, we chnage the
-> rule"*), which was the correct application of that rule; escalating a
-> question your own governing rule has already answered is how the loop it
-> exists to prevent gets started. R-0002 was then killed on 2026-08-14 for a
-> different reason entirely — what remained after the amendment states a
-> purpose, not an obligation — and is in the graveyard. This section is kept
-> for the record only.
-
-**R-0002 — "Requirements exist so the producer can review, plan
-enhancements, plan releases, and speak in IDs that mean something."**
-
-That requirement is approved in the old register, in your name, and its
-final clause is the exact opposite of rule 2 of the format we are migrating
-into: *"The uniform `R-` prefix carries no meaning — every requirement wears
-the same one."*
-
-The migration has just replaced `PRD-002` — an identifier that told you it
-was a product requirement — with `R-0002`, which tells you nothing. The
-research reason for that is strong (*every scheme that encoded meaning in
-the identifier eventually had the meaning change*) and the shape doc knows
-it costs something. But a live requirement in this file now says the
-opposite of the file's own numbering rule, and nothing in the format
-notices.
-
-The two readings are genuinely different and only you can pick one: either
-"IDs that mean something" meant *IDs I can say out loud and point at* — in
-which case `R-0002` satisfies it and the requirement stands unchanged — or
-it meant *IDs that tell me what kind of thing this is* — in which case
-either the requirement goes to the graveyard or rule 2 is wrong.
 
 ## Graveyard
 

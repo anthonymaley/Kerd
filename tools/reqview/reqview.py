@@ -13,6 +13,17 @@ never writes to disk, it emits a paste-back block the producer copies out.
 
 State is COMPUTED from the fingerprint recipe in docs/design/requirement-shape.md
 rule 9. There is no status field in the register and this tool never invents one.
+
+STRICT. Rule 14: ambiguity is refused, never guessed. Everything this parser
+meets is classified by an exact shape — a field label, a note blockquote, a
+separator, a machine comment — and anything it cannot classify stops the run
+with the block and the text named. It never picks the likely reading and it
+never writes a page from a guess. That rule is not decoration: this file's
+first version guessed, and its guesses were plausible — a wrapped bold note
+absorbed into a `Depends on` fabricated four dependencies and a dangling
+reference, and a comma inside prose in a `Traces to` produced the trace target
+"and the migration will not." A plausible wrong answer is worse than an error,
+because an error is seen.
 """
 
 import hashlib
@@ -40,12 +51,12 @@ DEAD_LABELS = [
 FP_FIELDS = ["statement", "why", "traces to", "depends on"]
 
 REF_RE = re.compile(r"\bR-\d{4}\b")
-# A bold lead label may WRAP ACROSS LINES in this register — e.g. R-0048's
-# "**Reworked …, and its\ndependency dropped in the same edit.**". Matching only
-# within one line silently absorbs the whole note into the preceding field, which
-# put a graveyard reference into R-0048's `Depends on`. Match across the segment.
-BOLD_LEAD_RE = re.compile(r"^\*\*(.+?)\*\*", re.S)
-LABEL_WINDOW = 6  # lines a wrapped bold label may span
+# Rule 1, as a shape rather than a habit. A field label is bold text opening a
+# paragraph AND CLOSING ON ITS OWN FIRST LINE — a label never wraps. A note is a
+# blockquote: every line begins with ">", so no wrap can make a note line look
+# like a field line. Between them there is no reading left to guess at.
+FIELD_LABEL_RE = re.compile(r"^\*\*([^*\n]+)\*\*")
+NOTE_LEAD_RE = re.compile(r"^>\s\*\*Note\s+—\s+")
 HEAD3_RE = re.compile(r"^###\s+(.*)$")
 HEAD2_RE = re.compile(r"^##\s+(.*)$")
 # A goal or law reference. Never rendered bare in this view: the producer's rule
@@ -56,6 +67,44 @@ GOALLAW_RE = re.compile(r"\bLaw\s+([1-9])\b|\bG([1-8])\b")
 GOALHEAD_RE = re.compile(r"^#{2,3}\s+(G[1-8]|Law\s+[1-9])\s+—\s+(.*?)\s*$")
 MACHINE_RE = re.compile(r"^<!--\s*machine:\s*([0-9a-fA-F-]+)\s*-->\s*$")
 APPROVED_RE = re.compile(r"^(.+?),\s*(\S+)\s*·\s*fp:([0-9a-f]{12})\s*$")
+NONE_RE = re.compile(r"^none(\s+—\s+.+)?$", re.S)          # rule 9's only prose
+TARGET_RE = re.compile(r"^(G[1-8]|Law\s[1-9]|R-\d{4})$")   # rule 7's targets
+SEP = ", "                                                 # rule 7, exactly
+# Whole-field sentinels — matched against the ENTIRE field before a comma is
+# ever looked at, which is how `no parent, by design` survives having one in it.
+TRACE_SENTINELS = {"no parent, by design", "not yet traced"}
+
+
+def refuse(refusals, where, what, why):
+    """Rule 14. Record what could not be classified; the run stops on any of these."""
+    refusals.append({"where": where, "what": what, "why": why})
+
+
+# What the strict parser actually checks. Every one of these refuses the render
+# when it fails, so a page that exists has passed all of them — which is why the
+# page lists them as checks rather than as findings to be forgiven.
+CHECKS = [
+    "**The document frame** (rule 13) — a preamble, then `## Requirements`, then "
+    "`## Graveyard` last, and nothing at heading level two between them.",
+    "**Every heading** (rules 1, 10) — `### R-nnnn — handle`, with `— DEAD` in the "
+    "graveyard and nowhere else.",
+    "**Every paragraph inside every block** (rule 1) — a field, a `> **Note — …**` "
+    "blockquote, the machine comment, or the `---` separator. A bold lead that does "
+    "not close on its own line is refused rather than absorbed into the field above.",
+    "**The five fields** (rule 1) — all present, each once, in order, with notes "
+    "after them; six on a graveyard entry.",
+    "**`Traces to`** (rule 7) — references separated by a comma and a single space, "
+    "or a whole-field sentinel matched before any comma is looked at. No prose.",
+    "**`Depends on`** (rule 8) — `R-nnnn` references or `none`, every one resolving "
+    "into the live set.",
+    "**The approval line** (rule 9) — `none`, `none — <reason>`, or "
+    "`<name>, <date> · fp:<12 hex>`, and the state computed from the recipe, never "
+    "read from a field.",
+    "**References** (rules 2, 13) — none reused, both sections in ascending order.",
+    "**Every kill** (rule 10) — a named authoriser on every graveyard entry.",
+    "**The fingerprint recipe itself** (rule 9) — both published test vectors "
+    "reproduced before anything is read.",
+]
 
 
 # --------------------------------------------------------------------------
@@ -116,7 +165,27 @@ class Block:
         self.raw = ""
 
 
-def parse(text):
+def paragraphs(chunk):
+    """Blank-line separated paragraphs, each with the line number it started on.
+    The paragraph is the unit of classification: a field, a note, a separator, a
+    machine comment. There is no fifth thing, and rule 14 says so out loud."""
+    out, cur, at = [], [], 0
+    for i, line in enumerate(chunk):
+        if line.strip() == "":
+            if cur:
+                out.append((at, cur))
+                cur = []
+        else:
+            if not cur:
+                at = i
+            cur.append(line)
+    if cur:
+        out.append((at, cur))
+    return out
+
+
+def parse(text, refusals):
+    """Rule 13's frame, rule 1's block, rules 7-9's field values. Strict."""
     lines = text.split("\n")
     sections = []             # (name, start, end)
     cur_name, cur_start = "(preamble)", 0
@@ -128,103 +197,201 @@ def parse(text):
     sections.append((cur_name, cur_start, len(lines)))
 
     blocks = []
-    notes_about_format = []
     preamble = ""
-    section_names = []
+    section_names = [s[0] for s in sections]
+
+    # ---- rule 13: the frame. Exactly three sections, graveyard last. ----
+    expected = ["(preamble)", "Requirements", "Graveyard"]
+    if section_names != expected:
+        refuse(refusals, "the document frame",
+               " → ".join("`## %s`" % s for s in section_names),
+               "Rule 13: the register is a title and preamble, then `## Requirements`, "
+               "then `## Graveyard` last, and nothing else sits at heading level two. "
+               "A section between the two is refused rather than parsed as prose — its "
+               "sub-headings are close enough to `### R-nnnn — handle` that a heading-"
+               "driven reader files them as requirements. Analysis about the set lives "
+               "in its own file beside the register.")
+        return preamble, blocks, section_names
 
     for name, start, end in sections:
-        section_names.append(name)
         body = lines[start:end]
         if name == "(preamble)":
             preamble = "\n".join(body).strip()
             continue
-        low = name.lower()
-        is_reqs = low == "requirements"
-        is_grave = low == "graveyard"
-        if not (is_reqs or is_grave):
-            notes_about_format.append(
-                "Level-two section `## %s` sits between the requirements heading and "
-                "the graveyard. Rule 13 says nothing else sits at heading level two, "
-                "and the graveyard is always last. Parsed as prose, not requirements — "
-                "but a naive parser would read its `### 1 — …` headings as requirement "
-                "blocks." % name)
-            continue
+        is_grave = name == "Graveyard"
 
-        # split into ### blocks
         idxs = [i for i, l in enumerate(body) if HEAD3_RE.match(l)]
         for n, i in enumerate(idxs):
             j = idxs[n + 1] if n + 1 < len(idxs) else len(body)
             chunk = body[i:j]
             head = HEAD3_RE.match(chunk[0]).group(1).strip()
+            where = "`## %s` heading `%s`" % (name, head[:60])
             parts = [p.strip() for p in head.split("—")]
             ref = parts[0] if parts else head
             dead = len(parts) > 1 and parts[1].upper() == "DEAD"
             handle = parts[2] if dead and len(parts) > 2 else (
                 parts[1] if len(parts) > 1 else "")
-            if not REF_RE.fullmatch(ref):
-                notes_about_format.append(
-                    "Heading `%s` in `## %s` is not `### R-nnnn — handle`; skipped."
-                    % (head, name))
+            if not REF_RE.fullmatch(ref) or not handle:
+                refuse(refusals, where, head,
+                       "Rule 1: a block heading is `### R-nnnn — handle`, or "
+                       "`### R-nnnn — DEAD — handle` in the graveyard. This is neither, "
+                       "and what it names cannot be decided by guessing.")
                 continue
-            if is_grave and not dead:
-                notes_about_format.append(
-                    "%s sits in the graveyard without the `— DEAD` marker rule 10 "
-                    "requires." % ref)
-            if is_reqs and dead:
-                notes_about_format.append(
-                    "%s is marked DEAD but sits in the live set." % ref)
+            if is_grave != dead:
+                refuse(refusals, ref, head,
+                       "Rule 10: a graveyard entry carries `— DEAD` and a live block "
+                       "does not. This one contradicts the section it sits in.")
+                continue
 
-            b = Block(ref, handle, dead or is_grave, name)
+            b = Block(ref, handle, dead, name)
             b.raw = "\n".join(chunk).strip()
+            known = DEAD_LABELS if b.dead else LIVE_LABELS
+            order, seen_note = [], False
 
-            rest = chunk[1:]
-            # machine comment on the line directly under the heading
-            for l in rest[:2]:
-                m = MACHINE_RE.match(l.strip())
-                if m:
-                    b.machine = m.group(1)
-                    break
+            for at, para in paragraphs(chunk[1:]):
+                first, whole = para[0], "\n".join(para)
+                stripped = whole.strip()
 
-            # field boundaries: a bold-lead line whose previous line is blank
-            bounds = []
-            for k, l in enumerate(rest):
-                if not l.startswith("**"):
+                if stripped == "---":
+                    continue                                    # block separator
+                if MACHINE_RE.match(first.strip()) and len(para) == 1:
+                    b.machine = MACHINE_RE.match(first.strip()).group(1)
+                    continue                                    # rule 4
+
+                if first.startswith(">"):                        # rule 1: a note
+                    if not all(l.startswith(">") for l in para):
+                        refuse(refusals, ref, first[:70],
+                               "Rule 1: every line of a note carries `>`. A note that "
+                               "drops it mid-paragraph re-opens the exact crack this "
+                               "marker closes.")
+                        continue
+                    if not NOTE_LEAD_RE.match(first):
+                        refuse(refusals, ref, first[:70],
+                               "Rule 1: a note opens `> **Note — …**`. A blockquote "
+                               "without the marker is not classifiable as a note.")
+                        continue
+                    raw = "\n".join(re.sub(r"^>\s?", "", l) for l in para).strip()
+                    mt = re.match(r"^\*\*Note\s+—\s+(.+?)\*\*", raw, re.S)
+                    if not mt:
+                        refuse(refusals, ref, first[:70],
+                               "Rule 1: a note's `> **Note — …**` marker never closes. "
+                               "Where the title ends and the note begins is not "
+                               "something a parser may decide.")
+                        continue
+                    label = " ".join(mt.group(1).split()).rstrip(".:").strip()
+                    b.notes.append((label, raw[mt.end():].strip()))
+                    seen_note = True
                     continue
-                if k > 0 and rest[k - 1].strip():
+
+                if not first.startswith("**"):
+                    refuse(refusals, ref, first[:70],
+                           "Rule 1: a paragraph inside a block is a field (bold label), "
+                           "a note (`> **Note — …**`), the machine comment, or the `---` "
+                           "separator. This is none of the four.")
                     continue
-                window = "\n".join(rest[k:k + LABEL_WINDOW])
-                m = BOLD_LEAD_RE.match(window)
-                if m:
-                    label = " ".join(m.group(1).split()).rstrip(".").strip()
-                    if "\n" in m.group(1):
-                        notes_about_format.append(
-                            "%s has a bold field label that wraps across lines "
-                            "(`%s…`). A line-oriented parser absorbs the whole "
-                            "paragraph into the field above it." % (ref, label[:44]))
-                    bounds.append((k, label))
-            for n2, (k, label) in enumerate(bounds):
-                k2 = bounds[n2 + 1][0] if n2 + 1 < len(bounds) else len(rest)
-                seg = "\n".join(rest[k:k2])
-                seg = BOLD_LEAD_RE.sub("", seg, count=1).lstrip()
-                val = "\n".join(x for x in seg.split("\n")
-                                if x.strip() != "---").strip()
-                norm = label.lower().rstrip(".").strip()
+
+                m = FIELD_LABEL_RE.match(first)
+                if not m:
+                    refuse(refusals, ref, first[:70],
+                           "Rule 1: a field label is bold text that opens the paragraph "
+                           "and closes on its own first line — a label never wraps. This "
+                           "bold lead does not close on its line, which is precisely how "
+                           "a note was once read as a field and absorbed into the field "
+                           "above it. If it is a note, mark it `> **Note — …**`.")
+                    continue
+                label = " ".join(m.group(1).split()).rstrip(".").strip()
+                norm = label.lower()
                 derived = False
                 if norm.startswith("statement") and "(derived)" in norm:
                     norm, derived = "statement", True
-                known = DEAD_LABELS if b.dead else LIVE_LABELS
-                if norm in known:
-                    if norm in b.fields:
-                        notes_about_format.append(
-                            "%s carries two `%s` fields." % (b.ref, label))
-                    b.fields[norm] = val
-                    if derived:
-                        b.derived = True
-                else:
-                    b.notes.append((label, val))
+                if norm not in known:
+                    refuse(refusals, ref, label[:70],
+                           "Rule 1: the bold-label form is reserved to the %s labels a "
+                           "%s block carries. A note in that form is indistinguishable "
+                           "from a field — write it `> **Note — …**`."
+                           % (len(known), "graveyard" if b.dead else "live"))
+                    continue
+                if norm in b.fields:
+                    refuse(refusals, ref, label[:70],
+                           "Rule 1: this block carries two `%s` fields. Which one binds "
+                           "is not a question a parser may answer." % label)
+                    continue
+                if seen_note:
+                    refuse(refusals, ref, label[:70],
+                           "Rule 1: notes come last. A field after a note leaves the "
+                           "field region non-contiguous.")
+                val = "\n".join(para[0:])
+                val = FIELD_LABEL_RE.sub("", val, count=1).strip()
+                b.fields[norm] = val
+                order.append(norm)
+                if derived:
+                    b.derived = True
+
+            missing = [l for l in known if l not in b.fields]
+            if missing:
+                refuse(refusals, ref, ", ".join("`%s`" % x for x in missing),
+                       "Rule 1: all %s fields are required on every %s block — a field "
+                       "that does not apply is written `none`, never omitted."
+                       % (len(known), "graveyard" if b.dead else "live"))
+            elif order != known:
+                refuse(refusals, ref, " → ".join(order),
+                       "Rule 1: the fields appear in a fixed order (%s)."
+                       % ", ".join(known))
             blocks.append(b)
 
-    return preamble, blocks, notes_about_format, section_names
+    return preamble, blocks, section_names
+
+
+def check_values(b, refusals):
+    """Rules 7, 8 and 9 — the structured fields. References and sentinels only."""
+    if b.dead:
+        return [], []
+
+    traces_raw = " ".join(b.fields.get("traces to", "").split())
+    depends_raw = " ".join(b.fields.get("depends on", "").split())
+    approval = b.fields.get("approval", "").strip()
+
+    traces = []
+    if traces_raw not in TRACE_SENTINELS:
+        for t in traces_raw.split(","):
+            t = t.strip()
+            if TARGET_RE.match(t):
+                traces.append(t)
+            else:
+                refuse(refusals, b.ref, "`Traces to` → %r" % t[:60],
+                       "Rule 7: `Traces to` carries references separated by `%s` — "
+                       "`Gn`, `Law n`, `R-nnnn` — or a whole-field sentinel (%s). "
+                       "Prose here splits on its own commas and yields targets that "
+                       "look real; the explanation belongs in the Why."
+                       % (SEP, ", ".join("`%s`" % s for s in sorted(TRACE_SENTINELS))))
+                traces = []
+                break
+        if traces and traces_raw != SEP.join(traces):
+            refuse(refusals, b.ref, "`Traces to` → %r" % traces_raw[:60],
+                   "Rule 7: the separator is a comma and a single space, exactly.")
+
+    deps = []
+    if depends_raw != "none":
+        for d in depends_raw.split(","):
+            d = d.strip()
+            if REF_RE.fullmatch(d):
+                deps.append(d)
+            else:
+                refuse(refusals, b.ref, "`Depends on` → %r" % d[:60],
+                       "Rule 8: `Depends on` carries `R-nnnn` references separated by "
+                       "`%s`, or the sentinel `none`. Never prose." % SEP)
+                deps = []
+                break
+        if deps and depends_raw != SEP.join(deps):
+            refuse(refusals, b.ref, "`Depends on` → %r" % depends_raw[:60],
+                   "Rule 8: the separator is a comma and a single space, exactly.")
+
+    if not (APPROVED_RE.match(" ".join(approval.split())) or NONE_RE.match(approval)):
+        refuse(refusals, b.ref, "`Approval` → %r" % approval[:60],
+               "Rule 9: the approval line is `none`, `none — <reason>`, or "
+               "`<name>, <date> · fp:<12 hex>` and nothing else.")
+
+    return traces, deps
 
 
 def parse_goals(text):
@@ -322,7 +489,7 @@ def goal_tag(t):
 # model
 # --------------------------------------------------------------------------
 
-def build(blocks, notes_about_format):
+def build(blocks, refusals):
     live = [b for b in blocks if not b.dead]
     dead = [b for b in blocks if b.dead]
     live_refs = {b.ref for b in live}
@@ -331,16 +498,23 @@ def build(blocks, notes_about_format):
     seen = set()
     for b in blocks:
         if b.ref in seen:
-            notes_about_format.append("Duplicate reference %s." % b.ref)
+            refuse(refusals, b.ref, b.ref,
+                   "Rule 2: a reference is never reused. Two blocks carry this one, and "
+                   "which of them a dependency names cannot be decided by guessing.")
         seen.add(b.ref)
+
+    order = [b.ref for b in live]
+    if order != sorted(order):
+        refuse(refusals, "`## Requirements`", " ".join(order[:8]) + " …",
+               "Rule 13: blocks appear in ascending reference order.")
+    gorder = [b.ref for b in dead]
+    if gorder != sorted(gorder):
+        refuse(refusals, "`## Graveyard`", " ".join(gorder[:8]) + " …",
+               "Rule 13: blocks appear in ascending reference order in both sections.")
 
     recs = []
     for b in live:
-        missing = [l for l in LIVE_LABELS if l not in b.fields]
-        for l in missing:
-            notes_about_format.append(
-                "%s has no `%s` field. Rule 1 requires all five on every live block; "
-                "an absent field is written `none`, never omitted." % (b.ref, l))
+        traces_list, deps = check_values(b, refusals)
         stmt = b.fields.get("statement", "")
         why = b.fields.get("why", "")
         traces = b.fields.get("traces to", "")
@@ -348,24 +522,14 @@ def build(blocks, notes_about_format):
         approval = b.fields.get("approval", "")
         fp_now = fingerprint(stmt, why, traces, depends, b.derived)
 
-        deps, dangling = [], []
-        if depends.strip().lower() not in ("none", ""):
-            for r in REF_RE.findall(depends):
-                deps.append(r)
-                if r not in live_refs:
-                    dangling.append(r)
-            if not deps:
-                notes_about_format.append(
-                    "%s `Depends on` is neither `none` nor a list of references: %r. "
-                    "Rule 8 allows only those two." % (b.ref, depends[:70]))
+        dangling = [r for r in deps if r not in live_refs]
         for r in dangling:
-            notes_about_format.append(
-                "%s depends on %s, which is not in the live set%s. Rule 8 makes an "
-                "unresolved reference an error that stops the run."
-                % (b.ref, r, " (it is in the graveyard)" if r in all_refs else ""))
+            refuse(refusals, b.ref, "`Depends on` → %s" % r,
+                   "Rule 8: an unresolved reference is an error that stops the run. %s "
+                   "is not in the live set%s."
+                   % (r, " — it is in the graveyard" if r in all_refs else ""))
 
-        traces_list = [t.strip() for t in traces.split(",") if t.strip()]
-        untraced = traces.strip().lower().startswith("not yet traced")
+        untraced = " ".join(traces.split()) == "not yet traced"
 
         a = approval.strip()
         m = APPROVED_RE.match(a.split("\n")[0].strip())
@@ -373,10 +537,6 @@ def build(blocks, notes_about_format):
             state = "approved" if m.group(3) == fp_now else "invalidated"
             recorded_fp, approver, approved_on = m.group(3), m.group(1), m.group(2)
         else:
-            if not a.lower().startswith("none"):
-                notes_about_format.append(
-                    "%s `Approval` is neither `none…` nor `<name>, <date> · fp:<12 hex>`: "
-                    "%r." % (b.ref, a[:70]))
             state = "never"
             recorded_fp = approver = approved_on = None
 
@@ -401,15 +561,11 @@ def build(blocks, notes_about_format):
 
     graves = []
     for b in dead:
-        missing = [l for l in DEAD_LABELS if l not in b.fields]
-        for l in missing:
-            notes_about_format.append(
-                "Graveyard %s has no `%s` field (rule 10 requires six)." % (b.ref, l))
         killed = b.fields.get("killed", "")
         if "authorised by" not in killed.lower() and "authorized by" not in killed.lower():
-            notes_about_format.append(
-                "Graveyard %s names no kill authoriser. Rule 10 makes it required."
-                % b.ref)
+            refuse(refusals, b.ref, "`Killed` → %r" % " ".join(killed.split())[:60],
+                   "Rule 10: a kill lands with a named authoriser or the entry is "
+                   "refused. A model may propose a kill; it may not record one.")
         graves.append({
             "ref": b.ref, "handle": b.handle, "machine": b.machine,
             "killed": killed,
@@ -489,7 +645,7 @@ STATE_LABEL = {
 }
 
 
-def render(preamble, recs, graves, notes, register_hash, source_path, goals):
+def render(preamble, recs, graves, checks, register_hash, source_path, goals):
     LINKS["live"] = {r["ref"]: r["handle"] for r in recs}
     LINKS["dead"] = {g["ref"]: g["handle"] for g in graves}
     LINKS["goals"] = goals
@@ -659,8 +815,12 @@ def render(preamble, recs, graves, notes, register_hash, source_path, goals):
                '<span class="muted">nothing traces to this</span>'))
     goals_html = "".join(gcardsg) or '<p class="muted">The goals file was not readable.</p>'
 
-    notes_html = "".join("<li>%s</li>" % inline(n).replace("<p>", "").replace("</p>", "")
-                         for n in notes) or "<li>Nothing.</li>"
+    # Every check below refused the render if it failed, so a page that exists is
+    # a page that passed all of them. The list is the checking, shown — not a
+    # backlog of things the reader is expected to forgive.
+    checks_html = "".join(
+        "<li><b>PASSED</b> %s</li>" % inline(c).replace("<p>", "").replace("</p>", "")
+        for c in checks)
 
     # ---- hover previews: know without going ----
     # A reader following a dependency chain should rarely have to leave the block
@@ -726,8 +886,8 @@ def render(preamble, recs, graves, notes, register_hash, source_path, goals):
             .replace("__GOALS__", goals_html)
             .replace("__NGOALS__", str(sum(1 for g in goals.values() if g["kind"] == "goal")))
             .replace("__NLAWS__", str(sum(1 for g in goals.values() if g["kind"] == "law")))
-            .replace("__NOTES__", notes_html)
-            .replace("__NNOTES__", str(len(notes))))
+            .replace("__NOTES__", checks_html)
+            .replace("__NNOTES__", str(len(checks))))
 
 
 # --------------------------------------------------------------------------
@@ -997,7 +1157,7 @@ summary{cursor:pointer;font-size:13px;color:var(--derive)}
     <div class="count"><b>__NEDGES__</b>dependency links</div>
     <div class="count"><b>__NOPEN__</b>open markers</div>
     <div class="count"><b>__NDEAD__</b>in the graveyard</div>
-    <div class="count"><b>__NNOTES__</b>format notes</div>
+    <div class="count"><b>__NNOTES__</b>format checks passed</div>
   </div>
 
   <div class="bar">
@@ -1034,7 +1194,11 @@ Names and text are quoted from <code>docs/kerd-goals.md</code>, unshortened. The
 at the foot of the page on purpose &mdash; a reader arrives to read requirements.</p>
 <div id="goalcards">__GOALS__</div>
 
-<h2>What this view found in the format</h2>
+<h2>What this view checked in the format</h2>
+<p class="muted">Rule 14: <b>ambiguity is refused, never guessed.</b> Each check
+below stops the render when it fails, naming the block and the text it could not
+classify &mdash; so this page existing is the result. Nothing here is a warning
+the reader is asked to live with.</p>
 <ul class="findings">__NOTES__</ul>
 
 </div>
@@ -1527,29 +1691,42 @@ def main():
     register_hash = hashlib.sha256(raw).hexdigest()
     text = raw.decode("utf-8")
 
-    preamble, blocks, notes, sections = parse(text)
-    recs, graves, _ = build(blocks, notes)
+    refusals = []
+    preamble, blocks, sections = parse(text, refusals)
+    recs, graves, _ = build(blocks, refusals)
 
     goals = {}
     if GOALS.exists():
         goals = parse_goals(GOALS.read_text(encoding="utf-8"))
     if not goals:
-        notes.append(
-            "No goals or laws could be read from `%s`, so every `Traces to` target "
-            "renders as a bare identifier. A rendering built for a human must "
-            "resolve a reference to its name."
-            % (GOALS.relative_to(ROOT) if GOALS.exists() else "docs/kerd-goals.md"))
+        refuse(refusals, "docs/kerd-goals.md", "no goals or laws could be read",
+               "Rule 7: a human-facing view names the behaviour, never the identifier. "
+               "Without the goals file every `Traces to` target would render as a bare "
+               "reference, which is a defect in the view — so it is not rendered.")
     else:
         cited = {" ".join(t.split()) for r in recs if not r["untraced"]
                  for t in r["traces_list"]}
         for c in sorted(cited):
-            if c not in goals:
-                notes.append(
-                    "`Traces to` names `%s`, which is neither a goal nor a law in "
-                    "`docs/kerd-goals.md`. It renders unresolved." % c)
+            if c not in goals and not REF_RE.fullmatch(c):
+                refuse(refusals, "`Traces to`", c,
+                       "Rule 7: the target is neither a goal nor a law in "
+                       "`docs/kerd-goals.md`. An unresolved reference is an error that "
+                       "stops the run, not something to render unnamed.")
+
+    if refusals:
+        print()
+        print("REFUSED — %d thing%s in the register could not be classified."
+              % (len(refusals), "" if len(refusals) == 1 else "s"))
+        print("Rule 14: ambiguity is refused, never guessed. No page was written.")
+        for r in refusals:
+            print()
+            print("  %s" % r["where"])
+            print("    text   %s" % r["what"])
+            print("    why    %s" % r["why"])
+        return 2
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    page = render(preamble, recs, graves, notes, register_hash,
+    page = render(preamble, recs, graves, CHECKS, register_hash,
                   str(REGISTER.relative_to(ROOT)), goals)
     OUTPUT.write_text(page, encoding="utf-8")
 
@@ -1564,9 +1741,9 @@ def main():
     print("  approved            %d" % sum(1 for r in recs if r["state"] == "approved"))
     print("  invalidated         %d" % sum(1 for r in recs if r["state"] == "invalidated"))
     print("  never approved      %d" % sum(1 for r in recs if r["state"] == "never"))
-    print("  format notes        %d" % len(notes))
-    for n in notes:
-        print("      - %s" % n)
+    print("  format checks       %d passed, 0 refusals" % len(CHECKS))
+    for c in CHECKS:
+        print("      ok  %s" % c)
     print("  wrote %s (%d KB)" % (OUTPUT, len(page.encode("utf-8")) // 1024))
     return 0
 

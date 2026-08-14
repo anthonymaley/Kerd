@@ -50,6 +50,29 @@ etc."*); one invented attribution and one truncated quote are corrected; and
 the exemplar no longer breaks its own reserved-form rule. Both published
 fingerprint vectors survive unchanged.
 
+**What changed 2026-08-14, fifth pass — the parsing test:** the form had been
+validated twice by having fresh agents **write** in it, and audited twice for
+fidelity. It had never been **read** by a machine. The first parser written
+against it — the view generator at `tools/reqview/reqview.py` — found three
+defects in an afternoon that two writing tests and two fidelity audits all
+missed, and the three are one design fault: **prose inside a structured field
+is indistinguishable from structure.** A bold in-place note that wrapped
+across lines wore exactly the clothes of a field label and was absorbed into
+the `Depends on` above it, fabricating four dependencies and a dangling
+reference that read as entirely genuine; a comma inside prose in a
+`Traces to` became a delimiter and produced *"and the migration will not."* as
+a trace target; and a `## Findings` section sat between the requirements and
+the graveyard, breaking rule 13's own ordering, its numbered sub-headings
+mimicking requirement blocks. **Writing and parsing are different tests**, and
+the format had only ever sat the first one. Three rules close the fault — a
+structured field carries references and never prose (rules 7, 8, 9), a note is
+a blockquote and can never wear a field label's clothes (rule 1), the
+graveyard is last and nothing sits between it and the requirements (rule 13) —
+under a principle this repo already holds elsewhere, now stated on its own as
+rule 14: **ambiguity is refused, never guessed.** All three defects produced
+*plausible* wrong answers, which is worse than an error. Both published
+fingerprint vectors survive unchanged.
+
 **The bar this draft is held to:** across everything surveyed, the mandatory
 minimum anywhere is **one field**. The most modern, most industry-negotiated
 specification requires a title and nothing else; the exchange standard beneath
@@ -190,6 +213,34 @@ hand-written reverse is a copy that drifts.
    the five labelled fields; it never obliges a person to write the machine
    comment, which would break rule 4.
 
+   **The bold-label form is reserved to fields, and a note is a blockquote.**
+   Inside a requirement block, a paragraph whose first line opens with `**` is
+   a field label — one of the five above, or one of the six a graveyard entry
+   carries (rule 10) — and nothing else may take that form. An **in-place
+   note** — a rework, a re-pointing, an amendment, anything a person needs to
+   record beside the fields — is written as a markdown blockquote:
+
+   ```markdown
+   > **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.**
+   > The statement read *(verbatim, as migrated)*: "…". The twelve-type list is
+   > dead; the distinction inside it is what the ruling kept, so this block is
+   > reworked rather than killed and its reference is unchanged.
+   ```
+
+   The collision is closed by mechanism, not by care. A field line begins with
+   `*`; a note line begins with `>`; and **every** line of a note carries the
+   `>`, so a note that wraps across five lines is five note lines, and no wrap
+   can produce a line that reads as a field. That is the exact failure this
+   closes: an in-place note whose bold lead wrapped across two lines was read
+   as a field label, and the paragraph under it was absorbed into the
+   `Depends on` above, fabricating four dependencies and a dangling reference
+   that looked entirely genuine. **Notes come last, after all five fields**,
+   so the field region is contiguous and in order. A note is outside the
+   fingerprint, exactly as a comment beside the record is — recording a rework
+   must not un-approve anything. Outside a block — the register's preamble, a
+   section's own introduction — there are no fields to collide with, and prose
+   is prose.
+
 2. **The reference** is `R-` plus a four-digit number: opaque, permanent,
    never changed, never reused. The uniform `R-` prefix carries no meaning —
    every requirement wears the same one; it exists only so a reference is
@@ -303,8 +354,23 @@ hand-written reverse is a copy that drifts.
    verbatim producer words and nothing else may use that form.** Machines
    and readers distinguish his words from ours by form, not by judgement.
 
-7. **Traces to** takes one or more targets, comma-separated, or the
-   declared `no parent, by design`.
+7. **Traces to** carries **references and nothing else — never prose.** The
+   separator is defined exactly: **a comma followed by a single space**, and
+   nothing else separates targets. A target is `G<n>`, `Law <n>`, or a
+   requirement reference `R-nnnn`; anything that is not one of those three is
+   not a target. Three **whole-field sentinels** are declared, and each is
+   matched against the *entire* field before a comma is ever looked at —
+   which is precisely why the comma inside the first one is not a separator:
+   `no parent, by design` (there is no parent, deliberately);
+   `not yet traced` (no trace has been established, and none will be
+   invented to fill the space); and, on `Depends on`, `none`.
+
+   **If a link needs explaining, the explanation goes in the Why**, which is
+   where reasons already live. A structured field is read by a machine; a
+   sentence in it is a delimiter waiting to happen. It happened: a `Traces to`
+   carrying prose split on its own comma and yielded *"and the migration will
+   not."* as a trace target — a wrong answer that looked exactly like a right
+   one. Prose here is refused, not parsed (rule 14).
 
    **A rendering built for a human resolves every reference to its name.**
    The register file may carry the bare `G4` — it is written for the
@@ -332,12 +398,19 @@ hand-written reverse is a copy that drifts.
    prose is unqueryable, which is the loss the links element exists to
    prevent.
 
-8. **Depends on** takes references only, or `none`. A reference that does
-   not resolve is an error that stops the run — already settled; restated
-   here because it is the writer's rule too.
+8. **Depends on** carries requirement references only — `R-nnnn`, separated
+   by a comma and a single space — or the whole-field sentinel `none`. Never
+   prose, on the same rule as 7: why a dependency exists, or why one was
+   dropped, goes in the Why or in a note (rule 1), never into the field. A
+   reference that does not resolve is an error that stops the run — already
+   settled; restated here because it is the writer's rule too.
 
-9. **The approval line** is either `none` (with an optional reason after a
-   dash) or `Tony, <date> · fp:<12 hex characters>`. **The fingerprint
+9. **The approval line** is either `none`, or `none — <reason>`, or
+   `Tony, <date> · fp:<12 hex characters>` with nothing after it. **The
+   reason after `none —` is the one place a structured field admits prose,
+   and it is never parsed:** everything after the dash is free text for a
+   reader, the machine reads only `none`. Anything that is neither of those
+   three shapes is refused (rule 14), never guessed at. **The fingerprint
    recipe:** take the text of Statement, Why, Traces to and Depends on, in
    that order; strip each bold label **entirely — everything between the
    opening and closing double asterisks, modifier included, plus its full
@@ -374,12 +447,14 @@ hand-written reverse is a copy that drifts.
     form), **What was learned** (the payload — written so the next
     proposer does not re-derive the dead idea), and **Superseded by** (a
     reference, or `nothing — killed outright`). The heading gains `— DEAD`
-    between reference and handle. The machine name stays. **The links are
+    between reference and handle. The machine name stays. Those six labels
+    take the bold-label form and nothing else in the entry does: a note on a
+    graveyard entry is a blockquote, under rule 1. **The links are
     dropped on death:** a dead requirement tracing to a live goal would
     corrupt every coverage count. The graveyard lives under a `## Graveyard`
-    heading at the end of the same document, so anyone proposing into the
-    register scans past it — or the tool does — before a new requirement
-    lands. The formerly open question of where the graveyard sits is
+    heading at the end of the same document — **last, with nothing between it
+    and the requirements** (rule 13) — so anyone proposing into the register
+    scans past it — or the tool does — before a new requirement lands. The formerly open question of where the graveyard sits is
     thereby closed with the cheapest answer that makes it readable at
     proposal time; moving it later costs a cut and a paste, not a
     migration.
@@ -409,7 +484,15 @@ hand-written reverse is a copy that drifts.
     nothing in it is fingerprinted; then a `## Requirements` heading
     holding every live block; then the `## Graveyard` heading holding
     every dead one, always last, so a reader scanning to the end passes
-    the dead ideas on the way. Nothing else sits at heading level two.
+    the dead ideas on the way. **Nothing else sits at heading level two, and
+    nothing at all sits between the requirements and the graveyard.** That is
+    not a tidiness rule: a `## Findings` section did sit there, and its
+    numbered `### 1 — …` sub-headings mimic requirement blocks closely enough
+    that a parser reading headings will file them as requirements. Analysis
+    *about* the set — findings, triage, audits — lives in its own file beside
+    the register (`docs/requirements/findings.md` for this one), pointed at
+    from the preamble. The register holds the set and its dead, and nothing
+    else.
     **Ordering rule: blocks appear in ascending reference order, in both
     sections, always.** Reading order is creation order — the story of the
     set in the order it was thought — and it is the one order that never
@@ -419,7 +502,32 @@ hand-written reverse is a copy that drifts.
     above means this file; "the live set" means the blocks under its
     requirements heading.** A document that is not the register may quote
     blocks, draft them, or test them — it allocates nothing, approves
-    nothing, and its markers count for nothing until filing. the existing register's blocks do
+    nothing, and its markers count for nothing until filing.
+
+14. **Ambiguity is refused, never guessed.** A tool reading this register that
+    meets something it cannot classify — a paragraph inside a block that is
+    neither a field nor a note, a field label repeated or out of order, a
+    `Traces to` or `Depends on` that is neither a declared sentinel nor a list
+    of references, an approval line in none of its three shapes, a level-two
+    section that is neither the requirements nor the graveyard — **stops and
+    says exactly what it could not classify, naming the block and the text.**
+    It never picks the likely reading, and it never renders a page from a
+    guess. This is the rule the three defects of the parsing test argue for:
+    each of them produced a *plausible* wrong answer — four fabricated
+    dependencies, a dangling reference to a graveyard entry, and a trace
+    target reading *"and the migration will not."* — and a plausible wrong
+    answer is worse than an error, because an error is seen and a plausible
+    answer is believed. The repo already holds this rule elsewhere: G2's
+    refusal to guess, and the old schema's own line, carried forward whole —
+    *"a red check is a question the producer answers; a silent downgrade is a
+    decision made for them."* A refusal is that question in the parser's
+    mouth. The corollary binds the format, not just the tool: **any rule here
+    that cannot be checked by a machine reading the file is a rule that will
+    be broken silently**, which is why rules 1, 7, 8 and 9 are written as
+    shapes a parser can accept or refuse rather than as habits a writer is
+    asked to keep.
+
+The existing register's blocks do
 not yet match this form and must be converged once — a mechanical pass, but a
 real one. And every existing approval re-fingerprints under this recipe,
 which lands on top of the migration cost already flagged for widening the
@@ -1076,6 +1184,58 @@ visible rather than silently patched.
 the fabricated approval lines in the examples now say loudly that they are
 fabricated — a model-written approval is a contradiction in terms here, and
 the page a writer copies from must not normalise one.
+
+## Findings resolved — the parsing test of 2026-08-14, three defects
+
+The format had been tested twice by having a fresh agent **write** in it, and
+audited twice for the fidelity of its citations. All four passes read the file
+the way a person reads it. The first thing to read it the way a machine does
+was a view generator, and it found three defects in an afternoon. **Writing
+and parsing are different tests**, and that is the finding underneath the
+three: a writer supplies the missing structure from meaning, so a writing test
+cannot fail on a format that only *looks* structured. The three defects are
+one design fault — **prose inside a structured field is indistinguishable from
+structure** — and each is answered by a rule that a parser can enforce.
+
+**1 — A bold note wrapping across lines is indistinguishable from a field
+label. SETTLED, and it was the dangerous one.** The in-place notes this
+register carries — *"Reworked 2026-08-14…"*, *"Re-pointed…"*, *"Unhomed by
+that kill…"* — opened with bold text at the start of a paragraph, which is
+exactly the five field labels' form, and one of them wrapped its bold lead
+across two lines. A line-oriented parser matching a label within one line
+found no label, absorbed the whole note into the `Depends on` above it, split
+it on commas and **fabricated four dependencies and a dangling reference into
+the graveyard** — every one of which rendered as a real link on a real page.
+Rule 1 now gives a note its own marker: a blockquote, `>` on every line,
+opening `> **Note — …**`, always after the five fields. A field line starts
+with `*` and a note line starts with `>`, so no wrap can make one look like
+the other. The countermeasure is a shape, not a caution.
+
+**2 — A comma inside prose in a list field becomes a delimiter. SETTLED.**
+One `Traces to` explained itself in a sentence, and splitting on commas made
+*"and the migration will not."* a trace target. Rule 7 now says a structured
+field carries references and nothing else, defines the separator exactly
+(comma, single space), and declares the whole-field sentinels — matched
+against the entire field before any comma is looked at, which is how
+`no parent, by design` survives having a comma in it. Where a link needs
+explaining, the explanation goes in the Why, which is where reasons already
+live. Rule 8 binds `Depends on` the same way, and rule 9 confines the only
+admitted prose — the reason after `none —` — to text no machine reads.
+
+**3 — The graveyard was not last. SETTLED.** A `## Findings` section sat
+between the requirements and the graveyard, breaking rule 13's own ordering,
+and its numbered `### 1 — …` sub-headings are close enough to requirement
+headings that a heading-driven parser will file them as blocks. Rule 13 now
+states that nothing sits between the requirements and the graveyard, and
+sends analysis about the set to its own file beside the register.
+
+**And the principle underneath, now rule 14: ambiguity is refused, never
+guessed.** All three defects produced *plausible* wrong answers rather than
+errors — which is the worse failure, because a plausible answer is believed.
+A parser meeting something it cannot classify stops and names it. Both
+published fingerprint vectors were recomputed after this pass and reproduce
+unchanged: the recipe was never the problem, and no field text in the worked
+examples moved.
 
 ---
 
