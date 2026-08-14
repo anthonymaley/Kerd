@@ -30,13 +30,18 @@ nothing was not allowed in), and Tony's quoted words where they carry it.
 interview (*"Reference numbers"*). The **scheme** below — a group letter plus
 a sequence number, `A1`, `B3` — is my proposal and needs his confirmation. I
 chose it because it is short enough to say out loud ("that fails B4") and the
-letter tells you the neighbourhood without a lookup.
+letter tells you the neighbourhood without a lookup. **Two collisions the
+scheme has to dodge, both flagged for his ruling:** the goals are already
+named G1–G8, so no requirement group may use the letter G — spoken aloud,
+"that fails G2" must never be ambiguous between a goal and a requirement.
+The self-check group is therefore lettered **S**, and the letters run
+A–F, S, H–J. Q is avoided too, because the interview's questions are Q1–Q6.
 
 **On the grouping:** requirements are grouped by **the question a reviewer is
 asking when he reads them** — "what are the ground rules?" (A), "what happens
 between idea and launch?" (B), "how do small changes move?" (C), "what makes
 an approval real?" (D), "what can I see?" (E), "what is remembered?" (F),
-"who checks the work?" (G), "what does it cost?" (H), "when is it done?" (I),
+"who checks the work?" (S), "what does it cost?" (H), "when is it done?" (I),
 "why would anyone want it?" (J). Each group can be approved or challenged as a
 set, which is the point: these are review units, not architecture units.
 
@@ -64,9 +69,10 @@ small change it may be one line and a quick confirmation; the scaling dial is
 on the process, never on whether the document stays true.
 *Traces to: Law 2.* His words: *"but doesnt have to be huge process."*
 
-**A4.** The governing documents always describe what actually exists. An
-artifact that has drifted from its spec is a defect in itself, whatever
-caused it.
+**A4.** The governing documents and the artifact never disagree. Before the
+build they describe what is agreed to be built; from the moment something
+exists they describe it as it actually is. An artifact that has drifted from
+its spec is a defect in itself, whatever caused it.
 *Traces to: Law 2 and G6.* His words: *"should not look different or behave
 differt fromt he agreed spec."*
 
@@ -127,6 +133,29 @@ release, the next version? We need to be able to manage that."*
 requested."* The default register is the producer's, not the implementer's.
 *Traces to: G4.*
 
+**B10.** Ideation has substance, not just a slot on the path: it establishes
+whether the idea is viable, who the competitors are, *"whether it already
+exists, and whether we should leverage other technology"*. His opening move:
+*"Hey I've got a new product. Let's figure out if it's viable... What is the
+product? What is the idea? How will it work? Who are the competitors?"*
+*Traces to: G8 and G1.*
+
+**B11.** The path begins as free back-and-forth — *"we can whiteboard
+together and share ideas back and forward"* — and then has an explicit lock
+moment: *"but then we'll lock it"*. What the lock produces is not a
+transcript but a formalisation: *"Formalize all of those back-and-forth
+conversations into a spec that becomes measurable, linked to the goals and
+the requirements."* The spec's linkage to goals and requirements is itself
+required — the traceability this document practises, the product must have.
+*Traces to: G1 and Law 2.*
+
+**B12.** What each stage captures is usable to measure the success of the
+stage that follows it — *"capture the requirements, or what will become
+requirements, in a way that we can use to measure the success of the next
+step, which will probably be validation or design."* Measurement is
+stage-by-stage along the path, not only at the end (I3 covers the end).
+*Traces to: G6 and G1.*
+
 ---
 
 ## C — Fine tuning: how small changes move
@@ -166,6 +195,19 @@ overhead: *"if we can agree quickly and it aligns to the existing
 requirements and architecture and its clear what to do.. go !"* When it is
 not aligned or not clear, the process takes the time.
 *Traces to: G3.*
+
+**Tension C-T1 — formal, named, unresolved: C4 against B1 and E6.** B1 says
+there is no small-work exception; C4 creates one in **who approves** — for
+the fine-tune class, approval moves from the producer to the agent roles.
+E6 says every stage is visualized and confirmed before it counts — confirmed
+by whom, when the producer is out of the loop for a class the agent itself
+defines? Both sides are Tony's own words (*"We do it the same way"* against
+*"the composer or conductor roles (if we keep them) should have the
+approval"*), so this document may not resolve it; it records it. The nearest
+available reading — the stages never vary, only the approver of this one
+class does — narrows the contradiction but does not close it, because the
+approver **is** part of what a gate is. Resolving this is design work, and
+it interacts with Gaps 4 and 5.
 
 ---
 
@@ -225,8 +267,11 @@ I view them?"* and *"I can see the progress and the artifacts as you make
 them."*
 *Traces to: G5.*
 
-**E3.** Produced artifacts and requirements carry reference numbers, so they
-can be pointed at unambiguously. His word: *"Reference numbers."*
+**E3.** What has been produced carries reference numbers, so it can be
+pointed at unambiguously. His word — *"Reference numbers"* — sits inside the
+state-view list (journey, next, artifacts), so that is what it grounds.
+Extending reference numbers to the requirements themselves, as this document
+does, is my extension and needs his confirmation alongside the scheme.
 *Traces to: G5.*
 
 **E4.** Nothing operates as a black box. The work, the state, and the tools
@@ -302,19 +347,21 @@ non-conductor."*
 
 ---
 
-## G — Self-checks: who catches the mistakes
+## S — Self-checks: who catches the mistakes
 
 *These exist so the producer's approval is not the only quality gate — the
-one gate the interview says cannot bear the whole weight.*
+one gate the interview says cannot bear the whole weight. Lettered S, not G,
+so no requirement here can ever be confused with a goal (see the scheme
+note).*
 
-**G-1.** Three self-check mechanisms are baked into the process, and the
+**S1.** Three self-check mechanisms are baked into the process, and the
 weight of the work selects the tier — his words: *"doing a thing, check it
 yourself, doing a bigger thing, strawman, doing a critical thing, get
 adveserial model to check."* The third tier is *"a formal review (even
 advesrial) by a subagent at appropraite model/effort baked in."*
 *Traces to: G4 and G7, via the self-check ladder in the approved goals.*
 
-**G-2.** The checks fire because the process triggers them, never because
+**S2.** The checks fire because the process triggers them, never because
 the model remembers to. His diagnosis: *"many times if i ask you 'is that
 true' or 'explain that' you see a flaw in your work, but if its not asked you
 wouldnt see."* The mechanism supplies the prompt to look, not a capability.
@@ -327,7 +374,8 @@ wouldnt see."* The mechanism supplies the prompt to look, not a capability.
 **H1.** Every piece of work runs at the correct model and the correct
 effort — *"make sure we're not wasting tokens by using the correct model and
 using the correct effort"* — and nothing is over-built or done for the sake
-of it.
+of it. ("Correct" has no sizing authority yet — who or what judges the
+weight of a piece of work is open; see Gap 5.)
 *Traces to: G7.*
 
 **H2.** The best models design and own the actual solution, so ideas are
@@ -364,6 +412,15 @@ are professional and complete."*
 done means the result does not *"look different or behave differt fromt he
 agreed spec"* — how it looks and how it behaves are both covered.
 *Traces to: G6.*
+
+**I4.** The work is tested, and to a standard Tony has already pointed at:
+the benchmark's testing is the one capability he praised twice — *"The tests
+it writes are great"* and *"superpowers does some great things, testing
+covergae... so we can learn from it."* Testing this thing does must be worth
+learning from, not merely present. **When** testing happens is governed by
+H4 (*"We need to optimize when we test and when we build to test"*); this
+requirement is that it happens and holds that standard.
+*Traces to: G6 and G8.*
 
 ---
 
@@ -427,11 +484,15 @@ hands, so the model both decides a change is a fine tune and approves it,
 with the producer out of the loop for a class the model defines — under
 standing pressure to pick the cheap path. I have carried the requirement
 because his words state it, but it must not be read as settling that
-tension. It doesn't.
+tension. It doesn't. **And my first straw-man confessed the softer problem
+while missing the harder one:** C4 does not just wobble, it contradicts B1
+("There is no small-work exception") and sits badly with E6 ("confirmed
+before it counts" — by whom?). An adversarial reviewer caught that; it is
+now recorded as Tension C-T1 in Group C, formally and unresolved.
 
 **Where the list bends its own rules.**
 
-- **G-1 and G-2 trace to a section, not a goal.** Law 2 as applied to this
+- **S1 and S2 trace to a section, not a goal.** Law 2 as applied to this
   document says every requirement traces to a goal or a law. The self-check
   ladder is neither — it is its own section of the approved goals file. I
   traced the pair to G4 and G7 "via the ladder", which is honest but
@@ -448,7 +509,14 @@ with superpowers, not stating a requirement — I converted a criticism into
 an obligation. I believe the conversion is safe because the goals file makes
 the same move ("a stage whose inputs are missing stops and gets them" is
 approved G3 text), but the quoted evidence under B4 is diagnostic, not
-prescriptive, and a strict reader should know that.
+prescriptive, and a strict reader should know that. **D2 performs the
+identical conversion and my first draft flagged only B4** — D2 turns a
+recorded process defect (*"didnt see you ask for a reviwe of that file"*)
+into a standing obligation. The justification for both is the same and is
+stated in the goals file itself: the defect is *"Recorded because it is a
+defect worth not repeating"* — recording something in the approved goals as
+worth-not-repeating is prescriptive intent, not mere history. If Tony
+rejects that reading, B4 and D2 fall together and both belong in Gaps.
 
 **Where it under-specifies.** Group C describes how fine tunes are
 classified, guarded, and approved — and never says how they *move*, because
@@ -458,13 +526,41 @@ goals, but it means C cannot be verified against anything until the open
 question in Gaps is answered, and a reviewer should not mistake C's
 completeness of *constraints* for completeness of *behaviour*.
 
-**The count itself.** Fifty-one requirements existed before the reset;
-this list lands at 53. I did not aim at that number, but the proximity is
-suspicious enough to name: a composer who knows a register existed may
+**The count itself, and its provenance.** Fifty-one requirements existed
+before the reset — **that number was supplied in the composer's brief; the
+register itself was not read**, and the isolation claim in the header
+stands. This list first landed at 53, suspiciously near it, and now lands
+at 57 after the omission pass below added four. The residual worry is not
+the number but the shape: a composer who knows a register existed may
 unconsciously produce register-shaped output. The defence is that every
 entry above carries a trace and most carry verbatim words — but the
 grouping into ten letters, in particular, is my taxonomy, and taxonomies
-are where invented structure hides.
+are where invented structure hides. And I should be honest about what that
+confession costs me: nothing. Regrouping loses no content, so admitting the
+taxonomy is invented is the cheapest self-criticism in this section.
+
+**The omission pass — the structural blind spot of the first straw-man.**
+Every criticism above attacks something *present*: cut this entry, that one
+is shaky, this trace is stretched. None of it asked what is **absent** —
+and checking presence never catches absence. An adversarial review caught
+three omissions by running the interview forward, passage by passage, and
+asking what each demands that no requirement carried. All three are now in
+the list: **testing** (I4 — the one superpowers capability Tony praised
+twice, and my draft had dropped it entirely), **the whiteboard and the
+lock** (B11 — the lock moment and the spec's required linkage to goals and
+requirements; my document practised traceability and never required it of
+the product), and **viability and competitors** (B10 — stage *content* Tony
+stated, which my Gap 9 had wrongly filed under stage *names*). I then ran
+the same pass myself over the full interview. Beyond those three it found:
+**per-stage measurability** (added as B12 — requirements captured so they
+measure the success of the *next step*, which no end-state requirement
+covered); *"make it perform incredibly well between human and agent"* —
+an outcome with no stated content, moved to Gaps (15) rather than invented
+into a requirement; and *"We should also make sure that we have quick
+things to work on"* — a sentence whose meaning I genuinely cannot pin
+(quick wins kept available? small tasks queued?), also under Gap 15,
+flagged for Tony to gloss rather than for me to guess. This pass is now a
+standing part of the straw-man, not a one-off repair.
 
 ## Gaps
 
@@ -502,7 +598,9 @@ invent. Per the brief, none of these became requirements.
 9. **The stage list itself.** The walkthrough sketches ideation → analysis/
    requirements → validation or design → architecture → build, with "the
    next phase, and then the next phase" explicitly open-ended. How many
-   stages there are and what each is called is undetermined.
+   stages there are and what each is called is undetermined. (What the
+   stated stages must *contain* is not deferred here — B10, B11 and B12
+   carry it; this gap is only the count and the names.)
 10. **The roles.** Producer, composer, conductor are used throughout and
     marked provisional in the same breath (*"if we keep them"*). Whether
     the role structure survives is a design decision the requirements must
@@ -519,3 +617,11 @@ invent. Per the brief, none of these became requirements.
     permanence and precise retrieval; what distinguishes session memory,
     contextual memory, and long-term memory (his three terms) and how long
     each lives is not determined by the goals.
+15. **Two interview phrases whose content is undetermined.** *"make it
+    perform incredibly well between human and agent"* — an outcome the
+    whole system serves, but with no stated content beyond what D, E and F
+    already carry; and *"We should also make sure that we have quick things
+    to work on"* — a sentence I cannot confidently gloss (quick wins kept
+    available? small tasks queued between big ones?). Both need Tony's own
+    words expanding them before they can become requirements; inventing a
+    reading would be exactly the paraphrase failure G7 forbids.
