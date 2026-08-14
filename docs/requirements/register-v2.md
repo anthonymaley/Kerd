@@ -50,9 +50,11 @@ is listed in `## Findings`.
 
 ### R-0002 — what requirements are for
 
-**Statement.** Requirements exist so the producer can review, plan enhancements, plan releases, and speak in IDs that mean something
+**Statement.** Requirements exist so the producer can review them, plan enhancements, plan releases, and refer to any of them by a name he can say out loud
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+
+**Amended 2026-08-14 13:10 under Law 4's ordering rule.** The final clause read *"speak in IDs that mean something"*. It carried two readings, and the research separates them: **a name he can point at and say** — which survives, and is served by the handle beside each reference — and **an identifier whose prefix tells you what the thing is**, which the survey found rots, because *"every scheme that encoded meaning in the identifier eventually had the meaning change."* The first reading is kept and made explicit; the second is dead by analysis. His ruling licensing this: *"if the analysis proved a better way, then we go agaist what i said before, we chnage the rule."*
 
 **Traces to.** G5
 

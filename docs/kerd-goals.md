@@ -179,6 +179,56 @@ shape in `docs/design/requirement-shape.md` were both drafted from Tony's words
 alone, with no step 1. He caught that himself: *"dont just take 'he asked for
 them' as fact that is the best way."* Provenance is not justification.
 
+### Law 4's ordering rule — the analysis outranks what was said before it
+
+**Tony, 2026-08-14 13:10:**
+
+> so we need to understand that you interviwed me before you did the analysis,
+> if the analysis proved a better way, then we go agaist what i said before, we
+> chnage the rule
+
+**An interview held before the research is evidence about intent, not a
+constraint on the answer.** Where step 1 finds a better way, **the earlier
+statement yields — including his own, and including anything already written
+down as a requirement.** The rule changes; the finding stands.
+
+**Why this needed saying out loud:** without it, every pre-research statement
+becomes untouchable simply by having been recorded first, and Law 4 collapses
+into decoration — we would research diligently and then be forbidden to act on
+what we found. It also removes the temptation to quietly reinterpret an old
+statement until it agrees with new evidence, which is the dishonest version of
+the same move.
+
+**He had already done this twice to himself before stating it as a rule**,
+which is what makes it credible rather than convenient: he withdrew
+`DRAFT / ACCEPTED / FINAL v1.0` as *"my thinking without research"*, and again
+as *"already discounted"*.
+
+**And the superseding must be visible — Tony, 2026-08-14 13:11:**
+
+> if wer agree a better way then we superseed and strike off prior comments for
+> sure. otherwise we go in loops
+
+**Striking off is not tidiness, it is the loop-prevention mechanism.** A prior
+statement left standing beside the thing that replaced it is an invitation to
+re-argue a settled question — and the decision-record literature names exactly
+this failure, where a settled matter is re-litigated because nobody can tell
+what is still live. He arrived at it independently and stated the consequence
+himself: *"otherwise we go in loops."*
+
+So a superseded statement is **struck, in place, with what replaced it named**
+— never silently deleted, and never quietly left alive. Both failures produce
+the same symptom later: a reader who cannot tell which of two statements
+governs.
+
+**What it does NOT license.** This governs statements superseded **by
+evidence**, never by preference, convenience, or a model finding an earlier
+ruling inconvenient. The bar is that step 1 *proved a better way* — and the
+superseded statement does not vanish. It goes to the graveyard, killed by
+**analysis**, with what was learned recorded, exactly as his graveyard ruling
+requires. A rule that changes without leaving a body is indistinguishable from
+drift.
+
 ---
 
 ## G1 — We trust what we're building
