@@ -10,12 +10,37 @@ future"*) the old scheme dies with the old register; git history holds it.
 References here are freshly minted under rule 2, in the old register's
 reading order, which is the only creation order a migration has.
 
+**Where the set stands — 2026-08-14.** Fifty-one requirements were migrated
+into a register with an empty graveyard. **Eight have since been killed and
+moved to `## Graveyard`** — R-0001, R-0002, R-0004, R-0016, R-0017, R-0034,
+R-0039 and R-0045 — on the recommendations in `docs/requirements/triage.md`,
+each with Tony as the named authoriser under rule 10. One replacement was
+minted, **R-0052**, which carries forward the visibility intent underneath
+R-0039. **The live set therefore holds 44 requirements and the graveyard
+holds 8.**
+
+**The live numbering has gaps, and the gaps are correct.** Rule 2 forbids a
+reference from ever being changed or reused, so nothing was renumbered when
+the eight left — the live set simply has no R-0001, R-0002, R-0004, R-0016,
+R-0017, R-0034, R-0039 or R-0045 in it. The graveyard is what makes that rule
+observable: a reader who finds a number missing from the live set finds it at
+the end of this file, taken, with the reason it went and what to take from it.
+A set with no gaps would mean either that nothing had ever been killed or that
+a number had been quietly reused.
+
+**One dependency dangles, named rather than fixed.** R-0035 declares
+`Depends on. R-0034`, and R-0034 is now dead. Under rule 8 an unresolved
+reference is an error that stops the run. R-0035 survives on its own merit and
+its dependency needs re-pointing — but that is an edit to a live requirement,
+and the authorisation given on 2026-08-14 was for the eight kills, not for
+rewriting a survivor.
+
 **Every requirement lands unapproved, deliberately.** The old register carried
 approval fingerprints over the statement alone. The new fingerprint covers
 statement, Why and links, and the Why is content that did not exist before —
 so no old approval can survive, however careful the transcription. No
 fingerprint below is computed and no old hash is carried across.
-Re-approving 51 requirements in one sitting is the textbook
+Re-approving the whole set in one sitting is the textbook
 approval-fatigue scenario the Law 4 research documented; each is approved
 when work touches it and the producer is reading it anyway.
 
@@ -27,42 +52,16 @@ statements is authorship, and it is his call, not the migration's.
 **Machine names are absent by design.** Rule 4: nobody hand-writes one. The
 checking tool mints and inserts them on its next run.
 
-**Where a Why could not be honestly written it says so.** Forty-six blocks
-carry an unwritten Why, because their migrated source recorded provenance
-and nothing else. No rationale is invented anywhere in this file. Every one
-is listed in `## Findings`.
+**Where a Why could not be honestly written it says so.** Forty-six migrated
+blocks carry an unwritten Why, because their migrated source recorded
+provenance and nothing else. No rationale is invented anywhere in this file,
+and the kills of 2026-08-14 invented none either — a dead requirement's
+`Why it was proposed` says that no reason was ever recorded, exactly as the
+live block did. All forty-six are listed in `## Findings`; **eight of them are
+now in the graveyard, so thirty-eight live blocks await his words.** R-0052,
+the one block written rather than migrated, carries a real Why.
 
 ## Requirements
-
-### R-0001 — Kerd is the supplier, not the subject
-
-**Statement.** Kerd gives consuming projects this capability; Kerd is only a user of it
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** Law 1, G8
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
-### R-0002 — what requirements are for
-
-**Statement.** Requirements exist so the producer can review them, plan enhancements, plan releases, and refer to any of them by a name he can say out loud
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Amended 2026-08-14 13:10 under Law 4's ordering rule.** The final clause read *"speak in IDs that mean something"*. It carried two readings, and the research separates them: **a name he can point at and say** — which survives, and is served by the handle beside each reference — and **an identifier whose prefix tells you what the thing is**, which the survey found rots, because *"every scheme that encoded meaning in the identifier eventually had the meaning change."* The first reading is kept and made explicit; the second is dead by analysis. His ruling licensing this: *"if the analysis proved a better way, then we go agaist what i said before, we chnage the rule."*
-
-**Traces to.** G5
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
 
 ### R-0003 — the taxonomy ships as default
 
@@ -73,20 +72,6 @@ is listed in `## Findings`.
 **Traces to.** G8
 
 **Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
-### R-0004 — applicability is declared, never assumed
-
-**Statement.** Applicability is declared per category — `applies`, or `n/a` with a named reason
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G2
-
-**Depends on.** R-0003
 
 **Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
 
@@ -241,34 +226,6 @@ is listed in `## Findings`.
 **Traces to.** G6
 
 **Depends on.** R-0014
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
-### R-0016 — every requirement is identified and traceable
-
-**Statement.** Every requirement gets a Category and ID, traceable back and forward
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G2
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
-### R-0017 — a request is qualified before it becomes a requirement
-
-**Statement.** Any request is qualified; if durable it becomes a requirement, through stages to final
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G2
-
-**Depends on.** none
 
 **Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
 
@@ -498,20 +455,6 @@ is listed in `## Findings`.
 
 ---
 
-### R-0034 — the producer marks the page without typing
-
-**Statement.** The producer marks requirements **on the page without typing** — status, release assignment — and the page saves those marks to a file the next session applies on the word "updated"
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G1, G5
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
 ### R-0035 — a stale view's marks are refused
 
 **Statement.** A generated page carries the hash of the state it was rendered from, so marks made against a stale view are refused rather than applied blind
@@ -520,7 +463,23 @@ is listed in `## Findings`.
 
 **Traces to.** G4
 
-**Depends on.** R-0034
+**Depends on.** none
+
+**Re-pointed 2026-08-14, as a consequence of an authorised kill.** This declared
+`Depends on. R-0034` until R-0034 was moved to the graveyard, which left an
+unresolved reference — the error its own graveyard entry predicted. The
+dependency was **incidental rather than real**: this requirement guards a
+generated page against accepting marks made from a stale render, and that guard
+holds whatever a page lets a reader mark. It needed R-0034 only because R-0034
+happened to be the marking interface first written down.
+
+**Unhomed by that kill, and named here rather than lost:** R-0034's live half —
+marking on the page, saved to a file, applied later — survives its own death.
+The producer agreed that mechanism on 2026-08-14 08:20 as the first step:
+*"ideally directly to reduce overhead for many requirments but we can start with
+a paste option while we build the proess and ui out if you want as a first
+step"*. No live requirement carries it. Same residue shape as R-0002's *plan
+releases*.
 
 **Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
 
@@ -565,20 +524,6 @@ is listed in `## Findings`.
 **Depends on.** none
 
 **Approval.** none — and this one was **never approved under the old rules either**: it stood at `qualified`, not final, when the register was migrated on 2026-08-14. It has never been agreed by anyone. The Why is unwritten.
-
----
-
-### R-0039 — no routing to superpowers
-
-**Statement.** Never route to superpowers
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G8
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
 
 ---
 
@@ -641,20 +586,6 @@ is listed in `## Findings`.
 ### R-0044 — a requirement is a block, liftable as a unit
 
 **Statement.** A requirement is a **block**, not a table row — heading, bolded meta lines, statement as text, links as a trailing list. It must be readable and **liftable as a unit**: copy-pasteable elsewhere without reassembly
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G4
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
-### R-0045 — the audit refuses on divergence
-
-**Statement.** A `final` requirement carries a **hash of its statement as keyed**. When they diverge the audit **REFUSES** — it never rewrites the state, because a silent downgrade is a decision made for the producer rather than a question put to them
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -747,6 +678,20 @@ is listed in `## Findings`.
 **Depends on.** none
 
 **Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+
+---
+
+### R-0052 — the process shows its own working
+
+**Statement (derived).** Kerd shall show the producer, for each step of a work item's journey, what the step is, which mechanism performed it, what that mechanism was given, and what it produced; and Kerd shall not hand a step to a mechanism that cannot supply those four facts.
+
+**Why.** This block replaces R-0039 (*"Never route to superpowers"*), killed 2026-08-14 for foreclosing the build-versus-adopt decision the approved goals keep open. The intent underneath it survives, and these are his words for it, from the G8 grounding in `docs/kerd-goals.md`: *"superpowers does some great things... so we can learn from it, i just want the process to be ours and visable"*. G5 carries the same want as a design input — *"show the work, show the state, show the tools being used"* — and names the failure it prevents: *"its not clear what or why its doing in a black box way"*. **The statement is the model's derivation of a checkable obligation from those words; approving this block approves that derivation.** What the derivation deliberately does not do is name a tool: the test is what a mechanism can show, so any mechanism that meets it is admissible and any that does not is refused — including one we build ourselves. That keeps the decision Law 4 protects open while the visibility his words demand is binding.
+
+**Traces to.** G5, G8
+
+**Depends on.** none
+
+**Approval.** none — drafted 2026-08-14 as the replacement for R-0039. **The statement is the model's draft and awaits the producer's approval; the kill it replaces is authorised, this wording is not.**
 
 ---
 
@@ -942,6 +887,17 @@ Recorded here as a count so the scale of the re-approval debt is visible:
 
 ### 6 — Recommended for the graveyard, not moved
 
+> **ACTED ON 2026-08-14 — this section records the state before the kills and
+> is kept for the record only.** Four of the six named below were killed and
+> moved (R-0045, R-0016, R-0017, R-0002), together with four this section
+> never named (R-0001, R-0004, R-0034, R-0039), on the fuller triage in
+> `docs/requirements/triage.md` and with Tony as the named authoriser. **Two
+> of the six were not killed:** R-0003 stays live as this section recommends,
+> and **R-0044 stays live against this section's recommendation** — the
+> triage found its render detail *is* the approved render (level-three
+> heading, bold labelled lines, statement as text, links near the end,
+> liftable as a unit), so it predicted rule 1 rather than contradicting it.
+
 Each of these is contradicted or overtaken by the format we are migrating
 *into*. I have left all six in the live set. Moving one is a kill, and rule
 10 requires a named authoriser, which is you.
@@ -981,6 +937,17 @@ Recommend: leave live, decide the categories question separately.
 
 ### 7 — The one thing to look at first
 
+> **CLOSED 2026-08-14 — the question below no longer needs answering, and it
+> did not need escalating.** The migration had already struck the offending
+> clause in this same file under Law 4's ordering rule (*"if the analysis
+> proved a better way, then we go agaist what i said before, we chnage the
+> rule"*), which was the correct application of that rule; escalating a
+> question your own governing rule has already answered is how the loop it
+> exists to prevent gets started. R-0002 was then killed on 2026-08-14 for a
+> different reason entirely — what remained after the amendment states a
+> purpose, not an obligation — and is in the graveyard. This section is kept
+> for the record only.
+
 **R-0002 — "Requirements exist so the producer can review, plan
 enhancements, plan releases, and speak in IDs that mean something."**
 
@@ -1005,6 +972,140 @@ either the requirement goes to the graveyard or rule 2 is wrong.
 
 ## Graveyard
 
-*Empty — nothing has been killed. Six candidates are recommended in
-`## Findings` section 6 and none has been moved, because rule 10 requires a
-named authoriser for a kill and that is the producer's, not the migration's.*
+*Eight entries. All eight were killed on 2026-08-14 on the recommendations in
+`docs/requirements/triage.md`, and Tony is the named authoriser on every one.
+The purpose is his, verbatim, 2026-08-14 09:28:* **"we need a graveyard so we
+dont add them again and learn from them"** *— which is why the* **What was
+learned** *field is written as guidance to the next proposer rather than as a
+summary of the death. Links are dropped on death, per rule 10.*
+
+*(The reserved italic-quotation form of rule 6 is used below for the
+producer's verbatim words and for nothing else. Words belonging to the goals
+record, the shape document, or the research survey are in plain quotation
+marks and attributed to their source.)*
+
+### R-0001 — DEAD — Kerd is the supplier, not the subject
+
+**Killed.** 2026-08-14, by analysis against the approved goals — the triage of the migrated register against `docs/kerd-goals.md`, not by a test and not by a ruling on this requirement specifically. Kill authorised by Tony.
+
+**Statement as proposed.** Kerd gives consuming projects this capability; Kerd is only a user of it
+
+**Why it was proposed.** Never recorded. The migrated source (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) carried a provenance pointer and no reason, and none was invented at migration or here. What the statement asserts is the repository boundary — the same boundary Law 1 states.
+
+**Why it is dead.** It restates its own law. Law 1 in the approved goals reads: "Kerd installs into a user's own project and operates inside that repository's boundaries; the Kerd project never holds sessions for anybody else's work" — and his own ruling behind it, verbatim: *"the way i work, every project has its own repo, its non negotiable."* Rule 11's boundary test asks what a build could be rejected against, and nothing can be rejected against this statement that is not already rejected by R-0036 (state lives in the user's repo), R-0038 (the machinery aims at the consuming project) or R-0042 (git-native, per project). A requirement that restates the law above it is a second text that will drift from the first, and a reader who finds the two disagreeing cannot tell which governs.
+
+**What was learned.** A law does not need a requirement to carry it, and giving it one costs a duplicate. Before writing a requirement that sounds like a law, ask what a build could be *rejected against* that the law's existing checkable forms do not already reject — if the answer is nothing, the requirement is a restatement. Where a law needs implementing, implement it in the specific: name the data, the execution target, the storage. R-0036, R-0038, R-0042 and R-0043 are that treatment of Law 1 and are why nothing was lost here.
+
+**Superseded by.** nothing — killed outright. Law 1 stands above the set, and R-0036, R-0038, R-0042 and R-0043 are its checkable forms in the live set.
+
+---
+
+### R-0002 — DEAD — what requirements are for
+
+**Killed.** 2026-08-14, by analysis against the approved requirement shape — it is a statement of purpose and the shape gives purpose a home outside the set. Kill authorised by Tony.
+
+**Statement as proposed.** Requirements exist so the producer can review them, plan enhancements, plan releases, and refer to any of them by a name he can say out loud
+
+**Why it was proposed.** Never recorded as a reason. The migrated source carried a provenance pointer only. The statement had one amendment before death, made 2026-08-14 13:10 under Law 4's ordering rule: its final clause originally read *"speak in IDs that mean something"*, which carried two readings — a name he can point at and say, which survives in the handle beside each reference, and an identifier whose prefix tells you what the thing is, which the standards survey found rots, because "every scheme that encoded meaning in the identifier eventually had the meaning change." The first reading was kept and made explicit; the second was struck by analysis. His ruling licensing that amendment: *"if the analysis proved a better way, then we go agaist what i said before, we chnage the rule."*
+
+**Why it is dead.** What remained after the amendment is a purpose, not an obligation. No build can be rejected against it, which is rule 11's test for statement content. Each of its four clauses is already carried by something checkable: review by R-0007 and R-0040, dependency and planning work by R-0007 and R-0041, and the sayable name by rule 3 of the approved shape, which puts a human handle beside every reference. Rule 13 of the shape gives prose about the set an explicit home — a preamble that is never fingerprinted — so this content has somewhere to live that is not a requirement. Keeping it as one dresses an explanation as a contract.
+
+**What was learned.** Apply the rejection test before writing anything down: if no build could fail against the sentence, it is a Why or a preamble, not a Statement. Purpose prose about the whole set belongs in the register's preamble under rule 13, where it costs no approval and no fingerprint. One clause here was genuinely binding and has no home yet — *plan releases* — and that is a gap in the set, not a reason to resurrect this block; whoever picks it up should write it as an obligation on a release artifact that exists, not as a statement of why requirements exist.
+
+**Superseded by.** nothing — killed outright. Its content belongs in the preamble; its checkable clauses are carried by R-0007, R-0040, R-0041 and rule 3 of `docs/design/requirement-shape.md`.
+
+---
+
+### R-0004 — DEAD — applicability is declared, never assumed
+
+**Killed.** 2026-08-14, by analysis against the flat live set — it duplicates R-0048. Kill authorised by Tony.
+
+**Statement as proposed.** Applicability is declared per category — `applies`, or `n/a` with a named reason
+
+**Why it was proposed.** Never recorded. The migrated source carried a provenance pointer only.
+
+**Why it is dead.** R-0048 states the same obligation about the same kind of object: "Every project type owes every gate unless that type explicitly marks it `n/a` with a reason." Same rule, same escape hatch, same demand that the excuse be named. In the old register the two sat under different category headings and read as two requirements; flat in one list they read as one requirement written twice. The duplicate is also the weaker of the two, because its subject noun is the category field the approved shape removed and it depends on R-0003, whose survival is still the producer's call.
+
+**What was learned.** Section headings hide duplicates: two statements about the same obligation look distinct while they live under different headings and identical once the set is read flat. When proposing, read the live set flat and search for the obligation, not for the wording. And prefer the version whose subject still exists in the shape — a requirement keyed to a field the shape does not have is dead the moment the shape lands, however well it is written.
+
+**Superseded by.** R-0048.
+
+---
+
+### R-0016 — DEAD — every requirement is identified and traceable
+
+**Killed.** 2026-08-14, by analysis against the approved requirement shape — contradicted in one half, superseded in the other. Kill authorised by Tony.
+
+**Statement as proposed.** Every requirement gets a Category and ID, traceable back and forward
+
+**Why it was proposed.** Never recorded. The migrated source carried a provenance pointer only. His one recorded ask in this territory is the reference itself, verbatim: *"Reference numbers"*.
+
+**Why it is dead.** The Category half is contradicted: the approved shape has no category field, and the survey's scale lesson behind that removal is blunt — "every scheme that encoded meaning in the identifier eventually had the meaning change." The ID half is superseded by rule 2 of the shape, which says the same thing with the doctrine attached, adopted from ISO 29148: "Once assigned, the identification is unique — it is never changed (even if the identified requirement changes) nor is it reused (even if the identified requirement is deleted)." Rule 2 adds what this statement never had — opacity, permanence, non-reuse, and minting only at filing. The survivor is strictly stronger than what died.
+
+**What was learned.** Do not encode meaning in an identifier, and do not propose it back: the one fact about a requirement that can never change is the order it was created in, which is why a bare sequence number survives the scale lesson and a category prefix does not. Where a filing key is wanted, it is a tag or a rendering, never the name. Identity doctrine now lives in rule 2 of `docs/design/requirement-shape.md` rather than in the set — so a future proposal in this territory should first check whether the shape already binds it, because a requirement restating the shape is the same duplicate defect as a requirement restating a law.
+
+**Superseded by.** nothing — killed outright. Rule 2 of `docs/design/requirement-shape.md` carries the surviving half. Whether that doctrine should also stand as a requirement in the set is open and unproposed.
+
+---
+
+### R-0017 — DEAD — a request is qualified before it becomes a requirement
+
+**Killed.** 2026-08-14, by analysis against the approved requirement shape — it names a lifecycle the shape deliberately cut. Kill authorised by Tony.
+
+**Statement as proposed.** Any request is qualified; if durable it becomes a requirement, through stages to final
+
+**Why it was proposed.** Never recorded. The migrated source carried a provenance pointer only.
+
+**Why it is dead.** *"through stages to final"* is the five-state lifecycle the approved shape removed. Its settled decision reads: "there is no lifecycle or status field on a requirement" — and the standards research found no standard in the surveyed territory that defines a status on a requirement at all, while the two tools that did ship one shipped it unenforced, which the research called "the worst of both worlds: it looks like a contract and isn't one." A `final` state cannot be reached because it no longer exists; what the state was standing in for — is this agreed? — is now computed from the approval fingerprint under rule 9, so nobody maintains it and nobody forgets to downgrade it.
+
+**What was learned.** The qualification work is real and is untouched: qualifying a request before it becomes a requirement is what `/kerd:interrogate` does, and it serves G2's refusal to guess. What died is the machinery of states, so a future proposal about qualification must describe the *work* — what gets asked, what evidence closes it — and must not smuggle a status field back in as the way of recording that the work happened. If you find yourself needing somewhere to write down which stage a requirement has reached, that is the signal to stop: the shape's answer is that approval is an event computed from a fingerprint, and where a requirement has reached is derived from what links to it.
+
+**Superseded by.** nothing — killed outright. The qualification idea is unproposed in the live set; the approval mechanism that replaced the lifecycle is rule 9 of `docs/design/requirement-shape.md`.
+
+---
+
+### R-0034 — DEAD — the producer marks the page without typing
+
+**Killed.** 2026-08-14, by analysis against the approved requirement shape — both fields it marks were cut by settled decisions. Kill authorised by Tony.
+
+**Statement as proposed.** The producer marks requirements **on the page without typing** — status, release assignment — and the page saves those marks to a file the next session applies on the word "updated"
+
+**Why it was proposed.** Never recorded as a reason. The migrated source carried a provenance pointer only. What the statement is reaching for is legible in his objection of 2026-08-14 08:16, where he itemised what a generated view owes him — *"no simple way for me to see the requirments and their dependencies"*, *"to add comments perhaps for you to pick up or to record notes around the requirments"*, and *"add links or images perhaps as input"*.
+
+**Why it is dead.** It names two things to mark, *"status, release assignment"*, and the approved shape cut both: "there is no lifecycle or status field on a requirement", and "which release a requirement is in lives on the release, never on the requirement". It therefore specifies a marking interface over two fields that do not exist. The mechanism is not what died — marking on the page, saved to a file, applied on the word "updated" — the fields are.
+
+**What was learned.** An interface requirement inherits every dependency of the fields it touches, so it dies whenever one of them is cut. Before writing one, list the fields it manipulates and check each against the current shape; a requirement that survives that check is worth writing, and one that does not was really a requirement about the data model wearing an interface's clothes. The payload here is worth re-proposing over the fields that do exist — approval, comments, links, and dependency edits — and none of those is status or release membership. Note also what the kill leaves behind: R-0035 still declares `Depends on. R-0034`, and under rule 8 an unresolved reference stops the run, so killing an interface requirement is not finished until its dependents are re-pointed.
+
+**Superseded by.** nothing — killed outright. The marking mechanism over the fields that exist is unproposed; his 08:16 itemisation is the brief for it.
+
+---
+
+### R-0039 — DEAD — no routing to superpowers
+
+**Killed.** 2026-08-14, by analysis against Law 4 and the open questions in the approved goals — it forecloses a decision the goals keep explicitly open. Kill authorised by Tony.
+
+**Statement as proposed.** Never route to superpowers
+
+**Why it was proposed.** Never recorded as a reason. The migrated source carried a provenance pointer only. The nearest honest anchor is the G8 grounding in the goals, which carries his words: *"superpowers does some great things... so we can learn from it, i just want the process to be ours and visable"* — the second half of which is the live payload, recorded below.
+
+**Why it is dead.** Law 4 governs every aspect of the project and its second half, added 2026-08-14 08:36, reads verbatim: *"dont just assume we are correct unless an explicit requirement states this is the only way"*. A blanket ban on one named alternative is exactly the privileged conclusion that clause closes off — and it cannot rescue itself by being the explicit requirement the clause allows, because what the clause licenses is a stated constraint on the *design*, not a pre-emptive verdict on a candidate nobody has yet assessed under step 1. The goals also keep the decision open by name. Open question 2 in `docs/kerd-goals.md`: "What evidence settles build-vs-adopt, and who takes the decision?" — with the instruction that "The prior evaluation in this repo is to be re-examined as evidence, not treated as precedent." A live requirement forbidding the routing settles that question by having been written down first, which is the precise failure Law 4's ordering rule exists to prevent. And his ruling on what happens when the analysis disagrees with an earlier statement is unambiguous: *"if wer agree a better way then we superseed and strike off prior comments for sure. otherwise we go in loops"*.
+
+**What was learned.** **The intent survives; only the instrument died.** His want was never a ban — it was visibility: *"i just want the process to be ours and visable"*, which G5 states as a failure to prevent, *"its not clear what or why its doing in a black box way"*. That is carried forward as R-0052, which names no third-party tool and instead states what any mechanism must be able to show. The lesson for the next proposer: **write the property, never the proper noun.** A requirement naming a specific tool decides an evaluation that has not been run and goes stale the moment that tool changes; a requirement naming the property the tool would have to satisfy survives every candidate, admits anything that qualifies, and refuses anything that does not — including something we build ourselves. If a ban on a named thing ever feels necessary, the question to ask first is what property the ban is protecting, and whether that property is what should be written down instead.
+
+**Superseded by.** R-0052 — the process shows its own working. It carries the visibility intent and drops the named tool; it is drafted by the model and awaits the producer's approval.
+
+---
+
+### R-0045 — DEAD — the audit refuses on divergence
+
+**Killed.** 2026-08-14, by analysis against the approved requirement shape — contradicted on the state it names and superseded on the fingerprint it defines. Kill authorised by Tony.
+
+**Statement as proposed.** A `final` requirement carries a **hash of its statement as keyed**. When they diverge the audit **REFUSES** — it never rewrites the state, because a silent downgrade is a decision made for the producer rather than a question put to them
+
+**Why it was proposed.** Never recorded as a reason. The migrated source carried a provenance pointer only. Its mechanism was borrowed from Doorstop a week before the Law 4 research independently recommended the same thing, and the old schema named where it came from — which the shape document records as one of the things the pre-reset work got right.
+
+**Why it is dead.** Two of its clauses are dead machinery. *"A `final` requirement"* names a state that no longer exists: the approved shape's settled decision is "there is no lifecycle or status field on a requirement". And *"a hash of its statement as keyed"* is a fingerprint over the statement alone, which he overrode himself at 09:00 — *"no point doing half of the fingerprint"* — widened again to the Why at 09:32. Rule 9 now hashes the statement, the Why, the traces and the depends-on together, with an exact recipe and two published test vectors. The requirement therefore describes a narrower fingerprint than the one that governs, over a state that cannot be reached.
+
+**What was learned.** The payload was never the mechanism — it was the refusal, and the refusal survives: rule 9 states that a recorded fingerprint that no longer matches means not approved, computed and reported by the tool and never written into the file. The old schema's phrasing of why is worth keeping in front of whoever builds it: "a red check is a question the producer answers; a silent downgrade is a decision made for them." The transferable lesson is about how to write a rule like this: state the *behaviour* — refuse rather than silently rewrite — and leave the recipe to the document that owns it, because a requirement that inlines a hash recipe dies every time the recipe widens, while a requirement that states the refusal survives the widening untouched.
+
+**Superseded by.** nothing — killed outright. Rule 9 of `docs/design/requirement-shape.md` carries both the recipe and the refusal. Whether the refusal should also stand as a requirement in the live set is open and unproposed.
