@@ -19,6 +19,13 @@ in lives on the release, never on the requirement**; **the plain-language
 writing rules are adopted, shown as help where the writing happens**; and
 **Jira is ruled out**.
 
+**What changed 2026-08-14, second pass:** a fresh agent wrote five real
+requirements using only this document and the goals, and its verdict was that
+the reasoning holds and the format did not exist. This document now opens
+with a **normative form** — the exact thing to write, shown before it is
+argued — a resolution of each of the test's ten findings, and one precedence
+proposal awaiting Tony's ruling. The reasoning below is unchanged.
+
 **The bar this draft is held to:** across everything surveyed, the mandatory
 minimum anywhere is **one field**. The most modern, most industry-negotiated
 specification requires a title and nothing else; the exchange standard beneath
@@ -28,6 +35,244 @@ is labelled with which Law 4 step produced it — **ADOPTED** (taken from a name
 source largely as-is), **ADAPTED** (taken and changed, with the change named),
 or **BUILT** (no prior art exists; we are inventing, and that is flagged
 loudly).
+
+---
+
+## The normative form — what a requirement looks like on the page
+
+**Added 2026-08-14, after the writing test.** A fresh agent was given this
+document and the goals and asked to write five real requirements. Its verdict,
+verbatim: *"the reasoning holds up; the format does not yet exist."* It had to
+invent eleven pieces of notation to write five requirements. Everything in this
+section exists to make that never happen again. **This section is normative:
+where it and the reasoning below seem to differ, this section is what you
+write; the reasoning below is why.**
+
+The form is shown before it is argued, because a writer needs the form and a
+reader can take the arguments on trust until they want them.
+
+### Two live requirements and one dead one, in exact final form
+
+The blocks are shown fenced so that heading levels and delimiters are
+unambiguous. **The references and content are illustrative — nothing below is
+in the register, and these numbers are not allocations.** The fingerprint on
+the first block is a genuinely computed value under the recipe given after the
+examples, so an implementer can test against it.
+
+```markdown
+### R-0101 — spec lives in the work's repo
+<!-- machine: 01a000da-8cb2-7a8c-812e-e2df8a27e480 -->
+
+**Statement.** Kerd shall write the agreed spec for a work item to a file inside the repository that holds the work item.
+
+**Why.** Law 1 makes the repository the boundary of a project, and Tony ruled on it directly: *"the way i work, every project has its own repo, its non negotiable."* A spec held anywhere else puts the agreement outside the boundary he treats as absolute, and separates it from the repository history that approval and change detection rely on.
+
+**Traces to.** Law 1
+
+**Depends on.** none
+
+**Approval.** Tony, 2026-08-14 · fp:cf543030e4e7
+
+---
+
+### R-0102 — how a fine tune lands
+<!-- machine: 01a000da-8cb2-7e00-8e72-10c058360c22 -->
+
+**Statement.** A change classified as fine tuning shall reach a landed spec update by [OPEN-R-0102-1: whether fine tuning is a dedicated path of its own, or a rapid traversal of the normal path], and shall in either case land its change in the governing spec with the approval of the role that owns it.
+
+**Why.** G3 names the class and the guard in his words: *"the process should allow and recognize and understand for small changes without breaking the process or cirumventing it… but also not let these small changes break the design spec or the archtecure or requirments without agreed change"*. The shape of the path is recorded in the goals as unchosen — that is the open marker above. The second half of the statement is not open: the guard binds whichever path is picked.
+
+**Traces to.** G3
+
+**Depends on.** R-0101
+
+**Approval.** none — blocked by [OPEN-R-0102-1]
+```
+
+And the dead twin, in the graveyard at the end of the same document:
+
+```markdown
+## Graveyard
+
+### R-0103 — DEAD — effort threshold below which the spec need not change
+<!-- machine: 01a000da-8cb2-7e68-b8b5-dbc9a74f54ac -->
+
+**Killed.** 2026-08-14, by the plain text of Law 2 in the approved goals. Killed by analysis, not by a test.
+
+**Statement as proposed.** Kerd shall define an effort threshold, and a change falling below it shall land without an update to its governing spec, design, or requirement.
+
+**Why it was proposed.** It follows directly from the pressure G3 names — *"i dont mind robust, i just mind overhead and overwork"* — and it is the design a reader arrives at independently from G3 alone.
+
+**Why it is dead.** The goals rule it out by name: *"The law is absolute; the ceremony is proportionate."* And the reason it is harmful rather than merely unnecessary: a threshold decays Law 2 into *"significant changes only"* — a judgement call, and therefore a hole.
+
+**What was learned.** When cost pressure argues for an exemption, the dial to reach for is the ceremony, never whether the document stays true. Any future requirement that scales process by size is checked against that split before it is written.
+
+**Superseded by.** nothing — killed outright. The live requirement covering this territory is R-0102, which reaches the same speed by proportionate approval rather than by exemption.
+```
+
+**What the generated view adds that the file never carries:** under the first
+requirement it shows *depended on by R-0102*, and it warns that editing the
+first requirement invalidates the second's approval. Both are computed from
+the stored direction. Neither is ever written into the document — a
+hand-written reverse is a copy that drifts.
+
+### The rules, stated flat
+
+1. **A requirement is a level-three heading block.** Heading:
+   `### <reference> — <handle>`. Blocks are separated by a `---` line. The
+   machine name sits in an HTML comment on the line directly under the
+   heading. Then the five labelled lines, bold label, full stop, one blank
+   line between fields, always in this order: **Statement**, **Why**,
+   **Traces to**, **Depends on**, **Approval**. All five are required on
+   every live requirement — a field that does not apply says so explicitly
+   (`none`), it is never omitted. Absence must be written, not implied.
+
+2. **The reference** is `R-` plus a four-digit number: opaque, permanent,
+   never changed, never reused. The uniform `R-` prefix carries no meaning —
+   every requirement wears the same one; it exists only so a reference is
+   findable by search. **Minting:** the next reference is the highest number
+   present anywhere in the document — live blocks and graveyard together —
+   plus one. The document plus its graveyard *is* the allocation register;
+   that is what makes never-reuse observable. The checking tool refuses a
+   duplicate. On "sequential" versus "meaning-free": creation order is the
+   one fact about a requirement that can never change, so a sequence number
+   is the one encoding that can never go stale. That is why sequence
+   survives the scale lesson and category prefixes do not.
+
+3. **The handle** is a short human name after the reference. It is
+   notation, not a seventh element: it is outside the fingerprint, may be
+   reworded at any time without touching identity or approval, and carries
+   meaning deliberately — which is exactly why it is not the reference. It
+   exists because the set is a document read top to bottom, and a page of
+   bare `R-0101 … R-0105` headings is unreadable, which fails the reading
+   the document decision was chosen for. The writing test added this out of
+   necessity; it is adopted.
+
+4. **The machine name** is a UUIDv7 in an HTML comment. "Hidden" means
+   never rendered, never spoken, never typed by a person — not absent from
+   the file. It must be in the file, because the file is the only writable
+   surface; the HTML comment is invisible in every rendered view, which is
+   the honest reconciliation of those two rules. **Nobody hand-writes one:**
+   a writer adds a block without the comment, and the checking tool mints
+   and inserts it on its next run. That is capture as a byproduct — the
+   discipline-free mechanism this document already demands for the
+   graveyard. A dead requirement keeps its machine name: a graveyard entry
+   is precisely a record that has moved, which is the case the machine name
+   exists to track.
+
+5. **Open markers** are written `[OPEN-<reference>-<n>: the question]`,
+   numbered per requirement, and are legal **in the Statement only**. The
+   cap is at most three markers — counting markers, not requirements —
+   across the live set; the graveyard never counts. A block with any open
+   marker carries `**Approval.** none — blocked by [OPEN-…]`. A doubt about
+   a Why is not a marker: it is either a comment beside the record, or the
+   derived-statement flag below. The cap is countable by search precisely
+   because the syntax is fixed; until the checking tool exists the cap is a
+   convention, and an unenforced cap is the *looks like a contract and
+   isn't one* failure — so the counter is part of the tool's first duty,
+   not a later nicety.
+
+6. **His words, in the Why**, are marked by one reserved form: an italic
+   quotation with attribution — `Tony: *"…"*`, or *"…"* directly following
+   his name and a date. **Inside the register, italic double-quoted text is
+   verbatim producer words and nothing else may use that form.** Machines
+   and readers distinguish his words from ours by form, not by judgement.
+
+7. **Traces to** takes one or more targets, comma-separated, or the
+   declared `no parent, by design`. A trace to a goal counts toward
+   coverage; a trace to a law is a constraint link and is excluded from
+   coverage arithmetic — laws are obeyed, not achieved, and counting the
+   two together would make coverage mean nothing. A secondary source a
+   requirement genuinely serves is a second target, not buried prose:
+   prose is unqueryable, which is the loss the links element exists to
+   prevent.
+
+8. **Depends on** takes references only, or `none`. A reference that does
+   not resolve is an error that stops the run — already settled; restated
+   here because it is the writer's rule too.
+
+9. **The approval line** is either `none` (with an optional reason after a
+   dash) or `Tony, <date> · fp:<12 hex characters>`. **The fingerprint
+   recipe:** take the text of Statement, Why, Traces to and Depends on, in
+   that order; strip each bold label and its full stop; trim each field and
+   collapse every internal whitespace run to a single space; join the four
+   with single newline characters; hash the UTF-8 bytes with SHA-256;
+   record the first twelve hex characters. The value on the first example
+   above is computed by exactly this recipe and can be used as a test
+   vector. A recorded fingerprint that no longer matches means **not
+   approved** — that state is computed and reported by the tool, never
+   written into the file. Collapsing whitespace is deliberate: a
+   formatting-only edit must not un-approve a requirement; the recipe, not
+   the file bytes, is the contract, and every implementation must share it
+   exactly.
+
+10. **A graveyard entry** replaces the five live fields with six:
+    **Killed** (date, and what killed it — a test or an analysis),
+    **Statement as proposed**, **Why it was proposed**, **Why it is dead**
+    (carrying the words that killed it, verbatim under the same reserved
+    form), **What was learned** (the payload — written so the next
+    proposer does not re-derive the dead idea), and **Superseded by** (a
+    reference, or `nothing — killed outright`). The heading gains `— DEAD`
+    between reference and handle. The machine name stays. **The links are
+    dropped on death:** a dead requirement tracing to a live goal would
+    corrupt every coverage count. The graveyard lives under a `## Graveyard`
+    heading at the end of the same document, so anyone proposing into the
+    register scans past it — or the tool does — before a new requirement
+    lands. The formerly open question of where the graveyard sits is
+    thereby closed with the cheapest answer that makes it readable at
+    proposal time; moving it later costs a cut and a paste, not a
+    migration.
+
+11. **The statement/Why boundary, decided by one test:** the Statement is
+    what a build can be *rejected against* — if a clause could cause a
+    difference report, it is statement content, including manner ("as a
+    separate item" binds). The Why explains, evidences, and never restates
+    a binding clause in other words — a guard stated in the statement is
+    referenced from the Why, not repeated, because a repeat in different
+    words is two texts that will drift.
+
+12. **The derived-statement flag — PROPOSED, awaiting his ruling with the
+    precedence rule below.** When a statement is constructed from his words
+    rather than transcribed — which happens whenever his words carry the
+    requirement but are not specification prose — the label becomes
+    `**Statement (derived).**` The flag says: the Why holds the authority
+    here, the statement is our derivation of it, and approving this block
+    is approving the derivation. Without the flag, interpretation is
+    presented in the same clothes as transcription, on exactly the
+    requirements where his words are all there is.
+
+**Cost of this section, stated plainly:** the existing register's blocks do
+not yet match this form and must be converged once — a mechanical pass, but a
+real one. And every existing approval re-fingerprints under this recipe,
+which lands on top of the migration cost already flagged for widening the
+fingerprint: the two re-approval passes should be scheduled as one, so his
+time is spent once, not twice.
+
+---
+
+## Precedence between the word list and his verbatim words — PROPOSED, HIS RULING NEEDED
+
+The writing test found a genuine collision, not a gap. The adopted word list
+bans totality words and vague subjects; the never-summarise law carries his
+words verbatim; and his words break the word list often, because he writes
+like a person and the list is written for specification prose. His G1 input —
+*"a user never feels overwhelmed by the process"* — breaks it three ways in
+eight words, and may not be touched.
+
+**The proposed rule: the word list governs the Statement and never touches
+quoted words inside the Why.** The statement is ours to write well, so the
+linter binds it. His words are evidence, not prose under review — a linter
+that flags them is asking to edit the witness. Tested against the collision
+above: his sentence lives whole in the Why, the statement derives a checkable
+obligation from it, and the derived-statement flag (rule 12) marks that the
+derivation happened — so the act the never-summarise law worries about,
+interpretation wearing transcription's clothes, is named on the page instead
+of hidden.
+
+**This is a proposal, not a decision.** It decides which of two of his own
+rules yields where they meet, which makes it his to settle. Until he rules,
+writers follow it flagged: it is the only reading found that honours both
+rules at once, but that is an argument for it, not an approval of it.
 
 ---
 
@@ -402,6 +647,101 @@ after.
 
 ---
 
+## Findings resolved — the writing test's ten findings, each answered
+
+The writing test produced ten findings. Each is dispositioned here as
+**SETTLED** (the normative form answers it) or **PROPOSED** (a decision only
+the producer can take, flagged and waiting). The test's own severity ranking
+is kept.
+
+**1 — No concrete form existed. SETTLED.** The normative form section is the
+answer: field labels, order, requiredness, delimiters, heading level, and a
+worked example with a computed fingerprint. The test's short handle is
+adopted (rule 3), with the reasoning stated: the set is a document read top
+to bottom, and meaning-free headings alone make it unreadable — the handle
+carries the meaning and stays outside the fingerprint so it can go stale
+harmlessly.
+
+**2 — The graveyard entry was unwritable. SETTLED.** A dead requirement now
+has a six-field entry shape (rule 10), shown rather than described, with the
+learning payload as a named field so capturing it is filling in a form, not
+inventing one under time pressure — the countermeasure to the
+discipline-dependent-log failure this document itself diagnosed. Location is
+closed: end of the same document. Links drop on death; the machine name
+stays.
+
+**3 — The reference could not be minted, and its rules conflicted. SETTLED.**
+Minting is defined (rule 2): highest number across live blocks and graveyard,
+plus one — the document plus graveyard is the allocation register, which is
+exactly what makes never-reuse observable. The sequential/meaning-free
+tension is resolved rather than denied: creation order is the one fact that
+cannot change, so it is the one encoding that cannot go stale. The test
+file's prefixed references are non-conformant by its own admission and are
+never merged. The open-marker budget got its counter for the same root
+cause: fixed syntax makes the cap countable (rule 5). What this does **not**
+decide: re-minting the existing register's references to the opaque form was
+already flagged as its own decision with a real cost, and it stays his.
+
+**4 — The two machine elements were unwritable, and the fingerprint had no
+recipe. SETTLED.** "Hidden" is reconciled with "the file is the only
+writable surface": in the file, inside an HTML comment, invisible in every
+rendered view, minted by the tool as a byproduct — never by a person (rule
+4). The fingerprint has an exact recipe with a computed test vector (rule
+9), and the unapproved state has a written form: `**Approval.** none` —
+absence is stated, never implied. The test's guess that a dead record drops
+its machine name is reversed, for the reason the test itself suspected: a
+graveyard entry is precisely a record that has moved.
+
+**5 — The word list and the never-summarise law collide. PROPOSED — his
+ruling needed.** This is a contradiction between two of his own rules, so
+the precedence is his to set. The proposed rule — the linter governs the
+Statement and never touches quoted words inside the Why — has its own
+section above, together with the derived-statement flag that names the act
+of interpretation the collision forces. It is the only reading found that
+honours both rules at once; it is applied flagged until he rules.
+
+**6 — The Statement/Why boundary was unreliable. SETTLED, with one edge
+riding on finding 5.** The boundary test is rule 11: statement content is
+what a build can be rejected against, manner included; the Why explains and
+never restates a binding clause. The inversion case — where his words in the
+Why are the authority and the statement is derived — is exactly what the
+derived-statement flag marks, so its final shape lands with his ruling on
+finding 5.
+
+**7 — The open-marker rules were half actionable. SETTLED.** Syntax,
+identity, granularity and location are all fixed in rule 5: bracketed
+markers numbered per requirement, statement only, cap of three counted as
+markers across the live set. The stricter reading of the cap is kept
+deliberately. A doubt about a Why is not a marker — it is a comment beside
+the record or the derived-statement flag.
+
+**8 — Traces had no cardinality and no law/goal distinction. SETTLED.**
+One or more targets (rule 7); secondary sources are targets, not prose.
+Goal traces count toward coverage; law traces are constraint links excluded
+from coverage arithmetic, because laws are obeyed, not achieved, and mixing
+the two makes the number meaningless.
+
+**9 — The derived reverse had no place to appear. SETTLED, with the cost
+named.** The reverse lives in the generated view and in an on-demand impact
+report, never in the document (rules preamble). The cost is real and
+accepted: reading the raw file alone does not show what depends on a
+requirement — the impact question is answered at change time, by the tool,
+which is when it is actually asked.
+
+**10 — His words had no machine-detectable marking. SETTLED.** One reserved
+form (rule 6): inside the register, attributed italic quotation is verbatim
+producer words and nothing else may use that form. The test's observation
+that the Why is where the real work happens is recorded as evidence *for*
+the required Why, against this document's own earlier doubt — the Why is the
+element that caught a dead requirement.
+
+**The score: eight settled, two riding on one ruling.** Findings 5 and 6's
+edge both land with the same decision — the precedence rule and its
+derived-statement flag — which is therefore the single thing awaiting him
+from this pass.
+
+---
+
 ## Straw-man
 
 Law 3, both passes.
@@ -465,8 +805,10 @@ already adopted, so a dead requirement keeps its reference forever. The
 graveyard *is* what makes never-reuse observable — the number is visibly taken,
 by a thing you can read.
 
-**Still to design:** where it lives, and what makes it readable at proposal
-time rather than at archaeology time.
+**~~Still to design:~~ CLOSED by the normative form, 2026-08-14:** it lives
+under a graveyard heading at the end of the same document, its entry is a
+six-field form shown in exact final form, and the learning payload is a named
+field rather than a discipline — see rule 10 and finding 2.
 
 **Superseded and dropped, before this ruling:** The old schema could say "this
 requirement was replaced by that one" and "this was deliberately abandoned,
@@ -476,7 +818,10 @@ whole territory"* — and I cut the only mechanism that recorded it without
 building a replacement. A deleted requirement and a rejected one currently look
 identical: gone.
 
-**The Why sits outside the fingerprint, and I chose that silently.** His
+**~~The Why sits outside the fingerprint, and I chose that silently.~~
+CLOSED by Tony, 2026-08-14 09:32 — the Why is inside the fingerprint; his
+correction is recorded in the approval-mark element.** The original
+admission stands below as the record of the failure mode. His
 ruling named the statement and the links. I left the Why out on the logic that
 the reason can gain detail without un-saying the agreement — but a rationale
 edit *can* change what a statement means, and if it can, an approval survives
@@ -493,13 +838,42 @@ carried. *"see the requirments and their dependencies"* — carried. *"change
 requirement x and the impact can be measured and planned"* — carried by the
 derived reverse plus the suspect stamp. *"add comments… for you to pick up"* —
 carried in name only, see above. *"never sumarize"* — carried. What **nothing
-carries**: who approved (the fingerprint proves *what* was approved, and the
-record of *when and by whom* is assumed to be the repository history without
-being designed); and the *set* has no shape at all — this document defines a
-requirement and never says what the collection of them is, which is exactly
-the document-versus-database question the research called a trilemma where
-every corner bleeds. I did not choose a corner. That choice is load-bearing
-and unmade.
+carries**: who approved (the fingerprint proves *what* was approved — the
+approval line now writes his name and a date beside it, though how that line
+is itself verified remains undesigned); ~~and the *set* has no shape at
+all~~ — **CLOSED in two steps:** Tony chose the document corner (2026-08-14
+09:32), and the normative form now shows what a block inside that document
+looks like.
+
+### What the normative form newly breaks — added 2026-08-14, the same pass inward
+
+The form section fixed the writing test's findings and created its own
+exposures. Named here so they are findable, not discovered:
+
+- **The example references could be mistaken for allocations.** Three
+  reference numbers now appear in this document that are not in the register.
+  They are labelled illustrative twice, but a copy-paste into the register
+  would plant a collision under a never-reuse doctrine. The checking tool's
+  duplicate refusal is the countermeasure; until it exists, the label is.
+- **The minting rule assumes one document.** "Highest number across live and
+  graveyard, plus one" works because everything is in one file. The
+  deliberately open question of one-document-versus-several now has a cost
+  attached: splitting the set re-opens reference allocation, which must then
+  find a new home before the split lands.
+- **The cap has syntax but still no counter.** The marker cap is countable
+  now and counted by nothing. Until the checking tool runs, the cap is
+  exactly the unenforced contract this document warns about — that is why
+  the counter is named as the tool's first duty, and it is still a promise.
+- **The fingerprint recipe, not the file, is now the contract.** Whitespace
+  collapsing means two implementations that disagree on any detail of the
+  recipe silently disagree on what is approved. The computed test vector in
+  the example is the countermeasure; one vector is thin, and a real test
+  suite around the recipe is owed before a second implementation exists.
+- **The handle is meaning on the record.** It will go stale, by design, and
+  the design's answer — rename freely, nothing breaks — is only true while
+  every tool treats the heading after the reference as decoration. A tool
+  that ever parses the handle inherits the staleness the reference was built
+  to avoid.
 
 ### Outward — where this falls short of the territory
 
@@ -549,17 +923,25 @@ to invent. Each is a real decision awaiting him, not a doubt.
 1. **What carries the named versions?** "FINAL v1.0 → v1.2" — release-side
    membership at a moment, a name minted at approval, or something else. The
    change-of-mind requirement hangs on this.
-2. **Where do superseded and rejected requirements go**, now that no status
-   can say so? The territory's answer is a durable record with a pointer; ours
-   is currently nothing.
-3. **Is the Why inside the fingerprint?** His ruling named statement and
-   links; the Why is my exclusion, not his.
-4. **What is the container** — one document, one record per file, or a graph
-   over both? Every surveyed corner of that choice bleeds somewhere, and the
-   shape above is deliberately container-neutral, which cannot survive
-   contact with building anything.
-5. **Does the writing help ever refuse, or only advise?** Already flagged open
-   in the research record; still open here.
+2. ~~**Where do superseded and rejected requirements go?**~~ **CLOSED,
+   2026-08-14:** the graveyard, at the end of the same document, with the
+   entry form shown in the normative form section — a durable record, its
+   reference retained, superseded-by as a named field.
+3. ~~**Is the Why inside the fingerprint?**~~ **CLOSED by Tony, 2026-08-14
+   09:32:** yes — his correction is recorded in the approval-mark element,
+   and the fingerprint recipe hashes it.
+4. **What is the container** — partly closed: Tony chose the document
+   (2026-08-14 09:32) and the normative form defines the block. **Still
+   open: one document or several** — and the minting rule now attaches a
+   cost to splitting, named in the straw-man.
+5. **Does the writing help ever refuse, or only advise?** Still open — and
+   now paired with the precedence proposal awaiting his ruling: whatever the
+   help does, the proposal is that it does it to the Statement only and
+   never to his quoted words.
 6. **Where exactly is the beside-space, and at which moments does the model
    read it?** His *"for you to pick up"* is a reading obligation, not just a
    storage location.
+7. **The precedence rule and the derived-statement flag — proposed, his
+   ruling needed.** The one decision this pass explicitly leaves for him;
+   the proposal and its reasoning have their own section after the normative
+   form.
