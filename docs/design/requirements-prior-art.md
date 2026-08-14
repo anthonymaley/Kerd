@@ -449,6 +449,61 @@ entire territory."*
 advises; and whether it applies to requirement text only, or to any prose the
 system asks a human to approve.
 
+## DECIDED — approval is a fingerprint, and the fingerprint covers the links too
+
+**Tony, 2026-08-14 09:00:** *"i would say NO also, no point doing half of the
+fingerprint"*
+
+**Three rulings, taken together:**
+
+1. **Maturity is derived, not declared.** A requirement is approved when its
+   fingerprint matches the one recorded at approval. Nobody maintains a status
+   field; changing the content invalidates the approval automatically. Adopted
+   from Doorstop, which this repo had **already borrowed on 2026-08-08** —
+   `docs/requirements/catalog.md` names it and gives the reason.
+2. **Selection is release membership, held on the release side.** "These go
+   forward, those don't" is a set that names its members, per OSLC. Nothing is
+   written on the requirements left out.
+3. **The fingerprint covers the statement AND the links.** Change what a
+   requirement depends on and its approval is invalidated, exactly as if the
+   words had changed. *"No point doing half of the fingerprint."*
+
+**There is therefore no lifecycle field on a requirement.** Both facts that
+matter — is it agreed, is it going forward — are computed, not maintained.
+
+**What ruling 3 changes:** today `tools/gates/kit.py` hashes the **statement
+only** (`req_statement_hash`). Bringing links inside the fingerprint is a real
+edit, and it carries a migration cost that must not be hidden — **every existing
+`Approved` hash in the register diverges the moment the recipe changes**, so all
+51 approved requirements would be refused until re-keyed. Re-keying is the
+producer's own work by definition. Flagged, not scheduled.
+
+**Where this leaves "what counts as a material change":** answered for links
+(they count) and unanswered for everything else. Doorstop deliberately excludes
+housekeeping metadata so it does not nag; DOORS makes it a per-attribute flag
+the schema author sets. Our current recipe has no metadata to exclude, so the
+question only reopens if the shape grows.
+
+## Vocabulary discipline — a recurring failure, recorded
+
+Tony, 2026-08-14 09:00: *"you say AU7 but how do i know what that is?"*
+
+**Third instance in two days**, after "keyed" (which he stopped on 08-13) and
+"driver item" (recorded in `CONTEXT.md` as having blocked two sessions because
+only the vocabulary's author could release it). The pattern: **the model reaches
+for a machine-side label in a message meant for the producer**, and the label
+carries no meaning outside the tooling.
+
+This is G4's failure mode in miniature — an over-technical gate message buys a
+weaker answer, or none. The rule already exists in the repo's own conventions
+("say it in the user's terms"); what is new is the evidence that it fails
+specifically on **short internal identifiers**, which do not read as jargon to
+the writer because they are precise.
+
+**Applied rule: name the behaviour, never the identifier.** "The audit refuses
+an approval whose statement has changed" — not "AU7 refuses". If the identifier
+is genuinely needed, define it in the same sentence.
+
 ## Jira is ruled out — Tony, 2026-08-14 08:43
 
 > jira is overkill to imo, and not easy to work with, too complex, and cost
