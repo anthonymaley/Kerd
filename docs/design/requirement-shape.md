@@ -231,8 +231,8 @@ hand-written reverse is a copy that drifts.
     referenced from the Why, not repeated, because a repeat in different
     words is two texts that will drift.
 
-12. **The derived-statement flag — PROPOSED, awaiting his ruling with the
-    precedence rule below.** When a statement is constructed from his words
+12. **The derived-statement flag — DECIDED 2026-08-14 11:53**, together with
+    the precedence rule below. When a statement is constructed from his words
     rather than transcribed — which happens whenever his words carry the
     requirement but are not specification prose — the label becomes
     `**Statement (derived).**` The flag says: the Why holds the authority
@@ -702,13 +702,14 @@ absence is stated, never implied. The test's guess that a dead record drops
 its machine name is reversed, for the reason the test itself suspected: a
 graveyard entry is precisely a record that has moved.
 
-**5 — The word list and the never-summarise law collide. PROPOSED — his
-ruling needed.** This is a contradiction between two of his own rules, so
-the precedence is his to set. The proposed rule — the linter governs the
-Statement and never touches quoted words inside the Why — has its own
-section above, together with the derived-statement flag that names the act
-of interpretation the collision forces. It is the only reading found that
-honours both rules at once; it is applied flagged until he rules.
+**5 — The word list and the never-summarise law collide. SETTLED — Tony
+ruled 2026-08-14 11:53.** This was a contradiction between two of his own
+rules, so the precedence was his to set, and it was escalated rather than
+decided. **The linter governs the Statement and never touches quoted words
+inside the Why** — his words are evidence, and evidence is not edited to
+read better. It carries the derived-statement flag with it, which names the
+act of interpretation the collision forces. Full reasoning in its own
+section above.
 
 **6 — The Statement/Why boundary was unreliable. SETTLED, with one edge
 riding on finding 5.** The boundary test is rule 11: statement content is
