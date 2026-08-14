@@ -350,22 +350,27 @@ Recorded as *their* opinions, not decisions.
 
 ---
 
-## Tony's position on the two-artifact recommendation
+## Where ADRs sit in the flow — an observation, NOT a proposal
 
 **Tony, 2026-08-14 08:36:** *"ADR is the requirement in detail when approved."*
 
-This **rejects the researchers' recommendation 1** — "two artifact types, not
-one" — and replaces it with a **lifecycle**: a requirement and its detailed
-decision record are the *same thing at different stages*. Light while proposed;
-when approved, it becomes the detailed, rationale-bearing, ADR-shaped record.
+**Clarified by him minutes later, and the clarification matters:** *"im not
+saying use ADR btw, just noting that ADRs come post requirement approval in
+process flow, not saying we need to use them."*
 
-**Recorded as his position, with the tension named rather than hidden.** The
-argument for two artifacts was that a decision record (immutable, past-tense,
-carrying rationale and rejected options) and an acceptance criterion (present-
-tense, executable, verifiable) are different in kind, and one schema attempting
-both flattens each. His model says they are one object maturing.
+**So this is a sequencing observation about where ADRs fall relative to
+requirement approval. It is not a design position, it does not propose adopting
+ADRs, and it does not reject the researchers' two-artifact recommendation.**
 
-**What his model has to answer, if it is to hold:**
+*Correction recorded: the model first wrote this up as a ruling that rejected
+recommendation 1. That was an over-read — the same failure as the C4 "approval"
+over-read the previous day, where a single word was inflated into a claim the
+producer had not made. Twice in two days, and both times he caught it by reading
+what was written rather than either model catching it. **Treat any sentence that
+turns one of his observations into a position as suspect until he confirms it.***
+
+**The questions below therefore apply to any model that merges the two — they
+are open design questions, not objections to a proposal nobody made:**
 
 - **Immutability.** An ADR is conventionally frozen once accepted, and the whole
   Groundhog-Day defence rests on that. A requirement that continues to version
