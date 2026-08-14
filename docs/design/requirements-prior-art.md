@@ -1143,3 +1143,61 @@ summary sheet (403), the ACM Digital Library for Porter et al. and Herzig et al.
 any effort-reduction percentage for value-based tracing (could not be verified;
 treat such claims as unsupported). The *"$100 per line of code at DAL A"* figure
 is **from training data and unverified**.
+
+## DECIDED from the second round — three deletions, 2026-08-14 14:54
+
+All three are Tony's, taken against evidence he commissioned. **All three remove
+something.**
+
+### 1. The twenty subject areas — killed outright
+
+Not demoted to a reference list. **The model proposed the demotion and he
+rejected it**, asking *"do we need 1?"* — which was the right question, because
+the research had already measured the answer at zero and the model had softened
+it into a compromise rather than reporting the kill.
+
+*Recorded because it is a pattern worth catching: the evidence said the thing
+does not work, and the model proposed keeping it in a smaller form. That is the
+move Law 4's ordering rule exists to prevent, performed on something we happened
+to already own.*
+
+**Where a completeness check is genuinely wanted, the evidence points at a
+perspective, never a topic list** — *read this as the person who gets paged at
+3am*. Our adversarial reviewer already works that way, so the finding endorses a
+mechanism we have rather than demanding a new one.
+
+### 2. Twelve work types → one distinction
+
+**Does this ship a change, or produce a finding?** And it changes **the
+definition of done and nothing else** — no gates, no approvals, no templates
+keyed to type.
+
+The evidence for collapsing rather than curating: **33.8% of bug reports
+misclassified** in a five-project study, so a third of type assignments would be
+wrong whatever the list; Scrum ships **zero** work item types; Shape Up refuses
+them; and SAFe's own Enabler — the nearest analogue to "produces findings" —
+changes nothing procedurally by its own admission.
+
+### 3. The nine-link chain — killed, one link survives
+
+`Business Goal → Stakeholder Need → Product Requirement → Functional/Technical →
+Design → Implementation → Test Case → Release Evidence → Post-Launch Metric`
+
+**None of its eight links had ever existed.** The top two nodes were always
+empty — stakeholder needs never had a single row. The third link *was* the
+category split, killed by decision 1 above. The remaining five were never built.
+
+What survives is the link already in the format, which the chain does not
+contain: **requirement → the goal or law it serves.** It earns its place by
+being written once at framing and never maintained, and it is what lets a
+requirement be deleted when its goal dies.
+
+**Any future link must be derived** — from a commit, a test name, a filename —
+**never hand-curated.**
+
+*He asked to see the nine before agreeing to kill eight, which is the correct
+instinct and caught nothing: laid out link by link, none of them existed.*
+
+**Killing the chain does not remove the need for releases or tests.** It removes
+the obligation to maintain a hand-curated trail to them — the part with a
+measured benefit only inside compliance regimes, and no measured cost anywhere.
