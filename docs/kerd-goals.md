@@ -122,6 +122,63 @@ pairing process"*):
 *Wording drafted by the model from his ruling and his content; the ruling and the
 content are his, the phrasing is not yet confirmed.*
 
+### Law 4 — Learn from what exists before designing anything
+
+**Added by Tony 2026-08-14 08:35, verbatim, and it governs every aspect of the
+project:**
+
+> we always need to 1. assess and learn from industry standards, leading
+> approaches, emerging approahes 2. decide what fits for us 3. consume/adopt
+> whole if perfect  or be inspired by them, 4. design or adapt for our gaps 5.
+> build for the gaps.   do this for every aspect of our project
+
+**The five steps, in order:**
+
+1. **Assess and learn** — industry standards, leading approaches, emerging
+   approaches.
+2. **Decide what fits us.**
+3. **Consume or adopt whole if it is perfect** — otherwise take inspiration.
+4. **Design or adapt** for what is left.
+5. **Build for the gaps** — and only for the gaps.
+
+**Build is what remains after adoption and adaptation, never the starting
+point.** His earlier framing was the principle — *"we should consume what we can
+and build the differentitor but never at the cost of meeting our goals or
+quality"*; this is its method. His own image for it: *"lets not invernt fire to
+make meal, lets turn on the stove to cook one."*
+
+**Why it is a law and not a preference:** step 1 is the only step that can reveal
+an approach we have not conceived. Skipping it means every design is bounded by
+what the two of us already imagined, and neither of us can see that boundary from
+inside. This is Law 3's outward dimension applied *before* the work rather than
+as a check on it.
+
+**Cost, stated rather than hidden:** it front-loads research onto everything, and
+it will feel slow at the start of each aspect. The proportionality of G3 applies
+— the depth of step 1 scales to the weight of the aspect — but *skipping* it does
+not scale down to zero, or the law is a preference again.
+
+**And the second half, added 2026-08-14 08:36:** *"dont just assume we are
+correct unless an explicit requirement states this is the only way"*.
+
+**Our own conclusions are not privileged.** Agreeing something between us does
+not make it right, and having written it down does not either. The only thing
+that licenses skipping step 1 is **an explicit requirement stating this is the
+only way** — a stated constraint, not a shared assumption and not a preference
+either of us holds strongly.
+
+This closes the loophole the law would otherwise have: without it, "we already
+decided that" becomes a reason not to look, and the boundary of our imagination
+becomes the boundary of the design. Two people agreeing is the weakest evidence
+in the system, not the strongest — the repo has already measured this once, on
+2026-08-08, when three independent agents agreed on eight category moves and six
+attackers killed five of them.
+
+**It indicts work already done.** The goals in this file and the requirement
+shape in `docs/design/requirement-shape.md` were both drafted from Tony's words
+alone, with no step 1. He caught that himself: *"dont just take 'he asked for
+them' as fact that is the best way."* Provenance is not justification.
+
 ---
 
 ## G1 — We trust what we're building

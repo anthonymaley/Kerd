@@ -752,6 +752,25 @@ what is awaited is the working-through, not a yes.
 
 ---
 
+## Law 4 — the standing method, 2026-08-14 08:35
+
+**Tony, verbatim:**
+
+> we always need to 1. assess and learn from industry standards, leading
+> approaches, emerging approahes 2. decide what fits for us 3. consume/adopt
+> whole if perfect  or be inspired by them, 4. design or adapt for our gaps 5.
+> build for the gaps.   do this for every aspect of our project
+
+Recorded as **Law 4** in `docs/kerd-goals.md`. **Build is what remains after
+adoption and adaptation, never the starting point.** Preceded by his framing of
+the same idea: *"lets not invernt fire to make meal, lets turn on the stove to
+cook one"*, and by the correction that produced it — *"dont just take 'he asked
+for them' as fact that is the best way"*, i.e. **provenance is not
+justification**.
+
+It indicts work already done: the goals in this file and the requirement shape
+were both drafted from his words alone, with no step 1.
+
 **Also stated, as a presentation rule:**
 
 > when we ask for inout, put a flag or ascii border aroud the questions to ensure
