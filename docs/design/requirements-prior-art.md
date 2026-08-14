@@ -827,15 +827,24 @@ acts, and *"you will be notified when this happens so that you can review."*
 
 ## Still outstanding
 
-- **The release-and-roadmap question is unanswered by all three reports.** How a
-  requirement is linked to a release, a version, or a roadmap; whether release
-  membership is stored on the requirement or on the release; what happens to a
-  requirement that slips; and whether anything models a roadmap as distinct from
-  a release. Asked of the standards researcher; not yet returned. This is the
-  open TODO row *"the release-planning artifact"* and Tony's standing position
-  that **a release is a grouping, not a time axis**.
-- **Agent skills and vendor practice** — superpowers read from source on disk,
-  plus Anthropic, OpenAI and GitHub Spec Kit. Dispatched, not yet returned.
+- **The release-and-roadmap question — DE-PRIORITISED, not dropped.** Tony,
+  2026-08-14 08:46: *"release-and-roadmap maybe be downstream of requirements in
+  reality"*. It no longer blocks the requirement shape.
+
+  **The design consequence, flagged rather than decided:** if releases are truly
+  downstream, **release membership belongs on the release, not as a field on the
+  requirement.** A requirement carrying "which release am I in" is not
+  downstream-independent — it changes whenever planning changes, and it would be
+  a tenth field on a draft already carrying nine against a territory whose
+  mandatory minimum is one. Storing membership on the release side means a
+  requirement never needs to know a release exists.
+
+  Still worth answering when the research returns: what happens to a requirement
+  that **slips** between releases, whether *"what is in this release"* is a
+  stored list or a query, and whether anything models a **roadmap** as distinct
+  from a release. This remains the open TODO row *"the release-planning
+  artifact"*, under his standing position that **a release is a grouping, not a
+  time axis**.
 
 ## Verification status — carried from the researchers, not smoothed
 
