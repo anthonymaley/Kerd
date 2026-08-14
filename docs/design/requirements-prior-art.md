@@ -310,6 +310,52 @@ reasoning, not a fact. The standing guidance is not to take agent output at face
 value; this is the second time in two days it was taken at face value and the
 producer caught it.
 
+---
+
+# Decisions taken from this prior art
+
+Law 4 steps 2–5 as they are decided, one at a time. Everything not listed here
+is still findings.
+
+## ADOPTED — the 29148 language linter, surfaced as help at the field
+
+**Tony, 2026-08-14 08:45:** *"agree on the The language linter, we should have
+that as a help or listed under the field etc"*
+
+**What is adopted (Law 4 step 3 — taken close to whole):** ISO 29148 §5.2.7's
+normative word list — superlatives · subjective language · vague pronouns ·
+ambiguous adverbs and adjectives · ambiguous logic ("and/or") · open-ended
+non-verifiable terms · comparatives · loopholes ("if possible", "as
+appropriate") · totality terms ("all", "always", "never") · incomplete
+references — plus §5.2.4's modal rules: **'shall' is binding · 'will' is context
+· 'should' is a goal and is NOT a requirement · 'may' is permission · avoid
+'must' entirely · avoid passive voice.**
+
+Evidence it works: Femmer et al. implemented exactly this as "Requirements
+Smells" and measured **59% average precision at 82% average recall**
+(arXiv:1611.08847).
+
+**What is ADAPTED rather than adopted (Law 4 step 4) — and this is Tony's
+improvement on the source:** every system in the survey runs this as a **check**,
+after the writing. He wants it **as help, shown at the field where the writing
+happens.**
+
+That is a better design than the territory's, for a reason the territory itself
+documents: a checker returns a verdict on prose already written, so the author
+learns only after committing to a sentence. Help at the field prevents the
+defect instead of reporting it. It also serves G5 — *"nothing you dont know
+exists"* — because the rule is visible at the moment it applies rather than
+discoverable by tripping over it.
+
+**Why this was the easiest call in the survey:** it needs no process, no roles,
+no schema and no tool. It is a word list applied to prose in a file, and it is
+the one item the standards researcher named as *"highest value-per-effort in the
+entire territory."*
+
+**Not yet decided:** whether it also runs as a refusal (blocking) or only ever
+advises; and whether it applies to requirement text only, or to any prose the
+system asks a human to approve.
+
 ## Jira is ruled out — Tony, 2026-08-14 08:43
 
 > jira is overkill to imo, and not easy to work with, too complex, and cost
