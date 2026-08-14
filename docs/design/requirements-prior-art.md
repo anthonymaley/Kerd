@@ -312,6 +312,99 @@ producer caught it.
 
 ---
 
+# Release and roadmap — the answer
+
+## Which end holds the membership
+
+| System | Direction | Mechanism |
+|---|---|---|
+| **Jama** | **on the requirement** | a `Release` field — picklist of the project's releases |
+| **Polarion** | **on the requirement** | `plannedIn`, `timePoint` |
+| **DOORS Classic** | **on the release** | baseline set = an explicit list of modules |
+| **DOORS Next** | **on the release** | baseline / global configuration names members by containment |
+| **OSLC Config** | **on the release** | a Configuration holds `selections` / `selects` |
+| **ReqIF** | **neither** | no release concept exists at all |
+
+## OSLC arrived at Tony's position independently
+
+**The most recent and most industry-converged work in this territory models a
+release as a set that names its members — one-way, with no reciprocal field on
+the requirement, and with no date attached. Time is absent from the model
+entirely.**
+
+`oslc_config:Configuration` · `Baseline` ("a non-modifiable configuration whose
+set of version resources are also non-modifiable") · `Stream` (modifiable) ·
+`Component` · `ChangeSet`. Membership is `oslc_config:selections`, and **there is
+no reciprocal property on a versioned resource saying which configurations
+contain it.** "What is in this release" is answered by resolving a query *in a
+configuration context*, passed as an HTTP header.
+
+**So *"a release is a grouping, not a time axis"* is not a contrarian position
+here — it is the position OSLC reached.** Release stabilization appears in its
+primer only as a *usage pattern*, never as a modelled type.
+
+**By contrast Jama's own definition bundles the two:** *"a group of items that
+are developed together and mapped to a specific completion date"* — precisely
+the coupling Tony wants separated.
+
+**This also confirms, from evidence, the consequence flagged when release was
+de-prioritised:** membership belongs on the release side, and a requirement
+never needs to know a release exists.
+
+## What each choice costs
+
+- **On the requirement** (Jama, Polarion) — cheap to change, **lossy over
+  time**. The field holds only present truth; *"which release was this in six
+  months ago?"* needs a baseline, a different mechanism entirely.
+- **On the release** (DOORS, OSLC) — movement is expensive because a baseline is
+  immutable by definition. You do not move a requirement out of a release; you
+  create a new stream that does not select it, and **the old release stays
+  literally true forever.**
+
+**Slippage** is therefore an edit of one field in Jama/Polarion, and **not an
+operation at all** in DOORS/OSLC — the old baseline keeps the requirement
+forever and the new stream simply does not select it.
+
+## Roadmap has NO prior art
+
+**Essentially nothing in this territory models a roadmap as distinct from a
+release.** Polarion comes closest with hierarchical Plans plus dated Time
+Points, but that is the same machinery at a different altitude. OSLC Config is
+explicitly **retrospective** — baselines record what *was*; there is no
+forward-looking intent resource anywhere in it.
+
+The researcher's warning, worth keeping verbatim: *"If you want
+roadmap-as-distinct-from-release, no standard in this territory will hand it to
+you. That is a gap, not an oversight to route around — it means any design here
+is unprecedented and should be justified on its own terms rather than by appeal
+to prior art."*
+
+## Why Jama is overkill — the precise reason
+
+Better than "too complex", and worth recording because it generalises:
+
+> Jama is not overkill because it is big — it is overkill because **its central
+> mechanism is schema enforcement across item types**, and that mechanism only
+> pays when many people are producing items under a methodology nobody can hold
+> in their head. **Two people hold the methodology in their heads.**
+
+Same reasoning retires the review-object convergence: DOORS Next and Jama both
+model review as a first-class object with its own states **because the reviewer
+and the author are different people with different authority.** At two people
+they are the same two people. *Note the pattern; do not build it.*
+
+**Two things worth stealing from Jama regardless:** the **relationship-rule**
+idea — declare which link shapes are *required* between which kinds of thing,
+and coverage becomes *"a schema violation you can draw, not a report you run"* —
+and the discipline that **comments are not field values**, so commenting cannot
+version the requirement.
+
+**And one line that reframes what git already buys us:** *"Git commits already
+give you immutable snapshots that span every file at once — which is precisely
+the thing DOORS makes hard and expensive via baseline sets."*
+
+---
+
 # Decisions taken from this prior art
 
 Law 4 steps 2–5 as they are decided, one at a time. Everything not listed here
