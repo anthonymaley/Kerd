@@ -2,6 +2,47 @@
 
 ## Now
 
+**2026-08-14 — the reset produced a working format, a cleaned register, and a
+view.** See `kivna/sessions/2026-08-14.md`. Four laws now (Law 4 arrived with an
+ordering rule); the requirement shape is settled at six elements and was tested
+twice and audited twice; the register is migrated, triaged and cleaned — **39
+live, 13 dead**; and a generated HTML view exists as a spike.
+
+**Next, in order:**
+
+1. **Thirty-eight requirements await Tony's words.** Their Why is honestly
+   unwritten — the old register recorded provenance only, and 44 of the 51
+   shared one identical pointer string. **Do not invent these.** Best taken a
+   few at a time as work touches them, never as a batch: bulk authorship of
+   reasons is the same failure shape as bulk approval.
+2. **Twelve statements fail the adopted word list**, almost all on totality
+   words. He ruled the statements yield, not the rule: *"they pre-dataed that
+   rule - so need to rework or redo"*. Listed in `docs/requirements/findings.md`.
+3. **The suspect-link stamp has no slot in the format.** The shape document
+   recommends keeping it; the normative form has nowhere to put it. **This is a
+   format change, not a fix** — it would put each target's fingerprint inside the
+   dependency field, which is hashed, so it changes what the fingerprint covers
+   and invalidates both published test vectors.
+4. **Build the view properly, if it earns it.** The spike's own recommendation:
+   the applier first (the page emits, nothing applies), drop the edit toggle,
+   give comments a real home. **One decision is his:** *"no server" and "direct
+   write-back" cannot both hold* — paste-back works from a file, direct
+   write-back needs a local process.
+5. **The old register still exists.** `docs/requirements/register.md` is
+   superseded by `register-v2.md` and was deliberately left untouched until the
+   new one was verified. It now is. Retiring it is a deliberate act, not a
+   cleanup.
+
+**Two residual parser hazards, reported and not closed:** a handle containing an
+em dash would split wrong, and `docs/requirements/findings.md` keeps numbered
+headings of the shape that caused a defect if it is ever concatenated back.
+
+**Five residues are recorded in the graveyard** — binding fragments that outlived
+their dead hosts. They are named where a future proposer will hit them, not
+lost.
+
+---
+
 **THE PROJECT RESET, 2026-08-13 evening.** Tony called a full stop:
 *"honestly i feel we are lost here, i have no clue if what we have build and
 what the requirments will build is what we need now. the fact that we are both

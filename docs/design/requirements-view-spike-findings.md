@@ -1,7 +1,7 @@
----
-route: spike
-stage: findings
----
+# Requirements view — spike findings
+
+*Output of the spike framed at `docs/product/requirements-view.md`. Findings, not a funnel item — it carries no route or stage, because a spike's output is not a rung.*
+
 
 # Requirements view — Spike A findings
 
@@ -126,6 +126,23 @@ no typeface opinion imposed, nothing to download.
 
 **A parse failure here is a finding about the format, not just a bug in my
 parser.** Two real ones and two smaller.
+
+**Resolved 2026-08-14 — the producer approved a fix and it has landed. The
+findings below stand as written; this is the disposition.** Three rules were
+added to `docs/design/requirement-shape.md`: a structured field carries
+references and never prose, with the separator defined and the whole-field
+sentinels named (rules 7, 8, 9, and `not yet traced` is now one of them, which
+answers finding 3); the bold-label form is reserved to the field labels and an
+in-place note is a blockquote marked `> **Note — …**` sitting after the five
+fields, so no wrap can make a note line look like a field line (rule 1); and
+nothing sits between the requirements and the graveyard, with analysis about
+the set moved to its own file (rule 13 — `## Findings` is now
+`docs/requirements/findings.md`). Underneath them, rule 14: **ambiguity is
+refused, never guessed.** The register was converged onto all three, and
+`reqview.py` is now strict — it refuses the render and names what it could not
+classify rather than picking the likely reading. Both published fingerprint
+vectors still reproduce; the only field text that changed anywhere in the
+register is R-0031's, and nothing in the set is approved.
 
 ### 1 — A bold field label that wraps across lines silently corrupts the field above it. R-0048.
 
