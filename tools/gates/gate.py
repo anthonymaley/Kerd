@@ -2,10 +2,10 @@
 """Entry gates: route a work slug through the ladder, or refuse a rung whose
 declared inputs are missing.
 
-    python3 tools/gates/gate.py route <slug> [--json]
-    python3 tools/gates/gate.py check <slug> <rung> [--json]
-    python3 tools/gates/gate.py audit [--json]
-    python3 tools/gates/gate.py release [--json]
+    python3 tools/gates/gate.py route <slug> [--root PATH] [--json]
+    python3 tools/gates/gate.py check <slug> <rung> [--root PATH] [--json]
+    python3 tools/gates/gate.py audit [--root PATH] [--json]
+    python3 tools/gates/gate.py release [--root PATH] [--json]
     python3 tools/gates/gate.py selftest
 
 route always exits 0 — it reports where work enters, it never refuses.
@@ -16,13 +16,100 @@ exit 0 clean, 1 with problems. selftest runs kit's fixture suite in a temp tree:
 exit 0 or 1. Any other invocation prints this usage text and exits 2. Every
 decision lives in kit.py; this module only parses argv and renders kit's dicts
 as line-based text, or as JSON via --json.
+
+WHICH TREE IS AUDITED. The gate aims at the PROJECT, never at its own install
+path. Kerd ships inside a plugin cache, so a tool that derived its root from
+its own file location would audit the cache when a consuming project ran it —
+the one thing the machinery must not do. Resolution order, first match wins:
+
+    --root PATH          explicit, and it always wins
+    $CLAUDE_PROJECT_DIR  the harness's own name for the project directory
+    the nearest .git ancestor of the working directory
+    the working directory
+
+A root that looks like no project at all (no `.git`, no `docs/product/`) is
+refused by name rather than audited into a false clean. selftest takes no
+--root: it builds its own temp trees, which is why every kit function takes
+`root` as a parameter.
 """
 import json
+import tempfile
 import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import kit
+
+
+class RootError(Exception):
+    """A --root that cannot be used, carrying the message the user needs."""
+
+
+def _pop_root(argv):
+    """Take `--root PATH` or `--root=PATH` out of argv and resolve it.
+
+    Returns (root, remaining_argv). Raises RootError with a message naming the
+    fix — never falls back to the install path, because a silent fallback to
+    the plugin cache is the exact failure this flag exists to prevent."""
+    rest, explicit = [], None
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a == "--root":
+            if i + 1 >= len(argv):
+                raise RootError("--root needs a path: --root /path/to/project")
+            explicit = argv[i + 1]
+            i += 2
+            continue
+        if a.startswith("--root="):
+            explicit = a.split("=", 1)[1]
+            if not explicit:
+                raise RootError("--root needs a path: --root /path/to/project")
+            i += 1
+            continue
+        rest.append(a)
+        i += 1
+
+    if explicit is not None:
+        root, why = os.path.abspath(os.path.expanduser(explicit)), "--root"
+        if not os.path.isdir(root):
+            raise RootError(f"--root is not a directory: {root}")
+    elif os.environ.get("CLAUDE_PROJECT_DIR"):
+        root, why = os.path.abspath(os.environ["CLAUDE_PROJECT_DIR"]), "$CLAUDE_PROJECT_DIR"
+        if not os.path.isdir(root):
+            raise RootError(f"$CLAUDE_PROJECT_DIR is not a directory: {root}")
+    else:
+        root, why = _walk_up_for_git(os.getcwd())
+
+    if not _looks_like_project(root):
+        raise RootError(
+            f"{root}\n"
+            f"  (resolved from {why})\n"
+            "  has no `.git` and no `docs/product/`, so it is not a project this\n"
+            "  gate can audit. Run from inside the project, or name it:\n"
+            "      python3 <path>/gate.py audit --root /path/to/project")
+    return root, rest
+
+
+def _walk_up_for_git(start):
+    """The nearest ancestor holding `.git`, else the starting directory.
+
+    Walking up handles being run from a subdirectory. It deliberately cannot
+    reach the install path: it only ever moves toward the filesystem root from
+    where the user actually is."""
+    cur = os.path.abspath(start)
+    while True:
+        if os.path.isdir(os.path.join(cur, ".git")):
+            return cur, "the nearest .git ancestor of the working directory"
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            return os.path.abspath(start), "the working directory"
+        cur = parent
+
+
+def _looks_like_project(root):
+    return (os.path.isdir(os.path.join(root, ".git"))
+            or os.path.isdir(os.path.join(root, "docs", "product")))
 
 
 def _print_have_need(result):
@@ -35,11 +122,12 @@ def _print_have_need(result):
 def _cmd_route(argv):
     as_json = "--json" in argv
     argv = [a for a in argv if a != "--json"]
+    root, argv = _pop_root(argv)
     if len(argv) != 1:
         print(__doc__)
         return 2
     slug = argv[0]
-    result = kit.route(kit.ROOT, slug)
+    result = kit.route(root, slug)
 
     if as_json:
         print(json.dumps(result))
@@ -59,6 +147,7 @@ def _cmd_route(argv):
 def _cmd_check(argv):
     as_json = "--json" in argv
     argv = [a for a in argv if a != "--json"]
+    root, argv = _pop_root(argv)
     if len(argv) != 2:
         print(__doc__)
         return 2
@@ -67,7 +156,7 @@ def _cmd_check(argv):
         print(__doc__)
         return 2
 
-    result = kit.check_rung(kit.ROOT, slug, rung)
+    result = kit.check_rung(root, slug, rung)
     passed = not result["need"]
 
     if as_json:
@@ -84,7 +173,7 @@ def _cmd_check(argv):
     print(f'gate: {rung} — {slug}')
     _print_have_need(result)
     print(f'REFUSED at {rung} — {slug}: {len(result["need"])} missing')
-    route_result = kit.route(kit.ROOT, slug)
+    route_result = kit.route(root, slug)
     print(f'enters at: {route_result["enters_at"]}')
     return 1
 
@@ -92,12 +181,13 @@ def _cmd_check(argv):
 def _cmd_audit(argv):
     as_json = "--json" in argv
     argv = [a for a in argv if a != "--json"]
+    root, argv = _pop_root(argv)
     if argv:
         print(__doc__)
         return 2
 
-    problems = kit.audit(kit.ROOT)
-    findings = kit.register_findings(kit.ROOT)
+    problems = kit.audit(root)
+    findings = kit.register_findings(root)
 
     if as_json:
         # the JSON shape stays a bare problems list — the stable contract;
@@ -120,11 +210,12 @@ def _cmd_audit(argv):
 def _cmd_release(argv):
     as_json = "--json" in argv
     argv = [a for a in argv if a != "--json"]
+    root, argv = _pop_root(argv)
     if argv:
         print(__doc__)
         return 2
 
-    problems = kit.release_audit(kit.ROOT)
+    problems = kit.release_audit(root)
 
     if as_json:
         print(json.dumps(problems))
@@ -139,10 +230,77 @@ def _cmd_release(argv):
     return 1
 
 
+def _root_selftest():
+    """Pin the resolution order. The case that matters is the last one: a tool
+    run outside any project REFUSES rather than falling back to where it is
+    installed. A silent fallback would audit the plugin cache and report clean,
+    which is worse than reporting nothing."""
+    import shutil
+    # realpath: on macOS /var is a symlink to /private/var, and os.getcwd()
+    # returns the resolved form — so an unresolved fixture path compares unequal
+    # for a reason that has nothing to do with the resolution order under test.
+    cases, cwd0 = [], os.getcwd()
+    tmp = os.path.realpath(tempfile.mkdtemp(prefix="gateroot-"))
+    env0 = os.environ.get("CLAUDE_PROJECT_DIR")
+
+    def case(name, want, fn):
+        try:
+            got = fn()
+        except RootError as e:
+            got = "REFUSED: " + str(e).split("\n")[0]
+        cases.append((name, got, want, got == want))
+
+    try:
+        proj = os.path.join(tmp, "proj")
+        sub = os.path.join(proj, "docs", "product")
+        other = os.path.join(tmp, "other")
+        bare = os.path.join(tmp, "bare")
+        os.makedirs(os.path.join(proj, ".git"))
+        os.makedirs(sub)
+        os.makedirs(os.path.join(other, ".git"))
+        os.makedirs(bare)
+
+        os.environ.pop("CLAUDE_PROJECT_DIR", None)
+        os.chdir(bare)
+        case("--root wins", proj, lambda: _pop_root(["--root", proj])[0])
+        case("--root=PATH form", proj, lambda: _pop_root(["--root=" + proj])[0])
+        case("--root is removed from argv", ["audit"],
+             lambda: _pop_root(["audit", "--root", proj])[1])
+        case("no root anywhere -> REFUSED",
+             "REFUSED: " + bare,
+             lambda: _pop_root([])[0])
+
+        os.environ["CLAUDE_PROJECT_DIR"] = proj
+        case("$CLAUDE_PROJECT_DIR used", proj, lambda: _pop_root([])[0])
+        case("--root beats $CLAUDE_PROJECT_DIR", other,
+             lambda: _pop_root(["--root", other])[0])
+
+        os.environ.pop("CLAUDE_PROJECT_DIR", None)
+        os.chdir(sub)
+        case("walk up to the .git ancestor", proj, lambda: _pop_root([])[0])
+    finally:
+        os.chdir(cwd0)
+        if env0 is None:
+            os.environ.pop("CLAUDE_PROJECT_DIR", None)
+        else:
+            os.environ["CLAUDE_PROJECT_DIR"] = env0
+        shutil.rmtree(tmp, ignore_errors=True)
+    return cases
+
+
 def _cmd_selftest(argv):
     if argv:
         print(__doc__)
         return 2
+    bad = 0
+    for name, got, want, good in _root_selftest():
+        if not good:
+            bad += 1
+            print(f"FAIL root: {name}\n  got  {got!r}\n  want {want!r}")
+    if bad:
+        print(f"root resolution: {bad} failures")
+        return 1
+    print("root resolution: 7 cases passed")
     return kit.selftest()
 
 
@@ -159,7 +317,11 @@ def main(argv):
     if not argv or argv[0] not in COMMANDS:
         print(__doc__)
         return 2
-    return COMMANDS[argv[0]](argv[1:])
+    try:
+        return COMMANDS[argv[0]](argv[1:])
+    except RootError as e:
+        print(f"gate: cannot resolve the project root.\n  {e}")
+        return 2
 
 
 if __name__ == "__main__":
