@@ -84,11 +84,31 @@ live, 13 dead**; and a generated HTML view exists as a spike.
    format change, not a fix** — it would put each target's fingerprint inside the
    dependency field, which is hashed, so it changes what the fingerprint covers
    and invalidates both published test vectors.
-4. **Build the view properly, if it earns it.** The spike's own recommendation:
-   the applier first (the page emits, nothing applies), drop the edit toggle,
-   give comments a real home. **One decision is his:** *"no server" and "direct
-   write-back" cannot both hold* — paste-back works from a file, direct
-   write-back needs a local process.
+4. **Build the view properly.** ~~**One decision is his:** *"no server" and
+   "direct write-back" cannot both hold*.~~ **STRUCK 2026-08-15 — he never said
+   "no server".** The spike labelled it honestly as *"a constraint we set
+   ourselves"* (`requirements-view-spike-findings.md:304`); this row converted it
+   into his ruling, and it then blocked the obvious answer for a day. His actual
+   08:20 words accept paste-back as a first step and name **direct write-back as
+   the target**. The only real "no server" criterion is the evaluation matrix's
+   *"no server needed to **read** it"* — a git-nativeness test about plain text
+   and diffs, nothing to do with editing.
+
+   **Decided 2026-08-15: a local process, started by one command.** Not a
+   server — his correction, and it matters: *"server"* carries hosting,
+   deployment and ops, none of which apply to a Python process reading a file on
+   your own machine. **The word was doing the blocking, not the thing.** Verified
+   rather than assumed — a `file://` page cannot write to disk at all (the File
+   System Access API requires https or `http://localhost`, and Firefox and
+   Safari ship no pickers), so editing in the page needs a local process. Two zones,
+   which is his design and the thing that makes it small: **a draft carries no
+   machinery** — edit freely, no hash, no refusal — and the fingerprint engages
+   only at the moment of approval, once per requirement, ever.
+
+   **Rejected: a git pre-commit hook.** Built and pulled the same hour. It needs
+   `git config core.hooksPath` in every consuming repo, which is the
+   refusal-surface-does-not-travel problem already in this Backlog — and it
+   contradicts C-34, written the day before.
 5. **The old register still exists.** `docs/requirements/register.md` is
    superseded by `register-v2.md` and was deliberately left untouched until the
    new one was verified. It now is. Retiring it is a deliberate act, not a
