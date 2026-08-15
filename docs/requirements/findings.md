@@ -466,3 +466,62 @@ rule exists to forbid.
 graduate out of the spike and into `gate.py audit` before the old register is
 retired, or does the old register stay in place until it does? Either is
 defensible; doing neither leaves the live register unrefused.
+
+---
+
+### 10 — The riddle pass: 39 titles and 29 descriptions rewritten, 2026-08-15
+
+**The producer read a few and stopped:** *"the descriptions and titles are like
+puzzles, riddles."*
+
+He was right, and the diagnosis is one sentence: **the subject was implied and
+never named.** R-0008 through R-0012 are all about the evaluation matrix and
+only one of them said so. Read in the room, an hour into a conversation about
+evaluation matrices, *"the cross takes no modifier"* is obvious. Read cold six
+weeks later it is unanswerable — what cross, on what?
+
+That is what the migration inherited. The old register was filled from the
+middle of the chain outward, each row a shorthand for the conversation that had
+just happened.
+
+**The fix was a rule already adopted and applied to only nine blocks.** EARS
+requires naming the subject — `the <system> shall <response>` — and the
+2026-08-14 pass applied it to the nine statements carrying banned totality
+words. The other thirty kept their shorthand. This pass finishes the job.
+
+**Two conventions, agreed on three worked examples before the pass ran:**
+
+- **A title names its subject first** — `Subject — what it says`, not the
+  punchline alone.
+- **A description names what it is about before what it demands.**
+
+| | Before | After |
+|---|---|---|
+| R-0009 | `the cross takes no modifier` | `Evaluation marks — the cross has no degrees` |
+| R-0012 | `a lesser mark says why, briefly` | `Evaluation marks — anything below ○ says why` |
+| R-0006 | `the alignment gate is a shared structure` | `Agreeing a design — both parties point at one structure` |
+
+**Cost: zero.** Nothing is approved, so no fingerprint broke; and rule 3 puts
+the handle outside the fingerprint permanently, so titles are free at any time.
+
+**39 titles rewritten. 29 descriptions rewritten. Ten left verbatim** because
+they already named their subject — R-0007, R-0024, R-0028, R-0036, R-0038,
+R-0040, R-0043, R-0048, R-0051, R-0052.
+
+**Two deliberately not touched beyond their titles:**
+
+- **R-0007** — its open question is unchanged: `not merely a record` is still an
+  uncheckable clause, and making it checkable decides what the register owes
+  the tooling. That is the obligation, not its grammar. Still his (§8).
+- **R-0048** — still carries `every`, which is not on the adopted word list.
+  Widening the list is a change to the rule, and the rule is his (§8).
+
+**Verified after the pass:** the register parses, 10/10 format checks, 0
+refusals, 39 live and 13 dead unchanged, 10 dependency links unchanged, both
+fingerprint vectors reproduce, and **zero live statements carry a banned
+totality word**.
+
+**One accident worth recording.** Every new title contains an em dash, which is
+the exact input that silently truncated handles until it was fixed the night
+before. Had the pass run a day earlier it would have quietly shortened all 39
+titles and refused nothing.
