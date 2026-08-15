@@ -121,13 +121,13 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Work shall carry one distinction and no other: does it change the product, or does it answer a question. That distinction shall set what finished means. No gate, approval or template shall depend on it
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here. The rework below carries an authorised ruling, not a rationale, and the two are different things.
+**Why.** a clear and obvious way to measure and judge the quality of the output.
 
 **Traces to.** G3
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+**Approval.** Tony, 2026-08-15 · fp:098ae5e0676d
 
 > **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
 > read *(verbatim, as migrated)*: "Project type and release type are the same thing
@@ -152,13 +152,13 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Before a design is agreed, the producer and the model shall both be able to point at the same structure. A drawing is the usual form of that structure, but it is not the only one
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** high level box and line visuals can convey meaning faster than 1000 words on a screen, use the visuals to align and agree
 
 **Traces to.** G1, G4
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:630ca2a88559
 
 ---
 
@@ -166,55 +166,55 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** The register is the data source for release planning, dependency and visualization tooling — not merely a record
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** the requirements are what lead to features, design, architecture and eventually plans that dictate release schedules and roadmaps. the register though is not the place to do that work, it form the foundation for all of it.
 
 **Traces to.** G5
 
 **Depends on.** R-0041
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:d064fcbc0922
 
 ---
 
 ### R-0008 — There are four evaluation marks
 
-**Statement.** An evaluation shall use one set of marks. `◎` means perfect. `○` means it fully meets the criterion, and can carry a plus or minus. `△` means it meets the criterion only with a countermeasure, and can carry a plus or minus. `×` means it cannot meet the criterion
+**Statement.** Evaluation for choices, features, technology, services that we want to consider to build the project shall use simple and clear evaluation methods. An evaluation shall use one set of marks. `◎` means perfect. `○` means it fully meets the criterion, and can carry a plus or minus. `△` means it meets the criterion only with a countermeasure, and can carry a plus or minus. `×` means it cannot meet the criterion
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** visual indications of rating are easy to see and understand vs numbers, we can see x and know the option is not viable
 
 **Traces to.** G4
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:c9460fd63e18
 
 ---
 
-### R-0009 — A cross has no plus or minus version
+### R-0009 — A cross in an evaluation has no plus or minus version
 
-**Statement.** Where an option cannot meet a criterion even with a countermeasure, the evaluation shall mark it `×`. A cross shall carry no plus or minus, because there is no degree of impossibility
+**Statement.** within evaluation matrix ratings, Where an option cannot meet a criterion even with a countermeasure, the evaluation shall mark it `×`. A cross shall carry no plus or minus, because there is no degree of impossibility
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** make it clear for evaluator to declare a feature or category or capability as not viable. and a final rating is declared.
 
 **Traces to.** G4
 
 **Depends on.** R-0008
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:83537d6b6b6c
 
 ---
 
 ### R-0010 — Building the missing piece ourselves counts as a countermeasure
 
-**Statement.** Where an option's gap can be closed by building the missing piece ourselves, the evaluation shall count that as a countermeasure and mark it `△-`. The cost shall be shown in the summary columns rather than hidden inside the mark
+**Statement.** During Evaluation matrix, where an option's gap can be closed by building the missing piece ourselves, the evaluation shall count that as a countermeasure and mark it `△`, `△+`, or `△ -`". based on the effort or size of the countermeasure to fill the gap to fully meets the criteria. The actual monetary cost or quality of countermeasure shall be shown in the summary columns rather than hidden inside the mark
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** surface the cost and quality of the countermeasures appropriately.
 
 **Traces to.** Law 4, G7
 
 **Depends on.** R-0008, R-0011
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:2da4c569b118
 
 ---
 
@@ -222,27 +222,27 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Every evaluation shall carry four summary columns: cost, quality, due date, and rating
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** standardized columns make it easier to see cost and quality, time to deliver and an overall rating across multiple evaluations.
 
 **Traces to.** G4
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:62d8c9e4e682
 
 ---
 
 ### R-0012 — Any mark below a circle says why
 
-**Statement.** Where an evaluation mark is not `◎` or `○`, the evaluation shall say why in a few words rather than in a sentence
+**Statement.** For each evaluation mark,, the evaluation column text shall say why in a few words rather than in sentences.
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** eval matrix should be easy to understand, for every rating quickly and easily.
 
 **Traces to.** G4
 
 **Depends on.** R-0008
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:2566f655b460
 
 ---
 
@@ -250,13 +250,13 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** An evaluation shall judge the cost of adding something by what it brings beyond what the project already needs, weighed against how much of the value it buys. Something the ecosystem installs as a matter of course shall not count as a burden. A whole new runtime bought for a small part of the value shall
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** we need to understand total cost of solutions.
 
 **Traces to.** Law 4, G7
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-15 · fp:1af9e1a3df8c
 
 ---
 
@@ -271,6 +271,8 @@ block written rather than migrated, carries a real Why.
 **Depends on.** none
 
 **Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+
+> **Note — Discuss: explain** what about specs and plans etc?
 
 ---
 

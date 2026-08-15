@@ -1753,7 +1753,12 @@ if(location.hash) setTimeout(()=>goTo(location.hash.slice(1)),60);
 # stop. So the leftover is matched, dropped (rule 9 allows no prose beside a
 # fingerprint), and REPORTED rather than quietly discarded.
 UNSEALED_RE = re.compile(r"^(.+?),\s*(\d{4}-\d{2}-\d{2})\s*(?:[—-]\s*(.*))?$")
-PLACEHOLDER_WHY = re.compile(r"not yet written", re.I)
+# Boilerplate a migration left behind, in every form it took. Matching only
+# "not yet written" let four blocks whose Why says "Partly written — the
+# migrated source records provenance..." past the approval guard: the button
+# was live on a Why nobody had written.
+PLACEHOLDER_WHY = re.compile(
+    r"not yet written|partly written|the migrated source record", re.I)
 
 
 
