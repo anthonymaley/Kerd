@@ -949,6 +949,370 @@ where each kind of thing goes. Related, not duplicate.
 
 ---
 
+## Batch F — the remainder, written 2026-08-15
+
+Sixteen candidates closing the thirteen decisions the coverage table named as
+unfiled. **The remainder is now empty.**
+
+### C-38 — grounding is declared, and declaring is opting in
+
+**Statement (proposed).** A work item may declare the material that shall be
+read before anything is produced. Where that declaration exists, the gate shall
+refuse a malformed entry and a reference that stops resolving. A declaration
+shall not be retrofitted on to work that did not make one.
+
+**Why.** Grounding is the entry gate's real job: inputs arrive on their own,
+grounding is what gets skipped. Retrofitting is excluded for a stated reason —
+a declaration written after the fact manufactures a hollow one, and a hollow
+declaration is worse than none because it passes the check.
+
+**Traces to.** G2, Law 3
+
+**Source.** CONTEXT.md, 2026-08-05: *"A product doc may declare its reading list
+in an optional `## Grounding` section… Declaring is opting in (retrofits would
+manufacture hollow declarations)"*; and 2026-08-03: *"Grounding is what must be
+read before anything is produced, and it is the entry gate's real job."*
+
+**Provenance.** Transcribed from two CONTEXT.md standing decisions, 2026-08-03
+and 2026-08-05. Never stated as a requirement.
+
+**Note — the limit is already measured and should ride with it.** The author of
+grounding lines is the machine: the model declares its reading during framing,
+and the producer meets the check only as its beneficiary. So the central
+problem of any later slice is hollow stamping, and the check proves
+*reachability*, never *comprehension*.
+
+### C-39 — a talk moment names the format it speaks in
+
+**Statement (proposed).** A decision request shall be presented as a proposal
+with the loss named as its own section. A change to what the producer can do
+shall be presented as a comparison of what is true now against what changes. A
+report of repeated fixes shall be presented as a correction against a standard.
+
+**Why.** Prose is the wrong review modality and is what *"too much noise"* has
+meant every time. Naming the format at the moment removes the choice from the
+model, which is where the drift came from.
+
+**Traces to.** G4, G5
+
+**Source.** CONTEXT.md, 2026-08-04/v0.76.0: *"Conductor's talk moments name
+their format… decision gates speak Proposal (loss named as a section),
+user's-terms changes are Compare & Contrast, 3-fix reports follow Correcting
+Discrepancy from Standard."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-04.
+Never stated as a requirement.
+
+### C-40 — the ladder vocabulary is fixed
+
+**Statement (proposed).** The route shall be one of `new`, `problem` or
+`spike`. The stage shall be one of `framed`, `viable`, `sliced`, `designed`,
+`contracted`, `building` or `done`. The rungs shall be `frame`, `viability`,
+`slice`, `design`, `contract`, `build`, `goal` and `loop`. Each set shall be
+defined in one place and read from there.
+
+**Why.** These names are the shared structure the whole funnel is pointed at.
+A vocabulary defined in several places drifts, and drift in this one makes the
+board's report of where work sits untrustworthy.
+
+**Traces to.** G3, G5
+
+**Source.** CONTEXT.md, 2026-08-04/v0.69.0: *"The ladder vocabulary is CANONICAL
+… Canonical home: `tools/gates/README.md`."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-04.
+Never stated as a requirement.
+
+**Note.** It carries a declared simplification that should be filed with it or
+consciously dropped: the goal gate counts checked boxes, which is self-reported
+until the board cross-checks git — a live exception to C-07.
+
+### C-41 — the four talk rules
+
+**Statement (proposed).** A question asking for a decision shall carry what is
+being decided, why it is being asked, the gap it closes, what is won and what
+is lost. A fact shall be looked up rather than asked. A position shall be asked
+for rather than guessed. Work shall be argued against by its own author before
+it is presented. A rule governing how the model talks shall be enforced from
+outside the model.
+
+**Why.** The last clause is the one that makes the other three more than good
+intentions — a talk rule the model enforces on itself is a model choosing to
+comply, which the project has already ruled is not a check.
+
+**Traces to.** G4, G5, Law 3
+
+**Source.** CONTEXT.md, 2026-08-04: *"four talk rules (decision questions carry
+what/why/gap/win/lose; facts never asked, positions never guessed; straw-man
+yourself first; talk rules must bind from outside the model)."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-04.
+Never stated as a requirement.
+
+**Note.** *Facts never asked, positions never guessed* is the same rule as
+C-18 seen from the other side. Merge or keep as a pair, but do not let them
+drift apart.
+
+### C-42 — state lives in declared artifacts, so a session may die at any instant
+
+**Statement (proposed).** The state of work shall be held in declared artifacts
+rather than in a session. Where a session ends without warning, the loss shall
+be bounded to the piece in flight, and that piece shall be reproducible from
+its spec.
+
+**Why.** It is the property that makes every other session rule affordable: if
+state is in artifacts, a dead session costs one piece rather than a day. It is
+also the reason the boundary can be cheap without being lossy.
+
+**Traces to.** G2, G7
+
+**Source.** CONTEXT.md, 2026-08-04: *"state-in-declared-artifacts is the
+property — a session may die at any instant, loss bounded to the in-flight
+piece, redone from spec."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-04.
+Never stated as a requirement.
+
+**Note.** Proven the hard way on 2026-08-14: a sleeping machine killed two
+long-running agents. The composer survived because its work had landed; the
+view spike lost everything because it was still thinking.
+
+### C-43 — progress is shown as liveness, at the granularity of a piece
+
+**Statement (proposed).** Where progress is shown, it shall distinguish motion
+from a stall at the granularity of a single piece, and shall be derived from
+artifacts on disk.
+
+**Why.** A percentage cannot tell a slow piece from a hung one, and the
+difference is the only thing worth interrupting for.
+
+**Traces to.** G5
+
+**Source.** CONTEXT.md, 2026-08-04: *"*Show where we are* is push+pull with
+LIVENESS at piece granularity (motion vs hang, derived from disk)."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-04.
+Never stated as a requirement.
+
+### C-44 — the design rung is one conversation and one package
+
+**Statement (proposed).** The design of a work item shall be produced as a
+single package holding its specifications, architecture, testing strategy and
+diagrams. The package shall live beside the work item's product document under
+the same name, shall carry no date, and shall be revised in place. Passing the
+rung shall require two keys: the producer agreeing every aspect is drawn with
+nothing left to annotate, and every declared measurement having a named answer
+inside the package.
+
+**Why.** The four-way split it replaced was a decomposition of an external
+checklist rather than the producer's shape — he does not use those labels. One
+conversation, one package, one gate.
+
+**Traces to.** G3, G4, G6
+
+**Source.** CONTEXT.md, 2026-08-03: *"The DESIGN rung is ONE function: Design
+the solution — one conversation, one package… Two-key GO: every aspect drawn
+and nothing left to annotate (human) · every stage-1 measurement has a NAMED
+ANSWER in the package (machine)."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-03.
+Never stated as a requirement.
+
+### C-45 — the escalation contract
+
+**Statement (proposed).** The producer shall be told of a blocker that no other
+role can answer. Where no such blocker exists, the next report to him shall be
+that the goal is achieved.
+
+**Why.** It is what makes the model's rungs actually the model's. Without it,
+"contract and build are yours" degrades into a stream of updates that spend the
+producer's attention on rungs he has already delegated.
+
+**Traces to.** G1, G3, G5
+
+**Source.** CONTEXT.md, 2026-08-03: *"escalation contract: Tony hears only of a
+blocker no agent role can answer — otherwise the next report is goal
+achieved."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-03.
+Never stated as a requirement.
+
+**Note.** C-15 (do not narrate build mechanics) is the conduct rule; this is
+the contract that makes it enforceable. They belong to the same family and
+probably to the same batch key.
+
+### C-46 — a piece is done when it is measured against every spec it touches
+
+**Statement (proposed).** A piece shall be done where it has been measured
+against its own criteria and against the declared criteria of everything its
+change touches. The scope of what it touches shall be set by the role
+overseeing the work.
+
+**Why.** It covers collateral damage by construction rather than by a separate
+review that can be skipped — the piece is not done until the things around it
+still hold.
+
+**Traces to.** G6, G1
+
+**Source.** CONTEXT.md, 2026-08-03/04: *"done = measured against ALL RELEVANT
+specs — the piece's criteria plus everything its change touches, relevance
+scoped by the overseer; covers collateral by construction; no human key per
+piece."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-03/04.
+Never stated as a requirement.
+
+### C-47 — the goal gate is cold eyes on the whole change, then the producer using it
+
+**Statement (proposed).** Once per goal, the whole change shall be reviewed by
+a party given the work order and the change and nothing else, and that review
+shall be able to block. Its verdict shall be recorded per layer rather than as
+a single result. The producer shall then use the output himself.
+
+**Why.** The flaw class it hunts lives at assembly rather than in any piece:
+gaps in the declared truth, which only appear when the parts are put together.
+Measured — cold eyes has blocked on the declared-truth layer in every run where
+it was used.
+
+**Traces to.** G4, G6, Law 3
+
+**Source.** CONTEXT.md, 2026-08-03/04: *"Prove the whole · Goal gate: cold eyes
+on the whole change (work order + change only, verdict can block) once per goal
+… the flaw class is gaps in the DECLARED TRUTH, which live at assembly;
+per-layer conformance, never one verdict; then the expert-user pass — Tony uses
+the output itself."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-03/04.
+Never stated as a requirement.
+
+### C-48 — two kinds of commit, and each has one owner
+
+**Statement (proposed).** A work commit shall carry the code and the documents
+travelling with it, and shall be made as each task passes its verification,
+staged by name. The session-state commit shall be made once, at the boundary.
+Neither shall be made by the other's owner.
+
+**Why.** Holding work until the boundary piles a session's interleaved change
+into one diff, which is where collateral damage hides — and the collateral
+check only works on a small diff. Staging by name rather than by wildcard is
+the other half of the same guard.
+
+**Traces to.** G2, G6
+
+**Source.** CONTEXT.md, 2026-08-02/v0.67.0: *"Two kinds of commit: work commits
+(code + travelling docs) are conductor's, pushed as each task's verification
+gate passes, staged by name; the session-state commit is the Switch Out flow's,
+once, at the boundary… v0.66's collateral check only works on a small diff."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-08-02.
+Never stated as a requirement.
+
+### C-49 — the pickup ends with a numbered pick-list
+
+**Statement (proposed).** The pickup summary shall end with every outstanding
+work item as a numbered list, one short line each, without truncation.
+
+**Why.** It is the point of the summary — the producer reads it to pick the
+next move. Truncating it is safe only if the work file is lean, which is a
+property the file must keep rather than one the summary may assume.
+
+**Traces to.** G5, G1
+
+**Source.** CONTEXT.md, 2026-07-06: *"Switch-in Summarize ends with a numbered
+pick-list: the full `## Now` + `## Backlog`, one terse line each, so the user
+picks by number or steers. No truncation (TODO is lean by design), no
+reply-hint."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-07-06.
+Never stated as a requirement.
+
+### C-50 — closure inference reports, and asks only about doubt
+
+**Statement (proposed).** At the boundary, each outstanding work item shall be
+given a verdict against the evidence of the session, and the verdicts shall be
+reported without asking anything. A verdict of done shall cite evidence. Only
+an item whose verdict is uncertain shall become a question, asked once at the
+next pickup.
+
+**Why.** A prompt at the boundary spends the producer's attention at the moment
+he is leaving. Requiring evidence for a done verdict is what stops the
+inference quietly closing work that was only discussed.
+
+**Traces to.** G2, G1
+
+**Source.** CONTEXT.md, 2026-07-03: *"Closure inference is a readable list,
+never a prompt… a 'done' verdict requires session evidence (commit, file, log
+entry); only unsure items become a question, asked once at next switch-in."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-07-03.
+Never stated as a requirement.
+
+**Note.** A fourth verdict was added later — an item that is undone but whose
+reason for existing has died. It belongs in this statement and is folded in
+here rather than filed separately.
+
+### C-51 — the human-readable export is opt-in and is never read back
+
+**Statement (proposed).** The human-readable knowledge export shall be written
+only when it is deliberately requested, and shall not be read as part of any
+session pickup. Content the producer marks private shall not be exported.
+
+**Why.** It is human-first by design and holds nothing the repository does not
+already hold, so reading it at pickup buys nothing and costs the boundary. The
+privacy control is the marker, not an approval prompt.
+
+**Traces to.** G2, G5, Law 1
+
+**Source.** CONTEXT.md: *"Vault: never read at switch-in, and since v0.83.0
+never written at switch-out either — opt-in per project, refreshed only by
+deliberate `/kerd:kivna save`… it contains nothing the log + CONTEXT.md
+don't."*
+
+**Provenance.** Transcribed from two CONTEXT.md standing decisions. Never
+stated as a requirement.
+
+### C-52 — a decision goes to the state file, a plan to the work file
+
+**Statement (proposed).** A decision taken during a session shall be recorded
+in the state file. The plan for the current focus shall be recorded in the work
+file.
+
+**Why.** It settles where each thing goes without adding a third file — and a
+third file for session decisions was the alternative it rejected.
+
+**Traces to.** G2
+
+**Source.** CONTEXT.md, 2026-07-03: *"Conductor's decisions live in CONTEXT.md,
+its plan in TODO `## Now` — settled the design doc's open contract question; no
+separate conductor line needed."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision, 2026-07-03.
+Never stated as a requirement.
+
+### C-53 — validation is risk-driven
+
+**Statement (proposed).** Validation shall begin by naming the assumption whose
+failure would end the work, shall run the cheapest test of that assumption
+first, and shall clear the fatal risks rather than working through a list of
+available checks.
+
+**Why.** A menu of checks spends effort in proportion to what is easy to test
+rather than to what would kill the work — which is how a project can validate
+diligently and still die on the one thing nobody probed.
+
+**Traces to.** G1, G7
+
+**Source.** CONTEXT.md: *"Validate is risk-driven, not menu-driven — find the
+killer assumption, run the cheapest test of it, clear only the fatal risks."*
+
+**Provenance.** Transcribed from a CONTEXT.md standing decision. Never stated
+as a requirement.
+
+**Note.** C-03 supplies the definition of fatal this depends on. They should be
+keyed together or not at all.
+
+---
+
 ## Coverage — all 88 standing decisions accounted for
 
 **The Backlog row says 74 standing decisions. There are 88.** Counted from
@@ -1004,25 +1368,25 @@ and not only read for what it contains. Five verdicts:
 | 35 | vault-unhook done | history |
 | 36 | rigor-level slice 1 built | history |
 | 37 | rigor-level framed and sliced | history |
-| 38 | AU5 live — grounding-was-read | **REMAINDER** — the grounding obligation is unfiled |
+| 38 | AU5 live — grounding-was-read | **C-38** |
 | 39 | The journey view parked | history |
 | 40 | The staleness refuser is live | history + **C-28** (its single-serializer rule) |
 | 41 | The graduation map fires zero graduations | history |
 | 42 | The evaluation matrix is machine-checked | history |
-| 43 | Talk moments name their format | **REMAINDER** |
+| 43 | Talk moments name their format | **C-39** |
 | 44 | mode cut | history |
 | 45 | sherpa cut | history |
 | 46 | capturerequirements cut | history + **C-08** (dead solutions stay dead) |
 | 47 | Interrogate is the tiered risk ledger | history |
 | 48 | The R3 quoting convention | **C-36** |
-| 49 | The ladder vocabulary is canonical | **REMAINDER** |
-| 50 | Rules born in the specs | **C-25**, **C-26**, **C-07**, **C-04** + **REMAINDER** (grounding) |
+| 49 | The ladder vocabulary is canonical | **C-40** |
+| 50 | Rules born in the specs | **C-25**, **C-26**, **C-07**, **C-04**, **C-38** |
 | 51 | Post-walk tooling: six decisions | history |
 | 52 | Skill changes are defined after the walk | history |
-| 53 | The walk's late findings | **REMAINDER** — four talk rules, state-in-declared-artifacts, liveness |
-| 54 | The design rung is one function | **REMAINDER** — the package and its two-key GO |
-| 55 | Contract: no human gate when measurable | **C-14** + **REMAINDER** (the escalation contract) |
-| 56 | Build: two functions + a property | **C-06** + **REMAINDER** (done = measured against every relevant spec) |
+| 53 | The walk's late findings | **C-41**, **C-42**, **C-43** (tool-staffing fragment named, unfiled) |
+| 54 | The design rung is one function | **C-44** |
+| 55 | Contract: no human gate when measurable | **C-14**, **C-45** |
+| 56 | Build: two functions + a property | **C-06**, **C-46**, **C-47** |
 | 57 | No solution vocabulary during the walk | history |
 | 58 | Consequence x value | **C-23** |
 | 59 | A release is a grouping | **C-21** |
@@ -1039,19 +1403,19 @@ and not only read for what it contains. Five verdicts:
 | 70 | Nothing can refuse, and nothing counts | **C-06** |
 | 71 | Design is agreed in diagrams | already filed — R-0006 supersedes it |
 | 72 | conductor-boundary slice 1 built | history |
-| 73 | Conductor commits its work; switch keeps the boundary | **REMAINDER** |
+| 73 | Conductor commits its work; switch keeps the boundary | **C-48** |
 | 74 | Say it in the user's terms | **C-17**, **C-18** |
 | 75 | Conductor re-seated: four roles | **C-35** |
 | 76 | The gate message carries the content | **C-16** |
 | 77 | Model advisory replaces the toggle | already filed — R-0023 |
-| 78 | Switch-in ends with a numbered pick-list | **REMAINDER** |
+| 78 | Switch-in ends with a numbered pick-list | **C-49** |
 | 79 | State, work, history — one file each | **C-37** |
-| 80 | Closure inference is a list, never a prompt | **REMAINDER** |
-| 81 | kivna save writes without approval | **REMAINDER** — with 83 |
-| 82 | Conductor's decisions live in CONTEXT.md | **REMAINDER** |
-| 83 | The vault is never read at switch-in | **REMAINDER** — with 81 |
+| 80 | Closure inference is a list, never a prompt | **C-50** |
+| 81 | kivna save writes without approval | **C-51** |
+| 82 | Conductor's decisions live in CONTEXT.md | **C-52** |
+| 83 | The vault is never read at switch-in | **C-51** |
 | 84 | Older logs are archive | **C-11** |
-| 85 | Validate is risk-driven, not menu-driven | **REMAINDER** |
+| 85 | Validate is risk-driven, not menu-driven | **C-53** |
 | 86 | Memory tools: adopt none | history (a ruled-out record) |
 | 87 | skriv voice profile held | history (blocked) |
 | 88 | TODO is forward-only | **C-37** |
@@ -1060,22 +1424,32 @@ and not only read for what it contains. Five verdicts:
 
 | Verdict | Count |
 |---|---|
-| candidate, written above | 37 covering 30 decisions |
+| candidate, written above | 53 covering 43 decisions |
 | already filed in the register | 8 |
 | history — nothing left to file | 34 |
 | dead — superseded or killed | 4 |
 | observation, not an obligation | 2 |
-| **REMAINDER — yields, not yet written** | **13** |
+| **REMAINDER — yields, not yet written** | **0** |
 
-**The remainder is named rather than left implied.** Thirteen decisions still
-carry an unfiled obligation: the grounding-declaration rule (38, 50), talk
-formats per moment (43), the ladder vocabulary (49), the walk's four talk rules
-and state-in-declared-artifacts (53), the design package and its two-key GO
-(54), the escalation contract (55), done-measured-against-every-relevant-spec
-(56), who commits what (73), the pick-list (78), closure inference (80), the
-vault's opt-in contract (81, 83), conductor's decision home (82), and
-risk-driven validation (85).
+**The remainder is empty as of 2026-08-15.** The thirteen decisions the first
+pass named — the grounding-declaration rule (38, 50), talk formats per moment
+(43), the ladder vocabulary (49), the walk's talk rules and
+state-in-declared-artifacts (53), the design package and its two-key GO (54),
+the escalation contract (55), done-measured-against-every-relevant-spec (56),
+who commits what (73), the pick-list (78), closure inference (80), the vault's
+opt-in contract (81, 83), conductor's decision home (82) and risk-driven
+validation (85) — are written as **C-38 … C-53** in Batch F, and the table rows
+above are updated to point at them.
 
-They stopped here because the batch was long, not because they were judged
-lower value — several are stronger than entries already written. **Do not read
-the tally as "the archaeology is done".**
+**What "empty" does and does not mean.** Every standing decision carrying an
+unfiled obligation now has a candidate. It does **not** mean the register is
+complete: 34 decisions are history with nothing to file, and history is where a
+future obligation can still be hiding if one of those records is read again
+with different eyes. It also does not mean any candidate is right — none has
+been keyed.
+
+**One fragment is deliberately unfiled**, from decision 53: *"a tool is staffed
+like a player (bounded contract, returns to caller, killable)."* It is a real
+standing rule, and it belongs beside C-20 rather than alone — filing it as its
+own requirement would separate how a tool is invoked from how it is run. Named
+here so it is not lost by being left out.

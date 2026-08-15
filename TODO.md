@@ -26,12 +26,14 @@ things that did are listed as waiting for you below.
 5. **The playbook's `## Current Status` split** into pointers plus an honest
    release-history heading. It had drifted to v0.95.0 / nine skills / four
    hooks / 26 tests.
-6. **`docs/requirements/archaeology.md`** — 37 candidate requirements recovered
-   from CONTEXT.md's standing decisions, in five batches, each quoting its
-   source, none minted with an `R-` reference. **All 88 standing decisions are
-   classified in its coverage table** (the count in the Backlog row says 74 —
-   it has grown). **13 decisions still yield unfiled requirements and are named
-   as a remainder** — the archaeology is not finished.
+6. **`docs/requirements/archaeology.md`** — **53 candidate requirements**
+   recovered from CONTEXT.md's standing decisions, in six batches (A risk ·
+   B record · C working relationship · D release and judgement · E method ·
+   F the remainder), each quoting its source, none minted with an `R-`
+   reference. **All 88 standing decisions are classified in its coverage
+   table** (the Backlog row says 74 — it has grown). **The remainder is
+   empty**: every decision carrying an unfiled obligation now has a candidate.
+   That is not the same as the register being complete, and the file says so.
 
 **Waiting on you — nothing below was guessed:**
 
