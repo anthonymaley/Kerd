@@ -213,6 +213,13 @@ test_session_start_behind_remote_reports() {
   local base remote up clone
   base=$(mktemp -d); remote="$base/remote.git"; up="$base/up"; clone="$base/clone"
   git init --bare -q "$remote"
+  # `git init --bare` points HEAD at refs/heads/master while this fixture works
+  # on `main`, so a clone lands on an unborn master with NO upstream — @{u} then
+  # fails, behind_count falls back to 0, and the hook correctly says nothing.
+  # The test read as an environment problem for that reason; it was the fixture
+  # never building the state it describes. symbolic-ref rather than `init -b`,
+  # which needs git >= 2.28.
+  git -C "$remote" symbolic-ref HEAD refs/heads/main
   git clone -q "$remote" "$up" 2>/dev/null
   ( cd "$up" && git checkout -q -b main && echo A >f && git add f && git commit -qm A && git push -q -u origin main ) >/dev/null 2>&1
   git clone -q "$remote" "$clone" 2>/dev/null
