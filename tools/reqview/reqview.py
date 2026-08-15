@@ -148,6 +148,60 @@ def selftest():
             ("vector 2 (derived)", v2, "e45b7b2d80a2", v2 == "e45b7b2d80a2")]
 
 
+_FIXTURE_FIELDS = (
+    "\n**Statement.** The thing shall do the thing\n"
+    "\n**Why.** Not yet written.\n"
+    "\n**Traces to.** G1\n"
+    "\n**Depends on.** none\n"
+    "\n**Approval.** none\n\n---\n")
+
+
+def _fixture_doc(live="", grave=""):
+    return ("# Requirements — fixture\n\npreamble\n\n"
+            "## Requirements\n" + live + "\n## Graveyard\n" + grave)
+
+
+def parser_selftest():
+    """Heading-parse fixtures. Both hazards below were reported open at the
+    2026-08-14 boundary; one was real and silent, one was already closed. They
+    are pinned here so neither can return unnoticed."""
+    out = []
+
+    def head_case(name, live, grave, want):
+        r = []
+        _, blocks, _ = parse(_fixture_doc(live, grave), r)
+        got = [(b.ref, b.handle, b.dead) for b in blocks]
+        out.append((name, repr(got), repr(want), got == want))
+
+    # HAZARD 1 — an em dash inside a handle. Splitting on every em dash
+    # truncated the handle and refused nothing.
+    head_case("em dash in a live handle",
+              "\n### R-0001 — a handle — with an em dash\n" + _FIXTURE_FIELDS, "",
+              [("R-0001", "a handle — with an em dash", False)])
+    head_case("em dash in a dead handle",
+              "", "\n### R-0002 — DEAD — a handle — with an em dash\n" + _FIXTURE_FIELDS,
+              [("R-0002", "a handle — with an em dash", True)])
+    # `DEAD` is an exact segment, never a prefix: a live handle may open with it.
+    head_case("live handle opening with the word DEAD",
+              "\n### R-0003 — DEAD links are refused\n" + _FIXTURE_FIELDS, "",
+              [("R-0003", "DEAD links are refused", False)])
+
+    # HAZARD 2 — findings.md concatenated back on to the register. Its numbered
+    # `### 1 — ...` headings mimic block headings. Verified: they are refused,
+    # never filed as requirements.
+    r = []
+    _, blocks, _ = parse(
+        _fixture_doc("\n### R-0001 — live one\n" + _FIXTURE_FIELDS)
+        + "\n### 1 — Forty-six requirements have no honest Why\n\nprose\n"
+          "\n### 3 — No statement wording was changed\n\nprose\n", r)
+    filed = [b.ref for b in blocks]
+    out.append(("numbered findings headings refused",
+                "filed=%r refusals=%d" % (filed, len(r)),
+                "filed=['R-0001'] refusals=2",
+                filed == ["R-0001"] and len(r) == 2))
+    return out
+
+
 # --------------------------------------------------------------------------
 # parser
 # --------------------------------------------------------------------------
@@ -226,11 +280,22 @@ def parse(text, refusals):
             chunk = body[i:j]
             head = HEAD3_RE.match(chunk[0]).group(1).strip()
             where = "`## %s` heading `%s`" % (name, head[:60])
-            parts = [p.strip() for p in head.split("—")]
+            # The separator is POSITIONAL, never "every em dash in the line".
+            # A handle may contain em dashes; splitting on all of them silently
+            # truncated it and refused nothing — a plausible wrong answer, the
+            # exact class rule 14 exists to stop. One split takes the reference,
+            # a second takes `DEAD` only when that is the whole segment, and
+            # everything after belongs to the handle intact.
+            parts = [p.strip() for p in head.split("—", 1)]
             ref = parts[0] if parts else head
-            dead = len(parts) > 1 and parts[1].upper() == "DEAD"
-            handle = parts[2] if dead and len(parts) > 2 else (
-                parts[1] if len(parts) > 1 else "")
+            rest = parts[1] if len(parts) > 1 else ""
+            dead = False
+            if rest.upper().startswith("DEAD"):
+                tail = [p.strip() for p in rest.split("—", 1)]
+                if tail[0].upper() == "DEAD":       # exact segment, not a prefix:
+                    dead = True                     # a handle may start "DEAD ..."
+                    rest = tail[1] if len(tail) > 1 else ""
+            handle = rest
             if not REF_RE.fullmatch(ref) or not handle:
                 refuse(refusals, where, head,
                        "Rule 1: a block heading is `### R-nnnn — handle`, or "
@@ -1682,6 +1747,13 @@ def main():
         ok = ok and good
     if not ok:
         print("Fingerprint recipe does not reproduce the published vectors. Refusing to render.")
+        return 1
+
+    for name, got, want, good in parser_selftest():
+        print("  parser      %-34s %s" % (name, "OK" if good else "FAIL\n     got  %s\n     want %s" % (got, want)))
+        ok = ok and good
+    if not ok:
+        print("Heading parse does not match its fixtures. Refusing to render.")
         return 1
 
     if not REGISTER.exists():
