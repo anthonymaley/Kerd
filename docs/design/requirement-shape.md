@@ -637,6 +637,39 @@ Sources: [EARS official guide](https://alistairmavin.com/ears/) ·
 
 ---
 
+## How a requirement is written — RULED BY TONY, 2026-08-15
+
+Three passes ran on the same 39 requirements in one hour, because the first two
+were the model's idea of readable and the third was his.
+
+**His test, verbatim: *"if my mum can read it then its fine."*** That is the
+standard. A requirement is written for someone who does not work here.
+
+**What it bans:** words that only mean something inside this project. Measured
+against the register as it stood, that caught `ships a change`, `distinction`,
+`rigor` used as a stage name, `mechanism`, `keyed`, `block`, and the whole
+`Subject — punchline` title form.
+
+**What it does NOT ban, and this is the half the model got wrong:** ordinary
+English doing real work. Replacing *inherits* with *takes the type of* made the
+sentence longer, vaguer and no more readable — his correction: *"take the type
+of is too far, inherits is the correct natural word."* `Inherits`, `rigor` and
+`repository` all stay. `Repository` doubly so: it is his own word, from Law 1.
+
+**And it bans compression.** The pass before this one produced titles like
+*"Evaluation marks — the cross has no degrees"*, which he called *"haikui"*.
+A title is a sentence someone would say aloud, not an aphorism.
+
+**Why this belongs in the format rather than in a style note.** The riddle was
+not a writing failure, it was a structural one: the subject was implied and
+never named, because the register was filled from the middle of the chain
+outward and every row was shorthand for the conversation that had just
+happened. EARS's ubiquitous pattern fixes it by construction — naming the
+system is not optional — so the writing help at the Statement field is where
+this rule lives, beside the word list.
+
+---
+
 ## The shape — six elements
 
 Two of the six exist for the machine and Tony never fills them in or reads
