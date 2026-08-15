@@ -1739,7 +1739,181 @@ if(location.hash) setTimeout(()=>goTo(location.hash.slice(1)),60);
 
 # --------------------------------------------------------------------------
 
+# --------------------------------------------------------------------------
+# seal — the write half of the loop
+# --------------------------------------------------------------------------
+
+# An approval the producer typed by hand: a name and a date, and NO fingerprint.
+# He never types a hash; this is what he writes and this is what seal completes.
+#
+# The trailing group matters. Editing by hand means replacing `none — <reason
+# it is unapproved>`, and the reason is easy to leave behind — the first live
+# test of this tool did exactly that. A stricter pattern matched nothing and
+# seal SAID NOTHING, which is the silent-wrong-answer class rule 14 exists to
+# stop. So the leftover is matched, dropped (rule 9 allows no prose beside a
+# fingerprint), and REPORTED rather than quietly discarded.
+UNSEALED_RE = re.compile(r"^(.+?),\s*(\d{4}-\d{2}-\d{2})\s*(?:[—-]\s*(.*))?$")
+PLACEHOLDER_WHY = re.compile(r"not yet written", re.I)
+
+
+def seal(path=None, quiet=False):
+    """Complete every hand-written approval with its fingerprint.
+
+    The producer edits the register directly — types a reason where a Why is
+    blank, and writes `**Approval.** <name>, <date>` on a block he agrees with.
+    This computes the hash over what he actually agreed to and writes it back.
+
+    It REFUSES rather than guessing, in three cases that all mean the same
+    thing — approving something that is not yet a settled statement:
+      · the register does not parse (nothing is sealed while anything is wrong)
+      · the Why is still the migration placeholder
+      · the statement carries an open marker
+    And it never rewrites a divergence: an already-approved block whose hash no
+    longer matches is REPORTED, with the state left alone. Rule 9 — a silent
+    downgrade is a decision made for the producer rather than a question put to
+    him."""
+    path = REGISTER if path is None else path
+    if not path.exists():
+        print("No register at %s" % path)
+        return 1
+    text = path.read_text(encoding="utf-8")
+    refusals = []
+    _, blocks, _ = parse(text, refusals)
+    if refusals:
+        if not quiet:
+            print("REFUSED — the register does not parse; nothing was sealed.")
+            for r in refusals[:10]:
+                print("  %s — %s" % (r["where"], r["why"].split(".")[0]))
+        return {"parse_refused": len(refusals), "sealed": [], "blocked": [],
+                "diverged": [], "unreadable": [], "dropped": []} if quiet else 1
+
+    live = [b for b in blocks if not b.dead]
+    live_refs = {b.ref for b in live}
+    sealed, blocked, diverged, already = [], [], [], 0
+    unreadable, dropped = [], []
+
+    for b in live:
+        approval = b.fields.get("approval", "").strip()
+        first = approval.split("\n")[0].strip()
+        if NONE_RE.match(approval):
+            continue
+        m_done = APPROVED_RE.match(first)
+        stmt = b.fields.get("statement", "")
+        why = b.fields.get("why", "")
+        fp_now = fingerprint(stmt, why, b.fields.get("traces to", ""),
+                             b.fields.get("depends on", ""), b.derived)
+        if m_done:
+            already += 1
+            if m_done.group(3) != fp_now:
+                diverged.append((b.ref, m_done.group(3), fp_now))
+            continue
+        m_new = UNSEALED_RE.match(first)
+        if not m_new:
+            # Neither `none`, nor sealed, nor a recognisable hand-written
+            # approval. Saying nothing here would let a typo read as "not
+            # approved yet" forever.
+            unreadable.append((b.ref, first[:70]))
+            continue
+        if m_new.group(3):
+            dropped.append((b.ref, m_new.group(3).strip()[:60]))
+
+        if PLACEHOLDER_WHY.search(why):
+            blocked.append((b.ref, "the Why is still the migration placeholder — "
+                                   "approving it would fingerprint a missing reason"))
+            continue
+        if re.search(r"\[OPEN-[^\]]+\]", stmt):
+            blocked.append((b.ref, "the statement carries an open marker — "
+                                   "approving it would fingerprint a question"))
+            continue
+        for d in re.findall(r"R-\d{4}", b.fields.get("depends on", "")):
+            if d not in live_refs:
+                blocked.append((b.ref, "it depends on %s, which is not live" % d))
+                break
+        else:
+            old = "**Approval.** " + first
+            new = "**Approval.** %s, %s · fp:%s" % (m_new.group(1).strip(),
+                                                    m_new.group(2).strip(), fp_now)
+            if text.count(old) != 1:
+                blocked.append((b.ref, "its approval line is not uniquely locatable; "
+                                       "refusing to edit by guess"))
+                continue
+            text = text.replace(old, new, 1)
+            sealed.append((b.ref, m_new.group(1).strip(), fp_now))
+
+    if sealed and not quiet:
+        path.write_text(text, encoding="utf-8")
+    if quiet:
+        return {"parse_refused": 0, "sealed": sealed, "blocked": blocked,
+                "diverged": diverged, "unreadable": unreadable, "dropped": dropped}
+
+    print("seal — %s" % path.name)
+    for ref, who, fp in sealed:
+        print("  sealed     %s  %s · fp:%s" % (ref, who, fp))
+    for ref, why in blocked:
+        print("  REFUSED    %s  %s" % (ref, why))
+    for ref, was, now in diverged:
+        print("  DIVERGED   %s  approved at fp:%s, now fp:%s — the words changed "
+              "since it was agreed. Not rewritten." % (ref, was, now))
+    for ref, txt in dropped:
+        print("  dropped    %s  stale note beside the approval: %r" % (ref, txt))
+    for ref, txt in unreadable:
+        print("  UNREADABLE %s  approval line %r is neither `none`, a sealed "
+              "approval, nor `<name>, YYYY-MM-DD`. Nothing was assumed." % (ref, txt))
+    print("  %d sealed · %d refused · %d already approved · %d diverged"
+          % (len(sealed), len(blocked), already - len(diverged), len(diverged)))
+    if sealed:
+        print("  Run the tool with no argument to refresh the view.")
+    return 1 if (blocked or diverged or unreadable) else 0
+
+
+
+def seal_selftest():
+    """The four paths seal must get right, pinned. The third exists because the
+    first live test hit it: a hand-edit that leaves the old reason behind used
+    to match nothing and print nothing."""
+    import tempfile, pathlib, shutil
+    out, tmp = [], pathlib.Path(tempfile.mkdtemp(prefix="seal-"))
+
+    def doc(approval, why="Because the reason is written."):
+        return ("# Requirements — fixture\n\npreamble\n\n## Requirements\n"
+                "\n### R-0001 — a handle\n"
+                "\n**Statement.** The thing shall do the thing\n"
+                "\n**Why.** " + why + "\n"
+                "\n**Traces to.** G1\n"
+                "\n**Depends on.** none\n"
+                "\n**Approval.** " + approval + "\n\n---\n"
+                "\n## Graveyard\n")
+
+    def case(name, approval, why, key, want):
+        f = tmp / (name.replace(" ", "_") + ".md")
+        f.write_text(doc(approval, why), encoding="utf-8")
+        r = seal(path=f, quiet=True)
+        got = len(r[key])
+        out.append((name, got, want, got == want))
+
+    case("hand-written approval seals", "Tony, 2026-08-15",
+         "Because the reason is written.", "sealed", 1)
+    case("placeholder Why is refused", "Tony, 2026-08-15",
+         "Not yet written — the migrated source recorded provenance only.",
+         "blocked", 1)
+    case("stale note beside it is reported", "Tony, 2026-08-15 — migrated 2026-08-14",
+         "Because the reason is written.", "dropped", 1)
+    case("unreadable approval is reported", "approved I think",
+         "Because the reason is written.", "unreadable", 1)
+    case("`none` is left alone", "none",
+         "Because the reason is written.", "sealed", 0)
+    shutil.rmtree(tmp, ignore_errors=True)
+    return out
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "seal":
+        return seal()
+    if len(sys.argv) > 1:
+        print("usage: reqview.py [seal]\n"
+              "  (no argument) — validate the register and render the view\n"
+              "  seal          — complete hand-written approvals with their fingerprints")
+        return 2
     print("reqview — spike. Standard library only; no network.")
     ok = True
     for name, got, want, good in selftest():
@@ -1754,6 +1928,13 @@ def main():
         ok = ok and good
     if not ok:
         print("Heading parse does not match its fixtures. Refusing to render.")
+        return 1
+
+    for name, got, want, good in seal_selftest():
+        print("  seal        %-34s %s" % (name, "OK" if good else "FAIL got %s want %s" % (got, want)))
+        ok = ok and good
+    if not ok:
+        print("Seal does not match its fixtures. Refusing to render.")
         return 1
 
     if not REGISTER.exists():
