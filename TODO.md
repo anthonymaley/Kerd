@@ -35,6 +35,23 @@ things that did are listed as waiting for you below.
    empty**: every decision carrying an unfiled obligation now has a candidate.
    That is not the same as the register being complete, and the file says so.
 
+**2026-08-15 — the register got an edit surface, and a readability pass.**
+
+- **`tools/reqview/editor.py`** — the register's edit surface. One window, a
+  local process, stdlib only: `python3 tools/reqview/editor.py`, then
+  `http://localhost:8765`. Five operations and no others — edit title, edit
+  description, edit/add Why, approve, mark for discussion. **His two-zone
+  design is what made it small:** a draft carries no machinery at all, and the
+  fingerprint engages only at approval. Every write is re-parsed before it
+  lands and rejected if it would break the register. No kill button (rule 10 —
+  a model may propose a kill, never record one).
+- **The riddle pass.** He read a few requirements and stopped: *"the
+  descriptions and titles are like puzzles, riddles."* Cause: the subject was
+  implied and never named — five consecutive blocks were about the evaluation
+  matrix and one said so. **39 titles and 29 descriptions rewritten** to name
+  their subject first. Recorded in `docs/requirements/findings.md` §10. Zero
+  cost: nothing is approved, and titles sit outside the fingerprint by rule 3.
+
 **Waiting on you — nothing below was guessed:**
 
 - **The 38 Whys.** Unchanged; still yours, still never in bulk.
