@@ -339,23 +339,50 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 
 def main():
+    # Every print flushes. A buffered start-up message means the terminal looks
+    # empty while the process is in fact running, which is indistinguishable
+    # from "it didn't start" — and that is exactly how this first failed.
+    def say(m=""):
+        print(m, flush=True)
+
     if not REGISTER.exists():
-        print("No register at %s" % REGISTER)
+        say("No register at %s" % REGISTER)
         return 1
+
     socketserver.TCPServer.allow_reuse_address = True
     # Loopback only. Nothing here should be reachable from another machine.
-    with socketserver.TCPServer(("127.0.0.1", PORT), Handler) as httpd:
-        url = "http://localhost:%d" % PORT
-        print("editing %s" % REGISTER)
-        print("open %s   (ctrl-c to stop)" % url)
+    httpd, port = None, None
+    for cand in range(PORT, PORT + 10):
         try:
-            webbrowser.open(url)
-        except Exception:
-            pass
-        try:
+            httpd = socketserver.TCPServer(("127.0.0.1", cand), Handler)
+            port = cand
+            break
+        except OSError as e:
+            say("port %d is busy (%s) — trying %d" % (cand, e.strerror or e, cand + 1))
+    if httpd is None:
+        say("Could not bind any port in %d-%d. Set REQVIEW_PORT to a free one."
+            % (PORT, PORT + 9))
+        return 1
+
+    url = "http://localhost:%d" % port
+    say()
+    say("  editing  %s" % REGISTER)
+    say("  OPEN     %s" % url)
+    say("  stop     ctrl-c")
+    say()
+    opened = False
+    try:
+        opened = webbrowser.open(url)
+    except Exception as e:
+        say("  (could not launch a browser automatically: %s)" % e)
+    if not opened:
+        say("  No browser opened automatically — paste the URL above into one.")
+        say()
+    try:
+        with httpd:
             httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nstopped.")
+    except KeyboardInterrupt:
+        say("\nstopped.")
     return 0
 
 
