@@ -33,6 +33,13 @@ may never record one, and a graveyard entry owes `what was learned` — which is
 the field that stops a dead idea being re-proposed. Marking `kill?` opens that
 conversation; it does not perform it.
 
+DISCUSSION NOTES ARE PERMANENT — ruled by Tony 2026-08-15: "trail is good".
+The page adds them and cannot clear them, and that is the design rather than a
+gap. A note records that a question was asked and, once the Why answers it,
+that it was settled — which is the same reason a graveyard entry keeps `what
+was learned`. Clearing them would leave a register that looks like nobody ever
+doubted anything. Removing one is a deliberate edit in the file.
+
 THE SAFETY PROPERTY. Every write is applied to the markdown, re-parsed with the
 same parser the view and the audit use, and rolled back if the result does not
 parse. The file on disk is never left in a state the tooling cannot read.
