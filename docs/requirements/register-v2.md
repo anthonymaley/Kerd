@@ -117,9 +117,9 @@ block written rather than migrated, carries a real Why.
 
 ## Requirements
 
-### R-0005 — Work classification — one distinction, and it sets done
+### R-0005 — Every piece of work either changes the product or answers a question
 
-**Statement.** Work shall carry one distinction and no other: does it ship a change, or does it produce a finding. That distinction shall set the definition of done, and no gate, approval or template shall be keyed to it
+**Statement.** Work shall carry one distinction and no other: does it change the product, or does it answer a question. That distinction shall set what finished means. No gate, approval or template shall depend on it
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here. The rework below carries an authorised ruling, not a rationale, and the two are different things.
 
@@ -148,9 +148,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0006 — Agreeing a design — both parties point at one structure
+### R-0006 — A design is agreed by both people looking at the same structure
 
-**Statement.** Before a design is agreed, the producer and the model shall both be able to point at one shared structure. A drawing is its usual form, not its only one
+**Statement.** Before a design is agreed, the producer and the model shall both be able to point at the same structure. A drawing is the usual form of that structure, but it is not the only one
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -162,7 +162,7 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0007 — The requirements register — release, dependency and view tooling read it
+### R-0007 — Other tools read the register to plan releases and draw views
 
 **Statement.** The register is the data source for release planning, dependency and visualization tooling — not merely a record
 
@@ -176,9 +176,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0008 — Evaluation marks — the four marks and what they mean
+### R-0008 — There are four evaluation marks
 
-**Statement.** An evaluation shall use one mark set: `◎` perfect · `○` fully meets (`○+`/`○-`) · `△` meets with a countermeasure (`△+`/`△-`) · `×` cannot meet
+**Statement.** An evaluation shall use one set of marks. `◎` means perfect. `○` means it fully meets the criterion, and can carry a plus or minus. `△` means it meets the criterion only with a countermeasure, and can carry a plus or minus. `×` means it cannot meet the criterion
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -190,9 +190,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0009 — Evaluation marks — the cross has no degrees
+### R-0009 — A cross has no plus or minus version
 
-**Statement.** Where an option cannot meet a criterion even with a countermeasure, the evaluation shall mark it `×`. `×` shall take no modifier, because there is no degree of impossibility
+**Statement.** Where an option cannot meet a criterion even with a countermeasure, the evaluation shall mark it `×`. A cross shall carry no plus or minus, because there is no degree of impossibility
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -204,9 +204,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0010 — Evaluation marks — building it ourselves is a legal countermeasure
+### R-0010 — Building the missing piece ourselves counts as a countermeasure
 
-**Statement.** Where an option's gap can be closed by building the missing piece ourselves, the evaluation shall treat that as a legal countermeasure and mark it `△-`, carrying its cost in the summary columns rather than hiding it in the mark
+**Statement.** Where an option's gap can be closed by building the missing piece ourselves, the evaluation shall count that as a countermeasure and mark it `△-`. The cost shall be shown in the summary columns rather than hidden inside the mark
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -218,9 +218,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0011 — Evaluation summary — four columns on every evaluation
+### R-0011 — Every evaluation has the same four summary columns
 
-**Statement.** Every evaluation shall carry four summary columns: **COST · QUALITY · DUE DATE · RATING**
+**Statement.** Every evaluation shall carry four summary columns: cost, quality, due date, and rating
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -232,9 +232,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0012 — Evaluation marks — anything below `○` says why
+### R-0012 — Any mark below a circle says why
 
-**Statement.** Where an evaluation mark is not `◎` or `○`, the evaluation shall state why in a few words, not in a sentence
+**Statement.** Where an evaluation mark is not `◎` or `○`, the evaluation shall say why in a few words rather than in a sentence
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -246,9 +246,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0013 — Evaluation criteria — dependency cost is marginal and proportionate
+### R-0013 — What a tool costs is what it adds beyond what we already use
 
-**Statement.** An evaluation shall judge dependency cost marginally and proportionately: what the option adds beyond what the project already needs, weighed against the share of value it buys. An ecosystem-normal install shall not count as a burden; a whole new runtime bought for a fraction of the value shall
+**Statement.** An evaluation shall judge the cost of adding something by what it brings beyond what the project already needs, weighed against how much of the value it buys. Something the ecosystem installs as a matter of course shall not count as a burden. A whole new runtime bought for a small part of the value shall
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -260,9 +260,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0014 — Design approval — approving the design is the only gate
+### R-0014 — Approving the design is the only approval needed to build
 
-**Statement.** Approving the design shall be sufficient to proceed, and no plan-approval gate shall exist
+**Statement.** Approving the design shall be enough to proceed, and there shall be no separate plan approval
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -274,9 +274,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0015 — Plans — a plan executes an approved design
+### R-0015 — A plan carries out a design that is already approved
 
-**Statement.** A plan shall be the execution of an approved design, and shall carry the measurements that prove the goals were met
+**Statement.** A plan shall carry out a design that has already been approved, and shall carry the measurements that prove the goals were met
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -288,9 +288,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0018 — Work classification — declared once, never re-asked
+### R-0018 — Whether work changes the product or answers a question is decided once, at the start
 
-**Statement.** The distinction between work that ships a change and work that produces a finding shall be declared once at conductor start, and shall not be re-asked once the work has started
+**Statement.** Whether a work item changes the product or answers a question shall be decided once when conductor starts, and shall not be asked again after the work has begun
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -309,9 +309,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0020 — Work classification — conductor suggests a change, the producer agrees it
+### R-0020 — Conductor can say the work has changed type, but the producer decides
 
-**Statement.** Conductor may suggest that a work item's distinction changes, at a gate or mid-flight, and the producer shall agree it
+**Statement.** Conductor may say that a work item has changed type, either at a gate or during the work, and the producer shall decide
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -331,9 +331,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0021 — Work classification — nested work inherits it
+### R-0021 — Smaller pieces of work take the type of the work they sit inside
 
-**Statement.** A work item shall inherit the distinction of the work containing it, and an override shall be opt-in and forward-only
+**Statement.** A work item shall take the type of the work that contains it. Changing that shall be a deliberate choice, and shall apply only to the work that follows
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -353,9 +353,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0023 — Conductor — it sizes the model and the effort, in both directions
+### R-0023 — Conductor picks the right model and effort, up or down
 
-**Statement.** Conductor shall manage model usage and effort in both directions: an overpowered session (e.g. Fable xhigh) shall be advised down to the right conductor tier and effort (e.g. Opus medium), and Fable and other models shall then be brought in per-call to do the work at the right effort
+**Statement.** Conductor shall manage which model runs and at what effort, in both directions. A session running a model that is too powerful shall be advised down to the right one, and other models shall then be called for individual steps at the effort those steps need
 
 **Why.** Tony asked for this mid-session on 2026-08-13, verbatim: *"we need kerd conductor to effectively manage model usage and effort, i.e. if we are at fable xhigh, it should tell us to change to opus medium or whatever and then bring fable and other models in to do the work at the right effort too"*. The statement is a transcription of that ask, not a derivation from it. What his words carry that the statement makes checkable is the two directions — advising the session down as well as calling stronger models in per-step.
 
@@ -367,9 +367,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0024 — The session boundary — it records everything agreed
+### R-0024 — The boundary records everything that was agreed
 
-**Statement.** The boundary shall record each thing agreed; efficiency shall serve only as a tiebreaker between designs that preserve that record
+**Statement.** The boundary shall record each thing agreed. Where two ways of doing that would both keep the whole record, the cheaper one shall be chosen. Saving effort shall not be a reason to record less
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -381,9 +381,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0026 — Work that produces a finding — it carries its own rigor
+### R-0026 — Work that answers a question still needs the same care
 
-**Statement.** Work that produces a finding shall carry its own rigor: a scope boundary, a timebox, a spec, a design, and measurements
+**Statement.** Work that answers a question shall carry its own care: a scope boundary, a time limit, a spec, a design, and measurements
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -406,9 +406,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0027 — Artifacts — the mechanism does not scatter them
+### R-0027 — The tools keep a project's files where they belong
 
-**Statement.** The mechanism shall not scatter a project's artifacts
+**Statement.** The tools shall not scatter a project's files
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -420,9 +420,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0028 — Evaluation matrix — the mark carries the verdict, not the box
+### R-0028 — In the matrix the mark is coloured and the box is not
 
-**Statement.** Where the render is the evaluation matrix, the box shall remain uncoloured and the mark shall carry the verdict — `○` green, `△` yellow, `×` red
+**Statement.** Where the render is the evaluation matrix, the box shall stay uncoloured and the mark shall carry the verdict: `○` green, `△` yellow, `×` red
 
 **Why.** Partly written. The migrated source records provenance and one verbatim ruling: this came from the producer's own tweaks to the evaluation-matrix render on 2026-08-08, and its scope was corrected at 21:23 on his statement — Tony: *"UX-001 was for the eval matrix only"* — which is why the statement binds inside the evaluation matrix and nowhere else. That explains the scope; it does not explain why the requirement exists. The reason still awaits his words.
 
@@ -434,23 +434,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0029 — Evaluation matrix — a mark fills 40–50% of its cell
+### R-0029 — A mark fills about half its cell
 
-**Statement.** Where the render is the evaluation matrix, a mark shall be drawn at 40–50% of the cell it sits in
-
-**Why.** Partly written. The migrated source records provenance and one verbatim ruling: this came from the producer's own tweaks to the evaluation-matrix render on 2026-08-08, and its scope was corrected at 21:23 on his statement — Tony: *"UX-001 was for the eval matrix only"* — which is why the statement binds inside the evaluation matrix and nowhere else. That explains the scope; it does not explain why the requirement exists. The reason still awaits his words.
-
-**Traces to.** G4
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is only partly written, and the fingerprint now covers the Why and the links.
-
----
-
-### R-0030 — Evaluation matrix — headings render as headings
-
-**Statement.** Where the render is the evaluation matrix, column and row headings shall render as headings — `GROUP: CRITERION NAME`, `OPTION n: ID` — with the declaration below
+**Statement.** Where the render is the evaluation matrix, a mark shall be drawn at 40 to 50 per cent of the cell it sits in
 
 **Why.** Partly written. The migrated source records provenance and one verbatim ruling: this came from the producer's own tweaks to the evaluation-matrix render on 2026-08-08, and its scope was corrected at 21:23 on his statement — Tony: *"UX-001 was for the eval matrix only"* — which is why the statement binds inside the evaluation matrix and nowhere else. That explains the scope; it does not explain why the requirement exists. The reason still awaits his words.
 
@@ -462,7 +448,21 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0031 — Diagrams — a sans-serif font
+### R-0030 — Headings look like headings
+
+**Statement.** Where the render is the evaluation matrix, the column and row headings shall be rendered as headings, written as `GROUP: CRITERION NAME` and `OPTION n: ID`, with the declaration underneath
+
+**Why.** Partly written. The migrated source records provenance and one verbatim ruling: this came from the producer's own tweaks to the evaluation-matrix render on 2026-08-08, and its scope was corrected at 21:23 on his statement — Tony: *"UX-001 was for the eval matrix only"* — which is why the statement binds inside the evaluation matrix and nowhere else. That explains the scope; it does not explain why the requirement exists. The reason still awaits his words.
+
+**Traces to.** G4
+
+**Depends on.** none
+
+**Approval.** none — migrated 2026-08-14; the Why is only partly written, and the fingerprint now covers the Why and the links.
+
+---
+
+### R-0031 — Diagrams use a sans-serif font
 
 **Statement.** A rendered diagram shall use a sans-serif font
 
@@ -476,9 +476,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0032 — Evaluation matrix — the preferred option's verdict cell is filled green
+### R-0032 — The preferred option's verdict cell is filled green
 
-**Statement.** Where the render is the evaluation matrix, the preferred option's verdict cell shall be filled green
+**Statement.** Where the render is the evaluation matrix, the verdict cell of the preferred option shall be filled green
 
 **Why.** Partly written. The migrated source records provenance and one verbatim ruling: this came from the producer's own tweaks to the evaluation-matrix render on 2026-08-08, and its scope was corrected at 21:23 on his statement — Tony: *"UX-001 was for the eval matrix only"* — which is why the statement binds inside the evaluation matrix and nowhere else. That explains the scope; it does not explain why the requirement exists. The reason still awaits his words.
 
@@ -490,9 +490,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0033 — Tables — brevity is the requirement
+### R-0033 — A table exists so you do not have to read a lot of text
 
-**Statement.** A table shall be understandable without reading lots of text. Brevity is a requirement, not a preference
+**Statement.** A table shall be understandable without reading a lot of text. Brevity is a requirement, not a preference
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -504,9 +504,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0035 — Generated views — marks made against a stale view are refused
+### R-0035 — Marks made on an out-of-date page are rejected
 
-**Statement.** A generated page shall carry the hash of the state it was rendered from, and a mark made against a stale view shall be refused rather than applied blind
+**Statement.** A generated page shall carry the fingerprint of the state it was rendered from, and a mark made against an out-of-date page shall be rejected rather than applied
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -534,9 +534,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0036 — Project state — it lives in the user's repo
+### R-0036 — A project's own folder holds its information, not Kerd
 
-**Statement.** The user's repo shall hold funnel state, requirements, stage data, steps and journey; Kerd shall hold no project state
+**Statement.** The user's own project folder shall hold the funnel state, the requirements, the stage data, the steps and the journey. Kerd shall hold none of a project's information
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -548,9 +548,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0038 — Tooling — it aims at the consuming project
+### R-0038 — The tools work on the project you are in, not on where they were installed
 
-**Statement.** The machinery shall resolve its target to the consuming project, not to its own install path
+**Statement.** The tools shall work on the project they are pointed at, rather than on the folder they were installed into
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -562,23 +562,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0040 — The requirements register — a standalone file at a known location
+### R-0040 — The register is its own file, in a known place
 
-**Statement.** The register shall be a standalone file at a known location, so that a person can read it quickly and a tool can read it directly; a product doc shall not contain it
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G5
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
-### R-0041 — Requirements — each carries its dependencies
-
-**Statement.** A requirement shall carry its dependencies on other requirements, by reference
+**Statement.** The register shall be a file of its own in a known place, so a person can read it quickly and a tool can read it directly. A product document shall not contain it
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -590,9 +576,23 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0042 — The mechanism — git-native, and per project
+### R-0041 — A requirement lists what it depends on
 
-**Statement.** The mechanism shall be git-repository native and Claude Code friendly, and shall operate per project
+**Statement.** A requirement shall list the other requirements it depends on, by reference
+
+**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+
+**Traces to.** G5
+
+**Depends on.** none
+
+**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+
+---
+
+### R-0042 — The mechanism works inside a git repository, one project at a time
+
+**Statement.** The mechanism shall work inside a git repository, shall suit Claude Code, and shall operate one project at a time
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -604,9 +604,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0043 — The requirements register — one representation, no parallel store
+### R-0043 — There is one copy of the register and no second store
 
-**Statement.** The register shall be **the same files** the project already keeps — one representation; the tooling shall not maintain a parallel store alongside them
+**Statement.** The register shall be the same files the project already keeps. There shall be one copy, and the tooling shall not keep a second store alongside it
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -618,9 +618,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0044 — Requirements — a block, liftable as a unit
+### R-0044 — A requirement can be copied out whole, in one piece
 
-**Statement.** A requirement shall be a block rather than a table row — a heading, bolded meta lines, the statement as text, and links as a trailing list — and shall be liftable as a unit, copy-pasteable elsewhere without reassembly
+**Statement.** A requirement shall be written as one block rather than a row in a table, with a heading, its labelled lines, the requirement itself as text, and its links at the end. It shall be possible to copy the whole thing somewhere else without putting it back together
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -632,9 +632,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0046 — The funnel — interacting with it needs a conductor session
+### R-0046 — You need a conductor session to work the funnel
 
-**Statement.** Interacting with the funnel shall require a conductor session. Question-and-answer, reports and admin work shall stay available outside it
+**Statement.** Working with the funnel shall require a conductor session. Questions, reports and admin work shall stay available outside one
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -646,9 +646,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0047 — Plans — the plan proves the design's measurements carried across
+### R-0047 — The plan shows it kept the measurements from the design
 
-**Statement.** A plan shall check that the design's measurements are carried across accurately, and shall show that check
+**Statement.** A plan shall check that it carried the design's measurements across accurately, and shall show that check
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -660,7 +660,7 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0048 — Gates — every work item owes every gate
+### R-0048 — Every work item owes every gate unless it says why not
 
 **Statement.** Every work item owes every gate unless it explicitly marks that gate `n/a` with a named reason
 
@@ -690,9 +690,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0049 — Evaluation criteria — due date, not effort
+### R-0049 — Evaluations score the due date, not the effort
 
-**Statement.** An evaluation shall score **DUE DATE** rather than **EFFORT** — whether the option can meet the plan in time, which is an outcome measure, rather than how much work it is, which is an input measure
+**Statement.** An evaluation shall score whether an option can meet the plan in time, which is a measure of the outcome, rather than how much work it is, which is a measure of the input
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -704,23 +704,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0050 — The completeness check — light at every step, heavy at the design GO
+### R-0050 — The quick check runs at every step, the full check at the design gate
 
-**Statement.** The completeness check shall be tiered: the light check shall fire at every step, and both light and heavy shall fire at the design GO. The light check shall use machine facts only — did the register move, do approval hashes still match, are link stamps stale, does declared grounding resolve. The heavy check shall use N independent readers working from the RAW sources rather than from a summary, with convergence as the signal
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** Law 3
-
-**Depends on.** none
-
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
-
----
-
-### R-0051 — The completeness check — it binds on facts from outside the model
-
-**Statement.** A completeness check shall bind on countable facts produced outside the model, so that the model can neither assume nor skip it; it shall not bind on a question the model answers about itself
+**Statement.** The completeness check shall have two levels. The quick check shall run at every step and shall use machine facts only: did the register move, do the approval fingerprints still match, are the link stamps out of date, and does the reading a document declared still exist. The full check shall run at the design gate alongside the quick one, and shall use several independent readers working from the original sources rather than from a summary, with agreement between them as the signal
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -732,9 +718,23 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0052 — Kerd — the process shows its own working
+### R-0051 — The check relies on facts the model cannot make up
 
-**Statement (derived).** Kerd shall show the producer, for each step of a work item's journey, what the step is, which mechanism performed it, what that mechanism was given, and what it produced; and Kerd shall not hand a step to a mechanism that cannot supply those four facts.
+**Statement.** A completeness check shall be settled by countable facts produced outside the model, so the model can neither assume it nor skip it. It shall not rest on a question the model answers about itself
+
+**Why.** Not yet written — the migrated source recorded provenance only (2026-08-08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+
+**Traces to.** Law 3
+
+**Depends on.** none
+
+**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+
+---
+
+### R-0052 — Kerd shows how each step was done
+
+**Statement (derived).** Kerd shall show the producer, for each step of a work item's journey, what the step was, which mechanism did it, what that mechanism was given, and what it produced. Kerd shall not hand a step to a mechanism that cannot supply those four facts
 
 **Why.** This block replaces R-0039 (*"Never route to superpowers"*), killed 2026-08-14 for foreclosing the build-versus-adopt decision the approved goals keep open. The intent underneath it survives, and these are his words for it, from the G8 grounding in `docs/kerd-goals.md`: *"superpowers does some great things... so we can learn from it, i just want the process to be ours and visable"*. G5 carries the same want as a design input — *"show the work, show the state, show the tools being used"* — and names the failure it prevents: *"its not clear what or why its doing in a black box way"*. **The statement is the model's derivation of a checkable obligation from those words; approving this block approves that derivation.** What the derivation deliberately does not do is name a tool: the test is what a mechanism can show, so any mechanism that meets it is admissible and any that does not is refused — including one we build ourselves. That keeps the decision Law 4 protects open while the visibility his words demand is binding.
 

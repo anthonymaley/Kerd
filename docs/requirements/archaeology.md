@@ -1,7 +1,7 @@
 # Requirement archaeology — candidates recovered from CONTEXT.md
 
 **Status: DRAFT. Nothing here is a requirement.** Every entry is a *candidate*
-awaiting the producer's key, in batches, by family.
+awaiting the producer's approval, in batches, by family.
 
 ---
 
@@ -10,7 +10,7 @@ awaiting the producer's key, in batches, by family.
 `CONTEXT.md` holds the standing decisions of this project. Many of them state a
 **standing obligation** — something that must hold from now on — and were never
 filed as requirements, because the register was filled from the middle of the
-chain outward. This file recovers those, so they can be keyed as a set rather
+chain outward. This file recovers those, so they can be approved as a set rather
 than rediscovered one at a time.
 
 **It runs under the standing decision that licensed it** (CONTEXT.md,
@@ -30,7 +30,7 @@ than rediscovered one at a time.
    approval. Get this wrong once and the register is untrustworthy with no way
    back.
 4. **Framed work, not an ad-hoc pass.** Which is what this file is.
-5. **The key lands on batches**, by family, not entry by entry.
+5. **Approval lands on batches**, by family, not entry by entry.
 
 **The risk this file is exposed to, stated plainly:** retrofitting manufactures
 requirements nobody stated. The countermeasure is that every candidate quotes
@@ -813,7 +813,7 @@ this.
 
 **Statement (proposed).** A requirement transcribed from an existing record
 rather than stated by the producer shall carry a permanent marker saying so,
-and shall be keyed in batches by family rather than one at a time.
+and shall be approved in batches by family rather than one at a time.
 
 **Why.** The risk it answers: retrofitting manufactures requirements nobody
 stated, and a fabricated row cannot be told from a real one. Get the marking
@@ -1309,7 +1309,7 @@ killer assumption, run the cheapest test of it, clear only the fatal risks."*
 as a requirement.
 
 **Note.** C-03 supplies the definition of fatal this depends on. They should be
-keyed together or not at all.
+approved together or not at all.
 
 ---
 
@@ -1446,7 +1446,7 @@ unfiled obligation now has a candidate. It does **not** mean the register is
 complete: 34 decisions are history with nothing to file, and history is where a
 future obligation can still be hiding if one of those records is read again
 with different eyes. It also does not mean any candidate is right — none has
-been keyed.
+been approved.
 
 **One fragment is deliberately unfiled**, from decision 53: *"a tool is staffed
 like a player (bounded contract, returns to caller, killable)."* It is a real

@@ -525,3 +525,15 @@ totality word**.
 the exact input that silently truncated handles until it was fixed the night
 before. Had the pass run a day earlier it would have quietly shortened all 39
 titles and refused nothing.
+
+> **SUPERSEDED the same day.** The `Subject — what it says` convention below was
+> replaced within the hour. The producer's next reading: *"can we also use
+> natural languge and not haikui?"* — the titles were compressed aphorisms, not
+> sentences anyone would say aloud. Titles and descriptions were rewritten again
+> as plain sentences, which name their subject naturally without needing the dash
+> construction, and then a third pass applied his actual test: **"if my mum can
+> read it then its fine."** That test caught what the first two passes did not —
+> `ships a change`, `distinction`, `rigor`, `mechanism`, `repository`, `block`
+> are all words we use here and nobody else does. Fourteen blocks were rewritten
+> again to remove them. The rule that survives is his, not mine: **a requirement
+> is written for someone who does not work here.**
