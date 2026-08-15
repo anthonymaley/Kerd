@@ -2,6 +2,65 @@
 
 ## Now
 
+**2026-08-14 (late) — an unattended session ran the mechanical block.** Six
+things landed, all pushed and CI-green. Nothing here needed a decision; the
+things that did are listed as waiting for you below.
+
+**Landed:**
+
+1. **Nine statements reworded** against the word list (`register-v2.md`). The
+   obligation is unchanged in every case. Open question 5 split in two, and its
+   research half — *the technique is nowhere taught* — **was false**: EARS's
+   ubiquitous pattern and ISO 29148's `each` rule both teach it, and both are
+   now ADOPTED in `docs/design/requirement-shape.md`. Full before/after in
+   `docs/requirements/findings.md` §8.
+2. **Both parser hazards closed** (`tools/reqview/reqview.py`). The em-dash
+   handle was real and *silent* — it truncated and refused nothing. The
+   findings-concatenation hazard was already closed; now proven and pinned.
+   Four fixtures added.
+3. **`gate.py --root` landed** — the gate aims at the project, never at its own
+   install path, and refuses rather than falling back. Seven fixtures.
+4. **The behind-upstream test fixed** — never environmental. `git init --bare`
+   points HEAD at `master` while the fixture works on `main`, so the clone had
+   no upstream at all. **22 passed, 0 failed** — first fully green run.
+5. **The playbook's `## Current Status` split** into pointers plus an honest
+   release-history heading. It had drifted to v0.95.0 / nine skills / four
+   hooks / 26 tests.
+6. **`docs/requirements/archaeology.md`** — 37 candidate requirements recovered
+   from CONTEXT.md's standing decisions, in five batches, each quoting its
+   source, none minted with an `R-` reference. **All 88 standing decisions are
+   classified in its coverage table** (the count in the Backlog row says 74 —
+   it has grown). **13 decisions still yield unfiled requirements and are named
+   as a remainder** — the archaeology is not finished.
+
+**Waiting on you — nothing below was guessed:**
+
+- **The 38 Whys.** Unchanged; still yours, still never in bulk.
+- **R-0007** — its defect is an uncheckable clause, not a totality word. Making
+  it checkable decides what the register owes the tooling. Two readings named
+  in `findings.md` §8.
+- **Does `every` join the banned word list?** Widening the rule is yours.
+  R-0048 is the only live statement it would touch.
+- **Retiring the old register is coupled to the refuser** —
+  `docs/requirements/findings.md` §9. Deleting `register.md` does not turn CI
+  red; it makes AU7/AU8 **silent**, because `register_check` is a vacuous pass
+  when the file is absent. The live register (`register-v2.md`) is validated
+  only by the reqview spike, which is not in CI. One ruling: does the new
+  validator graduate into `gate.py audit` before the old register goes, or does
+  the old register stay until it does?
+- **The archaeology batches**, keyed by family — A risk, B record, C working
+  relationship, D release/judgement, E method. Several entries carry a named
+  overlap or tension with an existing requirement (C-06 vs R-0051, C-24 vs
+  R-0028) that only you can resolve.
+- **Does this project keep a hand-written changelog at all?** `CHANGELOG.md`
+  and the playbook's release history are the same abandoned artifact and sit in
+  the Backlog as two rows. One question, not two.
+
+**Deliberately not done:** the board's two features stuck below `goal` (TODO
+says don't walk them by hand), the board label overlap (cosmetic, and touching
+the renderer risks the byte-compare refuser), and the view's build (its one
+decision is yours).
+
 **2026-08-14 — the reset produced a working format, a cleaned register, and a
 view.** See `kivna/sessions/2026-08-14.md`. Four laws now (Law 4 arrived with an
 ordering rule); the requirement shape is settled at six elements and was tested
