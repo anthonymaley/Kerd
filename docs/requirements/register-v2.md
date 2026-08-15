@@ -331,9 +331,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0021 — Smaller pieces of work take the type of the work they sit inside
+### R-0021 — Work inside other work inherits its type
 
-**Statement.** A work item shall take the type of the work that contains it. Changing that shall be a deliberate choice, and shall apply only to the work that follows
+**Statement.** A work item shall inherit the type of the work that contains it. Changing that shall be a deliberate choice, and shall apply only to the work that follows
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -381,9 +381,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0026 — Work that answers a question still needs the same care
+### R-0026 — Work that answers a question still needs the same rigor
 
-**Statement.** Work that answers a question shall carry its own care: a scope boundary, a time limit, a spec, a design, and measurements
+**Statement.** Work that answers a question shall carry its own rigor: a scope boundary, a time limit, a spec, a design, and measurements
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -534,9 +534,9 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0036 — A project's own folder holds its information, not Kerd
+### R-0036 — A project's own repository holds its information, not Kerd
 
-**Statement.** The user's own project folder shall hold the funnel state, the requirements, the stage data, the steps and the journey. Kerd shall hold none of a project's information
+**Statement.** The user's own repository shall hold the funnel state, the requirements, the stage data, the steps and the journey. Kerd shall hold none of a project's information
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
