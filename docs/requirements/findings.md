@@ -419,3 +419,50 @@ Not changed, because **widening the word list is a change to the rule, and the
 rule is his.** ISO 29148's `each` guidance would prefer `Each work item shall
 owe each gate…`, which is a nudge rather than a violation. Named here so the
 decision is visible rather than silently taken either way.
+
+---
+
+### 9 — Retiring the old register would silently disarm the refuser
+
+**Investigated 2026-08-14 (late). NOT acted on — this one needs a ruling.**
+
+`docs/requirements/register.md` is superseded by `register-v2.md` and the TODO
+calls retiring it *"a deliberate act, not a cleanup"*. It is more than that: it
+is **coupled to the only machine refusal the requirements work has.**
+
+`kit.register_check()` reads `docs/requirements/register.md` by name, and its
+declared behaviour is a **vacuous pass when the file is absent** — keeping a
+register is opting in (kit.py:829). So deleting the old register does not turn
+CI red. It turns AU7 and AU8 **silent**, and nothing reports that they stopped
+having anything to check.
+
+That is the whole of the repo's requirement refusal: illegal IDs, states and
+categories, unknown fields, `Approved` hash divergence, `superseded` without
+its `superseded-by`, unregistered link roles, dangling targets. All of it
+aimed at a file that would no longer exist.
+
+**The new register is not covered by it.** AU7 expects the old identifier shape
+(`^[A-Z]{2,4}-\d{3}$`); `register-v2.md` uses `R-nnnn`. The new format's ten
+checks live in `tools/reqview/reqview.py`, which is **a spike and is not in
+CI**. So today the position is:
+
+| | validated by | in CI |
+|---|---|---|
+| `register.md` (dead content) | AU7/AU8 in `gate.py audit` | yes |
+| `register-v2.md` (live content) | `reqview.py` format checks | **no** |
+
+**The refusal is pointed at the wrong file, and has been since the migration
+landed.** Retiring the old register does not cause that — it makes it visible.
+
+**Why this was not fixed here.** The obvious repair is to give the new format
+the same treatment AU7/AU8 got — riding `gate.py audit`, no new CI step, the
+AU5/AU6 precedent. But the checks currently live in a **spike that has not been
+through the gates**, so wiring CI to depend on it is a coupling decision, not a
+mechanical one. The alternative — reimplementing the checks inside `kit.py` —
+creates a second parser for one format, which is the drift the single-serializer
+rule exists to forbid.
+
+**The ruling needed, and it is one sentence:** does the new format's validator
+graduate out of the spike and into `gate.py audit` before the old register is
+retired, or does the old register stay in place until it does? Either is
+defensible; doing neither leaves the live register unrefused.

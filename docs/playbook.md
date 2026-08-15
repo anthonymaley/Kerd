@@ -215,36 +215,32 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Current Status
 
-**Version:** 0.95.0
+**Current state is not kept here.** It lived here as a `**Version:**` line and
+a long "Working:" list, and it was a duplicate of `CONTEXT.md` that drifted:
+it last claimed v0.95.0, nine skills, four hooks and 26 tests while the repo
+was at v0.98.0 with ten skills, three hooks and 22 tests. Two homes for one
+fact is how that happens, so there is now one home.
 
-**Working:**
-- All nine skills functional: conductor, interrogate, lorg, switch, kivna, slainte, skriv, tend, pair
-- Four opt-in hooks: Stop (uncommitted changes reminder), SessionStart (stale state surfacing), PostToolUse (mode progress), UserPromptSubmit (pair-mode banner). Hardened against unset/empty `CLAUDE_PROJECT_DIR` (v0.41.1) and covered by `tests/hooks_test.sh` (26 tests, shellcheck-clean)
-- Plugin installs from marketplace
-- Session logs, playbook creation, and health audits all operational
-- Obsidian vault integration is **optional, opt-in per project** (v0.83.0). Nothing writes the vault automatically — not the boundary, not close-out; `/kerd:kivna save` is the deliberate on-demand writer, and a vault is exactly as fresh as its last save. When invoked, save writes living vault files (Status.md, Weekly.md, domain knowledge) in place, reporting changes without an approval prompt (v0.60.0); do-not-save markers are the privacy control. Vault Status.md is never read at switch-in
-- Tend audit verified (9 categories including hook hygiene). Reports structural drift and fixes with approval
-- Slainte release audit catches skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification; CI owns version sync, description sync, and namespaces (R1–R3)
-- Unified `.active-modes` schema shared by conductor, skriv, and switch
-- Switch snapshots active mode state to CONTEXT.md `## Active Mode` for cross-machine handoff (v0.60.0; was TODO.md `### Context`)
-- Mode markers on conductor and skriv. Visible phase/state announcements with `.active-modes` state file
-- Conductor rigorous planning and execute verification
-- Switch-out reflection with explicit gotcha capture. Captures learnings to CLAUDE.md and memory files, gotchas to playbook
-- Switch session logs use bare-headers template with three rules above the fence (anti-hallucination, okay-not-to-know, match-vocabulary-to-work). Optional sections omitted entirely when empty
-- Context/history split (v0.60.0): state in CONTEXT.md (overwritten), work in TODO.md (`## Now` + `## Backlog`, lean), history in kivna/sessions/ (immutable). Switch-in reads exactly those three files — no vault read, no older-log skims. Gotchas are guaranteed durable by the switch-out playbook-mirror check
-- Switch-out closure inference (v0.60.0): every open TODO item gets a done/open/unsure verdict against session evidence — shown as an informational list, done items closed into the session log, unsure items tagged `(done? — confirm)` for one switch-in question
-- TODO.md is forward-only (v0.41.0, lean shape v0.60.0): switch-out overwrites `## Now` and self-migrates legacy `## Current Session`/`### Context`/`## Previous Session` shapes into CONTEXT.md and `kivna/sessions/` (rescue-before-remove). state-contract names the demote-and-keep anti-pattern; conductor close-out + plan-phase aligned
-- vault-spec.md defines the project-spine convention (MOC + Status + Weekly always-scaffolded, explicit repo/vault boundary, canonical lazy-created slots, kivna-scaffold intake interview). Wiring into kivna/tend is the pending Heavier step
-- Switch has one mode and it is the complete one (v0.90.0). The `light` and `low` modifiers are removed — both bought their saving by recording less or reading less, which is the one trade the boundary may never make. Every step runs every time; steps that were conditional are now conditional on the repo (a test command exists, a progress board exists), never on a budget. The v0.30.0 and v0.16.0 entries below are records of when those modifiers shipped and are left standing
-- CONTEXT.md is append-only between licensed prune events (v0.90.0): pruning happens only at a goal record landing (`docs/gates/*-goal.md`) or an explicit agreed drop, and every removal is reported in the session log. A short session structurally cannot erode a deeper session's record
-- Switch records and recovers **position on the ladder** (v0.90.0): switch-out step 4 and switch-in step 8 prefer a derived-from-disk progress board over any hand-maintained file, and the pickup summary carries which rung each in-flight item has reached
-- Lorg tiered subcommands: installed (default), available, explore, all, report. Per-tier freshness. Incremental saves.
-- Entry gates supply conductor's pre-flight inventory (v0.91.0): `gate.py route <slug> --json` derives an item's stage from disk before any question reaches the human, and work commits carry a `Piece:` trailer
-- The four roles are producer → composer → conductor → players (v0.92.0) — the old composer/orchestrator names inverted under reading and are retired; the architecture did not change
-- Handoff fidelity is machine-checked (v0.93.0): `tools/gates/fidelity.py` verifies every artifact a session produced is reachable from switch-in's read set, wired as CI step 8 and switch-out step 5b
-- New work entering the funnel produces a frame on disk, not a TODO stub (v0.94.0): conductor's framing writes `docs/product/<slug>.md`, because untracked work is invisible to every machine surface and cannot be noticed when it stalls
+- **What is true now** — `CONTEXT.md` (state, overwritten each session).
+- **What is still to do** — `TODO.md` (`## Now` and `## Backlog`).
+- **Where each work item sits on the ladder** — `python3 tools/diagram/progress.py`,
+  derived from disk and CI-refused if stale.
 
-**Recent changes (as of 2026-04-25):**
+What stays below is **history**, which is a different kind of fact and does not
+go stale — it only stops.
+
+## Release history — stopped 2026-04-25, kept as a record
+
+**This is a changelog, and it is abandoned.** It runs from v0.15.0 to v0.38.0
+and stops; every release since is in git and in `CONTEXT.md`. It is left intact
+rather than deleted because the entries are real records of when things shipped
+and why — that is history, and history is not rewritten.
+
+**A finding worth one decision, not two:** `CHANGELOG.md` is the same artifact,
+abandoned earlier (stale at v0.14.0), and the Backlog carries them as two
+separate rows. They are one question — does this project keep a hand-written
+changelog at all, given git and CONTEXT.md already answer "what shipped when"?
+Whatever the answer, it should not be answered twice differently.
 
 > **Editorial note on the v0.34.0-v0.38.0 sequence:** these releases responded to a calibration failure observed in real-world spike work. A subsequent sensei review of the underlying A3 caught that the shipped countermeasures (and the global CLAUDE.md Claim Discipline section) all live at the same granularity the original diagnosis identified as broken — text in markdown files read at turn-start. Honest framing: these releases ship **better text rules + measurement infrastructure** (genuine improvement at the existing granularity), not **a fix to the granularity problem itself**. The granularity gap remains open. See vault `Kerd Skill Lessons.md` for the full recursive-trap analysis.
 
@@ -276,4 +272,5 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 - v0.15.0: Lorg `report` subcommand.
 
 **Next:**
-- Run `/kerd:tend` on other projects to migrate vaults
+
+See `TODO.md`. It is the forward-only work file and it is the only one.
