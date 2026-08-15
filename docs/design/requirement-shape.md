@@ -575,6 +575,68 @@ thing the never-summarise law exists to prevent.
 
 ---
 
+## Carrying universal force without a totality word — RESEARCHED 2026-08-14
+
+Open question 5 carried a second half: a statement deriving from an absolute
+law has to bind universally without using a banned totality word, and the
+shape doc recorded that the technique for this *"is nowhere taught, so writers
+who do not know it will quietly weaken absolute laws."*
+
+**That claim is false, and Law 4 is what caught it.** The technique is taught,
+it is taught by the same standard this document already adopted the word list
+from, and it is taught a second time by the dominant modern requirements
+syntax. Nothing here was invented; both are ADOPTED.
+
+**ADOPTED — EARS, the Easy Approach to Requirements Syntax** (Mavin et al.,
+Rolls-Royce, first published at IEEE RE'09). EARS carries universal force in
+the **form of the requirement**, never in a word. Its six patterns:
+
+| Pattern | Template | Carries |
+|---|---|---|
+| **Ubiquitous** | `The <system> shall <response>` | always active — no keyword, no trigger, no precondition |
+| **State-driven** | `While <precondition>, the <system> shall <response>` | active while the state holds |
+| **Event-driven** | `When <trigger>, the <system> shall <response>` | active on the trigger |
+| **Optional feature** | `Where <feature is included>, the <system> shall <response>` | active in a scoped variant |
+| **Unwanted behaviour** | `If <trigger>, then the <system> shall <response>` | fault response |
+| **Complex** | `While <precondition>, when <trigger>, the <system> shall <response>` | combined |
+
+**The ubiquitous pattern is the answer to the open question.** A ubiquitous
+requirement is *always active precisely because it carries no keyword* — the
+universality is structural, so the word `always` is not merely banned, it is
+redundant. `never` is likewise replaced by a definite negative on a named
+subject (`the tooling shall not maintain…`), which is checkable in a way
+`never` is not.
+
+**The second gain, and it is the larger one:** choosing the pattern forces you
+to ask whether the law is genuinely universal or has an unstated scope. Writing
+`boxes are never coloured` hides a precondition; writing `Where the render is
+the evaluation matrix, …` exposes it. Of the eight statements reworded under
+this rule on 2026-08-14, **one turned out to be scoped rather than universal**
+and the scope had been sitting in bolded prose rather than in the requirement's
+structure.
+
+**ADOPTED, with its verification status stated — ISO 29148's `each` rule.**
+The standard is reported to recommend `each` in place of `all`, `any` or `both`
+for universal qualification, alongside its ban on unachievable absolutes
+(`100%`, `all`, `always`, `never`). **This is from secondary summaries of the
+standard; the standard's own text was not reachable** — a fetch of the 2018 PDF
+returned metadata only, and the ReqView template page does not quote the wording.
+Treated as sound because it agrees with the EARS finding and with the word list
+already adopted here, but **it is not verified against primary text** and is
+marked so rather than quoted as normative.
+
+**What this does not settle.** Whether the writing help *refuses* or only
+*advises* is untouched by any of the above — that remains open question 5 and
+remains the producer's, because it decides whether a rule blocks or informs.
+
+**Applies to the Statement only**, per the precedence rule above. Quoted words
+inside the Why are evidence and are never restructured into EARS form.
+
+Sources: [EARS official guide](https://alistairmavin.com/ears/) ·
+[EARS (Wikipedia)](https://en.wikipedia.org/wiki/Easy_Approach_to_Requirements_Syntax)
+
+---
+
 ## The shape — six elements
 
 Two of the six exist for the machine and Tony never fills them in or reads
@@ -1465,14 +1527,24 @@ to invent. Each is a real decision awaiting him, not a doubt.
    form defines the block. **Still
    open: one document or several** — and the minting rule now attaches a
    cost to splitting, named in the straw-man.
-5. **Does the writing help ever refuse, or only advise?** Still open — its
-   scope is now settled by his precedence ruling (the Statement only, never
-   his quoted words), but whether it refuses or advises within that scope
-   is not. The second test surfaced a related documentation gap worth
-   settling with it: a statement deriving from an absolute law has to carry
-   universal force without a banned totality word, and the technique for
-   that (an indefinite subject — "a change that lands shall…") is nowhere
-   taught, so writers who do not know it will quietly weaken absolute laws.
+5. **Does the writing help ever refuse, or only advise?** Still open, and now
+   narrowed to exactly this. Its scope was settled by his precedence ruling
+   (the Statement only, never his quoted words); whether it refuses or
+   advises within that scope is his, because it decides whether a rule
+   blocks or informs.
+
+   ~~The second test surfaced a related documentation gap worth settling with
+   it: a statement deriving from an absolute law has to carry universal force
+   without a banned totality word, and the technique for that is nowhere
+   taught.~~ **CLOSED BY RESEARCH 2026-08-14 — and the claim was wrong.**
+   The technique is taught twice over: EARS's **ubiquitous pattern** carries
+   universal force structurally (always active *because* it takes no keyword),
+   and ISO 29148 — the source this document already took the word list from —
+   supplies `each` for universal qualification. Struck rather than deleted per
+   Law 4's ordering rule; the replacement is the new section *Carrying
+   universal force without a totality word*. **Law 4 caught this**: the claim
+   was believed for a day because nobody checked the territory before
+   concluding it was empty.
 6. **Where exactly is the beside-space, and at which moments does the model
    read it?** His *"for you to pick up"* is a reading obligation, not just a
    storage location.

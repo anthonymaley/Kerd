@@ -78,6 +78,19 @@ closest calls:
 
 ### 3 — No statement wording was changed
 
+> **ACTED ON 2026-08-14 (late) — this section records the state before the
+> rework and is kept for the record only.** The recommendation below was to
+> settle open question 5 first, then reword the twelve as one pass. That was
+> followed, with one correction: **open question 5 turned out to be two
+> questions**, and only one of them was the producer's. Its research half —
+> *the technique for carrying universal force without a totality word is
+> nowhere taught* — **was false**, and Law 4 caught it: the technique is
+> taught by EARS's ubiquitous pattern and by ISO 29148's own `each` rule, the
+> same standard this word list came from. The rework is recorded in section 8
+> below. **The list of twelve is also superseded**: three were killed at the
+> 2026-08-14 triage, one is deferred to the producer, and one the list missed
+> was found by machine scan.
+
 Zero statements were reworded. The brief permitted fixing what the format's
 plain-language rules require; I did not exercise it, and the reason is a
 judgement you should be able to overturn.
@@ -298,3 +311,111 @@ The two readings are genuinely different and only you can pick one: either
 which case `R-0002` satisfies it and the requirement stands unchanged — or
 it meant *IDs that tell me what kind of thing this is* — in which case
 either the requirement goes to the graveyard or rule 2 is wrong.
+
+---
+
+### 8 — The word-list rework, 2026-08-14 (late)
+
+Nine live statements were reworded. **The obligation is unchanged in every
+case** — only the construction carrying universal force changed. Where a
+rewording would have altered what a requirement demands, it was not made and
+is named below instead.
+
+**The technique, and why it is not invention.** Section 3 recommended settling
+open question 5 first. OQ5 was two questions welded together, and only one is
+his:
+
+- **His, still open** — does the writing help *refuse* or only *advise*? That
+  decides whether a rule blocks or informs.
+- **Not his, and now closed** — how do you carry universal force without a
+  banned totality word? The shape doc said the technique *"is nowhere
+  taught"*. **That was wrong.** EARS's **ubiquitous pattern** carries
+  universality structurally (a requirement with no keyword, no trigger and no
+  precondition is always active — so `always` is redundant, not merely
+  banned), and ISO 29148 — the source the word list itself came from —
+  supplies `each` for universal qualification. Recorded in
+  `docs/design/requirement-shape.md` under *Carrying universal force without a
+  totality word*, ADOPTED from both.
+
+The rewording did not need the missing Whys. **Rewording is safe without the
+Why; supplying missing force or a missing subject is not** — that line was held
+across the pass and the one block that crossed it is deferred.
+
+**Zero fingerprint cost.** All nine stood at `Approval. none`, so no approval
+was invalidated and no published test vector moved. Both vectors still
+reproduce; the register passes all ten format checks.
+
+| Reference | Before | After |
+|---|---|---|
+| R-0012 | `…states why, in a few words — **never** a sentence` | `…shall state why as a phrase of a few words, not as a sentence` |
+| R-0024 | `records **everything** agreed; efficiency is a tiebreaker, **never** a reason to record less` | `shall record **each** thing agreed; efficiency shall serve **only** as a tiebreaker between designs that preserve that record` |
+| R-0028 | `**In the evaluation matrix**, boxes are **never** coloured` | `**Where** the render is the evaluation matrix, the box shall remain uncoloured` |
+| R-0036 | `…— nothing in Kerd, **ever**` | `…; Kerd shall hold **no project state**` |
+| R-0038 | `**must** aim at…, **never** at its own install path` | `**shall** resolve its target to…, **not** to its own install path` |
+| R-0040 | `— **never** embedded in a product doc —` | `; a product doc **shall not** contain it` |
+| R-0043 | `**must** be the same files…, **never** a parallel store` | `**shall** be the same files…; the tooling **shall not** maintain a parallel store alongside them` |
+| R-0051 | `**must not** be a step the model can assume or skip…, **never** on a question…` | `**shall** bind on countable facts produced outside the model, so that the model can neither assume nor skip it; it **shall not** bind on a question…` |
+| R-0050 | `working from the RAW sources, **never** from a summary` | `working from the RAW sources **rather than** from a summary` |
+
+**R-0028 is the one that changed shape, and it is the argument for the
+technique.** `boxes are never coloured` reads as a universal law. It is not
+one — its scope was corrected by the producer on 2026-08-08 (*"UX-001 was for
+the eval matrix only"*) and that scope was carried in **bolded prose**, where
+nothing enforces it. Choosing the EARS pattern forced the question *is this
+genuinely universal?*, and the answer was no. The scope now sits in the
+requirement's structure (`Where …`) instead of in its typography.
+
+#### Three that were on the list of twelve and are already dead
+
+R-0003, R-0039 and R-0045 were killed at the 2026-08-14 triage. Section 3 was
+written before those kills, so its table of twelve overstates the live work by
+three. No action.
+
+#### One deferred to the producer — R-0007
+
+**`The register is the data source for release planning, dependency and
+visualization tooling — not merely a record`**
+
+The only one of the twelve whose defect is **not** a totality word. Section 3
+flags it as *not a checkable clause*, and it is: `not merely a record` says
+what the register is not, and nothing about what it must do. Making it
+checkable means deciding what the register owes the tooling — **that is the
+obligation itself, not its grammar**, and writing it would be authoring the
+requirement rather than rewording it.
+
+The two readings, which only he can pick:
+
+- **A format guarantee** — the register must be machine-parsable to a declared
+  schema, so a tool can consume it without a human step. Checkable, and
+  already true (the view's parser reads it).
+- **A dependency direction** — the tooling must read the register rather than
+  keep its own copy of the same facts. Also checkable, and close enough to
+  R-0043 that it may be a duplicate.
+
+Left verbatim and unapproved until he rules. Its Why is one of the 38 and
+would probably settle it in the same breath.
+
+#### One found by machine scan that the list missed — R-0050
+
+The list of twelve was compiled by reading. A scan of every live statement for
+banned words found **R-0050** carrying `never from a summary`, which the
+reading missed. Reworded above.
+
+**This is yesterday's lesson repeating one level down.** The register was
+audited twice by reading; a mechanical pass found the miss in seconds. Reading
+and scanning are different tests, and the same gap that let three format
+defects survive four reviews let one word-list violation survive the audit that
+existed to catch exactly it.
+
+#### One judgement call left open — should `every` join the banned list?
+
+The scan flags **R-0048** (`Every work item owes every gate unless it
+explicitly marks that gate n/a with a named reason`). `every` is **not** on the
+adopted word list, which names `all / always / never`. The statement is also
+bounded — it carries an explicit exception clause, so it is checkable as it
+stands.
+
+Not changed, because **widening the word list is a change to the rule, and the
+rule is his.** ISO 29148's `each` guidance would prefer `Each work item shall
+owe each gate…`, which is a nudge rather than a violation. Named here so the
+decision is visible rather than silently taken either way.

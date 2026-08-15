@@ -234,7 +234,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0012 — a lesser mark says why, briefly
 
-**Statement.** A mark that is not `◎` or `○` states why, in a few words — never a sentence
+**Statement.** A mark that is not `◎` or `○` shall state why as a phrase of a few words, not as a sentence
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -369,7 +369,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0024 — the boundary records everything agreed
 
-**Statement.** The boundary records everything agreed; efficiency is a tiebreaker, never a reason to record less
+**Statement.** The boundary shall record each thing agreed; efficiency shall serve only as a tiebreaker between designs that preserve that record
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -422,7 +422,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0028 — the mark carries the verdict, not the box
 
-**Statement.** **In the evaluation matrix**, boxes are never coloured; the mark carries the verdict — `○` green, `△` yellow, `×` red
+**Statement.** Where the render is the evaluation matrix, the box shall remain uncoloured and the mark shall carry the verdict — `○` green, `△` yellow, `×` red
 
 **Why.** Partly written. The migrated source records provenance and one verbatim ruling: this came from the producer's own tweaks to the evaluation-matrix render on 2026-08-08, and its scope was corrected at 21:23 on his statement — Tony: *"UX-001 was for the eval matrix only"* — which is why the statement binds inside the evaluation matrix and nowhere else. That explains the scope; it does not explain why the requirement exists. The reason still awaits his words.
 
@@ -536,7 +536,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0036 — state lives in the user's repo
 
-**Statement.** The user's repo holds funnel state, requirements, stage data, steps and journey — nothing in Kerd, ever
+**Statement.** The user's repo shall hold funnel state, requirements, stage data, steps and journey; Kerd shall hold no project state
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -550,7 +550,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0038 — the machinery aims at the consuming project
 
-**Statement.** The machinery must aim at the consuming project, never at its own install path
+**Statement.** The machinery shall resolve its target to the consuming project, not to its own install path
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -564,7 +564,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0040 — the register is a standalone file
 
-**Statement.** The register is a standalone file at a known location — never embedded in a product doc — so it can be read quickly by a person and directly by a tool
+**Statement.** The register shall be a standalone file at a known location, so that a person can read it quickly and a tool can read it directly; a product doc shall not contain it
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -606,7 +606,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0043 — one representation, no parallel store
 
-**Statement.** The register must be **the same files** — one representation, never a parallel store alongside the project's own
+**Statement.** The register shall be **the same files** the project already keeps — one representation; the tooling shall not maintain a parallel store alongside them
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -706,7 +706,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0050 — light check at every step, heavy at the design GO
 
-**Statement.** **The completeness check is tiered: the LIGHT check fires at every step; BOTH light and heavy fire at the design GO.** Light is machine facts only — did the register move, do approval hashes still match, are link stamps stale, does declared grounding resolve. Heavy is N independent readers working from the RAW sources, never from a summary, with convergence as the signal
+**Statement.** **The completeness check is tiered: the LIGHT check fires at every step; BOTH light and heavy fire at the design GO.** Light is machine facts only — did the register move, do approval hashes still match, are link stamps stale, does declared grounding resolve. Heavy is N independent readers working from the RAW sources rather than from a summary, with convergence as the signal
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
@@ -720,7 +720,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0051 — the check binds on facts from outside the model
 
-**Statement.** A completeness check must not be a step the model can assume or skip — it binds on countable facts, from outside the model, never on a question the model answers about itself
+**Statement.** A completeness check shall bind on countable facts produced outside the model, so that the model can neither assume nor skip it; it shall not bind on a question the model answers about itself
 
 **Why.** Not yet written — the migrated source recorded provenance only (2026-08-08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
 
