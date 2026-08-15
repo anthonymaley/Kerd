@@ -1756,6 +1756,18 @@ UNSEALED_RE = re.compile(r"^(.+?),\s*(\d{4}-\d{2}-\d{2})\s*(?:[—-]\s*(.*))?$")
 PLACEHOLDER_WHY = re.compile(r"not yet written", re.I)
 
 
+
+def block_span(text, ref):
+    """The character span of one block — heading through its trailing rule.
+
+    Seal and the editor both need to edit INSIDE one block. Locating a line by
+    searching the whole file looks equivalent and is not: approve two
+    requirements on the same day and `**Approval.** Tony, 2026-08-15` appears
+    twice, so a global match finds two and refuses. Scope first, then edit."""
+    m = re.search(r"\n### " + re.escape(ref) + r" — .*?(?=\n### |\n## |\Z)", text, re.S)
+    return (m.start(), m.end()) if m else None
+
+
 def seal(path=None, quiet=False):
     """Complete every hand-written approval with its fingerprint.
 
@@ -1833,11 +1845,17 @@ def seal(path=None, quiet=False):
             old = "**Approval.** " + first
             new = "**Approval.** %s, %s · fp:%s" % (m_new.group(1).strip(),
                                                     m_new.group(2).strip(), fp_now)
-            if text.count(old) != 1:
-                blocked.append((b.ref, "its approval line is not uniquely locatable; "
-                                       "refusing to edit by guess"))
+            span = block_span(text, b.ref)
+            if span is None:
+                blocked.append((b.ref, "its block could not be located"))
                 continue
-            text = text.replace(old, new, 1)
+            a0, b0 = span
+            chunk = text[a0:b0]
+            if chunk.count(old) != 1:
+                blocked.append((b.ref, "its approval line is not uniquely locatable "
+                                       "inside its own block; refusing to edit by guess"))
+                continue
+            text = text[:a0] + chunk.replace(old, new, 1) + text[b0:]
             sealed.append((b.ref, m_new.group(1).strip(), fp_now))
 
     if sealed and not quiet:
