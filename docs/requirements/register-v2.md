@@ -264,7 +264,7 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Approving the design shall be enough to proceed, and there shall be no separate plan approval
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** Tony ruled this on 2026-08-07, and these are his words: *"approving the design is enough, plan is execution of the design with measurements to ensure the goals are met."* So a plan is not a second thing to approve — it carries out a design that has already been agreed, and it is checked by measurement rather than by signature (R-0015, R-0047). A spec is the same: it sits below the design, and the rule there is that nothing needs a human approval where a machine can measure it against something already agreed. A piece that cannot be measured that way goes back to design rather than up to the producer. **The statement is our derivation of a gate deletion from his words; approving this block approves that derivation.**
 
 **Traces to.** G1, G3
 
