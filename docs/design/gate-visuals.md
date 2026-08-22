@@ -132,12 +132,20 @@ below.
 
 ## Open questions
 
-1. **The UI aspect has no type.** None of the 39 draws a screen — no wireframe,
-   no layout, no navigation map, no component hierarchy. Tony named UI alongside
-   database and architecture, so this is a gap in a common case, not an edge.
-   Under Law 4 it is the fourth and fifth steps: design for the gap, build for
-   the gap. **Unanswered here**, and it may turn out a screen is better served by
-   something that is not a diagram.
+1. ~~**The UI aspect has no type.**~~ **Answered 2026-08-22 by the
+   standards-grounding spike, and it is a named build, not an open question.**
+   None of the 39 draws a screen — no wireframe, no layout, no navigation map,
+   no component hierarchy. Tony named UI alongside database and architecture,
+   so this is a gap in a common case, not an edge. Law 4's first three steps
+   ran: ISO 9241-210 (read in full) establishes *that* the UI concern belongs
+   on the list — its Table 1 names personas, scenarios, prototypes and a UI
+   specification as output categories — and supplies a drawing convention for
+   none of them; it says in its own text it provides no methods. No ISO
+   standard defining a wireframe or screen-layout grammar exists. So steps four
+   and five remain: **the UI viewpoint is built**, borrowing notation from
+   design practice, as its own item. Until it lands, a design whose agreed
+   concerns include UI cannot pass this gate — which is the gate working, not
+   a hole in it. (`docs/design/standards-grounding-findings.md`)
 2. **Where the agreed aspect list is stored.** It has to be somewhere the gate
    can read it and somewhere his approval attaches to. The obvious candidate is
    the product doc's front matter, which the gates already parse.

@@ -1,6 +1,6 @@
 ---
 route: new
-stage: framed
+stage: designed
 ---
 
 # A visual at every gate, approved and locked
