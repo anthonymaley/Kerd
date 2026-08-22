@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="6900" height="3334" viewBox="260 40 6900 3334">
-<rect x="260" y="40" width="6900" height="3334" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="6900" height="3356" viewBox="260 40 6900 3356">
+<rect x="260" y="40" width="6900" height="3356" fill="#ffffff"/>
 <text x="300.0" y="104.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Progress — derived from disk</tspan>
 </text>
@@ -822,7 +822,7 @@
 <tspan x="300.0" dy="0.0">gate-visuals</tspan>
 </text>
 <rect x="300.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="330.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="330.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="360.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <rect x="390.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <rect x="420.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
@@ -830,7 +830,7 @@
 <rect x="480.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <rect x="510.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="300.0" y="1489.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">1 landed · 0 in flight · 7 remaining</tspan>
+<tspan x="300.0" dy="0.0">2 landed · 0 in flight · 6 remaining</tspan>
 </text>
 <text x="300.0" y="1532.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">grounding-was-read</tspan>
@@ -1051,5 +1051,8 @@
 </text>
 <text x="300.0" y="3330.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">gate-visuals/1 — landed in git, box unchecked in working tree</tspan>
+</text>
+<text x="300.0" y="3352.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">gate-visuals/2 — landed in git, box unchecked in working tree</tspan>
 </text>
 </svg>
