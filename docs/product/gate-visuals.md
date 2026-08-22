@@ -47,6 +47,33 @@ from nowhere else.
 | **goal** | the design set **redrawn from what was built** · `bar` measured against target · `line` the trend · `scatter` the relationship · `timeline` what shipped | one redraw per design drawing, plus whatever the measurement needs |
 | **loop** | `loop` where the last step feeds the first · `fishbone` when the loop was entered because something failed · `timeline` release history | as many as the learning needs |
 
+**AS-IS AND TO-BE ARE A PAIR, AND BOTH ARE OWED.** Tony, 2026-08-22:
+*"peoblem solving, as is - to be all need visuals."* An earlier version of this
+table carried `it-state` — the before picture — and nothing for the after, so
+there was nothing to compare it against. That is half a proposal.
+
+The pair is already the house grammar: the A3 shape is *current situation drawn ·
+numbered pains · proposal drawn · targets in units*, and a change stated in the
+user's terms is *current → new → what changes*.
+
+Three rules govern it:
+
+1. **Where a change is proposed, both states are drawn.** As-is at **frame**;
+   to-be at **frame** in outline and at **design** in full.
+2. **Both are drawn in the SAME type.** An as-is in `it-state` and a to-be in
+   `architecture` cannot be laid side by side — the difference between them
+   reads as a difference in notation. Same type, same layout, so the only thing
+   that changes between the two pictures is the thing that actually changed.
+3. **The delta is named, not left to the eye.** What moved, what died, what is
+   new. The colour grammar already carries this: red is cost, blue is changed
+   since the producer last reviewed.
+
+**Problem-solving work owes its own pair.** `fishbone` for the causes, plus the
+current condition and the target condition in the same type — which is the
+sensei route this repo already declares for a problem that survived a few
+attempts to fix it. A root cause with no target condition is an explanation, not
+a proposal.
+
 **Two rules make this opinionated rather than a menu:**
 
 1. **The set is closed.** A gate draws from its own row and from nowhere else.
