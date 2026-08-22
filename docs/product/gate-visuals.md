@@ -47,6 +47,55 @@ from nowhere else.
 | **goal** | the design set **redrawn from what was built** · `bar` measured against target · `line` the trend · `scatter` the relationship · `timeline` what shipped | one redraw per design drawing, plus whatever the measurement needs |
 | **loop** | `loop` where the last step feeds the first · `fishbone` when the loop was entered because something failed · `timeline` release history | as many as the learning needs |
 
+**THE WORK ITEM DICTATES THE VISUALS — they are derived, not chosen.**
+Tony, 2026-08-22: *"work items dictate the need for visuals, DB design needs
+schema, process needs …. architecture needs …. UI needs… etc etc."*
+
+So a work item declares what it touches, and the required drawings fall out of
+that declaration. Nobody picks. This is what makes the design gate countable
+from outside the model rather than a judgement about whether enough was drawn:
+**the gate counts drawings against declared aspects.**
+
+| The work touches… | It owes… |
+|---|---|
+| a database | `db-schema` — real tables, types, constraints, foreign keys |
+| a domain or data model | `er` — entities and cardinality |
+| a business process | `process` — ordered steps with actors and the data between them |
+| a process crossing teams | `swimlane` — because the handoff is the load-bearing part |
+| system architecture | `architecture` |
+| where it runs | `deployment` — hosts, environments, network boundaries |
+| an API or an exchange between actors | `sequence` |
+| a lifecycle or status | `state` |
+| decision logic | `flowchart` |
+| scope, trust or blast radius | `nested` |
+| coupling between modules or services | `dependency` — including cycles a tree cannot show |
+| tiered storage | `medallion` |
+| an integration surface | `dp-integration` |
+| roles and permissions | `dp-security-matrix` |
+| team or agent ownership | `org-chart` |
+| layered abstraction | `layers` |
+| **a user interface** | **NOTHING — see the gap below** |
+
+### The gap: there is no UI type, and UI is not a rare work item
+
+**None of the 39 types draws a screen.** `journey` draws what a person does and
+how they feel across stages; `flowchart` draws branching; `story-map` draws
+release scope. **No wireframe, no screen layout, no navigation map, no
+component hierarchy.**
+
+That is a real hole rather than an oversight on our side, and it is not a
+marginal one — a project using Kerd to build anything with an interface hits it
+immediately, and *"UI needs…"* was named in the same breath as database and
+architecture.
+
+Under Law 4 this is exactly the sequence's fourth and fifth steps: adopt what
+fits, **design for the gaps, build for the gaps.** The toolkit is adopted for
+everything above the line; the UI row is ours to answer.
+
+**Not answered here.** Naming it is the honest end of a frame; deciding what a
+Kerd UI visual is belongs to design, and it may turn out that a screen is better
+served by something other than a diagram.
+
 **AS-IS AND TO-BE ARE A PAIR, AND BOTH ARE OWED.** Tony, 2026-08-22:
 *"peoblem solving, as is - to be all need visuals."* An earlier version of this
 table carried `it-state` — the before picture — and nothing for the after, so
