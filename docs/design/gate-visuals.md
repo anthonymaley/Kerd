@@ -47,6 +47,46 @@ model and never rests on a question the model answers about itself.
 The escape hatch is `R-0048`'s shape: a declared aspect marked `n/a` with a named
 reason owes no drawing. Skipping stays possible and stays visible.
 
+## The vocabulary — ADOPTED from ISO/IEC/IEEE 42010, 2026-08-22
+
+Tony asked what an aspect actually is: *"elements, features, processes, tools
+systems?"* The honest answer was that the word was doing too much work — the
+frame's table mixed a **database** (a part), a **lifecycle** (behaviour) and
+**permissions** (something true across parts) without noticing they are not the
+same kind of object.
+
+**They never needed to be.** The architecture-description standard already has
+this vocabulary, and its completeness rule is the design gate word for word:
+
+| 42010 | Definition | What we were calling it |
+|---|---|---|
+| **concern** | *"a matter of relevance or importance regarding an entity of interest to a stakeholder"* | aspect |
+| **viewpoint** | *"the set of conventions for the creation, interpretation and use of an architecture view, to frame one or more concerns"* | diagram type |
+| **view** | *"a representation of the architecture from the perspective of a particular viewpoint"* | the drawing |
+
+> **"Each identified concern must be framed by at least one viewpoint so that
+> all identified concerns are covered."**
+
+That sentence is this design's first gate question. **ADOPTED whole** — the
+vocabulary and the rule — rather than invented, which is Law 4's third step
+before its fourth.
+
+**Why a concern is deliberately not a kind of thing.** It is whatever matters to
+someone about this work. That is why the list resists being a taxonomy of parts,
+and why trying to make it one produced a mixed table. A diagram type is a
+*viewpoint* precisely because it carries conventions — which is also why the
+spike's operator rule holds: obeying a type's layout rules is not style
+compliance, it is what makes the drawing a view of something rather than a
+picture.
+
+**And it settles the closed-list question differently than this design first
+proposed.** 42010 has no universal taxonomy of concerns, because concerns come
+from stakeholders. So **the list is declared per work item**, which is exactly
+the mechanism below.
+
+Sources: [42010 conceptual model](http://www.iso-architecture.org/42010/cm/) ·
+[arc42 on 42010](https://quality.arc42.org/standards/iso-42010)
+
 ## Where the aspect list comes from — DECIDED 2026-08-22
 
 The load-bearing question the second drawing deliberately did not answer: if a
@@ -73,13 +113,22 @@ This is the contract rung's own rule — *measured against an upstream
 declaration* — arriving one rung early, which is what makes the design gate
 countable at all.
 
-**The list must be closed.** If a work item can name an aspect nothing maps to,
-it owes no drawing and has skipped the gate without ever marking anything `n/a`.
-A closed vocabulary plus an explicit `n/a` gives both: every aspect either owes a
-drawing or carries a written reason it does not.
+**Superseded by 42010, same day.** This design first argued the concern list
+had to be a closed vocabulary, on the reasoning that an unmappable concern owes
+no drawing and so skips the gate silently. The standard answers it better:
+concerns are declared per work item and **agreed**, and the gate counts views
+against *that* declaration rather than against a universal list. An invented
+concern is caught by the agreement, not by a vocabulary — and a closed list
+would have been wrong anyway, since it would forbid a project from caring about
+something we had not thought of.
 
-The vocabulary is the sixteen rows in the frame's aspect table, **plus a
-seventeenth that does not exist yet** — see the open question below.
+What survives from the original argument is the escape hatch: a declared concern
+either owes a view or carries a written reason it does not.
+
+**The frame's sixteen-row table stops being a closed list and becomes what it
+always actually was: the mapping from a common concern to the viewpoint that
+frames it.** Its seventeenth row still has no viewpoint — see the open question
+below.
 
 ## Open questions
 
