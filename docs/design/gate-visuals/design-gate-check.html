@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>What the design gate refuses</title>
+  <style>
+    :root{--color-paper:#f5f5f5;--color-ink:#2d3142;--color-muted:#4f5d75;
+          --color-accent:#eb6c36;--font-sans:'Geist',system-ui,sans-serif;
+          --font-serif:'Instrument Serif',serif;--font-mono:'Geist Mono',ui-monospace,monospace;}
+    body{margin:0;padding:48px;background:var(--color-paper);color:var(--color-ink);
+         font-family:var(--font-sans);}
+    .wrap{max-width:920px;margin:0 auto;}
+    .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--color-muted);margin:0 0 8px;}
+    h1{font-family:var(--font-serif);font-size:34px;font-weight:400;margin:0 0 8px;}
+    .sub{color:var(--color-muted);font-size:15px;margin:0 0 28px;}
+    svg{width:100%;height:auto;display:block;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Kerd · gate-visuals · design</p>
+    <h1>What the design gate refuses</h1>
+    <p class="sub">Every question here is answered by counting something on disk. None of them asks the model about itself.</p>
+    <svg viewBox="0 0 920 720" role="img"
+         aria-labelledby="design-gate-check-title design-gate-check-desc">
+      <title id="design-gate-check-title">What the design gate refuses</title>
+      <desc id="design-gate-check-desc">The gate reads the aspects a work item declares, derives the drawings owed from them, and refuses when a drawing is missing, when one is unapproved, or when an approved drawing's fingerprint no longer matches its content. A declared aspect marked not-applicable with a named reason owes nothing. Passing writes the design GO record.</desc>
+      <defs>
+        <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
+        <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#eb6c36"/></marker>
+        <style>
+          .n{font-family:var(--font-sans);font-size:13px;fill:var(--color-ink);}
+          .b{font-family:var(--font-sans);font-size:13px;font-weight:600;fill:var(--color-ink);}
+          .e{font-family:var(--font-mono);font-size:9px;fill:var(--color-muted);}
+          .m{font-family:var(--font-sans);font-size:11px;fill:var(--color-muted);}
+          .box{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
+          .dia{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
+        </style>
+      </defs>
+
+      <rect class="box" x="316" y="16" width="288" height="40" rx="20"/>
+      <text class="b" x="340" y="42">the design gate runs</text>
+
+      <path d="M 460 56 L 460 88" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+
+      <rect class="box" x="288" y="88" width="344" height="56" rx="6"/>
+      <text class="n" x="308" y="112">read the aspects the work item declares</text>
+      <text class="m" x="308" y="132">a database · a process · an interface · …</text>
+
+      <path d="M 460 144 L 460 176" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+
+      <rect class="box" x="288" y="176" width="344" height="56" rx="6"/>
+      <text class="n" x="308" y="200">derive the drawings owed</text>
+      <text class="m" x="308" y="220">one per aspect · nobody chooses</text>
+
+      <path d="M 460 232 L 460 264" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+
+      <path class="dia" d="M 460 264 L 636 320 L 460 376 L 284 320 Z"/>
+      <text class="b" x="372" y="316">is every one</text>
+      <text class="b" x="392" y="334">drawn?</text>
+      <path d="M 284 320 L 176 320" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+      <text class="e" x="192" y="312">no</text>
+      <path d="M 460 376 L 460 408" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+      <text class="e" x="468" y="396">yes</text>
+
+      <path class="dia" d="M 460 408 L 636 464 L 460 520 L 284 464 Z"/>
+      <text class="b" x="356" y="460">is every one</text>
+      <text class="b" x="376" y="478">approved?</text>
+      <path d="M 284 464 L 176 464" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+      <text class="e" x="192" y="456">no</text>
+      <path d="M 460 520 L 460 552" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+      <text class="e" x="468" y="540">yes</text>
+
+      <path class="dia" d="M 460 552 L 636 608 L 460 664 L 284 608 Z"/>
+      <text class="b" x="332" y="604">does every fingerprint</text>
+      <text class="b" x="396" y="622">still match?</text>
+      <path d="M 284 608 L 176 608" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+      <text class="e" x="192" y="600">no</text>
+      <path d="M 636 608 L 700 608" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+      <text class="e" x="644" y="600">yes</text>
+
+      <rect x="16" y="292" width="160" height="368" rx="6"
+            fill="rgba(235,108,54,0.06)" stroke="var(--color-accent)" stroke-width="1.5"/>
+      <text class="b" x="36" y="324" fill="var(--color-accent)">REFUSED</text>
+      <text class="m" x="36" y="348">and it names</text>
+      <text class="m" x="36" y="366">which aspect,</text>
+      <text class="m" x="36" y="384">which drawing,</text>
+      <text class="m" x="36" y="402">and which of</text>
+      <text class="m" x="36" y="420">the three.</text>
+      <text class="m" x="36" y="460">Nothing here is</text>
+      <text class="m" x="36" y="478">a judgement.</text>
+      <text class="m" x="36" y="496">Each answer is</text>
+      <text class="m" x="36" y="514">a count.</text>
+
+      <rect class="box" x="700" y="588" width="204" height="40" rx="20"/>
+      <text class="b" x="720" y="613">design GO recorded</text>
+
+      <rect x="16" y="16" width="248" height="120" rx="6" fill="rgba(45,49,66,0.02)"
+            stroke="rgba(79,93,117,0.30)"/>
+      <rect x="36" y="8" width="128" height="16" fill="var(--color-paper)"/>
+      <text class="e" x="40" y="20">THE ESCAPE HATCH</text>
+      <text class="m" x="36" y="48">A declared aspect may be</text>
+      <text class="m" x="36" y="66">marked n/a with a named</text>
+      <text class="m" x="36" y="84">reason, and then owes no</text>
+      <text class="m" x="36" y="102">drawing — the same shape</text>
+      <text class="m" x="36" y="120">R-0048 already uses.</text>
+    </svg>
+  </div>
+</body>
+</html>

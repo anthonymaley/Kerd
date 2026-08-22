@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The life of a gate visual</title>
+  <style>
+    :root{--color-paper:#f5f5f5;--color-ink:#2d3142;--color-muted:#4f5d75;
+          --color-accent:#eb6c36;--font-sans:'Geist',system-ui,sans-serif;
+          --font-serif:'Instrument Serif',serif;--font-mono:'Geist Mono',ui-monospace,monospace;}
+    body{margin:0;padding:48px;background:var(--color-paper);color:var(--color-ink);
+         font-family:var(--font-sans);}
+    .wrap{max-width:1000px;margin:0 auto;}
+    .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--color-muted);margin:0 0 8px;}
+    h1{font-family:var(--font-serif);font-size:34px;font-weight:400;margin:0 0 8px;}
+    .sub{color:var(--color-muted);font-size:15px;margin:0 0 28px;}
+    svg{width:100%;height:auto;display:block;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Kerd · gate-visuals · design</p>
+    <h1>The life of a gate visual</h1>
+    <p class="sub">Same states, same transitions and the same fingerprint as a requirement. Nothing new was invented.</p>
+    <svg viewBox="0 0 1000 480" role="img"
+         aria-labelledby="visual-lifecycle-title visual-lifecycle-desc">
+      <title id="visual-lifecycle-title">The life of a gate visual</title>
+      <desc id="visual-lifecycle-desc">A visual is drawn when a work item declares an aspect, becomes locked when the producer approves it and a fingerprint is taken, and returns to drawn when it is edited. At the goal gate it is redrawn from what was built. Matching fingerprints end the cycle. Differing ones move it to diverged, which is a question rather than a fault: either the design stands and the build is fixed, or the design was wrong and is edited and re-approved. Conductor or composer decide which, and the producer decides only when they cannot.</desc>
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/>
+        </marker>
+        <marker id="ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#eb6c36"/>
+        </marker>
+        <style>
+          .st{font-family:var(--font-sans);font-size:13px;font-weight:600;fill:var(--color-ink);}
+          .tr{font-family:var(--font-mono);font-size:9px;fill:var(--color-muted);}
+          .nt{font-family:var(--font-sans);font-size:11px;fill:var(--color-muted);}
+          .box{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
+        </style>
+      </defs>
+
+      <circle cx="24" cy="120" r="6" fill="var(--color-ink)"/>
+      <text class="tr" x="8" y="148">work item</text>
+      <text class="tr" x="8" y="160">declares an</text>
+      <text class="tr" x="8" y="172">aspect</text>
+
+      <rect class="box" x="96" y="88" width="160" height="64" rx="8"/>
+      <text class="st" x="120" y="118">DRAWN</text>
+      <text class="nt" x="120" y="138">no fingerprint</text>
+      <path d="M 32 120 L 92 120" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+
+      <rect class="box" x="360" y="88" width="160" height="64" rx="8"/>
+      <text class="st" x="384" y="118">LOCKED</text>
+      <text class="nt" x="384" y="138">fingerprint held</text>
+      <path d="M 256 120 L 356 120" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+      <text class="tr" x="264" y="112">producer approves</text>
+
+      <path d="M 440 88 C 440 40, 176 40, 176 84" stroke="#4f5d75" stroke-width="1.2"
+            marker-end="url(#ar)" fill="none"/>
+      <text class="tr" x="252" y="40">edited / invalidated</text>
+
+      <rect class="box" x="624" y="88" width="176" height="64" rx="8"/>
+      <text class="st" x="648" y="118">REDRAWN</text>
+      <text class="nt" x="648" y="138">from what was built</text>
+      <path d="M 520 120 L 620 120" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+      <text class="tr" x="524" y="112">goal gate</text>
+
+      <circle cx="912" cy="120" r="8" fill="none" stroke="var(--color-ink)" stroke-width="1.2"/>
+      <circle cx="912" cy="120" r="5" fill="var(--color-ink)"/>
+      <path d="M 800 120 L 900 120" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+      <text class="tr" x="808" y="112">same fingerprint</text>
+      <text class="nt" x="856" y="152">built matches</text>
+      <text class="nt" x="856" y="168">the design</text>
+
+      <rect x="624" y="264" width="176" height="64" rx="8"
+            fill="rgba(235,108,54,0.06)" stroke="var(--color-accent)" stroke-width="1.5"/>
+      <text class="st" x="648" y="294" fill="var(--color-accent)">DIVERGED</text>
+      <text class="nt" x="648" y="314">built ≠ design</text>
+      <path d="M 672 152 L 672 260" stroke="var(--color-accent)" stroke-width="1.5"
+            marker-end="url(#ar-a)" fill="none"/>
+      <text class="tr" x="560" y="212" fill="var(--color-accent)">fingerprints differ</text>
+
+      <path d="M 760 264 L 760 156" stroke="#4f5d75" stroke-width="1.2"
+            marker-end="url(#ar)" fill="none"/>
+      <text class="tr" x="772" y="196">the design stands</text>
+      <text class="tr" x="772" y="208">fix the build</text>
+
+      <path d="M 624 296 C 400 300, 176 268, 176 156" stroke="#4f5d75" stroke-width="1.2"
+            marker-end="url(#ar)" fill="none"/>
+      <rect x="256" y="252" width="272" height="16" fill="var(--color-paper)"/>
+      <text class="tr" x="260" y="264">the design was wrong — edit it, approve again</text>
+
+      <text class="nt" x="96" y="372">DIVERGED is a question, not a fault: either the build is wrong or the design was.</text>
+      <text class="nt" x="96" y="396">Conductor or composer decide which. The producer decides only when they cannot.</text>
+      <text class="nt" x="96" y="420">If the requirements are right and the visual was approved, this should not happen —</text>
+      <text class="nt" x="96" y="444">so how often it fires is the measurement, not the noise.</text>
+    </svg>
+  </div>
+</body>
+</html>
