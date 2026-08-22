@@ -21,6 +21,22 @@ visuals for the work that is in the design, so DB design needed, then we need to
 show it, architecture needed, diagram must exist etc then we can compare design
 with built."*
 
+**Measured live during this item's own design, 2026-08-22.** The premise above
+had never been measured; it has now, on the same producer in the same week:
+
+| | Modality | Time to agreement |
+|---|---|---|
+| 39 requirements | text | ~a week — every block read, every reason written by hand, three rewrites of the wording before they were even readable |
+| the visual lifecycle — 5 states, 7 transitions, an escalation rule | one drawing | **one exchange** — *"great diagram, love that… yes its correct"* |
+
+His own remark on it: *"see how easy that was for me to agree."*
+
+The drawing is not the simpler artifact. In prose that lifecycle is three
+paragraphs the reader has to hold in their head to check. Drawn, the structure
+**is** the argument, so checking it is looking at it. That is the whole of
+*"design is agreed in diagrams, not prose"*, with a number attached for the
+first time.
+
 **Winning:** every gate has a picture the producer approved, the design is
 declared truth rather than description, and a build that drifts from its own
 design is detectable rather than discovered later.
