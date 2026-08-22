@@ -112,6 +112,30 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Gotchas
 
+### AU5 wants bare paths in `## Grounding` lines
+
+`- \`docs/x.md\` — why` does not resolve; the parser splits on the first ` — `
+and takes everything before it as the path, backticks included. Write
+`- docs/x.md — why`. Five lines fail at once, which looks like the files are
+missing when they are not.
+
+### Re-entering `plan` mid-session overwrites the `execute` stamp — the sitting's open time is lost
+
+`kivna/.active-modes` holds one conductor line. A second task in the same
+session rewrites it to `plan`, then to `execute` again with a *new* stamp, and
+the first task's start — which is the sitting's open time — is gone; it is
+gitignored, so there is no history. Seen 2026-08-22: the first `execute` was
+16:16, the line read `17:29` at close-out, and the session log heading had to
+be written `closed HH:MM` with no open side. Until the marker keeps its first
+`execute` stamp, a conductor session that plans twice owes the boundary no
+open time — write none, never the second stamp.
+
+### The shell's `grep` is an alias onto `ugrep`, which sorts multi-file output
+
+`grep -c pat a b` prints `b` before `a` if that is alphabetical order. A verify
+command whose expected output lists files in argument order mismatches for no
+reason. Use `command grep` in verify commands, or list one file per call.
+
 ### `git init --bare` points HEAD at `master`, not at your branch
 
 A fixture that works on `main` clones the bare repo into an **unborn `master`

@@ -2,63 +2,45 @@
 
 ## Now
 
-**2026-08-22 — the register is agreed, and `gate-visuals` waits at design.**
-See `kivna/sessions/2026-08-22.md`.
+**2026-08-22 evening — `gate-visuals` slice 1 is BUILT and sits at goal; the
+standards map is answered.** See `kivna/sessions/2026-08-22.md`.
 
 **Where things stand**
 
-- **Register: 38 live, 32 approved, 0 without a Why.** Every reason is his.
-- **`R-0018` is invalidated and needs re-approval** — folding `R-0020` into it
-  changed its words. Nothing was silently downgraded.
-- **`gate-visuals` design PASSES.** Only the design GO record stands between it
-  and contract, and that record is his — by `R-0014`, approving the design is
-  the only approval needed to build.
+- **Register: 38 live, 33 approved, 0 invalidated.** `R-0018` re-approved.
+- **`gate-visuals` enters at goal** — 8 of 8 pieces landed by trailer, full
+  suite green. Needs the goal record (`docs/gates/*-gate-visuals-goal.md`,
+  Done condition) with both keys: cold eyes on the whole change, and your
+  expert-user pass — declare a concern on a real item, approve a drawing,
+  edit it, watch the push refuse.
+- **`standards-grounding` spike is answered** — 4 of 4 layers can name a
+  standard (`docs/design/standards-grounding-findings.md`). Spine agreed.
 
 **Next, in order**
 
-1. **Re-approve `R-0018`** in the editor — one click, the words are the folded
-   version you agreed.
-2. **The `gate-visuals` design GO**, or push back on the package.
-   `docs/design/gate-visuals.md`, two drawings beside it.
+1. **The `gate-visuals` goal gate** — cold eyes first, fresh context, then your
+   pass. Lands the first goal record since the reset, which is a licensed prune
+   event for CONTEXT.md.
+2. **The four kept items from the spike, each its own small change:**
+   ISO 25010 → the definition of `R-0011`'s quality column
+   (`docs/design/iso-25010-quality-model.md` is the reference) · ISO/IEC/IEEE
+   24774 §5.3 → a name / purpose / outcomes header on every `SKILL.md` (a skill
+   change — version bump) · the UI viewpoint as a build, borrowing wireframe
+   notation from design practice (no standard supplies it) · one sentence in
+   `docs/design/gate-visuals.md`'s 42010 section: spine, not vocabulary.
 3. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`, keyed by family (A risk · B record ·
    C working relationship · D release and judgement · E method · F remainder).
-   Several carry a named tension with an existing requirement — C-06 against
-   R-0051, C-24 against R-0028 — that only you can resolve.
+   C-06 against R-0051, C-24 against R-0028 are yours to resolve.
 4. **Retire the old register — still coupled to the refuser.**
-   `docs/requirements/findings.md` §9. Deleting `register.md` does not turn CI
-   red; it makes AU7/AU8 **silent**, because `register_check` is a vacuous pass
-   when the file is absent, and the live register is validated only by the
-   reqview spike, which is not in CI. One ruling: does the new validator
-   graduate into `gate.py audit` first, or does the old register stay until it
-   does?
-5. **The suspect-link stamp still has no slot in the format** — a format change,
-   not a fix, because it alters what the fingerprint covers.
+   `docs/requirements/findings.md` §9. One ruling: does the reqview validator
+   graduate into `gate.py audit` first, or does `register.md` stay until it does?
+5. **The suspect-link stamp still has no slot in the format** — a format
+   change, because it alters what the fingerprint covers.
 
-**Two open questions inside the `gate-visuals` design**, named rather than
-guessed: the **UI concern has no viewpoint** in the 39 types, and **where the
-agreed concern list is stored** (front matter is the obvious candidate — the
-gates already parse it).
-
-**Closed this sitting** — verdicts against session evidence:
-
-```
-  ✓ done   the 38 Whys                      (0 missing; every one his)
-  ✓ done   R-0007's uncheckable clause      (approved as written)
-  ✓ done   `every` in R-0048                (approved with it; the rule stands)
-  ✓ done   twelve statements reworded       (nine live + R-0050 found by scan)
-  ✓ done   both parser hazards              (one real and silent, one proven closed)
-  ✓ done   gate.py --root                   (7 fixtures; CLI half only)
-  ✓ done   the behind-upstream test         (22/22, first fully green run)
-  ✓ done   build the view properly          (tools/reqview/editor.py)
-  ✓ done   playbook ## Current Status       (split into pointers + history)
-  ✓ done   requirement archaeology drafted  (53 candidates, 88 classified)
-  · open   retire the old register          (coupled — see 4 above)
-  · open   suspect-link stamp               (format change)
-  · open   the reset's three questions      (what the requirements system IS,
-                                             the draft to final, build-vs-adopt)
-  ✗ dead   "no server" as his constraint    (he never said it — struck 08-15)
-```
+**The reset's three questions stay open** — what the requirements system IS,
+the draft to final, build-vs-adopt (`docs/kerd-interview.md`). Not rows; the
+work above is how they get answered.
 
 **Still parked by the reset, not cancelled:** closing `model-effort-advisory`
 and `hooks-autoload` on the ladder. Do not walk these by hand.
@@ -69,37 +51,17 @@ and `hooks-autoload` on the ladder. Do not walk these by hand.
 
 **High consequence**
 
-- **Ground every layer in a standard, not just architecture and requirements —
-  his map, 2026-08-22.** Law 4 at the whole-project altitude: *assess and learn
-  from industry standards … for every aspect of our project.* Two of four layers
-  are already grounded, which is why the other two now look conspicuous.
-
-  | Layer | Standard | Where we stand |
-  |---|---|---|
-  | **architecture** | **ISO/IEC/IEEE 42010** — stakeholders, concerns, viewpoints, views | **ADOPTED 2026-08-22** in `docs/design/gate-visuals.md`. Its completeness rule *is* the design gate |
-  | **requirements / features** | **ISO/IEC/IEEE 29148** — elicitation, writing, structure, SyRS/SRS templates | **ADOPTED** — the plain-language word list and the `each` rule both came from it |
-  | | **ISO/IEC 26550** — software product lines, feature modelling, variability | not looked at. This is where *features* as a formal concept actually lives |
-  | | **ISO 9241-210** — human-centred design | not looked at. Governs how user needs become requirements — and we have no viewpoint for UI |
-  | **process** | **ISO/IEC/IEEE 12207** (software) / **15288** (system) — the reference set of life-cycle processes | not looked at |
-  | | **ISO/IEC/IEEE 24774** — guidelines for *describing* a process: purpose, outcomes, activities, tasks | **the nearest analogue to 42010's "how to describe it" flavour.** Kerd *is* a process and describes itself in prose |
-  | | **BPMN** (OMG, also ISO/IEC 19510) | the de facto notation. The toolkit has `process` and `swimlane`; neither claims BPMN conformance |
-  | | **ISO/IEC 33000** (was 15504, SPICE) · **CMMI** | process capability and maturity assessment |
-  | **product** | **ISO/IEC 25010** (SQuaRE) — product quality model: functionality, reliability, usability, security, maintainability | **the live one — see below** |
-  | | **ISO/IEC/IEEE 15289** — content of life-cycle information items: plans, specifications, reports, user documentation | this is what `docs/product/`, `docs/design/` and `docs/gates/` are, ungrounded |
-  | | **ISO 10007** — configuration management, defining and controlling the product baseline | relevant to what a release *is* |
-  | | **ISO/IEC 24748** — the life-cycle management guide tying 12207/15288 together | |
-
-  **His closing observation, which is the design question underneath the map:**
-  *"42010's concepts (stakeholders, concerns, viewpoints) are general enough that
-  people often reuse them to organize the other layers too."* If that holds, one
-  vocabulary covers all four and we do not need four.
-
-  **The one that is already live, and cheap:** `R-0011` is approved and says every
-  evaluation carries four summary columns — cost, **quality**, due date, rating.
-  **Nothing defines quality.** ISO 25010 is exactly that definition, off the
-  shelf, and the evaluation matrix is machine-checked already. That is a small
-  adoption against an approved requirement rather than a new project.
-
+- **Standards grounding — second pass.** The spike (`docs/product/standards-grounding.md`,
+  findings at `docs/design/standards-grounding-findings.md`) left three
+  surfaced and unread: **ISO/IEC/IEEE 82079-1** (writing instructions — what
+  a `SKILL.md` step body is, by 24774 §5.2), **ISO/IEC 25040** (the SQuaRE
+  evaluation *process*, which `tools/design/` reinvented), **ISO/IEC/IEEE 24748**
+  (life-cycle stages — the `stage:` field and the rung ladder, misfiled under
+  product on his map). And 29148 never got the 42010 term-mapping test.
+- **The conductor marker loses the sitting's open time when a session plans
+  twice** — see the playbook gotcha of 2026-08-22. Design question: should
+  `kivna/.active-modes` keep its first `execute` stamp across later phase
+  rewrites? Owner: conductor's mode-marker section.
 
 - ~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED 2026-08-13
   ~16:40**, at this sitting's switch-in. Three confirming observations: the
@@ -112,13 +74,9 @@ and `hooks-autoload` on the ladder. Do not walk these by hand.
   this open, and its acceptance test quotes the rendered string `Last session`
   when the source literal is lowercase — a grep for the documented string
   returns nothing and reads as "the hook didn't fire".
-- **`gate.py --root` — promoted from Medium.** No longer a nice-to-have: it is
-  a hard dependency of requirements-traceability slice 1. `tools/gates/kit.py:24`
-  derives `ROOT` from the tool's own path, so a consuming project would audit
-  the plugin cache. The pattern already exists in all four hooks
-  (`${CLAUDE_PLUGIN_ROOT}` finds the script, `$CLAUDE_PROJECT_DIR` finds the
-  state) and the gate library already takes `root` as a parameter everywhere —
-  only the CLI pins it.
+- **`gate.py --root` — the CLI half shipped 2026-08-14 (7 fixtures).** What is
+  left: the hooks and skills that *invoke* the tools still assume the Kerd
+  tree; nothing in a consuming repo calls `--root` yet. Narrowed, not closed.
 - **Hookify — promoted to a dependency.** `OPS-001` (funnel interaction requires
   a conductor session, everything else stays open) is a **refusal**, and skill
   text cannot enforce it on itself. A hook fires outside the model, which is the
@@ -176,11 +134,6 @@ and `hooks-autoload` on the ladder. Do not walk these by hand.
 - Hook version staleness check in `/kerd:tend`.
 - PR-event edge in the stale CI step (unexercised; no PR flow).
 - Guard switch-in step 3 smoke test against context bloat.
-- **`tests/hooks_test.sh` behind-upstream test fails environmentally** — `git
-  fetch --dry-run` against the fixture's local bare remote emits no `->` line in
-  this sandbox, so the behind-remote assertion gets an empty message. Fails on
-  HEAD too (pre-existing, not from the v0.96.0 hooks work). Fix the fixture's
-  remote setup or the hook's behind-detection to not depend on fetch dry-run output.
 - **lorg-cut candidate** — evidence check per the rip discipline before any
   license. **Interrogate rides the same review** — and note it now has a second
   caller: requirement qualification is the same shape as risk qualification.

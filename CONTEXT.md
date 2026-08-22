@@ -6,27 +6,33 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: switch (session
 
 ## Where We Are
 
-**2026-08-22 — the requirements register is mostly agreed, and the funnel has a
-visual design at its gate.**
+**2026-08-22 evening — `gate-visuals` slice 1 is BUILT and sits at the goal
+gate; every layer of the project can now name the standard it stands on.**
 
-- **The register is 38 live, 32 approved, 0 without a Why.** Every reason is his,
-  written over a week in a local edit surface. One block, `R-0018`, sits
-  **invalidated** and awaits deliberate re-approval: `R-0020` was folded into it,
-  which changed its words — the fingerprint doing exactly its job.
+- **The register is 38 live, 33 approved, 0 invalidated.** `R-0018` was
+  re-approved in the editor after `R-0020` was folded into it.
+- **`gate-visuals` walked design → contract → build in one afternoon.** GO at
+  16:53 on the word *"go"*; the composer's score (8 pieces, every step with a
+  verify command) at 17:29; 8 of 8 pieces landed by trailer by 17:50, full
+  local suite green. **Enters at goal** — the goal record needs cold eyes on
+  the whole change and his expert-user pass. That record would be the first
+  goal landing since the reset, and so the first licensed prune of this file.
+- **What the build delivered:** a work item's front matter declares its agreed
+  concerns (42010 vocabulary — concern · viewpoint · view); the design rung
+  counts views against it; `gate.py seal <slug>` completes a hand-written
+  approval with rule 9's fingerprint over the `.html`; AU9 refuses an edited
+  drawing on push. Rule 9 has one implementation
+  (`tools/reqview/fingerprint.py`), shared. Dogfooded live on `gate-visuals`
+  itself: refused with two unsealed drawings, sealed, passed.
+- **`standards-grounding` ran as a spike and is answered** — 4 of 4 layers
+  grounded (24774 and 25010 by adaptation, 9241-210 adapts its categories and
+  cannot supply the UI viewpoint, which is a build). His one-vocabulary
+  hypothesis is killed as stated; **42010 is the spine**, agreed. Four kept
+  items re-enter the ladder separately (TODO `## Now` 2).
 - **`tools/reqview/editor.py` is how the register is worked on.** One window, a
-  local process, five operations: edit title, edit description, edit/add Why,
-  approve, mark for discussion. A draft carries no machinery; the fingerprint
-  engages only at approval.
-- **`gate-visuals` is framed and its design PASSES** — a visual at every gate,
-  approved and locked with the same fingerprint a requirement uses, and a
-  design-against-built comparison. Only the design GO record stands between it
-  and contract, and that record is his.
+  local process, five operations.
 - **The diagram toolkit spike is closed:** adopted for explaining a design,
-  **closed permanently for the progress board** (it has no generator, so two runs
-  differ and the board is byte-compared).
-- **Two standards are now adopted, not invented:** ISO/IEC/IEEE **29148** for
-  requirement wording, and **42010** for architecture description — whose
-  completeness rule *is* the design gate.
+  closed permanently for the progress board.
 
 **THE PROJECT WAS RESET ON 2026-08-13 (evening). Read `docs/kerd-interview.md`
 before anything else in this file.** Tony called a full stop — *"honestly i feel
@@ -91,6 +97,8 @@ and meets MORE criteria outright than Build does.
 
 ## Key Decisions
 
+- **`gate-visuals` slice 1 is BUILT — 2026-08-22, design GO `137065a` (16:53) · contract `c6bef4d` (17:29) · pieces `10d1af9`…`576c213` (17:31–17:50), all pushed, CI-green suite locally; enters at goal.** Three contract-rung calls were the model's, taken without a human gate per the 2026-08-07 division of labour, and are recorded here because they are now the shape of the thing: **(1) the agreed concern list and every view's approval live in the product doc's front matter** — the gates already parse it, so one place holds `route`, `stage`, and what the design is answerable for; **(2) the fingerprint covers the `.html` only** — the PNG is a render, and a derived artifact is never approved (the board rule, applied one level down); **(3) rule 9 has exactly one implementation**, `tools/reqview/fingerprint.py`, imported by both reqview's `seal` and the gates' view lock, resolved from the tool's own `__file__` never the audited root. The composer corrected the conductor's brief on one point and the correction stands: CI runs `selftest` and `audit`, never per-slug `check`, so the view lock rides **AU9** — the AU5/AU7/AU8 precedent — or an edited drawing would never refuse on push. Two pending states (`unapproved`, `unsealed`) are the design rung's business and AU9 deliberately skips them. The first live run was on the item that designed it. Limit unchanged: nothing checks that a drawing *means* something.
+- **Every layer stands on a standard — 4 of 4 after the standards-grounding spike, and 42010 is a SPINE, not the one vocabulary (2026-08-22).** Law 4 at the whole-project altitude, run as a spike (`docs/product/standards-grounding.md`, findings at `docs/design/standards-grounding-findings.md`), three research players, every verdict evidence-tiered. Process: **ISO/IEC/IEEE 24774 adapts** — §5.3's three required elements (name, purpose, outcomes) as a header on every skill; 12207 and BPMN none fits. And the finding underneath: by 24774 §5.2 Kerd's skill files are *procedures*, not process descriptions — the step bodies belong to 82079-1, unread. Product: **ISO/IEC 25010 adapts** as a checklist *behind* `R-0011`'s quality column, never as columns — the evaluation matrix had already split "quality" into four or five of its characteristics under its own names, so the adaptation is a definition, not a restructuring; the model is recorded at `docs/design/iso-25010-quality-model.md` on corroborated secondary evidence (four sources, not the ISO text — tier stated). 15289 and 10007 none fits (10007 dies on `R-0042`/`R-0043`). Requirements: **ISO 9241-210 adapts** its Table 1 output categories, and **cannot supply the UI viewpoint** `gate-visuals` lacks — it says in its own text it provides no methods; no ISO standard for wireframes or screen layout exists, so **the UI viewpoint is a build**, borrowed from design practice. That is the answer the design GO was held for: the gap is now *named*, not open. 26550 none fits. **His one-vocabulary hypothesis is killed as stated** — 24774 has no *stakeholder* or *concern* — **and he agreed the truer shape:** *"spine is good for me."* 42010 is where *view* and *viewpoint* come from at every layer (24774 literally says "see 42010"; a 25010 characteristic *is* a concern); the other two terms are supplied per layer. Not done, named: 29148 never got the term test; 82079-1, 25040 (the evaluation process `tools/design/` reinvented) and 24748 surfaced unread. Each adaptation re-enters the ladder as its own item.
 - **A visual at every gate, approved and locked — and it needs no new machinery (2026-08-22).** Tony: *"EACH gate needs a corresponding visual(s) that users can approve and lock in"*, and *"we MUST have visuals for the work that is in the design, so DB design needed … then we can compare design with built."* A visual becomes declared truth exactly as a requirement does — a fingerprint over its content, computed at approval, invalidated on edit. That makes design-against-built almost free: draw it, approve it, build it, redraw from what was built, compare. **How checkable each concern is ships with the feature** rather than being promised — schema and dependencies are derivable from migrations and imports, deployment partly, architecture not at all because it is intent. **Divergence is a question, not a fault**, with two exits: the design stands and the build is fixed, or the design was wrong and is edited and re-approved. Conductor or composer decide which; the producer decides only when they cannot. **Its firing frequency is the measurement** — *"if requirments are correct and visuals are approved then it shouldnt happen"* — the same rule as the promotion beat. **Opinionated means the vocabulary is closed, not that the count is one**: he corrected that twice, and the frame carries `it-state`, `fishbone`, `journey`, `venn`, `pyramid` at frame alone. **The concerns are proposed by conductor or composer and agreed by him before design**, and that agreed list is what the gate counts views against. Framed at `docs/product/gate-visuals.md`, designed at `docs/design/gate-visuals.md` with two drawings; design passes, the GO record is his.
 - **ISO/IEC/IEEE 42010 is ADOPTED for architecture description, and its completeness rule is the design gate (2026-08-22).** He asked what an "aspect" was — *"elements, features, processes, tools systems?"* — and the honest answer was that the word was doing too much work: the table mixed a database (a part), a lifecycle (behaviour) and permissions (a thing true across parts). The standard already has the vocabulary: a **concern** is *"a matter of relevance or importance … to a stakeholder"*, a **viewpoint** is *"the conventions for the creation, interpretation and use of a view, to frame one or more concerns"*, a **view** is the drawing. And: *"each identified concern must be framed by at least one viewpoint so that all identified concerns are covered"* — which is the gate's first question, word for word. **A concern is deliberately not a kind of thing**, which is why the list resists being a taxonomy. It also **superseded a decision taken an hour earlier the same day**: the concern list does *not* need to be a closed vocabulary, because 42010 has none — concerns come from stakeholders, so the list is declared per work item and agreed, and a closed list would forbid a project caring about something we had not thought of. Second standard adopted after 29148; his own map of the remaining two layers (process, product) is in the Backlog.
 - **A box must mean something — the diagram toolkit is adopted for explaining a design and closed forever for the board (2026-08-22).** The spike on `cathrynlavery/diagram-design` passed three of four criteria and failed the fourth structurally: **there is no generator in it.** Every script verifies or lints; a diagram is the model writing SVG from a template, so "deterministic" means the templates carry no layout engine, not that two runs match. The board is byte-compared, so job 2 is closed permanently rather than pending a fix. **The spike's most useful output is not about the toolkit.** Two drawings, same tool, opposite verdicts — *"yes that drawing is correct"* and *"none of the diagrams make any sense … text on the screen with box that made no sense to the subject"*. The first used a type and let containment carry the argument; the second ignored all 39 types and hand-rolled panels of prose. **A box that only holds text is a slide, not a diagram** — *"what fails the gate is prose"* one level down. Operating rule: pick a type, obey its layout rules, do not freelance. **And the premise got its first measurement:** 39 requirements as text took a week; one lifecycle as a drawing took one exchange — *"see how easy that was for me to agree."*
