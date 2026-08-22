@@ -15,11 +15,12 @@ outside the model, in CI, on every push.
     python3 tools/gates/gate.py check <slug> <rung> [--json] # the refuser — exit 0 pass / 1 refusal
     python3 tools/gates/gate.py audit [--json]                # repo-wide mechanical sweep — exit 0 clean / 1 problems
     python3 tools/gates/gate.py release [--json]              # release rules — exit 0 clean / 1 problems
+    python3 tools/gates/gate.py seal <slug> [--json]         # complete hand-written view approvals with their fingerprint — exit 0 / 1
     python3 tools/gates/gate.py selftest                      # fixture suite in a temp tree — exit 0 / 1
 
 Exit codes: `0` pass/bypass/report, `1` refusal or audit problems, `2` bad
 argv (prints the module's usage docstring). `route` is a render and never
-refuses — `check`, `audit`, and `release` are the only three subcommands that can exit 1.
+refuses — `check`, `audit`, `release` and `seal` are the only four subcommands that can exit 1.
 
 `route` prints one line per rung (`<rung>  pass` or `<rung>  need <n>`),
 then `enters at: <rung>`, then — when there is a next rung — `missing for
@@ -39,7 +40,7 @@ EOF, for work slug `S`:
 | `frame` | nothing — always enterable |
 | `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) |
 | `slice` | section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` |
-| `design` | section `Release slice` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
+| `design` | section `Release slice` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) · when the front matter declares `concerns:` (see Views, below): every entry has a view path or `n/a — <reason>` · every view path ends `.html` and resolves on disk · every view carries a sealed approval `<name>, <date> · fp:<12 hex>` whose fingerprint matches the file's current content |
 | `contract` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
 | `build` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` — lines inside ``` fenced code blocks are invisible to this parse (a step may quote headings without splitting itself) |
 | `goal` | zero unchecked boxes (`- [ ] `) in the contract's `Pieces` section |
@@ -72,7 +73,7 @@ The canonical write-down — this README, not the dated spec it came from,
 is now the standard.
 
 YAML front matter: the first line of the file is exactly `---`, closed by
-a line `---` within 30 lines, containing `key: value` lines. A leading
+a line `---` within 120 lines, containing `key: value` lines. A leading
 `---` with no closing fence, or no `key: value` line inside it, is NOT
 front matter — it parses to nothing, the same as if it weren't there.
 
@@ -80,6 +81,7 @@ front matter — it parses to nothing, the same as if it weren't there.
 |---|---|---|
 | `route` | `new` \| `problem` \| `spike` | triage class. QUESTION never becomes work — it has no route. `spike` is the one licensed ladder bypass. |
 | `stage` | `framed` \| `viable` \| `sliced` \| `designed` \| `contracted` \| `building` \| `done` | last completed rung, past-tense. |
+| `concerns` | a list — see Views | the agreed concern list. Declaring it opts the design rung into the view count; absent, the rung behaves as before. |
 
 Both keys travel together: front matter carrying either key must carry
 both, with legal values — one without the other is incomplete and fails
@@ -175,6 +177,7 @@ push, not just against a named slug.
 | AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Release slice` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Release slice` section = vacuous pass. Lines inside ``` fenced code blocks are invisible (a quoted example is content, not a declaration). |
 | AU7 | `docs/requirements/register.md` blocks and states, against the schema `docs/requirements/catalog.md` declares: legal ID (`^[A-Z]{2,4}-\d{3}$`, prefix agreeing with `Category`), no duplicate IDs, an unknown field is a hard error, `State` in the five, `Source` and statement present, `Category`/`Tags` declared `applies`/declared in the project's own `categories.md` (nothing hardcoded — the legal set is per-project; a register without the disposition file is one named problem and category judgments are skipped, not guessed), `final` owes an `Approved` hash that MATCHES the statement — divergence is refused and the state never rewritten — and `Approved` may not ride a non-final block; `superseded` owes its `superseded-by` link. Absent register = vacuous pass. One mechanical limit, stated: `dropped` owes a *reason* in Source; the machine checks only that Source is non-empty. |
 | AU8 | Register links: every `- <role> → <ID> (sha256:<12 hex>)` line must parse, carry a role registered in the catalog grammar (both directions writable), and name an ID that exists. Two catalog rules are non-blocking FINDINGS, in the catalog's own flag-vs-refuse vocabulary: a link stamp diverging from its target's current statement ("flagged for re-look") and a non-origin block with no `refines` parent (aggregated to one line; "a finding, not an error, until slice 2"). Findings print in the audit's text output and never turn it red; the `--json` shape stays a bare problems list. |
+| AU9 | every `docs/product/*.md` declaring `concerns:`: the block parses and no view is in a wrong state — a render (`.png`) named as the view, a path not on disk, an approved drawing whose fingerprint no longer matches, an unreadable approval line. Pending approvals (no line, or a hand-written line not yet sealed) are the design rung's business and do not fail the audit. |
 
 Nonexistent directories pass vacuously — a repo that hasn't grown
 `docs/gates/` yet is not thereby in violation of its naming rule.
@@ -300,6 +303,130 @@ rigor rule does not double-refuse it. The declared level is data for
 later slices (the rigor catalog and per-class disposition tables);
 this slice enforces only that the level question is asked and answered
 legally.
+
+## Views — the design gate's lock
+
+A work item's front matter may declare `concerns:` — the agreed list of
+what matters about this work, in ISO/IEC/IEEE 42010's vocabulary: a
+**concern** is framed by a **viewpoint** (the diagram type), and a
+**view** is the actual drawing made from that viewpoint. Declaring the
+list opts the design rung into checking that every concern owns a view
+or a named reason it does not.
+
+### The schema
+
+```
+---
+route: new
+stage: designed
+concerns:
+  - concern: <what matters, free text>
+    viewpoint: <the diagram type, free text — e.g. state, flowchart, sequence>
+    view: <path relative to the repo root, must end .html>
+    approval: <name>, <YYYY-MM-DD>                  # hand-written; seal completes it
+  - concern: <another>
+    view: n/a — <reason it owes no drawing>        # no viewpoint, no approval
+---
+```
+
+Grammar, exact (all inside the front-matter fence):
+
+| Line | Regex | Meaning |
+|---|---|---|
+| opener | `^concerns:\s*$` | bare key, opens the list. A value on this line is a parse problem. |
+| entry | `^  - concern:\s*(.*)$` (two spaces, dash, space) | starts an entry; the capture is the concern name |
+| field | `^    (viewpoint\|view\|approval):\s*(.*)$` (four spaces) | a field of the current entry |
+| end | the closing `---`, or any line matching `FRONT_MATTER_KV_RE` (a top-level key) | closes the list |
+| other | anything else inside the list, blank lines included | parse problem: `concerns: line <n> unreadable: '<line.strip()>'` (n = 1-based file line) |
+
+Absent `concerns:` = the design rung behaves exactly as today; declaring
+it is opting in.
+
+### What each view row checks
+
+Computed per entry, in entry order, first failing rule wins. `P` =
+`docs/product/<slug>.md — `.
+
+| # | Rule | code | Row (verbatim) |
+|---|---|---|---|
+| a1 | entry has no `view` | `no-view` | need `P concern "<c>": no view and no n/a reason` |
+| a2 | `view` starts `n/a` but does not match `^n/a\s+—\s+(\S.*)$` | `na-no-reason` | need `P concern "<c>": n/a without a reason` |
+| a3 | `view` is `n/a — <reason>` | `na` | have `P concern "<c>": n/a — <reason>` |
+| a4 | `viewpoint` absent or empty | `no-viewpoint` | need `P concern "<c>": view <path> has no viewpoint` |
+| a5 | path does not end `.html` | `not-html` | need `P concern "<c>": view <path> is not .html — a render is never the view` |
+| b | `os.path.isfile(os.path.join(root, path))` false | `missing` | need `P concern "<c>": view <path> not on disk` |
+| c1 | no `approval` | `unapproved` | need `P concern "<c>": view <path> unapproved — no approval line` |
+| c2 | approval matches `VIEW_SEALED_RE` and fp == computed | `ok` | have `P concern "<c>": <viewpoint> view <path> approved by <name>, <date> (fp:<fp>)` |
+| c3 | approval matches `VIEW_SEALED_RE`, fp != computed | `mismatch` | need `P concern "<c>": view <path> fingerprint mismatch — approved at fp:<stored>, now fp:<computed>` |
+| c4 | approval matches `VIEW_UNSEALED_RE` | `unsealed` | need `P concern "<c>": view <path> approved by hand, not sealed — no fp` |
+| c5 | anything else | `unreadable` | need `P concern "<c>": view <path> approval line unreadable: '<text>'` |
+
+```python
+VIEW_SEALED_RE   = re.compile(r'^(.+?),\s*(\d{4}-\d{2}-\d{2})\s*·\s*fp:([0-9a-f]{12})\s*$')   # · is U+00B7, as reqview
+VIEW_UNSEALED_RE = re.compile(r'^(.+?),\s*(\d{4}-\d{2}-\d{2})\s*$')
+NA_VIEW_RE       = re.compile(r'^n/a\s+—\s+(\S.*)$')
+```
+
+**A render is never the view.** A `view:` path that does not end `.html`
+is refused (rule a5) — the PNG is a render of the `.html`, and a derived
+artifact is never approved.
+
+### The fingerprint — rule 9, over the `.html` only
+
+**Bytes hashed.** Rule 9's recipe (`docs/design/requirement-shape.md`),
+with the file's content as the Statement and the other three fields
+empty: read the file as UTF-8 text; trim it and collapse every internal
+whitespace run to a single space; join the four fields with single `\n`
+(so the hashed text is the collapsed content followed by three newlines);
+SHA-256 over the UTF-8 bytes; first twelve hex characters. Equivalent by
+hand:
+
+```python
+hashlib.sha256((" ".join(text.split()) + "\n\n\n").encode("utf-8")).hexdigest()[:12]
+```
+
+Collapsing whitespace is the recipe's own rule — a formatting-only edit
+must not un-approve a drawing.
+
+**Test vector:**
+
+```python
+FX = '<svg viewBox="0 0 8 8">\n  <rect x="0" y="0" width="4" height="4"/>\n</svg>\n'
+view_fingerprint(FX)                                    == "2878c07db022"
+view_fingerprint(FX + "   \n\n")                        == "2878c07db022"   # whitespace-only edit: same
+view_fingerprint(FX.replace('height="4"', 'height="8"')) == "c938aa15c609"   # content edit: different
+```
+
+### `seal` — completing a hand-written approval
+
+The producer types `<name>, <date>` by hand and never a hash; `seal`
+computes rule 9's fingerprint over the drawing he actually agreed to and
+writes it back:
+
+    python3 tools/gates/gate.py seal <slug> [--root PATH] [--json]
+
+Output, one line per entry plus a summary:
+
+    seal — <product>
+      sealed     <c>  <p>  <n>, <d> · fp:<fp>
+      already    <c>  <p>  fp:<fp>
+      DIVERGED   <c>  <p>  approved at fp:<was>, now fp:<now> — the drawing changed since it was agreed. Not rewritten.
+      REFUSED    <c>  <p>  <why>
+      unapproved <c>  <p>  no approval line — nothing to seal
+      UNREADABLE <c>  approval line <text> is neither `<name>, YYYY-MM-DD` nor a sealed approval. Nothing was assumed.
+      <n> sealed · <n> refused · <n> already approved · <n> diverged
+
+**A divergence is reported, never rewritten** — the requirement-register
+precedent (AU7). An approved drawing whose content changed since it was
+agreed is `DIVERGED`, not silently re-approved; a human decides whether
+the design still stands or the build needs fixing. `seal` exits 0 only
+when nothing was refused, diverged or unreadable, and it writes nothing
+at all while the concerns block fails to parse.
+
+### The stated limit
+
+The gate counts that a view exists, is approved and is unchanged, never
+that it was worth drawing.
 
 ## Progress view
 

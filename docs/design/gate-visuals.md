@@ -146,9 +146,13 @@ below.
    design practice, as its own item. Until it lands, a design whose agreed
    concerns include UI cannot pass this gate — which is the gate working, not
    a hole in it. (`docs/design/standards-grounding-findings.md`)
-2. **Where the agreed aspect list is stored.** It has to be somewhere the gate
-   can read it and somewhere his approval attaches to. The obvious candidate is
-   the product doc's front matter, which the gates already parse.
+2. ~~**Where the agreed aspect list is stored.**~~ **Answered at contract,
+   2026-08-22: the product doc's front matter.** `docs/product/<slug>.md`
+   carries a `concerns:` list — one entry per view: concern, viewpoint,
+   view path or `n/a — <reason>`, approval — read by the design rung of
+   `tools/gates/kit.py`; `gate.py seal <slug>` completes a hand-written
+   approval with rule 9's fingerprint over the `.html`. Schema and rows:
+   `tools/gates/README.md`, Views.
 
 ## What this design does NOT do
 
