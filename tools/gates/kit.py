@@ -17,12 +17,19 @@ import hashlib
 import json
 import os
 import re
+import sys
 import tempfile
 
 # Repo root, three levels up from this file (tools/gates/kit.py -> tools ->
 # repo root). The CLI passes ROOT; selftest passes a temp tree instead — every
 # function below takes `root` as a parameter for exactly that reason.
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Rule 9's recipe has one implementation — tools/reqview/fingerprint.py.
+# Resolved from THIS file's location, never from the audited root: a
+# consuming project has no tools/ of its own and the recipe ships here.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "reqview"))
+from fingerprint import view_fingerprint
 
 RUNGS = ["frame", "viability", "slice", "design", "contract", "build", "goal", "loop"]
 STAGES = ["framed", "viable", "sliced", "designed", "contracted", "building", "done"]
@@ -87,6 +94,12 @@ GATE_RECORD_RE = re.compile(
 )
 DATED_FILENAME_RE = re.compile(r'^\d{4}-\d{2}-\d{2}-')
 FRONT_MATTER_KV_RE = re.compile(r'^([A-Za-z0-9_.-]+):\s*(.*)$')
+CONCERNS_KEY_RE   = re.compile(r'^concerns:(.*)$')
+CONCERN_ENTRY_RE  = re.compile(r'^  - concern:\s*(.*)$')
+CONCERN_FIELD_RE  = re.compile(r'^    (viewpoint|view|approval):\s*(.*)$')
+NA_VIEW_RE        = re.compile(r'^n/a\s+—\s+(\S.*)$')
+VIEW_SEALED_RE    = re.compile(r'^(.+?),\s*(\d{4}-\d{2}-\d{2})\s*·\s*fp:([0-9a-f]{12})\s*$')
+VIEW_UNSEALED_RE  = re.compile(r'^(.+?),\s*(\d{4}-\d{2}-\d{2})\s*$')
 STEP_HEADING_RE = re.compile(r'^### Step ')
 H3_RE = re.compile(r'^### ')
 VERIFY_LINE_RE = re.compile(r'^\*\*Verify:\*\*')
@@ -99,10 +112,11 @@ RIGOR_SECTION_HEADING_RE = re.compile(r'^## Release slice[ \t]*$')
 
 # ── front matter (A1) ───────────────────────────────────────────────────────
 
-def read_front_matter(path):
-    """Parse the front-matter subset defined in A1. None when absent or the
-    fence is malformed — a leading '---' with no closing fence within 30
-    lines, or no 'key: value' line inside it, is NOT front matter."""
+def _front_matter_block(path):
+    """The front-matter fence window: (lines, close) where `lines` is the
+    whole file's splitlines() and `close` is the index of the closing '---'.
+    None when the file is absent, line 0 is not '---', or no closing '---'
+    within 120 lines."""
     if not os.path.isfile(path):
         return None
     with open(path, encoding="utf-8") as f:
@@ -110,12 +124,23 @@ def read_front_matter(path):
     if not lines or lines[0] != "---":
         return None
     close = None
-    for i in range(1, min(len(lines), 31)):
+    for i in range(1, min(len(lines), 121)):
         if lines[i] == "---":
             close = i
             break
     if close is None:
         return None
+    return lines, close
+
+
+def read_front_matter(path):
+    """Parse the front-matter subset defined in A1. None when absent or the
+    fence is malformed — a leading '---' with no closing fence within 120
+    lines, or no 'key: value' line inside it, is NOT front matter."""
+    block = _front_matter_block(path)
+    if block is None:
+        return None
+    lines, close = block
     fm = {}
     for line in lines[1:close]:
         m = FRONT_MATTER_KV_RE.match(line)
@@ -128,6 +153,81 @@ def read_front_matter(path):
     if not fm:
         return None
     return fm
+
+
+def parse_concerns(path):
+    """D1's grammar for the front-matter `concerns:` list. None when there
+    is no front matter or no line matching CONCERNS_KEY_RE inside it.
+    Otherwise (entries, problems): problems are D1's seven strings, without
+    the 'docs/product/... — ' prefix (callers prefix). Each entry is
+    {"concern", "viewpoint", "view", "approval", "index", "approval_index"}
+    in encounter order — the indexes are 0-based positions in the file's
+    lines (the entry line; the approval line)."""
+    block = _front_matter_block(path)
+    if block is None:
+        return None
+    lines, close = block
+
+    idx_open = None
+    for i in range(1, close):
+        if CONCERNS_KEY_RE.match(lines[i]):
+            idx_open = i
+            break
+    if idx_open is None:
+        return None
+
+    def _clean(val):
+        val = val.strip()
+        if len(val) >= 2 and val[0] == val[-1] and val[0] in ('"', "'"):
+            val = val[1:-1]
+        return val
+
+    problems = []
+    if CONCERNS_KEY_RE.match(lines[idx_open]).group(1).strip():
+        problems.append("concerns: line carries a value; it must be bare")
+
+    entries = []
+    current = None
+    for i in range(idx_open + 1, close):
+        line = lines[i]
+        n = i + 1
+        if FRONT_MATTER_KV_RE.match(line):
+            break
+        m_entry = CONCERN_ENTRY_RE.match(line)
+        m_field = CONCERN_FIELD_RE.match(line)
+        if m_entry:
+            name = _clean(m_entry.group(1))
+            if not name:
+                problems.append(f"concerns: line {n} entry has no concern name")
+            current = {
+                "concern": name, "viewpoint": None, "view": None,
+                "approval": None, "index": i, "approval_index": None,
+            }
+            entries.append(current)
+        elif m_field:
+            field, raw = m_field.group(1), m_field.group(2)
+            if current is None:
+                problems.append(f"concerns: line {n} field before any entry")
+                continue
+            if current[field] is not None:
+                problems.append(f'concerns: entry "{current["concern"]}" repeats {field}')
+                continue
+            current[field] = _clean(raw)
+            if field == "approval":
+                current["approval_index"] = i
+        else:
+            problems.append(f"concerns: line {n} unreadable: '{line.strip()}'")
+
+    if not entries:
+        problems.append("concerns: declared with no entries")
+
+    for e in entries:
+        if e["view"] is not None and e["view"].startswith("n/a") and e["approval"] is not None:
+            problems.append(
+                f'concerns: entry "{e["concern"]}" is n/a and carries an approval — nothing to approve'
+            )
+
+    return entries, problems
 
 
 # ── sections (A3) ───────────────────────────────────────────────────────────
@@ -334,6 +434,84 @@ def _steps_missing_verify(spec_text):
     return problems
 
 
+# ── views (the design gate's lock) ──────────────────────────────────────────
+
+def _view_row(root, e):
+    """D4's table for one concerns entry. First failing rule wins."""
+    c = e["concern"]
+    view = e["view"]
+
+    if not view:
+        detail = "no view and no n/a reason"
+        return {"code": "no-view", "concern": c, "detail": detail, "text": f'concern "{c}": {detail}'}
+
+    if view.startswith("n/a"):
+        m = NA_VIEW_RE.match(view)
+        if not m:
+            detail = "n/a without a reason"
+            return {"code": "na-no-reason", "concern": c, "detail": detail, "text": f'concern "{c}": {detail}'}
+        reason = m.group(1)
+        detail = f"n/a — {reason}"
+        return {"code": "na", "concern": c, "detail": detail, "text": f'concern "{c}": {detail}'}
+
+    path = view
+
+    if not (e["viewpoint"] or "").strip():
+        detail = f"view {path} has no viewpoint"
+        return {"code": "no-viewpoint", "concern": c, "detail": detail,
+                 "text": f'concern "{c}": {detail}', "path": path}
+
+    if not path.endswith(".html"):
+        detail = f"view {path} is not .html — a render is never the view"
+        return {"code": "not-html", "concern": c, "detail": detail,
+                 "text": f'concern "{c}": {detail}', "path": path}
+
+    abs_path = os.path.join(root, path)
+    if not os.path.isfile(abs_path):
+        detail = f"view {path} not on disk"
+        return {"code": "missing", "concern": c, "detail": detail,
+                 "text": f'concern "{c}": {detail}', "path": path}
+
+    approval = e["approval"]
+    if not approval:
+        detail = f"view {path} unapproved — no approval line"
+        return {"code": "unapproved", "concern": c, "detail": detail,
+                 "text": f'concern "{c}": {detail}', "path": path}
+
+    with open(abs_path, encoding="utf-8") as f:
+        text = f.read()
+    fp_now = view_fingerprint(text)
+
+    m = VIEW_SEALED_RE.match(approval)
+    if m:
+        name, date, fp_stored = m.group(1), m.group(2), m.group(3)
+        if fp_stored == fp_now:
+            detail = f'{e["viewpoint"]} view {path} approved by {name}, {date} (fp:{fp_now})'
+            return {"code": "ok", "concern": c, "detail": detail, "text": f'concern "{c}": {detail}',
+                     "path": path, "name": name, "date": date, "fp_now": fp_now, "fp_stored": fp_stored}
+        detail = f"view {path} fingerprint mismatch — approved at fp:{fp_stored}, now fp:{fp_now}"
+        return {"code": "mismatch", "concern": c, "detail": detail, "text": f'concern "{c}": {detail}',
+                 "path": path, "name": name, "date": date, "fp_now": fp_now, "fp_stored": fp_stored}
+
+    m = VIEW_UNSEALED_RE.match(approval)
+    if m:
+        name, date = m.group(1), m.group(2)
+        detail = f"view {path} approved by hand, not sealed — no fp"
+        return {"code": "unsealed", "concern": c, "detail": detail, "text": f'concern "{c}": {detail}',
+                 "path": path, "name": name, "date": date, "fp_now": fp_now}
+
+    detail = f"view {path} approval line unreadable: '{approval}'"
+    return {"code": "unreadable", "concern": c, "detail": detail, "text": f'concern "{c}": {detail}',
+             "path": path, "fp_now": fp_now}
+
+
+def view_rows(root, entries):
+    """One row per concerns entry, entry order — D4's classification, shared
+    by the design rung, AU9, and seal (Step 3) so all three branch on the
+    same codes rather than three copies of the rules."""
+    return [_view_row(root, e) for e in entries]
+
+
 # ── check_rung (A3, cumulative) ─────────────────────────────────────────────
 
 def check_rung(root, slug, rung):
@@ -412,6 +590,13 @@ def check_rung(root, slug, rung):
                     f"{rel_product} — Release slice declares a legal rigor level "
                     "(Rigor level: spike|mvp|production-v1)"
                 )
+            cs = parse_concerns(abs_product)
+            if cs is not None:
+                entries, problems = cs
+                for p in problems:
+                    need.append(f"{rel_product} — {p}")
+                for r in view_rows(root, entries):
+                    (have if r["code"] in ("ok", "na") else need).append(f"{rel_product} — {r['text']}")
 
     if idx >= RUNGS.index("contract"):
         rel_design = f"docs/design/{slug}.md"
@@ -971,6 +1156,30 @@ def _audit_au8(root):
     return register_check(root)["links"]
 
 
+def _audit_au9(root):
+    """Every docs/product/*.md declaring `concerns:`: the block parses and
+    no view is in a wrong state — a render, a missing file, a changed
+    drawing, an unreadable approval. Pending approvals (no line yet, or
+    hand-written and not sealed) are the design rung's business, not the
+    audit's."""
+    problems = []
+    d = os.path.join(root, "docs", "product")
+    if not os.path.isdir(d):
+        return problems
+    for path in sorted(glob.glob(os.path.join(d, "*.md"))):
+        fname = os.path.basename(path)
+        cs = parse_concerns(path)
+        if cs is None:
+            continue
+        entries, parse_problems = cs
+        for p in parse_problems:
+            problems.append(f"docs/product/{fname} — {p}")
+        for r in view_rows(root, entries):
+            if r["code"] not in ("ok", "na", "unapproved", "unsealed"):
+                problems.append(f"docs/product/{fname} — {r['text']}")
+    return problems
+
+
 def register_findings(root):
     """The register's non-blocking findings — reported by the audit CLI,
     never red, per the catalog's own flag-vs-refuse vocabulary."""
@@ -978,7 +1187,7 @@ def register_findings(root):
 
 
 def audit(root):
-    """Repo-wide mechanical sweep (AU1-AU8). Empty list = clean. Nonexistent
+    """Repo-wide mechanical sweep (AU1-AU9). Empty list = clean. Nonexistent
     directories pass vacuously — a repo that hasn't grown docs/gates/ yet is
     not thereby in violation of docs/gates/'s naming rule."""
     problems = []
@@ -990,6 +1199,7 @@ def audit(root):
     problems += _audit_au6(root)
     problems += _audit_au7(root)
     problems += _audit_au8(root)
+    problems += _audit_au9(root)
     return problems
 
 
