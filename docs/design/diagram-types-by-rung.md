@@ -8,38 +8,51 @@ mean something.**
 
 ## All 39, with a verdict on each
 
-**USE** — a job at a named rung · **CANDIDATE** — plausible, unproven ·
-**NOT YET** — no use today, with a return condition ·
-**TRAP** — looks right for a rung and is not ·
-**OURS** — the job belongs to a Kerd tool, not to this one
+**Judged for a project that uses Kerd — not for this repository.** Tony's
+standing correction, 2026-08-07: *"KERD is the skill that people use to build
+things. Kerd needs to give those projects this capability (perversely we need it
+to build Kerd too) so I am talking about the scope of the skill here all the
+time."* Restated 2026-08-22 against an earlier version of this table: *"projects
+that use Kerd might have a need for diagram that the skill itself does not"*.
 
-Counts: CANDIDATE 4 · NOT YET 2 · OURS 2 · TRAP 1 · USE 30
+**Kerd having no database is a fact about Kerd, not a verdict on `db-schema`.**
+An earlier version of this file scored the whole set against this repository's
+own needs, which is the wrong altitude and a repeatable mistake, because this
+repo is the thing on screen. Dogfooding is evidence a capability works; it is
+never the definition of what it is for.
+
+**USE** — a job at a named rung, for a project using Kerd ·
+**CANDIDATE** — plausible, no use proven yet ·
+**TRAP** — looks right for a rung and is not ·
+**OURS** — the job belongs to a tool Kerd already supplies
+
+Counts: USE 35 · CANDIDATE 1 · TRAP 1 · OURS 2
 
 | Type | Status | What it draws |
 |---|---|---|
 | **architecture** | USE · design | System overviews, integration maps, infra topology. |
 | **bar** | USE · goal | A measured result against the target that was declared. |
 | **data-flow** | USE · design | How data moves across roles — who starts it, who processes, who publishes. |
-| **db-schema** | NOT YET | Physical SQL tables and constraints. Returns the moment a consuming project has a database. |
+| **db-schema** | USE · design | Physical SQL tables, types and constraints — the DDL made legible. Any project with a database. Kerd has none, which is a fact about Kerd. |
 | **dependency** | USE · design, contract | What depends on what, including cycles a tree cannot show. |
 | **deployment** | USE · design | Where the software actually runs. |
-| **dp-integration** | CANDIDATE | Hub and spoke: what plugs in, what plugs out, over what wire. Kerd as hub, consuming repos as spokes. |
+| **dp-integration** | USE · frame, design | Hub and spoke: what plugs in, what plugs out, over what wire. Any platform project — and Kerd itself, as hub to the repos that use it. |
 | **dp-security-matrix** | USE · contract | A grid of rows against roles. For us: who holds the key at each rung. |
 | **er** | USE · design | Entities and how they relate. |
 | **fishbone** | USE · frame, loop | One observed effect, causes grouped by category. The problem route. |
 | **flowchart** | USE · design | Decision logic and branching. |
 | **gantt** | TRAP | Tasks with start and end dates. A release is a grouping, not a time axis. |
-| **high-level** | CANDIDATE | End-to-end phases as a chevron, with a strip for things that ride every phase. |
+| **high-level** | USE · frame, design | An end-to-end stack as a phase chevron, with a strip for concerns that ride every phase. |
 | **it-state** | USE · frame | The before picture — what exists now and how it is grouped. |
 | **journey** | USE · frame | What a person does across stages and how it feels at each one. |
 | **kanban** | OURS | A state census of work in progress. That is the progress board, derived from disk. |
 | **layers** | USE · design | Abstraction layers, stacks, cascades. |
 | **line** | USE · goal | A measure over releases, when the trend is the evidence. |
 | **loop** | USE · loop | Cycles where the last step feeds the first. |
-| **medallion** | CANDIDATE | Tiers of the same thing at different levels, and how something is promoted between them. |
+| **medallion** | USE · design | Tiers of the same dataset at different quality levels, and how data is promoted between them. Any data project. |
 | **nested** | USE · design | Hierarchy by containment. Our default grammar — outer is broader. |
 | **org-chart** | USE · contract | Role ownership and routing, including agent teams. |
-| **polar** | CANDIDATE | One series across 4–8 categories whose clockwise order matters. The ladder is a cycle of eight. |
+| **polar** | CANDIDATE | One series across 4–8 categories whose clockwise order carries meaning. Unproven — the ladder being a cycle of eight is the only use found so far. |
 | **process** | USE · design | A sequential process with actors and the data passing between them. |
 | **pyramid** | USE · frame, slice | Ranks and funnels — what sits above what. |
 | **quadrant** | USE · viability | A 2×2 decision frame. Use the type, replace the default axes. |
@@ -53,7 +66,7 @@ Counts: CANDIDATE 4 · NOT YET 2 · OURS 2 · TRAP 1 · USE 30
 | **timeline** | USE · goal, loop | Release history, milestones, incident reconstruction. |
 | **tree** | USE · design | Taxonomies, breakdowns, file trees. |
 | **treemap** | USE · viability, slice | Part of a whole, where the relative size is the story. |
-| **uml-class** | NOT YET | Operations and inheritance vocabulary. Returns when the object model is argued about. |
+| **uml-class** | USE · design | Operations and the inheritance/composition vocabulary, where those are the point. Any project with an object model worth arguing about. |
 | **venn** | USE · frame | Where A meets B — overlaps, not sequences. |
 | **wardley** | USE · viability | Build, buy or outsource. The interview's open question, drawn. |
 
