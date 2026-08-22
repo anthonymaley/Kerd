@@ -47,6 +47,48 @@ from nowhere else.
 | **goal** | the design set **redrawn from what was built** · `bar` measured against target · `line` the trend · `scatter` the relationship · `timeline` what shipped | one redraw per design drawing, plus whatever the measurement needs |
 | **loop** | `loop` where the last step feeds the first · `fishbone` when the loop was entered because something failed · `timeline` release history | as many as the learning needs |
 
+**THIS COMPOSES WITH `docs/design/talk-formats.md`; IT DOES NOT REPLACE IT.**
+Tony, 2026-08-22: *"we have the sensei story flows too for problems and
+stories."* An earlier draft of this frame was rebuilding structure that already
+exists, which is the thing Law 4 exists to stop.
+
+The division is clean:
+
+| | Owns |
+|---|---|
+| **talk-formats.md** | **the narrative** — which sections a communication owes, in what order, and which system moment triggers which format |
+| **this item** | **the rendering** — how each of those sections is drawn, and which type it is drawn in |
+
+They meet at a section. The format says *"you owe a Current Situation"*; the
+aspect table below says a current situation about a database is drawn as
+`db-schema` and one about a process is drawn as `process`.
+
+**Two things this frame was reinventing, now pointed at instead:**
+
+- **As-is and to-be** is **format 2, Compare & Contrast** — *Current Situation →
+  New Situation*. Already specified, already mapped to *"say it in the user's
+  terms"*.
+- **Problem solving** is **format 8, Problem Solving A3**, whose sections already
+  are *Happy path → As-is (GAP, measured) → Point of cause (TARGET) → Root cause
+  (5 whys / fishbone) → Countermeasure & plan → Check / Monitor / Prevent /
+  Share*. The as-is/to-be pair and the fishbone are both in it. This item does
+  not restate them; it says how each section is drawn.
+
+**And talk-formats already anticipated this work**, which is why it is a
+continuation rather than a new idea: *"The diagram toolkit grows layout helpers
+per format — a build item, not a precondition; until then formats are drawn by
+convention."* The spike changes the mechanism — the third-party toolkit is
+prompt-driven and has no generator, so it cannot be a layout helper inside
+`kit.py` — but the need is the one already recorded there.
+
+**One collision to settle at design, named here rather than discovered later.**
+talk-formats' rendering rules say *colour marks cost (red), the human's input
+(green), deltas (blue)*. The toolkit's central rule caps its accent at two
+elements and says colour is editorial rather than a flag. Tony's ruling,
+2026-08-22: *"color also we can give a little on, where we really need it is the
+eval."* So funnel visuals yield on colour; the evaluation matrix, which is ours
+and not drawn with this toolkit, keeps the grammar in full.
+
 **THE WORK ITEM DICTATES THE VISUALS — they are derived, not chosen.**
 Tony, 2026-08-22: *"work items dictate the need for visuals, DB design needs
 schema, process needs …. architecture needs …. UI needs… etc etc."*
