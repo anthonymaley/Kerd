@@ -21,7 +21,7 @@ separate small change that re-enters the ladder on its own.
 | process | ISO/IEC/IEEE 24774:2021 | **adapt** — a three-field header above every skill | full text | §5.3 |
 | process | ISO/IEC/IEEE 12207 | none fits — killed on criterion 2 | scope + secondary | — |
 | process | BPMN 2.0 / ISO/IEC 19510 | none fits — killed on criteria 1 and 2 | full text (ch. 1–2) | — |
-| product | ISO/IEC 25010:2023 | **adapt** — a checklist *behind* the quality column, never columns | **scope + secondary only** | the nine characteristics |
+| product | ISO/IEC 25010:2023 | **adapt** — a checklist *behind* the quality column, never columns | corroborated secondary (four sources, not the ISO text) — `docs/design/iso-25010-quality-model.md` | the nine characteristics |
 | product | ISO/IEC/IEEE 15289 | none fits — the gap is already filled, tighter | scope + secondary | — |
 | product | ISO 10007 | none fits — killed on all three, incl. criterion 3 (`R-0042`, `R-0043`) | scope + secondary | — |
 | product | ISO/IEC/IEEE 24748 | not a product-layer standard — it is process vocabulary; **untested** there | scope + secondary | — |
@@ -64,10 +64,14 @@ It imports the term. *Stakeholder* and *concern* have no counterpart among its
 
 ### Product — ISO/IEC 25010: the matrix had already decomposed quality without saying so
 
-**Evidence tier is the weakest in the spike and it matters here:** every ISO
-mirror of the 2023 text refused the fetch; the characteristic list below is
-corroborated across three secondary sources, which disagree on one
-sub-characteristic (whether *accessibility* was folded into *inclusivity*). The
+**Evidence tier, raised the same afternoon:** every ISO mirror of the 2023
+text refused the fetch, and the three secondary sources the player read
+disagreed on one sub-characteristic. The producer then supplied the full
+model and it was checked line for line against a fourth source (Sonar): the
+disagreement resolves — *accessibility* is gone, replaced by *inclusivity*
+plus a new *user assistance*. Recorded at
+`docs/design/iso-25010-quality-model.md`, tier stated there. Still not the ISO
+text. The
 nine characteristics: functional suitability · performance efficiency ·
 compatibility · interaction capability (was *usability*) · reliability ·
 security · maintainability · flexibility (was *portability*) · safety (new in
@@ -144,7 +148,8 @@ definition.
 **KILLED.** Two of the three grounded standards lack a counterpart for at least
 one term, and one lacks two. One vocabulary does not *replace* four.
 
-**What survives, and it is the more useful shape:** 42010 is the vocabulary the
+**What survives, and it is the more useful shape — agreed by the producer
+2026-08-22, *"spine is good for me"*:** 42010 is the vocabulary the
 others **import**. 24774 does not define *viewpoint*; it points at 42010. A
 25010 characteristic *is* a concern, cleanly. So the four layers do not share
 one vocabulary — they share one **spine**: *view* and *viewpoint* are 42010's
@@ -154,9 +159,9 @@ unlike it, it is what the texts actually say.
 
 ## What the spike did not do
 
-- **Did not read 25010's full text.** The live adaptation rests on the weakest
-  evidence in the spike. Before the `R-0011` definition is written, one
-  reliable full-text source for the nine characteristics is owed.
+- **Did not read 25010's ISO text.** Four agreeing secondary sources, recorded
+  at `docs/design/iso-25010-quality-model.md` — the definition can be written on
+  that, with the tier stated; the ISO text, if ever read, corrects it.
 - **Did not map 29148** onto the four terms, so the requirements layer's own
   adopted standard sat out the one-vocabulary test.
 - **Did not assess the three that surfaced** — 82079-1 (procedures), 25040
