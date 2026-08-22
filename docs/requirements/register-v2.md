@@ -300,7 +300,7 @@ block written rather than migrated, carries a real Why.
 
 **Depends on.** none
 
-**Approval.** Tony, 2026-08-22 · fp:96c90bf8f2f9
+**Approval.** Tony, 2026-08-22 · fp:c9ccd561c455
 
 > **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
 > read *(verbatim, as migrated)*: "Project type is declared once at conductor start,
