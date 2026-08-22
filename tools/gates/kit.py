@@ -2031,15 +2031,252 @@ def _selftest_body():
         assert len(trace) == 1 and "BUS-001" not in trace[0] and "PRD-001, PRD-002" in trace[0], \
             f"T32: expected origin-exempt aggregate, got {trace}"
 
+    # ── D1/D2/D3/D4 — the concerns block, the fingerprint recipe, seal,
+    # and AU9 (gate-visuals slice 1) ────────────────────────────────────
+
+    FX = '<svg viewBox="0 0 8 8">\n  <rect x="0" y="0" width="4" height="4"/>\n</svg>\n'
+    BODY = ("\n## Value\n\nSaves 10 hours/week.\n\n## Risk ledger\n\n"
+            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
+            "\n## Release slice\n\nRigor level: mvp\n\nShip it.\n")
+    P = "docs/product/alpha.md — "
+
+    # T33 — the reader window: grows to 120 lines for a real concerns list,
+    # and still refuses when there is no closing fence within range.
+    with tempfile.TemporaryDirectory() as root_c33:
+        product = os.path.join(root_c33, "docs", "product", f"{slug}.md")
+        fm_wide = ("---\nroute: new\nstage: framed\n"
+                   + "".join(f"k{i}: v\n" for i in range(40))
+                   + "---\n" + BODY)
+        _sw(product, fm_wide)
+        fm = read_front_matter(product)
+        assert fm["route"] == "new", f"T33: expected route new within the 120-line window, got {fm}"
+
+        fm_unclosed = "---\nroute: new\n" + "k: v\n" * 130
+        _sw(product, fm_unclosed)
+        assert read_front_matter(product) is None, "T33: expected None with no closing fence in range"
+
+    # T34 — the recipe, pinned three ways: the two published vectors, a
+    # from-scratch hashlib computation, and reqview's own selftest (same
+    # module, same sys.path entry Step 2 inserted). No tree needed.
+    assert view_fingerprint(FX) == "2878c07db022", "T34: base vector"
+    assert view_fingerprint(FX + "   \n\n") == "2878c07db022", \
+        "T34: a whitespace-only edit must not move the fp"
+    assert view_fingerprint(FX.replace('height="4"', 'height="8"')) == "c938aa15c609", \
+        "T34: a content edit must move the fp"
+    by_hand = hashlib.sha256((" ".join(FX.split()) + "\n\n\n").encode("utf-8")).hexdigest()[:12]
+    assert by_hand == "2878c07db022", f"T34: hand-computed recipe disagrees, got {by_hand}"
+    import reqview
+    assert all(ok for *_, ok in reqview.selftest()), "T34: reqview's own fingerprint vectors regressed"
+
+    # T35 — opt-in: no 'concerns:' key at all, the design rung behaves
+    # exactly as it did before D1 — no concern rows anywhere.
+    with tempfile.TemporaryDirectory() as root_c0:
+        product = os.path.join(root_c0, "docs", "product", f"{slug}.md")
+        _sw(product, "---\nroute: new\nstage: framed\n---\n" + BODY)
+        cr = check_rung(root_c0, slug, "design")
+        assert cr["need"] == [], f"T35: expected a clean need list, got {cr['need']}"
+        assert not any('concern "' in h for h in cr["have"]), \
+            f"T35: expected no concern rows in have, got {cr['have']}"
+
+    T36_FM = (
+        "---\nroute: new\nstage: framed\nconcerns:\n"
+        "  - concern: a\n"
+        "  - concern: b\n"
+        "    view: n/a\n"
+        "  - concern: c\n"
+        "    viewpoint: state\n"
+        "    view: docs/design/alpha/c.html\n"
+        "  - concern: d\n"
+        "    viewpoint: flowchart\n"
+        "    view: docs/design/alpha/d.html\n"
+        "  - concern: e\n"
+        "    viewpoint: state\n"
+        "    view: docs/design/alpha/e.html\n"
+        "    approval: Tony, 2026-01-05\n"
+        "  - concern: f\n"
+        "    view: n/a — covered by the README table\n"
+        "  - concern: g\n"
+        "    viewpoint: sequence\n"
+        "    view: docs/design/alpha/g.html\n"
+        "    approval: Tony, 2026-01-05 · fp:000000000000\n"
+        "  - concern: h\n"
+        "    viewpoint: state\n"
+        "    view: docs/design/alpha/h.html\n"
+        "    approval: approved!!\n"
+        "---\n"
+    )
+
+    def _concerns_tree(root):
+        """T36's fixture tree: every D4 row but 'no-view'/'na'/'na-no-reason'
+        gets a design html on disk (FX); 'c.html' is deliberately never
+        created (code 'missing')."""
+        _sw(os.path.join(root, "docs", "product", f"{slug}.md"), T36_FM + BODY)
+        for name in ("d", "e", "g", "h"):
+            _sw(os.path.join(root, "docs", "design", "alpha", f"{name}.html"), FX)
+
+    T36_NEED_ROWS = [
+        P + 'concern "a": no view and no n/a reason',
+        P + 'concern "b": n/a without a reason',
+        P + 'concern "c": view docs/design/alpha/c.html not on disk',
+        P + 'concern "d": view docs/design/alpha/d.html unapproved — no approval line',
+        P + 'concern "e": view docs/design/alpha/e.html approved by hand, not sealed — no fp',
+        P + 'concern "g": view docs/design/alpha/g.html fingerprint mismatch — '
+            'approved at fp:000000000000, now fp:2878c07db022',
+        P + "concern \"h\": view docs/design/alpha/h.html approval line unreadable: 'approved!!'",
+    ]
+
+    # T36 — the refusals: every D4 'need' row, named verbatim, in entry
+    # order; the one 'have' (an n/a with a reason) is not among them.
+    with tempfile.TemporaryDirectory() as root_c1:
+        _concerns_tree(root_c1)
+        cr = check_rung(root_c1, slug, "design")
+        assert cr["need"] == T36_NEED_ROWS, \
+            f"T36: expected the seven refusal rows in order, got {cr['need']}"
+        assert (P + 'concern "f": n/a — covered by the README table') in cr["have"], \
+            f"T36: expected the n/a-with-reason row in have, got {cr['have']}"
+
+        # T37 — seal, on T36's tree: unsealed -> sealed with its computed
+        # fp; a stale hand-typed fp is reported diverged, never rewritten;
+        # unapproved/refused/unreadable are left alone; the product doc
+        # changes in exactly the sealed approval line; a second run is
+        # idempotent (sealed becomes already).
+        product_path = os.path.join(root_c1, "docs", "product", f"{slug}.md")
+        with open(product_path, encoding="utf-8") as f:
+            lines_before = f.read().splitlines()
+
+        r = seal_views(root_c1, slug)
+        assert r["sealed"] == [["e", "docs/design/alpha/e.html", "Tony", "2026-01-05", "2878c07db022"]], \
+            f"T37: expected e sealed, got {r['sealed']}"
+        assert r["diverged"] == [["g", "docs/design/alpha/g.html", "000000000000", "2878c07db022"]], \
+            f"T37: expected g diverged, got {r['diverged']}"
+        assert r["unapproved"] == [["d", "docs/design/alpha/d.html"]], \
+            f"T37: expected d unapproved, got {r['unapproved']}"
+        assert r["refused"] == [["c", "docs/design/alpha/c.html", "view docs/design/alpha/c.html not on disk"]], \
+            f"T37: expected c refused, got {r['refused']}"
+        assert r["unreadable"] == [["h", "approved!!"]], f"T37: expected h unreadable, got {r['unreadable']}"
+        assert r["written"] is True, "T37: expected the product doc rewritten"
+
+        with open(product_path, encoding="utf-8") as f:
+            lines_after = f.read().splitlines()
+        assert len(lines_before) == len(lines_after), "T37: seal must not change the line count"
+        diffs = [i for i, (a, b) in enumerate(zip(lines_before, lines_after)) if a != b]
+        assert len(diffs) == 1, f"T37: expected exactly one changed line, got {len(diffs)}"
+        assert lines_after[diffs[0]] == "    approval: Tony, 2026-01-05 · fp:2878c07db022", \
+            f"T37: expected the sealed approval line, got {lines_after[diffs[0]]!r}"
+
+        r2 = seal_views(root_c1, slug)
+        assert r2["sealed"] == [], f"T37: a second seal must seal nothing new, got {r2['sealed']}"
+        assert r2["already"] == [["e", "docs/design/alpha/e.html", "2878c07db022"]], \
+            f"T37: expected e already-sealed, got {r2['already']}"
+        assert r2["written"] is False, "T37: a second seal must not rewrite"
+
+        cr2 = check_rung(root_c1, slug, "design")
+        assert (
+            P + 'concern "e": state view docs/design/alpha/e.html approved by Tony, 2026-01-05 (fp:2878c07db022)'
+        ) in cr2["have"], f"T37: expected e's ok row in have, got {cr2['have']}"
+
+        # T38 — editing a sealed drawing's content invalidates it: the
+        # design rung reports the mismatch, and seal_views reports it as
+        # diverged and refuses to touch the product doc.
+        e_path = os.path.join(root_c1, "docs", "design", "alpha", "e.html")
+        _sw(e_path, FX.replace('height="4"', 'height="8"'))
+        with open(product_path, encoding="utf-8") as f:
+            product_before_t38 = f.read()
+
+        cr3 = check_rung(root_c1, slug, "design")
+        assert (
+            P + 'concern "e": view docs/design/alpha/e.html fingerprint mismatch — '
+            'approved at fp:2878c07db022, now fp:c938aa15c609'
+        ) in cr3["need"], f"T38: expected e's mismatch row in need, got {cr3['need']}"
+
+        r3 = seal_views(root_c1, slug)
+        assert ["e", "docs/design/alpha/e.html", "2878c07db022", "c938aa15c609"] in r3["diverged"], \
+            f"T38: expected e diverged, got {r3['diverged']}"
+        assert r3["written"] is False, "T38: seal must not rewrite on divergence"
+        with open(product_path, encoding="utf-8") as f:
+            product_after_t38 = f.read()
+        assert product_after_t38 == product_before_t38, "T38: product bytes must be unchanged"
+
+    # T39 — clean pass: a sealed view whose fp matches, and an n/a with a
+    # reason, both pass; check_rung need is empty, routing reaches design,
+    # and the repo-wide audit is clean.
+    with tempfile.TemporaryDirectory() as root_c2:
+        product = os.path.join(root_c2, "docs", "product", f"{slug}.md")
+        _sw(product,
+            "---\nroute: new\nstage: framed\nconcerns:\n"
+            "  - concern: one\n"
+            "    viewpoint: state\n"
+            "    view: docs/design/alpha/one.html\n"
+            "    approval: Tony, 2026-01-05 · fp:2878c07db022\n"
+            "  - concern: two\n"
+            "    view: n/a — nothing to draw\n"
+            "---\n" + BODY)
+        _sw(os.path.join(root_c2, "docs", "design", "alpha", "one.html"), FX)
+
+        cr = check_rung(root_c2, slug, "design")
+        assert cr["need"] == [], f"T39: expected a clean need list, got {cr['need']}"
+        r = route(root_c2, slug)
+        assert r["enters_at"] == "design", f"T39: expected design, got {r['enters_at']!r}"
+        assert audit(root_c2) == [], f"T39: expected a clean audit, got {audit(root_c2)}"
+
+    # T40 — parse problems: an n/a entry carrying an approval (nothing to
+    # approve), and an unreadable line inside the list, named with the
+    # file's own line number; seal_views refuses to touch anything while
+    # they stand.
+    with tempfile.TemporaryDirectory() as root_c3:
+        product = os.path.join(root_c3, "docs", "product", f"{slug}.md")
+        t40_fm = (
+            "---\nroute: new\nstage: framed\nconcerns:\n"
+            "  - concern: x\n"
+            "    view: n/a — nothing to draw\n"
+            "    approval: Tony, 2026-01-05\n"
+            "  - concern: y\n"
+            "    viewpoint: state\n"
+            "    view: docs/design/alpha/y.png\n"
+            "  this line is junk\n"
+            "---\n"
+        )
+        _sw(product, t40_fm + BODY)
+        _sw(os.path.join(root_c3, "docs", "design", "alpha", "y.png"), FX)
+        with open(product, encoding="utf-8") as f:
+            product_bytes_before = f.read()
+
+        cr = check_rung(root_c3, slug, "design")
+        assert (P + 'concerns: entry "x" is n/a and carries an approval — nothing to approve') in cr["need"], \
+            f"T40: expected the n/a-with-approval problem, got {cr['need']}"
+        assert (P + "concerns: line 11 unreadable: 'this line is junk'") in cr["need"], \
+            f"T40: expected the unreadable-line problem, got {cr['need']}"
+        assert (
+            P + 'concern "y": view docs/design/alpha/y.png is not .html — a render is never the view'
+        ) in cr["need"], f"T40: expected the not-html problem, got {cr['need']}"
+
+        r = seal_views(root_c3, slug)
+        assert len(r["parse_problems"]) == 2, f"T40: expected two parse problems, got {r['parse_problems']}"
+        assert r["written"] is False, "T40: seal must not write while parse problems stand"
+        with open(product, encoding="utf-8") as f:
+            product_bytes_after = f.read()
+        assert product_bytes_after == product_bytes_before, "T40: product bytes must be unchanged"
+
+    # T41 — AU9: the repo-wide sweep reports exactly the design rung's
+    # non-pending problems — a, b, c, g, h — in entry order; d (unapproved)
+    # and e (unsealed) are pending, and f is n/a, so none of the three
+    # appear. T36's tree, untouched by seal.
+    with tempfile.TemporaryDirectory() as root_c4:
+        _concerns_tree(root_c4)
+        want = [row for row in T36_NEED_ROWS if not row.startswith((P + 'concern "d"', P + 'concern "e"'))]
+        assert audit(root_c4) == want, f"T41: expected exactly the five AU9 problems, got {audit(root_c4)}"
+
 
 def selftest():
-    """Run the 32 fixture-built cases in temporary trees. Prints
-    'selftest: 32 cases passed' and returns 0 on success; on the first
+    """Run the 41 fixture-built cases in temporary trees. Prints
+    'selftest: 41 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 32 cases passed")
+    print("selftest: 41 cases passed")
     return 0
