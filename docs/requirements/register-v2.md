@@ -292,7 +292,7 @@ block written rather than migrated, carries a real Why.
 
 ### R-0018 — Whether work changes the product or answers a question is decided once, at the start
 
-**Statement.** Whether a work item changes the product or answers a question shall be decided once when conductor starts, and shall not be asked again after the work has begun
+**Statement.** Whether a work item changes the product or answers a question shall be decided once when conductor starts, and shall not be asked again after the work has begun. Conductor may say that it has changed, at a gate or during the work, and the producer shall decide
 
 **Why.** to reduce overthinking and constant asking, the question is answered once, at the start
 
@@ -308,30 +308,6 @@ block written rather than migrated, carries a real Why.
 > the twelve-type list, which is dead. The live payload is the anti-nagging rule —
 > asked once, never re-asked — and it applies unchanged to the one distinction that
 > survives (R-0005). Only the subject of the declaration changed.
-
----
-
-### R-0020 — Conductor can say the work has changed type, but the producer decides
-
-**Statement.** Conductor may say that a work item has changed type, either at a gate or during the work, and the producer shall decide
-
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
-
-**Traces to.** G1, G5
-
-**Depends on.** R-0018
-
-**Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
-
-> **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
-> read *(verbatim, as migrated)*: "Conductor may suggest a type change — at the gate
-> or mid-flight — and the producer agrees it". The payload is who decides, not what
-> is decided: a change to how a work item is classified belongs to the producer
-> rather than to the model's discretion. That holds over the one surviving
-> distinction exactly as it held over twelve types. "the gate" became "a gate"
-> because the definite article pointed at the goal gate of R-0019, now dead.
-
-> **Note — Discuss: kill?** duplicate
 
 ---
 
@@ -512,7 +488,7 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** A generated page shall carry the fingerprint of the state it was rendered from, and a mark made against an out-of-date page shall be rejected rather than applied
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** You can open a page, walk away, and have the file change underneath you. Without the page carrying the fingerprint of what it actually showed, approving from a stale page records agreement to words nobody read — which is the one failure approval exists to prevent. This is not hypothetical: on 2026-08-15 the register was rewritten while the editing page was open. Tony asked what this was about and agreed it once the case was shown (2026-08-22).
 
 **Traces to.** G4
 
@@ -558,7 +534,7 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** The tools shall work on the project they are pointed at, rather than on the folder they were installed into
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** The tool and the data are two different things, and satisfying one does not satisfy the other. Evidence rather than argument: `gate.py` held its data correctly inside the project and still audited its own install folder, so R-0036 was satisfied the whole time while the tool was pointed at the wrong tree. Fixed 2026-08-15 by giving it a project root. Tony flagged this as a possible duplicate of R-0036 and agreed it is distinct once the evidence was shown (2026-08-22).
 
 **Traces to.** Law 1
 
@@ -600,9 +576,9 @@ block written rather than migrated, carries a real Why.
 
 ### R-0042 — The mechanism works inside a git repository, one project at a time
 
-**Statement.** The mechanism shall work inside a git repository, shall suit Claude Code, and shall operate one project at a time
+**Statement.** The register shall live in the project's git repository as plain text, so that changes to it show up as ordinary line-by-line differences and nothing beyond the repository is needed to read it
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** Plain text in the project's own repository means a change to a requirement shows up as an ordinary line-by-line difference, reviewable the same way any other change is, with no separate tool needed to see what moved. This block previously carried three claims at once — git-native, suits Claude Code, and one project at a time. Tony flagged it as a duplicate and agreed the split (2026-08-22): the third claim is covered by R-0036 and R-0038, and the second was a platform assumption rather than a requirement.
 
 **Traces to.** Law 1
 
@@ -618,7 +594,7 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** The register shall be the same files the project already keeps. There shall be one copy, and the tooling shall not keep a second store alongside it
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** One copy means there is nothing to keep in sync. A second store is a thing that can disagree with the first, and when it does, nobody can tell which one is right without a third thing to arbitrate. Tony flagged this as a possible duplicate of R-0040 and agreed it is distinct (2026-08-22): R-0040 says the register has a home, this says there is only one of it.
 
 **Traces to.** Law 1, G2
 
@@ -676,7 +652,7 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Every work item owes every gate unless it explicitly marks that gate `n/a` with a named reason
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** Without this, a gate can quietly not apply and nobody notices — the work simply never meets it and there is no record that it was skipped. Naming the skip makes it visible and forces a reason to be written. Same shape as accepting a risk: the cheap option is the one that has to be argued for. Tony asked what this meant and agreed it once explained (2026-08-22).
 
 **Traces to.** G3
 
@@ -896,6 +872,22 @@ marks and attributed to their source.)*
 **What was learned.** A progression rule is not an independent idea; it is a dependent of the list it walks, and it dies with that list without ever mentioning it. Before writing one, name the enumeration it steps through and ask what evidence supports the enumeration — because the progression will look reasonable long after its list has stopped being defensible. And prefer a rule about *who agrees a change* over a rule about *what the change advances to*: the first survives a change of vocabulary, the second does not.
 
 **Superseded by.** R-0020 — conductor suggests the distinction changes, the producer agrees it. It carries a change of classification without an ordered list to advance along.
+
+---
+
+### R-0020 — DEAD — conductor can say the work has changed type
+
+**Killed.** 2026-08-22, folded into R-0018 rather than kept beside it. Kill authorised by Tony.
+
+**Statement as proposed.** Conductor may say that a work item has changed type, either at a gate or during the work, and the producer shall decide
+
+**Why it was proposed.** Never recorded as a reason. The migrated source carried a provenance pointer only.
+
+**Why it is dead.** It is not a requirement beside R-0018, it is R-0018's exception. R-0018 says the type is decided once at the start and *"shall not be asked again after the work has begun"*; this block says conductor may raise it during the work. Read as peers the two contradict; read as rule-and-exception they are one requirement. Tony flagged it as a duplicate (2026-08-22) and the analysis found something sharper than duplication, which he agreed. Its clause now lives inside R-0018.
+
+**What was learned.** A rule and its own exception look like two requirements and are one. Filing them separately does not just duplicate — it manufactures a contradiction, because each reads as absolute on its own. When a proposed requirement begins with *"except"*, *"may"*, or *"unless"*, look for the rule it qualifies before minting it a reference of its own.
+
+**Superseded by.** R-0018
 
 ---
 
