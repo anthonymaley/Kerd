@@ -574,7 +574,7 @@ block written rather than migrated, carries a real Why.
 
 ---
 
-### R-0042 — The mechanism works inside a git repository, one project at a time
+### R-0042 — The register lives in the project's git repository as plain text
 
 **Statement.** The register shall live in the project's git repository as plain text, so that changes to it show up as ordinary line-by-line differences and nothing beyond the repository is needed to read it
 
