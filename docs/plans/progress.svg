@@ -826,11 +826,11 @@
 <rect x="360.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="390.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="420.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="450.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="450.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="480.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <rect x="510.0" y="1440.0" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="300.0" y="1489.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">5 landed · 0 in flight · 3 remaining</tspan>
+<tspan x="300.0" dy="0.0">6 landed · 0 in flight · 2 remaining</tspan>
 </text>
 <text x="300.0" y="1532.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">grounding-was-read</tspan>
