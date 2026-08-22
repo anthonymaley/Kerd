@@ -52,6 +52,31 @@ things that did are listed as waiting for you below.
   their subject first. Recorded in `docs/requirements/findings.md` §10. Zero
   cost: nothing is approved, and titles sit outside the fingerprint by rule 3.
 
+**2026-08-22 — the diagram thread.** Started as "review this repo", ended as a
+framed work item at the design rung.
+
+- **`docs/product/diagram-toolkit.md`** — the spike frame, four kill criteria
+  declared before it ran.
+- **`docs/design/diagram-toolkit-spike-findings.md`** — the verdict. Kept for
+  explaining a design, **closed permanently for the progress board**: there is
+  no generator in that repo, so two runs give two different diagrams and the
+  board is byte-compared. Its most useful output is not about the toolkit —
+  *a box must mean something; a box that only holds text is a slide.*
+- **`docs/design/diagram-types-by-rung.md`** — all 39 types with a verdict
+  each (30 USE · 4 CANDIDATE→now mostly USE · 1 TRAP · 2 OURS), mapped to the
+  eight rungs, judged **for a project that uses Kerd** rather than for this
+  repo.
+- **`docs/product/gate-visuals.md`** — the work item. A visual at every gate,
+  approved and locked with the same fingerprint a requirement uses.
+- **`docs/design/gate-visuals.md`** + **`docs/design/gate-visuals/`** — the
+  design package and its two drawings (the visual lifecycle, and what the
+  design gate refuses). **Routes: design PASSES.** Contract needs only the
+  design GO record, which is yours.
+
+**Measured on the way:** 39 requirements as text took a week; one lifecycle as
+a drawing took one exchange. That is the first number the *design is agreed in
+diagrams* decision has ever had.
+
 **Waiting on you — nothing below was guessed:**
 
 - **The 38 Whys.** Unchanged; still yours, still never in bulk.
