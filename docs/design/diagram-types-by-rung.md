@@ -106,12 +106,45 @@ Building is execution and leaves commits, not pictures. The one candidate,
   ranking is **consequence × value**, and *effort is explicitly not an axis* —
   it flatters cheap work. Use the type, replace the axes.
 
-## Not for us — seven types, named so nobody re-evaluates them
+## The seven I wrongly dismissed — re-evaluated against real Kerd artifacts
 
-`dp-integration`, `dp-security-matrix`, `medallion`, `high-level`, `db-schema`,
-`uml-class`, `polar`. All are data-platform or object-model specific. `db-schema`
-and `uml-class` would apply to a consuming project that builds that kind of
-software; they have no use in Kerd itself.
+**An earlier version of this file blacklisted seven types in one line, on the
+grounds that they were "data-platform or object-model specific".** Tony refused
+it: *"lets nto blacklist until we are sure… use kerd specifc info so we can
+evaluate properly."* He was right twice over — a model may propose a kill and
+never record one (rule 10), and a ruled-out thing owes a **return condition**,
+not a line through it.
+
+Re-read against their full specs. **Five of the seven were wrong.** The error
+has a name worth keeping: **they were dismissed by domain, not by shape.** The
+domain is the example the author happened to use; the shape is what transfers.
+
+### Wrongly dismissed — real Kerd uses
+
+| Type | The shape it actually draws | The Kerd artifact |
+|---|---|---|
+| **dp-security-matrix** | rows × roles, each cell a permission level, one cell markable as focal | **Who holds the key at each rung.** Four roles — producer, composer, conductor, players — against eight rungs. The producer holds frame, viability, slice and design plus evaluation at goal; the model holds contract and build. The focal cell is the rule that surprises people: *no human key per piece at build.* This is the division of labour, drawn. |
+| **high-level** | phase chevron banner, boundary, and an optional vertical strip for cross-cutting concerns | **The funnel end to end.** frame → viability → slice → design → contract → build → goal → loop as the chevron; the gates and CI that ride *every* rung as the cross-cutting strip. `gen_kerd_map.py` hand-draws something close to this today in 141 lines. |
+| **polar** | one series across 4–8 categories **whose clockwise order is meaningful** | **The ladder is a cycle** — loop feeds back into frame — and it has exactly eight positions. Work items per rung, clockwise, makes the cycle the point rather than a detail. No other type in the set treats circular order as load-bearing. |
+| **dp-integration** | hub and spoke: what plugs in, what plugs out, over what wire | **Kerd as the hub and consuming repos as the spokes.** Its own framing question — *"what surfaces does this platform expose, and over what wire?"* — is the consuming-project question behind R-0036 and R-0038. |
+| **medallion** | tiers of the *same* thing at different quality levels, with who writes each and **how something is promoted between tiers** | **Marginal but real.** The register has draft and approved, live and graveyard, and a promotion beat between them. Weaker than the four above because our tiers are not quality levels of one dataset. Return condition: if the register ever grows explicit tiers. |
+
+### Genuinely no use today — with the condition that would change it
+
+Not blacklisted. Named, with what would bring them back.
+
+| Type | Why not, today | Return condition |
+|---|---|---|
+| **db-schema** | Column-level physical schema — SQL types, constraints, `ON DELETE` behaviour. Kerd holds no database and writes no SQL. | **A consuming project with a real database.** That is not a hypothetical: the capability is written for a project that is not Kerd, so this type may be needed by a user of Kerd long before Kerd needs it. |
+| **uml-class** | Its distinguishing content is the operations compartment and the inheritance/composition vocabulary. Our Python has classes — `Canvas`, `Flow`, `Block` — but the story has never once been what inherits from what. | **The first time the tooling's object model is something we have to argue about**, rather than something we just use. |
+
+### The lesson, because it has happened before
+
+Dismissing by domain rather than by shape is the same error as the 2026-08-08
+finding on convergence: three agents agreed on eight category moves because they
+had all keyword-matched a column heading rather than read a definition. Reading
+the label is not reading the thing. **Seven were judged from their names; five
+of the judgements were wrong.**
 
 ## What this map is missing
 
