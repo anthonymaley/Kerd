@@ -1,6 +1,15 @@
 ---
 route: new
 stage: designed
+concerns:
+  - concern: the life of a gate visual
+    viewpoint: state
+    view: docs/design/gate-visuals/visual-lifecycle.html
+    approval: Tony, 2026-08-22 · fp:3ef85a6441d5
+  - concern: what the design gate refuses
+    viewpoint: flowchart
+    view: docs/design/gate-visuals/design-gate-check.html
+    approval: Tony, 2026-08-22 · fp:ccbac6efdb93
 ---
 
 # A visual at every gate, approved and locked
