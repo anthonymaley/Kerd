@@ -2,264 +2,66 @@
 
 ## Now
 
-**2026-08-14 (late) — an unattended session ran the mechanical block.** Six
-things landed, all pushed and CI-green. Nothing here needed a decision; the
-things that did are listed as waiting for you below.
+**2026-08-22 — the register is agreed, and `gate-visuals` waits at design.**
+See `kivna/sessions/2026-08-22.md`.
 
-**Landed:**
+**Where things stand**
 
-1. **Nine statements reworded** against the word list (`register-v2.md`). The
-   obligation is unchanged in every case. Open question 5 split in two, and its
-   research half — *the technique is nowhere taught* — **was false**: EARS's
-   ubiquitous pattern and ISO 29148's `each` rule both teach it, and both are
-   now ADOPTED in `docs/design/requirement-shape.md`. Full before/after in
-   `docs/requirements/findings.md` §8.
-2. **Both parser hazards closed** (`tools/reqview/reqview.py`). The em-dash
-   handle was real and *silent* — it truncated and refused nothing. The
-   findings-concatenation hazard was already closed; now proven and pinned.
-   Four fixtures added.
-3. **`gate.py --root` landed** — the gate aims at the project, never at its own
-   install path, and refuses rather than falling back. Seven fixtures.
-4. **The behind-upstream test fixed** — never environmental. `git init --bare`
-   points HEAD at `master` while the fixture works on `main`, so the clone had
-   no upstream at all. **22 passed, 0 failed** — first fully green run.
-5. **The playbook's `## Current Status` split** into pointers plus an honest
-   release-history heading. It had drifted to v0.95.0 / nine skills / four
-   hooks / 26 tests.
-6. **`docs/requirements/archaeology.md`** — **53 candidate requirements**
-   recovered from CONTEXT.md's standing decisions, in six batches (A risk ·
-   B record · C working relationship · D release and judgement · E method ·
-   F the remainder), each quoting its source, none minted with an `R-`
-   reference. **All 88 standing decisions are classified in its coverage
-   table** (the Backlog row says 74 — it has grown). **The remainder is
-   empty**: every decision carrying an unfiled obligation now has a candidate.
-   That is not the same as the register being complete, and the file says so.
+- **Register: 38 live, 32 approved, 0 without a Why.** Every reason is his.
+- **`R-0018` is invalidated and needs re-approval** — folding `R-0020` into it
+  changed its words. Nothing was silently downgraded.
+- **`gate-visuals` design PASSES.** Only the design GO record stands between it
+  and contract, and that record is his — by `R-0014`, approving the design is
+  the only approval needed to build.
 
-**2026-08-15 — the register got an edit surface, and a readability pass.**
+**Next, in order**
 
-- **`tools/reqview/editor.py`** — the register's edit surface. One window, a
-  local process, stdlib only: `python3 tools/reqview/editor.py`, then
-  `http://localhost:8765`. Five operations and no others — edit title, edit
-  description, edit/add Why, approve, mark for discussion. **His two-zone
-  design is what made it small:** a draft carries no machinery at all, and the
-  fingerprint engages only at approval. Every write is re-parsed before it
-  lands and rejected if it would break the register. No kill button (rule 10 —
-  a model may propose a kill, never record one).
-- **The riddle pass.** He read a few requirements and stopped: *"the
-  descriptions and titles are like puzzles, riddles."* Cause: the subject was
-  implied and never named — five consecutive blocks were about the evaluation
-  matrix and one said so. **39 titles and 29 descriptions rewritten** to name
-  their subject first. Recorded in `docs/requirements/findings.md` §10. Zero
-  cost: nothing is approved, and titles sit outside the fingerprint by rule 3.
+1. **Re-approve `R-0018`** in the editor — one click, the words are the folded
+   version you agreed.
+2. **The `gate-visuals` design GO**, or push back on the package.
+   `docs/design/gate-visuals.md`, two drawings beside it.
+3. **The archaeology batches** — 53 candidates in
+   `docs/requirements/archaeology.md`, keyed by family (A risk · B record ·
+   C working relationship · D release and judgement · E method · F remainder).
+   Several carry a named tension with an existing requirement — C-06 against
+   R-0051, C-24 against R-0028 — that only you can resolve.
+4. **Retire the old register — still coupled to the refuser.**
+   `docs/requirements/findings.md` §9. Deleting `register.md` does not turn CI
+   red; it makes AU7/AU8 **silent**, because `register_check` is a vacuous pass
+   when the file is absent, and the live register is validated only by the
+   reqview spike, which is not in CI. One ruling: does the new validator
+   graduate into `gate.py audit` first, or does the old register stay until it
+   does?
+5. **The suspect-link stamp still has no slot in the format** — a format change,
+   not a fix, because it alters what the fingerprint covers.
 
-**2026-08-22 — the diagram thread.** Started as "review this repo", ended as a
-framed work item at the design rung.
+**Two open questions inside the `gate-visuals` design**, named rather than
+guessed: the **UI concern has no viewpoint** in the 39 types, and **where the
+agreed concern list is stored** (front matter is the obvious candidate — the
+gates already parse it).
 
-- **`docs/product/diagram-toolkit.md`** — the spike frame, four kill criteria
-  declared before it ran.
-- **`docs/design/diagram-toolkit-spike-findings.md`** — the verdict. Kept for
-  explaining a design, **closed permanently for the progress board**: there is
-  no generator in that repo, so two runs give two different diagrams and the
-  board is byte-compared. Its most useful output is not about the toolkit —
-  *a box must mean something; a box that only holds text is a slide.*
-- **`docs/design/diagram-types-by-rung.md`** — all 39 types with a verdict
-  each (30 USE · 4 CANDIDATE→now mostly USE · 1 TRAP · 2 OURS), mapped to the
-  eight rungs, judged **for a project that uses Kerd** rather than for this
-  repo.
-- **`docs/product/gate-visuals.md`** — the work item. A visual at every gate,
-  approved and locked with the same fingerprint a requirement uses.
-- **`docs/design/gate-visuals.md`** — the design package. **Routes: design
-  PASSES.** Contract needs only the design GO record, which is yours.
-- **The two drawings it is built on**, each kept as source and as a render so a
-  pickup can look at one without a browser:
-  `docs/design/gate-visuals/visual-lifecycle.html` and `.png` — the life of a
-  gate visual, and `docs/design/gate-visuals/design-gate-check.html` and `.png`
-  — what the design gate refuses.
+**Closed this sitting** — verdicts against session evidence:
 
-**Measured on the way:** 39 requirements as text took a week; one lifecycle as
-a drawing took one exchange. That is the first number the *design is agreed in
-diagrams* decision has ever had.
+```
+  ✓ done   the 38 Whys                      (0 missing; every one his)
+  ✓ done   R-0007's uncheckable clause      (approved as written)
+  ✓ done   `every` in R-0048                (approved with it; the rule stands)
+  ✓ done   twelve statements reworded       (nine live + R-0050 found by scan)
+  ✓ done   both parser hazards              (one real and silent, one proven closed)
+  ✓ done   gate.py --root                   (7 fixtures; CLI half only)
+  ✓ done   the behind-upstream test         (22/22, first fully green run)
+  ✓ done   build the view properly          (tools/reqview/editor.py)
+  ✓ done   playbook ## Current Status       (split into pointers + history)
+  ✓ done   requirement archaeology drafted  (53 candidates, 88 classified)
+  · open   retire the old register          (coupled — see 4 above)
+  · open   suspect-link stamp               (format change)
+  · open   the reset's three questions      (what the requirements system IS,
+                                             the draft to final, build-vs-adopt)
+  ✗ dead   "no server" as his constraint    (he never said it — struck 08-15)
+```
 
-**Waiting on you — nothing below was guessed:**
-
-- **The 38 Whys.** Unchanged; still yours, still never in bulk.
-- **R-0007** — its defect is an uncheckable clause, not a totality word. Making
-  it checkable decides what the register owes the tooling. Two readings named
-  in `findings.md` §8.
-- **Does `every` join the banned word list?** Widening the rule is yours.
-  R-0048 is the only live statement it would touch.
-- **Retiring the old register is coupled to the refuser** —
-  `docs/requirements/findings.md` §9. Deleting `register.md` does not turn CI
-  red; it makes AU7/AU8 **silent**, because `register_check` is a vacuous pass
-  when the file is absent. The live register (`register-v2.md`) is validated
-  only by the reqview spike, which is not in CI. One ruling: does the new
-  validator graduate into `gate.py audit` before the old register goes, or does
-  the old register stay until it does?
-- **The archaeology batches**, keyed by family — A risk, B record, C working
-  relationship, D release/judgement, E method. Several entries carry a named
-  overlap or tension with an existing requirement (C-06 vs R-0051, C-24 vs
-  R-0028) that only you can resolve.
-- **Does this project keep a hand-written changelog at all?** `CHANGELOG.md`
-  and the playbook's release history are the same abandoned artifact and sit in
-  the Backlog as two rows. One question, not two.
-
-**Deliberately not done:** the board's two features stuck below `goal` (TODO
-says don't walk them by hand), the board label overlap (cosmetic, and touching
-the renderer risks the byte-compare refuser), and the view's build (its one
-decision is yours).
-
-**2026-08-14 — the reset produced a working format, a cleaned register, and a
-view.** See `kivna/sessions/2026-08-14.md`. Four laws now (Law 4 arrived with an
-ordering rule); the requirement shape is settled at six elements and was tested
-twice and audited twice; the register is migrated, triaged and cleaned — **39
-live, 13 dead**; and a generated HTML view exists as a spike.
-
-**Next, in order:**
-
-1. **Thirty-eight requirements await Tony's words.** Their Why is honestly
-   unwritten — the old register recorded provenance only, and 44 of the 51
-   shared one identical pointer string. **Do not invent these.** Best taken a
-   few at a time as work touches them, never as a batch: bulk authorship of
-   reasons is the same failure shape as bulk approval.
-2. **Twelve statements fail the adopted word list**, almost all on totality
-   words. He ruled the statements yield, not the rule: *"they pre-dataed that
-   rule - so need to rework or redo"*. Listed in `docs/requirements/findings.md`.
-3. **The suspect-link stamp has no slot in the format.** The shape document
-   recommends keeping it; the normative form has nowhere to put it. **This is a
-   format change, not a fix** — it would put each target's fingerprint inside the
-   dependency field, which is hashed, so it changes what the fingerprint covers
-   and invalidates both published test vectors.
-4. **Build the view properly.** ~~**One decision is his:** *"no server" and
-   "direct write-back" cannot both hold*.~~ **STRUCK 2026-08-15 — he never said
-   "no server".** The spike labelled it honestly as *"a constraint we set
-   ourselves"* (`requirements-view-spike-findings.md:304`); this row converted it
-   into his ruling, and it then blocked the obvious answer for a day. His actual
-   08:20 words accept paste-back as a first step and name **direct write-back as
-   the target**. The only real "no server" criterion is the evaluation matrix's
-   *"no server needed to **read** it"* — a git-nativeness test about plain text
-   and diffs, nothing to do with editing.
-
-   **Decided 2026-08-15: a local process, started by one command.** Not a
-   server — his correction, and it matters: *"server"* carries hosting,
-   deployment and ops, none of which apply to a Python process reading a file on
-   your own machine. **The word was doing the blocking, not the thing.** Verified
-   rather than assumed — a `file://` page cannot write to disk at all (the File
-   System Access API requires https or `http://localhost`, and Firefox and
-   Safari ship no pickers), so editing in the page needs a local process. Two zones,
-   which is his design and the thing that makes it small: **a draft carries no
-   machinery** — edit freely, no hash, no refusal — and the fingerprint engages
-   only at the moment of approval, once per requirement, ever.
-
-   **Rejected: a git pre-commit hook.** Built and pulled the same hour. It needs
-   `git config core.hooksPath` in every consuming repo, which is the
-   refusal-surface-does-not-travel problem already in this Backlog — and it
-   contradicts C-34, written the day before.
-5. **The old register still exists.** `docs/requirements/register.md` is
-   superseded by `register-v2.md` and was deliberately left untouched until the
-   new one was verified. It now is. Retiring it is a deliberate act, not a
-   cleanup.
-
-**Two residual parser hazards, reported and not closed:** a handle containing an
-em dash would split wrong, and `docs/requirements/findings.md` keeps numbered
-headings of the shape that caused a defect if it is ever concatenated back.
-
-**Five residues are recorded in the graveyard** — binding fragments that outlived
-their dead hosts. They are named where a future proposer will hit them, not
-lost.
-
----
-
-**THE PROJECT RESET, 2026-08-13 evening.** Tony called a full stop:
-*"honestly i feel we are lost here, i have no clue if what we have build and
-what the requirments will build is what we need now. the fact that we are both
-confused tells me we need a reset."* Everything below supersedes the previous
-plan for this sitting.
-
-**What now exists** (all committed, see `kivna/sessions/2026-08-13.md`):
-
-- `docs/kerd-interview.md` — the reset interview, verbatim, **confirmed by Tony
-  as the source of truth**. Deliberately grounded in nothing that already
-  existed. Everything else gets checked against it, not the reverse.
-- `docs/kerd-goals.md` — **APPROVED 18:30**. Three laws, eight goals, each
-  carrying a design input in his own words.
-- `docs/kerd-requirements.md` — **a DRAFT, not awaiting a yes.** Goals are
-  inputs to requirements; finalisation is a worked process.
-
-**Next, in order:**
-
-1. **What the requirements system actually IS.** His ruling: *"we cannot
-   consider this markdown file as how we capture and version and work on
-   requirements. we need a robust and easy to engage with solution."* The
-   pre-reset tooling evaluation (`docs/design/requirements-traceability.md`, 6
-   options × 24 criteria) is **now legitimate input** — the bracketing rule
-   expired when the interview was captured. Re-examine it against the approved
-   goals rather than as precedent. Note the requirements draft's own finding:
-   the register demands per-entry change management of the product while
-   practising none on itself.
-2. **Work the requirements draft through to final** — translated, drafted,
-   worked on, finalised. Not one composer pass and an approval.
-3. **The build-vs-adopt decision (interview Q4), still open.** Now has criteria:
-   the approved goals. The superpowers material in Q4 is **experience, not
-   requirement** — input to that evaluation only.
-
-**Carried, unresolved, from the outward pass:** our answer to false approval is
-presentation-based (borders, brevity, visuals) while current human-in-the-loop
-practice uses *active confirmation*. Tony's ruling: proper requirements
-management plus strong pairing mitigates but does not cure — accepted, residue
-named.
-
-**Parked by the reset, not cancelled:** closing `model-effort-advisory` and
-`hooks-autoload` on the ladder (both shipped, both stuck below `goal` because a
-proportional build skips rungs the gates demand). `hooks-autoload` also fails at
-`slice` on an illegal risk-ledger State token — `accepted (named loss)` is not a
-legal value. The board is currently misreporting two live features. Do not walk
-these by hand: the reset may change what the ladder even is.
-
-**Also parked:** `docs/product/inline-composer.md` — framed during this sitting,
-deliberately left unbuilt. It is the funnel working correctly (captured without
-displacing), and the reset may supersede it entirely.
-
-**DONE 2026-08-13 afternoon sittings** — AU7/AU8 the register validator
-(v0.97.0, `8b7f52d`) and the model+effort advisory building `FUN-010` (v0.98.0,
-`f4c51c0`), both CI-green. Hooks auto-load was **empirically verified** at this
-sitting's switch-in — the top High backlog row, now closed.
-
-**Then, in order:**
-
-1. **Land `gate.py --root`** — a hard dependency, not a follow-up. Its CLI half
-   is minutes; its **script-location half is undesigned** and that is the real
-   work (`${CLAUDE_PLUGIN_ROOT}` expands nowhere in this repo,
-   `$CLAUDE_PROJECT_DIR` measured unset).
-2. **Rework the blocked design package** against everything keyed today. It has
-   ~19 original findings, ~15 from the terrain pass, ~5 from the schema study
-   and ~60 surviving the verification pass. **Absorbs the trace gap (agreed
-   2026-08-13):** after the producer files the origin rows, the model drafts
-   `refines` parents in category batches and he keys them as sets; the forward
-   half is slice 2. The AU8 finding (46 unparented at last audit) is the live
-   tracker.
-3. The release grouping artifact, then the board.
-
-*(Retired 2026-08-13: "move the twenty category codes out of kit.py" — the
-validator reads the legal set from `categories.md` and the codes were never
-hardcoded anywhere.)*
-
-**Owed by the producer, neither blocking:**
-
-- **File the origin rows — BUS/STA/USR.** The trace's top: the handful of
-  requirements stating what Kerd is for and who is asking (~5-10 blocks, frame
-  rung, his stakes). The disposition file already calls all three categories
-  a gap. Prerequisite for wiring the 46 `refines` parents.
-
-- **`categories.md` needs his key.** The disposition is his by design; it is
-  model-drafted, and three rows are flagged as genuine judgment calls. `SEC` was
-  corrected to `applies` on 2026-08-08 after code falsified its `n/a` reason.
-- **The board's mechanism** — a served stdlib process with true write-back, or a
-  downloaded edits file the next session applies. Open since 2026-08-08 ~10:00.
-
-**Standing conduct:** the producer's rungs are frame, viability, slice and
-design, plus evaluation at goal; contract and build are the model's. Do not
-narrate build mechanics. The plan-approval gate is deleted — his key lands on
-the design.
+**Still parked by the reset, not cancelled:** closing `model-effort-advisory`
+and `hooks-autoload` on the ladder. Do not walk these by hand.
 
 ## Backlog
 

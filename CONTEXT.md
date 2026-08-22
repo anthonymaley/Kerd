@@ -6,27 +6,27 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: switch (session
 
 ## Where We Are
 
-**2026-08-14 — the reset now has a working requirements capability.** Four laws
-(Law 4 added, with an ordering rule), a settled requirement shape, a strict
-format, a cleaned register and a generated view. Read
-`docs/design/requirement-shape.md` for the format, `docs/requirements/register-v2.md`
-for the register, and `docs/design/requirements-prior-art.md` for the evidence
-every decision rests on.
+**2026-08-22 — the requirements register is mostly agreed, and the funnel has a
+visual design at its gate.**
 
-- **The requirement shape is six elements** and was validated twice by writing
-  and twice by fidelity audit. Approval is a **fingerprint** over statement, Why
-  and links — there is no status or lifecycle field anywhere. Selection is
-  release membership held on the release. The set is a **document**, with a
-  **graveyard** last.
-- **The register is 39 live, 13 dead, 5 residues named.** Nothing is approved and
-  38 blocks honestly carry an unwritten Why, because the old register recorded
-  provenance and no reasons.
-- **The format now refuses ambiguity rather than guessing it** (Law 14 of the
-  format's own rules), after a parser found three defects that four earlier
-  reviews had missed.
-- **A view exists as a spike** — `tools/reqview/reqview.py`, standard library
-  only, self-contained, 200 clickable references, hover previews, paste-back
-  editing. It has not been through the gates.
+- **The register is 38 live, 32 approved, 0 without a Why.** Every reason is his,
+  written over a week in a local edit surface. One block, `R-0018`, sits
+  **invalidated** and awaits deliberate re-approval: `R-0020` was folded into it,
+  which changed its words — the fingerprint doing exactly its job.
+- **`tools/reqview/editor.py` is how the register is worked on.** One window, a
+  local process, five operations: edit title, edit description, edit/add Why,
+  approve, mark for discussion. A draft carries no machinery; the fingerprint
+  engages only at approval.
+- **`gate-visuals` is framed and its design PASSES** — a visual at every gate,
+  approved and locked with the same fingerprint a requirement uses, and a
+  design-against-built comparison. Only the design GO record stands between it
+  and contract, and that record is his.
+- **The diagram toolkit spike is closed:** adopted for explaining a design,
+  **closed permanently for the progress board** (it has no generator, so two runs
+  differ and the board is byte-compared).
+- **Two standards are now adopted, not invented:** ISO/IEC/IEEE **29148** for
+  requirement wording, and **42010** for architecture description — whose
+  completeness rule *is* the design gate.
 
 **THE PROJECT WAS RESET ON 2026-08-13 (evening). Read `docs/kerd-interview.md`
 before anything else in this file.** Tony called a full stop — *"honestly i feel
@@ -91,6 +91,9 @@ and meets MORE criteria outright than Build does.
 
 ## Key Decisions
 
+- **A visual at every gate, approved and locked — and it needs no new machinery (2026-08-22).** Tony: *"EACH gate needs a corresponding visual(s) that users can approve and lock in"*, and *"we MUST have visuals for the work that is in the design, so DB design needed … then we can compare design with built."* A visual becomes declared truth exactly as a requirement does — a fingerprint over its content, computed at approval, invalidated on edit. That makes design-against-built almost free: draw it, approve it, build it, redraw from what was built, compare. **How checkable each concern is ships with the feature** rather than being promised — schema and dependencies are derivable from migrations and imports, deployment partly, architecture not at all because it is intent. **Divergence is a question, not a fault**, with two exits: the design stands and the build is fixed, or the design was wrong and is edited and re-approved. Conductor or composer decide which; the producer decides only when they cannot. **Its firing frequency is the measurement** — *"if requirments are correct and visuals are approved then it shouldnt happen"* — the same rule as the promotion beat. **Opinionated means the vocabulary is closed, not that the count is one**: he corrected that twice, and the frame carries `it-state`, `fishbone`, `journey`, `venn`, `pyramid` at frame alone. **The concerns are proposed by conductor or composer and agreed by him before design**, and that agreed list is what the gate counts views against. Framed at `docs/product/gate-visuals.md`, designed at `docs/design/gate-visuals.md` with two drawings; design passes, the GO record is his.
+- **ISO/IEC/IEEE 42010 is ADOPTED for architecture description, and its completeness rule is the design gate (2026-08-22).** He asked what an "aspect" was — *"elements, features, processes, tools systems?"* — and the honest answer was that the word was doing too much work: the table mixed a database (a part), a lifecycle (behaviour) and permissions (a thing true across parts). The standard already has the vocabulary: a **concern** is *"a matter of relevance or importance … to a stakeholder"*, a **viewpoint** is *"the conventions for the creation, interpretation and use of a view, to frame one or more concerns"*, a **view** is the drawing. And: *"each identified concern must be framed by at least one viewpoint so that all identified concerns are covered"* — which is the gate's first question, word for word. **A concern is deliberately not a kind of thing**, which is why the list resists being a taxonomy. It also **superseded a decision taken an hour earlier the same day**: the concern list does *not* need to be a closed vocabulary, because 42010 has none — concerns come from stakeholders, so the list is declared per work item and agreed, and a closed list would forbid a project caring about something we had not thought of. Second standard adopted after 29148; his own map of the remaining two layers (process, product) is in the Backlog.
+- **A box must mean something — the diagram toolkit is adopted for explaining a design and closed forever for the board (2026-08-22).** The spike on `cathrynlavery/diagram-design` passed three of four criteria and failed the fourth structurally: **there is no generator in it.** Every script verifies or lints; a diagram is the model writing SVG from a template, so "deterministic" means the templates carry no layout engine, not that two runs match. The board is byte-compared, so job 2 is closed permanently rather than pending a fix. **The spike's most useful output is not about the toolkit.** Two drawings, same tool, opposite verdicts — *"yes that drawing is correct"* and *"none of the diagrams make any sense … text on the screen with box that made no sense to the subject"*. The first used a type and let containment carry the argument; the second ignored all 39 types and hand-rolled panels of prose. **A box that only holds text is a slide, not a diagram** — *"what fails the gate is prose"* one level down. Operating rule: pick a type, obey its layout rules, do not freelance. **And the premise got its first measurement:** 39 requirements as text took a week; one lifecycle as a drawing took one exchange — *"see how easy that was for me to agree."*
 - **LAW 4 — learn from what exists before designing anything, and the analysis outranks what was said before it (2026-08-14).** Tony: *"we always need to 1. assess and learn from industry standards, leading approaches, emerging approahes 2. decide what fits for us 3. consume/adopt whole if perfect or be inspired by them, 4. design or adapt for our gaps 5. build for the gaps. do this for every aspect of our project"* — plus *"dont just assume we are correct unless an explicit requirement states this is the only way"*, and the ordering rule: *"if the analysis proved a better way, then we go agaist what i said before, we chnage the rule"*, with *"if wer agree a better way then we superseed and strike off prior comments for sure. otherwise we go in loops."* **Build is what remains after adoption and adaptation, never the starting point.** The second half is what stops the law decaying into decoration: without it, any pre-research statement becomes untouchable by having been recorded first, and we would research diligently and then be forbidden to act on it. **Striking off is the loop-prevention mechanism** — a superseded statement is struck in place with its replacement named, never silently deleted and never left standing beside what replaced it, because both produce the same symptom later. Bounded to supersession **by evidence**, never by preference; the superseded statement goes to the graveyard killed by analysis. **He applied it to himself twice before stating it**, which is what makes it credible — withdrawing his own status proposal as *"my thinking without research"* and again as *"already discounted"*.
 - **The requirements capability is BUILT, evidence-first, and every decision this day removed something (2026-08-14).** Four research territories ran before any design (standards, docs-as-code tools, AI-vendor practice, and a second round on set structure). **The shape is six elements** — reference, hidden machine name, statement, Why, links, approval mark — against a territory whose mandatory minimum is one field. **Approval is a fingerprint over statement, Why and links**, so maturity is computed and never declared: *"no point doing half of the fingerprint"*. **There is no status or lifecycle field** — no standard in the territory defines one, and the two tools that shipped one shipped it unenforced, *"the worst of both worlds: it looks like a contract and isn't one"*. **Selection is release membership held on the release**, which is where OSLC independently arrived at his own position that a release is a grouping and not a time axis. **The set is a document** with a **graveyard** last, whose *what was learned* field is what stops a dead idea being re-proposed. **Deleted on evidence:** the twenty subject areas (a topic checklist measures at zero against ad-hoc review; a *perspective* beats both by 35%), twelve work types (a third of type assignments are measurably misclassified; keep only *ships a change or produces a finding*, changing the definition of done and nothing else), and eight of nine chain links — **which were two things glued together**, a four-node requirements decomposition and a five-stage development lifecycle. The lifecycle is untouched; only the links died, and none of the eight had ever existed.
 - **The format refuses ambiguity rather than guessing — and that rule was earned (2026-08-14).** Three defects of one kind — a wrapped bold note indistinguishable from a field label, a comma inside prose acting as a delimiter, a section breaking the graveyard-last rule — all produced **plausible wrong answers**, one fabricating four phantom dependencies that looked entirely genuine. Fixed by construction rather than by care: notes are blockquotes so every line carries its marker, structured fields carry references and never prose, whole-field sentinels are matched before any comma is read. **The finding underneath: the format was validated twice by having agents WRITE in it and audited twice for fidelity, and all four passes missed all three defects. They surfaced within an hour of something trying to READ it mechanically.** Writing and parsing are different tests, and only one had been run.

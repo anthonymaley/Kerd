@@ -112,6 +112,55 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Gotchas
 
+### `git init --bare` points HEAD at `master`, not at your branch
+
+A fixture that works on `main` clones the bare repo into an **unborn `master`
+with no upstream**, so `@{u}` fails and any behind-remote check silently reads
+as "not behind". This was misdiagnosed in the Backlog for weeks as a sandbox
+problem with `git fetch --dry-run` — which emits its `->` line perfectly well.
+Fix: `git -C <bare> symbolic-ref HEAD refs/heads/main` (or `init -b main`, which
+needs git ≥ 2.28).
+
+### Locating a line by searching the whole file breaks on the second one
+
+`reqview seal` matched `**Approval.** Tony, <date>` across the file. Approve two
+requirements on the same day and that string appears twice, so the match is
+ambiguous and the second refuses. **Scope to the block first, then edit** —
+`reqview.block_span` exists for this and both tools import it.
+
+### A placeholder guard must match every form the placeholder took
+
+The approval guard tested for the exact phrase `"Not yet written"`. Four blocks
+carried the migration's *other* boilerplate, `"Partly written — the migrated
+source records provenance…"`, so the guard never fired and **Approve was live on
+a Why nobody had written.**
+
+### Rendering a diagram needs no Playwright — system Chrome does it
+
+```
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu --hide-scrollbars \
+  --screenshot=out.png --window-size=1100,660 file://<abs-path>.html
+```
+
+Enough to look at a drawing before shipping it. **It will not catch the failure
+that matters** — see below.
+
+### No check can tell a diagram from a slide
+
+A diagram of prose-in-rectangles passes the source linter, renders perfectly,
+and is still worthless. *"Text on the screen with box that made no sense to the
+subject."* **A box must mean something.** Pick a type, obey its layout rules,
+do not freelance panels. The only reviewer for this is the producer — same
+declared limit as reachability, which proves an artifact is there and never
+that it was understood.
+
+### `fidelity.py` counts files, not directories
+
+Naming `docs/design/gate-visuals/` in TODO left all four files inside it
+unreachable. Name each artifact.
+
+
 - **A `## Risk ledger` section must be table-only** (2026-08-07): the parser in `tools/gates/kit.py` treats every non-blank line in the section as a data row, so a closing paragraph comes back as "rows 5-9: expected 8 columns, found 1". Same family as the v0.83.1 fence-awareness fix — a structural parser cannot tell commentary from content. Put prose in its own section after the table.
 - **`unmitigated` is not a legal risk-ledger state** (2026-08-07): the closed set in `kit.py` `LEGAL_STATES` is `countermeasure - permanent`, `countermeasure - temporary`, `accepted`, `accepted unknown`, `fatal`. This is the machine enforcing the standing "a risk without a countermeasure is a BLOCKER" decision. An honestly-unresolved risk is `accepted unknown` with a non-empty Review trigger, never `unmitigated`.
 - **Grounding references must resolve to an on-disk path** (2026-08-07, extended 2026-08-13): AU5 reports "grounding reference does not resolve" for `` `path/to/file.md` `` (backticks) even when the file exists, and also for a URL (`https://…`) — it only resolves local paths. Plain on-disk paths only, `- path — why`; put external-doc citations in prose or risk-ledger evidence, not as a grounding bullet.
