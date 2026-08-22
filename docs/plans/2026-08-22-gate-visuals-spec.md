@@ -183,11 +183,11 @@ unreadable, missing file, a render, a changed drawing — refuses on push.
 
 ## Pieces
 
-- [ ] 1. `tools/reqview/fingerprint.py` — the shared recipe; reqview imports it
-- [ ] 2. `tools/gates/kit.py` — reader window, `parse_concerns`, `view_rows`, design-rung rows, AU9
-- [ ] 3. `tools/gates/kit.py` + `gate.py` — `seal_views` and the `seal` subcommand
-- [ ] 4. `tools/gates/kit.py` — fixtures T33–T41 (`selftest: 41 cases passed`)
-- [ ] 5. Diff review of pieces 1–4 against D1–D4
+- [x] 1. `tools/reqview/fingerprint.py` — the shared recipe; reqview imports it
+- [x] 2. `tools/gates/kit.py` — reader window, `parse_concerns`, `view_rows`, design-rung rows, AU9
+- [x] 3. `tools/gates/kit.py` + `gate.py` — `seal_views` and the `seal` subcommand
+- [x] 4. `tools/gates/kit.py` — fixtures T33–T41 (`selftest: 41 cases passed`)
+- [x] 5. Diff review of pieces 1–4 against D1–D4
 - [ ] 6. Dogfood: `docs/product/gate-visuals.md` declares its two views, refuses, seals, passes
 - [ ] 7. `tools/gates/README.md` + `docs/design/gate-visuals.md` open question 2
 - [ ] 8. Full local suite and the render refresh
