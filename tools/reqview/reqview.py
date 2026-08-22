@@ -111,13 +111,7 @@ CHECKS = [
 # fingerprint — rule 9, verified against both published test vectors
 # --------------------------------------------------------------------------
 
-def fingerprint(statement, why, traces, depends, derived):
-    """Rule 9. Labels are already stripped by the parser (whole, modifier included).
-    A derived statement is prefixed `derived: ` so flipping the flag un-approves."""
-    stmt = ("derived: " + statement) if derived else statement
-    parts = [stmt, why, traces, depends]
-    joined = "\n".join(" ".join(p.split()) for p in parts)
-    return hashlib.sha256(joined.encode("utf-8")).hexdigest()[:12]
+from fingerprint import fingerprint  # rule 9 — the one implementation, tools/reqview/fingerprint.py
 
 
 def selftest():
