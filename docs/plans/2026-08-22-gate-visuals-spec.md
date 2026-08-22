@@ -190,7 +190,7 @@ unreadable, missing file, a render, a changed drawing — refuses on push.
 - [x] 5. Diff review of pieces 1–4 against D1–D4
 - [x] 6. Dogfood: `docs/product/gate-visuals.md` declares its two views, refuses, seals, passes
 - [x] 7. `tools/gates/README.md` + `docs/design/gate-visuals.md` open question 2
-- [ ] 8. Full local suite and the render refresh
+- [x] 8. Full local suite and the render refresh
 
 ---
 
