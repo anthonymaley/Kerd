@@ -6,16 +6,20 @@ declared inputs are missing.
     python3 tools/gates/gate.py check <slug> <rung> [--root PATH] [--json]
     python3 tools/gates/gate.py audit [--root PATH] [--json]
     python3 tools/gates/gate.py release [--root PATH] [--json]
+    python3 tools/gates/gate.py seal <slug> [--root PATH] [--json]
     python3 tools/gates/gate.py selftest
 
 route always exits 0 — it reports where work enters, it never refuses.
 check is the refuser: exit 0 on pass or spike bypass, 1 on refusal. audit is
 the repo-wide mechanical sweep: exit 0 clean, 1 with problems. release is
 the release-rules sweep (version sync, capability-list identity, kerd: namespace):
-exit 0 clean, 1 with problems. selftest runs kit's fixture suite in a temp tree:
-exit 0 or 1. Any other invocation prints this usage text and exits 2. Every
-decision lives in kit.py; this module only parses argv and renders kit's dicts
-as line-based text, or as JSON via --json.
+exit 0 clean, 1 with problems. seal completes every hand-written view approval
+in the slug's concerns block with its fingerprint: exit 0 when nothing was
+refused, diverged or unreadable, else 1. It never rewrites a divergence.
+selftest runs kit's fixture suite in a temp tree: exit 0 or 1. Any other
+invocation prints this usage text and exits 2. Every decision lives in
+kit.py; this module only parses argv and renders kit's dicts as line-based
+text, or as JSON via --json.
 
 WHICH TREE IS AUDITED. The gate aims at the PROJECT, never at its own install
 path. Kerd ships inside a plugin cache, so a tool that derived its root from
@@ -230,6 +234,53 @@ def _cmd_release(argv):
     return 1
 
 
+def _cmd_seal(argv):
+    as_json = "--json" in argv
+    argv = [a for a in argv if a != "--json"]
+    root, argv = _pop_root(argv)
+    if len(argv) != 1:
+        print(__doc__)
+        return 2
+    slug = argv[0]
+    result = kit.seal_views(root, slug)
+    product = result["product"]
+
+    if as_json:
+        print(json.dumps(result))
+        if not result["exists"] or not result["declared"] or result["parse_problems"]:
+            return 1
+        return 1 if (result["refused"] or result["diverged"] or result["unreadable"]) else 0
+
+    if not result["exists"]:
+        print(f"seal — {product}: no such work item")
+        return 1
+    if not result["declared"]:
+        print(f"seal — {product}: no concerns block; nothing to seal")
+        return 1
+    if result["parse_problems"]:
+        print(f"REFUSED — {product}: the concerns block does not parse; nothing was sealed.")
+        for p in result["parse_problems"]:
+            print(f"  {p}")
+        return 1
+
+    print(f"seal — {product}")
+    for c, p, n, d, fp in result["sealed"]:
+        print(f"  sealed     {c}  {p}  {n}, {d} · fp:{fp}")
+    for c, p, fp in result["already"]:
+        print(f"  already    {c}  {p}  fp:{fp}")
+    for c, p, was, now in result["diverged"]:
+        print(f"  DIVERGED   {c}  {p}  approved at fp:{was}, now fp:{now} — the drawing changed since it was agreed. Not rewritten.")
+    for c, p, why in result["refused"]:
+        print(f"  REFUSED    {c}  {p}  {why}")
+    for c, p in result["unapproved"]:
+        print(f"  unapproved {c}  {p}  no approval line — nothing to seal")
+    for c, t in result["unreadable"]:
+        print(f"  UNREADABLE {c}  approval line {t!r} is neither `<name>, YYYY-MM-DD` nor a sealed approval. Nothing was assumed.")
+    print(f"  {len(result['sealed'])} sealed · {len(result['refused'])} refused · "
+          f"{len(result['already'])} already approved · {len(result['diverged'])} diverged")
+    return 1 if (result["refused"] or result["diverged"] or result["unreadable"]) else 0
+
+
 def _root_selftest():
     """Pin the resolution order. The case that matters is the last one: a tool
     run outside any project REFUSES rather than falling back to where it is
@@ -309,6 +360,7 @@ COMMANDS = {
     "check": _cmd_check,
     "audit": _cmd_audit,
     "release": _cmd_release,
+    "seal": _cmd_seal,
     "selftest": _cmd_selftest,
 }
 

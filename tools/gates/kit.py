@@ -512,6 +512,70 @@ def view_rows(root, entries):
     return [_view_row(root, e) for e in entries]
 
 
+def seal_views(root, slug):
+    """Complete every hand-written view approval in the slug's concerns
+    block with its fingerprint — reqview's `seal` contract, applied to a
+    view. The producer types `<name>, <date>` and never a hash; this
+    computes the fingerprint over the drawing he actually agreed to and
+    writes it back. It REFUSES rather than guessing: a view that is not on
+    disk, not .html, or carries no viewpoint is `refused`; a divergence
+    (an approved drawing whose content changed) is REPORTED, never
+    rewritten. Nothing is written when the concerns block fails to parse."""
+    rel_product = f"docs/product/{slug}.md"
+    abs_product = os.path.join(root, rel_product)
+    result = {
+        "product": rel_product, "exists": False, "declared": False,
+        "parse_problems": [], "sealed": [], "already": [], "diverged": [],
+        "unapproved": [], "refused": [], "unreadable": [], "written": False,
+    }
+    if not os.path.isfile(abs_product):
+        return result
+    result["exists"] = True
+
+    cs = parse_concerns(abs_product)
+    if cs is None:
+        return result
+    result["declared"] = True
+    entries, parse_problems = cs
+    if parse_problems:
+        result["parse_problems"] = parse_problems
+        return result
+
+    with open(abs_product, encoding="utf-8") as f:
+        text = f.read()
+    lines = text.splitlines(keepends=True)
+
+    for e, row in zip(entries, view_rows(root, entries)):
+        code = row["code"]
+        c = e["concern"]
+        path = row.get("path")
+        if code in ("no-view", "na", "na-no-reason"):
+            continue
+        if code in ("no-viewpoint", "not-html", "missing"):
+            result["refused"].append([c, path, row["detail"]])
+        elif code == "unapproved":
+            result["unapproved"].append([c, path])
+        elif code == "ok":
+            result["already"].append([c, path, row["fp_now"]])
+        elif code == "mismatch":
+            result["diverged"].append([c, path, row["fp_stored"], row["fp_now"]])
+        elif code == "unreadable":
+            result["unreadable"].append([c, e["approval"]])
+        elif code == "unsealed":
+            name, date, fp_now = row["name"], row["date"], row["fp_now"]
+            old = lines[e["approval_index"]]
+            ending = old[len(old.rstrip("\r\n")):]
+            lines[e["approval_index"]] = f"    approval: {name}, {date} · fp:{fp_now}" + ending
+            result["sealed"].append([c, path, name, date, fp_now])
+
+    if result["sealed"]:
+        with open(abs_product, "w", encoding="utf-8") as f:
+            f.write("".join(lines))
+        result["written"] = True
+
+    return result
+
+
 # ── check_rung (A3, cumulative) ─────────────────────────────────────────────
 
 def check_rung(root, slug, rung):
