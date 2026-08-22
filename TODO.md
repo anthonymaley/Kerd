@@ -68,10 +68,13 @@ framed work item at the design rung.
   repo.
 - **`docs/product/gate-visuals.md`** — the work item. A visual at every gate,
   approved and locked with the same fingerprint a requirement uses.
-- **`docs/design/gate-visuals.md`** + **`docs/design/gate-visuals/`** — the
-  design package and its two drawings (the visual lifecycle, and what the
-  design gate refuses). **Routes: design PASSES.** Contract needs only the
-  design GO record, which is yours.
+- **`docs/design/gate-visuals.md`** — the design package. **Routes: design
+  PASSES.** Contract needs only the design GO record, which is yours.
+- **The two drawings it is built on**, each kept as source and as a render so a
+  pickup can look at one without a browser:
+  `docs/design/gate-visuals/visual-lifecycle.html` and `.png` — the life of a
+  gate visual, and `docs/design/gate-visuals/design-gate-check.html` and `.png`
+  — what the design gate refuses.
 
 **Measured on the way:** 39 requirements as text took a week; one lifecycle as
 a drawing took one exchange. That is the first number the *design is agreed in
