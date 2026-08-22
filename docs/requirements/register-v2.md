@@ -264,13 +264,13 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Approving the design shall be enough to proceed, and there shall be no separate plan approval
 
-**Why.** Tony ruled this on 2026-08-07, and these are his words: *"approving the design is enough, plan is execution of the design with measurements to ensure the goals are met."* So a plan is not a second thing to approve — it carries out a design that has already been agreed, and it is checked by measurement rather than by signature (R-0015, R-0047). A spec is the same: it sits below the design, and the rule there is that nothing needs a human approval where a machine can measure it against something already agreed. A piece that cannot be measured that way goes back to design rather than up to the producer. **The statement is our derivation of a gate deletion from his words; approving this block approves that derivation.**
+**Why.** requirements > analysis, architecture and UI design all in place, then build can proceed, spec and planning can be done in the loop or by the conductor and composer
 
 **Traces to.** G1, G3
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-22 · fp:5293470c167f
 
 > **Note — Discuss: explain** what about specs and plans etc?
 
@@ -280,13 +280,13 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** A plan shall carry out a design that has already been approved, and shall carry the measurements that prove the goals were met
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** the design must have the measurements that prove the goals were met
 
 **Traces to.** G6
 
 **Depends on.** R-0014
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-22 · fp:a8caa1be7008
 
 ---
 
@@ -294,13 +294,13 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Whether a work item changes the product or answers a question shall be decided once when conductor starts, and shall not be asked again after the work has begun
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** to reduce overthinking and constant asking, the question is answered once, at the start
 
 **Traces to.** G1
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+**Approval.** Tony, 2026-08-22 · fp:96c90bf8f2f9
 
 > **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
 > read *(verbatim, as migrated)*: "Project type is declared once at conductor start,
@@ -331,19 +331,21 @@ block written rather than migrated, carries a real Why.
 > distinction exactly as it held over twelve types. "the gate" became "a gate"
 > because the definite article pointed at the goal gate of R-0019, now dead.
 
+> **Note — Discuss: kill?** duplicate
+
 ---
 
 ### R-0021 — Work inside other work inherits its type
 
 **Statement.** A work item shall inherit the type of the work that contains it. Changing that shall be a deliberate choice, and shall apply only to the work that follows
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** simple execution, reduce overthinking and the avoid the use of sub categories with work.
 
 **Traces to.** G3
 
 **Depends on.** R-0018
 
-**Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+**Approval.** Tony, 2026-08-22 · fp:de1fe3a19ba1
 
 > **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
 > read *(verbatim, as migrated)*: "Type is a stack: items inherit the project's type,
@@ -357,29 +359,29 @@ block written rather than migrated, carries a real Why.
 
 ### R-0023 — Conductor picks the right model and effort, up or down
 
-**Statement.** Conductor shall manage which model runs and at what effort, in both directions. A session running a model that is too powerful shall be advised down to the right one, and other models shall then be called for individual steps at the effort those steps need
+**Statement.** Conductor shall manage which model runs and at what effort, in both directions. A session running a model that is too powerful shall be advised down to the right one, and other models shall then be called for individual steps at the effort those steps need. conductor should not try to achieve powerful work with lesser models and vice versa..
 
-**Why.** Tony asked for this mid-session on 2026-08-13, verbatim: *"we need kerd conductor to effectively manage model usage and effort, i.e. if we are at fable xhigh, it should tell us to change to opus medium or whatever and then bring fable and other models in to do the work at the right effort too"*. The statement is a transcription of that ask, not a derivation from it. What his words carry that the statement makes checkable is the two directions — advising the session down as well as calling stronger models in per-step.
+**Why.** ensure we are not under or over-specifying agent effort and mode type and work is performed at appropriate levels always
 
 **Traces to.** G7
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the fingerprint now covers the Why and the links, which no earlier approval saw.
+**Approval.** Tony, 2026-08-22 · fp:521634c50898
 
 ---
 
 ### R-0024 — The boundary records everything that was agreed
 
-**Statement.** The boundary shall record each thing agreed. Where two ways of doing that would both keep the whole record, the cheaper one shall be chosen. Saving effort shall not be a reason to record less
+**Statement.** The boundary shall record each thing agreed. Where two ways of doing that would both keep the whole record, the cheaper one shall be chosen. Saving effort shall not be a reason to record less. The goal is quality at the most efficient cost.
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** we need to ensure the recoding of agreements to avoid re-inventing and redoing effort the next time we touch that item
 
 **Traces to.** G2, G7
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14; the Why is unwritten and no earlier approval covered the Why or the links.
+**Approval.** Tony, 2026-08-22 · fp:b9408f0581a8
 
 ---
 
@@ -387,13 +389,13 @@ block written rather than migrated, carries a real Why.
 
 **Statement.** Work that answers a question shall carry its own rigor: a scope boundary, a time limit, a spec, a design, and measurements
 
-**Why.** Not yet written — the migrated source recorded provenance only (2026-08-07/08 session, via `docs/product/requirements-traceability.md`) and no reason. Awaiting the producer's words; nothing is invented here.
+**Why.** spikes and other question-answering work requires rigor just like any other work. we do it right.
 
 **Traces to.** G3
 
 **Depends on.** none
 
-**Approval.** none — migrated 2026-08-14 and reworked the same day; the Why is unwritten, the statement is no longer the migrated wording, and no earlier approval covered any of it.
+**Approval.** Tony, 2026-08-22 · fp:7bd1abed6fe4
 
 > **Note — Reworked 2026-08-14 14:54, on the producer's authorised ruling.** The statement
 > read *(verbatim, as migrated)*: "A spike carries its own rigor: scope boundary,
