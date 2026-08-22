@@ -267,6 +267,38 @@ the design.
 
 **High consequence**
 
+- **Ground every layer in a standard, not just architecture and requirements —
+  his map, 2026-08-22.** Law 4 at the whole-project altitude: *assess and learn
+  from industry standards … for every aspect of our project.* Two of four layers
+  are already grounded, which is why the other two now look conspicuous.
+
+  | Layer | Standard | Where we stand |
+  |---|---|---|
+  | **architecture** | **ISO/IEC/IEEE 42010** — stakeholders, concerns, viewpoints, views | **ADOPTED 2026-08-22** in `docs/design/gate-visuals.md`. Its completeness rule *is* the design gate |
+  | **requirements / features** | **ISO/IEC/IEEE 29148** — elicitation, writing, structure, SyRS/SRS templates | **ADOPTED** — the plain-language word list and the `each` rule both came from it |
+  | | **ISO/IEC 26550** — software product lines, feature modelling, variability | not looked at. This is where *features* as a formal concept actually lives |
+  | | **ISO 9241-210** — human-centred design | not looked at. Governs how user needs become requirements — and we have no viewpoint for UI |
+  | **process** | **ISO/IEC/IEEE 12207** (software) / **15288** (system) — the reference set of life-cycle processes | not looked at |
+  | | **ISO/IEC/IEEE 24774** — guidelines for *describing* a process: purpose, outcomes, activities, tasks | **the nearest analogue to 42010's "how to describe it" flavour.** Kerd *is* a process and describes itself in prose |
+  | | **BPMN** (OMG, also ISO/IEC 19510) | the de facto notation. The toolkit has `process` and `swimlane`; neither claims BPMN conformance |
+  | | **ISO/IEC 33000** (was 15504, SPICE) · **CMMI** | process capability and maturity assessment |
+  | **product** | **ISO/IEC 25010** (SQuaRE) — product quality model: functionality, reliability, usability, security, maintainability | **the live one — see below** |
+  | | **ISO/IEC/IEEE 15289** — content of life-cycle information items: plans, specifications, reports, user documentation | this is what `docs/product/`, `docs/design/` and `docs/gates/` are, ungrounded |
+  | | **ISO 10007** — configuration management, defining and controlling the product baseline | relevant to what a release *is* |
+  | | **ISO/IEC 24748** — the life-cycle management guide tying 12207/15288 together | |
+
+  **His closing observation, which is the design question underneath the map:**
+  *"42010's concepts (stakeholders, concerns, viewpoints) are general enough that
+  people often reuse them to organize the other layers too."* If that holds, one
+  vocabulary covers all four and we do not need four.
+
+  **The one that is already live, and cheap:** `R-0011` is approved and says every
+  evaluation carries four summary columns — cost, **quality**, due date, rating.
+  **Nothing defines quality.** ISO 25010 is exactly that definition, off the
+  shelf, and the evaluation matrix is machine-checked already. That is a small
+  adoption against an approved requirement rather than a new project.
+
+
 - ~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED 2026-08-13
   ~16:40**, at this sitting's switch-in. Three confirming observations: the
   cache carries 0.96.0 with `hooks/hooks.json`; neither `.claude/settings.local.json`
