@@ -1,10 +1,61 @@
 # Which diagram serves which rung
 
-Mapped 2026-08-22 from the 38 type specs in `cathrynlavery/diagram-design`,
+Mapped 2026-08-22 from the 39 type specs in `cathrynlavery/diagram-design`,
 using each type's own `Best for:` line rather than its name. Companion to
 `diagram-toolkit-spike-findings.md`, whose operating rule governs every row
 here: **pick a type and obey its layout rules — do not freelance. A box must
 mean something.**
+
+## All 39, with a verdict on each
+
+**USE** — a job at a named rung · **CANDIDATE** — plausible, unproven ·
+**NOT YET** — no use today, with a return condition ·
+**TRAP** — looks right for a rung and is not ·
+**OURS** — the job belongs to a Kerd tool, not to this one
+
+Counts: CANDIDATE 4 · NOT YET 2 · OURS 2 · TRAP 1 · USE 30
+
+| Type | Status | What it draws |
+|---|---|---|
+| **architecture** | USE · design | System overviews, integration maps, infra topology. |
+| **bar** | USE · goal | A measured result against the target that was declared. |
+| **data-flow** | USE · design | How data moves across roles — who starts it, who processes, who publishes. |
+| **db-schema** | NOT YET | Physical SQL tables and constraints. Returns the moment a consuming project has a database. |
+| **dependency** | USE · design, contract | What depends on what, including cycles a tree cannot show. |
+| **deployment** | USE · design | Where the software actually runs. |
+| **dp-integration** | CANDIDATE | Hub and spoke: what plugs in, what plugs out, over what wire. Kerd as hub, consuming repos as spokes. |
+| **dp-security-matrix** | USE · contract | A grid of rows against roles. For us: who holds the key at each rung. |
+| **er** | USE · design | Entities and how they relate. |
+| **fishbone** | USE · frame, loop | One observed effect, causes grouped by category. The problem route. |
+| **flowchart** | USE · design | Decision logic and branching. |
+| **gantt** | TRAP | Tasks with start and end dates. A release is a grouping, not a time axis. |
+| **high-level** | CANDIDATE | End-to-end phases as a chevron, with a strip for things that ride every phase. |
+| **it-state** | USE · frame | The before picture — what exists now and how it is grouped. |
+| **journey** | USE · frame | What a person does across stages and how it feels at each one. |
+| **kanban** | OURS | A state census of work in progress. That is the progress board, derived from disk. |
+| **layers** | USE · design | Abstraction layers, stacks, cascades. |
+| **line** | USE · goal | A measure over releases, when the trend is the evidence. |
+| **loop** | USE · loop | Cycles where the last step feeds the first. |
+| **medallion** | CANDIDATE | Tiers of the same thing at different levels, and how something is promoted between them. |
+| **nested** | USE · design | Hierarchy by containment. Our default grammar — outer is broader. |
+| **org-chart** | USE · contract | Role ownership and routing, including agent teams. |
+| **polar** | CANDIDATE | One series across 4–8 categories whose clockwise order matters. The ladder is a cycle of eight. |
+| **process** | USE · design | A sequential process with actors and the data passing between them. |
+| **pyramid** | USE · frame, slice | Ranks and funnels — what sits above what. |
+| **quadrant** | USE · viability | A 2×2 decision frame. Use the type, replace the default axes. |
+| **radar** | OURS | Comparing entities across criteria. That is the evaluation matrix. |
+| **sankey** | USE · viability | Where a quantity goes as it splits and merges. |
+| **scatter** | USE · goal | Correlation, when the relationship itself is the claim. |
+| **sequence** | USE · design | Multi-actor interactions over time. |
+| **state** | USE · design | Finite state logic — lifecycles, wizards, queues. |
+| **story-map** | USE · slice | Where the first release gets cut. The strongest match in the set. |
+| **swimlane** | USE · design, contract | Cross-functional flow where the handoffs are the point. |
+| **timeline** | USE · goal, loop | Release history, milestones, incident reconstruction. |
+| **tree** | USE · design | Taxonomies, breakdowns, file trees. |
+| **treemap** | USE · viability, slice | Part of a whole, where the relative size is the story. |
+| **uml-class** | NOT YET | Operations and inheritance vocabulary. Returns when the object model is argued about. |
+| **venn** | USE · frame | Where A meets B — overlaps, not sequences. |
+| **wardley** | USE · viability | Build, buy or outsource. The interview's open question, drawn. |
 
 ## The map
 
@@ -37,7 +88,7 @@ mean something.**
 
 ### DESIGN — the solution, and it is where most of these live
 
-Fifteen of the thirty-eight belong here, which matches the rung: *"detailed
+Fifteen of the thirty-nine belong here, which matches the rung: *"detailed
 specs, architecture plans, testing strategy, and diagrams for as many aspects
 as we can."*
 
