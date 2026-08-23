@@ -5,15 +5,17 @@ The design package for the work item `funnel-driver`. The thing being built is
 because slugs name work items, not skills — the same convention as `mode-cut`,
 `vault-unhook` and `gate-visuals`.
 
-Frame: `docs/product/funnel-driver.md`. Two views sealed beside this document,
-both approved by Tony on 2026-08-23: `funnel-driver/why-an-umbrella.html`
-(`fp:54f84887b8b8`) and `funnel-driver/gate-loop.html` (`fp:47883502cf4b`).
+Frame: `docs/product/funnel-driver.md`. Three views sealed beside this document,
+all approved by Tony on 2026-08-23: `funnel-driver/why-an-umbrella.html`
+(`fp:54f84887b8b8`), `funnel-driver/gate-loop.html` (`fp:47883502cf4b`) and
+`funnel-driver/span-vs-slice.html` (`fp:5adeb340c7ee`).
 
 ## Grounding
 
 - docs/product/funnel-driver.md — the frame this designs; the mechanism and the gate loop were decided there
 - docs/design/funnel-driver/why-an-umbrella.html — why Drive sits above conductor, sealed
 - docs/design/funnel-driver/gate-loop.html — how one gate behaves end to end, sealed
+- docs/design/funnel-driver/span-vs-slice.html — why a work item and a session cannot be nested, sealed
 - docs/design/conductor-role.md — the 2026-08-04 spec whose graduation map this replaces
 - skills/conductor/SKILL.md — the thing Drive calls and must never require to change
 - docs/product/requirements-project-type-templates.md — the fifteen types, now migration evidence rather than canon
@@ -90,7 +92,9 @@ than "inside" is structural rather than a preference:
 ```
 
 They are different objects with different lifetimes. A work item outlives dozens
-of sessions; a session may touch several work items. **That is why the driver
+of sessions; a session may touch several work items. **Drawn at
+`funnel-driver/span-vs-slice.html`** — a span and a slice on one grid, which is
+what makes the mismatch countable rather than merely asserted. **That is why the driver
 could never have been a graduation into conductor** — it would have made one
 object's lifecycle a phase of another's, and every awkward clause in the
 2026-08-04 graduation map is a symptom of that mismatch.

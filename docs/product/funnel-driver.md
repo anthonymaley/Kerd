@@ -11,6 +11,10 @@ concerns:
     viewpoint: swimlane
     view: docs/design/funnel-driver/gate-loop.html
     approval: Tony, 2026-08-23 · fp:47883502cf4b
+  - concern: why a work item and a session cannot be nested
+    viewpoint: timeline
+    view: docs/design/funnel-driver/span-vs-slice.html
+    approval: Tony, 2026-08-23 · fp:5adeb340c7ee
 ---
 
 # The funnel has no driver — nothing walks an item from idea to launch
