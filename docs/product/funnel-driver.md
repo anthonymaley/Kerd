@@ -73,20 +73,18 @@ frame.** This document is the frame that was missing.
 Explicitly *not* value here: a bigger conductor. If the driver ends up larger
 than the sum of what it absorbs, the evaluation was wrong.
 
-## The mechanism — DECIDED 2026-08-23: an umbrella ABOVE conductor, never a graduation into it
+## The mechanism — DECIDED 2026-08-23: an umbrella ABOVE conductor
 
-**Everything below this section was written on the assumption that the driver
-arrives by moving functions *into* conductor.** That assumption is now dead, and
-the change is the producer's:
+**Everything below the gap list was written on the assumption that the driver
+arrives by moving functions *into* conductor.** That assumption is dead. The
+change is the producer's:
 
 > if its working as is today (maybe not ideal though, but working) maybe we
 > should have this as a separate branch/command or an overriding one (umbrella)
 > for what we have today … that forces the stages and uses conductor and the
-> other tools withing the skill, without breaking conductor basic as it is now,
-> maybe a conductor le repo is enough for just getting things done without all
-> the process ad you have no intention of getting past mvp etc so why use the
-> funnel approach. then we can keep building one bit at a time under that
-> umbrella, while keeping what is there useful still
+> other tools withing the skill, without breaking conductor basic as it is now
+> … then we can keep building one bit at a time under that umbrella, while
+> keeping what is there useful still
 
 **Why this is a different answer rather than a rephrasing.** The two killer
 risks below pull in opposite directions, and that is what made the slicing hard:
@@ -96,94 +94,67 @@ risks below pull in opposite directions, and that is what made the slicing hard:
 edit to conductor, so there is nothing to break, and the umbrella **forces** the
 stages rather than advising them.
 
-**The rule this is built under, and the one that keeps it honest:**
+**The rule this is built under:**
 
 > The umbrella may CALL conductor, but must never REQUIRE conductor to change.
 
-The moment a slice needs conductor to behave differently, the retired killer
-risk is back in full, and that slice either does the work itself or stops. Without
-this line stated, "umbrella" becomes "graduation" over a few months of individually
-reasonable conveniences and nobody notices the crossover.
+Without this line stated, "umbrella" becomes "graduation" over a few months of
+individually reasonable conveniences and nobody notices the crossover.
 
 **Proportionality becomes the door you walk through, not a setting.** A repo that
 will never pass MVP keeps plain conductor and pays no process cost at all; a
-product that needs the funnel enters through the umbrella. That is the concrete
-answer to the producer's constraint — *"without it becomeing a 100year project"*.
+product that needs the funnel enters through the umbrella — the concrete answer
+to *"without it becomeing a 100year project"*. Consistent with the 2026-08-07
+shape rule, *"not a skill per stage no — one skill for all"*.
 
-**Consistent with the shape rule, not a departure from it.** *"not a skill per
-stage no — one skill for all"* (2026-08-07): the umbrella is one skill covering
-every stage, with conductor left underneath as the session-discipline tool it
-already is.
+**NAMED 2026-08-23: Drive — `/kerd:drive`, `skills/drive`.** Tony's call.
+`concert` was refused as an invented name; `product` names a domain rather than
+an action; `stagegate` is gate-centric and corporate. Drive names the active
+thing — guide, keep moving, steer, hold accountable. The slug stays
+`funnel-driver`, because slugs name work items and not skills.
 
-**Naming is deliberately not settled here.** `/concert`, `/project` and `/product`
-were all offered. Under the producer's own currency rule of 2026-08-23 —
-*"use the industry recognized standard used name … make it easy for people to
-understand not learn a new thing"* — `concert` is us extending our own internal
-metaphor and is the invented name that rule forbids. The thing being walked loops
-after launch rather than ending, which is product-shaped rather than
-project-shaped. His call.
+**How it works is the design's business, not the frame's:
+`docs/design/funnel-driver.md`.** That package carries the item-versus-session
+split, what Drive is, how it calls conductor, where the question set lives, how
+the completeness check reads it, and the canonical language below.
+
+## The canonical language — DECIDED 2026-08-23
+
+Drive moves things that are not products. The vocabulary is **work item** (the
+thing Drive moves), **work record** (its living artifact), canonically at
+`docs/work/<slug>.md` — with `docs/product/` named as current physical storage
+that has not migrated yet, never as the concept.
+
+**`project type` is superseded and retired as a field name**, split into three
+independent axes: **work type** (what kind of thing this is — software change,
+enhancement, content plan, business plan, document, repair), **route** (how it
+enters the ladder: `new | problem | spike`), and **lifecycle position** (where
+the thing is in its life — the only axis that advances). The fifteen written
+types become migration evidence rather than canon. Reasoning and the eight/seven
+split: `docs/design/funnel-driver.md`.
 
 ## How one gate behaves — DECIDED 2026-08-23
 
-Agreed by walking a drawing rather than prose, and corrected by the producer at
-five of its eight steps. The same loop runs at every gate; only the questions and
-the picture change.
+Agreed by walking a drawing, and corrected by the producer at five of its eight
+steps. **In:** a sentence plus whatever material the person already has —
+documents, links, pictures — read and played back, so context arrives as
+artifacts rather than as an interrogation. **A short question set**, sized to do
+two jobs: judge whether the idea is worth pursuing, and become the first
+requirements. **Then the loop, which IS the gate:** start the package, open it on
+the person's screen, shape the idea back at them, take their comments, reshape.
+*"nearly, but change this"* is the normal answer, and **a comment is not a
+rejection**. **Out: a package the person recognises, agreed for now — NOT
+locked** — *"idea still shapng at this point though … not locked."* Every picture
+already agreed travels forward.
 
-**In:** a sentence — *"I want to build X"* — **plus whatever material the person
-already has.** Documents, links, pictures. The umbrella reads them and plays them
-back, so context arrives as artifacts rather than as an interrogation.
+**One list decides what gets asked, what counts as finished, and what is shown**
+— the producer's correction, *"this needs to be based on step 2 as well right?"*,
+plus his third use: *"now > x, next Y, after Z"*. The set is **data the person
+owns and edits before starting**, never skippable during (*"yeah i was wrong on
+skip"*), and the work type is **declared, never inferred** — a guessing system is
+wrong about a third of the time and fails silently. Mechanics and homes:
+`docs/design/funnel-driver.md`.
 
-**A short question set. Not a hundred.** Sized to do two jobs at once: enough to
-judge whether the idea is worth pursuing, and enough to **become the first
-requirements** rather than being thrown away after.
-
-**Then the loop, which IS the gate:** the umbrella starts the package — the
-writing, the data, the diagrams, together — **opens it on the person's screen**,
-shapes the idea back at them, takes their comments, and reshapes. *"nearly, but
-change this"* is the normal answer. **A comment is not a rejection**, and today
-approval has no such state.
-
-**The completeness check reads the same question list.** The producer's
-correction: *"this needs to be based on step 2 as well right?"* — so **one list
-decides what gets asked AND what counts as finished**, and a third use falls out
-of it, his again: **showing where you are** — *"now > x, next Y, after Z"*. Ask ·
-check · show, from one source. Today those are separate things, and two of them
-do not exist.
-
-**Out: a package the person recognises, agreed for now — NOT locked.** His
-correction: *"idea still shapng at this point though, so will chnage after
-validation, analysis and spikes perhaps. not locked."* What is recorded is what
-was agreed on that date, not a promise it will not change. **Open question this
-leaves, stated rather than resolved:** the existing fingerprint machinery records
-exactly that and lapses on edit, which is compatible — *provided coming back
-costs nothing*. If re-agreeing means re-walking the gate, early gates must not
-lock at all. Untested.
-
-**Every picture already agreed travels forward.** Later gates build on the locked
-drawings rather than re-arguing them.
-
-### The question set is data, not skill text
-
-The person can **edit the set before starting**, and templates by project type are
-the starting point. Two rulings underneath that:
-
-- **Skipping was withdrawn by its proposer** — *"yeah i was wrong on skip"*.
-  Editing before you start keeps flexibility; skipping during would break all
-  three uses of the list at once, and *"machinery nobody was obliged to use"* is
-  a failure this repo has already shipped twice.
-- **Declared, never inferred.** The proposal that the system could recognise a
-  project's shape and ask accordingly is refused on evidence already in this
-  repo's register: across 7,000+ manually reviewed issue reports, **33.8% were
-  misclassified** (Herzig, Just & Zeller, ICSE 2013) — the finding that killed the
-  twelve work types. A system that guesses *"this is content work, so no
-  performance questions"* is wrong about a third of the time and **fails
-  silently**: the question you needed is never asked and you never learn it was
-  missing. The person declares the shape; project type is already declared once
-  from the fifteen written down.
-
-Because the person owns the set, it cannot live inside a skill file — it is a
-file in **their** repo, which is already the house rule for anything
-project-specific.
 
 ## Grounding
 
@@ -437,6 +408,22 @@ though it?"*
 - **The remaining seven gates.** One loop proven beats eight declared.
 - **Anything inside conductor.** The rule of the mechanism section: call it,
   never change it.
+
+**Slice 3 — the `docs/work` migration.** Canonical storage moves from
+`docs/product/<slug>.md` to `docs/work/<slug>.md`. **Measured 2026-08-23 so
+nobody re-derives the cost: ~180 references** — `tools/gates/kit.py` 127,
+`gate.py` 9, `fidelity.py` 3, two skill files (`conductor`, `interrogate`), 40
+files under `docs/design/` including text baked into `.excalidraw` and `.svg`
+renders, plus `README.md`, `CLAUDE.md` and `docs/playbook.md` — and a 20-file
+move. **The board derives every slug from `docs/product/*.md` filenames, so a
+half-done migration turns the render red.** Deliberately not ridden into the
+design slice: it would have swallowed it.
+
+**Slice 4 — split the fifteen project types onto their three axes.** Eight are
+lifecycle positions, seven are work types wrongly filed, and the non-software
+work types (content plan, business plan, document) have no entry at all. Retires
+the `project type` field name. Depends on slice 3 only for where the templates
+live.
 
 ---
 
