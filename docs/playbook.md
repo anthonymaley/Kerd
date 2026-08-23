@@ -112,6 +112,17 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Gotchas
 
+- **CONTEXT.md gets staged into a work commit, and the pull is structural rather
+  than careless** (2026-08-23). Conductor tells you to record decisions in
+  CONTEXT.md *during execute*, so at the next `git add` the file is freshly
+  edited and staging it beside the work feels like the same act. It is not:
+  session-state files (`CONTEXT.md`, `TODO.md`, anything under `kivna/`) belong
+  to the Switch Out flow at the boundary, and mixing them collapses the
+  state/work/history split. **Nothing machine-enforces this** — no CI step and no
+  hook inspects a work commit's file list — so the countermeasure is to stage by
+  name and read the staged list before committing, every time. Caught once by a
+  later edit, not by any check.
+
 ### AU5 wants bare paths in `## Grounding` lines
 
 `- \`docs/x.md\` — why` does not resolve; the parser splits on the first ` — `

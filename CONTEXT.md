@@ -6,97 +6,40 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: switch (session
 
 ## Where We Are
 
-**2026-08-23 midday — `funnel-driver` is unparked and its MECHANISM changed:
-the driver is an umbrella ABOVE conductor, not a graduation into it. Two design
-views sealed. `gate-visuals` still sits at goal, untouched today.**
+**2026-08-23 evening — `funnel-driver` cleared the design rung and hands to
+CONTRACT. The umbrella is named DRIVE. `project type` is superseded and retired.
+`gate-visuals` still sits at goal, untouched for a second day.**
 
-- **The oldest stalled item moved.** `funnel-driver` was framed 2026-08-07,
-  slice 1 shipped at v0.91.0, and it sat at design across two sittings. Today's
-  session rewrote its mechanism, retired its first killer risk **by
-  construction**, and re-cut the remaining slices. It sits at **design**; what
-  remains for contract is `docs/design/funnel-driver.md` and its GO record.
-- **Two views sealed — the view lock's second live firing, and the first on an
-  item that did not build it.** `why-an-umbrella.html` (`fp:54f84887b8b8`) and
-  `gate-loop.html` (`fp:47883502cf4b`), both Tony, 2026-08-23. Declaring the
-  concerns dropped the item from *enters at design* to *enters at slice* until
-  he approved; sealing returned it. The machinery did exactly what it was built
-  to do, on an item it was not built for.
-- **The whole session was a design conversation carried by drawings**, and the
-  measurement is on the record: prose was read **backwards** by its reader
-  once — conductor's load misread as "conductor is broken" — and the redrawn
-  version landed first time, *"made it instantly clear"*. Five of the gate
-  loop's eight steps were corrected by the producer against the picture.
-- **`gate-visuals` is unchanged at goal** — the goal record still needs cold
-  eyes and his expert-user pass, and its `Product measurements met` row has no
-  upstream declaration to read from (see the decision below).
-- **The register is unchanged: 38 live, 33 approved, 0 invalidated** —
-  `docs/requirements/register-v2.md`, worked on through `tools/reqview/reqview.py`
-  (the parser, format checks and `seal`) and `tools/reqview/editor.py` (the edit
-  surface). `gate-visuals`' contract remains `docs/plans/2026-08-22-gate-visuals-spec.md`,
-  8 of 8 pieces landed.
-
-**THE PROJECT WAS RESET ON 2026-08-13 (evening). Read `docs/kerd-interview.md`
-before anything else in this file.** Tony called a full stop — *"honestly i feel
-we are lost here, i have no clue if what we have build and what the requirments
-will build is what we need now. the fact that we are both confused tells me we
-need a reset"* — after a session framed two solutions in a row without either
-party being able to say whether what exists serves the goal.
-
-Three artifacts now sit **above** everything else recorded here:
-
-- **`docs/kerd-interview.md`** — the reset interview, verbatim, **confirmed by
-  Tony as the source of truth**. Written under an explicit instruction to ground
-  nothing in existing artifacts: *"we need to go back to this interview level and
-  not be confused by any existing knowledge until we capture this as the source
-  of truth."*
-- **`docs/kerd-goals.md`** — **APPROVED 2026-08-13 18:30.** Three laws, eight
-  goals, each carrying a design input in his own words.
-- **`docs/kerd-requirements.md`** — a **draft**, worked through self-critique,
-  independent adversarial review, and two rounds of his corrections.
-
-**Everything below in this file predates the reset and is now EVIDENCE, not
-precedent.** Standing decisions are not void — but they were taken under
-assumptions the reset is questioning, and each gets re-examined against the
-approved goals rather than cited as settled. Nothing has been pruned; the
-licensed-prune rule was not triggered and a reset is not a licence to delete the
-record of how we got here.
-
-**Kerd remains at v0.98.0.** No skill changed during the reset sitting.
-
-**Kerd is at v0.98.0. `docs/requirements/` EXISTS and is now MACHINE-REFUSED**
-— the register the whole requirements-traceability item is about. Three files
-in one declared location: `catalog.md` (the schema — fields, the twenty
-categories with decisive definitions, five states and what each owes, five link
-roles with reverses, four named views), `categories.md` (the disposition,
-twenty rows, **drafted by the model and NOT yet keyed by the producer**), and
-`register.md` (**51 requirements as blocks** including `FUN-010`, 16 typed
-links, an empty `## Archive` section).
-
-**AU7/AU8 are LIVE as of v0.97.0** — every refusal the catalog declares now has
-a refuser riding `gate.py audit` at every push (no new CI step): illegal
-ID/state/category, unknown field, missing Source/statement, `Approved` hash
-divergence (refused, state never rewritten), `superseded` without its
-`superseded-by`, unregistered link roles, dangling link targets. Stale link
-stamps and the trace gap are non-blocking *findings*, per the catalog's own
-flag-vs-refuse vocabulary. Nothing hardcoded: the legal category set is read
-from the project's own `categories.md`. 32 selftest fixtures, live tamper demo
-proven, the real register passes clean.
-
-**`requirements-traceability` is at the design rung; its package rework is the
-next real work.** The evaluation half is complete and keyed; the design half
-absorbs the trace gap (46 unparented requirements — the AU8 finding is the
-live tracker) once the producer files the missing BUS/STA/USR origin rows.
-
-**The evaluation is the repo's FIRST matrix** (`tools/design/` had been
-CI-enforced since v0.77.0 and never used): 6 options × 24 criteria, marks-only,
-six architecture overviews. Verdict BUILD, decided **on merit** after a re-score
-— only Reqflow dies on a mandatory criterion. StrictDoc is a genuine runner-up
-and meets MORE criteria outright than Build does.
-
-**Parked behind requirements:** `funnel-driver`, `switch-fidelity` and
-`shared-memory` all remain at design, untouched across two sittings.
+- **The oldest stalled item advanced a rung.** `funnel-driver` was framed
+  2026-08-07 and had sat at design across three sittings. Design GO `d4c4e62`
+  (2026-08-23 17:15 EDT); `gate.py route funnel-driver` now reports **enters at:
+  contract**, needing `docs/plans/*-funnel-driver-spec.md`.
+- **The design package is `docs/design/funnel-driver.md`** — 236 lines, living
+  and undated, with **three sealed drawings** beside it: `why-an-umbrella.html`
+  (`fp:54f84887b8b8`), `gate-loop.html` (`fp:47883502cf4b`) and
+  `span-vs-slice.html` (`fp:5adeb340c7ee`). The frame shrank 512 → 481 as
+  design-altitude detail moved out.
+- **The third view was drawn AT the gate, and the GO waited on it.** Asked to
+  approve, the producer's answer was *"hmmm i need one of your diagrams, this is
+  important"*. `span-vs-slice` puts a work item's span and a session's slice on
+  one grid, which makes the nesting question a category error rather than a
+  preference. **Third live firing of the view lock**, and the second time
+  declaring a concern correctly cost the item a rung until it was sealed.
+- **Two following slices are named and MEASURED, not promised:** the
+  `docs/product` → `docs/work` migration at **~180 references** plus a 20-file
+  move, and the fifteen-project-type split.
+- **The machine key is met at four of five, with the fifth a DECLARED GAP** —
+  *standing decisions contradicted by shipped skill text* cannot be closed by
+  Drive, because the offending text is inside conductor and the umbrella rule
+  forbids touching it. Deliberately the opposite of what `gate-visuals` did.
+- **`gate-visuals` is unchanged at goal** for a second day — the goal record
+  still needs cold eyes and the expert-user pass.
+- **The register is unchanged: 38 live, 33 approved, 0 invalidated.** Kerd
+  remains at **v0.98.0** — no skill changed, so no release pass fired.
 
 ## Key Decisions
+
+- **DIAGRAM AND PROSE ARE ONE DELIVERABLE, PRODUCED TOGETHER — Tony, 2026-08-23 evening, refining the 2026-08-02 decision rather than superseding it.** His proposal: *"i think the way to win with diagrams is doing them by default, if prose is the output we should automatically diagrem it and list the prose anyway. not one or the other, covers both audeinces and allow for visual agrement to then make the prose readable too."* **What the old rule got right and keeps:** a diagram is the agreement mechanism and prose is the wrong review modality. **What dies: the implied exclusion of prose.** The two are not competing because they do different jobs — **the diagram is how you agree, the prose is how you keep it.** A drawing cannot carry a rationale, a quote or a measured count; prose cannot be agreed at a glance. The 2026-08-02 bullet is amended in place, not struck, and no graveyard entry is owed. **The model proposed "draw first, then write" and Tony refuted it on the mechanics, correctly:** *"otherwise what would prompt you to write the prose after the diagram, you need me to say now do prose? or do you think we will talk about the diagram and then you record it in prose?"* Nothing would reliably prompt it — the trigger would be either a manual beat the producer must remember or model discipline, and this repo has measured repeatedly that discipline-dependent steps do not happen (*"machinery nobody was obliged to use"*, shipped twice, producing nothing). **Same-time has no trigger to miss, because there is only one beat.** **The risk the ordering idea was aimed at is real but the lever was wrong:** the failure mode is a diagram built from the *prose's paragraphs* rather than from the *content's structure*, which is what produces panels of text pretending to be a drawing — already covered by the 2026-08-22 rule (*pick a type, obey its layout rules, do not freelance*; *a box that only holds text is a slide, not a diagram*). Order was never the fix; **one structure, two renderings** is. **Declining to draw costs a written reason and needs no new machinery** — `tools/gates/kit.py` already accepts `view: n/a — <reason>` and already refuses `n/a` without one, so the change is flipping the default, not building a checker. Without that exit, "by default" manufactures slides for content that has no structure. **Live evidence from the session that produced the rule:** he read the `funnel-driver` design doc and it did not click; he asked for a drawing; `span-vs-slice.html` landed first time (*"great diagram, yes agree"*) and the prose then read. Third measured instance in two days of a drawing landing where correct prose did not. **Work owed, in Backlog, not built here:** flip the default in the skills that write prose, and decide whether it binds as discipline or as a refusal — his open question, unanswered.
 
 - **THE UMBRELLA IS NAMED `drive`, AND `project type` IS SUPERSEDED INTO THREE AXES — Tony, 2026-08-23 afternoon.** **The name:** `/kerd:drive`, `skills/drive`, display name **Drive**. His reasoning, verbatim: *"It names the active thing: drive the work from idea through the ladder until it is built, measured, accepted, and looped. It keeps the useful part of `funnel-driver` without the bad `funnel` baggage."* Refused on the way: `stagegate` (*"too corporate, gate-centric, and maybe brand/trademark awkward"*), `product` (*"names the domain, not the action"*), `gate` (*"names one checkpoint, not the end-to-end movement"*), `ship` (*"names the finish, not the process"*), `ladder` (accurate internally, awkward as a command), `make` (*"very good, but less Kerd-specific and less enforcing/measuring"*). **The architecture statement that came with it, and it is the sharpest formulation of the umbrella argument the item has produced:** *"`/kerd:drive` owns the work item: idea → viability → slice → design → contract → build → goal → loop. `/kerd:conductor` owns the session: orient → plan → execute → close."* Two objects with different lifetimes — a work item outlives dozens of sessions, a session may touch several work items — which is why the driver could never have been a graduation into conductor: it would have made one object's lifecycle a phase of another's. **The name does not pass the currency rule cleanly and the design says so rather than pretending otherwise:** the closest term of art is Stage-Gate. What distinguishes `drive` from `concert` (refused 2026-08-23 morning as invented) is that `concert` required knowing Kerd's own producer/composer/conductor metaphor to parse, while `drive` is a common verb in its plain meaning — the test the currency rule actually protects is *does the reader need to be taught this word*. **The slug stays `funnel-driver`**: slugs name work items, not skills, per `mode-cut`/`vault-unhook`/`gate-visuals`. **THE CANONICAL LANGUAGE, his correction and the reason it matters:** *"The whole point of Drive is that the thing may be a product, enhancement, content plan, business plan, document, repair, or just a rough idea. So `docs/product/<slug>.md` repeats the naming mistake we just avoided with `/kerd:drive`."* So: the thing is a **work item**, its living file is a **work record**, canonical storage is `docs/work/<slug>.md`, reusable question sets live at `docs/work/question-sets/<work-type>.md`, and `docs/product/` is named **current physical storage, legacy** — never the concept. The question set is a `## Question set` section **of the work record**, not a separate file; the type's set is a seed copied in at intake and edited there. **`project type` IS SUPERSEDED AS WRITTEN AND RETIRED AS A FIELD NAME** — his ruling: *"That field is the defect: it mixed kind, lifecycle, and software bias into one name… Don't preserve `project type`; split it and retire the name."* Three independent axes replace it: **work type** (what kind of thing this is at all — software change, enhancement, content plan, business plan, document, repair; declared by the producer, does not advance), **route** (how it enters the ladder — `new | problem | spike`), **lifecycle position** (where the thing is in its life — the only axis that advances, at the goal gate). **The fifteen written types become migration evidence, not canon:** eight are ordered and map to lifecycle positions (Ideation, Spike, MVP, Pilot, Beta, Full Release, Maintenance, Decommission); seven are unordered and were work types all along (Security Review, Experiment/A-B, Hotfix, Migration/Cutover, Platform Change, Compliance Release, Internal Tooling) — a Hotfix does not advance into a Migration; and the missing non-software types prove the old field was too narrow by construction. **This supersedes the 2026-08-07 ruling** that project type *"is the project's current state"* which *"can increment upon goal achieved"* — that ordering only ever described eight of the fifteen. **Law 4's supersession clause reaching a decision Tony made himself**, and the third recorded instance of him applying it to his own prior statement. **Two following slices carry the cost, both measured rather than promised:** slice 3, the `docs/product` → `docs/work` migration at **~180 references** (kit.py 127 · gate.py 9 · fidelity.py 3 · 2 skill files · 40 files under `docs/design/` including text baked into `.excalidraw`/`.svg` · README, CLAUDE.md, playbook) plus a 20-file move, with the board deriving every slug from `docs/product/*.md` filenames so a half-done migration turns the render red; and slice 4, splitting the fifteen onto their axes. Neither rides in the design slice — his call: *"Keep the migration measured and named, but don't let it ride in this design-doc slice."* **Model correction on the record:** the session proposed collapsing `route` into work type and he refused it — *"Route is how the work enters the ladder. Work type is what kind of thing it is… Those are separate axes."* Full package: `docs/design/funnel-driver.md`.
 

@@ -2,50 +2,40 @@
 
 ## Now
 
-**2026-08-23 midday — `funnel-driver` unparked, its mechanism changed to an
-umbrella above conductor, two design views sealed.** See
-`kivna/sessions/2026-08-23.md`.
+**2026-08-23 evening — `funnel-driver` cleared design and hands to contract.
+The umbrella is named DRIVE.** See `kivna/sessions/2026-08-23.md`.
 
 **Where things stand**
 
-- **`funnel-driver` sits at design.** Frame rewritten, killer risk retired by
-  construction, slices re-cut. Two views sealed (`fp:54f84887b8b8`,
-  `fp:47883502cf4b`).
-- **`gate-visuals` still sits at goal** — untouched today.
-- **Register: 38 live, 33 approved, 0 invalidated** — unchanged.
+- **`funnel-driver` sits at contract** — needs `docs/plans/*-funnel-driver-spec.md`.
+  Design GO `d4c4e62`. Three views sealed.
+- **`gate-visuals` still sits at goal** — untouched for a second day.
+- **Register: 38 live, 33 approved, 0 invalidated** — unchanged. Kerd at v0.98.0.
 
 **Next, in order**
 
-1. **`docs/design/funnel-driver.md` + its GO record** — the only two things
-   between the item and contract. The frame is currently carrying design-level
-   detail because that is where the conversation landed; the design doc has to
-   separate out what the frame does not say — what the umbrella *is* (skill or
-   command), how it calls conductor without requiring it to change, where the
-   question file lives and its format, and how the completeness check reads it.
-2. **Name the umbrella.** `/kerd:product` is the standing recommendation under
-   the currency rule; `concert` is refused as an invented name. Tony's call, and
-   it blocks the design doc's vocabulary.
-3. **Then slice 2: one gate's question set**, hand-written, used once for real.
-   No template system, no shape inference, no second gate.
-4. **The `gate-visuals` goal gate** — cold eyes, then the expert-user pass. Its
+1. **Slice 2: one gate's question set**, hand-written, used once for real. Now
+   genuinely unblocked — it needed the design's vocabulary and it has it. No
+   template system, no shape inference, no second gate.
+2. **The `gate-visuals` goal gate** — cold eyes, then the expert-user pass. Its
    `Product measurements met` row has no upstream declaration; write the gap
    honestly rather than inventing a target after the fact.
-5. **Frame the measurement item** — Tony's value statement is captured verbatim
-   in CONTEXT.md and nothing is framed yet. It sits *behind* the diagram work
-   under his own ordering (diagrams first, numbers second).
-6. **The four kept items from the standards spike** — 25010 → `R-0011`'s quality
+3. **Frame the measurement item** — Tony's value statement is captured verbatim
+   in CONTEXT.md and nothing is framed yet.
+4. **The four kept items from the standards spike** — 25010 → `R-0011`'s quality
    column · 24774 §5.3 header on every `SKILL.md` · the UI viewpoint as a build ·
    the spine sentence in `docs/design/gate-visuals.md`.
-7. **The archaeology batches** — 53 candidates in
+5. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
    are yours.
-8. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
+6. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
    does the reqview validator graduate into `gate.py audit` first?
-9. **The suspect-link stamp has no slot in the format** — a format change.
+7. **The suspect-link stamp has no slot in the format** — a format change.
 
-**Open, from today, not yet rows:** does re-agreeing a lapsed approval cost
-anything? If coming back means re-walking the gate, early gates must not lock at
-all. Untested — recorded in the frame as an open question.
+**Open, not yet rows:** does re-agreeing a lapsed approval cost anything? If
+coming back means re-walking the gate, early gates must not lock at all.
+Untested — recorded in the frame as an open question. And: does
+diagram-and-prose-together bind as discipline or as a gate refusal? (Backlog row.)
 
 **The reset's three questions stay open** — what the requirements system IS, the
 draft to final, build-vs-adopt (`docs/kerd-interview.md`).
@@ -58,6 +48,15 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 *Ranked by consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
+
+- **Diagram-and-prose-together: flip the default in the skills.** Decided
+  2026-08-23 (CONTEXT.md). One deliverable, two renderings, produced from one
+  structure; declining to draw costs a `view: n/a — <reason>`, which
+  `kit.py` already refuses without a reason — so this is a default flip, not new
+  machinery. **Open, and it sizes the work:** does it bind as model discipline or
+  as a gate refusal? Discipline-dependent steps have twice measured at zero in
+  this repo, which argues for the refusal — but a refusal needs a rule for what
+  counts as prose, and that has no answer yet.
 
 - **Standards grounding — second pass.** The spike (`docs/product/standards-grounding.md`,
   findings at `docs/design/standards-grounding-findings.md`) left three
