@@ -2,6 +2,13 @@
 route: new
 stage: framed
 story: proposal
+concerns:
+  - concern: why the driver sits above conductor rather than inside it
+    viewpoint: nested
+    view: docs/design/funnel-driver/why-an-umbrella.html
+  - concern: how one gate behaves, end to end
+    viewpoint: swimlane
+    view: docs/design/funnel-driver/gate-loop.html
 ---
 
 # The funnel has no driver — nothing walks an item from idea to launch
