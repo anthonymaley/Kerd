@@ -1,6 +1,6 @@
 ---
 route: new
-stage: framed
+stage: designed
 story: proposal
 concerns:
   - concern: why the driver sits above conductor rather than inside it
