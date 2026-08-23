@@ -64,6 +64,118 @@ frame.** This document is the frame that was missing.
 Explicitly *not* value here: a bigger conductor. If the driver ends up larger
 than the sum of what it absorbs, the evaluation was wrong.
 
+## The mechanism — DECIDED 2026-08-23: an umbrella ABOVE conductor, never a graduation into it
+
+**Everything below this section was written on the assumption that the driver
+arrives by moving functions *into* conductor.** That assumption is now dead, and
+the change is the producer's:
+
+> if its working as is today (maybe not ideal though, but working) maybe we
+> should have this as a separate branch/command or an overriding one (umbrella)
+> for what we have today … that forces the stages and uses conductor and the
+> other tools withing the skill, without breaking conductor basic as it is now,
+> maybe a conductor le repo is enough for just getting things done without all
+> the process ad you have no intention of getting past mvp etc so why use the
+> funnel approach. then we can keep building one bit at a time under that
+> umbrella, while keeping what is there useful still
+
+**Why this is a different answer rather than a rephrasing.** The two killer
+risks below pull in opposite directions, and that is what made the slicing hard:
+*breaking the seedbed* argues for changing conductor as little as possible,
+*obliging nothing* argues for changing enough to matter. An umbrella that
+**calls** conductor without **changing** it answers both at once — there is no
+edit to conductor, so there is nothing to break, and the umbrella **forces** the
+stages rather than advising them.
+
+**The rule this is built under, and the one that keeps it honest:**
+
+> The umbrella may CALL conductor, but must never REQUIRE conductor to change.
+
+The moment a slice needs conductor to behave differently, the retired killer
+risk is back in full, and that slice either does the work itself or stops. Without
+this line stated, "umbrella" becomes "graduation" over a few months of individually
+reasonable conveniences and nobody notices the crossover.
+
+**Proportionality becomes the door you walk through, not a setting.** A repo that
+will never pass MVP keeps plain conductor and pays no process cost at all; a
+product that needs the funnel enters through the umbrella. That is the concrete
+answer to the producer's constraint — *"without it becomeing a 100year project"*.
+
+**Consistent with the shape rule, not a departure from it.** *"not a skill per
+stage no — one skill for all"* (2026-08-07): the umbrella is one skill covering
+every stage, with conductor left underneath as the session-discipline tool it
+already is.
+
+**Naming is deliberately not settled here.** `/concert`, `/project` and `/product`
+were all offered. Under the producer's own currency rule of 2026-08-23 —
+*"use the industry recognized standard used name … make it easy for people to
+understand not learn a new thing"* — `concert` is us extending our own internal
+metaphor and is the invented name that rule forbids. The thing being walked loops
+after launch rather than ending, which is product-shaped rather than
+project-shaped. His call.
+
+## How one gate behaves — DECIDED 2026-08-23
+
+Agreed by walking a drawing rather than prose, and corrected by the producer at
+five of its eight steps. The same loop runs at every gate; only the questions and
+the picture change.
+
+**In:** a sentence — *"I want to build X"* — **plus whatever material the person
+already has.** Documents, links, pictures. The umbrella reads them and plays them
+back, so context arrives as artifacts rather than as an interrogation.
+
+**A short question set. Not a hundred.** Sized to do two jobs at once: enough to
+judge whether the idea is worth pursuing, and enough to **become the first
+requirements** rather than being thrown away after.
+
+**Then the loop, which IS the gate:** the umbrella starts the package — the
+writing, the data, the diagrams, together — **opens it on the person's screen**,
+shapes the idea back at them, takes their comments, and reshapes. *"nearly, but
+change this"* is the normal answer. **A comment is not a rejection**, and today
+approval has no such state.
+
+**The completeness check reads the same question list.** The producer's
+correction: *"this needs to be based on step 2 as well right?"* — so **one list
+decides what gets asked AND what counts as finished**, and a third use falls out
+of it, his again: **showing where you are** — *"now > x, next Y, after Z"*. Ask ·
+check · show, from one source. Today those are separate things, and two of them
+do not exist.
+
+**Out: a package the person recognises, agreed for now — NOT locked.** His
+correction: *"idea still shapng at this point though, so will chnage after
+validation, analysis and spikes perhaps. not locked."* What is recorded is what
+was agreed on that date, not a promise it will not change. **Open question this
+leaves, stated rather than resolved:** the existing fingerprint machinery records
+exactly that and lapses on edit, which is compatible — *provided coming back
+costs nothing*. If re-agreeing means re-walking the gate, early gates must not
+lock at all. Untested.
+
+**Every picture already agreed travels forward.** Later gates build on the locked
+drawings rather than re-arguing them.
+
+### The question set is data, not skill text
+
+The person can **edit the set before starting**, and templates by project type are
+the starting point. Two rulings underneath that:
+
+- **Skipping was withdrawn by its proposer** — *"yeah i was wrong on skip"*.
+  Editing before you start keeps flexibility; skipping during would break all
+  three uses of the list at once, and *"machinery nobody was obliged to use"* is
+  a failure this repo has already shipped twice.
+- **Declared, never inferred.** The proposal that the system could recognise a
+  project's shape and ask accordingly is refused on evidence already in this
+  repo's register: across 7,000+ manually reviewed issue reports, **33.8% were
+  misclassified** (Herzig, Just & Zeller, ICSE 2013) — the finding that killed the
+  twelve work types. A system that guesses *"this is content work, so no
+  performance questions"* is wrong about a third of the time and **fails
+  silently**: the question you needed is never asked and you never learn it was
+  missing. The person declares the shape; project type is already declared once
+  from the fifteen written down.
+
+Because the person owns the set, it cannot live inside a skill file — it is a
+file in **their** repo, which is already the house rule for anything
+project-specific.
+
 ## Grounding
 
 - docs/design/conductor-role.md — the 2026-08-04 spec this builds; the design rung is already done
@@ -249,7 +361,7 @@ it.
 
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
 |---|---|---|---|---|---|---|---|
-| Editing conductor breaks the only working instance of half the system's functions | yes | the daily working protocol goes down in three repos at once with no fallback, and the damage is invisible until a session tries to plan | medium — every edit to a 353-line load-bearing skill carries it, and the skill is in active daily use | conductor-role.md transition rule 4 states it directly: breaking it breaks the only working instance of half the system's functions; ~/leru holds 6 spec files written under this protocol | countermeasure - permanent | one graduation at a time, and only a row whose trigger has demonstrably fired; every funnel-touching edit uses switch's proven conditional idiom so absence of the tool degrades to today's exact text; additions and guarded substitutions only, never removals | the first edit that removes rather than guards re-argues this row |
+| Editing conductor breaks the only working instance of half the system's functions | yes | the daily working protocol goes down in three repos at once with no fallback, and the damage is invisible until a session tries to plan | medium — every edit to a 353-line load-bearing skill carries it, and the skill is in active daily use | conductor-role.md transition rule 4 states it directly: breaking it breaks the only working instance of half the system's functions; ~/leru holds 6 spec files written under this protocol | countermeasure - permanent | **RETIRED BY CONSTRUCTION 2026-08-23 — the driver is an umbrella ABOVE conductor and never edits it, so there is no edit to get wrong.** ~~one graduation at a time, and only a row whose trigger has demonstrably fired; every funnel-touching edit uses switch's proven conditional idiom; additions and guarded substitutions only~~ — that discipline was load-bearing on every future edit forever, and is now unnecessary rather than merely satisfied | the first slice that requires a change INSIDE conductor re-argues this row in full |
 | The four role names invert under use — Composer is assigned to the human while the spec-writing agent is the Orchestrator | no | the driver's whole job is coordinating these roles, and instructions written in names that swap under reading will be misread by the model exactly as they were by their author | high — observed first-party on 2026-08-07, both names swapped in one sentence by the person who ratified them at v0.66.0 | Tony: "I used orchestrator when I meant conductor... including the composer who writes the specs"; conductor-role.md's own ladder avoids "composer" entirely and names Tony as himself | countermeasure - temporary | slice 1 touches no roles table and no role name, so nothing is built on the ambiguous vocabulary; the rename is queued as its own cross-cutting item under the standing grep-sweep obligation | the first slice that must instruct the driver to call another role by name — at that point the rename lands first or the instruction inherits the defect |
 | A driver that reads the funnel but obliges nothing leaves the machinery unwalked | yes | the whole item delivers a better-informed skill and zero behaviour change, which is the failure this repo has already shipped twice | high — measured twice on this repo: 0 evaluation matrices against built and CI-enforced machinery, and switch-fidelity live at v0.90.0 with zero gate records | matrix.py audit reports clean with 0 matrices; docs/gates/ holds no record for switch-fidelity | countermeasure - permanent | every slice pairs the instrument with the obligation that consumes it — the gate becomes the inventory's source rather than an optional reference, and the commit trailer makes skipping it visible as a stalled progress strip | the first slice shipping a capability with no obligation attached re-argues this row |
 | Prompt-layer instruction is not a call — a skill telling the model to run gate.py is advice it can skip | no | funnel awareness reads as a guarantee in the skill text while being a suggestion in practice, and in consuming repos the tool does not exist at all | high — this is the measured status quo, named as a standing limit already | CONTEXT.md 2026-08-06: the refusal surface is Kerd's own and prompt-layer-only in consuming projects is the intended contract; grep of skills/ for tool invocations returns zero | accepted | | the first time the funnel is driven in a repo that is not Kerd |
@@ -280,9 +392,48 @@ other.
 
 Rigor level: mvp
 
-**Slice 1 — the frame, the corrections, and the one graduation whose trigger
-has fired.** Deliberately seat-neutral: every step is true whichever role ends
-up driving.
+**SLICE 1 SHIPPED at v0.91.0** — the entry gates took the pre-flight inventory
+and work commits gained the `Piece:` trailer. It was cut under the old mechanism
+(graduations into conductor). Everything after it is re-cut under the umbrella
+decision of 2026-08-23 above.
+
+**Slice 2 — one gate's question set, written by hand, used once for real.**
+The smallest thing that proves the loop and leaves something behind.
+
+- **The question set for the FIRST gate**, as a file in the repo rather than
+  prose in a skill. Short — enough to judge the idea, and enough to become the
+  first requirements.
+- **The completeness check reads that same file**, so what is asked and what
+  counts as finished cannot drift apart.
+- **Run it once on a real item**, end to end, and keep what it produces.
+
+**Why the first gate and not another:** of the funnel's eight stages, the three
+with no owner in any skill are `frame`, `slice` and `design` — the three at the
+front, where a person starts. The producer's answer when asked which gate to
+walk first: *"all of them in order? we start at the start of the funnel and work
+though it?"*
+
+**Deliberately excluded from slice 2, each with its reason:**
+
+- **A template system.** There is no question set for any gate yet. Building the
+  abstraction before the first instance is the failure this repo has shipped
+  twice — 27 hand-written diagram generators before anyone reached for a toolkit,
+  and a 20-item topic checklist killed because it measured at zero. Write one,
+  use it, then see what generalises.
+- **Inferring the project's shape.** Refused on the 33.8% misclassification
+  evidence above. Declared, never inferred.
+- **Opening it in the browser.** The showing step is real and agreed, but the
+  requirements editor already proves that shape exists and works; slice 2 does
+  not need to rebuild it to prove the question set.
+- **The remaining seven gates.** One loop proven beats eight declared.
+- **Anything inside conductor.** The rule of the mechanism section: call it,
+  never change it.
+
+---
+
+**Slice 1, as originally cut and now shipped** — kept below as the record of what
+was actually built, not as pending work. Deliberately seat-neutral: every step is
+true whichever role ends up driving.
 
 - **This document.** The item becomes tracked, appears on the board, and is
   visible as unbuilt — which is the single thing whose absence killed the
