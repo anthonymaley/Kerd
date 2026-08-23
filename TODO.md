@@ -2,48 +2,56 @@
 
 ## Now
 
-**2026-08-22 evening — `gate-visuals` slice 1 is BUILT and sits at goal; the
-standards map is answered.** See `kivna/sessions/2026-08-22.md`.
+**2026-08-23 midday — `funnel-driver` unparked, its mechanism changed to an
+umbrella above conductor, two design views sealed.** See
+`kivna/sessions/2026-08-23.md`.
 
 **Where things stand**
 
-- **Register: 38 live, 33 approved, 0 invalidated.** `R-0018` re-approved.
-- **`gate-visuals` enters at goal** — 8 of 8 pieces landed by trailer, full
-  suite green. Needs the goal record (`docs/gates/*-gate-visuals-goal.md`,
-  Done condition) with both keys: cold eyes on the whole change, and your
-  expert-user pass — declare a concern on a real item, approve a drawing,
-  edit it, watch the push refuse.
-- **`standards-grounding` spike is answered** — 4 of 4 layers can name a
-  standard (`docs/design/standards-grounding-findings.md`). Spine agreed.
+- **`funnel-driver` sits at design.** Frame rewritten, killer risk retired by
+  construction, slices re-cut. Two views sealed (`fp:54f84887b8b8`,
+  `fp:47883502cf4b`).
+- **`gate-visuals` still sits at goal** — untouched today.
+- **Register: 38 live, 33 approved, 0 invalidated** — unchanged.
 
 **Next, in order**
 
-1. **The `gate-visuals` goal gate** — cold eyes first, fresh context, then your
-   pass. Lands the first goal record since the reset, which is a licensed prune
-   event for CONTEXT.md.
-2. **The four kept items from the spike, each its own small change:**
-   ISO 25010 → the definition of `R-0011`'s quality column
-   (`docs/design/iso-25010-quality-model.md` is the reference) · ISO/IEC/IEEE
-   24774 §5.3 → a name / purpose / outcomes header on every `SKILL.md` (a skill
-   change — version bump) · the UI viewpoint as a build, borrowing wireframe
-   notation from design practice (no standard supplies it) · one sentence in
-   `docs/design/gate-visuals.md`'s 42010 section: spine, not vocabulary.
-3. **The archaeology batches** — 53 candidates in
-   `docs/requirements/archaeology.md`, keyed by family (A risk · B record ·
-   C working relationship · D release and judgement · E method · F remainder).
-   C-06 against R-0051, C-24 against R-0028 are yours to resolve.
-4. **Retire the old register — still coupled to the refuser.**
-   `docs/requirements/findings.md` §9. One ruling: does the reqview validator
-   graduate into `gate.py audit` first, or does `register.md` stay until it does?
-5. **The suspect-link stamp still has no slot in the format** — a format
-   change, because it alters what the fingerprint covers.
+1. **`docs/design/funnel-driver.md` + its GO record** — the only two things
+   between the item and contract. The frame is currently carrying design-level
+   detail because that is where the conversation landed; the design doc has to
+   separate out what the frame does not say — what the umbrella *is* (skill or
+   command), how it calls conductor without requiring it to change, where the
+   question file lives and its format, and how the completeness check reads it.
+2. **Name the umbrella.** `/kerd:product` is the standing recommendation under
+   the currency rule; `concert` is refused as an invented name. Tony's call, and
+   it blocks the design doc's vocabulary.
+3. **Then slice 2: one gate's question set**, hand-written, used once for real.
+   No template system, no shape inference, no second gate.
+4. **The `gate-visuals` goal gate** — cold eyes, then the expert-user pass. Its
+   `Product measurements met` row has no upstream declaration; write the gap
+   honestly rather than inventing a target after the fact.
+5. **Frame the measurement item** — Tony's value statement is captured verbatim
+   in CONTEXT.md and nothing is framed yet. It sits *behind* the diagram work
+   under his own ordering (diagrams first, numbers second).
+6. **The four kept items from the standards spike** — 25010 → `R-0011`'s quality
+   column · 24774 §5.3 header on every `SKILL.md` · the UI viewpoint as a build ·
+   the spine sentence in `docs/design/gate-visuals.md`.
+7. **The archaeology batches** — 53 candidates in
+   `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
+   are yours.
+8. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
+   does the reqview validator graduate into `gate.py audit` first?
+9. **The suspect-link stamp has no slot in the format** — a format change.
 
-**The reset's three questions stay open** — what the requirements system IS,
-the draft to final, build-vs-adopt (`docs/kerd-interview.md`). Not rows; the
-work above is how they get answered.
+**Open, from today, not yet rows:** does re-agreeing a lapsed approval cost
+anything? If coming back means re-walking the gate, early gates must not lock at
+all. Untested — recorded in the frame as an open question.
 
-**Still parked by the reset, not cancelled:** closing `model-effort-advisory`
-and `hooks-autoload` on the ladder. Do not walk these by hand.
+**The reset's three questions stay open** — what the requirements system IS, the
+draft to final, build-vs-adopt (`docs/kerd-interview.md`).
+
+**Still parked by the reset, not cancelled:** closing `model-effort-advisory` and
+`hooks-autoload` on the ladder. Do not walk these by hand.
 
 ## Backlog
 
@@ -58,10 +66,20 @@ and `hooks-autoload` on the ladder. Do not walk these by hand.
   evaluation *process*, which `tools/design/` reinvented), **ISO/IEC/IEEE 24748**
   (life-cycle stages — the `stage:` field and the rung ladder, misfiled under
   product on his map). And 29148 never got the 42010 term-mapping test.
-- **The conductor marker loses the sitting's open time when a session plans
-  twice** — see the playbook gotcha of 2026-08-22. Design question: should
-  `kivna/.active-modes` keep its first `execute` stamp across later phase
-  rewrites? Owner: conductor's mode-marker section.
+- **The conductor marker cannot carry a sitting's open time, and 2026-08-23 is
+  the second and worse instance — the diagnosis is now broader than "planning
+  twice".** First bite (2026-08-22): re-entering `plan` overwrote the `execute`
+  stamp. Second bite (2026-08-23): the session ran ~08:44–12:17 almost entirely
+  in `plan` — a design conversation carried by drawings — so `execute` stamped
+  at **12:17**, fourteen minutes before close. Handing that over as the sitting's
+  open time would have labelled a four-hour session as fourteen minutes. **The
+  real defect: the marker holds one line, so it can only ever report the LAST
+  phase, while the open time is a property of the FIRST.** Any design-heavy
+  session reproduces this, planning once or twice. Two candidate fixes, neither
+  chosen: keep a separate never-overwritten `opened` stamp, or have the boundary
+  derive the open side from the session's first machine-written timestamp rather
+  than from the marker at all. Owner: conductor's mode-marker section + switch's
+  sitting-heading rule.
 
 - ~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED 2026-08-13
   ~16:40**, at this sitting's switch-in. Three confirming observations: the

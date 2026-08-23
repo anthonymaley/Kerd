@@ -119,7 +119,7 @@ and takes everything before it as the path, backticks included. Write
 `- docs/x.md — why`. Five lines fail at once, which looks like the files are
 missing when they are not.
 
-### Re-entering `plan` mid-session overwrites the `execute` stamp — the sitting's open time is lost
+### The conductor marker can never carry a sitting's open time
 
 `kivna/.active-modes` holds one conductor line. A second task in the same
 session rewrites it to `plan`, then to `execute` again with a *new* stamp, and
@@ -129,6 +129,39 @@ gitignored, so there is no history. Seen 2026-08-22: the first `execute` was
 be written `closed HH:MM` with no open side. Until the marker keeps its first
 `execute` stamp, a conductor session that plans twice owes the boundary no
 open time — write none, never the second stamp.
+
+**Seen again 2026-08-23, worse, and it broadens the diagnosis past "plans
+twice".** That session ran roughly 08:44–12:17 almost entirely inside `plan` — a
+design conversation carried by drawings — so `execute` was stamped at **12:17**,
+fourteen minutes before close-out. Handing that over as the open time would have
+labelled a four-hour sitting as fourteen minutes. **The defect is structural, not
+a re-entry edge case: the marker holds one line, so it can only ever report the
+LAST phase, while the open time is a property of the FIRST.** Any design-heavy
+session reproduces it whether it plans once or five times. Until it is fixed, the
+test before handing over an open time is not *"did we plan twice?"* but *"is the
+`execute` stamp plausibly when this sitting began?"* — and if it is not, write
+none.
+
+### `cd` inside one Bash call leaks into the next one
+
+The working directory persists between tool calls even though shell *state* (env
+vars, functions) does not. A call that ends `cd docs/design/funnel-driver && …`
+leaves the next call sitting there, and a perfectly good relative path — `python3
+tools/gates/gate.py` — resolves against the wrong root and fails with a confusing
+`No such file or directory` naming a path nobody wrote. Seen 2026-08-23 mid
+close-out. Either `cd` in a subshell, or use absolute paths in any call that
+follows one.
+
+### A rendered diagram must be looked at, because nothing else checks it
+
+SVG text does not wrap and does not clip visibly in source — it simply runs past
+its box and out of the drawing. Neither the HTML nor the render pipeline errors,
+and the file is perfectly valid. Four diagrams drawn 2026-08-23 produced **three
+separate text-overflow defects and two edge-crossing defects**, every one of them
+invisible until the PNG was opened and read. Budget a look at the render as part
+of drawing, not as a nicety — and remember `progress.py` only checks overflow for
+*its own* boards, not for hand-written views. This is the machine-side twin of
+"no check can tell a diagram from a slide" below.
 
 ### The shell's `grep` is an alias onto `ugrep`, which sorts multi-file output
 
