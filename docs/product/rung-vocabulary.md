@@ -1,0 +1,193 @@
+---
+route: new
+stage: framed
+story: proposal
+---
+
+# Three rung names only work for software, and Drive is not only software
+
+## Value
+
+Tony's statement, 2026-08-23 evening, raised while the `funnel-driver` contract
+spec was about to be written:
+
+> What I'm after: names a newcomer can understand or search unaided, but not
+> blindly Stage-Gate or software jargon.
+>
+> The rule is cross-work readability. Drive handles software changes, content
+> plans, business plans, documents, repairs, and rough ideas. So a term that
+> only works cleanly in product/software fails, even if it has currency there.
+
+And the sharpening that started it, on `slice` specifically:
+
+> It is not really "proprietary." `vertical slice` and story slicing are real
+> agile terms, but they are software-shaped and mean the deliverable increment,
+> not the phase. That makes `slice` a bad Drive rung because Drive now covers
+> content plans, business plans, documents, repairs, etc. A newcomer may know
+> what "scope" means; they may not know why a business plan is being "sliced."
+
+**This is a cross-work naming pass, not a Stage-Gate adoption pass.** Stated
+here because the obvious failure mode is swapping one closed vocabulary for
+another: Stage-Gate is launch-shaped and corporate, and adopting it wholesale
+would fail the same newcomer for the opposite reason.
+
+**It amends the currency rule rather than replacing it.** The 2026-08-23 morning
+rule was *use the name the field actually says*. That is necessary and not
+sufficient: `slice` has real currency in agile and still fails here, because the
+field it has currency in is only one of the six kinds of work Drive moves. The
+test gains a second clause — **current AND readable across every work type.**
+
+### Value, in units
+
+| Measurement | Now | Target |
+|---|---|---|
+| Rung names readable across all six declared work types | 5 of 8 | 8 of 8 |
+| Rung names with no term-of-art collision | 7 of 8 | 8 of 8 |
+| Rung names a newcomer can search and get this meaning | 5 of 8 | 8 of 8 |
+
+The six work types are the ones named in `docs/design/funnel-driver.md`:
+software change · enhancement · content plan · business plan · document ·
+repair.
+
+## Grounding
+
+- docs/design/funnel-driver.md — the canonical language and the six work types this must read across
+- docs/product/funnel-driver.md — the frame whose contract spec is blocked behind this
+- tools/gates/kit.py — `RUNGS` (line 34) and `GATE_RECORD_RE` (line 91) are the two places the ladder is pinned
+- tools/gates/README.md — the canonical home of the rung vocabulary and the gate-record schema
+- CONTEXT.md — the currency rule (2026-08-23), Law 4 supersession, the cross-cutting sweep obligation
+
+External sources are cited inline in the findings below rather than listed here:
+`## Grounding` resolves every reference against the filesystem, so a URL is
+refused. Named as a gap in the ledger.
+
+## The findings — all eight rungs tested
+
+Tested against two questions: does the field use this word for this thing, and
+does it read across all six work types?
+
+| Rung | What it does | Field term | Cross-work | Verdict |
+|---|---|---|---|---|
+| `frame` | state the problem, value in units, grounding | *Discovery*; "problem framing" | reads fine for a repair, a document, a business plan | **keep** |
+| `viability` | is this worth doing at all | *Viability* — one of the three DVF lenses | reads fine everywhere | **keep** |
+| `slice` | pick the smallest valuable increment, name exclusions | "vertical slice", "story slicing" | **fails** — software-shaped | **rename** |
+| `design` | the design package | Design, within Development | reads fine everywhere | **keep** |
+| `contract` | make the work build-ready | none; collides with design-by-contract | reads, but the word is Kerd-internal | **rename → `handoff`** |
+| `build` | build it | *Development* | reads fine everywhere | **keep** |
+| `goal` | done, measured, accepted | *Launch*; "acceptance", "definition of done" | **fails** — names the target, not the phase | **rename** |
+| `loop` | what happens after done | *Post-Launch Review*; "feedback loop" | plain enough; launch-shaped alternatives are worse | **keep, watched** |
+
+**The evidence that `slice` is software-shaped rather than merely unfamiliar.**
+Humanizing Work's definition, fetched 2026-08-23 from
+`humanizingwork.com/the-humanizing-work-guide-to-splitting-user-stories/`: *"a
+work item that delivers a valuable change in **system behavior** such that
+you'll probably have to touch multiple **architectural layers** to implement the
+change."* Both anchors — system behavior, architectural layers — are software.
+The term is current; its currency does not travel.
+
+**Stage-Gate was checked and deliberately not adopted wholesale**
+(`stage-gate.com/blog/the-stage-gate-model-an-overview/`, read 2026-08-23). Its
+stages — Discovery, Scoping, Business Case, Development, Testing & Validation,
+Launch — are launch-shaped and corporate. `scope` is taken from it; the rest is
+not.
+
+**`goal` fails harder than `slice`, and it was not the one flagged.** "Goal"
+names the target you were aiming at, not the stage where you prove you hit it. A
+search for it returns goal-setting, not an acceptance phase. It is also the most
+expensive rename on the ladder — see the ledger.
+
+## The candidate ladder
+
+Tony's, 2026-08-23:
+
+```
+frame → viability → scope → design → handoff → build → acceptance → loop
+```
+
+| Change | From | To | Stage value |
+|---|---|---|---|
+| 1 | `slice` | `scope` | `scoped` |
+| 2 | `contract` | `handoff` | (stage value to settle at design) |
+| 3 | `goal` | `acceptance` | (stage value to settle at design) |
+
+`scope` carries the strongest cross-work evidence of the three: *scope of work*
+is standard in construction, consulting and law, not only software. The artifact
+name is open — `## Delivery scope` or `## Release scope`, settled at design.
+
+**`handoff` names the act, not the artifact** — his sharpening of what the rung
+does: *"that rung is really 'make the work build-ready,' not 'the spec artifact
+exists.'"* It is the most cross-work of the candidates considered (`plan`,
+`brief`, `spec`): handoff is standard in construction, manufacturing, healthcare
+and journalism, so it reads unaided for a repair or a business plan.
+
+`loop` stays. `learn` is an open alternative; Stage-Gate's *post-launch review*
+is refused here because Drive is not only launch-shaped.
+
+### The qualification rule — DECIDED 2026-08-23
+
+`handoff` has a real incumbent: switch's **session handoff**, 15 uses in
+`skills/switch/SKILL.md` alone and 19 across `skills/`. That was raised as an
+objection and overruled, and the reasoning is the decision:
+
+> The incumbent use is real, but it is manageable because it is the same verb at
+> two altitudes, not two unrelated meanings. Switch owns session handoff. Drive
+> owns work handoff. That actually reinforces the item-vs-session distinction if
+> we qualify it consistently.
+
+**So: bare `handoff` is no longer allowed in living docs where ambiguity
+matters.** Say **session handoff** for switch, **work handoff** for the Drive
+rung. The rung slug stays `handoff`.
+
+This is the same shape as the R3 quoting convention — a naming rule that binds
+prose rather than machinery, and the two-altitude split it enforces is the one
+`funnel-driver/span-vs-slice.html` was drawn to establish.
+
+## Risk ledger
+
+| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
+|---|---|---|---|---|---|---|---|
+| A half-done rename turns the board red and blocks every push | yes | CI refuses on `progress.py stale` and on front-matter validation; nobody can ship anything until it is finished | high if done piecemeal | the ladder is pinned in exactly two places — `kit.py:34` `RUNGS` and `kit.py:91` `GATE_RECORD_RE` — but `stage:` values live in 20 work records and the board derives from disk | countermeasure - permanent | the rename lands as one atomic change with the sweep done at design time, per the standing cross-cutting rule; the board is re-rendered in the same commit | |
+| `handoff` collides with switch's session handoff, inside our own vocabulary | no | a newcomer reading bare `handoff` cannot tell whether a session or a work item is being handed over — the exact confusion this item exists to remove, and an inside collision cannot be disambiguated by context the way an outside one can | certain if left bare | 15 uses in `skills/switch/SKILL.md`, 19 across `skills/`, 17 across `docs/design/` and the gates README | countermeasure - permanent | the qualification rule above: bare `handoff` banned in living docs where ambiguity matters, **session handoff** for switch and **work handoff** for the rung; slice 1 carries the sweep across every bare incumbent use | |
+| `spec` was rejected as the contract replacement because it collides on filenames | no | `docs/gates/<date>-<slug>-spec.md` and `docs/plans/<date>-<slug>-spec.md` would differ only by folder | n/a — not adopted | `kit.py:682` and `kit.py:711` glob `docs/plans/*-<slug>-spec.md`; `GATE_RECORD_RE` would have matched the same basename shape | accepted | recorded so the option is not re-proposed; `handoff` has no filename collision | a future rung name lands under `docs/gates/` sharing a basename with a `docs/plans/` artifact |
+| The grounding section cannot cite an external source | no | Law 4 obliges learning from standards, and the section that records what was read refuses every URL — so the reading is recorded in prose the machine cannot check | certain | `gate.py audit` refused both URLs in this file's own grounding on first write, 2026-08-23 | accepted | external sources cited inline in the findings instead; the reference is readable but unchecked | a second item needs external grounding — at which point the format owes a slot |
+| Renaming `goal` breaks 7 immutable gate records | no | history becomes unreadable to the parser, or gets rewritten — and gate records are immutable by contract | certain unless handled | `ls docs/gates/` — 17 records, 10 `design` and 7 `goal`; no other rung has ever been recorded | countermeasure - permanent | the parser keeps the retired names in its legal set forever as read-only aliases; no file on disk is renamed, ever | |
+| This is vocabulary churn dressed as work | no | a sitting spent on words while `funnel-driver` sits at contract for a fourth day | medium | the item was raised precisely to block that spec | countermeasure - permanent | the cross-work rule makes it functional rather than cosmetic — Drive's stated premise is non-software work, and three rung names fail for non-software items *today*, before Drive ships and bakes them into every consuming repo | |
+
+## Why now rather than after Drive ships
+
+The rung names travel into every consuming project's front matter and gate
+records the moment Drive exists. Renaming them afterwards is a migration in
+someone else's repo, which this project cannot perform and would not be forgiven
+for.
+
+## Release slice
+
+Rigor level: mvp
+
+**Slice 1 — the three renames, atomic.** `slice → scope`, `contract → handoff`,
+`goal → acceptance`, with retired names kept as read-only parser aliases so no
+gate record is ever rewritten. Includes the cross-cutting sweep, the front-matter
+`stage:` migration across all work records, the qualification sweep over every
+bare `handoff` in living docs, `tools/gates/README.md` as the canonical home, and
+a board re-render in the same commit.
+
+**Deliberately excluded from slice 1, each with its reason:**
+
+- **The `stage:` values for `handoff` and `acceptance`.** `scoped` is settled;
+  the other two are not, and inventing them here would put design-rung decisions
+  in a frame.
+- **`loop → learn`.** No evidence either way yet. Changing a name that passes on
+  a hunch is the failure this item exists to prevent.
+- **The `docs/product` → `docs/work` migration.** Different item, already
+  measured at ~180 references in `funnel-driver` slice 3. These two want to ride
+  together and must not: two cross-cutting renames in one commit make the
+  collateral check unaffordable.
+- **Anything in `skills/drive/`.** It does not exist yet.
+
+## Deliberately not in this item
+
+- Renaming the four rungs that pass. `frame`, `viability`, `design` and `build`
+  are current and cross-work; touching them is churn.
+- Adopting Stage-Gate's stage names. Checked, and refused: launch-shaped and
+  corporate, failing the newcomer for the opposite reason.
+- The work-type vocabulary itself. Settled in `docs/design/funnel-driver.md`.
