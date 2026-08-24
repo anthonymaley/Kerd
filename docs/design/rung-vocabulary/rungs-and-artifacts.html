@@ -22,7 +22,7 @@
     <p class="sub">The ladder is cumulative — a gate checks everything the gates above it checked, plus one new thing. Nothing is ever released. Seven gates, not eight: <em>loop</em> is a container holding build, verify and adjust, and the machine checks only at its two edges. The three renamed words cost wildly different amounts.</p>
     <svg viewBox="0 0 960 745" role="img" aria-labelledby="rv-t rv-d">
       <title id="rv-t">The seven gates, what each checks, and the cost of the three renamed words</title>
-      <desc id="rv-d">A table of the seven ladder gates read top to bottom: frame, viability, scope (renamed from slice), design, handoff (renamed from contract), loop, and acceptance (which takes over the human key that used to sit at loop). A running count on the left shows how many checks are in force, growing from zero at frame to thirteen at acceptance. The middle column names what that gate checks; the right column names the file on disk that holds it. The loop row is taller because the machine checks at two edges rather than one: entering requires a spec with a Pieces checklist and a Verify command on every step, and leaving requires zero unchecked pieces. Build, verify and adjust happen inside the loop and are deliberately not gates. Below, three panels compare the cost of the three renamed words. Slice to scope costs seventeen files plus a parser key, because the heading Release slice is read by the gate machinery. Contract to handoff costs no rewritten history, because no gate record was ever written at that gate, but the word still sits in the parser three times and in a flow diagram. Goal is folded away entirely: its machine check moves into the loop and its record becomes acceptance's, with seven immutable records on disk keeping the old word alive as a read-only alias.</desc>
+      <desc id="rv-d">A table of the seven ladder gates read top to bottom: frame, viability, scope (renamed from slice), design, handoff (renamed from contract), loop, and acceptance (which takes over the human key that used to sit at loop). A running count on the left shows how many checks are in force, growing from zero at frame to thirteen at acceptance. The middle column names what that gate checks; the right column names the file on disk that holds it. The loop row is taller because the machine checks at two edges rather than one: entering requires a spec with a Pieces checklist and a Verify command on every step, and leaving requires zero unchecked pieces. Build, verify and adjust happen inside the loop and are deliberately not gates. Below, three panels compare the cost of the three renamed words. Slice to scope costs seventeen files plus a parser key, because the heading Release slice is read by the gate machinery. Contract to handoff costs no rewritten history, because no gate record was ever written at that gate, but the word still sits in the parser three times and in a flow diagram. Goal is folded away entirely: its machine check moves into the loop and its record becomes acceptance's. New gate records are written with the acceptance name; the seven existing goal records are never rewritten and stay readable as read-only aliases.</desc>
       <defs>
         <style>
           .n{font-family:var(--font-sans);font-size:12.5px;fill:var(--color-ink);}
@@ -75,7 +75,7 @@
       <text class="n"    x="316" y="192">a Risk ledger — every row qualified,</text>
       <text class="n"    x="316" y="208">sized, evidenced, in exactly one state</text>
       <text class="mono" x="620" y="192">the same file, in a section</text>
-      <text class="monoa" x="620" y="208">named "## Release slice"</text>
+      <text class="mono" x="620" y="208">named "## Risk ledger"</text>
 
       <!-- design -->
       <rect class="row" x="150" y="224" width="782" height="52" rx="3"/>
@@ -84,7 +84,8 @@
       <text class="b"    x="170" y="250">design</text>
       <text class="n"    x="316" y="248">a Release slice with a rigor level,</text>
       <text class="n"    x="316" y="264">one sealed view per declared concern</text>
-      <text class="mono" x="620" y="254">docs/design/&lt;slug&gt;/*.html</text>
+      <text class="monoa" x="620" y="248">docs/product/&lt;slug&gt;.md — "## Release slice"</text>
+      <text class="mono"  x="620" y="264">docs/design/&lt;slug&gt;/*.html</text>
 
       <!-- handoff -->
       <rect class="rowa" x="150" y="280" width="782" height="52" rx="3"/>
@@ -119,7 +120,8 @@
       <text class="ma"   x="170" y="456">was loop's human key</text>
       <text class="n"    x="316" y="444">the producer's final approval — the</text>
       <text class="m"    x="316" y="460">one check no machine can ever make</text>
-      <text class="monoa" x="620" y="450">docs/gates/&lt;date&gt;-&lt;slug&gt;-goal.md</text>
+      <text class="monoa" x="620" y="444">docs/gates/&lt;date&gt;-&lt;slug&gt;-acceptance.md</text>
+      <text class="m"    x="620" y="462">7 old -goal.md records stay readable, never rewritten</text>
 
       <text class="e" x="28" y="496">the ladder is cumulative — nothing is ever released, only added to</text>
 
@@ -132,9 +134,9 @@
       <text class="m"    x="48" y="608">the expensive one</text>
       <text class="n"    x="48" y="634">17 files, plus a parser key.</text>
       <text class="n"    x="48" y="652">"## Release slice" is a heading</text>
-      <text class="n"    x="48" y="670">the gate machinery reads, so</text>
-      <text class="n"    x="48" y="688">both the word and the code</text>
-      <text class="n"    x="48" y="706">holding it have to move.</text>
+      <text class="n"    x="48" y="670">the DESIGN gate reads — not the</text>
+      <text class="n"    x="48" y="688">scope gate, whose own section</text>
+      <text class="n"    x="48" y="706">("## Risk ledger") is untouched.</text>
 
       <rect class="panel" x="336" y="560" width="288" height="168" rx="3"/>
       <text class="ba"   x="356" y="588">contract → handoff</text>
@@ -150,9 +152,9 @@
       <text class="m"    x="664" y="608">the one that cannot be undone</text>
       <text class="n"    x="664" y="634">Its machine check moves into</text>
       <text class="n"    x="664" y="652">the loop; its record becomes</text>
-      <text class="n"    x="664" y="670">acceptance's. Seven records</text>
-      <text class="n"    x="664" y="688">on disk are immutable, so the</text>
-      <text class="n"    x="664" y="706">old word stays a read-only alias.</text>
+      <text class="n"    x="664" y="670">acceptance&#8217;s — new records are</text>
+      <text class="n"    x="664" y="688">written -acceptance.md. The 7</text>
+      <text class="n"    x="664" y="706">old ones stay readable, forever.</text>
     </svg>
   </div>
 </body>

@@ -6,6 +6,7 @@ concerns:
   - concern: what each gate checks, and what each renamed word actually costs
     viewpoint: matrix
     view: docs/design/rung-vocabulary/rungs-and-artifacts.html
+    approval: Tony, 2026-08-23 · fp:33b9932399e7
   - concern: why loop is a container and acceptance is the producer's last gate
     viewpoint: nested
     view: docs/design/rung-vocabulary/the-ladder.html
@@ -143,6 +144,15 @@ goes back round rather than ending.
 **Inside the loop, the check is never called acceptance.** Call it **verify**,
 goal check, or proof. His rule: *"The machine can verify against the spec and the
 goal; only the producer accepts the work."*
+
+**A retired name is an alias for READING, never for writing — and that is what
+makes the fold real.** New gate records at the last gate are written
+`docs/gates/<date>-<slug>-acceptance.md`. The seven existing `-goal.md` records
+are never renamed and stay readable forever. His test, raised at the view gate
+and the reason this sentence exists: *"if the intent is to keep writing goal.md
+forever, then `goal` is not really folded away."* Correct — an alias that is
+still written is not a retirement, it is a synonym, and two live names for one
+thing is the defect this item exists to remove.
 
 **The producer holds two keys, and they answer different questions** — `handoff`
 says the package is **build-ready**, `acceptance` says the work is **done**.
