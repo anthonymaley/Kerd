@@ -2,9 +2,16 @@
 route: new
 stage: framed
 story: proposal
+concerns:
+  - concern: what each gate requires, and where each rename actually bites
+    viewpoint: matrix
+    view: docs/design/rung-vocabulary/rungs-and-artifacts.html
+  - concern: why loop is a container and acceptance is the producer's last gate
+    viewpoint: nested
+    view: docs/design/rung-vocabulary/the-ladder.html
 ---
 
-# Three rung names only work for software, and Drive is not only software
+# Three rung names only work for software — and drawing the ladder found a fourth defect
 
 ## Value
 
@@ -41,9 +48,11 @@ test gains a second clause — **current AND readable across every work type.**
 
 | Measurement | Now | Target |
 |---|---|---|
-| Rung names readable across all six declared work types | 5 of 8 | 8 of 8 |
-| Rung names with no term-of-art collision | 7 of 8 | 8 of 8 |
-| Rung names a newcomer can search and get this meaning | 5 of 8 | 8 of 8 |
+| Rung names readable across all six declared work types | 5 of 8 | 7 of 7 |
+| Rung names with no term-of-art collision | 7 of 8 | 7 of 7 |
+| Rung names a newcomer can search and get this meaning | 5 of 8 | 7 of 7 |
+| Route positions that blur machine work with producer approval | 2 | 0 |
+| Execution mechanics exposed as producer-visible gates | 2 | 0 |
 
 The six work types are the ones named in `docs/design/funnel-driver.md`:
 software change · enhancement · content plan · business plan · document ·
@@ -73,9 +82,9 @@ does it read across all six work types?
 | `slice` | pick the smallest valuable increment, name exclusions | "vertical slice", "story slicing" | **fails** — software-shaped | **rename** |
 | `design` | the design package | Design, within Development | reads fine everywhere | **keep** |
 | `contract` | make the work build-ready | none; collides with design-by-contract | reads, but the word is Kerd-internal | **rename → `handoff`** |
-| `build` | build it | *Development* | reads fine everywhere | **keep** |
-| `goal` | done, measured, accepted | *Launch*; "acceptance", "definition of done" | **fails** — names the target, not the phase | **rename** |
-| `loop` | what happens after done | *Post-Launch Review*; "feedback loop" | plain enough; launch-shaped alternatives are worse | **keep, watched** |
+| `build` | build it | *Development* | reads fine everywhere | **keep, but demoted — a loop internal, not a route position** |
+| `goal` | a machine check: zero unchecked pieces | *Launch*; "acceptance", "definition of done" | **fails** — names the target, not the phase, and no human is near it | **folds into `loop`; its human key becomes `acceptance`** |
+| `loop` | today: gated by the goal record (the human key) | *Post-Launch Review*; "feedback loop" | plain enough; launch-shaped alternatives are worse | **keep the word, move the job — becomes the build/verify/adjust container; its human key becomes `acceptance`** |
 
 **The evidence that `slice` is software-shaped rather than merely unfamiliar.**
 Humanizing Work's definition, fetched 2026-08-23 from
@@ -93,22 +102,89 @@ not.
 
 **`goal` fails harder than `slice`, and it was not the one flagged.** "Goal"
 names the target you were aiming at, not the stage where you prove you hit it. A
-search for it returns goal-setting, not an acceptance phase. It is also the most
-expensive rename on the ladder — see the ledger.
+search for it returns goal-setting, not an acceptance phase. It is also the only
+renamed rung appearing in an immutable filename — see the ledger.
 
-## The candidate ladder
+**The eight tested become seven, because drawing them found a structural defect
+under the naming one.** That is in the settled ladder below, not here: the
+findings table is what the currency test returned, kept as the record of what was
+asked and answered.
 
-Tony's, 2026-08-23:
+## The settled ladder
+
+Tony's, 2026-08-23, and amended by him the same evening after it was drawn.
+
+**Amended after the ladder was drawn.** The first version of
+this section was a flat eight-rung list with three renames. Drawing it showed
+that was wrong: `build` and `acceptance` were never peer rungs. **`RUNGS` goes
+from eight entries to seven.**
 
 ```
-frame → viability → scope → design → handoff → build → acceptance → loop
+frame → viability → scope → design → handoff → loop → acceptance
+                                                 │
+                                                 └─ build → verify → adjust ─┘
 ```
 
 | Change | From | To | Stage value |
 |---|---|---|---|
 | 1 | `slice` | `scope` | `scoped` |
 | 2 | `contract` | `handoff` | (stage value to settle at design) |
-| 3 | `goal` | `acceptance` | (stage value to settle at design) |
+| 3 | `goal` + `build` | `loop` (one route position, a container) | (to settle at design) |
+| 4 | `loop` | `acceptance` | (stage value to settle at design) |
+
+**`loop` is a container, and `acceptance` is the producer's last gate.** His
+model: *"loop = build, verify, adjust, repeat · acceptance = producer approval
+that the work meets the agreed goal."* The loop starts once handoff has produced
+a build-ready package and runs until the work is worth putting in front of a
+person. If the producer says *"nearly, change X"*, acceptance fails and the item
+goes back round rather than ending.
+
+**Inside the loop, the check is never called acceptance.** Call it **verify**,
+goal check, or proof. His rule: *"The machine can verify against the spec and the
+goal; only the producer accepts the work."*
+
+**The producer holds two keys, and they answer different questions** — `handoff`
+says the package is **build-ready**, `acceptance` says the work is **done**.
+Conflating them was a defect in the first draft of the drawing, caught by its
+reader.
+
+### build, verify and adjust are loop internals, not route positions
+
+His ruling, and the rationale is the load-bearing part:
+
+> Gates should be producer-visible state transitions. Build/verify/adjust are
+> execution mechanics. If they become gates, you recreate the old problem where
+> machine work and producer approval are blurred.
+
+So the machine checks at the **loop's edges**, never inside it:
+
+| Moment | What the machine checks |
+|---|---|
+| **Enter loop** | handoff has passed — a build-ready package exists |
+| **Stay in loop** | pieces are being built, verified and adjusted — *not gated* |
+| **Exit loop** | no unchecked pieces remain, evidence ready for producer review |
+| **Acceptance** | the producer's final approval, or it goes back into loop |
+
+`gate.py` must not expose `build`, `verify` or `adjust` as `enters at:`
+positions. **If internal visibility is wanted, it belongs in the progress view,
+not the gate router** — the router answers *where does the producer look*, the
+board answers *how far along is the machine*.
+
+### The old names had the machine check and the human key backwards
+
+**This restructure changes no machinery — it is the first naming that matches
+what the gates already do.** Verified in `tools/gates/kit.py`:
+
+- The old **`goal`** rung requires exactly one thing: *"zero unchecked boxes in
+  Pieces"*. A pure machine test. The word sounds like the producer's target and
+  no human is anywhere near it.
+- The old **`loop`** rung is gated by `docs/gates/*-<slug>-goal.md` **with a
+  `Done condition` section** — which is where cold eyes and the expert-user pass
+  actually live. The human key was already there.
+
+So machine-check-then-human-key was already the order. Only the labels were
+inverted. That makes this cheaper than a restructure and better justified than a
+rename.
 
 `scope` carries the strongest cross-work evidence of the three: *scope of work*
 is standard in construction, consulting and law, not only software. The artifact
@@ -151,6 +227,8 @@ prose rather than machinery, and the two-altitude split it enforces is the one
 | `spec` was rejected as the contract replacement because it collides on filenames | no | `docs/gates/<date>-<slug>-spec.md` and `docs/plans/<date>-<slug>-spec.md` would differ only by folder | n/a — not adopted | `kit.py:682` and `kit.py:711` glob `docs/plans/*-<slug>-spec.md`; `GATE_RECORD_RE` would have matched the same basename shape | accepted | recorded so the option is not re-proposed; `handoff` has no filename collision | a future rung name lands under `docs/gates/` sharing a basename with a `docs/plans/` artifact |
 | The grounding section cannot cite an external source | no | Law 4 obliges learning from standards, and the section that records what was read refuses every URL — so the reading is recorded in prose the machine cannot check | certain | `gate.py audit` refused both URLs in this file's own grounding on first write, 2026-08-23 | accepted | external sources cited inline in the findings instead; the reference is readable but unchecked | a second item needs external grounding — at which point the format owes a slot |
 | Renaming `goal` breaks 7 immutable gate records | no | history becomes unreadable to the parser, or gets rewritten — and gate records are immutable by contract | certain unless handled | `ls docs/gates/` — 17 records, 10 `design` and 7 `goal`; no other rung has ever been recorded | countermeasure - permanent | the parser keeps the retired names in its legal set forever as read-only aliases; no file on disk is renamed, ever | |
+| `RUNGS` goes from eight entries to seven, and the router walks it | yes | `route()` returns the deepest rung whose cumulative inputs exist; collapsing two rungs into one container changes what every slug reports, including the 20 already on the board | certain | `kit.py:34` defines `RUNGS` as a flat list and `route()` iterates it; the board derives every position from that call | countermeasure - permanent | the two folded checks keep their exact test and only their label changes — old `build`'s spec+Pieces+Verify becomes the loop's entry, old `goal`'s zero-unchecked becomes the loop's exit; no test is added, removed or reordered, so every slug's reported position is unchanged in substance | |
+| Nothing marks an item done once `acceptance` is the last position | no | today the last rung is `loop`, so a finished item reports `enters at: loop` forever; with `acceptance` last the same ambiguity moves rather than resolving | certain | `route()` returns the deepest rung whose inputs exist, and there is no rung beyond the last one to enter | accepted unknown | none yet — it is pre-existing rather than introduced here, but the restructure is the moment to settle it | the design rung |
 | This is vocabulary churn dressed as work | no | a sitting spent on words while `funnel-driver` sits at contract for a fourth day | medium | the item was raised precisely to block that spec | countermeasure - permanent | the cross-work rule makes it functional rather than cosmetic — Drive's stated premise is non-software work, and three rung names fail for non-software items *today*, before Drive ships and bakes them into every consuming repo | |
 
 ## Why now rather than after Drive ships
@@ -164,9 +242,10 @@ for.
 
 Rigor level: mvp
 
-**Slice 1 — the three renames, atomic.** `slice → scope`, `contract → handoff`,
-`goal → acceptance`, with retired names kept as read-only parser aliases so no
-gate record is ever rewritten. Includes the cross-cutting sweep, the front-matter
+**Slice 1 — the restructure and the renames, atomic.** `RUNGS` goes eight → seven:
+`slice → scope`, `contract → handoff`, `build`+`goal` fold into `loop` as one
+route position, and old `loop`'s human key becomes `acceptance`. Retired names
+stay as read-only parser aliases so no gate record is ever rewritten. Includes the cross-cutting sweep, the front-matter
 `stage:` migration across all work records, the qualification sweep over every
 bare `handoff` in living docs, `tools/gates/README.md` as the canonical home, and
 a board re-render in the same commit.
