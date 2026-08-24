@@ -174,6 +174,19 @@ of drawing, not as a nicety — and remember `progress.py` only checks overflow 
 *its own* boards, not for hand-written views. This is the machine-side twin of
 "no check can tell a diagram from a slide" below.
 
+### Slicing a file between two `.index()` anchors silently duplicates it when the second anchor matches earlier
+
+Rewriting a block as `s[:start] + new + s[end:]` is only safe if `end > start`,
+and `str.index` returns the **first** match, not the one you pictured. Editing a
+hand-written SVG view 2026-08-23, `s.index('<line class="rule"')` was meant to
+find the divider below the table and found the column-header rule *above* it —
+so `end < start`, and the slice re-appended every original row after the
+replacements. The result was a valid HTML file, a clean render with no error
+anywhere, and a drawing with every row printed twice on top of itself. **Nothing
+in the toolchain objects**; it was caught only by opening the PNG. Either anchor
+on `rindex`, assert `end > start` before slicing, or — for anything this
+structural — rewrite the whole file instead of patching it.
+
 ### The shell's `grep` is an alias onto `ugrep`, which sorts multi-file output
 
 `grep -c pat a b` prints `b` before `a` if that is alphabetical order. A verify

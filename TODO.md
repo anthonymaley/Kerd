@@ -2,35 +2,45 @@
 
 ## Now
 
-**2026-08-23 evening — `funnel-driver` cleared design and hands to contract.
-The umbrella is named DRIVE.** See `kivna/sessions/2026-08-23.md`.
+**2026-08-23 late — `rung-vocabulary` framed and walked to design in one
+sitting, both views sealed. It blocks `funnel-driver` on purpose.**
+See `kivna/sessions/2026-08-23.md`.
 
 **Where things stand**
 
-- **`funnel-driver` sits at contract** — needs `docs/plans/*-funnel-driver-spec.md`.
-  Design GO `d4c4e62`. Three views sealed.
-- **`gate-visuals` still sits at goal** — untouched for a second day.
+- **`rung-vocabulary` sits at design** — needs `docs/design/rung-vocabulary.md`
+  and a GO record. Both views sealed (`fp:a6fe2ec1e1c3`, `fp:33b9932399e7`).
+- **`funnel-driver` sits at contract, blocked behind it** — needs
+  `docs/plans/*-funnel-driver-spec.md`. Fourth day. The block is deliberate: the
+  rung names travel into every consuming repo the moment Drive ships.
+- **`gate-visuals` still sits at goal** — untouched for a third day.
 - **Register: 38 live, 33 approved, 0 invalidated** — unchanged. Kerd at v0.98.0.
 
 **Next, in order**
 
-1. **Slice 2: one gate's question set**, hand-written, used once for real. Now
-   genuinely unblocked — it needed the design's vocabulary and it has it. No
-   template system, no shape inference, no second gate.
-2. **The `gate-visuals` goal gate** — cold eyes, then the expert-user pass. Its
+1. **Write `docs/design/rung-vocabulary.md`** and take the GO. The frame carries
+   the settled ladder, both sealed views and the findings; design has to settle
+   the three things deliberately left open — the `stage:` values for `handoff`
+   and `acceptance` (`scoped` is settled), whether `loop` becomes `learn`, and
+   what marks an item *done* once `acceptance` is the last position.
+2. **Then `funnel-driver`'s contract spec** — `docs/plans/*-funnel-driver-spec.md`,
+   for slice 2 (one gate's question set). Unblocked the moment the ladder lands.
+   Open when it resumes: does slice 2 build `skills/drive/SKILL.md`, or only the
+   question set and its checker? Asked, answered yes, not yet written down.
+3. **The `gate-visuals` goal gate** — cold eyes, then the expert-user pass. Its
    `Product measurements met` row has no upstream declaration; write the gap
    honestly rather than inventing a target after the fact.
-3. **Frame the measurement item** — Tony's value statement is captured verbatim
+4. **Frame the measurement item** — Tony's value statement is captured verbatim
    in CONTEXT.md and nothing is framed yet.
-4. **The four kept items from the standards spike** — 25010 → `R-0011`'s quality
+5. **The four kept items from the standards spike** — 25010 → `R-0011`'s quality
    column · 24774 §5.3 header on every `SKILL.md` · the UI viewpoint as a build ·
    the spine sentence in `docs/design/gate-visuals.md`.
-5. **The archaeology batches** — 53 candidates in
+6. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
    are yours.
-6. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
+7. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
    does the reqview validator graduate into `gate.py audit` first?
-7. **The suspect-link stamp has no slot in the format** — a format change.
+8. **The suspect-link stamp has no slot in the format** — a format change.
 
 **Open, not yet rows:** does re-agreeing a lapsed approval cost anything? If
 coming back means re-walking the gate, early gates must not lock at all.
@@ -48,6 +58,14 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 *Ranked by consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
+
+- **`## Grounding` cannot cite an external source.** Found 2026-08-23 when
+  `gate.py audit` refused both URLs in `rung-vocabulary`'s own grounding: AU5
+  resolves every reference against the filesystem, so a URL is always a problem.
+  **Law 4 obliges learning from industry standards and the section that records
+  what was read rejects every one of them** — so external reading is recorded in
+  prose the machine cannot check. Workaround in use: cite inline in the findings.
+  The format owes a slot.
 
 - **Diagram-and-prose-together: flip the default in the skills.** Decided
   2026-08-23 (CONTEXT.md). One deliverable, two renderings, produced from one
