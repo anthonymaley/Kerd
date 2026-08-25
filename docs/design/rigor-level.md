@@ -8,8 +8,8 @@ frame's own artifacts.
 
 ## What it does
 
-Makes a release slice's rigor level a **declared, machine-checkable
-value**. Every product doc that carries a `## Release slice` section
+Makes a work item's rigor level a **declared, machine-checkable
+value**. Every product doc that carries a `## Scope` section
 must declare its level on one line — `Rigor level: mvp` — from a legal
 set; the repo-wide audit gains a sixth rule (AU6) demanding and
 validating the line, and the design rung's gate check gains an input
@@ -23,7 +23,7 @@ table) is slice 2; measured classes as CI checks are slice 3.
 
 ## The declaration
 
-One line inside the `## Release slice` section of
+One line inside the `## Scope` section of
 `docs/product/<slug>.md`:
 
 ```
@@ -32,7 +32,7 @@ Rigor level: mvp
 
 - **Shape:** line starts `Rigor level:` (column 0, case-sensitive);
   the value is the rest of the line, whitespace-stripped. Exactly one
-  such line per Release slice section, and none elsewhere in the file.
+  such line per Scope section, and none elsewhere in the file.
 - **Legal set:** `spike` · `mvp` · `production-v1` — a `RIGOR_LEVELS`
   list in `tools/gates/kit.py`, canonically documented in
   `tools/gates/README.md` (the route/stage precedent: hardcoded in the
@@ -47,9 +47,9 @@ Rigor level: mvp
 
 Marks (light tier — options not close, no scored matrix):
 
-| Criterion | line in `## Release slice` | front-matter key | new `## Rigor` section |
+| Criterion | line in `## Scope` | front-matter key | new `## Rigor` section |
 |---|---|---|---|
-| Matches the keyed frame ("declared in the Release slice definition") (M) | ○ | △ near it, not in it | △ |
+| Matches the keyed frame ("declared in the Scope definition") (M) | ○ | △ near it, not in it | △ |
 | No schema/section invented ahead of its need (M) | ○ | × third key breaks the route/stage both-or-nothing pair | × empty section until slice 2 |
 | Trivially parseable | ○ prefix match inside one section | ○ | ○ |
 | Slice 2 extension | ○ table gets its own home later | △ | ○ but premature |
@@ -90,15 +90,15 @@ use, no hardening pass claimed.
 Extends `kit.audit` (AU1–AU5 precedent), swept over every
 `docs/product/*.md`:
 
-1. Any line starting `Rigor level:` **outside** the `## Release slice`
+1. Any line starting `Rigor level:` **outside** the `## Scope`
    section → problem:
-   `docs/product/<S>.md — Rigor level line outside Release slice`
-2. `## Release slice` section present (via `find_section`) → exactly
+   `docs/product/<S>.md — Rigor level line outside Scope`
+2. `## Scope` section present (via `find_section`) → exactly
    one `Rigor level:` line inside it:
-   - none → `docs/product/<S>.md — Release slice missing 'Rigor level: <spike|mvp|production-v1>' line`
+   - none → `docs/product/<S>.md — Scope missing 'Rigor level: <spike|mvp|production-v1>' line`
    - more than one → `docs/product/<S>.md — duplicate Rigor level lines (want exactly one)`
    - illegal value → `docs/product/<S>.md — illegal rigor level '<v>' (legal: spike, mvp, production-v1)`
-3. No `## Release slice` section (stage < sliced, or a spike) →
+3. No `## Scope` section (stage < scoped, or a spike) →
    vacuous pass for this rule.
 
 Runs wherever audit already runs — `gate.py audit`, CI step two. **CI
@@ -110,7 +110,7 @@ gains no step**; the level rides the existing refusal surface.
 function (single-parser rule — two call sites, one implementation):
 
 ```
-need: docs/product/<S>.md — Release slice declares a legal rigor level (Rigor level: spike|mvp|production-v1)
+need: docs/product/<S>.md — Scope declares a legal rigor level (Rigor level: spike|mvp|production-v1)
 ```
 
 The audit is the tip-level backstop (fires on every push); the gate row
@@ -121,28 +121,28 @@ refusals quote the fix verbatim.
 
 Fixture cases extend the selftest (temp-tree pattern, currently 18):
 
-1. **Legal line** — `Rigor level: mvp` inside Release slice → design
+1. **Legal line** — `Rigor level: mvp` inside Scope → scope
    check passes, audit clean.
-2. **Missing line** — Release slice without one → AU6 problem verbatim
+2. **Missing line** — Scope without one → AU6 problem verbatim
    + design check refuses with the need row.
 3. **Illegal value** — `Rigor level: prod` → named problem quoting the
    value and the legal set.
 4. **Duplicate lines** — two legal lines → named problem.
 5. **Misplaced line** — `Rigor level: mvp` under `## Value` → named
    problem.
-6. **No Release slice section** — framed-only doc → vacuous pass
+6. **No Scope section** — framed-only doc → vacuous pass
    (asserts the demand keys off the section, not the doc).
 
 At build, the refusal is demonstrated both ways on the real tree (the
 0.70.0 pattern): strip one retrofit line → audit exits 1 naming it;
 restore → clean. **Dogfood:** `docs/product/rigor-level.md`'s own
-Release slice declares its level in the same commit.
+Scope declares its level in the same commit.
 
 ## Named answers — the stage-1 measurements
 
 | Measurement (product doc, Value) | Target | Named answer |
 |---|---|---|
-| A Release slice without a declared, legal level at a pushed tip | named refusal within one CI run | AU6 inside `gate.py audit` — CI step two — demands exactly one legal line in every Release slice section; fixture 2 asserts the message verbatim; both-ways demo at ship. |
+| A Scope without a declared, legal level at a pushed tip | named refusal within one CI run | AU6 inside `gate.py audit` — CI step two — demands exactly one legal line in every Scope section; fixture 2 asserts the message verbatim; both-ways demo at ship. |
 | The three done journeys' board render across the rule landing | unchanged | retrofit lines land in the same commit as the rule; `gate.py route` for push-wiring · grounding-was-read · progress-html shows identical `enters_at` before/after (run at build); the stale harness byte-compares the committed render at the tip. |
 | Validation wherever a declaration appears | every malformed shape named | fixtures 3–5 (illegal, duplicate, misplaced), each asserting its verbatim problem line. |
 
@@ -164,6 +164,6 @@ docs (one line each) · three version fields (MINOR, tool change).
 - **Measured classes as CI checks** — slice 3.
 - **Folding `route: spike` into the rigor axis** — the frame notes the
   generalization; unframed, untouched here. A spike doc without a
-  Release slice section passes AU6 vacuously today.
+  Scope section passes AU6 vacuously today.
 - **Level semantics** — what a level requires is the catalog's business;
   slice 1 refuses only silence and illegality, never judges fit.
