@@ -6,11 +6,11 @@ concerns:
   - concern: what each gate checks, and what each renamed word actually costs
     viewpoint: matrix
     view: docs/design/rung-vocabulary/rungs-and-artifacts.html
-    approval: Tony, 2026-08-23 · fp:33b9932399e7
+    approval: Tony, 2026-08-25 · fp:56fb72a4c3c8
   - concern: why loop is a container and acceptance is the producer's last gate
     viewpoint: nested
     view: docs/design/rung-vocabulary/the-ladder.html
-    approval: Tony, 2026-08-23 · fp:a6fe2ec1e1c3
+    approval: Tony, 2026-08-25 · fp:01527c97c762
 ---
 
 # Three rung names only work for software — and drawing the ladder found a fourth defect
@@ -183,8 +183,13 @@ board answers *how far along is the machine*.
 
 ### The old names had the machine check and the human key backwards
 
-**This restructure changes no machinery — it is the first naming that matches
-what the gates already do.** Verified in `tools/gates/kit.py`:
+~~**This restructure changes no machinery — it is the first naming that matches
+what the gates already do.**~~ **STRUCK 2026-08-25 — two checks do move.** The
+claim was true of the `build`/`goal`/`loop` fold below, which is what it was
+written about, and it was then read as covering the whole item. It does not:
+`## Release slice` moves from the design gate to the scope gate, and viability
+gains a check it has never had. See *The gates were also holding the wrong
+things* below. Verified in `tools/gates/kit.py`:
 
 - The old **`goal`** rung requires exactly one thing: *"zero unchecked boxes in
   Pieces"*. A pure machine test. The word sounds like the producer's target and
@@ -194,8 +199,58 @@ what the gates already do.** Verified in `tools/gates/kit.py`:
   actually live. The human key was already there.
 
 So machine-check-then-human-key was already the order. Only the labels were
-inverted. That makes this cheaper than a restructure and better justified than a
-rename.
+inverted — **for this fold**. The fold itself is free; the item is not.
+
+### The gates were also holding the wrong things — 2026-08-25
+
+The producer, reading the sealed drawing: *"scope, that is not a risk ledger.
+its where we lock in what we want, what features etc... that will go into design
+and then loop."*
+
+He is right, and `tools/gates/kit.py` confirms the mismatch. Today `kit.py:627`
+gates the scope rung on `## Risk ledger`, while `kit.py:643` gates the **design**
+rung on `## Release slice` — so the machine checks *risk* where scope belongs and
+checks *what we are committing to build* one rung later.
+
+**`## Release slice` moves up to the scope gate and is renamed `## Scope`.** It
+cannot keep a retired word in its own name. 17 work records carry it.
+
+**The risk ledger does NOT move — and that was tested rather than assumed.** The
+session's instinct was to lift it to viability on the reasoning that *is this
+worth doing* and *what could kill it* are the same question. An independent
+top-tier call was made to refute that, and it did:
+
+- **Stage-Gate** (fetched from `stage-gate.com`, the model owner's own text):
+  Stage 1 Scoping is deliberately cheap desk research; the named **risk
+  assessment sits in Stage 2, Build the Business Case** — the same stage that
+  produces product definition.
+- **PRINCE2** (the non-software test, secondary via `prince2.wiki`): the outline
+  business case carries a *summary* of major risks; the **Risk Register** — the
+  qualified artifact — is created at initiation, alongside the detailed business
+  case and the scope.
+- **ISO/IEC/IEEE 29148** (primary, 2011 edition): requirements specs carry **no
+  risk section at all**. Risk is a per-requirement attribute and part of the
+  "Feasible" well-formedness test — qualification interleaved with defining what
+  you want.
+- **ISO/IEC/IEEE 24748** was reached only as far as its official preview: stage
+  names and order are primary, stage *bodies* are paywalled and taken secondary
+  from SEBoK. Named so the tier is not overstated.
+
+**The argument that killed the instinct:** you cannot qualify the risks of an
+undefined thing. Rows are relative to a commitment, so qualifying before
+scope-lock means every scope change invalidates them. It also inverts gate
+economics — a fully evidenced ledger demanded to pass *is this worth
+investigating* front-loads the exact cost the gate exists to defer.
+
+**So risk is checked twice, at two depths, in ONE section.** Viability requires
+that killer risks are **named** — no sizing, no evidence, cheap. Scope requires
+**every row qualified**. The producer's ruling on adding the viability tier:
+*"yes of course."*
+
+This is the second measured instance of Kerd's viability gate being thinner than
+its counterparts: it checks that a `## Value` section **exists** and nothing
+about its content, while every standard consulted sees named risks at its first
+go/no-go.
 
 `scope` carries the strongest cross-work evidence of the three: *scope of work*
 is standard in construction, consulting and law, not only software. The artifact
@@ -239,7 +294,7 @@ prose rather than machinery, and the two-altitude split it enforces is the one
 | The grounding section cannot cite an external source | no | Law 4 obliges learning from standards, and the section that records what was read refuses every URL — so the reading is recorded in prose the machine cannot check | certain | `gate.py audit` refused both URLs in this file's own grounding on first write, 2026-08-23 | accepted | external sources cited inline in the findings instead; the reference is readable but unchecked | a second item needs external grounding — at which point the format owes a slot |
 | Renaming `goal` breaks 7 immutable gate records | no | history becomes unreadable to the parser, or gets rewritten — and gate records are immutable by contract | certain unless handled | `ls docs/gates/` — 17 records, 10 `design` and 7 `goal`; no other rung has ever been recorded | countermeasure - permanent | the parser keeps the retired names in its legal set forever as read-only aliases; no file on disk is renamed, ever | |
 | `RUNGS` goes from eight entries to seven, and the router walks it | yes | `route()` returns the deepest rung whose cumulative inputs exist; collapsing two rungs into one container changes what every slug reports, including the 20 already on the board | certain | `kit.py:34` defines `RUNGS` as a flat list and `route()` iterates it; the board derives every position from that call | countermeasure - permanent | the two folded checks keep their exact test and only their label changes — old `build`'s spec+Pieces+Verify becomes the loop's entry, old `goal`'s zero-unchecked becomes the loop's exit; no test is added, removed or reordered, so every slug's reported position is unchanged in substance | |
-| Nothing marks an item done once `acceptance` is the last position | no | today the last rung is `loop`, so a finished item reports `enters at: loop` forever; with `acceptance` last the same ambiguity moves rather than resolving | certain | `route()` returns the deepest rung whose inputs exist, and there is no rung beyond the last one to enter | accepted unknown | none yet — it is pre-existing rather than introduced here, but the restructure is the moment to settle it | the design rung |
+| ~~Nothing marks an item done once `acceptance` is the last position~~ **ANSWERED 2026-08-25: the terminal state is READY TO RELEASE, not done** — the producer's ruling, *"not done, but 'ready to release'"*, because the work loops after release so `done` names nothing. The literal `stage:` value stays open for design. | no | today the last rung is `loop`, so a finished item reports `enters at: loop` forever; with `acceptance` last the same ambiguity moves rather than resolving | certain | `route()` returns the deepest rung whose inputs exist, and there is no rung beyond the last one to enter | accepted unknown | none yet — it is pre-existing rather than introduced here, but the restructure is the moment to settle it | the design rung |
 | This is vocabulary churn dressed as work | no | a sitting spent on words while `funnel-driver` sits at contract for a fourth day | medium | the item was raised precisely to block that spec | countermeasure - permanent | the cross-work rule makes it functional rather than cosmetic — Drive's stated premise is non-software work, and three rung names fail for non-software items *today*, before Drive ships and bakes them into every consuming repo | |
 
 ## Why now rather than after Drive ships

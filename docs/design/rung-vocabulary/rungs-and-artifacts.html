@@ -19,10 +19,10 @@
   <div class="wrap">
     <p class="eyebrow">Kerd · rung-vocabulary · design</p>
     <h1>Every gate, what it checks, and where the rename bites</h1>
-    <p class="sub">The ladder is cumulative — a gate checks everything the gates above it checked, plus one new thing. Nothing is ever released. Seven gates, not eight: <em>loop</em> is a container holding build, verify and adjust, and the machine checks only at its two edges. The three renamed words cost wildly different amounts.</p>
-    <svg viewBox="0 0 960 745" role="img" aria-labelledby="rv-t rv-d">
+    <p class="sub">The ladder is cumulative — a gate checks everything the gates above it checked, plus one new thing. No check is ever dropped. Seven gates, not eight: <em>loop</em> is a container holding build, verify and adjust, and the machine checks only at its two edges. Risk is checked twice at two depths, and scope is where the work is locked in. The three renamed words cost wildly different amounts.</p>
+    <svg viewBox="0 0 960 806" role="img" aria-labelledby="rv-t rv-d">
       <title id="rv-t">The seven gates, what each checks, and the cost of the three renamed words</title>
-      <desc id="rv-d">A table of the seven ladder gates read top to bottom: frame, viability, scope (renamed from slice), design, handoff (renamed from contract), loop, and acceptance (which takes over the human key that used to sit at loop). A running count on the left shows how many checks are in force, growing from zero at frame to thirteen at acceptance. The middle column names what that gate checks; the right column names the file on disk that holds it. The loop row is taller because the machine checks at two edges rather than one: entering requires a spec with a Pieces checklist and a Verify command on every step, and leaving requires zero unchecked pieces. Build, verify and adjust happen inside the loop and are deliberately not gates. Below, three panels compare the cost of the three renamed words. Slice to scope costs seventeen files plus a parser key, because the heading Release slice is read by the gate machinery. Contract to handoff costs no rewritten history, because no gate record was ever written at that gate, but the word still sits in the parser three times and in a flow diagram. Goal is folded away entirely: its machine check moves into the loop and its record becomes acceptance's. New gate records are written with the acceptance name; the seven existing goal records are never rewritten and stay readable as read-only aliases.</desc>
+      <desc id="rv-d">A table of the seven ladder gates read top to bottom: frame, viability, scope (renamed from slice), design, handoff (renamed from contract), loop, and acceptance (which takes over the human key that used to sit at loop). A running count on the left shows how many checks are in force, growing from zero at frame to fourteen at acceptance, counted for a work item declaring one concern. The middle column names what that gate checks; the right column names the file on disk that holds it. Risk appears at two gates and at two depths: viability requires only that killer risks are named, while scope requires every row of the ledger to be fully qualified. Scope is also where the work is locked in — what is in, what is out, and the rigor level — in a section renamed from Release slice to Scope, which moves up from the design gate. Design is left checking only that every declared concern has a sealed view. The loop row is taller because the machine checks at two edges rather than one: entering requires a spec with a Pieces checklist and a Verify command on every step, and leaving requires zero unchecked pieces. Build, verify and adjust happen inside the loop and are deliberately not gates. Below, three panels compare the cost of the three renamed words. Slice to scope costs seventeen files plus three parser keys — the rung list, the stage value sliced, and the gate-record regex — and the section itself is both renamed and moved to an earlier gate. Contract to handoff costs no rewritten history, because no gate record was ever written at that gate, but the word still sits in the parser three times and in a flow diagram. Goal is folded away entirely: its machine check moves into the loop and its record becomes acceptance's. New gate records are written with the acceptance name; the seven existing goal records are never rewritten and stay readable as read-only aliases. The stage list also loses the value done; its replacement is deliberately left for the design gate to settle, so no new stage value is claimed here.</desc>
       <defs>
         <style>
           .n{font-family:var(--font-sans);font-size:12.5px;fill:var(--color-ink);}
@@ -58,103 +58,108 @@
       <text class="mono" x="620" y="86">docs/product/&lt;slug&gt;.md</text>
 
       <!-- viability -->
-      <rect class="row" x="150" y="112" width="782" height="52" rx="3"/>
-      <rect class="tally" x="28" y="134" width="12" height="8" rx="2"/>
-      <text class="cnt"  x="122" y="144" text-anchor="end">3</text>
+      <rect class="row" x="150" y="112" width="782" height="76" rx="3"/>
+      <rect class="tally" x="28" y="146" width="16" height="8" rx="2"/>
+      <text class="cnt"  x="122" y="156" text-anchor="end">4</text>
       <text class="b"    x="170" y="138">viability</text>
       <text class="n"    x="316" y="136">front matter route + stage</text>
-      <text class="n"    x="316" y="152">a Value section, in units</text>
-      <text class="mono" x="620" y="142">the same file</text>
+      <text class="n"    x="316" y="152">a Value section exists (not its content)</text>
+      <text class="n"    x="316" y="168">what could kill this — named only</text>
+      <text class="ea" x="546" y="168">new</text>
+      <text class="mono" x="620" y="136">the same file</text>
+      <text class="mono" x="620" y="152">the same file — rows only, unqualified</text>
 
       <!-- scope -->
-      <rect class="rowa" x="150" y="168" width="782" height="52" rx="3"/>
-      <rect class="tally" x="28" y="190" width="17" height="8" rx="2"/>
-      <text class="cnt"  x="122" y="200" text-anchor="end">4</text>
-      <text class="ba"   x="170" y="190">scope</text>
-      <text class="ma"   x="170" y="206">was slice</text>
-      <text class="n"    x="316" y="192">a Risk ledger — every row qualified,</text>
-      <text class="n"    x="316" y="208">sized, evidenced, in exactly one state</text>
-      <text class="mono" x="620" y="192">the same file, in a section</text>
-      <text class="mono" x="620" y="208">named "## Risk ledger"</text>
+      <rect class="rowa" x="150" y="192" width="782" height="76" rx="3"/>
+      <rect class="tally" x="28" y="226" width="28" height="8" rx="2"/>
+      <text class="cnt"  x="122" y="236" text-anchor="end">7</text>
+      <text class="ba"    x="170" y="218">scope</text>
+      <text class="ma"   x="170" y="234">was slice</text>
+      <text class="n"    x="316" y="216">the scope of work — what is in,</text>
+      <text class="ea" x="530" y="216">moved</text>
+      <text class="n"    x="316" y="232">what is out, and the rigor level</text>
+      <text class="n"    x="316" y="248">every risk sized, evidenced, in one state</text>
+      <text class="monoa" x="620" y="216">docs/product/&lt;slug&gt;.md — "## Scope"</text>
+      <text class="mono" x="620" y="232">the same file — "## Risk ledger"</text>
+      <text class="ea" x="620" y="252">same section — now read strictly</text>
 
       <!-- design -->
-      <rect class="row" x="150" y="224" width="782" height="52" rx="3"/>
-      <rect class="tally" x="28" y="246" width="25" height="8" rx="2"/>
-      <text class="cnt"  x="122" y="256" text-anchor="end">6</text>
-      <text class="b"    x="170" y="250">design</text>
-      <text class="n"    x="316" y="248">a Release slice with a rigor level,</text>
-      <text class="n"    x="316" y="264">one sealed view per declared concern</text>
-      <text class="monoa" x="620" y="248">docs/product/&lt;slug&gt;.md — "## Release slice"</text>
-      <text class="mono"  x="620" y="264">docs/design/&lt;slug&gt;/*.html</text>
+      <rect class="row" x="150" y="272" width="782" height="52" rx="3"/>
+      <rect class="tally" x="28" y="294" width="32" height="8" rx="2"/>
+      <text class="cnt"  x="122" y="304" text-anchor="end">8</text>
+      <text class="b"    x="170" y="298">design</text>
+      <text class="n"    x="316" y="296">one sealed view per declared</text>
+      <text class="n"    x="316" y="312">concern — nothing else</text>
+      <text class="mono" x="620" y="302">docs/design/&lt;slug&gt;/*.html</text>
 
       <!-- handoff -->
-      <rect class="rowa" x="150" y="280" width="782" height="52" rx="3"/>
-      <rect class="tally" x="28" y="302" width="33" height="8" rx="2"/>
-      <text class="cnt"  x="122" y="312" text-anchor="end">8</text>
-      <text class="ba"   x="170" y="302">handoff</text>
-      <text class="ma"   x="170" y="318">was contract</text>
-      <text class="n"    x="316" y="304">the design package, and the</text>
-      <text class="n"    x="316" y="320">producer's build-ready GO</text>
-      <text class="mono" x="620" y="304">docs/design/&lt;slug&gt;.md</text>
-      <text class="mono" x="620" y="320">docs/gates/&lt;date&gt;-&lt;slug&gt;-design.md</text>
+      <rect class="rowa" x="150" y="328" width="782" height="52" rx="3"/>
+      <rect class="tally" x="28" y="350" width="40" height="8" rx="2"/>
+      <text class="cnt"  x="122" y="360" text-anchor="end">10</text>
+      <text class="ba"    x="170" y="354">handoff</text>
+      <text class="ma"   x="170" y="370">was contract</text>
+      <text class="n"    x="316" y="352">the design package, and the</text>
+      <text class="n"    x="316" y="368">producer's build-ready GO</text>
+      <text class="mono" x="620" y="352">docs/design/&lt;slug&gt;.md</text>
+      <text class="mono" x="620" y="368">docs/gates/&lt;date&gt;-&lt;slug&gt;-design.md</text>
 
-      <!-- loop (container, two gated edges) -->
-      <rect class="rowa" x="150" y="336" width="782" height="76" rx="3"/>
-      <rect class="tally" x="28" y="370" width="50" height="8" rx="2"/>
-      <text class="cnt"  x="122" y="380" text-anchor="end">11&#8594;12</text>
-      <text class="ba"   x="170" y="362">loop</text>
-      <text class="ma"   x="170" y="378">was build + goal</text>
-      <text class="ma"   x="170" y="394">now a container</text>
-      <text class="n"    x="316" y="360">enter: a spec with a Pieces checklist</text>
-      <text class="n"    x="316" y="376">and a Verify: on every step</text>
-      <text class="n"    x="316" y="392">exit: zero unchecked pieces remain</text>
-      <text class="mono" x="620" y="360">docs/plans/&lt;date&gt;-&lt;slug&gt;-spec.md</text>
-      <text class="ea"   x="620" y="382">build · verify · adjust run INSIDE</text>
-      <text class="ea"   x="620" y="398">only the two edges are gated</text>
+      <!-- loop -->
+      <rect class="rowa" x="150" y="384" width="782" height="76" rx="3"/>
+      <rect class="tally" x="28" y="418" width="52" height="8" rx="2"/>
+      <text class="cnt"  x="122" y="428" text-anchor="end">12&#8594;13</text>
+      <text class="ba"    x="170" y="410">loop</text>
+      <text class="ma"   x="170" y="426">was build + goal</text>
+      <text class="ma"   x="170" y="442">now a container</text>
+      <text class="n"    x="316" y="408">enter: a spec with a Pieces checklist</text>
+      <text class="n"    x="316" y="424">and a Verify: on every step</text>
+      <text class="n"    x="316" y="440">exit: zero unchecked pieces remain</text>
+      <text class="mono" x="620" y="408">docs/plans/&lt;date&gt;-&lt;slug&gt;-spec.md</text>
+      <text class="ea" x="620" y="430">build · verify · adjust run INSIDE</text>
+      <text class="ea" x="620" y="452">only the two edges are gated</text>
 
       <!-- acceptance -->
-      <rect class="rowa" x="150" y="418" width="782" height="52" rx="3"/>
-      <rect class="tally" x="28" y="440" width="54" height="8" rx="2"/>
-      <text class="cnt"  x="122" y="450" text-anchor="end">13</text>
-      <text class="ba"   x="170" y="440">acceptance</text>
-      <text class="ma"   x="170" y="456">was loop's human key</text>
-      <text class="n"    x="316" y="444">the producer's final approval — the</text>
-      <text class="m"    x="316" y="460">one check no machine can ever make</text>
-      <text class="monoa" x="620" y="444">docs/gates/&lt;date&gt;-&lt;slug&gt;-acceptance.md</text>
-      <text class="m"    x="620" y="462">7 old -goal.md records stay readable, never rewritten</text>
-
-      <text class="e" x="28" y="496">the ladder is cumulative — nothing is ever released, only added to</text>
+      <rect class="rowa" x="150" y="464" width="782" height="52" rx="3"/>
+      <rect class="tally" x="28" y="486" width="56" height="8" rx="2"/>
+      <text class="cnt"  x="122" y="496" text-anchor="end">14</text>
+      <text class="ba"    x="170" y="490">acceptance</text>
+      <text class="ma"   x="170" y="506">was loop's human key</text>
+      <text class="n"    x="316" y="488">the producer's final approval, in a record</text>
+      <text class="n"    x="316" y="504">carrying a "## Done condition" section</text>
+      <text class="monoa" x="620" y="488">docs/gates/&lt;date&gt;-&lt;slug&gt;-acceptance.md</text>
+      <text class="m" x="620" y="504">7 old -goal.md records stay readable, never rewritten</text>
+      <text class="e" x="28" y="536">the ladder is cumulative — no check is ever dropped, only added to</text>
+      <text class="m" x="28" y="554">Counts assume a work item declaring one concern. NEW = a check that does not exist today · MOVED = a check that exists, at a different gate.</text>
 
       <!-- ===== bottom: the three costs ===== -->
-      <line class="rule" x1="28" y1="520" x2="932" y2="520"/>
-      <text class="e" x="28" y="544">three renamed words · three completely different costs</text>
+      <line class="rule" x1="28" y1="576" x2="932" y2="576"/>
+      <text class="e" x="28" y="600">three renamed words · three completely different costs</text>
 
-      <rect class="panel" x="28" y="560" width="288" height="168" rx="3"/>
-      <text class="ba"   x="48" y="588">slice → scope</text>
-      <text class="m"    x="48" y="608">the expensive one</text>
-      <text class="n"    x="48" y="634">17 files, plus a parser key.</text>
-      <text class="n"    x="48" y="652">"## Release slice" is a heading</text>
-      <text class="n"    x="48" y="670">the DESIGN gate reads — not the</text>
-      <text class="n"    x="48" y="688">scope gate, whose own section</text>
-      <text class="n"    x="48" y="706">("## Risk ledger") is untouched.</text>
+      <rect class="panel" x="28" y="616" width="288" height="168" rx="3"/>
+      <text class="ba"   x="48" y="644">slice &#8594; scope</text>
+      <text class="m"    x="48" y="664">the expensive one</text>
+      <text class="n"    x="48" y="690">17 files, plus 3 parser keys</text>
+      <text class="n"    x="48" y="708">(RUNGS · STAGES "sliced" · the</text>
+      <text class="n"    x="48" y="726">record regex). The section</text>
+      <text class="n"    x="48" y="744">"## Release slice" is renamed</text>
+      <text class="n"    x="48" y="762">"## Scope" — and moves a gate.</text>
 
-      <rect class="panel" x="336" y="560" width="288" height="168" rx="3"/>
-      <text class="ba"   x="356" y="588">contract → handoff</text>
-      <text class="m"    x="356" y="608">the cheap one — but not free</text>
-      <text class="n"    x="356" y="634">No gate record was ever written</text>
-      <text class="n"    x="356" y="652">here, so no history is rewritten.</text>
-      <text class="n"    x="356" y="670">But the word sits in the parser</text>
-      <text class="n"    x="356" y="688">3× (RUNGS · STAGES "contracted"</text>
-      <text class="n"    x="356" y="706">· the record regex), + a diagram.</text>
+      <rect class="panel" x="336" y="616" width="288" height="168" rx="3"/>
+      <text class="ba"   x="356" y="644">contract &#8594; handoff</text>
+      <text class="m"    x="356" y="664">cheap in history, not in code</text>
+      <text class="n"    x="356" y="690">No gate record was ever written</text>
+      <text class="n"    x="356" y="708">here — no history is rewritten.</text>
+      <text class="n"    x="356" y="726">But: 3 parser keys, a generator</text>
+      <text class="n"    x="356" y="744">FILENAME (gen_flow_contract.py),</text>
+      <text class="n"    x="356" y="762">a rung key in 3 more, + renders.</text>
 
-      <rect class="panel" x="644" y="560" width="288" height="168" rx="3"/>
-      <text class="ba"   x="664" y="588">goal → folded away</text>
-      <text class="m"    x="664" y="608">the one that cannot be undone</text>
-      <text class="n"    x="664" y="634">Its machine check moves into</text>
-      <text class="n"    x="664" y="652">the loop; its record becomes</text>
-      <text class="n"    x="664" y="670">acceptance&#8217;s — new records are</text>
-      <text class="n"    x="664" y="688">written -acceptance.md. The 7</text>
-      <text class="n"    x="664" y="706">old ones stay readable, forever.</text>
+      <rect class="panel" x="644" y="616" width="288" height="168" rx="3"/>
+      <text class="ba"   x="664" y="644">goal &#8594; folded away</text>
+      <text class="m"    x="664" y="664">the one that cannot be undone</text>
+      <text class="n"    x="664" y="690">Machine check moves into the</text>
+      <text class="n"    x="664" y="708">loop. New records are written</text>
+      <text class="n"    x="664" y="726">-acceptance.md; 7 old -goal.md</text>
+      <text class="n"    x="664" y="744">stay readable forever. STAGES</text>
+      <text class="n"    x="664" y="762">drops "done"; value set at design.</text>
     </svg>
   </div>
 </body>
