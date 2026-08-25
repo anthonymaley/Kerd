@@ -1,6 +1,6 @@
 ---
 route: new
-stage: done
+stage: ready-to-release
 ---
 
 # Time-awareness — the machine consults a clock, and effort becomes data
@@ -49,7 +49,7 @@ Value, in units:
 | The statusline renders for the human only — the model never sees it | no | the model stays clock-blind in prose unless it runs `date` itself | certain — a named limit, not a defect | Tony's own framing: "the model doesn't see the statusline" | accepted | | a harness change ever exposes statusline content to the model |
 | Clock-line presence unenforced in new records | no | a new gate record ships without its Clock line, silently | medium | AU rules check shape, not a record's birth date — old records legitimately lack the line | accepted | | first observed missing Clock line in a new record: graduate a dated-cutoff presence check into AU |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

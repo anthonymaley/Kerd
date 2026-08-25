@@ -272,7 +272,7 @@ it by making the board approvable, which would mean approving a fact.
 | Prescribing one visual per gate makes a gate unpassable for work that genuinely has no such picture | no | a rung blocks on ceremony | medium | design already allows an aspect-driven set rather than a fixed one | countermeasure - permanent | the gate demands a visual **for each aspect the work touches**; work touching no such aspect owes none, the same way `n/a` with a named reason works elsewhere | |
 | Redrawing from the built side is only strong for two aspects | no | the comparison is partial and could read as complete | high | measured in the table above | countermeasure - permanent | the strength column ships with the feature, so a weak comparison is labelled weak | |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

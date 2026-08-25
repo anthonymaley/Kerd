@@ -31,15 +31,15 @@ Counts: USE 35 · CANDIDATE 1 · TRAP 1 · OURS 2
 | Type | Status | What it draws |
 |---|---|---|
 | **architecture** | USE · design | System overviews, integration maps, infra topology. |
-| **bar** | USE · goal | A measured result against the target that was declared. |
+| **bar** | USE · acceptance | A measured result against the target that was declared. |
 | **data-flow** | USE · design | How data moves across roles — who starts it, who processes, who publishes. |
 | **db-schema** | USE · design | Physical SQL tables, types and constraints — the DDL made legible. Any project with a database. Kerd has none, which is a fact about Kerd. |
-| **dependency** | USE · design, contract | What depends on what, including cycles a tree cannot show. |
+| **dependency** | USE · design, handoff | What depends on what, including cycles a tree cannot show. |
 | **deployment** | USE · design | Where the software actually runs. |
 | **dp-integration** | USE · frame, design | Hub and spoke: what plugs in, what plugs out, over what wire. Any platform project — and Kerd itself, as hub to the repos that use it. |
-| **dp-security-matrix** | USE · contract | A grid of rows against roles. For us: who holds the key at each rung. |
+| **dp-security-matrix** | USE · handoff | A grid of rows against roles. For us: who holds the key at each rung. |
 | **er** | USE · design | Entities and how they relate. |
-| **fishbone** | USE · frame, loop | One observed effect, causes grouped by category. The problem route. |
+| **fishbone** | USE · frame, acceptance | One observed effect, causes grouped by category. The problem route. |
 | **flowchart** | USE · design | Decision logic and branching. |
 | **gantt** | TRAP | Tasks with start and end dates. A release is a grouping, not a time axis. |
 | **high-level** | USE · frame, design | An end-to-end stack as a phase chevron, with a strip for concerns that ride every phase. |
@@ -47,25 +47,25 @@ Counts: USE 35 · CANDIDATE 1 · TRAP 1 · OURS 2
 | **journey** | USE · frame | What a person does across stages and how it feels at each one. |
 | **kanban** | OURS | A state census of work in progress. That is the progress board, derived from disk. |
 | **layers** | USE · design | Abstraction layers, stacks, cascades. |
-| **line** | USE · goal | A measure over releases, when the trend is the evidence. |
-| **loop** | USE · loop | Cycles where the last step feeds the first. |
+| **line** | USE · acceptance | A measure over releases, when the trend is the evidence. |
+| **loop** | USE · acceptance | Cycles where the last step feeds the first. |
 | **medallion** | USE · design | Tiers of the same dataset at different quality levels, and how data is promoted between them. Any data project. |
 | **nested** | USE · design | Hierarchy by containment. Our default grammar — outer is broader. |
-| **org-chart** | USE · contract | Role ownership and routing, including agent teams. |
+| **org-chart** | USE · handoff | Role ownership and routing, including agent teams. |
 | **polar** | CANDIDATE | One series across 4–8 categories whose clockwise order carries meaning. Unproven — the ladder being a cycle of eight is the only use found so far. |
 | **process** | USE · design | A sequential process with actors and the data passing between them. |
-| **pyramid** | USE · frame, slice | Ranks and funnels — what sits above what. |
+| **pyramid** | USE · frame, scope | Ranks and funnels — what sits above what. |
 | **quadrant** | USE · viability | A 2×2 decision frame. Use the type, replace the default axes. |
 | **radar** | OURS | Comparing entities across criteria. That is the evaluation matrix. |
 | **sankey** | USE · viability | Where a quantity goes as it splits and merges. |
-| **scatter** | USE · goal | Correlation, when the relationship itself is the claim. |
+| **scatter** | USE · acceptance | Correlation, when the relationship itself is the claim. |
 | **sequence** | USE · design | Multi-actor interactions over time. |
 | **state** | USE · design | Finite state logic — lifecycles, wizards, queues. |
-| **story-map** | USE · slice | Where the first release gets cut. The strongest match in the set. |
-| **swimlane** | USE · design, contract | Cross-functional flow where the handoffs are the point. |
-| **timeline** | USE · goal, loop | Release history, milestones, incident reconstruction. |
+| **story-map** | USE · scope | Where the first release gets cut. The strongest match in the set. |
+| **swimlane** | USE · design, handoff | Cross-functional flow where the handoffs are the point. |
+| **timeline** | USE · loop, acceptance | Release history, milestones, incident reconstruction. |
 | **tree** | USE · design | Taxonomies, breakdowns, file trees. |
-| **treemap** | USE · viability, slice | Part of a whole, where the relative size is the story. |
+| **treemap** | USE · viability, scope | Part of a whole, where the relative size is the story. |
 | **uml-class** | USE · design | Operations and the inheritance/composition vocabulary, where those are the point. Any project with an object model worth arguing about. |
 | **venn** | USE · frame | Where A meets B — overlaps, not sequences. |
 | **wardley** | USE · viability | Build, buy or outsource. The interview's open question, drawn. |
@@ -91,11 +91,11 @@ Counts: USE 35 · CANDIDATE 1 · TRAP 1 · OURS 2
 | **sankey** | *"where a quantity goes as it splits and merges"*. For cost and budget viability. |
 | **treemap** | Part-of-whole *where relative size is the story* — where the effort or the spend actually goes. |
 
-### SLICE — what is in the first release, and what is not
+### SCOPE — what is in the first release, and what is not
 
 | Type | Why it fits |
 |---|---|
-| **story-map** | *"the Jeff Patton user story map — it answers 'what is the whole story, and where do we cut the first release?'"* **The single strongest match in the whole list.** That sentence is the slice rung's definition. |
+| **story-map** | *"the Jeff Patton user story map — it answers 'what is the whole story, and where do we cut the first release?'"* **The single strongest match in the whole list.** That sentence is the scope rung's definition. |
 | **pyramid** | When the cut is by rank rather than by narrative. |
 | **treemap** | When the cut is by size. |
 
@@ -123,13 +123,13 @@ as we can."*
 | **org-chart** | role ownership and routing — including **agent** teams |
 | **uml-class** | static object structure, where that is the story |
 
-### CONTRACT — handing pieces to whoever builds them
+### HANDOFF — handing pieces to whoever builds them
 
 | Type | Why it fits |
 |---|---|
-| **dependency** | what must land before what — the ordering the contract encodes |
+| **dependency** | what must land before what — the ordering the handoff encodes |
 | **org-chart** | *"human teams, agent teams, support escalation maps, role ownership"* — the four roles and which model plays which |
-| **swimlane** | who owns which piece across the handoff |
+| **swimlane** | who owns which piece across the work handoff |
 
 ### BUILD — mostly nothing
 
@@ -155,11 +155,11 @@ Building is execution and leaves commits, not pictures. The one candidate,
 
 ## Traps — types that look right for a rung and are not
 
-- **gantt** at slice or viability. *"Tasks with explicit start and end dates."*
+- **gantt** at scope or viability. *"Tasks with explicit start and end dates."*
   Our standing decision is that **a release is a grouping, not a time axis** —
   time may be attached later, or never. A gantt makes the time axis the
   definition, which is the position that decision reversed.
-- **kanban** at build. *"A snapshot of work-in-progress by state."* That is the
+- **kanban** at loop. *"A snapshot of work-in-progress by state."* That is the
   progress board, which is derived from disk and byte-compared in CI. This
   toolkit cannot serve it — the spike closed job 2 permanently.
 - **radar** and **dp-security-matrix** at viability. Both are comparison grids,
@@ -187,9 +187,9 @@ domain is the example the author happened to use; the shape is what transfers.
 
 | Type | The shape it actually draws | The Kerd artifact |
 |---|---|---|
-| **dp-security-matrix** | rows × roles, each cell a permission level, one cell markable as focal | **Who holds the key at each rung.** Four roles — producer, composer, conductor, players — against eight rungs. The producer holds frame, viability, slice and design plus evaluation at goal; the model holds contract and build. The focal cell is the rule that surprises people: *no human key per piece at build.* This is the division of labour, drawn. |
-| **high-level** | phase chevron banner, boundary, and an optional vertical strip for cross-cutting concerns | **The funnel end to end.** frame → viability → slice → design → contract → build → goal → loop as the chevron; the gates and CI that ride *every* rung as the cross-cutting strip. `gen_kerd_map.py` hand-draws something close to this today in 141 lines. |
-| **polar** | one series across 4–8 categories **whose clockwise order is meaningful** | **The ladder is a cycle** — loop feeds back into frame — and it has exactly eight positions. Work items per rung, clockwise, makes the cycle the point rather than a detail. No other type in the set treats circular order as load-bearing. |
+| **dp-security-matrix** | rows × roles, each cell a permission level, one cell markable as focal | **Who holds the key at each rung.** Four roles — producer, composer, conductor, players — against eight rungs. The producer holds frame, viability, scope and design plus evaluation at acceptance; the model holds handoff and loop. The focal cell is the rule that surprises people: *no human key per piece at loop.* This is the division of labour, drawn. |
+| **high-level** | phase chevron banner, boundary, and an optional vertical strip for cross-cutting concerns | **The funnel end to end.** frame → viability → scope → design → handoff → loop → acceptance as the chevron; the gates and CI that ride *every* rung as the cross-cutting strip. `gen_kerd_map.py` hand-draws something close to this today in 141 lines. |
+| **polar** | one series across 4–8 categories **whose clockwise order is meaningful** | **The ladder is a cycle** — acceptance feeds back into frame — and it has exactly seven positions. Work items per rung, clockwise, makes the cycle the point rather than a detail. No other type in the set treats circular order as load-bearing. |
 | **dp-integration** | hub and spoke: what plugs in, what plugs out, over what wire | **Kerd as the hub and consuming repos as the spokes.** Its own framing question — *"what surfaces does this platform expose, and over what wire?"* — is the consuming-project question behind R-0036 and R-0038. |
 | **medallion** | tiers of the *same* thing at different quality levels, with who writes each and **how something is promoted between tiers** | **Marginal but real.** The register has draft and approved, live and graveyard, and a promotion beat between them. Weaker than the four above because our tiers are not quality levels of one dataset. Return condition: if the register ever grows explicit tiers. |
 

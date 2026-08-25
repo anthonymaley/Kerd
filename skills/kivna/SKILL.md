@@ -148,7 +148,7 @@ Read files from `kivna/input/`, extract what's relevant, write it into the proje
 
 ### `/kerd:kivna out` (Export — Kerd Interchange Format)
 
-Export project context in two formats: `.kif.toon` (token-efficient, for LLM handoff) and `.kif.json` (machine-parseable, for import). Both land in `kivna/output/`.
+Export project context in two formats: `.kif.toon` (token-efficient, for LLM session handoff) and `.kif.json` (machine-parseable, for import). Both land in `kivna/output/`.
 
 **Usage:**
 - `/kerd:kivna out` — default sections (meta, status, backlog, decisions)

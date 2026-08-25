@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Write the contract · Size and assign — stage flow. CONTRACT rung, complete.
+"""Write the contract · Size and assign — stage flow. HANDOFF rung, complete.
 
 Layout comes from kit.Flow, shared with every other stage, so a fix to step
 spacing or the legend lands on all of them rather than the one being edited.
 
-    python3 tools/diagram/gen_flow_contract.py
+    python3 tools/diagram/gen_flow_handoff.py
 """
 import json
 import os
@@ -16,7 +16,7 @@ from to_svg import (to_svg, overflow_report, collision_report,
                     text_overlap_report)
 
 f = Flow("Write the contract · Size and assign — stage flow",
-         "CONTRACT rung · interviewed 2026-08-03\n"
+         "HANDOFF rung · interviewed 2026-08-03\n"
          "the agreed design becomes a written work order a builder who was "
          "never in the room can build from.")
 
@@ -90,7 +90,7 @@ f.step("5", "APPROVAL", "Machine key ALONE — no human gate here",
 f.down()
 
 # ── 6 — handoff + escalation ─────────────────────────────────────────────
-f.step("6", "HANDOFF", "→ Execute a unit  (BUILD)",
+f.step("6", "HANDOFF", "→ Execute a unit  (LOOP)",
        "pieces flow to builders under the two-tier rule. the ESCALATION\n"
        "CONTRACT governs everything downstream: the human hears ONLY of a\n"
        "gap no agent role can answer that is a BLOCKER — the blocker-\n"

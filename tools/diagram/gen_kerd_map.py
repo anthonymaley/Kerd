@@ -52,7 +52,7 @@ cluster = [
 cluster2 = [
     ("HEALTH", X0, [
         ("tend", "converge repo structure\nto current conventions;\nnever commits", INK),
-        ("slainte", "release close-out pass: triggered\nat version bumps + goal records,\nfixes doc drift, restraint reported", INK),
+        ("slainte", "release close-out pass: triggered\nat version bumps + acceptance records,\nfixes doc drift, restraint reported", INK),
     ]),
     ("QUALIFY & DISCOVER", X0 + (BW + GAP) * 3 + 40, [
         ("interrogate", "UNDER REVIEW - the ledger\nSTANDARD is load-bearing;\ndoes the skill earn its place?", RED),
@@ -83,16 +83,15 @@ c.txt("cut and gone (dead solutions stay dead): capturerequirements v0.73 · "
 lad_y = 534
 c.txt("THE LADDER — every work item climbs it; gates route by what exists on disk",
       X0, lad_y - 26, 16)
-RUNGS = ["frame", "viability", "slice", "design", "contract", "build",
-         "goal", "loop"]
+RUNGS = ["frame", "viability", "scope", "design", "handoff", "loop", "acceptance"]
 LW, LH, LG = 118, 40, 24
 for i, r in enumerate(RUNGS):
     x = X0 + i * (LW + LG)
     c.box(r, x, lad_y, LW, LH, size=14)
     if i:
         c.arrow([[x - LG + 2, lad_y + LH / 2], [x - 2, lad_y + LH / 2]])
-c.txt("human keys (GREEN): frame value + slice · design GO on the canvas · "
-      "the expert-user pass at goal — everything else is machine-checked",
+c.txt("human keys (GREEN): frame value + scope · design GO on the canvas · "
+      "the expert-user pass at acceptance — everything else is machine-checked",
       X0, lad_y + LH + 12, 12, GREEN)
 c.txt("records: docs/product/<slug>.md (living) · docs/gates/<date>-<slug>-<rung>.md "
       "(immutable) · docs/plans/<date>-<slug>-spec.md (the contract)",
@@ -116,7 +115,7 @@ for i, (name, job) in enumerate(mach):
     c.txt(job, x + 10, mach_y + 32, 12)
 
 c.txt("the skills advise and structure; the machinery is what can say no. "
-      "rigor level (AU6) is the newest refusal: every Release slice declares "
+      "rigor level (AU6) is the newest refusal: every Scope declares "
       "spike / mvp / production-v1.",
       X0, mach_y + MH + 22, 12)
 

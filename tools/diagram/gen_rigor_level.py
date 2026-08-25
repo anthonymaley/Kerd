@@ -38,8 +38,8 @@ f.step("1", "NOW", "Rigor today: never asked",
 f.down()
 
 # ── 2 — the change ───────────────────────────────────────────────────────
-f.step("2", "CHANGE", "The Release slice declares its level, one line",
-       "docs/product/<slug>.md ## Release slice gains one line:\n"
+f.step("2", "CHANGE", "The Scope declares its level, one line",
+       "docs/product/<slug>.md ## Scope gains one line:\n"
        "Rigor level: mvp\n"
        "legal set: spike · mvp · production-v1 - RIGOR_LEVELS tuple in\n"
        "tools/gates/kit.py, canonical write-down in tools/gates/README.md\n"
@@ -51,8 +51,8 @@ f.down()
 
 # ── 3 — decision: where it lives ─────────────────────────────────────────
 f.step("3", "DECISION", "Where the declaration lives — marks, not a matrix",
-       "line in ## Release slice: O - matches the keyed frame ('declared\n"
-       "in the Release slice definition'); nothing invented.\n"
+       "line in ## Scope: O - matches the keyed frame ('declared\n"
+       "in the Scope definition'); nothing invented.\n"
        "front-matter key: X - a third key breaks the route/stage\n"
        "both-or-nothing pair.\n"
        "new ## Rigor section: X - empty until slice 2; RESERVED as the\n"
@@ -80,16 +80,16 @@ f.down()
 
 # ── 5 — mechanism ────────────────────────────────────────────────────────
 f.step("5", "MECHANISM", "AU6 + the design-rung row — refusals verbatim",
-       "for every docs/product/*.md: a Rigor level line OUTSIDE Release\n"
-       "slice -> named. section present -> exactly one legal line inside.\n"
-       "no Release slice section -> vacuous (framed docs, spikes).\n"
+       "for every docs/product/*.md: a Rigor level line OUTSIDE\n"
+       "Scope -> named. section present -> exactly one legal line inside.\n"
+       "no Scope section -> vacuous (framed docs, spikes).\n"
        "design rung gains the matching need row - same kit function,\n"
        "two call sites, one parser.")
 _y = f.y
-f.box("CLEAN\nevery Release slice declares\na legal level\naudit stays: audit: clean",
+f.box("CLEAN\nevery Scope declares\na legal level\naudit stays: audit: clean",
       SP_X, _y, 250, 96, stroke=INK, bg=GREY, size=13)
 f.box("PROBLEMS, named verbatim:\n"
-      "Release slice missing 'Rigor level: <...>' line\n"
+      "Scope missing 'Rigor level: <...>' line\n"
       "illegal rigor level '<v>' (legal: spike, mvp, production-v1)\n"
       "duplicate Rigor level lines (want exactly one)",
       SP_X + 270, _y, 460, 96, stroke=RED, size=13)
@@ -106,7 +106,7 @@ f.step("6", "PROOF", "Fixtures + dogfood + the measurements answered",
        "· misplaced -> named · no section -> vacuous.\n"
        "at ship: both-ways demo on the real tree (strip a retrofit line\n"
        "-> exit 1 naming it; restore -> clean). dogfood: this item's OWN\n"
-       "Release slice declares its level in the same commit.",
+       "Scope declares its level in the same commit.",
        artifact="stage-1 measurements,\nANSWERED:\n\n"
                 "undeclared level at a tip\n-> AU6 red within one CI\nrun, fix named.\n\n"
                 "three done journeys'\nboard render -> unchanged:\n"
@@ -120,7 +120,7 @@ f.step("7", "SCOPE", "Out of scope, named (composer key on the frame)",
        "migrates from kit constant to catalog when it exists.\n"
        "MEASURED CLASSES as CI checks: slice 3.\n"
        "route: spike FOLD into the rigor axis: unframed, untouched -\n"
-       "a spike doc without a Release slice passes AU6 vacuously.\n"
+       "a spike doc without a Scope passes AU6 vacuously.\n"
        "LEVEL SEMANTICS: slice 1 refuses silence and illegality,\n"
        "never judges fit.",
        artifact="", colour=GREEN, dashed=True)

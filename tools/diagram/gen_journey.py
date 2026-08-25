@@ -41,23 +41,22 @@ ROOT = Path(__file__).resolve().parents[2]
 # ---------------------------------------------------------------------------
 
 STAGES = [
-    ("frame", "Idea", "the problem named, and what winning would be", [
+    ("frame",      "Idea",             "the problem named, and what winning would be", [
         ("The idea, drawn current-to-ideal", "journey-{slug}-current.svg", "drawn, not described"),
     ]),
-    ("viability", "Validated", "the risks sized, the killer one answered", [
+    ("viability",  "Validated",        "the risks sized, the killer one answered", [
         ("What we considered", "matrix", "options compared against declared criteria"),
     ]),
-    ("slice", "Scoped", "the smallest slice worth shipping", []),
-    ("design", "Designed", "the solution drawn and agreed", [
+    ("scope",      "Scoped",           "what is in, what is out, and how rigorously it is measured", []),
+    ("design",     "Designed",         "the solution drawn and agreed", [
         ("The design", "docs/design/{slug}.md", "how it works, in detail"),
         ("Architecture — how the parts connect", "docs/design/{slug}-architecture.svg",
          "high-level blocks and lines"),
         ("The proposal, drawn", "journey-{slug}-proposal.svg", "current versus new"),
     ]),
-    ("contract", "Spec'd", "each piece written down precisely enough to hand over", []),
-    ("build", "Built", "each piece made, and measured against its own spec", []),
-    ("goal", "Proven", "the whole thing checked against what we said winning was", []),
-    ("loop", "Live", "in use, and the machine can refuse a regression", []),
+    ("handoff",    "Handed off",       "each piece written down precisely enough to hand over", []),
+    ("loop",       "Building",         "built, verified and adjusted until nothing is left unchecked", []),
+    ("acceptance", "Ready to release", "the producer's key: accepted as ready for release, or back round the loop", []),
 ]
 
 # The requirement vocabulary the gates emit, in plain English. The set is
@@ -70,7 +69,13 @@ PLAIN = [
     (r'^docs/product/\S+ — section "Risk ledger" \((\d+) rows[^)]*\)$',
      lambda m: f"Every risk sized and evidenced — {m.group(1)} of them"),
     (r'^docs/product/\S+ — section "Risk ledger"$', "Every risk sized and evidenced"),
-    (r'^docs/product/\S+ — section "Release slice"$', "The smallest valuable slice named"),
+    (r'^docs/product/\S+ — section "Risk ledger" naming at least one killer risk.*$',
+     "Every risk sized and evidenced — a killer risk named"),
+    (r'^docs/product/\S+ — Risk ledger names no killer risk.*$',
+     "No killer risk named yet"),
+    (r'^docs/product/\S+ — section "Scope"$', "What's in and what's out, named"),
+    (r'^docs/product/\S+ — Scope declares a legal rigor level.*$',
+     "How rigorously it's measured, declared"),
     (r'^docs/design/\S+ — file exists$', "The solution designed"),
     (r'^docs/gates/\S+ — design GO record.*$', "Design agreed, and signed off on the record"),
     (r'^docs/plans/\S+ — contract spec$', "The build contract written"),
@@ -82,8 +87,10 @@ PLAIN = [
     (r'^docs/plans/\S+ — "(.+?)" missing a "\*\*Verify:\*\*" line$',
      lambda m: f"No check written for: {m.group(1)}"),
     (r'^docs/plans/\S+ — zero unchecked boxes.*$', "Every piece built and checked off"),
-    (r'^docs/gates/\S+ — goal record with section "Done condition".*$',
-     "Proven against its done condition, on the record"),
+    (r'^docs/gates/\S+ — acceptance record with section "Release condition"$',
+     "Accepted as ready for release, on the record"),
+    (r'^docs/gates/\S+ — acceptance record \((.+)\)$',
+     lambda m: f"Accepted as ready for release, on the record ({m.group(1)})"),
     (r'^\.github/workflows/gate\.yml — file exists$', "The machine can refuse bad work"),
 ]
 
@@ -385,6 +392,7 @@ def render(slug):
     when = run("git", "log", "-1", "--format=%cd", "--date=format:%-d %B %Y, %H:%M")
     by_rung = {r["rung"]: r for r in b["rungs"]}
     labels = {s: l for s, l, _, _ in STAGES}
+    labels["ready-to-release"] = "Ready to release"  # the derived terminal — not a rung key
     reached = [s for s, _, _, _ in STAGES if by_rung.get(s, {}).get("state") == "built"]
     now = next((s for s, _, _, _ in STAGES if by_rung.get(s, {}).get("state") == "in-flight"), None)
 
@@ -500,7 +508,7 @@ def render(slug):
                 H.append(f'<div class="openslot">· {E(name)} — {E(note)} '
                          f'<span class="nt">not there</span></div>')
 
-        if s == "build" and pieces:
+        if s == "loop" and pieces:
             n = sum(1 for x in pieces if x["done"])
             H.append(f'<div class="made"><h4>The pieces — {n} of {len(pieces)}, each '
                      f'measured against its own spec</h4><ul class="pieces">')

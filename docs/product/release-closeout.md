@@ -1,6 +1,6 @@
 ---
 route: new
-stage: done
+stage: ready-to-release
 ---
 
 # Release-closeout — every release checks its own story, and fixes it
@@ -56,7 +56,7 @@ declared-surfaces mechanism — slice 2, not tonight.
 | Prompt-layer trigger silently skipped (the conductor text isn't honored some session) | no | one release ships unchecked — today's status quo, not a regression | medium | the invoke-is-literal precedent held on first run (v0.84.0); prompt-layer instructions in this repo are honored but unenforced | accepted | | a release demonstrably ships with the pass skipped: graduate the cheapest subset to a CI rule (e.g. version-bump-without-What's-New refusal) |
 | Release moment misdetected (version bump absent from a release-shaped change, or present in a non-release edit) | no | a pass fires needlessly or misses once | low — the three-field bump is the release definition here (R1) | CLAUDE.md release checklist + gate release rules define release = version bump | countermeasure - permanent | release detection is the version-field diff, same definition CI uses — one release definition; the goal-record clause (goal-rung amendment, Tony's key) adds a completion firing moment, not a second release heuristic | |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

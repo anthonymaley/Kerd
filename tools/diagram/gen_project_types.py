@@ -32,7 +32,7 @@ f.step("1", "NOW", "Three declarations, and 'spike' is in all three",
        "route         = new | problem | spike\n"
        "                front matter, kit.py:28, gate-checked per rung\n"
        "Rigor level   = spike | mvp | production-v1\n"
-       "                ## Release slice, kit.py:49, AU6-checked\n"
+       "                ## Scope, kit.py:49, AU6-checked\n"
        "Project Type  = Ideation | Spike | MVP | Pilot | Full Release |\n"
        "                Maintenance | Security Review | Experiment |\n"
        "                Hotfix | Migration | Platform | Compliance |\n"
@@ -84,14 +84,14 @@ f.down()
 f.step("4", "COLLISION", "Nine gates against eight rungs — they do not align",
        "G0 intake qualified          ~ frame\n"
        "G1 disposition declared        - NO RUNG\n"
-       "G2 spec approved             ~ contract\n"
+       "G2 spec approved             ~ handoff\n"
        "G3 design approved           = design\n"
        "G4 build complete            = build\n"
        "G5 verification passed       ~ goal\n"
        "G6 security / privacy          - NO RUNG\n"
        "G7 launch readiness            - NO RUNG\n"
        "G8 post-launch evidence      = loop  (the stage left EMPTY)\n"
-       "                               - viability and slice have NO GATE",
+       "                               - viability and scope have NO GATE",
        artifact="G8 is the clean fit. loop\n/ Live was left empty in\n"
                 "funnel-steps.md because\nno steps could be found.\n"
                 "category POST gave it\nvocabulary; G8 gives it\na gate.",

@@ -1,6 +1,6 @@
 ---
 route: new
-stage: sliced
+stage: scoped
 ---
 
 # Model + effort advisory — conductor manages both, in both directions
@@ -39,7 +39,7 @@ detection the harness does not offer.
 | The advisory beat becomes a nag — every session opens with a model interrogation | no | friction at orient; users skip conductor | medium | the existing advisory already carries a skip rule ("skip the gate only when the work is trivially small") | countermeasure - permanent | The gate is sized to the task exactly as today: trivial work skips with a stated reason; the effort question rides the existing confirmation beat as one extra word, never a separate exchange | |
 | Advising down mid-flow loses session context on the switch | no | none — `/model` preserves the conversation | certain it does not | this session switched Opus → Fable mid-conversation with full context carried; the risk is empty on the evidence | accepted | | Fires if the harness changes `/model` semantics |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

@@ -31,8 +31,30 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "reqview"))
 from fingerprint import view_fingerprint
 
-RUNGS = ["frame", "viability", "slice", "design", "contract", "build", "goal", "loop"]
-STAGES = ["framed", "viable", "sliced", "designed", "contracted", "building", "done"]
+RUNGS  = ["frame", "viability", "scope", "design", "handoff", "loop", "acceptance"]
+STAGES = ["framed", "viable", "scoped", "designed", "handed-off", "looping", "ready-to-release"]
+
+# Retired names — READ-ONLY aliases, forever. The parser's legal set is the
+# union of live names and retired aliases; the WRITER only ever emits live
+# names. An alias that is still written is a synonym, which is the defect
+# this item exists to remove. No file on disk is ever renamed or rewritten.
+STAGE_ALIASES = {
+    "sliced": "scoped",
+    "contracted": "handed-off",
+    "building": "looping",
+    "done": "ready-to-release",
+}
+
+
+def legal_stage(v):
+    return v in STAGES or v in STAGE_ALIASES
+
+
+def stage_index(v):
+    """Position on the live ladder; a retired value maps to its live name."""
+    return STAGES.index(STAGE_ALIASES.get(v, v))
+
+
 ROUTES = ["new", "problem", "spike"]
 LEDGER_COLUMNS = [
     "Risk", "Killer?", "Impact", "Likelihood", "Evidence",
@@ -51,8 +73,8 @@ LEGAL_STATES = {
     "fatal",
 }
 
-# The legal rigor levels (AU6, design rung). A '## Release slice' section
-# declares how rigorously the slice is measured — one 'Rigor level:' line;
+# The legal rigor levels (AU6, scope rung). A '## Scope' section
+# declares how rigorously the release is measured — one 'Rigor level:' line;
 # the legal set lives here and only here.
 RIGOR_LEVELS = ["spike", "mvp", "production-v1"]
 
@@ -90,7 +112,7 @@ REQ_LINK_RE = re.compile(r"^- ([a-z-]+) → ([A-Z]{2,4}-\d{3}) \(sha256:([0-9a-f
 
 GATE_RECORD_RE = re.compile(
     r'^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-'
-    r'(frame|viability|slice|design|contract|build|goal|loop)\.md$'
+    r'(frame|viability|slice|scope|design|contract|handoff|build|goal|loop|acceptance)\.md$'
 )
 DATED_FILENAME_RE = re.compile(r'^\d{4}-\d{2}-\d{2}-')
 FRONT_MATTER_KV_RE = re.compile(r'^([A-Za-z0-9_.-]+):\s*(.*)$')
@@ -107,7 +129,7 @@ BOXED_LINE_RE = re.compile(r'^- \[[ x]\] ')
 UNCHECKED_LINE_RE = re.compile(r'^- \[ \] ')
 SEPARATOR_ROW_RE = re.compile(r'^[\s|:-]+$')
 RIGOR_LINE_RE = re.compile(r'^Rigor level:(.*)$')
-RIGOR_SECTION_HEADING_RE = re.compile(r'^## Release slice[ \t]*$')
+RIGOR_SECTION_HEADING_RE = re.compile(r'^## Scope[ \t]*$')
 
 
 # ── front matter (A1) ───────────────────────────────────────────────────────
@@ -265,15 +287,15 @@ def _fence_mask(lines):
     return mask
 
 
-# ── rigor level (AU6, design rung) ──────────────────────────────────────────
+# ── rigor level (AU6, scope rung) ───────────────────────────────────────────
 
 def rigor_problems(text):
     """Judge one product doc's 'Rigor level:' declaration. Single-parser
-    rule: AU6 and the design rung both call THIS function — the law is
+    rule: AU6 and the scope rung both call THIS function — the law is
     written once. The law: exactly one legal 'Rigor level: <value>' line
-    INSIDE the '## Release slice' section; a 'Rigor level:' line anywhere
-    else in the doc is a problem; a doc with no '## Release slice' section
-    passes vacuously (the section's absence is already the design rung's
+    INSIDE the '## Scope' section; a 'Rigor level:' line anywhere
+    else in the doc is a problem; a doc with no '## Scope' section
+    passes vacuously (the section's absence is already the scope rung's
     own refusal — this rule does not double-refuse it). Lines inside
     fenced code blocks are invisible — a quoted example is content, not a
     declaration. Returns problem strings WITHOUT the
@@ -306,11 +328,11 @@ def rigor_problems(text):
 
     problems = []
     if outside_count:
-        problems.append("Rigor level line outside Release slice")
+        problems.append("Rigor level line outside Scope")
     if section_seen:
         if not inside_values:
             problems.append(
-                "Release slice missing 'Rigor level: <spike|mvp|production-v1>' line"
+                "Scope missing 'Rigor level: <spike|mvp|production-v1>' line"
             )
         elif len(inside_values) > 1:
             problems.append("duplicate Rigor level lines (want exactly one)")
@@ -404,7 +426,7 @@ def parse_ledger(section_text):
     return rows, problems
 
 
-# ── the contract spec's steps (A3, build row) ───────────────────────────────
+# ── the contract spec's steps (A3, loop row) ────────────────────────────────
 
 def _steps_missing_verify(spec_text):
     """Names of every '### Step ' heading not followed, before the next
@@ -613,9 +635,13 @@ def check_rung(root, slug, rung):
             need.append(f"{rel_product} — file exists")
             need.append(f"{rel_product} — front matter route + stage (legal values)")
             need.append(f'{rel_product} — section "Value"')
+            need.append(
+                f'{rel_product} — section "Risk ledger" naming at least one killer risk '
+                "(Killer? = yes)"
+            )
         else:
             have.append(f"{rel_product} — file exists")
-            if fm and fm.get("route") in ROUTES and fm.get("stage") in STAGES:
+            if fm and fm.get("route") in ROUTES and legal_stage(fm.get("stage")):
                 have.append(f"{rel_product} — front matter route={fm['route']} stage={fm['stage']}")
             else:
                 need.append(f"{rel_product} — front matter route + stage (legal values)")
@@ -624,9 +650,34 @@ def check_rung(root, slug, rung):
             else:
                 need.append(f'{rel_product} — section "Value"')
 
-    if idx >= RUNGS.index("slice"):
+            # D2 — the killer-risk floor: presence only, no qualification.
+            # Rows still parse out of parse_ledger alongside its problems;
+            # the problems are ignored at this gate (full qualification is
+            # the scope rung's business).
+            ledger_body = find_section(product_text, "Risk ledger")
+            if not ledger_body:
+                need.append(
+                    f'{rel_product} — section "Risk ledger" naming at least one killer risk '
+                    "(Killer? = yes)"
+                )
+            else:
+                k_rows, _ = parse_ledger(ledger_body)
+                killers = [r for r in k_rows if r["Killer?"].strip().lower() == "yes"]
+                if killers:
+                    have.append(
+                        f"{rel_product} — Risk ledger names {len(killers)} killer risk(s) "
+                        "(Killer? = yes)"
+                    )
+                else:
+                    need.append(
+                        f"{rel_product} — Risk ledger names no killer risk "
+                        "(no row with Killer? = yes)"
+                    )
+
+    if idx >= RUNGS.index("scope"):
         if not product_exists:
             need.append(f'{rel_product} — section "Risk ledger"')
+            need.append(f'{rel_product} — section "Scope"')
         else:
             ledger_body = find_section(product_text, "Risk ledger")
             if ledger_body is None:
@@ -641,28 +692,30 @@ def check_rung(root, slug, rung):
                     for p in problems:
                         need.append(f"{rel_product} — {p}")
 
-    if idx >= RUNGS.index("design"):
-        if not product_exists:
-            need.append(f'{rel_product} — section "Release slice"')
-        else:
-            if find_section(product_text, "Release slice"):
-                have.append(f'{rel_product} — section "Release slice"')
+            if find_section(product_text, "Scope"):
+                have.append(f'{rel_product} — section "Scope"')
             else:
-                need.append(f'{rel_product} — section "Release slice"')
+                need.append(f'{rel_product} — section "Scope"')
+
             if rigor_problems(product_text):
                 need.append(
-                    f"{rel_product} — Release slice declares a legal rigor level "
+                    f"{rel_product} — Scope declares a legal rigor level "
                     "(Rigor level: spike|mvp|production-v1)"
                 )
-            cs = parse_concerns(abs_product)
-            if cs is not None:
-                entries, problems = cs
-                for p in problems:
-                    need.append(f"{rel_product} — {p}")
-                for r in view_rows(root, entries):
-                    (have if r["code"] in ("ok", "na") else need).append(f"{rel_product} — {r['text']}")
 
-    if idx >= RUNGS.index("contract"):
+    if idx >= RUNGS.index("design"):
+        # The design gate keeps ONLY the concerns/views block — a work item
+        # declaring no concerns passes design vacuously (parse_concerns
+        # returns None when the product doc is absent or declares none).
+        cs = parse_concerns(abs_product)
+        if cs is not None:
+            entries, problems = cs
+            for p in problems:
+                need.append(f"{rel_product} — {p}")
+            for r in view_rows(root, entries):
+                (have if r["code"] in ("ok", "na") else need).append(f"{rel_product} — {r['text']}")
+
+    if idx >= RUNGS.index("handoff"):
         rel_design = f"docs/design/{slug}.md"
         if os.path.isfile(os.path.join(root, rel_design)):
             have.append(f"{rel_design} — file exists")
@@ -678,7 +731,7 @@ def check_rung(root, slug, rung):
         else:
             need.append(f"docs/gates/*-{slug}-design.md — design GO record")
 
-    if idx >= RUNGS.index("build"):
+    if idx >= RUNGS.index("loop"):
         spec_pattern = os.path.join(root, "docs", "plans", f"*-{slug}-spec.md")
         spec_matches = sorted(glob.glob(spec_pattern))
         if not spec_matches:
@@ -707,7 +760,7 @@ def check_rung(root, slug, rung):
             else:
                 have.append(f"{rel_spec} — every Step carries **Verify:**")
 
-    if idx >= RUNGS.index("goal"):
+    if idx >= RUNGS.index("acceptance"):
         spec_pattern = os.path.join(root, "docs", "plans", f"*-{slug}-spec.md")
         spec_matches = sorted(glob.glob(spec_pattern))
         if not spec_matches:
@@ -724,39 +777,62 @@ def check_rung(root, slug, rung):
             else:
                 have.append(f"{rel_spec} — zero unchecked boxes in Pieces")
 
-    if idx >= RUNGS.index("loop"):
-        goal_pattern = os.path.join(root, "docs", "gates", f"*-{slug}-goal.md")
-        goal_matches = sorted(glob.glob(goal_pattern))
-        goal_hit = None
-        for gm in goal_matches:
-            with open(gm, encoding="utf-8") as f:
-                t = f.read()
-            if find_section(t, "Done condition"):
-                goal_hit = gm
-                break
-        if goal_hit:
-            have.append(
-                f'docs/gates/*-{slug}-goal.md — goal record with section "Done condition" ({os.path.basename(goal_hit)})'
-            )
-        else:
-            need.append(f'docs/gates/*-{slug}-goal.md — goal record with section "Done condition"')
-
-        rel_workflow = ".github/workflows/gate.yml"
-        if os.path.isfile(os.path.join(root, rel_workflow)):
-            have.append(f"{rel_workflow} — file exists")
-        else:
-            need.append(f"{rel_workflow} — file exists")
-
     return {"slug": slug, "rung": rung, "have": have, "need": need, "bypass": False}
+
+
+def acceptance_record(root, slug):
+    """Basename of the first gate record proving producer acceptance, else
+    None. Search order: sorted docs/gates/*-<slug>-acceptance.md, then sorted
+    *-<slug>-goal.md (the read-only alias — 7 such records exist and are
+    never rewritten). A file qualifies when it carries a non-empty
+    'Release condition' OR 'Done condition' section (the section alias)."""
+    for pattern in (f"*-{slug}-acceptance.md", f"*-{slug}-goal.md"):
+        matches = sorted(glob.glob(os.path.join(root, "docs", "gates", pattern)))
+        for m in matches:
+            with open(m, encoding="utf-8") as f:
+                t = f.read()
+            if find_section(t, "Release condition") or find_section(t, "Done condition"):
+                return os.path.basename(m)
+    return None
+
+
+def terminal_check(root, slug):
+    """{'have': [...], 'need': [...]} for the derived terminal —
+    ready-to-release. Evidence: an acceptance record (or its legacy goal
+    alias) carrying a real condition section, plus the CI workflow file
+    (text unchanged from the old loop block)."""
+    have = []
+    need = []
+
+    basename = acceptance_record(root, slug)
+    if basename:
+        have.append(f"docs/gates/*-{slug}-acceptance.md — acceptance record ({basename})")
+    else:
+        need.append(
+            f'docs/gates/*-{slug}-acceptance.md — acceptance record with section '
+            '"Release condition"'
+        )
+
+    rel_workflow = ".github/workflows/gate.yml"
+    if os.path.isfile(os.path.join(root, rel_workflow)):
+        have.append(f"{rel_workflow} — file exists")
+    else:
+        need.append(f"{rel_workflow} — file exists")
+
+    return {"have": have, "need": need}
 
 
 # ── routing (A5) ─────────────────────────────────────────────────────────
 
 def route(root, slug):
-    """enters_at = the DEEPEST rung whose (cumulative) inputs all exist.
-    'frame' requires nothing, so this always lands somewhere — the router
-    never refuses. A spike short-circuits: only 'frame' is evaluated, since
-    no rung beyond the bypass check is meaningful for it (A4)."""
+    """enters_at = the DEEPEST rung whose (cumulative) inputs all exist —
+    plus the derived 'ready-to-release' terminal, checked only once every
+    rung's own inputs exist (D4): the loop's edges are entered (loop) and
+    exited (acceptance) as ordinary rungs, but the terminal itself is not a
+    rung and never appears in `rungs`.  'frame' requires nothing, so this
+    always lands somewhere — the router never refuses. A spike
+    short-circuits: only 'frame' is evaluated, since no rung beyond the
+    bypass check is meaningful for it (A4)."""
     rungs_out = []
     deepest_ok = "frame"
 
@@ -777,17 +853,21 @@ def route(root, slug):
 
     idx = RUNGS.index(deepest_ok)
     if idx + 1 < len(RUNGS):
+        enters_at = deepest_ok
         next_rung = RUNGS[idx + 1]
         missing_for_next = next(
             (r["need"] for r in rungs_out if r["rung"] == next_rung), []
         )
-    else:
-        next_rung = None
-        missing_for_next = []
+    else:                                   # every rung's inputs exist
+        t = terminal_check(root, slug)
+        if not t["need"]:
+            enters_at, next_rung, missing_for_next = "ready-to-release", None, []
+        else:
+            enters_at, next_rung, missing_for_next = "acceptance", "ready-to-release", t["need"]
 
     return {
         "slug": slug,
-        "enters_at": deepest_ok,
+        "enters_at": enters_at,
         "bypass": False,
         "rungs": rungs_out,
         "missing_for_next": missing_for_next,
@@ -821,6 +901,7 @@ def _audit_au2(root):
         return problems
     for path in sorted(glob.glob(os.path.join(d, "*.md"))):
         fname = os.path.basename(path)
+        slug = fname[:-3]
         rel = f"docs/product/{fname}"
         if DATED_FILENAME_RE.match(fname):
             problems.append(f"{rel} — dated filename not allowed in docs/product/ (undated)")
@@ -830,7 +911,7 @@ def _audit_au2(root):
             problems.append(f"{rel} — front matter required and missing or malformed")
             continue
         route_v, stage_v = fm.get("route"), fm.get("stage")
-        if route_v not in ROUTES or stage_v not in STAGES:
+        if route_v not in ROUTES or not legal_stage(stage_v):
             problems.append(
                 f"{rel} — front matter route/stage missing or illegal (route={route_v!r} stage={stage_v!r})"
             )
@@ -838,13 +919,18 @@ def _audit_au2(root):
 
         with open(path, encoding="utf-8") as f:
             text = f.read()
-        stage_idx = STAGES.index(stage_v)
+        stage_idx = stage_index(stage_v)
         if stage_idx >= STAGES.index("framed") and not find_section(text, "Value"):
             problems.append(f'{rel} — stage {stage_v} ahead of its artifacts: missing section "Value"')
         if stage_idx >= STAGES.index("viable") and not find_section(text, "Risk ledger"):
             problems.append(f'{rel} — stage {stage_v} ahead of its artifacts: missing section "Risk ledger"')
-        if stage_idx >= STAGES.index("sliced") and not find_section(text, "Release slice"):
-            problems.append(f'{rel} — stage {stage_v} ahead of its artifacts: missing section "Release slice"')
+        if stage_idx >= STAGES.index("scoped") and not find_section(text, "Scope"):
+            problems.append(f'{rel} — stage {stage_v} ahead of its artifacts: missing section "Scope"')
+        if stage_idx >= STAGES.index("ready-to-release") and acceptance_record(root, slug) is None:
+            problems.append(
+                f"{rel} — stage {stage_v} ahead of its artifacts: no acceptance record "
+                f"(docs/gates/*-{slug}-acceptance.md, or a legacy *-{slug}-goal.md)"
+            )
     return problems
 
 
@@ -874,7 +960,7 @@ def _audit_au4(root):
             continue
         if "route" in fm or "stage" in fm:
             route_v, stage_v = fm.get("route"), fm.get("stage")
-            if route_v not in ROUTES or stage_v not in STAGES:
+            if route_v not in ROUTES or not legal_stage(stage_v):
                 problems.append(
                     f"{rel} — front matter route/stage incomplete or illegal (route={route_v!r} stage={stage_v!r})"
                 )
@@ -918,8 +1004,8 @@ def _audit_au5(root):
 
 def _audit_au6(root):
     """docs/product/*.md: the 'Rigor level:' law — see rigor_problems
-    (single parser; the design rung is the second call site). Absent
-    '## Release slice' section = vacuous pass."""
+    (single parser; the scope rung is the second call site). Absent
+    '## Scope' section = vacuous pass."""
     problems = []
     d = os.path.join(root, "docs", "product")
     if not os.path.isdir(d):
@@ -1480,12 +1566,31 @@ def _selftest_body():
         assert any("front matter" in n and "route" in n and "stage" in n for n in cr["need"]), \
             f"T3: expected a front-matter (route, stage) need item: {cr['need']}"
 
-        # T4 — front matter (new/framed) + Value section.
+        # T4 — front matter (new/framed) + Value section: the killer-risk
+        # floor (D2) refuses viability until a ledger row names Killer? = yes.
         _sw(product, "---\nroute: new\nstage: framed\n---\n\n## Value\n\nSaves 10 hours/week.\n")
+        r = route(root, slug)
+        assert r["enters_at"] == "frame", f"T4: expected frame, got {r['enters_at']!r}"
+        cr = check_rung(root, slug, "viability")
+        assert (
+            f'docs/product/{slug}.md — section "Risk ledger" naming at least one killer risk '
+            "(Killer? = yes)"
+        ) in cr["need"], f"T4: expected the killer-risk need row: {cr['need']}"
+
+        ledger_named_only = (
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nSaves 10 hours/week.\n\n"
+            "## Risk ledger\n\n"
+            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|\n"
+            "| No adoption | yes | high | medium |  | accepted unknown |  |  |\n"
+        )
+        _sw(product, ledger_named_only)
         r = route(root, slug)
         assert r["enters_at"] == "viability", f"T4: expected viability, got {r['enters_at']!r}"
 
-        # T5 — + ledger, row 2 Evidence empty.
+        # T5 — + ledger, row 2 Evidence empty (row 1 already carries
+        # Killer? = yes, satisfying the T4 viability floor).
         ledger_bad_evidence = (
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nSaves 10 hours/week.\n\n"
@@ -1496,11 +1601,11 @@ def _selftest_body():
             "| Perf risk | no | medium | low |  | accepted unknown |  | monitor |\n"
         )
         _sw(product, ledger_bad_evidence)
-        cr = check_rung(root, slug, "slice")
+        cr = check_rung(root, slug, "scope")
         assert any("row 2" in n for n in cr["need"]), f"T5: expected 'row 2' in need: {cr['need']}"
         assert any("Evidence" in n for n in cr["need"]), f"T5: expected 'Evidence' in need: {cr['need']}"
 
-        # T6 — ledger with a FATAL row.
+        # T6 — ledger with a FATAL row (row 1 still carries Killer? = yes).
         ledger_fatal = (
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nSaves 10 hours/week.\n\n"
@@ -1510,11 +1615,12 @@ def _selftest_body():
             "| No market | yes | high | high | 0 signups in beta | FATAL |  |  |\n"
         )
         _sw(product, ledger_fatal)
-        cr = check_rung(root, slug, "slice")
+        cr = check_rung(root, slug, "scope")
         assert any("FATAL" in n for n in cr["need"]), f"T6: expected 'FATAL' in need: {cr['need']}"
         assert any("No market" in n for n in cr["need"]), f"T6: expected risk name in need: {cr['need']}"
 
-        # T7 — qualified ledger (2 rows, no FATAL).
+        # T7 — qualified ledger (2 rows, no FATAL): scope now also wants
+        # '## Scope', so route stalls at viability, not scope.
         ledger_good = (
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nSaves 10 hours/week.\n\n"
@@ -1526,10 +1632,11 @@ def _selftest_body():
         )
         _sw(product, ledger_good)
         r = route(root, slug)
-        assert r["enters_at"] == "slice", f"T7: expected slice, got {r['enters_at']!r}"
+        assert r["enters_at"] == "viability", f"T7: expected viability, got {r['enters_at']!r}"
 
-        # T8 — + Release slice -> design; then + design doc + design gate record -> contract.
-        _sw(product, ledger_good + "\n## Release slice\n\nRigor level: mvp\n\nShip the caching path first.\n")
+        # T8 — + Scope -> design (no concerns declared, so design passes
+        # vacuously); then + design doc + design GO record -> handoff.
+        _sw(product, ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n")
         r = route(root, slug)
         assert r["enters_at"] == "design", f"T8a: expected design, got {r['enters_at']!r}"
 
@@ -1539,10 +1646,11 @@ def _selftest_body():
             "---\nroute: new\nstage: designed\n---\n\n## GO\n\nDesign approved.\n",
         )
         r = route(root, slug)
-        assert r["enters_at"] == "contract", f"T8b: expected contract, got {r['enters_at']!r}"
+        assert r["enters_at"] == "handoff", f"T8b: expected handoff, got {r['enters_at']!r}"
 
-        # T9 — spec with Pieces (1 unchecked box) and a Step carrying Verify -> build;
-        # a variant spec whose Step lacks Verify -> check build refuses naming the step.
+        # T9 — spec with Pieces (1 unchecked box) and a Step carrying Verify
+        # -> loop; a variant spec whose Step lacks Verify -> check loop
+        # refuses naming the step.
         spec_good = (
             "# Alpha — build spec\n\n"
             "## Pieces\n\n"
@@ -1553,7 +1661,7 @@ def _selftest_body():
         )
         _sw(os.path.join(root, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_good)
         r = route(root, slug)
-        assert r["enters_at"] == "build", f"T9a: expected build, got {r['enters_at']!r}"
+        assert r["enters_at"] == "loop", f"T9a: expected loop, got {r['enters_at']!r}"
 
         with tempfile.TemporaryDirectory() as root_variant:
             spec_bad = (
@@ -1564,11 +1672,12 @@ def _selftest_body():
                 "**What:** do it, but no Verify line follows.\n"
             )
             _sw(os.path.join(root_variant, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_bad)
-            cr = check_rung(root_variant, slug, "build")
+            cr = check_rung(root_variant, slug, "loop")
             assert any("Step 1" in n for n in cr["need"]), \
                 f"T9b: expected the step named in need: {cr['need']}"
 
-        # T10 — boxes all checked -> goal; then + goal record + workflow -> loop.
+        # T10 — boxes all checked -> acceptance; then + acceptance record +
+        # workflow -> the derived ready-to-release terminal.
         spec_checked = (
             "# Alpha — build spec\n\n"
             "## Pieces\n\n"
@@ -1579,15 +1688,17 @@ def _selftest_body():
         )
         _sw(os.path.join(root, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_checked)
         r = route(root, slug)
-        assert r["enters_at"] == "goal", f"T10a: expected goal, got {r['enters_at']!r}"
+        assert r["enters_at"] == "acceptance", f"T10a: expected acceptance, got {r['enters_at']!r}"
 
         _sw(
-            os.path.join(root, "docs", "gates", "2026-01-03-alpha-goal.md"),
-            "---\nroute: new\nstage: done\n---\n\n## Done condition\n\nAll steps verified and merged.\n",
+            os.path.join(root, "docs", "gates", "2026-01-03-alpha-acceptance.md"),
+            "---\nroute: new\nstage: ready-to-release\n---\n\n"
+            "## Release condition\n\nAll steps verified and merged.\n",
         )
         _sw(os.path.join(root, ".github", "workflows", "gate.yml"), "name: entry-gate\n")
         r = route(root, slug)
-        assert r["enters_at"] == "loop", f"T10b: expected loop, got {r['enters_at']!r}"
+        assert r["enters_at"] == "ready-to-release", f"T10b: expected ready-to-release, got {r['enters_at']!r}"
+        assert r["next"] is None, f"T10b: expected next None, got {r['next']!r}"
 
     # T11 — the spike bypass, in its own tree.
     with tempfile.TemporaryDirectory() as root_spike:
@@ -1726,33 +1837,33 @@ def _selftest_body():
         problems = audit(root_g4)
         assert problems == [], f"T18: expected a vacuous pass, got {problems}"
 
-    # T19 — AU6: legal Rigor level line inside Release slice, audit clean.
+    # T19 — AU6: legal Rigor level line inside Scope, audit clean.
     with tempfile.TemporaryDirectory() as root_v1:
         _sw(
             os.path.join(root_v1, "docs", "product", "gamma.md"),
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nWorth it.\n\n"
-            "## Release slice\n\nRigor level: production-v1\n\nShip the smallest slice.\n",
+            "## Scope\n\nRigor level: production-v1\n\nShip the smallest slice.\n",
         )
         problems = audit(root_v1)
         assert problems == [], f"T19: expected a clean audit, got {problems}"
 
-    # T20 — AU6: Release slice without the line, named verbatim; the design
-    # rung refuses with its one need row (second call site, same parser).
+    # T20 — AU6: Scope without the line, named verbatim; the scope rung
+    # refuses with its one need row (second call site, same parser).
     with tempfile.TemporaryDirectory() as root_v2:
         _sw(
             os.path.join(root_v2, "docs", "product", "gamma.md"),
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nWorth it.\n\n"
-            "## Release slice\n\nShip the smallest slice.\n",
+            "## Scope\n\nShip the smallest slice.\n",
         )
         problems = audit(root_v2)
         assert problems == [
-            "docs/product/gamma.md — Release slice missing 'Rigor level: <spike|mvp|production-v1>' line"
+            "docs/product/gamma.md — Scope missing 'Rigor level: <spike|mvp|production-v1>' line"
         ], f"T20: expected the verbatim missing-line problem, got {problems}"
-        cr = check_rung(root_v2, "gamma", "design")
+        cr = check_rung(root_v2, "gamma", "scope")
         assert (
-            "docs/product/gamma.md — Release slice declares a legal rigor level "
+            "docs/product/gamma.md — Scope declares a legal rigor level "
             "(Rigor level: spike|mvp|production-v1)"
         ) in cr["need"], f"T20: expected the rigor need row: {cr['need']}"
 
@@ -1762,7 +1873,7 @@ def _selftest_body():
             os.path.join(root_v3, "docs", "product", "gamma.md"),
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nWorth it.\n\n"
-            "## Release slice\n\nRigor level: prod\n\nShip it.\n",
+            "## Scope\n\nRigor level: prod\n\nShip it.\n",
         )
         problems = audit(root_v3)
         assert problems == [
@@ -1775,7 +1886,7 @@ def _selftest_body():
             os.path.join(root_v4, "docs", "product", "gamma.md"),
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nWorth it.\n\n"
-            "## Release slice\n\nRigor level: mvp\nRigor level: spike\n\nShip it.\n",
+            "## Scope\n\nRigor level: mvp\nRigor level: spike\n\nShip it.\n",
         )
         problems = audit(root_v4)
         assert problems == [
@@ -1789,14 +1900,14 @@ def _selftest_body():
             os.path.join(root_v5, "docs", "product", "gamma.md"),
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nRigor level: mvp\n\nWorth it.\n\n"
-            "## Release slice\n\nRigor level: mvp\n\nShip it.\n",
+            "## Scope\n\nRigor level: mvp\n\nShip it.\n",
         )
         problems = audit(root_v5)
         assert problems == [
-            "docs/product/gamma.md — Rigor level line outside Release slice"
+            "docs/product/gamma.md — Rigor level line outside Scope"
         ], f"T23: expected the verbatim misplaced problem, got {problems}"
 
-    # T24 — AU6: no '## Release slice' section = vacuous pass (mirrors
+    # T24 — AU6: no '## Scope' section = vacuous pass (mirrors
     # T18's rule for AU5: the rule scopes to docs carrying the section).
     with tempfile.TemporaryDirectory() as root_v6:
         _sw(
@@ -1825,19 +1936,19 @@ def _selftest_body():
             "**Verify:** `true`\n"
         )
         _sw(os.path.join(root_f1, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_fenced)
-        cr = check_rung(root_f1, slug, "build")
+        cr = check_rung(root_f1, slug, "loop")
         assert not any("**Verify:**" in n for n in cr["need"]), \
             f"T25: fenced heading split the step: {cr['need']}"
 
-    # T26 — AU6: a fenced example 'Rigor level:' line inside the Release
-    # slice is content, not a second declaration (the fenced-block wart,
+    # T26 — AU6: a fenced example 'Rigor level:' line inside the Scope
+    # section is content, not a second declaration (the fenced-block wart,
     # closed by the same fence mask as T25).
     with tempfile.TemporaryDirectory() as root_v7:
         _sw(
             os.path.join(root_v7, "docs", "product", "gamma.md"),
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nWorth it.\n\n"
-            "## Release slice\n\nRigor level: mvp\n\n"
+            "## Scope\n\nRigor level: mvp\n\n"
             "```\nRigor level: spike\n```\n\nShip it.\n",
         )
         problems = audit(root_v7)
@@ -2039,7 +2150,7 @@ def _selftest_body():
             "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
             "|---|---|---|---|---|---|---|---|\n"
             "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
-            "\n## Release slice\n\nRigor level: mvp\n\nShip it.\n")
+            "\n## Scope\n\nRigor level: mvp\n\nShip it.\n")
     P = "docs/product/alpha.md — "
 
     # T33 — the reader window: grows to 120 lines for a real concerns list,
@@ -2268,15 +2379,98 @@ def _selftest_body():
         want = [row for row in T36_NEED_ROWS if not row.startswith((P + 'concern "d"', P + 'concern "e"'))]
         assert audit(root_c4) == want, f"T41: expected exactly the five AU9 problems, got {audit(root_c4)}"
 
+    # ── D1 — retired names as read-only aliases, forever ─────────────────
+
+    # T42 — alias filenames and stage aliases: retired rung suffixes and the
+    # retired 'done' stage value are legality passes system-wide, forever;
+    # an unrecognized suffix is still refused by name.
+    with tempfile.TemporaryDirectory() as root_a1:
+        fm = "---\nroute: new\nstage: done\n---\n\nbody\n"
+        for suffix in ("slice", "contract", "build", "goal", "acceptance"):
+            _sw(os.path.join(root_a1, "docs", "gates", f"2026-01-01-x-{suffix}.md"), fm)
+        assert audit(root_a1) == [], f"T42: expected a clean audit, got {audit(root_a1)}"
+
+    with tempfile.TemporaryDirectory() as root_a2:
+        _sw(
+            os.path.join(root_a2, "docs", "gates", "2026-01-01-x-bogus.md"),
+            "---\nroute: new\nstage: done\n---\n\nbody\n",
+        )
+        problems = audit(root_a2)
+        assert len(problems) == 1 and "gate-record pattern" in problems[0], \
+            f"T42: expected exactly one gate-record-pattern problem, got {problems}"
+
+    # T43 — the legacy terminal: a full tree reaching the loop rung, but
+    # carrying a legacy goal record (not an acceptance record) — route still
+    # derives ready-to-release, and the terminal have-line names the
+    # -goal.md basename (the read-only alias, never rewritten).
+    with tempfile.TemporaryDirectory() as root_t43:
+        product_t43 = os.path.join(root_t43, "docs", "product", f"{slug}.md")
+        _sw(product_t43, ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n")
+        _sw(os.path.join(root_t43, "docs", "design", f"{slug}.md"), "# Alpha design\n\nHow it works.\n")
+        _sw(
+            os.path.join(root_t43, "docs", "gates", "2026-01-01-alpha-design.md"),
+            "---\nroute: new\nstage: designed\n---\n\n## GO\n\nDesign approved.\n",
+        )
+        _sw(os.path.join(root_t43, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_checked)
+        _sw(
+            os.path.join(root_t43, "docs", "gates", "2026-01-03-alpha-goal.md"),
+            "---\nroute: new\nstage: done\n---\n\n## Done condition\n\nAll steps verified and merged.\n",
+        )
+        _sw(os.path.join(root_t43, ".github", "workflows", "gate.yml"), "name: entry-gate\n")
+
+        r = route(root_t43, slug)
+        assert r["enters_at"] == "ready-to-release", f"T43: expected ready-to-release, got {r['enters_at']!r}"
+        t = terminal_check(root_t43, slug)
+        assert any("2026-01-03-alpha-goal.md" in h for h in t["have"]), \
+            f"T43: expected the terminal have-line to name the goal.md basename, got {t['have']}"
+
+    # T44 — AU2's new tier: a stage claiming ready-to-release with no
+    # acceptance record (nor its legacy goal-record alias) is named; adding
+    # the legacy record clears it.
+    with tempfile.TemporaryDirectory() as root_t44:
+        _sw(
+            os.path.join(root_t44, "docs", "product", "beta.md"),
+            "---\nroute: new\nstage: ready-to-release\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Risk ledger\n\n"
+            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
+            "\n## Scope\n\nRigor level: mvp\n\nShip it.\n",
+        )
+        want = (
+            "docs/product/beta.md — stage ready-to-release ahead of its artifacts: "
+            "no acceptance record (docs/gates/*-beta-acceptance.md, or a legacy *-beta-goal.md)"
+        )
+        problems = audit(root_t44)
+        assert want in problems, f"T44: expected the missing-acceptance-record problem, got {problems}"
+
+        _sw(
+            os.path.join(root_t44, "docs", "gates", "2026-01-03-beta-goal.md"),
+            "---\nroute: new\nstage: done\n---\n\n## Done condition\n\nAll steps verified and merged.\n",
+        )
+        problems2 = audit(root_t44)
+        assert want not in problems2, f"T44: expected the problem cleared, got {problems2}"
+
+    # T45 — purity: the live ladder's exact membership, and the retired
+    # names' total absence from RUNGS (restated separately from T10b's
+    # ready-to-release check, which already proved the terminal derivation).
+    assert set(RUNGS) == {
+        "frame", "viability", "scope", "design", "handoff", "loop", "acceptance"
+    }, f"T45: unexpected RUNGS membership, got {RUNGS}"
+    for retired in ("build", "verify", "adjust", "goal", "slice", "contract"):
+        assert retired not in RUNGS, f"T45: {retired!r} must not be in RUNGS"
+    assert "goal" not in RUNGS and "build" not in RUNGS, "T45: restated purity check"
+
 
 def selftest():
-    """Run the 41 fixture-built cases in temporary trees. Prints
-    'selftest: 41 cases passed' and returns 0 on success; on the first
+    """Run the 45 fixture-built cases in temporary trees. Prints
+    'selftest: 45 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 41 cases passed")
+    print("selftest: 45 cases passed")
     return 0

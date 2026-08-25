@@ -1,6 +1,6 @@
 # Entry gates — the router and the first refuser
 
-Given a work slug, runs the eight gates in series and routes work to the
+Given a work slug, runs the seven gates in series and routes work to the
 LOWEST rung whose declared inputs all exist on disk. It is mechanical only:
 files, front-matter values, named sections, a qualified risk-ledger table,
 a checked-box count. It has no opinion on whether a VALUE claim is
@@ -38,18 +38,18 @@ EOF, for work slug `S`:
 | Rung | New inputs (all mechanical) |
 |---|---|
 | `frame` | nothing — always enterable |
-| `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) |
-| `slice` | section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` |
-| `design` | section `Release slice` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) · when the front matter declares `concerns:` (see Views, below): every entry has a view path or `n/a — <reason>` · every view path ends `.html` and resolves on disk · every view carries a sealed approval `<name>, <date> · fp:<12 hex>` whose fingerprint matches the file's current content |
-| `contract` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
-| `build` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` — lines inside ``` fenced code blocks are invisible to this parse (a step may quote headings without splitting itself) |
-| `goal` | zero unchecked boxes (`- [ ] `) in the contract's `Pieces` section |
-| `loop` | ≥1 file matching `docs/gates/*-<S>-goal.md` containing section `Done condition` · `.github/workflows/gate.yml` exists (the live refusal instance) |
+| `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) · section `Risk ledger` naming at least one killer risk (≥1 row with `Killer?` = yes, stripped and lowercased) — named only; no sizing, no evidence, no qualification. A FATAL row, an illegal `State`, or empty `Evidence` do not refuse here — full qualification is the `scope` rung's business. |
+| `scope` | the qualified risk ledger: section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` · section `Scope` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
+| `design` | when the front matter declares `concerns:` (see Views, below): every entry has a view path or `n/a — <reason>` · every view path ends `.html` and resolves on disk · every view carries a sealed approval `<name>, <date> · fp:<12 hex>` whose fingerprint matches the file's current content. A work item declaring no concerns passes design vacuously. |
+| `handoff` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
+| `loop` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract spec) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` — lines inside ``` fenced code blocks are invisible to this parse (a step may quote headings without splitting itself). This is the loop's ENTRY — the machine checks at the container's edges, never inside it. |
+| `acceptance` | zero unchecked boxes (`- [ ] `) in the contract spec's `Pieces` section. This is the loop's EXIT: zero unchecked boxes; evidence ready for producer review. |
 
-`goal` uses the contract's checklist as the "every piece landed" proxy —
-declared simplification, not the real signal. Git-derived landing (a
-landed piece is a pushed commit) belongs to the progress view and will
-cross-check this later; a checked box is the mechanical stand-in for now.
+`acceptance` uses the loop's contract-spec checklist as the "every piece
+landed" proxy — declared simplification, not the real signal. Git-derived
+landing (a landed piece is a pushed commit) belongs to the progress view
+and will cross-check this later; a checked box is the mechanical stand-in
+for now.
 
 Risk-ledger `State` cells are normalized before checking: lowercase,
 em-dash and `--` collapsed to `-`, whitespace collapsed, stripped. The
@@ -67,6 +67,24 @@ inputs push work UP the ladder, never through it. `frame` requires
 nothing, so routing always lands somewhere: the router never says "can't
 proceed".
 
+## Ready to release — the derived terminal
+
+`route` reports `ready-to-release` when every rung's inputs already exist
+AND the acceptance evidence is on disk: a gate record matching
+`docs/gates/*-<S>-acceptance.md` carrying a non-empty `Release condition`
+section (a legacy `*-<S>-goal.md` carrying `Done condition` reads forever
+— see Retired names, below), plus `.github/workflows/gate.yml`.
+
+`ready-to-release` is a route **verdict**, never a rung: it is derived,
+never declared. `check` takes live rung names only (`gate.py check <slug>
+<rung>` where `rung not in kit.RUNGS` is a usage error, exit 2) — there is
+no `check <slug> ready-to-release`. A product doc's front matter can
+declare `stage: ready-to-release`, but that declaration with no matching
+acceptance record on disk is itself a named problem (AU2, below) — a
+human can no more type a work item into `ready-to-release` than into
+`designed`. `rungs` in the routed result stays a 7-entry list keyed by
+`RUNGS`; the terminal never appears as a rung row in it.
+
 ## Front-matter schema
 
 The canonical write-down — this README, not the dated spec it came from,
@@ -80,7 +98,7 @@ front matter — it parses to nothing, the same as if it weren't there.
 | Key | Values | Meaning |
 |---|---|---|
 | `route` | `new` \| `problem` \| `spike` | triage class. QUESTION never becomes work — it has no route. `spike` is the one licensed ladder bypass. |
-| `stage` | `framed` \| `viable` \| `sliced` \| `designed` \| `contracted` \| `building` \| `done` | last completed rung, past-tense. |
+| `stage` | `framed` \| `viable` \| `scoped` \| `designed` \| `handed-off` \| `looping` \| `ready-to-release` | last completed rung, past-tense. A retired stage value (Retired names, below) is also legal to READ, but nothing ever writes one. |
 | `concerns` | a list — see Views | the agreed concern list. Declaring it opts the design rung into the view count; absent, the rung behaves as before. |
 
 Both keys travel together: front matter carrying either key must carry
@@ -93,14 +111,76 @@ markdown file in `docs/`, not just the two required directories).
 The six system design docs in `docs/design/` are the system's own specs,
 not work climbing the ladder — they do NOT get retrofitted front matter.
 
+## Retired names — read forever, written never
+
+The ladder was renamed on 2026-08-25. Four rung names, four stage values,
+one filename suffix set, and one section name were retired by that
+rename. Every one of them is a **read-only alias, forever**: the parser
+still recognizes them because pre-rename records carry them and no file
+on disk is ever renamed or rewritten to catch up — but nothing ever
+writes one again.
+
+| Kind | Retired (read-only) → Live |
+|---|---|
+| rung / stage-root | `slice` → `scope` |
+| rung / stage-root | `contract` → `handoff` |
+| rung / stage-root | `build` → `loop` |
+| rung / stage-root | `goal` → `acceptance` |
+| stage value | `sliced` → `scoped` |
+| stage value | `contracted` → `handed-off` |
+| stage value | `building` → `looping` |
+| stage value | `done` → `ready-to-release` |
+| gate-record filename suffix | `slice`, `contract`, `build`, `goal` → `scope`, `handoff`, `loop`, `acceptance` |
+| section name | `Done condition` → `Release condition` |
+
+The rule, stated once and binding everywhere in this repo: **the parser's
+legal set is the union of live names and retired aliases; the writer only
+ever emits live names.** `legal_stage(v)` accepts `v in STAGES or v in
+STAGE_ALIASES`; `stage_index(v)` maps a retired value to its live name
+before ordering it. Have/need/problem lines always print the stage value
+AS WRITTEN in the file, never the mapped one. An alias that is still
+*written* by anything is the defect this rename exists to remove — and no
+file on disk is ever renamed or rewritten to make an old one stop
+appearing.
+
+**A named limit.** AU3 (below) validates a gate record's *filename*
+against a pattern that accepts both live and retired suffixes — it has no
+way to tell a NEW file written today with a retired suffix (e.g. a
+freshly authored `2026-09-01-foo-goal.md`) from an old, legitimate
+record. A filename check cannot see intent. The write discipline — new
+gate records use live rung names only — lives here, in this README, and
+in the skills that write gate records; the machine holds the read side
+only, never the write side.
+
+## Why dated plans still say slice, contract and goal
+
+The ladder was renamed on 2026-08-25 (seven rungs: frame → viability →
+scope → design → handoff → loop → acceptance). Living surfaces —
+this README, the progress renders, the journey pages — were regenerated
+with the new names; dated records under `docs/plans/` (and elsewhere)
+deliberately were not. A dated render or a dated spec shows the
+vocabulary that was current on its date. **Old words inside a dated
+record are not drift** — they are the record being honest about when it
+was written. Any current link to a dated drawing should label it
+*historical / pre-rename* where the ambiguity matters, and every record
+generated from now on uses the new vocabulary only. (The ruling:
+`docs/design/rung-vocabulary.md`, section "A living surface regenerates;
+a dated record stands — RULED 2026-08-25".)
+
 ## Gate records
 
 A gate record is a dated file in `docs/gates/` whose name AU3 pins:
-`YYYY-MM-DD-<slug>-<rung>.md`. The body is prose for the human — the gate
-reads exactly two things from it, both already in the table above: that
-the file exists (the `contract` rung's design GO) and, for a goal record,
-a `Done condition` section (the `loop` rung) — plus the front matter every
+`YYYY-MM-DD-<slug>-<rung>.md`, where `<rung>` may be a live rung name or
+one of the retired filename suffixes (Retired names, above). The body is
+prose for the human — the gate reads exactly two things from it: that the
+file exists (the `handoff` rung's design GO record) and, for the derived
+`ready-to-release` terminal, a `Release condition` section (or its
+legacy `Done condition` alias) — plus the front matter every
 `docs/gates/` record carries (Front-matter schema, above).
+
+The last-gate record is `YYYY-MM-DD-<slug>-acceptance.md` with
+`## Release condition`. Prose describing it says **"accepted as ready
+for release"**, never "done" — the producer's ruling.
 
 One optional line is standardized. Directly under the `# ` title:
 
@@ -114,10 +194,10 @@ never a remembered time.
 
 **Deliberately not validated.** No rule checks the line — not AU3, not a
 rung input. Nothing retrofits it into an existing record either: a
-backfilled time is manufactured history. Goal records adopt it first.
-Graduating presence to a checked rule is held by the accepted risk's
-review trigger in `docs/product/time-awareness.md` ("first observed
-missing Clock line in a new record"), not by this README.
+backfilled time is manufactured history. Acceptance records adopt it
+first. Graduating presence to a checked rule is held by the accepted
+risk's review trigger in `docs/product/time-awareness.md` ("first
+observed missing Clock line in a new record"), not by this README.
 
 ## Refusals
 
@@ -131,10 +211,11 @@ Refusing prints the full have/need render, then the verdict:
     have: docs/product/<slug>.md — file exists
     have: docs/product/<slug>.md — front matter route=new stage=viable
     have: docs/product/<slug>.md — section "Value"
+    have: docs/product/<slug>.md — Risk ledger names 1 killer risk(s) (Killer? = yes)
     have: docs/product/<slug>.md — section "Risk ledger" (3 rows, all qualified)
-    need: docs/product/<slug>.md — section "Release slice"
+    need: docs/product/<slug>.md — section "Scope"
     REFUSED at design — <slug>: 1 missing
-    enters at: slice
+    enters at: viability
 
 `route` never refuses — it is a report, not a gate, and always exits 0.
 That asymmetry is deliberate: a work slug can always be told where it
@@ -158,7 +239,7 @@ declared kill-or-keep question) is non-empty.
 - Missing → refusal naming it.
 
 No rung beyond this is evaluated for a spike — not `viability`, not
-`slice`, nothing. A spike's output is expected to re-enter the ladder
+`scope`, nothing. A spike's output is expected to re-enter the ladder
 normally once it exists; the bypass only covers the spike itself.
 
 ## Audit
@@ -170,14 +251,23 @@ push, not just against a named slug.
 | # | Rule |
 |---|---|
 | AU1 | `docs/design/*.md` filenames must NOT start `YYYY-MM-DD-` — living docs are undated. Runs against ten real files today. |
-| AU2 | `docs/product/*.md`: undated filename · front matter required and legal · stage-vs-sections within the file: `framed`+ requires `Value`, `viable`+ requires `Risk ledger`, `sliced`+ requires `Release slice` — a stage claiming more progress than the file's sections show is a named problem. |
-| AU3 | `docs/gates/*.md` filenames MUST match `^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-(frame\|viability\|slice\|design\|contract\|build\|goal\|loop)\.md$`. |
+| AU2 | `docs/product/*.md`: undated filename · front matter required and legal · stage-vs-sections within the file: `framed`+ requires `Value`, `viable`+ requires `Risk ledger`, `scoped`+ requires `Scope`, `ready-to-release`+ requires an acceptance record (`docs/gates/*-<slug>-acceptance.md`, or a legacy `*-<slug>-goal.md`) — a stage claiming more progress than the file's sections (or its evidence) show is a named problem. |
+| AU3 | `docs/gates/*.md` filenames MUST match `^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-(frame\|viability\|slice\|scope\|design\|contract\|handoff\|build\|goal\|loop\|acceptance)\.md$` — live rung names and retired filename suffixes both legal (Retired names, above). |
 | AU4 | Any `docs/**/*.md` whose front matter carries `route` or `stage`: both keys present, both values legal — this validates the front-matter schema against every file that opts into it, including dated spec files like this piece's own contract. |
 | AU5 | `docs/product/*.md` carrying a `## Grounding` section: every `- ` list line must parse as `- <ref> — <why>` (split on the FIRST ` — `, the em-dash separator) and `<ref>` — a path or glob relative to the repo root — must resolve to ≥1 match on disk. Absent section = vacuous pass: declaring grounding is opting in. |
-| AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Release slice` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Release slice` section = vacuous pass. Lines inside ``` fenced code blocks are invisible (a quoted example is content, not a declaration). |
+| AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Scope` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Scope` section = vacuous pass. Lines inside ``` fenced code blocks are invisible (a quoted example is content, not a declaration). |
 | AU7 | `docs/requirements/register.md` blocks and states, against the schema `docs/requirements/catalog.md` declares: legal ID (`^[A-Z]{2,4}-\d{3}$`, prefix agreeing with `Category`), no duplicate IDs, an unknown field is a hard error, `State` in the five, `Source` and statement present, `Category`/`Tags` declared `applies`/declared in the project's own `categories.md` (nothing hardcoded — the legal set is per-project; a register without the disposition file is one named problem and category judgments are skipped, not guessed), `final` owes an `Approved` hash that MATCHES the statement — divergence is refused and the state never rewritten — and `Approved` may not ride a non-final block; `superseded` owes its `superseded-by` link. Absent register = vacuous pass. One mechanical limit, stated: `dropped` owes a *reason* in Source; the machine checks only that Source is non-empty. |
 | AU8 | Register links: every `- <role> → <ID> (sha256:<12 hex>)` line must parse, carry a role registered in the catalog grammar (both directions writable), and name an ID that exists. Two catalog rules are non-blocking FINDINGS, in the catalog's own flag-vs-refuse vocabulary: a link stamp diverging from its target's current statement ("flagged for re-look") and a non-origin block with no `refines` parent (aggregated to one line; "a finding, not an error, until slice 2"). Findings print in the audit's text output and never turn it red; the `--json` shape stays a bare problems list. |
 | AU9 | every `docs/product/*.md` declaring `concerns:`: the block parses and no view is in a wrong state — a render (`.png`) named as the view, a path not on disk, an approved drawing whose fingerprint no longer matches, an unreadable approval line. Pending approvals (no line, or a hand-written line not yet sealed) are the design rung's business and do not fail the audit. |
+
+AU3's pattern, verbatim from `kit.py`:
+
+```python
+GATE_RECORD_RE = re.compile(
+    r'^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*-'
+    r'(frame|viability|slice|scope|design|contract|handoff|build|goal|loop|acceptance)\.md$'
+)
+```
 
 Nonexistent directories pass vacuously — a repo that hasn't grown
 `docs/gates/` yet is not thereby in violation of its naming rule.
@@ -273,8 +363,8 @@ a static per-rung home.
 
 ## Rigor level
 
-Every `## Release slice` section must declare how rigorously its slice
-is measured — one line, machine-checked:
+Every `## Scope` section must declare how rigorously its work is
+measured — one line, machine-checked:
 
     Rigor level: mvp
 
@@ -289,20 +379,24 @@ is named here rather than refused. The law is written once
 (`rigor_problems`) and enforced at two call sites:
 
 - **AU6** (above) sweeps every `docs/product/*.md`: exactly one legal
-  line inside the `## Release slice` section; a `Rigor level:` line
-  anywhere else, a missing line, duplicates, or an illegal value is a
-  named problem. Fenced code blocks are invisible to the parse — a
-  quoted example line is content, not a declaration.
-- **The design rung** refuses work whose product doc violates the law,
-  with one need row: `need: docs/product/<S>.md — Release slice
-  declares a legal rigor level (Rigor level: spike|mvp|production-v1)`.
+  line inside the `## Scope` section; a `Rigor level:` line anywhere
+  else, a missing line, duplicates, or an illegal value is a named
+  problem. Fenced code blocks are invisible to the parse — a quoted
+  example line is content, not a declaration. The problem strings,
+  verbatim, in emission order — outside-line first, then exactly one
+  of missing / duplicate / illegal: `Rigor level line outside Scope`;
+  `Scope missing 'Rigor level: <spike|mvp|production-v1>' line`;
+  `duplicate Rigor level lines (want exactly one)`; `illegal rigor
+  level '<value>' (legal: spike, mvp, production-v1)`.
+- **The scope rung** refuses work whose product doc violates the law,
+  with one need row: `need: docs/product/<S>.md — Scope declares a
+  legal rigor level (Rigor level: spike|mvp|production-v1)`.
 
-A doc with no `## Release slice` section passes vacuously — the
-section's absence is already the design rung's own refusal, and the
-rigor rule does not double-refuse it. The declared level is data for
-later slices (the rigor catalog and per-class disposition tables);
-this slice enforces only that the level question is asked and answered
-legally.
+A doc with no `## Scope` section passes vacuously — the section's
+absence is already the scope rung's own refusal, and the rigor rule
+does not double-refuse it. The declared level is data for later slices
+(the rigor catalog and per-class disposition tables); this slice
+enforces only that the level question is asked and answered legally.
 
 ## Views — the design gate's lock
 
@@ -438,3 +532,4 @@ progress view is expected to consume — have/need lists, `enters_at`,
 audit problem lines — but this tool draws no view of its own; rendering
 that data as a UI is out of scope here and belongs to the progress-view
 piece.
+</content>

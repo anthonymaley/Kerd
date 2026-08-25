@@ -14,7 +14,7 @@ that motion is visibly different from hang.
 
 | Clock | Cadence | What it shows |
 |---|---|---|
-| **Liveness** | every piece boundary | this goal's work order as a strip: **landed · in flight · remaining** — the running answer to "is it actually moving, or is that a static 'working…' line" |
+| **Liveness** | every piece boundary | the piece strip: **landed · in flight · remaining** — the running answer to "is it actually moving, or is that a static 'working…' line" |
 | **Position** | every stage close · end of task · on pull | **have / need / progress** for ONE rung and for the whole board |
 
 ## The iron rules
@@ -51,7 +51,7 @@ Grows from `tools/diagram/` — the toolkit already renders the map
   have/need/progress render).
 - **Board view**: the function map coloured by state — agreed / built /
   in-flight / missing — one glance answers "have / need" per rung.
-- **Goal view**: the work order strip — landed (green-lit by commit) · in
+- **Piece view**: the work order strip — landed (green-lit by commit) · in
   flight (the current piece) · remaining (queued) — ticking at piece
   boundaries.
 - No new skill. The renderer is an instrument any function calls.

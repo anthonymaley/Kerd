@@ -1,6 +1,6 @@
 ---
 route: new
-stage: done
+stage: ready-to-release
 ---
 
 # Grounding-was-read — lost becomes a red light
@@ -56,7 +56,7 @@ know what to check.
 | Comprehension-proof creep: slice 2's receipt design grows quizzes, summaries, or attention checks | no | rigor-rises-ceremony-low violated; the flow cost balloons past the value | low | the temptation is visible already — this frame had to argue itself out of it | accepted | | if any receipt design proposes a check beyond presence + freshness, this row must be re-argued before it ships |
 | Resolution is looser than declared: an absolute path resolves without touching the repo, and a directory resolves where the design says file | no | a grounding line can pass while guaranteeing nothing inside the tree | low — repo docs have no reason to carry absolute or directory refs | cold-eyes goal review 2026-08-05: probes showed an absolute ref and a directory ref both resolve clean | accepted | | the first real grounding line that is not a plain relative file path re-argues this row |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

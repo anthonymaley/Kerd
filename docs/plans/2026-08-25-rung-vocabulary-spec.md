@@ -383,16 +383,33 @@ No description field changes.
 
 ## Pieces
 
-- [ ] 1. `tools/gates/kit.py` — the seven-rung ladder, aliases, killer check, terminal, fixtures (45 cases)
-- [ ] 2. `docs/product/*.md` — heading and stage migration, audit clean
-- [ ] 3. `tools/diagram/progress_kit.py` — board terminal + fixtures (15 ok)
-- [ ] 4. `tools/diagram/gen_journey.py` — seven-rung table, PLAIN map, three pages regenerated
-- [ ] 5. Remaining generators — retired rung words out of living code
-- [ ] 6. `tools/gates/README.md` — the canonical write-down, rewritten
-- [ ] 7. Skills sweep + root README + version bump to 0.99.0
-- [ ] 8. Living design docs + playbook sweep
-- [ ] 9. Diff review of pieces 1–8 against D1–D9; board-delta review
-- [ ] 10. Full local suite, renders, two-commit assembly, push
+- [x] 1. `tools/gates/kit.py` — the seven-rung ladder, aliases, killer check, terminal, fixtures (45 cases)
+- [x] 2. `docs/product/*.md` — heading and stage migration, audit clean
+- [x] 3. `tools/diagram/progress_kit.py` — board terminal + fixtures (15 ok)
+- [x] 4. `tools/diagram/gen_journey.py` — seven-rung table, PLAIN map, three pages regenerated
+- [x] 5. Remaining generators — retired rung words out of living code
+- [x] 6. `tools/gates/README.md` — the canonical write-down, rewritten
+- [x] 7. Skills sweep + root README + version bump to 0.99.0
+- [x] 8. Living design docs + playbook sweep
+- [x] 9. Diff review of pieces 1–8 against D1–D9; board-delta review
+- [x] 10. Full local suite, renders, two-commit assembly, push
+- [x] 11. `tools/diagram/progress_kit.py` + two design docs — the board's GOAL labels become PIECES
+- [x] 12. `gen_flow_celtic_example.py` + `gen_flow_handoff.py` — the split literal, and a purity check that can see one
+- [x] 13. Root `README.md` — the current-architecture prose D7's enumeration missed
+- [x] 14. Reseal `rungs-and-artifacts.html` — dead file path corrected, fingerprint retaken, PNG re-rendered
+- [x] 15. The two deferrals recorded, not fixed — gate-visuals' view, diagram-types-by-rung, gen_flow_build
+- [x] 16. Step 7's corrected check re-run; the assembly amended from ten pieces to sixteen
+
+**Steps 11–16 were added by a callback on 2026-08-25**, after the build
+surfaced sites this score did not assign. Every one of them sits on the FOLD
+half of the rename (`build`+`goal` → `loop`+`acceptance`), never the
+substitution half: D7's enumeration caught `slice → scope` and
+`contract → handoff` exhaustively because they are one-for-one swaps, and
+missed the fold because a fold has a DIRECTION that can be read backwards and
+no closing grep outside `skills/` was ever written. **Run order: Steps 1–9,
+then 11–16, then Step 10 last** — Step 10 is the assembly and must see every
+edit. Step 16 carries the amendments Step 10 and Step 9 need and are not being
+rewritten to hold.
 
 ---
 
@@ -826,12 +843,20 @@ python3 tools/gates/gate.py release && \
 grep -c '"version": "0.99.0"' .claude-plugin/plugin.json && \
 grep -c '"version": "0.99.0"' .claude-plugin/marketplace.json && \
 grep -rn 'docs/gates/\*-goal\.md' skills/ | wc -l && \
-grep -rn 'acceptance record' skills/conductor/SKILL.md skills/slainte/SKILL.md skills/switch/SKILL.md | wc -l && \
+grep -rnE 'acceptance[ -]record' skills/conductor/SKILL.md skills/slainte/SKILL.md skills/switch/SKILL.md | wc -l && \
 grep -n 'seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance)' README.md | wc -l && \
 grep -rn '\bhandoff\b' skills/ | grep -v 'session handoff\|work handoff\|session-handoff\|'\''handoff'\''' | wc -l
 ```
 
-Expected: `release: clean`, `1`, `2`, `0`, `≥5`, `1`, `0`.
+Expected: `release: clean`, `1`, `2`, `0`, `5`, `1`, `0`.
+
+**Corrected 2026-08-25 by callback (see Step 16).** This assertion previously
+read `grep -rn 'acceptance record' …` and expected `≥5`. D7's table specifies
+slainte's two edits in the HYPHENATED form `acceptance-record landing` —
+correct English, a compound adjective, mirroring the `goal-record landing` it
+replaces — so applying D7 verbatim yields 3 space-form matches and 2
+hyphen-form matches, and the old one-form check would have refused correct
+work. The regex now counts both forms; the expected value is exactly `5`.
 
 ---
 
@@ -956,3 +981,635 @@ git log -2 --format='%s' && git status --porcelain | wc -l && echo ALL-GREEN
 Expected: `selftest: 45 cases passed`, `audit: clean`, `release: clean`,
 `selftest: 15 ok`, both matrix legs clean, `render current`, the two commit
 subjects, `0` uncommitted files, `ALL-GREEN`, exit 0.
+
+---
+
+### Step 11 — the board's last retired word: GOAL becomes PIECES
+
+[delegate, model: sonnet, effort: medium]
+
+**What.** Step 3 claimed "rung rows, glyphs, HTML all derive from `RUNGS`".
+Two labels in `/Users/anthonymaley/Kerd/tools/diagram/progress_kit.py` do not —
+they are hardcoded, and they say `GOAL`.
+
+**The ruling, so no player has to guess it.** That section reports PIECES
+COMPLETION: a strip of landed / in-flight / remaining boxes, one per numbered
+piece, per slug. Under the seven-rung ladder that is the `acceptance` rung's
+check, taken at the loop's exit. The visible label becomes **`PIECES`** — not
+`ACCEPTANCE`, not `LOOP` — for three reasons: (i) the section counts pieces,
+and the strip is per-piece, not per-rung; (ii) the board directly above it
+already renders `loop` and `acceptance` as rung rows, so a section heading
+reusing either word would name two different things on one page; (iii)
+`Pieces` is already the live schema noun in three places the machine reads
+(the `## Pieces` section, the `Piece: <slug>/<n>` commit trailer, and
+`check_rung`'s `— section "Pieces"` texts), so it cannot go stale at the next
+rename.
+
+1. **The two visible labels.**
+   - line 432 — `f"GOAL  {slug.ljust(slug_width)}  …"` becomes
+     `f"PIECES  {slug.ljust(slug_width)}  …"`. The prefix field widens 4 → 6;
+     the two-space separator is unchanged. Nothing shares a column with it —
+     the BOARD grid above computes its own widths and the `SPIKE …` line has
+     its own prefix — so no other line moves and no width needs preserving.
+   - line 667 — `out.append("<h2>GOALS</h2>")` becomes
+     `out.append("<h2>PIECES</h2>")`.
+2. **The model key and the CSS classes change too, and the reason is not
+   tidiness.** `render_html` inlines the whole model as
+   `<script type="application/json" id="progress-data">`, and writes
+   `class="goal"` into the same page. So `"goals"`, `.goal` and `.goal-head`
+   are all EMITTED strings living in `docs/plans/progress.html`, a committed
+   surface `progress.py stale` byte-compares on every push. D1's writer rule —
+   *the WRITER only ever emits live names* — binds them exactly as it binds a
+   stage value. They are not internals; "not user-visible" is false for them.
+   - `model["goals"]` → `model["piece_strips"]`: `derive`'s return dict and
+     docstring (line ~249), the `drift` loop over it, `render_table`,
+     `render_svg`, `render_html`.
+   - the CSS block (lines 581–592) and its emitters: `.goal` →
+     `.piece-strip`, `.goal-head` → `.piece-strip-head`, `.goal .detail` →
+     `.piece-strip .detail`, `.goal.open .detail` →
+     `.piece-strip.open .detail`; `<div class="goal">` (line 670) and
+     `<div class="goal-head">` (line 671) follow; `_JS`'s selector
+     `'.goal-head'` → `'.piece-strip-head'`.
+   - `goal_for(root, slug, evidence)` → `piece_strip_for(…)`, plus its call
+     site in `derive`. This one IS a true internal and changes for a weaker,
+     stated reason: a reader of this module should not have to learn a retired
+     ladder word to follow it, and two vocabularies inside one file is the
+     defect this item exists to remove. Keep the docstring's `A1` / `A5`
+     section citations verbatim — only the word `goals` inside them changes.
+   - fixture helpers: `_goal(model, slug=_ST_SLUG)` → `_piece_strip(…)` and
+     every call site; `_piece(goal, n)`'s parameter `goal` → `strip`.
+3. **Prose inside the file.** The docstrings and block comments saying "goal
+   strip", "goals entry", "BOARD/GOAL" (lines ~154, ~249, ~337–340, ~447,
+   ~524, ~599) become "piece strip" / "piece-strips entry" / "BOARD/PIECES".
+   Any `goal` in a non-ladder sense stays.
+4. **Two living design docs Step 8's list missed.** Both describe this section
+   by its old name and both go stale otherwise; D7's living-docs rule applies
+   to them unchanged. `docs/design/progress-html.md` lines 12–13, 31, 64, 66
+   ("every goal strip", "click any goal", "across all goals", "**Goal
+   strips:** one row per goal", "Click a goal → detail panel") and
+   `docs/design/progress-view.md` lines 17 and 54 ("this goal's work order as
+   a strip", "**Goal view**"). Rename the section; leave every table cell,
+   section ID and historical sentence alone.
+5. **Render nothing here.** `progress.py stale` goes red the moment this
+   lands and stays red until Step 10 re-renders the trio. That is correct and
+   expected — Step 10 owns the render commit, and a trio rendered now can
+   never match after the work commit.
+
+**Why.** Step 3's own claim was that the renderer derives from `RUNGS` and
+adapts by itself. Two hardcoded literals falsified it, and both said a word
+that no longer names anything — one of them inside `<h2>`, on the page whose
+whole job is answering "where are we?". The model key matters for a separate
+reason worth stating plainly: it is written into a committed file, so leaving
+it makes the board a writer that emits a retired name at every render, which
+is a synonym by D1's definition, not a naming preference.
+
+**Verify:**
+
+```
+cd /Users/anthonymaley/Kerd
+grep -n 'GOAL\|"goals"\|goal_for\|goal-head\|class="goal"\|goal strip' tools/diagram/progress_kit.py ; echo "retired-in-kit=$?"
+grep -rn -i 'goal strip\|goal view\|any goal\|all goals\|one row per goal' docs/design/progress-html.md docs/design/progress-view.md ; echo "retired-in-docs=$?"
+grep -c 'f"PIECES  {slug' tools/diagram/progress_kit.py
+grep -c '<h2>PIECES</h2>' tools/diagram/progress_kit.py
+python3 tools/diagram/progress.py selftest ; echo "selftest-exit=$?"
+python3 -c 'import sys; sys.path.insert(0,"tools/diagram"); import progress_kit as pk; m=pk.derive(pk.REPO); h=pk.render_html(m); print("key-new",("piece_strips" in m),"key-old",("goals" in m)); print("h2",h.count("<h2>PIECES</h2>"),h.count("<h2>GOALS</h2>")); print("css",h.count("piece-strip-head"),h.count("goal-head"))'
+```
+
+Expected: `retired-in-kit=1` and `retired-in-docs=1` — **both greps print
+nothing and exit 1, and exit 1 IS the passing case for a purity grep.** That
+is why these lines are newline-separated and not `&&`-chained: an `&&` chain
+truncates silently at the first passing purity check. Then `1`, `1`,
+`selftest: 15 ok`, `selftest-exit=0`, then `key-new True key-old False`,
+`h2 1 0`, and `css` with a first number ≥ 2 (the CSS rule, the JS selector,
+one per slug) and a second number of exactly `0`.
+
+---
+
+### Step 12 — the split literal, and a check that can actually see one
+
+[delegate, model: sonnet, effort: low]
+
+**What.**
+
+1. **`/Users/anthonymaley/Kerd/tools/diagram/gen_flow_celtic_example.py`,
+   step 9** — the only step in the file still labelled with a retired rung.
+   Steps 4, 7, 8 and 10 already read `SCOPE`, `HANDOFF`, `LOOP`, `SHIPPED`.
+   - line 161, the step label: `"GOAL\nGATE"` → `"ACCEPTANCE\nGATE"`.
+   - line 161, the step title: `"Prove the whole · Goal gate"` →
+     `"Prove the whole · Acceptance gate"`.
+   - line 160, the section comment `# ── 9 — goal gate ──…` →
+     `# ── 9 — acceptance gate ──…`, keeping the rule's total line width.
+2. **`/Users/anthonymaley/Kerd/tools/diagram/gen_flow_handoff.py:93`** — the
+   step title `"→ Execute a unit  (BUILD)"` → `"→ Execute a unit  (LOOP)"`.
+   Same class, one token: a parenthesised rung name in a step title, naming
+   the rung that is now `loop`. Step 5 edited this file for
+   `CONTRACT → HANDOFF` and left the fold half; this is that half.
+3. **What deliberately does NOT change in these two files.** The narrative
+   prose inside step bodies and artifact callouts — `"GOAL ACHIEVED"` (celtic
+   line 168, handoff line 98), `"goal achieved"` (celtic line 171),
+   `"CONTRACT governs everything downstream"` (handoff line 95) — is the
+   WALK's own report vocabulary as agreed on 2026-08-03/04, the same latitude
+   D5 grants `contract spec` and D8 grants a dated record. Only the RUNG-NAME
+   positions move. A player that helpfully sweeps the prose has drifted, and
+   Step 9's review hands it back.
+4. **RUN NOTHING.** Both generators write DATED records —
+   `docs/plans/2026-08-04-celtic-example-flow.excalidraw/.svg` and
+   `docs/plans/2026-08-03-write-the-contract-flow.excalidraw/.svg`. Executing
+   either overwrites a dated record, which D8 forbids; celtic's script
+   additionally merges preserved annotations from
+   `docs/plans/annotations/` and re-marks blue deltas, so a stray run also
+   rewrites review state. Edit the source. Never execute it.
+5. **The purity check that catches split literals**, below, added by this step
+   and re-run by Step 10. Why it is needed: `"GOAL\nGATE"` is ONE string
+   literal carrying an embedded newline, so `grep -rn 'GOAL GATE'` finds
+   nothing, `grep -rn 'GOAL$'` finds nothing, and Step 9's purity bullet reads
+   straight past it. The check unsplits `\n` and `\t` escapes back to spaces
+   BEFORE matching, then looks only where a word IS a rung name: the
+   `f.step(…)` label argument, an `("KEY", [` section key, and the
+   `Flow("TITLE"` heading. It names its two deferred files out loud on every
+   run, so the deferral can never go silent.
+
+**Why.** The whole callback traces to one shape: the fold half of the rename
+was enumerated by file and line and never closed by a grep, and the one site
+that most needed a grep was the one no grep could reach. A purity check that
+matches source text as written can only ever find the misses that were
+already easy to find. Unsplitting the escapes first is the difference between
+a check and a comfort.
+
+**Verify:**
+
+```
+python3 - <<'EOF'
+import glob, os, re, sys
+
+RETIRED  = re.compile(r'\b(SLICE|CONTRACT|BUILD|GOAL)S?\b')
+LABEL_RE = re.compile(r'f\.step\(\s*"[^"]*"\s*,\s*"([^"]*)"')
+KEY_RE   = re.compile(r'^\s*\(\s*"([A-Z][A-Z0-9 +/&-]*)"\s*,\s*\[')
+TITLE_RE = re.compile(r'Flow\(\s*"([^"]*)"')
+# Deferred by producer ruling, 2026-08-25 — the editorial fold, not a
+# one-for-one swap. Named here so the deferral can never go silent.
+DEFERRED = {"gen_flow_build.py", "gen_functions.py"}
+
+hits, deferred = [], []
+for path in sorted(glob.glob("tools/diagram/*.py")):
+    raw  = open(path, encoding="utf-8").read()
+    flat = raw.replace("\\n", " ").replace("\\t", " ")   # unsplit the literals
+    for i, line in enumerate(flat.splitlines(), 1):
+        for rx in (LABEL_RE, KEY_RE, TITLE_RE):
+            for m in rx.finditer(line):
+                if RETIRED.search(m.group(1)):
+                    row = f"{path}:{i}: {m.group(1)!r}"
+                    (deferred if os.path.basename(path) in DEFERRED
+                     else hits).append(row)
+
+for d in deferred: print("deferred", d)
+for h in hits:     print("HIT     ", h)
+print(f"rung-name purity: {len(hits)} hit(s), {len(deferred)} deferred")
+sys.exit(1 if hits else 0)
+EOF
+echo "purity-exit=$?"
+grep -n '(BUILD)\|GOAL.nGATE\|Goal gate' tools/diagram/gen_flow_celtic_example.py tools/diagram/gen_flow_handoff.py ; echo "retired-labels=$?"
+git status --porcelain docs/plans/ | grep '2026-' ; echo "dated-untouched=$?"
+```
+
+Expected: exactly four `deferred` lines —
+`tools/diagram/gen_flow_build.py:18: 'BUILD — stage flow'`,
+`gen_flow_build.py:36: 'BUILD + MEASURE'`, `gen_functions.py:54: 'BUILD'`,
+`gen_functions.py:646: 'BUILD'` — **no `HIT` line at all**,
+`rung-name purity: 0 hit(s), 4 deferred`, and `purity-exit=0`. Then
+`retired-labels=1` and `dated-untouched=1`: both greps print nothing, and for
+a purity grep exit 1 is the pass, which is why these are newline-separated
+and never `&&`-chained. Measured before the edit, the same script prints
+`HIT tools/diagram/gen_flow_celtic_example.py:161: 'GOAL GATE'` and exits 1 —
+run it first if you want to watch it catch the literal no grep can find.
+
+---
+
+### Step 13 — the root README's current-architecture prose
+
+[delegate, model: sonnet, effort: medium]
+
+**What.** D7 named `README.md:7` and then said "sections describing CURRENT
+behavior update their vocabulary" without enumerating them. Step 7 applied the
+enumerated swaps; four sites remain where the project's front page asserts the
+CURRENT architecture in retired words. None of these is version-history
+narration and the README's shorthand latitude does not reach them: each one
+states what the machine does today.
+
+| Line | Now | Becomes |
+|---|---|---|
+| 62 | "…the contract and build rungs require them where they are" | "…the handoff and loop rungs require them where they are" |
+| 268 | "a `## Release slice` without its `Rigor level:` line" | "a `## Scope` without its `Rigor level:` line" |
+| 301 | "CONTEXT.md being pruned at goal landings" · "a shorter CONTEXT.md at the next goal landing" | "…pruned at acceptance-record landings" · "…at the next acceptance-record landing" |
+| 303 | "every piece of work is a slug climbing frame → viability → slice → design → contract → build → goal → loop" | "every piece of work is a slug climbing frame → viability → scope → design → handoff → loop → acceptance" |
+
+Two of these need their reasoning stated, because both sit inside history
+entries and a careful player will hesitate:
+
+- **Line 62** lives in the `### v0.87.0` entry, but its claim is present tense
+  about machinery running today — it is the reason nothing archives specs, and
+  a reader who greps `contract rung` finds no such rung. Version-history
+  narration is a statement ABOUT a past release; this is a statement about the
+  current gates that happens to live in a history entry. It swaps.
+- **Line 301** sits in a paragraph that is genuinely history ("Until v0.90.0
+  you could run…"), but both `goal landing` phrases name the licensed pruning
+  event switch enforces RIGHT NOW, and Step 7 has already renamed that event
+  inside `skills/switch/SKILL.md`. Leaving the README's name for it makes two
+  living documents disagree about when pruning is allowed. Use the hyphenated
+  compound-adjective form `acceptance-record landing`, matching what Step 7
+  wrote into slainte.
+
+**Then re-sweep the whole file, not just these four.** Run the closing grep in
+the Verify block and read every remaining hit in context. The legitimate
+survivors, all of which STAY: `contract` as the artifact ("a contract with
+numbered pieces", "No contract, no trailer" — D5); `slice` as an increment
+noun ("writing a slice well", "the smallest valuable slice", "This slice
+captures honest actuals", "the next slice"); `build`/`building` as a verb;
+`goal` as an aim ("The goal is prose that reads like a first draft…"); and the
+counts "eight funnel stages" (past tense) and "eight CI steps" (unrelated).
+Anything outside that list is a miss and is fixed here.
+
+**Why.** Line 303 is the load-bearing one. It is the README's own definition
+of the ladder, spelled out at full length, eight rungs long, under a heading
+that says "The layers" — and it contradicts line 7 on the same page. A front
+page that defines the ladder twice, differently, is the synonym defect at its
+most public. D7 missed it because D7 enumerated the ladder sentence it knew
+about; line 303 spells the same ladder with a different lead-in, which is
+exactly the class of miss a closing grep exists to catch and D7 wrote no
+closing grep outside `skills/`.
+
+**Verify:**
+
+```
+cd /Users/anthonymaley/Kerd
+grep -c 'frame → viability → scope → design → handoff → loop → acceptance' README.md
+grep -nE 'slice → design|→ contract →|→ build → goal|eight-rung' README.md ; echo "old-ladder=$?"
+grep -nE '## Release slice|contract and build rungs|goal landing' README.md ; echo "old-current-prose=$?"
+grep -c 'acceptance-record landing' README.md
+grep -nE '\b(sliced|contracted|building|Release slice|Done condition)\b' README.md ; echo "retired-stages=$?"
+python3 tools/gates/gate.py release
+```
+
+Expected: `2` — line 7 and line 303 now spell the ladder identically, word for
+word. Then `old-ladder=1` and `old-current-prose=1` (nothing printed; exit 1
+is the pass for a purity grep, which is why every line here is
+newline-separated rather than `&&`-chained). Then `2` for the two pruning-event
+mentions on line 301, `retired-stages=1`, and `release: clean`.
+
+---
+
+### Step 14 — reseal the rung-vocabulary view whose file path went dead
+
+[keep]
+
+**What.** `docs/design/rung-vocabulary/rungs-and-artifacts.html:152` reads
+`FILENAME (gen_flow_contract.py),`. Step 5 renamed that generator to
+`gen_flow_handoff.py`, so a sealed, producer-approved view now makes a false
+claim about a file that does not exist. Producer ruling, 2026-08-25, verbatim:
+
+> A sealed view can remain visually approved, but it cannot remain factually
+> false about a living file path after the slice lands. Step 9 should either
+> require resealing that view or add an explicit correction annotation in the
+> design doc that supersedes the dead-file claim. I'd prefer reseal, because
+> it's a living design artifact for this item, not a dated historical record.
+
+Reseal. In this exact order — the order is the countermeasure, and step 3 is
+where this has already gone wrong once.
+
+1. **Correct the one token.** Line 152 becomes
+   `FILENAME (gen_flow_handoff.py),`. That is 31 characters against the
+   original's 32, inside a 288px panel at 12.5px sans where a 34-character
+   sibling (line 162, `drops "done" for ready-to-release.`) already fits — so
+   no reflow, no re-layout, no other line moves. **Change nothing else in the
+   file.** The `<desc>` on line 25 says "a generator FILENAME … and in a flow
+   diagram" without naming the file and stays verbatim; lines 77, 100, 111,
+   129, 138, 141, 143, 147, 156 and 160 are the panel's deliberate
+   before/after annotations documenting the rename (`was slice`, `was
+   contract`, `was build + goal`, `7 old -goal.md … read forever`) and are
+   correct as written.
+2. **Downgrade the seal to its hand-written form. Do not compute a hash.** In
+   `docs/product/rung-vocabulary.md`, the FIRST concerns entry's approval line
+
+   ```
+       approval: Tony, 2026-08-25 · fp:8daab36a9d76
+   ```
+
+   becomes
+
+   ```
+       approval: Tony, 2026-08-25
+   ```
+
+   Leave the second entry (`the-ladder.html`, `fp:e2e788033798`) untouched —
+   that view is unedited and its seal is still valid.
+3. **Let the machine take the fingerprint.**
+
+   ```
+   python3 tools/gates/gate.py seal rung-vocabulary
+   ```
+
+   `seal_views` opens the view, reads its CONTENT, computes the value and
+   writes it back into the approval line. **Never compute this by hand.**
+   Measured 2026-08-25: `view_fingerprint` takes file CONTENT, not a path —
+   handed the string `docs/design/rung-vocabulary/rungs-and-artifacts.html` it
+   returns `3447c8ae6587`, a perfectly plausible twelve-hex value that is
+   silently wrong, and the only thing that caught it was the gate refusing.
+   There is one implementation, `tools/reqview/fingerprint.py`, and routing
+   through `gate.py seal` makes the mistake structurally impossible because
+   that command never accepts a path in that position. This is also why step 2
+   exists: `seal_views` completes an UNSEALED approval and REFUSES to rewrite
+   a diverged one, so the line must be downgraded first — `seal` will not
+   overwrite `fp:8daab36a9d76` for you, by design.
+4. **Re-render the PNG** at the dimensions the committed one already carries,
+   1100 × 1140 (read with `python3 -c` off the PNG header, not guessed):
+
+   ```
+   shasum docs/design/rung-vocabulary/rungs-and-artifacts.png
+   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+     --headless --disable-gpu --hide-scrollbars \
+     --screenshot=/Users/anthonymaley/Kerd/docs/design/rung-vocabulary/rungs-and-artifacts.png \
+     --window-size=1100,1140 \
+     file:///Users/anthonymaley/Kerd/docs/design/rung-vocabulary/rungs-and-artifacts.html
+   shasum docs/design/rung-vocabulary/rungs-and-artifacts.png
+   ```
+
+5. **Prove the PNG actually changed before trusting anything you see in it.**
+   Second measured gotcha, 2026-08-25: re-reading a PNG immediately after
+   re-rendering can return the CACHED previous image, at an identical byte
+   count. Compare the two `shasum` values from step 4 — a byte count is not
+   evidence, and neither is a file size. If the hash is unchanged the render
+   did not happen: re-run it, and do not proceed.
+6. **Look at the corrected panel.** This is why the step is `[keep]`. What
+   step 3 writes is a claim that Tony approved this content, and the machine
+   cannot tell a one-token factual correction made under his standing ruling
+   from a redrawn diagram. His ruling authorises the reseal of THIS
+   correction; it does not authorise whatever else the render might show. Open
+   the re-rendered PNG, confirm the bottom-middle panel reads
+   `FILENAME (gen_flow_handoff.py),` with no reflow and nothing clipped, and
+   confirm the rest of the drawing is unchanged in content from what he
+   approved. If anything else moved, stop and hand it back. Do not reseal a
+   drawing the producer has not seen.
+
+**Why.** A fingerprint is not bookkeeping — it IS the approval, and it exists
+precisely so that a changed drawing loses its key. That is the tension this
+step lives inside, and it is worth naming rather than smoothing over: the
+producer's ruling says correct the file, the machinery says a corrected file
+is no longer approved, and both are right. The resolution is not to bypass the
+machine but to route through it — downgrade, let `seal` recompute from
+content, and put a human eye on the render before the key goes back on. AU9
+holds the line either way: leave the seal stale and `gate.py audit` refuses the
+whole push, which is the gate doing its job, not an obstacle to route around.
+
+**Verify:**
+
+```
+cd /Users/anthonymaley/Kerd
+grep -c 'gen_flow_contract' docs/design/rung-vocabulary/rungs-and-artifacts.html ; echo "dead-path=$?"
+grep -c 'gen_flow_handoff.py' docs/design/rung-vocabulary/rungs-and-artifacts.html
+grep -n 'approval: Tony' docs/product/rung-vocabulary.md
+python3 -c 'import sys; sys.path.insert(0,"tools/reqview"); from fingerprint import view_fingerprint; print("live fp:", view_fingerprint(open("docs/design/rung-vocabulary/rungs-and-artifacts.html",encoding="utf-8").read()))'
+python3 tools/gates/gate.py audit
+python3 tools/gates/gate.py route rung-vocabulary | grep '^enters at:'
+git status --porcelain docs/design/rung-vocabulary/ docs/product/rung-vocabulary.md
+```
+
+Expected: `0` printed with `dead-path=1` (a `grep -c` returning zero exits 1 —
+the passing case, and the reason these lines are newline-separated); then `1`;
+then two `approval: Tony, 2026-08-25 · fp:…` lines where the FIRST carries a
+fingerprint that is **neither `8daab36a9d76` nor `3447c8ae6587`** and the
+second is still `e2e788033798`; then a `live fp:` value EQUAL to the first
+approval line's; then `audit: clean` — a mismatched seal is an AU9 problem, so
+a clean audit is the proof the reseal took, not an incidental pass; then
+`enters at: loop`, unchanged (the reseal must not move this item on the
+board — the six new unchecked pieces keep it at the loop's entry); then
+exactly three modified paths: `rungs-and-artifacts.html`,
+`rungs-and-artifacts.png`, `docs/product/rung-vocabulary.md`.
+
+---
+
+### Step 15 — the deferrals, recorded and not fixed
+
+[keep]
+
+**What.** Three findings this callback surfaced are deliberately NOT repaired
+in slice 1. This step's entire job is to prove they were left byte-identical
+on purpose, and to hand their Backlog rows to the close-out.
+
+**(a) `docs/design/gate-visuals/visual-lifecycle.html:28` — outside this
+slice's authority.** Its `<desc>` says *"At the goal gate it is redrawn from
+what was built"*, naming a rung that no longer exists. It is not repaired
+here, for three reasons, and the third is the one that decides it.
+
+1. **It belongs to another work item.** The file is a view of `gate-visuals`,
+   sealed in `docs/product/gate-visuals.md` at `fp:3ef85a6441d5`, approved by
+   Tony 2026-08-22. `gate-visuals` currently routes to
+   `enters at: acceptance` — it is sitting at its own producer gate. Re-keying
+   its concerns block now mutates the evidence its acceptance is about to be
+   judged on, under a different slug's authority.
+2. **The machinery forces the reseal, so "just fix the sentence" is not
+   available.** Editing the HTML changes its fingerprint; a diverged seal is
+   an AU9 problem; AU9 is part of `gate.py audit`; and `audit: clean` is
+   asserted in Steps 2, 8 and 10. Editing without resealing turns the whole
+   atomic push red. Editing WITH a reseal lands another item's producer
+   approval inside a `Piece: rung-vocabulary/<n>` trailer.
+3. **Its falsehood is a different kind, and the producer's ruling is scoped to
+   the kind.** His words are "cannot remain factually false about a *living
+   file path*". `gen_flow_contract.py` was a dangling reference — a path that
+   resolves to nothing on disk. "At the goal gate" is stale VOCABULARY for a
+   check that still exists and still runs, now at the rung named `acceptance`;
+   and per D1 `goal` is a legal read alias forever, so nothing is broken by
+   it. Stale vocabulary inside another item's sealed view is that item's
+   business.
+
+   **What it owes instead:** a Backlog row, carried into `gate-visuals`' own
+   acceptance gate, where its producer key and its reseal both already live.
+
+**(b) `docs/design/diagram-types-by-rung.md` — the EDITORIAL half is ruled out
+of slice 1 by the producer, 2026-08-25.** Read the file's current state before
+touching it: Step 8 has already applied the SUBSTITUTION half correctly —
+every `slice` → `scope` and `contract` → `handoff` tag in the type table, and
+the `### SLICE` and `### CONTRACT` section headings. What is deliberately left
+is the FOLD half, and it is left in a visible half-state that this step must
+NOT tidy:
+
+- The three by-rung section headings `### BUILD — mostly nothing`,
+  `### GOAL — did it meet what was declared` and `### LOOP — what we learned,
+  and what comes next` are still separate. Merging them means merging two
+  prose bodies and re-deciding heading order — editorial, ruled out.
+- Six type tags now read `USE · acceptance` or `USE · loop, acceptance`
+  (**bar**, **fishbone**, **line**, **loop**, **scatter**, **timeline**) while
+  still sitting under the old headings, and **fishbone** and **loop** were
+  mapped old-`loop` → `acceptance` on a wrong reading of D4. Every one of them
+  uses a LIVE rung name, so no retired name ships and nothing is urgent — but
+  the tags and the headings now disagree, and line 152's *"The rung's own
+  name"* is true against its `### LOOP` heading and false against its
+  `acceptance` tag. Resolving that is the same editorial pass.
+
+Nothing further is edited here. The half-state is the record of what was
+ruled out, and the Backlog row below is what closes it.
+
+**(c) `tools/diagram/gen_flow_build.py`, and `gen_functions.py`'s two
+`("BUILD", [` section keys** — the same editorial-fold shape as (b), not a
+one-for-one swap: each `BUILD` section holds two entries ("Build a piece ·
+Prove it" and "Prove the whole · Goal gate") that split across `loop`'s
+interior and `acceptance` under the fold, and `gen_flow_build.py` is
+additionally a whole file named for a retired rung. Step 12's purity check
+prints both files as `deferred` on every run, so this deferral is re-announced
+rather than forgotten.
+
+**The three Backlog rows, verbatim, handed to the close-out — NOT written by
+this step.** `TODO.md` is switch's file (this spec's "What does not land"), so
+these do not go in the work commit; the conductor carries them into the
+session-state commit at the boundary:
+
+> - **`gate-visuals`' `visual-lifecycle.html` still says "At the goal gate".**
+>   The sealed view (`fp:3ef85a6441d5`, Tony 2026-08-22) narrates a rung the
+>   2026-08-25 rename folded into `loop` + `acceptance`. Correct the `<desc>`,
+>   reseal and re-render the PNG at `gate-visuals`' own acceptance gate — not
+>   from another slug's slice.
+> - **`docs/design/diagram-types-by-rung.md` is still organised by the retired
+>   rungs.** Slice 1 did the substitution half only. `### BUILD` and
+>   `### GOAL` must merge into `### LOOP` with `### ACCEPTANCE` beside it,
+>   heading order re-decided, line 152's quote "The rung's own name" re-checked
+>   against the new names, and the six `USE · acceptance` type tags re-read
+>   against their headings — **fishbone** and **loop** were mapped old-`loop` →
+>   `acceptance`, which the fold makes wrong. Editorial; ruled out of
+>   rung-vocabulary slice 1 on 2026-08-25.
+> - **Two diagram generators still name the `build` rung.**
+>   `tools/diagram/gen_flow_build.py` (filename, `Flow` title, step 2's label)
+>   and `tools/diagram/gen_functions.py`'s two `("BUILD", [` section keys hold
+>   entries that split across `loop` and `acceptance` under the fold — the
+>   same editorial merge as the row above, not a swap. Step 12's purity check
+>   prints both as `deferred` on every run.
+
+**Why.** A deferral that is only a silence is indistinguishable from a miss,
+and this whole callback exists because a fold was missed silently. Naming the
+three, proving they are untouched by command, and re-announcing two of them
+from inside a check that runs on every push is what turns "we did not do that"
+into a record. The scope ruling on (a) matters beyond this slice: the
+fingerprint mechanism draws work-item boundaries the way a lock draws a door,
+and a slice that reaches through another item's seal because the fix looked
+small is the failure that mechanism was built to prevent.
+
+**Verify:**
+
+```
+cd /Users/anthonymaley/Kerd
+git status --porcelain docs/design/gate-visuals/ tools/diagram/gen_flow_build.py | grep . ; echo "left-alone=$?"
+grep -c 'At the goal gate' docs/design/gate-visuals/visual-lifecycle.html
+grep -c 'fp:3ef85a6441d5' docs/product/gate-visuals.md
+python3 tools/gates/gate.py route gate-visuals | grep '^enters at:'
+grep -nE '^### (BUILD|GOAL|LOOP|ACCEPTANCE) ' docs/design/diagram-types-by-rung.md
+grep -cE '\| \*\*(bar|fishbone|line|loop|scatter|timeline)\*\* \| USE · ' docs/design/diagram-types-by-rung.md
+grep -nE '\b(slice|sliced|contracted|building)\b|USE · (slice|contract|goal)' docs/design/diagram-types-by-rung.md ; echo "no-retired-name-ships=$?"
+grep -c '("BUILD", \[' tools/diagram/gen_functions.py
+python3 tools/gates/gate.py audit
+grep -cE 'visual-lifecycle|diagram-types-by-rung|gen_flow_build' TODO.md ; echo "rows-not-yet-written=$?"
+```
+
+Expected, line by line — note these are newline-separated and never
+`&&`-chained, because three of them pass by printing nothing and exiting 1:
+
+- `left-alone=1` — `git status` prints nothing for the gate-visuals view
+  directory or `gen_flow_build.py`, and the pipe to `grep .` exits 1.
+  **`docs/design/diagram-types-by-rung.md` and `tools/diagram/gen_functions.py`
+  are NOT in this list, and that is deliberate**: both are legitimately
+  modified, by Step 8 and Step 5 respectively, for the substitution half of
+  the rename. Only the fold half is deferred in them, which the next four
+  assertions check by content instead of by cleanliness.
+- `1` — the false sentence is still in `visual-lifecycle.html`, on purpose.
+- `1` — gate-visuals' seal untouched at `fp:3ef85a6441d5`.
+- `enters at: acceptance` — gate-visuals unmoved on the board.
+- exactly three heading lines: `### BUILD — mostly nothing`,
+  `### GOAL — did it meet what was declared`, `### LOOP — what we learned, and
+  what comes next`, and **no `### ACCEPTANCE`** — proof the editorial merge
+  was not attempted.
+- `6` — the six type tags carrying the fold's new names under the old
+  headings, exactly as Step 8 left them.
+- `no-retired-name-ships=1` — nothing printed: no retired STAGE value and no
+  `USE · slice|contract|goal` tag survives. The deferral is a wrong reading in
+  live words, never a retired word shipping.
+- `2` — both `("BUILD", [` section keys still standing in `gen_functions.py`.
+- `audit: clean` — the direct proof no other item's seal was disturbed.
+- `0` with `rows-not-yet-written=1`. Note what is NOT asserted here: `TODO.md`
+  is already modified in the working tree — the conductor tracks this build's
+  dispatch waves in `## Now` — so "untouched" would be a false test. The
+  assertion is that the three Backlog rows above have not been written YET.
+  They belong to the session-state commit at the boundary, which switch owns,
+  and Step 10's work commit names its files explicitly (`No git add -A`), so
+  `TODO.md` cannot ride along into it.
+
+---
+
+### Step 16 — Step 7's check was wrong; re-run it corrected, and amend the assembly
+
+[keep]
+
+**What.**
+
+1. **The defect, stated so it is not re-introduced.** Step 7's Verify
+   asserted `grep -rn 'acceptance record' skills/conductor/SKILL.md
+   skills/slainte/SKILL.md skills/switch/SKILL.md | wc -l` returning `≥5`. But
+   D7's table specifies slainte's two edits in the HYPHENATED form
+   `acceptance-record landing` — correct English, a compound adjective,
+   mirroring the `goal-record landing` it replaces. Applying D7 verbatim
+   therefore yields **3** space-form matches (`conductor/SKILL.md:375`,
+   `switch/SKILL.md:30`, `switch/SKILL.md:68`) and **2** hyphen-form matches
+   (`slainte/SKILL.md:3` frontmatter, `slainte/SKILL.md:18`) — measured
+   2026-08-25. The one-form check would have refused correct work. **The work
+   is right; the check was wrong.** Step 7's Verify block has been corrected
+   in place by this callback: the grep now reads
+   `grep -rnE 'acceptance[ -]record' …` and its expected value is exactly `5`,
+   not `≥5`.
+2. **Re-run Step 7's whole corrected Verify block against the landed tree**
+   and confirm all seven assertions. Do NOT re-edit any skill file. If the
+   corrected check fails, the defect is in the work and goes back to Step 7 —
+   a check must never be adjusted twice to fit what is on disk, which is how a
+   wrong check becomes a wrong standard.
+3. **Amend the assembly for Step 10, which is not being rewritten.** Step 10
+   was written when this spec had ten pieces; this callback makes it sixteen.
+   When Step 10 runs: tick boxes **1–15** in `## Pieces` (piece 16 ticks with
+   them — running Step 10 is the act), carry **sixteen** trailers
+   `Piece: rung-vocabulary/1` … `Piece: rung-vocabulary/16` on the single work
+   commit, and expect `route rung-vocabulary` → `enters at: acceptance`
+   exactly as Step 10 says. Everything else in Step 10 — the suite order, the
+   two-commit split, the single push, the `stale` reasoning — is unchanged.
+4. **Amend Step 9's scope the same way.** Step 9 reviews the working-tree
+   diff, so it must run AFTER Steps 11–16 and before Step 10, covering
+   pieces 1–8 and 11–15. Its board-delta table is unchanged by this callback:
+   none of Steps 11–16 edits a `docs/product/*.md` section or stage, and
+   Step 14's reseal is asserted not to move `rung-vocabulary` off `loop`. Add
+   two bullets to its immutability check: `git status --porcelain
+   docs/design/gate-visuals/ docs/design/diagram-types-by-rung.md` is EMPTY,
+   and the only modified files under `docs/design/rung-vocabulary/` are the
+   one `.html` and its `.png`.
+
+**Why.** A verify block is the only thing standing between a delegated step
+and an unearned "done", so a wrong one is worse than a missing one: it fails
+correct work, and the cheapest way out of a red check is to change the work
+until the check goes green. Correcting it here — with the measurement written
+down and the count pinned to exactly `5` rather than a floor — closes that
+door. Items 3 and 4 exist because this callback changed the shape of an
+assembly that two kept steps hardcode, and the honest place to say so is a new
+passage rather than a quiet edit to a step the conductor has already read.
+
+**Verify:**
+
+```
+cd /Users/anthonymaley/Kerd
+grep -c 'acceptance record' skills/conductor/SKILL.md skills/slainte/SKILL.md skills/switch/SKILL.md
+grep -c 'acceptance-record' skills/conductor/SKILL.md skills/slainte/SKILL.md skills/switch/SKILL.md
+grep -rnE 'acceptance[ -]record' skills/conductor/SKILL.md skills/slainte/SKILL.md skills/switch/SKILL.md | wc -l
+grep -c '^### Step ' docs/plans/2026-08-25-rung-vocabulary-spec.md
+grep -c '^- \[ \] 1[1-6]\.' docs/plans/2026-08-25-rung-vocabulary-spec.md
+python3 tools/gates/gate.py release
+python3 tools/gates/gate.py route rung-vocabulary | grep '^enters at:'
+```
+
+Expected: first grep prints `skills/conductor/SKILL.md:1`,
+`skills/slainte/SKILL.md:0`, `skills/switch/SKILL.md:2` (3 lines total);
+second prints `skills/conductor/SKILL.md:0`, `skills/slainte/SKILL.md:2`,
+`skills/switch/SKILL.md:0` (2 lines total); the combined regex prints `5`;
+`16` step headings; `6` unchecked pieces numbered 11–16; `release: clean`; and
+`enters at: loop` — still the loop's entry, because sixteen boxes are still
+unticked and Step 10 has not run yet.

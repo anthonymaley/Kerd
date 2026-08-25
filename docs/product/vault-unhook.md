@@ -1,6 +1,6 @@
 ---
 route: new
-stage: done
+stage: ready-to-release
 ---
 
 # Vault-unhook — the boundary stops paying for pages nobody reads
@@ -46,7 +46,7 @@ last deliberate save.
 | The loved insurance rots silently: an unused-but-valued capability degrades trust when someone finally visits and finds it months stale | no | the "I'm not losing history" comfort inverts on first stale visit | medium — nobody visits today, which is exactly how staleness accumulates | the interview itself: the vault's value to Tony is its existence, not its freshness; cross-project awareness ("you use that approach in X") was checked and comes from the memory layer (MEMORY.md + episodic search), never the vault — nothing reads the vault in-session by design | accepted | | a real retrieval need — including a cross-project one — hits the vault and finds it stale: re-argue (candidates then: a weekly scheduled save, or save-on-release) |
 | Boundary behavior change surprises the other users mid-habit | no | one confused boundary, quickly learned | low — the change removes a step they never see output from | same usage pattern across users (interview); the completion banner will name the change the first time | countermeasure - permanent | switch-out's banner notes "vault not written (on-demand since v0.83.0) — run /kerd:kivna save if you want the Obsidian export" for the first releases | |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

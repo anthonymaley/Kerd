@@ -1,7 +1,7 @@
 # Gate visuals — design
 
 The design package for `docs/product/gate-visuals.md`. Frame, viability and
-slice all pass; this is the design rung.
+scope all pass; this is the design rung.
 
 **Its own drawings are in `docs/design/gate-visuals/`**, and they are the
 argument — this file is what a drawing cannot carry.
@@ -109,7 +109,7 @@ the work and agree with producer?"* — yes.
                                               drawings against it
 ```
 
-This is the contract rung's own rule — *measured against an upstream
+This is the handoff rung's own rule — *measured against an upstream
 declaration* — arriving one rung early, which is what makes the design gate
 countable at all.
 

@@ -33,7 +33,7 @@
 <tspan x="678.0" dy="0.0">route         = new | problem | spike</tspan>
 <tspan x="678.0" dy="15.0">                front matter, kit.py:28, gate-checked per rung</tspan>
 <tspan x="678.0" dy="15.0">Rigor level   = spike | mvp | production-v1</tspan>
-<tspan x="678.0" dy="15.0">                ## Release slice, kit.py:49, AU6-checked</tspan>
+<tspan x="678.0" dy="15.0">                ## Scope, kit.py:49, AU6-checked</tspan>
 <tspan x="678.0" dy="15.0">Project Type  = Ideation | Spike | MVP | Pilot | Full Release |</tspan>
 <tspan x="678.0" dy="15.0">                Maintenance | Security Review | Experiment |</tspan>
 <tspan x="678.0" dy="15.0">                Hotfix | Migration | Platform | Compliance |</tspan>
@@ -130,14 +130,14 @@
 <text x="678.0" y="1226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">G0 intake qualified          ~ frame</tspan>
 <tspan x="678.0" dy="15.0">G1 disposition declared        - NO RUNG</tspan>
-<tspan x="678.0" dy="15.0">G2 spec approved             ~ contract</tspan>
+<tspan x="678.0" dy="15.0">G2 spec approved             ~ handoff</tspan>
 <tspan x="678.0" dy="15.0">G3 design approved           = design</tspan>
 <tspan x="678.0" dy="15.0">G4 build complete            = build</tspan>
 <tspan x="678.0" dy="15.0">G5 verification passed       ~ goal</tspan>
 <tspan x="678.0" dy="15.0">G6 security / privacy          - NO RUNG</tspan>
 <tspan x="678.0" dy="15.0">G7 launch readiness            - NO RUNG</tspan>
 <tspan x="678.0" dy="15.0">G8 post-launch evidence      = loop  (the stage left EMPTY)</tspan>
-<tspan x="678.0" dy="15.0">                               - viability and slice have NO GATE</tspan>
+<tspan x="678.0" dy="15.0">                               - viability and scope have NO GATE</tspan>
 </text>
 <text x="1320.0" y="1162.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">G8 is the clean fit. loop</tspan>

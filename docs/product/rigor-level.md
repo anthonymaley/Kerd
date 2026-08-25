@@ -1,6 +1,6 @@
 ---
 route: new
-stage: done
+stage: ready-to-release
 ---
 
 # Rigor level — silence stops passing DONE
@@ -52,7 +52,7 @@ catalog, the producer touches nothing.
 | Catalog is thin or wrong: expansions derive from the catalog, so a class the catalog never names is never asked anywhere — the silence gap reappears one level up | no | class coverage capped by catalog quality; the gap moves rather than closes | medium — no catalog exists yet; its first content is guesswork refined by use | analysis 2026-08-05: the catalog is a living doc, so each discovered miss is one amendment that upgrades every future slice at once — centralised, versus today where the miss recurs silently per slice | accepted | | the first shipped slice whose incident traces to a class the catalog never named re-argues this row |
 | Ceremony creep: the disposition table grows until declaring a level costs more than the judgment it forces — spikes route around the ladder | no | rigor-rises-ceremony-low violated; adoption dies at the cheap end | low — the pre-fill design exists precisely against this | analysis 2026-08-05: spike cost is bounded by design at one declared line + zero deviations | accepted | | a spike whose rigor declaration takes more than one line to satisfy re-argues this row |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

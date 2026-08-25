@@ -36,7 +36,7 @@ Value, in units:
 | The staleness gate changes conductor's work-commit flow: a trailer commit can no longer push alone — its render refresh must ride the same push | no | per-piece pushes become a two-commit pair; forgetting reds the tip at CI, cost is one extra local round | high (every ship) | this session's flow: 874c93e (trailers) pushed before 8318029 (render) — under the gate that first push would go red | countermeasure - permanent | Ship flow becomes commit → refresh → commit render → push once; the check's message names the fix | |
 | True prevention not built: a lying render can land on main and sit red until fixed — detection after the fact, not refusal before landing | no | cost bounded by reaction time to a loud red check; nothing is silent | low (detection is loud, fix is named) | goal-gate cold review 2026-08-04: main unprotected, CI on direct pushes is post-hoc by construction | accepted unknown | | Fires if a red tip ever ships onward or costs a consumer — then: a local pre-push hook piece, or protected main + PR flow (kills the direct-push working style — priced, not chosen) |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

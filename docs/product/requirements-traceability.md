@@ -455,7 +455,7 @@ treats refusal as the test that counts; that test was set for Kerd policing
 itself, and importing it here promoted a known, cheap, solved problem into a
 blocker.
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

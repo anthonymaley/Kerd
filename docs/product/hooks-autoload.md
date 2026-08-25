@@ -1,6 +1,6 @@
 ---
 route: problem
-stage: sliced
+stage: scoped
 ---
 
 # Hooks auto-load — the plugin ships its own hooks, so they never break on update
@@ -33,7 +33,7 @@ zero per-repo wiring, and a Kerd version bump never leaves a stale path behind.
 | Stripping a consumer repo's manual entries before its cache repins to the version shipping hooks.json leaves that repo with no hooks in the gap | no | brief window with no Kerd hooks in that repo — identical to today, where the pinned path is already dead | certain but harmless | the eleven repos already point at pruned versions, so their manual hooks are already non-functional; stripping loses nothing working | countermeasure - permanent | Strip is safe regardless of repin order because broken == absent; auto-load activates on repin | |
 | Cutting stop.sh removes the only live surfacing of the conductor phase-stamp to the human at turn-end | no | the stamp is still written to the marker and read into CONTEXT.md; only the free turn-end echo is lost | certain | `state-contract.md:89`, `time-awareness.md:28` — stop.sh echoes the whole conductor line | accepted (named loss) | | Fires if the turn-end stamp surfacing is missed enough to want a replacement |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

@@ -55,10 +55,10 @@
 </text>
 <rect x="660.0" y="472.0" width="600.0" height="60.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="960.0" y="507.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="960.0" dy="0.0">The Release slice declares its level, one line</tspan>
+<tspan x="960.0" dy="0.0">The Scope declares its level, one line</tspan>
 </text>
 <text x="678.0" y="552.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="678.0" dy="0.0">docs/product/&lt;slug&gt;.md ## Release slice gains one line:</tspan>
+<tspan x="678.0" dy="0.0">docs/product/&lt;slug&gt;.md ## Scope gains one line:</tspan>
 <tspan x="678.0" dy="15.0">Rigor level: mvp</tspan>
 <tspan x="678.0" dy="15.0">legal set: spike · mvp · production-v1 - RIGOR_LEVELS tuple in</tspan>
 <tspan x="678.0" dy="15.0">tools/gates/kit.py, canonical write-down in tools/gates/README.md</tspan>
@@ -87,8 +87,8 @@
 <tspan x="960.0" dy="0.0">Where the declaration lives — marks, not a matrix</tspan>
 </text>
 <text x="678.0" y="753.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="678.0" dy="0.0">line in ## Release slice: O - matches the keyed frame (&#x27;declared</tspan>
-<tspan x="678.0" dy="15.0">in the Release slice definition&#x27;); nothing invented.</tspan>
+<tspan x="678.0" dy="0.0">line in ## Scope: O - matches the keyed frame (&#x27;declared</tspan>
+<tspan x="678.0" dy="15.0">in the Scope definition&#x27;); nothing invented.</tspan>
 <tspan x="678.0" dy="15.0">front-matter key: X - a third key breaks the route/stage</tspan>
 <tspan x="678.0" dy="15.0">both-or-nothing pair.</tspan>
 <tspan x="678.0" dy="15.0">new ## Rigor section: X - empty until slice 2; RESERVED as the</tspan>
@@ -149,23 +149,23 @@
 <tspan x="960.0" dy="0.0">AU6 + the design-rung row — refusals verbatim</tspan>
 </text>
 <text x="678.0" y="1189.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="678.0" dy="0.0">for every docs/product/*.md: a Rigor level line OUTSIDE Release</tspan>
-<tspan x="678.0" dy="15.0">slice -&gt; named. section present -&gt; exactly one legal line inside.</tspan>
-<tspan x="678.0" dy="15.0">no Release slice section -&gt; vacuous (framed docs, spikes).</tspan>
+<tspan x="678.0" dy="0.0">for every docs/product/*.md: a Rigor level line OUTSIDE</tspan>
+<tspan x="678.0" dy="15.0">Scope -&gt; named. section present -&gt; exactly one legal line inside.</tspan>
+<tspan x="678.0" dy="15.0">no Scope section -&gt; vacuous (framed docs, spikes).</tspan>
 <tspan x="678.0" dy="15.0">design rung gains the matching need row - same kit function,</tspan>
 <tspan x="678.0" dy="15.0">two call sites, one parser.</tspan>
 </text>
 <rect x="660.0" y="1276.0" width="250.0" height="96.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <text x="785.0" y="1304.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
 <tspan x="785.0" dy="0.0">CLEAN</tspan>
-<tspan x="785.0" dy="16.2">every Release slice declares</tspan>
+<tspan x="785.0" dy="16.2">every Scope declares</tspan>
 <tspan x="785.0" dy="16.2">a legal level</tspan>
 <tspan x="785.0" dy="16.2">audit stays: audit: clean</tspan>
 </text>
 <rect x="930.0" y="1276.0" width="460.0" height="96.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="1160.0" y="1304.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="1160.0" dy="0.0">PROBLEMS, named verbatim:</tspan>
-<tspan x="1160.0" dy="16.2">Release slice missing &#x27;Rigor level: &lt;...&gt;&#x27; line</tspan>
+<tspan x="1160.0" dy="16.2">Scope missing &#x27;Rigor level: &lt;...&gt;&#x27; line</tspan>
 <tspan x="1160.0" dy="16.2">illegal rigor level &#x27;&lt;v&gt;&#x27; (legal: spike, mvp, production-v1)</tspan>
 <tspan x="1160.0" dy="16.2">duplicate Rigor level lines (want exactly one)</tspan>
 </text>
@@ -195,7 +195,7 @@
 <tspan x="678.0" dy="15.0">· misplaced -&gt; named · no section -&gt; vacuous.</tspan>
 <tspan x="678.0" dy="15.0">at ship: both-ways demo on the real tree (strip a retrofit line</tspan>
 <tspan x="678.0" dy="15.0">-&gt; exit 1 naming it; restore -&gt; clean). dogfood: this item&#x27;s OWN</tspan>
-<tspan x="678.0" dy="15.0">Release slice declares its level in the same commit.</tspan>
+<tspan x="678.0" dy="15.0">Scope declares its level in the same commit.</tspan>
 </text>
 <text x="1320.0" y="1494.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="1320.0" dy="0.0">stage-1 measurements,</tspan>
@@ -229,7 +229,7 @@
 <tspan x="678.0" dy="15.0">migrates from kit constant to catalog when it exists.</tspan>
 <tspan x="678.0" dy="15.0">MEASURED CLASSES as CI checks: slice 3.</tspan>
 <tspan x="678.0" dy="15.0">route: spike FOLD into the rigor axis: unframed, untouched -</tspan>
-<tspan x="678.0" dy="15.0">a spike doc without a Release slice passes AU6 vacuously.</tspan>
+<tspan x="678.0" dy="15.0">a spike doc without a Scope passes AU6 vacuously.</tspan>
 <tspan x="678.0" dy="15.0">LEVEL SEMANTICS: slice 1 refuses silence and illegality,</tspan>
 <tspan x="678.0" dy="15.0">never judges fit.</tspan>
 </text>

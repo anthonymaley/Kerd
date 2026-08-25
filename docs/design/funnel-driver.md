@@ -45,7 +45,7 @@ migration is a following slice, measured below.
 ### Three axes, and `project type` is superseded
 
 The 2026-08-07 decision made `project type` a single field that "is the
-project's current state" and advances at the goal gate. **That decision is
+project's current state" and advances at the acceptance gate. **That decision is
 superseded.** The field mixed three things under one name — the same defect that
 `Cost` had in the tooling evaluation, and it fails the same way: a field wearing
 three meanings cannot be checked against any of them.
@@ -54,7 +54,7 @@ three meanings cannot be checked against any of them.
 |---|---|---|---|
 | **Work type** | what kind of thing this is at all | the producer, at intake | no |
 | **Route** | how it enters the ladder — `new \| problem \| spike` | derived at the entry gate | no |
-| **Lifecycle position** | where the thing is in its life | the goal gate | **yes** |
+| **Lifecycle position** | where the thing is in its life | the acceptance gate | **yes** |
 
 Work type examples, deliberately not software-only: software change ·
 enhancement · content plan · business plan · document · repair.
@@ -83,7 +83,7 @@ than "inside" is structural rather than a preference:
 
 ```
 /kerd:drive       owns the WORK ITEM
-                  frame → viability → slice → design → contract → build → goal → loop
+                  frame → viability → scope → design → handoff → loop → acceptance
                   spans many sessions · state lives on disk in the work record
 
 /kerd:conductor   owns the SESSION
@@ -133,7 +133,7 @@ Conductor receives a framed task and does not know it came from Drive. It runs
 orient → plan → execute → close exactly as it does today. Nothing in
 `skills/conductor/SKILL.md` changes.
 
-**The check that keeps this honest at build time:** a diff on
+**The check that keeps this honest at loop time:** a diff on
 `skills/conductor/SKILL.md` in any Drive slice is a refusal, not a review
 comment.
 
@@ -187,8 +187,8 @@ business and the producer rules on it at the GO.
 
 | Measurement (work record, `### Value, in units`) | Target | Named answer |
 |---|---|---|
-| Funnel stages with an owner | 5 of 8 → 8 of 8 | Drive owns `frame`, `slice` and `design` — the three with no owner in any skill. Verified at build by `gate.py route` on a real item reaching `design pass` with every input written by Drive rather than by hand. Honest limit: ownership is prompt-layer; no runtime refuser observes whether Drive or a human wrote the section. |
-| Skills that know the funnel exists | 2 of 9 → 3 of 10 | `grep -c 'frame\|viability\|slice\|design\|contract\|build\|goal\|loop' skills/drive/SKILL.md` non-zero at build; count of skills rises by the new one. |
+| Funnel stages with an owner | 5 of 8 → 8 of 8 | Drive owns `frame`, `scope` and `design` — the three with no owner in any skill. Verified at loop by `gate.py route` on a real item reaching `design pass` with every input written by Drive rather than by hand. Honest limit: ownership is prompt-layer; no runtime refuser observes whether Drive or a human wrote the section. |
+| Skills that know the funnel exists | 2 of 9 → 3 of 10 | `grep -c 'frame\|viability\|scope\|design\|handoff\|loop\|acceptance' skills/drive/SKILL.md` non-zero at loop; count of skills rises by the new one. |
 | Graduation triggers fired and shed nothing | 1 → 0 | The pre-flight inventory trigger is discharged by Drive owning intake, not by editing conductor. Asserted by diff scope: zero hunks in `skills/conductor/SKILL.md`. |
 | Standing decisions contradicted by shipped skill text | 1 → 0 | The unconditional plan gate. **Not answered by this slice** — named as an open gap rather than claimed, since it lives inside conductor and the umbrella rule forbids touching it. |
 | Work commits carrying machine-readable piece progress | 0 → every one | Shipped at v0.91.0 (`Piece:` trailer). Verified by `git log --format=%B -50 \| grep -c '^Piece:'` returning non-zero. |

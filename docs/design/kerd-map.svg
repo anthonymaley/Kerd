@@ -87,7 +87,7 @@
 </text>
 <text x="600.0" y="406.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="600.0" dy="0.0">release close-out pass: triggered</tspan>
-<tspan x="600.0" dy="15.0">at version bumps + goal records,</tspan>
+<tspan x="600.0" dy="15.0">at version bumps + acceptance records,</tspan>
 <tspan x="600.0" dy="15.0">fixes doc drift, restraint reported</tspan>
 </text>
 <text x="1210.0" y="356.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
@@ -130,7 +130,7 @@
 <line x1="440.0" y1="554.0" x2="430.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="584.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="643.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="643.0" dy="0.0">slice</tspan>
+<tspan x="643.0" dy="0.0">scope</tspan>
 </text>
 <polyline points="562.0,554.0 582.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="582.0" y1="554.0" x2="572.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
@@ -144,34 +144,27 @@
 <line x1="724.0" y1="554.0" x2="714.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="868.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="927.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="927.0" dy="0.0">contract</tspan>
+<tspan x="927.0" dy="0.0">handoff</tspan>
 </text>
 <polyline points="846.0,554.0 866.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="866.0" y1="554.0" x2="856.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="866.0" y1="554.0" x2="856.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="1010.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="1069.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1069.0" dy="0.0">build</tspan>
+<tspan x="1069.0" dy="0.0">loop</tspan>
 </text>
 <polyline points="988.0,554.0 1008.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="1008.0" y1="554.0" x2="998.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="1008.0" y1="554.0" x2="998.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <rect x="1152.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
 <text x="1211.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1211.0" dy="0.0">goal</tspan>
+<tspan x="1211.0" dy="0.0">acceptance</tspan>
 </text>
 <polyline points="1130.0,554.0 1150.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
 <line x1="1150.0" y1="554.0" x2="1140.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <line x1="1150.0" y1="554.0" x2="1140.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<rect x="1294.0" y="534.0" width="118.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="1"/>
-<text x="1353.0" y="559.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="1353.0" dy="0.0">loop</tspan>
-</text>
-<polyline points="1272.0,554.0 1292.0,554.0" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="1292.0" y1="554.0" x2="1282.6" y2="559.7" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
-<line x1="1292.0" y1="554.0" x2="1282.6" y2="548.3" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round"/>
 <text x="300.0" y="598.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#2f9e44" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">human keys (GREEN): frame value + slice · design GO on the canvas · the expert-user pass at goal — everything else is machine-checked</tspan>
+<tspan x="300.0" dy="0.0">human keys (GREEN): frame value + scope · design GO on the canvas · the expert-user pass at acceptance — everything else is machine-checked</tspan>
 </text>
 <text x="300.0" y="618.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">records: docs/product/&lt;slug&gt;.md (living) · docs/gates/&lt;date&gt;-&lt;slug&gt;-&lt;rung&gt;.md (immutable) · docs/plans/&lt;date&gt;-&lt;slug&gt;-spec.md (the contract)</tspan>
@@ -221,6 +214,6 @@
 <tspan x="1180.0" dy="15.0">handoff fidelity</tspan>
 </text>
 <text x="300.0" y="822.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">the skills advise and structure; the machinery is what can say no. rigor level (AU6) is the newest refusal: every Release slice declares spike / mvp / production-v1.</tspan>
+<tspan x="300.0" dy="0.0">the skills advise and structure; the machinery is what can say no. rigor level (AU6) is the newest refusal: every Scope declares spike / mvp / production-v1.</tspan>
 </text>
 </svg>

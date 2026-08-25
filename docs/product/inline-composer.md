@@ -55,7 +55,7 @@ that carries the reasoning.
 | The score satisfies the contract rung but not the design rung, so inline work still cannot reach goal and the board still misreports it | no | a composer call is paid for and the board is unchanged — the visible symptom that motivated the investigation survives | certain as the gates stand today | measured this session: `gate.py route model-effort-advisory` reports every frame/viability/slice/design input present and still demands `docs/design/<slug>.md` plus a design GO record before contract | countermeasure - temporary | Slice 1 deliberately does not claim the board fix; whether one score can satisfy both rungs, or whether a proportional route legitimately skips design, is the central question of this item's design rung | Fires at the design rung — the decision must be taken there, not deferred again |
 | The score is written but nothing checks it was written, so the rule decays into advice | no | inline work drifts back to no score, invisibly | medium — this repo's standing finding is that skill text cannot enforce on itself | `OPS-001`, and the measured history of prompt-layer gates in this repo | countermeasure - temporary | Slice 1 ships the rule at the prompt layer and names it as unenforced; a refuser is a later slice once the artifact's shape is settled | Fires when slice 1 has run on real inline work and the score's shape is known |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

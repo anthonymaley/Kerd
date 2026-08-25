@@ -9,8 +9,8 @@ a trio — that doc's "both files" becomes "all three" when this ships).
 ## What it does
 
 One committed, self-contained page — `docs/plans/progress.html` — that
-answers "where are we?" on open: the board at a glance, every goal
-strip, click any goal for its pieces and per-rung named have/need, and a
+answers "where are we?" on open: the board at a glance, every piece
+strip, click any piece strip for its pieces and per-rung named have/need, and a
 freshness line saying what state the picture reflects. Read-only, works
 cold over `file://`, zero external requests. Guarded by the same
 staleness check as the canvas pair: a lying page cannot sit at a pushed
@@ -28,7 +28,7 @@ render shows).
 The anchor derives from the MODEL instead, so it converges by
 construction — render-only commits do not change the model:
 
-- **Freshness line:** the newest landed-piece commit across all goals
+- **Freshness line:** the newest landed-piece commit across all piece strips
   (already in the derived model, trailer evidence), shown as short sha +
   subject; plus a **state fingerprint** — `md5` of the canonical model
   JSON — so two pages are comparable at a glance.
@@ -61,9 +61,9 @@ external anything.
   (`#` built · `>` in flight · `·` missing with need-count · `G`
   agreed); colour grammar holds — red marks missing/cost, nothing else
   is red.
-- **Goal strips:** one row per goal — bar of landed/in-flight/remaining,
+- **Piece strips:** one row per slug — bar of landed/in-flight/remaining,
   counts, drift flag if any.
-- **Click a goal → detail panel:** its pieces (n, text, state, evidence
+- **Click a piece strip → detail panel:** its pieces (n, text, state, evidence
   sha where landed) and, per rung, the gate's named have/need lines
   verbatim.
 - Read-only. No control mutates anything, nothing polls, nothing

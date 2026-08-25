@@ -94,9 +94,9 @@ f.step("5", "APPROVAL", "GO — two keys, neither sufficient alone",
 f.down()
 
 # ── 6 — handoff ──────────────────────────────────────────────────────────
-f.step("6", "HANDOFF", "→ Write the contract  (CONTRACT)",
+f.step("6", "HANDOFF", "→ Write the contract  (HANDOFF)",
        "the approved package is what the orchestrator writes the score FROM.\n"
-       "approval happened HERE — the contract rung never re-derives or\n"
+       "approval happened HERE — the handoff rung never re-derives or\n"
        "re-approves the design.",
        artifact="the next rung runs its\nOWN entry gate against\nwhat arrived here.",
        note="TODAY THIS IS BROKEN: brainstorming's terminal\n"

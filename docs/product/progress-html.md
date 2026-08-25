@@ -46,7 +46,7 @@ shape (backlogged). The finding seeded the journey-view frame, which
 owns this page's fate — leading option: keep the trio plumbing, replace
 the page content with the human telling.
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

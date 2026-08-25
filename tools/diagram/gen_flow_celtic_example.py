@@ -87,8 +87,8 @@ deeper("DEEPER — UK LAW MAKES UNAUTHORISED FOOTBALL TICKET RESALE A\n"
        "the one lawful shape. this risk can reshape or kill the idea.")
 f.down()
 
-# ── 4 — slice ────────────────────────────────────────────────────────────
-f.step("4", "SLICE", "Slice a release · Set the goal",
+# ── 4 — scope ────────────────────────────────────────────────────────────
+f.step("4", "SCOPE", "Slice a release · Set the goal",
        "a release is a GROUPING, not a date. MVP candidate: verified\n"
        "season-ticket holders only · home league games · face value only\n"
        "(the lawful shape) · one club-blessed pilot stand. dependency\n"
@@ -121,11 +121,11 @@ f.step("6", "DESIGN", "Design the solution → ONE package",
        "GO writes docs/gates/<date>-celtic-ticket-exchange-design.md.",
        artifact="tools: superpowers\nbrainstorming CAPABILITY\n"
                 "(2-3 approaches) without its\nwaterfall · excalidraw round\n"
-                "trip · A3 story formats.\nhands to CONTRACT — never\nwriting-plans.")
+                "trip · A3 story formats.\nhands to HANDOFF — never\nwriting-plans.")
 f.down()
 
-# ── 7 — contract ─────────────────────────────────────────────────────────
-f.step("7", "CONTRACT", "Write the contract · Size and assign",
+# ── 7 — handoff ──────────────────────────────────────────────────────────
+f.step("7", "HANDOFF", "Write the contract · Size and assign",
        "the design package arrives INTACT — never a digest. the work\n"
        "order: self-contained pieces ('listing service', 'seat-transfer\n"
        "flow', 'holder-verification screen'), each carrying its own check,\n"
@@ -157,8 +157,8 @@ deeper("DEEPER — THE LOOP MAY NOT RUN YET. nothing in any repo can refuse\n"
        "refuses, where, on what signal) is yours.")
 f.down()
 
-# ── 9 — goal gate ────────────────────────────────────────────────────────
-f.step("9", "GOAL\nGATE", "Prove the whole · Goal gate",
+# ── 9 — acceptance gate ──────────────────────────────────────────────────
+f.step("9", "ACCEPTANCE\nGATE", "Prove the whole · Acceptance gate",
        "cold eyes see ONLY the work order and the change — verdict can\n"
        "BLOCK. per-layer conformance, never one verdict: code · logic ·\n"
        "architecture · pixel vs the approved design · the product\n"

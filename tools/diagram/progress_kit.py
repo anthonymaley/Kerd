@@ -150,8 +150,8 @@ def piece_evidence(root):
     return evidence
 
 
-def goal_for(root, slug, evidence):
-    """One A5 goals entry for `slug`. Mapping per A1: mode is 'trailer' when
+def piece_strip_for(root, slug, evidence):
+    """One A5 piece_strips entry for `slug`. Mapping per A1: mode is 'trailer' when
     >=1 (slug, n) pair is in `evidence`, else 'legacy'. landed = evidence
     reachable from HEAD — trailer mode checks (slug, n) in `evidence`;
     legacy mode checks the box in the HEAD version of the contract. A box
@@ -218,7 +218,8 @@ def board_for(root, slug, gates_kit):
         return {"slug": slug, "bypass": True, "enters_at": route_result["enters_at"], "rungs": []}
 
     enters_at = route_result["enters_at"]
-    e_idx = gates_kit.RUNGS.index(enters_at)
+    e_idx = len(gates_kit.RUNGS) if enters_at == "ready-to-release" \
+        else gates_kit.RUNGS.index(enters_at)
     by_rung = {r["rung"]: r for r in route_result["rungs"]}
 
     rungs = []
@@ -245,17 +246,17 @@ def board_for(root, slug, gates_kit):
 
 
 def derive(root):
-    """The full model: audit_problems, newest, slugs, board, goals,
+    """The full model: audit_problems, newest, slugs, board, piece_strips,
     drift."""
     gates_kit = load_gates_kit()
     slugs = discover_slugs(root)
     evidence = piece_evidence(root)
 
     board = [board_for(root, slug, gates_kit) for slug in slugs]
-    goals = [goal_for(root, slug, evidence) for slug in slugs]
+    piece_strips = [piece_strip_for(root, slug, evidence) for slug in slugs]
 
     drift = []
-    for g in goals:
+    for g in piece_strips:
         for p in g["pieces"]:
             if p["state"] == "landed" and not p["checked_worktree"]:
                 drift.append(
@@ -267,7 +268,7 @@ def derive(root):
         "newest": next(iter(evidence.values())) if evidence else None,
         "slugs": slugs,
         "board": board,
-        "goals": goals,
+        "piece_strips": piece_strips,
         "drift": drift,
     }
 
@@ -333,10 +334,10 @@ def render_table(model):
     """A6: the terminal pull, exact. Board glyphs: '#' built, '>'
     in-flight, '. need <n>' missing, with ' G' appended when agreed.
     A bypass (spike) slug renders one 'SPIKE <slug> — ladder bypassed'
-    line in place of board cells; its goal strip is unaffected. Goal
+    line in place of board cells; its piece strip is unaffected. Piece
     glyphs: '#' landed, '>' in flight, '.' remaining, one per piece in
     order. An empty model (no slugs on disk) renders a single
-    'no work orders on disk' line in place of BOARD/GOAL."""
+    'no work orders on disk' line in place of BOARD/PIECES."""
     lines = [
         "progress — derived from disk: git log · gate route · "
         "Pieces checklists · docs/gates/",
@@ -399,9 +400,9 @@ def render_table(model):
 
     lines.append("")
 
-    slug_width = max(len(g["slug"]) for g in model["goals"])
+    slug_width = max(len(g["slug"]) for g in model["piece_strips"])
     rows = []
-    for g in model["goals"]:
+    for g in model["piece_strips"]:
         if g["contract"] is None:
             strip = "—"
             message = "no contract on disk"
@@ -428,7 +429,7 @@ def render_table(model):
     strip_width = max(len(strip) for (_slug, strip, _msg) in rows)
     for slug, strip, message in rows:
         lines.append(
-            f"GOAL  {slug.ljust(slug_width)}  {strip.ljust(strip_width)}  {message}"
+            f"PIECES  {slug.ljust(slug_width)}  {strip.ljust(strip_width)}  {message}"
         )
 
     lines.append("")
@@ -443,7 +444,7 @@ def render_table(model):
 
 
 def build_canvas(model):
-    """A7: title, legend, board grid, goal strips, drift lines — the drawing
+    """A7: title, legend, board grid, piece strips, drift lines — the drawing
     on the live canvas. Returns the kit.Canvas; writes nothing
     (write_surfaces owns the .excalidraw/.svg/.html serialization; the
     render and the stale check both write through it)."""
@@ -520,8 +521,8 @@ def build_canvas(model):
         else header_y + 30
     y = board_bottom + 40
 
-    # ── goal strips ──────────────────────────────────────────────────────
-    for g in model["goals"]:
+    # ── piece strips ─────────────────────────────────────────────────────
+    for g in model["piece_strips"]:
         c.txt(g["slug"], X, y, 16)
         y += 16 * 1.25 + 10
 
@@ -577,25 +578,25 @@ _CSS = (
     "text-align: left; }"
     ".strip, .sha { font-family: ui-monospace, SFMono-Regular, Menlo, "
     "Consolas, monospace; }"
-    ".goal { border-top: 1px solid " + GREY + "; padding: 12px 0; }"
-    ".goal-head { cursor: pointer; display: flex; gap: 16px; "
+    ".piece-strip { border-top: 1px solid " + GREY + "; padding: 12px 0; }"
+    ".piece-strip-head { cursor: pointer; display: flex; gap: 16px; "
     "align-items: baseline; }"
     ".slug { font-weight: 600; }"
-    ".goal .detail { display: none; padding: 8px 0 4px 16px; }"
-    ".goal.open .detail { display: block; }"
+    ".piece-strip .detail { display: none; padding: 8px 0 4px 16px; }"
+    ".piece-strip.open .detail { display: block; }"
     ".piece, .rung-name, .have, .need, .spike { margin: 4px 0; }"
     ".rung-name { font-weight: 600; }"
 )
 
 
-_JS = ("document.querySelectorAll('.goal-head').forEach(function (h) { "
+_JS = ("document.querySelectorAll('.piece-strip-head').forEach(function (h) { "
        "h.addEventListener('click', function () { "
        "h.parentNode.classList.toggle('open'); }); });")
 
 
 def render_html(model):
     """The self-contained progress page (docs/design/progress-html.md):
-    header + freshness line, board grid, goal strips with click-to-expand
+    header + freshness line, board grid, piece strips with click-to-expand
     detail, drift; model inlined as a JSON block. Pure function of
     `model` — no time, no HEAD, no randomness, no set iteration; every
     model-derived string is HTML-escaped."""
@@ -663,11 +664,11 @@ def render_html(model):
             out.append('<p class="spike">SPIKE ' + e(b["slug"])
                        + " — ladder bypassed</p>")
 
-        out.append("<h2>GOALS</h2>")
+        out.append("<h2>PIECES</h2>")
         board_by_slug = {b["slug"]: b for b in model["board"]}
-        for g in model["goals"]:
-            out.append('<div class="goal">')
-            head = ['<div class="goal-head"><span class="slug">'
+        for g in model["piece_strips"]:
+            out.append('<div class="piece-strip">')
+            head = ['<div class="piece-strip-head"><span class="slug">'
                     + e(g["slug"]) + "</span>"]
             if g["contract"] is None:
                 head.append('<span class="red">no contract on disk</span>')
@@ -788,16 +789,16 @@ def _pieces_md(checked):
     return "\n".join(lines) + "\n"
 
 
-def _goal(model, slug=_ST_SLUG):
-    return next(g for g in model["goals"] if g["slug"] == slug)
+def _piece_strip(model, slug=_ST_SLUG):
+    return next(g for g in model["piece_strips"] if g["slug"] == slug)
 
 
 def _board(model, slug=_ST_SLUG):
     return next(b for b in model["board"] if b["slug"] == slug)
 
 
-def _piece(goal, n):
-    return next(p for p in goal["pieces"] if p["n"] == n)
+def _piece(strip, n):
+    return next(p for p in strip["pieces"] if p["n"] == n)
 
 
 def _f1():
@@ -819,7 +820,7 @@ def _f2():
         assert head_text(d, _ST_CONTRACT_REL) is None, \
             "expected head_text None on a zero-commit repo"
         model = derive(d)
-        g = _goal(model)
+        g = _piece_strip(model)
         assert g["counts"] == {"landed": 0, "in_flight": 0, "remaining": 3}, g["counts"]
         for n in (1, 2, 3):
             assert _piece(g, n)["state"] == "remaining", f"piece {n}: {_piece(g, n)}"
@@ -833,7 +834,7 @@ def _f3():
         _git_commit(d, "add alpha contract, all unchecked")
         _sw(contract_abs, _pieces_md([True, True, False]))  # worktree only
         model = derive(d)
-        g = _goal(model)
+        g = _piece_strip(model)
         assert g["mode"] == "legacy", f"expected legacy mode, got {g['mode']!r}"
         assert _piece(g, 1)["state"] == "in flight", f"piece 1: {_piece(g, 1)}"
         assert _piece(g, 2)["state"] == "in flight", f"piece 2: {_piece(g, 2)}"
@@ -848,7 +849,7 @@ def _f4():
         _sw(contract_abs, _pieces_md([True, True, False]))
         _git_commit(d, "add alpha contract, boxes 1-2 checked")
         model = derive(d)
-        g = _goal(model)
+        g = _piece_strip(model)
         assert g["mode"] == "legacy", f"expected legacy mode, got {g['mode']!r}"
         assert _piece(g, 1)["state"] == "landed", f"piece 1: {_piece(g, 1)}"
         assert _piece(g, 2)["state"] == "landed", f"piece 2: {_piece(g, 2)}"
@@ -865,7 +866,7 @@ def _f5():
         _sw(contract_abs, _pieces_md([True, True, False]))  # worktree only, as F3
         _git_commit_empty(d, "checkpoint\n\nPiece: alpha/2")
         model = derive(d)
-        g = _goal(model)
+        g = _piece_strip(model)
         assert g["mode"] == "trailer", f"expected trailer mode, got {g['mode']!r}"
         assert _piece(g, 2)["state"] == "landed", f"piece 2: {_piece(g, 2)}"
         assert _piece(g, 1)["state"] == "in flight", f"piece 1: {_piece(g, 1)}"
@@ -879,7 +880,7 @@ def _f6():
         _git_commit(d, "add alpha contract, all unchecked")
         _git_commit_empty(d, "checkpoint\n\nPiece: alpha/1\nPiece: alpha/3")
         model = derive(d)
-        g = _goal(model)
+        g = _piece_strip(model)
         assert g["mode"] == "trailer", f"expected trailer mode, got {g['mode']!r}"
         assert _piece(g, 1)["state"] == "landed", f"piece 1: {_piece(g, 1)}"
         assert _piece(g, 3)["state"] == "landed", f"piece 3: {_piece(g, 3)}"
@@ -893,7 +894,7 @@ def _f7():
         _git_commit(d, "add alpha contract, all unchecked")
         _git_commit_empty(d, "checkpoint\n\nPiece: alpha/2")
         model = derive(d)
-        g = _goal(model)
+        g = _piece_strip(model)
         assert _piece(g, 2)["state"] == "landed", f"piece 2: {_piece(g, 2)}"
         expected = "alpha/2 — landed in git, box unchecked in working tree"
         assert expected in model["drift"], f"expected drift line {expected!r}, got {model['drift']}"
@@ -901,14 +902,20 @@ def _f7():
 
 _F8_PRODUCT = (
     "---\nroute: new\nstage: framed\n---\n\n"
-    "## Value\n\nSaves 10 hours a week across the team.\n"
+    "## Value\n\nSaves 10 hours a week across the team.\n\n"
+    "## Risk ledger\n\n"
+    "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
+    "|---|---|---|---|---|---|---|---|\n"
+    "| Adoption risk | yes | high | medium |  | accepted |  |  |\n"
 )
 
 
 def _mk_f8_tree(d):
-    """docs/product/alpha.md with legal front matter and a Value section,
-    committed — enough for gates routing to place alpha at viability
-    (frame's inputs are satisfied trivially; slice's Risk ledger is not)."""
+    """docs/product/alpha.md with legal front matter, a Value section, and
+    a named-but-unqualified killer ledger row, committed — enough for
+    gates routing to place alpha at viability (frame's inputs are
+    satisfied trivially; viability's killer-presence check passes on the
+    named row, but scope's full ledger qualification does not)."""
     _git_init(d)
     _sw(os.path.join(d, "docs", "product", f"{_ST_SLUG}.md"), _F8_PRODUCT)
     _git_commit(d, "add alpha product doc")
@@ -923,8 +930,8 @@ def _f8():
         by_rung = {r["rung"]: r for r in b["rungs"]}
         assert by_rung["frame"]["state"] == "built", by_rung["frame"]
         assert by_rung["viability"]["state"] == "in-flight", by_rung["viability"]
-        assert by_rung["slice"]["state"] == "missing", by_rung["slice"]
-        assert by_rung["slice"]["need"] >= 1, by_rung["slice"]
+        assert by_rung["scope"]["state"] == "missing", by_rung["scope"]
+        assert by_rung["scope"]["need"] >= 1, by_rung["scope"]
 
 
 def _f9():
@@ -1019,11 +1026,63 @@ def _f14():
                         f"consecutive generations differ: {os.path.basename(pa)}"
 
 
+def _f15():
+    """board: ready-to-release terminal — all rungs built. A full tree
+    that clears every rung (frame through acceptance) plus the derived
+    terminal's own evidence (an acceptance record and the CI workflow),
+    per D4: `route()` reports enters_at == "ready-to-release", and
+    `board_for`'s e_idx fix (len(RUNGS), not RUNGS.index(...), which
+    would raise ValueError on a name that isn't a rung) must render all
+    seven rungs 'built' with no in-flight cell."""
+    ledger_good = (
+        "---\nroute: new\nstage: framed\n---\n\n"
+        "## Value\n\nSaves 10 hours/week.\n\n"
+        "## Risk ledger\n\n"
+        "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
+        "|---|---|---|---|---|---|---|---|\n"
+        "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
+        "| Perf risk | no | medium | low | benchmark done | countermeasure - permanent | caching added |  |\n"
+    )
+    product_text = ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n"
+    spec_text = (
+        "# Alpha — build spec\n\n"
+        "## Pieces\n\n"
+        "- [x] Step 1\n\n"
+        "### Step 1: do the thing\n"
+        "**What:** do it.\n"
+        "**Verify:** `true`\n"
+    )
+    with tempfile.TemporaryDirectory() as d:
+        _git_init(d)
+        _sw(os.path.join(d, "docs", "product", f"{_ST_SLUG}.md"), product_text)
+        _sw(os.path.join(d, "docs", "design", f"{_ST_SLUG}.md"), "# Alpha design\n\nHow it works.\n")
+        _sw(
+            os.path.join(d, "docs", "gates", "2026-01-01-alpha-design.md"),
+            "---\nroute: new\nstage: designed\n---\n\n## GO\n\nDesign approved.\n",
+        )
+        _sw(os.path.join(d, _ST_CONTRACT_REL), spec_text)
+        _sw(
+            os.path.join(d, "docs", "gates", "2026-01-03-alpha-acceptance.md"),
+            "---\nroute: new\nstage: ready-to-release\n---\n\n"
+            "## Release condition\n\nAll steps verified and merged.\n",
+        )
+        _sw(os.path.join(d, ".github", "workflows", "gate.yml"), "name: entry-gate\n")
+        _git_commit(d, "alpha clears every rung to ready-to-release")
+
+        model = derive(d)
+        b = _board(model)
+        assert b["enters_at"] == "ready-to-release", \
+            f"expected enters_at ready-to-release, got {b['enters_at']!r}"
+        for r in b["rungs"]:
+            assert r["state"] == "built", f"{r['rung']}: expected built, got {r}"
+        render_table(model)  # must not raise
+
+
 def selftest():
-    """Part B: F1-F14, each built fresh in its own temp tree (git init +
+    """Part B: F1-F15, each built fresh in its own temp tree (git init +
     committed history, per case). Prints one 'ok <n> — <name>' line per
     case; on the first failed assertion prints 'FAIL <n> — <name>: <why>'
-    and returns 1. On full success prints 'selftest: 14 ok' and returns 0.
+    and returns 1. On full success prints 'selftest: 15 ok' and returns 0.
 
     Two things this suite does NOT cover, named rather than silently
     skipped: a bypass (spike) slug — `route()`'s bypass:true path, which
@@ -1038,13 +1097,14 @@ def selftest():
         (_f5, "trailer mode switches on: legacy piece without a trailer stays in flight"),
         (_f6, "multi-trailer commit: two Piece lines in one message both land"),
         (_f7, "drift: landed in git, box unchecked in the working tree"),
-        (_f8, "board: frame built, viability in-flight, slice missing"),
+        (_f8, "board: frame built, viability in-flight, scope missing"),
         (_f9, "agreed overlay: a docs/gates GO record marks only its own rung"),
         (_f10, "canvas layout checks clean on the F8 model"),
         (_f11, "stale: converged tree — render current, exit 0"),
         (_f12, "stale: drifted tree — exit 1 naming all three files and the verbatim fix"),
         (_f13, "stale: missing trio — exit 1 naming all three missing files"),
         (_f14, "determinism: two consecutive write_surfaces runs byte-identical"),
+        (_f15, "board: ready-to-release terminal — all rungs built"),
     ]
     for i, (fn, name) in enumerate(cases, start=1):
         try:
@@ -1056,5 +1116,5 @@ def selftest():
             print(f"FAIL {i} — {name}: unexpected {type(e).__name__}: {e}")
             return 1
         print(f"ok {i} — {name}")
-    print("selftest: 14 ok")
+    print("selftest: 15 ok")
     return 0

@@ -162,7 +162,7 @@ Tell the two apart by asking the gates, not by judgement: pick a slug and run `p
 
 **Where no entry gates exist the behaviour above is unchanged** — frame the task, write the plan into TODO.md, and carry on.
 
-**Not yet owned, and named so nobody assumes otherwise:** the design and contract stages. Nothing in `skills/` writes a design doc, a design GO record, or a release slice. Conductor sheds one piece at a time — its own spec's transition rule 4 — so those are separate work, not an oversight here.
+**Not yet owned, and named so nobody assumes otherwise:** the design and work handoff stages. Nothing in `skills/` writes a design doc, a design GO record, or a Scope section. Conductor sheds one piece at a time — its own spec's transition rule 4 — so those are separate work, not an oversight here.
 
 #### Write the plan
 
@@ -240,7 +240,7 @@ The brief carries four things, and deliberately not a fifth:
 - **Constraints** — binding conventions and standing decisions from CONTEXT.md the design can't violate
 - **Available players** — which model tiers exist to be assigned
 
-Not the orient narrative, not how the conductor reached its conclusions, not alternatives already rejected. That's session diary — it's the bulk of what a naive handoff would carry, and the composer needs none of it.
+Not the orient narrative, not how the conductor reached its conclusions, not alternatives already rejected. That's session diary — it's the bulk of what a naive session handoff would carry, and the composer needs none of it.
 
 Hand the composer a **template** with judgment-shaped slots (step header, tag, what / why / verify) so its output tokens go to decisions instead of reinventing scaffolding. But **do not delegate spec *detail* to a cheaper model.** A template removes boilerplate; the exact values, signatures, and verify commands are where judgment gets encoded precisely enough to survive a player that never saw the reasoning. That detail *is* the safety mechanism, not padding around it.
 
@@ -365,14 +365,14 @@ Start: the `execute` stamp for the first task, the previous task's work-commit t
 
 **If the line you read is not an `execute` line, there is no open time.** The phase never advanced, or the file was never written — either way the stamp does not exist. Hand the boundary nothing for the open side and let it write `(<label>, closed HH:MM TZ)` instead. Do not substitute another phase's stamp, and do not reconstruct one from when the work felt like it began: an invented time is precisely what the same-turn rule exists to prevent, and it has already happened once (2026-08-06, caught by the expert-user pass on this feature's own first use). A missing open time is an honest record; a plausible wrong one is not.
 
-Close-out settles the work, then runs the boundary itself — one act, no handoff ask. By now each verified task is already committed and pushed (see [Work commits](#work-commits)). Keep conductor's close-out short:
+Close-out settles the work, then runs the boundary itself — one act, no session handoff ask. By now each verified task is already committed and pushed (see [Work commits](#work-commits)). Keep conductor's close-out short:
 
 1. **Update TODO.md and CONTEXT.md**: remove completed tasks from TODO, add new ones discovered during work, then overwrite `## Now` to forward-only state (what's next, a few lines — the completed record is the session log switch writes at the boundary). Record any *unresolved* decisions or questions in CONTEXT.md (`## Key Decisions` / `## Open Questions`). Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
 2. **Doc impact**: docs should already be current (docs travel with code, see Execute). Confirm nothing was missed against the CLAUDE.md Doc Impact Table if one exists. Don't carry doc updates into the boundary.
 3. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
 4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Conductor may be one step in a larger mode flow. After conductor's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
 5. **Clear the conductor marker**: remove the conductor line from `kivna/.active-modes`. Never touch the mode line — mode owns its own state.
-6. **Release close-out pass**: two moments fire it, either alone — this session's work commits changed the three plugin `"version"` fields (CI's release definition, rule R1), or this session landed a goal record (a new `docs/gates/*-goal.md` — a feature closed as complete). Invoke `/kerd:tend` and then `/kerd:slainte` before the boundary — the structural drift check and the narrative pass with fixes, each defined in its own SKILL.md, not here. The pass's edits are work commits under the verification gate. Neither moment, no pass.
+6. **Release close-out pass**: two moments fire it, either alone — this session's work commits changed the three plugin `"version"` fields (CI's release definition, rule R1), or this session landed an acceptance record (a new `docs/gates/*-acceptance.md` — a feature accepted as ready for release). Invoke `/kerd:tend` and then `/kerd:slainte` before the boundary — the structural drift check and the narrative pass with fixes, each defined in its own SKILL.md, not here. The pass's edits are work commits under the verification gate. Neither moment, no pass.
 7. **Run the boundary**: invoke `/kerd:switch out` via the Skill tool. There is one mode and it is the complete one (v0.90.0 removed `light` and `low`), so the invoke carries no modifier. The flow is defined once, in `skills/switch/SKILL.md` Switch Out; do not re-describe its steps here or anywhere in this file. When it completes, output `[conductor: closed]` as the final marker.
 
 ## Principles

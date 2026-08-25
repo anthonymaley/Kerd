@@ -1,6 +1,6 @@
 ---
 route: new
-stage: done
+stage: ready-to-release
 ---
 
 # Conductor-boundary — the close-out runs the boundary and names what's next
@@ -47,7 +47,7 @@ conductor").
 | Pull discipline blurs: conductor running the boundary starts to look like license to pull | no | mid-task file changes under in-flight work — the reason pull was boundary-only | low — the contract line survives verbatim | v0.67.0 rationale unchanged; switch-IN owns pull and is untouched by this slice | countermeasure - permanent | the contract keeps pull in switch-in only; conductor's close-out runs the OUT flow, which has never pulled | |
 | Next-pick suggestions harden into auto-execution (scope creep toward the loop nobody asked for) | no | producer key eroded — the pick is Tony's by design (choose-what-matters) | low — text can only suggest | Tony 2026-08-06: "suggest when a task completes without building a loop or hook"; the 2026-08-02 loop guard stands for execution even though its CI precondition flipped | countermeasure - permanent | the suggestion is one line naming the item; starting it stays a human reply; no loop, no hook, no scheduling in this slice | |
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

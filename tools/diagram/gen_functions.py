@@ -44,7 +44,7 @@ FUNCTIONS = [
    "ACHIEVED: the contract never re-derives design\nGAP: 3of3 reached outside Kerd to find this.\nFOLDED IN 2026-08-03: Agree the shape · Decide\nwhat proves it · Design the interface. the four-way\nsplit was Claude's decomposition of the brainstorming\nchecklist, never Tony's shape — his answers describe\none conversation producing one package."),
  ]),
 
- ("CONTRACT", [
+ ("HANDOFF", [
   ("Write the contract ·\nSize and assign", "conductor", "ok",
    "the GO'd design package — full\nupstream truth, arriving intact",
    "the written work order: self-contained\npieces, each carrying its own check,\nsized and assigned AFTER writing",
@@ -94,7 +94,7 @@ CROSSCUTTING = [
   "ACHIEVED: one message resolved the decision\nGAP: 3of3 needed 'too much noise' typed to get a\nsimple view — and shipped a 4-option menu anyway\nWALKED 2026-08-04: four rules — decision questions\ncarry what/why/gap/win/lose; facts never asked,\npositions never guessed; straw-man yourself first;\nmust bind from outside the model"),
 
  ("Do we have what we need?\n(entry gate, every rung)", "conductor orient only", "GAP",
-  "the declared INPUTS of the function\nabout to start — product → design →\ncontract → build",
+  "the declared INPUTS of the function\nabout to start — product → design →\nhandoff → build",
   "proceed, or PUSH BACK and name exactly what is\nmissing. never start a rung on assumed inputs.\nRENDERED, not prose: have / need / progress",
   "ACHIEVED: a rung refused to start and said why\nGAP: exists at ONE rung — conductor's pre-flight\ninventory — and nowhere else in the flow\nWALKED 2026-08-04: thin gate riding the LADDER —\nrefusal is a question on it; spike = the one\nlicensed bypass; renders via Show where we are"),
 
@@ -395,7 +395,7 @@ DETAIL = {
    "it. the MEASURING itself is post-build conformance, not\n"
    "here. nothing declared upstream goes unaddressed.\n\n"
    "GO writes a dated gate record — docs/gates/<date>-<slug>-\n"
-   "design.md — and hands to CONTRACT (stage 3), where the\n"
+   "design.md — and hands to HANDOFF (stage 3), where the\n"
    "score is written. NEVER to writing-plans: the working\n"
    "half of brainstorming exits into the dead half today.",
  },
@@ -630,11 +630,11 @@ REQUIREMENTS = [
    "MUST produce ONE package: detailed specs, architecture plans, testing\nstrategy — and diagrams for as many aspects as we can. agreed in\ndiagrams, not prose.\n"
    "MUST propose at least two approaches with trade-offs before one is\nchosen — options on constant axes, costs marked, bets named, resolved\nin ONE message, not a sequence of clarifications.\n"
    "MUST be approved before any build starts, on TWO KEYS: every aspect\ndrawn and nothing left to annotate · every stage-1 measurement has a\nNAMED ANSWER in the package. the measuring itself is post-build.\n"
-   "MUST live at docs/design/<slug> — living, undated, same slug as the\nproduct doc. GO writes a dated gate record and hands to CONTRACT,\nnever to a plan-writing skill.\n"
+   "MUST live at docs/design/<slug> — living, undated, same slug as the\nproduct doc. GO writes a dated gate record and hands to HANDOFF,\nnever to a plan-writing skill.\n"
    "MUST state test bias per layer, and name every seam needing a\ncontract test.\n"
    "(?) MUST output interface values a machine can check — tokens, hex,\nspacing, states"),
  ]),
- ("CONTRACT", [
+ ("HANDOFF", [
   ("Write the contract · Size and assign",
    "MUST be implementable by a builder that never saw the reasoning;\nevery piece carries its own check.\n"
    "MUST tier access: the overseer holds ALL upstream truth; a builder\ngets the exact spec for their piece plus related materials, NO MORE.\n"
@@ -707,7 +707,7 @@ TOOLING = [
   "UNKNOWN. 'low' exists but was built for\ntoken budget, not context hygiene. (2) has\nno signal — nearest seed is v0.68's\n'say how you caught your own mistake'"),
  ("conductor", "you, working one session",
   "orient, plan, execute with evidence, hold scope",
-  "MEETS, at the contract rung and below"),
+  "MEETS, at the handoff rung and below"),
  ("conductor", "the LOOP, running one item",
   "take an item, build it, verify, commit — without re-planning\nor re-asking what it is",
   "UNKNOWN. every session starts from orient\nand a plan gate. a loop step should not."),

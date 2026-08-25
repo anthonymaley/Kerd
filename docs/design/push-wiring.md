@@ -13,7 +13,7 @@ progress view from the checkout and byte-compares it against the committed
 pair (`docs/plans/progress.{excalidraw,svg}`); any difference turns the
 tip's check red within one CI run, naming both files and the exact fix.
 Forgetting the refresh stops being silent drift and becomes a named red
-check. *(Amended at the goal gate, 2026-08-04: on a direct push CI runs
+check. *(Amended at the acceptance gate, 2026-08-04: on a direct push CI runs
 after the ref has moved, so this is detection at the tip, not refusal
 before landing — true prevention sits on the product ledger as an
 accepted unknown with a named return condition.)*

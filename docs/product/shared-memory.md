@@ -386,7 +386,7 @@ slice, and order slices by which sources already hold content.** Remove that
 pairing rule and this work item is dead by its own standard — it becomes a
 website over an empty repo.
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

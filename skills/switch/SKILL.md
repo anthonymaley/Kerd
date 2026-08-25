@@ -5,7 +5,7 @@ description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'sav
 
 # Switch (Session Handoff)
 
-Clean handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case.
+Clean session handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case.
 
 **This file is the single definition of the boundary.** Switch-in owns `git pull` — nothing else pulls, ever. Switch Out makes the session-state commit and has two callers: standalone `/kerd:switch out`, and conductor's close-out invoking the same flow as its final act. Either way the steps below are the only definition — no caller re-describes them. The session-state commit is CONTEXT.md, TODO.md, and the session log — written and committed once, here, at the boundary.
 
@@ -27,7 +27,7 @@ Completeness comes from full-fidelity session logs plus git history of every CON
 
 **The sharp edge: CONTEXT.md must never become a diary.** The session log is the diary. If a fact is episodic (what happened), it belongs in the log; if it's standing (a decision, a constraint, the current stage), it belongs in CONTEXT.md.
 
-**Pruning is event-licensed, not discretionary.** CONTEXT.md is **append-only** except at two moments: a **goal record landing** (a new `docs/gates/*-goal.md` — a work item closed as complete) or an **explicit agreed drop** (the user and the session agree something dies). At those moments pruning is expected. Between them it is forbidden, even when the file feels long. The rule exists because erosion and unbounded growth are the same dial: a short session that prunes can silently delete an agreed point a deeper session recorded, and that loss is exactly what this boundary exists to prevent. A short session is structurally not a licensed event, so it cannot prune.
+**Pruning is event-licensed, not discretionary.** CONTEXT.md is **append-only** except at two moments: an **acceptance record landing** (a new `docs/gates/*-acceptance.md` — a work item accepted as ready for release) or an **explicit agreed drop** (the user and the session agree something dies). At those moments pruning is expected. Between them it is forbidden, even when the file feels long. The rule exists because erosion and unbounded growth are the same dial: a short session that prunes can silently delete an agreed point a deeper session recorded, and that loss is exactly what this boundary exists to prevent. A short session is structurally not a licensed event, so it cannot prune.
 
 ## Usage
 
@@ -61,13 +61,13 @@ Create `CONTEXT.md` at the repo root if it doesn't exist. **Overwrite in place**
 ## Where We Are        — current working state, a short paragraph, overwritten
 ## Key Decisions       — standing decisions + their why; prune when superseded
 ## Open Questions      — genuinely unresolved; remove when answered
-## Active Mode         — conductor snapshot for cross-machine handoff
+## Active Mode         — conductor snapshot for cross-machine session handoff
 ```
 
 - **Add, don't remove — unless this is a licensed event.** The default is append-only: a new decision joins `## Key Decisions`, a resolved question leaves `## Open Questions`, `## Where We Are` is rewritten. Nothing else is deleted. Overwriting the file is how it is *edited*; it is not permission to shorten it.
-- **At a licensed event, prune — and say what you pruned.** The two events are a goal record landing this session (`docs/gates/*-goal.md`) and an explicit agreed drop. When one fires, remove decisions the closed work superseded and report each removal in the session log's `## Key Decisions`, so the deletion is reachable from the record rather than only from git. If no event fired, prune nothing, however long the file looks.
+- **At a licensed event, prune — and say what you pruned.** The two events are an acceptance record landing this session (`docs/gates/*-acceptance.md`) and an explicit agreed drop. When one fires, remove decisions the closed work superseded and report each removal in the session log's `## Key Decisions`, so the deletion is reachable from the record rather than only from git. If no event fired, prune nothing, however long the file looks.
 - **Not a copy of the session narrative.** If it's in the session log and episodic, it does not belong here.
-- **Mode snapshot:** if `kivna/.active-modes` contains mode state, snapshot it into `## Active Mode` so cross-machine handoff works without the ephemeral file. Include: mode name, current step number and total, session instruction (if any), and the steps list with status markers.
+- **Mode snapshot:** if `kivna/.active-modes` contains mode state, snapshot it into `## Active Mode` so cross-machine session handoff works without the ephemeral file. Include: mode name, current step number and total, session instruction (if any), and the steps list with status markers.
 
 ### 2. Update TODO.md (work)
 
@@ -193,7 +193,7 @@ It compares every file the session changed against what `CONTEXT.md`, `TODO.md`
 and this session's log actually name, and refuses when something was produced
 that nothing a pickup reads points at.
 
-An unreachable artifact is not lost from disk — it is lost from the **handoff**.
+An unreachable artifact is not lost from disk — it is lost from the **session handoff**.
 The next session has no path to it. This repo has already paid for that at its
 highest altitude: `docs/design/conductor-role.md` decided the most important
 question in the rewrite and sat unbuilt for three days because nothing pointed
@@ -274,7 +274,7 @@ Pick up where the last session left off. The read set is three files: CONTEXT.md
 
 ### 2. Handoff contract verification
 
-After pulling, verify the outgoing machine completed its handoff. Check:
+After pulling, verify the outgoing machine completed its session handoff. Check:
 
 - Does `CONTEXT.md` exist?
 - Does `TODO.md` exist?
@@ -283,16 +283,16 @@ After pulling, verify the outgoing machine completed its handoff. Check:
 If all are present, proceed normally. If any is missing, flag it explicitly:
 
 ```
-⚠ Partial handoff detected:
+⚠ Partial session handoff detected:
   - CONTEXT.md missing
   - Latest session log missing ## What's Next
 
   Proceeding with available context. Some state may be missing.
 ```
 
-If CONTEXT.md is missing but TODO.md has a `## Current Session` block or `### Context` section, this is a **pre-split repo**, not a broken handoff: read the legacy shape, note that the next switch-out will migrate it (step 2b), and proceed.
+If CONTEXT.md is missing but TODO.md has a `## Current Session` block or `### Context` section, this is a **pre-split repo**, not a broken session handoff: read the legacy shape, note that the next switch-out will migrate it (step 2b), and proceed.
 
-Do not pretend the pickup is clean when the handoff was incomplete.
+Do not pretend the pickup is clean when the session handoff was incomplete.
 
 ### 3. Smoke test
 
@@ -320,7 +320,7 @@ If any TODO items carry a `(done? — confirm)` tag, collect them and ask the us
 
 ### 8. Read position on the ladder
 
-Recover **where the work sits**, not just what was said about it. This is the half of the handoff that the three files carry worst: they are prose, and position is a location.
+Recover **where the work sits**, not just what was said about it. This is the half of the session handoff that the three files carry worst: they are prose, and position is a location.
 
 - **If the repo has a progress renderer**, run it and read what it reports — in Kerd, `python3 tools/diagram/progress.py`, which derives every slug's exact rung from disk and is CI-refused if stale, so it is never out of date.
 - **If the repo has a hand-maintained progress file**, read it.
@@ -333,7 +333,7 @@ Carry the position into the summary alongside the narrative: which work items ar
 Check two sources for mode state:
 
 1. **`kivna/.active-modes`** (same-machine resume): if it exists and is non-empty, read it and report active modes.
-2. **CONTEXT.md `## Active Mode`** (cross-machine handoff): if `.active-modes` doesn't exist or is empty, check CONTEXT.md's `## Active Mode` section for a snapshot. If found, report it and offer to restore it to `.active-modes`.
+2. **CONTEXT.md `## Active Mode`** (cross-machine session handoff): if `.active-modes` doesn't exist or is empty, check CONTEXT.md's `## Active Mode` section for a snapshot. If found, report it and offer to restore it to `.active-modes`.
 
 Report any active modes in the summary (e.g., "**Active modes:** `greenfield (step 4 of 9)`"). If neither source has mode state, skip this. Don't mention modes.
 
@@ -344,7 +344,7 @@ Tell the user:
 - Any open questions or decisions from the previous session
 - **Where the work sits on the ladder** (step 8) — the in-flight items and their rungs
 - Any test failures from the smoke test
-- Any handoff issues detected in step 2
+- Any session handoff issues detected in step 2
 - **A short-form "what's next" pick-list** — a numbered menu of every `## Now` and `## Backlog` item, one terse line each. TODO is forward-only and lean by design, so list it in full — don't truncate to "+N more". This is a compact menu, not a re-narration: title-only, no re-explaining what each item is, no reply-instructions (the user just types a number or says what they want).
 
 The pick-list is the point of the summary — the user reads it to pick their next move. Draw it straight from TODO.md; don't editorialize. Number the items and tag each with `[Now]`/`[Backlog]`. Shape:

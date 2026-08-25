@@ -342,7 +342,7 @@ work item is dead by its own standard.
 The three accepted unknowns all carry the design rung as their review
 trigger. None may reach the build rung unanswered.
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

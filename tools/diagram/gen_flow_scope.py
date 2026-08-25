@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Slice a release · Set the goal — stage flow. PRODUCT rung, function 4 of 4.
 
-    python3 tools/diagram/gen_flow_slice.py
+    python3 tools/diagram/gen_flow_scope.py
 """
 import json
 import os

@@ -372,7 +372,7 @@ consumes it.** A slice that changes conductor without obliging anything, or
 that obliges something by removing a working behaviour, fails one killer or the
 other.
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

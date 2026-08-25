@@ -6,7 +6,7 @@ concerns:
   - concern: what each gate checks, and what each renamed word actually costs
     viewpoint: matrix
     view: docs/design/rung-vocabulary/rungs-and-artifacts.html
-    approval: Tony, 2026-08-25 · fp:8daab36a9d76
+    approval: Tony, 2026-08-25 · fp:aa92ebdbfa68
   - concern: why loop is a container and acceptance is the producer's last gate
     viewpoint: nested
     view: docs/design/rung-vocabulary/the-ladder.html
@@ -304,7 +304,7 @@ records the moment Drive exists. Renaming them afterwards is a migration in
 someone else's repo, which this project cannot perform and would not be forgiven
 for.
 
-## Release slice
+## Scope
 
 Rigor level: mvp
 

@@ -431,13 +431,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "route         = new | problem | spike\n                front matter, kit.py:28, gate-checked per rung\nRigor level   = spike | mvp | production-v1\n                ## Release slice, kit.py:49, AU6-checked\nProject Type  = Ideation | Spike | MVP | Pilot | Full Release |\n                Maintenance | Security Review | Experiment |\n                Hotfix | Migration | Platform | Compliance |\n                Beta | Decommission | Internal Tooling  (15)\n\na spike would declare spike THREE times, in three places,\nagainst three different legal sets.",
+   "text": "route         = new | problem | spike\n                front matter, kit.py:28, gate-checked per rung\nRigor level   = spike | mvp | production-v1\n                ## Scope, kit.py:49, AU6-checked\nProject Type  = Ideation | Spike | MVP | Pilot | Full Release |\n                Maintenance | Security Review | Experiment |\n                Hotfix | Migration | Platform | Compliance |\n                Beta | Decommission | Internal Tooling  (15)\n\na spike would declare spike THREE times, in three places,\nagainst three different legal sets.",
    "fontSize": 12,
    "fontFamily": 6,
    "textAlign": "left",
    "verticalAlign": "top",
    "containerId": null,
-   "originalText": "route         = new | problem | spike\n                front matter, kit.py:28, gate-checked per rung\nRigor level   = spike | mvp | production-v1\n                ## Release slice, kit.py:49, AU6-checked\nProject Type  = Ideation | Spike | MVP | Pilot | Full Release |\n                Maintenance | Security Review | Experiment |\n                Hotfix | Migration | Platform | Compliance |\n                Beta | Decommission | Internal Tooling  (15)\n\na spike would declare spike THREE times, in three places,\nagainst three different legal sets.",
+   "originalText": "route         = new | problem | spike\n                front matter, kit.py:28, gate-checked per rung\nRigor level   = spike | mvp | production-v1\n                ## Scope, kit.py:49, AU6-checked\nProject Type  = Ideation | Spike | MVP | Pilot | Full Release |\n                Maintenance | Security Review | Experiment |\n                Hotfix | Migration | Platform | Compliance |\n                Beta | Decommission | Internal Tooling  (15)\n\na spike would declare spike THREE times, in three places,\nagainst three different legal sets.",
    "autoResize": true,
    "lineHeight": 1.25
   },
@@ -1286,13 +1286,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ contract\nG3 design approved           = design\nG4 build complete            = build\nG5 verification passed       ~ goal\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      = loop  (the stage left EMPTY)\n                               - viability and slice have NO GATE",
+   "text": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ handoff\nG3 design approved           = design\nG4 build complete            = build\nG5 verification passed       ~ goal\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      = loop  (the stage left EMPTY)\n                               - viability and scope have NO GATE",
    "fontSize": 12,
    "fontFamily": 6,
    "textAlign": "left",
    "verticalAlign": "top",
    "containerId": null,
-   "originalText": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ contract\nG3 design approved           = design\nG4 build complete            = build\nG5 verification passed       ~ goal\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      = loop  (the stage left EMPTY)\n                               - viability and slice have NO GATE",
+   "originalText": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ handoff\nG3 design approved           = design\nG4 build complete            = build\nG5 verification passed       ~ goal\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      = loop  (the stage left EMPTY)\n                               - viability and scope have NO GATE",
    "autoResize": true,
    "lineHeight": 1.25
   },

@@ -41,7 +41,7 @@ real `(HH:MM–HH:MM TZ)` range: open time handed over by conductor's
 close-out (its `execute` stamp, captured before the marker is cleared)
 or read from a surviving marker line standalone (omitted honestly if
 neither), close time from `date` at the boundary. (Corrected at the
-goal gate: `.active-modes` holds one conductor line, overwritten per
+acceptance gate: `.active-modes` holds one conductor line, overwritten per
 phase, so "the session's earliest stamp" was never derivable — and
 close-out clears the marker before invoking the boundary, so the
 hand-over is the only path that works.)
@@ -50,7 +50,7 @@ hand-over is the only path that works.)
 gains an optional `**Clock:** YYYY-MM-DD HH:MM TZ` line under the
 title. Documented in `tools/gates/README.md`; deliberately NOT
 validated (the accepted risk's review trigger holds the CI
-graduation). Goal records first. No existing record is touched — a
+graduation). Acceptance records first. No existing record is touched — a
 backfilled time is manufactured history.
 
 **hooks/statusline.sh — composes, never claims.** The statusline slot
@@ -68,7 +68,7 @@ never sees the statusline — the frame's accepted limit.
 
 Design-time cross-cutting sweep run (`.active-modes` readers: 3 hook
 scripts prefix-safe, plus switch reading the line whole — the sweep's
-"4 hook scripts" was wrong, corrected at the goal gate; no other living doc defines the marker
+"4 hook scripts" was wrong, corrected at the acceptance gate; no other living doc defines the marker
 format; no existing time-format conventions collide):
 
 1. `hooks/statusline.sh` — NEW: stdin-forwarding, chainable, `HH:MM`
