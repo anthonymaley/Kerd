@@ -80,3 +80,52 @@ came from reading `kit.py` line by line after the producer asked whether the
 descriptions were correct.
 
 Hands to CONTRACT.
+
+---
+
+## Amendment — 2026-08-25, at the contract rung
+
+**Clock:** 2026-08-25 10:51 EDT
+
+**The declared regression above is wrong and is corrected here rather than
+rewritten above.** The record said *"five work records carry `## Value` and no
+risk ledger. They report `enters at: slice` today and will report
+`enters at: viability`."* The composer checked it against the tree while writing
+the contract spec, and it is wrong three ways:
+
+- **Four such records exist, not five.** The design listed four names and asserted
+  five, absorbing the shortfall in the phrase *"and one more"*. There is no fifth.
+- **Three of the four are `route: spike`** — `diagram-toolkit`,
+  `requirements-view`, `standards-grounding` — and a spike bypasses the ladder
+  entirely, so they cannot regress.
+- **The one that can move is `requirements-project-type-templates`, and it does
+  not move where the record said.** It reports `enters at: viability` **today**,
+  not `slice`, and will report **`frame`** — because `enters_at` names the
+  deepest *passing* rung, not the next rung to do. The original sentence read the
+  field backwards.
+
+**The true declared regression is one record, viability → frame.** Every other
+ledger on disk already names at least one killer risk, so nothing else moves. No
+exemption is added.
+
+**A second error, same class:** the design package cited a function `stage_ahead`
+in `tools/gates/kit.py` as the check that refuses a declared stage without its
+artifacts. **No such function exists.** The mechanism is the AU2 audit rule whose
+message reads *"stage ahead of its artifacts"* — a phantom symbol invented
+because the message reads like a function name. It passed `## Grounding` because
+AU5 resolves file *paths* and never symbols inside a line.
+
+**One finding returned by the composer is itself wrong, recorded so nobody
+"corrects" a correct number.** It reported the design's *"19 uses of `handoff`
+across `skills/`"* as drifted to 15. Measured: `grep -roni 'handoff' skills/`
+returns **19**, exactly as written. 15 is the count for
+`skills/switch/SKILL.md` alone. The conductor made the mirror-image mistake an
+hour earlier — a case-sensitive grep returning 16 — and nearly reported the frame
+as wrong on the same number.
+
+**Why this is appended rather than fixed in place:** gate records are immutable by
+contract. A record that quietly grew correct would leave nothing to learn from,
+and the failure here — a count asserted ahead of the list supporting it, with the
+shortfall hidden by a vague phrase — is the same class as the four phantom
+dependencies of 2026-08-14. It reached an immutable record, which is exactly how
+far it should be visible.

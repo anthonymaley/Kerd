@@ -13,7 +13,7 @@ it had.
 - docs/product/rung-vocabulary.md — the frame, and the currency test across all eight rungs
 - docs/design/rung-vocabulary/the-ladder.html — sealed view: why loop is a container and acceptance is the producer's last gate
 - docs/design/rung-vocabulary/rungs-and-artifacts.html — sealed view: what each gate checks and what each renamed word costs
-- tools/gates/kit.py — `RUNGS` (34), `STAGES` (35), `GATE_RECORD_RE` (93), `check_rung`, `route`, `stage_ahead`
+- tools/gates/kit.py — `RUNGS` (34), `STAGES` (35), `GATE_RECORD_RE` (93), `check_rung`, `route`, and the AU2 audit rule carrying the "stage ahead of its artifacts" check
 - tools/gates/README.md — the canonical home of the rung vocabulary and the gate-record schema
 - docs/design/funnel-driver.md — the six work types this vocabulary must read across
 - CONTEXT.md — the currency rule, Law 4's supersession clause, the cross-cutting sweep obligation
@@ -114,8 +114,13 @@ a declared one.**
 - The evidence is the acceptance record on disk. A human can no more type an item
   into `ready-to-release` than they can type it into `designed`.
 - `stage: ready-to-release` in front matter stays as the item's own declaration,
-  and `stage_ahead` refuses it when the artifacts are not there — the same
+  and the audit refuses it when the artifacts are not there — the same
   declaration-versus-evidence check every other stage already gets.
+  **CORRECTED 2026-08-25:** an earlier draft named this check `stage_ahead`. **No
+  such function exists in `kit.py`** — the mechanism is the AU2 audit rule whose
+  message is *"stage ahead of its artifacts"*. A phantom symbol, invented because
+  the message reads like a function name, and it passed `## Grounding` because
+  AU5 resolves file *paths* and never symbols inside a line.
 
 This is the smallest change that closes the break, and it is a change the frame
 did not know was available because the frame had not read `route()`.
@@ -140,13 +145,35 @@ wants killer risks named and accepts no sizing or evidence; scope wants every ro
 sized, evidenced, and in exactly one state. The reasoning, the refutation that
 produced it, and the evidence tiers are in CONTEXT.md.
 
-**A consequence the design must own: five work records go backwards on the board.**
-`diagram-toolkit`, `requirements-project-type-templates`, `requirements-view`,
-`standards-grounding` and one more carry `## Value` and no risk ledger. They
-report `enters at: slice` today; with killer risks required at viability they
-will report `enters at: viability`. That is more honest than what they say now —
-none of them has ever had a risk named — but it is a visible regression and it is
-declared here rather than discovered on the board.
+**A consequence the design must own — and the first version of this paragraph
+was wrong in three ways, CORRECTED 2026-08-25 by the composer checking it against
+the tree.** It claimed *"five work records ... `diagram-toolkit`,
+`requirements-project-type-templates`, `requirements-view`, `standards-grounding`
+and one more"* — a count of five behind a list of four, with the gap hidden by
+*"and one more"* rather than admitted. **There are four**, and only one of them
+can move:
+
+| Record | `route:` | Moves? |
+|---|---|---|
+| `diagram-toolkit` | `spike` | no — a spike bypasses the ladder entirely |
+| `requirements-view` | `spike` | no — same |
+| `standards-grounding` | `spike` | no — same |
+| `requirements-project-type-templates` | `new` | **yes** |
+
+And the one that moves does not move where the paragraph said. It reports
+`enters at: viability` **today**, not `slice`, and will report **`frame`** —
+because `enters_at` is the deepest *passing* rung, not the next rung to do. The
+original sentence read the field backwards.
+
+**So the declared regression is one record, from `viability` to `frame`.** Every
+other ledger on disk already names at least one killer risk, so nothing else
+moves. No exemption is added for it.
+
+**Recorded rather than quietly fixed, because the failure has a name:** a count
+asserted ahead of the list that supports it, with the shortfall absorbed by a
+vague phrase. This is the same class as the four phantom dependencies the
+requirements format produced on 2026-08-14 — plausible, specific-looking, and
+false. It survived being written into an immutable GO record.
 
 ## The alias rule extends from filenames to section names
 
