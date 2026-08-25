@@ -217,7 +217,39 @@ throughout, because none of it is ever rewritten.
 | `## Done condition` → `## Release condition` | 4 in kit.py + 2 living docs | plus 7 gate records read-only forever |
 | `contract` as a rung in generators | 5 files | `gen_flow_contract.py` (a filename), `gen_journey.py:57`, `gen_functions.py:47` and `:637`, `gen_flow_design.py:97`, `gen_flow_celtic_example.py:128` |
 | `goal` as a rung in `skills/` + gates README | 5 hits | |
-| Rendered artifacts with the words baked in | 23 `.excalidraw`/`.svg` under `docs/plans/` | regenerate from the generators, never hand-edit |
+| Rendered artifacts with the words baked in | 23 `.excalidraw`/`.svg` under `docs/plans/` | **living surfaces regenerate; dated records stand** — see below. Never hand-edit either. |
+
+### A living surface regenerates; a dated record stands — RULED 2026-08-25
+
+The row above originally said all 23 rendered artifacts get regenerated. **That
+was wrong, and the composer refused it while writing the contract spec.** The
+producer's ruling:
+
+> A dated artifact says "this is what we believed or showed on that date."
+> Regenerating it with today's vocabulary would create a cleaner repo but a false
+> record. That is worse than seeing old words in old drawings.
+
+So the sweep splits:
+
+| Surface | Treatment |
+|---|---|
+| Living, undated — the progress trio, the journey pages, undated generator output, `tools/gates/README.md`, the root README, living design docs, the playbook | **regenerate / rewrite** to the new ladder |
+| Generator *source* files (living code) | **updated regardless** |
+| Dated `docs/plans/2026-08-0x-*.svg` / `.excalidraw` | **untouched, forever** |
+
+**Old words inside a dated record are not drift.** They are the record being
+honest about its date. Future generated records use the new vocabulary only.
+
+**The six-month reader problem is real, and the fix is orientation rather than
+rewriting** — his call. Someone opening a dated plan in six months sees `slice`,
+`contract` and `goal`, and needs to know why without re-deriving it. The rule
+therefore lands in the canonical vocabulary home (`tools/gates/README.md`), and
+any current link to a dated drawing labels it *historical / pre-rename* where the
+ambiguity would matter.
+
+This is the 2026-08-03 rule — *date records of events, never date living
+documents* — reaching a case its author had not tested it against: not a document
+someone writes, but a picture a generator emits.
 
 **The finding this sweep produced, and it reverses a claim the drawing made
 twice:** `contract → handoff` was described as the cheap rename because no gate

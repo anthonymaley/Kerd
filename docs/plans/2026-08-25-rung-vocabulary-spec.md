@@ -27,8 +27,8 @@ re-rendered in the same push.
 - `CONTEXT.md` and `TODO.md` — switch owns them; CONTEXT.md is append-only
   between licensed prune events, and this build is not one.
 - The dated renders under `docs/plans/` (`2026-08-0x-*.svg/.excalidraw`) are
-  NOT regenerated — see D8, a declared divergence from the design's sweep
-  table, raised at the approval gate.
+  NOT regenerated — see D8, settled by producer ruling (2026-08-25): living
+  surfaces regenerate, dated records stand.
 - No new subcommand, no `gate.yml` change, no `skills/drive/` (does not exist).
 
 **Version bump: YES — 0.98.0 → 0.99.0 (MINOR, changed behavior).** The sweep
@@ -348,9 +348,9 @@ a rung WAS, and quoted producer statements, stay verbatim.
 `docs/design/rung-vocabulary.md` itself is NOT edited — its old-name tables
 document the rename and are correct as written.
 
-### D8 — renders: living surfaces regenerate; dated records stand
+### D8 — renders: living surfaces regenerate; dated records stand — SETTLED by producer ruling, 2026-08-25
 
-The design's sweep table says the ~23 rendered artifacts under `docs/plans/`
+The design's sweep table said the ~23 rendered artifacts under `docs/plans/`
 are "regenerated from the generators, never hand-edited". This spec applies
 the never-hand-edit half everywhere and the regeneration half ONLY to living
 (undated) surfaces: the progress trio (`progress.excalidraw/svg/html` —
@@ -360,9 +360,17 @@ undated output of an edited generator (e.g. `project-types.svg`). The DATED
 renders (`2026-08-0x-*.svg/.excalidraw`) are point-in-time drawings of the
 old ladder — regenerating them would rewrite dated records to say something
 they did not say on their date. Generator SOURCE files (living code) are
-updated regardless. **This is a deliberate divergence from the design's sweep
-row, raised at the approval gate — if the producer wants the dated renders
-regenerated instead, only Step 5's regeneration list changes.**
+updated regardless.
+
+**This divergence was raised at the approval gate and the producer ruled in
+its favour** — recorded in `docs/design/rung-vocabulary.md`, section "A
+living surface regenerates; a dated record stands — RULED 2026-08-25". His
+rule, binding on this build: **old words inside dated records are not
+drift** — they are the record being honest about its date; any current link
+to a dated drawing labels it *historical / pre-rename* where ambiguity
+matters; and **future generated records use the new vocabulary only**. The
+orientation write-down for the six-month reader ("why does this old drawing
+say `slice`?") lands in the canonical home — Step 6, item 8.
 
 ### D9 — the version bump
 
@@ -738,12 +746,22 @@ statement must match Step 1's code exactly.
 7. **Audit table**: AU2 (adds the `scoped`→`Scope` wording and the
    ready-to-release/acceptance-record clause), AU3 (new regex), AU6
    (`## Scope`).
-8. **Rigor level section**: `## Release slice` → `## Scope` throughout,
+8. **A new section `## Why dated plans still say slice, contract and goal`**
+   — the orientation artifact the producer's D8 ruling asks for. It states:
+   the ladder was renamed on 2026-08-25; living surfaces were regenerated and
+   dated records under `docs/plans/` deliberately were not; a dated render
+   shows the vocabulary current on its date; **old words in a dated record
+   are not drift**; and any current link to a dated drawing should label it
+   *historical / pre-rename* where ambiguity matters. Short — a six-month
+   reader opening a dated plan must be able to answer "why does this old
+   drawing say `slice`?" from this section alone, without re-deriving the
+   ruling.
+9. **Rigor level section**: `## Release slice` → `## Scope` throughout,
    including the refusal literals (they must match `rigor_problems`'s new
    strings character for character).
-9. Sweep the rest of the file for the old rung names used as CURRENT names
-   (`slice`, `contract`, `build`, `goal` rows/mentions); leave the Views,
-   fingerprint, seal, release-rules and CI sections otherwise untouched.
+10. Sweep the rest of the file for the old rung names used as CURRENT names
+    (`slice`, `contract`, `build`, `goal` rows/mentions); leave the Views,
+    fingerprint, seal, release-rules and CI sections otherwise untouched.
 
 **Why.** "This README, not the dated spec it came from, is now the standard"
 — its own rule. This spec is dated and will not be read again.
@@ -766,6 +784,10 @@ checks = {
   "regex updated": "slice|scope" in t and "goal|loop|acceptance" in t,
   "rigor in Scope": "Scope missing 'Rigor level:" in t,
   "old rigor gone": "Release slice missing" not in t,
+  "dated-plans orientation": "## Why dated plans still say" in t,
+  "rename dated": "2026-08-25" in t,
+  "not drift": "are not drift" in t,
+  "historical label": "historical / pre-rename" in t,
 }
 for k, v in checks.items(): print(k, v)
 assert all(checks.values())
