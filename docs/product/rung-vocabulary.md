@@ -1,16 +1,16 @@
 ---
 route: new
-stage: framed
+stage: designed
 story: proposal
 concerns:
   - concern: what each gate checks, and what each renamed word actually costs
     viewpoint: matrix
     view: docs/design/rung-vocabulary/rungs-and-artifacts.html
-    approval: Tony, 2026-08-25 · fp:56fb72a4c3c8
+    approval: Tony, 2026-08-25 · fp:8daab36a9d76
   - concern: why loop is a container and acceptance is the producer's last gate
     viewpoint: nested
     view: docs/design/rung-vocabulary/the-ladder.html
-    approval: Tony, 2026-08-25 · fp:01527c97c762
+    approval: Tony, 2026-08-25 · fp:e2e788033798
 ---
 
 # Three rung names only work for software — and drawing the ladder found a fourth defect
