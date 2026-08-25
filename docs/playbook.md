@@ -112,6 +112,43 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Gotchas
 
+- **A doc that quotes a machine string must be checked against the RUNTIME
+  value, never a source grep** (2026-08-25). `tools/gates/kit.py` builds its
+  refusal literals as f-strings split across source lines, so
+  `grep "Scope declares a legal rigor level (Rigor level: spike|mvp|production-v1)"`
+  returns nothing even though the string is emitted exactly. It reads as a
+  genuine MISS and invites a "fix" to something already correct. Construct a
+  fixture tree, call the function, and read the emitted line back. Same class as
+  the phantom `stage_ahead` function of 2026-08-24: a claim about code that
+  reads as specific and was never executed.
+
+- **`grep -c` and `grep | wc -l` exit NON-ZERO on a zero count, which is the
+  PASSING case for a purity check** (2026-08-25). So `grep -c bad_pattern f && next`
+  silently stops at the first passing assertion, and every check after it is
+  never run. Four of sixteen verify blocks in the rung-vocabulary build were
+  wrong about grep mechanics rather than about what to check. Separate verify
+  assertions with `;`, never `&&`. (Distinct from the output-ordering gotcha
+  below — that one is about which filename prints first.)
+
+- **A retired name inside a split string literal is invisible to every grep**
+  (2026-08-25). `f.step("9", "GOAL\nGATE", …)` survived an entire rename sweep
+  because no search for `GOAL GATE` can match it, including the review step's own
+  planned purity check. Unsplit `\n` and `\t` escapes before matching. The
+  installed check that does this lives in the rung-vocabulary spec's Step 12.
+
+- **Running a generator to "check it still works" rewrites its dated output**
+  (2026-08-25). Several `tools/diagram/gen_flow_*.py` scripts write dated records
+  under `docs/plans/2026-*` and have no dry-run mode; `gen_flow_celtic_example.py`
+  additionally merges annotations and re-marks blue deltas. Dated renders are
+  historical records that must never be regenerated. Edit the source and do not
+  execute it; if you must, `git checkout --` the dated output immediately.
+
+- **The bare `python3 tools/diagram/progress.py` render writes the committed
+  trio** (2026-08-25). Running it just to look at the board mid-build dirties
+  `docs/plans/progress.{excalidraw,svg,html}`, which the assembly step owns and
+  which must be rendered only AFTER the work commit exists in `git log`. Use the
+  `selftest` subcommand for inspection, and `stale` to check currency.
+
 - **CONTEXT.md gets staged into a work commit, and the pull is structural rather
   than careless** (2026-08-23). Conductor tells you to record decisions in
   CONTEXT.md *during execute*, so at the next `git add` the file is freshly

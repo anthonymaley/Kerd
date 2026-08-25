@@ -6,30 +6,37 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: switch (session
 
 ## Where We Are
 
-**2026-08-25 — `rung-vocabulary` walked FRAME → DESIGN → CONTRACT in one sitting
-and sits at BUILD with a 936-line spec and 10 unchecked pieces. `funnel-driver`
-is unblocked after five days. Nothing shipped: no code changed, and Kerd remains
-at v0.98.0 — the bump to 0.99.0 is inside slice 1, not yet taken.**
+**2026-08-25 — `rung-vocabulary` slice 1 is BUILT and pushed. The ladder is
+seven rungs. Kerd is at v0.99.0. The item sits at `acceptance`, awaiting the
+producer's key — the first thing on the board that a machine cannot advance.**
 
-- **`rung-vocabulary` is at `build`.** Contract:
-  `docs/plans/2026-08-25-rung-vocabulary-spec.md` (10 steps, 8 delegated, 2 kept
-  at the seams). Design GO `docs/gates/2026-08-25-rung-vocabulary-design.md`,
-  with an appended amendment correcting a false measurement it shipped with.
-  Design package: `docs/design/rung-vocabulary.md`.
-- **Both views were resealed twice this sitting** and now stand at
-  `the-ladder` `fp:e2e788033798` and `rungs-and-artifacts` `fp:8daab36a9d76`.
-  Five reseals in total; the item dropped to `slice` and returned each time.
-- **`funnel-driver` is unblocked and sits at `contract`**, needing
-  `docs/plans/*-funnel-driver-spec.md`. Sixth day.
-- **`gate-visuals` is unchanged at `goal`** for a fifth day.
-- **The build has NOT started, deliberately.** It lands as one work commit
-  carrying all ten `Piece:` trailers plus a render commit, because the tree is
-  CI-red at every intermediate state. It touches `kit.py`, every work record,
-  four generators, three skills and the version. Held back from the tail of a
-  four-hour sitting rather than begun.
+- **`rung-vocabulary` is at `acceptance`.** All 16 pieces landed in one work
+  commit (`cbf8458`, sixteen `Piece:` trailers) plus a render commit
+  (`8ffd5a7`); the close-out pass added `fb20eaf`. `route` reports
+  `enters at: acceptance` — every box ticked, no acceptance record on disk.
+  What it needs is a `docs/gates/2026-08-2x-rung-vocabulary-acceptance.md`
+  with a `## Release condition` section, which is Tony's to write.
+- **The ladder is `frame · viability · scope · design · handoff · loop ·
+  acceptance`.** `## Release slice` is `## Scope` and moved to the scope gate;
+  viability now demands a NAMED killer risk; `ready-to-release` is derived from
+  an acceptance record, never typed. Retired names read forever, write never.
+- **Seven slugs render the `ready-to-release` terminal** for the first time,
+  all via their legacy `-goal.md` records. `requirements-project-type-templates`
+  dropped to `frame` — the one declared regression, no exemption added.
+- **`funnel-driver` is at `handoff`** (renamed from `contract`), still needing
+  `docs/plans/*-funnel-driver-spec.md`. Seventh day.
+- **`gate-visuals` is at `acceptance`** (renamed from `goal`), sixth day
+  untouched. Its `visual-lifecycle.html` still narrates "the goal gate" — a
+  Backlog row, to be fixed at its OWN gate, not from another slug's slice.
 - **The register is unchanged: 38 live, 33 approved, 0 invalidated.**
 
 ## Key Decisions
+
+- **A RENAME HAS TWO HALVES AND ONLY ONE OF THEM IS SWEEPABLE — measured across sixteen pieces, 2026-08-25.** `slice → scope` and `contract → handoff` are **substitutions**: one word out, one word in, impossible to invert, and the composer's enumerated D7 table caught every instance of them. `build`+`goal` → `loop`+`acceptance` is a **fold**: two rungs collapsing into a container plus an exit key, and a fold has a DIRECTION that can be read backwards. **Every defect this build produced sat on the fold half.** A player inverted it across ~14 living-doc edits (`goal → loop` instead of `goal → acceptance`) and a second player had to correct it; a third mapped old-`loop → acceptance` when D4 deletes old `loop` into the terminal. Seven sites were left unswept entirely — `progress_kit.py`'s `GOAL`/`GOALS` labels, `gen_flow_celtic_example.py`'s `"GOAL\nGATE"`, `gen_kerd_map.py`'s eight-entry `RUNGS`, `gen_flow_handoff.py`'s `(BUILD)`, four README sites including line 303 contradicting line 7 of the same file, and `docs/design/rigor-level.md`'s thirteen. **The mechanism is the same every time: an enumerated sweep is precise and non-exhaustive.** D7 named exact files and line numbers, so the sites it named landed perfectly and the sites it did not name were invisible — and its only closing grep was scoped to `skills/`. **The countermeasure that shipped is a check, not a rule:** Step 12 installed a purity scan that unsplits `\n`/`\t` escapes before matching (the thing that hid `"GOAL\nGATE"` from every grep in the session, including the review step's own planned one), inspects `f.step` labels and section keys, and prints its two deferred files aloud on every run so a deferral cannot decay into a miss. **The transferable rule: a rename gets an enumeration; a fold gets a closing check.**
+
+- **A FINGERPRINT PROVES UNCHANGED, NEVER TRUE — and a sealed view can be visually approved and factually false at the same time. Tony, 2026-08-25, ruling on a contradiction the build created.** `rungs-and-artifacts.html` named `gen_flow_contract.py`, a file the same slice deleted; the seal was intact, `gate.py check rung-vocabulary design` PASSed, and nothing on the board went red. His rule: *"A sealed view can remain visually approved, but it cannot remain factually false about a living file path after the slice lands."* Reseal preferred over an annotation, *"because it's a living design artifact for this item, not a dated historical record."* **The tension is real and was named rather than smoothed:** a fingerprint IS the approval — it exists so a changed drawing loses its key — so the producer says correct the file while the machine says a corrected file is no longer approved, and the machine cannot tell a one-token correction under a standing ruling from a full redraw. **The resolution is procedural, not a bypass:** downgrade the seal line to its hand-written form, let `gate.py seal` recompute FROM CONTENT (which structurally forbids the path-as-argument bug — `view_fingerprint` handed a path returns a plausible wrong value), re-render, compare `shasum` rather than byte count, and put a human eye on the render before the key goes back on. Executed: `fp:8daab36a9d76 → fp:aa92ebdbfa68`. **The scope limit, argued by the composer and accepted:** a SECOND stale view (`gate-visuals`' `visual-lifecycle.html`) was ruled OUT of this slice, on a distinction worth keeping — `gen_flow_contract.py` was a **dangling path** resolving to nothing, while "At the goal gate" is **stale vocabulary** for a check that still runs under a new name, with `goal` a legal read alias forever. And it belongs to another work item sitting at its own acceptance gate: resealing it would re-key the evidence its producer is about to judge, under a foreign slug's trailer. **The fingerprint mechanism draws work-item boundaries the way a lock draws a door, and a slice that reaches through another item's seal because the fix looked small is the failure it was built to prevent.**
+
+- **A DOC THAT QUOTES A MACHINE STRING MUST BE CHECKED AGAINST THE RUNTIME VALUE, NEVER A SOURCE GREP — 2026-08-25, found at the release close-out.** `docs/design/rigor-level.md` quoted three refusal literals verbatim and the machine had stopped emitting all three. Verifying the fix by grepping `kit.py` returned a **false MISS**: the literals are built as f-strings split across source lines, so the contiguous string exists only at runtime. The check that worked was constructing a fixture tree and reading the emitted `need` line back. **Same class as the phantom `stage_ahead` function of the previous day** — a claim about code that reads as specific and was never executed. **The doc's own drawing had already disagreed with it** (`rigor-level.excalidraw` said `Scope` sixteen times, `Release slice` zero) because the generator was living code and got swept while the prose beside it did not — a living design doc and its own generated render are two artifacts and only one of them was in the sweep's file list.
 
 - **A LIVING SURFACE REGENERATES; A DATED RECORD STANDS — Tony, 2026-08-25, ruling on a divergence the composer refused to resolve by itself.** The `rung-vocabulary` design's sweep table said all ~23 rendered `.excalidraw`/`.svg` artifacts under `docs/plans/` get regenerated from their generators. **The composer refused that row while writing the contract spec and raised it rather than silently obeying or silently diverging.** His ruling: *"A dated artifact says 'this is what we believed or showed on that date.' Regenerating it with today's vocabulary would create a cleaner repo but a false record. That is worse than seeing old words in old drawings."* **The split, in his terms:** living surfaces regenerate — current docs, README and tool docs, the gates README, progress views, journey views, undated generator outputs — and generator *source* files are updated regardless, being living code; **dated `docs/plans/2026-08-0x-*` renders stay untouched, forever**; **old words inside dated records are not drift**; future generated records use the new vocabulary only. **The six-month-reader objection was raised and answered rather than dismissed:** someone opening a dated plan later sees `slice`, `contract` and `goal` and must not have to re-derive why. **His fix is orientation, not rewriting** — the rule lands in the canonical vocabulary home (`tools/gates/README.md`), and any current link to a dated drawing labels it *historical / pre-rename* where ambiguity would matter. **This extends the 2026-08-03 rule — *date records of events, never date living documents* — to a case its author had not tested it against:** not a document a person writes, but a picture a generator emits. A generated artifact inherits its treatment from its *filename's date*, not from the fact that a machine could trivially remake it. **Cheapness of regeneration is precisely the trap**, because the thing that makes a dated render easy to refresh is what makes falsifying the record easy. **Procedure note, and it is the reason this was caught at all:** the composer was told to report anything in the design it found wrong rather than paper over it, and it returned three findings of which this was one. The conductor then handed the passage back rather than editing the score — re-dispatch, never re-specify — because a producer requirement arriving after the score is written is the composer's to absorb.
 

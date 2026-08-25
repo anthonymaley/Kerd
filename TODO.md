@@ -2,40 +2,37 @@
 
 ## Now
 
-**2026-08-25 — `rung-vocabulary` walked frame → design → contract in one sitting
-and sits at BUILD.** See `kivna/sessions/2026-08-25.md`.
+**2026-08-25 — `rung-vocabulary` slice 1 is BUILT and pushed; the item sits at
+`acceptance`, awaiting the producer's key.** See `kivna/sessions/2026-08-25.md`.
 
 **Where things stand**
 
-- **`rung-vocabulary` is at `build`** — contract on disk at
-  `docs/plans/2026-08-25-rung-vocabulary-spec.md`, 10 unchecked pieces.
-- **`funnel-driver` is UNBLOCKED at `contract`** — needs
-  `docs/plans/*-funnel-driver-spec.md`. Sixth day.
-- **`gate-visuals` still at `goal`** — fifth day untouched.
-- **Kerd at v0.98.0.** The bump to 0.99.0 rides inside slice 1, not yet taken.
+- **`rung-vocabulary` is at `acceptance`** — 16 pieces landed, `route` reports
+  `enters at: acceptance`, nothing left for a machine to advance.
+- **`funnel-driver` is at `handoff`** — needs `docs/plans/*-funnel-driver-spec.md`.
+- **`gate-visuals` is at `acceptance`** — sixth day untouched.
+- **Kerd is at v0.99.0.**
 
 **Next, in order**
 
-1. **Build `rung-vocabulary` slice 1** — the 10-piece spec. Eight steps
-   delegated, two kept at the seams. **It lands as ONE work commit carrying all
-   ten `Piece:` trailers, then a render commit** — the tree is CI-red at every
-   intermediate state, so there are no per-step commits, and the progress trio
-   can only be rendered after the work commit exists in `git log`. Touches
-   `kit.py`, 17 work records, four generators, three skills and the version.
-   Start it fresh, not at the tail of a long sitting.
-2. **Then `funnel-driver`'s contract spec** — unblocked since 2026-08-25. Open
-   when it resumes: does slice 2 build `skills/drive/SKILL.md`, or only the
-   question set and its checker? Asked, answered yes, never written down.
-3. **The `gate-visuals` goal gate** — cold eyes, then the expert-user pass. Its
-   `Product measurements met` row has no upstream declaration; write the gap
-   honestly rather than inventing a target after the fact. **Note the vocabulary
-   moved under it:** once slice 1 lands, its closure record is
-   `docs/gates/<date>-gate-visuals-acceptance.md` with a `## Release condition`
-   section, not `-goal.md` with `## Done condition`.
+1. **Turn the key on `rung-vocabulary`** — cold eyes on the whole change, then
+   the expert-user pass, then write
+   `docs/gates/<date>-rung-vocabulary-acceptance.md` with a
+   `## Release condition` section. **This is the first acceptance record the
+   repo will ever write**, so it is also the live test of the rename: the
+   completion triggers in conductor, slainte and switch now watch
+   `*-acceptance.md`, and whether they actually fire is unproven until one lands.
+2. **Then `funnel-driver`'s handoff spec.** Open when it resumes: does slice 2
+   build `skills/drive/SKILL.md`, or only the question set and its checker?
+   Asked, answered yes, never written down.
+3. **The `gate-visuals` acceptance gate** — cold eyes, then the expert-user pass.
+   Its `Product measurements met` row has no upstream declaration; write the gap
+   honestly rather than inventing a target after the fact. Fix its stale
+   `visual-lifecycle.html` here, at its own gate (Backlog row below).
 4. **Frame the measurement item** — Tony's value statement is captured verbatim
    in CONTEXT.md and nothing is framed yet.
-5. **The four kept items from the standards spike** — 25010 → `R-0011`'s quality
-   column · 24774 §5.3 header on every `SKILL.md` · the UI viewpoint as a build ·
+5. **The four kept items from the standards spike** — 25010 -> `R-0011`'s quality
+   column | 24774 §5.3 header on every `SKILL.md` | the UI viewpoint as a build |
    the spine sentence in `docs/design/gate-visuals.md`.
 6. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
@@ -61,8 +58,33 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 
 **High consequence**
 
-- **The `design` gate can check nothing.** Once `## Scope` moves to the scope
-  gate (slice 1), design's only check is one sealed view per *declared* concern —
+- **`gate-visuals`' `visual-lifecycle.html` still says "At the goal gate".** The
+  sealed view (`fp:3ef85a6441d5`, Tony 2026-08-22) narrates a rung the
+  2026-08-25 rename folded into `loop` + `acceptance`. Correct the `<desc>`,
+  reseal and re-render the PNG **at `gate-visuals`' own acceptance gate** — not
+  from another slug's slice. Ruled out of `rung-vocabulary` slice 1 because
+  resealing another item's view re-keys the evidence its producer is about to
+  judge.
+
+- **`docs/design/diagram-types-by-rung.md` is still organised by the retired
+  rungs.** Slice 1 did the substitution half only. `### BUILD` and `### GOAL`
+  must merge into `### LOOP` with `### ACCEPTANCE` beside it, heading order
+  re-decided, line 152's quote "The rung's own name" re-checked against the new
+  names, and the six `USE · acceptance` type tags re-read against their headings
+  — **fishbone** and **loop** were mapped old-`loop` → `acceptance`, which the
+  fold makes wrong. All live names, so nothing retired ships; tags and headings
+  disagree. Editorial, ruled out of slice 1 on 2026-08-25.
+
+- **Two diagram generators still name the `build` rung.**
+  `tools/diagram/gen_flow_build.py` (filename, `Flow` title, step label) and
+  `tools/diagram/gen_functions.py`'s two `("BUILD", [` section keys hold entries
+  that split across `loop` and `acceptance` under the fold — the same editorial
+  merge as the row above, not a swap. Step 12's purity check prints both as
+  `deferred` on every run, so this cannot decay into a silent miss.
+
+- **The `design` gate can check nothing — and as of 2026-08-25 this is live, not
+  pending.** `## Scope` moved to the scope gate when slice 1 shipped, so design's
+  only check is now one sealed view per *declared* concern —
   and the concerns block is optional. A work item declaring no concerns passes
   design with zero checks. True today too, but slice 1 makes design the only gate
   that can be empty. The question is whether declaring a concern should itself be
@@ -116,7 +138,8 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   chosen: keep a separate never-overwritten `opened` stamp, or have the boundary
   derive the open side from the session's first machine-written timestamp rather
   than from the marker at all. Owner: conductor's mode-marker section + switch's
-  sitting-heading rule. **FIFTH instance 2026-08-25, and the smallest yet at ~26
+  sitting-heading rule. **SIXTH instance 2026-08-25 at ~14 minutes, the smallest yet** (switch-in
+  12:13, `execute` stamped 12:27). **FIFTH instance 2026-08-25, ~26
   minutes** (switch-in 07:46, `execute` stamped 08:12) — small because execute
   was reached early. The measured spread is now 14 min · 26 min · 66 min · 157
   min, which shows the defect scales with how long the planning phase runs, not
@@ -173,6 +196,13 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 
 **Medium**
 
+- **skriv bans em dashes; the README's What's New voice uses them and always
+  has.** Measured 2026-08-25: the v0.98.0 entry runs 0.019 em dashes per word
+  and the new v0.99.0 entry matches it exactly. Writing the next entry to
+  skriv's rule would make it the only one in the file in a different voice.
+  The rule and the house surface genuinely disagree; needs a ruling, not a
+  silent split.
+
 - **The refusal surface does not travel with the plugin — the return condition
   FIRED 2026-08-07.** It was accepted "for now" with the trigger *"the first
   time Kerd's ladder is run in a repo that isn't Kerd"*; declaring requirements
@@ -183,8 +213,9 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   the decisions file as accumulating entries. `Kerd Architecture Decisions.md`
   (6 dated sections) and `Kerd Skill Lessons.md` (5) sit in the gap. Not drift —
   a genuine unresolved rule.
-- **`Kerd.md` MOC has one broken wikilink** — `[[eloas/Eolas]]`, a typo for
-  `eolas`. 16 of 17 resolve. Vault write, so kivna's.
+- **`Kerd.md` MOC has one broken wikilink** — the actual link is
+  `[[eloas/Eloas]]`, double-typo'd (this row previously recorded it as
+  `[[eloas/Eolas]]`; corrected 2026-08-25). 16 of 17 resolve. Vault write, so kivna's.
 - **Revisit the journey view when more data exists** (parked 2026-08-05, shape
   agreed on mock v4).
 - Clean krutho-strategy's stray `sessions-of-record/`.
