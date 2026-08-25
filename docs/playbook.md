@@ -216,6 +216,37 @@ carried the migration's *other* boilerplate, `"Partly written — the migrated
 source records provenance…"`, so the guard never fired and **Approve was live on
 a Why nobody had written.**
 
+### A cached image read silently defeats the only check a diagram has
+
+The standing rule is that nothing checks a rendered diagram but a person opening
+the PNG. That check has a hole: **re-reading a PNG immediately after re-rendering
+it can return the previous image.** Seen 2026-08-25 — a fixed text overflow still
+appeared broken on the re-read, and the byte count was identical, which made the
+stale image look like a correct one. It would equally have hidden an overflow
+that had *not* been fixed, which is the direction that matters.
+
+Confirm the source file actually changed before trusting a re-read, and treat an
+unchanged byte count on a changed source as a cache hit rather than a no-op. The
+check is only as good as the freshness of the thing you looked at.
+
+### `view_fingerprint` takes file CONTENT, not a path
+
+`tools/reqview/fingerprint.py`'s `view_fingerprint(text)` hashes what you give
+it. Passing a *path* returns a perfectly well-formed twelve-hex fingerprint of
+the path string — plausible, wrong, and indistinguishable by eye from a real one.
+Caught 2026-08-25 only because the design gate refused with a mismatch. Read the
+file first: `view_fingerprint(open(p).read())`.
+
+### `## Grounding` certifies that files exist, never that you described them right
+
+AU5 resolves each grounding reference as a **path** against the filesystem. It
+does not check symbols named inside the line. So a grounding entry citing a
+function that does not exist in the file it points at passes clean — seen
+2026-08-25, where `stage_ahead` was invented from an audit message that reads
+like a function name and survived into a design package and an immutable gate
+record. Same declared limit as retrieval-not-comprehension: the section proves
+reachability of the file, never the truth of the sentence around it.
+
 ### Rendering a diagram needs no Playwright — system Chrome does it
 
 ```

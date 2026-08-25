@@ -2,34 +2,36 @@
 
 ## Now
 
-**2026-08-23 late — `rung-vocabulary` framed and walked to design in one
-sitting, both views sealed. It blocks `funnel-driver` on purpose.**
-See `kivna/sessions/2026-08-23.md`.
+**2026-08-25 — `rung-vocabulary` walked frame → design → contract in one sitting
+and sits at BUILD.** See `kivna/sessions/2026-08-25.md`.
 
 **Where things stand**
 
-- **`rung-vocabulary` sits at design** — needs `docs/design/rung-vocabulary.md`
-  and a GO record. Both views sealed (`fp:a6fe2ec1e1c3`, `fp:33b9932399e7`).
-- **`funnel-driver` sits at contract, blocked behind it** — needs
-  `docs/plans/*-funnel-driver-spec.md`. Fourth day. The block is deliberate: the
-  rung names travel into every consuming repo the moment Drive ships.
-- **`gate-visuals` still sits at goal** — untouched for a third day.
-- **Register: 38 live, 33 approved, 0 invalidated** — unchanged. Kerd at v0.98.0.
+- **`rung-vocabulary` is at `build`** — contract on disk at
+  `docs/plans/2026-08-25-rung-vocabulary-spec.md`, 10 unchecked pieces.
+- **`funnel-driver` is UNBLOCKED at `contract`** — needs
+  `docs/plans/*-funnel-driver-spec.md`. Sixth day.
+- **`gate-visuals` still at `goal`** — fifth day untouched.
+- **Kerd at v0.98.0.** The bump to 0.99.0 rides inside slice 1, not yet taken.
 
 **Next, in order**
 
-1. **Write `docs/design/rung-vocabulary.md`** and take the GO. The frame carries
-   the settled ladder, both sealed views and the findings; design has to settle
-   the three things deliberately left open — the `stage:` values for `handoff`
-   and `acceptance` (`scoped` is settled), whether `loop` becomes `learn`, and
-   what marks an item *done* once `acceptance` is the last position.
-2. **Then `funnel-driver`'s contract spec** — `docs/plans/*-funnel-driver-spec.md`,
-   for slice 2 (one gate's question set). Unblocked the moment the ladder lands.
-   Open when it resumes: does slice 2 build `skills/drive/SKILL.md`, or only the
-   question set and its checker? Asked, answered yes, not yet written down.
+1. **Build `rung-vocabulary` slice 1** — the 10-piece spec. Eight steps
+   delegated, two kept at the seams. **It lands as ONE work commit carrying all
+   ten `Piece:` trailers, then a render commit** — the tree is CI-red at every
+   intermediate state, so there are no per-step commits, and the progress trio
+   can only be rendered after the work commit exists in `git log`. Touches
+   `kit.py`, 17 work records, four generators, three skills and the version.
+   Start it fresh, not at the tail of a long sitting.
+2. **Then `funnel-driver`'s contract spec** — unblocked since 2026-08-25. Open
+   when it resumes: does slice 2 build `skills/drive/SKILL.md`, or only the
+   question set and its checker? Asked, answered yes, never written down.
 3. **The `gate-visuals` goal gate** — cold eyes, then the expert-user pass. Its
    `Product measurements met` row has no upstream declaration; write the gap
-   honestly rather than inventing a target after the fact.
+   honestly rather than inventing a target after the fact. **Note the vocabulary
+   moved under it:** once slice 1 lands, its closure record is
+   `docs/gates/<date>-gate-visuals-acceptance.md` with a `## Release condition`
+   section, not `-goal.md` with `## Done condition`.
 4. **Frame the measurement item** — Tony's value statement is captured verbatim
    in CONTEXT.md and nothing is framed yet.
 5. **The four kept items from the standards spike** — 25010 → `R-0011`'s quality
@@ -59,13 +61,31 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 
 **High consequence**
 
+- **The `design` gate can check nothing.** Once `## Scope` moves to the scope
+  gate (slice 1), design's only check is one sealed view per *declared* concern —
+  and the concerns block is optional. A work item declaring no concerns passes
+  design with zero checks. True today too, but slice 1 makes design the only gate
+  that can be empty. The question is whether declaring a concern should itself be
+  mandatory, which is `gate-visuals`' territory.
+
+- **`## Release condition` will collide with the release-planning artifact.** A
+  release is a grouping, not a time axis (2026-08-03), and that artifact has
+  never been built. When it is, `## Release condition` on a per-item gate record
+  and a release as a set of items both use the word. Filed now so it is a known
+  collision rather than a discovered one.
+
 - **`## Grounding` cannot cite an external source.** Found 2026-08-23 when
   `gate.py audit` refused both URLs in `rung-vocabulary`'s own grounding: AU5
   resolves every reference against the filesystem, so a URL is always a problem.
   **Law 4 obliges learning from industry standards and the section that records
   what was read rejects every one of them** — so external reading is recorded in
   prose the machine cannot check. Workaround in use: cite inline in the findings.
-  The format owes a slot.
+  The format owes a slot. **Second bite, 2026-08-25, and it is worse than a
+  missing citation:** AU5 resolves file *paths* and never *symbols inside a line*,
+  so `docs/design/rung-vocabulary.md` named a function `stage_ahead` that does not
+  exist in `kit.py` and `## Grounding` passed clean. A grounding section that
+  cannot check what it points *at* inside a line is not only refusing URLs — it is
+  silently accepting phantoms.
 
 - **Diagram-and-prose-together: flip the default in the skills.** Decided
   2026-08-23 (CONTEXT.md). One deliverable, two renderings, produced from one
@@ -96,7 +116,11 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   chosen: keep a separate never-overwritten `opened` stamp, or have the boundary
   derive the open side from the session's first machine-written timestamp rather
   than from the marker at all. Owner: conductor's mode-marker section + switch's
-  sitting-heading rule.
+  sitting-heading rule. **FIFTH instance 2026-08-25, and the smallest yet at ~26
+  minutes** (switch-in 07:46, `execute` stamped 08:12) — small because execute
+  was reached early. The measured spread is now 14 min · 26 min · 66 min · 157
+  min, which shows the defect scales with how long the planning phase runs, not
+  with anything random.
 
 - ~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED 2026-08-13
   ~16:40**, at this sitting's switch-in. Three confirming observations: the
