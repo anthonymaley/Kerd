@@ -259,6 +259,7 @@ push, not just against a named slug.
 | AU7 | `docs/requirements/register.md` blocks and states, against the schema `docs/requirements/catalog.md` declares: legal ID (`^[A-Z]{2,4}-\d{3}$`, prefix agreeing with `Category`), no duplicate IDs, an unknown field is a hard error, `State` in the five, `Source` and statement present, `Category`/`Tags` declared `applies`/declared in the project's own `categories.md` (nothing hardcoded — the legal set is per-project; a register without the disposition file is one named problem and category judgments are skipped, not guessed), `final` owes an `Approved` hash that MATCHES the statement — divergence is refused and the state never rewritten — and `Approved` may not ride a non-final block; `superseded` owes its `superseded-by` link. Absent register = vacuous pass. One mechanical limit, stated: `dropped` owes a *reason* in Source; the machine checks only that Source is non-empty. |
 | AU8 | Register links: every `- <role> → <ID> (sha256:<12 hex>)` line must parse, carry a role registered in the catalog grammar (both directions writable), and name an ID that exists. Two catalog rules are non-blocking FINDINGS, in the catalog's own flag-vs-refuse vocabulary: a link stamp diverging from its target's current statement ("flagged for re-look") and a non-origin block with no `refines` parent (aggregated to one line; "a finding, not an error, until slice 2"). Findings print in the audit's text output and never turn it red; the `--json` shape stays a bare problems list. |
 | AU9 | every `docs/product/*.md` declaring `concerns:`: the block parses and no view is in a wrong state — a render (`.png`) named as the view, a path not on disk, an approved drawing whose fingerprint no longer matches, an unreadable approval line. Pending approvals (no line, or a hand-written line not yet sealed) are the design rung's business and do not fail the audit. |
+| AU10 | every `docs/gates/*.md` must carry front matter with a legal `route` and `stage`. AU3 pins the FILENAME and AU4 validates front matter only where it is already present, so a well-named gate record with none — or with a malformed fence — passed both. That gap was load-bearing rather than cosmetic: `acceptance_record()` reads `docs/gates/*-<slug>-acceptance.md` to derive the `ready-to-release` terminal, so an invalid record could move a work item to the terminal with a green audit. The record's front matter is part of its contract (Gate records, above) and is now enforced as one. |
 
 AU3's pattern, verbatim from `kit.py`:
 
@@ -329,7 +330,7 @@ followed by `release: <n> problems` (exit 1).
 No `setup-python` step — `ubuntu-latest` ships python3 and these tools
 have zero dependencies. Seven things can fail the build; this tool owns
 the first three: the fixture suite (`selftest`, exercising the 32 cases
-against a temp tree), the real repo (`audit`, exercising AU1–AU8 against
+against a temp tree), the real repo (`audit`, exercising AU1–AU10 against
 the actual `docs/` tree), and the release sweep (`release`, enforcing
 R1–R3 on plugin metadata and living files). The other four belong to the
 progress and matrix tools (see their own READMEs). A dated file dropped into `docs/design/`, a malformed `docs/gates/`

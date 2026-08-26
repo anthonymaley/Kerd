@@ -789,6 +789,16 @@ def acceptance_record(root, slug):
     for pattern in (f"*-{slug}-acceptance.md", f"*-{slug}-goal.md"):
         matches = sorted(glob.glob(os.path.join(root, "docs", "gates", pattern)))
         for m in matches:
+            # The front matter is part of the record's contract, not decoration:
+            # without this check a file needs only a matching NAME and a section
+            # to move the router to ready-to-release, while AU4 skips it for
+            # having no front matter at all. Declared in tools/gates/README.md
+            # (Gate records) since the terminal was derived; enforced here.
+            fm = read_front_matter(m)
+            if fm is None:
+                continue
+            if fm.get("route") not in ROUTES or not legal_stage(fm.get("stage")):
+                continue
             with open(m, encoding="utf-8") as f:
                 t = f.read()
             if find_section(t, "Release condition") or find_section(t, "Done condition"):
@@ -964,6 +974,36 @@ def _audit_au4(root):
                 problems.append(
                     f"{rel} — front matter route/stage incomplete or illegal (route={route_v!r} stage={stage_v!r})"
                 )
+    return problems
+
+
+def _audit_au10(root):
+    """Every docs/gates/*.md must carry front matter with a legal route and
+    stage. AU3 pins the FILENAME and AU4 validates front matter only where it
+    is already present (`if fm is None: continue`) — so a well-named gate
+    record with no front matter, or a malformed fence, passed both. That gap
+    was load-bearing: acceptance_record() reads docs/gates/*-<slug>-acceptance.md
+    to derive the ready-to-release terminal, so an invalid record could move a
+    work item to the terminal with a green audit."""
+    problems = []
+    d = os.path.join(root, "docs", "gates")
+    if not os.path.isdir(d):
+        return problems
+    for path in sorted(glob.glob(os.path.join(d, "*.md"))):
+        rel = os.path.relpath(path, root)
+        fm = read_front_matter(path)
+        if fm is None:
+            problems.append(
+                f"{rel} — gate record has no readable front matter "
+                f"(needs a '---' fence with legal route + stage)"
+            )
+            continue
+        route_v, stage_v = fm.get("route"), fm.get("stage")
+        if route_v not in ROUTES or not legal_stage(stage_v):
+            problems.append(
+                f"{rel} — gate record front matter route/stage missing or illegal "
+                f"(route={route_v!r} stage={stage_v!r})"
+            )
     return problems
 
 
@@ -1350,6 +1390,7 @@ def audit(root):
     problems += _audit_au7(root)
     problems += _audit_au8(root)
     problems += _audit_au9(root)
+    problems += _audit_au10(root)
     return problems
 
 
@@ -1725,7 +1766,13 @@ def _selftest_body():
             "---\nroute: new\nstage: bogus\n---\n\n# Some plan\n",
         )
         problems = audit(root_audit)
-        assert len(problems) == 3, f"T12a: expected 3 problems, got {len(problems)}: {problems}"
+        # 4, not 3: docs/gates/notes.md trips AU3 (filename) AND AU10 (no front
+        # matter). Both are real and they are different defects — the count rose
+        # when AU10 shipped, which is the fixture recording a gap that used to
+        # go unseen rather than a regression.
+        assert len(problems) == 4, f"T12a: expected 4 problems, got {len(problems)}: {problems}"
+        assert any("notes.md" in x and "no readable front matter" in x for x in problems), \
+            f"T12a: expected AU10 to name docs/gates/notes.md, got {problems}"
 
     with tempfile.TemporaryDirectory() as root_clean:
         problems = audit(root_clean)
@@ -2452,6 +2499,88 @@ def _selftest_body():
         problems2 = audit(root_t44)
         assert want not in problems2, f"T44: expected the problem cleared, got {problems2}"
 
+    # T46 — a gate record that is well-NAMED but carries no front matter must
+    # not reach the terminal, and AU10 must name it. Before AU10 this file
+    # passed AU3 (filename ok) and was skipped by AU4 (no front matter at all),
+    # so the router reported ready-to-release off an invalid record with a
+    # green audit. Adding legal front matter clears both halves.
+    with tempfile.TemporaryDirectory() as root_t46:
+        _sw(os.path.join(root_t46, "docs", "product", f"{slug}.md"),
+            ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n")
+        _sw(os.path.join(root_t46, "docs", "design", f"{slug}.md"), "# Alpha design\n\nHow it works.\n")
+        _sw(os.path.join(root_t46, "docs", "gates", "2026-01-01-alpha-design.md"),
+            "---\nroute: new\nstage: designed\n---\n\n## GO\n\nDesign approved.\n")
+        _sw(os.path.join(root_t46, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_checked)
+        _sw(os.path.join(root_t46, ".github", "workflows", "gate.yml"), "name: entry-gate\n")
+
+        bad = os.path.join(root_t46, "docs", "gates", "2026-01-04-alpha-acceptance.md")
+        _sw(bad, "# Acceptance\n\n## Release condition\n\nEverything verified.\n")
+
+        r = route(root_t46, slug)
+        assert r["enters_at"] == "acceptance", \
+            f"T46: a front-matter-less acceptance record must not reach the terminal, got {r['enters_at']!r}"
+        assert acceptance_record(root_t46, slug) is None, \
+            "T46: acceptance_record must reject a record with no front matter"
+        au10 = _audit_au10(root_t46)
+        assert any("2026-01-04-alpha-acceptance.md" in x and "no readable front matter" in x for x in au10), \
+            f"T46: AU10 must name the front-matter-less gate record, got {au10}"
+
+        # malformed in the OTHER direction: a fence with an illegal stage
+        _sw(bad, "---\nroute: new\nstage: shipped\n---\n\n## Release condition\n\nDone.\n")
+        assert acceptance_record(root_t46, slug) is None, \
+            "T46: acceptance_record must reject an illegal stage"
+        assert any("route/stage missing or illegal" in x for x in _audit_au10(root_t46)), \
+            "T46: AU10 must name an illegal stage on a gate record"
+
+        # and now the valid form clears every one of them
+        _sw(bad, "---\nroute: new\nstage: ready-to-release\n---\n\n## Release condition\n\nDone.\n")
+        assert _audit_au10(root_t46) == [], f"T46: valid record must clear AU10, got {_audit_au10(root_t46)}"
+
+    # T47 — the happy path for the NEW name: a valid *-acceptance.md reaches
+    # ready-to-release and the terminal have-line names its basename.
+    with tempfile.TemporaryDirectory() as root_t47:
+        _sw(os.path.join(root_t47, "docs", "product", f"{slug}.md"),
+            ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n")
+        _sw(os.path.join(root_t47, "docs", "design", f"{slug}.md"), "# Alpha design\n\nHow it works.\n")
+        _sw(os.path.join(root_t47, "docs", "gates", "2026-01-01-alpha-design.md"),
+            "---\nroute: new\nstage: designed\n---\n\n## GO\n\nDesign approved.\n")
+        _sw(os.path.join(root_t47, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_checked)
+        _sw(os.path.join(root_t47, "docs", "gates", "2026-01-04-alpha-acceptance.md"),
+            "---\nroute: new\nstage: ready-to-release\n---\n\n"
+            "## Release condition\n\nEvery piece landed and verified.\n")
+        _sw(os.path.join(root_t47, ".github", "workflows", "gate.yml"), "name: entry-gate\n")
+
+        r = route(root_t47, slug)
+        assert r["enters_at"] == "ready-to-release", \
+            f"T47: a valid acceptance record must reach the terminal, got {r['enters_at']!r}"
+        tc = terminal_check(root_t47, slug)
+        assert any("2026-01-04-alpha-acceptance.md" in h for h in tc["have"]), \
+            f"T47: terminal have-line must name the acceptance basename, got {tc['have']}"
+        assert _audit_au10(root_t47) == [], "T47: a valid tree must clear AU10"
+
+    # T48 — the alias path is not a bypass. Stripping the front matter from a
+    # legacy *-goal.md must cost it the terminal exactly as it does the new
+    # name; restoring it returns the terminal. Retired names read forever, but
+    # they read under the same contract, not a weaker one.
+    with tempfile.TemporaryDirectory() as root_t48:
+        _sw(os.path.join(root_t48, "docs", "product", f"{slug}.md"),
+            ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n")
+        _sw(os.path.join(root_t48, "docs", "design", f"{slug}.md"), "# Alpha design\n\nHow it works.\n")
+        _sw(os.path.join(root_t48, "docs", "gates", "2026-01-01-alpha-design.md"),
+            "---\nroute: new\nstage: designed\n---\n\n## GO\n\nDesign approved.\n")
+        _sw(os.path.join(root_t48, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_checked)
+        _sw(os.path.join(root_t48, ".github", "workflows", "gate.yml"), "name: entry-gate\n")
+
+        legacy = os.path.join(root_t48, "docs", "gates", "2026-01-03-alpha-goal.md")
+        _sw(legacy, "## Done condition\n\nAll steps verified and merged.\n")
+        assert route(root_t48, slug)["enters_at"] == "acceptance", \
+            "T48: a front-matter-less legacy goal record must not reach the terminal"
+
+        _sw(legacy, "---\nroute: new\nstage: done\n---\n\n## Done condition\n\nAll steps verified and merged.\n")
+        assert route(root_t48, slug)["enters_at"] == "ready-to-release", \
+            "T48: a valid legacy goal record must still reach the terminal"
+        assert _audit_au10(root_t48) == [], "T48: a valid legacy record must clear AU10"
+
     # T45 — purity: the live ladder's exact membership, and the retired
     # names' total absence from RUNGS (restated separately from T10b's
     # ready-to-release check, which already proved the terminal derivation).
@@ -2464,13 +2593,13 @@ def _selftest_body():
 
 
 def selftest():
-    """Run the 45 fixture-built cases in temporary trees. Prints
-    'selftest: 45 cases passed' and returns 0 on success; on the first
+    """Run the 48 fixture-built cases in temporary trees. Prints
+    'selftest: 48 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 45 cases passed")
+    print("selftest: 48 cases passed")
     return 0
