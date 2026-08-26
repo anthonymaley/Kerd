@@ -125,18 +125,18 @@
 </text>
 <rect x="660.0" y="1146.0" width="600.0" height="60.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="960.0" y="1181.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="960.0" dy="0.0">Nine gates against eight rungs — they do not align</tspan>
+<tspan x="960.0" dy="0.0">Nine gates against seven rungs — they do not align</tspan>
 </text>
 <text x="678.0" y="1226.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="678.0" dy="0.0">G0 intake qualified          ~ frame</tspan>
 <tspan x="678.0" dy="15.0">G1 disposition declared        - NO RUNG</tspan>
 <tspan x="678.0" dy="15.0">G2 spec approved             ~ handoff</tspan>
 <tspan x="678.0" dy="15.0">G3 design approved           = design</tspan>
-<tspan x="678.0" dy="15.0">G4 build complete            = build</tspan>
-<tspan x="678.0" dy="15.0">G5 verification passed       ~ goal</tspan>
+<tspan x="678.0" dy="15.0">G4 build complete            = loop</tspan>
+<tspan x="678.0" dy="15.0">G5 verification passed       ~ loop  (the loop&#x27;s own exit)</tspan>
 <tspan x="678.0" dy="15.0">G6 security / privacy          - NO RUNG</tspan>
 <tspan x="678.0" dy="15.0">G7 launch readiness            - NO RUNG</tspan>
-<tspan x="678.0" dy="15.0">G8 post-launch evidence      = loop  (the stage left EMPTY)</tspan>
+<tspan x="678.0" dy="15.0">G8 post-launch evidence      - NO RUNG (after ready-to-release)</tspan>
 <tspan x="678.0" dy="15.0">                               - viability and scope have NO GATE</tspan>
 </text>
 <text x="1320.0" y="1162.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="12" fill="#e03131" text-anchor="start" xml:space="preserve">

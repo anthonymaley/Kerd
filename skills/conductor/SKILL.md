@@ -153,8 +153,8 @@ Tell the two apart by asking the gates, not by judgement: pick a slug and run `p
 
 - **The value, in the producer's own words and in units.** What winning is, stated so it can later be measured. Quote them verbatim; a paraphrase of intent is the first thing to rot.
 - **The grounding** — what was read to get here.
-- **A risk ledger** where every risk is sized, evidenced, and in exactly one state. A risk with no countermeasure is a blocker, not a row.
-- **The smallest valuable slice**, and what is deliberately excluded with the reason.
+- **A risk ledger that NAMES at least one killer risk.** At the frame this is presence only — no sizing, no evidence — because you cannot qualify the risks of a thing you have not defined yet. A risk with no countermeasure is a blocker, not a row.
+- **The scope** — the smallest valuable increment, and what is deliberately excluded with the reason. Full risk qualification (every row sized, evidenced, in exactly one state) is checked here too, one rung later than the killer-risk floor.
 
 **The producer's key belongs here.** Framing is their rung — the value statement is theirs and the model's job is to write it down accurately, not to author it. Ask, record, and read it back.
 

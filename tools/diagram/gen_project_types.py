@@ -8,7 +8,7 @@ docs/product/requirements-project-type-templates.md: `route`, `Rigor level`
 and the proposed `Project Type` are three declarations with overlapping
 legal sets, two of them already machine-enforced. Then the second
 collision underneath it: the file's nine gates (G0-G8) against Kerd's
-eight rungs.
+seven rungs.
 """
 import os
 import sys
@@ -81,16 +81,16 @@ f.step("3", "CHANGE", "One declaration replaces two — a subtraction",
 f.down()
 
 # ── 4 — the second collision ─────────────────────────────────────────────
-f.step("4", "COLLISION", "Nine gates against eight rungs — they do not align",
+f.step("4", "COLLISION", "Nine gates against seven rungs — they do not align",
        "G0 intake qualified          ~ frame\n"
        "G1 disposition declared        - NO RUNG\n"
        "G2 spec approved             ~ handoff\n"
        "G3 design approved           = design\n"
-       "G4 build complete            = build\n"
-       "G5 verification passed       ~ goal\n"
+       "G4 build complete            = loop\n"
+       "G5 verification passed       ~ loop  (the loop's own exit)\n"
        "G6 security / privacy          - NO RUNG\n"
        "G7 launch readiness            - NO RUNG\n"
-       "G8 post-launch evidence      = loop  (the stage left EMPTY)\n"
+       "G8 post-launch evidence      - NO RUNG (after ready-to-release)\n"
        "                               - viability and scope have NO GATE",
        artifact="G8 is the clean fit. loop\n/ Live was left empty in\n"
                 "funnel-steps.md because\nno steps could be found.\n"

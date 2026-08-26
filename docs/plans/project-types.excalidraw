@@ -1246,13 +1246,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "Nine gates against eight rungs \u2014 they do not align",
+   "text": "Nine gates against seven rungs \u2014 they do not align",
    "fontSize": 14,
    "fontFamily": 6,
    "textAlign": "center",
    "verticalAlign": "middle",
    "containerId": "r1030",
-   "originalText": "Nine gates against eight rungs \u2014 they do not align",
+   "originalText": "Nine gates against seven rungs \u2014 they do not align",
    "autoResize": true,
    "lineHeight": 1.25
   },
@@ -1286,13 +1286,13 @@
     "gen": "kerd"
    },
    "roundness": null,
-   "text": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ handoff\nG3 design approved           = design\nG4 build complete            = build\nG5 verification passed       ~ goal\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      = loop  (the stage left EMPTY)\n                               - viability and scope have NO GATE",
+   "text": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ handoff\nG3 design approved           = design\nG4 build complete            = loop\nG5 verification passed       ~ loop  (the loop's own exit)\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      - NO RUNG (after ready-to-release)\n                               - viability and scope have NO GATE",
    "fontSize": 12,
    "fontFamily": 6,
    "textAlign": "left",
    "verticalAlign": "top",
    "containerId": null,
-   "originalText": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ handoff\nG3 design approved           = design\nG4 build complete            = build\nG5 verification passed       ~ goal\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      = loop  (the stage left EMPTY)\n                               - viability and scope have NO GATE",
+   "originalText": "G0 intake qualified          ~ frame\nG1 disposition declared        - NO RUNG\nG2 spec approved             ~ handoff\nG3 design approved           = design\nG4 build complete            = loop\nG5 verification passed       ~ loop  (the loop's own exit)\nG6 security / privacy          - NO RUNG\nG7 launch readiness            - NO RUNG\nG8 post-launch evidence      - NO RUNG (after ready-to-release)\n                               - viability and scope have NO GATE",
    "autoResize": true,
    "lineHeight": 1.25
   },

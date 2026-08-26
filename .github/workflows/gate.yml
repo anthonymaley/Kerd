@@ -19,6 +19,8 @@ jobs:
         run: python3 tools/design/matrix.py selftest
       - name: Matrix audit
         run: python3 tools/design/matrix.py audit
+      - name: Journey stage schema (funnel-steps.md still defines every rendered stage)
+        run: python3 tools/diagram/gen_journey.py check
       - name: Progress render current
         run: python3 tools/diagram/progress.py stale
       - name: Handoff fidelity (artifacts produced are reachable from the read set)

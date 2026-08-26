@@ -155,7 +155,7 @@ still written is not a retirement, it is a synonym, and two live names for one
 thing is the defect this item exists to remove.
 
 **The producer holds two keys, and they answer different questions** — `handoff`
-says the package is **build-ready**, `acceptance` says the work is **done**.
+says the package is **build-ready**, `acceptance` says the work is **accepted as ready for release**.
 Conflating them was a defect in the first draft of the drawing, caught by its
 reader.
 

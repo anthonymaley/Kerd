@@ -336,14 +336,69 @@ def drawing(slug, kind):
     return re.sub(r'<\?xml[^>]*\?>', '', p.read_text()).strip()
 
 
+class StageSchemaError(Exception):
+    """funnel-steps.md no longer defines the stages gen_journey renders."""
+
+
+STEPS_DOC = "docs/design/funnel-steps.md"
+
+
+def stage_schema_problems():
+    """Every way funnel-steps.md and STAGES can disagree, as a list of strings.
+
+    These two are a LIVING INTERFACE joined only by a string: sections() keys
+    steps by heading, render() looks them up by stage LABEL. A rename on either
+    side silently misses, and the page then prints "Rungs not defined for this
+    stage yet" over steps that are defined four lines away — a plausible false
+    claim replacing an honest blank, with nothing on the board going red.
+
+    That happened: the 2026-08-25 seven-rung fold renamed three labels and left
+    the headings behind. Every journey page shipped two false panels and every
+    gate stayed green, because regenerating only proves the pages match the
+    source — it cannot notice the source stopped matching the code.
+    """
+    path = ROOT / STEPS_DOC
+    if not path.exists():
+        return [f"{STEPS_DOC} — file is missing; every stage would render as undefined"]
+
+    headings = list(sections(path.read_text()))
+    labels = [label for _rung, label, _desc, _arts in STAGES]
+
+    problems = []
+    for label in labels:
+        if label not in headings:
+            problems.append(
+                f'{STEPS_DOC} — no "## {label}" section; that stage would render '
+                f'"Rungs not defined for this stage yet" over steps that may exist '
+                f'under an old heading'
+            )
+    for h in headings:
+        if h not in labels:
+            problems.append(
+                f'{STEPS_DOC} — "## {h}" matches no current stage label; its steps '
+                f'are unreachable (labels are: {", ".join(labels)})'
+            )
+    return problems
+
+
+def check_stage_schema():
+    """Raise unless funnel-steps.md defines exactly the current stage labels."""
+    problems = stage_schema_problems()
+    if problems:
+        raise StageSchemaError(
+            "stage schema drift — funnel-steps.md and gen_journey.STAGES disagree:\n  "
+            + "\n  ".join(problems)
+        )
+
+
 def stage_steps():
     """The numbered steps inside each stage. Defined once for the method, not
     per work item — the gates check a stage's outputs, this defines its work.
-    A stage with no rungs written yet renders as an open slot, which is the
-    honest state for seven of the eight (see docs/design/funnel-steps.md)."""
-    path = ROOT / "docs" / "design" / "funnel-steps.md"
-    if not path.exists():
-        return {}
+    A stage with no steps written yet renders as an open slot — an honest
+    blank. Which stages those are is defined in docs/design/funnel-steps.md and
+    enforced by check_stage_schema(), never assumed here."""
+    check_stage_schema()
+    path = ROOT / STEPS_DOC
     out = {}
     for name, body in sections(path.read_text()).items():
         steps = []
@@ -458,7 +513,7 @@ def render(slug):
 
     # ---- the funnel is the spine -----------------------------------------
     # Current stage open, the rest folded behind one bar — the reader is here
-    # to see where we are, not to scroll eight cards to find it.
+    # to see where we are, not to scroll seven cards to find it.
     def stage_html(s, label, blurb, expects):
         r = by_rung.get(s, {})
         st = r.get("state", "missing")
@@ -741,6 +796,15 @@ footer li b{color:var(--ink)}
 def main(argv):
     if len(argv) < 2:
         sys.exit(__doc__)
+    if argv[1] == "check":
+        problems = stage_schema_problems()
+        for p_ in problems:
+            print(f"REFUSED: {p_}")
+        if problems:
+            sys.exit(1)
+        labels = [label for _r, label, _d, _a in STAGES]
+        print(f"stage schema: clean ({len(labels)} stages defined in {STEPS_DOC})")
+        return
     slug = argv[1]
     out = ROOT / "docs" / "plans" / f"journey-{slug}.html"
     if "--out" in argv:

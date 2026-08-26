@@ -1,6 +1,6 @@
 # The steps inside each stage
 
-The funnel has eight **stages**. Each stage has **steps** — the numbered work
+The funnel has seven **stages**. Each stage has **steps** — the numbered work
 you actually go through inside it. The entry gates check a stage's *outputs*;
 this file defines its *work*. Until 2026-08-07 only the outputs existed, which
 is why a journey page could show what a stage produced and never what it
@@ -17,11 +17,10 @@ every work item; status is per item. Where a work item declares nothing, its
 page shows the step with no status rather than inventing one — the same rule
 as everywhere else here: an honest blank beats a plausible claim.
 
-**Provenance.** Six of the eight stages are harvested from flows already drawn
+**Provenance.** Six of the seven stages are harvested from flows already drawn
 and agreed (`tools/diagram/gen_flow_*.py`), where this content had been sitting
 inside diagram-drawing code rather than written as steps. Idea is Tony's, from
-his mockup of the journey page, 2026-08-07. **Live is the one stage with no
-source at all** and is left empty rather than guessed.
+his mockup of the journey page, 2026-08-07 — which accounts for all seven.
 
 ## Idea
 
@@ -61,9 +60,9 @@ source at all** and is left empty rather than guessed.
 3. Produce one package — specs, architecture, testing strategy, and the diagrams for as many aspects as possible
 4. GO — two keys, neither sufficient alone: every aspect drawn and nothing left to annotate, and every declared measurement given a named answer
 
-## Spec'd
+## Handed off
 
-*From the contract flow.*
+*From the handoff flow (drawn when the rung was called contract).*
 
 1. Receive the GO'd design package intact — never a digest of it
 2. Read before writing the order
@@ -71,23 +70,23 @@ source at all** and is left empty rather than guessed.
 4. Size and assign each piece — after it is written, never before
 5. Approval by machine key alone — no human gate where the machine can measure
 
-## Built
+## Building
 
-*From the build flow, steps 1-3.*
+*From the build flow, steps 1-3 — the loop's own work.*
 
 1. Take one piece of the work order
 2. Build it and measure it against every relevant spec — its own criteria plus everything the change touches
 3. Decide: the piece is done, or it is the overseer's problem
 
-## Proven
+## Ready to release
 
-*From the build flow, steps 4-6.*
+*From the build flow, steps 4-6 — what the producer's key rests on.*
 
 1. Cold eyes on the whole change, reviewed unanchored
 2. Check conformance per declared layer — never one overall verdict
 3. The expert-user pass — the human uses the output itself
 
-## Live
-
-*No flow was ever drawn for this stage, and no steps are defined. Left empty
-deliberately rather than invented.*
+*There is no eighth section. The old `Live` stage was the old `loop` rung,
+which the 2026-08-25 fold turned into the derived `ready-to-release` terminal —
+and a terminal is not a stage with steps inside it. It never had any (no flow
+was ever drawn for it), so nothing was lost in the fold.*

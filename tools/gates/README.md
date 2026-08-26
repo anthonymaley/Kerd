@@ -1,7 +1,7 @@
 # Entry gates — the router and the first refuser
 
 Given a work slug, runs the seven gates in series and routes work to the
-LOWEST rung whose declared inputs all exist on disk. It is mechanical only:
+DEEPEST rung whose declared inputs all exist on disk. It is mechanical only:
 files, front-matter values, named sections, a qualified risk-ledger table,
 a checked-box count. It has no opinion on whether a VALUE claim is
 convincing, a risk well-argued, or a design sound — that judgment belongs
