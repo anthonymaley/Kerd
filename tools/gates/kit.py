@@ -155,6 +155,20 @@ def _front_matter_block(path):
     return lines, close
 
 
+# Gate-record filename suffixes that assert PRODUCER ACCEPTANCE. `goal` is the
+# retired alias, read forever and written never (Retired names, README).
+ACCEPTANCE_SUFFIXES = ("acceptance", "goal")
+
+
+def is_terminal_stage(v):
+    """True when a stage value resolves to the ready-to-release terminal.
+    Alias-aware: legacy `done` resolves through STAGE_ALIASES, which is how the
+    seven immutable *-goal.md records keep reaching the terminal unrewritten."""
+    if not legal_stage(v):
+        return False
+    return stage_index(v) >= STAGES.index("ready-to-release")
+
+
 def read_front_matter(path):
     """Parse the front-matter subset defined in A1. None when absent or the
     fence is malformed — a leading '---' with no closing fence within 120
@@ -799,6 +813,12 @@ def acceptance_record(root, slug):
                 continue
             if fm.get("route") not in ROUTES or not legal_stage(fm.get("stage")):
                 continue
+            # The stage-to-suffix contract: a file NAMED as an acceptance record
+            # asserts the producer accepted the work, so its stage must be the
+            # terminal. `legal` is not enough — `stage: designed` is perfectly
+            # legal and says the opposite of what the filename claims.
+            if not is_terminal_stage(fm.get("stage")):
+                continue
             with open(m, encoding="utf-8") as f:
                 t = f.read()
             if find_section(t, "Release condition") or find_section(t, "Done condition"):
@@ -1003,6 +1023,18 @@ def _audit_au10(root):
             problems.append(
                 f"{rel} — gate record front matter route/stage missing or illegal "
                 f"(route={route_v!r} stage={stage_v!r})"
+            )
+            continue
+        # The stage-to-suffix contract. Only acceptance-class suffixes are
+        # constrained: a *-design.md carrying `stage: designed` is correct, and
+        # only a record CLAIMING acceptance must carry the terminal stage.
+        m = GATE_RECORD_RE.match(os.path.basename(path))
+        if m and m.group(1) in ACCEPTANCE_SUFFIXES and not is_terminal_stage(stage_v):
+            problems.append(
+                f"{rel} — gate record is named as an acceptance record but its stage "
+                f"is not the terminal (stage={stage_v!r}; needs ready-to-release, or "
+                f"the legacy done alias). The filename asserts the producer accepted "
+                f"the work; the stage says otherwise."
             )
     return problems
 
@@ -2581,6 +2613,48 @@ def _selftest_body():
             "T48: a valid legacy goal record must still reach the terminal"
         assert _audit_au10(root_t48) == [], "T48: a valid legacy record must clear AU10"
 
+    # T49 — the stage-to-suffix contract. A *-acceptance.md whose stage is
+    # LEGAL but NONTERMINAL must not qualify: the filename asserts the producer
+    # accepted the work and `stage: designed` says the opposite. Before this
+    # check, legal_stage() alone let it through and the audit stayed green.
+    with tempfile.TemporaryDirectory() as root_t49:
+        _sw(os.path.join(root_t49, "docs", "product", f"{slug}.md"),
+            ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n")
+        _sw(os.path.join(root_t49, "docs", "design", f"{slug}.md"), "# Alpha design\n\nHow it works.\n")
+        _sw(os.path.join(root_t49, "docs", "gates", "2026-01-01-alpha-design.md"),
+            "---\nroute: new\nstage: designed\n---\n\n## GO\n\nDesign approved.\n")
+        _sw(os.path.join(root_t49, "docs", "plans", "2026-01-02-alpha-spec.md"), spec_checked)
+        _sw(os.path.join(root_t49, ".github", "workflows", "gate.yml"), "name: entry-gate\n")
+
+        acc = os.path.join(root_t49, "docs", "gates", "2026-01-04-alpha-acceptance.md")
+        _sw(acc, "---\nroute: new\nstage: designed\n---\n\n## Release condition\n\nDone.\n")
+
+        assert acceptance_record(root_t49, slug) is None, \
+            "T49: a nonterminal stage must not qualify an acceptance record"
+        assert route(root_t49, slug)["enters_at"] == "acceptance", \
+            f"T49: routing must stay at acceptance, got {route(root_t49, slug)['enters_at']!r}"
+        au = _audit_au10(root_t49)
+        assert any("named as an acceptance record but its stage is not the terminal" in x for x in au), \
+            f"T49: AU10 must refuse the nonterminal acceptance record, got {au}"
+        # the *-design.md in the same tree carries stage: designed and is CORRECT —
+        # only acceptance-class suffixes are constrained
+        assert not any("alpha-design.md" in x for x in au), \
+            f"T49: a design record with stage designed must not be refused, got {au}"
+
+        # the terminal value clears both halves
+        _sw(acc, "---\nroute: new\nstage: ready-to-release\n---\n\n## Release condition\n\nDone.\n")
+        assert _audit_au10(root_t49) == [], f"T49: valid record must clear AU10, got {_audit_au10(root_t49)}"
+        assert route(root_t49, slug)["enters_at"] == "ready-to-release", \
+            "T49: ready-to-release must reach the terminal"
+
+        # and the legacy alias still reaches it through `done`
+        os.remove(acc)
+        _sw(os.path.join(root_t49, "docs", "gates", "2026-01-03-alpha-goal.md"),
+            "---\nroute: new\nstage: done\n---\n\n## Done condition\n\nAll verified.\n")
+        assert route(root_t49, slug)["enters_at"] == "ready-to-release", \
+            "T49: the legacy goal record must still reach the terminal through done's alias"
+        assert _audit_au10(root_t49) == [], "T49: the legacy record must clear AU10"
+
     # T45 — purity: the live ladder's exact membership, and the retired
     # names' total absence from RUNGS (restated separately from T10b's
     # ready-to-release check, which already proved the terminal derivation).
@@ -2593,13 +2667,13 @@ def _selftest_body():
 
 
 def selftest():
-    """Run the 48 fixture-built cases in temporary trees. Prints
-    'selftest: 48 cases passed' and returns 0 on success; on the first
+    """Run the 49 fixture-built cases in temporary trees. Prints
+    'selftest: 49 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 48 cases passed")
+    print("selftest: 49 cases passed")
     return 0
