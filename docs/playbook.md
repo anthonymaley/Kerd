@@ -416,7 +416,7 @@ unreachable. Name each artifact.
 **Current state is not kept here.** It lived here as a `**Version:**` line and
 a long "Working:" list, and it was a duplicate of `CONTEXT.md` that drifted:
 it last claimed v0.95.0, nine skills, four hooks and 26 tests while the repo
-was at v0.98.0 with ten skills, three hooks and 22 tests. Two homes for one
+was at v0.98.0 with nine skills, three hooks and 22 tests. Two homes for one
 fact is how that happens, so there is now one home.
 
 - **What is true now** — `CONTEXT.md` (state, overwritten each session).
