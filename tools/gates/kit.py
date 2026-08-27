@@ -440,7 +440,8 @@ def parse_ledger(section_text):
     return rows, problems
 
 
-# ── the contract spec's steps (A3, loop row) ────────────────────────────────
+# ── the contract spec's steps (A3, loop row) — the ARTIFACT keeps its
+# contract meaning; only the route's first-reader line describes it ────────────────────────────────
 
 def _steps_missing_verify(spec_text):
     """Names of every '### Step ' heading not followed, before the next
@@ -749,11 +750,11 @@ def check_rung(root, slug, rung):
         spec_pattern = os.path.join(root, "docs", "plans", f"*-{slug}-spec.md")
         spec_matches = sorted(glob.glob(spec_pattern))
         if not spec_matches:
-            need.append(f"docs/plans/*-{slug}-spec.md — contract spec")
+            need.append(f"docs/plans/*-{slug}-spec.md — work specification with Pieces and a Verify for every step")
         else:
             latest_spec = spec_matches[-1]
             rel_spec = os.path.relpath(latest_spec, root)
-            have.append(f"{rel_spec} — contract spec")
+            have.append(f"{rel_spec} — work specification with Pieces and a Verify for every step")
             with open(latest_spec, encoding="utf-8") as f:
                 spec_text = f.read()
 
