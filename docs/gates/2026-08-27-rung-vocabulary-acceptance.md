@@ -3,32 +3,19 @@ route: new
 stage: ready-to-release
 ---
 
-# PROPOSED — acceptance record draft, rung-vocabulary slice 1
+# Acceptance record — rung-vocabulary slice 1, 2026-08-27
 
-> **THIS IS A DRAFT AND IT IS NOT THE RECORD.** It sits in `docs/plans/`
-> deliberately. `tools/gates/kit.py:789` globs `docs/gates/*-<slug>-acceptance.md`
-> and qualifies any match carrying a `## Release condition` section — so the
-> trip-wire is the glob, not the filename. A file with this content anywhere in
-> `docs/gates/` would flip the router to `ready-to-release` before the producer
-> had accepted anything, which is the one thing this gate exists to prevent.
->
-> **The front matter above is the record's, not this draft's** — it is here so
-> what moves on the key is the finished article rather than a file that still
-> needs assembling. As of AU10 a `docs/gates/*.md` without legal `route` +
-> stage is refused by the audit, and `acceptance_record()` will not qualify it
-> for the terminal; before AU10 this same draft, moved verbatim, would have
-> reported `ready-to-release` off an invalid record with a green audit.
->
-> **On the producer's key**, this content moves to
-> `docs/gates/2026-08-25-rung-vocabulary-acceptance.md` and
-> `docs/product/rung-vocabulary.md`'s front matter goes
-> `stage: designed` → `stage: ready-to-release` **in the same commit** — the
-> producer-visible state change is atomic, so no audit can observe a half-state.
->
-> **The second key is not given yet.** The expert-user pass below is written as
-> what remains, not as something done.
+**Both keys given.** Cold eyes ran as four blind reviewers and blocked; every
+block is amended and pushed. The expert-user pass was run by the producer on
+2026-08-27 and produced one finding, now closed. This record lands with the
+front-matter flip in the same commit, so the producer-visible state change is
+atomic and no audit can observe a half-state.
 
-**Clock:** drafted 2026-08-25 20:14 EDT
+**Clock:** 2026-08-27 12:45 EDT — the producer's key. Drafted 2026-08-25 20:14 EDT
+and held outside `docs/gates/` until this moment, because the filename glob IS
+the acceptance signal: a file with this content in this directory reports the
+item ready to release, so writing it early would have made the machine say the
+producer had accepted work the producer had not yet seen.
 
 ## Release condition
 
@@ -117,14 +104,37 @@ as an invented label; it is the producer's 2026-08-23 ruling verbatim, and the
 non-compliant twin is `README.md:42`'s bare *"the design and handoff stages"*.
 Recorded inverted, at low severity.
 
-## The expert-user pass — NOT YET GIVEN
+## The expert-user pass — GIVEN 2026-08-27
 
-The second key is the producer using the output. Nothing below is claimed.
+Three exercises, run against the live tree rather than a fixture.
 
-What it would exercise: run `gate.py route` on a live slug and read the rung
-names back; open a journey page and check the stages say what they should;
-frame something new and see whether the killer-risk floor asks the right
-question at the right rung.
+- **The ladder reads back.** `gate.py route funnel-driver` on a genuinely
+  mid-flight slug: five rungs pass, `enters at: handoff`, one need named.
+  The rung names read correctly in sequence.
+- **The killer-risk floor.** A frame carrying a full ledger with no killer row
+  is refused at viability with *"Risk ledger names no killer risk (no row with
+  Killer? = yes)"* — presence only, no sizing demanded, which is the tier the
+  design specified.
+- **The journey page.** All seven stages render, each carrying its steps, with
+  **zero** claiming their steps are undefined. That count was 3 before this
+  gate's amendments. The page opens on the focus stage by design, which was
+  checked against the code rather than reported as a defect.
+
+**The one finding, and it is the kind only a user hits.** Stopping at
+`handoff`, the router asked for a *"contract spec"* — a phrase built from a
+rung name retired three days earlier, at the first point the ladder speaks to
+someone who was not in the room. The producer's ruling kept the artifact and
+its contract meaning (*"`handoff` is the act; the specification is the
+agreement handed over"*) and moved only the first-reader line, which now
+describes the artifact instead of naming it: *work specification with Pieces
+and a Verify for every step*. Conductor and the handoff flow still say "the
+spec is the contract", because that is where the delegation relationship is
+explained. Closed in `e63c63d`.
+
+**A coupling the finding exposed.** `gen_journey.py` matched that exact string
+by regex to translate it for the journey page, so changing `kit.py` alone would
+have rendered the raw machine string with nothing failing — the third instance
+that day of a living interface joined by convention rather than a check.
 
 ## The live test this record triggers
 

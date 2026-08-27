@@ -1,6 +1,6 @@
 ---
 route: new
-stage: designed
+stage: ready-to-release
 story: proposal
 concerns:
   - concern: what each gate checks, and what each renamed word actually costs
