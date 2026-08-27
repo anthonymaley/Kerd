@@ -112,6 +112,30 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Gotchas
 
+- **A green run on a fixed tree proves nothing about a guard** (2026-08-27): a
+  newly built check returned clean, which it would have done whether or not it
+  worked. It only became evidence after reproducing the actual regression and
+  confirming the check exits 1 naming both halves. Build the guard, then break
+  the thing on purpose — a passing check you have never seen fail is untested.
+- **`grep -v "^[+-][+-]"` silently swallows real diff lines** (2026-08-27):
+  filtering a diff to drop `---`/`+++` also drops content lines starting with
+  two of those characters, so a markdown bullet `- **text**` (which appears as
+  `-- **text**` on the removed side) vanishes. A diff that looks empty after
+  filtering is not an empty diff — re-read it with `git diff -U0 <file> | cat`.
+- **`$?` after a pipe is the LAST command's exit code** (2026-08-27):
+  `python3 gen.py | tail -5; echo $?` reports `tail`'s success while the script
+  crashed. Check the exit code before piping, or read `PIPESTATUS`.
+- **A regex with `.*?` and `re.S` crosses element boundaries in HTML**
+  (2026-08-27): extracting headings from a rendered page paired the wrong
+  heading with the wrong body and dropped one entirely, reading exactly like a
+  page defect. Scope the pattern to its container element before believing the
+  output — twice in one sitting this produced a false alarm.
+- **Running a generator to inspect its output rewrites committed files**
+  (2026-08-27, confirming instance): `gen_project_types.py` calls `mark_deltas`,
+  which re-marks blue "changed since reviewed" state, and bare `progress.py`
+  writes the committed trio. Both are correct behaviour and both dirty the tree.
+  Use the `selftest` / `check` subcommands for inspection.
+
 - **A doc that quotes a machine string must be checked against the RUNTIME
   value, never a source grep** (2026-08-25). `tools/gates/kit.py` builds its
   refusal literals as f-strings split across source lines, so

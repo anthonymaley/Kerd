@@ -2,44 +2,32 @@
 
 ## Now
 
-**2026-08-25 — `rung-vocabulary` slice 1 is BUILT and pushed; the item sits at
-`acceptance`, awaiting the producer's key.** See `kivna/sessions/2026-08-25.md`.
-
-**Where things stand**
-
-- **`rung-vocabulary` is at `acceptance`** — 16 pieces landed, `route` reports
-  `enters at: acceptance`, nothing left for a machine to advance.
-- **`funnel-driver` is at `handoff`** — needs `docs/plans/*-funnel-driver-spec.md`.
-- **`gate-visuals` is at `acceptance`** — sixth day untouched.
-- **Kerd is at v0.99.0.**
+**2026-08-27 — `rung-vocabulary` is ACCEPTED and at `ready-to-release`.** The
+first acceptance record this repo has written, and writing it found three live
+gaps in the machinery meant to guard it. Kerd is at v0.103.0.
+See `kivna/sessions/2026-08-27.md`.
 
 **Next, in order**
 
-1. **Turn the key on `rung-vocabulary`** — cold eyes on the whole change, then
-   the expert-user pass, then write
-   `docs/gates/<date>-rung-vocabulary-acceptance.md` with a
-   `## Release condition` section. **This is the first acceptance record the
-   repo will ever write**, so it is also the live test of the rename: the
-   completion triggers in conductor, slainte and switch now watch
-   `*-acceptance.md`, and whether they actually fire is unproven until one lands.
-2. **Then `funnel-driver`'s handoff spec.** Open when it resumes: does slice 2
-   build `skills/drive/SKILL.md`, or only the question set and its checker?
-   Asked, answered yes, never written down.
-3. **The `gate-visuals` acceptance gate** — cold eyes, then the expert-user pass.
-   Its `Product measurements met` row has no upstream declaration; write the gap
-   honestly rather than inventing a target after the fact. Fix its stale
-   `visual-lifecycle.html` here, at its own gate (Backlog row below).
-4. **Frame the measurement item** — Tony's value statement is captured verbatim
+1. **`funnel-driver`'s handoff spec** — `docs/plans/*-funnel-driver-spec.md`.
+   Ninth day. Open when it resumes: does slice 2 build `skills/drive/SKILL.md`,
+   or only the question set and its checker? Asked, answered yes, never written
+   down. Note its two stale sealed views (Backlog, High) belong to this gate.
+2. **The `gate-visuals` acceptance gate** — cold eyes, then the expert-user
+   pass. Its `Product measurements met` row has no upstream declaration; write
+   the gap honestly rather than inventing a target after the fact. Fix its stale
+   `visual-lifecycle.html` here, at its own gate.
+3. **Frame the measurement item** — Tony's value statement is captured verbatim
    in CONTEXT.md and nothing is framed yet.
-5. **The four kept items from the standards spike** — 25010 -> `R-0011`'s quality
-   column | 24774 §5.3 header on every `SKILL.md` | the UI viewpoint as a build |
-   the spine sentence in `docs/design/gate-visuals.md`.
-6. **The archaeology batches** — 53 candidates in
+4. **The four kept items from the standards spike** — 25010 -> `R-0011`'s
+   quality column | 24774 §5.3 header on every `SKILL.md` | the UI viewpoint as
+   a build | the spine sentence in `docs/design/gate-visuals.md`.
+5. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
    are yours.
-7. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
+6. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
    does the reqview validator graduate into `gate.py audit` first?
-8. **The suspect-link stamp has no slot in the format** — a format change.
+7. **The suspect-link stamp has no slot in the format** — a format change.
 
 **Open, not yet rows:** does re-agreeing a lapsed approval cost anything? If
 coming back means re-walking the gate, early gates must not lock at all.
@@ -57,6 +45,35 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 *Ranked by consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
+
+- **`fidelity.py`'s range and its reader set disagree, and the mismatch cuts
+  both ways** (found 2026-08-27 at the boundary). `session_range()` anchors on
+  the most recent commit that **ADDED** a session log (`--diff-filter=A`),
+  deliberately, so the range does not collapse when a session appends to its own
+  log mid-sitting. But `newest_log()` reads only the single newest log file. When
+  the previous boundary APPENDED (a second sitting on a day whose log already
+  existed), the anchor stays behind that boundary and the range spans two
+  sessions — while the reader set holds only the newer log. Measured: 22
+  artifacts reported unreachable, every one of them named in
+  `kivna/sessions/2026-08-25.md`, which was not in the reader set. **And the
+  opposite hole is worse:** when a boundary CREATES a log (any first sitting of a
+  day), the anchor becomes that very commit and the range collapses to empty, so
+  the check passes having inspected nothing — the exact vacuous pass its own
+  docstring says the naive anchor caused. Two candidate fixes, neither chosen:
+  widen the reader set to every log in the range, or anchor on the previous
+  boundary commit rather than on log-file creation. Do not "fix" this by
+  exempting — the exemption list is for derived or immutable artifacts.
+
+
+- **THREE sealed views are factually stale, across two work items** (found
+  2026-08-27 by cold eyes; each is its own item's gate work, never another
+  slug's slice). `funnel-driver/why-an-umbrella.html` carries a live coverage
+  claim over "the funnel's eight stages" and names four retired rungs;
+  `funnel-driver/span-vs-slice.html` teaches the retired ladder sequence in its
+  lower panel (its TITLE is the time-slice sense and is correct — leave it);
+  and `gate-visuals`' `visual-lifecycle.html`, below. Redraw and reseal each at
+  ITS OWN acceptance gate: resealing re-keys the evidence that item's producer
+  is about to judge.
 
 - **`gate-visuals`' `visual-lifecycle.html` still says "At the goal gate".** The
   sealed view (`fp:3ef85a6441d5`, Tony 2026-08-22) narrates a rung the
@@ -81,6 +98,11 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   that split across `loop` and `acceptance` under the fold — the same editorial
   merge as the row above, not a swap. Step 12's purity check prints both as
   `deferred` on every run, so this cannot decay into a silent miss.
+  **A THIRD was found by cold eyes on 2026-08-27 and fixed** —
+  `gen_project_types.py` had the substitutions but not the fold (`= build`,
+  `~ goal`, "eight rungs", a stage-left-EMPTY claim), all rendering into
+  `project-types.svg`. It was on nobody's list, which is the point: the purity
+  check names only what it was told to defer.
 
 - **The `design` gate can check nothing — and as of 2026-08-25 this is live, not
   pending.** `## Scope` moved to the scope gate when slice 1 shipped, so design's
@@ -213,9 +235,13 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   the decisions file as accumulating entries. `Kerd Architecture Decisions.md`
   (6 dated sections) and `Kerd Skill Lessons.md` (5) sit in the gap. Not drift —
   a genuine unresolved rule.
-- **`Kerd.md` MOC has one broken wikilink** — the actual link is
+- **Three vault-spec violations, all kivna's to fix** (tend detects, kivna
+  writes — v0.83.0). `Kerd.md` MOC has one broken wikilink: the actual link is
   `[[eloas/Eloas]]`, double-typo'd (this row previously recorded it as
-  `[[eloas/Eolas]]`; corrected 2026-08-25). 16 of 17 resolve. Vault write, so kivna's.
+  `[[eloas/Eolas]]`; corrected 2026-08-25) — 16 of 17 resolve. And two files in
+  the vault folder are not self-identifying: `discover-sources.json` and
+  `2026-08-02-product-to-build.excalidraw`. The spine itself is complete
+  (`Kerd.md`, `Kerd Status.md`, `Kerd Weekly.md`).
 - **Revisit the journey view when more data exists** (parked 2026-08-05, shape
   agreed on mock v4).
 - Clean krutho-strategy's stray `sessions-of-record/`.
