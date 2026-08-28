@@ -7,6 +7,10 @@ first acceptance record this repo has written, and writing it found three live
 gaps in the machinery meant to guard it. Kerd is at v0.103.0.
 See `kivna/sessions/2026-08-27.md`.
 
+**2026-08-27 evening — work moved to the Mac Studio.** No product work, board
+unchanged. Setup audited and three machine-local gaps cleared; the move
+checklist is now `docs/machine-setup.md`. Second sitting in the same log.
+
 **Next, in order**
 
 1. **`funnel-driver`'s handoff spec** — `docs/plans/*-funnel-driver-spec.md`.
@@ -208,6 +212,19 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   session running current cache text is one where nothing shipped. (Narrowed by
   v0.96.0: this is now about stale *skill text* only — hooks no longer rot with
   the cache version, they auto-load and resolve `${CLAUDE_PLUGIN_ROOT}` at runtime.)
+- **Machine-local state has an inventory but no refuser** (filed 2026-08-27 at
+  the Mac Studio move). `docs/machine-setup.md` §4 lists what git cannot carry —
+  `kivna/.pair`, `kivna/.active-modes`, `~/.claude/settings.json`, the `~/eolas`
+  symlink — and §3 greps for hand-wired hook duplicates that must print nothing.
+  Both are prose a person runs, so nothing refuses a machine that drifts. **The
+  drift that actually bit was the silent kind:** a duplicate pair hook fires
+  correctly and looks like the feature working while injecting text that
+  contradicts the live version. Candidate shape, not chosen: a `/kerd:tend`
+  category that runs the doc's greps, since tend already owns structural
+  convergence and already had its Category 9 rewritten to *remove* stale wiring
+  rather than add it. Open question before any build — does this belong to tend
+  at all, or is a machine's config outside every repo's business?
+
 - **Stashes and local-equals-remote are unchecked at the boundary.**
 - **The playbook's `## Current Status` duplicates CONTEXT.md.** Its stale
   content was fixed this session (v0.90.0 → v0.95.0, three hooks → four); the

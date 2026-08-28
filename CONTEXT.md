@@ -31,7 +31,21 @@ that was supposed to guard it. Kerd is at v0.103.0.**
 - **`gate-visuals` is at `acceptance`**, eighth day untouched.
 - **The register is unchanged: 38 live, 33 approved, 0 invalidated.**
 
+**2026-08-27 evening — work MOVED MACHINES to the Mac Studio** (the laptop was
+out of memory). No product work; the board is unchanged and every rung above is
+still current. The pickup ran clean and the setup audit produced
+`docs/machine-setup.md`, the move checklist this repo did not have. Three gaps
+found and cleared: a **stale hand-wired duplicate of the pair hook** in
+`~/.claude/settings.json` (the v0.96.0 double-fire, injecting text that
+contradicted the plugin's live version — stripped, backup kept, confirmed fixed
+live), **`gh` unauthenticated** while SSH worked fine, and **pair mode not
+travelling** (restored from this file's own `## Active Mode` snapshot, which is
+that mechanism working as designed). Everything else was already correct,
+including the plugin cache at 0.103.0 and hook auto-load.
+
 ## Key Decisions
+
+- **MACHINE-LOCAL STATE IS A REAL CATEGORY, IT HAS AN INVENTORY AT `docs/machine-setup.md`, AND THAT INVENTORY IS A LIST RATHER THAN A CHECK — 2026-08-27 evening, the move to the Mac Studio.** The move lost exactly what git cannot carry — `kivna/.pair` (gitignored), `kivna/.active-modes` (gitignored, so no conductor sitting could have resumed), `~/.claude/settings.json` (outside every repo) — and gained one thing git cannot see: **hand-wired hook drift in the user-global config**. §4 of the setup doc is that inventory, and the weakness is stated rather than glossed: nothing refuses a missing `.pair` or a re-introduced duplicate hook, so this is prompt-and-discipline layer, the same declared limit as every other unenforced surface here. **The asymmetry that makes the drift dangerous is the transferable part: the worst config defect on the new machine made things look MORE configured, not less.** A missing file announces itself the moment the feature does not fire; a *duplicate* hook fires correctly, looks like the feature working, and silently injects instructions contradicting the live ones — this one still carried the pre-v0.64 *"ONE clear speech-bubble question"* text against the plugin's current *"open by default"* wording. Absence is loud, redundancy is silent, and every grep in the move checklist that must print **nothing** is aimed at that. **The doc's shape was decided by this repo's own defect class, not by convention:** a prose setup list is another declared contract joined to reality by nothing, so every requirement is paired with the command that proves it — the `check_stage_schema()`/AU10 countermeasure applied to a document. **Method note that generalises past the move: `gh` was reported unauthenticated while `git push` worked, because an SSH key signs git transport and `gh` is a separate API client needing its own token** — so the doc verifies it with `gh run list`, a call that hits the API, never `gh --version`. Checking the runtime value rather than the surface, one layer out from the 2026-08-25 f-string rule.
 
 - **A DECLARED CONTRACT THAT NOTHING CHECKS IS THE REPO'S RECURRING DEFECT CLASS — three instances found in one day, 2026-08-26/27, two of them by Tony reading a draft rather than reading code.** Each was a rule written down somewhere authoritative and joined by convention alone. **(1)** `gen_journey.py` keys steps by heading and looks them up by stage *label*; the seven-rung fold renamed three labels and `funnel-steps.md` kept the old headings, so every journey page printed *"Rungs not defined for this stage yet"* over steps defined four lines away — 1 false panel became 3, CI stayed green, and regenerating could never have caught it because regenerating proves the pages match the source, not that the source still matches the code. **(2)** `tools/gates/README.md:178` had always said a gate record carries front matter; AU3 pinned only the filename and AU4 skipped files having none (`if fm is None: continue`), so a well-named record with no front matter passed both — and `acceptance_record()` reads exactly that glob to derive the terminal, so an invalid record could report a work item finished with a green audit. **(3)** Thirty minutes after fixing (2), `stage: designed` on a file named `*-acceptance.md` still qualified: the check asked whether the stage was *legal*, never whether it agreed with the filename. **The countermeasure in all three cases is a check, not a rule** — `check_stage_schema()` refusing in both directions and running in CI; AU10; the stage-to-suffix clause with `is_terminal_stage()`. **The transferable test, and it is cheap: when two living sources are joined only by a string, ask what fails if one side is renamed. If the answer is "nothing", that is the gap.** Tony's framing: *"the same class of issue one layer deeper: the declared gate-record contract was not actually enforced."*
 
@@ -173,5 +187,6 @@ that was supposed to guard it. Kerd is at v0.103.0.**
 
 ## Active Mode
 
-- **conductor: closed** 2026-08-27 — the session that took `rung-vocabulary` through its acceptance gate. No conductor mode is active.
+- **conductor: closed** 2026-08-27 — the session that took `rung-vocabulary` through its acceptance gate. No conductor mode is active, and `kivna/.active-modes` does not exist on this machine (gitignored; it did not survive the move).
+- **Machine: the Mac Studio** as of 2026-08-27 evening (`Anthonys-Mac-Studio.local`), moved from `Anthonys-MacBook-Pro.local`. Setup verified against `docs/machine-setup.md`.
 - **pair: on** in this repo — partner-mode working agreement: rapid back-and-forth, reasoning internal unless it changes Tony's decision, ONE speech-bubble question (no X/Y binaries), interrupt early, eyeball-gated slices. Enforced by a UserPromptSubmit hook (`hooks/pair.sh`, reading `kivna/.pair`); persisted user-global in `~/.claude`. (Renamed from `focus` in v0.64.0.)

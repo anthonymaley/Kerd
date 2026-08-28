@@ -134,7 +134,23 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
   (2026-08-27, confirming instance): `gen_project_types.py` calls `mark_deltas`,
   which re-marks blue "changed since reviewed" state, and bare `progress.py`
   writes the committed trio. Both are correct behaviour and both dirty the tree.
-  Use the `selftest` / `check` subcommands for inspection.
+  Use the read-only subcommands for inspection — and note **`progress.py` has
+  no `check`; its read-only form is `stale`** (this line said `check` until
+  2026-08-27, when running the wrong one off these very words surfaced it).
+
+- **A green `git pull` is not proof the remote is reachable** (2026-08-27, found
+  on a machine move): on an already-current tree it returns `Already up to date.`
+  from local state, which on a fresh machine reads as "git is configured" when
+  the transport has never been exercised. `ssh -T git@github.com` is the real
+  test — it must greet you by name.
+
+- **An SSH key does not authenticate `gh`** (2026-08-27, same move). Different
+  doors: the key signs git transport (clone/pull/push), while `gh` is a
+  REST/GraphQL client needing its own OAuth token. A machine can push and pull
+  perfectly while `gh` holds no config at all, so the gate records' *CI green
+  headSha-verified* claim cannot be made there. Verify with a call that hits the
+  API (`gh run list`), never with `gh --version`. Full move checklist:
+  `docs/machine-setup.md`.
 
 - **A doc that quotes a machine string must be checked against the RUNTIME
   value, never a source grep** (2026-08-25). `tools/gates/kit.py` builds its
