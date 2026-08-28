@@ -45,8 +45,8 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill — nine skills, one folder each
-hooks/            # opt-in hooks (hooks.template.json + shell scripts, registered via tend)
+skills/           # SKILL.md per skill — ten skills, one folder each
+hooks/            # hooks.json + shell scripts, auto-loaded from the plugin (v0.96.0); never wired per repo
 hooks/statusline.sh # the clock segment — not a hook; wired via statusLine by hand, never by tend
 tests/            # hooks_test.sh
 tools/gates/      # entry-gate router and refusers (gate.py, kit.py, fidelity.py)
@@ -70,7 +70,8 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 
 This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is opt-in and never on the session path (v0.83.0) — a human knowledge base of living files updated in place, not append-only dumps, and not a machine sync layer. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions) only when you run `/kerd:kivna save`. The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Nine skills, each with a single responsibility, plus four opt-in hooks:**
+**Ten skills, each with a single responsibility, plus four hooks (three auto-loaded from `hooks/hooks.json`, plus the statusline):**
+- **drive**: the work-item umbrella (owns one item across frame → viability → scope → design → work handoff → loop → acceptance; frame-gate question set; calls conductor, never changes it — v0.104.0)
 - **conductor**: session discipline (orient/plan/execute/close-out protocol)
 - **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
