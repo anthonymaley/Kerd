@@ -41,11 +41,15 @@ stale sealed views of this item are corrected and resealed through
 
 - **D1 — Where the check lives.** `RUNGS` starts at `frame`, which "requires
   nothing — always enterable" (`check_rung`: the first block is
-  `idx >= RUNGS.index("viability")`). The frame gate's EXIT is therefore the
-  viability block, and that is where the question-set check goes: an item
-  with an open set is held at `frame`. Nothing is added to `route()`; the
-  new rows ride the existing have/need lists and print through the existing
-  CLI unchanged.
+  `idx >= RUNGS.index("viability")`). So the CODE for the frame gate's exit
+  sits in that block — that is a fact about `check_rung`'s shape, not about
+  the lifecycle. **Every reader-facing surface calls this a frame-gate
+  input** (producer, 2026-08-28: "if the README's viability row carries it,
+  the code may be right while the reader learns the wrong lifecycle
+  position"): the README's `frame` row, the `need:`/`have:` strings the code
+  emits, the skill text, the README prose. An item with an open set is held
+  at `frame`. Nothing is added to `route()`; the new rows ride the existing
+  have/need lists and print through the existing CLI unchanged.
 - **D2 — Opt-in by presence.** `## Question set` absent → no rows at all
   (same shape as AU5's grounding and the design gate's concerns block). No
   existing slug carries the section, so Step 3 proves that every one of the
@@ -187,9 +191,12 @@ not after.
    closes, still inside the `else:`):
 
    ```python
-           # The frame gate's completeness check (funnel-driver slice 2): one
-           # list drives ask · check · show. Opt-in by presence — a record
-           # with no '## Question set' is not refused here. Presence only:
+           # The FRAME gate's completeness check (funnel-driver slice 2) — it
+           # lives in the viability block only because `frame` requires
+           # nothing to enter; every string it emits says "frame gate", so
+           # the reader learns the right lifecycle position. One list drives
+           # ask · check · show. Opt-in by presence — a record with no
+           # '## Question set' is not refused here. Presence only:
            # an answer is counted, never judged, and nothing in this file can
            # tell whether Drive or a hand wrote it.
            qs = question_set_status(product_text)
@@ -206,14 +213,14 @@ not after.
                    need.append(f"{rel_product} — {p}")
                if qs["declared"] and not qs["unanswered"] and not qs["problems"]:
                    have.append(
-                       f'{rel_product} — Question set: {qs["answered"]} of {qs["declared"]} answered'
+                       f'{rel_product} — Question set (frame gate): {qs["answered"]} of {qs["declared"]} answered'
                    )
                elif qs["declared"]:
                    listed = "; ".join(f'"{q}"' for q in qs["unanswered"][:3])
                    more = qs["unanswered"][3:]
                    tail = f" (+{len(more)} more)" if more else ""
                    need.append(
-                       f'{rel_product} — Question set: {qs["answered"]} of {qs["declared"]} '
+                       f'{rel_product} — Question set (frame gate): {qs["answered"]} of {qs["declared"]} '
                        f"answered — still open: {listed}{tail}"
                    )
    ```
@@ -242,7 +249,7 @@ not after.
                f"docs/product/{slug}.md — front matter work-type (declared by the producer, never inferred)"
            ) in cr["need"], f"T50: expected the work-type need row, got {cr['need']}"
            assert (
-               f'docs/product/{slug}.md — Question set: 1 of 3 answered — still open: '
+               f'docs/product/{slug}.md — Question set (frame gate): 1 of 3 answered — still open: '
                '"Who has it?"; "What would be different?"'
            ) in cr["need"], f"T50: expected the plain-words count row, got {cr['need']}"
 
@@ -256,10 +263,10 @@ not after.
            _sw(p50, ledger_named_only.replace("route: new\n", "route: new\nwork-type: software-change\n")
                + "\n" + qs_done)
            cr = check_rung(root_t50, slug, "viability")
-           assert cr["need"] == [], f"T50: expected viability clean, got {cr['need']}"
+           assert cr["need"] == [], f"T50: expected the frame gate to release, got {cr['need']}"
            assert f"docs/product/{slug}.md — front matter work-type=software-change" in cr["have"], \
                f"T50: expected the work-type have row, got {cr['have']}"
-           assert f"docs/product/{slug}.md — Question set: 3 of 3 answered" in cr["have"], \
+           assert f"docs/product/{slug}.md — Question set (frame gate): 3 of 3 answered" in cr["have"], \
                f"T50: expected the answered have row, got {cr['have']}"
            assert route(root_t50, slug)["enters_at"] == "viability", \
                "T50: a complete set must release the item to viability"
@@ -283,7 +290,7 @@ not after.
                "```\n- Q: quoted example, invisible\n  A:\n```\n"
                "- Q: Real question?\n  A: Real answer.\n")
            cr = check_rung(root_t51, slug, "viability")
-           assert f"docs/product/{slug}.md — Question set: 1 of 1 answered" in cr["have"], \
+           assert f"docs/product/{slug}.md — Question set (frame gate): 1 of 1 answered" in cr["have"], \
                f"T51: the fenced example must be invisible, got {cr['have']}"
            assert (
                f"docs/product/{slug}.md — front matter work-type (declared by the producer, never inferred)"
@@ -309,9 +316,13 @@ not after.
    fixture-built cases" → "Run the 51 fixture-built cases") and the print
    (`"selftest: 49 cases passed"` → `"selftest: 51 cases passed"`).
 
-**Why:** The frame gate's inputs are checked at viability because `frame`
-requires nothing (D1); putting the check anywhere else would need a new rung
-or a change to `route()`, and neither is owed. Opt-in by presence (D2) is what
+**Why:** This is the FRAME gate's check. Its code sits in `check_rung`'s
+viability block only because `frame` requires nothing to enter and the
+exit of one rung is evaluated as the entry of the next (D1); putting it
+anywhere else would need a new rung or a change to `route()`, and neither is
+owed. The emitted strings say `(frame gate)` so that the one line a newcomer
+reads names the lifecycle position correctly even though the command that
+printed it was `check <slug> viability`. Opt-in by presence (D2) is what
 lets this land without moving a single existing item — the board is derived,
 and a check that turned 21 rows red on landing would be a regression dressed
 as a feature. `QS_A_RE` accepts any indentation because `find_section` strips
@@ -335,11 +346,13 @@ spec was not committed/placed first).
 
 **What:** Two edits to `tools/gates/README.md`.
 
-1. In the rung table (line ~41), the `viability` row's cell ends today with
-   the sentence about FATAL rows not refusing there. Append to that same cell,
-   after its final sentence, separated by ` · `:
+1. In the rung table, the `frame` row (line 40, today exactly
+   `| \`frame\` | nothing — always enterable |`) becomes the frame gate's
+   entry AND exit condition. Replace the whole row with:
 
-   > · when section `Question set` exists (opt-in by presence — an absent section adds no rows): front matter `work-type` matching `^[a-z][a-z0-9-]*$` (declared by the producer at intake, never inferred; names the seed `docs/work/question-sets/<work-type>.md`, placed ABOVE any `concerns:` block) · every `- Q: <question>` entry answered — a following `A: <text>` line before the next entry carrying text; fenced lines invisible. Counted, never judged: `Question set: k of n answered — still open: "…"` names what is open.
+   > | `frame` | to enter: nothing — always enterable. To LEAVE: when section `Question set` exists (opt-in by presence — an absent section adds no rows): front matter `work-type` matching `^[a-z][a-z0-9-]*$` (declared by the producer at intake, never inferred; names the seed `docs/work/question-sets/<work-type>.md`, placed ABOVE any `concerns:` block) · every `- Q: <question>` entry answered — a following `A: <text>` line before the next entry carrying text; fenced lines invisible. Counted, never judged: `Question set (frame gate): k of n answered — still open: "…"` names what is open. Evaluated by `check <S> viability` because a rung's exit is the next rung's entry; it is the frame gate's input, not viability's. |
+
+   The `viability` row (line 41) is NOT touched.
 
 2. A new subsection, placed directly BEFORE the `## Views` (or the first
    `## ` heading after the rung table that describes the design gate's
@@ -375,7 +388,8 @@ spec was not committed/placed first).
 rather than fenced so the `- Q:` line reads as an example in the README
 without teaching a reader that fences are the format.
 
-**Verify:** `grep -c 'Question set' tools/gates/README.md` → `4` or more;
+**Verify:** `sed -n 40p tools/gates/README.md | grep -c 'Question set (frame gate)'` → `1`;
+`sed -n 41p tools/gates/README.md | grep -c 'Question set'` → `0` (the viability row is untouched);
 `grep -n '^## Question set (frame gate)' tools/gates/README.md` → one line;
 `python3 tools/gates/gate.py audit` → `audit: clean`.
 
@@ -562,7 +576,7 @@ Runs once per item, when `route` reports `docs/product/<slug>.md — file exists
 ### 3. The frame gate — ask · check · show, from one list
 
 - **Ask.** One entry at a time. Write each answer under its `A:` line in the person's words and read it back. A comment on the read-back is a correction, not a rejection; reshape and read it back again.
-- **Check.** `python3 tools/gates/gate.py check <slug> viability`. The gate counts answered against declared — `Question set: k of n answered — still open: …` — and refuses until every entry has an answer. It counts presence, never quality: whether an answer is true is the person's call, and nothing on disk refuses on it.
+- **Check.** `python3 tools/gates/gate.py check <slug> viability` — the command names the rung being entered, but it is the FRAME gate refusing: leaving frame is what is being checked. The frame gate counts answered against declared — `Question set (frame gate): k of n answered — still open: …` — and refuses until every entry has an answer. It counts presence, never quality: whether an answer is true is the person's call, and nothing on disk refuses on it.
 - **Show.** Step 1's line, after every check.
 
 When the set is complete, its answers become the first sections — drafted by Drive from the answers, approved by the person: `## Value` (the problem, who has it, the change in units), `## Risk ledger` with at least one `Killer? = yes` row (what would make this not worth doing), `## Grounding` (what exists that this touches). Run `route` again; the item now enters at viability.
@@ -672,7 +686,7 @@ touches a version.
      ```markdown
      ### v0.104.0
 
-     **The funnel has a driver.** `/kerd:drive <slug>` is a new skill that owns one work item across the whole ladder — frame → viability → scope → design → work handoff → loop → acceptance — over as many sessions as it takes, and hands each sitting's work to `/kerd:conductor` without changing a line of it. At the frame gate it asks a short question set: you declare the work type (never guessed), the set is copied from a seed into the work record, you edit it before anything is asked, and the gate counts answered against declared until every entry has an answer. One list drives what is asked, what counts as finished, and the `now > frame, next viability, after scope` line you see. **What it means:** an idea can enter the funnel by being asked six questions rather than by someone remembering the sections, and nothing already on the board moves — the check applies only to a record that carries the section. **The limit, stated:** the gate counts presence, never quality; it cannot tell whether an answer is true, and it cannot tell whether Drive or a hand wrote the section. One seed exists (`software-change`); the other gates' sets are following slices.
+     **The funnel has a driver.** `/kerd:drive <slug>` is a new skill that owns one work item across the whole ladder — frame → viability → scope → design → work handoff → loop → acceptance — over as many sessions as it takes, and hands each sitting's work to `/kerd:conductor` without changing a line of it. At the frame gate it asks a short question set: you declare the work type (never guessed), the set is copied from a seed into the work record, you edit it before anything is asked, and the frame gate counts answered against declared until every entry has an answer — the item stays at `frame` until then. One list drives what is asked, what counts as finished, and the `now > frame, next viability, after scope` line you see. **What it means:** an idea can enter the funnel by being asked six questions rather than by someone remembering the sections, and nothing already on the board moves — the check applies only to a record that carries the section. **The limit, stated:** the gate counts presence, never quality; it cannot tell whether an answer is true, and it cannot tell whether Drive or a hand wrote the section. One seed exists (`software-change`); the other gates' sets are following slices.
      ```
 
    - Under `## Skills`, directly ABOVE `### conductor (Session Discipline)`,
@@ -681,7 +695,7 @@ touches a version.
      ```markdown
      ### drive (Work Item Umbrella)
 
-     Drive walks one work item from idea to acceptance, across as many sessions as it takes, and calls conductor for each sitting's work without changing it. It reads the item's rung from disk (`gate.py route`, never the board renderer), shows `now > X, next Y, after Z`, and at the frame gate runs a question set: you declare the work type from the seeds in `docs/work/question-sets/`, the set is copied into the work record's `## Question set`, you edit it first, and the gate holds the item at `frame` until every entry carries an answer. Counted, never judged — the answers are yours. Conductor owns the session; switch owns the session boundary; Drive owns the item.
+     Drive walks one work item from idea to acceptance, across as many sessions as it takes, and calls conductor for each sitting's work without changing it. It reads the item's rung from disk (`gate.py route`, never the board renderer), shows `now > X, next Y, after Z`, and at the frame gate runs a question set: you declare the work type from the seeds in `docs/work/question-sets/`, the set is copied into the work record's `## Question set`, you edit it first, and the frame gate holds the item at `frame` until every entry carries an answer. Counted, never judged — the answers are yours. Conductor owns the session; switch owns the session boundary; Drive owns the item.
 
      ```
      /drive <slug>        # pick the item up where disk says it is, or start it
@@ -884,8 +898,8 @@ hand. Expected shape of the run, each beat observable:
 3. Ask · check · show: entries asked one at a time, answers written under
    `A:` in his words and read back; after each check,
    `python3 tools/gates/gate.py check measurement viability` prints the
-   `Question set: k of 6 answered — still open: …` row until every entry is
-   answered, then the `have:` row `Question set: 6 of 6 answered` and
+   `Question set (frame gate): k of 6 answered — still open: …` row until every entry is
+   answered, then the `have:` row `Question set (frame gate): 6 of 6 answered` and
    `front matter work-type=software-change`.
 4. Drive drafts `## Value`, `## Risk ledger` (≥1 `Killer? = yes` row) and
    `## Grounding` from the answers for his approval. Whether he approves
@@ -908,7 +922,7 @@ rehearsal. Anything the run reveals about the skill text is a spec problem,
 not a reason to edit the skill mid-run — hand it back.
 
 **Verify:** `python3 tools/gates/gate.py check measurement viability | grep 'Question set'`
-→ `have: docs/product/measurement.md — Question set: 6 of 6 answered`;
+→ `have: docs/product/measurement.md — Question set (frame gate): 6 of 6 answered`;
 `grep -c '^work-type: software-change$' docs/product/measurement.md` → `1`;
 `git log -1 --format=%B | tail -1` → `Piece: funnel-driver/5`;
 `python3 tools/gates/gate.py audit` → `audit: clean`.
