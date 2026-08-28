@@ -743,7 +743,7 @@ reformatted manifest that has doubled in line count.
 
 ---
 
-### Step 9 — correct the two views, downgrade their seals, let `seal` retake the fingerprints  [delegate, model: sonnet, effort: medium]
+### Step 9 — correct the two views and downgrade their seals — no seal yet  [delegate, model: sonnet, effort: medium]
 
 **What:** In this exact order.
 
@@ -781,15 +781,17 @@ reformatted manifest that has doubled in line count.
    - Line 110: `>slice</text>` → `>scope</text>`
    - Line 112: `>contract</text>` → `>handoff</text>`
 
-4. **Seal.** `python3 tools/gates/gate.py seal funnel-driver`. `seal_views`
-   reads each view's CONTENT, computes the fingerprint, and writes it into
-   the two downgraded lines; `gate-loop` reports `already`.
+4. **Do NOT run `gate.py seal` here.** `seal_views` fingerprints what the
+   producer "actually agreed to", so it runs in Step 11, ON his key, after
+   his eye has been on the render — never before. Leave the two lines in
+   their hand-written form.
 
-Do not stage or commit — Step 11 commits Piece 4 after the producer's eye.
+Do not stage or commit — Step 11 seals and commits Piece 4 after the
+producer's eye.
 
 **Why:** D7. The seal IS the approval: a changed drawing loses its key by
-design, so the route is downgrade → correct → recompute from content, never
-a hand-typed hash (`view_fingerprint` handed a path returns a plausible
+design, so the route is downgrade → correct → render → the producer's eye →
+recompute from content on his key, never a hand-typed hash (`view_fingerprint` handed a path returns a plausible
 wrong value — measured 2026-08-25). Ownership is restated for the seven-rung
 ladder as it stood before Drive: viability (interrogate), handoff, loop and
 acceptance (conductor's spec and build, the acceptance record) owned; frame,
@@ -800,19 +802,21 @@ The eighth box is deleted rather than relabelled because the fold
 **Verify:**
 
 ```
-grep -c 'eight stages\|>slice<\|>contract<\|>build<\|>goal<\|5 of 8\|the cut' docs/design/funnel-driver/why-an-umbrella.html
-grep -c 'slice → design\|contract → build\|→ done\|>slice<\|>contract<' docs/design/funnel-driver/span-vs-slice.html
+cd "$(git rev-parse --show-toplevel)"
+test "$(grep -c 'eight stages\|>slice<\|>contract<\|>build<\|>goal<\|5 of 8\|the cut' docs/design/funnel-driver/why-an-umbrella.html)" -eq 0 && echo ok-umbrella
+test "$(grep -c 'slice → design\|contract → build\|→ done\|>slice<\|>contract<' docs/design/funnel-driver/span-vs-slice.html)" -eq 0 && echo ok-span
 grep -c '<title>A work item is a span. A session is a slice.</title>' docs/design/funnel-driver/span-vs-slice.html
 grep -n 'approval: Tony' docs/product/funnel-driver.md
-python3 tools/gates/gate.py audit
 python3 tools/gates/gate.py check funnel-driver design | tail -1
 ```
 
-→ `0`, `0`, `1`; then three approval lines where lines 9 and 17 read
-`approval: Tony, 2026-08-28 · fp:<12 hex>` with values that are neither
-`54f84887b8b8` nor `5adeb340c7ee`, and line 13 still `Tony, 2026-08-23 · fp:47883502cf4b`;
-then `audit: clean` (a mismatched seal is an AU9 problem — a clean audit is
-the proof the reseal took); then `PASS design — funnel-driver: …`.
+→ `ok-umbrella`, `ok-span` (`grep -c` exits 1 on zero matches, which is why
+each is wrapped in `test … -eq 0`), `1`; then three approval lines where
+lines 9 and 17 read exactly `approval: Tony, 2026-08-28` (hand-written, no
+`fp:`) and line 13 still `Tony, 2026-08-23 · fp:47883502cf4b`; then
+`REFUSED at design — funnel-driver: 2 missing` — the two views are correctly
+UNSEALED at this point, and `gate.py audit` is expected red (AU9) until
+Step 11's key. Do not "fix" that.
 
 ---
 
@@ -822,8 +826,15 @@ the proof the reseal took); then `PASS design — funnel-driver: …`.
 2026-08-28 (`why-an-umbrella.png` 1100×1300, `span-vs-slice.png` 1100×950);
 do not guess them.
 
+Before the first render on a machine, check that Chrome has been launched
+at least once: a never-launched Chrome hangs headless on the Gatekeeper
+prompt — even `--version` — and the hang looks like a slow render. The check
+is `xattr -l "/Applications/Google Chrome.app" | grep -c quarantine` → `0`;
+if it is not `0`, open Chrome once by hand and retry. Found on the real run
+2026-08-28; recorded in `docs/machine-setup.md`.
+
 ```
-cd /Users/anthonymaley/development/product/Kerd
+cd "$(git rev-parse --show-toplevel)"
 shasum docs/design/funnel-driver/why-an-umbrella.png docs/design/funnel-driver/span-vs-slice.png
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu --hide-scrollbars \
   --screenshot="$PWD/docs/design/funnel-driver/why-an-umbrella.png" --window-size=1100,1300 \
@@ -848,7 +859,7 @@ the dimensions line prints `(1100, 1300)` and `(1100, 950)`;
 
 ---
 
-### Step 11 — the producer's eye on the renders, then Piece 4  [keep]
+### Step 11 — the producer's eye on the renders, the seal ON his key, then Piece 4  [keep]
 
 **What:** Open both re-rendered PNGs and look. On `why-an-umbrella.png`: the
 bottom band shows SEVEN boxes, labelled frame · viability · scope · design ·
@@ -863,13 +874,31 @@ anything else moved, stop and hand back — do not commit a drawing the
 producer has not seen.
 
 Put the two PNGs in front of the producer. His word is the approval the
-`2026-08-28` date on the seal lines now claims. On it, commit Piece 4:
+`2026-08-28` date on the two hand-written lines claims. ON THE KEY, and not
+before, from the repo root (`cd "$(git rev-parse --show-toplevel)"`):
+
+```
+python3 tools/gates/gate.py seal funnel-driver
+python3 tools/gates/gate.py check funnel-driver design | tail -1
+python3 tools/gates/gate.py audit | tail -1
+```
+
+`seal` reads each view's CONTENT and writes the fingerprint into the two
+downgraded lines (`gate-loop` reports `already`); `check` → `PASS design —
+funnel-driver: …`; `audit` → `audit: clean`. Then commit Piece 4:
 `git add docs/design/funnel-driver/why-an-umbrella.html docs/design/funnel-driver/why-an-umbrella.png docs/design/funnel-driver/span-vs-slice.html docs/design/funnel-driver/span-vs-slice.png docs/product/funnel-driver.md`,
 message ending `Piece: funnel-driver/4`.
 
-**Why:** Step 9 wrote a line saying Tony approved this content, and the
+**Record of the first run, 2026-08-28:** the seal was taken at 08:3x, before
+the producer's key at 10:25, over content that did not change in between —
+identical fingerprints either way. That was an ORDERING defect in this
+spec as first written (Step 9 sealed before Step 11 looked), not a content
+defect; the contract above is the corrected order for every future run.
+
+**Why:** The seal line says Tony approved this content, and the
 machine cannot tell a vocabulary correction under a standing ruling from a
-redrawn diagram. His ruling authorises the reseal of THIS correction and
+redrawn diagram — which is exactly why the fingerprint may only be taken
+after his eye, on his key. His ruling authorises the reseal of THIS correction and
 nothing the render might otherwise show. This is the producer's key and the
 one step in the reseal that cannot be a command.
 
@@ -945,7 +974,8 @@ not a reason to edit the skill mid-run — hand it back.
 4. `python3 tools/diagram/progress.py` (bare — this is the one place it is
    meant to write), then commit the trio with NO trailer:
    `git add docs/plans/progress.excalidraw docs/plans/progress.svg docs/plans/progress.html`,
-   message `Refresh the progress render — funnel-driver reaches acceptance, measurement enters at frame`.
+   message `Refresh the progress render — funnel-driver reaches acceptance, measurement enters at $(python3 tools/gates/gate.py route measurement | sed -n 's/^enters at: //p')`
+   (the segment is computed, not typed — Step 12 may end at frame or viability).
 5. The CI suite locally, every step green:
    `python3 tools/gates/gate.py selftest && python3 tools/gates/gate.py audit && python3 tools/gates/gate.py release && python3 tools/diagram/progress.py selftest && python3 tools/design/matrix.py selftest && python3 tools/design/matrix.py audit && python3 tools/diagram/gen_journey.py check && python3 tools/diagram/progress.py stale && python3 tools/gates/fidelity.py`
 6. `git push`. Then, because the version changed, conductor's close-out fires
