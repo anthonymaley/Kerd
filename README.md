@@ -4,7 +4,7 @@
 
 ![Kerd — the whole system](docs/design/kerd-map.svg)
 
-**What is Kerd?** Nine workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift. Underneath them, every piece of work climbs the same seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
+**What is Kerd?** Ten workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift. Underneath them, every piece of work climbs the same seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
 
 **Why should you care?** Because AI-assisted work has a silence problem. Things pass as "done" when nothing was in place to ask the question: was the risk sized? was the background read? was security ever even mentioned? A model choosing to comply is not a check. Kerd's answer is refusal from outside the model: CI that goes red at the exact push that broke a promise, with the fix named in the message. The skills keep you fast; the machinery keeps you honest.
 
@@ -16,6 +16,10 @@ claude plugins install kerd
 ```
 
 ## What's New (v0.99.0)
+
+### v0.104.0
+
+**The funnel has a driver.** `/kerd:drive <slug>` is a new skill that owns one work item across the whole ladder — frame → viability → scope → design → work handoff → loop → acceptance — over as many sessions as it takes, and hands each sitting's work to `/kerd:conductor` without changing a line of it. At the frame gate it asks a short question set: you declare the work type (never guessed), the set is copied from a seed into the work record, you edit it before anything is asked, and the frame gate counts answered against declared until every entry has an answer — the item stays at `frame` until then. One list drives what is asked, what counts as finished, and the `now > frame, next viability, after scope` line you see. **What it means:** an idea can enter the funnel by being asked six questions rather than by someone remembering the sections, and nothing already on the board moves — the check applies only to a record that carries the section. **The limit, stated:** the gate counts presence, never quality; it cannot tell whether an answer is true, and it cannot tell whether Drive or a hand wrote the section. One seed exists (`software-change`); the other gates' sets are following slices.
 
 ### v0.103.0
 
@@ -98,6 +102,15 @@ claude plugins install kerd
 *Release notes for v0.84.0 and earlier live in git history — `git log --follow README.md`.*
 
 ## Skills
+
+### drive (Work Item Umbrella)
+
+Drive walks one work item from idea to acceptance, across as many sessions as it takes, and calls conductor for each sitting's work without changing it. It reads the item's rung from disk (`gate.py route`, never the board renderer), shows `now > X, next Y, after Z`, and at the frame gate runs a question set: you declare the work type from the seeds in `docs/work/question-sets/`, the set is copied into the work record's `## Question set`, you edit it first, and the frame gate holds the item at `frame` until every entry carries an answer. Counted, never judged — the answers are yours. Conductor owns the session; switch owns the session boundary; Drive owns the item.
+
+```
+/drive <slug>        # pick the item up where disk says it is, or start it
+/drive               # list every item and where it sits
+```
 
 ### conductor (Session Discipline)
 

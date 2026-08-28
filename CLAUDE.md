@@ -1,6 +1,6 @@
 # Kerd
 
-Claude Code plugin: nine workflow skills for session discipline, risk qualification, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, and conversational pair mode.
+Claude Code plugin: ten workflow skills for driving a work item from idea to acceptance, session discipline, risk qualification, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, and conversational pair mode.
 
 ## Commit Rules
 
@@ -45,6 +45,7 @@ tools/gates/      # entry-gate ladder + release/audit/fidelity checks (gate.py, 
 tools/diagram/    # progress board and journey renders
 tools/design/     # the evaluation-matrix checker
 docs/product/     # the funnel board — one <slug>.md per work item, written at the frame stage
+docs/work/question-sets/ # seed question sets, one <work-type>.md, copied into a work record at intake
 docs/design/      # living design docs (undated filenames — CI-enforced)
 docs/gates/       # dated gate records, immutable
 docs/plans/       # dated contract specs and generated progress renders
