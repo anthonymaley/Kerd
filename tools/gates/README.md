@@ -37,7 +37,7 @@ EOF, for work slug `S`:
 
 | Rung | New inputs (all mechanical) |
 |---|---|
-| `frame` | nothing — always enterable |
+| `frame` | to enter: nothing — always enterable. To LEAVE: when section `Question set` exists (opt-in by presence — an absent section adds no rows): front matter `work-type` matching `^[a-z][a-z0-9-]*$` (declared by the producer at intake, never inferred; names the seed `docs/work/question-sets/<work-type>.md`, placed ABOVE any `concerns:` block) · every `- Q: <question>` entry answered — a following `A: <text>` line before the next entry carrying text; fenced lines invisible. Counted, never judged: `Question set (frame gate): k of n answered — still open: "…"` names what is open. Evaluated by `check <S> viability` because a rung's exit is the next rung's entry; it is the frame gate's input, not viability's. |
 | `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) · section `Risk ledger` naming at least one killer risk (≥1 row with `Killer?` = yes, stripped and lowercased) — named only; no sizing, no evidence, no qualification. A FATAL row, an illegal `State`, or empty `Evidence` do not refuse here — full qualification is the `scope` rung's business. |
 | `scope` | the qualified risk ledger: section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` · section `Scope` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
 | `design` | when the front matter declares `concerns:` (see Views, below): every entry has a view path or `n/a — <reason>` · every view path ends `.html` and resolves on disk · every view carries a sealed approval `<name>, <date> · fp:<12 hex>` whose fingerprint matches the file's current content. A work item declaring no concerns passes design vacuously. |
@@ -398,6 +398,27 @@ absence is already the scope rung's own refusal, and the rigor rule
 does not double-refuse it. The declared level is data for later slices
 (the rigor catalog and per-class disposition tables); this slice
 enforces only that the level question is asked and answered legally.
+
+## Question set (frame gate)
+
+One list drives three things at the frame gate: what `/kerd:drive` asks
+the person, what this gate counts as finished, and what Drive shows as
+`now > frame, next viability, after scope`. The list lives IN the work
+record as `## Question set`, copied at intake from a seed
+`docs/work/question-sets/<work-type>.md` that is never read again — what
+the person edited is the set.
+
+Grammar (`kit.question_set_status`): an entry is `- Q: <question>`; it is
+answered when the first `A: <text>` line before the next entry carries
+text; other lines are content (continuations). Fenced code is invisible.
+
+    - Q: What is the problem, in the words of the person who has it?
+      A: Nothing walks an item from idea to launch.
+
+The gate counts presence and refuses while any entry is open. It never
+judges an answer — that is the producer's key — and nothing here can tell
+whether Drive or a hand wrote the section. Opt-in by presence: a work
+record without the section is checked exactly as before.
 
 ## Views — the design gate's lock
 

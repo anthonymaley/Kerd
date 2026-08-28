@@ -131,6 +131,18 @@ SEPARATOR_ROW_RE = re.compile(r'^[\s|:-]+$')
 RIGOR_LINE_RE = re.compile(r'^Rigor level:(.*)$')
 RIGOR_SECTION_HEADING_RE = re.compile(r'^## Scope[ \t]*$')
 
+# ── the question set (frame gate; funnel-driver slice 2) ──────────────────
+# One list drives ask · check · show. An entry is '- Q: <question>'; it is
+# answered when a following 'A: <text>' line (any indentation) before the
+# next entry carries text. Counted, never judged — the human key judges.
+QUESTION_SET_TITLE = "Question set"
+QS_Q_RE = re.compile(r'^- Q:\s*(.*)$')
+QS_A_RE = re.compile(r'^\s*A:\s*(.*)$')
+# work-type names a seed file, docs/work/question-sets/<work-type>.md, so
+# it is shaped like a filename stem. Declared by the producer, never
+# inferred; the gate checks the shape, never that the seed exists.
+WORK_TYPE_RE = re.compile(r'^[a-z][a-z0-9-]*$')
+
 
 # ── front matter (A1) ───────────────────────────────────────────────────────
 
@@ -355,6 +367,53 @@ def rigor_problems(text):
                 f"illegal rigor level '{inside_values[0]}' (legal: spike, mvp, production-v1)"
             )
     return problems
+
+
+# ── the question set (frame gate) ───────────────────────────────────────────
+
+def question_set_status(text):
+    """Count answered against declared entries in '## Question set' —
+    presence only, never quality. None when the section is absent (opt-in
+    by presence: a work record with no set is not refused, so nothing
+    already on a board moves). Otherwise {"declared": int, "answered":
+    int, "unanswered": [question], "problems": [str]}. Grammar: QS_Q_RE
+    opens an entry; the first QS_A_RE line before the next entry answers
+    it when it carries text; other lines are content (continuations).
+    Lines inside ``` fences are invisible — a quoted example is content,
+    not an entry. Problem strings carry no 'docs/product/<S>.md — '
+    prefix; callers prepend it."""
+    body = find_section(text, QUESTION_SET_TITLE)
+    if body is None:
+        return None
+    lines = body.splitlines()
+    mask = _fence_mask(lines)
+    entries = []      # [question, answered]
+    problems = []
+    for n, (line, fenced) in enumerate(zip(lines, mask), start=1):
+        if fenced:
+            continue
+        mq = QS_Q_RE.match(line)
+        if mq:
+            q = mq.group(1).strip()
+            if not q:
+                problems.append(f"Question set: entry {len(entries) + 1} has no question text")
+            entries.append([q, False])
+            continue
+        ma = QS_A_RE.match(line)
+        if ma:
+            if not entries:
+                problems.append(f"Question set: line {n} answer before any question")
+                continue
+            if ma.group(1).strip():
+                entries[-1][1] = True
+    if not entries:
+        problems.append("Question set: declared with no entries (want '- Q: <question>' lines)")
+    return {
+        "declared": len(entries),
+        "answered": sum(1 for _, a in entries if a),
+        "unanswered": [q for q, a in entries if not a],
+        "problems": problems,
+    }
 
 
 # ── the risk ledger (A3, state normalization note) ──────────────────────────
@@ -687,6 +746,39 @@ def check_rung(root, slug, rung):
                     need.append(
                         f"{rel_product} — Risk ledger names no killer risk "
                         "(no row with Killer? = yes)"
+                    )
+
+            # The FRAME gate's completeness check (funnel-driver slice 2) — it
+            # lives in the viability block only because `frame` requires
+            # nothing to enter; every string it emits says "frame gate", so
+            # the reader learns the right lifecycle position. One list drives
+            # ask · check · show. Opt-in by presence — a record with no
+            # '## Question set' is not refused here. Presence only:
+            # an answer is counted, never judged, and nothing in this file can
+            # tell whether Drive or a hand wrote it.
+            qs = question_set_status(product_text)
+            if qs is not None:
+                wt = (fm or {}).get("work-type", "") or ""
+                if WORK_TYPE_RE.match(wt):
+                    have.append(f"{rel_product} — front matter work-type={wt}")
+                else:
+                    need.append(
+                        f"{rel_product} — front matter work-type "
+                        "(declared by the producer, never inferred)"
+                    )
+                for p in qs["problems"]:
+                    need.append(f"{rel_product} — {p}")
+                if qs["declared"] and not qs["unanswered"] and not qs["problems"]:
+                    have.append(
+                        f'{rel_product} — Question set (frame gate): {qs["answered"]} of {qs["declared"]} answered'
+                    )
+                elif qs["declared"]:
+                    listed = "; ".join(f'"{q}"' for q in qs["unanswered"][:3])
+                    more = qs["unanswered"][3:]
+                    tail = f" (+{len(more)} more)" if more else ""
+                    need.append(
+                        f'{rel_product} — Question set (frame gate): {qs["answered"]} of {qs["declared"]} '
+                        f"answered — still open: {listed}{tail}"
                     )
 
     if idx >= RUNGS.index("scope"):
@@ -2656,6 +2748,84 @@ def _selftest_body():
             "T49: the legacy goal record must still reach the terminal through done's alias"
         assert _audit_au10(root_t49) == [], "T49: the legacy record must clear AU10"
 
+    # T50 — the frame gate's completeness check (funnel-driver slice 2). A
+    # '## Question set' is opt-in by presence; once present, every entry
+    # needs an answer and the front matter needs a declared work-type. The
+    # refusal names the count and the open questions in plain words.
+    with tempfile.TemporaryDirectory() as root_t50:
+        p50 = os.path.join(root_t50, "docs", "product", f"{slug}.md")
+        qs_open = (
+            "## Question set\n\n"
+            "- Q: What is the problem?\n  A: Nothing walks an item to launch.\n"
+            "- Q: Who has it?\n  A:\n"
+            "- Q: What would be different?\n"
+        )
+        _sw(p50, ledger_named_only + "\n" + qs_open)
+        assert route(root_t50, slug)["enters_at"] == "frame", \
+            "T50: an open question set must hold the item at frame"
+        cr = check_rung(root_t50, slug, "viability")
+        assert (
+            f"docs/product/{slug}.md — front matter work-type (declared by the producer, never inferred)"
+        ) in cr["need"], f"T50: expected the work-type need row, got {cr['need']}"
+        assert (
+            f'docs/product/{slug}.md — Question set (frame gate): 1 of 3 answered — still open: '
+            '"Who has it?"; "What would be different?"'
+        ) in cr["need"], f"T50: expected the plain-words count row, got {cr['need']}"
+
+        qs_done = (
+            "## Question set\n\n"
+            "- Q: What is the problem?\n  A: Nothing walks an item to launch.\n"
+            "- Q: Who has it?\n  A: Tony, on every item.\n"
+            "- Q: What would be different?\n  A: Three unowned rungs get an owner.\n"
+            "  A continuation line belongs to the answer above it.\n"
+        )
+        _sw(p50, ledger_named_only.replace("route: new\n", "route: new\nwork-type: software-change\n")
+            + "\n" + qs_done)
+        cr = check_rung(root_t50, slug, "viability")
+        assert cr["need"] == [], f"T50: expected the frame gate to release, got {cr['need']}"
+        assert f"docs/product/{slug}.md — front matter work-type=software-change" in cr["have"], \
+            f"T50: expected the work-type have row, got {cr['have']}"
+        assert f"docs/product/{slug}.md — Question set (frame gate): 3 of 3 answered" in cr["have"], \
+            f"T50: expected the answered have row, got {cr['have']}"
+        assert route(root_t50, slug)["enters_at"] == "viability", \
+            "T50: a complete set must release the item to viability"
+
+        # no section at all is not a refusal — nothing already on a board moves
+        _sw(p50, ledger_named_only)
+        cr = check_rung(root_t50, slug, "viability")
+        assert not any("Question set" in x or "work-type" in x for x in cr["need"] + cr["have"]), \
+            f"T50: an absent section must add no rows, got {cr['need'] + cr['have']}"
+        assert route(root_t50, slug)["enters_at"] == "viability", \
+            "T50: an item with no question set routes exactly as before"
+
+    # T51 — the grammar's edges: a quoted example inside ``` is content,
+    # not an entry; a work-type that is not a filename stem is refused; an
+    # answer before any question and a section with no entries are named
+    # problems, never a vacuous pass.
+    with tempfile.TemporaryDirectory() as root_t51:
+        p51 = os.path.join(root_t51, "docs", "product", f"{slug}.md")
+        _sw(p51, ledger_named_only.replace("route: new\n", "route: new\nwork-type: Software Change\n")
+            + "\n## Question set\n\n"
+            "```\n- Q: quoted example, invisible\n  A:\n```\n"
+            "- Q: Real question?\n  A: Real answer.\n")
+        cr = check_rung(root_t51, slug, "viability")
+        assert f"docs/product/{slug}.md — Question set (frame gate): 1 of 1 answered" in cr["have"], \
+            f"T51: the fenced example must be invisible, got {cr['have']}"
+        assert (
+            f"docs/product/{slug}.md — front matter work-type (declared by the producer, never inferred)"
+        ) in cr["need"], f"T51: 'Software Change' is not a seed filename stem, got {cr['need']}"
+        assert route(root_t51, slug)["enters_at"] == "frame", \
+            "T51: an illegal work-type holds the item at frame"
+
+        st = question_set_status("# X\n\n## Question set\n\nA: orphan answer\n\nprose only\n")
+        assert st["declared"] == 0 and st["answered"] == 0, f"T51: expected nothing declared, got {st}"
+        assert st["problems"] == [
+            "Question set: line 1 answer before any question",
+            "Question set: declared with no entries (want '- Q: <question>' lines)",
+        ], f"T51: expected the two named problems in order, got {st['problems']}"
+        assert question_set_status("# X\n\n## Value\n\nno set here\n") is None, \
+            "T51: an absent section is None, not a problem"
+
     # T45 — purity: the live ladder's exact membership, and the retired
     # names' total absence from RUNGS (restated separately from T10b's
     # ready-to-release check, which already proved the terminal derivation).
@@ -2668,13 +2838,13 @@ def _selftest_body():
 
 
 def selftest():
-    """Run the 49 fixture-built cases in temporary trees. Prints
-    'selftest: 49 cases passed' and returns 0 on success; on the first
+    """Run the 51 fixture-built cases in temporary trees. Prints
+    'selftest: 51 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 49 cases passed")
+    print("selftest: 51 cases passed")
     return 0
