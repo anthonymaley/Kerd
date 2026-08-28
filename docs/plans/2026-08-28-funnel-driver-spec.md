@@ -99,12 +99,12 @@ stale sealed views of this item are corrected and resealed through
 
 ## Pieces
 
-- [ ] 1. `tools/gates/kit.py` + `tools/gates/README.md` — the question-set check at the frame gate, T50/T51, the canonical write-down (Steps 1–3)
-- [ ] 2. `docs/work/question-sets/software-change.md` — the first seed, hand-written (Step 4)
-- [ ] 3. `skills/drive/SKILL.md` + the release checklist to 0.104.0 — README, CLAUDE.md, both capability lists (Steps 5–8)
-- [ ] 4. `docs/design/funnel-driver/why-an-umbrella.html` + `span-vs-slice.html` resealed, PNGs re-rendered, the producer's eye (Steps 9–11)
-- [ ] 5. `docs/product/measurement.md` — the real run, its answered set committed (Step 12)
-- [ ] 6. Assembly — boxes checked, conductor diff empty, board rendered, pushed (Step 13)
+- [x] 1. `tools/gates/kit.py` + `tools/gates/README.md` — the question-set check at the frame gate, T50/T51, the canonical write-down (Steps 1–3)
+- [x] 2. `docs/work/question-sets/software-change.md` — the first seed, hand-written (Step 4)
+- [x] 3. `skills/drive/SKILL.md` + the release checklist to 0.104.0 — README, CLAUDE.md, both capability lists (Steps 5–8)
+- [x] 4. `docs/design/funnel-driver/why-an-umbrella.html` + `span-vs-slice.html` resealed, PNGs re-rendered, the producer's eye (Steps 9–11)
+- [x] 5. `docs/product/measurement.md` — the real run, its answered set committed (Step 12)
+- [x] 6. Assembly — boxes checked, conductor diff empty, board rendered, pushed (Step 13)
 
 Commit order: this spec first, with no trailer (it moves `funnel-driver`
 handoff → loop, so the render in Step 13 covers it). Then one commit per
