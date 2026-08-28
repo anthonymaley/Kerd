@@ -28,6 +28,7 @@ done
 | `python3` | Every gate, render and check is Python: `tools/gates/`, `tools/diagram/`, `tools/design/`. Stdlib only — **no pip install, no venv, no PyYAML.** | 3.14.6 |
 | `git` | Switch owns `git pull` and the session-state commit; the progress board derives position from `git log`. | 2.50.1 (Apple Git) |
 | `gh` | CI status and any PR flow — the gate records' `CI green headSha-verified` claim reads the Actions API. Not needed for the switch boundary itself. | 2.97.0, authenticated after `gh auth login` |
+| Google Chrome | Renders sealed design views to PNG headlessly (`docs/playbook.md` → *Rendering a diagram needs no Playwright*). **Must be launched once by hand first**: verify with `xattr -l "/Applications/Google Chrome.app" \| grep -c quarantine` → `0`. | 2026-08-28: quarantined and never launched; every headless call, `--version` included, hung on the Gatekeeper prompt |
 
 **Python is a stdlib-only dependency and that is deliberate** (2026-08-08
 decision, CONTEXT.md): `/usr/bin/python3` is the same `xcode-select` shim inode
@@ -171,6 +172,12 @@ In order. Each step's verify is the command beside it.
 
 ## Gotchas found while doing this
 
+- **A downloaded-but-never-launched Chrome hangs every headless call, `--version`
+  included.** Gatekeeper's first-launch prompt is a GUI dialog no headless process
+  can answer, so the render sits at 100% forever with no error. Open Chrome once by
+  hand, quit it, and the same command works. Found 2026-08-28 rendering the
+  `funnel-driver` views on the Studio — third render attempt before the cause was
+  checked rather than the command retried.
 - **A green `git pull` is not proof the remote is reachable.** On an already-current
   tree it can return `Already up to date.` from local state. `ssh -T git@github.com`
   is the real test.

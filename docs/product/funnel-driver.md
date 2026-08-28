@@ -6,7 +6,7 @@ concerns:
   - concern: why the driver sits above conductor rather than inside it
     viewpoint: nested
     view: docs/design/funnel-driver/why-an-umbrella.html
-    approval: Tony, 2026-08-23 · fp:54f84887b8b8
+    approval: Tony, 2026-08-28 · fp:0eed8e6b6c56
   - concern: how one gate behaves, end to end
     viewpoint: swimlane
     view: docs/design/funnel-driver/gate-loop.html
@@ -14,7 +14,7 @@ concerns:
   - concern: why a work item and a session cannot be nested
     viewpoint: timeline
     view: docs/design/funnel-driver/span-vs-slice.html
-    approval: Tony, 2026-08-23 · fp:5adeb340c7ee
+    approval: Tony, 2026-08-28 · fp:8fcc4cc1f28e
 ---
 
 # The funnel has no driver — nothing walks an item from idea to launch

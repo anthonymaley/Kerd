@@ -326,6 +326,10 @@ reachability of the file, never the truth of the sentence around it.
 
 ### Rendering a diagram needs no Playwright — system Chrome does it
 
+**On a fresh machine, launch Chrome once by hand first.** A quarantined,
+never-launched Chrome hangs every headless call (even `--version`) on the
+Gatekeeper prompt, silently. `xattr -l "/Applications/Google Chrome.app" | grep -c quarantine` → `0` is the check (2026-08-28, `docs/machine-setup.md`).
+
 ```
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless --disable-gpu --hide-scrollbars \
