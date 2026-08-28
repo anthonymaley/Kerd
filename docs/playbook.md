@@ -139,6 +139,16 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
   no `check`; its read-only form is `stale`** (this line said `check` until
   2026-08-27, when running the wrong one off these very words surfaced it).
 
+- **Retrying a hung render is not diagnosis** (2026-08-28): a second headless
+  Chrome attempt with a throwaway profile was a guess; the cause (quarantine,
+  never launched) showed only when `--version` was tried and also hung. Ask why
+  before the second try.
+- **A player may stage files it did not touch** (2026-08-28): a haiku player
+  left `TODO.md` staged. Check `git status` for `M ` (index) as well as ` M`
+  (tree) after every player returns, before the piece commits.
+- **`open` on the Studio is a shim to the laptop** (2026-08-28): it copies the
+  file across and opens it there; nothing on the Studio's own display is visible
+  to the user. Never say "behind other windows" on this host.
 - **A green `git pull` is not proof the remote is reachable** (2026-08-27, found
   on a machine move): on an already-current tree it returns `Already up to date.`
   from local state, which on a fresh machine reads as "git is configured" when

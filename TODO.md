@@ -2,30 +2,29 @@
 
 ## Now
 
-**2026-08-27 — `rung-vocabulary` is ACCEPTED and at `ready-to-release`.** The
-first acceptance record this repo has written, and writing it found three live
-gaps in the machinery meant to guard it. Kerd is at v0.103.0.
-See `kivna/sessions/2026-08-27.md`.
-
-**2026-08-27 evening — work moved to the Mac Studio.** No product work, board
-unchanged. Setup audited and three machine-local gaps cleared; the move
-checklist is now `docs/machine-setup.md`. Second sitting in the same log.
+**2026-08-28 — `funnel-driver` slice 2 BUILT; the item is at `acceptance`.**
+`/kerd:drive` shipped at v0.104.0 and its first real run framed
+`requirements-success-measurement` to viability. See `kivna/sessions/2026-08-28.md`.
 
 **Next, in order**
 
-1. **`funnel-driver`'s handoff spec** — `docs/plans/*-funnel-driver-spec.md`.
-   Ninth day. Open when it resumes: does slice 2 build `skills/drive/SKILL.md`,
-   or only the question set and its checker? Asked, answered yes, never written
-   down. Note its two stale sealed views (Backlog, High) belong to this gate.
-2. **The `gate-visuals` acceptance gate** — cold eyes, then the expert-user
+1. **The `gate-visuals` acceptance gate** — cold eyes, then the expert-user
    pass. Its `Product measurements met` row has no upstream declaration; write
    the gap honestly rather than inventing a target after the fact. Fix its stale
    `visual-lifecycle.html` here, at its own gate.
-3. **Frame the measurement item** — Tony's value statement is captured verbatim
-   in CONTEXT.md and nothing is framed yet.
+2. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
+   then the expert-user pass (a second real Drive run is the natural one).
+   Carry into the hand-back: **Drive must state the subject in plain language
+   when opening a frame gate, never the slug alone** (measured 2026-08-28 —
+   the producer could not tell whether the questions were about the skill or
+   the item). Skill-text change → composer, next slice, with the bump.
+3. **`requirements-success-measurement` → scope.** At viability with one
+   killer named only; scope sizes it. The ask must scale with the declared
+   rigor level (the empty socket from `rigor-level` slice 2).
 4. **The four kept items from the standards spike** — 25010 -> `R-0011`'s
-   quality column | 24774 §5.3 header on every `SKILL.md` | the UI viewpoint as
-   a build | the spine sentence in `docs/design/gate-visuals.md`.
+   quality column | 24774 §5.3 header on every `SKILL.md` (Drive is the first
+   with it) | the UI viewpoint as a build | the spine sentence in
+   `docs/design/gate-visuals.md`.
 5. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
    are yours.
@@ -69,7 +68,9 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   exempting — the exemption list is for derived or immutable artifacts.
 
 
-- **THREE sealed views are factually stale, across two work items** (found
+- **~~THREE~~ ONE sealed view is factually stale** — `funnel-driver`'s two were
+  resealed 2026-08-28 (`71391f8`, at its own gate, producer's eye); only
+  `gate-visuals`' `visual-lifecycle.html` remains (found
   2026-08-27 by cold eyes; each is its own item's gate work, never another
   slug's slice). `funnel-driver/why-an-umbrella.html` carries a live coverage
   claim over "the funnel's eight stages" and names four retired rungs;
@@ -234,6 +235,8 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   session-state-dirty at a real stopping point.
 
 **Medium**
+
+- **`docs/design/kerd-map.svg` still draws NINE skills** (found by the v0.104.0 release pass, 2026-08-28). `tools/diagram/gen_kerd_map.py:35-45` enumerates the skills by hand and its band is titled *THE NINE SKILLS*; `drive` is absent and the README's first image is that render. A redraw with a human eye on the layout, not a text substitution — left untouched by the pass for that reason.
 
 - **skriv bans em dashes; the README's What's New voice uses them and always
   has.** Measured 2026-08-25: the v0.98.0 entry runs 0.019 em dashes per word

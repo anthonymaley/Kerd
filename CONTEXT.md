@@ -2,48 +2,51 @@
 
 ## What This Is
 
-Kerd — a Claude Code plugin: nine workflow skills. Core skills: switch (session handoff/boundary), conductor (session discipline), kivna (vault/knowledge), tend, slainte, skriv, lorg, interrogate (the tiered risk ledger), pair. Cut: capturerequirements (v0.73.0), sherpa (v0.74.0 — the lifecycle IS the ladder), mode + all eleven modes/ files (v0.75.0 — routing belongs to the gates), trim (v0.87.0 — its core job was machine-refused by construction).
+Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work-item umbrella, v0.104.0), switch (session handoff/boundary), conductor (session discipline), kivna (vault/knowledge), tend, slainte, skriv, lorg, interrogate (the tiered risk ledger), pair. Cut: capturerequirements (v0.73.0), sherpa (v0.74.0 — the lifecycle IS the ladder), mode + all eleven modes/ files (v0.75.0 — routing belongs to the gates), trim (v0.87.0 — its core job was machine-refused by construction).
 
 ## Where We Are
 
-**2026-08-27 — `rung-vocabulary` is ACCEPTED. It is the first work item in this
-repo to reach `ready-to-release` through an acceptance record rather than a
-legacy alias, and writing that record found three live gaps in the machinery
-that was supposed to guard it. Kerd is at v0.103.0.**
+**2026-08-28 — `funnel-driver` slice 2 is BUILT and the item is at `acceptance`.
+The funnel has a driver: `/kerd:drive` shipped at v0.104.0, and its first real
+run framed `requirements-success-measurement` to viability in the producer's
+own words.** Six pieces, one push, `skills/conductor/SKILL.md` untouched from
+base `94f4304` to tip — the umbrella rule held by assertion, not by intent.
 
-- **`rung-vocabulary` is at `ready-to-release`.** `docs/gates/2026-08-27-rung-vocabulary-acceptance.md`
-  (`3781c2b`), landed atomically with `stage: designed → ready-to-release` in the
-  frame's front matter. Both keys given: cold eyes as four blind reviewers
-  (layers 1 and 3 passed, 4a and 4b blocked, every block amended) and the
-  producer's expert-user pass on 2026-08-27.
-- **The ladder is `frame · viability · scope · design · handoff · loop ·
-  acceptance`**, terminal `ready-to-release`. Retired names read forever, write
-  never — and as of this session they read under the SAME contract, not a
-  weaker one.
-- **The gate machinery gained three refusers this session**, each closing a
-  contract that was written in prose and enforced nowhere: the journey stage
-  schema (`gen_journey.py check`, now CI step nine), AU10 (gate-record front
-  matter), and the stage-to-suffix contract (a record may not contradict its own
-  filename). Selftest 45 → 49.
-- **`funnel-driver` is at `handoff`**, still needing
-  `docs/plans/*-funnel-driver-spec.md`. Ninth day. Two of its sealed views are
-  factually stale and are its own gate's business, not another slug's.
-- **`gate-visuals` is at `acceptance`**, eighth day untouched.
-- **The register is unchanged: 38 live, 33 approved, 0 invalidated.**
+- **`funnel-driver` is at `acceptance`** — zero unchecked pieces; the
+  acceptance record is the producer's gate. Its two stale sealed views are
+  resealed on the seven-rung ladder (`fp:0eed8e6b6c56`, `fp:8fcc4cc1f28e`),
+  producer's eye 2026-08-28.
+- **The frame gate now counts a question set.** A work record may carry
+  `## Question set` (opt-in by presence; absent → no rows, every existing item
+  routes byte-identically). When it does, the gate refuses until every `- Q:`
+  has an `A:` — counted, never judged. Every emitted string says *frame gate*
+  even though the check runs in the viability block (frame requires nothing to
+  enter). Selftest 49 → 51. One seed exists: `docs/work/question-sets/software-change.md`.
+- **`requirements-success-measurement` is at `viability`** — the measurement
+  item TODO wanted framed for five days, now a work record with the producer's
+  six answers, a Value in units (0 of 52 requirements carry a measurable
+  condition), one named killer risk (friction / no visibility), and grounding.
+- **`gate-visuals` is at `acceptance`**, tenth day untouched — the next pick.
+- **`rung-vocabulary` at `ready-to-release`.** Kerd is at **v0.104.0**.
 
-**2026-08-27 evening — work MOVED MACHINES to the Mac Studio** (the laptop was
-out of memory). No product work; the board is unchanged and every rung above is
-still current. The pickup ran clean and the setup audit produced
-`docs/machine-setup.md`, the move checklist this repo did not have. Three gaps
-found and cleared: a **stale hand-wired duplicate of the pair hook** in
-`~/.claude/settings.json` (the v0.96.0 double-fire, injecting text that
-contradicted the plugin's live version — stripped, backup kept, confirmed fixed
-live), **`gh` unauthenticated** while SSH worked fine, and **pair mode not
-travelling** (restored from this file's own `## Active Mode` snapshot, which is
-that mechanism working as designed). Everything else was already correct,
-including the plugin cache at 0.103.0 and hook auto-load.
+**Findings the first Drive run handed back, not fixed mid-run:** Drive must
+state the SUBJECT in plain language when opening a frame gate — the slug alone
+(`measurement`) left the producer asking what was being framed; the run renamed
+the slug. And the spec's seal-before-eye ordering was a contract defect caught
+by producer review after Piece 4 landed — corrected in the spec (`0404217`),
+content identical, no reseal.
 
 ## Key Decisions
+
+- **A GATE CHECK'S CODE LOCATION AND ITS READER-FACING NAME ARE TWO DIFFERENT THINGS, AND THE READER'S ONE WINS — Tony, 2026-08-28, correcting the score before dispatch.** The question-set check runs inside `kit.py`'s viability block because `frame` requires nothing to enter, so the frame gate's *exit* is the viability block. The composer's Step 2 therefore put the README sentence in the `viability` row. His correction: *"call the question set a frame-gate input everywhere. If the README's viability row carries it, the code may be right while the reader learns the wrong lifecycle position."* So the code stays where the machinery needs it and every surface a person reads — the README's `frame` row, the skill text, What's New, and above all the machine-emitted `need:`/`have:` strings (`Question set (frame gate): k of n answered`) — names the frame gate. The currency rule's sharpest instance so far: the emitted string is where a newcomer meets the vocabulary, so that is where the name binds hardest.
+
+- **THE SEAL IS WRITTEN ON THE KEY, NEVER BEFORE IT — producer review, 2026-08-28, after Piece 4 had already landed.** The score had Step 9 write `approval: Tony, 2026-08-28` and run `gate.py seal`, with the producer's eye at Step 11 — so the fingerprint claimed agreement two hours before the agreement happened (sealed ~08:3x, key 10:25). Content was identical, so no reseal was owed; the *contract* was wrong and is corrected (`0404217`): downgrade → correct → render → eye → seal, in that order, with `seal`, `check design` and audit run ON the key. Three sibling findings from the same review, all score defects and all handed back rather than edited by the conductor: a hard-coded repo path (the reviewer's host has the repo at `~/Kerd`, this one at `~/development/product/Kerd` — `git rev-parse --show-toplevel`), a commit subject hard-coding a rung the step allowed to vary, and `grep -c` exiting 1 on zero matches under a fail-fast runner.
+
+- **DRIVE MUST STATE THE SUBJECT IN PLAIN LANGUAGE WHEN IT OPENS A FRAME GATE, NEVER THE SLUG ALONE — measured on the first real run, 2026-08-28.** Drive printed `measurement — now > frame, next viability, after scope` and asked Q1; the producer's reply was *"what problem are we talking about here KErd skill?"* and then *"so im doing this about the kerd skill we are building is the frame i am asking, /drive specifially?"* — he could not tell whether the questions were about the skill being built or the item being framed. His fix, verbatim: *"introduce it as something like 'requirements success measurement' before asking Q1 … `/kerd:drive` is only the workflow guiding us through that work"*, and *"the interaction itself is evidence that Drive should always state the subject in plain language — not merely its slug — when beginning a frame gate."* The slug was renamed `requirements-success-measurement` (uncommitted at the time, so free). Per the spec's own rule — *anything the run reveals about the skill text is a spec problem, not a reason to edit the skill mid-run* — this is a hand-back for the next slice, in TODO.
+
+- **WHAT THE MODEL ADDS TO A PRODUCER'S ANSWER IS MARKED AS THE MODEL'S, NEVER ATTRIBUTED TO HIM — Tony, 2026-08-28, on Q6.** He named superpowers and conductor; the model knew the capability more directly touches the requirements register, the gate checks, rigor levels, design/handoff artifacts and loop verification. His rule: *"Claude should distinguish what you explicitly named from additional repository surfaces it discovers rather than silently attributing those additions to you."* Recorded in the work record as a parenthetical labelled *added by the model, not named by the producer*. Same shape as the `proposed` requirement state: the model's inference is admissible, but it must wear its provenance forever. And on A5: *"excessive friction, unclear state, or invisible progress are killer-risk candidates, not incidental UX concerns"* — it is the ledger's `Killer? = yes` row.
+
+- **A NEVER-LAUNCHED CHROME HANGS EVERY HEADLESS CALL, SILENTLY — the Mac Studio, 2026-08-28.** Chrome downloaded via Safari on Aug 11 still carried `com.apple.quarantine` and had no profile; every headless invocation including `--version` blocked on Gatekeeper's first-launch GUI prompt. Three attempts (a player's 5-minute timeout, then two of the conductor's — the second a retry that should have been a diagnosis) before the cause was checked. Fix: launch once by hand. Row added to `docs/machine-setup.md` §1 with its verify (`xattr -l … | grep -c quarantine` → 0) and the playbook. Second entry in the machine-local-state inventory filed the night before; same asymmetry — the machine looked configured because the binary was there.
 
 - **MACHINE-LOCAL STATE IS A REAL CATEGORY, IT HAS AN INVENTORY AT `docs/machine-setup.md`, AND THAT INVENTORY IS A LIST RATHER THAN A CHECK — 2026-08-27 evening, the move to the Mac Studio.** The move lost exactly what git cannot carry — `kivna/.pair` (gitignored), `kivna/.active-modes` (gitignored, so no conductor sitting could have resumed), `~/.claude/settings.json` (outside every repo) — and gained one thing git cannot see: **hand-wired hook drift in the user-global config**. §4 of the setup doc is that inventory, and the weakness is stated rather than glossed: nothing refuses a missing `.pair` or a re-introduced duplicate hook, so this is prompt-and-discipline layer, the same declared limit as every other unenforced surface here. **The asymmetry that makes the drift dangerous is the transferable part: the worst config defect on the new machine made things look MORE configured, not less.** A missing file announces itself the moment the feature does not fire; a *duplicate* hook fires correctly, looks like the feature working, and silently injects instructions contradicting the live ones — this one still carried the pre-v0.64 *"ONE clear speech-bubble question"* text against the plugin's current *"open by default"* wording. Absence is loud, redundancy is silent, and every grep in the move checklist that must print **nothing** is aimed at that. **The doc's shape was decided by this repo's own defect class, not by convention:** a prose setup list is another declared contract joined to reality by nothing, so every requirement is paired with the command that proves it — the `check_stage_schema()`/AU10 countermeasure applied to a document. **Method note that generalises past the move: `gh` was reported unauthenticated while `git push` worked, because an SSH key signs git transport and `gh` is a separate API client needing its own token** — so the doc verifies it with `gh run list`, a call that hits the API, never `gh --version`. Checking the runtime value rather than the surface, one layer out from the 2026-08-25 f-string rule.
 
@@ -187,6 +190,6 @@ including the plugin cache at 0.103.0 and hook auto-load.
 
 ## Active Mode
 
-- **conductor: closed** 2026-08-27 — the session that took `rung-vocabulary` through its acceptance gate. No conductor mode is active, and `kivna/.active-modes` does not exist on this machine (gitignored; it did not survive the move).
-- **Machine: the Mac Studio** as of 2026-08-27 evening (`Anthonys-Mac-Studio.local`), moved from `Anthonys-MacBook-Pro.local`. Setup verified against `docs/machine-setup.md`.
+- **conductor: closed** 2026-08-28 — the session that built `funnel-driver` slice 2 and ran Drive for the first time. No conductor mode is active.
+- **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host — sessions run in tmux over SSH from the MacBook; the user's screen is on the laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`). Setup verified against `docs/machine-setup.md`, which gained the Chrome first-launch row today.
 - **pair: on** in this repo — partner-mode working agreement: rapid back-and-forth, reasoning internal unless it changes Tony's decision, ONE speech-bubble question (no X/Y binaries), interrupt early, eyeball-gated slices. Enforced by a UserPromptSubmit hook (`hooks/pair.sh`, reading `kivna/.pair`); persisted user-global in `~/.claude`. (Renamed from `focus` in v0.64.0.)
