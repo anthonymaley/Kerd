@@ -384,6 +384,10 @@ decision of 2026-08-23 above.
 **Slice 2 — one gate's question set, written by hand, used once for real.**
 The smallest thing that proves the loop and leaves something behind.
 
+- **`skills/drive/SKILL.md` exists and is the caller.** Asked and answered
+  yes on 2026-08-25, written down 2026-08-28: slice 2 builds the skill, not only
+  the question set and its checker. Without the skill there is no umbrella to
+  prove — the set would be a file nothing reads at intake.
 - **The question set for the FIRST gate**, as a file in the repo rather than
   prose in a skill. Short — enough to judge the idea, and enough to become the
   first requirements.
