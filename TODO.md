@@ -2,28 +2,34 @@
 
 ## Now
 
-**2026-08-28 — `funnel-driver` slice 2 BUILT; the item is at `acceptance`.**
-`/kerd:drive` shipped at v0.104.0 and its first real run framed
-`requirements-success-measurement` to viability. See `kivna/sessions/2026-08-28.md`.
+**2026-08-30 — `gate-visuals` slice 1 ACCEPTED, at `ready-to-release`.**
+See `kivna/sessions/2026-08-30.md`.
 
 **Next, in order**
 
-1. **The `gate-visuals` acceptance gate** — cold eyes, then the expert-user
-   pass. Its `Product measurements met` row has no upstream declaration; write
-   the gap honestly rather than inventing a target after the fact. Fix its stale
-   `visual-lifecycle.html` here, at its own gate.
-2. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
-   then the expert-user pass (a second real Drive run is the natural one).
-   Carry into the hand-back: **Drive must state the subject in plain language
-   when opening a frame gate, never the slug alone** (measured 2026-08-28 —
-   the producer could not tell whether the questions were about the skill or
-   the item). Skill-text change → composer, next slice, with the bump.
-3. **`requirements-success-measurement` → scope.** At viability with one
-   killer named only; scope sizes it. The ask must scale with the declared
-   rigor level (the empty socket from `rigor-level` slice 2).
+1. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
+   then the expert-user pass, which is naturally a second real Drive run.
+   **Carry the hand-back into that run:** Drive must state the subject in plain
+   language when it opens a frame gate, never the slug alone (measured
+   2026-08-28 — the producer could not tell whether the questions were about
+   the skill or the item). Skill-text change -> composer, next slice, with the
+   bump. **Read the `gate-visuals` record first** (`docs/gates/2026-08-30-gate-visuals-acceptance.md`):
+   its measurement exception, its frozen-tree stopping rule, and its six-round
+   cost are the precedent this gate will be judged against.
+2. **`requirements-success-measurement` -> scope.** Three concrete needs, all
+   named by `gate.py route`: risk row 1's state `unqualified — named only, per
+   the frame-gate floor` and row 2's `unqualified — named only` are **not legal
+   values**, and there is no `## Scope` section. The illegal states are a
+   finding about Drive, not about the item — the first real run wrote states the
+   machine refuses. The ask must scale with the declared rigor level (the empty
+   socket from `rigor-level` slice 2), and this item is the likely home for the
+   upstream-measurement countermeasure filed below.
+3. **`gate-visuals` slices 2 and 3** — the acceptance-gate redraw and
+   comparison (starting `db-schema` and `dependency`, the two strong ones), then
+   the remaining gates. Slice 1 shipped the design rung only.
 4. **The four kept items from the standards spike** — 25010 -> `R-0011`'s
-   quality column | 24774 §5.3 header on every `SKILL.md` (Drive is the first
-   with it) | the UI viewpoint as a build | the spine sentence in
+   quality column | 24774 §5.3 header on every `SKILL.md` (only `drive` has it)
+   | the UI viewpoint as a build | the spine sentence in
    `docs/design/gate-visuals.md`.
 5. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
@@ -32,10 +38,9 @@
    does the reqview validator graduate into `gate.py audit` first?
 7. **The suspect-link stamp has no slot in the format** — a format change.
 
-**Open, not yet rows:** does re-agreeing a lapsed approval cost anything? If
-coming back means re-walking the gate, early gates must not lock at all.
-Untested — recorded in the frame as an open question. And: does
-diagram-and-prose-together bind as discipline or as a gate refusal? (Backlog row.)
+**Open, not yet rows:** does re-agreeing a lapsed approval cost anything? And:
+does diagram-and-prose-together bind as discipline or as a gate refusal?
+(Backlog row.)
 
 **The reset's three questions stay open** — what the requirements system IS, the
 draft to final, build-vs-adopt (`docs/kerd-interview.md`).
@@ -48,6 +53,69 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 *Ranked by consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
+
+- **Rule 9 has two implementations and nothing tests them against each other**
+  (filed 2026-08-29 at `gate-visuals`' acceptance gate; the claim that there was
+  one stood live in `CONTEXT.md` for seven days). `tools/reqview/fingerprint.py`
+  is the Python one; `tools/reqview/reqview.py` emits a second in JavaScript into
+  the register's HTML (search `function fingerprint`), because that page
+  recomputes approval state in a browser with no server to ask — a real reason,
+  not an accident. A blind reviewer differential-tested them over 38 vectors:
+  **0 mismatches**, with a harmless divergence in whitespace-collapse on six
+  exotic characters — Python collapses `\x1c`-`\x1f` and `\x85` where JS does not,
+  and JS collapses `\ufeff` where Python does not (counted 2026-08-30; an earlier
+  version of this row said three, having named only the ones a reviewer listed). So the recipe is shared
+  by inspection and by nothing else: edit one, edit both, with nothing to catch
+  you. **Cheapest countermeasure: a test that runs the JS recipe (node, or a
+  regex-extracted port) against the Python one over the published vectors, in
+  `tests/`.** Until then the module docstrings carry the warning and that is all.
+
+- **`tools/diagram/gen_kerd_map.py:107` says `audit AU1-AU8` — stale by two, and
+  it renders** (found 2026-08-29 by the targeted pass). `kit.audit()` runs
+  AU1–AU10. The string is baked into `docs/design/kerd-map.svg:182`, which is
+  README's first image, so the wrong number is on the front page. Same file also
+  says *"CI - eight steps"* against README's nine. **Joins the two rows already
+  open on this generator** (it still draws NINE skills, and still names retired
+  rungs) — one redraw with a human eye should close all four, not four separate
+  text substitutions.
+
+- **A fold has no closing check, and three enumerated sweeps in one session
+  each missed sites the last one named** (2026-08-29, `gate-visuals`' acceptance
+  gate). The repo's own rule since 2026-08-25 is *a rename gets an enumeration;
+  a fold gets a closing check* — and the `build`+`goal` -> `loop`+`acceptance`
+  fold still has no check. Measured cost this session: layer 4 blocked three times (17 findings, then 11, then 9),
+  the second round finding that the two sealed drawings of ONE work item had
+  been left using different words for the thing the gate counts (the file open
+  for a different edit was not on the enumeration), and the third finding a
+  docstring whose middle had been rewritten to retract a claim its own headline
+  still made. **A fourth, targeted pass then caught the countermeasure itself
+  committing the defect**: the closing scan was scoped to the eight files the
+  earlier findings happened to name — an enumeration wearing a script — and a
+  live retracted claim in `CONTEXT.md` sat outside it, one word of paraphrase
+  (`has EXACTLY one implementation`) past a literal pattern. A throwaway scan
+  written at the gate closed it (unsplit `\n`/`\t` escapes before matching ·
+  retired rung names in RUNG-SHAPED positions only, so `the build is wrong` and
+  `contract spec` are not false hits · the counted noun · cross-drawing
+  vocabulary agreement) and reported zero. **It is a session artifact, not
+  machinery.** Candidate home: a `gate.py` check or an AU rule, so it runs on
+  every push rather than when someone remembers. `rung-vocabulary` slice 1's
+  Step 12 purity scan is the precedent and covers different ground.
+
+- **A work item can reach acceptance having declared no measurable outcome, and
+  nothing refuses it** (filed 2026-08-29 by the producer at `gate-visuals`'
+  acceptance gate). `docs/design/gate-visuals.md` declares zero stage-1
+  measurements, so the acceptance record's product-outcome row had no antecedent
+  to check. It was closed as **not assessable** under an explicit producer
+  exception rather than by inventing a target after the build — the right call
+  for that item, and a precedent that rots into *"declare nothing and pass"*
+  unless the gate changes. **The requirement:** future work must declare
+  measurable outcomes upstream — or explicitly declare them **inapplicable with a
+  reason** — before it can reach acceptance. Same shape as `rigor-level`'s
+  hollow-waiving countermeasure: the cheap state is the one that must be argued
+  for, and a waiver carries a named reason the machine can check for presence.
+  **Likely home: `requirements-success-measurement`**, at viability for exactly
+  this question — fold-or-separate is a call for that item's scope gate, not
+  decided here.
 
 - **`fidelity.py`'s range and its reader set disagree, and the mismatch cuts
   both ways** (found 2026-08-27 at the boundary). `session_range()` anchors on
@@ -68,25 +136,14 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   exempting — the exemption list is for derived or immutable artifacts.
 
 
-- **~~THREE~~ ONE sealed view is factually stale** — `funnel-driver`'s two were
-  resealed 2026-08-28 (`71391f8`, at its own gate, producer's eye); only
-  `gate-visuals`' `visual-lifecycle.html` remains (found
-  2026-08-27 by cold eyes; each is its own item's gate work, never another
-  slug's slice). `funnel-driver/why-an-umbrella.html` carries a live coverage
-  claim over "the funnel's eight stages" and names four retired rungs;
-  `funnel-driver/span-vs-slice.html` teaches the retired ladder sequence in its
-  lower panel (its TITLE is the time-slice sense and is correct — leave it);
-  and `gate-visuals`' `visual-lifecycle.html`, below. Redraw and reseal each at
-  ITS OWN acceptance gate: resealing re-keys the evidence that item's producer
-  is about to judge.
-
-- **`gate-visuals`' `visual-lifecycle.html` still says "At the goal gate".** The
-  sealed view (`fp:3ef85a6441d5`, Tony 2026-08-22) narrates a rung the
-  2026-08-25 rename folded into `loop` + `acceptance`. Correct the `<desc>`,
-  reseal and re-render the PNG **at `gate-visuals`' own acceptance gate** — not
-  from another slug's slice. Ruled out of `rung-vocabulary` slice 1 because
-  resealing another item's view re-keys the evidence its producer is about to
-  judge.
+- ~~**THREE sealed views are factually stale.**~~ **CLOSED 2026-08-29.**
+  `funnel-driver`'s two were resealed 2026-08-28 (`71391f8`); `gate-visuals`'
+  `visual-lifecycle.html` was corrected and resealed at its own acceptance gate
+  on 2026-08-29 (`fp:3ef85a6441d5` -> `fp:c4f3e8949191`, producer's eye), and
+  `design-gate-check.html` was found stale by cold eyes at the same gate and
+  resealed with it (`fp:ccbac6efdb93` -> `fp:d210312a9bec`). The rule the row
+  existed to enforce held throughout: each was redrawn at ITS OWN gate, never
+  from another slug's slice.
 
 - **`docs/design/diagram-types-by-rung.md` is still organised by the retired
   rungs.** Slice 1 did the substitution half only. `### BUILD` and `### GOAL`
@@ -235,6 +292,63 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   session-state-dirty at a real stopping point.
 
 **Medium**
+
+- **README's `## What's New (vX)` header is a second home for a fact the entries
+  below already carry** (fixed forward 2026-08-30 by the release pass, v0.99.0 ->
+  v0.104.0, having drifted five releases). The playbook records this exact class
+  in its own `## Current Status` section — *"Two homes for one fact is how that
+  happens, so there is now one home"* — and then the README does it one file
+  over. Structural fix is to drop the version from the header entirely so the
+  newest `### vX.Y.Z` entry is the only home; not done here because changing a
+  convention at a close-out pass is the wrong moment for it.
+
+- **Five citation/count slips in the `gate-visuals` acceptance record, filed by
+  the frozen-tree review 2026-08-30 and deliberately NOT fixed in that gate**
+  (the producer's rule: adjacent wording is filed, not edited, or the cleanup
+  creates the next unreviewed tree). None is a false claim about the item, its
+  evidence, its sealed views, or tested behaviour. **(1)** exercise 2's quoted
+  `now fp:2c5fd12e53c6` is not reproducible by a single-character edit — a
+  reviewer brute-forced every insert/delete/append/prepend across six recovered
+  content versions with no match; the sibling `6,219 bytes` figure is exactly
+  6,207 + 12, so the edit was ~12 bytes and *"one character appended"* is the
+  loose part. The mechanism it demonstrates was verified verbatim. **(2)** two
+  `tools/gates/README.md` line citations drift by two lines (`:111`/`:253` for
+  text at `:113`/`:255`); quotes and substance correct. **(3)** *"all seven gate
+  records"* — `docs/gates/` holds 19; 8 mention cold-eyes layers. **(4)** *"four
+  cold-eyes gotchas"* in the playbook — 5 bullets reference cold eyes, 4 are
+  gotchas proper. **(5)** a sentence about the closing scan reads as if the
+  counted-noun check is zero on all four surfaces; it is zero in the two
+  drawings, and `aspect` legitimately survives in the two docs as the 42010
+  table's own term and in historical narration. Fix on the next touch of that
+  record, not by reopening a closed gate.
+
+- **`docs/playbook.md:391`'s cold-eyes trap names the wrong tool — the trap
+  itself is ALIVE** (found 2026-08-29 at `gate-visuals`' acceptance gate by two
+  reviewers who disagreed; the disagreement is the finding). The line says
+  *"gate.py CLI pins root to kit.ROOT — run from any other cwd it silently
+  audits the Kerd repo"*. **Half stale, half live, and the live half is worse.**
+  `gate.py` no longer pins: it resolves `--root` -> `$CLAUDE_PROJECT_DIR` ->
+  nearest `.git` ancestor -> cwd. But `kit.ROOT` is NOT dead code — one reviewer
+  claimed it was, having grepped only `kit.py` and `gate.py`; `tools/design/matrix.py`
+  references it 10+ times (`:31,33,37,41,60,83,106,108,112,136`), so **every
+  `matrix.py` command run from any cwd audits and renders against the Kerd repo**,
+  which is exactly the trap the playbook describes, one tool over. Fix the
+  playbook to name `matrix.py`, and decide whether `matrix.py` grows the same
+  root resolver `gate.py` has.
+
+- **`gate.py`'s root resolver walks OUT of a git worktree into the parent repo**
+  (found 2026-08-29 the hard way — a review subagent working in a worktree had
+  its `gate.py` call bind to the live tree, then ran `git checkout --` on a file
+  there and reverted in-flight uncommitted work; recovered only because the blob
+  was still unreachable-but-present in the object store). **Mechanism, verified:**
+  `_walk_up_for_git` (`tools/gates/gate.py:106`) tests
+  `os.path.isdir(cur/".git")`, and in a worktree `.git` is a **file**, not a
+  directory — so the test is False and the walk continues past a legitimate repo
+  boundary into the enclosing one. Its docstring promises it "deliberately cannot
+  reach the install path", which is true and says nothing about this. Fix: accept
+  `.git` as file OR directory. **This is the repo's own recurring class** — a
+  boundary asserted in a docstring and joined to reality by a check that does not
+  test it.
 
 - **`docs/design/kerd-map.svg` still draws NINE skills** (found by the v0.104.0 release pass, 2026-08-28). `tools/diagram/gen_kerd_map.py:35-45` enumerates the skills by hand and its band is titled *THE NINE SKILLS*; `drive` is absent and the README's first image is that render. A redraw with a human eye on the layout, not a text substitution — left untouched by the pass for that reason.
 
