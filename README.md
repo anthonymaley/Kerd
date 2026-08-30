@@ -15,7 +15,7 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.99.0)
+## What's New (v0.104.0)
 
 ### v0.104.0
 
