@@ -20,7 +20,9 @@ outside the model, in CI, on every push.
 
 Exit codes: `0` pass/bypass/report, `1` refusal or audit problems, `2` bad
 argv (prints the module's usage docstring). `route` is a render and never
-refuses — `check`, `audit`, `release` and `seal` are the only four subcommands that can exit 1.
+refuses — `check`, `audit`, `release`, `seal` and `selftest` are the five
+subcommands that can exit 1 (`selftest` returns 1 on a failed root case or a
+failed fixture assertion, which is why the usage line above prints `exit 0 / 1`).
 
 `route` prints one line per rung (`<rung>  pass` or `<rung>  need <n>`),
 then `enters at: <rung>`, then — when there is a next rung — `missing for
@@ -40,7 +42,7 @@ EOF, for work slug `S`:
 | `frame` | to enter: nothing — always enterable. To LEAVE: when section `Question set` exists (opt-in by presence — an absent section adds no rows): front matter `work-type` matching `^[a-z][a-z0-9-]*$` (declared by the producer at intake, never inferred; names the seed `docs/work/question-sets/<work-type>.md`, placed ABOVE any `concerns:` block) · every `- Q: <question>` entry answered — a following `A: <text>` line before the next entry carrying text; fenced lines invisible. Counted, never judged: `Question set (frame gate): k of n answered — still open: "…"` names what is open. Evaluated by `check <S> viability` because a rung's exit is the next rung's entry; it is the frame gate's input, not viability's. |
 | `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) · section `Risk ledger` naming at least one killer risk (≥1 row with `Killer?` = yes, stripped and lowercased) — named only; no sizing, no evidence, no qualification. A FATAL row, an illegal `State`, or empty `Evidence` do not refuse here — full qualification is the `scope` rung's business. |
 | `scope` | the qualified risk ledger: section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` · section `Scope` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
-| `design` | when the front matter declares `concerns:` (see Views, below): every entry has a view path or `n/a — <reason>` · every view path ends `.html` and resolves on disk · every view carries a sealed approval `<name>, <date> · fp:<12 hex>` whose fingerprint matches the file's current content. A work item declaring no concerns passes design vacuously. |
+| `design` | when the front matter declares `concerns:` (see Views, below): every entry has a view path or `n/a — <reason>` · every entry naming a view carries a non-empty `viewpoint` · every view path ends `.html` and resolves on disk (a `.png` is a render, never the view) · every view carries a sealed approval `<name>, <date> · fp:<12 hex>` whose fingerprint matches the file's current content. A work item declaring no concerns passes design vacuously. |
 | `handoff` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
 | `loop` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract spec) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` — lines inside ``` fenced code blocks are invisible to this parse (a step may quote headings without splitting itself). This is the loop's ENTRY — the machine checks at the container's edges, never inside it. |
 | `acceptance` | zero unchecked boxes (`- [ ] `) in the contract spec's `Pieces` section. This is the loop's EXIT: zero unchecked boxes; evidence ready for producer review. |
@@ -258,7 +260,7 @@ push, not just against a named slug.
 | AU6 | `docs/product/*.md`: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line INSIDE the `## Scope` section — a line outside the section, a missing line, duplicate lines, or an illegal value is a named problem. No `## Scope` section = vacuous pass. Lines inside ``` fenced code blocks are invisible (a quoted example is content, not a declaration). |
 | AU7 | `docs/requirements/register.md` blocks and states, against the schema `docs/requirements/catalog.md` declares: legal ID (`^[A-Z]{2,4}-\d{3}$`, prefix agreeing with `Category`), no duplicate IDs, an unknown field is a hard error, `State` in the five, `Source` and statement present, `Category`/`Tags` declared `applies`/declared in the project's own `categories.md` (nothing hardcoded — the legal set is per-project; a register without the disposition file is one named problem and category judgments are skipped, not guessed), `final` owes an `Approved` hash that MATCHES the statement — divergence is refused and the state never rewritten — and `Approved` may not ride a non-final block; `superseded` owes its `superseded-by` link. Absent register = vacuous pass. One mechanical limit, stated: `dropped` owes a *reason* in Source; the machine checks only that Source is non-empty. |
 | AU8 | Register links: every `- <role> → <ID> (sha256:<12 hex>)` line must parse, carry a role registered in the catalog grammar (both directions writable), and name an ID that exists. Two catalog rules are non-blocking FINDINGS, in the catalog's own flag-vs-refuse vocabulary: a link stamp diverging from its target's current statement ("flagged for re-look") and a non-origin block with no `refines` parent (aggregated to one line; "a finding, not an error, until slice 2"). Findings print in the audit's text output and never turn it red; the `--json` shape stays a bare problems list. |
-| AU9 | every `docs/product/*.md` declaring `concerns:`: the block parses and no view is in a wrong state — a render (`.png`) named as the view, a path not on disk, an approved drawing whose fingerprint no longer matches, an unreadable approval line. Pending approvals (no line, or a hand-written line not yet sealed) are the design rung's business and do not fail the audit. |
+| AU9 | every `docs/product/*.md` declaring `concerns:`: the block parses and no view is in a wrong state. `kit.py` excludes exactly four codes from the audit — `ok`, `na`, `unapproved`, `unsealed` — so AU9 fails on all seven of the rest: a concern with no view and no `n/a` reason, an `n/a` with no reason, a missing `viewpoint`, a render (`.png`) named as the view, a path not on disk, an approved drawing whose fingerprint no longer matches, an unreadable approval line. **Pending approvals do not fail the audit** (no line, or a hand-written line not yet sealed) — those are the design rung's business. **Declaring a concern before its drawing exists DOES fail it**, repo-wide: the concern block is the commitment, so an unkept one is audit-visible rather than deferred. Corrected 2026-08-29 — this row had listed four of the seven and reassured the reader in terms that covered a fifth. |
 | AU10 | every `docs/gates/*.md` must carry front matter with a legal `route` and `stage`. AU3 pins the FILENAME and AU4 validates front matter only where it is already present, so a well-named gate record with none — or with a malformed fence — passed both. That gap was load-bearing rather than cosmetic: `acceptance_record()` reads `docs/gates/*-<slug>-acceptance.md` to derive the `ready-to-release` terminal, so an invalid record could move a work item to the terminal with a green audit. The record's front matter is part of its contract (Gate records, above) and is now enforced as one. **Plus the stage-to-suffix contract:** a record whose filename suffix asserts producer acceptance (`-acceptance.md`, or the retired `-goal.md`) must carry the terminal stage — `ready-to-release`, or `done` through its read-only alias. A merely LEGAL stage is not enough: `stage: designed` on a file named `-acceptance.md` is well-formed and says the opposite of what the filename claims. Other suffixes are unconstrained, so a `-design.md` carrying `stage: designed` is correct. |
 
 AU3's pattern, verbatim from `kit.py`:
@@ -277,7 +279,7 @@ Nonexistent directories pass vacuously — a repo that hasn't grown
 that carry `route`/`stage` at all.
 
 Output is `audit: clean` (exit 0) or one `problem:` line per finding
-followed by `audit: <n> problems` (exit 1).
+followed by `audit: <n> problem(s)` (exit 1; singular at n=1).
 
 ## Release rules
 
@@ -297,7 +299,7 @@ top-level `docs/*.md`, and `CLAUDE.md`. Excluded: immutable dated records
 (CLAUDE.md rule 5).
 
 Output is `release: clean` (exit 0) or one `problem:` line per finding
-followed by `release: <n> problems` (exit 1).
+followed by `release: <n> problem(s)` (exit 1; singular at n=1).
 
 ## CI
 
@@ -439,11 +441,23 @@ concerns:
   - concern: <what matters, free text>
     viewpoint: <the diagram type, free text — e.g. state, flowchart, sequence>
     view: <path relative to the repo root, must end .html>
-    approval: <name>, <YYYY-MM-DD>                  # hand-written; seal completes it
+    approval: <name>, <YYYY-MM-DD>
   - concern: <another>
-    view: n/a — <reason it owes no drawing>        # no viewpoint, no approval
+    view: n/a — <reason it owes no drawing>
 ---
 ```
+
+**Copy that block literally — it parses. Do not add `#` comments to it.**
+`CONCERN_FIELD_RE` captures everything after the colon as the value, so a
+trailing comment becomes part of the field: `approval: Tony, 2026-08-22  # seal
+completes it` is stored with the comment attached, matches neither
+`VIEW_SEALED_RE` nor `VIEW_UNSEALED_RE`, and is refused as an unreadable
+approval line — while the same comment on a `view: n/a — <reason>` line parses
+and silently swallows the comment into the stored reason. This block carried
+two such comments until 2026-08-29, when cold eyes copied the published schema
+onto a fixture and the audit refused it. The two annotations they carried, said
+here instead: `approval` is **hand-written** and `seal` completes it with the
+fingerprint; the `n/a` form takes **no viewpoint and no approval**.
 
 Grammar, exact (all inside the front-matter fence):
 

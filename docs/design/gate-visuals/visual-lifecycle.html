@@ -25,7 +25,7 @@
     <svg viewBox="0 0 1000 480" role="img"
          aria-labelledby="visual-lifecycle-title visual-lifecycle-desc">
       <title id="visual-lifecycle-title">The life of a gate visual</title>
-      <desc id="visual-lifecycle-desc">A visual is drawn when a work item declares an aspect, becomes locked when the producer approves it and a fingerprint is taken, and returns to drawn when it is edited. At the goal gate it is redrawn from what was built. Matching fingerprints end the cycle. Differing ones move it to diverged, which is a question rather than a fault: either the design stands and the build is fixed, or the design was wrong and is edited and re-approved. Conductor or composer decide which, and the producer decides only when they cannot.</desc>
+      <desc id="visual-lifecycle-desc">A visual is drawn when a work item declares a concern, becomes locked when the producer approves it and a fingerprint is taken, and returns to drawn when it is edited. At the acceptance gate it is redrawn from what was built. Matching fingerprints end the cycle. Differing ones move it to diverged, which is a question rather than a fault: either the design stands and the build is fixed, or the design was wrong and is edited and re-approved. Conductor or composer decide which, and the producer decides only when they cannot.</desc>
       <defs>
         <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/>
@@ -43,8 +43,8 @@
 
       <circle cx="24" cy="120" r="6" fill="var(--color-ink)"/>
       <text class="tr" x="8" y="148">work item</text>
-      <text class="tr" x="8" y="160">declares an</text>
-      <text class="tr" x="8" y="172">aspect</text>
+      <text class="tr" x="8" y="160">declares a</text>
+      <text class="tr" x="8" y="172">concern</text>
 
       <rect class="box" x="96" y="88" width="160" height="64" rx="8"/>
       <text class="st" x="120" y="118">DRAWN</text>
@@ -65,7 +65,7 @@
       <text class="st" x="648" y="118">REDRAWN</text>
       <text class="nt" x="648" y="138">from what was built</text>
       <path d="M 520 120 L 620 120" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
-      <text class="tr" x="524" y="112">goal gate</text>
+      <text class="tr" x="524" y="112">acceptance gate</text>
 
       <circle cx="912" cy="120" r="8" fill="none" stroke="var(--color-ink)" stroke-width="1.2"/>
       <circle cx="912" cy="120" r="5" fill="var(--color-ink)"/>

@@ -345,7 +345,7 @@ def render_table(model):
     if model["audit_problems"] == 0:
         lines.append("audit: clean")
     else:
-        lines.append(f"audit: {model['audit_problems']} problems")
+        lines.append(f"audit: {model['audit_problems']} problem{'' if model['audit_problems'] == 1 else 's'}")
     lines.append("")
 
     if not model["slugs"]:

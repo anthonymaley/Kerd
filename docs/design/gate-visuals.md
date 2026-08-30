@@ -40,7 +40,7 @@ process upstream rather than a noisy check.
 
 ![what the design gate refuses](gate-visuals/design-gate-check.png)
 
-Three questions, and **every one is a count rather than a judgement** — which is
+Every question the gate asks is **a count rather than a judgement** — which is
 `R-0051`, already approved: a check binds on countable facts produced outside the
 model and never rests on a question the model answers about itself.
 
@@ -125,9 +125,9 @@ something we had not thought of.
 What survives from the original argument is the escape hatch: a declared concern
 either owes a view or carries a written reason it does not.
 
-**The frame's sixteen-row table stops being a closed list and becomes what it
+**The frame's seventeen-row table stops being a closed list and becomes what it
 always actually was: the mapping from a common concern to the viewpoint that
-frames it.** Its seventeenth row still has no viewpoint — see the open question
+frames it.** Sixteen rows carry a viewpoint; the seventeenth, the UI row, has none — see the open question
 below.
 
 ## Open questions
@@ -146,8 +146,8 @@ below.
    design practice, as its own item. Until it lands, a design whose agreed
    concerns include UI cannot pass this gate — which is the gate working, not
    a hole in it. (`docs/design/standards-grounding-findings.md`)
-2. ~~**Where the agreed aspect list is stored.**~~ **Answered at contract,
-   2026-08-22: the product doc's front matter.** `docs/product/<slug>.md`
+2. ~~**Where the agreed aspect list is stored.**~~ **Answered in the contract
+   spec, 2026-08-22: the product doc's front matter.** `docs/product/<slug>.md`
    carries a `concerns:` list — one entry per view: concern, viewpoint,
    view path or `n/a — <reason>`, approval — read by the design rung of
    `tools/gates/kit.py`; `gate.py seal <slug>` completes a hand-written
@@ -158,7 +158,7 @@ below.
 
 - **No new approval machinery.** A visual's fingerprint is `requirement-shape.md`
   rule 9, unchanged, over the drawing's content instead of a block's.
-- **No board.** Build's visual is derived from disk and therefore cannot be
+- **No board.** The loop's visual is derived from disk and therefore cannot be
   approved — nobody authored it, so there is nothing to agree to. Named so nobody
   later "fixes" this by making a fact approvable.
 - **No evaluation matrix.** Ours already, machine-checked since v0.77.0.

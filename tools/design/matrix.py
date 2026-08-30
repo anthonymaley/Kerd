@@ -69,7 +69,7 @@ def _cmd_check(argv):
 
     for p in problems:
         print(f"problem: {p}")
-    print(f"matrix: {len(problems)} problems")
+    print(f"matrix: {len(problems)} problem{'' if len(problems) == 1 else 's'}")
     return 1
 
 
@@ -87,11 +87,11 @@ def _cmd_audit(argv):
         return 0 if not problems else 1
 
     if not problems:
-        print(f"matrix audit: clean ({count} matrices)")
+        print(f"matrix audit: clean ({count} matri{'x' if count == 1 else 'ces'})")
         return 0
     for p in problems:
         print(f"problem: {p}")
-    print(f"matrix audit: {len(problems)} problems")
+    print(f"matrix audit: {len(problems)} problem{'' if len(problems) == 1 else 's'}")
     return 1
 
 
@@ -141,7 +141,7 @@ def _cmd_render(argv):
 
     overflow = diagram_to_svg.overflow_report(els)
     if overflow:
-        print(f"overflow: {len(overflow)} boxes")
+        print(f"overflow: {len(overflow)} box{'' if len(overflow) == 1 else 'es'}")
         for item in overflow:
             print(f"  {item}")
     else:
@@ -149,7 +149,7 @@ def _cmd_render(argv):
 
     collision = diagram_to_svg.collision_report(els)
     if collision:
-        print(f"collision: {len(collision)} boxes")
+        print(f"collision: {len(collision)} box{'' if len(collision) == 1 else 'es'}")
         for item in collision:
             print(f"  {item}")
     else:
@@ -157,7 +157,7 @@ def _cmd_render(argv):
 
     text_overlap = diagram_to_svg.text_overlap_report(els)
     if text_overlap:
-        print(f"text overlap: {len(text_overlap)} boxes")
+        print(f"text overlap: {len(text_overlap)} box{'' if len(text_overlap) == 1 else 'es'}")
         for item in text_overlap:
             print(f"  {item}")
     else:

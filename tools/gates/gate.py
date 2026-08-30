@@ -202,12 +202,13 @@ def _cmd_audit(argv):
     for f in findings:
         print(f"finding: {f}")
     if not problems:
-        tail = f" ({len(findings)} findings)" if findings else ""
+        tail = (f" ({len(findings)} finding{'' if len(findings) == 1 else 's'})"
+            if findings else "")
         print(f"audit: clean{tail}")
         return 0
     for p in problems:
         print(f"problem: {p}")
-    print(f"audit: {len(problems)} problems")
+    print(f"audit: {len(problems)} problem{'' if len(problems) == 1 else 's'}")
     return 1
 
 
@@ -230,7 +231,7 @@ def _cmd_release(argv):
         return 0
     for p in problems:
         print(f"problem: {p}")
-    print(f"release: {len(problems)} problems")
+    print(f"release: {len(problems)} problem{'' if len(problems) == 1 else 's'}")
     return 1
 
 
@@ -349,7 +350,7 @@ def _cmd_selftest(argv):
             bad += 1
             print(f"FAIL root: {name}\n  got  {got!r}\n  want {want!r}")
     if bad:
-        print(f"root resolution: {bad} failures")
+        print(f"root resolution: {bad} failure{'' if bad == 1 else 's'}")
         return 1
     print("root resolution: 7 cases passed")
     return kit.selftest()

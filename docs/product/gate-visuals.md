@@ -1,15 +1,15 @@
 ---
 route: new
-stage: designed
+stage: ready-to-release
 concerns:
   - concern: the life of a gate visual
     viewpoint: state
     view: docs/design/gate-visuals/visual-lifecycle.html
-    approval: Tony, 2026-08-22 · fp:3ef85a6441d5
+    approval: Tony, 2026-08-29 · fp:c4f3e8949191
   - concern: what the design gate refuses
     viewpoint: flowchart
     view: docs/design/gate-visuals/design-gate-check.html
-    approval: Tony, 2026-08-22 · fp:ccbac6efdb93
+    approval: Tony, 2026-08-29 · fp:d210312a9bec
 ---
 
 # A visual at every gate, approved and locked
@@ -65,12 +65,11 @@ from nowhere else.
 |---|---|---|
 | **frame** | `it-state` the before picture · `fishbone` root cause · `journey` what a person does and feels · `venn` where two things overlap · `pyramid` what sits above what | as many as the idea needs — a frame with a legacy landscape *and* a root cause owes both |
 | **viability** | `quadrant` impact against likelihood · `wardley` build, buy or outsource · `sankey` where the cost goes · `treemap` where the effort goes | one per question being answered. A build-versus-buy call and a cost question are two drawings, not one |
-| **slice** | `story-map` release bands and the cut · `pyramid` when the cut is by rank · `treemap` when the cut is by size | usually one, more when the cut is argued on two grounds |
-| **design** | `db-schema` · `er` · `architecture` · `deployment` · `sequence` · `state` · `flowchart` · `process` · `nested` · `dependency` · `swimlane` · `layers` · `tree` | **one per aspect the work touches.** The set is derived from the work, never chosen by whoever is drawing |
-| **contract** | `dependency` what lands before what · `org-chart` which role and model plays each piece · `swimlane` who owns which handoff | as many as the handoff needs |
-| **build** | the progress board | exactly one, and it is **the exception** — see below |
-| **goal** | the design set **redrawn from what was built** · `bar` measured against target · `line` the trend · `scatter` the relationship · `timeline` what shipped | one redraw per design drawing, plus whatever the measurement needs |
-| **loop** | `loop` where the last step feeds the first · `fishbone` when the loop was entered because something failed · `timeline` release history | as many as the learning needs |
+| **scope** | `story-map` release bands and the cut · `pyramid` when the cut is by rank · `treemap` when the cut is by size | usually one, more when the cut is argued on two grounds |
+| **design** | `db-schema` · `er` · `architecture` · `deployment` · `sequence` · `state` · `flowchart` · `process` · `nested` · `dependency` · `swimlane` · `layers` · `tree` · `medallion` · `dp-integration` · `org-chart` | **one per concern the work declares.** The set is derived from the work, never chosen by whoever is drawing |
+| **handoff** | `dependency` what lands before what · `org-chart` which role and model plays each piece · `swimlane` who owns which handoff · `dp-security-matrix` who may do what | as many as the work handoff needs |
+| **loop** | the progress board | exactly one, and it is **the exception** — see below |
+| **acceptance** | the design set **redrawn from what was built** · `bar` measured against target · `line` the trend · `scatter` the relationship · `timeline` what shipped · `loop` where the last step feeds the first · `fishbone` when the round-again was forced by something failing | one redraw per design drawing, plus whatever the measurement needs — and whatever explains a *round again* verdict |
 
 **THIS COMPOSES WITH `docs/design/talk-formats.md`; IT DOES NOT REPLACE IT.**
 Tony, 2026-08-22: *"we have the sensei story flows too for problems and
@@ -121,7 +120,7 @@ schema, process needs …. architecture needs …. UI needs… etc etc."*
 So a work item declares what it touches, and the required drawings fall out of
 that declaration. Nobody picks. This is what makes the design gate countable
 from outside the model rather than a judgement about whether enough was drawn:
-**the gate counts drawings against declared aspects.**
+**the gate counts drawings against declared concerns.**
 
 | The work touches… | It owes… |
 |---|---|
@@ -193,13 +192,40 @@ a proposal.
 **Two rules make this opinionated rather than a menu:**
 
 1. **The set is closed.** A gate draws from its own row and from nowhere else.
-   Reaching outside it is a defect, not a judgement call.
+   Reaching outside it is a defect, not a judgement call. **The rule binds the
+   gate rows in the table above — those are the closed sets.**
+
+   **Every type the aspect table owes now appears in some gate row**, which was
+   not true before 2026-08-29: `medallion`, `dp-integration` and `org-chart`
+   were added to `design`, and `dp-security-matrix` to `handoff`, where
+   `docs/design/diagram-types-by-rung.md:40` assigns it. That is the claim this
+   rule makes, and it is checkable by reading the two tables against each other.
+
+   **What this document does NOT claim, because it would not be true.** The
+   aspect table has no rung column, so *which* gate owes a given row is not
+   readable from that table — it is a judgement made against the type map. And
+   the type map disagrees with itself in ways this item cannot fix: its status
+   column marks `db-schema`, `dp-integration`, `medallion` and `high-level` as
+   design while its own DESIGN table omits all four; it marks `org-chart`
+   handoff while listing it under DESIGN; and it still carries retired
+   `BUILD`/`GOAL` headings. **Reconciling that file is `rung-vocabulary`'s
+   outstanding editorial merge, filed in TODO.** Fixing it from here would take
+   work belonging to another item's gate — it carries no seal, so the hazard is
+   ownership, not fingerprints.
+
+   A type may sit in a row and be owed by no aspect: in the design row `tree`
+   is the only one (checked — 16 types in the row, 16 owed by the aspect table,
+   `tree` the single spare). Other gates' rows carry types the aspect table
+   never mentions, because that table is design-oriented. Spare capacity is not
+   a contradiction — the rule forbids reaching *outside* a row, never leaving
+   part of one unused.
+
 2. **`quadrant` at viability keeps its axes.** Its own examples are Impact ×
    Effort; ours are impact against likelihood, **recorded separately and never
    multiplied** — expected value is the wrong maths for a bet taken once — and
    fatal is a band (impact ≥ declared value at any likelihood), not a cell.
 
-**Three traps, excluded by name so nobody reaches for them:** `gantt` at slice
+**Three traps, excluded by name so nobody reaches for them:** `gantt` at scope
 (a release is a grouping, not a time axis — a gantt makes time the definition);
 `kanban` anywhere (a state census, which is the board, derived); `radar` at
 viability (comparison between options is the evaluation matrix, ours, with 24
@@ -214,10 +240,6 @@ own process and silent about your product.
 aspect list is derived from what the work touches rather than chosen by whoever
 is drawing.
 
-**Outside the funnel, nothing is prescribed.** A project using Kerd draws its own
-system however it likes, with the full type set. Kerd is opinionated about its
-own process and silent about your product.
-
 ## Approve and lock — reusing what already works
 
 A visual becomes declared truth the same way a requirement does: **a fingerprint
@@ -231,8 +253,8 @@ pictures instead of blocks.
 
 ```
 design gate   draw it · producer approves · fingerprint locks it
-build         the thing gets built
-goal gate     redraw from what was built · fingerprint that · compare
+loop          the thing gets built
+acceptance    redraw from what was built · fingerprint that · compare
 ```
 
 **How checkable each aspect is, stated rather than promised:**
@@ -258,8 +280,8 @@ neither can answer — the escalation contract already in the register.
 
 ## The one exception, kept visible rather than smoothed over
 
-**Build's visual is the progress board, which is derived from disk and therefore
-cannot be approved or locked** — nobody authored it, so there is nothing to
+**The loop's visual is the progress board, which is derived from disk and
+therefore cannot be approved or locked** — nobody authored it, so there is nothing to
 fingerprint an agreement to. Every other gate's visual is authored, approved and
 fingerprinted. That asymmetry is real. It is named here so nobody later "fixes"
 it by making the board approvable, which would mean approving a fact.
@@ -269,17 +291,17 @@ it by making the board approvable, which would mean approving a fact.
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
 |---|---|---|---|---|---|---|---|
 | A visual is approved without being read — the rubber-stamp failure, at picture speed | yes | an agreed drawing nobody looked at becomes declared truth, and every later comparison is against a fiction | medium | the register's own answer to false approval is presentational, named as an accepted residue on 2026-08-13 | accepted unknown | none yet — the producer's own ruling is that proper management plus strong pairing mitigates and does not cure | the first time a divergence traces back to an approved visual nobody had read |
-| Prescribing one visual per gate makes a gate unpassable for work that genuinely has no such picture | no | a rung blocks on ceremony | medium | design already allows an aspect-driven set rather than a fixed one | countermeasure - permanent | the gate demands a visual **for each aspect the work touches**; work touching no such aspect owes none, the same way `n/a` with a named reason works elsewhere | |
+| Prescribing one visual per gate makes a gate unpassable for work that genuinely has no such picture | no | a rung blocks on ceremony | medium | design already allows a declaration-driven set rather than a fixed one | countermeasure - permanent | the gate demands a visual **for each concern the work declares**; a work item declaring no such concern owes none, the same way `n/a` with a named reason works elsewhere | |
 | Redrawing from the built side is only strong for two aspects | no | the comparison is partial and could read as complete | high | measured in the table above | countermeasure - permanent | the strength column ships with the feature, so a weak comparison is labelled weak | |
 
 ## Scope
 
 Rigor level: mvp
 
-**Slice 1 — the design rung only.** One gate, the aspect-driven set, approval and
+**Slice 1 — the design rung only.** One gate, the declaration-driven set, approval and
 fingerprint locking. No comparison yet.
 
-**Slice 2** — the goal-gate redraw and comparison, starting with `db-schema` and
+**Slice 2** — the acceptance-gate redraw and comparison, starting with `db-schema` and
 `dependency`, the two strong ones.
 
 **Slice 3** — the remaining gates.

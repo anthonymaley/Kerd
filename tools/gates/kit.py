@@ -25,7 +25,9 @@ import tempfile
 # function below takes `root` as a parameter for exactly that reason.
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Rule 9's recipe has one implementation — tools/reqview/fingerprint.py.
+# Rule 9's recipe: this is the Python implementation — tools/reqview/fingerprint.py.
+# A second, field-identical one is emitted in JavaScript by reqview.py; nothing
+# tests the two against each other. See that module's docstring.
 # Resolved from THIS file's location, never from the audited root: a
 # consuming project has no tools/ of its own and the recipe ships here.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "reqview"))
@@ -1473,10 +1475,18 @@ def _audit_au8(root):
 
 def _audit_au9(root):
     """Every docs/product/*.md declaring `concerns:`: the block parses and
-    no view is in a wrong state — a render, a missing file, a changed
-    drawing, an unreadable approval. Pending approvals (no line yet, or
-    hand-written and not sealed) are the design rung's business, not the
-    audit's."""
+    no view is in a wrong state. _view_row returns eleven codes; this audit
+    excludes exactly four of them — ok, na, unapproved, unsealed — so it
+    fails on all SEVEN of the rest: no-view, na-no-reason, no-viewpoint,
+    not-html, missing, mismatch, unreadable.
+
+    Pending approvals (no line yet, or hand-written and not sealed) are the
+    design rung's business, not the audit's. Declaring a concern before its
+    drawing exists is NOT pending — the declaration is the commitment, so
+    no-view fails here, repo-wide. This docstring listed four of the seven
+    until 2026-08-29 and reassured the reader in terms that covered a fifth;
+    tools/gates/README.md's AU9 row is the same statement and must stay in
+    step with it."""
     problems = []
     d = os.path.join(root, "docs", "product")
     if not os.path.isdir(d):
@@ -1502,7 +1512,7 @@ def register_findings(root):
 
 
 def audit(root):
-    """Repo-wide mechanical sweep (AU1-AU9). Empty list = clean. Nonexistent
+    """Repo-wide mechanical sweep (AU1-AU10). Empty list = clean. Nonexistent
     directories pass vacuously — a repo that hasn't grown docs/gates/ yet is
     not thereby in violation of docs/gates/'s naming rule."""
     problems = []

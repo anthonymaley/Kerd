@@ -111,7 +111,10 @@ CHECKS = [
 # fingerprint — rule 9, verified against both published test vectors
 # --------------------------------------------------------------------------
 
-from fingerprint import fingerprint  # rule 9 — the one implementation, tools/reqview/fingerprint.py
+from fingerprint import fingerprint  # rule 9, Python side — tools/reqview/fingerprint.py
+# NOTE: this file ALSO emits a JavaScript implementation of rule 9 into the page
+# it renders (search `function fingerprint`). Field-for-field identical today;
+# nothing tests them against each other. Edit one, edit both.
 
 
 def selftest():

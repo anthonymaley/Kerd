@@ -25,7 +25,7 @@
     <svg viewBox="0 0 920 720" role="img"
          aria-labelledby="design-gate-check-title design-gate-check-desc">
       <title id="design-gate-check-title">What the design gate refuses</title>
-      <desc id="design-gate-check-desc">The gate reads the aspects a work item declares, derives the drawings owed from them, and refuses when a drawing is missing, when one is unapproved, or when an approved drawing's fingerprint no longer matches its content. A declared aspect marked not-applicable with a named reason owes nothing. Passing writes the design GO record.</desc>
+      <desc id="design-gate-check-desc">The gate reads the concerns a work item declares and counts one drawing against each. The viewpoint is declared free text at mvp: the gate checks that it is present, and does not derive a closed set. It refuses when a drawing is missing, when one is unapproved, when an approved drawing's fingerprint no longer matches its content, or on any other shape fault it can name — a missing viewpoint, a render named as the view, an unreadable approval line. A declared concern marked not-applicable with a named reason owes nothing. Passing clears the way for the design GO record, which a person writes — no tool writes it.</desc>
       <defs>
         <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
@@ -47,14 +47,14 @@
       <path d="M 460 56 L 460 88" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
 
       <rect class="box" x="288" y="88" width="344" height="56" rx="6"/>
-      <text class="n" x="308" y="112">read the aspects the work item declares</text>
+      <text class="n" x="308" y="112">read the concerns the work item declares</text>
       <text class="m" x="308" y="132">a database · a process · an interface · …</text>
 
       <path d="M 460 144 L 460 176" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
 
       <rect class="box" x="288" y="176" width="344" height="56" rx="6"/>
-      <text class="n" x="308" y="200">derive the drawings owed</text>
-      <text class="m" x="308" y="220">one per aspect · nobody chooses</text>
+      <text class="n" x="308" y="200">one drawing per declared concern</text>
+      <text class="m" x="308" y="220">viewpoint is free text · presence checked</text>
 
       <path d="M 460 232 L 460 264" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
 
@@ -86,23 +86,23 @@
             fill="rgba(235,108,54,0.06)" stroke="var(--color-accent)" stroke-width="1.5"/>
       <text class="b" x="36" y="324" fill="var(--color-accent)">REFUSED</text>
       <text class="m" x="36" y="348">and it names</text>
-      <text class="m" x="36" y="366">which aspect,</text>
+      <text class="m" x="36" y="366">which concern,</text>
       <text class="m" x="36" y="384">which drawing,</text>
-      <text class="m" x="36" y="402">and which of</text>
-      <text class="m" x="36" y="420">the three.</text>
+      <text class="m" x="36" y="402">and which</text>
+      <text class="m" x="36" y="420">fault.</text>
       <text class="m" x="36" y="460">Nothing here is</text>
       <text class="m" x="36" y="478">a judgement.</text>
       <text class="m" x="36" y="496">Each answer is</text>
       <text class="m" x="36" y="514">a count.</text>
 
       <rect class="box" x="700" y="588" width="204" height="40" rx="20"/>
-      <text class="b" x="720" y="613">design GO recorded</text>
+      <text class="b" x="716" y="613">design GO can be written</text>
 
       <rect x="16" y="16" width="248" height="120" rx="6" fill="rgba(45,49,66,0.02)"
             stroke="rgba(79,93,117,0.30)"/>
       <rect x="36" y="8" width="128" height="16" fill="var(--color-paper)"/>
       <text class="e" x="40" y="20">THE ESCAPE HATCH</text>
-      <text class="m" x="36" y="48">A declared aspect may be</text>
+      <text class="m" x="36" y="48">A declared concern may be</text>
       <text class="m" x="36" y="66">marked n/a with a named</text>
       <text class="m" x="36" y="84">reason, and then owes no</text>
       <text class="m" x="36" y="102">drawing — the same shape</text>
