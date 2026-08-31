@@ -22,7 +22,7 @@
     <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
     <h1>What a measurable success condition contains, and what carries it</h1>
     <p class="sub">A requirement and its success condition are two artifacts, joined by a typed edge — never one schema wearing both jobs. The requirement block gains nothing.</p>
-    <svg viewBox="0 0 920 690" role="img"
+    <svg viewBox="0 0 920 715" role="img"
          aria-labelledby="anatomy-title anatomy-desc">
       <title id="anatomy-title">What a measurable success condition contains, and what carries it</title>
       <desc id="anatomy-desc">Four objects joined by three typed edges. A Requirement, unchanged and gaining no new field, is measured-by a Success condition. The Success condition is a new register block under a new category MSC, owning four fields: Statement (what counts as met), Measure (the unit counted), Baseline (what it reads today) and Target (the value that counts as met). It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method — how the reading is taken. The Success condition is evidenced-by an Observed result, a new object holding the reading actually taken at acceptance, kept separate so a predeclared target is never overwritten by its own proof. Every edge carries the suspect-link stamp, the target's statement hash at link time, so editing either end flags the other for re-look. Marked in accent: the MSC category and the measured-by and evidenced-by roles are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. Introducing MSC owes a categories.md disposition and schema work, designed here and deliberately not built in this slice.</desc>
@@ -90,30 +90,32 @@
       <text class="m" x="472" y="370">a link, never a field that mutates</text>
 
       <!-- Observed result -->
-      <rect class="new" x="332" y="400" width="252" height="112" rx="6"/>
+      <rect class="new" x="332" y="400" width="252" height="122" rx="6"/>
       <text class="b" x="350" y="428">Observed result</text>
-      <text class="ea" x="350" y="445">NEW OBJECT</text>
-      <text class="n" x="350" y="472">the reading actually taken,</text>
-      <text class="n" x="350" y="492">at acceptance</text>
+      <text class="ea" x="350" y="445">FOURTH OBJECT · home open</text>
+      <text class="n" x="350" y="470">the reading actually taken</text>
+      <text class="m" x="350" y="490">a register category, or an</text>
+      <text class="m" x="350" y="508">external evidence artifact</text>
 
       <!-- suspect-link note -->
       <path d="M 584 456 L 636 456" stroke="#4f5d75" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
-      <rect class="box" x="640" y="400" width="256" height="112" rx="6"/>
+      <rect class="box" x="640" y="400" width="256" height="122" rx="6"/>
       <text class="b" x="658" y="428">Every edge is stamped</text>
       <text class="e" x="658" y="445">- measured-by → MSC-007 (sha256:…)</text>
       <text class="n" x="658" y="472">edit either end and the</text>
       <text class="n" x="658" y="492">other is flagged for re-look</text>
 
       <!-- legend -->
-      <line x1="16" y1="556" x2="896" y2="556" stroke="#4f5d75" stroke-opacity=".3"/>
-      <rect class="box" x="16" y="576" width="22" height="14" rx="3"/>
-      <text class="m" x="48" y="588">exists in the schema today</text>
-      <rect class="new" x="240" y="576" width="22" height="14" rx="3"/>
-      <text class="ma" x="272" y="588">introduced by this design — none of it is built in this slice</text>
+      <line x1="16" y1="566" x2="896" y2="566" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect class="box" x="16" y="586" width="22" height="14" rx="3"/>
+      <text class="m" x="48" y="598">exists in the schema today</text>
+      <rect class="new" x="240" y="586" width="22" height="14" rx="3"/>
+      <text class="ma" x="272" y="598">introduced by this design — none of it is built in this slice</text>
 
-      <text class="m" x="16" y="624">Introducing MSC owes a categories.md disposition and schema work. This session DESIGNS that; it does not build it.</text>
-      <text class="m" x="16" y="646">The catalog's deferred Acceptance Criteria / Verification Method FIELDS are the merged schema this replaces — struck</text>
-      <text class="m" x="16" y="668">through the repository's supersession process, not by silent edit.</text>
+      <text class="m" x="16" y="634">Introducing MSC owes a categories.md disposition and schema work. This session DESIGNS that; it does not build it.</text>
+      <text class="ma" x="16" y="656">PROPOSED supersession, recorded here and deliberately NOT executed: the catalog's deferred Acceptance Criteria /</text>
+      <text class="ma" x="16" y="678">Verification Method FIELDS. The catalog edit belongs to the later schema implementation — struck in place, original</text>
+      <text class="ma" x="16" y="700">text preserved verbatim inside the strike.</text>
 
     </svg>
   </div>

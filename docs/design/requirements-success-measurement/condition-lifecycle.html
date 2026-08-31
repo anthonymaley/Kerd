@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>How a success condition travels from declaration to demonstrated proof</title>
+  <style>
+    :root{--color-paper:#f5f5f5;--color-ink:#2d3142;--color-muted:#4f5d75;
+          --color-accent:#eb6c36;--font-sans:'Geist',system-ui,sans-serif;
+          --font-serif:'Instrument Serif',serif;--font-mono:'Geist Mono',ui-monospace,monospace;}
+    body{margin:0;padding:48px;background:var(--color-paper);color:var(--color-ink);
+         font-family:var(--font-sans);}
+    .wrap{max-width:920px;margin:0 auto;}
+    .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--color-muted);margin:0 0 8px;}
+    h1{font-family:var(--font-serif);font-size:34px;font-weight:400;margin:0 0 8px;}
+    .sub{color:var(--color-muted);font-size:15px;margin:0 0 28px;}
+    svg{width:100%;height:auto;display:block;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
+    <h1>How a success condition travels from declaration to demonstrated proof</h1>
+    <p class="sub">Six states, one per rung. The condition is declared before design, keyed at the design gate, and reaches PROVEN only when a reading is linked to it.</p>
+    <svg viewBox="0 0 920 660" role="img" aria-labelledby="lc-title lc-desc">
+      <title id="lc-title">How a success condition travels from declaration to demonstrated proof</title>
+      <desc id="lc-desc">A success condition passes through six states, one per rung of the ladder. At scope it is UNDECLARED: the requirement exists and nothing says how we will know it was met. At design it becomes DECLARED, with statement, measure, baseline and target written, in register state proposed. At the design gate it becomes KEYED: the producer approves it and the register records an Approved hash over its words, so the target cannot later change without the approval visibly diverging. At work handoff it becomes CARRIED: the spec names the condition on every step whose work affects it. In the loop it is TRACKED: the build runs against the spec and the condition is the thing the work is aimed at. At acceptance it becomes PROVEN, and only by an Observed result linked through the evidenced-by edge. The final transition has a refusal beside it: if no observed result is linked, the outcome is NOT ASSESSABLE, never a passed row and never a target authored after the build — the precedent set at the gate-visuals acceptance gate on 2026-08-30. The keyed state is where the predeclared target is frozen, and the proven state is where the reading lands, which is why they are two objects and not one field.</desc>
+      <defs>
+        <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
+        <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#eb6c36"/></marker>
+        <style>
+          .n{font-family:var(--font-sans);font-size:13px;fill:var(--color-ink);}
+          .b{font-family:var(--font-sans);font-size:14px;font-weight:600;fill:var(--color-ink);}
+          .e{font-family:var(--font-mono);font-size:9px;fill:var(--color-muted);}
+          .ea{font-family:var(--font-mono);font-size:9px;fill:var(--color-accent);font-weight:600;}
+          .m{font-family:var(--font-sans);font-size:11px;fill:var(--color-muted);}
+          .ma{font-family:var(--font-sans);font-size:11px;fill:var(--color-accent);}
+          .rung{font-family:var(--font-mono);font-size:11px;fill:var(--color-muted);letter-spacing:.08em;}
+          .box{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
+          .new{fill:#fff;stroke:#eb6c36;stroke-width:1.6;}
+        </style>
+      </defs>
+
+      <text class="rung" x="16" y="34">RUNG</text>
+      <text class="rung" x="176" y="34">STATE OF THE CONDITION</text>
+      <text class="rung" x="600" y="34">WHAT MAKES IT TRUE</text>
+
+      <text class="rung" x="16" y="76">scope</text>
+      <rect class="box" x="176" y="52" width="396" height="42" rx="6"/>
+      <text class="b" x="194" y="79">UNDECLARED</text>
+      <text class="m" x="600" y="79">the requirement exists; nothing says how we will know</text>
+      <path d="M 374 94 L 374 112" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#a)" fill="none"/>
+
+      <text class="rung" x="16" y="140">design</text>
+      <rect class="new" x="176" y="112" width="396" height="52" rx="6"/>
+      <text class="b" x="194" y="138">DECLARED</text>
+      <text class="m" x="194" y="156">statement · measure · baseline · target</text>
+      <text class="m" x="600" y="134">written before design starts</text>
+      <text class="e" x="600" y="152">register state: proposed</text>
+      <path d="M 374 164 L 374 182" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+
+      <text class="rung" x="16" y="210">design gate</text>
+      <rect class="new" x="176" y="182" width="396" height="52" rx="6"/>
+      <text class="b" x="194" y="208">KEYED</text>
+      <text class="m" x="194" y="226">the producer approves the target</text>
+      <text class="m" x="600" y="204">an Approved hash over its words —</text>
+      <text class="m" x="600" y="222">the target cannot drift unseen</text>
+      <path d="M 374 234 L 374 252" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+
+      <text class="rung" x="16" y="280">work handoff</text>
+      <rect class="new" x="176" y="252" width="396" height="52" rx="6"/>
+      <text class="b" x="194" y="278">CARRIED</text>
+      <text class="m" x="194" y="296">named on every step whose work affects it</text>
+      <text class="m" x="600" y="284">the spec cites the condition</text>
+      <path d="M 374 304 L 374 322" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+
+      <text class="rung" x="16" y="350">loop</text>
+      <rect class="new" x="176" y="322" width="396" height="52" rx="6"/>
+      <text class="b" x="194" y="348">TRACKED</text>
+      <text class="m" x="194" y="366">the thing the build is aimed at</text>
+      <text class="m" x="600" y="354">verify runs against the spec</text>
+      <path d="M 374 374 L 374 392" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+
+      <text class="rung" x="16" y="420">acceptance</text>
+      <rect class="new" x="176" y="392" width="396" height="52" rx="6"/>
+      <text class="b" x="194" y="418">PROVEN</text>
+      <text class="m" x="194" y="436">an Observed result is linked</text>
+      <text class="ma" x="600" y="414">evidenced-by, or it is not proven</text>
+      <text class="m" x="600" y="432">the reading, not an assertion</text>
+
+      <!-- the refusal branch -->
+      <path d="M 572 418 L 640 418" stroke="#4f5d75" stroke-width="0" fill="none"/>
+      <path d="M 374 444 L 374 486" stroke="#eb6c36" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="386" y="470">no observed result linked</text>
+
+      <rect class="box" x="176" y="486" width="396" height="66" rx="6"/>
+      <text class="b" x="194" y="512">NOT ASSESSABLE</text>
+      <text class="m" x="194" y="532">never a passed row · never a target written after the build</text>
+      <text class="m" x="600" y="512">the gate-visuals precedent,</text>
+      <text class="m" x="600" y="530">2026-08-30 — an absent declaration</text>
+      <text class="m" x="600" y="548">is an exception, not a pass</text>
+
+      <line x1="16" y1="588" x2="896" y2="588" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect class="box" x="16" y="606" width="22" height="14" rx="3"/>
+      <text class="m" x="48" y="618">state reachable today</text>
+      <rect class="new" x="220" y="606" width="22" height="14" rx="3"/>
+      <text class="ma" x="252" y="618">introduced by this design — none of it is built in this slice</text>
+      <text class="m" x="16" y="650">KEYED freezes the predeclared target; PROVEN holds the later reading. That is why they are two objects and never one field.</text>
+    </svg>
+  </div>
+</body>
+</html>
