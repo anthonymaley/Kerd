@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>What a measurable success condition contains, and what carries it</title>
+  <style>
+    :root{--color-paper:#f5f5f5;--color-ink:#2d3142;--color-muted:#4f5d75;
+          --color-accent:#eb6c36;--font-sans:'Geist',system-ui,sans-serif;
+          --font-serif:'Instrument Serif',serif;--font-mono:'Geist Mono',ui-monospace,monospace;}
+    body{margin:0;padding:48px;background:var(--color-paper);color:var(--color-ink);
+         font-family:var(--font-sans);}
+    .wrap{max-width:920px;margin:0 auto;}
+    .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--color-muted);margin:0 0 8px;}
+    h1{font-family:var(--font-serif);font-size:34px;font-weight:400;margin:0 0 8px;}
+    .sub{color:var(--color-muted);font-size:15px;margin:0 0 28px;}
+    svg{width:100%;height:auto;display:block;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
+    <h1>What a measurable success condition contains, and what carries it</h1>
+    <p class="sub">A requirement and its success condition are two artifacts, joined by a typed edge — never one schema wearing both jobs. The requirement block gains nothing.</p>
+    <svg viewBox="0 0 920 690" role="img"
+         aria-labelledby="anatomy-title anatomy-desc">
+      <title id="anatomy-title">What a measurable success condition contains, and what carries it</title>
+      <desc id="anatomy-desc">Four objects joined by three typed edges. A Requirement, unchanged and gaining no new field, is measured-by a Success condition. The Success condition is a new register block under a new category MSC, owning four fields: Statement (what counts as met), Measure (the unit counted), Baseline (what it reads today) and Target (the value that counts as met). It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method — how the reading is taken. The Success condition is evidenced-by an Observed result, a new object holding the reading actually taken at acceptance, kept separate so a predeclared target is never overwritten by its own proof. Every edge carries the suspect-link stamp, the target's statement hash at link time, so editing either end flags the other for re-look. Marked in accent: the MSC category and the measured-by and evidenced-by roles are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. Introducing MSC owes a categories.md disposition and schema work, designed here and deliberately not built in this slice.</desc>
+      <defs>
+        <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
+        <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#eb6c36"/></marker>
+        <style>
+          .n{font-family:var(--font-sans);font-size:13px;fill:var(--color-ink);}
+          .b{font-family:var(--font-sans);font-size:15px;font-weight:600;fill:var(--color-ink);}
+          .e{font-family:var(--font-mono);font-size:9px;fill:var(--color-muted);}
+          .ea{font-family:var(--font-mono);font-size:9px;fill:var(--color-accent);font-weight:600;}
+          .m{font-family:var(--font-sans);font-size:11px;fill:var(--color-muted);}
+          .ma{font-family:var(--font-sans);font-size:11px;fill:var(--color-accent);}
+          .box{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
+          .new{fill:#fff;stroke:#eb6c36;stroke-width:1.6;}
+        </style>
+      </defs>
+
+      <!-- Requirement -->
+      <rect class="box" x="16" y="110" width="200" height="140" rx="6"/>
+      <text class="b" x="34" y="138">Requirement</text>
+      <text class="e" x="34" y="155">FUN-010 · PRD-002 · EXISTS</text>
+      <text class="n" x="34" y="182">Statement · Source</text>
+      <text class="n" x="34" y="202">ID · Category · State</text>
+      <text class="n" x="34" y="222">Approved · Tags</text>
+      <text class="ma" x="34" y="242">gains nothing</text>
+
+      <!-- measured-by -->
+      <text class="ea" x="228" y="150">measured-by</text>
+      <text class="ea" x="228" y="163">NEW ROLE</text>
+      <path d="M 216 176 L 328 176" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="e" x="228" y="194">reverse: measures</text>
+
+      <!-- Success condition -->
+      <rect class="new" x="332" y="88" width="252" height="214" rx="6"/>
+      <text class="b" x="350" y="116">Success condition</text>
+      <text class="ea" x="350" y="133">MSC-nnn · NEW CATEGORY</text>
+      <text class="n" x="350" y="162">Statement — what counts as met</text>
+      <text class="n" x="350" y="184">Measure — the unit counted</text>
+      <text class="n" x="350" y="206">Baseline — what it reads today</text>
+      <text class="n" x="350" y="228">Target — the value that counts</text>
+      <text class="m" x="350" y="256">not Method · not Evidence</text>
+      <text class="m" x="350" y="274">declared BEFORE design, then keyed</text>
+      <text class="e" x="350" y="292">+ register State · Source · Approved</text>
+
+      <!-- verified-by -->
+      <text class="ea" x="596" y="150">verified-by</text>
+      <text class="ea" x="596" y="163">RE-SOURCED</text>
+      <path d="M 584 176 L 696 176" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="e" x="596" y="194">was: req → test</text>
+
+      <!-- Test / method -->
+      <rect class="box" x="700" y="128" width="196" height="104" rx="6"/>
+      <text class="b" x="718" y="156">Test / method</text>
+      <text class="e" x="718" y="173">TST-nnn · EXISTS</text>
+      <text class="n" x="718" y="200">Method — how the</text>
+      <text class="n" x="718" y="220">reading is taken</text>
+
+      <!-- evidenced-by -->
+      <path d="M 458 302 L 458 394" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="472" y="330">evidenced-by · NEW ROLE</text>
+      <text class="e" x="472" y="348">reverse: evidences</text>
+      <text class="m" x="472" y="370">a link, never a field that mutates</text>
+
+      <!-- Observed result -->
+      <rect class="new" x="332" y="400" width="252" height="112" rx="6"/>
+      <text class="b" x="350" y="428">Observed result</text>
+      <text class="ea" x="350" y="445">NEW OBJECT</text>
+      <text class="n" x="350" y="472">the reading actually taken,</text>
+      <text class="n" x="350" y="492">at acceptance</text>
+
+      <!-- suspect-link note -->
+      <path d="M 584 456 L 636 456" stroke="#4f5d75" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+      <rect class="box" x="640" y="400" width="256" height="112" rx="6"/>
+      <text class="b" x="658" y="428">Every edge is stamped</text>
+      <text class="e" x="658" y="445">- measured-by → MSC-007 (sha256:…)</text>
+      <text class="n" x="658" y="472">edit either end and the</text>
+      <text class="n" x="658" y="492">other is flagged for re-look</text>
+
+      <!-- legend -->
+      <line x1="16" y1="556" x2="896" y2="556" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect class="box" x="16" y="576" width="22" height="14" rx="3"/>
+      <text class="m" x="48" y="588">exists in the schema today</text>
+      <rect class="new" x="240" y="576" width="22" height="14" rx="3"/>
+      <text class="ma" x="272" y="588">introduced by this design — none of it is built in this slice</text>
+
+      <text class="m" x="16" y="624">Introducing MSC owes a categories.md disposition and schema work. This session DESIGNS that; it does not build it.</text>
+      <text class="m" x="16" y="646">The catalog's deferred Acceptance Criteria / Verification Method FIELDS are the merged schema this replaces — struck</text>
+      <text class="m" x="16" y="668">through the repository's supersession process, not by silent edit.</text>
+
+    </svg>
+  </div>
+</body>
+</html>
