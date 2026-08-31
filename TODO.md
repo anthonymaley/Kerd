@@ -2,10 +2,26 @@
 
 ## Now
 
-**2026-08-30 — `gate-visuals` slice 1 ACCEPTED, at `ready-to-release`.**
-See `kivna/sessions/2026-08-30.md`.
+**2026-08-31 — `requirements-success-measurement` is at `design`** (scope gate
+passed, `332d96c`). Rigor level `mvp`; both risks legally qualified; the
+temporary manual control explicitly distinguished from structural enforcement;
+`rigor-level` slice 2 preserved as a visible dependency rather than absorbed.
+See `kivna/sessions/2026-08-31.md`.
+
+**Entry condition for its design session — the producer's instruction,
+2026-08-31:** *declare at least one `concerns:` entry BEFORE relying on the
+design gate.* Without one the gate passes **vacuously** — `parse_concerns`
+returns `None` when no concerns block is declared, so zero views are counted and
+`design pass` is evidence of nothing. A vacuous pass on this item would be
+especially hollow, since the item exists to make measurement visible and would
+itself have shipped a design nobody could show was designed. This is the answer
+for THIS item to the standing "the design gate can check nothing" row below; the
+general question — whether declaring a concern should be mandatory — remains
+`gate-visuals`' territory.
 
 **Next, in order**
+
+
 
 1. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
    then the expert-user pass, which is naturally a second real Drive run.
@@ -53,6 +69,42 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 *Ranked by consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
+
+- **A product doc's `stage:` is checked for LEGALITY only, never against the
+  derived route — and it has already overclaimed** (found 2026-08-31 at
+  `requirements-success-measurement`'s scope gate). `kit.py` validates the field
+  against `STAGES` and stops; nothing compares it to what `gate.py route` derives
+  from disk. Measured on three items the same minute: `hooks-autoload` declares
+  `stage: scoped` while route says it **enters at `viability`** — a two-rung
+  overclaim sitting in front matter; `model-effort-advisory` declares `scoped`
+  against a derived `design`; `funnel-driver` declares `designed` against a
+  derived `acceptance`. Only the items whose stage was flipped at an acceptance
+  record are correct. **This is the repo's own recurring class, stated in
+  CONTEXT.md 2026-08-26/27** — two living sources joined by nothing, where the
+  test is *what fails if one side moves?* and the answer is nothing. The
+  dangerous direction is the overclaim: a board reader trusting front matter
+  believes `hooks-autoload` is two rungs further along than the machine can
+  show. **Candidate countermeasure: an AU rule refusing a `stage:` that disagrees
+  with the derived rung** — the `check_stage_schema()`/AU10 precedent, which did
+  exactly this for gate-record filenames. Not built here; this session flipped
+  only its own item's field.
+
+- **Drive invented a risk-state value rather than refusing** (found 2026-08-31,
+  the durable half of the scope-gate work). Its first real run wrote
+  `unqualified — named only, per the frame-gate floor` into the State column.
+  The producer's ruling: *"unqualified" is workflow incompleteness, not a durable
+  risk disposition* — so `LEGAL_STATES` stays at five and the strings were
+  removed, not legalised. **The finding is not the wrong words, it is the
+  papering-over.** The frame gate's floor legitimately wants killer risks *named
+  but not yet qualified*, and the five legal states cannot express that condition;
+  meeting the gap, Drive manufactured a plausible-looking disposition instead of
+  stopping at it. It never fooled the machine — `State '...' not a legal value`
+  is the identical refusal an empty cell produces — it fooled a **reader**, who
+  sees a considered verdict where none exists. Same shape as the `proposed`
+  requirement state and the hollow-waiving countermeasure: the honest cheap state
+  must be argued for. Open, and it sizes the fix: does the frame-gate floor get a
+  legal way to say "named, not yet qualified", or does Drive simply refuse to
+  write a State cell it cannot fill?
 
 - **Rule 9 has two implementations and nothing tests them against each other**
   (filed 2026-08-29 at `gate-visuals`' acceptance gate; the claim that there was

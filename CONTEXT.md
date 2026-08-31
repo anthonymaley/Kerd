@@ -6,41 +6,32 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-08-30 — `gate-visuals` slice 1 is ACCEPTED and sits at `ready-to-release`.**
-The producer's key is recorded verbatim in
-`docs/gates/2026-08-30-gate-visuals-acceptance.md`; the record and the `stage:`
-flip landed in ONE commit (`69e8193`) so no audit could observe a half-state.
-Kerd is at **v0.104.0** — no bump, the session's tool edits being corrections
-inside one item rather than a release.
+**2026-08-31 — `requirements-success-measurement` passed the SCOPE gate and sits
+at `design`** (`332d96c`; `route` reports `enters at: design`, `stage:` flipped
+`framed → scoped`). Rigor level **`mvp`**, declared by the producer. Kerd stays
+at **v0.104.0** — a work-record edit is not a skill change, per the 2026-08-27
+bump rule.
 
-- **The gate cost six review rounds and every one found something.** Layer 4
-  blocked three times (17 findings → 11 → 9); a targeted pass found four; a
-  final diff check one blocking and three minor; a frozen-tree acceptance
-  review two blocking and five filed. **21 findings were repaired** on the
-  item's own surfaces rather than filed as further exceptions.
-- **One exception stands, and it is bounded.** No measurable product outcome was
-  declared before the build. The absence is structural — every comparison item
-  carries a stage-1 measurement section and neither `gate-visuals` doc has one.
-  No target was authored retroactively. The countermeasure is filed so the
-  precedent cannot decay into *"declare nothing and pass"*.
-- **Both sealed views were corrected and resealed from final content, twice** —
-  `visual-lifecycle` `fp:3ef85a6441d5 → c4f3e8949191`, `design-gate-check`
-  `fp:ccbac6efdb93 → d210312a9bec`. The first seal was withdrawn when a later
-  round found defects; no fingerprint certifies content the producer did not see.
-- **The feature caught its own drift mid-gate**, unprompted — editing the
-  approved drawings invalidated their seals and the gate refused, naming both
-  sides of each fingerprint. Slice 1's whole claim, executing on its author.
-- **`funnel-driver` is at `acceptance`** — the next item.
-  **`requirements-success-measurement` at `viability`**, needing two legal risk
-  states and a `## Scope` section.
-
-**The session's own method failure, recorded because it cost the most:** five of
-the six rounds blocked on defects the *previous round's fixes* created. The
-mechanism was the same every time — *an enumerated sweep is precise and
-non-exhaustive* — and it was ended by the producer freezing the tree and
-narrowing the decision rule, not by the work becoming defect-free.
+- **Its killer risk classed FATAL under the repo's own rule, and that is what
+  forced a real countermeasure.** Row 1's impact is *the whole of* the declared
+  value (0 of 52 stays 0 of 52), and *fatal = impact ≥ declared value at any
+  likelihood* (2026-08-03), so it could not be accepted by name. The
+  classification is a **reading, not a machine verdict** — `parse_ledger` only
+  refuses a State cell that literally says `fatal`.
+- **`design pass` on this item is VACUOUS and must not be read as design done.**
+  The design gate counts sealed views against a *declared* `concerns:` block and
+  this item declares none, so zero checks run. The producer's entry condition for
+  the design session is in TODO: declare at least one concern first.
+- **`gate-visuals` at `ready-to-release`; `funnel-driver` at `acceptance`** —
+  unchanged, and `funnel-driver`'s acceptance gate is the next large piece.
 
 ## Key Decisions
+
+- **A KILLER RISK WHOSE COUNTERMEASURE POINTS AT UNBUILT MACHINERY GETS AN EXECUTABLE MANUAL CONTROL AND A `countermeasure - temporary` STATE — NEVER A CLAIM ON MACHINERY THAT DOES NOT EXIST, AND NEVER AN ABSORBED DEPENDENCY. Tony, 2026-08-31, at `requirements-success-measurement`'s scope gate.** The row's sketched countermeasure was *"the ask is scaled by the declared rigor level"* — which names `rigor-level` slice 2's per-level floors, specced 2026-08-05 and never built (`grep -i floor tools/gates/*.py` returns nothing, cited in the row's own Evidence cell). **He refused both easy exits.** Absorbing slice 2 into this item's scope *"would merge two work items, enlarge the smallest proof, and make this scope depend on machinery it was not framed to build"*; leaving the countermeasure as written would have the record claim enforcement that does not exist. **His shape, and it is the transferable part:** an executable **manual** control now — *"the producer declares the item's rigor level and agrees the smallest measurable success condition proportionate to it during scope. Drive carries that condition through design, handoff, loop and acceptance. No automated per-rigor floor is claimed"* — carrying a **return condition** that names the other item by name, so the dependency stays visible as a ledger row rather than becoming invisible by being swallowed. **And the honesty clause he added on review, which is the sharpest half:** the "medium with the control" likelihood must be written as *"an explicit producer judgment, because the control is agreement-based rather than machine-enforced. The record must not imply that Drive structurally guarantees compliance."* So the cell itself carries the sentence *Drive does not structurally guarantee compliance* — the 2026-08-27 *"record that limit; don't inflate it into enforcement"* rule, now applied inside a risk ledger cell rather than to a trigger. **The permanent/temporary split was tested rather than defaulted:** row 2's countermeasure (the measurement lives in the work record and the gates, never inside conductor's protocol) depends on nothing unbuilt, so it is `countermeasure - permanent`; temporary would have been dishonest in the other direction.
+
+- **"UNQUALIFIED" IS WORKFLOW INCOMPLETENESS, NOT A DURABLE RISK DISPOSITION — `LEGAL_STATES` STAYS AT FIVE. Tony, 2026-08-31.** Drive's first real run wrote `unqualified — named only, per the frame-gate floor` into the State column, and the temptation was to legalise it as a sixth value. His ruling: remove it, or leave the state visibly incomplete so *"the gate refuses honestly"*, then qualify each risk using an existing legal state. **The finding is not the wrong words, it is the papering-over.** The frame gate's floor legitimately wants killer risks *named but not yet qualified* and the five states cannot express that condition; meeting that gap, Drive **manufactured a plausible-looking verdict instead of stopping at it**. The string never fooled the machine — `State '...' not a legal value` is the identical refusal an empty cell yields — it fooled a **reader**, who sees a considered disposition where none exists. Same family as the `proposed` requirement state and the hollow-waiving countermeasure: the model's incomplete work must wear its incompleteness. Filed open, and it sizes the fix: does the frame-gate floor get a legal way to say *named, not yet qualified*, or does Drive simply refuse to write a State cell it cannot fill?
+
+- **A PRODUCT DOC'S `stage:` IS VALIDATED FOR LEGALITY AND NEVER AGAINST THE DERIVED ROUTE — measured 2026-08-31, and it has already overclaimed.** `kit.py` checks the field against `STAGES` and stops; nothing compares it to what `gate.py route` derives from disk. Three items measured in one minute: **`hooks-autoload` declares `stage: scoped` while route says it enters at `viability`** — a two-rung overclaim live in front matter — plus `model-effort-advisory` (`scoped` vs derived `design`) and `funnel-driver` (`designed` vs derived `acceptance`). Only items whose stage was flipped at an acceptance record are currently true. **This is the repo's own recurring class reproducing itself** — two living sources joined by nothing, where the test is *what fails if one side moves?* and the answer is nothing — and the dangerous direction is the overclaim, because a reader trusting front matter believes work is further along than the machine can show. Candidate countermeasure filed, not built: an AU rule refusing a `stage:` that disagrees with the derived rung, on the `check_stage_schema()`/AU10 precedent.
 
 - **COLD EYES IS THE ACCEPTANCE MECHANISM, SO A LAYER-4 BLOCK ON THE ITEM'S OWN SHIPPED CLAIMS IS REPAIRED BEFORE ACCEPTANCE — NEVER FILED AS A SECOND EXCEPTION. Tony, 2026-08-29, setting the amendment boundary at `gate-visuals`' gate.** Layer 4 blocked THREE TIMES — 17 findings, then 11 against the amended tree, then 9 against the second amendment — with 21 of them on this item's own product doc, design doc, sealed views and canonical documentation — eleven in the first round, ten in the second. His ruling: *"Accepting those known contradictions would turn the review into advisory commentary. It would also stack avoidable documentation defects on top of the unavoidable measurement-declaration exception."* **The line he drew is repairability, not severity:** the measurement absence stays a named exception *because it cannot honestly be repaired retroactively* — authoring a target after the build is fabrication — while a false or incomplete claim *can* be repaired now and therefore must be, or the exception count inflates for no reason. **The boundary, his words:** fix every false or incomplete claim on the item's own surfaces and their canonical documentation · correct and re-render both stale sealed views · show both final renders together for ONE producer-eye review · seal only after that review, from the final content · re-run layer 4 against the amended tree plus the gate checks and audit · file only what belongs to another item, to global resolver behaviour, to release-closeout drift, or to older unrelated surfaces. **On the sharpest finding (#9), he refused the tempting fix:** `design-gate-check.html` claimed the gate derives the drawings owed — *"one per aspect · nobody chooses"* — which the shipped mvp does not do, `viewpoint:` being free text checked only for presence (the contract said so at `2026-08-22-gate-visuals-spec.md:170`). His instruction was to **preserve the MVP contract rather than quietly expanding the implementation**: correct the drawing to say viewpoints are declared free text whose presence the gate checks, never that a closed set is derived automatically. The build was never at fault; the drawing and the frame overclaimed against a deliberate deferral. **The repeated blocks produced their own finding, and it is a method one:** each round fixed the sites its list named and the next pass found their neighbours — *an enumerated sweep is precise and non-exhaustive*, reproduced three times in one sitting. Round two left the item's TWO sealed drawings using different words for the thing the gate counts, because the file open for a different edit was not on the enumeration; round three found the `fingerprint.py` docstring whose middle had been rewritten to retract a claim its own headline still made, plus two sibling comments asserting the same retracted thing. The repo's own rule — *a rename gets an enumeration; a fold gets a closing check* — was being ignored by the person applying it. A closing scan now exists as a session artifact and is filed for promotion to machinery. **And he added a standing pre-condition after a review subagent crossed the read-only boundary** (it ran `git checkout --` against the live tree and reverted in-flight work, recovered from an unreachable blob): a clean worktree and diff inventory before amendments continue, and a final review that proves the intended changes are the only changes present.
 
