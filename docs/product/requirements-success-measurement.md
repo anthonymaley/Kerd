@@ -1,6 +1,6 @@
 ---
 route: new
-stage: framed
+stage: scoped
 work-type: software-change
 ---
 
@@ -55,8 +55,46 @@ the job warrants.*
 
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
 |---|---|---|---|---|---|---|---|
-| The process is too long or too much friction for the user, and not obvious enough what is happening — no visibility of state, progress and measurements (A5) | yes | the capability is skipped or waived every time, so 0 of 52 stays 0 of 52 while the machinery reads as complete — the "shipped an instrument nobody was obliged to use" failure, measured twice in this repo | high without a countermeasure — every declared-per-project ask so far has drifted to the cheapest state | `docs/product/funnel-driver.md` gap 8; `rigor-level` slice 2 (per-level floors) specced 2026-08-05 and never built; `grep -i floor tools/gates/*.py` returns nothing | unqualified — named only, per the frame-gate floor | to be sized at scope: the ask is scaled by the declared rigor level (a wired, empty socket), and state/progress/measurement are shown on the derived board | scope gate |
-| It touches conductor and superpowers (A6), and the umbrella rule forbids requiring conductor to change | no | any design that needs conductor to carry a measurement step re-opens the retired killer risk of `funnel-driver` | medium | the rule at `docs/design/funnel-driver.md` — *Drive may CALL conductor, never REQUIRE it to change* | unqualified — named only | to be sized at scope: the measurement lives in the work record and the gates, read by Drive, never inside conductor's protocol | scope gate |
+| The process is too long or too much friction for the user, and not obvious enough what is happening — no visibility of state, progress and measurements (A5) | yes | the capability is skipped or waived every time, so 0 of 52 stays 0 of 52 while the machinery reads as complete — the "shipped an instrument nobody was obliged to use" failure, measured twice in this repo. This is the WHOLE of the declared value, not a fraction of it, which is what makes the row killer rather than merely serious | high with no control — every declared-per-project ask so far has drifted to the cheapest state. The producer judges it medium with the countermeasure below. That figure is an explicit producer judgment, not a derived or measured one: the control binds by agreement at one gate and nothing machine-enforces it, so Drive does not structurally guarantee compliance | `docs/product/funnel-driver.md` gap 8; `rigor-level` slice 2 (per-level floors) specced 2026-08-05 and never built; `grep -i floor tools/gates/*.py` returns nothing | countermeasure - temporary | For this slice, the producer declares the item's rigor level and agrees the smallest measurable success condition proportionate to it during scope. Drive carries that condition through design, handoff, loop and acceptance. No automated per-rigor floor is claimed | Replace the manual proportionality decision when `rigor-level` slice 2 lands and defines enforceable per-level measurement floors; integration with those floors must then be explicitly scoped |
+| It touches conductor and superpowers (A6), and the umbrella rule forbids requiring conductor to change | no | any design that needs conductor to carry a measurement step re-opens the retired killer risk of `funnel-driver`. Below the declared value: it costs the umbrella rule, not the 0-of-52 outcome — which is why this row is not killer | medium — the pull is real (A6 names conductor and superpowers as what this touches) but it is a design choice, made once, at a gate that reads this row | the rule at `docs/design/funnel-driver.md` — *Drive may CALL conductor, never REQUIRE it to change* | countermeasure - permanent | The measurement lives in the work record and the gates, read by Drive, never inside conductor's protocol. This depends on nothing unbuilt, which is why it is permanent rather than temporary | The first design that proposes carrying a measurement step inside conductor's own protocol |
+
+## Scope
+
+Rigor level: mvp
+
+**Declared by the producer, 2026-08-31.** It exceeds a spike — this ships a real
+capability and must prove one measurable requirement end to end, where a spike
+forbids a build and requires findings instead. It falls short of
+`production-v1` — the deliberately narrow proof, the named exclusions and the
+deferred general scaling policy do not justify full release rigor.
+
+**The smallest thing that proves it**, in the producer's own words at the frame
+gate (A4, quoted, not paraphrased into a target he did not give):
+
+> One requirement with a measurable aspect going through the whole lifecycle,
+> with its measurements proven. Left out: any other requirements not needed to
+> prove the end-to-end result.
+
+So the commitment is: **one requirement carries a measurable success condition,
+declared before design, and that condition is visibly carried through design,
+work handoff, loop and acceptance — with the measurement actually taken at the
+end rather than asserted.**
+
+**Deliberately out of this scope, each with its reason:**
+
+- **`rigor-level` slice 2 — the enforceable per-level measurement floors.**
+  Absorbing it would merge two work items, enlarge the smallest proof, and make
+  this scope depend on machinery it was not framed to build. This item proves
+  one measurable requirement end to end at ONE declared rigor level; it does not
+  build the general scaling policy. The dependency is held visible instead, as
+  the review trigger on risk row 1.
+- **Every other requirement in the register.** The proof is end-to-end depth on
+  one, not coverage across 52. Coverage is what the value statement targets;
+  it is not what this slice buys.
+- **Any change to conductor's protocol.** The umbrella rule binds: Drive may
+  call conductor, never require it to change (risk row 2).
+- **The design itself.** This scope gate settles what we are committing to
+  build, not how. No design authored here.
 
 ## Grounding
 
