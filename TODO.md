@@ -21,8 +21,6 @@ general question — whether declaring a concern should be mandatory — remains
 
 **Next, in order**
 
-
-
 1. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
    then the expert-user pass, which is naturally a second real Drive run.
    **Carry the hand-back into that run:** Drive must state the subject in plain
@@ -32,27 +30,19 @@ general question — whether declaring a concern should be mandatory — remains
    bump. **Read the `gate-visuals` record first** (`docs/gates/2026-08-30-gate-visuals-acceptance.md`):
    its measurement exception, its frozen-tree stopping rule, and its six-round
    cost are the precedent this gate will be judged against.
-2. **`requirements-success-measurement` -> scope.** Three concrete needs, all
-   named by `gate.py route`: risk row 1's state `unqualified — named only, per
-   the frame-gate floor` and row 2's `unqualified — named only` are **not legal
-   values**, and there is no `## Scope` section. The illegal states are a
-   finding about Drive, not about the item — the first real run wrote states the
-   machine refuses. The ask must scale with the declared rigor level (the empty
-   socket from `rigor-level` slice 2), and this item is the likely home for the
-   upstream-measurement countermeasure filed below.
-3. **`gate-visuals` slices 2 and 3** — the acceptance-gate redraw and
+2. **`gate-visuals` slices 2 and 3** — the acceptance-gate redraw and
    comparison (starting `db-schema` and `dependency`, the two strong ones), then
    the remaining gates. Slice 1 shipped the design rung only.
-4. **The four kept items from the standards spike** — 25010 -> `R-0011`'s
+3. **The four kept items from the standards spike** — 25010 -> `R-0011`'s
    quality column | 24774 §5.3 header on every `SKILL.md` (only `drive` has it)
    | the UI viewpoint as a build | the spine sentence in
    `docs/design/gate-visuals.md`.
-5. **The archaeology batches** — 53 candidates in
+4. **The archaeology batches** — 53 candidates in
    `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
    are yours.
-6. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
+5. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
    does the reqview validator graduate into `gate.py audit` first?
-7. **The suspect-link stamp has no slot in the format** — a format change.
+6. **The suspect-link stamp has no slot in the format** — a format change.
 
 **Open, not yet rows:** does re-agreeing a lapsed approval cost anything? And:
 does diagram-and-prose-together bind as discipline or as a gate refusal?
