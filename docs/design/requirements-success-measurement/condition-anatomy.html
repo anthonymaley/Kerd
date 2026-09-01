@@ -25,7 +25,7 @@
     <svg viewBox="0 0 920 715" role="img"
          aria-labelledby="anatomy-title anatomy-desc">
       <title id="anatomy-title">What a measurable success condition contains, and what carries it</title>
-      <desc id="anatomy-desc">Four objects joined by three typed edges. A Requirement, unchanged and gaining no new field, is measured-by a Success condition. The Success condition is a new register block under a new category MSC, owning four fields: Statement (what counts as met), Measure (the unit counted), Baseline (what it reads today) and Target (the value that counts as met). It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method — how the reading is taken. The Success condition is evidenced-by an Observed result, a new object holding the reading actually taken at acceptance, kept separate so a predeclared target is never overwritten by its own proof. Every edge carries the suspect-link stamp, the target's statement hash at link time, so editing either end flags the other for re-look. Marked in accent: the MSC category and the measured-by and evidenced-by roles are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. Introducing MSC owes a categories.md disposition and schema work, designed here and deliberately not built in this slice.</desc>
+      <desc id="anatomy-desc">Four objects joined by three typed edges. A Requirement, unchanged and gaining no new field, is measured-by a Success condition. The Success condition is a new register block under a new category MSC, owning four fields: Statement (what counts as met), Measure (the unit counted), Baseline (what it reads today) and Target (the value that counts as met). It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method — how the reading is taken. The Success condition is evidenced-by an Observed result, a new object holding the reading actually taken at acceptance, kept separate so a predeclared target is never overwritten by its own proof. Each edge carries the suspect-link stamp, which is the target's statement hash at link time, stored on the source. The protection is therefore one-directional: editing the target makes every link pointing at it diverge, so the source is flagged for re-look, while editing the source flags nothing. For this design the unprotected direction is the dangerous one, because a requirement whose statement changes may leave its success condition measuring words that no longer exist. Reciprocal stamped links are owed to make the check symmetric, and are named as owed rather than assumed. Marked in accent: the MSC category and the measured-by and evidenced-by roles are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. Introducing MSC owes a categories.md disposition and schema work, designed here and deliberately not built in this slice.</desc>
       <defs>
         <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
@@ -99,11 +99,14 @@
 
       <!-- suspect-link note -->
       <path d="M 584 456 L 636 456" stroke="#4f5d75" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
-      <rect class="box" x="640" y="400" width="256" height="122" rx="6"/>
-      <text class="b" x="658" y="428">Every edge is stamped</text>
-      <text class="e" x="658" y="445">- measured-by → MSC-007 (sha256:…)</text>
-      <text class="n" x="658" y="472">edit either end and the</text>
-      <text class="n" x="658" y="492">other is flagged for re-look</text>
+      <rect class="box" x="640" y="400" width="256" height="152" rx="6"/>
+      <text class="b" x="658" y="426">Each edge is stamped ONE WAY</text>
+      <text class="e" x="658" y="443">- measured-by → MSC-007 (sha256:…)</text>
+      <text class="n" x="658" y="466">the stamp is the TARGET's hash</text>
+      <text class="m" x="658" y="486">edit MSC-007 → requirement flagged</text>
+      <text class="ma" x="658" y="504">edit the requirement → nothing</text>
+      <text class="ea" x="658" y="528">RECIPROCAL STAMPING IS OWED</text>
+      <text class="ea" x="658" y="542">the unprotected way is the risky one</text>
 
       <!-- legend -->
       <line x1="16" y1="566" x2="896" y2="566" stroke="#4f5d75" stroke-opacity=".3"/>

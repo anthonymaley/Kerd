@@ -73,11 +73,28 @@ read-only-alias rule does not cover — aliases are for retired *names*, and thi
 name is not retired. It is called out in the drawing rather than allowed to
 change quietly.
 
-**Every edge carries the suspect-link stamp** — `- measured-by → MSC-007
-(sha256:…)`, the target's statement hash at link time. Editing either end
-flags the other for re-look. This is not new machinery: the catalog already
-specifies it for links generally. The trace's integrity therefore comes free;
-what was missing was anything on the far end of the arrow.
+**Each edge carries the suspect-link stamp, and it protects ONE direction
+only.** The stamp is `- measured-by → MSC-007 (sha256:…)`: the *target's*
+statement hash at link time, stored on the *source*. Verified at
+`tools/gates/kit.py:1445`, which compares the stored stamp against the target's
+current hash. So:
+
+- **edit the target** → every link pointing at it diverges → the **source** is
+  flagged for re-look ✓
+- **edit the source** → nothing diverges, and the target's dependents learn
+  nothing ✗
+
+**For this design the unprotected direction is the dangerous one.** If
+`FUN-010`'s statement changes, the `MSC` measuring it may now be measuring words
+that no longer exist — and on today's mechanism nothing flags that. **Reciprocal
+stamped links are therefore owed**, and are recorded here as owed rather than
+assumed. An earlier draft of this document and of the anatomy view claimed
+symmetry ("edit either end and the other is flagged"); that claim was false and
+is corrected, having been challenged at the design review on 2026-08-31.
+
+The one direction that does work is not new machinery — the catalog already
+specifies it for links generally. What was missing was anything on the far end
+of the arrow.
 
 **n:m falls out of the edge and could not fall out of a field.** One condition
 can serve several requirements; one requirement can need several conditions. A
@@ -104,24 +121,35 @@ does not build it.**
 
 ## The lifecycle
 
-Six states, one per rung — `docs/design/requirements-success-measurement/condition-lifecycle.html`.
+Five states before acceptance, then a **decision** with two outcomes —
+`docs/design/requirements-success-measurement/condition-lifecycle.html`. It
+spans five of the ladder's seven rungs (`frame` and `viability` sit before it),
+and **the design gate is the producer's key *at* the design rung — a transition,
+not a rung of its own.**
 
-| Rung | State | What makes it true |
+| Where | State | What makes it true |
 |---|---|---|
 | scope | `UNDECLARED` | the requirement exists; nothing says how we will know |
 | design | `DECLARED` | statement · measure · baseline · target, register state `proposed` |
-| design gate | `KEYED` | the producer approves; an `Approved` hash over its words |
+| design gate *(a key, not a rung)* | `KEYED` | the producer approves; an `Approved` hash over its words |
 | work handoff | `CARRIED` | the spec names it on every step whose work affects it |
 | loop | `TRACKED` | the thing the build is aimed at |
-| acceptance | `PROVEN` | **an `Observed result` is linked** — the reading, not an assertion |
+| acceptance | *decision* | **is an `Observed result` linked?** — evaluated, with two outcomes below |
 
 **`KEYED` freezes the predeclared target; `PROVEN` holds the later reading.**
 That separation is the lifecycle's whole point and it is why the two live on
 different objects.
 
-**The refusal beside the last transition:** no observed result linked means
-`NOT ASSESSABLE` — never a passed row, and never a target authored after the
-build. That is the precedent set at `gate-visuals`' acceptance gate on
+**Acceptance is a decision, not a state that fails afterwards.** It asks one
+question — *is an `Observed result` linked?* — and yields one of two outcomes:
+
+- **yes → `PROVEN`.** The reading, not an assertion.
+- **no → `NOT ASSESSABLE`.** Never a passed row, and never a target authored
+  after the build.
+
+Ordering matters here and is not cosmetic: `PROVEN` is *defined by* a linked
+observed result, so `NOT ASSESSABLE` cannot branch out of it. The fork sits
+before both. That is the precedent set at `gate-visuals`' acceptance gate on
 2026-08-30, where an absent measurement declaration was closed as an explicit
 producer exception rather than invented retroactively. This design is the
 upstream countermeasure to that exception.
