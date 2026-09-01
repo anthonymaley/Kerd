@@ -287,7 +287,7 @@ adapts to it, never the reverse.**
 
 - **Where the `Observed result` lives** — a register category or an external
   evidence artifact. It is a fourth object either way; the home is open.
-- **Whether `MSC` is the right code**, pending the category vocabulary review.
+- **Whether `MSC` is the right code**, pending the category vocabulary review — settled: see the ruling of 2026-09-01 below.
 - **Any enforcement.** Eight of thirteen assurance questions rest on agreement
   or nothing today — seven of thirteen once the MSC fingerprint is built — by
   design, at `mvp`, including the comparison of reading against target, which is
@@ -297,3 +297,31 @@ adapts to it, never the reverse.**
   a machine would notice.
 - **Reciprocal link stamping**, owed so the suspect-link check becomes
   symmetric.
+
+## Rulings after the GO
+
+The design above is what was agreed at the GO of 2026-08-31. Each line below is
+a producer ruling taken after it, settling one of the things the GO recorded as
+open. The GO record itself is dated and is never edited.
+
+- **RULED 2026-09-01 — the category code:** the code is `MSC`, reader-facing name
+  **Measurable Success Condition**, disposition `applies`. On the naming
+  question the producer's words: *"'Acceptance criterion' has broader currency,
+  but it collides with Kerd's acceptance rung and can include non-measurable
+  conditions. 'Measurable Success Condition' names this artifact's exact
+  obligation and keeps the three objects distinct."* The disposition row he
+  keyed, verbatim, for `docs/requirements/categories.md`:
+
+  > \| MSC \| Measurable Success Condition \| applies \| Kerd needs a first-class
+  > artifact for the predeclared threshold against which an observed result is
+  > judged. It is neither a requirement category such as NFR nor a check or
+  > method such as TST: the requirement states what must hold, MSC states the
+  > measure, baseline and target that count as met, and TST states how the
+  > reading is taken. Its distinct field obligations require a distinct filing
+  > key. \|
+
+  **A consequence he attached, binding on the row's execution:** `categories.md`
+  today frames itself as *"the twenty categories this project owes requirements
+  in."* `MSC` makes twenty-one filing codes and introduces a **non-requirement
+  artifact**. The framing and every count must be updated honestly — *"it must
+  not quietly describe MSC as another requirement category."*
