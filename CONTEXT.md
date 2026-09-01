@@ -6,31 +6,34 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-08-31 — `requirements-success-measurement` passed the DESIGN gate and sits
-at `handoff`.** GO record `docs/gates/2026-08-31-requirements-success-measurement-design.md`
-(`c01e10d`), `stage: designed`, `gate.py check design` -> PASS on **11 inputs**.
-Three views keyed and sealed from final content: `condition-anatomy`
-`fp:fefa90380fe3` · `condition-lifecycle` `fp:0a91dbcac981` ·
-`assurance-boundary` `fp:c9b8d06ebfb6`. Rigor level `mvp`. Kerd stays at
-**v0.104.0** — no skill changed.
+**2026-09-01 — `requirements-success-measurement` reached `loop`, and its own
+sealed design was corrected on the way.** Work specification at
+`docs/plans/2026-09-01-requirements-success-measurement-spec.md` (`654f6fe`,
+render `4c86a5f`): 19 steps, 19 Pieces, a Verify command with expected output on
+every step. `gate.py route` -> `enters at: loop`. Kerd stays at **v0.104.0** — no
+skill changed, and **nothing was built**.
 
-- **This is the first design GO issued against a gate that could refuse.** The
-  producer's entry condition — *declare at least one `concerns:` entry BEFORE
-  relying on the design gate* — was given before any view was drafted. Declaring
-  three demoted the item `design -> scope` with three named unmet needs. Without
-  it the gate passes vacuously and `design pass` is evidence of nothing.
-- **The design's own answer:** four objects, three typed edges, and the
-  requirement block gains no field. It closes the question left open on
-  2026-08-14 (*what carries the acceptance criterion?*) by finding that the
-  catalog held **two incompatible answers under one `slice 2` return
-  condition** — deferred merged FIELDS versus a typed EDGE — neither ever built.
-- **Nothing was built.** `tools/` untouched, `LEGAL_STATES` still five,
-  `catalog.md` unedited, `rigor-level` slice 2 not absorbed.
+- **The design gate's own artifacts were re-keyed.** Converting the design into a
+  contract exposed that `KEYED` did not freeze anything: the register's Approved
+  recipe hashes the statement alone, so an `MSC`'s Measure, Baseline and Target
+  sat outside the hash. All three seals were downgraded together, corrected as
+  one deliverable, re-rendered, reviewed on ONE combined producer eye and
+  resealed from final content (`78411bf`) — `condition-anatomy` `fp:67ff11391faf`
+  · `condition-lifecycle` `fp:22651ad0d921` · `assurance-boundary`
+  `fp:544e73328c06`. The dated GO record is untouched and still carries the
+  pre-ruling seals, which is correct: it records what was believed on 2026-08-31.
+- **Its acceptance is deliberately open** until a separate pilot work item,
+  `stage-route-consistency`, walks four rungs. That pilot is still unframed.
 - **`gate-visuals` at `ready-to-release`; `funnel-driver` at `acceptance`** —
-  unchanged; its acceptance gate is the next large piece and wants a dedicated
-  cold-eyes session.
+  unchanged; its acceptance gate remains the largest open piece.
 
 ## Key Decisions
+
+- **THE APPROVAL FINGERPRINT IS ONE VERSIONED MECHANISM WITH ARTIFACT-SPECIFIC CANONICAL PAYLOADS — AND EVERY EXISTING HASH SURVIVES BYTE-FOR-BYTE. Tony, 2026-09-01, ruling on a hole found while converting the design into its contract.** The sealed lifecycle claimed `KEYED` freezes the target and named the register's `Approved` hash as the mechanism. **It would not have.** Verified in three places: `tools/gates/kit.py:1191` hashes the stripped statement alone · `docs/requirements/catalog.md:178` says `final` requires a hash *"matching the statement"* · `tools/reqview/fingerprint.py`'s docstring names `req_statement_hash` as a separate statement-only recipe. So Measure, Baseline and Target sat **outside** the hash — all three editable after the producer's key with nothing diverging. **He refused both easy exits:** do not widen the existing recipe and re-key 52 records, and do not create an unrelated second hashing implementation. **The shape:** `approval_fingerprint(category, fields)` — existing categories keep the legacy statement-only payload byte-for-byte; `MSC` v1 hashes exactly Statement · Measure · Baseline · Target; **field names, order, separators, normalization and version are fixed centrally so an alternate implementation cannot invent a different byte stream** (the rule-9 lesson, where two implementations are tested against each other by nothing); `Method` and observed evidence stay outside because they belong to separate objects. **And the half the model had missed: link stamps targeting an `MSC` must use the same full `MSC` fingerprint**, never `req_statement_hash(Statement)`, or Measure, Baseline and Target could change without ever making the source link suspect. **Verified against live data before the spec landed, not asserted:** 47/47 shipped `Approved` values reproduce, 51/51 statements match `req_statement_hash`, 15/15 live link stamps still verify. **Two limits he required stated:** it is owed work rather than present machinery, labelled so on every surface; and it does **not** make protection bidirectional — reciprocal stamping stays separately owed, because a richer target fingerprint still only flags the source when the target moves.
+
+- **A SEALED DRAWING ASSERTED A MECHANISM THE CODE DOES NOT PROVIDE — FOR THE SECOND TIME ON ONE ITEM, AND THE SWEEP FOUND IT IN ALL THREE VIEWS. 2026-09-01.** The first was the suspect-link symmetry sentence, caught 2026-08-31 at the design review; the second is the `KEYED` freeze above. **Both were approved drawings whose sentences nobody had checked against the code** — which is the 2026-08-31 lesson (*an approval does not launder a claim*) reproducing itself eight days later on the same item. **The producer's instruction to check the other two views before resealing is what made it a sweep rather than a fix, and it paid:** the assumption was in `condition-lifecycle` (the named one), in `assurance-boundary` **twice** — where it was worse, because that view *classified* the line as machine-checked — and `condition-anatomy` was accurate when sealed and **superseded by the new ruling**, a third distinct failure mode. His ruling on the anatomy view is the transferable part: *"Leaving it sealed would make the three approved views disagree about the fingerprint that protects an MSC."* **A ruling that changes a mechanism invalidates every view describing it, not only the view that was wrong.** Procedure executed per the 2026-08-25 precedent: all three seals downgraded **together**, the route regression to `scope` accepted as honest, prose and views corrected as ONE deliverable, one combined eye with three explicit approvals, reseal from final content, dated GO record untouched — **and the board refreshed only after the design gate was restored, so the committed render never memorializes the intentional in-flight demotion.**
+
+- **AN ASSURANCE TALLY IS COUNTED BY TENSE, BECAUSE A DUAL-MARKED ROW IS ONE QUESTION WITH TWO ANSWERS — Tony, 2026-09-01.** The assurance view said *"fourteen lines: six machine-checked, two producer-agreed, six with no enforcement."* There are **thirteen** assurance questions carrying fourteen markers: the design-gate question is marked both `machine` (once the fingerprint is built) and `none yet` (today). **His finding, and it is why this is substantive rather than cosmetic:** *"Counting both markers as two 'lines' makes proposed assurance read like present assurance."* The tally now splits — **today** five machine-checked, two producer-agreed, six unenforced, so eight of thirteen rest on agreement or nothing; **once the MSC fingerprint is built** six, two, five, so seven of thirteen will. Applied consistently in the visible footer, the `<desc>` and the design prose. **He also set the boundary that made this in-scope:** it belonged to a view *awaiting approval*, so correcting it was not adjacent scope creep — the adjacent-wording rule (*file, don't edit*) binds on trees already keyed, not on the one being keyed.
 
 - **ACCEPTANCE IS TWO DECISIONS AND THREE OUTCOMES: A LINKED READING PROVES *ASSESSABLE*, NEVER *MET*. Tony, 2026-08-31, at `requirements-success-measurement`'s design review — the catch that goes to the capability's purpose.** The draft model asked one question (*is an `Observed result` linked?*) and yielded `PROVEN` or `NOT ASSESSABLE`. His correction: *"linking an observed result proves only that the condition is assessable. It does not prove the target was met. A linked result could show failure."* The shape: **is a reading linked? → no = `NOT ASSESSABLE`; yes → does it satisfy the target frozen at `KEYED`? → yes = `PROVEN`, no = `NOT MET`.** **`NOT MET` is a real, reportable outcome, not a process failure** — his framing, *"measurement must be able to demonstrate unmet expectations, not merely confirm that someone recorded a number"*. A design whose only outcomes are *proven* and *couldn't tell* is a design that cannot say no, and it would have shipped a measurement capability structurally unable to report a bad number. **Four invariants he attached:** `KEYED` freezes the target · the `Observed result` supplies the reading · the comparison decides `PROVEN` vs `NOT MET` · absence of a reading yields `NOT ASSESSABLE`. **He also required the ordering be structural rather than cosmetic:** an earlier draft branched `NOT ASSESSABLE` out of `PROVEN`, which is incoherent because `PROVEN` is *defined by* the thing being branched on. **And the catch cascaded, which is the part worth keeping:** the new comparison was itself an assurance question nothing checked, so the already-approved assurance view had been silently omitting a row — added as its fourteenth line, unenforced, on his own instruction to check whether the new decision revealed an omission.
 

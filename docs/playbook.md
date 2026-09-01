@@ -217,6 +217,49 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
   name and read the staged list before committing, every time. Caught once by a
   later edit, not by any check.
 
+### A verification that inspects nothing reports success
+
+Three times in one session (2026-09-01) a probe printed `0/0` and read as a
+clean pass. Each was a lookup miss, not a result: `block["meta"]` where the
+parser returns `block["fields"]`; a stamp filter testing `startswith("sha256:")`
+when `parse_register` stores the bare twelve hex characters; a `grep -o` regex
+that exceeded ugrep's complexity limit so the `|| echo "(clean)"` fallback fired.
+**A denominator of zero is never evidence.** Print the count you inspected, not
+only the count that matched, and treat `n/n` where `n == 0` as a failed probe
+that must be fixed before its answer is believed. Same family as the 2026-08-25
+false MISS from grepping an f-string built across source lines.
+
+### Sequential substitutions collide when a shift moves a value onto another's key
+
+Shifting SVG y-coordinates by a fixed offset, `634 -> 700` was applied before
+`700 -> 766`, so the line just moved to 700 was moved again to 766 and landed on
+top of the line that legitimately belonged there. Invisible in the markup;
+obvious the moment the PNG was opened (2026-09-01, `condition-anatomy.html`).
+**The repo already knows this rule and it was still broken:** the 2026-08-25
+rename swept `composer -> producer` before `orchestrator -> composer` precisely
+so the second pass could not overwrite the first. When substitutions share a
+value space, order them so no output is a later input — or key each edit on
+something the shift cannot produce, such as the line's text.
+
+### A ruling that changes a mechanism invalidates every view describing it
+
+Not only the view that was wrong. When the approval fingerprint was re-ruled
+(2026-09-01), `condition-lifecycle` carried the false claim, `assurance-boundary`
+carried it twice and had *classified* a row on it, and `condition-anatomy` had
+been accurate when sealed and was superseded by the new ruling — three distinct
+failure modes across one three-view deliverable. The producer's reason for
+resealing all three: *"Leaving it sealed would make the three approved views
+disagree about the fingerprint that protects an MSC."* Sweep every view and the
+prose before resealing any of them, and downgrade the seals together.
+
+### Downgrading a seal demotes the item, and the board must not record it
+
+`kit.py:815-823` fails the design rung for any view row that is not `ok`/`na`, so
+stripping `· fp:` to correct a sealed drawing drops the item to `scope` until it
+is re-keyed. That regression is honest and should be accepted — but **refresh the
+progress render only after the design gate is restored**, or the committed board
+memorializes an in-flight demotion that never described a real state.
+
 ### AU5 wants bare paths in `## Grounding` lines
 
 `- \`docs/x.md\` — why` does not resolve; the parser splits on the first ` — `

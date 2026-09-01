@@ -2,51 +2,58 @@
 
 ## Now
 
-**2026-08-31 — `requirements-success-measurement` passed the DESIGN gate and sits
-at `handoff`** (`c01e10d`; GO record `docs/gates/2026-08-31-requirements-success-measurement-design.md`;
-`stage: designed`). Three views keyed and sealed on the producer's key —
-`condition-anatomy` `fp:fefa90380fe3` · `condition-lifecycle` `fp:0a91dbcac981` ·
-`assurance-boundary` `fp:c9b8d06ebfb6`. `gate.py check design` -> PASS, 11 inputs
-on disk. See `kivna/sessions/2026-08-31.md`.
+**2026-09-01 — `requirements-success-measurement` reached `loop`.** The work
+specification landed at `docs/plans/2026-09-01-requirements-success-measurement-spec.md`
+(`654f6fe`; render `4c86a5f`): 19 steps, 19 Pieces, a Verify command with
+expected output on every step. `gate.py route` reports `enters at: loop`.
+**Its acceptance stays open until the pilot completes** — the producer's ruling,
+because the declared value is end-to-end proof. See `kivna/sessions/2026-09-01.md`.
 
-**Next for this item: the work specification** — `docs/plans/<date>-requirements-success-measurement-spec.md`
-with `## Pieces` and a `**Verify:**` on every step. That is composer territory
-and wants a fresh session. **The boundary that still binds:** no build of `MSC`,
-no absorption of `rigor-level` slice 2, no edit to `catalog.md`.
+**The design was corrected and all three views resealed the same day** (`78411bf`)
+after the `KEYED` freeze proved hollow: `condition-anatomy` `fp:67ff11391faf` ·
+`condition-lifecycle` `fp:22651ad0d921` · `assurance-boundary` `fp:544e73328c06`.
+The dated GO record is untouched and still carries the pre-ruling seals.
 
-**Owed by the design, named in its GO record and NOT built:**
+**Next for this item: Steps 1-4, which are all producer gates** and lead
+deliberately, before anything depends on them.
 
-1. `MSC` needs a `categories.md` disposition and schema work, pending a category
-   vocabulary review that may find a better term.
-2. **Reciprocal link stamping.** Verified 2026-08-31 at `tools/gates/kit.py:1445`:
-   the suspect-link stamp is the TARGET's hash stored on the SOURCE, so editing
-   the target flags the source and **editing the source flags nothing**. For this
-   design the unprotected direction is the dangerous one — a requirement whose
-   statement changes leaves its condition measuring words that no longer exist.
-3. **Where the `Observed result` lives** — a register category or an external
-   evidence artifact. A fourth object either way.
-4. **The comparison is unenforced.** Nothing checks whether the reading satisfies
-   the target frozen at `KEYED` — the fourteenth assurance line. It is the row a
-   machine could most plausibly check once `MSC` exists.
-5. **The catalog supersession is RECORDED, not executed.** Its exact in-place
-   strike text is in `docs/design/requirements-success-measurement.md`; the edit
-   belongs to the schema implementation.
+1. The category code and its `categories.md` disposition (is `MSC` right?).
+2. Where the `Observed result` lives — register category or external artifact.
+3. Reciprocal stamping — build now, or keep owed.
+4. The comparison — who performs it, and what checks it.
+
+**Then Step 7**, the approval-fingerprint build the producer required when he
+ruled it: one versioned `approval_fingerprint(category, fields)`, legacy payload
+for existing requirements preserved byte-for-byte, `MSC` v1 over exactly
+Statement / Measure / Baseline / Target. **Verified against live data before the
+spec landed:** 47/47 shipped `Approved` values reproduce, 51/51 statements match
+`req_statement_hash`, 15/15 live link stamps still verify.
+
+**THE DEPENDENCY THAT IS STILL INVISIBLE TO EVERY MACHINE SURFACE.** Phases 2-4
+run against a pilot work item, `stage-route-consistency`, chosen by the producer
+because it is real, narrow, unframed (so its measurement can be declared before
+design) and naturally measurable — fixtures must prove a legal-but-overclaimed
+AND a legal-but-underclaimed `stage:` are both refused. **It has no product doc,
+no slug on the board, and no gate demanding anything of it.** Until Step 12
+frames it through Drive, the thing this item's acceptance now depends on is
+exactly as unnoticeable as `funnel-driver` was for three days. Its content is the
+High-consequence Backlog row below; that row is now this pilot.
+
+**The boundary that still binds:** no implementation happened this session, and
+none is licensed by the spec existing. `tools/` untouched, `LEGAL_STATES` still
+five, `catalog.md` unedited, `rigor-level` slice 2 not absorbed, Kerd at
+**v0.104.0**.
 
 **Next, in order**
-
 
 1. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
    then the expert-user pass, which is naturally a second real Drive run.
    **Carry the hand-back into that run:** Drive must state the subject in plain
    language when it opens a frame gate, never the slug alone (measured
-   2026-08-28 — the producer could not tell whether the questions were about
-   the skill or the item). Skill-text change -> composer, next slice, with the
-   bump. **Read the `gate-visuals` record first** (`docs/gates/2026-08-30-gate-visuals-acceptance.md`):
-   its measurement exception, its frozen-tree stopping rule, and its six-round
-   cost are the precedent this gate will be judged against.
+   2026-08-28). Skill-text change -> composer, next slice, with the bump.
+   **Read the `gate-visuals` record first** (`docs/gates/2026-08-30-gate-visuals-acceptance.md`).
 2. **`gate-visuals` slices 2 and 3** — the acceptance-gate redraw and
-   comparison (starting `db-schema` and `dependency`, the two strong ones), then
-   the remaining gates. Slice 1 shipped the design rung only.
+   comparison (starting `db-schema` and `dependency`), then the remaining gates.
 3. **The four kept items from the standards spike** — 25010 -> `R-0011`'s
    quality column | 24774 §5.3 header on every `SKILL.md` (only `drive` has it)
    | the UI viewpoint as a build | the spine sentence in
@@ -56,7 +63,6 @@ no absorption of `rigor-level` slice 2, no edit to `catalog.md`.
    are yours.
 5. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
    does the reqview validator graduate into `gate.py audit` first?
-6. **The suspect-link stamp has no slot in the format** — a format change.
 
 **Open, not yet rows:** does re-agreeing a lapsed approval cost anything? And:
 does diagram-and-prose-together bind as discipline or as a gate refusal?
@@ -74,7 +80,10 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
 
 **High consequence**
 
-- **A product doc's `stage:` is checked for LEGALITY only, never against the
+- **THIS ROW IS NOW THE PILOT FOR `requirements-success-measurement`** (chosen
+  by the producer 2026-09-01, slug `stage-route-consistency`, framed by Step 12
+  of that item's spec — it is still unframed, so nothing yet notices it).
+  **A product doc's `stage:` is checked for LEGALITY only, never against the
   derived route — and it has already overclaimed** (found 2026-08-31 at
   `requirements-success-measurement`'s scope gate). `kit.py` validates the field
   against `STAGES` and stops; nothing compares it to what `gate.py route` derives
@@ -109,6 +118,37 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   must be argued for. Open, and it sizes the fix: does the frame-gate floor get a
   legal way to say "named, not yet qualified", or does Drive simply refuse to
   write a State cell it cannot fill?
+
+- **The composer emits hard-coded absolute repository paths, and a cold review
+  pass does not catch them** (measured 2026-09-01 on the
+  `requirements-success-measurement` spec). Pass 1 produced 24 of them
+  (`/Users/anthonymaley/development/product/Kerd`), the dedicated cold-review
+  pass read the whole spec and missed every one, and the amendment inherited
+  them and added two more — 26 at review. **This is the same defect handed back
+  to the composer on 2026-08-28**, when a reviewer's host had the repo at
+  `~/Kerd` and the score assumed this one; it is therefore reproduced, not
+  new. A player on another machine, or in a git worktree, follows the score to
+  the wrong tree. Fixed in place this time on the producer's call (mechanical,
+  no judgment): every block now derives `repo_root=$(git rev-parse
+  --show-toplevel)`. **The countermeasure is a brief clause, not a fix:** the
+  composer dispatch should forbid absolute paths outright, and the cold-review
+  brief should name them as a hunt target. Neither is written down anywhere
+  today, which is why the same defect arrived twice.
+
+- **`grep -c` in a fail-fast verify chain fails exactly when it should pass**
+  (found 2026-09-01, second instance). The spec's final step ended
+  `&& grep -c "^- \[ \] " <spec>` to prove zero unchecked boxes — and `grep -c`
+  exits 1 on zero matches, so the `&&` chain aborted on the desired answer.
+  Corrected to an exit-safe count (`awk` then `test -eq 0`), tested both ways.
+  **Also handed back on 2026-08-28** as one of the same three sibling score
+  defects. Two of those three have now recurred, which says the 2026-08-28
+  findings were fixed in the artifact and never in the process that produces it.
+
+- **The suspect-link stamp has no slot in the requirement format** — a format
+  change, carried out of `## Now` on 2026-09-01. Narrowed by that day's ruling:
+  the stamp's RECIPE is now settled (category-aware, one mechanism), but where
+  the stamp is written in the block shape is still unspecified. Reciprocal
+  stamping remains separately owed and is Step 3's producer gate.
 
 - **Rule 9 has two implementations and nothing tests them against each other**
   (filed 2026-08-29 at `gate-visuals`' acceptance gate; the claim that there was
