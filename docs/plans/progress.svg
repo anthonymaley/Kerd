@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="7360" height="3498" viewBox="260 40 7360 3498">
-<rect x="260" y="40" width="7360" height="3498" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="7360" height="3534" viewBox="260 40 7360 3534">
+<rect x="260" y="40" width="7360" height="3534" fill="#ffffff"/>
 <text x="300.0" y="104.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">Progress — derived from disk</tspan>
 </text>
@@ -439,10 +439,7 @@
 <text x="4705.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 5</tspan>
 </text>
-<rect x="4820.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="4935.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
-<tspan x="4935.0" dy="0.0">enters at</tspan>
-</text>
+<rect x="4820.0" y="472.0" width="230.0" height="40.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
 <rect x="5050.0" y="472.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="5165.0" y="496.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="5165.0" dy="0.0">need 1</tspan>
@@ -521,9 +518,9 @@
 <text x="4705.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
 <tspan x="4705.0" dy="0.0">need 6</tspan>
 </text>
-<rect x="4820.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
-<text x="4935.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="4935.0" dy="0.0">need 1</tspan>
+<rect x="4820.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="4935.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve">
+<tspan x="4935.0" dy="0.0">enters at</tspan>
 </text>
 <rect x="5050.0" y="520.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="5165.0" y="544.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
@@ -611,7 +608,7 @@
 </text>
 <rect x="4820.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="4935.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
-<tspan x="4935.0" dy="0.0">need 2</tspan>
+<tspan x="4935.0" dy="0.0">need 1</tspan>
 </text>
 <rect x="5050.0" y="568.0" width="230.0" height="40.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
 <text x="5165.0" y="592.9" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="middle" xml:space="preserve">
@@ -859,141 +856,160 @@
 <text x="300.0" y="2438.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">requirements-success-measurement</tspan>
 </text>
-<text x="300.0" y="2465.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
-<tspan x="300.0" dy="0.0">no contract on disk</tspan>
+<rect x="300.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="330.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="360.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="390.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="420.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="450.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="480.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="510.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="540.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="570.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="600.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="630.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="660.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="690.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="720.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="750.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="780.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="810.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<rect x="840.0" y="2452.8" width="26.0" height="26.0" rx="8" fill="none" stroke="#e03131" stroke-width="1"/>
+<text x="300.0" y="2501.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<tspan x="300.0" dy="0.0">0 landed · 0 in flight · 19 remaining</tspan>
 </text>
-<text x="300.0" y="2509.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2545.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">requirements-traceability</tspan>
 </text>
-<text x="300.0" y="2536.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2572.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="2579.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2615.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">requirements-view</tspan>
 </text>
-<text x="300.0" y="2606.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2642.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="2649.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2685.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">rigor-level</tspan>
 </text>
-<rect x="300.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="330.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="360.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="390.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="420.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="450.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="480.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="510.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="540.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="570.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="600.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="630.0" y="2663.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2712.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="330.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="360.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="390.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="420.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="450.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="480.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="510.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="540.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="570.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="600.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="630.0" y="2699.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="300.0" y="2748.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">12 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2755.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2791.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">risk-ledger</tspan>
 </text>
-<rect x="300.0" y="2769.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="330.0" y="2769.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="360.0" y="2769.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="390.0" y="2769.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="420.0" y="2769.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2818.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="2805.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="330.0" y="2805.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="360.0" y="2805.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="390.0" y="2805.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="420.0" y="2805.8" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="300.0" y="2854.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">5 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2862.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="2898.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">rung-vocabulary</tspan>
 </text>
-<rect x="300.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="330.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="360.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="390.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="420.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="450.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="480.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="510.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="540.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="570.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="600.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="630.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="660.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="690.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="720.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="750.0" y="2876.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="2925.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="330.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="360.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="390.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="420.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="450.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="480.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="510.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="540.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="570.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="600.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="630.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="660.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="690.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="720.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="750.0" y="2912.0" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="300.0" y="2961.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">16 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="2968.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3004.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">shared-memory</tspan>
 </text>
-<text x="300.0" y="2995.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3031.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="3038.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3074.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">sherpa-cut</tspan>
 </text>
-<rect x="300.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="330.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="360.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="390.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="420.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="450.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="480.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="510.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="540.0" y="3052.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="3101.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="330.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="360.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="390.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="420.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="450.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="480.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="510.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="540.0" y="3088.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="300.0" y="3137.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">9 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="3144.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3180.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">standards-grounding</tspan>
 </text>
-<text x="300.0" y="3171.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3207.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="3215.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3251.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">switch-fidelity</tspan>
 </text>
-<text x="300.0" y="3242.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3278.0" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#e03131" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">no contract on disk</tspan>
 </text>
-<text x="300.0" y="3285.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3321.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">time-awareness</tspan>
 </text>
-<rect x="300.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="330.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="360.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="390.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="420.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="450.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="480.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="510.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="540.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="570.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="600.0" y="3299.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="3348.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="330.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="360.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="390.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="420.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="450.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="480.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="510.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="540.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="570.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="600.0" y="3335.2" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="300.0" y="3384.2" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">11 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="3391.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3427.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">vault-unhook</tspan>
 </text>
-<rect x="300.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="330.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="360.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="390.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="420.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="450.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="480.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="510.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="540.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="570.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="600.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<rect x="630.0" y="3405.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
-<text x="300.0" y="3454.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<rect x="300.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="330.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="360.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="390.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="420.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="450.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="480.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="510.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="540.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="570.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="600.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="630.0" y="3441.5" width="26.0" height="26.0" rx="8" fill="#e9ecef" stroke="#1e1e1e" stroke-width="1"/>
+<text x="300.0" y="3490.5" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">12 landed · 0 in flight · 0 remaining</tspan>
 </text>
-<text x="300.0" y="3494.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
+<text x="300.0" y="3530.8" font-family="Nunito,'Helvetica Neue',Helvetica,Arial,sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve">
 <tspan x="300.0" dy="0.0">drift: none</tspan>
 </text>
 </svg>
