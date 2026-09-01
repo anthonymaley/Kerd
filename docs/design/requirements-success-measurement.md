@@ -293,7 +293,9 @@ adapts to it, never the reverse.**
 - **Any enforcement.** Eight of thirteen assurance questions rest on agreement
   or nothing today — seven of thirteen once the MSC fingerprint is built — by
   design, at `mvp`, including the comparison of reading against target, which is
-  the one a machine could most plausibly do once `MSC` exists in the register.
+  the one a machine could most plausibly do once `MSC` exists in the register —
+  that comparison alone is settled: see the ruling of 2026-09-01 below; the bullet's
+  other assurance gaps remain open.
 - **The approval fingerprint's BUILD.** Its shape is settled (above, 2026-09-01)
   and none of it exists yet. Until it is built, `KEYED` does not freeze anything
   a machine would notice.
@@ -387,3 +389,34 @@ open. The GO record itself is dated and is never edited.
   directions") is what makes it explicit.
 
   Handed back to the composer alongside the Step 2 amendment.
+
+- **RULED 2026-09-01 — the comparison:** it stays **producer-performed in this
+  slice**. The acceptance-record parser *"should enforce structure, not invent
+  semantics"* — his list: confirm the observed-result entry exists when an
+  assessable outcome is claimed · confirm it names the `MSC` and carries the
+  **exact frozen `MSC` fingerprint** · confirm value and unit are present ·
+  confirm the outcome is one of `PROVEN` or `NOT MET` · preserve
+  `NOT ASSESSABLE` when no valid reading is linked · record the producer's key
+  as the authority for whether the reading satisfies the target.
+
+  **The limit, and its reason:** *"The machine must not recompute PROVEN versus
+  NOT MET until Target has a typed comparison grammar — operator, value type,
+  unit normalization, and rules for nonnumeric conditions. Free-text targets
+  cannot support a trustworthy comparator."*
+
+  **Return condition, his words:**
+
+  > Revisit machine comparison when the `MSC` target grammar is explicitly typed
+  > and at least one real condition requires a repeatable comparison that the
+  > acceptance producer should not perform by judgment alone.
+
+  **What this buys, stated so the mvp posture is not read as neglect:** the
+  machine proves the comparison is bound to the right **frozen** target and that
+  the evidence record is **complete**; the producer judges the **result**.
+
+  **And an instruction to the composer, arising from the Step 3 ruling rather
+  than from this one:** the hand-back must revisit the assurance view.
+  Reciprocal Requirement <-> `MSC` checking *"is new machine assurance and
+  cannot be omitted merely because it does not change the comparison ruling. If
+  added to the view, re-derive its counts rather than editing the totals by
+  hand."*

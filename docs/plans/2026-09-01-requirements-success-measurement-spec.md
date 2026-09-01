@@ -481,7 +481,7 @@ Step 13 (nothing below is paraphrased into the register without his key):
 - [x] 1. Producer gate — the category code and its disposition (RULED line in the design doc)
 - [x] 2. Producer gate — the Observed result's home (RULED)
 - [x] 3. Producer gate — reciprocal stamping: build or owe (RULED)
-- [ ] 4. Producer gate — the comparison: who performs it, what checks it (RULED)
+- [x] 4. Producer gate — the comparison: who performs it, what checks it (RULED)
 - [ ] 5. categories.md — the condition category's disposition row and counts
 - [ ] 6. catalog.md — the recorded strike executed verbatim; edges, fields, and the fingerprint transcribed
 - [ ] 7. Producer-gated — kit.py: approval_fingerprint(category, fields), every existing hash byte-for-byte
