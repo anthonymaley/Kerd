@@ -22,9 +22,9 @@
     <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
     <h1>Where assurance comes from at each rung, and where it does not</h1>
     <p class="sub">Three sources, and the third is the honest one. This slice adds <strong>no automated per-rigor floor</strong> — the drawing exists so that limit cannot later be mistaken for machinery.</p>
-    <svg viewBox="0 0 920 700" role="img" aria-labelledby="ab-title ab-desc">
+    <svg viewBox="0 0 920 720" role="img" aria-labelledby="ab-title ab-desc">
       <title id="ab-title">Where assurance comes from at each rung, and where it does not</title>
-      <desc id="ab-desc">For each rung of the ladder, the drawing names what assures the success condition and by what mechanism. Assurance comes from three sources, marked distinctly: machine-checked, meaning something on disk refuses; producer-agreed, meaning a human key with nothing outside the model enforcing it; and no enforcement, meaning nothing checks at all. At scope, the Scope section and a legal rigor level are machine-checked by the existing gate, but whether a success condition was declared at all is not enforced. At design, one approved and sealed view per declared concern is machine-checked; whether the condition's target is proportionate to the declared rigor level is producer-agreed only. At the design gate the register's Approved hash over the condition is machine-checkable once MSC exists in the register, though that is schema work this slice does not build. At work handoff the spec must carry Pieces and a Verify on every step, machine-checked; whether the condition is actually named on the steps it affects has no enforcement. In the loop, zero unchecked pieces is machine-checked; whether the work is aimed at the condition has no enforcement. At acceptance the acceptance record and its Release condition section are machine-checked, and the producer's key is the decision; whether an observed result was actually linked has no enforcement in this slice. The summary is stated plainly: of thirteen lines, six are machine-checked, two are producer-agreed and five have no enforcement, so seven of the thirteen rest on agreement or on nothing; this slice adds no automated per-rigor floor, and Drive does not structurally guarantee compliance — the same sentence carried in the work record's risk ledger.</desc>
+      <desc id="ab-desc">For each rung of the ladder, the drawing names what assures the success condition and by what mechanism. Assurance comes from three sources, marked distinctly: machine-checked, meaning something on disk refuses; producer-agreed, meaning a human key with nothing outside the model enforcing it; and no enforcement, meaning nothing checks at all. At scope, the Scope section and a legal rigor level are machine-checked by the existing gate, but whether a success condition was declared at all is not enforced. At design, one approved and sealed view per declared concern is machine-checked; whether the condition's target is proportionate to the declared rigor level is producer-agreed only. At the design gate the register's Approved hash over the condition is machine-checkable once MSC exists in the register, though that is schema work this slice does not build. At work handoff the spec must carry Pieces and a Verify on every step, machine-checked; whether the condition is actually named on the steps it affects has no enforcement. In the loop, zero unchecked pieces is machine-checked; whether the work is aimed at the condition has no enforcement. At acceptance the acceptance record and its Release condition section are machine-checked, and the producer's key is the decision; whether an observed result was actually linked has no enforcement in this slice. The summary is stated plainly: of fourteen lines, six are machine-checked, two are producer-agreed and six have no enforcement, so eight of the fourteen rest on agreement or on nothing; among the unenforced is the comparison itself, whether the observed reading actually satisfies the target frozen at the design gate, which nothing checks in this slice; this slice adds no automated per-rigor floor, and Drive does not structurally guarantee compliance — the same sentence carried in the work record's risk ledger.</desc>
       <defs>
         <style>
           .n{font-family:var(--font-sans);font-size:12.5px;fill:var(--color-ink);}
@@ -113,26 +113,30 @@
       <text class="ma" x="520" y="386">nothing, in this slice</text>
       <rect x="792" y="374" width="14" height="14" rx="3" fill="#eb6c36"/>
       <text class="ma" x="814" y="386">none</text>
-      <line x1="16" y1="398" x2="896" y2="398" stroke="#4f5d75" stroke-opacity=".3"/>
+      <text class="ma" x="150" y="406">that the reading SATISFIES the frozen target</text>
+      <text class="ma" x="520" y="406">nothing, in this slice</text>
+      <rect x="792" y="394" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="814" y="406">none</text>
+      <line x1="16" y1="418" x2="896" y2="418" stroke="#4f5d75" stroke-opacity=".3"/>
 
       <!-- the statement this drawing exists for -->
-      <rect x="16" y="426" width="880" height="118" rx="6" fill="#fff" stroke="#eb6c36" stroke-width="1.6"/>
-      <text class="b" x="36" y="456">This slice adds no automated per-rigor floor.</text>
-      <text class="n" x="36" y="480">The control is the producer declaring the rigor level and agreeing a proportionate success condition at scope.</text>
-      <text class="n" x="36" y="502">It binds by agreement at one gate. Nothing outside the model enforces it.</text>
-      <text class="ma" x="36" y="526">Drive does not structurally guarantee compliance — the same sentence the work record's risk ledger carries.</text>
+      <rect x="16" y="446" width="880" height="118" rx="6" fill="#fff" stroke="#eb6c36" stroke-width="1.6"/>
+      <text class="b" x="36" y="476">This slice adds no automated per-rigor floor.</text>
+      <text class="n" x="36" y="500">The control is the producer declaring the rigor level and agreeing a proportionate success condition at scope.</text>
+      <text class="n" x="36" y="522">It binds by agreement at one gate. Nothing outside the model enforces it.</text>
+      <text class="ma" x="36" y="546">Drive does not structurally guarantee compliance — the same sentence the work record's risk ledger carries.</text>
 
-      <line x1="16" y1="572" x2="896" y2="572" stroke="#4f5d75" stroke-opacity=".3"/>
-      <rect x="16" y="590" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="38" y="602">machine-checked — something on disk refuses</text>
-      <rect x="330" y="590" width="14" height="14" rx="3" fill="#4f5d75"/>
-      <text class="m" x="352" y="602">producer-agreed — a human key, nothing enforcing it</text>
-      <rect x="660" y="590" width="14" height="14" rx="3" fill="#eb6c36"/>
-      <text class="ma" x="682" y="602">no enforcement</text>
+      <line x1="16" y1="592" x2="896" y2="592" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect x="16" y="610" width="14" height="14" rx="3" fill="#2d3142"/>
+      <text class="m" x="38" y="622">machine-checked — something on disk refuses</text>
+      <rect x="330" y="610" width="14" height="14" rx="3" fill="#4f5d75"/>
+      <text class="m" x="352" y="622">producer-agreed — a human key, nothing enforcing it</text>
+      <rect x="660" y="610" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="682" y="622">no enforcement</text>
 
-      <text class="m" x="16" y="638">Thirteen lines above: six machine-checked, two producer-agreed, five with no enforcement. Seven of the thirteen therefore</text>
-      <text class="m" x="16" y="660">rest on agreement or on nothing. That is the honest picture of this slice, drawn on purpose: the countermeasure is</text>
-      <text class="m" x="16" y="682">temporary, and its return condition is rigor-level slice 2 defining enforceable per-level floors.</text>
+      <text class="m" x="16" y="658">Fourteen lines above: six machine-checked, two producer-agreed, six with no enforcement. Eight of the fourteen therefore</text>
+      <text class="m" x="16" y="680">rest on agreement or on nothing. That is the honest picture of this slice, drawn on purpose: the countermeasure is</text>
+      <text class="m" x="16" y="702">temporary, and its return condition is rigor-level slice 2 defining enforceable per-level floors.</text>
     </svg>
   </div>
 </body>

@@ -21,10 +21,10 @@
   <div class="wrap">
     <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
     <h1>How a success condition travels from declaration to demonstrated proof</h1>
-    <p class="sub">Five states before acceptance, then a decision with two outcomes. It spans five of the ladder&rsquo;s seven rungs. The design gate is the producer&rsquo;s key <em>at</em> the design rung &mdash; a transition, not a rung of its own.</p>
-    <svg viewBox="0 0 920 700" role="img" aria-labelledby="lc-title lc-desc">
+    <p class="sub">Five states before acceptance, then <strong>two decisions and three outcomes</strong>. It spans five of the ladder&rsquo;s seven rungs. The design gate is the producer&rsquo;s key <em>at</em> the design rung &mdash; a transition, not a rung of its own.</p>
+    <svg viewBox="0 0 920 796" role="img" aria-labelledby="lc-title lc-desc">
       <title id="lc-title">How a success condition travels from declaration to demonstrated proof</title>
-      <desc id="lc-desc">A success condition passes through five states before acceptance, then a decision with two outcomes. It spans five of the ladder's seven rungs, from scope to acceptance. Frame and viability sit before this span. The design gate shown here is the producer's key at the design rung, a transition rather than a rung of its own. At scope the condition is UNDECLARED: the requirement exists and nothing says how we will know it was met. At design it becomes DECLARED, with statement, measure, baseline and target written, in register state proposed. At the design gate it becomes KEYED: the producer approves it and the register records an Approved hash over its words, so the target cannot later change without the approval visibly diverging. At work handoff it becomes CARRIED, named on every step whose work affects it. In the loop it is TRACKED, the thing the build is aimed at. Then acceptance evaluates the condition, and that evaluation is a decision with two outcomes, not a state that can fail afterwards: the question asked is whether an observed result is linked. If yes, the condition is PROVEN by the reading rather than by assertion. If no, the outcome is NOT ASSESSABLE, which is never a passed row and never grounds for authoring a target after the build, following the precedent set at the gate-visuals acceptance gate on 2026-08-30. KEYED freezes the predeclared target and PROVEN holds the later reading, which is why the two live on different objects.</desc>
+      <desc id="lc-desc">A success condition passes through five states before acceptance, then two decisions yielding three outcomes. It spans five of the ladder's seven rungs, from scope to acceptance. Frame and viability sit before this span. The design gate shown here is the producer's key at the design rung, a transition rather than a rung of its own. At scope the condition is UNDECLARED: the requirement exists and nothing says how we will know it was met. At design it becomes DECLARED, with statement, measure, baseline and target written, in register state proposed. At the design gate it becomes KEYED: the producer approves it and the register records an Approved hash over its words, so the target cannot later change without the approval visibly diverging. At work handoff it becomes CARRIED, named on every step whose work affects it. In the loop it is TRACKED, the thing the build is aimed at. Then acceptance evaluates the condition through two decisions, not one. The first asks whether an observed result is linked; if not, the outcome is NOT ASSESSABLE, because no reading was taken at all — never a passed row and never grounds for authoring a target after the build, following the precedent set at the gate-visuals acceptance gate on 2026-08-30. If a reading is linked, the second decision compares it against the target frozen at KEYED: if the reading satisfies the target the outcome is PROVEN, and if it misses the target the outcome is NOT MET. NOT MET is a real and reportable outcome, not a failure of the process. A linked reading proves only that the condition was assessable; it never proves the target was met, and the whole purpose of the capability is that measurement can demonstrate an unmet expectation rather than merely confirm that somebody recorded a number. KEYED freezes the predeclared target and PROVEN holds the later reading, which is why the two live on different objects.</desc>
       <defs>
         <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
@@ -91,38 +91,53 @@
 
       <text class="rung" x="16" y="420">acceptance</text>
       <text class="e" x="16" y="434">rung 7 of 7</text>
-      <rect class="dec" x="176" y="392" width="396" height="56" rx="6"/>
-      <text class="b" x="194" y="418">acceptance evaluates the condition</text>
-      <text class="ma" x="194" y="438">is an Observed result linked?</text>
-      <text class="m" x="600" y="418">a DECISION with two outcomes —</text>
-      <text class="m" x="600" y="436">not a state that fails afterwards</text>
+      <rect class="dec" x="176" y="392" width="396" height="50" rx="6"/>
+      <text class="b" x="194" y="415">acceptance evaluates the condition</text>
+      <text class="ma" x="194" y="434">is an Observed result linked?</text>
 
-      <path d="M 272 448 L 272 476 L 220 476 L 220 500" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
-      <text class="ea" x="230" y="470">yes</text>
-      <path d="M 476 448 L 476 476 L 528 476 L 528 500" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
-      <text class="ea" x="486" y="470">no</text>
+      <path d="M 572 417 L 644 417" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="590" y="409">no</text>
+      <rect class="box" x="648" y="392" width="248" height="50" rx="6"/>
+      <text class="b" x="666" y="415">NOT ASSESSABLE</text>
+      <text class="m" x="666" y="434">no reading was taken at all</text>
 
-      <rect class="new" x="122" y="502" width="196" height="76" rx="6"/>
-      <text class="b" x="140" y="528">PROVEN</text>
-      <text class="m" x="140" y="548">the reading, not an assertion</text>
-      <text class="e" x="140" y="566">evidenced-by is satisfied</text>
+      <path d="M 374 442 L 374 478" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="386" y="464">yes</text>
 
-      <rect class="box" x="430" y="502" width="196" height="76" rx="6"/>
-      <text class="b" x="448" y="528">NOT ASSESSABLE</text>
-      <text class="m" x="448" y="548">never a passed row · never a</text>
-      <text class="m" x="448" y="566">target written after the build</text>
+      <rect class="dec" x="176" y="478" width="396" height="50" rx="6"/>
+      <text class="b" x="194" y="501">compare the reading to the target</text>
+      <text class="ma" x="194" y="520">does it satisfy the target frozen at KEYED?</text>
+      <text class="m" x="600" y="497">the target cannot move to meet</text>
+      <text class="m" x="600" y="515">the reading — that is what KEYED buys</text>
 
-      <text class="m" x="656" y="528">the gate-visuals precedent,</text>
-      <text class="m" x="656" y="546">2026-08-30 — an absent</text>
-      <text class="m" x="656" y="564">declaration is an exception,</text>
-      <text class="m" x="656" y="582">not a pass</text>
+      <path d="M 272 528 L 272 552 L 236 552 L 236 578" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="246" y="546">yes</text>
+      <path d="M 476 528 L 476 552 L 512 552 L 512 578" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="486" y="546">no</text>
 
-      <line x1="16" y1="614" x2="896" y2="614" stroke="#4f5d75" stroke-opacity=".3"/>
-      <rect class="box" x="16" y="632" width="22" height="14" rx="3"/>
-      <text class="m" x="48" y="644">state reachable today</text>
-      <rect class="new" x="220" y="632" width="22" height="14" rx="3"/>
-      <text class="ma" x="252" y="644">introduced by this design — none of it is built in this slice</text>
-      <text class="m" x="16" y="678">KEYED freezes the predeclared target; PROVEN holds the later reading. That is why they are two objects and never one field.</text>
+      <rect class="new" x="138" y="580" width="196" height="68" rx="6"/>
+      <text class="b" x="156" y="606">PROVEN</text>
+      <text class="m" x="156" y="626">the reading meets the target</text>
+      <text class="e" x="156" y="642">the expectation held</text>
+
+      <rect class="new" x="414" y="580" width="196" height="68" rx="6"/>
+      <text class="b" x="432" y="606">NOT MET</text>
+      <text class="m" x="432" y="626">the reading misses the target</text>
+      <text class="e" x="432" y="642">a real, reportable outcome</text>
+
+      <text class="ma" x="632" y="600">Measurement must be able to show an</text>
+      <text class="ma" x="632" y="618">UNMET expectation, not merely confirm</text>
+      <text class="ma" x="632" y="636">that somebody recorded a number.</text>
+      <text class="m" x="632" y="658">That is the capability&#8217;s purpose.</text>
+
+      <line x1="16" y1="690" x2="896" y2="690" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect class="box" x="16" y="708" width="22" height="14" rx="3"/>
+      <text class="m" x="48" y="720">state reachable today</text>
+      <rect class="new" x="220" y="708" width="22" height="14" rx="3"/>
+      <text class="ma" x="252" y="720">introduced by this design — none of it is built in this slice</text>
+
+      <text class="m" x="16" y="754">KEYED freezes the target · the Observed result supplies the reading · the comparison decides PROVEN or NOT MET ·</text>
+      <text class="m" x="16" y="776">the absence of a reading yields NOT ASSESSABLE. Three outcomes, two decisions — never one.</text>
 
     </svg>
   </div>

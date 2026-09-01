@@ -121,7 +121,7 @@ does not build it.**
 
 ## The lifecycle
 
-Five states before acceptance, then a **decision** with two outcomes —
+Five states before acceptance, then **two decisions yielding three outcomes** —
 `docs/design/requirements-success-measurement/condition-lifecycle.html`. It
 spans five of the ladder's seven rungs (`frame` and `viability` sit before it),
 and **the design gate is the producer's key *at* the design rung — a transition,
@@ -140,16 +140,40 @@ not a rung of its own.**
 That separation is the lifecycle's whole point and it is why the two live on
 different objects.
 
-**Acceptance is a decision, not a state that fails afterwards.** It asks one
-question — *is an `Observed result` linked?* — and yields one of two outcomes:
+**Acceptance is two decisions, not one — and the second is the capability's
+entire purpose.**
 
-- **yes → `PROVEN`.** The reading, not an assertion.
-- **no → `NOT ASSESSABLE`.** Never a passed row, and never a target authored
-  after the build.
+```
+is an Observed result linked?
+├─ no  → NOT ASSESSABLE
+└─ yes → does the result satisfy the target frozen at KEYED?
+          ├─ yes → PROVEN
+          └─ no  → NOT MET
+```
 
-Ordering matters here and is not cosmetic: `PROVEN` is *defined by* a linked
-observed result, so `NOT ASSESSABLE` cannot branch out of it. The fork sits
-before both. That is the precedent set at `gate-visuals`' acceptance gate on
+**A linked reading proves only that the condition was ASSESSABLE. It never
+proves the target was met** — a linked result can perfectly well show failure.
+Collapsing these two questions into one was a real defect in an earlier draft of
+this design, caught at the review on 2026-08-31, and it would have shipped a
+capability that could confirm somebody recorded a number while being structurally
+unable to report that the number was bad.
+
+**`NOT MET` is a real, reportable outcome, not a process failure.** Measurement
+must be able to demonstrate an *unmet expectation*; a design in which the only
+outcomes are "proven" and "couldn't tell" is a design that cannot say no.
+
+The four invariants this rests on:
+
+1. **`KEYED` freezes the target** — it cannot move later to meet the reading.
+2. **The `Observed result` supplies the reading** — separate object, so the
+   proof cannot overwrite the promise.
+3. **The comparison decides `PROVEN` versus `NOT MET`.**
+4. **The absence of a reading yields `NOT ASSESSABLE`** — never a passed row,
+   and never grounds for authoring a target after the build (the `gate-visuals`
+   precedent, 2026-08-30).
+
+Ordering matters and is not cosmetic: `PROVEN` is *defined by* a satisfied
+comparison, so neither `NOT ASSESSABLE` nor `NOT MET` can branch out of it. That is the precedent set at `gate-visuals`' acceptance gate on
 2026-08-30, where an absent measurement declaration was closed as an explicit
 producer exception rather than invented retroactively. This design is the
 upstream countermeasure to that exception.
@@ -161,8 +185,14 @@ for every rung, what assures the condition and by what — machine-checked
 (something on disk refuses), producer-agreed (a human key, nothing outside the
 model enforcing it), or no enforcement at all.
 
-**Of thirteen lines: six machine-checked, two producer-agreed, five with no
-enforcement. Seven of the thirteen rest on agreement or on nothing.**
+**Of fourteen lines: six machine-checked, two producer-agreed, six with no
+enforcement. Eight of the fourteen rest on agreement or on nothing.**
+
+**The comparison itself is among the unenforced.** Whether the observed reading
+actually satisfies the target frozen at the design gate is checked by nothing in
+this slice — it was added to the assurance view on 2026-08-31, when the
+two-decision model exposed it as an assurance question the drawing had been
+silently omitting.
 
 **This slice adds no automated per-rigor floor.** The control is the producer
 declaring the rigor level and agreeing a proportionate success condition at
@@ -201,5 +231,9 @@ adapts to it, never the reverse.**
 - **Where the `Observed result` lives** — a register category or an external
   evidence artifact. It is a fourth object either way; the home is open.
 - **Whether `MSC` is the right code**, pending the category vocabulary review.
-- **Any enforcement.** Seven of thirteen assurance lines rest on agreement or
-  nothing, by design, at `mvp`.
+- **Any enforcement.** Eight of fourteen assurance lines rest on agreement or
+  nothing, by design, at `mvp` — including the comparison of reading against
+  target, which is the one a machine could most plausibly do once `MSC` exists
+  in the register.
+- **Reciprocal link stamping**, owed so the suspect-link check becomes
+  symmetric.
