@@ -2,24 +2,38 @@
 
 ## Now
 
-**2026-08-31 — `requirements-success-measurement` is at `design`** (scope gate
-passed, `332d96c`). Rigor level `mvp`; both risks legally qualified; the
-temporary manual control explicitly distinguished from structural enforcement;
-`rigor-level` slice 2 preserved as a visible dependency rather than absorbed.
-See `kivna/sessions/2026-08-31.md`.
+**2026-08-31 — `requirements-success-measurement` passed the DESIGN gate and sits
+at `handoff`** (`c01e10d`; GO record `docs/gates/2026-08-31-requirements-success-measurement-design.md`;
+`stage: designed`). Three views keyed and sealed on the producer's key —
+`condition-anatomy` `fp:fefa90380fe3` · `condition-lifecycle` `fp:0a91dbcac981` ·
+`assurance-boundary` `fp:c9b8d06ebfb6`. `gate.py check design` -> PASS, 11 inputs
+on disk. See `kivna/sessions/2026-08-31.md`.
 
-**Entry condition for its design session — the producer's instruction,
-2026-08-31:** *declare at least one `concerns:` entry BEFORE relying on the
-design gate.* Without one the gate passes **vacuously** — `parse_concerns`
-returns `None` when no concerns block is declared, so zero views are counted and
-`design pass` is evidence of nothing. A vacuous pass on this item would be
-especially hollow, since the item exists to make measurement visible and would
-itself have shipped a design nobody could show was designed. This is the answer
-for THIS item to the standing "the design gate can check nothing" row below; the
-general question — whether declaring a concern should be mandatory — remains
-`gate-visuals`' territory.
+**Next for this item: the work specification** — `docs/plans/<date>-requirements-success-measurement-spec.md`
+with `## Pieces` and a `**Verify:**` on every step. That is composer territory
+and wants a fresh session. **The boundary that still binds:** no build of `MSC`,
+no absorption of `rigor-level` slice 2, no edit to `catalog.md`.
+
+**Owed by the design, named in its GO record and NOT built:**
+
+1. `MSC` needs a `categories.md` disposition and schema work, pending a category
+   vocabulary review that may find a better term.
+2. **Reciprocal link stamping.** Verified 2026-08-31 at `tools/gates/kit.py:1445`:
+   the suspect-link stamp is the TARGET's hash stored on the SOURCE, so editing
+   the target flags the source and **editing the source flags nothing**. For this
+   design the unprotected direction is the dangerous one — a requirement whose
+   statement changes leaves its condition measuring words that no longer exist.
+3. **Where the `Observed result` lives** — a register category or an external
+   evidence artifact. A fourth object either way.
+4. **The comparison is unenforced.** Nothing checks whether the reading satisfies
+   the target frozen at `KEYED` — the fourteenth assurance line. It is the row a
+   machine could most plausibly check once `MSC` exists.
+5. **The catalog supersession is RECORDED, not executed.** Its exact in-place
+   strike text is in `docs/design/requirements-success-measurement.md`; the edit
+   belongs to the schema implementation.
 
 **Next, in order**
+
 
 1. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
    then the expert-user pass, which is naturally a second real Drive run.

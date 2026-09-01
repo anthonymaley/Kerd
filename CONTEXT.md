@@ -6,26 +6,39 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-08-31 — `requirements-success-measurement` passed the SCOPE gate and sits
-at `design`** (`332d96c`; `route` reports `enters at: design`, `stage:` flipped
-`framed → scoped`). Rigor level **`mvp`**, declared by the producer. Kerd stays
-at **v0.104.0** — a work-record edit is not a skill change, per the 2026-08-27
-bump rule.
+**2026-08-31 — `requirements-success-measurement` passed the DESIGN gate and sits
+at `handoff`.** GO record `docs/gates/2026-08-31-requirements-success-measurement-design.md`
+(`c01e10d`), `stage: designed`, `gate.py check design` -> PASS on **11 inputs**.
+Three views keyed and sealed from final content: `condition-anatomy`
+`fp:fefa90380fe3` · `condition-lifecycle` `fp:0a91dbcac981` ·
+`assurance-boundary` `fp:c9b8d06ebfb6`. Rigor level `mvp`. Kerd stays at
+**v0.104.0** — no skill changed.
 
-- **Its killer risk classed FATAL under the repo's own rule, and that is what
-  forced a real countermeasure.** Row 1's impact is *the whole of* the declared
-  value (0 of 52 stays 0 of 52), and *fatal = impact ≥ declared value at any
-  likelihood* (2026-08-03), so it could not be accepted by name. The
-  classification is a **reading, not a machine verdict** — `parse_ledger` only
-  refuses a State cell that literally says `fatal`.
-- **`design pass` on this item is VACUOUS and must not be read as design done.**
-  The design gate counts sealed views against a *declared* `concerns:` block and
-  this item declares none, so zero checks run. The producer's entry condition for
-  the design session is in TODO: declare at least one concern first.
+- **This is the first design GO issued against a gate that could refuse.** The
+  producer's entry condition — *declare at least one `concerns:` entry BEFORE
+  relying on the design gate* — was given before any view was drafted. Declaring
+  three demoted the item `design -> scope` with three named unmet needs. Without
+  it the gate passes vacuously and `design pass` is evidence of nothing.
+- **The design's own answer:** four objects, three typed edges, and the
+  requirement block gains no field. It closes the question left open on
+  2026-08-14 (*what carries the acceptance criterion?*) by finding that the
+  catalog held **two incompatible answers under one `slice 2` return
+  condition** — deferred merged FIELDS versus a typed EDGE — neither ever built.
+- **Nothing was built.** `tools/` untouched, `LEGAL_STATES` still five,
+  `catalog.md` unedited, `rigor-level` slice 2 not absorbed.
 - **`gate-visuals` at `ready-to-release`; `funnel-driver` at `acceptance`** —
-  unchanged, and `funnel-driver`'s acceptance gate is the next large piece.
+  unchanged; its acceptance gate is the next large piece and wants a dedicated
+  cold-eyes session.
 
 ## Key Decisions
+
+- **ACCEPTANCE IS TWO DECISIONS AND THREE OUTCOMES: A LINKED READING PROVES *ASSESSABLE*, NEVER *MET*. Tony, 2026-08-31, at `requirements-success-measurement`'s design review — the catch that goes to the capability's purpose.** The draft model asked one question (*is an `Observed result` linked?*) and yielded `PROVEN` or `NOT ASSESSABLE`. His correction: *"linking an observed result proves only that the condition is assessable. It does not prove the target was met. A linked result could show failure."* The shape: **is a reading linked? → no = `NOT ASSESSABLE`; yes → does it satisfy the target frozen at `KEYED`? → yes = `PROVEN`, no = `NOT MET`.** **`NOT MET` is a real, reportable outcome, not a process failure** — his framing, *"measurement must be able to demonstrate unmet expectations, not merely confirm that someone recorded a number"*. A design whose only outcomes are *proven* and *couldn't tell* is a design that cannot say no, and it would have shipped a measurement capability structurally unable to report a bad number. **Four invariants he attached:** `KEYED` freezes the target · the `Observed result` supplies the reading · the comparison decides `PROVEN` vs `NOT MET` · absence of a reading yields `NOT ASSESSABLE`. **He also required the ordering be structural rather than cosmetic:** an earlier draft branched `NOT ASSESSABLE` out of `PROVEN`, which is incoherent because `PROVEN` is *defined by* the thing being branched on. **And the catch cascaded, which is the part worth keeping:** the new comparison was itself an assurance question nothing checked, so the already-approved assurance view had been silently omitting a row — added as its fourteenth line, unenforced, on his own instruction to check whether the new decision revealed an omission.
+
+- **A REQUIREMENT AND ITS MEASURABLE SUCCESS CONDITION ARE TWO ARTIFACTS JOINED BY TYPED EDGES, AND THE REQUIREMENT BLOCK GAINS NO FIELD — Tony, 2026-08-31, closing a question open since 2026-08-14.** `docs/requirements/catalog.md` held **two incompatible answers to one question under one `slice 2` return condition**, four sections apart: deferred `Acceptance Criteria`/`Verification Method` **fields on the requirement block**, and a `verified-by` **typed edge to a separate object**. Neither was ever built, which is why the contradiction went unnoticed for weeks. His ruling took the edge, preserving the 2026-08-14 finding that a requirement and its acceptance criterion are two artifacts (*"do not build one schema trying to be both"*). **Four objects:** Requirement → `measured-by` → Success condition `MSC-nnn` (Statement · Measure · Baseline · Target) → `verified-by` → Test/method `TST-nnn` (owns **Method**); and Success condition → `evidenced-by` → **Observed result**. **`Method` belongs to the test, not the condition**, and **evidence is a linked object, never a field mutating from empty to populated inside an approved condition** — his reason: *"That preserves the distinction between the predeclared target and the later proof."* **A NEW category `MSC`, not an overloaded `TST`:** *"TST answers 'how will we test this?' A measurable success condition answers 'what observable result counts as success?'… Reusing TST because it already inherits register machinery would create another semantic contradiction."* Pending a category vocabulary review. **His own first wording said "three artifacts" while his arrows drew four; the arrows were the intended model** — the `Observed result` may live as a register category or an external evidence artifact, but is a fourth object either way.
+
+- **THE SUSPECT-LINK STAMP PROTECTS ONE DIRECTION ONLY, AND THE UNPROTECTED ONE IS THE DANGEROUS ONE — verified 2026-08-31 at `tools/gates/kit.py:1445` after the producer refused an unverified claim.** A design drawing he had *already approved* asserted *"edit either end and the other is flagged for re-look"*. His challenge: *"A target-statement hash on only one directed link proves target edits, not necessarily source edits. That sentence is valid only if reciprocal stamped links make the check symmetric."* **He was right and the claim was false.** The stamp is the **target's** statement hash stored on the **source**; `kit.py:1445` compares it against the target's current hash. So editing the *target* flags every source pointing at it, and editing the *source* flags nothing. **For this design that is exactly backwards from what is needed:** a requirement whose statement changes can leave its success condition measuring words that no longer exist, with nothing flagging it. **Reciprocal stamped links are now recorded as OWED rather than assumed.** The transferable lesson: an approval does not launder a claim — his key on the drawing did not make its sentence true, and the verification had to happen against the code.
+
+- **IF A CHECKER MISTAKES STRUCK TEXT FOR A LIVE CLAIM, TEACH THE CHECKER — DO NOT REWRITE HISTORY TO SATISFY A RAW TEXT SCAN. Tony, 2026-08-31.** Supersession is executed in place with the **original text preserved verbatim inside the strike**, followed by the replacement and a pointer to the design that superseded it. **This answers the 2026-08-30 gotcha — *preserving a struck claim verbatim trips any checker that hunts the claim* — in the opposite direction from the one that gotcha implied: the record is authoritative and the checker adapts to it, never the reverse.** **And the supersession itself is a separate beat from the design that motivates it:** he refused to let this session strike the catalog's merged-fields row at all — *"Do not strike the catalog row during this design session… The actual catalog edit belongs to the later schema implementation"* — so the design **records the proposed supersession, with its exact final wording, and executes nothing**. A design decision favouring a replacement is not a licence to edit the thing it replaces.
 
 - **A KILLER RISK WHOSE COUNTERMEASURE POINTS AT UNBUILT MACHINERY GETS AN EXECUTABLE MANUAL CONTROL AND A `countermeasure - temporary` STATE — NEVER A CLAIM ON MACHINERY THAT DOES NOT EXIST, AND NEVER AN ABSORBED DEPENDENCY. Tony, 2026-08-31, at `requirements-success-measurement`'s scope gate.** The row's sketched countermeasure was *"the ask is scaled by the declared rigor level"* — which names `rigor-level` slice 2's per-level floors, specced 2026-08-05 and never built (`grep -i floor tools/gates/*.py` returns nothing, cited in the row's own Evidence cell). **He refused both easy exits.** Absorbing slice 2 into this item's scope *"would merge two work items, enlarge the smallest proof, and make this scope depend on machinery it was not framed to build"*; leaving the countermeasure as written would have the record claim enforcement that does not exist. **His shape, and it is the transferable part:** an executable **manual** control now — *"the producer declares the item's rigor level and agrees the smallest measurable success condition proportionate to it during scope. Drive carries that condition through design, handoff, loop and acceptance. No automated per-rigor floor is claimed"* — carrying a **return condition** that names the other item by name, so the dependency stays visible as a ledger row rather than becoming invisible by being swallowed. **And the honesty clause he added on review, which is the sharpest half:** the "medium with the control" likelihood must be written as *"an explicit producer judgment, because the control is agreement-based rather than machine-enforced. The record must not imply that Drive structurally guarantees compliance."* So the cell itself carries the sentence *Drive does not structurally guarantee compliance* — the 2026-08-27 *"record that limit; don't inflate it into enforcement"* rule, now applied inside a risk ledger cell rather than to a trigger. **The permanent/temporary split was tested rather than defaulted:** row 2's countermeasure (the measurement lives in the work record and the gates, never inside conductor's protocol) depends on nothing unbuilt, so it is `countermeasure - permanent`; temporary would have been dishonest in the other direction.
 
