@@ -6,28 +6,32 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-01 — `requirements-success-measurement` reached `loop`, and its own
-sealed design was corrected on the way.** Work specification at
-`docs/plans/2026-09-01-requirements-success-measurement-spec.md` (`654f6fe`,
-render `4c86a5f`): 19 steps, 19 Pieces, a Verify command with expected output on
-every step. `gate.py route` -> `enters at: loop`. Kerd stays at **v0.104.0** — no
-skill changed, and **nothing was built**.
+**2026-09-01 (2nd sitting) — all four of `requirements-success-measurement`'s
+producer gates are KEYED, and the rulings sent the item back to DESIGN rather
+than forward to the composer.** Four commits, each verified and pushed
+(`93b1215` · `5101645` · `7ed7fd1` · `838a5fa`; render `0f46ba4`). The item still
+routes at **loop** with 15 unchecked Pieces. Kerd stays at **v0.104.0** — no
+skill changed, `tools/` untouched, and **nothing was built**.
 
-- **The design gate's own artifacts were re-keyed.** Converting the design into a
-  contract exposed that `KEYED` did not freeze anything: the register's Approved
-  recipe hashes the statement alone, so an `MSC`'s Measure, Baseline and Target
-  sat outside the hash. All three seals were downgraded together, corrected as
-  one deliverable, re-rendered, reviewed on ONE combined producer eye and
-  resealed from final content (`78411bf`) — `condition-anatomy` `fp:67ff11391faf`
-  · `condition-lifecycle` `fp:22651ad0d921` · `assurance-boundary`
-  `fp:544e73328c06`. The dated GO record is untouched and still carries the
-  pre-ruling seals, which is correct: it records what was believed on 2026-08-31.
-- **Its acceptance is deliberately open** until a separate pilot work item,
-  `stage-route-consistency`, walks four rungs. That pilot is still unframed.
+- **The four rulings.** The code is `MSC` (Measurable Success Condition,
+  `applies`) · the `Observed result` lives in the **immutable acceptance record**,
+  not the register, and no `OBS` code is added · reciprocal stamping is **built
+  now**, scoped to Requirement <-> `MSC`, both edges stored, severity a finding
+  not a refusal · the comparison stays **producer-performed**, with the parser
+  enforcing structure and never semantics.
+- **Five of the six remaining Phase 1 steps are blocked, and Step 8 is
+  enlarged** — ruling 4's structural acceptance-record parser has no home step
+  in the spec at all. Step 7 (`approval_fingerprint`) is the only survivor and
+  is deliberately NOT built: the governing design must be restored first.
+- **The next sitting is the design amendment**, and it must run as ONE
+  continuous chain — downgrade -> amend -> render -> producer eye -> reseal ->
+  board refresh. The clean restart point is the pushed tip `0f46ba4`.
 - **`gate-visuals` at `ready-to-release`; `funnel-driver` at `acceptance`** —
-  unchanged; its acceptance gate remains the largest open piece.
+  unchanged this sitting; its acceptance gate remains the largest open piece.
 
 ## Key Decisions
+
+- **THE DESIGN PACKAGE IS AMENDED BEFORE THE SPEC IS REVISED — A WORK SPECIFICATION MUST NEVER BE THE FIRST AUTHORITATIVE STATEMENT OF A DESIGN. Tony, 2026-09-01, ruling at the reassessment after `requirements-success-measurement`'s four producer gates.** All four gates were keyed in one sitting (`93b1215` · `5101645` · `7ed7fd1` · `838a5fa`), and two of them took the more expensive option: reciprocal stamping is **built now** scoped to Requirement <-> `MSC`, and the `Observed result` lives in the **immutable acceptance record** rather than the register, which refused the cheap path of forcing `evidenced-by` through today's ID-only link grammar. Five of the six remaining Phase 1 steps went blocked as a result. **The question the reassessment put to him was where the hand-back goes**, because D1's mechanism assumes the composer revises the spec — and his answer names the defect in that assumption: *"Four rulings changed architecture and assurance, not merely execution order. Letting the composer encode them directly into Steps 5–10 would make the work specification the first authoritative statement of the design — the wrong artifact owning the decision."* **The transferable rule: D1-style hand-back is right for a wrong PASSAGE and wrong for a ruling that MOVES the architecture** — the first is a contract defect, the second is a design change wearing a contract's clothes. **His five-step sequence:** freeze the current spec with the four rulings recorded and **do not execute Step 7** · amend the design package to settle seven things (the canonical observed-result shape inside the immutable acceptance record · how an `MSC` references that result · whether the reference carries a digest and its canonical byte recipe · `NOT ASSESSABLE` derivation · reciprocal `measured-by`/`measures` storage and finding semantics · the split between requirement categories and register artifact extensions · structural parser responsibilities versus producer comparison) · sweep all three views and the prose for consequences, **especially the assurance boundary and its counts** · re-render, take producer approval for every changed view, reseal from final content, **dated GO record untouched** · only then re-dispatch the composer against the amended, keyed design, **explicitly encoding cross-step dependencies**. **Step 7 waits although it is technically clear** — verified: its three `kit.py` edits survive all four rulings intact, and rulings 3 and 4 consume its output rather than changing it — because *"building it before the governing design is restored would invert the ladder."* **And the demotion is honest rather than avoided:** the item stays at its temporary demotion until the amendment completes. Per the 2026-08-25/2026-09-01 precedent the seal downgrade is the **opening act of the correction deliverable**, not a separate beat — downgrading and then stopping would strand a demoted item across a session boundary and force the committed render to either memorialize the demotion or lie about it.
 
 - **THE APPROVAL FINGERPRINT IS ONE VERSIONED MECHANISM WITH ARTIFACT-SPECIFIC CANONICAL PAYLOADS — AND EVERY EXISTING HASH SURVIVES BYTE-FOR-BYTE. Tony, 2026-09-01, ruling on a hole found while converting the design into its contract.** The sealed lifecycle claimed `KEYED` freezes the target and named the register's `Approved` hash as the mechanism. **It would not have.** Verified in three places: `tools/gates/kit.py:1191` hashes the stripped statement alone · `docs/requirements/catalog.md:178` says `final` requires a hash *"matching the statement"* · `tools/reqview/fingerprint.py`'s docstring names `req_statement_hash` as a separate statement-only recipe. So Measure, Baseline and Target sat **outside** the hash — all three editable after the producer's key with nothing diverging. **He refused both easy exits:** do not widen the existing recipe and re-key 52 records, and do not create an unrelated second hashing implementation. **The shape:** `approval_fingerprint(category, fields)` — existing categories keep the legacy statement-only payload byte-for-byte; `MSC` v1 hashes exactly Statement · Measure · Baseline · Target; **field names, order, separators, normalization and version are fixed centrally so an alternate implementation cannot invent a different byte stream** (the rule-9 lesson, where two implementations are tested against each other by nothing); `Method` and observed evidence stay outside because they belong to separate objects. **And the half the model had missed: link stamps targeting an `MSC` must use the same full `MSC` fingerprint**, never `req_statement_hash(Statement)`, or Measure, Baseline and Target could change without ever making the source link suspect. **Verified against live data before the spec landed, not asserted:** 47/47 shipped `Approved` values reproduce, 51/51 statements match `req_statement_hash`, 15/15 live link stamps still verify. **Two limits he required stated:** it is owed work rather than present machinery, labelled so on every surface; and it does **not** make protection bidirectional — reciprocal stamping stays separately owed, because a richer target fingerprint still only flags the source when the target moves.
 
@@ -205,6 +209,14 @@ skill changed, and **nothing was built**.
 
 ## Active Mode
 
-- **conductor: closed** 2026-08-28 — the session that built `funnel-driver` slice 2 and ran Drive for the first time. No conductor mode is active.
-- **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host — sessions run in tmux over SSH from the MacBook; the user's screen is on the laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`). Setup verified against `docs/machine-setup.md`, which gained the Chrome first-launch row today.
-- **pair: on** in this repo — partner-mode working agreement: rapid back-and-forth, reasoning internal unless it changes Tony's decision, ONE speech-bubble question (no X/Y binaries), interrupt early, eyeball-gated slices. Enforced by a UserPromptSubmit hook (`hooks/pair.sh`, reading `kivna/.pair`); persisted user-global in `~/.claude`. (Renamed from `focus` in v0.64.0.)
+- **conductor: closed** 2026-09-01 (2nd sitting) — the producer-gate pass for
+  `requirements-success-measurement`. Orient 12:38 · plan 12:56 · execute 13:05 ·
+  close-out 15:44 EDT. Marker cleared at close-out; no conductor mode is active.
+- **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host —
+  sessions run in tmux over SSH from the MacBook; the user's screen is on the
+  laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`).
+- **pair: on** in this repo — partner-mode working agreement: rapid
+  back-and-forth, reasoning internal unless it changes Tony's decision, ONE
+  question (open by default, no X/Y binaries), interrupt early, eyeball-gated
+  slices. Enforced by a UserPromptSubmit hook (`hooks/pair.sh`, reading
+  `kivna/.pair`); persisted user-global in `~/.claude`.

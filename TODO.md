@@ -2,77 +2,75 @@
 
 ## Now
 
-**2026-09-01 — `requirements-success-measurement` reached `loop`.** The work
-specification landed at `docs/plans/2026-09-01-requirements-success-measurement-spec.md`
-(`654f6fe`; render `4c86a5f`): 19 steps, 19 Pieces, a Verify command with
-expected output on every step. `gate.py route` reports `enters at: loop`.
-**Its acceptance stays open until the pilot completes** — the producer's ruling,
-because the declared value is end-to-end proof. See `kivna/sessions/2026-09-01.md`.
+**`requirements-success-measurement` — all four producer gates are KEYED
+(2026-09-01, 2nd sitting).** Recorded per D1 in `## Rulings after the GO` at the
+end of `docs/design/requirements-success-measurement.md`; boxes 1-4 ticked;
+`93b1215` · `5101645` · `7ed7fd1` · `838a5fa`, render `0f46ba4`, pushed.
+Route holds at **loop**, 15 unchecked. Kerd still **v0.104.0** — nothing built.
 
-**The design was corrected and all three views resealed the same day** (`78411bf`)
-after the `KEYED` freeze proved hollow: `condition-anatomy` `fp:67ff11391faf` ·
-`condition-lifecycle` `fp:22651ad0d921` · `assurance-boundary` `fp:544e73328c06`.
-The dated GO record is untouched and still carries the pre-ruling seals.
+1. **the category code** — `MSC`, Measurable Success Condition, `applies`.
+2. **the Observed result's home** — the immutable acceptance record, **not** the
+   register. No `OBS` code. Seven fields required on the entry.
+3. **reciprocal stamping** — **BUILD NOW**, scoped to Requirement <-> `MSC`.
+   Both edges stored, each with its own payload; audit requires both
+   directions; severity stays a **finding**, not a refusal.
+4. **the comparison** — stays **producer-performed**. The parser enforces
+   structure, never semantics; no machine verdict until `Target` has a typed
+   comparison grammar. Return condition recorded in the design doc.
 
-**Next for this item: Steps 1-4, which are all producer gates** and lead
-deliberately, before anything depends on them.
+**NEXT — the design amendment pass, in the producer's order. Do not skip to the
+composer, and do not build Step 7 first.** A work specification must never be
+the first authoritative statement of a design (CONTEXT.md, this date).
 
-1. The category code and its `categories.md` disposition (is `MSC` right?).
-2. Where the `Observed result` lives — register category or external artifact.
-3. Reciprocal stamping — build now, or keep owed.
-4. The comparison — who performs it, and what checks it.
+1. ~~Freeze the spec with the four rulings recorded~~ — **DONE**, pushed above.
+2. **Amend the design package** to settle seven things: the canonical
+   observed-result shape inside the immutable acceptance record · how an `MSC`
+   references that result · whether the reference carries a digest and its
+   canonical byte recipe · `NOT ASSESSABLE` derivation · reciprocal
+   `measured-by`/`measures` storage and finding semantics · the split between
+   requirement categories and register artifact extensions · structural parser
+   responsibilities versus producer comparison.
+3. **Sweep all three views and the prose** for consequences — especially
+   `assurance-boundary` and its counts. Reciprocal Requirement <-> `MSC`
+   checking is new machine assurance; if it enters the view, **re-derive the
+   counts, never hand-edit the totals**.
+4. **Re-render, producer approval on every changed view, reseal from final
+   content.** The dated GO record stays untouched.
+5. **Only then re-dispatch the composer** to revise the spec against the
+   amended, keyed design, explicitly encoding cross-step dependencies.
 
-**Then Step 7**, the approval-fingerprint build the producer required when he
-ruled it: one versioned `approval_fingerprint(category, fields)`, legacy payload
-for existing requirements preserved byte-for-byte, `MSC` v1 over exactly
-Statement / Measure / Baseline / Target. **Verified against live data before the
-spec landed:** 47/47 shipped `Approved` values reproduce, 51/51 statements match
-`req_statement_hash`, 15/15 live link stamps still verify.
+**Open the amendment with the seal downgrade, not before it.** Per the
+2026-08-25/2026-09-01 precedent the downgrade is the first act of the correction
+deliverable — it drops the item to `scope` honestly, and the board is refreshed
+only after the design gate is restored so no committed render memorializes the
+in-flight demotion.
 
-**THE DEPENDENCY THAT IS STILL INVISIBLE TO EVERY MACHINE SURFACE.** Phases 2-4
-run against a pilot work item, `stage-route-consistency`, chosen by the producer
-because it is real, narrow, unframed (so its measurement can be declared before
-design) and naturally measurable — fixtures must prove a legal-but-overclaimed
-AND a legal-but-underclaimed `stage:` are both refused. **It has no product doc,
-no slug on the board, and no gate demanding anything of it.** Until Step 12
-frames it through Drive, the thing this item's acceptance now depends on is
-exactly as unnoticeable as `funnel-driver` was for three days. Its content is the
-High-consequence Backlog row below; that row is now this pilot.
+**RESERVE THE TIME BEFORE STARTING.** The next sitting must hold enough runway
+for the whole continuous chain — **downgrade -> amend -> render -> producer eye
+-> reseal -> board refresh** — in one piece. The producer's reason for closing
+this sitting rather than opening it: *"Starting the downgrade now would create
+avoidable cross-session ambiguity. A fresh sitting gives the amendment one
+continuous evidence chain and keeps the board truthful."* **The clean restart
+point is the pushed tip `0f46ba4`** — spec frozen with the four rulings
+recorded, 15 unchecked Pieces, route `loop`, working tree carrying only session
+state.
 
-**The boundary that still binds:** no implementation happened this session, and
-none is licensed by the spec existing. `tools/` untouched, `LEGAL_STATES` still
-five, `catalog.md` unedited, `rigor-level` slice 2 not absorbed, Kerd at
-**v0.104.0**.
+**Phase 1 state after the rulings:** Step 7 (`approval_fingerprint`) is the only
+step that survives all four intact — verified, and rulings 3 and 4 consume its
+output rather than change it. Steps 5, 6, 8, 9, 10 are blocked. **Step 8 is also
+ENLARGED:** ruling 4's structural acceptance-record parser has no home step in
+the spec at all.
 
-**Next, in order**
+**Two spec sentences went stale inside the session executing them** — Step 5's
+`categories.md` framing under ruling 1, Step 4's feasibility premise under
+ruling 2 (it claimed a machine comparison was feasible only under the register
+home; `kit.py:892` already globs and parses acceptance records). Both wrote a
+*consequence of an open question* as settled fact. Carry the cross-step
+dependency clause into the composer brief rather than fixing the two instances.
 
-1. **The `funnel-driver` acceptance gate** — cold eyes over `94f4304..d318e9e`,
-   then the expert-user pass, which is naturally a second real Drive run.
-   **Carry the hand-back into that run:** Drive must state the subject in plain
-   language when it opens a frame gate, never the slug alone (measured
-   2026-08-28). Skill-text change -> composer, next slice, with the bump.
-   **Read the `gate-visuals` record first** (`docs/gates/2026-08-30-gate-visuals-acceptance.md`).
-2. **`gate-visuals` slices 2 and 3** — the acceptance-gate redraw and
-   comparison (starting `db-schema` and `dependency`), then the remaining gates.
-3. **The four kept items from the standards spike** — 25010 -> `R-0011`'s
-   quality column | 24774 §5.3 header on every `SKILL.md` (only `drive` has it)
-   | the UI viewpoint as a build | the spine sentence in
-   `docs/design/gate-visuals.md`.
-4. **The archaeology batches** — 53 candidates in
-   `docs/requirements/archaeology.md`. C-06 against R-0051, C-24 against R-0028
-   are yours.
-5. **Retire the old register** — `docs/requirements/findings.md` §9. One ruling:
-   does the reqview validator graduate into `gate.py audit` first?
-
-**Open, not yet rows:** does re-agreeing a lapsed approval cost anything? And:
-does diagram-and-prose-together bind as discipline or as a gate refusal?
-(Backlog row.)
-
-**The reset's three questions stay open** — what the requirements system IS, the
-draft to final, build-vs-adopt (`docs/kerd-interview.md`).
-
-**Still parked by the reset, not cancelled:** closing `model-effort-advisory` and
-`hooks-autoload` on the ladder. Do not walk these by hand.
+**The pilot dependency stays unenforced by any machine surface.** The unchecked
+spec Pieces represent it for now; `stage-route-consistency` is still unframed
+(route: `frame`, 4 inputs missing for viability). Filed, not solved.
 
 ## Backlog
 
@@ -144,11 +142,31 @@ draft to final, build-vs-adopt (`docs/kerd-interview.md`).
   defects. Two of those three have now recurred, which says the 2026-08-28
   findings were fixed in the artifact and never in the process that produces it.
 
+- **A spec writes the CONSEQUENCE of an open question as settled fact, so
+  answering the question falsifies prose elsewhere in the document** (measured
+  2026-09-01, twice in one sitting, on the
+  `requirements-success-measurement` spec). Step 5's `categories.md` rewrite was
+  written assuming `MSC` would be another requirement category, and ruling 1
+  falsified it — its own override clause covers only item 1, so items 2 and 3
+  stand as written and contradict the ruling. Step 4 stated that a machine
+  comparison was *"feasible only under Step 2's ruling (a)"*, and ruling 2 took
+  (b) — but the premise was already wrong on its own terms: `kit.py:892` globs
+  and parses acceptance records today, so the option was **relocated, not
+  eliminated**, and would have been silently dropped by anyone reading the spec
+  literally. **Same family as the hard-coded-path and `grep -c` rows above: a
+  countermeasure that is a brief clause nobody has written down.** The clause:
+  a spec whose steps depend on an unanswered gate must mark those cross-step
+  dependencies explicitly, so keying a gate names what it invalidates instead of
+  leaving it to be found one gate at a time. Not fixed here — carried into the
+  composer hand-back for this item, which is not the same as fixing the process.
+
 - **The suspect-link stamp has no slot in the requirement format** — a format
-  change, carried out of `## Now` on 2026-09-01. Narrowed by that day's ruling:
-  the stamp's RECIPE is now settled (category-aware, one mechanism), but where
-  the stamp is written in the block shape is still unspecified. Reciprocal
-  stamping remains separately owed and is Step 3's producer gate.
+  change, carried out of `## Now` on 2026-09-01. Narrowed twice that day: the
+  stamp's RECIPE is settled (category-aware, one mechanism), and **reciprocal
+  stamping is no longer owed** — Step 3 was keyed the same evening and builds it
+  for Requirement <-> `MSC`. **What remains open is only the block shape:** where
+  the stamp is written, and now where the SECOND (reverse) edge is written, since
+  ruling 3 requires two stored edges where the grammar has always had one.
 
 - **Rule 9 has two implementations and nothing tests them against each other**
   (filed 2026-08-29 at `gate-visuals`' acceptance gate; the claim that there was
