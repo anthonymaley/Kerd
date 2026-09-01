@@ -134,11 +134,12 @@ not a rung of its own.**
 | design gate *(a key, not a rung)* | `KEYED` | the producer approves; an `Approved` hash over its words |
 | work handoff | `CARRIED` | the spec names it on every step whose work affects it |
 | loop | `TRACKED` | the thing the build is aimed at |
-| acceptance | *decision* | **is an `Observed result` linked?** — evaluated, with two outcomes below |
+| acceptance | *two decisions* | **is a reading linked? then: does it satisfy the target?** — three outcomes below |
 
-**`KEYED` freezes the predeclared target; `PROVEN` holds the later reading.**
-That separation is the lifecycle's whole point and it is why the two live on
-different objects.
+**`KEYED` freezes the predeclared target; the `Observed result` holds the later
+reading; `PROVEN` records that the comparison satisfied the target.**
+That separation is the lifecycle's whole point, and it is why the promise and
+the proof live on different objects.
 
 **Acceptance is two decisions, not one — and the second is the capability's
 entire purpose.**

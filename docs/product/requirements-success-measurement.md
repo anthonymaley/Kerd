@@ -1,17 +1,20 @@
 ---
 route: new
-stage: scoped
+stage: designed
 work-type: software-change
 concerns:
   - concern: what the measurable condition contains and what artifact carries it
     viewpoint: nested
     view: docs/design/requirements-success-measurement/condition-anatomy.html
+    approval: Tony, 2026-08-31 · fp:fefa90380fe3
   - concern: how that condition travels from declaration to demonstrated proof
     viewpoint: state
     view: docs/design/requirements-success-measurement/condition-lifecycle.html
+    approval: Tony, 2026-08-31 · fp:0a91dbcac981
   - concern: where assurance comes from at each rung, and where it does not
     viewpoint: flowchart
     view: docs/design/requirements-success-measurement/assurance-boundary.html
+    approval: Tony, 2026-08-31 · fp:c9b8d06ebfb6
 ---
 
 # Requirements success measurement — every requirement declares how we will know it was met, before design starts
