@@ -75,7 +75,12 @@ change quietly.
 
 **Each edge carries the suspect-link stamp, and it protects ONE direction
 only.** The stamp is `- measured-by → MSC-007 (sha256:…)`: the *target's*
-statement hash at link time, stored on the *source*. Verified at
+**approval fingerprint** at link time, stored on the *source* — and the recipe
+is **category-aware** (2026-09-01 ruling below): a requirement target keeps the
+existing statement-only fingerprint byte-for-byte, while an `MSC` target uses
+the full four-field fingerprint, because a statement-only stamp would let
+Measure, Baseline or Target change without ever making the source link suspect.
+Verified at
 `tools/gates/kit.py:1445`, which compares the stored stamp against the target's
 current hash. So:
 
@@ -131,7 +136,7 @@ not a rung of its own.**
 |---|---|---|
 | scope | `UNDECLARED` | the requirement exists; nothing says how we will know |
 | design | `DECLARED` | statement · measure · baseline · target, register state `proposed` |
-| design gate *(a key, not a rung)* | `KEYED` | the producer approves; an `Approved` hash over its words |
+| design gate *(a key, not a rung)* | `KEYED` | the producer approves; the versioned **MSC approval fingerprint** over the condition's four owned fields — **owed, not present** (see `## The approval fingerprint`) |
 | work handoff | `CARRIED` | the spec names it on every step whose work affects it |
 | loop | `TRACKED` | the thing the build is aimed at |
 | acceptance | *two decisions* | **is a reading linked? then: does it satisfy the target?** — three outcomes below |
@@ -179,6 +184,46 @@ comparison, so neither `NOT ASSESSABLE` nor `NOT MET` can branch out of it. That
 producer exception rather than invented retroactively. This design is the
 upstream countermeasure to that exception.
 
+## The approval fingerprint — ruled 2026-09-01
+
+**The defect this answers, found while converting this design into its work
+specification.** The lifecycle above claimed `KEYED` freezes the target, and the
+sealed views said an `Approved` hash over the condition's words is what makes
+that true. It would not have been. Verified in three places on 2026-09-01:
+`tools/gates/kit.py:1191` — `req_statement_hash(statement)` hashes **the
+stripped statement alone**; `docs/requirements/catalog.md:178` — `final`
+requires "an `Approved` hash matching the statement"; and
+`tools/reqview/fingerprint.py`'s docstring, which names `req_statement_hash` as
+a separate recipe for the register's Approved hash and link stamps. On that
+recipe an `MSC`'s Measure, Baseline and Target sit **outside** the hash: all
+three could be edited after the producer's key with nothing diverging. The
+freeze was hollow, and both the drawing and this document asserted it.
+
+**The producer's ruling.** One versioned approval-fingerprint mechanism with
+artifact-specific canonical payloads — `approval_fingerprint(category, fields)`:
+
+- **Existing requirements keep the legacy payload** — normalized Statement only.
+  Their hashes stay **byte-for-byte unchanged**; no approved record is re-keyed.
+- **`MSC` v1 uses a canonical payload of exactly four fields** — Statement ·
+  Measure · Baseline · Target. Changing any of the four invalidates `Approved`.
+- **Field names, order, separators, normalization and version are fixed
+  centrally**, so an alternate implementation cannot invent a different byte
+  stream. (Rule 9 already has two implementations tested against each other by
+  nothing — this mechanism must not repeat that.)
+- **`Method` and observed evidence stay outside the payload**, because they
+  belong to separate objects. That is the four-object model holding.
+- **Link stamps targeting an `MSC` use the same full `MSC` fingerprint**, never
+  `req_statement_hash(Statement)` — otherwise Measure, Baseline and Target could
+  change without making the source link suspect. Links targeting a requirement
+  keep their current hash, the requirement payload being statement-only.
+
+**Two limits, stated so they are not read as more than they are.** This
+generalises the existing recipe into one category-aware implementation while
+preserving every existing requirement hash — it is **owed work, not present
+machinery**, and every surface here labels it so. And it does **not** make
+protection bidirectional: a richer target fingerprint still only flags the
+source when the target moves. **Reciprocal stamping remains separately owed.**
+
 ## The assurance boundary
 
 `docs/design/requirements-success-measurement/assurance-boundary.html` names,
@@ -186,8 +231,19 @@ for every rung, what assures the condition and by what — machine-checked
 (something on disk refuses), producer-agreed (a human key, nothing outside the
 model enforcing it), or no enforcement at all.
 
-**Of fourteen lines: six machine-checked, two producer-agreed, six with no
-enforcement. Eight of the fourteen rest on agreement or on nothing.**
+**Thirteen assurance questions, counted by tense — because the design-gate
+question is dual-marked, and counting both markers as two lines would make
+proposed assurance read as present assurance.**
+
+- **Today:** five machine-checked, two producer-agreed, six unenforced —
+  **eight of thirteen rest on agreement or on nothing.**
+- **Once the versioned MSC fingerprint is built:** six machine-checked, two
+  producer-agreed, five unenforced — **seven of thirteen will.**
+
+The one line that moves between those two readings is the design gate's *has the
+keyed target drifted since approval* — machine-checkable once the fingerprint
+exists, unenforced until then. It is marked both ways in the drawing for exactly
+that reason.
 
 **The comparison itself is among the unenforced.** Whether the observed reading
 actually satisfies the target frozen at the design gate is checked by nothing in
@@ -232,9 +288,12 @@ adapts to it, never the reverse.**
 - **Where the `Observed result` lives** — a register category or an external
   evidence artifact. It is a fourth object either way; the home is open.
 - **Whether `MSC` is the right code**, pending the category vocabulary review.
-- **Any enforcement.** Eight of fourteen assurance lines rest on agreement or
-  nothing, by design, at `mvp` — including the comparison of reading against
-  target, which is the one a machine could most plausibly do once `MSC` exists
-  in the register.
+- **Any enforcement.** Eight of thirteen assurance questions rest on agreement
+  or nothing today — seven of thirteen once the MSC fingerprint is built — by
+  design, at `mvp`, including the comparison of reading against target, which is
+  the one a machine could most plausibly do once `MSC` exists in the register.
+- **The approval fingerprint's BUILD.** Its shape is settled (above, 2026-09-01)
+  and none of it exists yet. Until it is built, `KEYED` does not freeze anything
+  a machine would notice.
 - **Reciprocal link stamping**, owed so the suspect-link check becomes
   symmetric.

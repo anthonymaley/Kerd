@@ -22,9 +22,9 @@
     <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
     <h1>Where assurance comes from at each rung, and where it does not</h1>
     <p class="sub">Three sources, and the third is the honest one. This slice adds <strong>no automated per-rigor floor</strong> — the drawing exists so that limit cannot later be mistaken for machinery.</p>
-    <svg viewBox="0 0 920 720" role="img" aria-labelledby="ab-title ab-desc">
+    <svg viewBox="0 0 920 794" role="img" aria-labelledby="ab-title ab-desc">
       <title id="ab-title">Where assurance comes from at each rung, and where it does not</title>
-      <desc id="ab-desc">For each rung of the ladder, the drawing names what assures the success condition and by what mechanism. Assurance comes from three sources, marked distinctly: machine-checked, meaning something on disk refuses; producer-agreed, meaning a human key with nothing outside the model enforcing it; and no enforcement, meaning nothing checks at all. At scope, the Scope section and a legal rigor level are machine-checked by the existing gate, but whether a success condition was declared at all is not enforced. At design, one approved and sealed view per declared concern is machine-checked; whether the condition's target is proportionate to the declared rigor level is producer-agreed only. At the design gate the register's Approved hash over the condition is machine-checkable once MSC exists in the register, though that is schema work this slice does not build. At work handoff the spec must carry Pieces and a Verify on every step, machine-checked; whether the condition is actually named on the steps it affects has no enforcement. In the loop, zero unchecked pieces is machine-checked; whether the work is aimed at the condition has no enforcement. At acceptance the acceptance record and its Release condition section are machine-checked, and the producer's key is the decision; whether an observed result was actually linked has no enforcement in this slice. The summary is stated plainly: of fourteen lines, six are machine-checked, two are producer-agreed and six have no enforcement, so eight of the fourteen rest on agreement or on nothing; among the unenforced is the comparison itself, whether the observed reading actually satisfies the target frozen at the design gate, which nothing checks in this slice; this slice adds no automated per-rigor floor, and Drive does not structurally guarantee compliance — the same sentence carried in the work record's risk ledger.</desc>
+      <desc id="ab-desc">For each rung of the ladder, the drawing names what assures the success condition and by what mechanism. Assurance comes from three sources, marked distinctly: machine-checked, meaning something on disk refuses; producer-agreed, meaning a human key with nothing outside the model enforcing it; and no enforcement, meaning nothing checks at all. At scope, the Scope section and a legal rigor level are machine-checked by the existing gate, but whether a success condition was declared at all is not enforced. At design, one approved and sealed view per declared concern is machine-checked; whether the condition's target is proportionate to the declared rigor level is producer-agreed only. At the design gate, whether the keyed target has drifted since approval becomes machine-checkable only once the versioned MSC approval fingerprint is built — a hash over the condition's four owned fields, statement, measure, baseline and target. Today's register Approved recipe hashes the statement alone and would not detect a changed measure, baseline or target, so this line is a design obligation rather than assurance that exists today; it is schema work this slice does not build. At work handoff the spec must carry Pieces and a Verify on every step, machine-checked; whether the condition is actually named on the steps it affects has no enforcement. In the loop, zero unchecked pieces is machine-checked; whether the work is aimed at the condition has no enforcement. At acceptance the acceptance record and its Release condition section are machine-checked, and the producer's key is the decision; whether an observed result was actually linked has no enforcement in this slice. The summary is stated plainly, and it distinguishes current from designed state because the design-gate question is dual-marked and counting both markers as two lines would make proposed assurance read as present assurance. There are thirteen assurance questions. Today: five machine-checked, two producer-agreed, six unenforced, so eight of the thirteen rest on agreement or on nothing. Once the versioned MSC fingerprint is built: six machine-checked, two producer-agreed, five unenforced, so seven of the thirteen will; among the unenforced is the comparison itself, whether the observed reading actually satisfies the target frozen at the design gate, which nothing checks in this slice; this slice adds no automated per-rigor floor, and Drive does not structurally guarantee compliance — the same sentence carried in the work record's risk ledger.</desc>
       <defs>
         <style>
           .n{font-family:var(--font-sans);font-size:12.5px;fill:var(--color-ink);}
@@ -69,10 +69,10 @@
 
       <text class="rung" x="16" y="184">design gate</text>
       <text class="n" x="150" y="178">the keyed target has not drifted since approval</text>
-      <text class="n" x="520" y="178">register Approved hash, AU7</text>
+      <text class="n" x="520" y="178">MSC approval fingerprint, AU7</text>
       <rect x="792" y="166" width="14" height="14" rx="3" fill="#2d3142"/>
       <text class="m" x="814" y="178">machine</text>
-      <text class="ma" x="150" y="198">— but only once MSC exists in the register</text>
+      <text class="ma" x="150" y="198">— once the versioned MSC fingerprint is built</text>
       <text class="ma" x="520" y="198">schema work, not this slice</text>
       <rect x="792" y="186" width="14" height="14" rx="3" fill="#eb6c36"/>
       <text class="ma" x="814" y="198">none yet</text>
@@ -134,9 +134,12 @@
       <rect x="660" y="610" width="14" height="14" rx="3" fill="#eb6c36"/>
       <text class="ma" x="682" y="622">no enforcement</text>
 
-      <text class="m" x="16" y="658">Fourteen lines above: six machine-checked, two producer-agreed, six with no enforcement. Eight of the fourteen therefore</text>
-      <text class="m" x="16" y="680">rest on agreement or on nothing. That is the honest picture of this slice, drawn on purpose: the countermeasure is</text>
-      <text class="m" x="16" y="702">temporary, and its return condition is rigor-level slice 2 defining enforceable per-level floors.</text>
+      <text class="m" x="16" y="658">Thirteen assurance questions above. The design-gate question is dual-marked because its answer differs by tense.</text>
+      <text class="n" x="16" y="682">TODAY: five machine-checked, two producer-agreed, six unenforced &mdash; eight of thirteen rest on agreement or nothing.</text>
+      <text class="ma" x="16" y="704">ONCE THE MSC FINGERPRINT IS BUILT: six machine-checked, two producer-agreed, five unenforced &mdash; seven of thirteen.</text>
+      <text class="m" x="16" y="728">Counting both markers as two lines would make proposed assurance read as present assurance. That is the honest</text>
+      <text class="m" x="16" y="750">picture of this slice, drawn on purpose: the countermeasure is temporary, and its return condition is</text>
+      <text class="m" x="16" y="772">rigor-level slice 2 defining enforceable per-level floors.</text>
     </svg>
   </div>
 </body>

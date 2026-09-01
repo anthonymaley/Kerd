@@ -22,10 +22,10 @@
     <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
     <h1>What a measurable success condition contains, and what carries it</h1>
     <p class="sub">A requirement and its success condition are two artifacts, joined by a typed edge — never one schema wearing both jobs. The requirement block gains nothing.</p>
-    <svg viewBox="0 0 920 715" role="img"
+    <svg viewBox="0 0 920 781" role="img"
          aria-labelledby="anatomy-title anatomy-desc">
       <title id="anatomy-title">What a measurable success condition contains, and what carries it</title>
-      <desc id="anatomy-desc">Four objects joined by three typed edges. A Requirement, unchanged and gaining no new field, is measured-by a Success condition. The Success condition is a new register block under a new category MSC, owning four fields: Statement (what counts as met), Measure (the unit counted), Baseline (what it reads today) and Target (the value that counts as met). It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method — how the reading is taken. The Success condition is evidenced-by an Observed result, a new object holding the reading actually taken at acceptance, kept separate so a predeclared target is never overwritten by its own proof. Each edge carries the suspect-link stamp, which is the target's statement hash at link time, stored on the source. The protection is therefore one-directional: editing the target makes every link pointing at it diverge, so the source is flagged for re-look, while editing the source flags nothing. For this design the unprotected direction is the dangerous one, because a requirement whose statement changes may leave its success condition measuring words that no longer exist. Reciprocal stamped links are owed to make the check symmetric, and are named as owed rather than assumed. Marked in accent: the MSC category and the measured-by and evidenced-by roles are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. Introducing MSC owes a categories.md disposition and schema work, designed here and deliberately not built in this slice.</desc>
+      <desc id="anatomy-desc">Four objects joined by three typed edges. A Requirement, unchanged and gaining no new field, is measured-by a Success condition. The Success condition is a new register block under a new category MSC, owning four fields: Statement (what counts as met), Measure (the unit counted), Baseline (what it reads today) and Target (the value that counts as met). It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method — how the reading is taken. The Success condition is evidenced-by an Observed result, a new object holding the reading actually taken at acceptance, kept separate so a predeclared target is never overwritten by its own proof. Each edge carries the suspect-link stamp: the target's approval fingerprint at link time, stored on the source. The recipe is category-aware. A link whose target is a requirement keeps the existing statement-only fingerprint, byte-for-byte unchanged, so no approved requirement is re-keyed. A link whose target is a success condition uses the versioned full MSC fingerprint over statement, measure, baseline and target, because a statement-only stamp would let the measure, baseline or target change without ever making the source link suspect. The protection remains one-directional either way: editing the target makes every link pointing at it diverge, so the source is flagged for re-look, while editing the source flags nothing. A richer target fingerprint does not make the check bidirectional by itself. For this design the unprotected direction is the dangerous one, because a requirement whose statement changes may leave its success condition measuring words that no longer exist. Reciprocal stamped links are owed to make the check symmetric, and are named as owed rather than assumed. Marked in accent: the MSC category and the measured-by and evidenced-by roles are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. Introducing MSC owes a categories.md disposition and schema work, designed here and deliberately not built in this slice.</desc>
       <defs>
         <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
@@ -99,26 +99,29 @@
 
       <!-- suspect-link note -->
       <path d="M 584 456 L 636 456" stroke="#4f5d75" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
-      <rect class="box" x="640" y="400" width="256" height="152" rx="6"/>
+      <rect class="box" x="640" y="400" width="256" height="218" rx="6"/>
       <text class="b" x="658" y="426">Each edge is stamped ONE WAY</text>
       <text class="e" x="658" y="443">- measured-by → MSC-007 (sha256:…)</text>
-      <text class="n" x="658" y="466">the stamp is the TARGET's hash</text>
-      <text class="m" x="658" y="486">edit MSC-007 → requirement flagged</text>
-      <text class="ma" x="658" y="504">edit the requirement → nothing</text>
-      <text class="ea" x="658" y="528">RECIPROCAL STAMPING IS OWED</text>
-      <text class="ea" x="658" y="542">the unprotected way is the risky one</text>
+      <text class="n" x="658" y="466">stamp = the TARGET's fingerprint</text>
+      <text class="m" x="658" y="486">requirement target: statement only</text>
+      <text class="ma" x="658" y="504">MSC target: all four owned fields</text>
+      <text class="m" x="658" y="528">edit MSC-007 → requirement flagged</text>
+      <text class="ma" x="658" y="546">edit the requirement → nothing</text>
+      <text class="ea" x="658" y="570">RECIPROCAL STAMPING IS OWED</text>
+      <text class="ea" x="658" y="584">the unprotected way is the risky one</text>
+      <text class="ea" x="658" y="598">a richer target hash &ne; bidirectional</text>
 
       <!-- legend -->
-      <line x1="16" y1="566" x2="896" y2="566" stroke="#4f5d75" stroke-opacity=".3"/>
-      <rect class="box" x="16" y="586" width="22" height="14" rx="3"/>
-      <text class="m" x="48" y="598">exists in the schema today</text>
-      <rect class="new" x="240" y="586" width="22" height="14" rx="3"/>
-      <text class="ma" x="272" y="598">introduced by this design — none of it is built in this slice</text>
+      <line x1="16" y1="632" x2="896" y2="632" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect class="box" x="16" y="652" width="22" height="14" rx="3"/>
+      <text class="m" x="48" y="664">exists in the schema today</text>
+      <rect class="new" x="240" y="652" width="22" height="14" rx="3"/>
+      <text class="ma" x="272" y="664">introduced by this design — none of it is built in this slice</text>
 
-      <text class="m" x="16" y="634">Introducing MSC owes a categories.md disposition and schema work. This session DESIGNS that; it does not build it.</text>
-      <text class="ma" x="16" y="656">PROPOSED supersession, recorded here and deliberately NOT executed: the catalog's deferred Acceptance Criteria /</text>
-      <text class="ma" x="16" y="678">Verification Method FIELDS. The catalog edit belongs to the later schema implementation — struck in place, original</text>
-      <text class="ma" x="16" y="700">text preserved verbatim inside the strike.</text>
+      <text class="m" x="16" y="700">Introducing MSC owes a categories.md disposition and schema work. This session DESIGNS that; it does not build it.</text>
+      <text class="ma" x="16" y="722">PROPOSED supersession, recorded here and deliberately NOT executed: the catalog's deferred Acceptance Criteria /</text>
+      <text class="ma" x="16" y="744">Verification Method FIELDS. The catalog edit belongs to the later schema implementation — struck in place, original</text>
+      <text class="ma" x="16" y="766">text preserved verbatim inside the strike.</text>
 
     </svg>
   </div>
