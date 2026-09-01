@@ -286,8 +286,10 @@ adapts to it, never the reverse.**
 ## What this design does not settle
 
 - **Where the `Observed result` lives** — a register category or an external
-  evidence artifact. It is a fourth object either way; the home is open.
-- **Whether `MSC` is the right code**, pending the category vocabulary review — settled: see the ruling of 2026-09-01 below.
+  evidence artifact. It is a fourth object either way; the home is open —
+  settled: see the ruling of 2026-09-01 below.
+- **Whether `MSC` is the right code**, pending the category vocabulary review
+  — settled: see the ruling of 2026-09-01 below.
 - **Any enforcement.** Eight of thirteen assurance questions rest on agreement
   or nothing today — seven of thirteen once the MSC fingerprint is built — by
   design, at `mvp`, including the comparison of reading against target, which is
@@ -325,3 +327,31 @@ open. The GO record itself is dated and is never edited.
   in."* `MSC` makes twenty-one filing codes and introduces a **non-requirement
   artifact**. The framing and every count must be updated honestly — *"it must
   not quietly describe MSC as another requirement category."*
+
+- **RULED 2026-09-01 — the Observed result's home:** it lives in the **immutable
+  acceptance record**, not as a register block. The producer's reason:
+  *"A reading is an event: changing it tomorrow would falsify the record. It
+  belongs with the dated acceptance evidence and producer key, while the MSC
+  remains the living predeclared threshold."* **No `OBS` code is added** —
+  observed results do not live in the register.
+
+  **The observed-result entry must carry enough identity to bind the
+  comparison**, his list: the `MSC` ID · the frozen `MSC` fingerprint used for
+  the decision · the observed value and unit · the `TST`/method reference ·
+  when the reading was taken · the evidence source or location · the comparison
+  outcome, `PROVEN` or `NOT MET`.
+
+  **The instruction he attached, and it is a refusal of the cheap path:** *"Do
+  not force `evidenced-by` through today's ID-only link grammar or pretend the
+  existing suspect-link stamp supports a file reference."* The work
+  specification is therefore **handed back to design** for four things: define
+  the canonical acceptance-record shape for observed results · define how an
+  `MSC` references that immutable record · decide whether the reference needs a
+  content digest and what canonical bytes it covers · preserve
+  `NOT ASSESSABLE` when no result entry exists.
+
+  **And a consequence for `categories.md` beyond the Step 1 ruling:** the file
+  must stop treating every filing code as a requirement category. The framing
+  splits in two — **twenty shipped requirement categories**, and **register
+  artifact extensions, currently `MSC`**. `MSC` stays `applies` under the
+  extension section.
