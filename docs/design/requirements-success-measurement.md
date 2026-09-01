@@ -298,7 +298,7 @@ adapts to it, never the reverse.**
   and none of it exists yet. Until it is built, `KEYED` does not freeze anything
   a machine would notice.
 - **Reciprocal link stamping**, owed so the suspect-link check becomes
-  symmetric.
+  symmetric — settled: see the ruling of 2026-09-01 below.
 
 ## Rulings after the GO
 
@@ -355,3 +355,35 @@ open. The GO record itself is dated and is never edited.
   splits in two — **twenty shipped requirement categories**, and **register
   artifact extensions, currently `MSC`**. `MSC` stays `applies` under the
   extension section.
+
+- **RULED 2026-09-01 — reciprocal stamping:** **build it now, scoped narrowly to the
+  new Requirement <-> `MSC` relationship.** The producer's reason, and it is
+  why this is not incidental hardening: *"The pilot's purpose is alignment
+  between the requirement and its measurable condition. If the requirement can
+  change during ordinary refinement while the MSC silently measures the old
+  wording, the smallest proof does not establish that alignment."* It is *"the
+  integrity mechanism that lets the pilot survive requirement refinement
+  between declaration and acceptance."*
+
+  **Required behaviour, his list:** Requirement `--measured-by-->` `MSC` stores
+  the `MSC`'s full four-field fingerprint · `MSC` `--measures-->` Requirement
+  stores the requirement's legacy statement fingerprint · the audit **requires
+  both directions for this role pair** · a missing reciprocal edge or a stale
+  stamp produces a **finding**, matching the existing suspect-link severity —
+  *"Do not inflate it into a refusal in this slice."*
+
+  **The scope limit he set:** *"Existing link-role pairs are not retrofitted
+  wholesale; broader reciprocal enforcement remains separate work unless the
+  composer proves the implementation can be safely generalized without
+  expanding the slice."*
+
+  **An interaction the composer must absorb, surfaced at the gate rather than
+  assumed:** today a role and its reverse are ONE stored edge with two reading
+  directions — `catalog.md`'s grammar section, on the StrictDoc precedent where
+  *"its `REVERSE_ROLE` gives both reading directions from one declaration."*
+  This ruling requires **two stored edges** for this pair, each carrying a
+  different fingerprint payload. That is a departure from the incumbent
+  convention, not an application of it, and the audit clause ("requires both
+  directions") is what makes it explicit.
+
+  Handed back to the composer alongside the Step 2 amendment.
