@@ -20,10 +20,24 @@ derived, and goes stale silently as gates keep teaching. The producer's ruling
 on where that pressure belongs — **source change, not every use** — is recorded
 in CONTEXT.md and in the findings, as a **recommended mechanism, not built**.
 
-**NEXT: the recommended mechanism is the real work, not the six sets.** Writing
-question sets is cheap; keeping them honest is the part that needs designing. It
-has no slug and is not framed — same invisibility this spike just fixed for
-itself.
+**NEXT SITTING, AND IT IS FIRST: frame the staleness mechanism.** The producer's
+call at this boundary, 2026-09-02 — *"the staleness mechanism is the correct next
+item, but framing its value and failure boundary late would trade freshness for
+weak producer judgment."* So it was deliberately NOT opened at the end of a long
+day, and that deferral is a decision rather than a slip. **Framing is the
+producer's rung** — the value statement and the failure boundary are his to
+state, which is exactly why they are not worth taking at hour eight.
+
+The shape is already ruled (CONTEXT.md, 2026-09-02): named sources · a derivation
+fingerprint over them · refusal when any named source changes · a periodic Law 4
+discovery review. What is missing is the frame — value in units, the failure
+boundary, a killer risk. **It has no slug and no board row, which is the same
+invisibility `question-set-derivation` had this morning and the spike's own
+finding one level up.**
+
+**Do NOT start the five remaining question sets before it.** They are bounded now,
+but writing five artifacts that go stale silently — with nothing to catch it — is
+building the thing the spike just warned about.
 
 **Still blocked, and by their own documents:**
 
@@ -34,12 +48,23 @@ itself.
   three unresolved questions. Only the status word is missing from its journey
   page.
 
-**Cheap and unblocked:**
+**Unblocked — and NONE of these is mechanical cleanup.** The producer's
+correction at this boundary, recorded because the session had just made the
+error: *"don't treat the acceptance records or legacy closure as mechanical
+cleanup; each still requires an evidence-backed key."* A prior line here read
+*"a record and a key, not work"* under a heading calling them cheap; that
+framing is struck. An acceptance record is the producer's **last** gate and a
+legacy closure asserts that an obligation did not exist — a historical claim
+that has to be evidenced, not asserted. Zero Pieces means the build is done, not
+that the gate is a formality.
 
-- **`inline-composer` at `handoff`** — spec unwritten; the natural first use of
-  the mechanism it defined.
-- **`hooks-autoload`** — the sibling legacy closure, same frame clause, its own key.
-- **`funnel-driver` + `progress-html`** — a record and a key, not work. 0 Pieces each.
+- **`funnel-driver` + `progress-html`** at **acceptance**, 0 Pieces each. Each
+  needs an evidence-backed acceptance record and the producer's key.
+- **`hooks-autoload`** — the sibling legacy closure named in the same frame
+  clause as `model-effort-advisory`. Closing it means evidencing that no design
+  rung ever stood in front of it, the way `65a2265` did with two measured facts.
+- **`inline-composer` at `handoff`** — spec unwritten; the first real use of the
+  mechanism it defined.
 
 **TODO closure review** (this boundary):
 
