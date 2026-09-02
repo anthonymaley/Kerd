@@ -2,75 +2,85 @@
 
 ## Now
 
-**`requirements-success-measurement` — all four producer gates are KEYED
-(2026-09-01, 2nd sitting).** Recorded per D1 in `## Rulings after the GO` at the
-end of `docs/design/requirements-success-measurement.md`; boxes 1-4 ticked;
-`93b1215` · `5101645` · `7ed7fd1` · `838a5fa`, render `0f46ba4`, pushed.
-Route holds at **loop**, 15 unchecked. Kerd still **v0.104.0** — nothing built.
+**`requirements-success-measurement` — the design amendment pass is COMPLETE**
+(2026-09-01 3rd sitting, 19:27–20:05 EDT). The whole chain ran continuously and
+landed as **one push**: `02b3d7d` (the correction deliverable) · `9de267a`
+(render refresh). CI green, `33573854422`. Route restored to **loop**, 15
+unchecked Pieces, 4 landed. Kerd still **v0.104.0** — nothing built, `tools/`
+untouched, `catalog.md` and `categories.md` unedited.
 
-1. **the category code** — `MSC`, Measurable Success Condition, `applies`.
-2. **the Observed result's home** — the immutable acceptance record, **not** the
-   register. No `OBS` code. Seven fields required on the entry.
-3. **reciprocal stamping** — **BUILD NOW**, scoped to Requirement <-> `MSC`.
-   Both edges stored, each with its own payload; audit requires both
-   directions; severity stays a **finding**, not a refusal.
-4. **the comparison** — stays **producer-performed**. The parser enforces
-   structure, never semantics; no machine verdict until `Target` has a typed
-   comparison grammar. Return condition recorded in the design doc.
+- [x] 1. Seals downgraded — item dropped to `scope` as designed, local only.
+- [x] 2. Design package amended; all seven settled.
+- [x] 3. All three views and the prose swept; assurance counts **re-derived**.
+- [x] 4. Three PNGs re-rendered and looked at.
+- [x] 5. Producer's combined eye — **blocked twice, corrected, then keyed.**
+- [x] 6. Resealed from final content; `check design` PASS; route back to `loop`.
+- [x] 7. Board refreshed, one push, CI green.
 
-**NEXT — the design amendment pass, in the producer's order. Do not skip to the
-composer, and do not build Step 7 first.** A work specification must never be
-the first authoritative statement of a design (CONTEXT.md, this date).
+**Three producer rulings landed this sitting**, all recorded in
+`## Rulings after the GO` of the design doc and in CONTEXT.md:
 
-1. ~~Freeze the spec with the four rulings recorded~~ — **DONE**, pushed above.
-2. **Amend the design package** to settle seven things: the canonical
-   observed-result shape inside the immutable acceptance record · how an `MSC`
-   references that result · whether the reference carries a digest and its
-   canonical byte recipe · `NOT ASSESSABLE` derivation · reciprocal
-   `measured-by`/`measures` storage and finding semantics · the split between
-   requirement categories and register artifact extensions · structural parser
-   responsibilities versus producer comparison.
-3. **Sweep all three views and the prose** for consequences — especially
-   `assurance-boundary` and its counts. Reciprocal Requirement <-> `MSC`
-   checking is new machine assurance; if it enters the view, **re-derive the
-   counts, never hand-edit the totals**.
-4. **Re-render, producer approval on every changed view, reseal from final
-   content.** The dated GO record stays untouched.
-5. **Only then re-dispatch the composer** to revise the spec against the
-   amended, keyed design, explicitly encoding cross-step dependencies.
+1. **The binding direction** — from the immutable observed-result entry TO the
+   `MSC`, never the reverse. `evidenced-by`/`evidences` removed as a stored link
+   role; the anatomy arrow reverses; discovery is derived by scanning records.
+2. **The evidence digest** — mandatory, no escape. `Evidence-SHA256` over raw
+   bytes, recomputed by the parser; a missing file or mismatch yields
+   `NOT ASSESSABLE`. External evidence is snapshotted locally first.
+3. **The assurance taxonomy splits four ways** — `machine-refused` ·
+   `machine-detected` · `producer-agreed` · `no enforcement` — because a check
+   that FINDS is not a check that REFUSES, and reciprocal stamping emits a
+   finding. Fifteen questions, nineteen markers. Today 5/0/3/7; once built
+   8/1/3/3.
 
-**Open the amendment with the seal downgrade, not before it.** Per the
-2026-08-25/2026-09-01 precedent the downgrade is the first act of the correction
-deliverable — it drops the item to `scope` honestly, and the board is refreshed
-only after the design gate is restored so no committed render memorializes the
-in-flight demotion.
+**Two blocks at the combined eye, both his, both corrected before the key:**
+`Taken` was a declared required field the qualification contract never checked
+(nine facts, eight conditions now reconcile), and the assurance legend promised
+refusal while one of its rows only finds. Both are recorded as rulings with
+their transferable form.
 
-**RESERVE THE TIME BEFORE STARTING.** The next sitting must hold enough runway
-for the whole continuous chain — **downgrade -> amend -> render -> producer eye
--> reseal -> board refresh** — in one piece. The producer's reason for closing
-this sitting rather than opening it: *"Starting the downgrade now would create
-avoidable cross-session ambiguity. A fresh sitting gives the amendment one
-continuous evidence chain and keeps the board truthful."* **The clean restart
-point is the pushed tip `0f46ba4`** — spec frozen with the four rulings
-recorded, 15 unchecked Pieces, route `loop`, working tree carrying only session
-state.
+**NEXT SITTING OPENS WITH THE COMPOSER DISPATCH** — step 5 of the producer's
+original order, and the only thing left in it. He closed this sitting rather
+than starting it, and gave the reason: *"The amendment is a complete, stable
+unit: seals restored, board truthful, CI green, and no in-flight state. The
+composer revision is substantial enough to deserve a fresh context and its own
+review window — especially because it must remove an obsolete design path across
+16 sites, not merely incorporate wording."*
 
-**Phase 1 state after the rulings:** Step 7 (`approval_fingerprint`) is the only
-step that survives all four intact — verified, and rulings 3 and 4 consume its
-output rather than change it. Steps 5, 6, 8, 9, 10 are blocked. **Step 8 is also
-ENLARGED:** ruling 4's structural acceptance-record parser has no home step in
-the spec at all.
+**THE COMPOSER BRIEF, recorded verbatim at the boundary so the next sitting does
+not re-derive it.** The composer revises
+`docs/plans/2026-09-01-requirements-success-measurement-spec.md` against the
+**resealed** design package. Eight items, his:
 
-**Two spec sentences went stale inside the session executing them** — Step 5's
-`categories.md` framing under ruling 1, Step 4's feasibility premise under
-ruling 2 (it claimed a machine comparison was feasible only under the register
-home; `kit.py:892` already globs and parses acceptance records). Both wrote a
-*consequence of an open question* as settled fact. Carry the cross-step
-dependency clause into the composer brief rather than fixing the two instances.
+1. **Remove `evidenced-by`** and every dependent step and fixture.
+2. **Add the immutable acceptance-record entry shape** and its **eight
+   qualification checks**.
+3. **Add evidence digest recomputation** and `NOT ASSESSABLE` behaviour.
+4. **Add reciprocal Requirement ↔ `MSC` stamping** at **finding** severity.
+5. **Split requirement categories from register artifact extensions.**
+6. **Update the assurance counts and taxonomy**, and the **cross-step
+   dependencies**.
+7. **Preserve the producer-performed comparison.**
+8. **Revalidate every Piece, every `Verify` command, and the pilot dependency**
+   against the resealed design.
 
-**The pilot dependency stays unenforced by any machine surface.** The unchecked
-spec Pieces represent it for now; `stage-route-consistency` is still unframed
-(route: `frame`, 4 inputs missing for viability). Filed, not solved.
+**Measured scope of item 1, so it is not mistaken for a rewording:**
+`evidenced-by` appears in the frozen spec **16 times** — including a
+`## Link roles` table row (`:386`), fixture `T60` (`:1012`), the register
+citation form (`:1369`, `:1390`, `:1393`), and two steps written entirely around
+the ruling that was **not** taken (`:559`–`:570`). Plus a stale *"thirteen
+assurance questions"* at `:629`. The spec was deliberately left untouched all
+sitting: **re-dispatch, never re-specify.**
+
+**Three clauses the brief must also carry, none of which is written down
+anywhere today** — each is an open Backlog row that has now bitten twice:
+forbid absolute repository paths outright · name hard-coded paths as an explicit
+cold-review hunt target · require cross-step dependencies to be marked, so
+keying a gate names what it invalidates rather than leaving it to be found one
+gate at a time.
+
+**The pilot dependency is still invisible to every machine surface.**
+`stage-route-consistency` remains unframed — route `frame`, 4 inputs missing for
+viability — and nothing yet notices it. Spec Step 12 frames it.
 
 ## Backlog
 
