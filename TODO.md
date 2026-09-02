@@ -2,52 +2,53 @@
 
 ## Now
 
-**NEXT SITTING: the viability question set, as a SPIKE — one rung, to answer one
-question.** Not "what should viability ask" but **"can a question set be DERIVED
-from what is already decided, or does each rung need fresh Law 4 research?"**
-That is the producer's stated fear and it is cheap to settle: get it wrong and
-you have lost a sitting. Route `spike` bypasses the ladder — three items on the
-board already do.
+**NEXT SITTING: the viability question set, as a SPIKE.** Unchanged from
+2026-09-01's close, and now the clearest remaining move. One rung, answering one
+question: **can a question set be DERIVED from gate needs plus decisions already
+standards-anchored, or does each rung need fresh Law 4 research?** The shape is
+settled — per rung, work-type-neutral, six small files — and the working example
+is `docs/work/question-sets/software-change.md`, **six questions, 24 lines**,
+every one a gate requirement said in plain language.
 
-**What the derivation would draw on, all already on disk and already paid for:**
-the viability gate's own `need:` lines (`## Value`, a `## Risk ledger` naming at
-least one killer risk) · the 2026-08-25 standards call made specifically to
-refute the session's instinct about where risk belongs (Stage-Gate puts risk
-assessment in Stage 2; PRINCE2 creates the register at initiation; ISO 29148
-treats risk as a per-requirement attribute) · the repo's 12 ISO/IEC/IEEE and 7
-Stage-Gate citations in `docs/design/standards-grounding-findings.md`.
+**Why this and not more scaffolding:** Drive drives ONE gate of seven. The
+scaffolding is the smaller-looking job and the unbounded one; the walker is
+bounded.
 
-**The shape is settled** (CONTEXT.md, this sitting): per rung, work-type-neutral,
-six small files. The working example is `docs/work/question-sets/software-change.md`
-— **six questions, 24 lines** — and every one of them is a gate requirement said
-in plain language. Copy the pattern, not the filename.
+**The design-gate sitting closed three of five (2026-09-02).**
 
-**Why this and not more scaffolding.** `requirements-success-measurement` has 16
-Pieces left and is the only item with active build work; finishing it ADDS a gate
-(declare measurable outcomes before design) that the question-set work would then
-have to satisfy. "Finish the scaffolding" is also unbounded — five more items sit
-at design with no spec at all. The walker is bounded; the scaffolding is not.
+- **`inline-composer` — design KEYED** (`83b1299`). One artifact sized by
+  content · two questions with one file supplying evidence at both · waiver as
+  exception · legacy closure for historical work · forgotten gate stays blocked.
+  View sealed `fp:17d01f87d0e8`. **Now at `handoff`** — its spec is unwritten and
+  is the natural first use of the mechanism it just defined.
+- **`switch-fidelity` — design rung WAIVED** (`55b753d`). Expires when slice 2 is
+  framed. Three accepted unknowns still unanswered; unknown 2 (nothing proves a
+  pickup restored what the close recorded) is live debt.
+- **`model-effort-advisory` — LEGACY CLOSURE** (`65a2265`). Routing gap closed,
+  evidence gap preserved. **`hooks-autoload` is the sibling case** named in the
+  same frame clause and closes the same way, on its own key, in its own sitting.
 
-**Parked, deliberately:** `requirements-success-measurement` at loop, 16 Pieces,
-spec freshly revised and correct. Its context goes cold — that is the accepted
-price of the sequencing.
+**Still blocked, and by their own documents:**
 
-**Two items need a record and a key, not work:** `funnel-driver` and
-`progress-html` both sit at `acceptance` with **zero Pieces remaining**. Each
-needs one `docs/gates/<date>-<slug>-acceptance.md` carrying `## Release
-condition`. That is 9 -> 11 of 22 items done for the cost of two records.
+- **`requirements-traceability`** — its design doc carries
+  `## The design package — BLOCKED, not yet reworked`. Needs that rework. Remainder
+  after a key is small: the `--root` invoke side, **0 skills pass it**.
+- **`shared-memory`** — 164 lines of annotation plus `## Open at design` with
+  three unresolved questions. Remainder after a key is smaller still: the journey
+  page already renders 4 of its 5 things; only the status word is missing.
 
 **TODO closure review** (this boundary):
 
 ```
-  ✓ done   — "the composer dispatch, eight-item brief"     (528ca88; evidenced-by gone from all 16 sites)
-  ✓ done   — "the three clauses as tonight's acceptance conditions" (all three verified in the returned score)
-  ✓ done   — "a visual of the process build-out"           (delivered as a dated snapshot; generator still owed)
-  · open   — "the three clauses need a durable home in conductor"  (the LATER half, untouched by design)
-  · open   — "funnel-driver acceptance gate" · "progress-html acceptance"  (0 Pieces; need a record + key)
+  ✓ done   — "prepare the five for their design gates"     (3 closed, 2 blocked by their own docs — reported, not papered)
+  ✓ done   — "inline-composer design"                      (83b1299, keyed; view sealed fp:17d01f87d0e8)
+  ✓ done   — "switch-fidelity waiver"                      (55b753d, keyed; expires at slice 2's frame)
+  ✓ done   — "model-effort-advisory legacy closure"        (65a2265, keyed; hooks-autoload is the sibling)
+  · open   — "requirements-traceability" · "shared-memory"  (blocked on design work their own docs say is owed)
+  · open   — "the three composer-brief clauses need a durable home"  (untouched)
+  · open   — "funnel-driver acceptance" · "progress-html acceptance" (0 Pieces each; a record and a key)
   · open   — "gate-visuals slices 2 and 3" · standards spike x4 · archaeology
-  + new    — switch-in context cost: measured, diagnosed, deferred with a return condition
-  + new    — an observed result binds to its METHOD by reference, never by version
+  + new    — waiver/closure records are named exactly like GO records; only a non-recursive glob separates them
   ! note   — Drive drives ONE gate of seven; a rung position cannot show capability completeness
 ```
 
@@ -178,6 +179,33 @@ condition`. That is 9 -> 11 of 22 items done for the cost of two records.
   dependencies explicitly, so keying a gate names what it invalidates instead of
   leaving it to be found one gate at a time. Not fixed here — carried into the
   composer hand-back for this item, which is not the same as fixing the process.
+
+- **Waiver and legacy-closure records are named exactly like GO records, and
+  only a non-recursive glob keeps them apart** (created 2026-09-02, filed by the
+  producer the same sitting). `docs/gates/waivers/2026-09-02-switch-fidelity-design.md`
+  and `docs/gates/closures/2026-09-02-model-effort-advisory-design.md` both match
+  `GATE_RECORD_RE` cleanly — **verified, the regex returns a match** — and the
+  only thing stopping either being read as a passed design gate is that `AU3`
+  and the design-GO glob look directly under `docs/gates/` and do not recurse.
+  **This is the repo's own recurring defect class, freshly created:** two things
+  distinguished by convention alone, where the test is *what fails if one side
+  moves?* Make any gates discovery recursive — an entirely reasonable future
+  change — and two items silently report a design gate that never happened, with
+  nothing going red.
+  **The durable fix, as the producer specified it: type-distinct filenames, plus
+  a refusal test proving a waiver or closure record can NEVER satisfy a GO
+  lookup, even if discovery later becomes recursive.** The test is the load
+  bearing half — a naming convention with nothing checking it is exactly what
+  this row is about. Home for the test: `tests/`, or a `gate.py` selftest case
+  alongside the existing 51.
+  **Both existing files are MIGRATION CASES, not examples to copy.** Neither was
+  renamed in the sitting that created them: they are keyed records and renaming
+  a keyed record is a producer decision, not a tidy-up. The fix must migrate
+  them explicitly rather than leave them as the two instances that predate the
+  convention.
+  **Why it was not fixed on the spot,** recorded because the reasoning
+  generalises: *"The three intended outcomes are safely landed; extending an
+  already seven-hour sitting into record-schema design is the wrong risk."*
 
 - **The three composer-brief clauses need a DURABLE home in
   `skills/conductor/SKILL.md` — the producer's ruling, 2026-09-01: two places at

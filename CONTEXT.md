@@ -6,31 +6,37 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-01 (4th sitting) — the composer's spec revision landed, and the
-sitting's larger output was a CORRECTED PICTURE of where the build actually
-stands.** Two commits, one push, CI green (`33580251351`): `528ca88` (the
-revised work specification) and `f0fcd79` (render refresh). The item routes at
-**loop** with **16 unchecked Pieces**, 4 landed. Kerd stays at **v0.104.0** —
-nothing was built.
+**2026-09-02 — the ladder gained THREE record types, and three of the five
+scaffolding items were closed honestly rather than papered over.** Four pushes,
+all CI green: `83b1299` + `19bc0f4` (inline-composer's design keyed, board
+refreshed), `55b753d` (switch-fidelity's design rung waived), `65a2265`
+(model-effort-advisory's legacy closure). Kerd stays at **v0.104.0** — nothing
+was built, `tools/` untouched throughout.
 
-- **`evidenced-by` is gone from the spec** across all 16 sites, the
-  acceptance-record entry contract (D6) is in, and the producer ruled at the
-  gate that `Method` must **resolve** to a real `TST` block, not merely parse.
-  Step count 19 -> 20; Step 9 is new machinery, which is why open Pieces went
-  UP from 15.
-- **Drive drives ONE gate of seven** — the standing misreading is corrected
-  below. The board showing `funnel-driver` at `acceptance` means its framed
-  slices are complete, never that the umbrella works.
-- **The effort ratio was measured: 1 line of capability to 45 lines of
-  documents** over 14 days. The proportionality dial that would fix it was
-  decided in August and never wired.
-- **Next sitting: the viability question set, as a SPIKE** — one rung, to find
-  out whether a set can be derived from decisions already made or whether each
-  needs fresh research. Not more scaffolding.
-- **`gate-visuals` at `ready-to-release`; `funnel-driver` and `progress-html`
-  at `acceptance` with zero Pieces left** — both need only a record and a key.
+- **A rung can now leave four things behind:** a **GO** (evidence exists, the
+  producer read it) · a **waiver** (the producer deliberately skipped, ten
+  fields, renders `design waived`) · a **legacy closure** (the obligation did not
+  yet exist; closes the routing gap, never the evidence gap) · or **nothing**, in
+  which case the gate stays **blocked**.
+- **The first design gate in this repo that checked something real.** Declaring a
+  `concerns:` block on `inline-composer` correctly demoted it to `scope` until
+  the view was approved and sealed (`fp:17d01f87d0e8`), then PASS with 7 inputs.
+  Five of 22 items now declare concerns.
+- **Drive still drives ONE gate of seven** — the correction that reframed the
+  whole day, and the board cannot show it.
+- **Two of the five remain blocked by their own design docs.**
+  `requirements-traceability`'s package is marked BLOCKED by its own text;
+  `shared-memory`'s 164 lines are annotations plus three open questions.
+- **Next: the viability question set as a SPIKE**, unchanged from yesterday's
+  close. `hooks-autoload` is the remaining sibling legacy closure.
 
 ## Key Decisions
+
+- **A RUNG LEAVES ONE OF FOUR THINGS BEHIND, AND CONFLATING THEM IS THE FAILURE THE RECORDS EXIST TO PREVENT — Tony, 2026-09-02.** A **GO** says the evidence exists and the producer read it. A **waiver** says the producer *deliberately skipped* the rung: dated, keyed, carrying ten required fields — item and exact rung · both dates · the producer's **verbatim** decision · why · **evidence the skip was deliberate rather than forgotten** · assurance lost · compensating evidence · scope with no precedent inferred · a review or expiry trigger · key and `Clock:`. It renders **`design waived`, never `design pass`**; it may permit routing forward, but every later handoff and acceptance record retains it as **visible debt** and *"it cannot make the missing evidence appear to exist."* A **legacy closure** says the obligation *did not yet exist* — it closes the **routing** gap and never the **evidence** gap. And **a gate simply forgotten gets neither, and stays blocked**: *"there is no record type for an oversight; inventing one would make forgetting the cheapest route through the ladder."* **The two exception types keep SEPARATE HOMES on his ruling** — `docs/gates/waivers/` and `docs/gates/closures/` — because *"they represent opposite historical claims: a waiver proves an obligation existed and was consciously skipped; a legacy closure proves the obligation did not yet exist and must not be reconstructed."*
+
+- **AUTHORSHIP IS NEVER THE TEST — THE PRODUCER'S KEY IS. Tony, 2026-09-02, refusing revision 1 of `inline-composer`'s design.** The draft argued that a score cannot satisfy the design rung *because the composer writes it and the composer is not the producer*. **False, and the refutation is general:** every design document in this repo was typed by a model, and they satisfy the design rung fine. *"What makes design agreed is the producer's key, not who typed the proposal."* **The rejected shape also recreated the item's own killer risk** — a ten-field waiver on every inline change would make the short route carry more ceremony than the score it exists to produce, which is risk 1 verbatim. **The shape he ruled instead: one artifact, two questions.** The short spec carries a labelled `## Design decision` when judgment is involved; the producer keys that decision, the machine checks build-readiness against `## Pieces` and a `**Verify:**` per step; **one file may supply evidence at two rungs while the two questions stay distinct**; a waiver is the exception, never the inline default. **And a method note he attached: do not distort the conceptual route around today's file-glob behaviour** — the rejected draft derived its shape from `kit.py`'s spec glob, which is designing backwards from an implementation detail.
+
+- **A LEGACY CLOSURE CLOSES THE ROUTING GAP AND NEVER THE EVIDENCE GAP — Tony, 2026-09-02, correcting the drawing at the eye.** The view said the record *"closes nothing"*, which contradicts *"routes forward"* and obscures what it does. **Two different gaps and only one is closable:** the item moves forward instead of demanding evidence that was never going to arrive, while the historical evidence gap stays open and visible in every later record. **It must never say nobody could have produced a design** — they could have; *"the process did not require or retain it."* **Applied to `model-effort-advisory` and two measured facts settled that it was neither GO nor waiver:** the frame and the build landed in the *same commit* (`f4c51c0` created the product doc), so no design rung ever stood in front of it to skip; and the exempting rule was live in the same file at the same commit — conductor's *"No composer call, no spec file"* meant nothing was owed. **Future work may rely only on the verified shipped behaviour, `FUN-010`, and the named commit — never on inferred design evidence, never on absence as proof the design was sound.**
 
 - **A REFERENCE THAT PARSES IS NOT A REFERENCE THAT RESOLVES — Tony, 2026-09-01, at the D6 check-6 gate.** The entry contract validated `Method` as *shape* (`^TST-[0-9]+$`) while check 1 required the `MSC` to *exist in the register* — an asymmetry the composer spotted and left for the eye rather than hardening either way. His ruling: *"'Method names a TST' means the referenced ID resolves to an existing TST block in the register... A phantom method would make the observed result unverifiable and therefore NOT ASSESSABLE."* Both halves now bind, with two diagnosable refusal strings so syntax and resolution fail distinguishably. **And he drew the boundary in the same breath, which is the transferable half:** resolution is not versioning. The sealed design requires a method *reference*, not a frozen method *version*, so **no `Method-SHA256`, no stamp on the edge, no version-pinning ships in this slice** — whether historical evidence must bind to the exact keyed `TST` version is *"a legitimate follow-up integrity question, but it should be filed rather than silently added to this contract."* Filed in TODO. Same family as the suspect-link stamp: a stored reference proves existence, never sameness.
 
