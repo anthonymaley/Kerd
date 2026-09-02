@@ -6,15 +6,15 @@ concerns:
   - concern: what the measurable condition contains and what artifact carries it
     viewpoint: nested
     view: docs/design/requirements-success-measurement/condition-anatomy.html
-    approval: Tony, 2026-09-01 · fp:67ff11391faf
+    approval: Tony, 2026-09-01 · fp:a75179033850
   - concern: how that condition travels from declaration to demonstrated proof
     viewpoint: state
     view: docs/design/requirements-success-measurement/condition-lifecycle.html
-    approval: Tony, 2026-09-01 · fp:22651ad0d921
+    approval: Tony, 2026-09-01 · fp:da2a068e7a94
   - concern: where assurance comes from at each rung, and where it does not
     viewpoint: flowchart
     view: docs/design/requirements-success-measurement/assurance-boundary.html
-    approval: Tony, 2026-09-01 · fp:544e73328c06
+    approval: Tony, 2026-09-01 · fp:73ba8986c228
 ---
 
 # Requirements success measurement — every requirement declares how we will know it was met, before design starts

@@ -21,11 +21,11 @@
   <div class="wrap">
     <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
     <h1>What a measurable success condition contains, and what carries it</h1>
-    <p class="sub">A requirement and its success condition are two artifacts, joined by a typed edge — never one schema wearing both jobs. The requirement block gains nothing.</p>
-    <svg viewBox="0 0 920 781" role="img"
+    <p class="sub">Four objects. Two are joined by a typed edge stored <strong>both ways</strong>; the fourth is not linked at all — the immutable record binds itself to the living condition.</p>
+    <svg viewBox="0 0 920 1016" role="img"
          aria-labelledby="anatomy-title anatomy-desc">
       <title id="anatomy-title">What a measurable success condition contains, and what carries it</title>
-      <desc id="anatomy-desc">Four objects joined by three typed edges. A Requirement, unchanged and gaining no new field, is measured-by a Success condition. The Success condition is a new register block under a new category MSC, owning four fields: Statement (what counts as met), Measure (the unit counted), Baseline (what it reads today) and Target (the value that counts as met). It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method — how the reading is taken. The Success condition is evidenced-by an Observed result, a new object holding the reading actually taken at acceptance, kept separate so a predeclared target is never overwritten by its own proof. Each edge carries the suspect-link stamp: the target's approval fingerprint at link time, stored on the source. The recipe is category-aware. A link whose target is a requirement keeps the existing statement-only fingerprint, byte-for-byte unchanged, so no approved requirement is re-keyed. A link whose target is a success condition uses the versioned full MSC fingerprint over statement, measure, baseline and target, because a statement-only stamp would let the measure, baseline or target change without ever making the source link suspect. The protection remains one-directional either way: editing the target makes every link pointing at it diverge, so the source is flagged for re-look, while editing the source flags nothing. A richer target fingerprint does not make the check bidirectional by itself. For this design the unprotected direction is the dangerous one, because a requirement whose statement changes may leave its success condition measuring words that no longer exist. Reciprocal stamped links are owed to make the check symmetric, and are named as owed rather than assumed. Marked in accent: the MSC category and the measured-by and evidenced-by roles are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. Introducing MSC owes a categories.md disposition and schema work, designed here and deliberately not built in this slice.</desc>
+      <desc id="anatomy-desc">Four objects. A Requirement, unchanged and gaining no new field, is joined to a Success condition by the measured-by role. That role is stored as TWO edges rather than one, a departure from the incumbent convention: Requirement measured-by Success condition stores the condition's full four-field approval fingerprint, and Success condition measures Requirement stores the requirement's legacy statement-only fingerprint, because the two directions carry different payloads. The audit requires both directions for this pair; a missing reciprocal edge or a stale stamp is a finding at the existing suspect-link severity, deliberately not inflated into a refusal in this slice, and existing role pairs are not retrofitted. The Success condition is a new register block under a new category MSC, owning four fields: Statement, what counts as met; Measure, the unit counted; Baseline, what it reads today; and Target, the value that counts as met. It deliberately does not own Method and does not own Evidence. The Success condition is verified-by a Test or method, an existing TST block that owns Method, how the reading is taken. The fourth object is the Observed result, and its home was settled on 2026-09-01: it is an entry in the immutable acceptance record, never a register block. There is no third link role. An earlier version of this drawing carried evidenced-by, Success condition to Observed result; it is removed, because the Observed result is not a register block and there is nothing for an ID-only link role to point at. The arrow is therefore reversed and no longer a catalog link at all: the immutable record entry binds itself to the living condition by naming the MSC and carrying its exact frozen fingerprint. The living condition gains no outbound file reference and no post-key mutation, and discovery is derived by scanning immutable acceptance records for entries naming the MSC ID. The entry carries seven fields and nine required facts: the MSC ID and its frozen fingerprint, both on the Condition line; the observed value and its unit; the method reference; the date the reading was taken; the evidence path; the evidence digest; and the outcome. An entry qualifies only when all eight conditions listed at the foot of the drawing hold, including a valid Taken date, and a non-qualifying entry yields NOT ASSESSABLE, never PROVEN and never NOT MET. Two digests do two different jobs and must not be merged: the approval fingerprint is a canonical payload over declared fields and protects target identity, while Evidence-SHA256 is a plain hash over an artifact's raw bytes and protects evidence identity. External evidence must be captured as a stable local snapshot before acceptance; a bare URL or a mutable CI-run location is insufficient in this slice, and provider-native immutable evidence is deferred to the out-of-repo artifacts problem. Marked in accent: the MSC category and the measured-by role are introduced by this design and do not exist today; verified-by exists today but is re-sourced, moving its source from the requirement to the success condition. None of it is built in this slice.</desc>
       <defs>
         <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
@@ -52,11 +52,12 @@
       <text class="n" x="34" y="222">Approved · Tags</text>
       <text class="ma" x="34" y="242">gains nothing</text>
 
-      <!-- measured-by -->
-      <text class="ea" x="228" y="150">measured-by</text>
-      <text class="ea" x="228" y="163">NEW ROLE</text>
-      <path d="M 216 176 L 328 176" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
-      <text class="e" x="228" y="194">reverse: measures</text>
+      <!-- measured-by / measures : TWO stored edges -->
+      <text class="ea" x="220" y="156">measured-by</text>
+      <path d="M 216 168 L 328 168" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <path d="M 328 198 L 216 198" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="238" y="216">measures</text>
+      <text class="ea" x="220" y="234">NEW · 2 EDGES</text>
 
       <!-- Success condition -->
       <rect class="new" x="332" y="88" width="252" height="214" rx="6"/>
@@ -83,46 +84,62 @@
       <text class="n" x="718" y="200">Method — how the</text>
       <text class="n" x="718" y="220">reading is taken</text>
 
-      <!-- evidenced-by -->
-      <path d="M 458 302 L 458 394" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
-      <text class="ea" x="472" y="330">evidenced-by · NEW ROLE</text>
-      <text class="e" x="472" y="348">reverse: evidences</text>
-      <text class="m" x="472" y="370">a link, never a field that mutates</text>
+      <!-- the binding: record -> condition, REVERSED, and not a link role -->
+      <path d="M 458 418 L 458 308" stroke="#eb6c36" stroke-width="1.6" marker-end="url(#aa)" fill="none"/>
+      <text class="ea" x="472" y="336">binds UPWARD · NOT a link role</text>
+      <text class="e" x="472" y="352">the record names the MSC and carries</text>
+      <text class="e" x="472" y="366">its exact frozen fingerprint</text>
+      <text class="ma" x="472" y="386">the condition never reaches forward</text>
+      <text class="ma" x="472" y="402">into history · no post-key mutation</text>
 
       <!-- Observed result -->
-      <rect class="new" x="332" y="400" width="252" height="122" rx="6"/>
-      <text class="b" x="350" y="428">Observed result</text>
-      <text class="ea" x="350" y="445">FOURTH OBJECT · home open</text>
-      <text class="n" x="350" y="470">the reading actually taken</text>
-      <text class="m" x="350" y="490">a register category, or an</text>
-      <text class="m" x="350" y="508">external evidence artifact</text>
+      <rect class="new" x="300" y="424" width="316" height="214" rx="6"/>
+      <text class="b" x="318" y="452">Observed result</text>
+      <text class="ea" x="318" y="469">AN ENTRY IN THE IMMUTABLE ACCEPTANCE RECORD</text>
+      <text class="e" x="318" y="496">Condition:       MSC-007 (fingerprint:…)</text>
+      <text class="e" x="318" y="513">Observed:        &lt;value&gt; &lt;unit&gt;</text>
+      <text class="e" x="318" y="530">Method:          TST-014</text>
+      <text class="e" x="318" y="547">Taken:           YYYY-MM-DD</text>
+      <text class="e" x="318" y="564">Evidence:        &lt;repo-relative path&gt;</text>
+      <text class="ea" x="318" y="581">Evidence-SHA256: &lt;64 lowercase hex&gt;</text>
+      <text class="e" x="318" y="598">Outcome:         PROVEN | NOT MET</text>
+      <text class="m" x="318" y="622">dated · immutable · never edited</text>
 
-      <!-- suspect-link note -->
-      <path d="M 584 456 L 636 456" stroke="#4f5d75" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
-      <rect class="box" x="640" y="400" width="256" height="218" rx="6"/>
-      <text class="b" x="658" y="426">Each edge is stamped ONE WAY</text>
-      <text class="e" x="658" y="443">- measured-by → MSC-007 (sha256:…)</text>
-      <text class="n" x="658" y="466">stamp = the TARGET's fingerprint</text>
-      <text class="m" x="658" y="486">requirement target: statement only</text>
-      <text class="ma" x="658" y="504">MSC target: all four owned fields</text>
-      <text class="m" x="658" y="528">edit MSC-007 → requirement flagged</text>
-      <text class="ma" x="658" y="546">edit the requirement → nothing</text>
-      <text class="ea" x="658" y="570">RECIPROCAL STAMPING IS OWED</text>
-      <text class="ea" x="658" y="584">the unprotected way is the risky one</text>
-      <text class="ea" x="658" y="598">a richer target hash &ne; bidirectional</text>
+      <!-- stamping note -->
+      <rect class="box" x="640" y="424" width="256" height="214" rx="6"/>
+      <text class="b" x="658" y="452">Stamped BOTH ways now</text>
+      <text class="e" x="658" y="474">req --measured-by--&gt; MSC</text>
+      <text class="m" x="658" y="490">stores the MSC's full 4-field fp</text>
+      <text class="e" x="658" y="512">MSC --measures--&gt; req</text>
+      <text class="m" x="658" y="528">stores the req's statement-only fp</text>
+      <text class="ma" x="658" y="552">the audit REQUIRES both directions</text>
+      <text class="ma" x="658" y="568">missing or stale = FINDING</text>
+      <text class="m" x="658" y="584">not a refusal, in this slice</text>
+      <text class="e" x="658" y="608">existing role pairs NOT retrofitted</text>
+
+      <!-- qualification -->
+      <rect class="box" x="16" y="664" width="880" height="176" rx="6" stroke="#eb6c36" stroke-width="1.6"/>
+      <text class="b" x="36" y="692">An entry QUALIFIES only when all eight hold — otherwise NOT ASSESSABLE, never PROVEN, never NOT MET</text>
+      <text class="n" x="36" y="718">1 · Condition names an MSC that exists</text>
+      <text class="n" x="36" y="740">2 · its fingerprint matches the MSC version used for the decision</text>
+      <text class="n" x="36" y="762">3 · Evidence resolves to a repo-relative file that exists</text>
+      <text class="n" x="36" y="784">4 · Evidence-SHA256 recomputes over its raw bytes and matches</text>
+      <text class="n" x="520" y="718">5 · Observed carries a value AND a unit</text>
+      <text class="n" x="520" y="740">6 · Method names a TST</text>
+      <text class="n" x="520" y="762">7 · Taken is a valid YYYY-MM-DD date</text>
+      <text class="n" x="520" y="784">8 · Outcome is exactly PROVEN or NOT MET</text>
+      <text class="ma" x="36" y="816">a missing file or a digest mismatch is not a BAD reading — it is NOT A READING</text>
 
       <!-- legend -->
-      <line x1="16" y1="632" x2="896" y2="632" stroke="#4f5d75" stroke-opacity=".3"/>
-      <rect class="box" x="16" y="652" width="22" height="14" rx="3"/>
-      <text class="m" x="48" y="664">exists in the schema today</text>
-      <rect class="new" x="240" y="652" width="22" height="14" rx="3"/>
-      <text class="ma" x="272" y="664">introduced by this design — none of it is built in this slice</text>
-
-      <text class="m" x="16" y="700">Introducing MSC owes a categories.md disposition and schema work. This session DESIGNS that; it does not build it.</text>
-      <text class="ma" x="16" y="722">PROPOSED supersession, recorded here and deliberately NOT executed: the catalog's deferred Acceptance Criteria /</text>
-      <text class="ma" x="16" y="744">Verification Method FIELDS. The catalog edit belongs to the later schema implementation — struck in place, original</text>
-      <text class="ma" x="16" y="766">text preserved verbatim inside the strike.</text>
-
+      <line x1="16" y1="870" x2="896" y2="870" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect class="box" x="16" y="890" width="22" height="14" rx="3"/>
+      <text class="m" x="48" y="902">exists in the schema today</text>
+      <rect class="new" x="240" y="890" width="22" height="14" rx="3"/>
+      <text class="ma" x="272" y="902">introduced by this design — none of it is built in this slice</text>
+      <text class="m" x="16" y="934">SEVEN fields, NINE required facts, EIGHT qualification conditions — the Condition line carries two facts (ID and</text>
+      <text class="m" x="16" y="954">fingerprint) and Observed carries two (value and unit). Two digests, two jobs, never merged: the approval fingerprint</text>
+      <text class="m" x="16" y="974">protects TARGET identity over declared fields; Evidence-SHA256 protects EVIDENCE identity over raw bytes.</text>
+      <text class="ma" x="16" y="996">External evidence is snapshotted locally before acceptance. A bare URL or a mutable CI-run location is insufficient here.</text>
     </svg>
   </div>
 </body>

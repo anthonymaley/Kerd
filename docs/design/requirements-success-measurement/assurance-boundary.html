@@ -21,125 +21,152 @@
   <div class="wrap">
     <p class="eyebrow">Kerd · requirements-success-measurement · design</p>
     <h1>Where assurance comes from at each rung, and where it does not</h1>
-    <p class="sub">Three sources, and the third is the honest one. This slice adds <strong>no automated per-rigor floor</strong> — the drawing exists so that limit cannot later be mistaken for machinery.</p>
-    <svg viewBox="0 0 920 794" role="img" aria-labelledby="ab-title ab-desc">
+    <p class="sub">Four sources, and a check that <em>finds</em> is not a check that <em>refuses</em>. This slice adds <strong>no automated per-rigor floor</strong> — the drawing exists so that limit cannot later be mistaken for machinery.</p>
+    <svg viewBox="0 0 920 990" role="img" aria-labelledby="ab-title ab-desc">
       <title id="ab-title">Where assurance comes from at each rung, and where it does not</title>
-      <desc id="ab-desc">For each rung of the ladder, the drawing names what assures the success condition and by what mechanism. Assurance comes from three sources, marked distinctly: machine-checked, meaning something on disk refuses; producer-agreed, meaning a human key with nothing outside the model enforcing it; and no enforcement, meaning nothing checks at all. At scope, the Scope section and a legal rigor level are machine-checked by the existing gate, but whether a success condition was declared at all is not enforced. At design, one approved and sealed view per declared concern is machine-checked; whether the condition's target is proportionate to the declared rigor level is producer-agreed only. At the design gate, whether the keyed target has drifted since approval becomes machine-checkable only once the versioned MSC approval fingerprint is built — a hash over the condition's four owned fields, statement, measure, baseline and target. Today's register Approved recipe hashes the statement alone and would not detect a changed measure, baseline or target, so this line is a design obligation rather than assurance that exists today; it is schema work this slice does not build. At work handoff the spec must carry Pieces and a Verify on every step, machine-checked; whether the condition is actually named on the steps it affects has no enforcement. In the loop, zero unchecked pieces is machine-checked; whether the work is aimed at the condition has no enforcement. At acceptance the acceptance record and its Release condition section are machine-checked, and the producer's key is the decision; whether an observed result was actually linked has no enforcement in this slice. The summary is stated plainly, and it distinguishes current from designed state because the design-gate question is dual-marked and counting both markers as two lines would make proposed assurance read as present assurance. There are thirteen assurance questions. Today: five machine-checked, two producer-agreed, six unenforced, so eight of the thirteen rest on agreement or on nothing. Once the versioned MSC fingerprint is built: six machine-checked, two producer-agreed, five unenforced, so seven of the thirteen will; among the unenforced is the comparison itself, whether the observed reading actually satisfies the target frozen at the design gate, which nothing checks in this slice; this slice adds no automated per-rigor floor, and Drive does not structurally guarantee compliance — the same sentence carried in the work record's risk ledger.</desc>
+      <desc id="ab-desc">For each rung of the ladder, the drawing names what assures the success condition and by what mechanism. Assurance comes from four sources, marked distinctly. Machine-refused means something on disk refuses and blocks. Machine-detected means machinery emits a finding but does not refuse; it is a real check that does not block, and it is deliberately not counted among the refusal-backed checks. Producer-agreed means a human key with nothing outside the model enforcing it. No enforcement means nothing checks at all. That four-way split replaced a three-way one on 2026-09-01 evening, at the producer's finding that the drawing's own legend defined machine-checked as something on disk refuses while reciprocal stamping explicitly produces a finding rather than a refusal; both claims could not stand. At scope, the Scope section and a legal rigor level are machine-refused by the existing gate, but whether a success condition was declared at all is not enforced. At design, one approved and sealed view per declared concern is machine-refused; whether the condition's target is proportionate to the declared rigor level is producer-agreed only. At the design gate two questions sit. Whether the keyed target has drifted since approval becomes machine-refused only once the versioned MSC approval fingerprint is built; today's register Approved recipe hashes the statement alone and would not detect a changed measure, baseline or target. And whether the Requirement to MSC link is stamped in both directions with neither stamp stale becomes machine-detected once reciprocal stamping is built: the audit requires both directions and emits a finding at the existing suspect-link severity, deliberately not inflated into a refusal in this slice. At work handoff the spec must carry Pieces and a Verify on every step, machine-refused; whether the condition is actually named on the steps it affects has no enforcement. In the loop, zero unchecked pieces is machine-refused; whether the work is aimed at the condition has no enforcement. At acceptance five questions sit. The acceptance record and its Release condition section are machine-refused. Whether the work is done and meets the agreed goal is the producer's key. Whether an observed-result entry exists, names the MSC and carries its exact frozen fingerprint becomes machine-refused once the structural acceptance-record parser is built; that check covers all eight qualification conditions, including a valid Taken date. Whether the reading satisfies the frozen target is producer-agreed: the producer explicitly judges it and keys the outcome into the record, and what remains absent is machine recomputation of that semantic comparison. And whether the evidence artifact is the one that was actually judged becomes machine-refused once the parser recomputes Evidence-SHA256 over the referenced file's raw bytes. The summary distinguishes current from designed state because four questions are dual-marked and counting both markers as two lines would make proposed assurance read as present assurance. There are fifteen assurance questions carrying nineteen markers. The count was thirteen at the design GO of 2026-08-31; the rulings of 2026-09-01 added two questions and moved two more, and every figure here is re-derived from these rows rather than adjusted from the old totals. Today: five machine-refused, zero machine-detected, three producer-agreed, seven unenforced, so ten of the fifteen rest on agreement or on nothing. Once the designed machinery is built: eight machine-refused, one machine-detected, three producer-agreed, three unenforced. The three that stay unenforced in both tenses are that a success condition was declared at all, that the condition is named on the steps it affects, and that the work is actually aimed at the condition. This slice adds no automated per-rigor floor, and Drive does not structurally guarantee compliance, the same sentence carried in the work record's risk ledger.</desc>
       <defs>
         <style>
-          .n{font-family:var(--font-sans);font-size:12.5px;fill:var(--color-ink);}
-          .b{font-family:var(--font-sans);font-size:14px;font-weight:600;fill:var(--color-ink);}
-          .e{font-family:var(--font-mono);font-size:9px;fill:var(--color-muted);}
+          .n{font-family:var(--font-sans);font-size:13px;fill:var(--color-ink);}
+          .b{font-family:var(--font-sans);font-size:15px;font-weight:600;fill:var(--color-ink);}
           .m{font-family:var(--font-sans);font-size:11px;fill:var(--color-muted);}
           .ma{font-family:var(--font-sans);font-size:11px;fill:var(--color-accent);}
+          .hd{font-family:var(--font-mono);font-size:11px;fill:var(--color-muted);letter-spacing:.1em;}
           .rung{font-family:var(--font-mono);font-size:11px;fill:var(--color-muted);letter-spacing:.08em;}
-          .box{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
-          .hd{font-family:var(--font-mono);font-size:10px;fill:var(--color-muted);letter-spacing:.1em;}
         </style>
       </defs>
-
       <text class="hd" x="16" y="30">RUNG</text>
       <text class="hd" x="150" y="30">WHAT IS ASSURED</text>
       <text class="hd" x="520" y="30">BY WHAT</text>
       <text class="hd" x="792" y="30">SOURCE</text>
       <line x1="16" y1="42" x2="896" y2="42" stroke="#4f5d75" stroke-opacity=".3"/>
 
-      <!-- rows: y step 56 -->
       <text class="rung" x="16" y="72">scope</text>
       <text class="n" x="150" y="66">a Scope section and a legal rigor level</text>
       <text class="n" x="520" y="66">gate.py, AU6</text>
       <rect x="792" y="54" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="814" y="66">machine</text>
+      <text class="m" x="814" y="66">refused</text>
+
       <text class="ma" x="150" y="86">that a success condition was declared at all</text>
       <text class="ma" x="520" y="86">nothing</text>
       <rect x="792" y="74" width="14" height="14" rx="3" fill="#eb6c36"/>
       <text class="ma" x="814" y="86">none</text>
-      <line x1="16" y1="98" x2="896" y2="98" stroke="#4f5d75" stroke-opacity=".15"/>
 
       <text class="rung" x="16" y="128">design</text>
       <text class="n" x="150" y="122">one approved, sealed view per declared concern</text>
       <text class="n" x="520" y="122">gate.py check design</text>
       <rect x="792" y="110" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="814" y="122">machine</text>
+      <text class="m" x="814" y="122">refused</text>
+
       <text class="n" x="150" y="142">the target is proportionate to the rigor level</text>
       <text class="n" x="520" y="142">the producer, at scope</text>
       <rect x="792" y="130" width="14" height="14" rx="3" fill="#4f5d75"/>
       <text class="m" x="814" y="142">producer</text>
-      <line x1="16" y1="154" x2="896" y2="154" stroke="#4f5d75" stroke-opacity=".15"/>
 
       <text class="rung" x="16" y="184">design gate</text>
       <text class="n" x="150" y="178">the keyed target has not drifted since approval</text>
       <text class="n" x="520" y="178">MSC approval fingerprint, AU7</text>
       <rect x="792" y="166" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="814" y="178">machine</text>
+      <text class="m" x="814" y="178">refused</text>
+
       <text class="ma" x="150" y="198">— once the versioned MSC fingerprint is built</text>
       <text class="ma" x="520" y="198">schema work, not this slice</text>
       <rect x="792" y="186" width="14" height="14" rx="3" fill="#eb6c36"/>
       <text class="ma" x="814" y="198">none yet</text>
-      <line x1="16" y1="210" x2="896" y2="210" stroke="#4f5d75" stroke-opacity=".15"/>
 
-      <text class="rung" x="16" y="240">work handoff</text>
-      <text class="n" x="150" y="234">the spec carries Pieces and a Verify per step</text>
-      <text class="n" x="520" y="234">gate.py, handoff rung</text>
-      <rect x="792" y="222" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="814" y="234">machine</text>
-      <text class="ma" x="150" y="254">that the condition is named on the steps it affects</text>
-      <text class="ma" x="520" y="254">nothing</text>
-      <rect x="792" y="242" width="14" height="14" rx="3" fill="#eb6c36"/>
-      <text class="ma" x="814" y="254">none</text>
-      <line x1="16" y1="266" x2="896" y2="266" stroke="#4f5d75" stroke-opacity=".15"/>
+      <text class="n" x="150" y="218">Req ↔ MSC stamped BOTH ways, neither stamp stale</text>
+      <text class="n" x="520" y="218">reciprocal stamping, AU8</text>
+      <rect x="792" y="206" width="14" height="14" rx="3" fill="#fff" stroke="#2d3142" stroke-width="2"/>
+      <text class="m" x="814" y="218">finding</text>
 
-      <text class="rung" x="16" y="296">loop</text>
-      <text class="n" x="150" y="290">zero unchecked pieces</text>
-      <text class="n" x="520" y="290">gate.py, loop rung</text>
-      <rect x="792" y="278" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="814" y="290">machine</text>
-      <text class="ma" x="150" y="310">that the work is actually aimed at the condition</text>
-      <text class="ma" x="520" y="310">nothing</text>
-      <rect x="792" y="298" width="14" height="14" rx="3" fill="#eb6c36"/>
-      <text class="ma" x="814" y="310">none</text>
-      <line x1="16" y1="322" x2="896" y2="322" stroke="#4f5d75" stroke-opacity=".15"/>
+      <text class="ma" x="150" y="238">— once reciprocal stamping is built</text>
+      <text class="ma" x="520" y="238">emits a finding · does NOT refuse</text>
+      <rect x="792" y="226" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="814" y="238">none yet</text>
 
-      <text class="rung" x="16" y="352">acceptance</text>
-      <text class="n" x="150" y="346">an acceptance record with a Release condition</text>
-      <text class="n" x="520" y="346">gate.py, acceptance rung</text>
-      <rect x="792" y="334" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="814" y="346">machine</text>
-      <text class="n" x="150" y="366">the work is done and meets the agreed goal</text>
-      <text class="n" x="520" y="366">the producer's key</text>
-      <rect x="792" y="354" width="14" height="14" rx="3" fill="#4f5d75"/>
-      <text class="m" x="814" y="366">producer</text>
-      <text class="ma" x="150" y="386">that an Observed result was actually linked</text>
-      <text class="ma" x="520" y="386">nothing, in this slice</text>
-      <rect x="792" y="374" width="14" height="14" rx="3" fill="#eb6c36"/>
-      <text class="ma" x="814" y="386">none</text>
-      <text class="ma" x="150" y="406">that the reading SATISFIES the frozen target</text>
-      <text class="ma" x="520" y="406">nothing, in this slice</text>
-      <rect x="792" y="394" width="14" height="14" rx="3" fill="#eb6c36"/>
-      <text class="ma" x="814" y="406">none</text>
-      <line x1="16" y1="418" x2="896" y2="418" stroke="#4f5d75" stroke-opacity=".3"/>
+      <text class="rung" x="16" y="280">work handoff</text>
+      <text class="n" x="150" y="274">the spec carries Pieces and a Verify per step</text>
+      <text class="n" x="520" y="274">gate.py, handoff rung</text>
+      <rect x="792" y="262" width="14" height="14" rx="3" fill="#2d3142"/>
+      <text class="m" x="814" y="274">refused</text>
 
-      <!-- the statement this drawing exists for -->
-      <rect x="16" y="446" width="880" height="118" rx="6" fill="#fff" stroke="#eb6c36" stroke-width="1.6"/>
-      <text class="b" x="36" y="476">This slice adds no automated per-rigor floor.</text>
-      <text class="n" x="36" y="500">The control is the producer declaring the rigor level and agreeing a proportionate success condition at scope.</text>
-      <text class="n" x="36" y="522">It binds by agreement at one gate. Nothing outside the model enforces it.</text>
-      <text class="ma" x="36" y="546">Drive does not structurally guarantee compliance — the same sentence the work record's risk ledger carries.</text>
+      <text class="ma" x="150" y="294">that the condition is named on the steps it affects</text>
+      <text class="ma" x="520" y="294">nothing</text>
+      <rect x="792" y="282" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="814" y="294">none</text>
 
-      <line x1="16" y1="592" x2="896" y2="592" stroke="#4f5d75" stroke-opacity=".3"/>
-      <rect x="16" y="610" width="14" height="14" rx="3" fill="#2d3142"/>
-      <text class="m" x="38" y="622">machine-checked — something on disk refuses</text>
-      <rect x="330" y="610" width="14" height="14" rx="3" fill="#4f5d75"/>
-      <text class="m" x="352" y="622">producer-agreed — a human key, nothing enforcing it</text>
-      <rect x="660" y="610" width="14" height="14" rx="3" fill="#eb6c36"/>
-      <text class="ma" x="682" y="622">no enforcement</text>
+      <text class="rung" x="16" y="336">loop</text>
+      <text class="n" x="150" y="330">zero unchecked pieces</text>
+      <text class="n" x="520" y="330">gate.py, loop rung</text>
+      <rect x="792" y="318" width="14" height="14" rx="3" fill="#2d3142"/>
+      <text class="m" x="814" y="330">refused</text>
 
-      <text class="m" x="16" y="658">Thirteen assurance questions above. The design-gate question is dual-marked because its answer differs by tense.</text>
-      <text class="n" x="16" y="682">TODAY: five machine-checked, two producer-agreed, six unenforced &mdash; eight of thirteen rest on agreement or nothing.</text>
-      <text class="ma" x="16" y="704">ONCE THE MSC FINGERPRINT IS BUILT: six machine-checked, two producer-agreed, five unenforced &mdash; seven of thirteen.</text>
-      <text class="m" x="16" y="728">Counting both markers as two lines would make proposed assurance read as present assurance. That is the honest</text>
-      <text class="m" x="16" y="750">picture of this slice, drawn on purpose: the countermeasure is temporary, and its return condition is</text>
-      <text class="m" x="16" y="772">rigor-level slice 2 defining enforceable per-level floors.</text>
+      <text class="ma" x="150" y="350">that the work is actually aimed at the condition</text>
+      <text class="ma" x="520" y="350">nothing</text>
+      <rect x="792" y="338" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="814" y="350">none</text>
+
+      <text class="rung" x="16" y="392">acceptance</text>
+      <text class="n" x="150" y="386">an acceptance record with a Release condition</text>
+      <text class="n" x="520" y="386">gate.py, acceptance rung</text>
+      <rect x="792" y="374" width="14" height="14" rx="3" fill="#2d3142"/>
+      <text class="m" x="814" y="386">refused</text>
+
+      <text class="n" x="150" y="406">the work is done and meets the agreed goal</text>
+      <text class="n" x="520" y="406">the producer's key</text>
+      <rect x="792" y="394" width="14" height="14" rx="3" fill="#4f5d75"/>
+      <text class="m" x="814" y="406">producer</text>
+
+      <text class="n" x="150" y="426">an entry exists, names the MSC + its frozen fp</text>
+      <text class="n" x="520" y="426">acceptance-record parser</text>
+      <rect x="792" y="414" width="14" height="14" rx="3" fill="#2d3142"/>
+      <text class="m" x="814" y="426">refused</text>
+
+      <text class="ma" x="150" y="446">— once the structural parser is built</text>
+      <text class="ma" x="520" y="446">schema work, not this slice</text>
+      <rect x="792" y="434" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="814" y="446">none yet</text>
+
+      <text class="n" x="150" y="466">the reading SATISFIES the frozen target</text>
+      <text class="n" x="520" y="466">the producer's key, recorded</text>
+      <rect x="792" y="454" width="14" height="14" rx="3" fill="#4f5d75"/>
+      <text class="m" x="814" y="466">producer</text>
+
+      <text class="n" x="150" y="486">the evidence artifact is the one that was judged</text>
+      <text class="n" x="520" y="486">Evidence-SHA256 recomputed</text>
+      <rect x="792" y="474" width="14" height="14" rx="3" fill="#2d3142"/>
+      <text class="m" x="814" y="486">refused</text>
+
+      <text class="ma" x="150" y="506">— once digest recomputation is built</text>
+      <text class="ma" x="520" y="506">schema work, not this slice</text>
+      <rect x="792" y="494" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="814" y="506">none yet</text>
+      <line x1="16" y1="522" x2="896" y2="522" stroke="#4f5d75" stroke-opacity=".3"/>
+
+      <rect x="16" y="550" width="880" height="118" rx="6" fill="#fff" stroke="#eb6c36" stroke-width="1.6"/>
+      <text class="b" x="36" y="580">This slice adds no automated per-rigor floor.</text>
+      <text class="n" x="36" y="604">The control is the producer declaring the rigor level and agreeing a proportionate success condition at scope.</text>
+      <text class="n" x="36" y="626">It binds by agreement at one gate. Nothing outside the model enforces it.</text>
+      <text class="ma" x="36" y="650">Drive does not structurally guarantee compliance — the same sentence the work record's risk ledger carries.</text>
+
+      <line x1="16" y1="696" x2="896" y2="696" stroke="#4f5d75" stroke-opacity=".3"/>
+      <rect x="16" y="712" width="14" height="14" rx="3" fill="#2d3142"/>
+      <text class="m" x="38" y="724">machine-refused — something on disk refuses</text>
+      <rect x="430" y="712" width="14" height="14" rx="3" fill="#fff" stroke="#2d3142" stroke-width="2"/>
+      <text class="m" x="452" y="724">machine-detected — a FINDING, not a refusal</text>
+      <rect x="16" y="736" width="14" height="14" rx="3" fill="#4f5d75"/>
+      <text class="m" x="38" y="748">producer-agreed — a human key, nothing enforcing it</text>
+      <rect x="430" y="736" width="14" height="14" rx="3" fill="#eb6c36"/>
+      <text class="ma" x="452" y="748">no enforcement — nothing checks at all</text>
+
+      <text class="m" x="16" y="788">FIFTEEN assurance questions above, carrying nineteen markers. Four are dual-marked because their answer differs by tense.</text>
+      <text class="n" x="16" y="812">TODAY: five machine-refused, three producer-agreed, seven unenforced &mdash; ten of fifteen rest on agreement or nothing.</text>
+      <text class="ma" x="16" y="834">ONCE THE DESIGNED MACHINERY IS BUILT: eight machine-refused, ONE machine-detected, three producer-agreed, three unenforced.</text>
+      <text class="m" x="16" y="860">Reciprocal stamping is the one machine-DETECTED line. The audit requires both directions and emits a finding at the</text>
+      <text class="m" x="16" y="880">existing suspect-link severity, deliberately not a refusal in this slice — so it is NOT counted among the refusal-backed</text>
+      <text class="m" x="16" y="900">checks. A legend promising refusal cannot cover a check that only finds.</text>
+      <text class="m" x="16" y="928">The count was THIRTEEN at the design GO of 2026-08-31, under a three-way source split. The rulings of 2026-09-01 added</text>
+      <text class="m" x="16" y="948">two questions, moved two, and split the machine source in two. Every figure here is RE-DERIVED from the rows above.</text>
     </svg>
   </div>
 </body>
