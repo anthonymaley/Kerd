@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>How inline work reaches a keyed design, and the two paths that are not it</title>
+  <style>
+    :root{--color-paper:#f5f5f5;--color-ink:#2d3142;--color-muted:#4f5d75;
+          --color-accent:#eb6c36;--color-stop:#9e3b3b;--color-hist:#4a6fa5;
+          --font-sans:'Geist',system-ui,sans-serif;
+          --font-serif:'Instrument Serif',serif;--font-mono:'Geist Mono',ui-monospace,monospace;}
+    body{margin:0;padding:48px;background:var(--color-paper);color:var(--color-ink);
+         font-family:var(--font-sans);}
+    .wrap{max-width:920px;margin:0 auto;}
+    .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--color-muted);margin:0 0 8px;}
+    h1{font-family:var(--font-serif);font-size:34px;font-weight:400;margin:0 0 8px;}
+    .sub{color:var(--color-muted);font-size:15px;margin:0 0 28px;}
+    svg{width:100%;height:auto;display:block;}
+    .foot{font-family:var(--font-mono);font-size:11px;color:var(--color-muted);
+          margin:24px 0 0;line-height:1.7;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Kerd · inline-composer · design</p>
+    <h1>How inline work reaches a keyed design, and the two paths that are not it</h1>
+    <p class="sub">One artifact, sized by content. <strong>Two questions, answered by different parties</strong> — the machine asks whether it is build-ready, the producer asks whether it is agreed. The waiver and the legacy closure are exceptions with different downstream consequences, and neither is the inline route.</p>
+
+    <svg viewBox="0 0 920 900" role="img" aria-labelledby="ir-title ir-desc">
+      <title id="ir-title">How inline work reaches a keyed design, and the two paths that are not it</title>
+      <desc id="ir-desc">The default path, taken by every inline change. Inline work that is small, all-judgment and conductor-run earns ONE composer call, sized by model and effort, rather than the two passes a delegated score buys; the second pass exists to stop a conductor-curated brief becoming the composer's blind spot on unfamiliar terrain, and on a small inline change the conductor is already standing in the terrain. That call produces a short work specification, which is ONE artifact type sized by content rather than renamed by size, living at docs/plans/YYYY-MM-DD-slug-spec.md. That single file then supplies evidence at two rungs, and the two questions stay distinct. Its Pieces checklist with a Verify on every step answers the handoff question, is this build-ready, and that question is answered by the machine with no producer key. When the work carries design judgment, the same file carries a concise, explicitly labelled design decision, and that answers the design question, have we agreed what we are building, which only the producer can answer. The producer keys that decision separately from the work specification being approved, and the key lands as a design GO record. Authorship is not the test: a model typed the proposal, exactly as a model typed every design document in this repository, and what makes a design agreed is the producer's key rather than who typed it. Whether today's gate machinery can recognise one file as evidence at two rungs is later implementation work, and the conceptual route is not distorted to fit today's file-glob behaviour. Then the two exceptions, neither of which is the inline default. First, when there is genuinely no design to agree, the producer may issue a WAIVER carrying ten required fields, including the producer's verbatim decision and evidence that the skip was deliberate rather than forgotten. A waiver renders as design waived and never as design pass; it may permit routing forward, but every later handoff and acceptance record retains it as visible debt and it never makes the missing evidence appear to exist. Requiring a waiver for every inline change would make the short route carry more ceremony than the score it exists to produce, which is this item's own killer risk, so the waiver stays exceptional. Second, work that shipped before the obligation existed receives a LEGACY CLOSURE, which is not a waiver, because nothing was decided and a waiver would fabricate a decision. It states that the process did not require or retain the reasoning, never that nobody could have produced a design; they could have, and nothing obliged them to. It documents history and permits honest migration: it closes the legacy ROUTING gap, so the item routes forward rather than sitting blocked on evidence that was never going to arrive, while leaving the historical EVIDENCE gap open and visible. It must never imply that the missing design evidence has appeared, and it does not recreate it. Third and last, a gate that was simply forgotten receives neither a GO nor a waiver and stays blocked. There is no record type for an oversight, because inventing one would make forgetting the cheapest route through the ladder.</desc>
+
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
+        <marker id="ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#eb6c36"/></marker>
+      </defs>
+
+      <!-- ============ SECTION 1: THE DEFAULT ============ -->
+      <text x="0" y="16" font-family="Geist Mono, monospace" font-size="11" letter-spacing="1.5" fill="#4f5d75">THE DEFAULT — EVERY INLINE CHANGE</text>
+      <line x1="0" y1="26" x2="920" y2="26" stroke="#d6d6d6" stroke-width="1"/>
+
+      <rect x="285" y="50" width="350" height="42" rx="3" fill="#ffffff" stroke="#2d3142" stroke-width="1.2"/>
+      <text x="460" y="70" text-anchor="middle" font-size="14" font-weight="600" fill="#2d3142">Inline work</text>
+      <text x="460" y="85" text-anchor="middle" font-size="11.5" fill="#4f5d75">small, all-judgment, conductor-run</text>
+
+      <line x1="460" y1="92" x2="460" y2="122" stroke="#4f5d75" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <rect x="300" y="124" width="320" height="42" rx="3" fill="#ffffff" stroke="#2d3142" stroke-width="1.2"/>
+      <text x="460" y="144" text-anchor="middle" font-size="14" font-weight="600" fill="#2d3142">ONE composer call</text>
+      <text x="460" y="159" text-anchor="middle" font-size="11.5" fill="#4f5d75">sized model + effort · not the two-pass route</text>
+
+      <line x1="460" y1="166" x2="460" y2="196" stroke="#4f5d75" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <rect x="240" y="198" width="440" height="54" rx="3" fill="#2d3142" stroke="#2d3142" stroke-width="1.2"/>
+      <text x="460" y="221" text-anchor="middle" font-size="15" font-weight="600" fill="#f5f5f5">Short work specification — ONE artifact</text>
+      <text x="460" y="239" text-anchor="middle" font-size="11.5" fill="#c8ccd4">sized by content, never renamed by size</text>
+
+      <!-- diverge -->
+      <path d="M 380 252 L 380 282 L 235 282 L 235 306" fill="none" stroke="#4f5d75" stroke-width="1.4" marker-end="url(#ar)"/>
+      <path d="M 540 252 L 540 282 L 685 282 L 685 306" fill="none" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#ar-a)"/>
+
+      <rect x="70" y="308" width="330" height="46" rx="3" fill="#ffffff" stroke="#4f5d75" stroke-width="1.2"/>
+      <text x="235" y="327" text-anchor="middle" font-family="Geist Mono, monospace" font-size="12" fill="#2d3142">## Pieces · **Verify:** per step</text>
+      <text x="235" y="344" text-anchor="middle" font-size="11.5" fill="#4f5d75">present in every score, long or short</text>
+
+      <rect x="520" y="308" width="330" height="46" rx="3" fill="#ffffff" stroke="#eb6c36" stroke-width="1.2"/>
+      <text x="685" y="327" text-anchor="middle" font-family="Geist Mono, monospace" font-size="12" fill="#2d3142">## Design decision</text>
+      <text x="685" y="344" text-anchor="middle" font-size="11.5" fill="#4f5d75">labelled, concise — when judgment is involved</text>
+
+      <line x1="235" y1="354" x2="235" y2="382" stroke="#4f5d75" stroke-width="1.4" marker-end="url(#ar)"/>
+      <line x1="685" y1="354" x2="685" y2="382" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#ar-a)"/>
+
+      <rect x="70" y="384" width="330" height="56" rx="3" fill="#eef0f3" stroke="#4f5d75" stroke-width="1.2"/>
+      <text x="235" y="404" text-anchor="middle" font-size="13.5" font-weight="600" fill="#2d3142">HANDOFF — is it build-ready?</text>
+      <text x="235" y="421" text-anchor="middle" font-size="11.5" fill="#4f5d75">answered by the MACHINE</text>
+      <text x="235" y="435" text-anchor="middle" font-size="11.5" fill="#4f5d75">no producer key</text>
+
+      <rect x="520" y="384" width="330" height="56" rx="3" fill="#fdeee7" stroke="#eb6c36" stroke-width="1.4"/>
+      <text x="685" y="404" text-anchor="middle" font-size="13.5" font-weight="600" fill="#2d3142">DESIGN — have we agreed?</text>
+      <text x="685" y="421" text-anchor="middle" font-size="11.5" fill="#4f5d75">answered by the PRODUCER</text>
+      <text x="685" y="435" text-anchor="middle" font-size="11.5" fill="#4f5d75">keyed separately from the spec</text>
+
+      <line x1="685" y1="440" x2="685" y2="468" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#ar-a)"/>
+
+      <rect x="580" y="470" width="210" height="38" rx="3" fill="#ffffff" stroke="#eb6c36" stroke-width="1.4"/>
+      <text x="685" y="494" text-anchor="middle" font-size="13.5" font-weight="600" fill="#eb6c36">design GO record</text>
+
+      <text x="70" y="494" font-size="11.5" fill="#4f5d75">One file, two rungs.</text>
+      <text x="70" y="510" font-size="11.5" fill="#4f5d75">The questions stay distinct.</text>
+
+      <!-- ============ SECTION 2: THE EXCEPTIONS ============ -->
+      <line x1="0" y1="556" x2="920" y2="556" stroke="#d6d6d6" stroke-width="1"/>
+      <text x="0" y="578" font-family="Geist Mono, monospace" font-size="11" letter-spacing="1.5" fill="#4f5d75">THE EXCEPTIONS — NEVER THE INLINE DEFAULT</text>
+
+      <!-- col 1: waiver -->
+      <rect x="20" y="600" width="270" height="40" rx="3" fill="#ffffff" stroke="#9aa3af" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="155" y="625" text-anchor="middle" font-size="13" fill="#2d3142">No design to agree</text>
+      <line x1="155" y1="640" x2="155" y2="666" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)"/>
+      <rect x="20" y="668" width="270" height="44" rx="3" fill="#fdeee7" stroke="#eb6c36" stroke-width="1.4" stroke-dasharray="5 3"/>
+      <text x="155" y="688" text-anchor="middle" font-size="14" font-weight="600" fill="#2d3142">WAIVER</text>
+      <text x="155" y="704" text-anchor="middle" font-size="11.5" fill="#4f5d75">ten required fields · producer-keyed</text>
+      <line x1="155" y1="712" x2="155" y2="738" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)"/>
+      <rect x="20" y="740" width="270" height="76" rx="3" fill="#ffffff" stroke="#9aa3af" stroke-width="1"/>
+      <text x="155" y="760" text-anchor="middle" font-size="11.5" fill="#2d3142">renders <tspan font-family="Geist Mono, monospace" font-weight="600">design waived</tspan></text>
+      <text x="155" y="776" text-anchor="middle" font-size="11.5" fill="#2d3142">never <tspan font-family="Geist Mono, monospace">design pass</tspan></text>
+      <text x="155" y="794" text-anchor="middle" font-size="11.5" fill="#4f5d75">routes forward carrying</text>
+      <text x="155" y="808" text-anchor="middle" font-size="11.5" fill="#4f5d75">the debt, visibly</text>
+
+      <!-- col 2: legacy -->
+      <rect x="325" y="600" width="270" height="40" rx="3" fill="#ffffff" stroke="#9aa3af" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="460" y="618" text-anchor="middle" font-size="13" fill="#2d3142">Shipped before the</text>
+      <text x="460" y="633" text-anchor="middle" font-size="13" fill="#2d3142">obligation existed</text>
+      <line x1="460" y1="640" x2="460" y2="666" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)"/>
+      <rect x="325" y="668" width="270" height="44" rx="3" fill="#eaf0f8" stroke="#4a6fa5" stroke-width="1.4" stroke-dasharray="5 3"/>
+      <text x="460" y="688" text-anchor="middle" font-size="14" font-weight="600" fill="#2d3142">LEGACY CLOSURE</text>
+      <text x="460" y="704" text-anchor="middle" font-size="11.5" fill="#4f5d75">not a waiver — nothing was decided</text>
+      <line x1="460" y1="712" x2="460" y2="738" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)"/>
+      <rect x="325" y="740" width="270" height="76" rx="3" fill="#ffffff" stroke="#9aa3af" stroke-width="1"/>
+      <text x="460" y="759" text-anchor="middle" font-size="11.5" fill="#2d3142">the process did not require</text>
+      <text x="460" y="773" text-anchor="middle" font-size="11.5" fill="#2d3142">or retain the reasoning</text>
+      <text x="460" y="791" text-anchor="middle" font-size="11.5" fill="#4f5d75">documents history · permits migration</text>
+      <text x="460" y="805" text-anchor="middle" font-size="11.5" fill="#4f5d75">does not recreate missing evidence</text>
+
+      <!-- col 3: blocked -->
+      <rect x="630" y="600" width="270" height="40" rx="3" fill="#ffffff" stroke="#9aa3af" stroke-width="1" stroke-dasharray="4 3"/>
+      <text x="765" y="625" text-anchor="middle" font-size="13" fill="#2d3142">Gate simply forgotten</text>
+      <line x1="765" y1="640" x2="765" y2="666" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)"/>
+      <rect x="630" y="668" width="270" height="44" rx="3" fill="#f7eaea" stroke="#9e3b3b" stroke-width="1.4" stroke-dasharray="5 3"/>
+      <text x="765" y="688" text-anchor="middle" font-size="14" font-weight="600" fill="#2d3142">NO RECORD EXISTS</text>
+      <text x="765" y="704" text-anchor="middle" font-size="11.5" fill="#4f5d75">neither GO nor waiver</text>
+      <line x1="765" y1="712" x2="765" y2="738" stroke="#9e3b3b" stroke-width="1.2" marker-end="url(#ar)"/>
+      <rect x="630" y="740" width="270" height="76" rx="3" fill="#ffffff" stroke="#9e3b3b" stroke-width="1.2"/>
+      <text x="765" y="762" text-anchor="middle" font-size="13" font-weight="600" fill="#9e3b3b">stays BLOCKED</text>
+      <text x="765" y="783" text-anchor="middle" font-size="11.5" fill="#4f5d75">a record for an oversight would</text>
+      <text x="765" y="797" text-anchor="middle" font-size="11.5" fill="#4f5d75">make forgetting the cheapest</text>
+      <text x="765" y="811" text-anchor="middle" font-size="11.5" fill="#4f5d75">route through the ladder</text>
+
+      <line x1="0" y1="846" x2="920" y2="846" stroke="#d6d6d6" stroke-width="1"/>
+      <text x="0" y="868" font-family="Geist Mono, monospace" font-size="10.5" fill="#4f5d75">ORANGE = the producer answers it   ·   GREY = the machine answers it   ·   DASHED = an exception, not a route</text>
+      <text x="0" y="886" font-family="Geist Mono, monospace" font-size="10.5" fill="#4f5d75">Whether the gate machinery can read one file at two rungs is later implementation work. The route is not drawn to fit today's globs.</text>
+    </svg>
+
+    <p class="foot">
+      Kerd · inline-composer · design view · viewpoint: flowchart<br>
+      Concern: how inline work reaches a keyed design, and the two paths that are not it
+    </p>
+  </div>
+</body>
+</html>

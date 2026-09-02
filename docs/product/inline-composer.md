@@ -1,6 +1,11 @@
 ---
 route: problem
-stage: framed
+stage: designed
+concerns:
+  - concern: how inline work reaches a keyed design, and the two paths that are not it
+    viewpoint: flowchart
+    view: docs/design/inline-composer/inline-routes.html
+    approval: Tony, 2026-09-02 · fp:17d01f87d0e8
 ---
 
 # Inline work gets a composer call — the score it currently skips
