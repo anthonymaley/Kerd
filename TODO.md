@@ -2,85 +2,54 @@
 
 ## Now
 
-**`requirements-success-measurement` — the design amendment pass is COMPLETE**
-(2026-09-01 3rd sitting, 19:27–20:05 EDT). The whole chain ran continuously and
-landed as **one push**: `02b3d7d` (the correction deliverable) · `9de267a`
-(render refresh). CI green, `33573854422`. Route restored to **loop**, 15
-unchecked Pieces, 4 landed. Kerd still **v0.104.0** — nothing built, `tools/`
-untouched, `catalog.md` and `categories.md` unedited.
+**NEXT SITTING: the viability question set, as a SPIKE — one rung, to answer one
+question.** Not "what should viability ask" but **"can a question set be DERIVED
+from what is already decided, or does each rung need fresh Law 4 research?"**
+That is the producer's stated fear and it is cheap to settle: get it wrong and
+you have lost a sitting. Route `spike` bypasses the ladder — three items on the
+board already do.
 
-- [x] 1. Seals downgraded — item dropped to `scope` as designed, local only.
-- [x] 2. Design package amended; all seven settled.
-- [x] 3. All three views and the prose swept; assurance counts **re-derived**.
-- [x] 4. Three PNGs re-rendered and looked at.
-- [x] 5. Producer's combined eye — **blocked twice, corrected, then keyed.**
-- [x] 6. Resealed from final content; `check design` PASS; route back to `loop`.
-- [x] 7. Board refreshed, one push, CI green.
+**What the derivation would draw on, all already on disk and already paid for:**
+the viability gate's own `need:` lines (`## Value`, a `## Risk ledger` naming at
+least one killer risk) · the 2026-08-25 standards call made specifically to
+refute the session's instinct about where risk belongs (Stage-Gate puts risk
+assessment in Stage 2; PRINCE2 creates the register at initiation; ISO 29148
+treats risk as a per-requirement attribute) · the repo's 12 ISO/IEC/IEEE and 7
+Stage-Gate citations in `docs/design/standards-grounding-findings.md`.
 
-**Three producer rulings landed this sitting**, all recorded in
-`## Rulings after the GO` of the design doc and in CONTEXT.md:
+**The shape is settled** (CONTEXT.md, this sitting): per rung, work-type-neutral,
+six small files. The working example is `docs/work/question-sets/software-change.md`
+— **six questions, 24 lines** — and every one of them is a gate requirement said
+in plain language. Copy the pattern, not the filename.
 
-1. **The binding direction** — from the immutable observed-result entry TO the
-   `MSC`, never the reverse. `evidenced-by`/`evidences` removed as a stored link
-   role; the anatomy arrow reverses; discovery is derived by scanning records.
-2. **The evidence digest** — mandatory, no escape. `Evidence-SHA256` over raw
-   bytes, recomputed by the parser; a missing file or mismatch yields
-   `NOT ASSESSABLE`. External evidence is snapshotted locally first.
-3. **The assurance taxonomy splits four ways** — `machine-refused` ·
-   `machine-detected` · `producer-agreed` · `no enforcement` — because a check
-   that FINDS is not a check that REFUSES, and reciprocal stamping emits a
-   finding. Fifteen questions, nineteen markers. Today 5/0/3/7; once built
-   8/1/3/3.
+**Why this and not more scaffolding.** `requirements-success-measurement` has 16
+Pieces left and is the only item with active build work; finishing it ADDS a gate
+(declare measurable outcomes before design) that the question-set work would then
+have to satisfy. "Finish the scaffolding" is also unbounded — five more items sit
+at design with no spec at all. The walker is bounded; the scaffolding is not.
 
-**Two blocks at the combined eye, both his, both corrected before the key:**
-`Taken` was a declared required field the qualification contract never checked
-(nine facts, eight conditions now reconcile), and the assurance legend promised
-refusal while one of its rows only finds. Both are recorded as rulings with
-their transferable form.
+**Parked, deliberately:** `requirements-success-measurement` at loop, 16 Pieces,
+spec freshly revised and correct. Its context goes cold — that is the accepted
+price of the sequencing.
 
-**NEXT SITTING OPENS WITH THE COMPOSER DISPATCH** — step 5 of the producer's
-original order, and the only thing left in it. He closed this sitting rather
-than starting it, and gave the reason: *"The amendment is a complete, stable
-unit: seals restored, board truthful, CI green, and no in-flight state. The
-composer revision is substantial enough to deserve a fresh context and its own
-review window — especially because it must remove an obsolete design path across
-16 sites, not merely incorporate wording."*
+**Two items need a record and a key, not work:** `funnel-driver` and
+`progress-html` both sit at `acceptance` with **zero Pieces remaining**. Each
+needs one `docs/gates/<date>-<slug>-acceptance.md` carrying `## Release
+condition`. That is 9 -> 11 of 22 items done for the cost of two records.
 
-**THE COMPOSER BRIEF, recorded verbatim at the boundary so the next sitting does
-not re-derive it.** The composer revises
-`docs/plans/2026-09-01-requirements-success-measurement-spec.md` against the
-**resealed** design package. Eight items, his:
+**TODO closure review** (this boundary):
 
-1. **Remove `evidenced-by`** and every dependent step and fixture.
-2. **Add the immutable acceptance-record entry shape** and its **eight
-   qualification checks**.
-3. **Add evidence digest recomputation** and `NOT ASSESSABLE` behaviour.
-4. **Add reciprocal Requirement ↔ `MSC` stamping** at **finding** severity.
-5. **Split requirement categories from register artifact extensions.**
-6. **Update the assurance counts and taxonomy**, and the **cross-step
-   dependencies**.
-7. **Preserve the producer-performed comparison.**
-8. **Revalidate every Piece, every `Verify` command, and the pilot dependency**
-   against the resealed design.
-
-**Measured scope of item 1, so it is not mistaken for a rewording:**
-`evidenced-by` appears in the frozen spec **16 times** — including a
-`## Link roles` table row (`:386`), fixture `T60` (`:1012`), the register
-citation form (`:1369`, `:1390`, `:1393`), and two steps written entirely around
-the ruling that was **not** taken (`:559`–`:570`). Plus a stale *"thirteen
-assurance questions"* at `:629`. The spec was deliberately left untouched all
-sitting: **re-dispatch, never re-specify.**
-
-**Three clauses the brief must also carry, none of which is written down
-anywhere today** — each is an open Backlog row that has now bitten twice:
-forbid absolute repository paths outright · name hard-coded paths as an explicit
-cold-review hunt target · require cross-step dependencies to be marked, so
-keying a gate names what it invalidates rather than leaving it to be found one
-gate at a time.
-
-**The pilot dependency is still invisible to every machine surface.**
-`stage-route-consistency` remains unframed — route `frame`, 4 inputs missing for
-viability — and nothing yet notices it. Spec Step 12 frames it.
+```
+  ✓ done   — "the composer dispatch, eight-item brief"     (528ca88; evidenced-by gone from all 16 sites)
+  ✓ done   — "the three clauses as tonight's acceptance conditions" (all three verified in the returned score)
+  ✓ done   — "a visual of the process build-out"           (delivered as a dated snapshot; generator still owed)
+  · open   — "the three clauses need a durable home in conductor"  (the LATER half, untouched by design)
+  · open   — "funnel-driver acceptance gate" · "progress-html acceptance"  (0 Pieces; need a record + key)
+  · open   — "gate-visuals slices 2 and 3" · standards spike x4 · archaeology
+  + new    — switch-in context cost: measured, diagnosed, deferred with a return condition
+  + new    — an observed result binds to its METHOD by reference, never by version
+  ! note   — Drive drives ONE gate of seven; a rung position cannot show capability completeness
+```
 
 ## Backlog
 
@@ -109,6 +78,46 @@ viability — and nothing yet notices it. Spec Step 12 frames it.
   with the derived rung** — the `check_stage_schema()`/AU10 precedent, which did
   exactly this for gate-record filenames. Not built here; this session flipped
   only its own item's field.
+
+- **Switch-in costs ~17% of the context window — measured, diagnosed, and
+  DEFERRED by the producer 2026-09-01.** *"Do nothing for now"* — this repo is
+  complex, mid-planning, and losing context is the more expensive error. The
+  measurement is recorded here so no later session re-derives it, and **the row
+  as first filed blamed the wrong lever (pruning); that framing is superseded by
+  what follows.**
+  **Where the cost is:** the read set is 250KB — `CONTEXT.md` 177KB (70.7%, so
+  **12 of the 17 points**) · the day's session log 37KB (2.5 pts) · `TODO.md`
+  36KB (2.5 pts). `## Key Decisions` alone is **97.9%** of CONTEXT.md; every
+  other section totals 3.8KB.
+  **Growth is two multipliers, and pruning only reaches one.** Bullets went 17
+  (2026-07-06) -> 48 -> 74 -> 101 -> **131** today, while the MEAN bullet went
+  232B -> 676 -> 919 -> 1,239 -> **1,352B**. Count 7.7x, size 5.8x.
+  **The decisive measurement: old bullets do not accrete.** Of the 48 standing on
+  2026-08-04, **44 survive and grew 1.01x** (29,376B -> 29,593B) with 4 removed;
+  the **87 added since average 1,696B — 2.5x the survivors' 672B — and are 147KB,
+  83% of the whole section.** So deleting every pre-August decision recovers 29KB
+  (16%) and touches none of the growth. **Pruning is aimed at the wrong
+  variable**, which is why two licensed prune events both ended with the file
+  bigger.
+  **Rate: linear, not compounding.** ~30 new bullets per window, per-window mean
+  1,297B -> 2,117B -> 1,695B (inflated once in mid-August, then plateaued). ~5.3
+  KB/day, projecting ~250KB in two weeks (~22% of a pickup) and ~320KB in four
+  (~26%).
+  **Two options were priced and neither taken.** (a) A size budget per decision —
+  **refused on the producer's own reasoning**, the argument that got to a ruling
+  is the thing the boundary exists to preserve. (b) Tiered loading, his idea:
+  deferring the whole Backlog buys **2.2 pts**, and rank-and-read-High-only buys
+  **0.5 pts** because High is already 76% of the Backlog — both aimed at the
+  2.5-point file. (c) Named but untested: split CONTEXT.md the way 2026-07-03
+  split state/work/history, keeping the **ruling** in the loaded file and moving
+  the **case** to a reachable record — a full read of a smaller file rather than
+  a reduced mode, which `skills/switch/SKILL.md` forbids outright. **Its risk is
+  the one this repo has already paid:** `docs/design/conductor-role.md` was
+  reachable by name and sat unbuilt for three days, which is why `fidelity.py`
+  exists.
+  **Return condition:** CONTEXT.md passes **250KB**, or a pickup passes **25%**,
+  or the per-window bullet mean resumes climbing — whichever comes first. Until
+  one fires, this is an accepted cost, not an open task.
 
 - **Drive invented a risk-state value rather than refusing** (found 2026-08-31,
   the durable half of the scope-gate work). Its first real run wrote
@@ -170,6 +179,37 @@ viability — and nothing yet notices it. Spec Step 12 frames it.
   leaving it to be found one gate at a time. Not fixed here — carried into the
   composer hand-back for this item, which is not the same as fixing the process.
 
+- **The three composer-brief clauses need a DURABLE home in
+  `skills/conductor/SKILL.md` — the producer's ruling, 2026-09-01: two places at
+  two times.** *Now* they are explicit acceptance conditions in tonight's
+  composer brief (done — dispatched this sitting). *Later*, as **its own scoped
+  skill-behaviour change — not inside `requirements-success-measurement`** — they
+  land in the composer-brief section (`skills/conductor/SKILL.md:226-249`,
+  "Calling the composer" / what the brief carries), **with verification that a
+  future score actually carries all three.** The three, as he worded them: every
+  repository path derives from `git rev-parse --show-toplevel` · zero-match
+  checks remain successful when zero is the expected result · consequences of
+  unresolved producer gates are expressed as dependencies or branches, never as
+  settled facts.
+  **Why this is High and not Medium: it is the generator fix for the three rows
+  above, and the defect has now survived being fixed twice.** Two of the three
+  sibling score defects handed back on 2026-08-28 came back on 2026-09-01,
+  because the correction was written into the artifact and never into the thing
+  that produces artifacts. The session log's own insight states the mechanism —
+  *a finding fixed in the artifact and not in the generator is a finding that
+  will arrive again* — and this is its measured proof. **Verified 2026-09-01:**
+  `grep -rn "absolute path\|hard-coded path\|rev-parse --show-toplevel" skills/`
+  returns **zero**, so nothing in any skill forbids absolute paths, names them as
+  a cold-review hunt target, or requires cross-step dependencies to be marked.
+  **Sizing note:** this is a real skill-behaviour change, so it carries the full
+  release checklist (version in three locations, README, trigger description) —
+  which is exactly why the producer refused to fold it into tonight's sitting,
+  per the 2026-08-27 ruling that bumps are not for corrections inside one
+  unfinished item. **Cold-review brief is a second surface** and may need the
+  same clause: the dedicated cold-review pass read the whole spec on 2026-09-01
+  and missed all 24 hard-coded paths — *a reviewer hunting meaning does not see
+  form*, which argues the two hunts are separate briefs.
+
 - **The suspect-link stamp has no slot in the requirement format** — a format
   change, carried out of `## Now` on 2026-09-01. Narrowed twice that day: the
   stamp's RECIPE is settled (category-aware, one mechanism), and **reciprocal
@@ -177,6 +217,47 @@ viability — and nothing yet notices it. Spec Step 12 frames it.
   for Requirement <-> `MSC`. **What remains open is only the block shape:** where
   the stamp is written, and now where the SECOND (reverse) edge is written, since
   ruling 3 requires two stored edges where the grammar has always had one.
+
+- **An observed result binds to its METHOD by bare reference, never by version —
+  filed by the producer 2026-09-01 at the D6 check-6 correction, deliberately NOT
+  built in this slice.** The immutable acceptance-record entry binds to its `MSC`
+  by the **exact frozen fingerprint**, so a condition that moves after acceptance
+  makes the record visibly diverge. It binds to its **method** by bare `TST-nnn`.
+  Check 6 was corrected the same evening to require **resolution** — the ID must
+  resolve to an existing register block whose category is `TST`, not merely match
+  `^TST-[0-9]+$`, because *"a phantom method would make the observed result
+  unverifiable and therefore NOT ASSESSABLE."* **But resolution is not sameness.**
+  A `TST` block can be edited after the reading was taken; the record still
+  resolves, and the historical evidence now cites a method that has moved, with
+  nothing diverging. **Same family as the suspect-link-stamp row above:** a stored
+  reference proves existence, never that the thing referenced is what was judged.
+  **The producer's boundary, and the reason this is a row rather than a contract
+  clause:** *"the sealed design requires a method reference, not a frozen method
+  version. Whether historical evidence must bind to the exact keyed TST version is
+  a legitimate follow-up integrity question, but it should be filed rather than
+  silently added to this contract."* So **no `Method-SHA256`, no stamp on the
+  method edge, and no version-pinning ships in this slice** — the composer was
+  bounded explicitly against adding one.
+  **Candidate shape if it is ever taken, not decided:** reuse
+  `approval_fingerprint(category, fields)` — the one versioned mechanism with
+  artifact-specific canonical payloads, keyed 2026-09-01 — rather than inventing a
+  second recipe, which is the rule-9 lesson (two implementations tested against
+  each other by nothing). **Open question that sizes it:** does an immutable record
+  owe a frozen pointer to EVERY living thing it cites, or only to the one whose
+  movement changes the verdict? The `MSC` moving changes whether the target was
+  met; the `TST` moving changes how it was measured, which may be a weaker claim.
+
+- **A visual of where the whole process build-out stands — asked for by the
+  producer 2026-09-01, deferred the same minute.** Two readings, recorded so the
+  next sitting does not re-derive the ambiguity, and they are different drawings
+  from different data. **(a) The board:** 28 slugs against seven rungs — already
+  derived at `docs/plans/progress.svg`, CI-stale-checked, and dense; the renderer
+  currently reports one text/text overlap in it (`requirements-project-type-templates`
+  over `requirements-success-measurement` at 4594,250). **(b) The capability:**
+  how much of Kerd's own process — ladder, gates, refusers, skills — is built vs
+  designed vs still prose. **No artifact on disk answers (b) today**, which is
+  why it is filed High rather than as a rendering chore. Ask which before
+  drawing. Whatever is drawn must be derived from disk, per the standing rule.
 
 - **Rule 9 has two implementations and nothing tests them against each other**
   (filed 2026-08-29 at `gate-visuals`' acceptance gate; the claim that there was

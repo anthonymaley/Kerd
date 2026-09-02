@@ -6,39 +6,39 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-01 (3rd sitting) — `requirements-success-measurement`'s DESIGN
-AMENDMENT is complete, and the design gate is restored.** The whole chain ran
-continuously as the producer required — downgrade -> amend -> sweep -> render ->
-combined eye -> reseal -> board refresh — and landed as **one push**: `02b3d7d`
-(the correction deliverable) and `9de267a` (render refresh), CI green
-(`33573854422`). The item routes at **loop** again with 15 unchecked Pieces, 4
-landed. Kerd stays at **v0.104.0** — `tools/` untouched, `catalog.md` and
-`categories.md` unedited, and **nothing was built**.
+**2026-09-01 (4th sitting) — the composer's spec revision landed, and the
+sitting's larger output was a CORRECTED PICTURE of where the build actually
+stands.** Two commits, one push, CI green (`33580251351`): `528ca88` (the
+revised work specification) and `f0fcd79` (render refresh). The item routes at
+**loop** with **16 unchecked Pieces**, 4 landed. Kerd stays at **v0.104.0** —
+nothing was built.
 
-- **All seven things the producer sent back to design are settled**, and five of
-  them left `## What this design does not settle`. Three new rulings landed:
-  the **binding direction** (the immutable record binds up to the living
-  condition; `evidenced-by` removed as a stored link role), the **evidence
-  digest** (mandatory `Evidence-SHA256` over raw bytes, recomputed; a missing
-  file or mismatch yields `NOT ASSESSABLE`), and the **four-way assurance
-  taxonomy** (a check that FINDS is not a check that REFUSES).
-- **The combined eye BLOCKED TWICE before the key**, and both were claim defects
-  rather than layout: `Taken` was a declared required field the qualification
-  contract never checked, and the assurance legend promised refusal while one of
-  its own rows only emits a finding. **Third consecutive item where the drawings
-  land and the sentences about the drawings carry the defects.**
-- **Resealed on his key:** `condition-anatomy` `fp:a75179033850` ·
-  `condition-lifecycle` `fp:da2a068e7a94` · `assurance-boundary`
-  `fp:73ba8986c228`. The dated GO record is untouched and still carries the
-  pre-ruling seals and the pre-ruling model, which is correct.
-- **The next sitting opens with the COMPOSER DISPATCH** — step 5 of his original
-  order, deliberately deferred to a fresh context because it must *remove* an
-  obsolete design path across 16 sites rather than absorb wording. The full
-  eight-item brief is recorded verbatim in TODO's `## Now`.
-- **`gate-visuals` at `ready-to-release`; `funnel-driver` at `acceptance`** —
-  unchanged; the pilot `stage-route-consistency` is still unframed at `frame`.
+- **`evidenced-by` is gone from the spec** across all 16 sites, the
+  acceptance-record entry contract (D6) is in, and the producer ruled at the
+  gate that `Method` must **resolve** to a real `TST` block, not merely parse.
+  Step count 19 -> 20; Step 9 is new machinery, which is why open Pieces went
+  UP from 15.
+- **Drive drives ONE gate of seven** — the standing misreading is corrected
+  below. The board showing `funnel-driver` at `acceptance` means its framed
+  slices are complete, never that the umbrella works.
+- **The effort ratio was measured: 1 line of capability to 45 lines of
+  documents** over 14 days. The proportionality dial that would fix it was
+  decided in August and never wired.
+- **Next sitting: the viability question set, as a SPIKE** — one rung, to find
+  out whether a set can be derived from decisions already made or whether each
+  needs fresh research. Not more scaffolding.
+- **`gate-visuals` at `ready-to-release`; `funnel-driver` and `progress-html`
+  at `acceptance` with zero Pieces left** — both need only a record and a key.
 
 ## Key Decisions
+
+- **A REFERENCE THAT PARSES IS NOT A REFERENCE THAT RESOLVES — Tony, 2026-09-01, at the D6 check-6 gate.** The entry contract validated `Method` as *shape* (`^TST-[0-9]+$`) while check 1 required the `MSC` to *exist in the register* — an asymmetry the composer spotted and left for the eye rather than hardening either way. His ruling: *"'Method names a TST' means the referenced ID resolves to an existing TST block in the register... A phantom method would make the observed result unverifiable and therefore NOT ASSESSABLE."* Both halves now bind, with two diagnosable refusal strings so syntax and resolution fail distinguishably. **And he drew the boundary in the same breath, which is the transferable half:** resolution is not versioning. The sealed design requires a method *reference*, not a frozen method *version*, so **no `Method-SHA256`, no stamp on the edge, no version-pinning ships in this slice** — whether historical evidence must bind to the exact keyed `TST` version is *"a legitimate follow-up integrity question, but it should be filed rather than silently added to this contract."* Filed in TODO. Same family as the suspect-link stamp: a stored reference proves existence, never sameness.
+
+- **DRIVE DRIVES ONE GATE OF SEVEN, AND THE BOARD CANNOT TELL YOU THAT — measured 2026-09-01 after the producer refused the claim that Drive had shipped.** The session read `funnel-driver` at `acceptance` with 6/6 Pieces and reported the umbrella built. **It is not.** Drive's own text says so: *"Viability, scope, design, work handoff, loop and acceptance have no question set yet."* Only the frame gate asks real questions; for the other six Drive reports position and hands to conductor. 104 lines against conductor's 394. **The mechanism of the error is the point: a rung position measures the slices that were FRAMED, never the capability the slug names.** Most of Drive was never framed, so it is not in the denominator — which is why "92% of specced work is done" was true and the impression it gave was false. Same class as the stage-versus-derived-route overclaim already filed, one altitude up: a derived signal answering a question nobody asked it. **The producer caught it in one line — *"drive has not shipped - its not possible"* — and the model had the evidence on screen and read it wrong.**
+
+- **THE CEREMONY HAS NO WORKING PROPORTIONALITY DIAL, AND IT IS MEASURABLE AT 1:45 — 2026-09-01.** Over 14 days: **2,392 lines of capability against 107,569 lines of documents.** Last three days: 7 capability file-changes to 111 document changes. `requirements-success-measurement` was framed 2026-08-28 and has produced **one** commit to `tools/` in five days. **The cause is not discipline, it is a socket left empty.** Law 2 (2026-08-13) says *the law is absolute, the ceremony is proportionate*; `rigor-level` slice 1 shipped the declaration — every item names `spike` / `mvp` / `production-v1` and the gates refuse a missing one — and slice 2's per-level floors were never built. Verified again tonight: the three `floor` hits in `kit.py` are the killer-risk floor, a different mechanism. **So declaring `spike` changes nothing and every item gets production treatment regardless of size.** The machine built to stop the wrong thing being built is now the reason the right thing is not.
+
+- **A QUESTION SET IS PER RUNG AND WORK-TYPE-NEUTRAL — the model's call, 2026-09-01, producer answered "dont know" and licensed the default.** Six small files, not six times the work types. **The evidence is the one set that exists:** `docs/work/question-sets/software-change.md` is named for a work type and not one of its six questions is about software — *"What is the problem, in the words of the person who has it?"* works verbatim for a content plan, a business plan or a repair. A file that cannot justify its own filename is the cheapest possible evidence the axis carries no weight. It also matches the standing shape: Drive exists because the ladder is ONE ladder across work types, so the rungs do not change and neither should the questions. **What varies is the answer, not the question** — *"in units someone could measure"* means something different for a repair than a business plan, and that is the person's job. A per-work-type override is admissible when a rung is *shown* to need one; none has been. **Open until tested: whether a set can be DERIVED from gate needs plus decisions already standards-anchored, or whether each rung needs fresh Law 4 research** — the producer's stated fear, and the reason the next sitting is a spike rather than a build.
 
 - **THE DESIGN PACKAGE IS AMENDED BEFORE THE SPEC IS REVISED — A WORK SPECIFICATION MUST NEVER BE THE FIRST AUTHORITATIVE STATEMENT OF A DESIGN. Tony, 2026-09-01, ruling at the reassessment after `requirements-success-measurement`'s four producer gates.** All four gates were keyed in one sitting (`93b1215` · `5101645` · `7ed7fd1` · `838a5fa`), and two of them took the more expensive option: reciprocal stamping is **built now** scoped to Requirement <-> `MSC`, and the `Observed result` lives in the **immutable acceptance record** rather than the register, which refused the cheap path of forcing `evidenced-by` through today's ID-only link grammar. Five of the six remaining Phase 1 steps went blocked as a result. **The question the reassessment put to him was where the hand-back goes**, because D1's mechanism assumes the composer revises the spec — and his answer names the defect in that assumption: *"Four rulings changed architecture and assurance, not merely execution order. Letting the composer encode them directly into Steps 5–10 would make the work specification the first authoritative statement of the design — the wrong artifact owning the decision."* **The transferable rule: D1-style hand-back is right for a wrong PASSAGE and wrong for a ruling that MOVES the architecture** — the first is a contract defect, the second is a design change wearing a contract's clothes. **His five-step sequence:** freeze the current spec with the four rulings recorded and **do not execute Step 7** · amend the design package to settle seven things (the canonical observed-result shape inside the immutable acceptance record · how an `MSC` references that result · whether the reference carries a digest and its canonical byte recipe · `NOT ASSESSABLE` derivation · reciprocal `measured-by`/`measures` storage and finding semantics · the split between requirement categories and register artifact extensions · structural parser responsibilities versus producer comparison) · sweep all three views and the prose for consequences, **especially the assurance boundary and its counts** · re-render, take producer approval for every changed view, reseal from final content, **dated GO record untouched** · only then re-dispatch the composer against the amended, keyed design, **explicitly encoding cross-step dependencies**. **Step 7 waits although it is technically clear** — verified: its three `kit.py` edits survive all four rulings intact, and rulings 3 and 4 consume its output rather than changing it — because *"building it before the governing design is restored would invert the ladder."* **And the demotion is honest rather than avoided:** the item stays at its temporary demotion until the amendment completes. Per the 2026-08-25/2026-09-01 precedent the seal downgrade is the **opening act of the correction deliverable**, not a separate beat — downgrading and then stopping would strand a demoted item across a session boundary and force the committed render to either memorialize the demotion or lie about it.
 
@@ -218,9 +218,9 @@ landed. Kerd stays at **v0.104.0** — `tools/` untouched, `catalog.md` and
 
 ## Active Mode
 
-- **conductor: closed** 2026-09-01 (3rd sitting) — the design amendment pass for
-  `requirements-success-measurement`. Orient 19:19 · plan 19:25 · execute 19:27 ·
-  close-out 20:08 EDT. Marker cleared at close-out; no conductor mode is active.
+- **conductor: did not run** this sitting. No `kivna/.active-modes` file exists
+  and none was written; the work was producer-directed turn by turn, so there
+  is no `execute` stamp and the session log's heading carries a close time only.
 - **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host —
   sessions run in tmux over SSH from the MacBook; the user's screen is on the
   laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`).
