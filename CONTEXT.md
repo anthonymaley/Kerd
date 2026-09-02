@@ -6,31 +6,46 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-02 — the ladder gained THREE record types, and three of the five
-scaffolding items were closed honestly rather than papered over.** Four pushes,
-all CI green: `83b1299` + `19bc0f4` (inline-composer's design keyed, board
-refreshed), `55b753d` (switch-fidelity's design rung waived), `65a2265`
-(model-effort-advisory's legacy closure). Kerd stays at **v0.104.0** — nothing
-was built, `tools/` untouched throughout.
+**2026-09-02 — two sittings. The first gave the ladder THREE RECORD TYPES; the
+second asked whether the ladder's own questions can be derived, and the answer
+is yes-with-a-decay.** Six pushes, all CI green. Kerd stays at **v0.104.0** —
+nothing was built either sitting, `tools/` untouched throughout both.
 
-- **A rung can now leave four things behind:** a **GO** (evidence exists, the
-  producer read it) · a **waiver** (the producer deliberately skipped, ten
-  fields, renders `design waived`) · a **legacy closure** (the obligation did not
-  yet exist; closes the routing gap, never the evidence gap) · or **nothing**, in
-  which case the gate stays **blocked**.
-- **The first design gate in this repo that checked something real.** Declaring a
-  `concerns:` block on `inline-composer` correctly demoted it to `scope` until
-  the view was approved and sealed (`fp:17d01f87d0e8`), then PASS with 7 inputs.
-  Five of 22 items now declare concerns.
-- **Drive still drives ONE gate of seven** — the correction that reframed the
-  whole day, and the board cannot show it.
-- **Two of the five remain blocked by their own design docs.**
-  `requirements-traceability`'s package is marked BLOCKED by its own text;
-  `shared-memory`'s 164 lines are annotations plus three open questions.
-- **Next: the viability question set as a SPIKE**, unchanged from yesterday's
-  close. `hooks-autoload` is the remaining sibling legacy closure.
+**Sitting 1 (closed 15:21).** `83b1299` + `19bc0f4` (inline-composer's design
+keyed), `55b753d` (switch-fidelity's design rung waived), `65a2265`
+(model-effort-advisory's legacy closure).
+
+- **A rung can now leave four things behind:** a **GO** · a **waiver** · a
+  **legacy closure** · or **nothing**, in which case the gate stays **blocked**.
+- **The first design gate in this repo that checked something real** — declaring
+  `concerns:` on `inline-composer` correctly demoted it to `scope` until the view
+  was sealed (`fp:17d01f87d0e8`), then PASS with 7 inputs.
+- **Two of the five remain blocked by their own design docs** —
+  `requirements-traceability` and `shared-memory`.
+
+**Sitting 2 (opened 16:44).** `5fafc19` + `1451adf` + `e556e42` — the
+**question-set-derivation spike**, verdict **PARTIAL**, findings at
+`docs/design/question-set-derivation-findings.md`.
+
+- **A viability question set DERIVES.** Five of six questions trace to a
+  machine-enforced refusal in `kit.py`, cited by line; the set surfaced the
+  material viability issue in all three items tested. **So the remaining five
+  rungs are not five research items** — the producer's stated fear of 2026-09-01
+  is answered, and answered downward.
+- **But derivation is backward-looking, and that is the bigger finding.** A set
+  is exactly as good as the decisions accumulated when it was derived and goes
+  stale silently. The mechanism for that is ruled and **not built**.
+- **Drive still drives ONE gate of seven** — unchanged, and the board still
+  cannot show it.
+- **Next: the staleness mechanism, which is the real work.** Writing six sets is
+  cheap; keeping them honest is what needs designing. It is unframed and has no
+  slug — the same invisibility this spike fixed for itself.
 
 ## Key Decisions
+
+- **A DERIVED SET IS INVALIDATED BY SOURCE CHANGE, NEVER RE-DERIVED PER USE — AND THE TWO HALVES ANSWER DIFFERENT FAILURES. Tony, 2026-09-02, ruling on the question-set-derivation spike's sharpest finding.** The spike proved a viability question set derives from two sources — a machine-enforced refusal in `kit.py`, or a named standing decision — five of its six questions carrying a cited line number. **It also proved the harder thing: derivation is BACKWARD-LOOKING.** `requirements-success-measurement`'s honesty clause (*"an explicit producer judgment … Drive does not structurally guarantee compliance"*) is citable today and did not exist when `rigor-level` went through viability, so a set derived earlier could not have asked it — and nothing about a set's own text changes when a new ruling lands. **His shape, four elements:** the exact gate demands and standing decisions it was derived from, named individually · a **derivation fingerprint** over those named sources · a **refusal condition** — if any named source changes the set is stale and must be re-derived before use · a **periodic Law 4 review trigger** for discovering relevant new sources that were never named. **He ruled out both obvious alternatives by name, and the reasoning is the transferable part:** re-deriving on every invocation *"wastes work without solving the harder problem: an unlisted new decision would remain invisible"* — it pays a cost per use and still misses the case it was bought for; and a date-only review trigger *"is also too weak."* **Source-bound invalidation catches the sources you named; the scheduled discovery review catches the ones you did not. Neither alone is sufficient**, which is why this is two mechanisms rather than a choice between them. **Same family as the suspect-link stamp**: a stored reference proves existence, never sameness — here a fingerprint over named sources proves the derivation still matches what it was derived from, and proves nothing about sources nobody listed. **Recommended, explicitly NOT built** — his boundary for the spike: *"record that as the recommended mechanism—not implemented machinery—and keep the verdict PARTIAL."*
+
+- **A SPIKE'S HONEST OUTPUT MAY BE "MOST OF IT DERIVES, AND HERE IS PRECISELY WHAT DOES NOT" — PARTIAL was declared legal BEFORE the work ran, 2026-09-02.** The kill-or-keep landed in `5fafc19` with three kill criteria and PARTIAL named as an expected outcome; the verdict was then read off it rather than argued afterwards. **Two things this bought that a pass/fail frame would have lost.** First, the one non-deriving question is *nameable*: `Impact` and `Likelihood` are columns in `LEDGER_COLUMNS` and `parse_ledger` never refuses an empty one, so risk sizing is structurally optional and that question rests on the 2026-08-03 decision alone — a measured gate gap, found by trying to derive against it. Second, **kill criterion 3 was UNTESTABLE and is reported as such**: no item on the board records a viability decision that passed and should not have, so the criterion is *searched-and-not-found*, never *satisfied*. **The negative-result rule applied to a spike's own criteria** — an untested criterion reported as met is exactly how a spike's reach gets over-read later.
 
 - **A RUNG LEAVES ONE OF FOUR THINGS BEHIND, AND CONFLATING THEM IS THE FAILURE THE RECORDS EXIST TO PREVENT — Tony, 2026-09-02.** A **GO** says the evidence exists and the producer read it. A **waiver** says the producer *deliberately skipped* the rung: dated, keyed, carrying ten required fields — item and exact rung · both dates · the producer's **verbatim** decision · why · **evidence the skip was deliberate rather than forgotten** · assurance lost · compensating evidence · scope with no precedent inferred · a review or expiry trigger · key and `Clock:`. It renders **`design waived`, never `design pass`**; it may permit routing forward, but every later handoff and acceptance record retains it as **visible debt** and *"it cannot make the missing evidence appear to exist."* A **legacy closure** says the obligation *did not yet exist* — it closes the **routing** gap and never the **evidence** gap. And **a gate simply forgotten gets neither, and stays blocked**: *"there is no record type for an oversight; inventing one would make forgetting the cheapest route through the ladder."* **The two exception types keep SEPARATE HOMES on his ruling** — `docs/gates/waivers/` and `docs/gates/closures/` — because *"they represent opposite historical claims: a waiver proves an obligation existed and was consciously skipped; a legacy closure proves the obligation did not yet exist and must not be reconstructed."*
 
@@ -224,9 +239,10 @@ was built, `tools/` untouched throughout.
 
 ## Active Mode
 
-- **conductor: did not run** this sitting. No `kivna/.active-modes` file exists
-  and none was written; the work was producer-directed turn by turn, so there
-  is no `execute` stamp and the session log's heading carries a close time only.
+- **conductor: RAN and closed** this sitting — orient 15:37 · plan 16:20 ·
+  execute **16:44** · close-out 16:57 (EDT). The `execute` stamp is the
+  sitting's open time and was captured before the marker was overwritten.
+  `kivna/.active-modes` is cleared at close-out, so nothing is left to resume.
 - **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host —
   sessions run in tmux over SSH from the MacBook; the user's screen is on the
   laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`).

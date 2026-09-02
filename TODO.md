@@ -2,54 +2,58 @@
 
 ## Now
 
-**NEXT SITTING: the viability question set, as a SPIKE.** Unchanged from
-2026-09-01's close, and now the clearest remaining move. One rung, answering one
-question: **can a question set be DERIVED from gate needs plus decisions already
-standards-anchored, or does each rung need fresh Law 4 research?** The shape is
-settled — per rung, work-type-neutral, six small files — and the working example
-is `docs/work/question-sets/software-change.md`, **six questions, 24 lines**,
-every one a gate requirement said in plain language.
+**The viability question-set spike is DONE — verdict PARTIAL** (`5fafc19` frame,
+`e556e42` findings, CI green on both). Findings:
+`docs/design/question-set-derivation-findings.md`. Nothing was built: no
+`kit.py` edit, no check, no seed file, `tools/` untouched throughout.
 
-**Why this and not more scaffolding:** Drive drives ONE gate of seven. The
-scaffolding is the smaller-looking job and the unbounded one; the walker is
-bounded.
+**What it settled.** Five of six questions in a candidate viability set trace to
+a machine-enforced refusal in `kit.py`, cited by line; one does not. The set
+surfaced the material viability issue in all three items tested (`rigor-level`,
+`requirements-success-measurement`, `gate-visuals`). **So the remaining five
+rungs are not five research items** — most of each set derives, and the residue
+is nameable per rung.
 
-**The design-gate sitting closed three of five (2026-09-02).**
+**What it opened, and this is the bigger half: derivation is backward-looking.**
+A derived set is exactly as good as the decisions accumulated when it was
+derived, and goes stale silently as gates keep teaching. The producer's ruling
+on where that pressure belongs — **source change, not every use** — is recorded
+in CONTEXT.md and in the findings, as a **recommended mechanism, not built**.
 
-- **`inline-composer` — design KEYED** (`83b1299`). One artifact sized by
-  content · two questions with one file supplying evidence at both · waiver as
-  exception · legacy closure for historical work · forgotten gate stays blocked.
-  View sealed `fp:17d01f87d0e8`. **Now at `handoff`** — its spec is unwritten and
-  is the natural first use of the mechanism it just defined.
-- **`switch-fidelity` — design rung WAIVED** (`55b753d`). Expires when slice 2 is
-  framed. Three accepted unknowns still unanswered; unknown 2 (nothing proves a
-  pickup restored what the close recorded) is live debt.
-- **`model-effort-advisory` — LEGACY CLOSURE** (`65a2265`). Routing gap closed,
-  evidence gap preserved. **`hooks-autoload` is the sibling case** named in the
-  same frame clause and closes the same way, on its own key, in its own sitting.
+**NEXT: the recommended mechanism is the real work, not the six sets.** Writing
+question sets is cheap; keeping them honest is the part that needs designing. It
+has no slug and is not framed — same invisibility this spike just fixed for
+itself.
 
 **Still blocked, and by their own documents:**
 
 - **`requirements-traceability`** — its design doc carries
-  `## The design package — BLOCKED, not yet reworked`. Needs that rework. Remainder
-  after a key is small: the `--root` invoke side, **0 skills pass it**.
+  `## The design package — BLOCKED, not yet reworked`. Remainder after a key is
+  small: the `--root` invoke side, **0 skills pass it**.
 - **`shared-memory`** — 164 lines of annotation plus `## Open at design` with
-  three unresolved questions. Remainder after a key is smaller still: the journey
-  page already renders 4 of its 5 things; only the status word is missing.
+  three unresolved questions. Only the status word is missing from its journey
+  page.
+
+**Cheap and unblocked:**
+
+- **`inline-composer` at `handoff`** — spec unwritten; the natural first use of
+  the mechanism it defined.
+- **`hooks-autoload`** — the sibling legacy closure, same frame clause, its own key.
+- **`funnel-driver` + `progress-html`** — a record and a key, not work. 0 Pieces each.
 
 **TODO closure review** (this boundary):
 
 ```
-  ✓ done   — "prepare the five for their design gates"     (3 closed, 2 blocked by their own docs — reported, not papered)
-  ✓ done   — "inline-composer design"                      (83b1299, keyed; view sealed fp:17d01f87d0e8)
-  ✓ done   — "switch-fidelity waiver"                      (55b753d, keyed; expires at slice 2's frame)
-  ✓ done   — "model-effort-advisory legacy closure"        (65a2265, keyed; hooks-autoload is the sibling)
+  ✓ done   — "the viability question set, as a SPIKE"   (5fafc19 + e556e42; verdict PARTIAL, CI green)
   · open   — "requirements-traceability" · "shared-memory"  (blocked on design work their own docs say is owed)
+  · open   — "inline-composer handoff spec" · "hooks-autoload closure"  (untouched)
+  · open   — "funnel-driver acceptance" · "progress-html acceptance"  (0 Pieces each)
   · open   — "the three composer-brief clauses need a durable home"  (untouched)
-  · open   — "funnel-driver acceptance" · "progress-html acceptance" (0 Pieces each; a record and a key)
   · open   — "gate-visuals slices 2 and 3" · standards spike x4 · archaeology
-  + new    — waiver/closure records are named exactly like GO records; only a non-recursive glob separates them
-  ! note   — Drive drives ONE gate of seven; a rung position cannot show capability completeness
+  + new    — derived-set staleness: source-bound invalidation + scheduled discovery review (recommended, not built)
+  + new    — Impact and Likelihood are ledger columns nothing refuses when empty
+  + new    — CONTEXT 2026-08-25's rung labels sit one rung high under the 2026-08-28 naming ruling
+  ! note   — kill criterion 3 was untestable: no item records a viability decision that passed and should not have
 ```
 
 ## Backlog
@@ -57,6 +61,43 @@ bounded.
 *Ranked by consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
 **High consequence**
+
+- **A DERIVED QUESTION SET NEEDS SOURCE-BOUND INVALIDATION PLUS A SCHEDULED
+  DISCOVERY REVIEW — the producer's ruling 2026-09-02, recommended and NOT
+  built.** The spike proved a viability set derives from gate demands plus
+  standing decisions (`docs/design/question-set-derivation-findings.md`), and
+  proved the harder thing: **derivation is backward-looking.** A set is exactly
+  as good as the decisions accumulated when it was derived, and nothing about
+  its own text changes when a new ruling lands. His shape, four elements: the
+  exact gate demands and standing decisions it was derived from, named
+  individually · a **derivation fingerprint** over those named sources · a
+  **refusal condition** — any named source changes and the set is stale, to be
+  re-derived before use · a **periodic Law 4 review trigger** for discovering
+  relevant new sources that were never named. **Both halves are load-bearing and
+  he ruled out the alternatives by name:** re-deriving on every invocation
+  *"wastes work without solving the harder problem: an unlisted new decision
+  would remain invisible"*, and a date-only review trigger *"is also too weak."*
+  **Candidate shape for the fingerprint, not decided:** reuse
+  `approval_fingerprint(category, fields)` — the one versioned mechanism, keyed
+  2026-09-01 — rather than a second recipe, per the rule-9 lesson. **This is the
+  real work, not the six sets** — writing them is cheap, keeping them honest is
+  what needs designing. Unframed, no slug: the same invisibility the spike just
+  fixed for itself.
+
+- **`Impact` and `Likelihood` are risk-ledger columns that nothing refuses when
+  empty** (measured 2026-09-02 during the derivation). `LEDGER_COLUMNS`
+  (`kit.py:61`) declares all eight, and `parse_ledger` checks per row only
+  `Evidence` (`:482`), `State` (`:486`), `Countermeasure` (`:492`) and
+  `Review trigger` (`:496`). **So the sizing of a risk is structurally
+  optional** while the standing decision of 2026-08-03 requires it — *"Qualified
+  = proven AND measured: impact in the value's units, likelihood recorded
+  separately."* This is the sole reason one of the six derived viability
+  questions has no machine citation. Same recurring class: a declared contract
+  joined to reality by nothing. Candidate countermeasure, not built: refuse an
+  empty `Impact` or `Likelihood` at the viability gate the way `Evidence` is
+  already refused — but note it would demand a migration pass over every
+  existing ledger, which is why it is a row and not an edit.
+
 
 - **THIS ROW IS NOW THE PILOT FOR `requirements-success-measurement`** (chosen
   by the producer 2026-09-01, slug `stage-route-consistency`, framed by Step 12
@@ -525,6 +566,22 @@ bounded.
   session-state-dirty at a real stopping point.
 
 **Medium**
+
+- **`CONTEXT.md`'s 2026-08-25 bullet labels both risk checks one rung too high**
+  (found 2026-09-02 by the derivation spike). It reads *"viability requires
+  killer risks named … scope requires every row qualified."* Under
+  `tools/gates/README.md:42` — *"a rung's exit is the next rung's entry; it is
+  the frame gate's input, not viability's"* — and the 2026-08-28 ruling that a
+  check's reader-facing name wins over its code location, killer-risks-named is
+  the **frame** gate's input and every-row-qualified is the **viability** gate's
+  input. Conductor's own frame rule already says the frame carries the killer
+  risk, so the skills agree and the standing decision does not. **The machine
+  description in the bullet is accurate; only the rung names are wrong.** Filed
+  rather than edited — it is a keyed tree and the standing rule is *file, don't
+  edit*. **Why it is not cosmetic:** standing decisions are one of the two legal
+  citation sources for deriving a question set, so a derivation citing this
+  bullet naively files its questions against the wrong rung.
+
 
 - **README's `## What's New (vX)` header is a second home for a fact the entries
   below already carry** (fixed forward 2026-08-30 by the release pass, v0.99.0 ->
