@@ -6,45 +6,43 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-02 — two sittings. The first gave the ladder THREE RECORD TYPES; the
-second asked whether the ladder's own questions can be derived, and the answer
-is yes-with-a-decay.** Six pushes, all CI green. Kerd stays at **v0.104.0** —
-nothing was built either sitting, `tools/` untouched throughout both.
+**2026-09-02 — three sittings. The third framed the staleness mechanism the
+second discovered was needed, and stopped there deliberately.** Eight pushes,
+all CI green. Kerd stays at **v0.104.0** — nothing was built in any of the
+three, `tools/` untouched throughout.
 
 **Sitting 1 (closed 15:21).** `83b1299` + `19bc0f4` (inline-composer's design
 keyed), `55b753d` (switch-fidelity's design rung waived), `65a2265`
-(model-effort-advisory's legacy closure).
+(model-effort-advisory's legacy closure). A rung can now leave four things
+behind: a **GO** · a **waiver** · a **legacy closure** · or **nothing**, in which
+case the gate stays **blocked**.
 
-- **A rung can now leave four things behind:** a **GO** · a **waiver** · a
-  **legacy closure** · or **nothing**, in which case the gate stays **blocked**.
-- **The first design gate in this repo that checked something real** — declaring
-  `concerns:` on `inline-composer` correctly demoted it to `scope` until the view
-  was sealed (`fp:17d01f87d0e8`), then PASS with 7 inputs.
-- **Two of the five remain blocked by their own design docs** —
-  `requirements-traceability` and `shared-memory`.
+**Sitting 2 (16:44–17:00).** `5fafc19` + `1451adf` + `e556e42` — the
+**question-set-derivation spike**, verdict **PARTIAL**. A viability question set
+DERIVES: five of six questions trace to a machine-enforced refusal in `kit.py`,
+cited by line. But **derivation is backward-looking**, and the mechanism for that
+was ruled and **not built**.
 
-**Sitting 2 (opened 16:44).** `5fafc19` + `1451adf` + `e556e42` — the
-**question-set-derivation spike**, verdict **PARTIAL**, findings at
-`docs/design/question-set-derivation-findings.md`.
+**Sitting 3 (opened 20:07).** `85b8683` + `920c952` — **`question-set-staleness`
+is FRAMED**, work record `docs/product/question-set-staleness.md`, board row 29,
+**enters at viability**.
 
-- **A viability question set DERIVES.** Five of six questions trace to a
-  machine-enforced refusal in `kit.py`, cited by line; the set surfaced the
-  material viability issue in all three items tested. **So the remaining five
-  rungs are not five research items** — the producer's stated fear of 2026-09-01
-  is answered, and answered downward.
-- **But derivation is backward-looking, and that is the bigger finding.** A set
-  is exactly as good as the decisions accumulated when it was derived and goes
-  stale silently. The mechanism for that is ruled and **not built**.
-- **Drive still drives ONE gate of seven** — unchanged, and the board still
-  cannot show it.
-- **Next: the staleness mechanism, which is the real work.** Writing six sets is
-  cheap; keeping them honest is what needs designing. It is unframed and has no
-  slug — the same invisibility this spike fixed for itself. **Deliberately not
-  opened at this boundary**, on the producer's call: framing its value and
-  failure boundary late would trade freshness for weak producer judgment. It is
-  first on the next sitting's `## Now`.
+- **The producer's value statement names BOTH failure directions**, which is more
+  than the frame gate asks for, and it is the reason the item is now well posed.
+- **Success is measurable and his:** fixtures proving both directions, plus six
+  weeks with zero stale sets used and zero invalidations dismissed as noise.
+- **Two killer risks named, one of them measured in this repo** — the scheduled
+  discovery review is a human beat with no forcing function, and 27 dormant
+  review triggers already sit here firing nothing.
+- **The ledger is named, not qualified, and the scope gate refuses all four rows
+  honestly.** No `## Scope` was written: that is the producer's rung.
+- **Next is viability, and it begins as its own rung** on the producer's call —
+  four new judgments, including the fingerprint-granularity tradeoff that decides
+  whether the killer risk fires by construction.
 
 ## Key Decisions
+
+- **A VALUE STATEMENT MAY NAME TWO OPPOSITE FAILURES, AND WHEN IT DOES, NEITHER HALF ALONE IS THE REQUIREMENT — Tony, 2026-09-02, framing `question-set-staleness`.** Asked what the mechanism must prevent, he gave both directions unprompted: a stale set *"creates false confidence and pushes the defect into later work, where correction costs more"*, and the opposite failure, *"invalidating sets for unrelated edits so frequently that freshness becomes noise and people learn to ignore or bypass it."* **Why the pairing is structural rather than thorough:** each half alone is trivially satisfiable in a way that defeats the other — invalidate everything always, or never fire — so a single-direction value statement would have been met by a useless mechanism passing its own gate. **The measurement carries the same shape:** fixtures proving *both* directions (relevant changes refuse, irrelevant changes remain valid), plus six weeks with **zero stale sets used** and **zero invalidations dismissed as noise** — two counters, one per direction, and a third observable (a newly relevant decision found at the scheduled review) that keeps discovery a separate mechanism rather than a fallback on invalidation. **The transferable rule: when a value statement names only the failure you are trying to prevent, ask what the countermeasure over-firing would cost — if that has a name, it belongs in the statement, because it is what stops the fix being worse than the defect.** Same family as the hollow-waiving and `unqualified` findings: the cheap-looking satisfaction is the one that must be argued against. **And the boundary he set the same sitting:** viability *"requires four new producer judgments — including the granularity tradeoff — and should begin as its own deliberate rung rather than ride the momentum of a finished task."* The granularity question is the one that sizes the item — a fingerprint over whole files makes the killer risk fire by construction, since every unrelated edit to `kit.py` or `CONTEXT.md` would invalidate every set derived from them; a fingerprint over the cited rules makes unrelated edits silent. **Open and hardest, recorded rather than resolved:** a standing decision is a prose bullet with no stable anchor, so there may be nothing addressable to fingerprint at the granularity the value statement requires.
 
 - **AN ACCEPTANCE RECORD AND A LEGACY CLOSURE ARE EVIDENCE-BACKED KEYS, NEVER MECHANICAL CLEANUP — Tony, 2026-09-02, correcting the session that had just made the error.** Offered a menu at the boundary, the model described `funnel-driver` and `progress-html` as *"a record and a key, not work"* under a heading calling them **cheap and unblocked**, and `hooks-autoload`'s legacy closure as a near-mechanical sibling. His correction: *"don't treat the acceptance records or legacy closure as mechanical cleanup; each still requires an evidence-backed key."* **Why the error matters more than the wording: zero Pieces means the BUILD is done, and says nothing about the gate.** An acceptance record is the producer's **last** gate — the cold-eyes and expert-user pass live there, and `gate-visuals` needed three layer-4 rounds and 37 findings before its record could be written honestly. A legacy closure asserts that an obligation *did not yet exist*, which is a historical claim about the past; `model-effort-advisory`'s took two measured facts (frame and build in the same commit `f4c51c0`, and the exempting rule live in the same file at the same commit) and would have been a lie without them. **Same family as the hollow-waiving and `unqualified` findings, aimed one level up at the SESSION rather than at an artifact:** the cheap-looking state is the one that must be argued for, and calling a gate cheap in a pick-list is how it gets treated as one. **The transferable rule: a rung with nothing left to build is not a rung with nothing left to prove.**
 

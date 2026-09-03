@@ -2,42 +2,40 @@
 
 ## Now
 
-**The viability question-set spike is DONE — verdict PARTIAL** (`5fafc19` frame,
-`e556e42` findings, CI green on both). Findings:
-`docs/design/question-set-derivation-findings.md`. Nothing was built: no
-`kit.py` edit, no check, no seed file, `tools/` untouched throughout.
+**The staleness mechanism is FRAMED** (`85b8683` frame, `920c952` board, CI
+green). Slug `question-set-staleness`, work record
+`docs/product/question-set-staleness.md`. `gate.py route` reports **enters at
+viability**. Nothing was built: no `kit.py` edit, no check, no fingerprint,
+`tools/` untouched.
 
-**What it settled.** Five of six questions in a candidate viability set trace to
-a machine-enforced refusal in `kit.py`, cited by line; one does not. The set
-surfaced the material viability issue in all three items tested (`rigor-level`,
-`requirements-success-measurement`, `gate-visuals`). **So the remaining five
-rungs are not five research items** — most of each set derives, and the residue
-is nameable per rung.
+**The value is stated in TWO directions and both bind.** A stale set creates
+false confidence and pushes the defect into later work where correction costs
+more; and invalidating for unrelated edits so often that freshness becomes noise
+makes people ignore or bypass it. A mechanism satisfying only the first is met by
+invalidating everything always, only the second by never firing. **Success is
+measurable and the producer's:** fixtures proving both directions — relevant
+changes refuse, irrelevant stay valid — plus six weeks with **zero stale sets
+used** and **zero invalidations dismissed as noise**.
 
-**What it opened, and this is the bigger half: derivation is backward-looking.**
-A derived set is exactly as good as the decisions accumulated when it was
-derived, and goes stale silently as gates keep teaching. The producer's ruling
-on where that pressure belongs — **source change, not every use** — is recorded
-in CONTEXT.md and in the findings, as a **recommended mechanism, not built**.
+**NEXT, AND IT IS ITS OWN RUNG: viability for `question-set-staleness`.** Four
+ledger rows are named and unqualified, so the scope gate refuses all four
+honestly. The producer's call at this boundary, 2026-09-02 — *"viability requires
+four new producer judgments — including the granularity tradeoff — and should
+begin as its own deliberate rung rather than ride the momentum of a finished
+task."* **The granularity question is the one that sizes the item:** if the
+fingerprint covers whole files, every unrelated edit to `kit.py` or CONTEXT.md
+invalidates every set derived from them and the killer risk fires by
+construction; if it covers the cited rules, unrelated edits are silent. Row 3 of
+the ledger is the hard half — a standing decision is a prose bullet with no
+stable anchor, so there may be nothing addressable to fingerprint at all.
 
-**NEXT SITTING, AND IT IS FIRST: frame the staleness mechanism.** The producer's
-call at this boundary, 2026-09-02 — *"the staleness mechanism is the correct next
-item, but framing its value and failure boundary late would trade freshness for
-weak producer judgment."* So it was deliberately NOT opened at the end of a long
-day, and that deferral is a decision rather than a slip. **Framing is the
-producer's rung** — the value statement and the failure boundary are his to
-state, which is exactly why they are not worth taking at hour eight.
+**No `## Scope` was written, deliberately.** The smallest increment is the
+producer's rung; authoring it at the frame is what the 2026-09-02 deferral was
+protecting.
 
-The shape is already ruled (CONTEXT.md, 2026-09-02): named sources · a derivation
-fingerprint over them · refusal when any named source changes · a periodic Law 4
-discovery review. What is missing is the frame — value in units, the failure
-boundary, a killer risk. **It has no slug and no board row, which is the same
-invisibility `question-set-derivation` had this morning and the spike's own
-finding one level up.**
-
-**Do NOT start the five remaining question sets before it.** They are bounded now,
-but writing five artifacts that go stale silently — with nothing to catch it — is
-building the thing the spike just warned about.
+**Do NOT start the five remaining question sets before it** — unchanged. They are
+bounded, but writing five artifacts that go stale silently is building the thing
+the spike warned about.
 
 **Still blocked, and by their own documents:**
 
@@ -48,15 +46,12 @@ building the thing the spike just warned about.
   three unresolved questions. Only the status word is missing from its journey
   page.
 
-**Unblocked — and NONE of these is mechanical cleanup.** The producer's
-correction at this boundary, recorded because the session had just made the
-error: *"don't treat the acceptance records or legacy closure as mechanical
-cleanup; each still requires an evidence-backed key."* A prior line here read
-*"a record and a key, not work"* under a heading calling them cheap; that
-framing is struck. An acceptance record is the producer's **last** gate and a
-legacy closure asserts that an obligation did not exist — a historical claim
-that has to be evidenced, not asserted. Zero Pieces means the build is done, not
-that the gate is a formality.
+**Unblocked — and NONE of these is mechanical cleanup.** The producer's standing
+correction: *"don't treat the acceptance records or legacy closure as mechanical
+cleanup; each still requires an evidence-backed key."* An acceptance record is
+the producer's **last** gate and a legacy closure asserts an obligation did not
+exist — a historical claim that has to be evidenced. Zero Pieces means the build
+is done, not that the gate is a formality.
 
 - **`funnel-driver` + `progress-html`** at **acceptance**, 0 Pieces each. Each
   needs an evidence-backed acceptance record and the producer's key.
@@ -69,16 +64,14 @@ that the gate is a formality.
 **TODO closure review** (this boundary):
 
 ```
-  ✓ done   — "the viability question set, as a SPIKE"   (5fafc19 + e556e42; verdict PARTIAL, CI green)
+  ✓ done   — "frame the staleness mechanism"          (85b8683 + 920c952; enters at viability, CI green)
   · open   — "requirements-traceability" · "shared-memory"  (blocked on design work their own docs say is owed)
   · open   — "inline-composer handoff spec" · "hooks-autoload closure"  (untouched)
   · open   — "funnel-driver acceptance" · "progress-html acceptance"  (0 Pieces each)
   · open   — "the three composer-brief clauses need a durable home"  (untouched)
   · open   — "gate-visuals slices 2 and 3" · standards spike x4 · archaeology
-  + new    — derived-set staleness: source-bound invalidation + scheduled discovery review (recommended, not built)
-  + new    — Impact and Likelihood are ledger columns nothing refuses when empty
-  + new    — CONTEXT 2026-08-25's rung labels sit one rung high under the 2026-08-28 naming ruling
-  ! note   — kill criterion 3 was untestable: no item records a viability decision that passed and should not have
+  + new    — a Risk ledger section parses prose as rows; nothing distinguishes the two
+  ! note   — the board's one text/text overlap moved with the wider board (4824,250 -> 5054,250); already filed
 ```
 
 ## Backlog
@@ -106,8 +99,13 @@ that the gate is a formality.
   `approval_fingerprint(category, fields)` — the one versioned mechanism, keyed
   2026-09-01 — rather than a second recipe, per the rule-9 lesson. **This is the
   real work, not the six sets** — writing them is cheap, keeping them honest is
-  what needs designing. Unframed, no slug: the same invisibility the spike just
-  fixed for itself.
+  what needs designing. ~~Unframed, no slug: the same invisibility the spike just
+  fixed for itself.~~ **FRAMED 2026-09-02 as `question-set-staleness`**
+  (`85b8683`) — this row's mechanism is now carried by
+  `docs/product/question-set-staleness.md`, which enters at viability. The row
+  stays because the mechanism is still **recommended and not built**; it is now
+  tracked work rather than an invisible one. Its `## Now` successor is the
+  viability rung, where the fingerprint's granularity is decided.
 
 - **`Impact` and `Likelihood` are risk-ledger columns that nothing refuses when
   empty** (measured 2026-09-02 during the derivation). `LEDGER_COLUMNS`
@@ -591,6 +589,22 @@ that the gate is a formality.
   session-state-dirty at a real stopping point.
 
 **Medium**
+
+- **A `## Risk ledger` section parses PROSE as rows, and nothing distinguishes
+  the two** (found 2026-09-02 while framing `question-set-staleness`).
+  `parse_ledger` treats every non-empty line in the section body as a row, so an
+  explanatory paragraph placed under the table reported as `row 5: expected 8
+  columns, found 1` through `row 12` — eight phantom rows, inflating the scope
+  rung from `need 9` to `need 17`. **The refusal is loud but misdirected:** it
+  names row numbers that are not rows, so the natural reading is a malformed
+  table rather than parsed prose. **Same family as the fence-aware fix of
+  v0.83.1** (`2a0ea4a`), which taught the structural parsers that lines inside a
+  fenced block are content and not structure — this is the inverse case, prose
+  outside a fence sitting inside a structured section. **Candidate
+  countermeasure, not built:** stop parsing at the first line that is not a
+  table row, or refuse non-table content in the section with a message that says
+  so. Either is a parser change and belongs to its own rung; mirrored to
+  `docs/playbook.md` as the durable net meanwhile.
 
 - **`CONTEXT.md`'s 2026-08-25 bullet labels both risk checks one rung too high**
   (found 2026-09-02 by the derivation spike). It reads *"viability requires
