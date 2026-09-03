@@ -80,6 +80,31 @@ is done, not that the gate is a formality.
 
 **High consequence**
 
+- **THE RISK LEDGER'S `State` COLUMN CARRIES TWO INDEPENDENT AXES, AND IT IS NOW
+  BLOCKING A LIVE ITEM** (opened by the producer 2026-09-02 at
+  `gate-reachability`'s viability gate; full reasoning in CONTEXT.md
+  `## Open Questions`). `fatal` is a **severity**;
+  `countermeasure - permanent | temporary` and `accepted | accepted unknown` are
+  **dispositions**. One column cannot hold both, so a risk that is genuinely
+  fatal *and* genuinely treated cannot be stated truthfully — whichever value it
+  carries is a lie about the other. **This is not academic:**
+  `gate-reachability` row 1 is exactly that risk and the item sits refused at
+  viability because of it, which is the honest state and not an obstacle.
+  **Two candidate resolutions, the producer's, neither chosen:** either `fatal`
+  is redefined as *"uncountermeasurable loss of the declared value"* — severity
+  measured on residual impact after treatment — or the ledger grows separate
+  inherent-severity and treated-state fields. **His boundary: do not reinterpret
+  the rule inside the item that exposed it.** Same defect class as `project type`
+  before its 2026-08-23 split into three axes: one field doing too much work.
+  **Sizing note:** `LEGAL_STATES` (`kit.py:70`) and `parse_ledger` (`:486`,
+  `:488`) are the machine half, and 22 work records carry ledgers, so a column
+  change is a migration. The redefinition option may be free.
+  **Second gap the same refusal exposes:** `parse_ledger:489` tells a FATAL row
+  to *"record in What we ruled out"*, and the 2026-08-03 decision making that its
+  own artifact has produced `## What we ruled out` sections inside three design
+  docs and **no standalone instance** — so the machine points at a home whose
+  shape was never settled.
+
 - **A DERIVED QUESTION SET NEEDS SOURCE-BOUND INVALIDATION PLUS A SCHEDULED
   DISCOVERY REVIEW — the producer's ruling 2026-09-02, recommended and NOT
   built.** The spike proved a viability set derives from gate demands plus
