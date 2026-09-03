@@ -2,103 +2,67 @@
 
 ## Now
 
-**2026-09-03 morning session done — the ruling landed, its fix is framed, and
-the status template shipped (v0.105.0).** Details in
-`kivna/sessions/2026-09-03.md`; both tasks pushed, CI green on each.
+**The launch sequence — `docs/design/launch-plan.md` (five outcomes, 0 of 5).**
+Everything below it sits in Backlog as repository-quality debt and stays there
+unless the diagnostic pilot surfaces it.
 
-- **Next: `risk-state-split` at viability.** Qualify its two rows — the
-  half-migrated killer and hollow treatment — and write `## Scope`. This is the
-  critical path: `gate-reachability` stays blocked until `risk-state-split` is
-  designed and implemented (the producer's sequencing), then re-qualifies its
-  killer row under the new shape (Severity: fatal · Treatment: permanent
-  countermeasure) and proceeds to scope, whose contents he has already stated.
-- **The status template is LIVE from v0.105.0** — status moments speak Work
-  item · Stage · Issue · Resolution path, one final question. The running
-  session's cache is still 0.104.0, so the new skill text binds from the next
-  repin; the rule itself already binds via CONTEXT.md.
-- **Launch is measured as 0 of 5 outcomes** — see CONTEXT.md. The launch plan
-  is still owed a home in this repo (private artifact
-  `https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`).
-- **The pilot must not start** until the machinery is reachable
-  (`agent-request`, framed in its own vault). Kerd freezes once it starts.
-
-**Also open, behind the block:**
-
-- **`question-set-staleness` at viability** — four rows to qualify, the
-  fingerprint-granularity tradeoff being the one that sizes it.
-- **`requirements-traceability`** and **`shared-memory`** — blocked by their own
-  design docs.
-- **`inline-composer` at `handoff`** — spec unwritten; its first real use is
-  meant to be `gate-reachability`'s short spec.
-- **`funnel-driver` + `progress-html`** at acceptance, 0 Pieces each, each owing
-  an evidence-backed key. **Do not key `funnel-driver` before the pilot.**
-- **`hooks-autoload`** — the sibling legacy closure.
-- A FATAL row is told to file into "What we ruled out", whose shape was never
-  settled — still open, unchanged by the ruling (CONTEXT.md
-  `## Open Questions`).
+1. **`risk-state-split`** — at **design** (viability and scope keyed
+   2026-09-03). Next: the design package — the two-field vocabulary, the
+   migration mapping rule (mechanical only where existing data determines both
+   fields without judgment; ambiguous values producer-reviewed, never
+   inferred), the atomic-migration mechanics, the five fixtures. Then build
+   and release. Blocks the critical path.
+   → `docs/product/risk-state-split.md`
+2. **`gate-reachability`** — blocked pending item 1. Then: re-qualify the
+   killer row under the new shape (Severity: fatal · Treatment: permanent
+   countermeasure), scope as the producer already stated, ship the four
+   invocation changes, release, refresh the cache, and test through the
+   actual skills. → `docs/product/gate-reachability.md`
+3. **`agent-request` diagnostic pilot** — begins only after item 2 and the
+   cache refresh; its own repository, never inside Kerd; Kerd frozen for the
+   run. Subject framed at `~/eolas/vault/kerd/Agent Request Skill Sketch.md`.
+4. **Pilot findings** — placeholder only; contents deliberately unknown until
+   the run.
 
 ## Backlog
 
-*Ranked by consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
+*Repository-quality debt: important, and none of it blocks the launch
+sequence in `## Now` unless the diagnostic pilot surfaces it. Ranked by
+consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
+
+**Ladder work — behind the launch sequence, not blocking it**
+
+- `inline-composer` at handoff — spec unwritten; its intended first real use is
+  `gate-reachability`'s short spec.
+- `hooks-autoload` at viability — the sibling legacy closure, owing its own
+  evidence-backed key; its ledger's illegal State is touched by the
+  `risk-state-split` migration anyway.
+- `funnel-driver` + `progress-html` at acceptance, 0 Pieces each, each owing an
+  evidence-backed key. **Do not key `funnel-driver` before the pilot** — its
+  acceptance record is the claim that Drive is done, the thing the pilot tests.
+- `requirements-traceability` and `shared-memory` at design — blocked by their
+  own design docs.
+- A FATAL row is told to file into "What we ruled out", whose shape was never
+  settled — open in CONTEXT.md `## Open Questions`.
 
 **High consequence**
 
-- **THE RISK LEDGER'S `State` COLUMN CARRIES TWO INDEPENDENT AXES, AND IT IS NOW
-  BLOCKING A LIVE ITEM** (opened by the producer 2026-09-02 at
-  `gate-reachability`'s viability gate; full reasoning in CONTEXT.md
-  `## Open Questions`). `fatal` is a **severity**;
-  `countermeasure - permanent | temporary` and `accepted | accepted unknown` are
-  **dispositions**. One column cannot hold both, so a risk that is genuinely
-  fatal *and* genuinely treated cannot be stated truthfully — whichever value it
-  carries is a lie about the other. **This is not academic:**
-  `gate-reachability` row 1 is exactly that risk and the item sits refused at
-  viability because of it, which is the honest state and not an obstacle.
-  **Two candidate resolutions, the producer's, neither chosen:** either `fatal`
-  is redefined as *"uncountermeasurable loss of the declared value"* — severity
-  measured on residual impact after treatment — or the ledger grows separate
-  inherent-severity and treated-state fields. **His boundary: do not reinterpret
-  the rule inside the item that exposed it.** Same defect class as `project type`
-  before its 2026-08-23 split into three axes: one field doing too much work.
-  **Sizing note:** `LEGAL_STATES` (`kit.py:70`) and `parse_ledger` (`:486`,
-  `:488`) are the machine half, and 22 work records carry ledgers, so a column
-  change is a migration. The redefinition option may be free.
-  **Second gap the same refusal exposes:** `parse_ledger:489` tells a FATAL row
-  to *"record in What we ruled out"*, and the 2026-08-03 decision making that its
-  own artifact has produced `## What we ruled out` sections inside three design
-  docs and **no standalone instance** — so the machine points at a home whose
-  shape was never settled.
-  **RULED AND FRAMED 2026-09-03 as `risk-state-split`** — option 2, severity
-  and treatment become two fields; ruling verbatim in CONTEXT.md. The conflict
-  is now tracked work on the board (`docs/product/risk-state-split.md`, at
-  viability); this row stays until the migration ships. The second gap — the
-  "What we ruled out" home — remains open in CONTEXT.md `## Open Questions`.
+- **Risk-ledger State column carries two axes — RULED AND FRAMED, now tracked
+  work.** Ruled 2026-09-03 (option 2: separate Severity and Treatment fields;
+  verbatim in CONTEXT.md `## Key Decisions`) and carried by
+  `docs/product/risk-state-split.md` — `## Now` item 1. This row stays only
+  until the migration ships. The second gap it exposed — a FATAL row is told
+  to file into "What we ruled out", whose shape was never settled — remains
+  open in CONTEXT.md `## Open Questions`.
 
-- **A DERIVED QUESTION SET NEEDS SOURCE-BOUND INVALIDATION PLUS A SCHEDULED
-  DISCOVERY REVIEW — the producer's ruling 2026-09-02, recommended and NOT
-  built.** The spike proved a viability set derives from gate demands plus
-  standing decisions (`docs/design/question-set-derivation-findings.md`), and
-  proved the harder thing: **derivation is backward-looking.** A set is exactly
-  as good as the decisions accumulated when it was derived, and nothing about
-  its own text changes when a new ruling lands. His shape, four elements: the
-  exact gate demands and standing decisions it was derived from, named
-  individually · a **derivation fingerprint** over those named sources · a
-  **refusal condition** — any named source changes and the set is stale, to be
-  re-derived before use · a **periodic Law 4 review trigger** for discovering
-  relevant new sources that were never named. **Both halves are load-bearing and
-  he ruled out the alternatives by name:** re-deriving on every invocation
-  *"wastes work without solving the harder problem: an unlisted new decision
-  would remain invisible"*, and a date-only review trigger *"is also too weak."*
-  **Candidate shape for the fingerprint, not decided:** reuse
-  `approval_fingerprint(category, fields)` — the one versioned mechanism, keyed
-  2026-09-01 — rather than a second recipe, per the rule-9 lesson. **This is the
-  real work, not the six sets** — writing them is cheap, keeping them honest is
-  what needs designing. ~~Unframed, no slug: the same invisibility the spike just
-  fixed for itself.~~ **FRAMED 2026-09-02 as `question-set-staleness`**
-  (`85b8683`) — this row's mechanism is now carried by
-  `docs/product/question-set-staleness.md`, which enters at viability. The row
-  stays because the mechanism is still **recommended and not built**; it is now
-  tracked work rather than an invisible one. Its `## Now` successor is the
-  viability rung, where the fingerprint's granularity is decided.
+- **A derived question set needs source-bound invalidation plus a scheduled
+  discovery review — recommended, NOT built; FRAMED as `question-set-staleness`**
+  (`85b8683`, at viability). The mechanism and both refused alternatives are
+  verbatim in CONTEXT.md (2026-09-02); frame, value statement and ledger in
+  `docs/product/question-set-staleness.md`. Candidate fingerprint shape, not
+  decided: reuse `approval_fingerprint(category, fields)` rather than a second
+  recipe — the rule-9 lesson. Next: viability, where the granularity tradeoff
+  sizes the item.
 
 - **`Impact` and `Likelihood` are risk-ledger columns that nothing refuses when
   empty** (measured 2026-09-02 during the derivation). `LEDGER_COLUMNS`
@@ -113,7 +77,8 @@ the status template shipped (v0.105.0).** Details in
   empty `Impact` or `Likelihood` at the viability gate the way `Evidence` is
   already refused — but note it would demand a migration pass over every
   existing ledger, which is why it is a row and not an edit.
-
+  **Interlocked with `risk-state-split`'s design** — same parser; fold or
+  separate is that design's call.
 
 - **THIS ROW IS NOW THE PILOT FOR `requirements-success-measurement`** (chosen
   by the producer 2026-09-01, slug `stage-route-consistency`, framed by Step 12
@@ -137,45 +102,6 @@ the status template shipped (v0.105.0).** Details in
   exactly this for gate-record filenames. Not built here; this session flipped
   only its own item's field.
 
-- **Switch-in costs ~17% of the context window — measured, diagnosed, and
-  DEFERRED by the producer 2026-09-01.** *"Do nothing for now"* — this repo is
-  complex, mid-planning, and losing context is the more expensive error. The
-  measurement is recorded here so no later session re-derives it, and **the row
-  as first filed blamed the wrong lever (pruning); that framing is superseded by
-  what follows.**
-  **Where the cost is:** the read set is 250KB — `CONTEXT.md` 177KB (70.7%, so
-  **12 of the 17 points**) · the day's session log 37KB (2.5 pts) · `TODO.md`
-  36KB (2.5 pts). `## Key Decisions` alone is **97.9%** of CONTEXT.md; every
-  other section totals 3.8KB.
-  **Growth is two multipliers, and pruning only reaches one.** Bullets went 17
-  (2026-07-06) -> 48 -> 74 -> 101 -> **131** today, while the MEAN bullet went
-  232B -> 676 -> 919 -> 1,239 -> **1,352B**. Count 7.7x, size 5.8x.
-  **The decisive measurement: old bullets do not accrete.** Of the 48 standing on
-  2026-08-04, **44 survive and grew 1.01x** (29,376B -> 29,593B) with 4 removed;
-  the **87 added since average 1,696B — 2.5x the survivors' 672B — and are 147KB,
-  83% of the whole section.** So deleting every pre-August decision recovers 29KB
-  (16%) and touches none of the growth. **Pruning is aimed at the wrong
-  variable**, which is why two licensed prune events both ended with the file
-  bigger.
-  **Rate: linear, not compounding.** ~30 new bullets per window, per-window mean
-  1,297B -> 2,117B -> 1,695B (inflated once in mid-August, then plateaued). ~5.3
-  KB/day, projecting ~250KB in two weeks (~22% of a pickup) and ~320KB in four
-  (~26%).
-  **Two options were priced and neither taken.** (a) A size budget per decision —
-  **refused on the producer's own reasoning**, the argument that got to a ruling
-  is the thing the boundary exists to preserve. (b) Tiered loading, his idea:
-  deferring the whole Backlog buys **2.2 pts**, and rank-and-read-High-only buys
-  **0.5 pts** because High is already 76% of the Backlog — both aimed at the
-  2.5-point file. (c) Named but untested: split CONTEXT.md the way 2026-07-03
-  split state/work/history, keeping the **ruling** in the loaded file and moving
-  the **case** to a reachable record — a full read of a smaller file rather than
-  a reduced mode, which `skills/switch/SKILL.md` forbids outright. **Its risk is
-  the one this repo has already paid:** `docs/design/conductor-role.md` was
-  reachable by name and sat unbuilt for three days, which is why `fidelity.py`
-  exists.
-  **Return condition:** CONTEXT.md passes **250KB**, or a pickup passes **25%**,
-  or the per-window bullet mean resumes climbing — whichever comes first. Until
-  one fires, this is an accepted cost, not an open task.
 
 - **Drive invented a risk-state value rather than refusing** (found 2026-08-31,
   the durable half of the scope-gate work). Its first real run wrote
@@ -425,7 +351,6 @@ the status template shipped (v0.105.0).** Details in
   boundary commit rather than on log-file creation. Do not "fix" this by
   exempting — the exemption list is for derived or immutable artifacts.
 
-
 - ~~**THREE sealed views are factually stale.**~~ **CLOSED 2026-08-29.**
   `funnel-driver`'s two were resealed 2026-08-28 (`71391f8`); `gate-visuals`'
   `visual-lifecycle.html` was corrected and resealed at its own acceptance gate
@@ -614,7 +539,6 @@ the status template shipped (v0.105.0).** Details in
   citation sources for deriving a question set, so a derivation citing this
   bullet naively files its questions against the wrong rung.
 
-
 - **README's `## What's New (vX)` header is a second home for a fact the entries
   below already carry** (fixed forward 2026-08-30 by the release pass, v0.99.0 ->
   v0.104.0, having drifted five releases). The playbook records this exact class
@@ -725,6 +649,48 @@ the status template shipped (v0.105.0).** Details in
 - Stale `Kerd.md` MOC version field (says 0.31.0).
 - Consider promoting the refined question-formation rule from the pair hook into
   global `~/.claude/CLAUDE.md`.
+
+**Deferred — accepted costs, waiting on a named return condition**
+
+- **Switch-in costs ~17% of the context window — measured, diagnosed, and
+  DEFERRED by the producer 2026-09-01.** *"Do nothing for now"* — this repo is
+  complex, mid-planning, and losing context is the more expensive error. The
+  measurement is recorded here so no later session re-derives it, and **the row
+  as first filed blamed the wrong lever (pruning); that framing is superseded by
+  what follows.**
+  **Where the cost is:** the read set is 250KB — `CONTEXT.md` 177KB (70.7%, so
+  **12 of the 17 points**) · the day's session log 37KB (2.5 pts) · `TODO.md`
+  36KB (2.5 pts). `## Key Decisions` alone is **97.9%** of CONTEXT.md; every
+  other section totals 3.8KB.
+  **Growth is two multipliers, and pruning only reaches one.** Bullets went 17
+  (2026-07-06) -> 48 -> 74 -> 101 -> **131** today, while the MEAN bullet went
+  232B -> 676 -> 919 -> 1,239 -> **1,352B**. Count 7.7x, size 5.8x.
+  **The decisive measurement: old bullets do not accrete.** Of the 48 standing on
+  2026-08-04, **44 survive and grew 1.01x** (29,376B -> 29,593B) with 4 removed;
+  the **87 added since average 1,696B — 2.5x the survivors' 672B — and are 147KB,
+  83% of the whole section.** So deleting every pre-August decision recovers 29KB
+  (16%) and touches none of the growth. **Pruning is aimed at the wrong
+  variable**, which is why two licensed prune events both ended with the file
+  bigger.
+  **Rate: linear, not compounding.** ~30 new bullets per window, per-window mean
+  1,297B -> 2,117B -> 1,695B (inflated once in mid-August, then plateaued). ~5.3
+  KB/day, projecting ~250KB in two weeks (~22% of a pickup) and ~320KB in four
+  (~26%).
+  **Two options were priced and neither taken.** (a) A size budget per decision —
+  **refused on the producer's own reasoning**, the argument that got to a ruling
+  is the thing the boundary exists to preserve. (b) Tiered loading, his idea:
+  deferring the whole Backlog buys **2.2 pts**, and rank-and-read-High-only buys
+  **0.5 pts** because High is already 76% of the Backlog — both aimed at the
+  2.5-point file. (c) Named but untested: split CONTEXT.md the way 2026-07-03
+  split state/work/history, keeping the **ruling** in the loaded file and moving
+  the **case** to a reachable record — a full read of a smaller file rather than
+  a reduced mode, which `skills/switch/SKILL.md` forbids outright. **Its risk is
+  the one this repo has already paid:** `docs/design/conductor-role.md` was
+  reachable by name and sat unbuilt for three days, which is why `fidelity.py`
+  exists.
+  **Return condition:** CONTEXT.md passes **250KB**, or a pickup passes **25%**,
+  or the per-window bullet mean resumes climbing — whichever comes first. Until
+  one fires, this is an accepted cost, not an open task.
 
 **Blocked — not candidates at any consequence**
 

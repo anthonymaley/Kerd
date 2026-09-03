@@ -6,33 +6,37 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-03 morning (08:38–09:12 EDT) — the blocking decision was made, its fix
-is on the board, and status has a template.** Three pushes, CI green on each.
-Kerd at **v0.105.0**.
+**2026-09-03, two sittings (08:38–09:16 · 10:40–14:03 EDT) — the critical
+path is unblocked and visible.** Six work commits across three chains, CI green
+on every push. Kerd at **v0.105.0**.
 
-- **The State-column conflict is RESOLVED**: severity and treatment become two
-  fields — option 2, the producer's ruling, verbatim below. Framed as
-  **`risk-state-split`** (`docs/product/risk-state-split.md`, route: new,
-  rigor: mvp), entering at viability; the next rung refuses until its two rows
-  are qualified and `## Scope` is written.
-- **`gate-reachability` stays blocked** until `risk-state-split` is designed and
-  implemented — his sequencing. Then its killer row re-qualifies under the new
-  shape (Severity: fatal · Treatment: permanent countermeasure) and the item
-  proceeds to scope, whose contents he has already stated.
-- **v0.105.0 shipped: the Status Report talk format** — Work item · Stage ·
-  Issue · Resolution path, plain words readable without the repository open,
-  and the message ends on exactly one question, never a compound "X, or Y?".
-  Format 9 in `docs/design/talk-formats.md`; conductor's orient summary and
-  switch-in's summary point at it. The release close-out pass ran clean.
-- **Launch: still 0 of 5 outcomes.** The launch plan is still owed a home in
-  this repo; the pilot must not start before the machinery is reachable, and
-  Kerd freezes once it does.
+- **`risk-state-split` is at DESIGN** — viability qualified and scope keyed
+  2026-09-03 (`d5b7f0f`). The scope carries the producer's atomic-migration
+  definition, the migration boundary (mechanical only where existing data
+  determines both fields; ambiguous values producer-reviewed, never inferred),
+  and all five required fixtures, verbatim. Next: the design package.
+- **`gate-reachability` stays blocked** until risk-state-split ships, then
+  re-qualifies (Severity: fatal · Treatment: permanent countermeasure) and
+  proceeds to scope, already stated.
+- **The launch plan is ON DISK** (`8b08ad1`): `docs/design/launch-plan.md`
+  (living — five outcomes, the 8-step critical path, the binding rules) plus
+  the dated visual `docs/plans/2026-09-02-launch-plan.html`, recovered from
+  the private artifact. The 2026-09-02 decision's last missing artifact is
+  discharged. **Launch: 0 of 5 outcomes.**
+- **TODO is restructured to the launch sequence** — `## Now` is four items
+  pointing at the plan; Backlog is labelled repository-quality debt; framed
+  items carry pointers, not essays; deferred costs sit in their own bucket.
+  Done under moved-never-erased; the five behind-the-block ladder items were
+  restored as one-liners after the rewrite nearly dropped them.
+- **v0.105.0 (morning): the Status Report talk format** — status moments speak
+  Work item · Stage · Issue · Resolution path, one final question. Shipped;
+  binds via skill text from the next cache repin, via CONTEXT.md now.
 
 ## Key Decisions
 
-- **THE RISK LEDGER'S `State` COLUMN SPLITS INTO SEVERITY AND TREATMENT — Tony, 2026-09-03, resolving the 2026-09-02 axes conflict on option 2 by name.** His ruling verbatim: *"Severity: how damaging the risk would be if it happened. Treatment: what we are doing about it and whether that treatment is proven. For gate-reachability, that means: Severity: fatal—the check could confidently judge the wrong project. Treatment: permanent countermeasure—always pass the target repository explicitly and verify both directions with fixtures. This avoids redefining 'fatal' into something conditional or vague. The tradeoff is a real schema migration across 22 work records and the checker, so gate-reachability should remain blocked while that change is designed and implemented as its own work item."* **The redefinition option died for the reason his own 2026-09-02 refusal supplies:** defining `fatal` as *uncountermeasurable* loss would make severity depend on treatment quality — the exact dependence that refusal forbade, formalised instead of fudged. **Framed the same morning as `risk-state-split`** (route: new, rigor: mvp, his call at the plan gate) with his two risk boundaries: **the half-migrated state is THE killer** — *"it could disable every existing work item simultaneously"* — and **hollow treatment stays distinct** — *"a treatment is not proven merely because its field is populated."* The frame deliberately excluded checker code, the 22-record migration and skill edits — the item's later rungs. Same defect class as `project type` before its 2026-08-23 three-axis split: one field doing two jobs.
+- **THE RISK LEDGER'S `State` COLUMN SPLITS INTO SEVERITY AND TREATMENT — Tony, 2026-09-03, resolving the 2026-09-02 axes conflict on option 2 by name.** His ruling verbatim: *"Severity: how damaging the risk would be if it happened. Treatment: what we are doing about it and whether that treatment is proven. For gate-reachability, that means: Severity: fatal—the check could confidently judge the wrong project. Treatment: permanent countermeasure—always pass the target repository explicitly and verify both directions with fixtures. This avoids redefining 'fatal' into something conditional or vague. The tradeoff is a real schema migration across 22 work records and the checker, so gate-reachability should remain blocked while that change is designed and implemented as its own work item."* **The redefinition option died for the reason his own 2026-09-02 refusal supplies:** defining `fatal` as *uncountermeasurable* loss would make severity depend on treatment quality — the exact dependence that refusal forbade, formalised instead of fudged. **Framed the same morning as `risk-state-split`** (route: new, rigor: mvp, his call at the plan gate) with his two risk boundaries: **the half-migrated state is THE killer** — *"it could disable every existing work item simultaneously"* — and **hollow treatment stays distinct** — *"a treatment is not proven merely because its field is populated."* The frame deliberately excluded checker code, the full record migration and skill edits — the item's later rungs (21 records carrying ledgers measured 2026-09-03; the ruling's '22' was the prior sitting's count). Same defect class as `project type` before its 2026-08-23 three-axis split: one field doing two jobs.
 
-- **STATUS IS SPOKEN AS WORK ITEM · STAGE · ISSUE · RESOLUTION PATH, IN PLAIN WORDS, AND A MESSAGE ENDS ON EXACTLY ONE QUESTION — Tony, 2026-09-03, correcting a switch-in and orient that spoke repo shorthand.** His refusal of the original ("ledger-axes ruling", "scope refused on the FATAL row"): *"these are not terms anyone can actually understand in context. can we use clearer language explaining STAGE, RUNG, ISSUE, RESOLUTION PATH etc keep it clear."* On the restatement: *"wow what a difference. make this a template please. but also make sure the last line is not a double question OR - just one as a rule."* So a closing line never reads "X — or Y?": one question, with no bolted-on alternative. This is the currency rule aimed at the session's own talk: the reader should not need the codebase or the repo's private vocabulary open to act on a status message. **Owed a durable home** — a status-report format in `docs/design/talk-formats.md` with conductor and switch pointing at it — approved as its own release-carrying work item (Task 2, in TODO's Backlog), deliberately not folded into the risk-state-split frame. Recorded here so the rule binds now, before it ships.
+- **STATUS IS SPOKEN AS WORK ITEM · STAGE · ISSUE · RESOLUTION PATH, IN PLAIN WORDS, AND A MESSAGE ENDS ON EXACTLY ONE QUESTION — Tony, 2026-09-03, correcting a switch-in and orient that spoke repo shorthand.** His refusal of the original ("ledger-axes ruling", "scope refused on the FATAL row"): *"these are not terms anyone can actually understand in context. can we use clearer language explaining STAGE, RUNG, ISSUE, RESOLUTION PATH etc keep it clear."* On the restatement: *"wow what a difference. make this a template please. but also make sure the last line is not a double question OR - just one as a rule."* So a closing line never reads "X — or Y?": one question, with no bolted-on alternative. This is the currency rule aimed at the session's own talk: the reader should not need the codebase or the repo's private vocabulary open to act on a status message. ~~Owed a durable home~~ — **SHIPPED v0.105.0 the same morning**: format 9 in `docs/design/talk-formats.md`, conductor's orient summary and switch-in's summary pointing at it, released as its own chain, deliberately not folded into the risk-state-split frame.
 
 - **LAUNCH IS A CLEAN INDEPENDENT PILOT, NOT A PERCENTAGE — FIVE OUTCOMES, CURRENTLY 0 OF 5. Tony, 2026-09-02, replacing every progress measure the project had.** Asked what counts as complete, his answer was *"when we can use it on a real product with a user end to end."* **Two numbers are retired from launch reporting and the reason generalises:** `91.6%` of Pieces landed measures execution against contracts we wrote ourselves — 14 of 33 work items have no contract at all, so they sit in neither half of the fraction — and `1 of 7` question sets measures one subsystem of one skill. Both were true; neither moves when a user's experience changes, which is what made "92% complete" and "Drive has shipped" both true and both false. **The five outcomes, his structure:** external execution proven · a **diagnostic** real-product run · pilot-derived minimum capability built · a **clean independent pilot** passed · release completed. **The load-bearing distinction is between outcomes 2 and 4, and it is his correction to the session's draft:** the first pilot is an **instrument**, not evidence — it may fail, it is allowed to require manual intervention, and its output is a findings list. The clean pilot is the **launch criterion**: a fresh real item, no Kerd-repo assistance, acceptance reached without editing Kerd internals or hand-authoring undocumented artifacts. **Outcome 3 is deliberately unsized until outcome 2 returns**, because sizing it from inspection is how the project got here — *"Otherwise Kerd risks another large internally coherent build that has never met a user."* **Two sequencing rules he attached:** the pilot may not begin before the machinery is reachable, or it measures plumbing rather than product; and **Kerd is frozen during a pilot run** — breaks are recorded, never repaired, or the instrument becomes a demo. Visual at `https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`, private, and **owed a home in this repo** — it is the one artifact of this decision that is not yet on disk.
 
@@ -240,10 +244,10 @@ Kerd at **v0.105.0**.
 
 ## Active Mode
 
-- **conductor: RAN and closed** this sitting — orient 08:13 · plan 08:28 ·
-  execute **08:38** · close-out 09:12 (EDT). The `execute` stamp was captured
-  before the marker was cleared; `kivna/.active-modes` is deleted, so nothing
-  is left to resume.
+- **conductor: RAN twice and closed** on 2026-09-03 — first sitting
+  orient 08:13 · execute 08:38 · close 09:16; second sitting orient 10:34 ·
+  execute 10:40 · close 14:03. `kivna/.active-modes` is deleted; nothing to
+  resume.
 - **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host —
   sessions run in tmux over SSH from the MacBook; the user's screen is on the
   laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`).
