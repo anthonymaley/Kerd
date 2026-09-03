@@ -2,74 +2,40 @@
 
 ## Now
 
-**THE CRITICAL PATH IS BLOCKED ON A DECISION, NOT ON WORK.** `gate-reachability`
-is framed with a qualified ledger and **refused at viability on a FATAL row**
-(`cfdc0d0` · `1b42bbe` · `aadfd30`, CI green). The refusal is correct and must not
-be worked around.
+**2026-09-03 morning session done — the ruling landed, its fix is framed, and
+the status template shipped (v0.105.0).** Details in
+`kivna/sessions/2026-09-03.md`; both tasks pushed, CI green on each.
 
-**FIRST, AND IT UNBLOCKS EVERYTHING: rule the ledger-axes conflict.** Full row in
-Backlog/High; reasoning in CONTEXT.md `## Open Questions`. `State` carries a
-**severity** (`fatal`) and a **disposition**
-(`countermeasure - *`, `accepted*`) in one column, so a risk that is genuinely
-fatal *and* genuinely treated cannot be stated truthfully. The producer's two
-candidates, neither chosen: redefine `fatal` as *uncountermeasurable loss of the
-declared value*, or split into inherent-severity and treated-state fields.
-**Sizing:** `LEGAL_STATES` (`kit.py:70`) and `parse_ledger` (`:486`, `:488`) are
-the machine half and 22 records carry ledgers, so a column change is a migration —
-the redefinition may be free. **His boundary: do not reinterpret the rule inside
-the item that exposed it.**
+- **Next: `risk-state-split` at viability.** Qualify its two rows — the
+  half-migrated killer and hollow treatment — and write `## Scope`. This is the
+  critical path: `gate-reachability` stays blocked until `risk-state-split` is
+  designed and implemented (the producer's sequencing), then re-qualifies its
+  killer row under the new shape (Severity: fatal · Treatment: permanent
+  countermeasure) and proceeds to scope, whose contents he has already stated.
+- **The status template is LIVE from v0.105.0** — status moments speak Work
+  item · Stage · Issue · Resolution path, one final question. The running
+  session's cache is still 0.104.0, so the new skill text binds from the next
+  repin; the rule itself already binds via CONTEXT.md.
+- **Launch is measured as 0 of 5 outcomes** — see CONTEXT.md. The launch plan
+  is still owed a home in this repo (private artifact
+  `https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`).
+- **The pilot must not start** until the machinery is reachable
+  (`agent-request`, framed in its own vault). Kerd freezes once it starts.
 
-**Then `gate-reachability` resumes at viability**, re-qualifies row 1 under
-whatever the ruling is, and continues to scope. Its `## Scope` is the producer's
-rung and he has already stated its contents: only the four gate invocations,
-foreign-repo fixtures, and release metadata — `progress.py`, `fidelity.py`, hooks
-and CI automation explicitly deferred.
-
-**Launch is now measured as 0 of 5 outcomes**, not as a percentage. External
-execution proven · diagnostic pilot · pilot-derived minimum built · **clean
-independent pilot** (the criterion) · release. See CONTEXT.md.
-
-**The pilot has a subject and must not start yet.** A role-scoped
-session-to-session request skill (`agent-request`), framed by the apple-music
-session at `~/eolas/vault/kerd/Agent Request Skill Sketch.md` — its artifact, its
-vault, deliberately not copied here. Its repo does not exist and Drive has **not**
-been run on it, because the pilot may not begin before the machinery is reachable
-or it measures plumbing. Kerd is frozen for the duration once it does start.
-
-**Owed and not done: the launch plan has no home in this repo.** It exists as a
-private artifact
-(`https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`) and in
-CONTEXT prose. The five outcomes are the project's definition of done and the one
-artifact of that decision not on disk.
-
-**Also open, and behind the block:**
+**Also open, behind the block:**
 
 - **`question-set-staleness` at viability** — four rows to qualify, the
   fingerprint-granularity tradeoff being the one that sizes it.
-- **`requirements-traceability`** and **`shared-memory`** — still blocked by
-  their own design docs.
+- **`requirements-traceability`** and **`shared-memory`** — blocked by their own
+  design docs.
 - **`inline-composer` at `handoff`** — spec unwritten; its first real use is
   meant to be `gate-reachability`'s short spec.
 - **`funnel-driver` + `progress-html`** at acceptance, 0 Pieces each, each owing
-  an evidence-backed key. **Do not key `funnel-driver` before the pilot** — its
-  acceptance record is the claim that Drive is done, which is the thing the pilot
-  exists to test.
+  an evidence-backed key. **Do not key `funnel-driver` before the pilot.**
 - **`hooks-autoload`** — the sibling legacy closure.
-
-**TODO closure review** (this boundary):
-
-```
-  ✓ done   — "frame the reachability prerequisite"     (cfdc0d0 + 8835a87; enters at viability)
-  ✓ done   — "qualify gate-reachability's ledger"      (1b42bbe; four rows sized on measurement)
-  ✓ done   — "choose the diagnostic pilot subject"     (agent-request; framing in the apple-music vault)
-  · open   — "question-set-staleness viability" · "inline-composer handoff spec"
-  · open   — "requirements-traceability" · "shared-memory"  (blocked by their own docs)
-  · open   — "funnel-driver / progress-html acceptance"  (and funnel-driver is now pilot-gated)
-  + new    — the ledger's State column carries two axes, and it is blocking a live item
-  + new    — the launch plan needs a home in this repo
-  ! note   — a FATAL row is told to "record in What we ruled out"; three docs carry such a
-             section, no standalone instance exists, so the refusal points at an unsettled home
-```
+- A FATAL row is told to file into "What we ruled out", whose shape was never
+  settled — still open, unchanged by the ruling (CONTEXT.md
+  `## Open Questions`).
 
 ## Backlog
 
@@ -101,6 +67,11 @@ artifact of that decision not on disk.
   own artifact has produced `## What we ruled out` sections inside three design
   docs and **no standalone instance** — so the machine points at a home whose
   shape was never settled.
+  **RULED AND FRAMED 2026-09-03 as `risk-state-split`** — option 2, severity
+  and treatment become two fields; ruling verbatim in CONTEXT.md. The conflict
+  is now tracked work on the board (`docs/product/risk-state-split.md`, at
+  viability); this row stays until the migration ships. The second gap — the
+  "What we ruled out" home — remains open in CONTEXT.md `## Open Questions`.
 
 - **A DERIVED QUESTION SET NEEDS SOURCE-BOUND INVALIDATION PLUS A SCHEDULED
   DISCOVERY REVIEW — the producer's ruling 2026-09-02, recommended and NOT

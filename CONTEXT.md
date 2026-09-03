@@ -6,38 +6,33 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-02 — four sittings, and the fourth changed what "done" means for the
-whole project.** Eleven pushes, CI green at the tip. Kerd stays at **v0.104.0** —
-nothing was built in any sitting, `tools/` untouched throughout.
+**2026-09-03 morning (08:38–09:12 EDT) — the blocking decision was made, its fix
+is on the board, and status has a template.** Three pushes, CI green on each.
+Kerd at **v0.105.0**.
 
-**Sittings 1–3** gave the ladder three record types (GO · waiver · legacy
-closure), answered the derivation spike PARTIAL, and framed
-`question-set-staleness`. Detail in the session logs.
-
-**Sitting 4 (21:23–21:56) framed `gate-reachability` and then stopped on a
-producer refusal that is more valuable than the item.**
-
-- **The launch definition changed.** Kerd is done when a real user drives a real
-  work item, in their own repository, frame to acceptance, unaided. Progress is
-  reported against **five outcomes, currently 0 of 5** — see the standing
-  decision below. `91.6%` and `1 of 7` are retired from launch reporting.
-- **The gate engine already works outside Kerd** — tested: `check` refuses
-  (exit 1), `route`, `check` and `audit` all answer correctly against a foreign
-  repo with `--root`. **Refusal travels.** What is missing is the wiring: all
-  four skill invocations use bare relative paths and `${CLAUDE_PLUGIN_ROOT}`
-  appears in skill text zero times.
-- **`gate-reachability` is framed and REFUSED at viability on a FATAL row**, and
-  the refusal is the correct state. The producer marked it fatal rather than let
-  a cheap countermeasure lower the classification.
-- **That refusal exposed a structural defect in the ledger itself** — `State`
-  carries two independent axes — recorded in `## Open Questions`, **not resolved
-  inside the item that exposed it**.
-- **The diagnostic pilot has a subject**: a role-scoped session-to-session
-  request skill (`agent-request`), framed by the apple-music session at
-  `~/eolas/vault/kerd/Agent Request Skill Sketch.md`. It stays in that vault; its
-  own repo does not exist yet and Drive has deliberately not been run on it.
+- **The State-column conflict is RESOLVED**: severity and treatment become two
+  fields — option 2, the producer's ruling, verbatim below. Framed as
+  **`risk-state-split`** (`docs/product/risk-state-split.md`, route: new,
+  rigor: mvp), entering at viability; the next rung refuses until its two rows
+  are qualified and `## Scope` is written.
+- **`gate-reachability` stays blocked** until `risk-state-split` is designed and
+  implemented — his sequencing. Then its killer row re-qualifies under the new
+  shape (Severity: fatal · Treatment: permanent countermeasure) and the item
+  proceeds to scope, whose contents he has already stated.
+- **v0.105.0 shipped: the Status Report talk format** — Work item · Stage ·
+  Issue · Resolution path, plain words readable without the repository open,
+  and the message ends on exactly one question, never a compound "X, or Y?".
+  Format 9 in `docs/design/talk-formats.md`; conductor's orient summary and
+  switch-in's summary point at it. The release close-out pass ran clean.
+- **Launch: still 0 of 5 outcomes.** The launch plan is still owed a home in
+  this repo; the pilot must not start before the machinery is reachable, and
+  Kerd freezes once it does.
 
 ## Key Decisions
+
+- **THE RISK LEDGER'S `State` COLUMN SPLITS INTO SEVERITY AND TREATMENT — Tony, 2026-09-03, resolving the 2026-09-02 axes conflict on option 2 by name.** His ruling verbatim: *"Severity: how damaging the risk would be if it happened. Treatment: what we are doing about it and whether that treatment is proven. For gate-reachability, that means: Severity: fatal—the check could confidently judge the wrong project. Treatment: permanent countermeasure—always pass the target repository explicitly and verify both directions with fixtures. This avoids redefining 'fatal' into something conditional or vague. The tradeoff is a real schema migration across 22 work records and the checker, so gate-reachability should remain blocked while that change is designed and implemented as its own work item."* **The redefinition option died for the reason his own 2026-09-02 refusal supplies:** defining `fatal` as *uncountermeasurable* loss would make severity depend on treatment quality — the exact dependence that refusal forbade, formalised instead of fudged. **Framed the same morning as `risk-state-split`** (route: new, rigor: mvp, his call at the plan gate) with his two risk boundaries: **the half-migrated state is THE killer** — *"it could disable every existing work item simultaneously"* — and **hollow treatment stays distinct** — *"a treatment is not proven merely because its field is populated."* The frame deliberately excluded checker code, the 22-record migration and skill edits — the item's later rungs. Same defect class as `project type` before its 2026-08-23 three-axis split: one field doing two jobs.
+
+- **STATUS IS SPOKEN AS WORK ITEM · STAGE · ISSUE · RESOLUTION PATH, IN PLAIN WORDS, AND A MESSAGE ENDS ON EXACTLY ONE QUESTION — Tony, 2026-09-03, correcting a switch-in and orient that spoke repo shorthand.** His refusal of the original ("ledger-axes ruling", "scope refused on the FATAL row"): *"these are not terms anyone can actually understand in context. can we use clearer language explaining STAGE, RUNG, ISSUE, RESOLUTION PATH etc keep it clear."* On the restatement: *"wow what a difference. make this a template please. but also make sure the last line is not a double question OR - just one as a rule."* So a closing line never reads "X — or Y?": one question, with no bolted-on alternative. This is the currency rule aimed at the session's own talk: the reader should not need the codebase or the repo's private vocabulary open to act on a status message. **Owed a durable home** — a status-report format in `docs/design/talk-formats.md` with conductor and switch pointing at it — approved as its own release-carrying work item (Task 2, in TODO's Backlog), deliberately not folded into the risk-state-split frame. Recorded here so the rule binds now, before it ships.
 
 - **LAUNCH IS A CLEAN INDEPENDENT PILOT, NOT A PERCENTAGE — FIVE OUTCOMES, CURRENTLY 0 OF 5. Tony, 2026-09-02, replacing every progress measure the project had.** Asked what counts as complete, his answer was *"when we can use it on a real product with a user end to end."* **Two numbers are retired from launch reporting and the reason generalises:** `91.6%` of Pieces landed measures execution against contracts we wrote ourselves — 14 of 33 work items have no contract at all, so they sit in neither half of the fraction — and `1 of 7` question sets measures one subsystem of one skill. Both were true; neither moves when a user's experience changes, which is what made "92% complete" and "Drive has shipped" both true and both false. **The five outcomes, his structure:** external execution proven · a **diagnostic** real-product run · pilot-derived minimum capability built · a **clean independent pilot** passed · release completed. **The load-bearing distinction is between outcomes 2 and 4, and it is his correction to the session's draft:** the first pilot is an **instrument**, not evidence — it may fail, it is allowed to require manual intervention, and its output is a findings list. The clean pilot is the **launch criterion**: a fresh real item, no Kerd-repo assistance, acceptance reached without editing Kerd internals or hand-authoring undocumented artifacts. **Outcome 3 is deliberately unsized until outcome 2 returns**, because sizing it from inspection is how the project got here — *"Otherwise Kerd risks another large internally coherent build that has never met a user."* **Two sequencing rules he attached:** the pilot may not begin before the machinery is reachable, or it measures plumbing rather than product; and **Kerd is frozen during a pilot run** — breaks are recorded, never repaired, or the instrument becomes a demo. Visual at `https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`, private, and **owed a home in this repo** — it is the one artifact of this decision that is not yet on disk.
 
@@ -239,16 +234,16 @@ producer refusal that is more valuable than the item.**
 
 ## Open Questions
 
-- **`LEGAL_STATES` MIXES TWO AXES, SO THE LEDGER CANNOT EXPRESS A TREATED FATAL RISK — opened by the producer 2026-09-02, deliberately NOT resolved inside the item that exposed it.** `gate-reachability`'s row 1 is simultaneously *impact >= declared value* (a gate reading the wrong repository defeats the item's whole value) and *carries a permanent, cheap, real countermeasure*. The ledger has one State column and can say only one of those; whichever it says is a lie about the other. **His ruling on the immediate case, and the reasoning is the transferable part:** mark it fatal and let viability refuse honestly — *"the countermeasure being cheap and permanent affects treatment, not impact classification. Using it to avoid fatal would make the state depend on how inconvenient the parser's consequence is."* Same family as hollow-waiving and `unqualified`: the cheap-looking state is the one that must be argued for, here aimed at a classification rather than at a waiver. **The structural diagnosis: `fatal` is a SEVERITY while `countermeasure - permanent | temporary` and `accepted | accepted unknown` are DISPOSITIONS**, so one column is carrying two independent axes — the same defect `project type` had before it was split into work type, route and lifecycle position on 2026-08-23. **His two candidate resolutions, named and not chosen:** either the fatal rule means *"uncountermeasurable loss of the declared value"* — severity measured on residual impact after treatment — or the ledger grows separate inherent-severity and treated-state fields. **His boundary: *"Do not quietly reinterpret it inside this item merely to keep the critical path moving."*** So `gate-reachability` sits refused at viability until this is decided, and that refusal is the correct state rather than an obstacle. **Second gap the same refusal exposes:** the machine's message is *"record in What we ruled out"*, and the 2026-08-03 decision making that its own artifact has produced sections inside three design docs and no standalone instance — so a FATAL row is told to file into a home whose shape was never settled.
+- **A FATAL ROW IS TOLD TO FILE INTO "WHAT WE RULED OUT", AND THAT HOME'S SHAPE WAS NEVER SETTLED.** `parse_ledger`'s refusal (`kit.py:489`) says *"record in What we ruled out; cannot pass"*, while the 2026-08-03 decision making that its own artifact has produced `## What we ruled out` sections inside three design docs and no standalone instance — so complying with the refusal has no defined form. Surfaced 2026-09-02 by `gate-reachability`'s FATAL row; it survives the 2026-09-03 axes resolution untouched. *(The other half of the 2026-09-02 entry — `LEGAL_STATES` carrying severity and disposition in one column — was RESOLVED 2026-09-03: see the risk-state-split decision in `## Key Decisions`.)*
 
 *(Previously closed here: the vault-repo-commit question died moot at v0.83.0 — switch neither writes nor commits the vault — and model-tiered delegation was closed at v0.82.0 as subsumed by the conductor README section.)*
 
 ## Active Mode
 
-- **conductor: RAN and closed** this sitting — orient 15:37 · plan 16:20 ·
-  execute **16:44** · close-out 16:57 (EDT). The `execute` stamp is the
-  sitting's open time and was captured before the marker was overwritten.
-  `kivna/.active-modes` is cleared at close-out, so nothing is left to resume.
+- **conductor: RAN and closed** this sitting — orient 08:13 · plan 08:28 ·
+  execute **08:38** · close-out 09:12 (EDT). The `execute` stamp was captured
+  before the marker was cleared; `kivna/.active-modes` is deleted, so nothing
+  is left to resume.
 - **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host —
   sessions run in tmux over SSH from the MacBook; the user's screen is on the
   laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`).
