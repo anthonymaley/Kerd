@@ -6,41 +6,42 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-02 — three sittings. The third framed the staleness mechanism the
-second discovered was needed, and stopped there deliberately.** Eight pushes,
-all CI green. Kerd stays at **v0.104.0** — nothing was built in any of the
-three, `tools/` untouched throughout.
+**2026-09-02 — four sittings, and the fourth changed what "done" means for the
+whole project.** Eleven pushes, CI green at the tip. Kerd stays at **v0.104.0** —
+nothing was built in any sitting, `tools/` untouched throughout.
 
-**Sitting 1 (closed 15:21).** `83b1299` + `19bc0f4` (inline-composer's design
-keyed), `55b753d` (switch-fidelity's design rung waived), `65a2265`
-(model-effort-advisory's legacy closure). A rung can now leave four things
-behind: a **GO** · a **waiver** · a **legacy closure** · or **nothing**, in which
-case the gate stays **blocked**.
+**Sittings 1–3** gave the ladder three record types (GO · waiver · legacy
+closure), answered the derivation spike PARTIAL, and framed
+`question-set-staleness`. Detail in the session logs.
 
-**Sitting 2 (16:44–17:00).** `5fafc19` + `1451adf` + `e556e42` — the
-**question-set-derivation spike**, verdict **PARTIAL**. A viability question set
-DERIVES: five of six questions trace to a machine-enforced refusal in `kit.py`,
-cited by line. But **derivation is backward-looking**, and the mechanism for that
-was ruled and **not built**.
+**Sitting 4 (21:23–21:56) framed `gate-reachability` and then stopped on a
+producer refusal that is more valuable than the item.**
 
-**Sitting 3 (opened 20:07).** `85b8683` + `920c952` — **`question-set-staleness`
-is FRAMED**, work record `docs/product/question-set-staleness.md`, board row 29,
-**enters at viability**.
-
-- **The producer's value statement names BOTH failure directions**, which is more
-  than the frame gate asks for, and it is the reason the item is now well posed.
-- **Success is measurable and his:** fixtures proving both directions, plus six
-  weeks with zero stale sets used and zero invalidations dismissed as noise.
-- **Two killer risks named, one of them measured in this repo** — the scheduled
-  discovery review is a human beat with no forcing function, and 27 dormant
-  review triggers already sit here firing nothing.
-- **The ledger is named, not qualified, and the scope gate refuses all four rows
-  honestly.** No `## Scope` was written: that is the producer's rung.
-- **Next is viability, and it begins as its own rung** on the producer's call —
-  four new judgments, including the fingerprint-granularity tradeoff that decides
-  whether the killer risk fires by construction.
+- **The launch definition changed.** Kerd is done when a real user drives a real
+  work item, in their own repository, frame to acceptance, unaided. Progress is
+  reported against **five outcomes, currently 0 of 5** — see the standing
+  decision below. `91.6%` and `1 of 7` are retired from launch reporting.
+- **The gate engine already works outside Kerd** — tested: `check` refuses
+  (exit 1), `route`, `check` and `audit` all answer correctly against a foreign
+  repo with `--root`. **Refusal travels.** What is missing is the wiring: all
+  four skill invocations use bare relative paths and `${CLAUDE_PLUGIN_ROOT}`
+  appears in skill text zero times.
+- **`gate-reachability` is framed and REFUSED at viability on a FATAL row**, and
+  the refusal is the correct state. The producer marked it fatal rather than let
+  a cheap countermeasure lower the classification.
+- **That refusal exposed a structural defect in the ledger itself** — `State`
+  carries two independent axes — recorded in `## Open Questions`, **not resolved
+  inside the item that exposed it**.
+- **The diagnostic pilot has a subject**: a role-scoped session-to-session
+  request skill (`agent-request`), framed by the apple-music session at
+  `~/eolas/vault/kerd/Agent Request Skill Sketch.md`. It stays in that vault; its
+  own repo does not exist yet and Drive has deliberately not been run on it.
 
 ## Key Decisions
+
+- **LAUNCH IS A CLEAN INDEPENDENT PILOT, NOT A PERCENTAGE — FIVE OUTCOMES, CURRENTLY 0 OF 5. Tony, 2026-09-02, replacing every progress measure the project had.** Asked what counts as complete, his answer was *"when we can use it on a real product with a user end to end."* **Two numbers are retired from launch reporting and the reason generalises:** `91.6%` of Pieces landed measures execution against contracts we wrote ourselves — 14 of 33 work items have no contract at all, so they sit in neither half of the fraction — and `1 of 7` question sets measures one subsystem of one skill. Both were true; neither moves when a user's experience changes, which is what made "92% complete" and "Drive has shipped" both true and both false. **The five outcomes, his structure:** external execution proven · a **diagnostic** real-product run · pilot-derived minimum capability built · a **clean independent pilot** passed · release completed. **The load-bearing distinction is between outcomes 2 and 4, and it is his correction to the session's draft:** the first pilot is an **instrument**, not evidence — it may fail, it is allowed to require manual intervention, and its output is a findings list. The clean pilot is the **launch criterion**: a fresh real item, no Kerd-repo assistance, acceptance reached without editing Kerd internals or hand-authoring undocumented artifacts. **Outcome 3 is deliberately unsized until outcome 2 returns**, because sizing it from inspection is how the project got here — *"Otherwise Kerd risks another large internally coherent build that has never met a user."* **Two sequencing rules he attached:** the pilot may not begin before the machinery is reachable, or it measures plumbing rather than product; and **Kerd is frozen during a pilot run** — breaks are recorded, never repaired, or the instrument becomes a demo. Visual at `https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`, private, and **owed a home in this repo** — it is the one artifact of this decision that is not yet on disk.
+
+- **A COUNTERMEASURE CHANGES TREATMENT, NEVER IMPACT CLASSIFICATION — Tony, 2026-09-02, refusing the session's own risk classification.** `gate-reachability`'s killer row is simultaneously *impact >= declared value* (a gate reading the wrong repository defeats the item's entire value) and *cheaply, permanently countermeasured*. The session classified it `countermeasure - permanent`, and the honest reason was partly that `kit.py` refuses a `fatal` row and a fatal reading would stop the item. **His refusal, and it is the transferable half:** *"the countermeasure being cheap and permanent affects treatment, not impact classification. Using it to avoid fatal would make the state depend on how inconvenient the parser's consequence is."* **Same family as hollow-waiving and `unqualified`, aimed at a classification rather than at a waiver:** the cheap-looking state is the one that must be argued for. **He then refused the obvious repair too** — *"do not quietly reinterpret it inside this item merely to keep the critical path moving"* — so the item sits blocked and the policy conflict it exposed is its own decision, in `## Open Questions`. **The method note worth keeping: the refusal is worth more than the item.** A ledger defect invisible across 22 work records surfaced only because one row was forced to be honest about being both fatal and treated.
 
 - **A VALUE STATEMENT MAY NAME TWO OPPOSITE FAILURES, AND WHEN IT DOES, NEITHER HALF ALONE IS THE REQUIREMENT — Tony, 2026-09-02, framing `question-set-staleness`.** Asked what the mechanism must prevent, he gave both directions unprompted: a stale set *"creates false confidence and pushes the defect into later work, where correction costs more"*, and the opposite failure, *"invalidating sets for unrelated edits so frequently that freshness becomes noise and people learn to ignore or bypass it."* **Why the pairing is structural rather than thorough:** each half alone is trivially satisfiable in a way that defeats the other — invalidate everything always, or never fire — so a single-direction value statement would have been met by a useless mechanism passing its own gate. **The measurement carries the same shape:** fixtures proving *both* directions (relevant changes refuse, irrelevant changes remain valid), plus six weeks with **zero stale sets used** and **zero invalidations dismissed as noise** — two counters, one per direction, and a third observable (a newly relevant decision found at the scheduled review) that keeps discovery a separate mechanism rather than a fallback on invalidation. **The transferable rule: when a value statement names only the failure you are trying to prevent, ask what the countermeasure over-firing would cost — if that has a name, it belongs in the statement, because it is what stops the fix being worse than the defect.** Same family as the hollow-waiving and `unqualified` findings: the cheap-looking satisfaction is the one that must be argued against. **And the boundary he set the same sitting:** viability *"requires four new producer judgments — including the granularity tradeoff — and should begin as its own deliberate rung rather than ride the momentum of a finished task."* The granularity question is the one that sizes the item — a fingerprint over whole files makes the killer risk fire by construction, since every unrelated edit to `kit.py` or `CONTEXT.md` would invalidate every set derived from them; a fingerprint over the cited rules makes unrelated edits silent. **Open and hardest, recorded rather than resolved:** a standing decision is a prose bullet with no stable anchor, so there may be nothing addressable to fingerprint at the granularity the value statement requires.
 

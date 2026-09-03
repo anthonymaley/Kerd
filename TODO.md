@@ -2,76 +2,73 @@
 
 ## Now
 
-**The staleness mechanism is FRAMED** (`85b8683` frame, `920c952` board, CI
-green). Slug `question-set-staleness`, work record
-`docs/product/question-set-staleness.md`. `gate.py route` reports **enters at
-viability**. Nothing was built: no `kit.py` edit, no check, no fingerprint,
-`tools/` untouched.
+**THE CRITICAL PATH IS BLOCKED ON A DECISION, NOT ON WORK.** `gate-reachability`
+is framed with a qualified ledger and **refused at viability on a FATAL row**
+(`cfdc0d0` · `1b42bbe` · `aadfd30`, CI green). The refusal is correct and must not
+be worked around.
 
-**The value is stated in TWO directions and both bind.** A stale set creates
-false confidence and pushes the defect into later work where correction costs
-more; and invalidating for unrelated edits so often that freshness becomes noise
-makes people ignore or bypass it. A mechanism satisfying only the first is met by
-invalidating everything always, only the second by never firing. **Success is
-measurable and the producer's:** fixtures proving both directions — relevant
-changes refuse, irrelevant stay valid — plus six weeks with **zero stale sets
-used** and **zero invalidations dismissed as noise**.
+**FIRST, AND IT UNBLOCKS EVERYTHING: rule the ledger-axes conflict.** Full row in
+Backlog/High; reasoning in CONTEXT.md `## Open Questions`. `State` carries a
+**severity** (`fatal`) and a **disposition**
+(`countermeasure - *`, `accepted*`) in one column, so a risk that is genuinely
+fatal *and* genuinely treated cannot be stated truthfully. The producer's two
+candidates, neither chosen: redefine `fatal` as *uncountermeasurable loss of the
+declared value*, or split into inherent-severity and treated-state fields.
+**Sizing:** `LEGAL_STATES` (`kit.py:70`) and `parse_ledger` (`:486`, `:488`) are
+the machine half and 22 records carry ledgers, so a column change is a migration —
+the redefinition may be free. **His boundary: do not reinterpret the rule inside
+the item that exposed it.**
 
-**NEXT, AND IT IS ITS OWN RUNG: viability for `question-set-staleness`.** Four
-ledger rows are named and unqualified, so the scope gate refuses all four
-honestly. The producer's call at this boundary, 2026-09-02 — *"viability requires
-four new producer judgments — including the granularity tradeoff — and should
-begin as its own deliberate rung rather than ride the momentum of a finished
-task."* **The granularity question is the one that sizes the item:** if the
-fingerprint covers whole files, every unrelated edit to `kit.py` or CONTEXT.md
-invalidates every set derived from them and the killer risk fires by
-construction; if it covers the cited rules, unrelated edits are silent. Row 3 of
-the ledger is the hard half — a standing decision is a prose bullet with no
-stable anchor, so there may be nothing addressable to fingerprint at all.
+**Then `gate-reachability` resumes at viability**, re-qualifies row 1 under
+whatever the ruling is, and continues to scope. Its `## Scope` is the producer's
+rung and he has already stated its contents: only the four gate invocations,
+foreign-repo fixtures, and release metadata — `progress.py`, `fidelity.py`, hooks
+and CI automation explicitly deferred.
 
-**No `## Scope` was written, deliberately.** The smallest increment is the
-producer's rung; authoring it at the frame is what the 2026-09-02 deferral was
-protecting.
+**Launch is now measured as 0 of 5 outcomes**, not as a percentage. External
+execution proven · diagnostic pilot · pilot-derived minimum built · **clean
+independent pilot** (the criterion) · release. See CONTEXT.md.
 
-**Do NOT start the five remaining question sets before it** — unchanged. They are
-bounded, but writing five artifacts that go stale silently is building the thing
-the spike warned about.
+**The pilot has a subject and must not start yet.** A role-scoped
+session-to-session request skill (`agent-request`), framed by the apple-music
+session at `~/eolas/vault/kerd/Agent Request Skill Sketch.md` — its artifact, its
+vault, deliberately not copied here. Its repo does not exist and Drive has **not**
+been run on it, because the pilot may not begin before the machinery is reachable
+or it measures plumbing. Kerd is frozen for the duration once it does start.
 
-**Still blocked, and by their own documents:**
+**Owed and not done: the launch plan has no home in this repo.** It exists as a
+private artifact
+(`https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`) and in
+CONTEXT prose. The five outcomes are the project's definition of done and the one
+artifact of that decision not on disk.
 
-- **`requirements-traceability`** — its design doc carries
-  `## The design package — BLOCKED, not yet reworked`. Remainder after a key is
-  small: the `--root` invoke side, **0 skills pass it**.
-- **`shared-memory`** — 164 lines of annotation plus `## Open at design` with
-  three unresolved questions. Only the status word is missing from its journey
-  page.
+**Also open, and behind the block:**
 
-**Unblocked — and NONE of these is mechanical cleanup.** The producer's standing
-correction: *"don't treat the acceptance records or legacy closure as mechanical
-cleanup; each still requires an evidence-backed key."* An acceptance record is
-the producer's **last** gate and a legacy closure asserts an obligation did not
-exist — a historical claim that has to be evidenced. Zero Pieces means the build
-is done, not that the gate is a formality.
-
-- **`funnel-driver` + `progress-html`** at **acceptance**, 0 Pieces each. Each
-  needs an evidence-backed acceptance record and the producer's key.
-- **`hooks-autoload`** — the sibling legacy closure named in the same frame
-  clause as `model-effort-advisory`. Closing it means evidencing that no design
-  rung ever stood in front of it, the way `65a2265` did with two measured facts.
-- **`inline-composer` at `handoff`** — spec unwritten; the first real use of the
-  mechanism it defined.
+- **`question-set-staleness` at viability** — four rows to qualify, the
+  fingerprint-granularity tradeoff being the one that sizes it.
+- **`requirements-traceability`** and **`shared-memory`** — still blocked by
+  their own design docs.
+- **`inline-composer` at `handoff`** — spec unwritten; its first real use is
+  meant to be `gate-reachability`'s short spec.
+- **`funnel-driver` + `progress-html`** at acceptance, 0 Pieces each, each owing
+  an evidence-backed key. **Do not key `funnel-driver` before the pilot** — its
+  acceptance record is the claim that Drive is done, which is the thing the pilot
+  exists to test.
+- **`hooks-autoload`** — the sibling legacy closure.
 
 **TODO closure review** (this boundary):
 
 ```
-  ✓ done   — "frame the staleness mechanism"          (85b8683 + 920c952; enters at viability, CI green)
-  · open   — "requirements-traceability" · "shared-memory"  (blocked on design work their own docs say is owed)
-  · open   — "inline-composer handoff spec" · "hooks-autoload closure"  (untouched)
-  · open   — "funnel-driver acceptance" · "progress-html acceptance"  (0 Pieces each)
-  · open   — "the three composer-brief clauses need a durable home"  (untouched)
-  · open   — "gate-visuals slices 2 and 3" · standards spike x4 · archaeology
-  + new    — a Risk ledger section parses prose as rows; nothing distinguishes the two
-  ! note   — the board's one text/text overlap moved with the wider board (4824,250 -> 5054,250); already filed
+  ✓ done   — "frame the reachability prerequisite"     (cfdc0d0 + 8835a87; enters at viability)
+  ✓ done   — "qualify gate-reachability's ledger"      (1b42bbe; four rows sized on measurement)
+  ✓ done   — "choose the diagnostic pilot subject"     (agent-request; framing in the apple-music vault)
+  · open   — "question-set-staleness viability" · "inline-composer handoff spec"
+  · open   — "requirements-traceability" · "shared-memory"  (blocked by their own docs)
+  · open   — "funnel-driver / progress-html acceptance"  (and funnel-driver is now pilot-gated)
+  + new    — the ledger's State column carries two axes, and it is blocking a live item
+  + new    — the launch plan needs a home in this repo
+  ! note   — a FATAL row is told to "record in What we ruled out"; three docs carry such a
+             section, no standalone instance exists, so the refusal points at an unsettled home
 ```
 
 ## Backlog
