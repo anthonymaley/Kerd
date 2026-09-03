@@ -347,6 +347,8 @@ Tell the user:
 - Any session handoff issues detected in step 2
 - **A short-form "what's next" pick-list** — a numbered menu of every `## Now` and `## Backlog` item, one terse line each. TODO is forward-only and lean by design, so list it in full — don't truncate to "+N more". This is a compact menu, not a re-narration: title-only, no re-explaining what each item is, no reply-instructions (the user just types a number or says what they want).
 
+**Speak the summary as a Status Report** (the talk-formats library, `docs/design/talk-formats.md`): each in-flight item as Work item · Stage · Issue · Resolution path, in plain words readable without the repository open — repo shorthand fails the format even when technically exact. The whole message, pick-list and step 11's conductor offer included, ends on exactly one question, never a compound "X, or Y?".
+
 The pick-list is the point of the summary — the user reads it to pick their next move. Draw it straight from TODO.md; don't editorialize. Number the items and tag each with `[Now]`/`[Backlog]`. Shape:
 
 ```

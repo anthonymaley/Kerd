@@ -38,6 +38,35 @@ natively, which makes format choice a route match, not a taste call.
 (A ninth file, `Proposal@2x-2`, is a variant of format 1 — one format, two
 renderings.)
 
+## The status report — format 9, born from a producer correction
+
+Not one of the sensei layouts: added 2026-09-03 after the producer refused a
+status message spoken in repo shorthand — *"these are not terms anyone can
+actually understand in context."* The format for any **status moment**: a
+switch-in summary, a conductor orient, a task-completion report, a
+"where are we" answer.
+
+| Section | Carries |
+|---|---|
+| **Work item** | what the thing is, in plain words — a slug may appear, but the sentence must not need it |
+| **Stage** | where the work sits on its path, said so a reader who has never seen the ladder still understands |
+| **Issue** | what is stopping or shaping progress — and honestly "none" when nothing is |
+| **Resolution path** | what happens next, in order, and whose move each step is |
+
+Two binding rules, both the producer's (2026-09-03, CONTEXT.md):
+
+- **Plain language, readable without the repository open.** Repo-internal
+  vocabulary ("the FATAL row", "refused at scope") fails the format even when
+  technically exact — say what it means instead. This is the currency rule
+  aimed at the session's own talk.
+- **The message ends on exactly one question — never a compound "X, or Y?".**
+  A closing line that bolts an alternative onto its question is two questions
+  wearing one question mark. Ask the one that most matters; the answer
+  usually settles the rest.
+
+Multiple in-flight items repeat the four sections per item; the one final
+question stays singular for the whole message.
+
 ## System mappings — which moment uses which format
 
 | System moment | Format |
@@ -50,6 +79,7 @@ renderings.)
 | A multi-topic report (e.g. a gate-close summary spanning areas) | **Education / Satisfaction** |
 | A problem that survived attempts | **Problem Solving A3**, via `/sensei:work` |
 | An idea brief / one-page proposal artifact | **Proposal**, held to the API Gateway exemplar's bar |
+| A STATUS moment — switch-in summary, conductor orient, task completion, "where are we" | **Status Report** — work item · stage · issue · resolution path · one final question, plain words without the repository open |
 
 ## Rendering rules
 
