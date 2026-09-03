@@ -1,0 +1,616 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Dated record of the 2026-09-02 launch decision. Drafted 2026-09-02 as a private
+     artifact (claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49); recovered
+     into the repo 2026-09-03. Immutable per docs/plans/ convention — the living home
+     is docs/design/launch-plan.md. Status chips and the footer reflect 2026-09-02. -->
+<title>Kerd Launch Gates</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  :root {
+    --ground:   #EFF2F3;
+    --surface:  #FAFCFC;
+    --sunken:   #E4E9EA;
+    --ink:      #13181B;
+    --muted:    #66737A;
+    --rule:     #CBD4D6;
+    --accent:   #0E7C86;
+    --accent-soft: #0e7c8618;
+    --clay:     #A2432F;
+    --moss:     #3F6B4A;
+
+    --f-display: "IBM Plex Sans Condensed", "Helvetica Neue", Arial, sans-serif;
+    --f-body:    "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --f-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:   #0F1417;
+      --surface:  #161D21;
+      --sunken:   #1D262A;
+      --ink:      #E6ECED;
+      --muted:    #93A2A8;
+      --rule:     #2C383D;
+      --accent:   #3FB2BD;
+      --accent-soft: #3fb2bd1f;
+      --clay:     #D67C63;
+      --moss:     #7FA98A;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:   #0F1417;
+    --surface:  #161D21;
+    --sunken:   #1D262A;
+    --ink:      #E6ECED;
+    --muted:    #93A2A8;
+    --rule:     #2C383D;
+    --accent:   #3FB2BD;
+    --accent-soft: #3fb2bd1f;
+    --clay:     #D67C63;
+    --moss:     #7FA98A;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  /* ── masthead ─────────────────────────────────────────── */
+
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 56px 0 30px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .standfirst {
+    font-size: 1.16rem;
+    line-height: 1.55;
+    max-width: 60ch;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .criterion {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: 0.01em;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+    padding-left: 14px;
+    margin: 0;
+    max-width: 58ch;
+  }
+
+  /* ── retired metrics ──────────────────────────────────── */
+
+  .retired {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: stretch;
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .retired li {
+    flex: 1 1 260px;
+    background: var(--sunken);
+    border: 1px solid var(--rule);
+    padding: 13px 16px;
+  }
+
+  .retired .num {
+    font-family: var(--f-mono);
+    font-size: 1.28rem;
+    font-weight: 600;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    color: var(--muted);
+    display: block;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .retired .why {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--muted);
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* ── sections ─────────────────────────────────────────── */
+
+  section { margin-top: 54px; }
+
+  h2 {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 1.55rem;
+    letter-spacing: -0.005em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+
+  .sec-note {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 66ch;
+    margin: 0 0 24px;
+  }
+
+  /* ── figure ───────────────────────────────────────────── */
+
+  figure { margin: 0; }
+
+  .scroller {
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    padding: 12px;
+  }
+
+  svg.plan { display: block; width: 100%; min-width: 780px; height: auto; }
+
+  figcaption {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 12px;
+    max-width: 72ch;
+    line-height: 1.5;
+  }
+
+  /* ── outcomes table ───────────────────────────────────── */
+
+  .outcomes {
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) 190px 132px;
+    gap: 18px;
+    align-items: start;
+    background: var(--surface);
+    padding: 18px 20px;
+  }
+
+  .row.head {
+    background: var(--sunken);
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .row.head span {
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .idx {
+    font-family: var(--f-mono);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.35;
+  }
+
+  .oc-name {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 1.12rem;
+    line-height: 1.25;
+    margin: 0 0 4px;
+  }
+
+  .oc-what {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .oc-proof {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .chip {
+    display: inline-block;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--clay);
+    color: var(--clay);
+    white-space: nowrap;
+  }
+
+  .chip.proven { border-color: var(--moss); color: var(--moss); }
+  .chip.aside  { border-color: var(--rule); color: var(--muted); }
+
+  /* ── component breakdown ──────────────────────────────── */
+
+  .parts {
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .part {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 150px;
+    gap: 18px;
+    align-items: start;
+    background: var(--surface);
+    padding: 16px 20px;
+  }
+
+  .part.done { border-left: 3px solid var(--moss); }
+  .part.gap  { border-left: 3px solid var(--clay); }
+  .part.out  { border-left: 3px solid var(--rule); }
+
+  .part h3 {
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin: 0 0 4px;
+    line-height: 1.25;
+  }
+
+  .part p { margin: 0; font-size: 0.92rem; line-height: 1.5; color: var(--muted); }
+  .part .chip { justify-self: start; }
+
+  .tally {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--sunken);
+    border: 1px solid var(--rule);
+  }
+
+  .tally .big {
+    font-family: var(--f-mono);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--clay);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tally .txt { font-size: 0.95rem; color: var(--muted); max-width: 62ch; }
+
+  pre {
+    font-family: var(--f-mono);
+    font-size: 12px;
+    line-height: 1.65;
+    background: var(--sunken);
+    border: 1px solid var(--rule);
+    padding: 11px 13px;
+    margin: 0 0 10px;
+    overflow-x: auto;
+  }
+
+  code { font-family: var(--f-mono); font-size: 0.88em; }
+
+  /* ── decision ─────────────────────────────────────────── */
+
+  .decision {
+    margin-top: 54px;
+    background: var(--ink);
+    color: var(--ground);
+    padding: 34px 32px;
+  }
+
+  .decision h2 { color: var(--ground); margin-bottom: 10px; }
+  .decision p { margin: 0 0 12px; max-width: 64ch; line-height: 1.6; }
+  .decision p:last-child { margin-bottom: 0; }
+  .decision .lead { font-size: 1.1rem; }
+  .decision .dim { color: var(--rule); font-size: 0.95rem; }
+
+  footer {
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--f-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+  }
+
+  a { color: var(--accent); }
+  a:focus-visible, .scroller:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 720px) {
+    .row { grid-template-columns: 34px minmax(0, 1fr); gap: 12px; }
+    .row .oc-proof, .row.head span:nth-child(3), .row.head span:nth-child(4) { grid-column: 2; }
+    .row .chip { grid-column: 2; justify-self: start; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Kerd · launch plan · 2026-09-02</p>
+    <h1>Five gates between here and a real user</h1>
+    <p class="standfirst">Launch means one person, working in their own repository, drives a real work item from frame to acceptance — without editing Kerd's internals and without hand-authoring artifacts nobody documented.</p>
+    <p class="criterion">The clean pilot is the launch criterion. The first pilot is an instrument, not evidence that Kerd is ready.</p>
+  </header>
+
+  <section>
+    <h2>Two numbers retired from launch reporting</h2>
+    <p class="sec-note">Both were true. Neither measures readiness, and reporting them as progress is how a system stays internally coherent while never meeting a user.</p>
+    <ul class="retired">
+      <li>
+        <span class="num">91.6%</span>
+        <span class="why">Pieces landed against pieces written. It counts execution against contracts we wrote ourselves — and 14 of 33 work items have no contract at all, so they are in neither half of the fraction.</span>
+      </li>
+      <li>
+        <span class="num">1 of 7</span>
+        <span class="why">Question sets. It measures one subsystem of one skill, not the product. Unchanged for the last 24 hours in any case.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>The plan</h2>
+    <p class="sec-note">Milestones alternate between two repositories. Every lane crossing is work that has never once been done — Kerd has never run outside its own tree.</p>
+
+    <figure>
+      <div class="scroller" tabindex="0">
+        <svg class="plan" viewBox="0 0 1270 470" role="img" aria-label="Five launch milestones alternating between the Kerd repository and a consuming repository. One, external execution, happens in Kerd. Two, the diagnostic pilot, happens in a consuming repo and is an instrument, not evidence. Three, the minimum launch slice, returns to Kerd and builds only what the pilot proved necessary. Four, the clean pilot, returns to a consuming repo and is the launch criterion. Five, release, happens in Kerd. A dashed return path carries defects that invalidate the clean pilot back to milestone three.">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+            </marker>
+            <marker id="ah-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#0E7C86"></path>
+            </marker>
+          </defs>
+
+          <!-- lane bands -->
+          <rect x="20" y="58" width="1230" height="136" fill="currentColor" opacity="0.035"></rect>
+          <rect x="20" y="252" width="1230" height="136" fill="currentColor" opacity="0.035"></rect>
+          <text x="32" y="46" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" letter-spacing="1.4" fill="currentColor" opacity="0.62">THE KERD REPO</text>
+          <text x="32" y="240" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" letter-spacing="1.4" fill="currentColor" opacity="0.62">SOMEONE ELSE'S REPO — NEVER ENTERED</text>
+
+          <!-- 1 -->
+          <rect x="40" y="96" width="150" height="72" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+          <text x="52" y="120" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#0E7C86">1</text>
+          <text x="52" y="141" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">External</text>
+          <text x="52" y="158" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">execution</text>
+          <text x="40" y="212" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#5E9470">gate engine: proven</text>
+          <text x="40" y="227" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#C06248">wiring: missing</text>
+
+          <!-- 2 -->
+          <rect x="300" y="290" width="150" height="72" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+          <text x="312" y="314" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#0E7C86">2</text>
+          <text x="312" y="335" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">Diagnostic</text>
+          <text x="312" y="352" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">pilot</text>
+          <text x="300" y="382" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor" opacity="0.7">instrument, not evidence</text>
+
+          <!-- 3 -->
+          <rect x="560" y="96" width="150" height="72" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+          <text x="572" y="120" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#0E7C86">3</text>
+          <text x="572" y="141" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">Minimum</text>
+          <text x="572" y="158" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">launch slice</text>
+
+          <!-- 4 -->
+          <rect x="820" y="290" width="150" height="72" fill="none" stroke="#0E7C86" stroke-width="2.5"></rect>
+          <text x="832" y="314" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#0E7C86">4</text>
+          <text x="832" y="335" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">Clean</text>
+          <text x="832" y="352" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">pilot</text>
+          <text x="820" y="382" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#0E7C86">THE LAUNCH CRITERION</text>
+
+          <!-- 5 -->
+          <rect x="1080" y="96" width="150" height="72" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+          <text x="1092" y="120" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#0E7C86">5</text>
+          <text x="1092" y="141" font-family="IBM Plex Sans Condensed, sans-serif" font-size="15" font-weight="600" fill="currentColor">Release</text>
+
+          <!-- 1 -> 2 -->
+          <path d="M 190 132 L 245 132 L 245 326 L 300 326" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah)"></path>
+          <text x="245" y="212" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">tools resolve</text>
+          <text x="245" y="227" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">from the plugin</text>
+
+          <!-- 2 -> 3 -->
+          <path d="M 450 326 L 505 326 L 505 132 L 560 132" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah)"></path>
+          <text x="505" y="212" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">findings name</text>
+          <text x="505" y="227" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">what is missing</text>
+
+          <!-- 3 -> 4 -->
+          <path d="M 710 132 L 765 132 L 765 326 L 820 326" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ah)"></path>
+          <text x="765" y="212" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">only what the</text>
+          <text x="765" y="227" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor">pilot proved</text>
+
+          <!-- 4 -> 5 -->
+          <path d="M 970 326 L 1025 326 L 1025 132 L 1080 132" fill="none" stroke="#0E7C86" stroke-width="2" marker-end="url(#ah-a)"></path>
+          <text x="1025" y="212" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="#0E7C86">passes with no</text>
+          <text x="1025" y="227" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="#0E7C86">Kerd assistance</text>
+
+          <!-- return -->
+          <path d="M 895 362 L 895 428 L 635 428 L 635 168" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 5" opacity="0.75" marker-end="url(#ah)"></path>
+          <text x="765" y="448" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="currentColor" opacity="0.75">defects that invalidate the clean pilot</text>
+        </svg>
+      </div>
+      <figcaption>Milestones 2 and 4 happen inside someone else's repository — the boundary Kerd has never crossed. 2 and 4 are the same walk at different evidentiary weight: the first is allowed to fail and its job is to produce a findings list; the second must succeed unaided. Milestone 3 exists only to build what 2 proved necessary, which is what stops another large internally-coherent build that has never met a user.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Progress, reported against outcomes</h2>
+    <p class="sec-note">Not against historical Piece totals. Existing work is not discarded — it is the foundation beneath milestone 1 — but it has produced no external end-to-end evidence.</p>
+
+    <div class="outcomes">
+      <div class="row head">
+        <span>#</span><span>Outcome</span><span>What proves it</span><span>State</span>
+      </div>
+
+      <div class="row">
+        <div class="idx">1</div>
+        <div>
+          <p class="oc-name">External execution proven</p>
+          <p class="oc-what">Folds three components: the gate engine (proven), the skill invocation wiring, and external targeting for the board and fidelity check. Automatic CI or hook enforcement is deliberately excluded — a separate product decision.</p>
+        </div>
+        <div class="oc-proof">A throwaway repo routes, passes, audits <em>and refuses</em> with no Kerd tree present, driven through the skills rather than by hand.</div>
+        <div><span class="chip">Not yet</span></div>
+      </div>
+
+      <div class="row">
+        <div class="idx">2</div>
+        <div>
+          <p class="oc-name">Diagnostic real-product run</p>
+          <p class="oc-what">One real product, one small real work item, walked as far as today's product permits. Every manual intervention, silent degradation, missing question and missing writer recorded.</p>
+        </div>
+        <div class="oc-proof">A findings document. <strong>PARTIAL is a valid outcome.</strong></div>
+        <div><span class="chip">Not started</span></div>
+      </div>
+
+      <div class="row">
+        <div class="idx">3</div>
+        <div>
+          <p class="oc-name">Pilot-derived minimum capability built</p>
+          <p class="oc-what">Only the question sets, writers and refusal paths the pilot proved necessary — plus staleness protection sufficient for the sets actually shipped.</p>
+        </div>
+        <div class="oc-proof">Every item traces to a line in the milestone 2 findings.</div>
+        <div><span class="chip">Not started</span></div>
+      </div>
+
+      <div class="row">
+        <div class="idx">4</div>
+        <div>
+          <p class="oc-name">Clean independent pilot passed</p>
+          <p class="oc-what">A fresh real item, no Kerd-repo assistance. A real user reaches acceptance end to end without editing Kerd internals or hand-authoring undocumented artifacts.</p>
+        </div>
+        <div class="oc-proof">Acceptance reached unaided. This is the launch criterion.</div>
+        <div><span class="chip">Not started</span></div>
+      </div>
+
+      <div class="row">
+        <div class="idx">5</div>
+        <div>
+          <p class="oc-name">Release completed</p>
+          <p class="oc-what">Defects that invalidated the clean pilot closed, release checks run, known limits documented, released.</p>
+        </div>
+        <div class="oc-proof">Release checks green and the limits written down where a user meets them.</div>
+        <div><span class="chip">Not started</span></div>
+      </div>
+    </div>
+
+    <div class="tally">
+      <span class="big">0 of 5</span>
+      <span class="txt">launch outcomes complete. Harsher than 91.6%, and the first number in this project that moves only when someone outside it can use the thing.</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Inside milestone 1: four components, one already proven</h2>
+    <p class="sec-note">Tested against a disposable git repository holding one work record and nothing else. <strong>Refusal is not unbuilt capability — it is built and externally proven.</strong> What is missing is the wiring that invokes it. The fourth component is a product decision, not a blocker.</p>
+
+    <div class="parts">
+      <div class="part done">
+        <div>
+          <h3>Gate engine — route, check, audit, refuse</h3>
+          <pre>check widget scope     → exit 1  REFUSES
+check widget viability → exit 0  passes
+audit                  → exit 0  runs
+route  widget          → full 7-rung table</pre>
+          <p>All four with <code>--root</code> aimed at a foreign repo and no code change. The standing decision that a consuming project gets judgment but never refusal is wrong as written — and the one saying the tools are <em>absent</em> there is also wrong. They ship; they were unreachable.</p>
+        </div>
+        <div><span class="chip proven">Externally proven</span></div>
+      </div>
+
+      <div class="part gap">
+        <div>
+          <h3>Skill invocation wiring</h3>
+          <p>All seven skill call sites use a bare relative path, so outside Kerd they hit <em>No such file</em> and the skill degrades to prose silently. <code>${CLAUDE_PLUGIN_ROOT}</code> appears in skill text zero times. Four of the seven need no code at all — only the plugin path and a <code>--root</code>.</p>
+        </div>
+        <div><span class="chip">Missing</span></div>
+      </div>
+
+      <div class="part gap">
+        <div>
+          <h3>Board and fidelity external targeting</h3>
+          <p><code>progress.py</code> accepts no <code>--root</code> — passing one prints usage and exits 2, so a consuming repo has no board and its position is unrecoverable. <code>fidelity.py</code> pins its root to the tool's own file path, so in a plugin cache it audits the cache: a silent wrong answer, not an error. Real code, two files.</p>
+        </div>
+        <div><span class="chip">Missing</span></div>
+      </div>
+
+      <div class="part out">
+        <div>
+          <h3>Automatic CI or hook enforcement</h3>
+          <p>No consuming-repo hook or workflow invokes the refusal independently. This is a <strong>separate product decision, not an assumed blocker.</strong> An interactive pilot is valid so long as Drive reliably invokes the gate and surfaces its refusal — launch waits on a second automatic channel only if that channel is explicitly part of the promised product.</p>
+        </div>
+        <div><span class="chip aside">Out of scope</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="decision">
+    <h2>The next decision</h2>
+    <p class="lead">Which real product, and which small work item, for the diagnostic pilot.</p>
+    <p>Then scope reachability as the <em>smallest prerequisite to start that pilot</em> — not as a programme. Milestone 1 does not have to be complete to begin milestone 2; it has to be complete enough that the pilot's failures are the product's failures rather than the plumbing's.</p>
+    <p class="dim">Everything in milestone 3 stays deliberately unsized until milestone 2 returns findings. Sizing it now would repeat the mistake the derivation spike warned about — building from inspection instead of contact.</p>
+  </div>
+
+  <footer>
+    <span>Kerd v0.104.0</span>
+    <span>33 work items on the board</span>
+    <span>0 of 5 launch outcomes</span>
+    <span>Drafted 2026-09-02</span>
+  </footer>
+
+</div>
+</body></html>
