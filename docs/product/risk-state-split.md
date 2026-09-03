@@ -1,6 +1,19 @@
 ---
 route: new
 stage: framed
+concerns:
+  - concern: the two-axis vocabulary and what refuses
+    viewpoint: matrix
+    view: docs/design/risk-state-split/two-axis-vocabulary.html
+    approval: Tony, 2026-09-03 · fp:065cb1c38dd7
+  - concern: the migration of the 84 live rows
+    viewpoint: flowchart
+    view: docs/design/risk-state-split/migration-map.html
+    approval: Tony, 2026-09-03 · fp:aef214c7ae05
+  - concern: hollow treatment made checkable
+    viewpoint: flowchart
+    view: docs/design/risk-state-split/hollow-treatment.html
+    approval: Tony, 2026-09-03 · fp:c2a0be490625
 ---
 
 # A risk's severity and its treatment are two facts, not one field

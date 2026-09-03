@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The migration of the 84 live rows</title>
+  <style>
+    :root{--color-paper:#f5f5f5;--color-ink:#2d3142;--color-muted:#4f5d75;
+          --color-accent:#eb6c36;--font-sans:'Geist',system-ui,sans-serif;
+          --font-serif:'Instrument Serif',serif;--font-mono:'Geist Mono',ui-monospace,monospace;}
+    body{margin:0;padding:48px;background:var(--color-paper);color:var(--color-ink);
+         font-family:var(--font-sans);}
+    .wrap{max-width:1000px;margin:0 auto;}
+    .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--color-muted);margin:0 0 8px;}
+    h1{font-family:var(--font-serif);font-size:34px;font-weight:400;margin:0 0 8px;}
+    .sub{color:var(--color-muted);font-size:15px;margin:0 0 28px;}
+    svg{width:100%;height:auto;display:block;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Kerd · risk-state-split · design</p>
+    <h1>The migration of the 84 live rows</h1>
+    <p class="sub">Measured 2026-09-03, re-measured at migration time. Mechanical only where today's data decides both fields; everything else is the producer's, and lands with its provenance.</p>
+    <svg viewBox="0 0 1000 780" role="img" aria-labelledby="mig-title mig-desc">
+      <title id="mig-title">The migration of the 84 live rows</title>
+      <desc id="mig-desc">Eighty-four ledger rows across twenty-one work records flow through four streams. The header rewrite is mechanical for all twenty-one records. Treatment is mechanical for eighty-three rows: seventy-eight legal old State values copy verbatim, four empty cells stay empty, and gate-reachability takes countermeasure permanent from the producer's recorded ruling; one row, hooks-autoload's illegal accepted named loss, goes to producer review. Severity is mechanical for five rows only: gate-reachability takes fatal from the recorded ruling and the four empty cells stay empty; the other seventy-nine rows go to producer review, because an old ledger passing without fatal does not prove its severity was non-fatal — the old cell could not represent fatal alongside treatment. The new Treatment evidence column lands on all twenty-one records and eighty-four rows, with three machine-distinguishable cell forms: empty, legal at non-fatal only; the planned declaration, stated and never called proven; and the resolving citation, which is what verified means. gate-reachability's fatal row carries the planned form transcribed from the recorded ruling, naming its expected fixture location in tools slash gates slash kit dot py, with the verified resolving citation due at its acceptance. Review rows land in a worksheet the producer keys in batches; the keyed worksheet is committed as a dated record so provenance is permanent. Everything — checker change, all twenty-one migrated records, the worksheet, the fixtures, prose surfaces, release metadata — lands in one commit, and CI green on that push is the live proof. Afterwards gate-reachability unblocks at viability and proceeds to its stated scope, question-set-staleness still refuses on its blank rows, and no other position is claimed stable until all seventy-nine severity decisions are keyed — a row reviewed as fatal may legitimately change its item's route.</desc>
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f5d75"/></marker>
+        <style>
+          .n{font-family:var(--font-sans);font-size:13px;fill:var(--color-ink);}
+          .b{font-family:var(--font-sans);font-size:13px;font-weight:600;fill:var(--color-ink);}
+          .m{font-family:var(--font-sans);font-size:11px;fill:var(--color-muted);}
+          .e{font-family:var(--font-mono);font-size:9px;fill:var(--color-muted);}
+          .box{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
+          .rev{fill:#fff;stroke:#eb6c36;stroke-width:1.6;}
+          .ton{fill:#eef5ee;stroke:#2d6a4f;stroke-opacity:.6;}
+          .commit{fill:#2d3142;}
+          .cw{font-family:var(--font-sans);font-size:13px;font-weight:600;fill:#fff;}
+          .cm{font-family:var(--font-sans);font-size:11px;fill:#cfd4e0;}
+        </style>
+      </defs>
+
+      <rect class="box" x="330" y="12" width="340" height="46" rx="20"/>
+      <text class="b" x="360" y="32">84 rows · 21 work records</text>
+      <text class="m" x="360" y="48">every record carrying ## Risk ledger</text>
+
+      <path d="M 500 58 L 500 84" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+
+      <!-- four streams -->
+      <rect class="box" x="16" y="84" width="224" height="150" rx="6"/>
+      <text class="b" x="30" y="106">Header rewrite</text>
+      <text class="n" x="30" y="128">21 of 21 — mechanical</text>
+      <text class="m" x="30" y="148">old 8-column header →</text>
+      <text class="m" x="30" y="162">new 10-column header:</text>
+      <text class="e" x="30" y="180">State → Severity + Treatment</text>
+      <text class="e" x="30" y="194">Evidence → Risk evidence</text>
+      <text class="e" x="30" y="208">+ Treatment evidence (new)</text>
+
+      <rect class="box" x="256" y="84" width="224" height="150" rx="6"/>
+      <text class="b" x="270" y="106">Treatment</text>
+      <text class="n" x="270" y="128">83 mechanical · 1 review</text>
+      <text class="m" x="270" y="148">78 legal old States copy verbatim</text>
+      <text class="m" x="270" y="162">4 empty stay empty</text>
+      <text class="m" x="270" y="176">1 from the recorded ruling:</text>
+      <text class="e" x="270" y="190">gate-reachability → cm - permanent</text>
+      <text class="m" x="270" y="210">1 ambiguous → review:</text>
+      <text class="e" x="270" y="224">hooks-autoload 'accepted (named loss)'</text>
+
+      <rect class="rev" x="496" y="84" width="240" height="150" rx="6"/>
+      <text class="b" x="510" y="106">Severity</text>
+      <text class="n" x="510" y="128">5 mechanical · 79 review</text>
+      <text class="m" x="510" y="148">1 from the recorded ruling:</text>
+      <text class="e" x="510" y="162">gate-reachability → fatal</text>
+      <text class="m" x="510" y="176">4 empty stay empty</text>
+      <text class="b" x="510" y="198">79 never recorded a severity —</text>
+      <text class="m" x="510" y="214">absence of 'fatal' proves nothing:</text>
+      <text class="m" x="510" y="228">the old cell could not say both facts</text>
+
+      <rect class="box" x="752" y="84" width="232" height="150" rx="6"/>
+      <text class="b" x="766" y="106">Treatment evidence</text>
+      <text class="n" x="766" y="128">column on all 21 records, 84 rows</text>
+      <text class="e" x="766" y="146">empty — legal at non-fatal only</text>
+      <text class="e" x="766" y="160">planned — &lt;what will exist&gt; ·</text>
+      <text class="e" x="766" y="174">&lt;expected location&gt; (declared)</text>
+      <text class="e" x="766" y="188">resolving citation (= verified)</text>
+      <text class="m" x="766" y="206">gate-reachability: planned form from</text>
+      <text class="m" x="766" y="220">the ruling · location: tools/gates/kit.py</text>
+
+      <path d="M 616 234 L 616 262" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#ar)" fill="none"/>
+      <path d="M 368 234 L 368 248 L 540 248 L 540 258" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+
+      <!-- the boundary, verbatim (green = Tony's input) -->
+      <rect class="ton" x="16" y="262" width="440" height="118" rx="6"/>
+      <text class="e" x="30" y="284">THE BOUNDARY — THE PRODUCER, SCOPE KEY, VERBATIM</text>
+      <text class="n" x="30" y="306">"Existing rows are migrated mechanically only where</text>
+      <text class="n" x="30" y="322">today's data determines both new fields without judgment.</text>
+      <text class="n" x="30" y="338">Every ambiguous Severity or Treatment value requires</text>
+      <text class="n" x="30" y="354">explicit producer review; the migration must not infer it</text>
+      <text class="n" x="30" y="370">merely to complete the schema."</text>
+
+      <!-- worksheet -->
+      <rect class="rev" x="496" y="262" width="488" height="118" rx="6"/>
+      <text class="b" x="510" y="284">The review worksheet — the producer's, in batches</text>
+      <text class="m" x="510" y="304">one row per unresolved value (79 severities · 1 treatment): record · row · Impact</text>
+      <text class="m" x="510" y="318">and Risk evidence quoted · the unresolved field blank for his key · batched by record</text>
+      <text class="n" x="510" y="340">keyed worksheet commits WITH the migration as a dated record:</text>
+      <text class="e" x="510" y="356">docs/plans/&lt;date&gt;-risk-state-split-migration-review.md</text>
+      <text class="m" x="510" y="372">provenance permanent — a reviewed value stays distinguishable from a stated one</text>
+
+      <path d="M 500 380 L 500 408" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+
+      <!-- one commit -->
+      <rect class="commit" x="106" y="408" width="788" height="120" rx="8"/>
+      <text class="cw" x="126" y="434">ONE COMMIT — no committed tree ever contains mixed schemas</text>
+      <text class="cm" x="126" y="458">checker (LEDGER_COLUMNS · legal sets · parse_ledger · refusal strings) + all 21 migrated records</text>
+      <text class="cm" x="126" y="476">+ the keyed worksheet + the six fixtures + prose surfaces (gates README · interrogate SKILL.md)</text>
+      <text class="cm" x="126" y="494">+ release metadata (version ×3 · README What's New) — the full skill-release checklist rides</text>
+      <text class="cm" x="126" y="514">fixtures 1 + 2 prove refusal in both directions at this same commit · CI green on the push is fixture 3 live</text>
+
+      <path d="M 500 528 L 500 556" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#ar)" fill="none"/>
+
+      <!-- post-state -->
+      <rect class="box" x="106" y="556" width="788" height="104" rx="6"/>
+      <text class="b" x="126" y="580">After the commit — expected board state, honestly bounded</text>
+      <text class="n" x="126" y="604">gate-reachability: UNBLOCKS — planned (declared) evidence passes viability; on to its stated scope; verified due at acceptance</text>
+      <text class="n" x="126" y="622">question-set-staleness: still refused at viability — four blank rows, refused until qualified (today's honest state)</text>
+      <text class="m" x="126" y="644">other positions NOT claimed stable until all 79 severities are keyed — a row reviewed as fatal may change its item's route</text>
+
+      <text class="m" x="16" y="700">Counts derive from parse_ledger over docs/product/*.md — re-run at migration time; the ruling's "22" was the prior sitting's</text>
+      <text class="m" x="16" y="716">count, 21 measured 2026-09-03. "Explicit prior evidence" is read narrowly: a cell stating the classification in the ledger's own</text>
+      <text class="m" x="16" y="732">terms. Expected few to none; any found shrink the 79-row batch. A regex over Impact prose is judgment wearing a script — refused.</text>
+    </svg>
+  </div>
+</body>
+</html>

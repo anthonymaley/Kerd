@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The two-axis vocabulary and what refuses</title>
+  <style>
+    :root{--color-paper:#f5f5f5;--color-ink:#2d3142;--color-muted:#4f5d75;
+          --color-accent:#eb6c36;--font-sans:'Geist',system-ui,sans-serif;
+          --font-serif:'Instrument Serif',serif;--font-mono:'Geist Mono',ui-monospace,monospace;}
+    body{margin:0;padding:48px;background:var(--color-paper);color:var(--color-ink);
+         font-family:var(--font-sans);}
+    .wrap{max-width:1000px;margin:0 auto;}
+    .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+             text-transform:uppercase;color:var(--color-muted);margin:0 0 8px;}
+    h1{font-family:var(--font-serif);font-size:34px;font-weight:400;margin:0 0 8px;}
+    .sub{color:var(--color-muted);font-size:15px;margin:0 0 28px;}
+    svg{width:100%;height:auto;display:block;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="eyebrow">Kerd · risk-state-split · design</p>
+    <h1>The two-axis vocabulary and what refuses</h1>
+    <p class="sub">One State cell becomes Severity × Treatment. Every combination has exactly one verdict, and the one this item exists to create is marked.</p>
+    <svg viewBox="0 0 1000 764" role="img" aria-labelledby="vocab-title vocab-desc">
+      <title id="vocab-title">The two-axis vocabulary and what refuses</title>
+      <desc id="vocab-desc">A matrix of Severity (fatal, non-fatal, empty) against Treatment (countermeasure permanent, countermeasure temporary, accepted, accepted unknown, empty). Fatal with a permanent countermeasure passes — planned Treatment evidence carries it before acceptance, and acceptance demands a resolving citation: the newly representable combination. Fatal with a temporary countermeasure also passes when its return condition is named in the Review trigger — temporary means it carries a return condition, not that it expires before protecting this increment — under the same evidence lifecycle. Fatal with accepted, accepted unknown, or an empty treatment is refused: the one blocker that cannot be accepted by name. Non-fatal rows pass under their treatment's existing obligation: countermeasure treatments require the Countermeasure cell, accepted treatments require the Review trigger. Any empty Severity or Treatment cell is refused as named, not yet qualified — workflow incompleteness the viability gate refuses, never a legal durable value. Definitions: fatal means impact at or above the declared value at any likelihood; non-fatal means impact below it. The timing band makes planned versus verified explicit per gate: at viability, scope, design, handoff, and loop, a fatal row's Treatment evidence may be the planned declaration or a verified resolving citation — both legal, planned never called proven, empty refused; at acceptance only the verified resolving citation suffices and a still-planned treatment refuses. A non-fatal row's cell is optional at every gate — empty, planned, or verified, always legal. The old FATAL refusal narrows: it fires only on fatal with no countermeasure, and still sends the row to What we ruled out.</desc>
+      <defs>
+        <style>
+          .n{font-family:var(--font-sans);font-size:13px;fill:var(--color-ink);}
+          .b{font-family:var(--font-sans);font-size:13px;font-weight:600;fill:var(--color-ink);}
+          .h{font-family:var(--font-mono);font-size:11px;fill:var(--color-ink);font-weight:600;}
+          .m{font-family:var(--font-sans);font-size:11px;fill:var(--color-muted);}
+          .e{font-family:var(--font-mono);font-size:9px;fill:var(--color-muted);}
+          .pass{fill:#fff;stroke:#4f5d75;stroke-opacity:.55;}
+          .ref{fill:#e9e6e3;stroke:#4f5d75;stroke-opacity:.35;}
+          .new{fill:#fff;stroke:#eb6c36;stroke-width:2;}
+          .vP{font-family:var(--font-mono);font-size:11px;font-weight:600;fill:#2d6a4f;}
+          .vR{font-family:var(--font-mono);font-size:11px;font-weight:600;fill:#9b2c2c;}
+        </style>
+      </defs>
+
+      <!-- column headers: Treatment -->
+      <text class="e" x="16" y="30">TREATMENT →</text>
+      <text class="h" x="176" y="30">countermeasure -</text>
+      <text class="h" x="176" y="44">permanent</text>
+      <text class="h" x="344" y="30">countermeasure -</text>
+      <text class="h" x="344" y="44">temporary</text>
+      <text class="h" x="512" y="30">accepted</text>
+      <text class="h" x="680" y="30">accepted</text>
+      <text class="h" x="680" y="44">unknown</text>
+      <text class="h" x="848" y="30">(empty)</text>
+
+      <!-- row: fatal -->
+      <text class="e" x="16" y="76">SEVERITY ↓</text>
+      <text class="h" x="16" y="120">fatal</text>
+      <text class="m" x="16" y="138">impact ≥ declared</text>
+      <text class="m" x="16" y="152">value, at any</text>
+      <text class="m" x="16" y="166">likelihood</text>
+
+      <rect class="new" x="168" y="88" width="152" height="112" rx="6"/>
+      <text class="vP" x="180" y="110">PASSES</text>
+      <text class="m" x="180" y="128">planned evidence</text>
+      <text class="m" x="180" y="142">before acceptance ·</text>
+      <text class="m" x="180" y="156">resolving evidence</text>
+      <text class="m" x="180" y="170">at acceptance</text>
+      <text class="e" x="180" y="192">NEW — the point</text>
+
+      <rect class="new" x="336" y="88" width="152" height="112" rx="6"/>
+      <text class="vP" x="348" y="110">PASSES</text>
+      <text class="m" x="348" y="128">with its return</text>
+      <text class="m" x="348" y="142">condition named</text>
+      <text class="m" x="348" y="156">(Review trigger) ·</text>
+      <text class="m" x="348" y="170">same evidence lifecycle</text>
+      <text class="e" x="348" y="192">NEW — his ruling</text>
+
+      <rect class="ref" x="504" y="88" width="152" height="112" rx="6"/>
+      <text class="vR" x="516" y="110">REFUSED</text>
+      <text class="m" x="516" y="128">the one blocker that</text>
+      <text class="m" x="516" y="142">cannot be accepted</text>
+      <text class="m" x="516" y="156">by name (2026-08-03)</text>
+      <text class="e" x="516" y="192">carried</text>
+
+      <rect class="ref" x="672" y="88" width="152" height="112" rx="6"/>
+      <text class="vR" x="684" y="110">REFUSED</text>
+      <text class="m" x="684" y="128">same ground —</text>
+      <text class="m" x="684" y="142">an unknown is not</text>
+      <text class="m" x="684" y="156">a countermeasure</text>
+      <text class="e" x="684" y="192">carried</text>
+
+      <rect class="ref" x="840" y="88" width="144" height="112" rx="6"/>
+      <text class="vR" x="852" y="110">REFUSED</text>
+      <text class="m" x="852" y="128">named, not yet</text>
+      <text class="m" x="852" y="142">qualified</text>
+      <text class="e" x="852" y="192">ruling 2026-09-03</text>
+
+      <!-- row: non-fatal -->
+      <text class="h" x="16" y="248">non-fatal</text>
+      <text class="m" x="16" y="266">impact &lt; declared</text>
+      <text class="m" x="16" y="280">value</text>
+
+      <rect class="pass" x="168" y="216" width="152" height="96" rx="6"/>
+      <text class="vP" x="180" y="238">passes</text>
+      <text class="m" x="180" y="256">Countermeasure</text>
+      <text class="m" x="180" y="270">cell required</text>
+      <text class="e" x="180" y="300">carried</text>
+
+      <rect class="pass" x="336" y="216" width="152" height="96" rx="6"/>
+      <text class="vP" x="348" y="238">passes</text>
+      <text class="m" x="348" y="256">Countermeasure</text>
+      <text class="m" x="348" y="270">cell required</text>
+      <text class="e" x="348" y="300">carried</text>
+
+      <rect class="pass" x="504" y="216" width="152" height="96" rx="6"/>
+      <text class="vP" x="516" y="238">passes</text>
+      <text class="m" x="516" y="256">Review trigger</text>
+      <text class="m" x="516" y="270">required</text>
+      <text class="e" x="516" y="300">carried</text>
+
+      <rect class="pass" x="672" y="216" width="152" height="96" rx="6"/>
+      <text class="vP" x="684" y="238">passes</text>
+      <text class="m" x="684" y="256">Review trigger</text>
+      <text class="m" x="684" y="270">required</text>
+      <text class="e" x="684" y="300">carried</text>
+
+      <rect class="ref" x="840" y="216" width="144" height="96" rx="6"/>
+      <text class="vR" x="852" y="238">REFUSED</text>
+      <text class="m" x="852" y="256">named, not yet</text>
+      <text class="m" x="852" y="270">qualified</text>
+
+      <!-- row: empty severity (merged band) -->
+      <text class="h" x="16" y="360">(empty)</text>
+      <text class="m" x="16" y="378">never recorded</text>
+
+      <rect class="ref" x="168" y="328" width="816" height="64" rx="6"/>
+      <text class="vR" x="180" y="352">REFUSED — Severity empty: named, not yet qualified</text>
+      <text class="m" x="180" y="372">workflow incompleteness, not a legal durable value — the viability gate refuses the blanks (the producer's ruling, 2026-09-03)</text>
+
+      <!-- assurance timing: planned vs verified, per gate -->
+      <text class="e" x="16" y="426">WHEN THE EVIDENCE IS DEMANDED — PLANNED vs VERIFIED, EXPLICIT PER GATE (FATAL ROWS)</text>
+      <rect class="pass" x="16" y="438" width="636" height="82" rx="6"/>
+      <text class="b" x="32" y="462">viability · scope · design · handoff · loop</text>
+      <text class="n" x="32" y="480">'planned — &lt;what will exist&gt; · &lt;expected location&gt;' (declared)</text>
+      <text class="n" x="32" y="496">OR a resolving citation (verified) — both legal · empty refuses</text>
+      <text class="m" x="32" y="510">planned is the machine-readable admission: stated, never called proven</text>
+      <rect class="new" x="668" y="438" width="316" height="82" rx="6"/>
+      <text class="b" x="684" y="462">acceptance</text>
+      <text class="n" x="684" y="482">resolving citation only = verified</text>
+      <text class="m" x="684" y="500">still-planned refuses (fixture 5)</text>
+      <text class="m" x="16" y="534">non-fatal rows: the cell is optional at every gate — empty, planned, or verified are all legal, always.</text>
+
+      <!-- legend + footer -->
+      <rect class="new" x="16" y="552" width="18" height="18" rx="4"/>
+      <text class="n" x="44" y="566">the combinations this design makes representable — fatal, treatment declared before acceptance, verified at it</text>
+      <rect class="ref" x="16" y="580" width="18" height="18" rx="4"/>
+      <text class="n" x="44" y="594">refused — the row cannot pass the gate that reads it</text>
+      <rect class="pass" x="16" y="608" width="18" height="18" rx="4"/>
+      <text class="n" x="44" y="622">passes under its treatment's existing obligation</text>
+
+      <text class="b" x="16" y="662">The old FATAL refusal narrows, it does not die — and the evidence demand moves with the ladder.</text>
+      <text class="n" x="16" y="682">"FATAL risk … record in What we ruled out; cannot pass" now fires only on fatal with NO countermeasure — accepted, accepted</text>
+      <text class="n" x="16" y="700">unknown, or empty. A treated fatal row advances on planned (declared) evidence; acceptance is where verified is demanded.</text>
+      <text class="m" x="16" y="730">Normalization unchanged for both fields: lowercase · em-dash and -- to - · whitespace collapsed. NEW / carried marks say</text>
+      <text class="m" x="16" y="746">which verdicts this design creates and which it inherits — a reader can tell proposal from fact (the 2026-08-25 legend rule).</text>
+    </svg>
+  </div>
+</body>
+</html>
