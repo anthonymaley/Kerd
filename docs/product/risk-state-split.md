@@ -58,12 +58,10 @@ item simultaneously. Keep hollow treatment distinct: a treatment is not proven
 merely because its field is populated."* And the task boundary: *"No checker,
 migration, or skill changes in this task"* — those are this item's later rungs.
 
-**The ledger below is named, not qualified, and the empty cells are
-deliberate.** The frame gate's floor is presence: a killer risk named, no
-sizing, no evidence. Every row is refused at the scope gate until it carries
-Evidence, a legal State and a countermeasure — left standing rather than filled
-with a plausible disposition, per the 2026-08-31 ruling that workflow
-incompleteness is not a durable risk state.
+**The ledger below was qualified at viability, 2026-09-03** — both rows sized
+on measured evidence, in today's five-state vocabulary: the split this item
+proposes does not exist yet and is not pretended to. States and the scope below
+keyed by the producer the same sitting.
 
 ## Grounding
 
@@ -77,5 +75,57 @@ incompleteness is not a durable risk state.
 
 | Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
 |---|---|---|---|---|---|---|---|
-| A half-migrated vocabulary — the checker demanding the new shape while any record still carries the old, or the reverse — makes every work item's ledger fail to parse at once, disabling the whole board in a single commit | yes |  |  |  |  |  |  |
-| Hollow treatment — the new Treatment field reads as protection merely because it is populated, so an unproven fix wears the same clothes as a proven one; a treatment is not proven merely because its field is populated | no |  |  |  |  |  |  |
+| A half-migrated vocabulary — the checker demanding the new shape while any record still carries the old, or the reverse — makes every work item's ledger fail to parse at once, disabling the whole board in a single commit | yes | Every item's route degrades at once: the parser refuses in both directions (exact-header match), the board cannot derive truthfully, CI goes red at the next push, and nothing advances until the tree converges. No data loss — the parsers only read | High without the countermeasure: "checker first, records later" produces a mixed tree by construction. Low with it | Measured 2026-09-03: 21 records carry `## Risk ledger`; exact-header refusal at `kit.py:457-459`; `parse_ledger` consumed at `:740`/`:795` inside the rung checks the board derives from (`:965`); CI runs the gates on every push | countermeasure - permanent | The producer's atomic-migration rule, verbatim: checker change, all existing ledger migrations, and tests land together so no committed tree contains mixed schemas. Enforced by fixtures landing in the same commit: old-only refused, mixed refused, fully-migrated accepted | Fires if any later vocabulary change is proposed outside a single commit carrying its paired record migration — the same class recurring |
+| Hollow treatment — the new Treatment field reads as protection merely because it is populated, so an unproven fix wears the same clothes as a proven one; a treatment is not proven merely because its field is populated | no | The Treatment half of the declared value silently defeated for any affected row; worst case, a fatal-severity risk advances as treated. A false green, no data loss | High without a machine check — measured, not supposed: the 2026-09-02 classification incident and the hollow-waiving family are this repo's own record of the cheap-state pull | Today's machine checks content only for non-emptiness (`kit.py:492`) — it cannot distinguish a proven treatment from an asserted one; the 2026-09-02 incident is recorded in CONTEXT.md | countermeasure - temporary | The design must make "proven" checkable; the producer's required fixture binds it — a populated-but-unproven treatment is refused. Temporary because that machinery is unbuilt; the fixture obligation is carried in `## Scope` below | Fires at this item's design gate: a design shipping without the populated-but-unproven refusal fixture re-opens this row and the state cannot stand |
+
+## Scope
+
+The smallest valuable increment: the two-axis ledger vocabulary, shipped with
+its migration in one commit.
+
+In scope:
+
+- The checker — `LEDGER_COLUMNS`, the legal-value sets, `parse_ledger` and its
+  refusal messages — restructured so a row carries **Severity** (how damaging
+  the risk would be if it happened) and **Treatment** (what we are doing about
+  it, and whether that treatment is proven) as separate facts. Exact column
+  names, legal values per axis, and each refusal's wording are design-rung
+  decisions: scope commits to the split, not the spelling.
+- **Atomic migration, the producer's definition verbatim:** checker change, all
+  existing ledger migrations, and tests land together so no committed tree
+  contains mixed schemas. Every work record carrying `## Risk ledger`
+  (21 measured 2026-09-03; re-measured at migration time) migrates in that
+  commit.
+- **The migration boundary, the producer's ruling at the scope key:**
+
+  > Existing rows are migrated mechanically only where today's data determines
+  > both new fields without judgment. Every ambiguous Severity or Treatment
+  > value requires explicit producer review; the migration must not infer it
+  > merely to complete the schema.
+
+- **Tests, all five required, the producer's list verbatim:** old-only schema
+  refused · mixed schema refused · fully migrated schema accepted · fatal
+  severity with permanent treatment representable · populated-but-unproven
+  treatment refused.
+- The prose surfaces stating today's contract sweep with the change:
+  `tools/gates/README.md` (the legal-values rows) and
+  `skills/interrogate/SKILL.md` (the five states and the eight-column
+  template) — a skill change, so the full release checklist rides.
+- Release metadata (version bump, README What's New).
+- First action after this ships: `gate-reachability`'s killer row re-qualifies
+  under the new shape, in its own item.
+
+Deliberately excluded, with reasons:
+
+- No new gates or rungs — the vocabulary changes, the ladder does not.
+- No waiver or legacy-closure record changes — they carry no ledgers.
+- Dated records and session logs keep their vocabulary forever — aliases read
+  old records; only living work records migrate.
+- No renderer or board changes beyond what re-derives automatically.
+
+Named for design, not settled here: what Severity an existing non-fatal row
+receives when today's vocabulary never recorded one — resolvable only under
+the migration boundary above: deterministic from existing evidence, or
+explicitly producer-reviewed.
+
+Rigor level: mvp
