@@ -17,6 +17,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import sys
 import tempfile
 
@@ -59,20 +60,28 @@ def stage_index(v):
 
 ROUTES = ["new", "problem", "spike"]
 LEDGER_COLUMNS = [
+    "Risk", "Killer?", "Impact", "Likelihood", "Risk evidence",
+    "Severity", "Treatment", "Countermeasure", "Treatment evidence",
+    "Review trigger",
+]
+# The pre-split eight-column schema (retired 2026-09-03, risk-state-split).
+# Read-only, forever: recognized ONLY so the header refusal can name the
+# migration instead of leaving the reader to diff two headers by eye.
+LEDGER_COLUMNS_PRE_SPLIT = [
     "Risk", "Killer?", "Impact", "Likelihood", "Evidence",
     "State", "Countermeasure", "Review trigger",
 ]
-
-# The five legal normalized States (A3). "fatal" is structurally legal —
-# it is a real cell value a row can carry — but its presence is itself a
-# refusal (see parse_ledger), which is why it lives in this set and is also
-# specifically checked for below.
-LEGAL_STATES = {
+# Severity: set by impact alone, against the declared value (A3, unchanged
+# definition of fatal). Empty is workflow incompleteness, refused at parse —
+# never a legal durable value (the producer's ruling, 2026-09-03).
+LEGAL_SEVERITIES = {"fatal", "non-fatal"}
+# Treatment: today's four, unchanged. `fatal` leaves the set — it was never
+# a treatment. Empty refused at parse, same ground as Severity.
+LEGAL_TREATMENTS = {
     "countermeasure - permanent",
     "countermeasure - temporary",
     "accepted",
     "accepted unknown",
-    "fatal",
 }
 
 # The legal rigor levels (AU6, scope rung). A '## Scope' section
@@ -418,7 +427,8 @@ def question_set_status(text):
     }
 
 
-# ── the risk ledger (A3, state normalization note) ──────────────────────────
+# ── the risk ledger (A3, state normalization note — now applied to both
+# Severity and Treatment, risk-state-split) ─────────────────────────────────
 
 def _normalize_state(raw):
     """lowercase, em-dash and '--' to '-', whitespace collapsed, stripped —
@@ -427,6 +437,41 @@ def _normalize_state(raw):
     s = s.replace("—", "-").replace("--", "-")
     s = re.sub(r"\s+", " ", s)
     return s.strip()
+
+
+def _treatment_evidence_form(root, cell):
+    """Classify a Treatment evidence cell: 'empty' | 'planned' |
+    'planned-malformed' | 'verified' | 'unresolved'.
+
+    planned: normalized text begins 'planned -'; well-formed when the RAW
+    cell splits on ' · ' into exactly two segments, the second non-empty
+    and repo-relative (no leading '/'). verified: a resolving citation,
+    AU5's family — the text before the first ' — ' (or the whole cell)
+    glob-resolves under root, or is a 7-40 hex commit hash git confirms.
+    The declared limit, the producer's words: the machine verifies that a
+    citation resolves; the producer decides whether it supports the
+    treatment. Retrieval, not comprehension."""
+    raw = cell.strip()
+    if not raw:
+        return "empty"
+    if _normalize_state(raw).startswith("planned -"):
+        segs = raw.split(" · ")
+        if len(segs) == 2 and segs[1].strip() and not segs[1].strip().startswith("/"):
+            return "planned"
+        return "planned-malformed"
+    ref = raw.split(" — ", 1)[0].strip()
+    if re.fullmatch(r"[0-9a-f]{7,40}", ref):
+        try:
+            ok = subprocess.run(
+                ["git", "-C", root, "cat-file", "-e", ref],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            ).returncode == 0
+        except OSError:
+            ok = False
+        return "verified" if ok else "unresolved"
+    if glob.glob(os.path.join(root, ref)):
+        return "verified"
+    return "unresolved"
 
 
 def _split_row(line):
@@ -438,14 +483,22 @@ def _split_row(line):
     return [c.strip() for c in s.split("|")]
 
 
-def parse_ledger(section_text):
+def parse_ledger(section_text, root):
     """Parse the 'Risk ledger' section body into (rows, problems).
 
     rows: list of dicts keyed by LEDGER_COLUMNS, one per well-formed data
-    row. problems: strings describing every A3 violation found — a wrong or
-    missing header, no data rows, and per row: empty Evidence, an illegal
-    State, a missing Countermeasure/Review trigger where State requires one,
-    and a FATAL row (which is its own named refusal, verbatim per A3)."""
+    row. problems: strings describing every A3/D2 violation found — a
+    wrong or missing header (the pre-split eight-column header names the
+    migration in the refusal), no data rows, and per row: empty Risk
+    evidence; an empty or illegal Severity; an empty or illegal Treatment;
+    a FATAL row (fatal Severity with Treatment accepted / accepted unknown
+    / empty — never a fatal row carrying a real countermeasure); a missing
+    Countermeasure where Treatment is a countermeasure; a missing Review
+    trigger where Treatment is accepted, or where Severity is fatal and
+    Treatment is countermeasure - temporary; and a Treatment evidence cell
+    that is empty on a fatal row, or is neither well-formed planned nor a
+    resolving citation. `root` resolves Treatment evidence citations
+    against the filesystem (risk-state-split)."""
     lines = [l for l in section_text.splitlines() if l.strip()]
     problems = []
     rows = []
@@ -455,9 +508,11 @@ def parse_ledger(section_text):
 
     header_cells = _split_row(lines[0])
     if header_cells != LEDGER_COLUMNS:
-        problems.append(
-            "Risk ledger header row must be exactly: " + " | ".join(LEDGER_COLUMNS)
-        )
+        msg = "Risk ledger header row must be exactly: " + " | ".join(LEDGER_COLUMNS)
+        if header_cells == LEDGER_COLUMNS_PRE_SPLIT:
+            msg += (" — this record carries the pre-split schema; "
+                    "migrate State to Severity + Treatment")
+        problems.append(msg)
         return rows, problems
 
     if len(lines) > 1 and SEPARATOR_ROW_RE.match(lines[1]):
@@ -479,23 +534,49 @@ def parse_ledger(section_text):
         row = dict(zip(LEDGER_COLUMNS, cells))
         rows.append(row)
 
-        if not row["Evidence"]:
-            problems.append(f"row {i}: Evidence empty")
+        if not row["Risk evidence"]:
+            problems.append(f"row {i}: Risk evidence empty")
 
-        norm_state = _normalize_state(row["State"])
-        if norm_state not in LEGAL_STATES:
-            problems.append(f"row {i}: State '{row['State']}' not a legal value")
-        if norm_state == "fatal":
+        sev = _normalize_state(row["Severity"])
+        tre = _normalize_state(row["Treatment"])
+        if sev == "":
+            problems.append(f"row {i}: Severity empty — named, not yet qualified; qualify at viability")
+        elif sev not in LEGAL_SEVERITIES:
+            problems.append(f"row {i}: Severity '{row['Severity']}' not a legal value (legal: fatal, non-fatal)")
+        if tre == "":
+            problems.append(f"row {i}: Treatment empty — named, not yet qualified; qualify at viability")
+        elif tre not in LEGAL_TREATMENTS:
             problems.append(
-                f"FATAL risk '{row['Risk']}' — record in What we ruled out; cannot pass"
+                f"row {i}: Treatment '{row['Treatment']}' not a legal value "
+                "(legal: countermeasure - permanent, countermeasure - temporary, accepted, accepted unknown)"
             )
-        if norm_state.startswith("countermeasure") and not row["Countermeasure"]:
+        # The FATAL refusal narrows twice (risk-state-split): it fires only
+        # on fatal + accepted / accepted unknown / empty treatment — never
+        # on a fatal risk carrying a real countermeasure, which is the
+        # combination this item exists to make representable.
+        if sev == "fatal" and tre in ("", "accepted", "accepted unknown"):
             problems.append(
-                f"row {i}: Countermeasure empty (required when State is countermeasure)"
+                f"FATAL risk '{row['Risk']}' with no countermeasure — record in What we ruled out; cannot pass"
             )
-        if norm_state.startswith("accepted") and not row["Review trigger"]:
+        if tre.startswith("countermeasure") and not row["Countermeasure"]:
+            problems.append(f"row {i}: Countermeasure empty (required when Treatment is countermeasure)")
+        if tre.startswith("accepted") and not row["Review trigger"]:
+            problems.append(f"row {i}: Review trigger empty (required when Treatment is accepted)")
+        if sev == "fatal" and tre == "countermeasure - temporary" and not row["Review trigger"]:
             problems.append(
-                f"row {i}: Review trigger empty (required when State is accepted)"
+                f"row {i}: Review trigger empty (required when Severity is fatal and Treatment is "
+                "countermeasure - temporary — a lapsing protection on a fatal risk must name its return condition)"
+            )
+        form = _treatment_evidence_form(root, row["Treatment evidence"])
+        if sev == "fatal" and form == "empty":
+            problems.append(
+                f"row {i}: Treatment evidence empty (required when Severity is fatal) — declare the "
+                "planned proof ('planned — <what will exist> · <expected location>') or cite the verified one"
+            )
+        if form in ("planned-malformed", "unresolved"):
+            problems.append(
+                f"row {i}: Treatment evidence is neither "
+                "'planned — <what will exist> · <expected location>' nor a resolving citation"
             )
 
     return rows, problems
@@ -737,7 +818,7 @@ def check_rung(root, slug, rung):
                     "(Killer? = yes)"
                 )
             else:
-                k_rows, _ = parse_ledger(ledger_body)
+                k_rows, _ = parse_ledger(ledger_body, root)
                 killers = [r for r in k_rows if r["Killer?"].strip().lower() == "yes"]
                 if killers:
                     have.append(
@@ -792,7 +873,7 @@ def check_rung(root, slug, rung):
             if ledger_body is None:
                 need.append(f'{rel_product} — section "Risk ledger"')
             else:
-                rows, problems = parse_ledger(ledger_body)
+                rows, problems = parse_ledger(ledger_body, root)
                 if rows and not problems:
                     have.append(
                         f'{rel_product} — section "Risk ledger" ({len(rows)} rows, all qualified)'
@@ -885,6 +966,29 @@ def check_rung(root, slug, rung):
                 need.append(f"{rel_spec} — {len(unchecked)} unchecked boxes in Pieces")
             else:
                 have.append(f"{rel_spec} — zero unchecked boxes in Pieces")
+
+        # The verified-demand (risk-state-split): a fatal row advances the
+        # pre-acceptance rungs on a *planned* treatment — requiring proof
+        # earlier would block the item that must build it (the circular
+        # dependency the producer refused). Acceptance is where the
+        # citation must resolve; the producer's key judges whether the
+        # resolved evidence proves anything.
+        if product_exists and product_text is not None:
+            a_body = find_section(product_text, "Risk ledger")
+            if a_body:
+                a_rows, _ = parse_ledger(a_body, root)
+                for a_row in a_rows:
+                    if _normalize_state(a_row["Severity"]) != "fatal":
+                        continue
+                    if _treatment_evidence_form(root, a_row["Treatment evidence"]) == "verified":
+                        have.append(
+                            f"{rel_product} — fatal risk '{a_row['Risk']}': Treatment evidence resolves (verified)"
+                        )
+                    else:
+                        need.append(
+                            f"{rel_product} — fatal risk '{a_row['Risk']}': treatment still planned, "
+                            "not verified — acceptance requires resolving Treatment evidence"
+                        )
 
     return {"slug": slug, "rung": rung, "have": have, "need": need, "bypass": False}
 
@@ -1757,9 +1861,9 @@ def _selftest_body():
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nSaves 10 hours/week.\n\n"
             "## Risk ledger\n\n"
-            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-            "|---|---|---|---|---|---|---|---|\n"
-            "| No adoption | yes | high | medium |  | accepted unknown |  |  |\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            "| No adoption | yes | high | medium |  |  | accepted unknown |  |  |  |\n"
         )
         _sw(product, ledger_named_only)
         r = route(root, slug)
@@ -1771,24 +1875,25 @@ def _selftest_body():
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nSaves 10 hours/week.\n\n"
             "## Risk ledger\n\n"
-            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-            "|---|---|---|---|---|---|---|---|\n"
-            "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
-            "| Perf risk | no | medium | low |  | accepted unknown |  | monitor |\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | non-fatal | accepted |  |  | check Q2 |\n"
+            "| Perf risk | no | medium | low |  | non-fatal | accepted unknown |  |  | monitor |\n"
         )
         _sw(product, ledger_bad_evidence)
         cr = check_rung(root, slug, "scope")
         assert any("row 2" in n for n in cr["need"]), f"T5: expected 'row 2' in need: {cr['need']}"
-        assert any("Evidence" in n for n in cr["need"]), f"T5: expected 'Evidence' in need: {cr['need']}"
+        assert any("row 2: Risk evidence empty" in n for n in cr["need"]), \
+            f"T5: expected the Risk-evidence-empty refusal: {cr['need']}"
 
         # T6 — ledger with a FATAL row (row 1 still carries Killer? = yes).
         ledger_fatal = (
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nSaves 10 hours/week.\n\n"
             "## Risk ledger\n\n"
-            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-            "|---|---|---|---|---|---|---|---|\n"
-            "| No market | yes | high | high | 0 signups in beta | FATAL |  |  |\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            "| No market | yes | high | high | 0 signups in beta | fatal |  |  |  |  |\n"
         )
         _sw(product, ledger_fatal)
         cr = check_rung(root, slug, "scope")
@@ -1801,10 +1906,10 @@ def _selftest_body():
             "---\nroute: new\nstage: framed\n---\n\n"
             "## Value\n\nSaves 10 hours/week.\n\n"
             "## Risk ledger\n\n"
-            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-            "|---|---|---|---|---|---|---|---|\n"
-            "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
-            "| Perf risk | no | medium | low | benchmark done | countermeasure - permanent | caching added |  |\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | non-fatal | accepted |  |  | check Q2 |\n"
+            "| Perf risk | no | medium | low | benchmark done | non-fatal | countermeasure - permanent | caching added |  |  |\n"
         )
         _sw(product, ledger_good)
         r = route(root, slug)
@@ -2329,9 +2434,9 @@ def _selftest_body():
 
     FX = '<svg viewBox="0 0 8 8">\n  <rect x="0" y="0" width="4" height="4"/>\n</svg>\n'
     BODY = ("\n## Value\n\nSaves 10 hours/week.\n\n## Risk ledger\n\n"
-            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-            "|---|---|---|---|---|---|---|---|\n"
-            "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | non-fatal | accepted |  |  | check Q2 |\n"
             "\n## Scope\n\nRigor level: mvp\n\nShip it.\n")
     P = "docs/product/alpha.md — "
 
@@ -2615,9 +2720,9 @@ def _selftest_body():
             "---\nroute: new\nstage: ready-to-release\n---\n\n"
             "## Value\n\nWorth it.\n\n"
             "## Risk ledger\n\n"
-            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-            "|---|---|---|---|---|---|---|---|\n"
-            "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | non-fatal | accepted |  |  | check Q2 |\n"
             "\n## Scope\n\nRigor level: mvp\n\nShip it.\n",
         )
         want = (
@@ -2836,6 +2941,125 @@ def _selftest_body():
         assert question_set_status("# X\n\n## Value\n\nno set here\n") is None, \
             "T51: an absent section is None, not a problem"
 
+    # T64 — fixture 1 (risk-state-split): an old-only record refuses with
+    # the migration named in the message.
+    with tempfile.TemporaryDirectory() as root_t64:
+        old_ledger = (
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nSaves 10 hours/week.\n\n"
+            "## Risk ledger\n\n"
+            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
+        )
+        _sw(os.path.join(root_t64, "docs", "product", f"{slug}.md"), old_ledger)
+        cr = check_rung(root_t64, slug, "scope")
+        assert any("pre-split schema; migrate State to Severity + Treatment" in n for n in cr["need"]), \
+            f"T64: expected the migration-naming refusal, got {cr['need']}"
+
+    # T65 — fixture 2: a mixed tree refuses the unmigrated record and the
+    # route degrades loudly — it does not crash, and the migrated record
+    # is untouched by its neighbour's schema.
+    with tempfile.TemporaryDirectory() as root_t65:
+        new_ledger = (
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nSaves 10 hours/week.\n\n"
+            "## Risk ledger\n\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            "| Adoption risk | yes | high | medium | 3 interviews | non-fatal | accepted |  |  | check Q2 |\n"
+            "\n## Scope\n\nRigor level: mvp\n\nShip it.\n"
+        )
+        old_ledger = (
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nWorth it.\n\n"
+            "## Risk ledger\n\n"
+            "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|\n"
+            "| Perf risk | yes | high | low | benchmark | accepted | | monitor |\n"
+        )
+        _sw(os.path.join(root_t65, "docs", "product", "alpha.md"), new_ledger)
+        _sw(os.path.join(root_t65, "docs", "product", "beta.md"), old_ledger)
+        r_new = route(root_t65, "alpha")
+        r_old = route(root_t65, "beta")   # must not raise
+        assert r_new["enters_at"] == "design", f"T65: migrated record held back: {r_new['enters_at']!r}"
+        assert r_old["enters_at"] == "frame", f"T65: expected loud degradation to frame, got {r_old['enters_at']!r}"
+        cr = check_rung(root_t65, "beta", "scope")
+        assert any("pre-split schema" in n for n in cr["need"]), f"T65: {cr['need']}"
+
+    # T66 — fixture 3: a fully migrated tree is accepted — rows parse,
+    # zero ledger problems, the scope have-line counts them qualified.
+    with tempfile.TemporaryDirectory() as root_t66:
+        _sw(os.path.join(root_t66, "docs", "product", f"{slug}.md"), new_ledger)
+        cr = check_rung(root_t66, slug, "scope")
+        assert f'docs/product/{slug}.md — section "Risk ledger" (1 rows, all qualified)' in cr["have"], \
+            f"T66: expected the all-qualified have row, got {cr['have']}"
+
+    # T67/T68 — fixtures 4 and 5: fatal + permanent + planned passes the
+    # viability/scope parse (the combination this item exists to make
+    # representable); the SAME row still planned at the acceptance check
+    # refuses (T68); with a resolving citation it passes (T67's second
+    # half). One tree, the cell swapped between assertions.
+    with tempfile.TemporaryDirectory() as root_t67:
+        planned_cell = "planned — --root fixtures in both directions · tools/gates/kit.py"
+        fatal_treated = (
+            "---\nroute: new\nstage: framed\n---\n\n"
+            "## Value\n\nSaves 10 hours/week.\n\n"
+            "## Risk ledger\n\n"
+            "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+            "|---|---|---|---|---|---|---|---|---|---|\n"
+            f"| Wrong repo | yes | a gate that lies | medium | measured 2026-09-02 | fatal | countermeasure - permanent | --root everywhere | {planned_cell} | re-qualify when seal is wired |\n"
+            "\n## Scope\n\nRigor level: mvp\n\nShip it.\n"
+        )
+        p67 = os.path.join(root_t67, "docs", "product", f"{slug}.md")
+        _sw(p67, fatal_treated)
+        cr = check_rung(root_t67, slug, "scope")
+        assert not any("FATAL" in n for n in cr["need"]), \
+            f"T67: fatal+permanent must not fire the FATAL refusal, got {cr['need']}"
+        assert f'docs/product/{slug}.md — section "Risk ledger" (1 rows, all qualified)' in cr["have"], \
+            f"T67: expected the planned row to parse qualified, got {cr['have']}"
+
+        # the full tree, so only the acceptance-level demand separates the
+        # two forms:
+        _sw(os.path.join(root_t67, "docs", "design", f"{slug}.md"), "# Alpha design\n\nHow.\n")
+        _sw(os.path.join(root_t67, "docs", "gates", "2026-01-01-alpha-design.md"),
+            "---\nroute: new\nstage: designed\n---\n\n## GO\n\nApproved.\n")
+        _sw(os.path.join(root_t67, "docs", "plans", "2026-01-02-alpha-spec.md"),
+            "# Alpha — build spec\n\n## Pieces\n\n- [x] Step 1\n\n"
+            "### Step 1: do the thing\n**What:** do it.\n**Verify:** `true`\n")
+        cr = check_rung(root_t67, slug, "acceptance")
+        assert any("treatment still planned, not verified" in n for n in cr["need"]), \
+            f"T68: still-planned at acceptance must refuse, got {cr['need']}"
+
+        _sw(p67, fatal_treated.replace(planned_cell, "docs/product/alpha.md"))
+        cr = check_rung(root_t67, slug, "acceptance")
+        assert not any("treatment still planned" in n for n in cr["need"]), \
+            f"T67: a resolving citation must pass the acceptance check, got {cr['need']}"
+        assert any("Treatment evidence resolves (verified)" in h for h in cr["have"]), \
+            f"T67: expected the verified have row, got {cr['have']}"
+
+    # T69 — fixture 6 (the design's added case): fatal + temporary with an
+    # empty Review trigger refuses with the lapsing-protection string; the
+    # same row with its return condition named passes.
+    with tempfile.TemporaryDirectory() as root_t69:
+        def t69_doc(trigger):
+            return (
+                "---\nroute: new\nstage: framed\n---\n\n"
+                "## Value\n\nSaves 10 hours/week.\n\n"
+                "## Risk ledger\n\n"
+                "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+                "|---|---|---|---|---|---|---|---|---|---|\n"
+                f"| Silent regression | yes | a false green | high | measured | fatal | countermeasure - temporary | fixture blocks it | planned — the fixture · tools/gates/kit.py | {trigger} |\n"
+            )
+        p69 = os.path.join(root_t69, "docs", "product", f"{slug}.md")
+        _sw(p69, t69_doc(""))
+        _, probs = parse_ledger(find_section(open(p69, encoding="utf-8").read(), "Risk ledger"), root_t69)
+        assert any("a lapsing protection on a fatal risk must name its return condition" in p for p in probs), \
+            f"T69: expected the fatal+temporary trigger refusal, got {probs}"
+        _sw(p69, t69_doc("fires if the fixture is removed"))
+        _, probs = parse_ledger(find_section(open(p69, encoding="utf-8").read(), "Risk ledger"), root_t69)
+        assert probs == [], f"T69: named return condition must pass, got {probs}"
+
     # T45 — purity: the live ladder's exact membership, and the retired
     # names' total absence from RUNGS (restated separately from T10b's
     # ready-to-release check, which already proved the terminal derivation).
@@ -2848,13 +3072,13 @@ def _selftest_body():
 
 
 def selftest():
-    """Run the 51 fixture-built cases in temporary trees. Prints
-    'selftest: 51 cases passed' and returns 0 on success; on the first
+    """Run the 57 fixture-built cases in temporary trees. Prints
+    'selftest: 57 cases passed' and returns 0 on success; on the first
     failed assertion, prints which case failed and returns 1."""
     try:
         _selftest_body()
     except AssertionError as e:
         print(f"selftest: FAILED — {e}")
         return 1
-    print("selftest: 51 cases passed")
+    print("selftest: 57 cases passed")
     return 0

@@ -904,9 +904,9 @@ _F8_PRODUCT = (
     "---\nroute: new\nstage: framed\n---\n\n"
     "## Value\n\nSaves 10 hours a week across the team.\n\n"
     "## Risk ledger\n\n"
-    "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-    "|---|---|---|---|---|---|---|---|\n"
-    "| Adoption risk | yes | high | medium |  | accepted |  |  |\n"
+    "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+    "|---|---|---|---|---|---|---|---|---|---|\n"
+    "| Adoption risk | yes | high | medium |  |  | accepted |  |  |  |\n"
 )
 
 
@@ -1038,10 +1038,10 @@ def _f15():
         "---\nroute: new\nstage: framed\n---\n\n"
         "## Value\n\nSaves 10 hours/week.\n\n"
         "## Risk ledger\n\n"
-        "| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |\n"
-        "|---|---|---|---|---|---|---|---|\n"
-        "| Adoption risk | yes | high | medium | 3 interviews | accepted | | check Q2 |\n"
-        "| Perf risk | no | medium | low | benchmark done | countermeasure - permanent | caching added |  |\n"
+        "| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |\n"
+        "|---|---|---|---|---|---|---|---|---|---|\n"
+        "| Adoption risk | yes | high | medium | 3 interviews | non-fatal | accepted |  |  | check Q2 |\n"
+        "| Perf risk | no | medium | low | benchmark done | non-fatal | countermeasure - permanent | caching added |  |  |\n"
     )
     product_text = ledger_good + "\n## Scope\n\nRigor level: mvp\n\nShip the caching path first.\n"
     spec_text = (

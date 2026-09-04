@@ -28,12 +28,11 @@ Value, in units:
 
 ## Risk ledger
 
-| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
-|---|---|---|---|---|---|---|---|
-| A third surface that lies: the HTML drifts from the model while the canvas pair stays current — the view Tony actually reads becomes the one nothing checks | yes | the piece's whole value inverted: a trusted-looking page misstates position | certain without countermeasure | the staleness refuser shipped v0.78.0: single-serializer + byte-compare + depth-1 convergence proven on the real tree and in CI ×3 | countermeasure - permanent | The HTML is written by the same write path (`write_pair` grows to a trio) and joins the stale byte-compare — a stale page reds the tip exactly like a stale SVG | |
-| Dashboard-itis: "interactive" creeps into controls, live refresh, a server, things that mutate | no | scope balloons; the read-only trust story breaks | medium (the pull is real — tonight's ask could grow) | tonight's conversation already reached for "interact" | countermeasure - permanent | Slice 1 is READ-ONLY by name: no server, no live refresh, nothing that writes; each excluded thing returns only through its own frame | |
-| Self-contained constraint fails: interactivity needs something a bare `file://` page can't do | no | page needs serving or external deps — friction returns | low | the model is already JSON (`--json` seams on both tools); embed + vanilla JS is standard, no fetch needed when data is inlined | countermeasure - permanent | All data inlined at generation; zero external requests; acceptance includes opening via `file://` cold | |
-
+| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |
+|---|---|---|---|---|---|---|---|---|---|
+| A third surface that lies: the HTML drifts from the model while the canvas pair stays current — the view Tony actually reads becomes the one nothing checks | yes | the piece's whole value inverted: a trusted-looking page misstates position | certain without countermeasure | the staleness refuser shipped v0.78.0: single-serializer + byte-compare + depth-1 convergence proven on the real tree and in CI ×3 | fatal | countermeasure - permanent | The HTML is written by the same write path (`write_pair` grows to a trio) and joins the stale byte-compare — a stale page reds the tip exactly like a stale SVG | tools/diagram/progress_kit.py — one write path emits the excalidraw/svg/html trio; the stale byte-compare covers all three |  |
+| Dashboard-itis: "interactive" creeps into controls, live refresh, a server, things that mutate | no | scope balloons; the read-only trust story breaks | medium (the pull is real — tonight's ask could grow) | tonight's conversation already reached for "interact" | non-fatal | countermeasure - permanent | Slice 1 is READ-ONLY by name: no server, no live refresh, nothing that writes; each excluded thing returns only through its own frame |  |  |
+| Self-contained constraint fails: interactivity needs something a bare `file://` page can't do | no | page needs serving or external deps — friction returns | low | the model is already JSON (`--json` seams on both tools); embed + vanilla JS is standard, no fetch needed when data is inlined | non-fatal | countermeasure - permanent | All data inlined at generation; zero external requests; acceptance includes opening via `file://` cold |  |  |
 ## Goal verdict — slice 1 (2026-08-05)
 
 Machine keys passed (contract met 4/4 pieces, fixtures 14/14, CI trio

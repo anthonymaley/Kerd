@@ -1,11 +1,11 @@
 ---
 name: interrogate
-description: "Use when the user says 'interrogate', 'risk ledger', 'qualify risks', 'killer assumption', 'interview me', 'walk me through this plan', 'stress-test this idea', 'help me figure out if this is viable', or has a plan/idea whose risks need qualifying — sized, evidenced, and left in exactly one state — across every viability axis (technical, business, legal, operational). Produces a tiered risk ledger: everyday work fills the ledger in the framing conversation without invoking this skill; a large bet runs the full co-signed session at docs/interrogations/. Does NOT produce the implementation plan itself — produces qualified risks."
+description: "Use when the user says 'interrogate', 'risk ledger', 'qualify risks', 'killer assumption', 'interview me', 'walk me through this plan', 'stress-test this idea', 'help me figure out if this is viable', or has a plan/idea whose risks need qualifying — sized, evidenced, with Severity and Treatment each stated — across every viability axis (technical, business, legal, operational). Produces a tiered risk ledger: everyday work fills the ledger in the framing conversation without invoking this skill; a large bet runs the full co-signed session at docs/interrogations/. Does NOT produce the implementation plan itself — produces qualified risks."
 ---
 
 # Interrogate (Risk Ledger)
 
-Interview the user relentlessly about a plan or idea until every risk is QUALIFIED — sized, evidenced, and left in exactly one state — because a named, unsized risk reads as managed, and that is the failure this skill exists to stop. The interview engine is the instrument; the tiered risk ledger is the output. For a large bet, the exit ritual is mutual co-sign of the ledger.
+Interview the user relentlessly about a plan or idea until every risk is QUALIFIED — sized, evidenced, with Severity and Treatment each stated — because a named, unsized risk reads as managed, and that is the failure this skill exists to stop. The interview engine is the instrument; the tiered risk ledger is the output. For a large bet, the exit ritual is mutual co-sign of the ledger.
 
 This skill is the countermeasure to the convergence pull in normal brainstorming — verbose framing, premature multiple-choice, unilateral declarations of "done." It cannot be ratified with a yes/no.
 
@@ -23,7 +23,7 @@ This skill is the countermeasure to the convergence pull in normal brainstorming
 | Everyday | the ledger filled inside the framing conversation — normal-sized work, no skill invocation | the living `## Risk ledger` section of `docs/product/<slug>.md`, overwritten in place |
 | Large bet | the full interrogate session — exhaustive across the axes (technical · business · legal · operational) | dated session record at `docs/interrogations/YYYY-MM-DD-<slug>.md`; the co-signed ledger is copied into the living section at sign-off |
 
-**Everyday.** This skill's Ledger section is the reference for the everyday practice: same eight columns, same five states, same rules — killer first, FATAL discipline, a risk without a countermeasure is a BLOCKER, an unqualified risk must not reach the next stage — applied inside the normal framing conversation without invoking this skill. The ledger is living state: states flip as countermeasures land and review triggers fire, so it is overwritten in place, never dated.
+**Everyday.** This skill's Ledger section is the reference for the everyday practice: same ten columns, same Severity and Treatment vocabulary, same rules — killer first, FATAL discipline, a risk without a countermeasure is a BLOCKER, an unqualified risk must not reach the next stage — applied inside the normal framing conversation without invoking this skill. The ledger is living state: states flip as countermeasures land and review triggers fire, so it is overwritten in place, never dated.
 
 **Large bet.** The full session below. Its co-sign is written in the shape of the viability gate record: when the entry gates are live, sign-off will also emit `docs/gates/YYYY-MM-DD-<slug>-viability.md` (dated, per the gate-record naming rule); until then the signed interrogation document is that record. Documented here — no record-emitting machinery ships with this skill.
 
@@ -56,8 +56,8 @@ These rules govern every turn during a session. They are not aspirational — th
 6. **Three "done" gates, all required for sign-off.**
    - **(a)** You have exhausted your known unknowns AND the ledger passes the qualification check before recitation can be proposed. The qualification check requires:
      - every in-scope axis has at least one ledger row OR an explicit clear line in **Axis coverage** (*"no qualifying risk found — <basis>"*)
-     - every row fully qualified: **Impact** in declared-value units (never a vibe word) · **Likelihood** present, recorded separately · **Evidence** non-empty, naming a test or an analysis · **State** exactly one of the five · **Countermeasure** named with a confidence statement when State begins *Countermeasure* (plus a return condition when TEMPORARY) · **Review trigger** non-empty when State begins *Accepted*
-     - no row in **FATAL** — a FATAL row blocks recitation: the idea is killed (recorded in *What we ruled out* with the ledger row as evidence and its return condition attached) or reshaped until the row is no longer FATAL
+     - every row fully qualified: **Impact** in declared-value units (never a vibe word) · **Likelihood** present, recorded separately · **Evidence** non-empty, naming a test or an analysis · **Severity** `fatal` or `non-fatal` · **Treatment** exactly one of the four · **Countermeasure** named with a confidence statement when Treatment begins *Countermeasure* (plus a return condition when TEMPORARY) · **Treatment evidence** for a fatal row: the planned form `planned — <what will exist> · <expected location>` or a resolving citation — never empty · **Review trigger** non-empty when Treatment begins *Accepted*, and when Severity is fatal with a temporary countermeasure
+     - no fatal-severity row whose Treatment is accepted, accepted unknown, or empty — an untreated fatal row blocks recitation: the idea is killed (recorded in *What we ruled out* with the ledger row as evidence and its return condition attached) or reshaped until the row is no longer FATAL
 
      If the check fails, continue interviewing on the failing rows — no recitation proposal. If it passes, *propose* entering recitation. User can veto ("more to discuss") to keep interviewing.
    - **(b)** User has no more answers, requirements, or ideas to share.
@@ -85,36 +85,45 @@ Risks as rows, killer rows first. Columns:
 | **Killer?** | marks THE killer assumption — tested first, always |
 | **Impact** | in the units of the declared VALUE (`## Value` of `docs/product/<slug>.md`) — never a vibe word |
 | **Likelihood** | recorded SEPARATELY, never multiplied — expected value is the wrong maths for a bet taken once |
-| **Evidence** | a test OR an analysis — the same kind of evidence, differing in cost. Empty evidence = unqualified |
-| **State** | exactly one of the five below |
+| **Risk evidence** | a test OR an analysis — the same kind of evidence, differing in cost. Empty evidence = unqualified |
+| **Severity** | `fatal` or `non-fatal` — set by impact against the declared value, at any likelihood |
+| **Treatment** | exactly one of the four below |
 | **Countermeasure** | named, with a CONFIDENCE statement |
+| **Treatment evidence** | what proves the treatment — empty only at non-fatal; `planned — <what will exist> · <expected location>` before the proof exists; a resolving citation once it does |
 | **Review trigger** | for accepted states: the date or condition that brings the risk back |
 
 The table header is exact — downstream mechanical checks match it byte-for-byte:
 
 ```
-| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
+| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |
 ```
 
-**The five states:**
+**Severity:**
 
-| State | Meaning |
+| Severity | Meaning |
+|---|---|
+| **fatal** | impact ≥ the declared value, at ANY likelihood |
+| **non-fatal** | impact below the declared value |
+
+**Treatment:**
+
+| Treatment | Meaning |
 |---|---|
 | **Countermeasure — permanent** | closed by design |
 | **Countermeasure — TEMPORARY** | carries its return condition; an unmarked temporary countermeasure is permanent by neglect |
 | **Accepted** | by whom, when — and its review trigger |
 | **Accepted unknown** | by whom, when, why the evidence was not gathered — and its review trigger |
-| **FATAL** | impact ≥ the declared value, at ANY likelihood |
 
 **The rules:**
 
 - **FATAL is set by impact alone** — likelihood sets the response, never the class.
 - **A risk without a countermeasure is a BLOCKER** — silence stops work instead of passing it.
-- **The one unacceptable state**: high impact + high likelihood + no countermeasure = dead project. It cannot be accepted by name.
+- **The one unacceptable state**: high impact + high likelihood + no countermeasure = dead project. It cannot be accepted by name — a fatal-severity risk cannot carry Treatment accepted or accepted unknown.
 - **Killer assumption first**: the riskiest thing gets the cheapest test before anything else is examined. The SPIKE is that instrument — declared up front, cheap, built for a kill-or-keep decision.
 - **An unqualified risk MUST NOT reach the next stage.**
 - Every △ verdict in an evaluation matrix lands its countermeasure here, with confidence and return condition.
 - An idea killed by a FATAL row is recorded in *What we ruled out* with the row as evidence and its return condition attached.
+- A treatment is not proven merely because its field is populated — `planned — …` is the honest declaration, and only a resolving citation is called verified (demanded at acceptance).
 
 ## Document Structure
 
@@ -170,7 +179,7 @@ Items in scope but pushed to a later round. Each: item + reason + revisit trigge
 
 ### Risk ledger
 
-The eight-column table from The Ledger section above, killer rows first.
+The ten-column table from The Ledger section above, killer rows first.
 
 ### Axis coverage
 
@@ -207,9 +216,9 @@ recitation-status:
 
 ## Risk ledger
 
-| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
-|---|---|---|---|---|---|---|---|
-| <risk> | <yes/no> | <impact, in declared-value units> | <likelihood> | <test or analysis> | <one of the five states> | <named countermeasure + confidence> | <date or condition> |
+| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |
+|---|---|---|---|---|---|---|---|---|---|
+| <risk> | <yes/no> | <impact, in declared-value units> | <likelihood> | <test or analysis> | <fatal/non-fatal> | <one of the four treatments> | <named countermeasure + confidence> | <empty · planned — … · citation> | <date or condition> |
 
 ## Axis coverage
 ```
@@ -224,7 +233,7 @@ Before sign-off can occur, do a final recitation pass. Read each ledger row back
 
 For each row:
 1. Update `recitation-status[risk-slug]` to `recited` in frontmatter.
-2. Present the row: Risk, Killer?, Impact, Likelihood, State, and the countermeasure or acceptance gist.
+2. Present the row: Risk, Killer?, Impact, Likelihood, Severity, Treatment, and the countermeasure or acceptance gist.
 3. Ask: *"Does this row read right?"*
 4. If user confirms: set `recitation-status[risk-slug]: confirmed`. Continue to next row.
 5. If user pushes back: set `recitation-status[risk-slug]: pushed-back`. Re-enter the interview for that row. Graduated lean continues from where it was. Loop until user vetoes the re-entry, then re-recite that row. Repeat until all rows are `confirmed`.
@@ -268,10 +277,10 @@ Once recitation passes for all rows:
        <risk-slug-2>: confirmed
    ---
    ```
-5. **Write the `## Sign-off` section into the document body**: signed-at, signers, row count, killer count, `FATAL rows: 0`.
+5. **Write the `## Sign-off` section into the document body**: signed-at, signers, row count, killer count, `untreated fatal rows: 0`.
 6. **Copy the ledger to its living home.** Overwrite the `## Risk ledger` section of `docs/product/<slug>.md` with the signed table (create the section if absent), so downstream reads one home regardless of tier. The signed interrogation document freezes as the dated record.
 
-The `## Sign-off` section written into the document (signed-at, signers, row count, killer count, `FATAL rows: 0`) is the content the viability gate record will carry; when the entry gates are live, sign-off will also emit `docs/gates/YYYY-MM-DD-<slug>-viability.md` — same date, same slug, `-viability` suffix. Until then, the signed interrogation document is the record.
+The `## Sign-off` section written into the document (signed-at, signers, row count, killer count, `untreated fatal rows: 0`) is the content the viability gate record will carry; when the entry gates are live, sign-off will also emit `docs/gates/YYYY-MM-DD-<slug>-viability.md` — same date, same slug, `-viability` suffix. Until then, the signed interrogation document is the record.
 
 The document reads "complete as of [signed-at]," not eternally. Future revisits create new sign-off entries with new timestamps; the original signature is preserved as a point-in-time record.
 

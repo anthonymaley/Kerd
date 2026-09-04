@@ -42,13 +42,12 @@ Value, in units:
 
 ## Risk ledger
 
-| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
-|---|---|---|---|---|---|---|---|
-| The model writes a plausible time instead of running `date` — the birth failure | yes | false times land in immutable records (worse than no time) and poison the calibration base | medium — it happened twice on the birth day | the "midnight" self-date; the "late-evening" heading written at midday (kivna/sessions/2026-08-06.md, correction note) | countermeasure - permanent | the same-turn rule: a time is written only when a machine produced it in the same turn — a `date` run, or a machine-written record read that turn (marker stamp, git timestamp); the machine layer checks presence/format only — time *honesty* is a declared limit, same class as retrieval-not-comprehension | |
-| Retrofitted timestamps manufacture history | no | false records at any depth, silently plausible | low once named | the grounding precedent: declaring is opting in; a reconstructed value cannot be honest | countermeasure - permanent | new records only; nothing backfills a time into an existing artifact | |
-| The statusline renders for the human only — the model never sees it | no | the model stays clock-blind in prose unless it runs `date` itself | certain — a named limit, not a defect | Tony's own framing: "the model doesn't see the statusline" | accepted | | a harness change ever exposes statusline content to the model |
-| Clock-line presence unenforced in new records | no | a new gate record ships without its Clock line, silently | medium | AU rules check shape, not a record's birth date — old records legitimately lack the line | accepted | | first observed missing Clock line in a new record: graduate a dated-cutoff presence check into AU |
-
+| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |
+|---|---|---|---|---|---|---|---|---|---|
+| The model writes a plausible time instead of running `date` — the birth failure | yes | false times land in immutable records (worse than no time) and poison the calibration base | medium — it happened twice on the birth day | the "midnight" self-date; the "late-evening" heading written at midday (kivna/sessions/2026-08-06.md, correction note) | fatal | countermeasure - permanent | the same-turn rule: a time is written only when a machine produced it in the same turn — a `date` run, or a machine-written record read that turn (marker stamp, git timestamp); the machine layer checks presence/format only — time *honesty* is a declared limit, same class as retrieval-not-comprehension | docs/state-contract.md — the same-turn rule, defined once: a time is written only from a machine source produced in the same turn |  |
+| Retrofitted timestamps manufacture history | no | false records at any depth, silently plausible | low once named | the grounding precedent: declaring is opting in; a reconstructed value cannot be honest | fatal | countermeasure - permanent | new records only; nothing backfills a time into an existing artifact | docs/design/time-awareness.md — new records only: a backfilled time is manufactured history |  |
+| The statusline renders for the human only — the model never sees it | no | the model stays clock-blind in prose unless it runs `date` itself | certain — a named limit, not a defect | Tony's own framing: "the model doesn't see the statusline" | non-fatal | accepted |  |  | a harness change ever exposes statusline content to the model |
+| Clock-line presence unenforced in new records | no | a new gate record ships without its Clock line, silently | medium | AU rules check shape, not a record's birth date — old records legitimately lack the line | non-fatal | accepted |  |  | first observed missing Clock line in a new record: graduate a dated-cutoff presence check into AU |
 ## Scope
 
 Rigor level: mvp

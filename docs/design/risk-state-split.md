@@ -229,11 +229,17 @@ contains mixed schemas; fixtures 1 and 2 prove the refusal in both
 directions at that same commit; CI green on the push is the live proof of
 fixture 3.
 
-**Post-migration truth, stated so the board's state is expected:**
-`gate-reachability` **unblocks at the migration commit** — fatal + permanent
-countermeasure + planned evidence passes the viability parse, so it proceeds
-to the scope the producer has already stated, and its *acceptance* is where
-the resolving evidence is demanded. `question-set-staleness` still refuses
+**Post-migration truth, stated so the board's state is expected.**
+~~`gate-reachability` unblocks at the migration commit~~ — **SUPERSEDED
+2026-09-03 by the producer's row-2 severity key, which postdates this
+design's seal.** `gate-reachability` **remains at viability.** Its row 1
+now parses cleanly — fatal severity, permanent countermeasure, planned
+evidence — which is the mechanism this item exists to deliver, working.
+Its **row 2 independently refuses**: a fatal risk cannot carry
+`accepted unknown`, and its `Treatment evidence` is empty. **The migration
+clarifies the blocker; it does not unblock the item** — the narrow
+measurement that row names must resolve before the item advances (the
+producer's ruling at the severity keys). `question-set-staleness` still refuses
 at viability (blank cells — until qualified), today's honest state carried
 forward. **Other rung positions are not claimed stable:** they cannot be
 known until all 79 severity decisions are keyed — a row the review
@@ -282,9 +288,12 @@ after the migration commit is what reports the truth.
    words: the machine verifies that a citation resolves; the producer decides
    whether it supports the treatment. *(keyed 2026-09-03, with this wording)*
 6. `gate-reachability` migrates with the **planned form transcribed from the
-   recorded ruling** — and therefore **unblocks at the migration commit**,
-   proceeding to its stated scope, with resolution demanded at its
-   acceptance.
+   recorded ruling**, so its row 1 parses clean. ~~and therefore unblocks at
+   the migration commit~~ — **SUPERSEDED 2026-09-03 by the producer's row-2
+   key:** the item **remains at viability**, because row 2 is fatal with an
+   `accepted unknown` treatment and empty evidence, which refuses
+   independently of row 1. The migration makes the blocker legible; it does
+   not remove it.
 7. The review worksheet (79 severities · 1 treatment) is a **dated committed
    record** — provenance permanent. *(keyed 2026-09-03)*
 

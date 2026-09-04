@@ -20,20 +20,30 @@ Risks as rows. Columns:
 | **Killer?** | marks THE killer assumption — tested first, always |
 | **Impact** | in the units of the VALUE declared by *Frame the intent* — never a vibe word |
 | **Likelihood** | recorded SEPARATELY, never multiplied — expected value is the wrong maths for a bet taken once |
-| **Evidence** | a test OR an analysis — the same kind of evidence, differing in cost. Empty evidence = unqualified = cannot pass the gate |
-| **State** | exactly one of the five below |
+| **Risk evidence** | a test OR an analysis — the same kind of evidence, differing in cost. Empty evidence = unqualified = cannot pass the gate |
+| **Severity** | `fatal` or `non-fatal` — set by impact alone |
+| **Treatment** | exactly one of the four below |
 | **Countermeasure** | named, with a CONFIDENCE statement |
+| **Treatment evidence** | what proves the treatment — `planned — <what will exist> · <expected location>` until the proof exists, a resolving citation once it does; required at fatal, optional at non-fatal |
 | **Review trigger** | for accepted states: the date or condition that brings the risk back — closes the "accepted risks age" debt |
 
-## The five states
+## Severity and Treatment
 
-| State | Meaning |
+### Severity
+
+| Severity | Meaning |
+|---|---|
+| **fatal** | impact ≥ the declared value, at ANY likelihood |
+| **non-fatal** | impact below it |
+
+### Treatment
+
+| Treatment | Meaning |
 |---|---|
 | **Countermeasure — permanent** | closed by design |
 | **Countermeasure — TEMPORARY** | carries its return condition; an unmarked temporary countermeasure is permanent by neglect |
 | **Accepted** | by whom, when — and its review trigger |
 | **Accepted unknown** | by whom, when, why the evidence was not gathered — and its review trigger |
-| **FATAL** | impact ≥ the declared value, at ANY likelihood |
 
 ## The rules
 
@@ -42,11 +52,12 @@ Risks as rows. Columns:
 - **A risk without a countermeasure is a BLOCKER** — the default flips so
   silence stops work instead of passing it.
 - **The one unacceptable state**: high impact + high likelihood + no
-  countermeasure = dead project. It cannot be accepted by name.
+  countermeasure = dead project. A fatal-severity risk cannot carry an accepted treatment — it cannot be accepted by name.
 - **Killer assumption first**: the riskiest thing gets the cheapest test
   before anything else is examined. The **SPIKE** is that instrument —
   declared up front, cheap, built for a kill-or-keep decision.
 - An unqualified risk MUST NOT reach the next stage.
+- A treatment is not proven merely because its field is populated: acceptance demands the citation resolve.
 
 ## Tiering
 

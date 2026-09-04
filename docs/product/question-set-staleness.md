@@ -82,9 +82,9 @@ incompleteness, not a durable risk state.
 
 ## Risk ledger
 
-| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
-|---|---|---|---|---|---|---|---|
-| Invalidation fires on edits that do not change any cited rule, so freshness reads as noise and people learn to dismiss or bypass it — leaving a mechanism that still claims to protect while being routed around | yes |  |  |  |  |  |  |
-| The scheduled discovery review is a human beat with no forcing function, so the half of the mechanism that catches unlisted new decisions never runs — and the third success condition is delivered by nothing | yes |  |  |  |  |  |  |
-| A standing decision is a prose bullet in a file with no stable anchor, so there may be nothing addressable to fingerprint at the granularity the value statement requires | no |  |  |  |  |  |  |
-| The refusal is prompt-layer, so a set can be used while stale by a model that simply proceeds — the repo's standing finding that skill text cannot enforce on itself | no |  |  |  |  |  |  |
+| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |
+|---|---|---|---|---|---|---|---|---|---|
+| Invalidation fires on edits that do not change any cited rule, so freshness reads as noise and people learn to dismiss or bypass it — leaving a mechanism that still claims to protect while being routed around | yes |  |  |  |  |  |  |  |  |
+| The scheduled discovery review is a human beat with no forcing function, so the half of the mechanism that catches unlisted new decisions never runs — and the third success condition is delivered by nothing | yes |  |  |  |  |  |  |  |  |
+| A standing decision is a prose bullet in a file with no stable anchor, so there may be nothing addressable to fingerprint at the granularity the value statement requires | no |  |  |  |  |  |  |  |  |
+| The refusal is prompt-layer, so a set can be used while stale by a model that simply proceeds — the repo's standing finding that skill text cannot enforce on itself | no |  |  |  |  |  |  |  |  |

@@ -40,12 +40,12 @@ EOF, for work slug `S`:
 | Rung | New inputs (all mechanical) |
 |---|---|
 | `frame` | to enter: nothing — always enterable. To LEAVE: when section `Question set` exists (opt-in by presence — an absent section adds no rows): front matter `work-type` matching `^[a-z][a-z0-9-]*$` (declared by the producer at intake, never inferred; names the seed `docs/work/question-sets/<work-type>.md`, placed ABOVE any `concerns:` block) · every `- Q: <question>` entry answered — a following `A: <text>` line before the next entry carrying text; fenced lines invisible. Counted, never judged: `Question set (frame gate): k of n answered — still open: "…"` names what is open. Evaluated by `check <S> viability` because a rung's exit is the next rung's entry; it is the frame gate's input, not viability's. |
-| `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) · section `Risk ledger` naming at least one killer risk (≥1 row with `Killer?` = yes, stripped and lowercased) — named only; no sizing, no evidence, no qualification. A FATAL row, an illegal `State`, or empty `Evidence` do not refuse here — full qualification is the `scope` rung's business. |
-| `scope` | the qualified risk ledger: section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Evidence \| State \| Countermeasure \| Review trigger`, ≥1 data row, and per row: `Evidence` non-empty · `State` one of the five legal values below · `Countermeasure` non-empty when `State` begins `countermeasure` · `Review trigger` non-empty when `State` begins `accepted` · no row in state `FATAL` · section `Scope` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
+| `viability` | `docs/product/<S>.md` exists · front matter with legal `route` + `stage` · section `Value` (the declared VALUE, impact in units) · section `Risk ledger` naming at least one killer risk (≥1 row with `Killer?` = yes, stripped and lowercased) — named only; no sizing, no evidence, no qualification. An untreated fatal row, an illegal `Severity` or `Treatment`, or an empty `Risk evidence` cell do not refuse here — full qualification is the `scope` rung's business. |
+| `scope` | the qualified risk ledger: section `Risk ledger`: a pipe table whose header row is exactly `Risk \| Killer? \| Impact \| Likelihood \| Risk evidence \| Severity \| Treatment \| Countermeasure \| Treatment evidence \| Review trigger`, ≥1 data row, and per row: `Risk evidence` non-empty · `Severity` one of `fatal`/`non-fatal` · `Treatment` one of the four · `Countermeasure` non-empty when `Treatment` begins `countermeasure` · `Review trigger` non-empty when `Treatment` begins `accepted`, and also when `Severity` is `fatal` with `Treatment` `countermeasure - temporary` · `Treatment evidence` non-empty when `Severity` is `fatal`, and when non-empty either the planned form `planned — <what will exist> · <expected location>` or a resolving citation · no fatal row whose `Treatment` is `accepted`, `accepted unknown` or empty · section `Scope` in `docs/product/<S>.md` · the doc's `Rigor level:` law holds: exactly one legal `Rigor level: <spike\|mvp\|production-v1>` line inside that section and none elsewhere in the file (see Rigor level, below) |
 | `design` | when the front matter declares `concerns:` (see Views, below): every entry has a view path or `n/a — <reason>` · every entry naming a view carries a non-empty `viewpoint` · every view path ends `.html` and resolves on disk (a `.png` is a render, never the view) · every view carries a sealed approval `<name>, <date> · fp:<12 hex>` whose fingerprint matches the file's current content. A work item declaring no concerns passes design vacuously. |
 | `handoff` | `docs/design/<S>.md` exists · ≥1 file matching `docs/gates/*-<S>-design.md` (the design GO record) |
 | `loop` | ≥1 file matching `docs/plans/*-<S>-spec.md` (latest by filename is THE contract spec) · that spec has section `Pieces` with ≥1 line matching `^- \[[ x]\] ` · every `^### Step ` heading in it is followed, before the next `###`, by a line starting `**Verify:**` — lines inside ``` fenced code blocks are invisible to this parse (a step may quote headings without splitting itself). This is the loop's ENTRY — the machine checks at the container's edges, never inside it. |
-| `acceptance` | zero unchecked boxes (`- [ ] `) in the contract spec's `Pieces` section. This is the loop's EXIT: zero unchecked boxes; evidence ready for producer review. |
+| `acceptance` | zero unchecked boxes (`- [ ] `) in the contract spec's `Pieces` section. This is the loop's EXIT: zero unchecked boxes; evidence ready for producer review. Plus the verified-demand: every fatal-severity ledger row's `Treatment evidence` must be a resolving citation — a `planned — …` declaration refuses here (still planned, not verified), though it carries every earlier rung. |
 
 `acceptance` uses the loop's contract-spec checklist as the "every piece
 landed" proxy — declared simplification, not the real signal. Git-derived
@@ -53,14 +53,21 @@ landing (a landed piece is a pushed commit) belongs to the progress view
 and will cross-check this later; a checked box is the mechanical stand-in
 for now.
 
-Risk-ledger `State` cells are normalized before checking: lowercase,
-em-dash and `--` collapsed to `-`, whitespace collapsed, stripped. The
-five legal normalized values are `countermeasure - permanent`,
-`countermeasure - temporary`, `accepted`, `accepted unknown`, `fatal`.
-`fatal` is a structurally legal cell value — the row still parses — but
-its presence is itself a refusal, named separately from a merely-illegal
-`State` value: `FATAL risk '<risk>' — record in What we ruled out; cannot
-pass`.
+Risk-ledger `Severity` and `Treatment` cells are normalized before
+checking, the same way: lowercase, em-dash and `--` collapsed to `-`,
+whitespace collapsed, stripped. Legal `Severity` values are `fatal` and
+`non-fatal`; legal `Treatment` values are `countermeasure - permanent`,
+`countermeasure - temporary`, `accepted`, `accepted unknown`. An empty
+cell in either field is refused as named, not yet qualified.
+
+The FATAL refusal fires only on `fatal` `Severity` with `Treatment`
+`accepted`, `accepted unknown`, or empty: `FATAL risk '<risk>' with no countermeasure — record in What we ruled out; cannot pass`. A pre-split
+eight-column header is refused with the migration named in the message.
+
+`Treatment evidence`'s lifecycle in one sentence: planned (`planned — <what will exist> · <expected location>`) carries viability through
+loop, acceptance demands a resolving citation, and the machine verifies
+that a citation resolves while the producer decides whether it supports
+the treatment.
 
 Routing runs the rungs top → bottom. `enters_at` is the DEEPEST rung whose
 inputs all exist — a rung's inputs are the prerequisites to *perform* that

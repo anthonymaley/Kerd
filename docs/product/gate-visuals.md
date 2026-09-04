@@ -288,12 +288,11 @@ it by making the board approvable, which would mean approving a fact.
 
 ## Risk ledger
 
-| Risk | Killer? | Impact | Likelihood | Evidence | State | Countermeasure | Review trigger |
-|---|---|---|---|---|---|---|---|
-| A visual is approved without being read — the rubber-stamp failure, at picture speed | yes | an agreed drawing nobody looked at becomes declared truth, and every later comparison is against a fiction | medium | the register's own answer to false approval is presentational, named as an accepted residue on 2026-08-13 | accepted unknown | none yet — the producer's own ruling is that proper management plus strong pairing mitigates and does not cure | the first time a divergence traces back to an approved visual nobody had read |
-| Prescribing one visual per gate makes a gate unpassable for work that genuinely has no such picture | no | a rung blocks on ceremony | medium | design already allows a declaration-driven set rather than a fixed one | countermeasure - permanent | the gate demands a visual **for each concern the work declares**; a work item declaring no such concern owes none, the same way `n/a` with a named reason works elsewhere | |
-| Redrawing from the built side is only strong for two aspects | no | the comparison is partial and could read as complete | high | measured in the table above | countermeasure - permanent | the strength column ships with the feature, so a weak comparison is labelled weak | |
-
+| Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |
+|---|---|---|---|---|---|---|---|---|---|
+| A visual is approved without being read — the rubber-stamp failure, at picture speed | yes | an agreed drawing nobody looked at becomes declared truth, and every later comparison is against a fiction | medium | the register's own answer to false approval is presentational, named as an accepted residue on 2026-08-13 | fatal | accepted unknown | none yet — the producer's own ruling is that proper management plus strong pairing mitigates and does not cure |  | the first time a divergence traces back to an approved visual nobody had read |
+| Prescribing one visual per gate makes a gate unpassable for work that genuinely has no such picture | no | a rung blocks on ceremony | medium | design already allows a declaration-driven set rather than a fixed one | non-fatal | countermeasure - permanent | the gate demands a visual **for each concern the work declares**; a work item declaring no such concern owes none, the same way `n/a` with a named reason works elsewhere |  |  |
+| Redrawing from the built side is only strong for two aspects | no | the comparison is partial and could read as complete | high | measured in the table above | non-fatal | countermeasure - permanent | the strength column ships with the feature, so a weak comparison is labelled weak |  |  |
 ## Scope
 
 Rigor level: mvp
