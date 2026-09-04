@@ -309,8 +309,8 @@ one trailer line per landed piece — `Piece: risk-state-split/1` through
 - [x] 10. Full local suite green; board truths hold under the keys as branches, not assumptions
 - [x] 11. Diff review — blast radius is exactly the D6 stage list; boundaries held
 - [x] 12. THE atomic commit — one commit, twelve trailers, no committed tree with mixed schemas
-- [ ] 13. Render refresh, render commit, ONE push; CI green — fixture 3's live proof
-- [ ] 14. Remaining boxes checked, final render current, zero unchecked
+- [x] 13. Render refresh, render commit, ONE push; CI green — fixture 3's live proof
+- [x] 14. Remaining boxes checked, final render current, zero unchecked
 
 ---
 
