@@ -113,6 +113,34 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Gotchas
 
+### Render AFTER the commit that changes the derived model, never before
+
+The ship flow is **work commit → refresh → render commit → one push**.
+Rendering *before* a commit that checks Pieces boxes (or otherwise moves
+what the board derives) leaves the pushed tip carrying a stale render, and
+`progress.py stale` reds CI. Measured 2026-09-03: run on `7418657` failed
+for exactly this, fixed by `f098ae5`. The refuser worked; the ordering was
+wrong.
+
+### A non-gate-record filename in `docs/gates/` turns the audit red
+
+AU3 (`_audit_au3`) requires every `docs/gates/*.md` filename to match the
+dated, rung-suffixed gate-record pattern — nothing else may live there. A
+reseal record, a worksheet, or any dated artifact that is not a rung
+belongs in `docs/plans/`. Caught 2026-09-03 before it was written, by
+testing the candidate filename against `GATE_RECORD_RE` first.
+
+### A reseal touches files your commit manifest may not name
+
+Correcting and resealing a view changes the view source, its render, and
+usually the design doc — while the fingerprint lands in the *product* doc.
+If the manifest names the product doc but not the view, the committed tree
+carries a NEW fingerprint over OLD content and `gate.py check design`
+refuses on a **diverged seal**. The seal and the content it fingerprints
+must land in the same commit. Measured 2026-09-03, caught by the diff
+review before the commit.
+
+
 - **The board carries `need` counts, so the progress render can go stale with the rung unchanged** (2026-09-02). Qualifying four ledger rows moved `gate-reachability`'s `need` from 9 to 1 without moving it off `viability`, the render was not refreshed on the assumption that an unchanged rung meant an unchanged board, and CI's `progress.py stale` step went red on all three files. **The ship flow — work commit → refresh → render commit → one push — has no exception for "the position did not move."** Anything the board *displays* is part of the render, and it displays counts, not just rungs.
 - **A FATAL risk row is told to record in a home whose shape was never settled** (2026-09-02). `parse_ledger` refuses with *"record in What we ruled out; cannot pass"*, and the 2026-08-03 decision making *"what we ruled out, and why"* its own artifact has produced `## What we ruled out` sections inside three design docs and **no standalone instance**. So a blocked item is pointed at a form that does not exist, and complying with the refusal is undefined. Filed; do not invent the shape ad hoc to clear a gate.
 

@@ -6,33 +6,47 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**2026-09-03, two sittings (08:38–09:16 · 10:40–14:03 EDT) — the critical
-path is unblocked and visible.** Six work commits across three chains, CI green
-on every push. Kerd at **v0.105.0**.
+**2026-09-03, three sittings (08:38–09:16 · 10:40–14:03 · 14:09–23:18 EDT) —
+the schema migration SHIPPED.** Kerd at **v0.106.0**; CI green at the tip
+(`f098ae5`).
 
-- **`risk-state-split` is at DESIGN** — viability qualified and scope keyed
-  2026-09-03 (`d5b7f0f`). The scope carries the producer's atomic-migration
-  definition, the migration boundary (mechanical only where existing data
-  determines both fields; ambiguous values producer-reviewed, never inferred),
-  and all five required fixtures, verbatim. Next: the design package.
-- **`gate-reachability` stays blocked** until risk-state-split ships, then
-  re-qualifies (Severity: fatal · Treatment: permanent countermeasure) and
-  proceeds to scope, already stated.
-- **The launch plan is ON DISK** (`8b08ad1`): `docs/design/launch-plan.md`
-  (living — five outcomes, the 8-step critical path, the binding rules) plus
-  the dated visual `docs/plans/2026-09-02-launch-plan.html`, recovered from
-  the private artifact. The 2026-09-02 decision's last missing artifact is
-  discharged. **Launch: 0 of 5 outcomes.**
-- **TODO is restructured to the launch sequence** — `## Now` is four items
-  pointing at the plan; Backlog is labelled repository-quality debt; framed
-  items carry pointers, not essays; deferred costs sit in their own bucket.
-  Done under moved-never-erased; the five behind-the-block ladder items were
-  restored as one-liners after the rewrite nearly dropped them.
-- **v0.105.0 (morning): the Status Report talk format** — status moments speak
-  Work item · Stage · Issue · Resolution path, one final question. Shipped;
-  binds via skill text from the next cache repin, via CONTEXT.md now.
+- **`risk-state-split` is at ACCEPTANCE** — all 14 pieces landed. The whole
+  ladder walked in one sitting: design package with three sealed views and a
+  GO record (`1008a43`), a 14-step work specification, and the migration
+  itself as **one atomic commit** (`e15a0f0`). The ledger's `State` column is
+  now **Severity** (`fatal` | `non-fatal`) + **Treatment** (the four values);
+  `Evidence` renamed `Risk evidence`; **`Treatment evidence`** is new, in
+  three machine-distinguished forms — empty · `planned — <what will exist> ·
+  <expected location>` · a resolving citation. 21 records, 84 rows migrated;
+  selftest 51 → **57**. Next: the evidence-backed acceptance record.
+- **`gate-reachability` still REFUSES at viability, on row 2** — and that is
+  the intended outcome, not a regression. Row 1 parses clean (fatal +
+  permanent + planned evidence): the new mechanism working on real data. Row 2
+  is fatal with an `accepted unknown` treatment and empty evidence, so it
+  refuses independently. **The migration clarified the blocker; it did not
+  unblock the item.** Its narrow `${CLAUDE_PLUGIN_ROOT}` measurement must
+  resolve before it advances.
+- **Four fatal/accepted-family risks are newly VISIBLE and refusing** —
+  `funnel-driver` row 4 · `gate-reachability` row 2 · `gate-visuals` row 1 ·
+  `switch-fidelity` row 4. Each was carried as *accepted* while being fatal,
+  a contradiction the one-column schema could not express. Remediation
+  belongs to each owning item, never to the migration (the producer's ruling).
+- **The migration-map view was RESEALED** (`fp:aef214c7ae05` →
+  `fp:3b7b1c17243a`) after the producer's row-2 key superseded the
+  design-time prediction that gate-reachability would unblock. Downgrade →
+  correct → re-render → his eye → reseal, in that order; the dated GO record
+  stands untouched and the supersession lives in
+  `docs/plans/2026-09-03-risk-state-split-reseal.md`.
+- **The launch plan is ON DISK** (`8b08ad1`) — five outcomes, the 8-step
+  critical path, the binding rules. **Launch: 0 of 5 outcomes.**
+- **v0.105.0 (morning): the Status Report talk format** — status speaks Work
+  item · Stage · Issue · Resolution path, one final question.
 
 ## Key Decisions
+
+- **TREATMENT ASSURANCE IS A LIFECYCLE, NOT A PARSE RULE — A FATAL RISK ADVANCES ON A PLANNED TREATMENT AND ACCEPTANCE DEMANDS THE VERIFIED ONE. Tony, 2026-09-03, refusing revision 1 of `risk-state-split`'s design for a circular dependency.** The draft required resolving `Treatment evidence` at the ledger parse — every rung — which *"prevents an item from advancing to build the treatment that would produce that evidence"*: `gate-reachability` would be blocked at viability forever, unable to reach the loop that ships the very fixtures the gate demanded. **His shape, three clauses:** *"At viability: a fatal risk may advance only with a permanent or appropriately bounded temporary countermeasure, even though implementation evidence does not exist yet. Before acceptance — or the earliest gate after verification where evidence can exist — the treatment must have resolving evidence. The machine must distinguish 'planned treatment' from 'verified treatment' without claiming the former is proven."* **He also refused the blanket fatal + temporary refusal:** *"'Temporary' means it carries a return condition, not that it expires before protecting this increment"* — the draft's refusal had no support in the 2026-08-03 rule and would have retroactively invalidated previously accepted temporary controls. **And he corrected the resolution claim's verbs:** the machine verifies a citation *resolves*; never say the fixture "runs" when the check only proves its file exists — the producer decides whether the evidence supports the treatment. Two migration overclaims died in the same pass: the new column lands on all 21 records and 84 rows (not "20 records"), and *"do not claim no other rung positions change until all 79 severity decisions are known — a newly classified fatal row could legitimately change its route."* Same family as the 2026-08-31 scope-gate ruling (an executable manual control now, machinery later, dependency visible): assurance that cannot exist yet is declared as planned, never faked, never demanded early.
+
+- **AN OLD LEDGER PASSING WITHOUT `fatal` DOES NOT PROVE ITS SEVERITY WAS NON-FATAL — TREATMENT MIGRATES MECHANICALLY, SEVERITY NEEDS EXPLICIT PRIOR EVIDENCE OR PRODUCER REVIEW. Tony, 2026-09-03, at `risk-state-split`'s design-plan gate, refuting the session's candidate mechanical rule.** The session proposed that a keyed, gate-passed ledger with no `fatal` marking *is* existing data saying non-fatal. His refutation, verbatim: *"an old ledger passing without fatal does not prove its severity was non-fatal. The old State cell could not represent fatal severity alongside treatment — that is the defect being fixed. Therefore, treatment values migrate mechanically, but severity requires either explicit prior evidence or producer review."* The absence the session read as a classification is exactly the silence the defect enforced — a row that was both fatal and treated had nowhere to say so, so its `countermeasure - permanent` cell is evidence of treatment only. Migration consequence, measured: Treatment is mechanical for 82 of 84 rows; Severity is mechanical for ~5 and producer-reviewed for the rest. **Two rulings landed with it:** (1) *"'Named, not yet qualified' remains represented by empty Severity and Treatment cells. It is workflow incompleteness, not a legal durable value; the viability check refuses the blanks"* — resolving the 2026-08-31 `unqualified` question's schema half: no sixth value, blanks refused honestly (question-set-staleness's four empty rows stay empty and its item stays refused until qualified). (2) *"gate-reachability may migrate from the explicit recorded ruling: Severity fatal, Treatment countermeasure - permanent. It does not need another decision."* **And the hollow-treatment boundary:** *"the design must show what evidence proves the treatment — not merely that the Countermeasure cell contains text. If the existing Evidence field cannot distinguish risk-sizing evidence from treatment evidence, expose that conflict rather than inventing proof."* Same family as the archaeology rule: absence of a record is never promoted into a claim about what the record would have said.
 
 - **THE RISK LEDGER'S `State` COLUMN SPLITS INTO SEVERITY AND TREATMENT — Tony, 2026-09-03, resolving the 2026-09-02 axes conflict on option 2 by name.** His ruling verbatim: *"Severity: how damaging the risk would be if it happened. Treatment: what we are doing about it and whether that treatment is proven. For gate-reachability, that means: Severity: fatal—the check could confidently judge the wrong project. Treatment: permanent countermeasure—always pass the target repository explicitly and verify both directions with fixtures. This avoids redefining 'fatal' into something conditional or vague. The tradeoff is a real schema migration across 22 work records and the checker, so gate-reachability should remain blocked while that change is designed and implemented as its own work item."* **The redefinition option died for the reason his own 2026-09-02 refusal supplies:** defining `fatal` as *uncountermeasurable* loss would make severity depend on treatment quality — the exact dependence that refusal forbade, formalised instead of fudged. **Framed the same morning as `risk-state-split`** (route: new, rigor: mvp, his call at the plan gate) with his two risk boundaries: **the half-migrated state is THE killer** — *"it could disable every existing work item simultaneously"* — and **hollow treatment stays distinct** — *"a treatment is not proven merely because its field is populated."* The frame deliberately excluded checker code, the full record migration and skill edits — the item's later rungs (21 records carrying ledgers measured 2026-09-03; the ruling's '22' was the prior sitting's count). Same defect class as `project type` before its 2026-08-23 three-axis split: one field doing two jobs.
 
@@ -244,10 +258,11 @@ on every push. Kerd at **v0.105.0**.
 
 ## Active Mode
 
-- **conductor: RAN twice and closed** on 2026-09-03 — first sitting
-  orient 08:13 · execute 08:38 · close 09:16; second sitting orient 10:34 ·
-  execute 10:40 · close 14:03. `kivna/.active-modes` is deleted; nothing to
-  resume.
+- **conductor: RAN three times and closed** on 2026-09-03 — first sitting
+  orient 08:13 · execute 08:38 · close 09:16; second orient 10:34 · execute
+  10:40 · close 14:03; third (this one) orient 14:23 · execute 15:04 ·
+  re-planned 17:28 for the composer call · execute 19:10 · close 23:18.
+  `kivna/.active-modes` is cleared; nothing to resume.
 - **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host —
   sessions run in tmux over SSH from the MacBook; the user's screen is on the
   laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`).

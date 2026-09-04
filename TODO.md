@@ -6,22 +6,32 @@
 Everything below it sits in Backlog as repository-quality debt and stays there
 unless the diagnostic pilot surfaces it.
 
-1. **`risk-state-split`** — at **design** (viability and scope keyed
-   2026-09-03). Next: the design package — the two-field vocabulary, the
-   migration mapping rule (mechanical only where existing data determines both
-   fields without judgment; ambiguous values producer-reviewed, never
-   inferred), the atomic-migration mechanics, the five fixtures. Then build
-   and release. Blocks the critical path.
-   → `docs/product/risk-state-split.md`
-2. **`gate-reachability`** — blocked pending item 1. Then: re-qualify the
-   killer row under the new shape (Severity: fatal · Treatment: permanent
-   countermeasure), scope as the producer already stated, ship the four
-   invocation changes, release, refresh the cache, and test through the
-   actual skills. → `docs/product/gate-reachability.md`
-3. **`agent-request` diagnostic pilot** — begins only after item 2 and the
+1. **`risk-state-split` — the acceptance record.** The migration SHIPPED
+   2026-09-03 as one atomic commit (`e15a0f0`, v0.106.0, CI green at
+   `f098ae5`); the item is at **acceptance**, all 14 pieces landed. What is
+   left is the producer's last gate: an **evidence-backed** acceptance record
+   at `docs/gates/2026-09-03-risk-state-split-acceptance.md` — cold eyes and
+   the expert-user pass, never mechanical cleanup (the 2026-09-02 ruling).
+   Note the measurement question it must answer honestly: this item declared
+   no stage-1 measurement, so the product-outcome row is *not assessable*
+   unless one was declared before the build.
+   → `docs/product/risk-state-split.md` · `docs/plans/2026-09-03-risk-state-split-spec.md`
+2. **`gate-reachability`** — still refusing at **viability, on row 2**, which
+   is the intended outcome. Row 1 parses clean under the new schema. Row 2 is
+   fatal + `accepted unknown` + empty Treatment evidence, so it refuses
+   independently: its narrow `${CLAUDE_PLUGIN_ROOT}` measurement must resolve
+   before the item advances, then scope as the producer already stated.
+   → `docs/product/gate-reachability.md`
+3. **The four newly exposed fatal/accepted-family risks — one per owning
+   item, never this migration's** (the producer's ruling, 2026-09-03). Each
+   was carried as *accepted* while being fatal, which the one-column schema
+   could not express; each now refuses visibly until re-treated:
+   `funnel-driver` row 4 · `gate-reachability` row 2 · `gate-visuals` row 1 ·
+   `switch-fidelity` row 4.
+4. **`agent-request` diagnostic pilot** — begins only after item 2 and the
    cache refresh; its own repository, never inside Kerd; Kerd frozen for the
    run. Subject framed at `~/eolas/vault/kerd/Agent Request Skill Sketch.md`.
-4. **Pilot findings** — placeholder only; contents deliberately unknown until
+5. **Pilot findings** — placeholder only; contents deliberately unknown until
    the run.
 
 ## Backlog
@@ -47,14 +57,6 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
 
 **High consequence**
 
-- **Risk-ledger State column carries two axes — RULED AND FRAMED, now tracked
-  work.** Ruled 2026-09-03 (option 2: separate Severity and Treatment fields;
-  verbatim in CONTEXT.md `## Key Decisions`) and carried by
-  `docs/product/risk-state-split.md` — `## Now` item 1. This row stays only
-  until the migration ships. The second gap it exposed — a FATAL row is told
-  to file into "What we ruled out", whose shape was never settled — remains
-  open in CONTEXT.md `## Open Questions`.
-
 - **A derived question set needs source-bound invalidation plus a scheduled
   discovery review — recommended, NOT built; FRAMED as `question-set-staleness`**
   (`85b8683`, at viability). The mechanism and both refused alternatives are
@@ -65,10 +67,13 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   sizes the item.
 
 - **`Impact` and `Likelihood` are risk-ledger columns that nothing refuses when
-  empty** (measured 2026-09-02 during the derivation). `LEDGER_COLUMNS`
-  (`kit.py:61`) declares all eight, and `parse_ledger` checks per row only
-  `Evidence` (`:482`), `State` (`:486`), `Countermeasure` (`:492`) and
-  `Review trigger` (`:496`). **So the sizing of a risk is structurally
+  empty** — STILL OPEN after the 2026-09-03 split, which deliberately did not
+  fold it in (that design's call was *separate*). Line citations below are
+  **pre-split and stale**; re-measure against the ten-column `parse_ledger`
+  before acting. `LEDGER_COLUMNS` declares every column, and `parse_ledger`
+  checks per row only `Risk evidence`, `Severity`, `Treatment`,
+  `Countermeasure`, `Review trigger` and (at fatal) `Treatment evidence` —
+  never `Impact` or `Likelihood`. **So the sizing of a risk is structurally
   optional** while the standing decision of 2026-08-03 requires it — *"Qualified
   = proven AND measured: impact in the value's units, likelihood recorded
   separately."* This is the sole reason one of the six derived viability
@@ -112,8 +117,14 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   papering-over.** The frame gate's floor legitimately wants killer risks *named
   but not yet qualified*, and the five legal states cannot express that condition;
   meeting the gap, Drive manufactured a plausible-looking disposition instead of
-  stopping at it. It never fooled the machine — `State '...' not a legal value`
-  is the identical refusal an empty cell produces — it fooled a **reader**, who
+  stopping at it. **The schema half is ANSWERED, 2026-09-03:** the producer ruled that
+  "named, not yet qualified" stays represented by **empty** Severity and
+  Treatment cells, refused at viability — workflow incompleteness, never a
+  legal durable value, so no sixth value was minted. What remains open is
+  only Drive's own behaviour: it must refuse to write a cell it cannot fill
+  rather than inventing a plausible one. It never fooled the machine — the
+  illegal-value refusal is the identical refusal an empty cell produces — it
+  fooled a **reader**, who
   sees a considered verdict where none exists. Same shape as the `proposed`
   requirement state and the hollow-waiving countermeasure: the honest cheap state
   must be argued for. Open, and it sizes the fix: does the frame-gate floor get a
