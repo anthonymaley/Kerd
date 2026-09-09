@@ -48,7 +48,36 @@ def relative_file(root, value):
     return str(relative)
 
 
-def publish(root, branch, files, message, push=False, verify_commit=None):
+def local_changes(root):
+    changed = set(filter(None, git(root, "diff", "--name-only", "-z").split("\0")))
+    changed.update(filter(None, git(root, "ls-files", "--others", "--exclude-standard", "-z").split("\0")))
+    return changed
+
+
+def acknowledged(root, paths):
+    """Exact untracked paths the project keeps locally: never saved, never touched.
+
+    An acknowledgement is a decision already made about specific files, not a
+    rule. It is project-local and exact: no pattern, no directory, no ignore
+    entry, no deletion and no stash. Tracked or missing paths are refused so an
+    acknowledgement cannot quietly hide real work or a typo.
+    """
+    kept = []
+    for value in paths:
+        # Existence is checked before path resolution so a typo reports itself
+        # rather than surfacing Git's "did you forget to add" pathspec error.
+        if not (root / value).exists():
+            raise HandoffError("Preserved path does not exist here: " + str(value))
+        path = relative_file(root, value)
+        if git(root, "ls-files", "--", ":(literal)" + path):
+            raise HandoffError("Preserved path is tracked work, not a local leftover: " + path)
+        kept.append(path)
+    if len(kept) != len(set(kept)):
+        raise HandoffError("List each preserved path once")
+    return kept
+
+
+def publish(root, branch, files, message, push=False, verify_commit=None, preserve=()):
     require_branch(root, branch)
     paths = [relative_file(root, value) for value in files]
     if not paths or len(paths) != len(set(paths)):
@@ -57,9 +86,10 @@ def publish(root, branch, files, message, push=False, verify_commit=None):
         raise HandoffError("Commit message must not be blank")
     if git(root, "diff", "--cached", "--name-only"):
         raise HandoffError("Index already contains staged work; preserve it and resolve the boundary first")
-    changed = set(filter(None, git(root, "diff", "--name-only", "-z").split("\0")))
-    changed.update(filter(None, git(root, "ls-files", "--others", "--exclude-standard", "-z").split("\0")))
-    unexpected = changed - set(paths)
+    keep = acknowledged(root, preserve)
+    if set(paths) & set(keep):
+        raise HandoffError("A file cannot be both saved and preserved: " + ", ".join(sorted(set(paths) & set(keep))))
+    unexpected = local_changes(root) - set(paths) - set(keep)
     if unexpected:
         raise HandoffError("Unassigned changes need a decision: " + ", ".join(sorted(unexpected)))
     git(root, "add", "--", *paths)
@@ -69,8 +99,10 @@ def publish(root, branch, files, message, push=False, verify_commit=None):
     if verify_commit is not None:
         verify_commit(commit)
     result = {"status": "saved_locally", "branch": branch, "commit": commit,
-              "source_session_exited": False,
+              "source_session_exited": False, "preserved_local_only": keep,
               "note": "Git save does not exit the caller or stop jobs"}
+    if keep:
+        result["note"] += "; preserved paths are local only and were not saved"
     if push:
         git(root, "push", "origin", f"HEAD:refs/heads/{branch}")
         remote = git(root, "ls-remote", "--heads", "origin", f"refs/heads/{branch}")
@@ -87,12 +119,13 @@ def source_text(path):
 
 
 def overtaken_revisions(root, content, head):
-    """Full commit IDs the record names that this checkout has already moved past.
+    """Full commit IDs the record names that are already in this checkout's history.
 
-    A handoff states the revision observed while it was written, so a boundary
-    commit made afterwards leaves the saved record naming an ancestor. Reporting
-    that is a reconciliation prompt for the reader, not a staleness verdict, a
-    correctness claim about the record or a refusal. Unknown IDs stay unreported.
+    A diagnostic hint, nothing more. Naming an ancestor is ordinary and usually
+    correct: a record cites historical revisions and states the position observed
+    before its own save. So this is not a staleness test and never a refusal —
+    what makes a handoff wrong is an obsolete next action, which no hash can
+    show. Unknown IDs, such as another project's HEAD, stay unreported.
     """
     found = []
     for value in dict.fromkeys(re.findall(r"(?<![0-9a-zA-Z])[0-9a-f]{40}(?![0-9a-zA-Z])", content)):
@@ -105,12 +138,13 @@ def overtaken_revisions(root, content, head):
     return found
 
 
-def pickup(root, branch, record, sync=False, expected_commit=None):
+def pickup(root, branch, record, sync=False, expected_commit=None, preserve=()):
     if expected_commit is not None and (not isinstance(expected_commit, str)
             or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", expected_commit)):
         raise HandoffError("The saved revision must be a full Git commit ID, not a branch or abbreviated name")
     require_branch(root, branch)
-    if git(root, "status", "--porcelain"):
+    keep = acknowledged(root, preserve)
+    if git(root, "diff", "--cached", "--name-only") or (local_changes(root) - set(keep)):
         raise HandoffError("Local changes exist; no pull, stash, reset or merge performed")
     if sync:
         git(root, "fetch", "origin", f"refs/heads/{branch}")
@@ -118,6 +152,12 @@ def pickup(root, branch, record, sync=False, expected_commit=None):
         remote = git(root, "rev-parse", "FETCH_HEAD")
         if expected_commit is not None and remote != expected_commit:
             raise HandoffError("Remote branch differs from the saved handoff revision; checkout not updated")
+        collisions = [path for path in keep
+                      if git(root, "ls-tree", "--name-only", "-z", remote, "--", path).strip("\0")]
+        if collisions:
+            raise HandoffError("The incoming revision carries preserved local files: "
+                               + ", ".join(sorted(collisions))
+                               + ". Nothing was merged, moved or overwritten; decide these paths first")
         ancestor = git(root, "merge-base", local, remote)
         if ancestor != local:
             raise HandoffError("Local history is ahead or diverged; resolve ownership before pickup")
@@ -133,16 +173,19 @@ def pickup(root, branch, record, sync=False, expected_commit=None):
         raise HandoffError("Saved handoff record is empty; no fallback pickup performed")
     if expected_commit is not None:
         require_branch(root, branch)
-        if git(root, "rev-parse", "HEAD") != commit or git(root, "status", "--porcelain"):
+        if (git(root, "rev-parse", "HEAD") != commit or git(root, "diff", "--cached", "--name-only")
+                or (local_changes(root) - set(keep))):
             raise HandoffError("Project changed while reading the saved handoff; no pickup returned")
     result = {"status": "record_loaded", "branch": branch, "commit": commit,
               "record": record, "bytes": len(content.encode()), "content": content,
               "overtaken_revisions": overtaken_revisions(root, content, commit),
+              "preserved_local_only": keep,
               "note": "Record loading is not proof of complete context restoration or permission to execute"}
     if result["overtaken_revisions"]:
-        result["reconcile"] = ("The record names a revision this checkout already contains; its stated "
-                               "position or next action may be done. Reconcile against later commits "
-                               "and dated evidence before acting. This is not a judgment of the record")
+        result["hint"] = ("Diagnostic only: the record names revisions already in this checkout's "
+                          "history. Historical citations and a pre-save position are legitimate, so "
+                          "this is not a staleness finding. Check whether the record's next action is "
+                          "still open; that, not the hash, is what would make it obsolete")
     return result
 
 
@@ -178,9 +221,10 @@ def named_section(content, heading):
     return "".join(lines[start:end])
 
 
-def prepare(root, branch, record, files=(), sections=(), sync=False, expected_commit=None):
+def prepare(root, branch, record, files=(), sections=(), sync=False, expected_commit=None, preserve=()):
     """Assemble caller-selected raw sources; never choose or summarise memory."""
-    loaded = pickup(root, branch, record, sync, expected_commit)
+    loaded = pickup(root, branch, record, sync, expected_commit, preserve)
+    keep = loaded["preserved_local_only"]
     git(root, "ls-files", "--error-unmatch", "--", ":(literal)" + relative_file(root, record))
     sources = [{"file": loaded["record"], "selection": "complete file", "content": loaded["content"]}]
     for value in files:
@@ -197,16 +241,18 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
                         "content": named_section(source_text(root / path), heading)})
     # A concurrent edit must not silently acquire the earlier clean/commit claim.
     require_branch(root, branch)
-    if git(root, "status", "--porcelain") or git(root, "rev-parse", "HEAD") != loaded["commit"]:
+    if (git(root, "diff", "--cached", "--name-only") or (local_changes(root) - set(keep))
+            or git(root, "rev-parse", "HEAD") != loaded["commit"]):
         raise HandoffError("Project changed while preparing pickup; no packet returned")
     packet = {"status": "pickup_prepared", "branch": branch, "commit": loaded["commit"],
               "clean_at_check": True, "synchronized": sync, "sources": sources,
+              "preserved_local_only": keep,
               "overtaken_revisions": loaded["overtaken_revisions"],
               "note": "Caller-selected saved records, not fresh operational verification. "
                       "Selection completeness and restored meaning still need assessment. "
                       "No session is resumed and no execution authority is granted by this packet."}
-    if "reconcile" in loaded:
-        packet["reconcile"] = loaded["reconcile"]
+    if "hint" in loaded:
+        packet["hint"] = loaded["hint"]
     return packet
 
 
@@ -219,11 +265,15 @@ def main():
     save.add_argument("--file", action="append", required=True)
     save.add_argument("--message", required=True)
     save.add_argument("--push", action="store_true")
+    save.add_argument("--preserve", action="append", default=[],
+                      help="Exact untracked path this project keeps locally; never saved or touched")
     load = sub.add_parser("pickup")
     load.add_argument("--branch", required=True)
     load.add_argument("--record", required=True)
     load.add_argument("--sync", action="store_true")
     load.add_argument("--commit", help="Exact saved revision for a named handoff; omit for ordinary latest-state In")
+    load.add_argument("--preserve", action="append", default=[],
+                      help="Exact untracked path to keep; a collision in the incoming revision stops the pickup")
     packet = sub.add_parser("prepare", help="Gather caller-selected sources for a fresh reader")
     packet.add_argument("--branch", required=True)
     packet.add_argument("--record", required=True)
@@ -231,15 +281,18 @@ def main():
     packet.add_argument("--section", nargs=2, action="append", default=[], metavar=("FILE", "HEADING"))
     packet.add_argument("--sync", action="store_true")
     packet.add_argument("--commit", help="Exact saved revision; checked before updating the checkout")
+    packet.add_argument("--preserve", action="append", default=[],
+                        help="Exact untracked path to keep; a collision in the incoming revision stops the pickup")
     args = parser.parse_args()
     try:
         root = root_for(args.project)
         if args.action == "save":
-            result = publish(root, args.branch, args.file, args.message, args.push)
+            result = publish(root, args.branch, args.file, args.message, args.push, preserve=args.preserve)
         elif args.action == "prepare":
-            result = prepare(root, args.branch, args.record, args.file, args.section, args.sync, args.commit)
+            result = prepare(root, args.branch, args.record, args.file, args.section, args.sync,
+                             args.commit, args.preserve)
         else:
-            result = pickup(root, args.branch, args.record, args.sync, args.commit)
+            result = pickup(root, args.branch, args.record, args.sync, args.commit, args.preserve)
         print(json.dumps(result, indent=2))
         return 0
     except (HandoffError, OSError, ValueError) as exc:

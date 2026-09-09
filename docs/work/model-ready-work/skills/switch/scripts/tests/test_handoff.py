@@ -53,9 +53,9 @@ class HandoffTests(unittest.TestCase):
         self.git(root, "commit", "-q", "-m", message)
         return self.git(root, "rev-parse", "HEAD")
 
-    def publish(self, files=None, push=False):
+    def publish(self, files=None, push=False, preserve=()):
         return handoff.publish(self.source, self.branch, files or ["record.md", "result.txt"],
-                               "Save exact handoff", push=push)
+                               "Save exact handoff", push=push, preserve=preserve)
 
     def advance_remote(self):
         (self.source / "record.md").write_text("Continue the next exact bounded action.\n")
@@ -126,8 +126,56 @@ class HandoffTests(unittest.TestCase):
         self.assertEqual(result["content"], (self.source / "record.md").read_text())
         self.assertEqual(result["bytes"], len((self.dest / "record.md").read_bytes()))
 
-    def test_record_naming_an_already_contained_revision_is_reported_not_refused(self):
-        """The stale-handoff case: a boundary commit made after the record was written."""
+    def test_acknowledged_untracked_file_is_preserved_and_reported_as_local_only(self):
+        (self.source / "local.patch").write_text("kept on this machine\n")
+        (self.source / "result.txt").write_text("work to save\n")
+        result = self.publish(files=["result.txt"], push=True, preserve=["local.patch"])
+        self.assertEqual(result["status"], "saved_to_remote")
+        self.assertEqual(result["preserved_local_only"], ["local.patch"])
+        self.assertIn("local only", result["note"])
+        self.assertEqual(self.git(self.source, "show", "--format=", "--name-only", "HEAD"), "result.txt")
+        self.assertEqual((self.source / "local.patch").read_text(), "kept on this machine\n")
+        self.assertEqual(self.git(self.source, "ls-files", "--", "local.patch"), "")
+
+    def test_unacknowledged_change_still_blocks_when_another_path_is_preserved(self):
+        (self.source / "local.patch").write_text("kept on this machine\n")
+        (self.source / "surprise.txt").write_text("nobody decided about this\n")
+        (self.source / "result.txt").write_text("work to save\n")
+        with self.assertRaisesRegex(handoff.HandoffError, "surprise.txt"):
+            self.publish(files=["result.txt"])
+        self.assertEqual(self.git(self.source, "diff", "--cached", "--name-only"), "")
+        self.assertEqual(self.git(self.source, "rev-parse", "HEAD"), self.original)
+
+    def test_pickup_proceeds_past_preserved_leftovers_without_touching_them(self):
+        latest = self.advance_remote()
+        (self.dest / "local.patch").write_text("kept at the destination\n")
+        result = handoff.pickup(self.dest, self.branch, "record.md", sync=True, preserve=["local.patch"])
+        self.assertEqual(result["status"], "record_loaded")
+        self.assertEqual(result["commit"], latest)
+        self.assertEqual(result["preserved_local_only"], ["local.patch"])
+        self.assertEqual((self.dest / "local.patch").read_text(), "kept at the destination\n")
+
+    def test_incoming_revision_carrying_a_preserved_path_stops_the_pickup(self):
+        (self.dest / "local.patch").write_text("kept at the destination\n")
+        before = self.git(self.dest, "rev-parse", "HEAD")
+        (self.source / "local.patch").write_text("a tracked file at the same path\n")
+        self.publish(files=["local.patch"], push=True)
+        with self.assertRaisesRegex(handoff.HandoffError, "preserved local files"):
+            handoff.pickup(self.dest, self.branch, "record.md", sync=True, preserve=["local.patch"])
+        self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
+        self.assertEqual((self.dest / "local.patch").read_text(), "kept at the destination\n")
+
+    def test_preserved_path_must_be_an_existing_untracked_file(self):
+        for value, message in (("record.md", "tracked work"), ("absent.txt", "does not exist")):
+            with self.subTest(value=value):
+                (self.source / "result.txt").write_text("work to save\n")
+                with self.assertRaisesRegex(handoff.HandoffError, message):
+                    self.publish(files=["result.txt"], preserve=[value])
+                self.assertEqual(self.git(self.source, "diff", "--cached", "--name-only"), "")
+                self.assertEqual(self.git(self.source, "rev-parse", "HEAD"), self.original)
+
+    def test_record_naming_an_already_contained_revision_is_hinted_not_refused(self):
+        """A record whose sitting committed after writing it: hinted, never treated as stale."""
         observed = self.git(self.source, "rev-parse", "HEAD")
         (self.source / "record.md").write_text(
             f"Observed HEAD {observed}. Next action: record the boundary.\n")
@@ -138,7 +186,7 @@ class HandoffTests(unittest.TestCase):
         result = handoff.pickup(self.dest, self.branch, "record.md", sync=True)
         self.assertEqual(result["status"], "record_loaded")
         self.assertEqual(result["overtaken_revisions"], [observed])
-        self.assertIn("Reconcile", result["reconcile"])
+        self.assertIn("Diagnostic only", result["hint"])
         self.assertNotIn(self.git(self.dest, "rev-parse", "HEAD"), result["overtaken_revisions"])
         self.assertNotEqual(boundary, self.git(self.dest, "rev-parse", "HEAD"))
 
@@ -149,7 +197,7 @@ class HandoffTests(unittest.TestCase):
         self.publish(files=["record.md"], push=True)
         result = handoff.pickup(self.dest, self.branch, "record.md", sync=True)
         self.assertEqual(result["overtaken_revisions"], [])
-        self.assertNotIn("reconcile", result)
+        self.assertNotIn("hint", result)
         # A record cannot contain the commit that saves it, so the current-HEAD leg is checked
         # directly rather than through a save that would place the ID one commit behind.
         head = self.git(self.dest, "rev-parse", "HEAD")
@@ -164,7 +212,7 @@ class HandoffTests(unittest.TestCase):
         packet = handoff.prepare(self.dest, self.branch, "record.md", sync=True)
         self.assertEqual(packet["status"], "pickup_prepared")
         self.assertEqual(packet["overtaken_revisions"], [observed])
-        self.assertIn("Reconcile", packet["reconcile"])
+        self.assertIn("Diagnostic only", packet["hint"])
 
     def test_dirty_pickup_does_not_change_head_or_local_content(self):
         self.advance_remote()

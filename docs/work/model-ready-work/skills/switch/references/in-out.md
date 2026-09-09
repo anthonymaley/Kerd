@@ -27,11 +27,16 @@ work. Recover current stage, actual user agreement, last result, pending questio
 or next action, failure/resource state and relevant project constraints. Follow
 necessary evidence links; avoid loading the full log archive and every retired
 plan. An explicitly stale or contradictory pointer must be reconciled with current
-artifacts and dated evidence before work continues. `overtaken_revisions` in a
-pickup or prepared packet is that signal in machine form: the record names a
-revision this checkout already contains, so its stated position or next action
-may be done. Reach an exhaustive changed-file list with `git show --name-only`
-on the named boundary rather than reading a manifest copied into memory.
+artifacts and dated evidence before work continues. What makes a pointer stale is
+an obsolete next action, not an old revision: `overtaken_revisions` in a pickup or
+prepared packet is a diagnostic hint, and citing history or a pre-save position is
+legitimate. Reach an exhaustive changed-file list with `git show --name-only` on
+the named boundary rather than reading a manifest copied into memory.
+
+Local files a project has deliberately kept out of Git do not block a pickup.
+Name those exact paths with `--preserve` and the helper proceeds, reporting them
+as local only; it stops, untouched, if the incoming revision carries one of them,
+because that collision is a real decision. Unnamed changes still stop a pickup.
 
 If that start point names a pickup reading set, use its complete files/sections
 first. It is a saved navigation aid, not a ban on further reading: check linked
@@ -134,7 +139,12 @@ because its task name appears in a file. Respect existing direction on whether
 it continues; a genuine unresolved ownership issue needs a decision.
 
 Under the agreed Git authority, commit the relevant work/session files by name
-and push to the intended branch. Unexpected or already-staged work needs resolution,
+and push to the intended branch. A save commits only the named files. Exact paths
+the project has already decided to keep locally — a scratch patch, a stray build
+artifact — are acknowledged with `--preserve`: they stay untouched and are reported
+as local only, not saved. Keep that acknowledgement in the project's existing
+memory as exact paths; it is not a pattern, an ignore entry or a new config file,
+and it never deletes or stashes. New or unacknowledged work still needs resolution,
 not blanket staging. Show locally saved vs committed vs remotely verified. A failed
 push leaves useful local work recoverable; do not call that a cross-device handoff.
 

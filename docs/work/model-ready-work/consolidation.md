@@ -56,9 +56,18 @@ item: date-filter performance change** carries the observations behind the
 continuation and visibility gaps. Seinn's own work record stays out of Kerd
 pickup unless a specific testing-evidence question requires it.
 
-The working tree holds two untracked items to leave alone: `kerd-laptop-result.patch`
-at the root and `trials/switch-redesign/live-control/output/__pycache__/`. Do not
-blanket stage, reset, stash or discard them. Kerd's old history remains reachable
+Acknowledged local-only paths — this project's decision, kept as exact paths and
+passed to the helper with `--preserve`. They are never saved, staged, stashed,
+ignored by rule or deleted:
+
+- `kerd-laptop-result.patch`
+- `docs/work/model-ready-work/trials/switch-redesign/live-control/output/__pycache__/pickup_preview.cpython-314.pyc`
+- `docs/work/model-ready-work/trials/switch-redesign/live-control/output/__pycache__/test_pickup_preview.cpython-314.pyc`
+
+The two bytecode names carry the interpreter version, so a different Python will
+produce different filenames; re-acknowledge them then rather than reaching for a
+pattern. Anything else appearing untracked is undecided work and still stops a
+save or a pickup. Kerd's old history remains reachable
 through CONTEXT and `kivna/sessions/`; it has not been migrated or fully revalidated.
 Actual input-token cost for a fresh pickup remains unmeasured; see the trial record.
 
@@ -99,8 +108,11 @@ candidate Switch In alone. Restoration succeeded and caught that the living
 handoff had been overtaken by its own sitting's commit. The
 [ordinary Out/In record](trials/ordinary-out-in.md) carries what that observed,
 what it cost and what stays unmeasured. Switch's Out guidance and its Git helper
-were corrected so a handoff separates local preparation from verified remote save
-and reports a record naming a revision the checkout already contains. This closes
+were corrected so a handoff separates local preparation from verified remote save,
+and the helper hints when a record names revisions already in history. A later
+adjustment the same day made deliberately local files preserved leftovers rather
+than blockers: `save`, `pickup` and `prepare` take exact `--preserve` paths, and an
+incoming revision carrying one of them stops the operation untouched. This closes
 the boundary action; the continuation and visibility gaps are untouched by it.
 
 2026-09-09 continuation: the [third Seinn work item](trials/seinn-adoption.md#third-work-item-date-filter-performance-change)
