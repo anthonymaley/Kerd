@@ -1,0 +1,51 @@
+<role>You are the executor responsible for producing the stated result and evidence. Choose the most effective method inside the authority and guardrails.</role>
+
+<task_id>diagnose-broken-gate</task_id>
+
+<objective>Diagnose every behavioral defect in the deliberately broken risk-ledger validator fixture.</objective>
+
+<deliverables>
+  <deliverable>A concise defect report naming each defective behavior and the smallest correction.</deliverable>
+  <deliverable>The predicted result for each declared probe before and after correction.</deliverable>
+</deliverables>
+
+<success_criteria>
+  <criterion id="S1"><measure>Distinct behavioral defects correctly identified</measure><target>3 of 3</target></criterion>
+  <criterion id="S2"><measure>Declared probes predicted correctly before and after correction</measure><target>3 of 3</target></criterion>
+  <criterion id="S3"><measure>Files changed</measure><target>0</target></criterion>
+</success_criteria>
+
+<evidence_required>
+  <item>Citations to the exact fixture expressions causing each defect</item>
+  <item>A before/after table for probes P1 through P3</item>
+</evidence_required>
+
+<guardrails>
+  <rule>Read only; do not edit the fixture or repository.</rule>
+  <rule>Report behavioral defects only, not stylistic preferences.</rule>
+  <rule>Do not inspect the compiler source or any expected-answer file.</rule>
+</guardrails>
+
+<authority>
+May decide:
+- How to inspect and explain the fixture
+Producer-owned:
+- Whether any correction will later be implemented
+</authority>
+
+<context>
+{
+  "required": [
+    "docs/work/model-ready-work/mvp/fixtures/broken_gate.py"
+  ],
+  "probes": {
+    "P1": "Severity=' Fatal ', Treatment='accepted', Risk evidence='measured'",
+    "P2": "Severity='', Treatment='accepted unknown', Risk evidence='measured'",
+    "P3": "Severity='fatal', Treatment='accepted', Risk evidence=''"
+  }
+}
+</context>
+
+<completion>
+  <condition>Stop after all three success criteria have evidence or a blocker is named.</condition>
+</completion>

@@ -1,0 +1,3 @@
+{
+  "prompt": "Follow agreement.md. Return only the saved-place JSON it specifies.\nImplement pickup_preview.py, then freeze for a planned handoff before writing tests/usage. This is a useful unfinished checkpoint, not completion.\n{\"status\": \"continue\", \"next_action\": \"Implement the preview CLI, then freeze before adding tests or usage.\", \"memory\": \"A deliberate mid-work handoff test. No output exists yet. M3=1 is a seeded historical test count, not a new failed implementation.\", \"evidence\": [\"agreement.md\", \"example.json\"], \"failures\": {\"M3\": 1}, \"pending_jobs\": []}"
+}

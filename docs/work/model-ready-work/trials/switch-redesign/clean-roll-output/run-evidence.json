@@ -1,0 +1,186 @@
+{
+  "note": "Sanitized native lifecycle observations; no session IDs or transcripts. Test trigger 20000, not near-exhaustion. Two workers, one automatic continuation, zero controller recoveries.",
+  "test_command": "python3 -m unittest -v test_roll_status.py",
+  "controller_tests": {
+    "passed": 13,
+    "seconds": 4.023
+  },
+  "runs": [
+    {
+      "status": "completed",
+      "model": "gpt-5.6-sol",
+      "requested_effort": "high",
+      "started_at": "2026-09-07T13:03:22.686767+00:00",
+      "finished_at": "2026-09-07T13:07:46.634131+00:00",
+      "owned_child_count": 3,
+      "owned_children_gone": true,
+      "owned_survivor_shutdown_requested": true,
+      "cleanup_error": null,
+      "error": null,
+      "context_trigger": {
+        "last": {
+          "totalTokens": 21747,
+          "inputTokens": 14713,
+          "cachedInputTokens": 14336,
+          "cacheWriteInputTokens": 0,
+          "outputTokens": 7034,
+          "reasoningOutputTokens": 1662
+        },
+        "model_context_window": 258400,
+        "threshold": 20000
+      },
+      "context_readings": [
+        {
+          "last": {
+            "totalTokens": 14690,
+            "inputTokens": 14575,
+            "cachedInputTokens": 5120,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 115,
+            "reasoningOutputTokens": 37
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        },
+        {
+          "last": {
+            "totalTokens": 21747,
+            "inputTokens": 14713,
+            "cachedInputTokens": 14336,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 7034,
+            "reasoningOutputTokens": 1662
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        },
+        {
+          "last": {
+            "totalTokens": 21850,
+            "inputTokens": 21771,
+            "cachedInputTokens": 14592,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 79,
+            "reasoningOutputTokens": 9
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        },
+        {
+          "last": {
+            "totalTokens": 23394,
+            "inputTokens": 23067,
+            "cachedInputTokens": 21632,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 327,
+            "reasoningOutputTokens": 150
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        }
+      ],
+      "usage": {
+        "totalTokens": 81681,
+        "inputTokens": 74126,
+        "cachedInputTokens": 55680,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 7555,
+        "reasoningOutputTokens": 1858
+      }
+    },
+    {
+      "status": "completed",
+      "model": "gpt-5.6-sol",
+      "requested_effort": "high",
+      "started_at": "2026-09-07T13:07:46.641624+00:00",
+      "finished_at": "2026-09-07T13:09:16.860400+00:00",
+      "owned_child_count": 4,
+      "owned_children_gone": true,
+      "owned_survivor_shutdown_requested": true,
+      "cleanup_error": null,
+      "error": null,
+      "context_trigger": {
+        "last": {
+          "totalTokens": 21349,
+          "inputTokens": 19912,
+          "cachedInputTokens": 19200,
+          "cacheWriteInputTokens": 0,
+          "outputTokens": 1437,
+          "reasoningOutputTokens": 1283
+        },
+        "model_context_window": 258400,
+        "threshold": 20000
+      },
+      "context_readings": [
+        {
+          "last": {
+            "totalTokens": 14710,
+            "inputTokens": 14582,
+            "cachedInputTokens": 8704,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 128,
+            "reasoningOutputTokens": 31
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        },
+        {
+          "last": {
+            "totalTokens": 19318,
+            "inputTokens": 18958,
+            "cachedInputTokens": 14464,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 360,
+            "reasoningOutputTokens": 46
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        },
+        {
+          "last": {
+            "totalTokens": 19421,
+            "inputTokens": 19342,
+            "cachedInputTokens": 18816,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 79,
+            "reasoningOutputTokens": 9
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        },
+        {
+          "last": {
+            "totalTokens": 21349,
+            "inputTokens": 19912,
+            "cachedInputTokens": 19200,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 1437,
+            "reasoningOutputTokens": 1283
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        },
+        {
+          "last": {
+            "totalTokens": 21563,
+            "inputTokens": 21413,
+            "cachedInputTokens": 19712,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 150,
+            "reasoningOutputTokens": 0
+          },
+          "model_context_window": 258400,
+          "threshold": 20000
+        }
+      ],
+      "usage": {
+        "totalTokens": 96361,
+        "inputTokens": 94207,
+        "cachedInputTokens": 80896,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 2154,
+        "reasoningOutputTokens": 1369
+      }
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+<style>
+#model-ready-work {
+  color: #172033;
+  background: #f6f3ec;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 32px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+#model-ready-work * { box-sizing: border-box; }
+#model-ready-work .wrap { max-width: 1240px; margin: 0 auto; }
+#model-ready-work h1 { font-family: Georgia, serif; font-size: 42px; margin: 0 0 8px; letter-spacing: -1px; }
+#model-ready-work .lead { font-size: 18px; line-height: 1.5; max-width: 850px; margin: 0 0 30px; color: #4b5568; }
+#model-ready-work .intake { display: grid; grid-template-columns: 1fr auto 1.15fr auto 1fr; gap: 10px; align-items: stretch; margin-bottom: 22px; }
+#model-ready-work .intake-box { padding: 15px 17px; border: 1px solid #b9cec1; background: #e6eee8; }
+#model-ready-work .intake-box strong { display: block; font-size: 16px; margin-bottom: 5px; }
+#model-ready-work .intake-box span { display: block; color: #46534e; font-size: 13px; line-height: 1.4; }
+#model-ready-work .intake-box.selected { background: #fff4e8; border-color: #dfb890; }
+#model-ready-work .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr; align-items: stretch; gap: 8px; }
+#model-ready-work .step { background: #fff; border: 1px solid #d8d3c8; border-top: 5px solid #2a6f68; padding: 14px 12px; min-height: 145px; box-shadow: 0 4px 16px rgba(31,41,55,.05); }
+#model-ready-work .step:nth-child(3), #model-ready-work .step:nth-child(4), #model-ready-work .step:nth-child(5) { border-top-color: #b56a2f; }
+#model-ready-work .step:nth-child(7), #model-ready-work .step:nth-child(8), #model-ready-work .step:nth-child(9) { border-top-color: #6555a3; }
+#model-ready-work .num { font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; color: #7b7469; text-transform: uppercase; }
+#model-ready-work h2 { font-size: 16px; line-height: 1.2; margin: 11px 0 8px; }
+#model-ready-work .step p { font-size: 13px; line-height: 1.4; color: #555d6c; margin: 0; }
+#model-ready-work .arrow { display: flex; align-items: center; justify-content: center; color: #92897b; font-size: 20px; }
+#model-ready-work .lanes { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+#model-ready-work .lane { background: #fff; border: 1px solid #d8d3c8; padding: 20px; }
+#model-ready-work .lane h3 { margin: 0 0 8px; font-size: 18px; }
+#model-ready-work .lane p { margin: 0; color: #555d6c; line-height: 1.45; font-size: 14px; }
+#model-ready-work .fixed { border-left: 6px solid #2a6f68; }
+#model-ready-work .variable { border-left: 6px solid #b56a2f; }
+#model-ready-work .branches { margin-top: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+#model-ready-work .branch { padding: 20px; background: #172033; color: #fff; }
+#model-ready-work .branch h3 { margin: 0 0 12px; font-size: 19px; }
+#model-ready-work .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+#model-ready-work .model { border: 1px solid #4d586e; padding: 10px; min-height: 88px; }
+#model-ready-work .model strong { display: block; margin-bottom: 5px; font-size: 14px; }
+#model-ready-work .model span { color: #cbd2df; font-size: 12px; line-height: 1.35; display: block; }
+#model-ready-work .promise { margin-top: 16px; background: #e6eee8; border: 1px solid #b9cec1; padding: 18px 20px; display: flex; gap: 18px; align-items: center; }
+#model-ready-work .promise strong { font-family: Georgia, serif; font-size: 20px; min-width: 250px; }
+#model-ready-work .promise span { font-size: 14px; line-height: 1.45; color: #3e4c46; }
+#model-ready-work .recovery { margin-top: 12px; border: 1px dashed #9e9587; padding: 15px 18px; background: #fff; }
+#model-ready-work .recovery strong { display: block; margin-bottom: 6px; }
+#model-ready-work .recovery span { color: #555d6c; font-size: 13px; line-height: 1.45; }
+#model-ready-work .alt { margin-top: 20px; font-size: 13px; line-height: 1.5; color: #555d6c; }
+@media (max-width: 900px) {
+  #model-ready-work { padding: 20px; }
+  #model-ready-work h1 { font-size: 33px; }
+  #model-ready-work .flow { grid-template-columns: 1fr; }
+  #model-ready-work .intake { grid-template-columns: 1fr; }
+  #model-ready-work .arrow { transform: rotate(90deg); min-height: 20px; }
+  #model-ready-work .lanes, #model-ready-work .branches { grid-template-columns: 1fr; }
+}
+@media (max-width: 540px) {
+  #model-ready-work .model-grid { grid-template-columns: 1fr; }
+  #model-ready-work .promise { display: block; }
+  #model-ready-work .promise strong { display: block; margin-bottom: 8px; min-width: 0; }
+}
+</style>
+
+<div id="model-ready-work">
+  <div class="wrap">
+    <h1>Model-ready work</h1>
+    <p class="lead">Conductor turns an idea into an approved direction, then builds, peer-reviews, proves and improves autonomously. Switch preserves continuity across the Kerd project.</p>
+
+    <div class="intake" aria-label="How a product with several features becomes one focused execution">
+      <section class="intake-box"><strong>Build brief</strong><span>The overall product outcome, shared boundaries, features, and release condition.</span></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="intake-box"><strong>Feature map</strong><span>One brief per testable feature, with dependencies and readiness derived from the records.</span></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="intake-box selected"><strong>One ready slice</strong><span>A feature, or an inseparable group, enters the loop with only relevant parent rules and dependency proof.</span></section>
+    </div>
+
+    <div class="flow" aria-label="Conductor process from understanding to autonomous work">
+      <section class="step"><span class="num">1 &middot; Understand</span><h2>Describe the idea</h2><p>Speak naturally. Conductor retrieves known facts, reflects its understanding, and asks only what can materially change the work.</p></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="step"><span class="num">2 &middot; Shape</span><h2>Define the direction</h2><p>Show the outcome, experience, connected parts, flow, measures, guardrails, authority, resources, and stopping point.</p></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="step"><span class="num">3 &middot; Person</span><h2>Approve once</h2><p>Confirm the experience and outcome. This fixes the direction without freezing the implementation route.</p></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="step"><span class="num">4 &middot; Conductor</span><h2>Prepare each job</h2><p>Select a coherent slice, fresh context, appropriate model, effort, and peer review. Prove no obligation was lost.</p></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="step"><span class="num">5 &middot; Autonomous</span><h2>Enter the loop</h2><p>Conductor continues without routine user input while the approved direction remains possible and safe.</p></section>
+    </div>
+
+    <div class="flow" style="margin-top:8px; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;">
+      <section class="step"><span class="num">6 &middot; Build</span><h2>Create the result</h2><p>Bounded model jobs choose their methods inside the approved direction and guardrails.</p></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="step"><span class="num">7 &middot; Peer review</span><h2>Judge independently</h2><p>A peer or different model checks the original measures from admissible evidence. The builder does not grade itself.</p></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="step"><span class="num">8 &middot; Improve</span><h2>Correct and retest</h2><p>Failed measures return to Build. Each retry must materially respond to the evidence, not repeat the same attempt.</p></section>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <section class="step"><span class="num">9 &middot; Prove</span><h2>Complete honestly</h2><p>Every measure passes independently. After three materially different failures on one measure, Conductor changes route or raises one consequential decision.</p></section>
+    </div>
+
+    <div class="lanes">
+      <section class="lane fixed"><h3>Fixed across every model</h3><p>Outcome &middot; deliverable &middot; success measures &middot; proof &middot; boundaries &middot; decision rights &middot; open questions &middot; done condition</p></section>
+      <section class="lane variable"><h3>Allowed to change by model</h3><p>Brief layout &middot; context packaging &middot; examples &middot; tool instructions &middot; output structure &middot; effort setting</p></section>
+    </div>
+
+    <div class="branches">
+      <section class="branch"><h3>Claude model guidance</h3><div class="model-grid"><div class="model"><strong>Opus type</strong><span>Deep, consequential, autonomous work</span></div><div class="model"><strong>Sonnet type</strong><span>Capable everyday work with focused context</span></div><div class="model"><strong>Fable type</strong><span>Fast, bounded work with a clear return shape</span></div></div></section>
+      <section class="branch"><h3>OpenAI model guidance</h3><div class="model-grid"><div class="model"><strong>Sol type</strong><span>Deep reasoning and agentic work</span></div><div class="model"><strong>Terra type</strong><span>Balanced everyday work</span></div><div class="model"><strong>Luna type</strong><span>Quick, well-bounded work</span></div></div></section>
+    </div>
+
+    <div class="promise"><strong>One Conductor, not a skill per phase</strong><span>Understanding, shaping, building, peer review, proof, improvement, and completion are one guided process. Switch separately preserves project continuity.</span></div>
+
+    <div class="recovery"><strong>If a run fails, repair only what failed</strong><span>Requirement &rarr; brief &middot; Context &rarr; context pack &middot; Selection &rarr; model or effort &middot; Execution &rarr; targeted retry &middot; Proof &rarr; missing evidence &middot; Product &rarr; feature or slice. Never make every future prompt longer by default.</span></div>
+
+    <p class="alt"><strong>Accessible description:</strong> Kerd holds any kind of durable work in a project repository. Switch preserves continuity. Conductor first understands the person's idea, then shapes a visual direction containing the outcome, experience, connected parts, measures, boundaries, authority, resources, and stopping point. The person approves that direction once. Conductor selects focused model jobs and runs Build, peer review, proof, and improvement without routine interruption. The builder never grades itself. Failed measures return to the loop; three materially different failures against the same measure return routing control to Conductor. Conductor completes only when every agreed measure independently passes and the requested stopping point is reached.</p>
+  </div>
+</div>

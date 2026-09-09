@@ -1,0 +1,18 @@
+{
+  "status": "review",
+  "next_action": "Arrange independent assessment of roll_status.py, test_roll_status.py and USAGE.md against the original agreement.",
+  "memory": "Fixed the two macOS path-alias assertions to compare displayed project roots with Git's own --show-toplevel output. The required full suite then passed: 13 tests in 3.350s. Deliverables are ready for independent review; review does not imply acceptance. The earlier M5 correction failure remains recorded cumulatively.",
+  "evidence": [
+    "roll_status.py",
+    "test_roll_status.py",
+    "USAGE.md"
+  ],
+  "failures": {
+    "M1": 0,
+    "M2": 0,
+    "M3": 0,
+    "M4": 0,
+    "M5": 1
+  },
+  "pending_jobs": []
+}

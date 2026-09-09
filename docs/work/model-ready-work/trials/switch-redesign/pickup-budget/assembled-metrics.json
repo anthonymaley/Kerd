@@ -1,0 +1,14 @@
+{
+  "method": "Matched-run differential estimate; caller source-selection cost excluded.",
+  "host_base": 13026,
+  "control_spread": 0,
+  "peak_input": 18177,
+  "peak_total": 19895,
+  "added_input": 5151,
+  "added_context": 6869,
+  "added_context_percent": 2.65828173374613,
+  "seconds": 64.819,
+  "observed_operations": 0,
+  "numeric_target_met": true,
+  "restoration_assessment": "Failed: independent review found omitted scoped prohibitions; see review-assembled.md"
+}

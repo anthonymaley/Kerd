@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conductor — from agreement to useful results</title>
+<style>
+:root{color-scheme:light;--paper:#fffefa;--bg:#f5f4ee;--ink:#17332f;--muted:#52665e;--green:#17624e;--line:#cad7cd;--wash:#e8f2eb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,sans-serif}main{max-width:1080px;margin:auto;padding:38px 28px}h1{font-size:clamp(30px,4vw,46px);line-height:1.12;letter-spacing:-.035em;margin:14px 0}h2{font-size:23px;margin:24px 0 10px}p{max-width:820px;margin:10px 0 18px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--green)}a{color:var(--green);text-underline-offset:3px}.journey{padding:14px 18px;border:1px solid var(--line);border-radius:9px;background:var(--paper);font-size:15px}.muted{color:var(--muted)}svg{width:100%;height:auto;display:block;margin:24px 0 8px}svg text{font-family:system-ui,sans-serif;fill:var(--ink);font-size:16px}svg .label{font-weight:700;font-size:18px}svg .small{font-size:14px;fill:var(--muted)}svg .node{fill:var(--paper);stroke:var(--line);stroke-width:1.5}svg .focus{fill:var(--wash);stroke:var(--green);stroke-width:2}svg .link{fill:none;stroke:var(--green);stroke-width:2;marker-end:url(#arrow)}.evidence{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}.evidence article{border-top:3px solid var(--green);padding:12px 0}.evidence p{font-size:15px}.evidence strong{font-size:18px}.mobile{display:none}.links{display:flex;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;margin-top:28px;font-size:15px}details{border-top:1px solid var(--line);padding:17px 0}summary{cursor:pointer;font-weight:650}li{margin-bottom:9px}a:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-offset:4px}
+@media(max-width:650px){main{padding:25px 18px}.desktop{display:none}.mobile{display:block;list-style:none;padding:0;margin:24px 0}.mobile li{position:relative;padding:17px;background:var(--paper);border:1px solid var(--line);border-radius:9px;margin-bottom:30px}.mobile li:not(:last-child):after{content:'↓';position:absolute;left:50%;bottom:-30px;color:var(--green);font-size:24px}.mobile strong{display:block}.mobile p{margin:6px 0 0;font-size:16px}.mobile .correction{background:var(--wash)}.evidence{grid-template-columns:1fr;gap:0}.journey{font-size:14px}h2{font-size:21px}}
+</style>
+<main>
+<header>
+<div class="eyebrow">Working candidate · live Kerd unchanged</div>
+<h1>You agree the result.<br>Conductor carries the work.</h1>
+<p>One clear brief becomes focused jobs for suitable models. Their work is checked against your original agreement—not whether they followed a preferred script.</p>
+<div class="journey">Understand → Shape → Agree → <strong>Deliver: the loop shown below</strong> → Complete</div>
+</header>
+<svg class="desktop" viewBox="0 0 1000 585" role="img" aria-labelledby="drawing-title drawing-description">
+<title id="drawing-title">The delivery loop and who does what</title>
+<desc id="drawing-description">Your agreed outcome and boundaries go to Conductor. Conductor prepares a job for a suitable model. The worker creates a contribution. An independent reviewer checks it against the original agreement. Conductor uses the evidence, corrects supported problems by preparing another job, or delivers the completed outcome. Unresolvable or material decisions return to you, not routine work. Project files hold the work and evidence.</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#17624e"/></marker></defs>
+<rect x="20" y="112" width="960" height="450" rx="16" fill="#e8f2eb" opacity=".65"/>
+<text x="42" y="140" class="small">WORK AND EVIDENCE IN YOUR PROJECT</text>
+<rect class="node" x="350" y="15" width="300" height="65" rx="10"/>
+<text x="500" y="42" text-anchor="middle" class="label">Your agreement</text><text x="500" y="65" text-anchor="middle">Outcome · proof · boundaries</text>
+<path class="link" d="M500 80 V163"/>
+<rect class="focus" x="350" y="165" width="300" height="88" rx="10"/>
+<text x="500" y="195" text-anchor="middle" class="label">Conductor prepares the job</text><text x="500" y="222" text-anchor="middle">Suitable model, effort and prompt</text>
+<path class="link" d="M650 209 H699"/>
+<rect class="node" x="701" y="165" width="250" height="88" rx="10"/>
+<text x="826" y="195" text-anchor="middle" class="label">A model does the work</text><text x="826" y="222" text-anchor="middle">Freedom over method</text>
+<path class="link" d="M826 253 V328"/>
+<text x="842" y="292" class="small">Actual result</text>
+<rect class="node" x="701" y="330" width="250" height="88" rx="10"/>
+<text x="826" y="360" text-anchor="middle" class="label">An independent review</text><text x="826" y="387" text-anchor="middle">Original measures + evidence</text>
+<path class="link" d="M701 374 H652"/>
+<rect class="focus" x="350" y="330" width="300" height="88" rx="10"/>
+<text x="500" y="360" text-anchor="middle" class="label">Conductor uses the findings</text><text x="500" y="387" text-anchor="middle">Inspect · correct · prove</text>
+<path class="link" d="M350 374 H280 V209 H348"/>
+<text x="52" y="278" class="label">Still work to do?</text><text x="52" y="307">Another focused job.</text><text x="52" y="334" class="small">No extra “okay” within</text><text x="52" y="355" class="small">the agreed boundaries.</text>
+<path class="link" d="M500 418 V478"/>
+<text x="516" y="453" class="small">Agreed outcome met</text>
+<rect class="node" x="350" y="480" width="300" height="62" rx="10"/>
+<text x="500" y="506" text-anchor="middle" class="label">Complete, with proof</text><text x="500" y="529" text-anchor="middle">Final acceptance if agreed</text>
+</svg>
+<ol class="mobile" aria-label="Delivery flow">
+<li><strong>Your agreement</strong><p>The outcome, required proof and boundaries.</p></li>
+<li><strong>Conductor prepares a focused job</strong><p>A suitable model, effort and prompt. Only relevant context.</p></li>
+<li><strong>A model does the work</strong><p>It chooses the method within the agreed boundaries.</p></li>
+<li><strong>An independent model reviews</strong><p>The actual result is checked against your original agreement.</p></li>
+<li class="correction"><strong>Conductor uses the findings</strong><p>Inspect, correct and prove. If work remains, return to preparing a focused job—without another routine “okay.”</p></li>
+<li><strong>Complete, with proof</strong><p>The agreed outcome is met. Final user acceptance happens if agreed.</p></li>
+</ol>
+<p class="muted">A material change or a decision the facts cannot settle comes back to you. Three different unsuccessful corrections trigger reassessment, not an endless loop. Limits are optional; publishing is separate unless authorized.</p>
+<h2>What has actually happened</h2>
+<div class="evidence">
+<article><strong>Claude wrote a real guide</strong><p>A clean project received the prepared drafting job. The result was an actual file, not a plan to write one.</p></article>
+<article><strong>Codex found a claim to fix</strong><p>Independent review caught misleading spending wording. The correction was incorporated into the guide.</p></article>
+<article><strong>Work continued on the laptop</strong><p>The named GitHub handoff carried the saved task. The returned artifact was tested and corrected through independent review on Studio.</p></article>
+</div>
+<details><summary>What makes this lightweight</summary><ul><li>One work record carries the agreement, decisions, activity and evidence.</li><li>The candidate carries the model connection. No project CI, custom hooks, copied session IDs, seals or approval hashes.</li><li>Local official guidance helps Conductor prepare the job. It does not guarantee an optimal model or a better result.</li><li>Switch preserves useful memory and the exact next action. Git save/pickup uses the agreed authority; a local-only save stays local.</li></ul></details>
+<details><summary>What is still not proved</summary><p>The refreshed whole conversation still needs a real-person check. No comparative speed/cost/quality or Windows-support claim is made. The bounded laptop trial used a user-opened destination session and a manually returned result; remote startup and native conversation migration are not implemented. Other installed Kerd skills have not been migrated. The CLI adapter uses existing authenticated accounts, Git, Python and macOS/Linux process controls.</p></details>
+<nav class="links"><a href="../candidate-entry.md">Start here</a><a href="../consolidation.md">Current proof and next work</a><a href="kerd-conductor-rework.html">Whole process</a><a href="../README.md">One work pack</a></nav>
+</main>
+</html>

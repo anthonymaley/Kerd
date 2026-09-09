@@ -1,0 +1,53 @@
+{
+  "id": "foreign-repo-gate-probe",
+  "objective": "Prove a Kerd gate can inspect a consuming repository.",
+  "deliverable": [
+    "A reproducible read-only probe.",
+    "Captured output mapped to the success criteria."
+  ],
+  "success": [
+    {
+      "id": "S1",
+      "measure": "Repository named by the refusal",
+      "target": "The disposable foreign repository, never Kerd"
+    },
+    {
+      "id": "S2",
+      "measure": "Paths manually supplied by the producer",
+      "target": "0"
+    }
+  ],
+  "evidence": [
+    "Command transcript",
+    "Fixture result linked to S1 and S2"
+  ],
+  "context": {
+    "required": [
+      "skills/drive/SKILL.md",
+      "tools/gates/gate.py"
+    ],
+    "retrieve_if_needed": [
+      "tools/gates/kit.py"
+    ]
+  },
+  "guardrails": [
+    "Run a read-only probe; edit neither repository.",
+    "Do not infer environment-variable availability; measure it."
+  ],
+  "authority": {
+    "may_decide": [
+      "Probe command",
+      "Disposable-repository contents"
+    ],
+    "producer_owned": [
+      "Fallback mechanism if the plugin variable is absent"
+    ]
+  },
+  "unknowns": [
+    "Whether CLAUDE_PLUGIN_ROOT is available inside a skill-invoked command"
+  ],
+  "completion": [
+    "Stop when S1 and S2 have observed results or a blocker is evidenced."
+  ]
+}
+

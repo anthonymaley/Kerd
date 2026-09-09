@@ -1,0 +1,74 @@
+<style>
+#guided-experience { background:#f7f4ed; color:#182237; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; padding:32px; min-height:100vh; box-sizing:border-box; }
+#guided-experience * { box-sizing:border-box; }
+#guided-experience .wrap { max-width:1180px; margin:0 auto; }
+#guided-experience h1 { font:700 40px/1.1 Georgia,serif; margin:0 0 8px; }
+#guided-experience .lead { margin:0 0 28px; color:#4e586b; font-size:18px; line-height:1.45; max-width:900px; }
+#guided-experience .interview { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; gap:10px; align-items:stretch; }
+#guided-experience .box { background:#fff; border:1px solid #d8d2c5; border-top:5px solid #2c746a; padding:16px; min-height:140px; }
+#guided-experience .box.ask { border-top-color:#bc6d30; }
+#guided-experience .box.ready { border-top-color:#6654a4; }
+#guided-experience .box strong { display:block; font-size:17px; margin-bottom:8px; }
+#guided-experience .box span { color:#556074; font-size:13px; line-height:1.45; }
+#guided-experience .arrow { align-self:center; color:#938a7a; font-size:23px; }
+#guided-experience .rule { margin:16px 0 24px; padding:14px 18px; border-left:5px solid #bc6d30; background:#fff4e8; font-size:15px; line-height:1.45; }
+#guided-experience h2 { font-size:22px; margin:24px 0 12px; }
+#guided-experience .jobs { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:10px; align-items:center; }
+#guided-experience .job { background:#172238; color:#fff; padding:18px; min-height:116px; }
+#guided-experience .job strong { display:block; font-size:17px; margin-bottom:7px; }
+#guided-experience .job span { color:#cbd3e1; font-size:13px; line-height:1.4; }
+#guided-experience .depths { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+#guided-experience .depth { background:#fff; border:1px solid #d8d2c5; padding:17px; min-height:170px; }
+#guided-experience .depth .level { color:#776f62; font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace; }
+#guided-experience .depth h3 { margin:9px 0 8px; font-size:18px; }
+#guided-experience .depth p { margin:0; color:#556074; font-size:13px; line-height:1.45; }
+#guided-experience .depth:nth-child(1) { border-top:5px solid #2c746a; }
+#guided-experience .depth:nth-child(2) { border-top:5px solid #3d779e; }
+#guided-experience .depth:nth-child(3) { border-top:5px solid #6654a4; }
+#guided-experience .depth:nth-child(4) { border-top:5px solid #bc6d30; }
+#guided-experience .truth { margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+#guided-experience .truth div { padding:16px 18px; background:#e5eee8; border:1px solid #b8cec0; font-size:14px; line-height:1.45; }
+#guided-experience .truth div:last-child { background:#fff4e8; border-color:#dfb890; }
+#guided-experience .alt { margin-top:20px; color:#556074; font-size:13px; line-height:1.5; }
+@media(max-width:800px){#guided-experience{padding:20px}#guided-experience .interview,#guided-experience .jobs,#guided-experience .depths,#guided-experience .truth{grid-template-columns:1fr}#guided-experience .arrow{transform:rotate(90deg);justify-self:center}#guided-experience h1{font-size:32px}}
+</style>
+
+<div id="guided-experience">
+  <div class="wrap">
+    <h1>Enough clarity, without the burden</h1>
+    <p class="lead">Conductor interviews for the information that changes the work, gives models bounded jobs rather than open-ended chats, and lets people choose how deeply they need to see.</p>
+
+    <div class="interview" aria-label="Adaptive guided interview">
+      <div class="box"><strong>Hear and reflect</strong><span>The person describes the need. Conductor reflects the outcome, users, and current understanding in plain language.</span></div>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <div class="box"><strong>Retrieve first</strong><span>Use the project to answer known facts. Separate product decisions from choices the model already owns.</span></div>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <div class="box ask"><strong>Ask what changes the work</strong><span>One small group: consequential assumptions, measures, boundaries, or decisions that affect scope or safety.</span></div>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <div class="box ready"><strong>Ready or repeat</strong><span>Show the brief and assumptions. Stop asking when another answer would not materially improve readiness.</span></div>
+    </div>
+
+    <div class="rule"><strong>Question rule:</strong> minimize avoidable questions, not all questions. Consequential assumptions must reach zero before execution.</div>
+
+    <h2>Cross-model work: jobs, not chats</h2>
+    <div class="jobs">
+      <div class="job"><strong>Fixed work brief</strong><span>Same outcome, measures, boundaries, decision rights, proof, and stopping point.</span></div>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <div class="job"><strong>Bounded model jobs</strong><span>Execute &middot; review &middot; investigate one uncertainty &middot; produce a competing solution.</span></div>
+      <div class="arrow" aria-hidden="true">&rarr;</div>
+      <div class="job"><strong>Conductor combines evidence</strong><span>No model debate becomes product truth. More models are used only when a declared result improves.</span></div>
+    </div>
+
+    <h2>Choose the depth needed for this decision</h2>
+    <div class="depths">
+      <div class="depth"><span class="level">LEVEL 1</span><h3>Product</h3><p>Outcome, user value, capabilities, current slice, progress, blockers, and next decision.</p></div>
+      <div class="depth"><span class="level">LEVEL 2</span><h3>Flow</h3><p>User journey, states, decisions, inputs, outputs, failure paths, and dependencies.</p></div>
+      <div class="depth"><span class="level">LEVEL 3</span><h3>Architecture</h3><p>Components, ownership, data movement, trust boundaries, machine checks, and model jobs.</p></div>
+      <div class="depth"><span class="level">LEVEL 4</span><h3>Detail</h3><p>Sequences, interfaces, records, recovery, concurrency, edge cases, tests, and proof.</p></div>
+    </div>
+
+    <div class="truth"><div><strong>What the person sees</strong><br>Short, visual, decision-ready, expandable on demand.</div><div><strong>What the process still carries</strong><br>Complete build detail and proof. Any material loss rises into the approval view.</div></div>
+
+    <p class="alt"><strong>Accessible description:</strong> The guided interview reflects the person's need, retrieves existing answers, asks one small group of questions that can change the work, and stops when ready. Cross-model work uses separate bounded jobs sharing one fixed brief; Conductor combines evidence. Four visual depths let the person move from product outcome through flow and architecture to detailed sequences and proof. The process retains rigor underneath while the approval view stays short, and hidden detail may not conceal a consequential loss.</p>
+  </div>
+</div>

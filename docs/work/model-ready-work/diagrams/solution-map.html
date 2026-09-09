@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kerd — the complete work journey</title>
+<!-- Local diagram-design adaptation: ../skills/visuals/LICENSE. No external dependencies. -->
+<style>
+:root{color-scheme:light;--bg:#f3f3ed;--paper:#fffef9;--ink:#183c34;--muted:#53675f;--line:#c7d3c9;--green:#24654e;--wash:#e8f1e9;--blue:#245b82;--bluewash:#eaf2f7;--amber:#85500b;--amberwash:#fff1d9;--purple:#654781;--purplewash:#f2ecf7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--green);text-underline-offset:3px}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px}button:hover{border-color:var(--green)}h1,h2,h3,p{margin:0}h1{font-size:clamp(32px,4vw,52px);line-height:1.08;letter-spacing:-.04em}h2{font-size:clamp(25px,3vw,34px);line-height:1.18;letter-spacing:-.025em}h3{font-size:19px;line-height:1.3}p+p{margin-top:10px}header{max-width:1440px;margin:auto;padding:38px 32px 24px}.eyebrow{font-size:12px;font-weight:750;text-transform:uppercase;letter-spacing:.13em;color:var(--green);margin-bottom:12px}.intro{max-width:890px;margin-top:15px;color:var(--muted);font-size:18px}.stamp{display:flex;flex-wrap:wrap;gap:9px;margin-top:19px;font-size:12px}.stamp span{border:1px solid var(--line);border-radius:5px;padding:4px 8px;background:var(--paper)}.shell{max-width:1440px;margin:auto;display:grid;grid-template-columns:215px minmax(0,1fr);gap:32px;padding:0 32px 45px}aside{align-self:start;position:sticky;top:18px}nav{display:grid;gap:5px}.nav-label{font-size:11px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.1em;margin:17px 0 5px}.nav-label:first-child{margin-top:0}nav button{text-align:left;border:1px solid transparent;background:transparent;border-radius:6px;padding:10px 12px;font-size:14px}nav button[aria-current="page"]{background:var(--ink);color:var(--paper)}nav button small{display:block;font-size:12px;opacity:.82;margin-top:1px}.side-note{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:15px;margin-top:20px}main{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:28px}.lede{margin:12px 0 20px;color:var(--muted);max-width:850px}.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;margin:16px 0}.legend span{display:inline-flex;gap:7px;align-items:center}.dot{width:9px;height:9px;border-radius:50%;background:var(--green)}.dot.read{background:var(--blue)}.dot.write{background:var(--purple)}.dot.question{background:var(--amber)}.notice{border-left:4px solid var(--amber);background:var(--amberwash);padding:13px 16px;font-size:14px;margin:18px 0}.notice strong{color:var(--amber)}.good{border-color:var(--green);background:var(--wash)}.good strong{color:var(--green)}.mini{font-size:13px;color:var(--muted)}.section{margin-top:28px;padding-top:23px;border-top:1px solid var(--line)}.section>p{margin:9px 0 16px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}.pair>div{padding-top:12px;border-top:2px solid var(--line)}.label{font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:6px}.sources{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}.sources strong{width:100%;font-size:12px}.route-badge{font-size:12px;color:var(--green);font-weight:650}.journey{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:12px 0;margin:10px 0 20px;border-bottom:1px solid var(--line);font-size:13px}.journey b{color:var(--green)}
+/* A responsibility/data flow: the centre is sequence; side arrows mean reads/writes. */
+.lanes{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:32px;margin-top:24px}.lanes>span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:750}.lanes>span:nth-child(1){color:var(--blue)}.lanes>span:nth-child(2){text-align:center}.lanes>span:nth-child(3){color:var(--purple)}.steps{list-style:none;padding:0;margin:10px 0 0}.step{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:0 32px;position:relative;padding:0 0 38px;align-items:start}.readset,.writeset{font-size:13px;padding:13px 0;position:relative;overflow-wrap:anywhere}.readset:after,.writeset:before{content:'→';position:absolute;top:30px;color:var(--muted);font-size:21px}.readset:after{right:-26px}.writeset:before{left:-26px}.readset{color:var(--blue)}.writeset{color:var(--purple)}.readset span,.writeset span{display:block;margin-bottom:5px}.action{position:relative;min-height:112px;padding:15px 16px;background:var(--wash);border:1px solid var(--line);border-radius:8px}.action .who{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:750;margin-bottom:5px}.action h3{font-size:16px;line-height:1.3}.action p{font-size:13px;margin-top:7px}.step:not(:last-child) .action:after{content:'↓';position:absolute;left:calc(50% - 8px);bottom:-33px;font-size:24px;color:var(--green)}.q{margin-top:10px!important;padding-top:9px;border-top:1px solid #d2b782;color:var(--amber);font-size:12px!important}.q b{display:block}.branch{grid-column:1/-1;border-left:3px solid var(--amber);background:var(--amberwash);padding:9px 12px;font-size:12px;margin-top:12px}.branch:before{content:'IF / OTHERWISE  ';font-weight:750;color:var(--amber)}.step details{grid-column:1/-1;margin-top:10px;border-top:1px dashed var(--line);font-size:13px}.step summary{padding-top:6px;color:var(--muted)}.step details p{padding-top:7px}.local-label{display:none}.route-end{padding:16px 18px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:15px}.route-end .label{color:#cad9d0}.route-end a{color:inherit}.gap-links{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.gap-link,.crosslink{border:1px solid var(--line);background:var(--paper);border-radius:5px;padding:7px 10px;font-size:12px;text-align:left}.gap-link{border-color:#d4b883;color:var(--amber);background:var(--amberwash)}.question-list{list-style:none;padding:0;display:grid;gap:12px}.question-list li{display:grid;grid-template-columns:38px 1fr;gap:12px;padding:17px;border:1px solid var(--line);border-radius:8px}.qno{font-size:20px;color:var(--green)}.question-list h3{font-size:16px}.question-list p{font-size:14px;margin-top:8px;color:var(--muted)}.question-list .saved{color:var(--purple)}.example{background:var(--amberwash);border:2px solid #b89556;border-radius:8px;padding:19px;margin:18px 0}.example p{font-size:14px;margin-top:10px}.example .label{color:var(--amber)}.data-list{display:grid;gap:16px}.data-item{border-top:2px solid var(--line);padding-top:15px}.data-item .path{font:12px/1.6 ui-monospace,monospace;color:var(--purple);overflow-wrap:anywhere;margin:8px 0}.data-item p{font-size:14px}.data-flow{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;margin:10px 0;color:var(--green)}.data-flow b{font-weight:650}.gap{border:1px solid #d4b883;border-radius:8px;padding:18px;margin:15px 0;scroll-margin-top:20px}.gap h3{font-size:17px}.gap p{font-size:14px;margin-top:9px}.gap .label{color:var(--amber)}.gap .proposal{border-top:1px solid var(--line);padding-top:10px}.overview-svg{width:100%;height:auto;display:block}.overview-svg text{font-family:system-ui,sans-serif;fill:var(--ink);text-anchor:middle}.overview-svg .name{font-size:19px;font-weight:700}.overview-svg .sub{font-size:14px;fill:var(--muted)}.overview-svg .edge-label{font-size:12px;fill:var(--muted)}.overview-svg .box{fill:var(--paper);stroke:var(--line);stroke-width:1.5}.overview-svg .focus{fill:var(--wash);stroke:var(--green)}.overview-svg .storage{fill:var(--bluewash);stroke:#95b5c8}.overview-svg .flow{stroke:var(--green);stroke-width:1.8;fill:none;marker-end:url(#overview-arrow)}.overview-svg .dataedge{stroke:var(--blue);stroke-width:1.5;fill:none;marker-end:url(#data-arrow)}.overview-svg .group{fill:#f2f5ef;stroke:var(--line)}.overview-mobile{display:none}.command-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.command-grid button{padding:15px;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:8px}.command-grid strong{display:block;font-size:15px}.command-grid small{display:block;margin-top:5px;color:var(--muted)}summary{cursor:pointer}.printnote{display:none}footer{max-width:1440px;margin:auto;padding:0 32px 35px;font-size:12px;color:var(--muted)}[hidden]{display:none!important}
+@media(max-width:1080px){.shell{grid-template-columns:180px minmax(0,1fr);gap:20px;padding:0 20px 30px}main{padding:22px}.command-grid{grid-template-columns:repeat(2,1fr)}.lanes,.step{grid-template-columns:1fr 1.2fr 1fr;column-gap:24px}.readset:after{right:-21px}.writeset:before{left:-21px}}
+@media(max-width:800px){header{padding:25px 18px 20px}.shell{display:block;padding:0 12px 25px}aside{position:static;margin-bottom:16px}nav{display:flex;gap:5px;flex-wrap:wrap}.nav-label{width:100%;margin:8px 5px 0!important}nav button{background:var(--paper);border:1px solid var(--line);padding:7px 10px}nav button small{display:none}.side-note{display:none}main{padding:20px 16px}.overview-svg{display:none}.overview-mobile{display:block}.overview-mobile>div{padding:15px;border:1px solid var(--line);border-radius:7px;margin:0 0 9px}.overview-mobile .connector{border:0;text-align:center;padding:0;color:var(--green);font-size:13px}.overview-mobile small{display:block;color:var(--muted)}.pair{gap:15px}.lede{font-size:15px}}
+@media(max-width:540px){.lanes{display:none}.step{display:flex;flex-direction:column;padding:0 0 30px;margin-bottom:13px;border-bottom:1px solid var(--line)}.readset,.writeset,.action{width:100%}.readset,.writeset{padding:8px 10px;font-size:13px}.readset{border-left:2px solid #95b5c8}.writeset{border-left:2px solid #bba7cd;margin-top:10px}.readset:after,.writeset:before{display:none}.action{margin-top:10px;min-height:0}.step:not(:last-child) .action:after{display:none}.step:not(:last-child):after{content:'↓ Next step';position:absolute;bottom:-9px;left:calc(50% - 38px);font-size:12px;background:var(--paper);padding:0 8px;color:var(--green)}.local-label{display:block;font-size:10px;font-weight:750;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}.branch{width:100%}.pair,.command-grid{grid-template-columns:1fr}.question-list li{padding:13px;grid-template-columns:25px 1fr;gap:9px}.intro{font-size:16px}.gap{padding:14px}footer{padding:0 20px 25px}}
+@media print{aside,header .stamp,footer,.gap-links{display:none}.shell{display:block;padding:0}main{border:0;padding:0}.printnote{display:block;font-size:12px;margin-top:8px}body{background:white}.action,.gap,.question-list li{break-inside:avoid}.overview-svg{display:block}.overview-mobile{display:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="eyebrow">Kerd / solution map / candidate snapshot · 8 September 2026</div>
+<h1>From your intention<br>to work you can use.</h1>
+<p class="intro">Follow each command. See who acts, what is read and written, where you answer—and where the process still has a gap.</p>
+<div class="stamp"><span>Current candidate, not installed Kerd</span><span>Static design view, not live activity</span><span>Intake, setup and save guidance updated · adoption remains separate</span></div>
+</header>
+<div class="shell">
+<aside><nav aria-label="Explore the solution" id="nav"></nav><p class="side-note">Choose a flow. Read left → centre → right for information movement, then down for the next step.<br><br>Questions are amber. Private run information never travels as project memory.</p></aside>
+<main id="main" aria-label="Selected solution view"><noscript>This interactive map needs JavaScript. The candidate instructions remain available in <a href="../candidate-entry.md">Start here</a>.</noscript></main>
+</div>
+<footer>One body of work · <a href="../README.md">Pack overview</a> · <a href="../candidate-entry.md">Candidate entry</a> · <a href="../adoption-review.md">Deep-review brief</a><p class="printnote">Print captures the selected view. Choose another command to print its flow.</p></footer>
+<script>
+'use strict';
+const refs={
+ conductor:['Conductor instructions','../skills/conductor/SKILL.md'],understand:['Adaptive understanding and internal coverage','../skills/conductor/references/understanding.md'],journey:['Conversation presentation','../skills/conductor/references/journey.md'],record:['Work record writing aid','../skills/conductor/references/work-record.md'],execution:['Delivery and review','../skills/conductor/references/execution.md'],jobs:['Model-job guide','../skills/conductor/references/model-jobs.md'],ask:['Model connection code','../skills/conductor/scripts/ask.py'],guidance:['Local model guidance','../guidance/README.md'],choice:['Model suitability and selection','../guidance/model-choice.md'],device:['Everyday device handoff','../skills/switch/references/to.md'],sw:['Switch instructions','../skills/switch/SKILL.md'],inout:['In / Out guide','../skills/switch/references/in-out.md'],to:['Managed To / Roll guide','../skills/switch/references/to-roll.md'],git:['Git save / pickup code','../skills/switch/scripts/handoff.py'],roll:['Managed Roll code','../skills/switch/scripts/roll.py'],control:['Live move control','../skills/switch/scripts/roll_control.py'],managed:['Managed To code','../skills/switch/scripts/managed_to.py'],codex:['Context-aware Codex route','../skills/switch/scripts/codex_roll.py'],visuals:['Visuals instructions','../skills/visuals/SKILL.md'],patterns:['Diagram patterns','../skills/visuals/references/patterns.md'],assessment:['Visual tool assessment','../visual-tools-assessment.md'],complete:['Accepted Switch scope and evidence','../trials/switch-redesign/completion.md'],comparison:['Pickup experiment and qualifications','../trials/switch-redesign/pickup-budget/comparison/results.md'],consolidation:['Current adoption boundary','../consolidation.md']};
+// This map documents instructions. Its displayed routes do not execute commands.
+const flows={
+ "start": {
+  "name": "Conductor · new work",
+  "short": "Start a work package",
+  "say": "“Build an app…” / “Create a guide…” / “Help me make this happen…”",
+  "intro": "Natural work requests can select Conductor when the host makes the skill available. Use the request and relevant context first. Ten internal areas guide understanding; they are not ten questions to answer.",
+  "questions": "Ask only an unresolved answer that changes the next action or prevents a consequential mistake. Propose answers and checks. Reuse clear permission; get agreement to new material direction before substantial execution.",
+  "gaps": [
+   "G1",
+   "G5"
+  ],
+  "refs": [
+   "conductor",
+   "understand",
+   "journey",
+   "record",
+   "execution"
+  ],
+  "steps": [
+   [
+    "Conductor",
+    "Recognise the actual request",
+    [
+     "Your intent, not words in quoted text",
+     "Named record or small active-work lookup"
+    ],
+    [
+     "Direct small action, saved-work resume or guided package"
+    ],
+    "If intent is missing: “What are you trying to achieve?” Rough notes are enough.",
+    "Small clear authorized edit → do it and verify. Saved task → Resume. Review/status → scoped response. Substantial new work → continue below.",
+    "The skill description supports discovery; actual host selection and precedence still apply. No installation or global changes here."
+   ],
+   [
+    "Conductor + you when needed",
+    "Use context; resolve the useful gap",
+    [
+     "Your description, prior answers and relevant sources",
+     "Material unknowns and what can be investigated"
+    ],
+    [
+     "Working understanding with source/status",
+     "Actual decisions; open issues and when they are needed"
+    ],
+    "Only a missing answer that changes the next action or prevents a consequential mistake. Offer a supported suggestion.",
+    "Known → reuse. Discoverable → investigate. Meaningful choice → propose/ask. Later issue → defer with a revisit point; stop its affected action until resolved.",
+    "Ten areas stay internal. No fixed order or count. “Not sure” stays unknown; “you decide” delegates only that choice. Old documents do not grant new permission."
+   ],
+   [
+    "Conductor + Visuals",
+    "Show what we are building",
+    [
+     "Result, intended benefit and relevant evidence",
+     "Proposed checks, boundaries and open decisions"
+    ],
+    [
+     "Concise brief and useful product view",
+     "Must / Prefer / Open where meaningful"
+    ],
+    "Ask about new material direction with a concrete next action, such as “Shall I prepare that draft?”",
+    "A correction changes the affected part, not a restarted interview. Clear unchanged instructions need no second yes.",
+    "A substantial package gets an integrated view; a tiny explicit edit needs no compulsory diagram. Conductor proposes proof instead of asking the user to design an evaluation."
+   ],
+   [
+    "Conductor",
+    "Record the basis and act",
+    [
+     "Actual user instructions, responses and delegation",
+     "Known authority and safe next action"
+    ],
+    [
+     "Agreement/conditions in the existing work record",
+     "Next action or exact consequential question"
+    ],
+    "No routine “shall I start?” after authorization.",
+    "Safe drafting may proceed with a marked unresolved passage; finalizing it requires the missing fact. Planning-only remains planning-only.",
+    "No budget is not permission to spend; no exclusions is not unlimited scope. A proposed omission is not a user prohibition."
+   ],
+   [
+    "Conductor + model workers",
+    "Deliver and independently assess",
+    [
+     "Agreed outcome, measures and authority",
+     "Relevant sources and local model guidance"
+    ],
+    [
+     "Actual prompts and deliverables",
+     "Independent findings, evidence and correction counts"
+    ],
+    "Only a missing factual basis or material decision comes back to you.",
+    "Supported corrections return to another focused job. Three different failed corrections of one measure trigger Conductor reassessment.",
+    "See Ask a model for prompt preparation, permissions and result handling. Use Roll when a supported managed build needs fresh context."
+   ],
+   [
+    "Conductor + you, if agreed",
+    "Complete against the outcome",
+    [
+     "Integrated result and independent evidence",
+     "Original stopping condition"
+    ],
+    [
+     "Met / not met / cannot assess",
+     "Completion, limitations and next obligation"
+    ],
+    "Final acceptance is asked only when the agreed stopping condition includes it.",
+    "Required unmet work remains open. Delivery can finish before a long-term benefit is measurable only under an agreed stopping point and available proof; never call the benefit achieved.",
+    "Publication, installation, deployment and Git writes are not implied by completion."
+   ]
+  ],
+  "end": "Enough shared understanding to act correctly, with a reliable way to resolve the rest—not a completed questionnaire."
+ },
+ "resume": {
+  "name": "Conductor · resume",
+  "short": "Continue saved work",
+  "say": "“Continue the current work.”",
+  "intro": "Restore the saved question or authorized job. A fresh conversation does not mean a fresh interview.",
+  "questions": "Usually none. Ask which package only if genuinely ambiguous; ask the saved pending question if it still needs an answer.",
+  "gaps": [
+   "G1",
+   "G2"
+  ],
+  "refs": [
+   "conductor",
+   "record",
+   "execution",
+   "sw"
+  ],
+  "steps": [
+   [
+    "Conductor",
+    "Find the intended work",
+    [
+     "Explicit work path or existing project pointer",
+     "Candidate session pointer / small active-work lookup"
+    ],
+    [
+     "No new record needed"
+    ],
+    "Which work should continue, only if several plausible records remain.",
+    "A missing or contradictory pointer is a gap, not permission to select an unrelated task.",
+    "Follow supplied/Now pointers first; locate plausible nested work-record names only if needed. Kerd now points to this pack locally; a committed boundary remains outstanding (G2)."
+   ],
+   [
+    "Conductor",
+    "Read the current place",
+    [
+     "Now section first",
+     "Named agreement, sources and last evidence"
+    ],
+    [
+     "Restored stage, authority and next action in working context"
+    ],
+    "The exact saved question—not a newly invented version.",
+    "A reply already in the user’s current message answers the saved question where its meaning is clear.",
+    "Restore failure counts, limits and pending jobs. Read deeper history only for a real contradiction or need."
+   ],
+   [
+    "Conductor",
+    "Reconcile before continuing",
+    [
+     "Current artifacts and saved observations",
+     "Outstanding jobs, user reply and restrictions"
+    ],
+    [
+     "Supported corrections to current state",
+     "Actual answer recorded, if supplied"
+    ],
+    "Ask only when evidence cannot resolve the gap or the choice has significant impact.",
+    "Completed package → stays complete. Pending agreement → stays pending. Authorized delivery → continues now.",
+    "Saved observations are not described as fresh tests. Do not silently rewrite previous agreement."
+   ],
+   [
+    "Conductor / worker",
+    "Do the next authorized action",
+    [
+     "Same outcome, success and boundaries",
+     "Tools and sources for this job"
+    ],
+    [
+     "Result, evidence and updated Now",
+     "Exact next question/action if paused"
+    ],
+    "No routine “next?” after a useful step.",
+    "Status-only remains read-only. A real blocker is reported with its needed resolution.",
+    "For a new session needing Git/memory pickup, use Switch In before this continuation."
+   ]
+  ],
+  "end": "The person sees the current stage and activity, and the work continues from its saved position."
+ },
+ "ask": {
+  "name": "Ask a model",
+  "short": "Review, input or a bounded job",
+  "say": "“Ask Claude to review this.” / “Ask Codex for input.”",
+  "intro": "One request becomes a focused contribution. This is not a new guided intake and not an inbox workflow.",
+  "questions": "No routine questions when the work and route are clear. Ask for a missing target/scope or material authority decision. Do not silently substitute a specifically requested model or session.",
+  "gaps": [
+   "G4",
+   "G8"
+  ],
+  "refs": [
+   "jobs",
+   "execution",
+   "ask",
+   "guidance",
+   "choice"
+  ],
+  "steps": [
+   [
+    "Conductor",
+    "Define the contribution",
+    [
+     "Your request or the active work agreement",
+     "Actual artifact and review question"
+    ],
+    [
+     "A bounded job with outcome and stopping point"
+    ],
+    "Clarify only a real ambiguity in what should be reviewed or produced.",
+    "A review request authorizes review, not automatic edits to implement its findings.",
+    "Inline work uses the same outcome contract without manufacturing a separate dispatch record."
+   ],
+   [
+    "Conductor",
+    "Match the job to a model, effort and tools",
+    [
+     "Job needs and available authenticated routes",
+     "Local suitability guide, dated provider claims and comparable task outcomes"
+    ],
+    [
+     "Selected model and requested effort",
+     "Choice reason, relevant alternative and known route limits"
+    ],
+    "Check the needed CLI and sign-in status. Offer approved setup if missing; you complete sign-in. Ask before substituting a named model or session.",
+    "Claude’s bundled route has file tools, not shell. Use a suitable authorized route/controller for tests; never claim an unavailable test ran.",
+    "Compare permitted providers on the same quality bar, not brand or price. Conductor handles setup, aliases and results. No paid discovery probes or silent installs. Sign-in is not a live-job result."
+   ],
+   [
+    "Conductor",
+    "Write the model’s prompt",
+    [
+     "Outcome, facts, deliverable, proof and boundaries",
+     "Unresolved questions and applicable guidance"
+    ],
+    [
+     "Actual delegated prompt beside the work",
+     "Short model/profile/effort note"
+    ],
+    "No question if preparation stays within the agreement.",
+    "No matching profile → disclose a clear outcome-first fallback, not invented tuning.",
+    "Claude: useful labelled sections/XML boundaries. OpenAI: applicable outcome-first guidance. Both retain the same success and authority; formatting alone proves no optimality."
+   ],
+   [
+    "Connection / selected model",
+    "Run the bounded job",
+    [
+     "Prepared prompt + authorized file/tool access",
+     "Repo-local alias or supported native route"
+    ],
+    [
+     "Authorized deliverables, if an editing job",
+     "Private request/session/usage records"
+    ],
+    "A host permission prompt or unavailable tool is a real route issue, not permission to bypass controls.",
+    "Unknown/interrupted ownership → inspect before reuse. Background running is not a completed result.",
+    "The bundled connection stores private IDs under Git metadata; the user does not copy them. A requested existing session must actually be connected."
+   ],
+   [
+    "Conductor",
+    "Inspect the returned result",
+    [
+     "Reply, actual artifacts and evidence",
+     "Original success criteria"
+    ],
+    [
+     "Findings and their effect on the work",
+     "Relevant evidence, not private native logs"
+    ],
+    "Bring back unsupported basis or significant decisions—not every reviewer suggestion.",
+    "Direct review → return findings. Authorized build → correct supported findings and reassess. Unavailable review stays a gap.",
+    "Requested effort and observed model identity are different facts. A provider “completed” response is not acceptance."
+   ]
+  ],
+  "end": "A usable contribution returns to the conversation and the work. A new substantive action needs existing authority or a real user decision."
+ },
+ "status": {
+  "name": "Status",
+  "short": "See where the work stands",
+  "say": "“Where are we?” / “What’s happening now?”",
+  "intro": "A read-only view from the saved place and available evidence—not a new interview, a build command or a fictional live dashboard.",
+  "questions": "None unless the requested project/work item cannot be identified.",
+  "gaps": [
+   "G2",
+   "G9"
+  ],
+  "refs": [
+   "conductor",
+   "journey",
+   "record",
+   "sw"
+  ],
+  "steps": [
+   [
+    "Conductor / Switch",
+    "Locate the saved place",
+    [
+     "Named work or project/session pointer",
+     "Current Now section"
+    ],
+    [
+     "No workflow changes required"
+    ],
+    "Which work, only if ambiguous.",
+    "No pointer → say what is missing. Do not select a feature to make the status look active.",
+    "A multi-project or multi-item overview is not implemented by reading one Now section."
+   ],
+   [
+    "Conductor",
+    "Check the basis",
+    [
+     "Recorded activity and linked results",
+     "Available owned-job status, if relevant"
+    ],
+    [
+     "A distinction between reported and verified state"
+    ],
+    "No routine decision.",
+    "Recorded “running” without live evidence is not a fresh health check.",
+    "No builds, production probes, pushes or session termination merely to answer status."
+   ],
+   [
+    "Conductor",
+    "Show position and next action",
+    [
+     "Stage, completed work, current activity",
+     "Open issue, next owner/action"
+    ],
+    [
+     "Concise screen summary with links"
+    ],
+    "Show an existing pending question if it is the actual next step.",
+    "Status-only ends after the answer; it does not grant implementation authority.",
+    "Use stage + actual activity + open issue + next action. No made-up percent, ETA or hidden agent work."
+   ]
+  ],
+  "end": "You can tell what is complete, what is happening, what is blocked and who acts next."
+ },
+ "sin": {
+  "name": "Switch In",
+  "short": "Start or restore a sitting",
+  "say": "“Switch in.” / “Resume the saved work.”",
+  "intro": "Load current project position and the memory needed to act. Git synchronization is included only under the requested/agreed Git authority.",
+  "questions": "No routine interview. Ask on ambiguous project/work, unsafe Git state, missing authority or an unresolved saved question.",
+  "gaps": [
+   "G1",
+   "G2",
+   "G3"
+  ],
+  "refs": [
+   "sw",
+   "inout",
+   "git",
+   "to",
+   "comparison"
+  ],
+  "steps": [
+   [
+    "Switch",
+    "Identify this pickup",
+    [
+     "Current repo, branch and origin",
+     "Any exact named handoff supplied"
+    ],
+    [
+     "Verified local identity in working context"
+    ],
+    "Which project or handoff, only if not identifiable.",
+    "Named To handoff → follow its exact-revision and source-release conditions before generic pickup.",
+    "An absent named handoff is a stop, not permission to invoke legacy readiness checks."
+   ],
+   [
+    "Switch / Git helper",
+    "Synchronize safely, if authorized",
+    [
+     "Local/staged changes and remote identity",
+     "Requested branch; saved exact revision for To"
+    ],
+    [
+     "Fetched Git metadata; safe fast-forwarded files",
+     "Or explicitly local-only state"
+    ],
+    "Resolve meaningful dirty/diverged state or missing Git authority; do not auto-stash/reset.",
+    "Failed sync → no “current with GitHub” claim. Exact To revision mismatch → do not advance working files.",
+    "Ordinary In can use latest safe branch state. To needs the exact saved commit. Local-only must remain visibly local-only."
+   ],
+   [
+    "Switch",
+    "Load the useful reading set",
+    [
+     "Existing pointer + Now section",
+     "Named complete source files/sections and agreement"
+    ],
+    [
+     "Restored decisions, constraints, limits and next action",
+     "No duplicate memory database"
+    ],
+    "Ask only if necessary source meaning or authority is missing.",
+    "Contradiction or next-action need → retrieve the complete relevant historical entry. Otherwise do not load the archive.",
+    "Optional prepare assembles caller-selected text. It does not automatically select the right sources or prove complete restoration."
+   ],
+   [
+    "Switch",
+    "Check retained meaning",
+    [
+     "Loaded sources and current artifacts as needed",
+     "Pending choices, owed work, prohibitions and job state"
+    ],
+    [
+     "Accurate working state",
+     "Short screen summary kept separate"
+    ],
+    "Saved unresolved question appears with its answer context.",
+    "A short summary must not erase a restriction or turn a parked choice into an approved default.",
+    "Earlier observations stay labelled recorded; pickup is not a fresh audit of every citation or device."
+   ],
+   [
+    "Switch → Conductor",
+    "Continue or show the real stop",
+    [
+     "Restored agreement and exact next action",
+     "Any answer in the current user message"
+    ],
+    [
+     "Result/updated Now when authorized work resumes"
+    ],
+    "Only a genuine pending decision—not “start Conductor?”",
+    "Active authorized work → act this turn. No active work → show the next obligation; do not invent one. Status-only → read-only.",
+    "Loading the record grants no new production, deployment, messaging or spending authority."
+   ]
+  ],
+  "end": "Useful memory is restored and authorized work resumes. Whole synchronized-pickup cost is not yet measured."
+ },
+ "sout": {
+  "name": "Switch Out",
+  "short": "Close this sitting well",
+  "say": "“Switch out.” / “Save this session locally.”",
+  "intro": "Record what happened, remove evidenced completed work from active lists, preserve useful history and prepare the next sitting. This is not the same as an exact mid-task To.",
+  "questions": "Only unresolved job ownership, uncertain retirement, unexpected/staged files or missing Git authority—not a compulsory closeout questionnaire.",
+  "gaps": [
+   "G2",
+   "G3",
+   "G4"
+  ],
+  "refs": [
+   "sw",
+   "inout",
+   "git",
+   "record"
+  ],
+  "steps": [
+   [
+    "Switch",
+    "Inspect the real boundary",
+    [
+     "Current agreement and work position",
+     "Changed files, job results and pending jobs"
+    ],
+    [
+     "Evidence-backed inventory of work and unresolved items"
+    ],
+    "If a job is still running and its disposition is not authorized: what should happen to it?",
+    "A task name in memory is not a saved or stopped running process.",
+    "Observe a real clock for a newly written timestamp; unknown start time stays unknown."
+   ],
+   [
+    "Switch",
+    "Tidy without losing decisions",
+    [
+     "Active TODO/backlog and completion evidence",
+     "Historical details and independent sub-findings"
+    ],
+    [
+     "Completed/redundant work removed from active lists",
+     "Recoverable archives; open findings retained"
+    ],
+    "Ask if evidence cannot justify a consequential retirement.",
+    "Age is not evidence that a decision or restriction no longer matters. Keep an original during legacy reorganisation.",
+    "Cleanup is judgment supported by sources and Git history, not an automatic “delete old text” operation."
+   ],
+   [
+    "Switch",
+    "Save history and next position",
+    [
+     "Actual work, decisions and open questions",
+     "Next action and its necessary source sections"
+    ],
+    [
+     "Append-only session history",
+     "Updated existing work record / next-session pointer"
+    ],
+    "Only a real unresolved next decision; do not invent a new task.",
+    "Keep one agreement and one current work position. History points to them instead of maintaining a second plan.",
+    "Name the next reading set and why it matters. Preserve restrictions, failure/resource counts and outstanding jobs."
+   ],
+   [
+    "Switch / Git",
+    "Save under agreed authority",
+    [
+     "Explicit relevant changed file names",
+     "Intended repo, branch and publish permission"
+    ],
+    [
+     "Local files; commit if authorized",
+     "Remote save if push authorized and verified"
+    ],
+    "Resolve unexpected or already-staged work without blanket staging.",
+    "Local-only → remains local. Failed push → report recoverable local work, not a cross-device-ready handoff.",
+    "Use handoff.py save with --push by default for authorized commit-and-push. A disclosed manual fallback must preserve explicit file scope, index protection and exact remote-tip verification. No new push authority."
+   ],
+   [
+    "Switch",
+    "Show the next sitting’s entry",
+    [
+     "Actual local/commit/remote state",
+     "Saved pointer and exact next action"
+    ],
+    [
+     "Brief closeout and reachable pickup instruction"
+    ],
+    "No routine “anything else?” is needed to complete the requested save.",
+    "A saved file or Git push does not prove the interactive host or its children exited.",
+    "Out prepares the next sitting; To separately requires release before active destination work."
+   ]
+  ],
+  "end": "An honest closeout: what was done, where it is saved, what remains and exactly what to read/do next."
+ },
+ "sto": {
+  "name": "Switch To",
+  "short": "Move the exact working place",
+  "say": "“Continue this work on my laptop.”",
+  "intro": "First distinguish a new console on the same running session from a real move to a fresh session. Git transfers files; it does not transfer a native conversation or start a remote model.",
+  "questions": "Ask the intended route/destination only if unclear. Source exit or unknown job ownership may require user action when the host cannot control it.",
+  "gaps": [
+   "G4",
+   "G6"
+  ],
+  "refs": [
+   "sw",
+   "to",
+   "device",
+   "git",
+   "control",
+   "managed",
+   "complete"
+  ],
+  "steps": [
+   [
+    "Switch + you if unclear",
+    "Choose the actual route",
+    [
+     "Current session ownership",
+     "Intended machine, repo and destination"
+    ],
+    [
+     "Same-session route OR exact-handoff route"
+    ],
+    "“Reconnect to the same running session, or continue in a fresh session?” Only if intent is unclear.",
+    "Same SSH/tmux session → reconnect; no save/release/migration is needed just to change consoles. Remaining steps apply only to a true handoff.",
+    "A running marker, PID or tmux variable is not a usable control connection to the source."
+   ],
+   [
+    "Source owner",
+    "Freeze the precise place",
+    [
+     "Agreement, active step and artifacts",
+     "Pending question, counters, limits and child/job status"
+    ],
+    [
+     "Saved current task, exact next action and evidence",
+     "No full Out cleanup or replanning"
+    ],
+    "Only a missing consequential destination/ownership decision.",
+    "Unknown child work must be resolved within authority before release; do not kill or duplicate guessed processes.",
+    "The managed route uses the already-owning controller’s live connection, not a replacement worker started for the trial."
+   ],
+   [
+    "Source owner + Git",
+    "Save and verify GitHub",
+    [
+     "Assigned files, repo/branch and Git authority",
+     "Current saved place and protected agreement"
+    ],
+    [
+     "Committed work and remote-verified revision",
+     "Self-contained destination instruction"
+    ],
+    "A save failure may need a decision only if recovery exceeds existing authority.",
+    "Save fails → HOLD the actual source; inspect and retry through the same owner. Never release in an unconditional error cleanup.",
+    "Carry repo/origin, branch, full saved revision, record path, authority and release evidence. No private native session IDs."
+   ],
+   [
+    "Actual source owner",
+    "Release the actual source",
+    [
+     "Verified remote save",
+     "Owned source and child lifecycle evidence"
+    ],
+    [
+     "Observed release OR explicit “exit unproved”"
+    ],
+    "For an unsupported interactive host, source exit still needs a supported/manual action.",
+    "No release evidence → destination may inspect read-only, but must not start active work.",
+    "Exiting a child shell is not exiting the model host. A managed worker release does not close the user’s unrelated controller conversation."
+   ],
+   [
+    "User / destination session",
+    "Open and restore destination",
+    [
+     "Copyable exact-handoff instruction",
+     "Clean intended clone, origin/branch and fetched revision"
+    ],
+    [
+     "Exact saved files restored",
+     "Agreement and next action in fresh context"
+    ],
+    "User opens a remote-device session in the supported trial path. No automatic remote launch is claimed.",
+    "Wrong branch, dirty/diverged clone or different fetched revision → stop before advancing working files.",
+    "A newer remote tip needs reconciliation, not automatic acceptance. Fetch may update Git metadata even when the working-tree check refuses."
+   ],
+   [
+    "Destination → Conductor",
+    "Continue the same task",
+    [
+     "Restored authority and source-release evidence",
+     "Exact next job or unanswered question"
+    ],
+    [
+     "Authorized deliverables and evidence",
+     "Updated destination work position"
+    ],
+    "Resume the saved question only if it remains unanswered.",
+    "Do not resume the relinquished source in parallel. Any return transport still needs an actual supported route.",
+    "The laptop proof used a user-opened session and a manually returned result. No hidden conversation or reasoning transfer."
+   ]
+  ],
+  "end": "Same work, new active session, with a verified file boundary and accounted source release—not an ordinary next-sitting reset."
+ },
+ "roll": {
+  "name": "Switch Roll",
+  "short": "Fresh worker, same build",
+  "say": "“Keep this build moving in fresh context.”",
+  "intro": "Conductor stays outside its managed workers. It saves a bounded piece, verifies the old worker stopped, and starts a fresh one under the same agreement. It does not replace arbitrary already-open user sessions.",
+  "questions": "No routine human “next” at a context transition. Conductor reassesses failures; only missing basis, material changes or unsupported ownership bring the person back.",
+  "gaps": [
+   "G6",
+   "G7",
+   "G8"
+  ],
+  "refs": [
+   "execution",
+   "to",
+   "roll",
+   "codex",
+   "control",
+   "complete"
+  ],
+  "steps": [
+   [
+    "Conductor",
+    "Prepare managed work",
+    [
+     "Actual agreed work and current artifacts",
+     "Suitable model/tools and optional limits"
+    ],
+    [
+     "Agreed-work Markdown + saved-place JSON",
+     "Private ownership/run record under Git metadata"
+    ],
+    "No invented budgets or approvals; ask only for a genuine authority gap.",
+    "A managed interface is not a mandatory schema for ordinary projects. Only one managed Roll owns a checkout at a time.",
+    "The saved place carries continue/review/blocked, next action, useful memory, evidence paths, failures and pending jobs. Agreement and state remain distinct inputs."
+   ],
+   [
+    "Owned model worker",
+    "Do a useful bounded piece",
+    [
+     "Same agreement + precise saved place",
+     "Sources and tools for this job"
+    ],
+    [
+     "Actual artifact changes and evidence",
+     "Proposed next saved place"
+    ],
+    "A material worker question returns to Conductor rather than inventing facts.",
+    "Ready for review → do not manufacture more work to force a Roll. Blocked → diagnose.",
+    "Claude uses bounded pieces with its available file tools. Codex can also use the context-aware route."
+   ],
+   [
+    "Controller + worker",
+    "Reach a safe save point",
+    [
+     "Completed piece OR observed Codex usage",
+     "Current work, findings and pending jobs"
+    ],
+    [
+     "Saved place with counts and limits preserved"
+    ],
+    "No routine question to the person.",
+    "Missing usage/foreign turn/changed model or authority/native compaction → stop automatic continuation and inspect.",
+    "Codex’s observed route requests a checkpoint at a reserve threshold (default 65%). It cannot guarantee no large tool result crosses it. Claude pressure steering is not implemented."
+   ],
+   [
+    "Managed helper",
+    "Validate and release the worker",
+    [
+     "Saved place, evidence paths and prior counts",
+     "Unchanged agreement + owned process state"
+    ],
+    [
+     "Verified saved state; released owned worker",
+     "Private usage, run history and failure provenance"
+    ],
+    "Uncertain ownership needs inspected recovery, not a fresh interview by default.",
+    "Uncertain exit, missing evidence, decreasing counts or repeated session → STOP. Three failed corrections prohibit another automatic continue.",
+    "Artifact-change checks are not proof of useful quality. Private lifecycle records are not Git-portable session memory."
+   ],
+   [
+    "Conductor / managed helper",
+    "Choose the next route",
+    [
+     "Verified continue / review / blocked state",
+     "Original measures and returned findings"
+    ],
+    [
+     "Fresh worker OR independent assessment OR diagnosis"
+    ],
+    "Only an unresolved significant decision reaches you.",
+    "CONTINUE → return to step 2 in a genuinely fresh session. REVIEW → independent assessment. BLOCKED → inspect before retry.",
+    "Supported corrections preserve counters and evidence. A fresh context does not renew authority or erase failures."
+   ],
+   [
+    "Conductor",
+    "Assess and finish the outcome",
+    [
+     "Independent review + actual deliverables",
+     "Original success and stopping condition"
+    ],
+    [
+     "Proof, supported corrections or completion",
+     "Updated work record outside the worker loop"
+    ],
+    "Final human acceptance only if agreed.",
+    "Still not good enough → another authorized correction. Three materially different failures → reassess rather than endlessly retry.",
+    "Conductor remains responsible for the whole result; a worker returning review is not completion."
+   ]
+  ],
+  "end": "A supported managed build crosses fresh worker sessions without routine prompting. Automatic replacement of the person’s interactive host remains outside this implementation."
+ },
+ "visuals": {
+  "name": "Visuals",
+  "short": "Show what we are building",
+  "say": "“Show me the flow.” / a useful sketch during any stage",
+  "intro": "Draw the relationship the person needs to understand. The view is evidence-backed communication, not a new approval object or a dashboard database.",
+  "questions": "Ask a substantive product question if the drawing reveals one. Do not ask routine diagram-type, colour, export or branding questions.",
+  "gaps": [
+   "G9"
+  ],
+  "refs": [
+   "visuals",
+   "patterns",
+   "journey",
+   "assessment"
+  ],
+  "steps": [
+   [
+    "Conductor / Visuals",
+    "Identify what the view must explain",
+    [
+     "Requested outcome, current answers and sources",
+     "Known project language and meaningful boundaries"
+    ],
+    [
+     "A focused subject and explicit uncertainty"
+    ],
+    "Only an unresolved product choice—not “which diagram type?”",
+    "Fresh opener with no outcome → do not invent a project diagram. A useful partial sketch can appear after intent is known.",
+    "Product view explains the thing being made. Journey strip separately explains where the work stands."
+   ],
+   [
+    "Visuals",
+    "Choose the relationship and detail",
+    [
+     "Parts, ownership, sequence, scope or decision",
+     "Available tool and requested preference"
+    ],
+    [
+     "Overview design; deeper view only where useful"
+    ],
+    "No routine tool-choice question. Installation needs approval unless already explicitly authorized.",
+    "Missing requested/useful tool → explain source, location and dependencies; offer approved setup and verify it. Declined or blocked → offer the built-in view with any limits.",
+    "Diagram-design and Archify are complementary choices. The local candidate is a curated pattern set, not both complete upstream products."
+   ],
+   [
+    "Visuals",
+    "Draw beside the work",
+    [
+     "Facts, proposed parts and unresolved choices",
+     "Selected local pattern / suitable existing asset"
+    ],
+    [
+     "Self-contained HTML/SVG in the work package",
+     "Readable title, descriptions and labelled relationships"
+    ],
+    "A meaningful gap found while drawing goes back to the affected decision.",
+    "Do not hide a boundary in optional detail or delete a constraint to simplify the picture.",
+    "A box is an actor/capability/action, an arrow a named flow, containment an actual boundary—not decoration."
+   ],
+   [
+    "Visuals / available preview",
+    "Inspect meaning and readability",
+    [
+     "Actual rendered view",
+     "Source facts, intended size and narrow layout"
+    ],
+    [
+     "Corrected diagram and honest inspection note"
+    ],
+    "User may need to open the view if preview is unavailable.",
+    "Source inspection alone → no claim of visual validation. Diagram approval alone → no unseen success/authority agreement.",
+    "No required preview server, CI, seal or fingerprint. Use available tools without installing them silently."
+   ],
+   [
+    "Conductor + person",
+    "Use the view in the conversation",
+    [
+     "Rendered overview and material tradeoffs",
+     "Relevant question or current activity"
+    ],
+    [
+     "Understanding/decision in the existing work record",
+     "Updated affected part of the view when facts change"
+    ],
+    "Ask the actual direction/product decision only when needed.",
+    "Routine explanatory sketch → continue. Integrated direction agreement → record the actual response.",
+    "No separate diagram-approval ledger. A static diagram becomes stale unless maintained; this map is a snapshot, not automatic truth."
+   ]
+  ],
+  "end": "A directly viewable explanation that helps the person spot omissions, understand tradeoffs and make the real decision."
+ }
+};
+const questions=[
+ [
+  "Outcome",
+  "What are you trying to achieve?",
+  "The intended change is unclear.",
+  "Choosing a useful next action.",
+  "Help shape possibilities; do not invent the goal."
+ ],
+ [
+  "Audience",
+  "Who is this mainly for?",
+  "An unknown main user/reader changes the result.",
+  "Audience-dependent decisions.",
+  "Inspect context or propose an audience; separate approvers where relevant."
+ ],
+ [
+  "Starting point",
+  "Anything we should build on?",
+  "Needed material is missing or ambiguous.",
+  "Reusing or replacing it.",
+  "Inspect what exists; references are optional, not homework."
+ ],
+ [
+  "Deliverables and scope",
+  "I suggest a guide and checklist. Would that cover it?",
+  "Materially different packages fit.",
+  "Substantial execution.",
+  "Recommend a bounded package; help deciding is valid."
+ ],
+ [
+  "Experience",
+  "What should a new volunteer find immediately?",
+  "A meaningful quality is unclear.",
+  "Experience-dependent choices.",
+  "Suggest concrete examples or a small visual."
+ ],
+ [
+  "Success and proof",
+  "How will you know this has worked?",
+  "Intended benefit or a pass condition is missing.",
+  "Affected work and assessment before completion.",
+  "Conductor proposes checks; resolve meaningful judgment with the person."
+ ],
+ [
+  "Limits",
+  "Anything we need to work around?",
+  "Deadline, capacity or cost changes the plan.",
+  "The affected action.",
+  "No limit requested is valid; no permission to spend is implied."
+ ],
+ [
+  "Authority and protection",
+  "I'll make a separate draft and leave originals and sharing alone. Is that the right boundary?",
+  "Permission or protection is unclear.",
+  "Before the affected effect.",
+  "Propose concrete boundaries; stop unauthorized effects, not other safe work."
+ ],
+ [
+  "Dependencies and unknowns",
+  "Are we waiting on anything I can't check here?",
+  "A consequential unresolved fact needs the person.",
+  "The dependent action.",
+  "Investigate, propose options or retain a named revisit point."
+ ],
+ [
+  "Completion and handoff",
+  "I'll prepare an editable draft for your review, without distributing it. Is that the right handoff?",
+  "Recipient, readiness or final approval is unresolved.",
+  "Completion or external handoff.",
+  "Propose from agreed scope; do not repeat outcome/success or assume publication."
+ ]
+];
+const gaps=[
+ [
+  "G1",
+  "Environment and command ownership",
+  "Adoption setup · unresolved",
+  "Candidate words can also trigger installed Kerd or other mandatory skills. A project note cannot override higher-priority host instructions.",
+  "Decide a scoped, recoverable adoption route. Unify the installed names at deliberate promotion; do not silently disable plugins across other projects.",
+  "start",
+  "resume",
+  "sin"
+ ],
+ [
+  "G2",
+  "Can the next session find this work?",
+  "Observed discovery gap",
+  "Candidate lookup follows pointers and plausible nested record names. Kerd’s CONTEXT and TODO now point here locally; the committed boundary and history account remain outstanding.",
+  "Complete the recoverable Git boundary under appropriate authority. Keep the local pointer honest about unsaved work; do not create a second plan or broadly read old trials.",
+  "resume",
+  "status",
+  "sin",
+  "sout"
+ ],
+ [
+  "G3",
+  "Who prepares the lean memory?",
+  "Unmeasured work · adoption consideration",
+  "Source selection and retirement are model judgment. The pickup comparison used the same already-reorganised Seinn snapshot and prepared sources; it did not measure whole Git-backed pickup or the selection/migration work.",
+  "Explain preparation cost and preserve reachable originals. Reorganise projects that need it, proportionately; do not turn one trial’s review ritual into a universal requirement.",
+  "sin",
+  "sout"
+ ],
+ [
+  "G4",
+  "Remote-save assurance and connection reliability",
+  "Verified saves · captured cleanup case corrected and tested",
+  "Out uses the verified helper by default for authorized pushes. Transient denied process probes now get bounded observation retries; only confirmed disappearance clears that uncertainty. 37 connection tests, 190 Switch tests and 150 repeated timeout requests pass locally.",
+  "Persistent uncertainty still blocks reuse. Keep local-only saves and explicit fallback checks. These results do not establish the OS cause or identify Claude’s earlier unrecorded error; retain the historical failure evidence.",
+  "sout",
+  "sto",
+  "ask"
+ ],
+ [
+  "G5",
+  "Does adaptive intake stay clear and safe?",
+  "Instructions updated · real-user validation still needed",
+  "The user’s 2026-09-08 agreement replaces ten mandatory confirmations with context-led understanding and direct small explicit work. The ten areas remain internal.",
+  "Check that fewer repeated questions do not lose success, authority or unresolved choices. No universal question-count target. Wording alone does not prove real-user experience or installed host selection.",
+  "start"
+ ],
+ [
+  "G6",
+  "What actually moves between sessions?",
+  "Explicit capability boundary",
+  "Git carries files, not native conversation/process state. Remote users open the destination session. Managed worker release is supported; automatic exit/replacement of arbitrary interactive hosts is not.",
+  "Keep the ordinary To and managed To branches visible. Require actual release evidence before active destination work; never claim a new worker is the original host.",
+  "sto",
+  "roll"
+ ],
+ [
+  "G7",
+  "Two saved representations in managed builds",
+  "Integration question · inspect during adoption",
+  "Human work records and managed agreement/place inputs serve different roles. Instructions require consistent meaning and protected agreement; a single automatic write-back into every project’s work record is not established.",
+  "Make ownership explicit when entering/leaving a managed build: Conductor reconciles current results and decisions into the existing work record. Keep private lifecycle detail private.",
+  "roll"
+ ],
+ [
+  "G8",
+  "What is selected, observed and assessed?",
+  "Evidence qualification",
+  "Model selection now reads a local cross-provider suitability guide with provider claims, route limits and task evidence kept separate. No comparative winner or optimum effort is proved. Interactive discipline remains instruction-led.",
+  "Label requested effort versus observed identity; preserve missing independent evidence. Investigate failed checks instead of replacing them with passing reruns.",
+  "ask",
+  "roll"
+ ],
+ [
+  "G9",
+  "What does the person actually understand?",
+  "Human validation still needed",
+  "The refreshed whole conversation lacks a complete real-person check. This per-package view is not a cross-project work board. Archify readability/tool limits remain relevant even when a view can be generated.",
+  "Use a real package to assess whether the question, position, product and next action are obvious. Keep deeper detail optional without hiding consequential boundaries.",
+  "status",
+  "visuals"
+ ]
+];
+const dataItems=[
+ ['The work agreement and current position','Existing suitable work record; normally docs/work/<work-name>/work.md','Conductor writes decisions, actual agreement, Now and outcome evidence. Switch restores or updates the same record; Visuals links back to it.','All three skills ⇄ one readable work record','Contains: scope, success, authority, current/pending question, next action, failure/resource state and evidence links. No rigid universal schema; the managed interface below is different.'],
+ ['The project’s entry point','Existing CONTEXT / TODO / handoff pointer; candidate can use docs/work/SESSION.md','Switch Out updates the pointer and selected next reading set. In and Conductor resume read it first. Existing project conventions are reused.','Out → lean pointer → In / resume','A pointer is navigation, not a second agreement. Named complete source selections remain reachable. Kerd’s local pointer is updated; a committed boundary remains outstanding (G2).'],
+ ['Product views and actual deliverables','Files beside the work, or its authorized existing project locations','Visuals writes the picture. Models/Conductor produce authorized documents, code, research or other results. Reviewers inspect actual artifacts.','Agreement → diagram / deliverables → independent assessment','HTML/SVG describes the product and boundaries. Diagrams do not seal approval. Product content is not automatically published.'],
+ ['Prompts, findings and outcome evidence','Relevant prompt and result notes beside the work','Conductor saves delegated prompts and uses returned findings. Preserve failures and qualifications; do not publish secrets or private session IDs.','Agreed measures → model job → evidence → current results','Distinguish requested model/effort/profile from observed identity, tests from desired benefit, and a returned review from an accepted result.'],
+ ['History and reachable archives','Existing session history / archive locations in the project','Out appends the sitting account and moves justified historical bulk while retaining a recoverable original. In retrieves relevant entries only when needed.','Out → history / archive → selective deeper retrieval','Dated records remain unchanged. Removing completed TODO entries must not erase decisions or unresolved sub-findings. No universal mandatory migration procedure exists.'],
+ ['The managed build’s continuation inputs','Chosen agreement.md + place.json paths inside the project','Conductor prepares them from actual agreement; workers return a place; the managed helper validates/saves it. Conductor owns integration back into the work record.','Conductor → worker → saved place → fresh worker / review','place: continue/review/blocked, next_action, memory, evidence, failures, pending_jobs. These are executable helper inputs, not a requirement for ordinary In/Out. Their human-record integration is called out in G7.'],
+ ['Private local execution records','Git metadata: cross-llm/sessions/, cross-llm/requests/, roll/run.json','The connection and managed helpers write local IDs, ownership, usage, locks, request outcomes and run history. Conductor uses relevant results, not the entire private transcript.','Local controller ⇄ owned workers; NOT GitHub project memory','Git push does not transfer these records or a live control handle. Repo-local aliases do not prove an arbitrary existing session is connected. No passwords/private IDs in handoff prompts.'],
+ ['Shared skill and model guidance','Candidate skills/ with sibling guidance/','Skill authors maintain guidance. Conductor loads the relevant model/job guidance; Visuals loads the selected pattern at use.','Maintained guidance → appropriate job / view','Keep directory relationships intact. Provider text is advice, not proof of performance. Current installed skills and host instructions can conflict with the candidate.'],
+ ['Git and GitHub’s saved files','Authorized repository, origin, branch and exact saved commit for To','Switch commits explicit assigned files and verifies authorized pushes with the helper. Destination checks before safe fast-forward.','Source files → verified remote revision → destination files','Only committed project files travel. A save is not source exit; a prepared destination is not started work. CI is not a dependency for using the candidate.']
+];
+const navItems=[['overview','The whole solution','People, skills and information'],['start','Conductor · new work','Understand → complete'],['resume','Conductor · resume','Continue the saved place'],['ask','Ask a model','Review or contribution'],['status','Status','Read-only position'],['sin','Switch In','Restore a sitting'],['sout','Switch Out','Close and prepare'],['sto','Switch To','Move exact working place'],['roll','Switch Roll','Fresh managed workers'],['visuals','Visuals','Explain the product'],['questions','Questions & decisions','Context-led, not a fixed sequence'],['data','What lives where','Reads, writes and ownership'],['gaps','Gaps to inspect','Current limits / proposed fixes']];
+const main=document.getElementById('main'),nav=document.getElementById('nav');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const list=x=>x.map(s=>`<span>${esc(s)}</span>`).join('');
+const sourceLinks=keys=>`<div class="sources"><strong>Source of this flow · instructions and implementation, not a claim that every path was tested</strong>${[...new Set(keys)].map(k=>`<a href="${refs[k][1]}">${refs[k][0]}</a>`).join('')}</div>`;
+const link=(key,label)=>`<button type="button" class="crosslink" data-go="${key}">${esc(label)}</button>`;
+nav.innerHTML=navItems.map(([id,title,sub],i)=>`${i===0?'<div class="nav-label">Start here</div>':''}${i===1?'<div class="nav-label">Command flows</div>':''}${i===10?'<div class="nav-label">Inspect the gaps</div>':''}<button type="button" data-go="${id}" aria-current="${i===0?'page':'false'}">${title}<small>${sub}</small></button>`).join('');
+function flowView(id){const f=flows[id];return `<div class="eyebrow">Command flow / current candidate</div><h2>${f.name}</h2><p class="lede">${f.intro}</p><div class="journey"><b>You say</b> ${esc(f.say)} <span>· Natural-language examples, not newly installed slash commands.</span></div><div class="notice"><strong>When you are involved</strong><br>${f.questions}</div><div class="gap-links">${f.gaps.map(g=>`<button type="button" class="gap-link" data-go="gaps" data-gap="${g}">${g} · ${esc(gaps.find(x=>x[0]===g)[1])}</button>`).join('')}</div><div class="lanes" aria-hidden="true"><span>Read / receive</span><span>Who acts · what happens ↓</span><span>Write / return</span></div><ol class="steps">${f.steps.map((s,i)=>`<li class="step"><div class="readset"><b class="local-label">Read / receive →</b>${list(s[2])}</div><div class="action"><div class="who">${i+1} · ${esc(s[0])}</div><h3>${esc(s[1])}</h3><p class="q"><b>Question / decision</b>${esc(s[4])}</p></div><div class="writeset"><b class="local-label">→ Write / return</b>${list(s[3])}</div><div class="branch">${esc(s[5])}</div><details><summary>Detail and boundary</summary><p>${esc(s[6])}</p></details></li>`).join('')}</ol><div class="route-end"><span class="label">Result of this command</span>${f.end}</div><div class="section"><h3>Follow the connected flow</h3><div class="gap-links">${link('questions','See the actual questions')}${link('data','See where the information lives')}${id!=='ask'?link('ask','See model / effort / prompt preparation'):link('start','Return to the whole work journey')}${id!=='gaps'?link('gaps','Inspect all gaps'):''}</div></div>${sourceLinks(f.refs)}`;}
+function overview(){return `<div class="eyebrow">The connected product</div><h2>One agreement. Three skills. Useful results.</h2><p class="lede">Conductor carries the outcome. Visuals makes the product and decisions understandable. Switch preserves the working place. Suitable models contribute inside that same agreement.</p>
+<svg class="overview-svg" viewBox="0 0 940 660" role="img" aria-labelledby="ov-title ov-desc"><title id="ov-title">People, skills, model jobs and saved work</title><desc id="ov-desc">The person gives outcome, answers and authority to Conductor. Conductor returns questions and results. Visuals exchanges source-backed views and decisions with Conductor. Conductor sends bounded prompts to workers and independent reviewers, who return artifacts and evidence. The project work record holds agreement and position; Switch saves and restores the relevant project files. GitHub carries authorized committed files to a fresh session, not native conversations or private run records.</desc><defs><marker id="overview-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="var(--green)"/></marker><marker id="data-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="var(--blue)"/></marker></defs>
+<rect class="group" x="15" y="178" width="910" height="285" rx="14"/><text class="edge-label" x="470" y="448">THE WORK LOOP · NO ROUTINE “NEXT” INSIDE AGREED AUTHORITY</text>
+<rect class="box" x="340" y="8" width="260" height="82" rx="23"/><text class="name" x="470" y="41">You</text><text class="sub" x="470" y="66">Outcome · answers · authority</text>
+<path class="flow" d="M415 90 V220"/><text class="edge-label" x="301" y="132">Intent + agreement</text><path class="flow" d="M525 220 V90"/><text class="edge-label" x="651" y="132">Questions + results</text>
+<rect class="box" x="40" y="225" width="225" height="95" rx="9"/><text class="name" x="152" y="260">Visuals</text><text class="sub" x="152" y="286">Show parts, flow, choices</text>
+<rect class="box focus" x="340" y="220" width="260" height="105" rx="9"/><text class="name" x="470" y="258">Conductor</text><text class="sub" x="470" y="285">Understand → agree → deliver</text><text class="sub" x="470" y="309">Choose model, effort, prompt</text>
+<path class="flow" d="M340 246 H266"/><path class="flow" d="M265 296 H339"/><text class="edge-label" x="151" y="207">Source facts ⇄ useful views</text>
+<rect class="box" x="675" y="225" width="225" height="95" rx="9"/><text class="name" x="787" y="260">Model jobs</text><text class="sub" x="787" y="286">Build · review · prove</text><path class="flow" d="M600 246 H674"/><path class="flow" d="M675 296 H601"/><text class="edge-label" x="788" y="207">Bounded job ⇄ evidence</text>
+<rect class="box" x="340" y="365" width="260" height="59" rx="9"/><text class="name" x="470" y="390">Assess the outcome</text><text class="sub" x="470" y="412">Original measures · evidence</text><path class="flow" d="M470 325 V364"/><path class="flow" d="M600 395 H640 V315 H601"/><text class="edge-label" x="754" y="387">Corrections → another job</text>
+<rect class="storage" x="35" y="514" width="300" height="110" rx="9"/><text class="name" x="185" y="545">Your project files</text><text class="sub" x="185" y="570">Agreement + current work + evidence</text><text class="sub" x="185" y="594">Views + history + source material</text><path class="dataedge" d="M390 424 V483 H245 V513"/><path class="dataedge" d="M100 514 V350 H310 V315 H339"/><text class="edge-label" x="209" y="375">Read current work</text><text class="edge-label" x="297" y="481">Save results + place</text>
+<rect class="box focus" x="390" y="525" width="180" height="90" rx="9"/><text class="name" x="480" y="558">Switch</text><text class="sub" x="480" y="584">In · Out · To · Roll</text><path class="dataedge" d="M390 548 H336"/><path class="dataedge" d="M335 590 H389"/>
+<rect class="storage" x="640" y="514" width="265" height="110" rx="9"/><text class="name" x="772" y="545">GitHub → destination</text><text class="sub" x="772" y="570">Authorized saved files only</text><text class="sub" x="772" y="594">New session reads the saved place</text><path class="dataedge" d="M570 548 H639"/><path class="dataedge" d="M640 590 H571"/><text class="edge-label" x="474" y="649">PRIVATE LOCAL RUN RECORDS DO NOT TRAVEL WITH GIT</text></svg>
+<div class="overview-mobile" aria-label="Connected solution, narrow layout"><div><strong>You ⇄ Conductor</strong><small>Outcome, answers and authority → questions, progress and results.</small></div><div class="connector">↓ Same agreement guides both contributions</div><div><strong>Visuals ⇄ Conductor ⇄ Model jobs</strong><small>Source-backed pictures clarify decisions. Suitable workers build; independent reviewers assess the original outcome.</small></div><div class="connector">↺ Corrections return to another focused job</div><div><strong>Conductor ⇄ Your project files</strong><small>Agreement, Now, deliverables and evidence. No second dashboard database.</small></div><div class="connector">↓ Switch saves / restores the useful place</div><div><strong>Switch ⇄ Project files ⇄ GitHub</strong><small>In / Out / To / Roll. Authorized files can reach a fresh session; private process state and native conversations do not.</small></div></div>
+<div class="notice"><strong>Important distinction</strong><br>Normal conversation and human decisions are guided by instructions. Git and managed-worker helpers enforce specific checks. Neither is an unbreakable guarantee of model truth or quality.</div>
+<h3>Choose a command to follow its information</h3><div class="command-grid">${Object.entries(flows).map(([id,f])=>`<button type="button" data-go="${id}"><strong>${f.name}</strong><small>${f.short} → reads, writes, questions and branches</small></button>`).join('')}</div>
+<div class="section pair"><div><h3>What you should never need to do</h3><p class="mini">Compose model prompts, copy private session IDs, repeatedly say “next”, configure CI, or approve a diagram seal.</p></div><div><h3>Where you still matter</h3><p class="mini">Define and confirm the outcome. Resolve genuinely consequential choices. Open a remote destination session where required. Accept final results when that was agreed.</p></div></div>${sourceLinks(['conductor','sw','visuals','consolidation'])}`;}
+function questionView(){return `<div class="eyebrow">Conversation / adaptive understanding</div><h2>Only the questions that earn their place.</h2><p class="lede">Conductor carries the ten areas of understanding. You describe what you want; it uses the context, investigates what it can and proposes a clear way forward.</p><div class="data-flow"><b>Your request + context</b> → <b>Investigate / propose</b> → <b>Ask a consequential gap</b> → <b>Agreed next action</b></div><div class="notice good"><strong>Not a ten-question sequence.</strong><br>Known answers are reused. Clear small work proceeds directly. For a substantial package, new material direction and permission remain visible before execution. Later issues have a named revisit point.</div><div class="example"><span class="label">Illustrative conversation · not a question to answer now</span><h3>Shaping the guide · one location to resolve</h3><p><strong>What we're building:</strong> a short welcome guide for first-time volunteers, using your notes and excluding the old rota.</p><p><strong>Proposed check:</strong> an unfamiliar reader can find the arrival point and first task. I'll prepare a separate editable draft; no changes to originals or distribution.</p><p><strong>The useful question:</strong> your notes name the east entrance and west hall. Which should the guide use?</p><p>I can mark that passage for checking in an authorized draft; I won't invent the final location.</p></div><div class="pair"><div><h3>Help deciding is welcome</h3><p class="mini">“Suggest an approach” gets a recommendation and tradeoff. “Not sure yet” stays open. “You decide” applies to that choice, not new spending or publishing authority.</p></div><div><h3>Keep the view light</h3><p class="mini">Show what is settled, the actual decision and what follows. No “4 of 10”, forced field confirmations or imaginary editable controls. Keep questions bounded and concrete.</p></div></div><details class="section"><summary>Internal coverage: ten areas, not ten required questions</summary><p class="mini">This is the design inspection layer, not the normal user panel. Save each material item's status and source beside the brief: user-stated, sourced, proposed, confirmed, explicitly absent or unknown. No second questionnaire database.</p><ol class="question-list">${questions.map((q,i)=>`<li><span class="qno">${i+1}</span><div><span class="label">${esc(q[0])}</span><h3>${esc(q[1])}</h3><p><strong>Ask when:</strong> ${esc(q[2])}</p><p><strong>Needed by:</strong> ${esc(q[3])}</p><p><strong>If unknown:</strong> ${esc(q[4])}</p></div></li>`).join('')}</ol></details><div class="section"><h3>Ready for which action?</h3><p>Enough to explore is not permission to publish. Open later choices can coexist with safe work, but stop their affected action until resolved. Conductor proposes proof; agreement, actual evidence and long-term benefit remain distinct.</p><p class="mini">The user agreed this change on 8 September 2026. Prior numbered interviews remain history. Live usability and natural host triggering still need observation.</p></div>${sourceLinks(['understand','journey','record','execution'])}`;}
+function dataView(){return `<div class="eyebrow">Information ownership / current candidate</div><h2>What lives where?</h2><p class="lede">Not every “record” is the same thing. The user’s agreement, historical evidence and private execution state have different owners and different transfer rules.</p><div class="notice good"><strong>One work record is the human source of direction and position.</strong><br>Supporting artifacts, history and managed-run inputs serve distinct purposes. They must not silently become competing versions of that agreement.</div><div class="data-list">${dataItems.map((d,i)=>`<article class="data-item"><span class="label">${i+1} · information home</span><h3>${d[0]}</h3><div class="path">${esc(d[1])}</div><p>${d[2]}</p><div class="data-flow"><b>${d[3]}</b></div><p class="mini">${d[4]}</p></article>`).join('')}</div><div class="section"><h3>What does not automatically exist</h3><p>A cross-project dashboard, automatic legacy-memory migration, a remote session launcher, universal source selection or a guarantee that a model never changes agreed meaning. These are not hidden components in the diagram.</p></div>${sourceLinks(['record','inout','to','ask','roll','guidance'])}`;}
+function gapView(){return `<div class="eyebrow">Inspection view / findings are not new requirements</div><h2>Where could information or control be lost?</h2><p class="lede">Known limits and candidate adoption questions, drawn from the supplied deep review, the current files and the flow mapping. Unresolved remedies remain proposals. Instruction updates are explicitly marked; they are not claims of proven usability or a resolved runtime failure.</p><div class="notice"><strong>No new gates are implied.</strong><br>A gap may need a clearer instruction, a corrected pointer, a small code fix, a human choice or simply an honest product boundary. It does not automatically need a new system.</div>${gaps.map(g=>`<article class="gap" id="${g[0]}"><span class="label">${g[0]} · ${g[2]}</span><h3>${g[1]}</h3><p>${g[3]}</p><p class="proposal"><strong>Smallest direction to consider:</strong> ${g[4]}</p><div class="gap-links">${g.slice(5).map(k=>link(k,flows[k].name)).join('')}</div></article>`).join('')}<p class="mini">This map is a source-linked design snapshot, not a fresh runtime audit. Previously reported test counts or measurements are not rerun simply by drawing them. The accepted Switch scope is unchanged.</p>${sourceLinks(['consolidation','conductor','inout','to','complete','comparison','assessment'])}`;}
+function show(id,updateHash=true,gap=null){if(!navItems.some(x=>x[0]===id))id='overview';main.innerHTML=id==='overview'?overview():id==='questions'?questionView():id==='data'?dataView():id==='gaps'?gapView():flowView(id);nav.querySelectorAll('button').forEach(b=>b.setAttribute('aria-current',b.dataset.go===id?'page':'false'));document.title=`Kerd — ${navItems.find(x=>x[0]===id)[1]}`;if(updateHash)history.replaceState(null,'','#'+id+(gap?'/'+gap:''));if(gap)document.getElementById(gap)?.scrollIntoView({block:'start'});}
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-go]');if(!b)return;show(b.dataset.go,true,b.dataset.gap);if(!b.dataset.gap){main.scrollIntoView({block:'start'});main.querySelector('h2')?.setAttribute('tabindex','-1');main.querySelector('h2')?.focus({preventScroll:true});}});
+window.addEventListener('hashchange',()=>{const [id,gap]=location.hash.slice(1).split('/');show(id,false,gap);});
+const [initial,initialGap]=location.hash.slice(1).split('/');show(initial||'overview',false,initialGap);
+</script>
+</body>
+</html>

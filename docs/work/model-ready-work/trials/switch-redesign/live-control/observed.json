@@ -1,0 +1,249 @@
+{
+  "fixture": {
+    "folder": "/private/var/folders/hr/8ss816vj0kdc4z0hp2ppdnsh0000gn/T/kerd-live-control-311bf9yn",
+    "source": "/private/var/folders/hr/8ss816vj0kdc4z0hp2ppdnsh0000gn/T/kerd-live-control-311bf9yn/source",
+    "destination": "/private/var/folders/hr/8ss816vj0kdc4z0hp2ppdnsh0000gn/T/kerd-live-control-311bf9yn/destination",
+    "remote": "/private/var/folders/hr/8ss816vj0kdc4z0hp2ppdnsh0000gn/T/kerd-live-control-311bf9yn/remote.git",
+    "initial_commit": "c7283e1b277ae2801a582d09be8d6309665138c2",
+    "branch": "live-control-trial",
+    "request": {
+      "action": "to",
+      "branch": "live-control-trial",
+      "destination": "/private/var/folders/hr/8ss816vj0kdc4z0hp2ppdnsh0000gn/T/kerd-live-control-311bf9yn/destination",
+      "message": "Save actual live-controller working place",
+      "files": [
+        "place.json",
+        "pickup_preview.py",
+        "test_pickup_preview.py",
+        "USAGE.md"
+      ]
+    }
+  },
+  "handoff": {
+    "status": "saved_to_remote",
+    "branch": "live-control-trial",
+    "commit": "d2c2e019223d9d82c5bb789f7f708da7f8b0f56e",
+    "source_session_exited": true,
+    "note": "Git save does not exit the caller or stop jobs"
+  },
+  "failures": [
+    {
+      "at": "2026-09-07T17:15:25.305252+00:00",
+      "error": "fatal: '/private/var/folders/hr/8ss816vj0kdc4z0hp2ppdnsh0000gn/T/kerd-live-control-311bf9yn/unavailable.git' does not appear to be a git repository\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists."
+    }
+  ],
+  "fresh_destination": true,
+  "seeded_failure_preserved": true,
+  "source_workers": 1,
+  "destination_workers": 1,
+  "final_state": {
+    "status": "review",
+    "next_action": "Independently assess M1\u2013M4 and rerun `python3 -m unittest -v`.",
+    "memory": "Implemented `--format json` while preserving default text output. JSON schema is exactly: branch, revision, clean_at_check, synchronized, selected_sources entries with file/selection/utf8_bytes, and total_utf8_bytes. Shared validation excludes content, note, and unknown fields; JSON decoding preserves original control/backslash labels. Updated CLI/library tests and USAGE documentation. Ran 19 tests successfully; manual example JSON output parsed with expected 9100 total bytes. No background jobs remain.",
+    "evidence": [
+      "pickup_preview.py",
+      "test_pickup_preview.py",
+      "USAGE.md"
+    ],
+    "failures": {
+      "M3": 1
+    },
+    "pending_jobs": []
+  },
+  "workers": [
+    {
+      "status": "completed",
+      "phase": "released",
+      "model": "gpt-5.6-sol",
+      "started_at": "2026-09-07T17:13:01.990765+00:00",
+      "held_at": "2026-09-07T17:15:24.880961+00:00",
+      "finished_at": "2026-09-07T17:16:16.523372+00:00",
+      "checkpoint_requested": "A safe checkpoint was requested by the live Conductor connection",
+      "steer_accepted": true,
+      "context_trigger": null,
+      "context_readings": [
+        {
+          "last": {
+            "totalTokens": 14502,
+            "inputTokens": 14232,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 270,
+            "reasoningOutputTokens": 147
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 21956,
+            "inputTokens": 18274,
+            "cachedInputTokens": 8704,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 3682,
+            "reasoningOutputTokens": 1085
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 22362,
+            "inputTokens": 22106,
+            "cachedInputTokens": 18048,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 256,
+            "reasoningOutputTokens": 93
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        }
+      ],
+      "owned_children_gone": true,
+      "reply": "{\"status\":\"continue\",\"next_action\":\"Apply the JSON-format implementation, tests, and documentation edits in smaller patches, then run the local test suite.\",\"memory\":\"Inspected the three authorized files. Existing implementation supports text only and has 13 tests. Chosen JSON schema: branch, revision, clean_at_check, synchronized, selected_sources entries containing only file/selection/utf8_bytes, and total_utf8_bytes. JSON will preserve original labels via standard JSON escaping and omit content, note, and unknown fields. A combined patch failed on a USAGE.md context mismatch and applied no changes. M3=1 remains seeded history.\",\"evidence\":[\"pickup_preview.py\",\"test_pickup_preview.py\",\"USAGE.md\"],\"failures\":{\"M3\":1},\"pending_jobs\":[]}",
+      "error": null,
+      "cleanup_error": null,
+      "effort": "high",
+      "label": "source-1"
+    },
+    {
+      "status": "completed",
+      "phase": null,
+      "model": "gpt-5.6-sol",
+      "started_at": "2026-09-07T17:16:28.097889+00:00",
+      "held_at": null,
+      "finished_at": "2026-09-07T17:20:14.755450+00:00",
+      "checkpoint_requested": null,
+      "steer_accepted": null,
+      "context_trigger": null,
+      "context_readings": [
+        {
+          "last": {
+            "totalTokens": 14600,
+            "inputTokens": 14324,
+            "cachedInputTokens": 8704,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 276,
+            "reasoningOutputTokens": 152
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 21570,
+            "inputTokens": 18372,
+            "cachedInputTokens": 14208,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 3198,
+            "reasoningOutputTokens": 470
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 22254,
+            "inputTokens": 21594,
+            "cachedInputTokens": 18176,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 660,
+            "reasoningOutputTokens": 68
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 22568,
+            "inputTokens": 22389,
+            "cachedInputTokens": 21376,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 179,
+            "reasoningOutputTokens": 38
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 22873,
+            "inputTokens": 22592,
+            "cachedInputTokens": 22272,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 281,
+            "reasoningOutputTokens": 0
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 23233,
+            "inputTokens": 22897,
+            "cachedInputTokens": 22400,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 336,
+            "reasoningOutputTokens": 0
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 23356,
+            "inputTokens": 23257,
+            "cachedInputTokens": 22656,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 99,
+            "reasoningOutputTokens": 8
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 24423,
+            "inputTokens": 23992,
+            "cachedInputTokens": 23040,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 431,
+            "reasoningOutputTokens": 333
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 28242,
+            "inputTokens": 27918,
+            "cachedInputTokens": 23808,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 324,
+            "reasoningOutputTokens": 213
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        },
+        {
+          "last": {
+            "totalTokens": 29025,
+            "inputTokens": 28407,
+            "cachedInputTokens": 27776,
+            "cacheWriteInputTokens": 0,
+            "outputTokens": 618,
+            "reasoningOutputTokens": 452
+          },
+          "model_context_window": 258400,
+          "threshold": 167960
+        }
+      ],
+      "owned_children_gone": true,
+      "reply": "{\"status\":\"review\",\"next_action\":\"Independently assess M1\u2013M4 and rerun `python3 -m unittest -v`.\",\"memory\":\"Implemented `--format json` while preserving default text output. JSON schema is exactly: branch, revision, clean_at_check, synchronized, selected_sources entries with file/selection/utf8_bytes, and total_utf8_bytes. Shared validation excludes content, note, and unknown fields; JSON decoding preserves original control/backslash labels. Updated CLI/library tests and USAGE documentation. Ran 19 tests successfully; manual example JSON output parsed with expected 9100 total bytes. No background jobs remain.\",\"evidence\":[\"pickup_preview.py\",\"test_pickup_preview.py\",\"USAGE.md\"],\"failures\":{\"M3\":1},\"pending_jobs\":[]}",
+      "error": null,
+      "cleanup_error": null,
+      "effort": "high",
+      "label": "destination-1"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "kerd",
+  "version": "0.107.0-candidate.1",
+  "description": "Guided work, visual agreement and session continuity: Conductor, Visuals and Switch.",
+  "author": {"name": "Anthony Maley"},
+  "license": "MIT"
+}

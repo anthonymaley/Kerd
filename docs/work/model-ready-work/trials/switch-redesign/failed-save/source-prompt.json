@@ -1,0 +1,3 @@
+{
+  "prompt": "Read agreement.md and the existing deliverables. Complete only the source piece, then return the exact unfinished saved-place JSON.\n{\"status\": \"continue\", \"next_action\": \"Improve escaping then freeze before tests and usage\", \"memory\": \"Follow agreement.md. M3=1 is seeded history, not a newly failed attempt.\", \"evidence\": [\"agreement.md\"], \"failures\": {\"M3\": 1}, \"pending_jobs\": []}"
+}

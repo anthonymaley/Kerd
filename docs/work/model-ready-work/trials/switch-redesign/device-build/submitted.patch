@@ -1,0 +1,548 @@
+diff --git a/docs/work/switch-trial/device-build/USAGE.md b/docs/work/switch-trial/device-build/USAGE.md
+index 7ee1c76..3546605 100644
+--- a/docs/work/switch-trial/device-build/USAGE.md
++++ b/docs/work/switch-trial/device-build/USAGE.md
+@@ -18,6 +18,13 @@ JSON explicitly:
+ python3 pickup_preview.py example.json --format json
+ ```
+ 
++For a report-friendly summary that can be pasted into a written work report
++without copying any source body, request Markdown:
++
++```sh
++python3 pickup_preview.py example.json --format markdown
++```
++
+ The preview reports the recorded branch and revision, whether the working tree
+ was clean at the check, whether the packet was synchronized or local-only, each
+ selected file and section, and the source text sizes in UTF-8 bytes. For example:
+@@ -54,20 +61,91 @@ not every consumer. Label validation does not reject lone-surrogate strings;
+ such a label is preserved as an escape, unlike source content, which must encode
+ as valid UTF-8. No cross-parser guarantee is claimed for those labels.
+ 
++Markdown output is a heading, a state table, a source table, and the closing
++line, so it can be pasted into a written report:
++
++```text
++# Prepared pickup preview
++
++| Field | Value |
++| --- | --- |
++| Branch | "kerd-switch-trial-20260906" |
++| Revision | "2302c2a3f92fb1c094b23b3c83eb67b9d79b8a83" |
++| Working tree at check | clean |
++| Synchronization | local-only (not synchronized) |
++| Selected sources | 2 |
++| Total source text | 9100 UTF-8 bytes |
++
++| # | File | Selection | UTF-8 bytes |
++| --- | --- | --- | --- |
++| 1 | "CONTEXT.md" | "complete file" | 7156 |
++| 2 | "TODO.md" | "## Now (including child sections)" | 1944 |
++
++Prepared does not mean restored or accepted.
++```
++
++The state table always carries the same six rows, in that order. The source
++table has one row per selected source, in packet order, and keeps its header
++row even when no source was selected. Markdown contains no source content, no
++note prose, no private session-ID fields and no unknown extra fields. The note
++is dropped on purpose: it is free prose written for a reader, not safe metadata
++for a report.
++
++Recorded labels — branch, revision, file and selection — go through one
++inert-cell convention. It is documented here because a Markdown table is a
++structural format, so an unescaped label could change the table rather than
++appear in it:
++
++1. Control characters, formatting characters, lone surrogates and literal
++   backslashes first become the same visible escapes the text format uses
++   (`\u001B`, `\U000E0001`, `\\`), rendered through step 2 as `&#92;u001B` and
++   so on. A newline therefore cannot open a second row.
++2. The characters `&`, `<`, `>`, `|`, `` ` ``, `\`, `*`, `_`, `[`, `]`, `~` and
++   `"` then become decimal character references: `&#38;`, `&#60;`, `&#62;`,
++   `&#124;`, `&#96;`, `&#92;`, `&#42;`, `&#95;`, `&#91;`, `&#93;`, `&#126;` and
++   `&#34;`. A table parser splits a row into cells on the raw pipe character
++   before it decodes any reference, so `&#124;` cannot add a cell; and no
++   reference can open a code span, emphasis, a link or raw HTML. `&` is in the
++   set so that a label containing a literal reference cannot forge one.
++3. The result is wrapped in quotation marks. Since a quotation mark inside a
++   label became `&#34;`, the wrapping marks are the only unescaped quotation
++   marks in a cell, and show exactly where the recorded label begins and ends.
++
++`#` is deliberately left readable. A heading is a block construct and cannot
++begin inside a table cell, so escaping it would cost legibility on labels such
++as `## Now (including child sections)` without removing a risk.
++
++Limits of the Markdown claim. The convention was checked during this trial
++against two independent renderers — pandoc's GFM reader and Python-Markdown with
++its tables extension. From a deliberately hostile packet both produced exactly
++the expected two tables and nine rows, and neither emitted a code span,
++emphasis, a link or an HTML element from a label. Those two checks were run by
++hand and are **not** part of the test suite, which uses only the standard
++library. The renderers do not agree byte for byte — pandoc decodes each
++reference and re-escapes it for HTML output, while Python-Markdown passes the
++reference through for the browser to decode — so the shipped tests assert cell
++structure and the absence of active characters rather than rendered HTML.
++Nothing is claimed for other renderers, and nothing for a consumer that treats
++the Markdown as HTML without escaping it.
++
+ The command validates the required packet shape before producing a successful
+ preview. Invalid JSON, a missing file, missing or malformed fields, a status
+ other than `pickup_prepared`, or non-Boolean state flags produce an error on
+ standard error and exit status 2, with no successful output on standard output.
+ An unsupported `--format` value also exits with status 2 and prints a usage
+-error on standard error. Library callers can use `summarize(packet)` for text or
+-`summarize_json(packet)` for JSON; each returns a string and raises `ValueError`
+-for invalid input.
++error on standard error, on the Markdown route as on the other two. Library
++callers can use `summarize(packet)` for text, `summarize_json(packet)` for JSON
++or `summarize_markdown(packet)` for Markdown; each returns a string and raises
++`ValueError` for invalid input.
+ 
+ The preview does not restore or accept a pickup, verify current repository or
+-remote state, resume a session, or grant execution authority. Neither output
+-format includes source content, private session-ID fields, or unknown extra
+-fields. JSON also omits the optional note and text-only closing explanation;
+-its metadata alone is not proof of restoration, acceptance or execution authority.
++remote state, resume a session, or grant execution authority. No output format
++includes source content, private session-ID fields, or unknown extra fields.
++JSON and Markdown both omit the optional note; JSON further omits the closing
++explanation, so its metadata alone is not proof of restoration, acceptance or
++execution authority. Markdown keeps that closing line and states the recorded
++state in its table, so a pasted report cannot quietly imply that a prepared
++pickup was restored or accepted.
+ In text output, labels and the
+ optional note use an unambiguous terminal-safe display convention:
+ literal backslashes are doubled, BMP control/formatting characters and lone surrogates use a
+@@ -80,6 +158,9 @@ as `café`, `計画`, and `🌍` remains readable. Byte counts describe the UTF-
+ encoding of the supplied source strings; they are not token counts, file sizes
+ checked from disk, or content fingerprints.
+ 
++The text convention above is what step 1 of the Markdown convention reuses, so
++the two formats show the same characters; only Markdown adds step 2 on top.
++
+ Run the test suite with:
+ 
+ ```sh
+diff --git a/docs/work/switch-trial/device-build/pickup_preview.py b/docs/work/switch-trial/device-build/pickup_preview.py
+index 10b7c96..1dac1f3 100644
+--- a/docs/work/switch-trial/device-build/pickup_preview.py
++++ b/docs/work/switch-trial/device-build/pickup_preview.py
+@@ -52,6 +52,31 @@ def _terminal_safe(value: str) -> str:
+     return "".join(pieces)
+ 
+ 
++# Punctuation that would otherwise close a table cell, open markup, or begin
++# raw HTML. Each is shown as a decimal character reference, so it survives as
++# readable data instead of being interpreted. "&" is included so that a label
++# containing a literal reference cannot forge one.
++_MARKDOWN_ACTIVE = {
++    character: f"&#{ord(character)};" for character in '&<>|`\\*_[]~"'
++}
++
++
++def _markdown_cell(value: str) -> str:
++    """Render a label as one inert Markdown table cell.
++
++    Control characters, formatting characters and newlines first become the
++    same visible escapes the text format uses, so no label can open a second
++    row. Markdown- and HTML-active punctuation then becomes decimal character
++    references, so no label can produce emphasis, a code span, a link or
++    executable HTML. The result is wrapped in quotation marks, which are
++    therefore the only unescaped quotation marks in the cell and mark exactly
++    where the recorded label begins and ends.
++    """
++    visible = _terminal_safe(value)
++    escaped = "".join(_MARKDOWN_ACTIVE.get(character, character) for character in visible)
++    return f'"{escaped}"'
++
++
+ def _utf8_size(value: str, owner: str) -> int:
+     try:
+         return len(value.encode("utf-8"))
+@@ -152,6 +177,52 @@ def summarize_json(packet: Any) -> str:
+     return json.dumps(summary, ensure_ascii=True)
+ 
+ 
++def summarize_markdown(packet: Any) -> str:
++    """Return Markdown containing only the allowed metadata for a valid packet.
++
++    Source bodies, the optional note and unrecognized packet fields are
++    deliberately never rendered, so the result can be pasted into a work report.
++    Every recorded label passes through _markdown_cell, so no label can add a
++    row, produce markup or emit executable HTML.
++    """
++    summary, _ = _validated_summary(packet)
++    sources = summary["selected_sources"]
++    lines = [
++        "# Prepared pickup preview",
++        "",
++        "| Field | Value |",
++        "| --- | --- |",
++        f"| Branch | {_markdown_cell(summary['branch'])} |",
++        f"| Revision | {_markdown_cell(summary['revision'])} |",
++        (
++            "| Working tree at check | clean |"
++            if summary["clean_at_check"]
++            else "| Working tree at check | not clean |"
++        ),
++        (
++            "| Synchronization | synchronized |"
++            if summary["synchronized"]
++            else "| Synchronization | local-only (not synchronized) |"
++        ),
++        f"| Selected sources | {len(sources)} |",
++        f"| Total source text | {summary['total_utf8_bytes']} UTF-8 bytes |",
++        "",
++        "| # | File | Selection | UTF-8 bytes |",
++        "| --- | --- | --- | --- |",
++    ]
++
++    for index, source in enumerate(sources, start=1):
++        lines.append(
++            f"| {index} | {_markdown_cell(source['file'])} "
++            f"| {_markdown_cell(source['selection'])} "
++            f"| {source['utf8_bytes']} |"
++        )
++
++    lines.append("")
++    lines.append("Prepared does not mean restored or accepted.")
++    return "\n".join(lines)
++
++
+ def _parser() -> argparse.ArgumentParser:
+     parser = argparse.ArgumentParser(
+         description="Preview a prepared pickup packet without displaying source text."
+@@ -159,7 +230,7 @@ def _parser() -> argparse.ArgumentParser:
+     parser.add_argument("packet", type=Path, help="path to a pickup packet JSON file")
+     parser.add_argument(
+         "--format",
+-        choices=("text", "json"),
++        choices=("text", "json", "markdown"),
+         default="text",
+         help="output format (default: text)",
+     )
+@@ -171,7 +242,12 @@ def main(argv: list[str] | None = None) -> int:
+     try:
+         with args.packet.open("r", encoding="utf-8") as stream:
+             packet = json.load(stream)
+-        output = summarize_json(packet) if args.format == "json" else summarize(packet)
++        renderers = {
++            "text": summarize,
++            "json": summarize_json,
++            "markdown": summarize_markdown,
++        }
++        output = renderers[args.format](packet)
+         print(output)
+     except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+         print(f"pickup_preview: error: {error}", file=sys.stderr)
+diff --git a/docs/work/switch-trial/device-build/test_pickup_preview.py b/docs/work/switch-trial/device-build/test_pickup_preview.py
+index a2734fe..498a225 100644
+--- a/docs/work/switch-trial/device-build/test_pickup_preview.py
++++ b/docs/work/switch-trial/device-build/test_pickup_preview.py
+@@ -9,11 +9,17 @@ import tempfile
+ import unittest
+ from pathlib import Path
+ 
+-from pickup_preview import summarize, summarize_json
++from pickup_preview import (
++    _MARKDOWN_ACTIVE,
++    summarize,
++    summarize_json,
++    summarize_markdown,
++)
+ 
+ 
+ ROOT = Path(__file__).resolve().parent
+ PROGRAM = ROOT / "pickup_preview.py"
++EXAMPLE = json.loads((ROOT / "example.json").read_text(encoding="utf-8"))
+ 
+ 
+ def packet(**changes: object) -> dict[str, object]:
+@@ -179,7 +185,7 @@ class SummarizeTests(unittest.TestCase):
+         ]
+ 
+         for value in bad_packets:
+-            for render in (summarize, summarize_json):
++            for render in (summarize, summarize_json, summarize_markdown):
+                 with self.subTest(value=value, render=render.__name__):
+                     with self.assertRaises(ValueError):
+                         render(value)
+@@ -280,6 +286,217 @@ class JsonSummaryTests(unittest.TestCase):
+         )
+ 
+ 
++EXPECTED_ACTIVE = set("&<>|`") | {"\\"} | set('*_[]~"')
++
++
++def markdown_tables(output: str) -> list[list[list[str]]]:
++    """Split rendered Markdown into tables, rows and raw cells.
++
++    Cells are split on the literal pipe character, which is how a Markdown
++    table parser finds cell boundaries: it splits the raw line before any
++    character reference is decoded. Counting cells this way therefore measures
++    real injection rather than a friendlier approximation of it.
++    """
++    tables: list[list[list[str]]] = []
++    current: list[list[str]] | None = None
++    for line in output.splitlines():
++        if line.startswith("|"):
++            if current is None:
++                current = []
++                tables.append(current)
++            current.append([cell.strip() for cell in line.strip()[1:-1].split("|")])
++        else:
++            current = None
++    return tables
++
++
++class MarkdownSummaryTests(unittest.TestCase):
++    """M2/M3: Markdown shows the required metadata, inertly, and nothing else."""
++
++    def assertWellFormedTables(self, output: str, source_count: int) -> None:
++        tables = markdown_tables(output)
++        self.assertEqual(len(tables), 2, "expected a state table and a source table")
++        state, sources = tables
++        self.assertEqual(len(state), 8, "state table must be header, rule and six rows")
++        for row in state:
++            self.assertEqual(len(row), 2, f"state row gained cells: {row}")
++        self.assertEqual(len(sources), 2 + source_count, "source table gained rows")
++        for row in sources:
++            self.assertEqual(len(row), 4, f"source row gained cells: {row}")
++
++    def assertQuotedCellsAreInert(self, output: str) -> None:
++        """No active character survives inside a quoted label cell."""
++        quoted = [
++            cell
++            for table in markdown_tables(output)
++            for row in table
++            for cell in row
++            if cell.startswith('"') and cell.endswith('"') and len(cell) >= 2
++        ]
++        self.assertTrue(quoted, "expected at least one quoted label cell")
++        for cell in quoted:
++            # Drop the "&#" that begins each reference we emitted, so the only
++            # remaining active character would be one that escaped the filter.
++            data = cell[1:-1].replace("&#", "")
++            for active in EXPECTED_ACTIVE:
++                self.assertNotIn(active, data, f"{active!r} survived in {cell!r}")
++
++    def test_declared_active_set_is_exactly_the_expected_one(self) -> None:
++        self.assertEqual(set(_MARKDOWN_ACTIVE), EXPECTED_ACTIVE)
++        for character, reference in _MARKDOWN_ACTIVE.items():
++            self.assertEqual(reference, f"&#{ord(character)};")
++
++    def test_markdown_presents_the_required_metadata_and_byte_counts(self) -> None:
++        value = packet(
++            branch="feature/café",
++            commit="abc123",
++            clean_at_check=False,
++            synchronized=True,
++            sources=[
++                {"file": "CONTEXT.md", "selection": "complete file", "content": "café"},
++                {"file": "計画.md", "selection": "§ Now", "content": "\U0001f30d\n"},
++            ],
++        )
++
++        output = summarize_markdown(value)
++
++        self.assertTrue(output.startswith("# Prepared pickup preview\n"))
++        self.assertIn('| Branch | "feature/café" |', output)
++        self.assertIn('| Revision | "abc123" |', output)
++        self.assertIn("| Working tree at check | not clean |", output)
++        self.assertIn("| Synchronization | synchronized |", output)
++        self.assertIn("| Selected sources | 2 |", output)
++        self.assertIn("| Total source text | 10 UTF-8 bytes |", output)
++        self.assertIn('| 1 | "CONTEXT.md" | "complete file" | 5 |', output)
++        self.assertIn('| 2 | "計画.md" | "§ Now" | 5 |', output)
++        self.assertTrue(output.endswith("\nPrepared does not mean restored or accepted."))
++        self.assertWellFormedTables(output, 2)
++
++    def test_markdown_clean_and_local_only_state_are_explicit(self) -> None:
++        output = summarize_markdown(packet(clean_at_check=True, synchronized=False))
++
++        self.assertIn("| Working tree at check | clean |", output)
++        self.assertIn("| Synchronization | local-only (not synchronized) |", output)
++
++    def test_markdown_pipes_and_newlines_cannot_add_cells_or_rows(self) -> None:
++        value = packet(
++            branch="a | b",
++            commit="row |\n| INJECTED | ROW |",
++            sources=[
++                {
++                    "file": "f | g\n| SECOND | INJECTED | ROW |",
++                    "selection": "s | t",
++                    "content": "x",
++                }
++            ],
++        )
++
++        output = summarize_markdown(value)
++
++        self.assertWellFormedTables(output, 1)
++        self.assertQuotedCellsAreInert(output)
++        self.assertIn("&#124;", output)
++        self.assertIn("&#92;u000A", output)
++        self.assertNotIn("\n| INJECTED", output)
++        self.assertNotIn("\n| SECOND", output)
++
++    def test_markdown_backticks_html_and_emphasis_stay_data(self) -> None:
++        value = packet(
++            branch="`code` <script>alert(1)</script>",
++            commit='*em* _u_ [l](x) ~~s~~ &amp; "q"',
++            sources=[{"file": "<b>f</b>", "selection": "`s`", "content": "x"}],
++        )
++
++        output = summarize_markdown(value)
++
++        self.assertQuotedCellsAreInert(output)
++        self.assertWellFormedTables(output, 1)
++        self.assertIn("&#96;code&#96;", output)
++        self.assertIn("&#60;script&#62;alert(1)&#60;/script&#62;", output)
++        self.assertIn("&#42;em&#42;", output)
++        self.assertIn("&#95;u&#95;", output)
++        self.assertIn("&#91;l&#93;(x)", output)
++        self.assertIn("&#126;&#126;s&#126;&#126;", output)
++        self.assertIn("&#38;amp;", output)
++        self.assertIn("&#34;q&#34;", output)
++
++    def test_markdown_keeps_readable_unicode_readable(self) -> None:
++        output = summarize_markdown(
++            packet(
++                branch="readable café 計画 \U0001f30d",
++                sources=[
++                    {"file": "計画.md", "selection": "§ Now", "content": "x"}
++                ],
++            )
++        )
++
++        self.assertIn('| Branch | "readable café 計画 \U0001f30d" |', output)
++        self.assertIn('"計画.md"', output)
++        self.assertIn('"§ Now"', output)
++
++    def test_markdown_control_escapes_match_the_text_convention(self) -> None:
++        output = summarize_markdown(
++            packet(
++                branch="safe\x1b[31mbranch",
++                commit="literal\\u001B",
++                sources=[
++                    {
++                        "file": "name\x00\U000e0001.md",
++                        "selection": "part‮secret",
++                        "content": "x",
++                    }
++                ],
++            )
++        )
++
++        self.assertNotIn("\x1b", output)
++        self.assertNotIn("\x00", output)
++        self.assertNotIn("‮", output)
++        self.assertNotIn("\U000e0001", output)
++        self.assertIn("safe&#92;u001B&#91;31mbranch", output)
++        self.assertIn("literal&#92;&#92;u001B", output)
++        self.assertIn("name&#92;u0000&#92;U000E0001.md", output)
++        self.assertIn("part&#92;u202Esecret", output)
++
++    def test_markdown_surrogate_label_is_visible_and_utf8_encodable(self) -> None:
++        output = summarize_markdown(packet(branch="label\ud800"))
++
++        self.assertIn("label&#92;uD800", output)
++        self.assertNotIn("\ud800", output)
++        output.encode("utf-8")
++
++    def test_markdown_empty_sources_keep_the_table_header_only(self) -> None:
++        output = summarize_markdown(packet(sources=[]))
++
++        self.assertIn("| Selected sources | 0 |", output)
++        self.assertIn("| Total source text | 0 UTF-8 bytes |", output)
++        self.assertWellFormedTables(output, 0)
++
++    def test_markdown_omits_bodies_notes_private_ids_and_unknown_fields(self) -> None:
++        secrets = ("PRIVATE-BODY-9f8bd", "PRIVATE-NOTE-72ca", "UNKNOWN-SECRET-c431")
++        value = packet(
++            sources=[
++                {
++                    "file": "CONTEXT.md",
++                    "selection": "complete file",
++                    "content": secrets[0],
++                    "unknown_source_field": secrets[2],
++                }
++            ],
++            note=secrets[1],
++            session_id="session-private-72ca",
++            unknown_packet_field=secrets[2],
++        )
++
++        output = summarize_markdown(value)
++
++        for secret in secrets:
++            self.assertNotIn(secret, output)
++        self.assertNotIn("session-private-72ca", output)
++        self.assertNotIn("Note", output)
++        self.assertIn(f"| {len(secrets[0].encode('utf-8'))} |", output)
++
++
+ class CliTests(unittest.TestCase):
+     def run_cli(self, path: Path, *arguments: str) -> subprocess.CompletedProcess[str]:
+         return subprocess.run(
+@@ -313,11 +530,39 @@ class CliTests(unittest.TestCase):
+         self.assertEqual(output["total_utf8_bytes"], 9100)
+         self.assertNotIn("content", result.stdout)
+ 
++    def test_cli_markdown_format(self) -> None:
++        result = self.run_cli(ROOT / "example.json", "--format", "markdown")
++
++        self.assertEqual(result.returncode, 0, result.stderr)
++        self.assertEqual(result.stderr, "")
++        self.assertTrue(result.stdout.startswith("# Prepared pickup preview\n"))
++        self.assertIn('| Branch | "kerd-switch-trial-20260906" |', result.stdout)
++        self.assertIn("| Total source text | 9100 UTF-8 bytes |", result.stdout)
++        self.assertIn('| 1 | "CONTEXT.md" | "complete file" | 7156 |', result.stdout)
++        # "#" is left readable on purpose: headings are block constructs and
++        # cannot start inside a table cell, so escaping it would only cost clarity.
++        self.assertIn(
++            '| 2 | "TODO.md" | "## Now (including child sections)" | 1944 |',
++            result.stdout,
++        )
++        self.assertNotIn("Seinn", result.stdout)
++        self.assertNotIn("Caller-selected", result.stdout)
++
++    def test_cli_text_and_json_are_unchanged_by_the_markdown_route(self) -> None:
++        """M1: adding a format must not alter the two that existed before it."""
++        text = self.run_cli(ROOT / "example.json", "--format", "text")
++        as_json = self.run_cli(ROOT / "example.json", "--format", "json")
++
++        self.assertEqual(text.stdout, summarize(EXAMPLE) + "\n")
++        self.assertEqual(as_json.stdout, summarize_json(EXAMPLE) + "\n")
++        self.assertNotIn("|", as_json.stdout)
++        self.assertNotIn("# Prepared", text.stdout)
++
+     def test_cli_invalid_packet_fails_in_both_formats_without_stdout(self) -> None:
+         with tempfile.TemporaryDirectory() as directory:
+             path = Path(directory) / "invalid-packet.json"
+             path.write_text(json.dumps(packet(branch="")), encoding="utf-8")
+-            for arguments in ((), ("--format", "json")):
++            for arguments in ((), ("--format", "json"), ("--format", "markdown")):
+                 with self.subTest(arguments=arguments):
+                     result = self.run_cli(path, *arguments)
+ 
+@@ -336,7 +581,7 @@ class CliTests(unittest.TestCase):
+         with tempfile.TemporaryDirectory() as directory:
+             path = Path(directory) / "invalid.json"
+             path.write_text('{"status": ', encoding="utf-8")
+-            for arguments in ((), ("--format", "json")):
++            for arguments in ((), ("--format", "json"), ("--format", "markdown")):
+                 with self.subTest(arguments=arguments):
+                     result = self.run_cli(path, *arguments)
+                     self.assertEqual(result.returncode, 2)
+@@ -345,7 +590,7 @@ class CliTests(unittest.TestCase):
+                     self.assertNotIn("Traceback", result.stderr)
+ 
+     def test_cli_missing_file_has_stderr_error_without_traceback(self) -> None:
+-        for arguments in ((), ("--format", "json")):
++        for arguments in ((), ("--format", "json"), ("--format", "markdown")):
+             with self.subTest(arguments=arguments):
+                 result = self.run_cli(ROOT / "does-not-exist.json", *arguments)
+                 self.assertEqual(result.returncode, 2)

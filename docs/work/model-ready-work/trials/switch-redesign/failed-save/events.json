@@ -1,0 +1,51 @@
+[
+  {
+    "event": "source_start",
+    "at": "2026-09-07T15:57:41.432485+00:00"
+  },
+  {
+    "event": "source_held",
+    "at": "2026-09-07T15:58:37.479127+00:00",
+    "status": "held",
+    "source_alive": true,
+    "thread_status": "idle"
+  },
+  {
+    "event": "save_failed",
+    "at": "2026-09-07T15:58:37.671784+00:00",
+    "reason": "fatal: '/private/tmp/kerd-held-save.F1SdHU/unavailable.git' does not appear to be a git repository\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.",
+    "status": "held",
+    "source_alive": true,
+    "thread_status": "idle"
+  },
+  {
+    "event": "destination_blocked",
+    "at": "2026-09-07T15:58:37.672257+00:00",
+    "destination_started": false
+  },
+  {
+    "event": "same_source_before_retry",
+    "at": "2026-09-07T15:58:37.701515+00:00",
+    "same_process_and_thread": true,
+    "status": "held",
+    "source_alive": true,
+    "thread_status": "idle"
+  },
+  {
+    "event": "save_verified_and_source_released",
+    "at": "2026-09-07T15:58:37.947158+00:00",
+    "commit": "446654a647a8346bcfcbbeed0077fe860beee889",
+    "owned_children_gone": true
+  },
+  {
+    "event": "destination_start",
+    "at": "2026-09-07T15:58:38.209585+00:00",
+    "exact_saved_revision": true
+  },
+  {
+    "event": "destination_ready_for_review",
+    "at": "2026-09-07T16:00:44.244760+00:00",
+    "fresh_thread": true,
+    "failure_count_preserved": true
+  }
+]

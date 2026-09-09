@@ -1,0 +1,28 @@
+[
+  {
+    "event": "source_checkpoint_ready",
+    "at": "2026-09-07T14:55:26.837111+00:00",
+    "source_parent_alive": true
+  },
+  {
+    "event": "remote_save_verified",
+    "at": "2026-09-07T14:55:27.322536+00:00",
+    "commit": "7fc468abbdc511cce47a436e4cadb554e8aa48de",
+    "source_parent_alive": true
+  },
+  {
+    "event": "source_shutdown_confirmed",
+    "at": "2026-09-07T14:55:27.418143+00:00"
+  },
+  {
+    "event": "destination_start",
+    "at": "2026-09-07T14:55:28.067258+00:00",
+    "commit": "7fc468abbdc511cce47a436e4cadb554e8aa48de"
+  },
+  {
+    "event": "destination_ready_for_review",
+    "at": "2026-09-07T14:59:26.964996+00:00",
+    "fresh_session": true,
+    "failure_count_preserved": true
+  }
+]

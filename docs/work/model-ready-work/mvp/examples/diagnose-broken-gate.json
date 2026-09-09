@@ -1,0 +1,56 @@
+{
+  "id": "diagnose-broken-gate",
+  "objective": "Diagnose every behavioral defect in the deliberately broken risk-ledger validator fixture.",
+  "deliverable": [
+    "A concise defect report naming each defective behavior and the smallest correction.",
+    "The predicted result for each declared probe before and after correction."
+  ],
+  "success": [
+    {
+      "id": "S1",
+      "measure": "Distinct behavioral defects correctly identified",
+      "target": "3 of 3"
+    },
+    {
+      "id": "S2",
+      "measure": "Declared probes predicted correctly before and after correction",
+      "target": "3 of 3"
+    },
+    {
+      "id": "S3",
+      "measure": "Files changed",
+      "target": "0"
+    }
+  ],
+  "evidence": [
+    "Citations to the exact fixture expressions causing each defect",
+    "A before/after table for probes P1 through P3"
+  ],
+  "context": {
+    "required": [
+      "docs/work/model-ready-work/mvp/fixtures/broken_gate.py"
+    ],
+    "probes": {
+      "P1": "Severity=' Fatal ', Treatment='accepted', Risk evidence='measured'",
+      "P2": "Severity='', Treatment='accepted unknown', Risk evidence='measured'",
+      "P3": "Severity='fatal', Treatment='accepted', Risk evidence=''"
+    }
+  },
+  "guardrails": [
+    "Read only; do not edit the fixture or repository.",
+    "Report behavioral defects only, not stylistic preferences.",
+    "Do not inspect the compiler source or any expected-answer file."
+  ],
+  "authority": {
+    "may_decide": [
+      "How to inspect and explain the fixture"
+    ],
+    "producer_owned": [
+      "Whether any correction will later be implemented"
+    ]
+  },
+  "unknowns": [],
+  "completion": [
+    "Stop after all three success criteria have evidence or a blocker is named."
+  ]
+}

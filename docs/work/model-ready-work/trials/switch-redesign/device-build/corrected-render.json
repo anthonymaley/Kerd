@@ -1,0 +1,25 @@
+{
+  "renderer": "GitHub Markdown API, mode=gfm, no repository context",
+  "packet": {
+    "status": "pickup_prepared",
+    "branch": "https://example.com",
+    "commit": "contact@example.com",
+    "clean_at_check": true,
+    "synchronized": false,
+    "note": "SYNTHETIC-NOTE-NOT-FOR-OUTPUT",
+    "private_id": "SYNTHETIC-UNKNOWN",
+    "sources": [
+      {
+        "file": "see www.example.com",
+        "selection": "| `tick` <script>x</script> *em* [link](x)\n## Now",
+        "content": "SYNTHETIC-PRIVATE-BODY caf\u00e9"
+      }
+    ]
+  },
+  "markdown": "# Prepared pickup preview\n\n| Field | Value |\n| --- | --- |\n| Branch | \"https&#58;//example&#46;com\" |\n| Revision | \"contact&#92;u0040example&#46;com\" |\n| Working tree at check | clean |\n| Synchronization | local-only (not synchronized) |\n| Selected sources | 1 |\n| Total source text | 28 UTF-8 bytes |\n\n| # | File | Selection | UTF-8 bytes |\n| --- | --- | --- | --- |\n| 1 | \"see www&#46;example&#46;com\" | \"&#124; &#96;tick&#96; &#60;script&#62;x&#60;/script&#62; &#42;em&#42; &#91;link&#93;(x)&#92;u000A## Now\" | 28 |\n\nPrepared does not mean restored or accepted.",
+  "observed_at": "Mon, 07 Sep 2026 23:55:40 GMT",
+  "html": "<h1>Prepared pickup preview</h1>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th>Field</th>\n<th>Value</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Branch</td>\n<td>\"https://example.com\"</td>\n</tr>\n<tr>\n<td>Revision</td>\n<td>\"contact\\u0040example.com\"</td>\n</tr>\n<tr>\n<td>Working tree at check</td>\n<td>clean</td>\n</tr>\n<tr>\n<td>Synchronization</td>\n<td>local-only (not synchronized)</td>\n</tr>\n<tr>\n<td>Selected sources</td>\n<td>1</td>\n</tr>\n<tr>\n<td>Total source text</td>\n<td>28 UTF-8 bytes</td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th>#</th>\n<th>File</th>\n<th>Selection</th>\n<th>UTF-8 bytes</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td>\"see www.example.com\"</td>\n<td>\"| `tick` &lt;script&gt;x&lt;/script&gt; *em* [link](x)\\u000A## Now\"</td>\n<td>28</td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>\n<p>Prepared does not mean restored or accepted.</p>",
+  "tables": 2,
+  "rows": 9,
+  "active_cell_elements": []
+}

@@ -1,0 +1,44 @@
+{
+  "method": "Matched-run differential estimates, not exact attribution. Quality assessment required separately.",
+  "results": [
+    {
+      "name": "pickup",
+      "host_base": 13026,
+      "control_spread": 0,
+      "peak_input": 30123,
+      "peak_total": 32649,
+      "added_input": 17097,
+      "added_context": 19623,
+      "added_context_percent": 7.594040247678019,
+      "seconds": 170.592,
+      "observed_operations": 22,
+      "numeric_target_met": false
+    },
+    {
+      "name": "pickup-lean",
+      "host_base": 13026,
+      "control_spread": 0,
+      "peak_input": 33450,
+      "peak_total": 35920,
+      "added_input": 20424,
+      "added_context": 22894,
+      "added_context_percent": 8.859907120743033,
+      "seconds": 184.676,
+      "observed_operations": 11,
+      "numeric_target_met": false
+    },
+    {
+      "name": "pickup-prepared",
+      "host_base": 13026,
+      "control_spread": 0,
+      "peak_input": 17787,
+      "peak_total": 18825,
+      "added_input": 4761,
+      "added_context": 5799,
+      "added_context_percent": 2.2441950464396285,
+      "seconds": 41.05,
+      "observed_operations": 0,
+      "numeric_target_met": true
+    }
+  ]
+}

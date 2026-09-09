@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conductor — strong process, lightweight records</title>
+  <style>
+    :root{color-scheme:light dark;--bg:#f7f5ef;--paper:#fffefa;--ink:#172c2b;--muted:#516261;--line:#cbd5cf;--accent:#145b4b;--soft:#e8f1ec;--warm:#fbefd4}
+    @media(prefers-color-scheme:dark){:root{--bg:#122020;--paper:#192b2a;--ink:#eef3ed;--muted:#b4c5bf;--line:#4b6460;--accent:#a2dcc5;--soft:#213e35;--warm:#3c3424}}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:1120px;margin:auto;padding:40px 30px 50px}header{max-width:780px;margin-bottom:30px}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:700;color:var(--accent)}h1{font-size:clamp(28px,4vw,44px);letter-spacing:-.04em;line-height:1.1;margin:12px 0 16px}h2{font-size:22px;line-height:1.2;margin:0 0 14px}h3{font-size:17px;line-height:1.25;margin:0 0 8px}p{margin:0 0 12px}a{color:var(--accent);text-underline-offset:3px}small,.secondary{color:var(--muted)}small{font-size:13px}.intro{font-size:18px;max-width:730px}
+    .flow{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr;align-items:stretch;gap:8px;margin:20px 0}.step{padding:20px;background:var(--paper);border:1px solid var(--line);border-radius:10px}.step p{margin-bottom:0}.number{display:block;color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.08em;margin-bottom:10px}.arrow{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:24px}.approval{background:var(--warm)}
+    .down{text-align:center;padding:0 0 12px;color:var(--muted)}.loop{border:2px solid var(--accent);border-radius:12px;padding:24px;background:var(--soft)}.loophead{display:flex;justify-content:space-between;gap:20px;align-items:baseline}.loophead small{max-width:340px}.jobs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:20px 0}.job{padding:18px;background:var(--paper)}.job p{font-size:14px;margin:0}.job strong{display:block;margin-bottom:6px}.result{display:grid;grid-template-columns:1fr 1fr;gap:18px}.result p{margin:0}.finish{margin-top:20px;padding:20px;border-left:4px solid var(--accent);background:var(--paper)}.finish h2{margin-bottom:8px}.foundation{margin:30px 0 20px;display:grid;grid-template-columns:1fr 1fr;gap:24px}.foundation article{padding-top:14px;border-top:1px solid var(--line)}
+    details{border-top:1px solid var(--line);padding:17px 0}summary{cursor:pointer;font-weight:650}summary:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.detail{padding-top:16px}.mapping{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.mapping ul{padding-left:20px;margin:8px 0}.mapping li{margin-bottom:6px}.example{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr;gap:8px}.example .step{padding:16px}.legend{margin-top:24px;font-size:14px}.links{display:flex;flex-wrap:wrap;gap:18px;margin-top:24px}.note{font-size:14px;color:var(--muted)}
+    @media(max-width:680px){main{padding:25px 18px}.flow,.example{grid-template-columns:1fr;gap:8px}.arrow{transform:rotate(90deg);height:22px}.jobs,.result,.foundation,.mapping{grid-template-columns:1fr}.loop{padding:18px}.loophead{display:block}.loophead small{display:block}.foundation{gap:14px}.job{padding:16px}.intro{font-size:16px}}
+    @media print{body{background:white;color:black}main{padding:10px}details .detail{display:block}details{break-inside:avoid}a{color:inherit}.loop{break-inside:avoid}}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Kerd · Isolated candidate · Not adopted into live Kerd</div>
+    <h1>One guided process.<br>From intent to proved work.</h1>
+    <p class="intro">A strong guided process, without the gate machinery. Agree what matters, then let the models build, review and improve within that agreement.</p>
+  </header>
+
+  <section aria-labelledby="journey-heading">
+    <h2 id="journey-heading">You shape the outcome. Conductor carries the work.</h2>
+    <p class="secondary">New work starts with your request. Active work resumes exactly where it stopped.</p>
+    <div class="flow">
+      <article class="step"><span class="number">01 · UNDERSTAND</span><h3>What would you like to make happen?</h3><p>A guided conversation finds the outcome, facts, success measures and limits.</p></article>
+      <span class="arrow" aria-hidden="true">→</span>
+      <article class="step"><span class="number">02 · SHAPE</span><h3>See what we will create</h3><p>A simple view shows the parts and how they connect. Analysis and design sit one level deeper.</p></article>
+      <span class="arrow" aria-hidden="true">→</span>
+      <article class="step approval"><span class="number">03 · AGREE</span><h3>Approve the outcome and boundaries</h3><p>A clear decision recorded with the work. No seal, fingerprint or approval ceremony.</p></article>
+    </div>
+    <div class="down" aria-hidden="true">↓</div>
+    <section class="loop" aria-labelledby="loop-heading">
+      <div class="loophead"><h2 id="loop-heading">04 · Deliver: Conductor runs the loop</h2><small>No routine approvals inside the agreed direction.</small></div>
+      <div class="jobs">
+        <article class="job"><strong>1. Prepare the next job</strong><p>Choose an appropriate model and effort. Prepare its prompt from the agreed work and relevant official guidance.</p></article>
+        <article class="job"><strong>2. Build the result</strong><p>The model chooses its method inside the boundaries. Conductor tracks dependencies and current activity.</p></article>
+        <article class="job"><strong>3. Review and prove</strong><p>A peer or different model judges the actual result against the original measures and evidence.</p></article>
+      </div>
+      <div class="result">
+        <p><strong>Not there yet? ↺</strong><br>Correct the specific problem and repeat. Three different failed corrections of one measure trigger Conductor reassessment.</p>
+        <p><strong>A real decision needed?</strong><br>Ask you only when facts cannot settle it or the answer materially affects quality, experience, outcome or guardrails.</p>
+      </div>
+    </section>
+    <div class="finish"><h2>05 · Complete, with proof</h2><p>The whole agreed outcome passes independent assessment, within the agreed limits. Deliverables and evidence are ready. Publishing happens only if it was part of the authorized work.</p></div>
+  </section>
+
+  <section class="finish" aria-labelledby="visible-work-heading">
+    <h2 id="visible-work-heading">Always know where you are—and why we are asking</h2>
+    <p class="secondary">Example at Shape, not live trial status:</p>
+    <p><strong>Understand ✓ → Shape [NOW] → Agree → Deliver → Complete</strong></p>
+    <div class="flow">
+      <article class="step"><h3>See what we learned</h3><p>Relevant findings, unresolved facts and a recommendation. Open the product view or sequence to see how it works.</p></article>
+      <span class="arrow" aria-hidden="true">→</span>
+      <article class="step approval"><h3>Understand the decision</h3><p>One clear question, its proposed answer and what it affects, together in a bounded card.</p></article>
+      <span class="arrow" aria-hidden="true">→</span>
+      <article class="step"><h3>Your answer moves work forward</h3><p>Conductor records the decision and takes the next authorized action. No extra “go on” between routine steps.</p></article>
+    </div>
+    <p class="note">The journey shows your place. The product drawing shows what we are creating. Deeper analysis is available without hiding important tradeoffs.</p>
+  </section>
+
+  <section class="foundation" aria-label="Kerd foundations">
+    <article><h3>One readable work record</h3><p>Agreement · decisions · progress · evidence · next action</p><small>No CI, custom hooks, seals, fingerprints or complex rung gates required to use Kerd.</small></article>
+    <article><h3>Switch keeps continuity</h3><p>Session memory · exact pickup · honest history</p><small>Conductor owns the work. Switch carries it safely between sittings.</small></article>
+  </section>
+
+  <details>
+    <summary>What we keep, rework and remove</summary>
+    <div class="detail mapping">
+      <section><h3>Keep</h3><ul><li>Guided understanding and design</li><li>Clear user agreement</li><li>Independent review and real evidence</li><li>Switch and project memory</li></ul></section>
+      <section><h3>Rework</h3><ul><li>Conductor's whole journey</li><li>Drive routing inside Conductor</li><li>Adaptive questions and visual approval</li><li>Model-ready jobs and outcome proof</li></ul></section>
+      <section><h3>Remove from usage</h3><ul><li>Complex rung gates and schemas</li><li>Seals and requirement fingerprints</li><li>CI and custom-hook dependencies</li><li>Compulsory roles and repeated approvals</li></ul></section>
+    </div>
+  </details>
+  <details>
+    <summary>Example: ask another model to review some work</summary>
+    <div class="detail">
+      <div class="example">
+        <article class="step"><h3>You ask</h3><p>“Ask Codex to review this.”</p></article><span class="arrow" aria-hidden="true">→</span>
+        <article class="step"><h3>Conductor prepares and sends</h3><p>A bounded review goes to the eligible session for this project.</p></article><span class="arrow" aria-hidden="true">→</span>
+        <article class="step"><h3>The result returns here</h3><p>Findings, evidence and any corrections needed. No inbox or copied IDs.</p></article>
+      </div>
+      <p class="note">The session-routing MVP is accepted. The candidate now bundles that connection: it starts and registers native model sessions automatically and returns their results. It does not attach to somebody's already-open terminal. See the <a href="../trials/integrated-delivery.md">actual connected-loop evidence and remaining limits</a>.</p>
+    </div>
+  </details>
+  <details>
+    <summary>The first build: prove the experience before expanding it</summary>
+    <div class="detail"><p>Real request → guided conversation → rendered direction → recorded agreement → reliable resume. Prove that experience first, then connect model jobs and independent review.</p><p class="note">Trial in an isolated clone. No gate migration, hooks or CI setup. Existing work and history stay untouched until intentional adoption.</p></div>
+  </details>
+  <p class="legend"><strong>Conductor assesses the depth.</strong> You choose how much detail to see and agree scope, authority and resources. No compulsory level menu.</p>
+  <nav class="links" aria-label="Proposal detail"><a href="../kerd-conductor-rework.md">Proposal and design</a><a href="../conductor-rework-spec.md">Implementation and measures</a><a href="../README.md">Whole work pack</a></nav>
+</main>
+</body>
+</html>

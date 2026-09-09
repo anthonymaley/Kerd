@@ -1,0 +1,144 @@
+{
+  "status": "completed",
+  "error": null,
+  "cleanup_error": null,
+  "model": "gpt-5.6-sol",
+  "started_at": "2026-09-08T13:39:36.107885+00:00",
+  "finished_at": "2026-09-08T13:43:08.987254+00:00",
+  "owned_children_gone": true,
+  "context_readings": [
+    {
+      "last": {
+        "totalTokens": 20027,
+        "inputTokens": 19709,
+        "cachedInputTokens": 8704,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 318,
+        "reasoningOutputTokens": 130
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 20905,
+        "inputTokens": 20653,
+        "cachedInputTokens": 19584,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 252,
+        "reasoningOutputTokens": 98
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 21326,
+        "inputTokens": 20971,
+        "cachedInputTokens": 20480,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 355,
+        "reasoningOutputTokens": 54
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 32229,
+        "inputTokens": 31900,
+        "cachedInputTokens": 20736,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 329,
+        "reasoningOutputTokens": 194
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 35598,
+        "inputTokens": 35517,
+        "cachedInputTokens": 31744,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 81,
+        "reasoningOutputTokens": 0
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 37399,
+        "inputTokens": 37318,
+        "cachedInputTokens": 35328,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 81,
+        "reasoningOutputTokens": 0
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 39188,
+        "inputTokens": 39107,
+        "cachedInputTokens": 37120,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 81,
+        "reasoningOutputTokens": 0
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 42494,
+        "inputTokens": 41079,
+        "cachedInputTokens": 38912,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 1415,
+        "reasoningOutputTokens": 1176
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 43638,
+        "inputTokens": 43386,
+        "cachedInputTokens": 40960,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 252,
+        "reasoningOutputTokens": 106
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 45188,
+        "inputTokens": 44717,
+        "cachedInputTokens": 43264,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 471,
+        "reasoningOutputTokens": 377
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    },
+    {
+      "last": {
+        "totalTokens": 47908,
+        "inputTokens": 45851,
+        "cachedInputTokens": 44544,
+        "cacheWriteInputTokens": 0,
+        "outputTokens": 2057,
+        "reasoningOutputTokens": 1220
+      },
+      "model_context_window": 258400,
+      "threshold": 167960
+    }
+  ],
+  "reply": "{\n  \"position\": {\n    \"saved\": \"Isolated Switch memory trial: preparation finished; pickup result was pending. No Seinn build or Conductor task is active. Project ladder remains Sherpa Build, stage 4 of 5.\",\n    \"fresh_verification\": \"Local checkout is branch pickup-comparison at 2302c2a, not the named kerd-switch-trial-20260906 branch; therefore no second-device trial success is claimed.\",\n    \"source\": \"docs/work/switch-trial/device-handoff.md \u00a7 Exact place; CONTEXT.md \u00a7 Where we are and what to do now; kivna/sessions/2026-09-06.md \u00a7 What's Next; local Git HEAD/status\"\n  },\n  \"last_completed\": {\n    \"saved_observation\": \"T4 playback verification completed on build 339; the rollout closed 4/4. The Krutho reader correction landed as 3c9e976 and agent 2.3.1 was recorded deployed.\",\n    \"fresh_verification\": \"Not reverified against devices, deployment, or remote Git.\",\n    \"source\": \"kivna/sessions/2026-09-06.md \u00a7 What Was Done\"\n  },\n  \"next_obligation\": {\n    \"project\": \"Inform the Krutho side that 2.3.1 landed and that Seinn refuses a terminal zero-hash layer.\",\n    \"status\": \"Saved obligation only; sending any message is unauthorized.\",\n    \"source\": \"TODO.md \u00a7 Now / Owed, small and named; CONTEXT.md \u00a7 Where we are and what to do now\"\n  },\n  \"next_decision\": {\n    \"primary\": \"Producer must decide what the TV shows when a structurally valid file fails to start and whether the queue halts.\",\n    \"also_open\": \"The Sherpa Build-exit ruling and add_shares disposition remain unrecorded.\",\n    \"source\": \"CONTEXT.md \u00a7 Where we are and what to do now; TODO.md \u00a7 Backlog / The two masking defects; kivna/sessions/2026-09-06.md \u00a7 What's Next\"\n  },\n  \"authority\": {\n    \"saved_scope\": \"Candidate memory/handoff testing only; no permission to resume or alter Seinn product work.\",\n    \"current_scope\": \"Read-only local files and Git only. No network, fetch, push, tests, builds, device or SSH probes, messages, edits, new tasks, delegation, native session histories, app tools, switch-out, mode restoration, or Conductor session.\",\n    \"source\": \"docs/work/switch-trial/device-handoff.md \u00a7 Your next action, without another interview; docs/work/switch-trial/changes.md \u00a7 Trial authority; current request\"\n  },\n  \"unresolved_memory\": {\n    \"items\": [\n      \"Archived decisions were not comprehensively revalidated.\",\n      \"App ID before distribution, non-browser revocation replacement, B-frame/small-file behavior, and the unwatched marker remain indexed as unresolved.\",\n      \"Wrong-target deletion and the observed relaunch lock bypass remain undiagnosed.\"\n    ],\n    \"source\": \"CONTEXT.md \u00a7 Read deeper by the work, not by ritual; TODO.md \u00a7 Backlog\"\n  },\n  \"reads\": {\n    \"complete\": [\n      \"CONTEXT.md (110 lines)\",\n      \"TODO.md (323 lines)\",\n      \"kivna/sessions/2026-09-06.md (179 lines; newest dated log)\",\n      \"docs/work/switch-trial/device-handoff.md (62 lines)\",\n      \"docs/work/switch-trial/changes.md (40 lines)\"\n    ],\n    \"fresh_checks\": [\n      \"Local Git HEAD/status\",\n      \"kivna/.active-modes absent or empty\",\n      \"No progress renderer or named progress file found by local file scan\"\n    ],\n    \"incomplete\": [],\n    \"not_read_by_scope\": [\n      \"Archived CONTEXT/TODO\",\n      \"Older session logs\",\n      \"Native session histories\"\n    ]\n  }\n}"
+}

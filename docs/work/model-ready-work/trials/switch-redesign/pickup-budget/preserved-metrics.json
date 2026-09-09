@@ -1,0 +1,14 @@
+{
+  "method": "Matched-run differential estimate; caller source-selection cost excluded.",
+  "host_base": 13026,
+  "control_spread": 0,
+  "peak_input": 18275,
+  "peak_total": 21769,
+  "added_input": 5249,
+  "added_context": 8743,
+  "added_context_percent": 3.3835139318885448,
+  "seconds": 118.513,
+  "observed_operations": 0,
+  "numeric_target_met": true,
+  "restoration_assessment": "No blocking findings in independent Claude assessment; scoped prepared-reader report-only pass. See review-final.md for limitations."
+}

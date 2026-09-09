@@ -1,0 +1,11 @@
+{
+  "snapshot": "2302c2a3f92fb1c094b23b3c83eb67b9d79b8a83",
+  "preparation_seconds": 0.20380691601894796,
+  "order": [
+    "control-before",
+    "legacy",
+    "candidate",
+    "control-after"
+  ],
+  "scope": "local-only; prepared selection supplied"
+}

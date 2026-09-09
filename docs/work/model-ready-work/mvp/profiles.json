@@ -1,0 +1,97 @@
+{
+  "registry_version": "2026-09",
+  "profiles": [
+    {
+      "id": "anthropic-opus-5@2026-09",
+      "provider": "anthropic",
+      "family": "opus-5",
+      "models": ["claude-opus-5"],
+      "default_effort": "high",
+      "efforts": ["low", "medium", "high", "xhigh", "max"],
+      "renderer": "claude_xml",
+      "guidance": [
+        "Use descriptive XML boundaries when prompt materials are mixed.",
+        "Leave decomposition to the model unless order is part of correctness.",
+        "Do not add generic verification scaffolding beyond the task evidence contract.",
+        "Constrain narrow scope explicitly and report unrelated findings."
+      ],
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5",
+          "retrieved": "2026-09-04"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/effort",
+          "retrieved": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-sonnet-5@2026-09",
+      "provider": "anthropic",
+      "family": "sonnet-5",
+      "models": ["claude-sonnet-5"],
+      "default_effort": "high",
+      "efforts": ["low", "medium", "high", "xhigh"],
+      "renderer": "claude_xml",
+      "guidance": [
+        "Use clear direct instructions and remove conflicting exceptions.",
+        "Test whether evidence requirements trigger tools before adding must-call rules.",
+        "Leave decomposition to the model unless order is part of correctness."
+      ],
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5",
+          "retrieved": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-fable-5-1@2026-09",
+      "provider": "anthropic",
+      "family": "fable-5-1",
+      "models": ["claude-fable-5-1", "claude-mythos-5-1"],
+      "default_effort": "high",
+      "efforts": ["low", "medium", "high", "xhigh", "max"],
+      "renderer": "claude_xml",
+      "guidance": [
+        "For autonomous batches, finish already-authorized steps without asking again.",
+        "At low effort, explicitly retrieve current or unfamiliar facts.",
+        "Prefer targeted edits over whole-file rewrites for small changes.",
+        "Keep replayed conversation history append-only."
+      ],
+      "sources": [
+        {
+          "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1",
+          "retrieved": "2026-09-04"
+        }
+      ]
+    },
+    {
+      "id": "openai-gpt-5-6@2026-09",
+      "provider": "openai",
+      "family": "gpt-5-6",
+      "models": ["gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna"],
+      "default_effort": "medium",
+      "efforts": ["none", "low", "medium", "high", "xhigh", "max"],
+      "renderer": "openai_outcome",
+      "guidance": [
+        "Lead with outcome, success criteria, evidence, guardrails, and stop conditions.",
+        "Reduce detailed process guidance unless the product requires the path.",
+        "Keep reasoning effort in request configuration rather than reasoning scripts.",
+        "Use native tool descriptions and structured outputs where the harness supports them."
+      ],
+      "sources": [
+        {
+          "url": "https://developers.openai.com/api/docs/guides/latest-model",
+          "retrieved": "2026-09-04"
+        },
+        {
+          "url": "https://developers.openai.com/api/docs/models",
+          "retrieved": "2026-09-04"
+        }
+      ]
+    }
+  ]
+}
+

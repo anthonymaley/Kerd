@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Ask another model to review",
+    "quality_profile": "showcase",
+    "animation": "none",
+    "legend": {"mode": "hidden"},
+    "views": [
+      {"id": "whole-flow", "label": "Request to result", "focus": ["request", "prepare", "review", "result"], "note": "Proposed experience: one request, a bounded review, and findings returned here."},
+      {"id": "review-job", "label": "What the reviewer receives", "focus": ["prepare", "review"], "note": "Relevant work, original success measures, boundaries and a clear review question."}
+    ]
+  },
+  "lanes": [
+    {"id": "person", "label": "You"},
+    {"id": "conductor", "label": "Conductor"},
+    {"id": "reviewer", "label": "Selected model"}
+  ],
+  "mainPath": ["request", "prepare", "review", "result"],
+  "nodes": [
+    {"id": "request", "lane": "person", "col": 0, "type": "external", "label": "Ask for a review", "sublabel": "Your existing work", "width": 160},
+    {"id": "prepare", "lane": "conductor", "col": 1, "type": "backend", "label": "Prepare the job", "sublabel": "Purpose and boundaries", "width": 160},
+    {"id": "review", "lane": "reviewer", "col": 2, "type": "backend", "label": "Review the work", "sublabel": "Check against success", "width": 160},
+    {"id": "result", "lane": "person", "col": 3, "type": "external", "label": "See the findings", "sublabel": "Evidence and next action", "width": 160}
+  ],
+  "edges": [
+    {"from": "request", "to": "prepare", "role": "main"},
+    {"from": "prepare", "to": "review", "role": "main"},
+    {"from": "review", "to": "result", "role": "main"}
+  ]
+}

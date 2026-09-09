@@ -1,0 +1,17 @@
+{
+  "name": "kerd",
+  "version": "0.107.0-candidate.1",
+  "description": "Guided work, visual agreement and session continuity: Conductor, Visuals and Switch.",
+  "author": {"name": "Anthony Maley"},
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Kerd candidate",
+    "shortDescription": "Turn an idea into checked, ready-to-use work.",
+    "longDescription": "Conductor guides and delivers the work, Visuals makes the direction clear, and Switch preserves the place across sessions.",
+    "developerName": "Anthony Maley",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Help me make this happen.", "Continue the saved work."]
+  }
+}

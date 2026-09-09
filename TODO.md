@@ -2,6 +2,14 @@
 
 ## Now
 
+**Current work:** [Conductor / Switch / Visuals candidate](docs/work/model-ready-work/candidate-entry.md).
+Use its [current adoption actions](docs/work/model-ready-work/consolidation.md)
+as the single working list; do not repeat the accepted Switch trial or restart
+the parked schema-split session. Candidate changes are not yet installed or saved
+to GitHub. The earlier launch work below is retained, not declared complete.
+
+### Earlier launch sequence — retained pending reconciliation
+
 **The launch sequence — `docs/design/launch-plan.md` (five outcomes, 0 of 5).**
 Everything below it sits in Backlog as repository-quality debt and stays there
 unless the diagnostic pilot surfaces it.
@@ -509,7 +517,29 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   rather than add it. Open question before any build — does this belong to tend
   at all, or is a machine's config outside every repo's business?
 
-- **Stashes and local-equals-remote are unchecked at the boundary.**
+- **Stashes and local-equals-remote are unchecked at the boundary.** Evidence
+  arrived 2026-09-06, handed off by the apple-music session (`apple-music-78`,
+  approved at that session's plan gate — reported, not verified here): on
+  2026-09-02 its Switch Out banner passed three times over 53 commits that no
+  remote had reached. The mechanism is in Kerd's own text —
+  `skills/switch/SKILL.md:246-261` proves the boundary with `git status` +
+  `git log -1`: `Tree: clean` tests uncommitted work, `Pushed:` is a claim
+  about a command's output, and the log header's `**Tracking:**` line is
+  model-written. A *failed* push already stops (`:261`); an unverified one does
+  not, and nothing fetches or checks containment on the way out —
+  `hooks/session-start.sh:21` checks only the inbound direction (remote ahead
+  of local). A working countermeasure exists outside the repo, verified
+  read-only: `~/eolas/vault/kerd/bin/boundary-check` (v3, 2026-09-02) fetches,
+  then exits 1 on a failed fetch, a HEAD no remote ref contains, or a dirty
+  tree, on every repo passed to it, with no success bypass
+  (`BOUNDARY_LOCAL_REASON` prints as an unverified operator assertion; the exit
+  stays 1). apple-music's CLAUDE.md carries the override ("Switch-out is not
+  complete until BOTH repos pass the mechanical gate"). The ask as handed off:
+  Switch Out runs it on every repo the boundary owns and refuses the ✓ banner
+  while it fails. **Decision owed to the producer:** fold it into switch step 7
+  as a required evidence line, promote the script into `tools/` or a hook, or
+  frame it as its own item. Same class as `check_stage_schema()`/AU10 — a
+  prose rule that did not grip, replaced by a check that refuses.
 - **The playbook's `## Current Status` duplicates CONTEXT.md.** Its stale
   content was fixed this session (v0.90.0 → v0.95.0, three hooks → four); the
   duplication itself remains. Kill it or make it a pointer.

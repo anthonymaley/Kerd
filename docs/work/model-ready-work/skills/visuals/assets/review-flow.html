@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ask another model to review — proposed experience</title>
+  <!-- Adapted from Cathryn Lavery's diagram-design template (MIT); see ../LICENSE. -->
+  <style>
+    :root{color-scheme:light dark;--paper:#f5f5f5;--ink:#2d3142;--muted:#4f5d75;--accent:#b94319;--tint:#fbe9e1;--border:#b8bec9}
+    @media(prefers-color-scheme:dark){:root{--paper:#20232d;--ink:#f5f5f5;--muted:#c5cad5;--accent:#ffb191;--tint:#3c2e2b;--border:#838b9d}}
+    *{box-sizing:border-box}body{margin:0;padding:28px 18px;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,sans-serif}main{max-width:560px;margin:auto}.eyebrow{color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase}h1{font-size:30px;line-height:1.15;margin:12px 0}p{margin:12px 0}svg{width:100%;display:block;max-width:480px;margin:24px auto}svg text{font-family:system-ui,sans-serif;fill:var(--ink);text-anchor:middle}.name{font-size:22px;font-weight:600}.sub{font-size:18px;fill:var(--muted)}.node{fill:var(--paper);stroke:var(--border);stroke-width:1.5}.focus{fill:var(--tint);stroke:var(--accent)}.edge{fill:none;stroke:var(--muted);stroke-width:2;marker-end:url(#review-flow-arrow)}.note{font-size:14px;color:var(--muted)}a{color:var(--accent)}details{border-top:1px solid var(--border);padding-top:16px}summary{cursor:pointer;font-weight:600}
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Proposed experience · Not a built transport</p>
+  <h1>Ask another model to review.</h1>
+  <p>You ask once. The review comes back to the conversation.</p>
+  <svg viewBox="0 0 480 608" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="review-flow-title review-flow-desc">
+    <title id="review-flow-title">A review request returns as useful findings</title>
+    <desc id="review-flow-desc">Your request goes to Conductor, which prepares a bounded job for a selected model. That model reviews the work against the original success measures and returns findings and evidence to you.</desc>
+    <defs><marker id="review-flow-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="var(--muted)"/></marker></defs>
+    <path class="edge" d="M240 120 V168"/>
+    <path class="edge" d="M240 264 V312"/>
+    <path class="edge" d="M240 408 V456"/>
+    <rect class="node" x="40" y="24" width="400" height="96" rx="24"/>
+    <text class="name" x="240" y="64">You ask for a review</text>
+    <text class="sub" x="240" y="94">Your existing work</text>
+    <rect class="node focus" x="40" y="168" width="400" height="96" rx="8"/>
+    <text class="name" x="240" y="208">Conductor prepares the job</text>
+    <text class="sub" x="240" y="238">Purpose, evidence and boundaries</text>
+    <rect class="node" x="40" y="312" width="400" height="96" rx="8"/>
+    <text class="name" x="240" y="352">The selected model reviews</text>
+    <text class="sub" x="240" y="382">Against the original success measures</text>
+    <rect class="node" x="40" y="456" width="400" height="96" rx="24"/>
+    <text class="name" x="240" y="496">Findings return to you</text>
+    <text class="sub" x="240" y="526">Evidence and the next action</text>
+    <text class="sub" x="240" y="592">No inbox. No copied session IDs.</text>
+  </svg>
+  <details><summary>What stays inside the agreement?</summary><p>The review uses authorized project material and the agreed scope. You may name the reviewer. An unavailable session is reported, not silently replaced.</p><p>This view explains the intended experience. Registration and message delivery still need to be demonstrated by the prototype.</p></details>
+  <p class="note">A worked example for the Kerd visual guide, adapted from diagram-design. It illustrates the review job only; it is not the complete direction-approval brief.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# Reviewed trial output is evidence, not the repo's disposable output cache.
+!output/
+!output/*.py
+!output/*.md
+!output/*.json

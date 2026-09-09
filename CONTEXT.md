@@ -6,6 +6,21 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
+**Current candidate work — 2026-09-09:** the maintained Conductor, Switch and
+Visuals redesign lives in [model-ready-work](docs/work/model-ready-work/candidate-entry.md).
+Read its [current position and adoption actions](docs/work/model-ready-work/consolidation.md)
+for this work, not the older launch sequence below. Switch's bounded candidate
+trial is accepted; wider adoption and real-person journey validation remain open.
+The pack is local/uncommitted; this pointer is not a GitHub save or installation.
+Installed Kerd and the parked schema-split session are not changed by this work.
+
+Local closeout is saved in consolidation's **Pickup after local closeout**
+section. Read that complete section first for the small reading set, authority
+and next action. [Today's account](kivna/sessions/2026-09-09.md) records what
+was saved. No GitHub save, installation or closure of another terminal is implied.
+
+### Previous installed-Kerd position — retained, not freshly revalidated
+
 **2026-09-03, three sittings (08:38–09:16 · 10:40–14:03 · 14:09–23:18 EDT) —
 the schema migration SHIPPED.** Kerd at **v0.106.0**; CI green at the tip
 (`f098ae5`).
