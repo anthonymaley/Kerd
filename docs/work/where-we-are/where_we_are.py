@@ -28,6 +28,8 @@ UNRECORDED = "not recorded"
 NOTHING = {"none", "none.", "n/a", "nothing", "-"}
 HEADING = re.compile(r"##[ \t]+(\S.*?)[ \t]*")
 FIELD_LINE = re.compile(r"([A-Za-z][A-Za-z ]{0,40}):[ \t]*(.*)")
+SUBHEADING = re.compile(r"###[ \t]+(\S.*?)[ \t]*")
+LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)\)")
 
 
 def columns(text):
@@ -181,7 +183,9 @@ def journey_strip(stage):
     plain = " → ".join(STAGES)
     if stage is None:
         return plain, f"stage {UNRECORDED}"
-    known = next((name for name in STAGES if name.lower() == stage.lower()), None)
+    # Records write "Stage: Complete." as readily as "Stage: Complete".
+    spoken = stage.strip().rstrip(".;,")
+    known = next((name for name in STAGES if name.lower() == spoken.lower()), None)
     if known is None:
         return plain, f'recorded stage "{stage}" is not one of these'
     return " → ".join(f"[NOW: {name}]" if name == known else name for name in STAGES), None
@@ -208,6 +212,32 @@ def job_block(job, state, width):
     return lines
 
 
+def position_of(section):
+    """The record's own first subheading inside its status section.
+
+    A heading the record wrote is explicit structure, not prose read for meaning,
+    so it can orient a reader when no Stage field exists.
+    """
+    if section is None:
+        return None
+    for line in section.splitlines():
+        match = SUBHEADING.fullmatch(line.strip())
+        if match:
+            return match[1]
+    return None
+
+
+def links_of(section, limit=5):
+    """Markdown links the status section already carries, as evidence pointers."""
+    if section is None:
+        return [], 0
+    seen = {}
+    for label, target in LINK.findall(section):
+        seen.setdefault(target, label)
+    found = [(label, target) for target, label in seen.items()]
+    return found[:limit], len(found)
+
+
 def render(path, text, now, width=80):
     parts, duplicated = sections(text)
     now_part, agreement = parts.get("Now"), parts.get("Agreement")
@@ -231,7 +261,11 @@ def render(path, text, now, width=80):
 
     strip, stage_note = journey_strip(stage)
     lines += ["", *wrap(strip, width)]
-    lines += (wrap(stage_note, width) if stage_note else []) + [""]
+    lines += wrap(stage_note, width) if stage_note else []
+    position = position_of(now_part)
+    if position and stage_note:
+        lines += wrap(f"position, from this record's own Now heading: {position}", width)
+    lines.append("")
 
     if question:
         lines += box("YOU DECIDE", [question, "", "Proposed: " + (proposed or UNRECORDED),
@@ -242,6 +276,16 @@ def render(path, text, now, width=80):
     else:
         lines += wrap(f"YOU: it is {UNRECORDED} whether you are needed. This record states "
                       "no agreement and no pending question.", width) + [""]
+
+    activity, activity_dup = field(now_part, "Current activity")
+    action, action_dup = field(now_part, "Next action")
+    for note in (activity_dup, action_dup):
+        if note:
+            lines += wrap("! " + note, width)
+    for label, value in (("doing", activity), ("next ", action)):
+        lines += [f"  {label}  {line}" if index == 0 else " " * 9 + line
+                  for index, line in enumerate(wrap(value or UNRECORDED, width - 9))]
+    lines.append("")
 
     lines.append("JOBS (as recorded — not observed)")
     jobs = jobs_of(parts.get("Jobs"))
@@ -254,6 +298,13 @@ def render(path, text, now, width=80):
                 lines += job_block(job, state, width)
         for job in [item for item in jobs if item["state"] not in MARKS]:
             lines += job_block(job, job["state"], width)
+    found, total = links_of(parts.get("Now"))
+    if found:
+        shown = f" (first {len(found)} of {total})" if total > len(found) else ""
+        lines += ["", f"LINKS THE RECORD ALREADY CARRIES{shown}"]
+        for label, target in found:
+            lines += [f"  → {line}" if index == 0 else "    " + line
+                      for index, line in enumerate(wrap(f"{target}  ({label})", width - 4))]
     lines += ["", *wrap('Recorded, not observed. "active" means the record said so when it '
                         "was last updated, not that a job is running now.", width)]
     return "\n".join(lines)

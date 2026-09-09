@@ -196,6 +196,42 @@ class ViewTests(unittest.TestCase):
         self.assertIn("Proposed: one is yours to judge", " ".join(flat))
         self.assertNotIn("Proposed: not recorded", out)
 
+    def test_a_stage_written_with_trailing_punctuation_is_recognised(self):
+        """Records write "Stage: Complete." as readily as "Stage: Complete"."""
+        self.assertIn("[NOW: Complete]", render("# Work: x\n\n## Now\nStage: Complete.\n"))
+
+    def test_current_activity_and_next_action_are_shown_or_labelled(self):
+        out = render("# Work: x\n\n## Now\nStage: Deliver\nNext action: ask the producer\n")
+        self.assertIn("next   ask the producer", out)
+        self.assertIn("doing  not recorded", out)
+
+    def test_the_records_own_now_subheading_orients_when_no_stage_is_given(self):
+        text = "# Work: x\n\n## Now\n\n### Pickup after local closeout\n\nPosition: main\n"
+        out = render(text)
+        self.assertIn("position, from this record's own Now heading: Pickup after local", out)
+
+    def test_a_recorded_stage_is_not_duplicated_by_the_subheading_line(self):
+        text = "# Work: x\n\n## Now\nStage: Deliver\n\n### Some heading\n\nbody\n"
+        self.assertNotIn("position, from this record's own", render(text))
+
+    def test_links_the_record_carries_are_offered_deduplicated_and_capped(self):
+        body = "".join(f"[label {n}](target-{n}.md)\n" for n in range(7))
+        out = render(f"# Work: x\n\n## Now\nStage: Deliver\n\n{body}[again](target-0.md)\n")
+        self.assertIn("[NOW: Deliver]", out)
+        self.assertIn("LINKS THE RECORD ALREADY CARRIES (first 5 of 7)", out)
+        self.assertIn("→ target-0.md (label 0)", out)
+        self.assertNotIn("target-6.md", out)
+
+    def test_prose_running_straight_into_a_field_is_labelled_not_shown_as_a_stage(self):
+        """The continuation rule can swallow a following paragraph; that must be
+        visible as an unrecognised stage, never rendered as a confident one."""
+        out = render("# Work: x\n\n## Now\nStage: Deliver\nand then a paragraph follows here\n")
+        self.assertIn("is not one of these", out)
+        self.assertNotIn("[NOW:", out)
+
+    def test_a_record_without_links_shows_no_empty_links_heading(self):
+        self.assertNotIn("LINKS THE RECORD", render("# Work: x\n\n## Now\nStage: Deliver\n"))
+
     def test_every_line_fits_the_requested_width(self):
         for width in (60, 80, 100):
             with self.subTest(width=width):

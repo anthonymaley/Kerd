@@ -73,11 +73,12 @@ The adjustments, all binding on the build:
 - [done] Independent review · Claude Sonnet 5 (requested; not observed) — 8 findings
 - [done] Correct the 7 confirmed findings · Claude Opus 5 — each retested
 - [done] Save the boundary · Claude Opus 5 — pushed, verified at origin/main
-- [next] Your judgement · producer — do the two checks pass?
+- [done] Read records it was not designed around · Claude Opus 5 — 30 checks
+- [next] Your judgement · producer — does check 1 pass?
 
 ## Now
 
-Record updated: 2026-09-09 12:37 EDT
+Record updated: 2026-09-09 12:45 EDT
 Stage: Deliver
 Current activity: none. The build is reviewed, corrected, pushed and verified;
 the work now waits on the producer's assessment of the two checks.
@@ -90,11 +91,11 @@ Recommendation: read the conventional headings; show anything missing as "not
 recorded". A record that cannot say what is happening should show that.
 Open issues: none blocking. Whether the two producer checks actually pass is
 tested after the build, not assumed by it.
-Pending question: Do the two checks pass — could you see what was happening and
-whether you were needed, and did this reach a verified result without you typing
-"next"?
-Proposed answer: check 2 has an answer in the record; check 1 is yours alone.
-Reply with: Passed / Not passed — say which one failed
+Pending question: Could you follow what was happening during the build, and when
+you were needed — or did that only become clear in the final report?
+Proposed answer: none. The evidence is in the transcript's shape, not in a claim
+this record can make on your behalf.
+Reply with: Followed it / Only at the end
 Next action: the producer answers the two checks. The boundary is the commit
 "A 'Where we are' view that refuses to interpret" on `main`, verified at origin;
 its ID is in `git log`, not written into the record it saves.
@@ -164,6 +165,32 @@ record and reading the result:
 That is the same failure this whole sitting opened with — a record outliving its
 own next action — caught this time by the thing built to catch it.
 
-Not established: whether the two producer checks pass. Only the producer can say
+Check 2 passed on the producer's judgement, 2026-09-09: the work reached a
+reviewed, verified result without another "next".
+
+Usefulness on records it was not designed around — the producer's concern that
+rendering `consolidation.md` as "not recorded" everywhere was safe failure, not
+demonstrated use. Fixed by learning the vocabulary records already use, not by
+standardising records:
+
+- `Next action:` and `Current activity:` are read and shown. The view had ignored
+  the single most useful line a record carries.
+- `Stage: Complete.` now matches; trailing punctuation is ordinary writing.
+- With no `Stage:`, the record's own first `###` heading inside its status section
+  orients the reader. A heading the record wrote is explicit structure, not prose
+  read for meaning.
+- Markdown links already in the status section are offered as evidence pointers,
+  deduplicated and capped, labelled "first 5 of N".
+
+Unmodified `consolidation.md` now yields its position ("Pickup after local
+closeout"), its next action in its own words, and five of its nine links.
+Unmodified `trials/integrated-delivery/work.md`, written before this view existed,
+yields its outcome, its stage, its current activity and its next action.
+
+Known limit, pinned by a check: a field's value runs on until a blank line or the
+next field, so a paragraph written directly beneath `Stage:` is absorbed. The
+result is an unrecognised stage the view labels, never a confident wrong one.
+
+Not established: whether check 1 passes. Only the producer can say
 whether they can see what is happening, and whether the work reached a verified
 result without them typing "next".
