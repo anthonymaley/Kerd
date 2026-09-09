@@ -116,12 +116,16 @@ Replayed against the real case, the second half holds. Running the check over
 consolidation.md exactly as it stood at the stale pickup, against the corrected
 `HEAD`, reports `d223510451a91ded0eedfeeba95d048d7100b920` — the very revision
 whose next action had already been done. The same check over the corrected record
-reports nothing. That is a replay of the actual record, not a fixture, and not yet
-a live pickup: `handoff.py pickup` refuses on this repository while the instructed
-untracked files sit in the tree ("Local changes exist"), which is the same
-limitation the save side hit.
+reports nothing. That is a replay of the actual record, not a fixture.
 
-Still unobserved: a handoff written from scratch under the corrected Out, and the
-signal reaching a reader inside a real In. The next sitting tests both. A quiet
-signal on a genuinely stale record, or a handoff that again outlives its own next
-action, falsifies this.
+Both halves then ran on this repository for real. The helper that had refused this
+boundary saved it, with the three acknowledged paths reported local only and left
+untracked on disk. A following pickup of the corrected record returned
+`record_loaded` past those same leftovers, listing them and raising no hint. So the
+save side, the pickup side and the quiet-on-a-good-record case are observed here,
+not only in fixtures.
+
+Still unobserved: a handoff written from scratch under the corrected Out, the hint
+reaching a reader inside a real In, and the collision rule firing against a real
+remote rather than a temporary one. The next sitting tests the first two. A handoff
+that again outlives its own next action falsifies this work.
