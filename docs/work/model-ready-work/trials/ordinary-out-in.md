@@ -93,6 +93,18 @@ untouched by this observation. Context cost remains unmeasured.
 
 Expectation: the next handoff written under the corrected Out will not name an
 action its own sitting completed, and a pickup loading an overtaken record will
-report it before acting. Neither has been observed in a live pickup yet. The next
-real In tests both; a quiet signal on a genuinely stale record, or a handoff that
-again outlives its next action, falsifies this.
+report it before acting.
+
+Replayed against the real case, the second half holds. Running the check over
+consolidation.md exactly as it stood at the stale pickup, against the corrected
+`HEAD`, reports `d223510451a91ded0eedfeeba95d048d7100b920` — the very revision
+whose next action had already been done. The same check over the corrected record
+reports nothing. That is a replay of the actual record, not a fixture, and not yet
+a live pickup: `handoff.py pickup` refuses on this repository while the instructed
+untracked files sit in the tree ("Local changes exist"), which is the same
+limitation the save side hit.
+
+Still unobserved: a handoff written from scratch under the corrected Out, and the
+signal reaching a reader inside a real In. The next sitting tests both. A quiet
+signal on a genuinely stale record, or a handoff that again outlives its own next
+action, falsifies this.
