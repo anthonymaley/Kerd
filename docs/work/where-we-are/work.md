@@ -79,7 +79,7 @@ The adjustments, all binding on the build:
 
 ## Now
 
-Record updated: 2026-09-09 16:47 EDT
+Record updated: 2026-09-09 16:50 EDT
 Stage: Complete
 Current activity: none. The build is reviewed, corrected, pushed and verified.
 Analysis so far: the candidate's work records are prose under a writing aid that
@@ -222,8 +222,18 @@ from inside a session and is not claimed here.
 Welcome-back presentation, added by Skill Creator and condensed 2026-09-09 on the
 producer's instruction: the agreed headings, the optional Insight callout and the
 task-detail link are kept; repeated instruction text is gone, 88 added lines down
-to 66. It stays presentation — no record field, parser, dashboard or helper. Its
-"View tasks and details" link is the natural place for this view to render, which
-needs nothing new built. Only the producer can say
-whether they can see what is happening, and whether the work reached a verified
-result without them typing "next".
+to 66. It stays presentation — no record field, parser, dashboard or helper.
+
+A distinction the producer required be kept, correcting a claim of mine that had
+blurred it: `where_we_are.py` prints to a terminal. It is not a clickable status
+page, and calling it the target of "View tasks and details" confused a renderer
+with a page. The In guide already says the right thing — link an HTML page where
+one exists, otherwise the Markdown record — so nothing in the guidance changed.
+Link the work record. No page is to be built for this.
+
+## Closed
+
+Closed 2026-09-09 on the producer's instruction: the result is saved, the format
+is agreed, and visibility feedback comes from ordinary use without blocking work.
+No further protocol change or review belongs to this item. Check 1 stays
+unassessed by that same instruction, not by omission.
