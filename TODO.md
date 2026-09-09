@@ -6,8 +6,16 @@
 Use its [current adoption actions](docs/work/model-ready-work/consolidation.md)
 as the single working list; do not repeat the accepted Switch trial or restart
 the parked schema-split session. Candidate changes are committed and pushed to
-`main`, verified at the remote 2026-09-09; they are not installed or published.
+`main`, verified at the remote; they are not installed or published.
 The earlier launch work below is retained, not declared complete.
+
+**Delta 2026-09-09** (detail in `kivna/sessions/2026-09-09.md`): candidate Switch
+gained preserved local paths and an overtaken-revision hint; its Out guidance now
+separates local preparation from verified remote save. A first Kerd feature was
+built through the candidate — the "Where we are" view at `docs/work/where-we-are/`
+— reviewed, corrected and closed, with its acceptance check left to ordinary use.
+Open next: the continuation and visibility adoption gaps.
+The earlier launch sequence below was not touched this session.
 
 ### Earlier launch sequence — retained pending reconciliation
 
@@ -462,7 +470,16 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   minutes** (switch-in 07:46, `execute` stamped 08:12) — small because execute
   was reached early. The measured spread is now 14 min · 26 min · 66 min · 157
   min, which shows the defect scales with how long the planning phase runs, not
-  with anything random.
+  with anything random. **SEVENTH instance 2026-09-09, and a new failure mode:
+  six DAYS, not minutes.** No conductor ran that session at all, yet
+  `kivna/.active-modes` still held `conductor: plan @ 2026-09-03 23:59 EDT` — the
+  parked schema-split marker — so switch-out's fallback ("use the stamp on the
+  `conductor:` line still in `.active-modes`, if one is there") pointed at a
+  marker from a previous *session*, not a previous phase. The boundary wrote
+  `closed HH:MM` instead. **This widens the diagnosis a second time:** the marker
+  cannot report the first phase (the 2026-08-23 finding), and it cannot report
+  *whether it belongs to this sitting at all*. A staleness guard is needed
+  regardless of which of the two candidate fixes is chosen.
 
 - ~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED 2026-08-13
   ~16:40**, at this sitting's switch-in. Three confirming observations: the

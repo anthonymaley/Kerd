@@ -11,15 +11,20 @@ Visuals redesign lives in [model-ready-work](docs/work/model-ready-work/candidat
 Read its [current position and adoption actions](docs/work/model-ready-work/consolidation.md)
 for this work, not the older launch sequence below. Switch's bounded candidate
 trial is accepted; wider adoption and real-person journey validation remain open.
-The pack is committed on `main` and verified at `origin/main` (2026-09-09); that
-is a save, not installation, publication or release. Installed Kerd and the parked
-schema-split session are not changed by this work.
+The pack is committed on `main` and verified at `origin/main`; that is a save, not
+installation, publication or release. Installed Kerd and the parked schema-split
+session are not changed by this work.
 
-The current position is consolidation's **Pickup after local closeout** section,
-corrected 2026-09-09 after that boundary. Read that complete section first for the
-small reading set, authority and next action. [Today's account](kivna/sessions/2026-09-09.md)
-records what was saved and verified. No installation, publication or closure of
-another terminal is implied.
+The current position is consolidation's **Pickup after local closeout** section.
+Read that complete section first for the small reading set, authority and next
+action. Two adoption gaps stay open — continuation and visibility; the ordinary
+Out/In gap narrowed but did not close ([record](docs/work/model-ready-work/trials/ordinary-out-in.md)).
+
+**A first Kerd feature was built through the candidate on 2026-09-09:** the
+"Where we are" view at [docs/work/where-we-are/](docs/work/where-we-are/work.md) —
+a terminal renderer over one work record, reviewed, corrected and closed. Its
+acceptance check (can a person see what is happening and when they are needed)
+is deliberately unassessed, waiting on ordinary use rather than another trial.
 
 ### Previous installed-Kerd position — retained, not freshly revalidated
 
@@ -60,6 +65,14 @@ the schema migration SHIPPED.** Kerd at **v0.106.0**; CI green at the tip
   item · Stage · Issue · Resolution path, one final question.
 
 ## Key Decisions
+
+- **FILES A PROJECT DELIBERATELY KEEPS OUT OF GIT ARE PRESERVED LEFTOVERS, NOT BLOCKERS TO UNRELATED WORK — Tony, 2026-09-09, after candidate Switch's verified save refused every Kerd boundary.** The helper treated `kerd-laptop-result.patch` and two reviewed-output `.pyc` files as unassigned work and would not commit around them, which made the default save unusable in the repo it was written for. **His shape, four clauses:** a save commits only its named files; explicitly acknowledged untracked paths stay untouched and are reported *"local only—not saved"*; new, unacknowledged changes still require attention; a pickup may proceed with preserved files **unless the incoming revision would overwrite one — that collision stops the operation.** And the boundary on the mechanism: *"Keep this acknowledgement project-local, using exact paths. No blanket ignore, automatic deletion or auto-stash."* So a tracked or missing path is refused, and an acknowledgement can never hide real work or a typo. Kerd's three paths live in consolidation's pickup section, not a new config file.
+
+- **AN OLDER HASH IS NOT A STALE HANDOFF — THE DEFECT IS AN OBSOLETE NEXT ACTION. Tony, 2026-09-09, correcting the session's framing of its own countermeasure.** Verbatim: *"overtaken_revisions is a diagnostic hint only; historical references and pre-save revisions are legitimate. The actual defect was an obsolete next action, not merely an ancestor hash."* The underlying cause is structural and worth keeping: a record states the revision observed **while it is being written**, so any commit the same sitting makes afterwards leaves it naming an ancestor — which means a record can never contain the commit that saves it, and a handoff must therefore name its boundary by branch and subject, never by embedding its own resulting ID.
+
+- **A TOKEN-BUDGET RESULT STAYS UNMEASURED; A BYTE PROXY IS GROUNDS FOR CONCERN, NOT A MEASURED FAILURE. Tony, 2026-09-09.** The session converted 63KB of reading into ~15.8k tokens by a four-bytes-per-token proxy and called the pickup *"over budget"*. His correction: *"A rough byte conversion—even twice the target—is grounds for concern, not a measured failure."* The host exposes no token readout inside a session, so the honest result is unmeasured in both directions, with the concern stated and acted on.
+
+- **PROGRESS MUST BE SHOWN DURING WORK, NOT ONLY IN A FINAL REPORT — AND "THE HOST CANNOT" NEEDS PROVING. Tony, 2026-09-09.** The session claimed *"nothing can print between turns"*; he refused it: *"A long foreground tool call may prevent updates while it runs; that is different from being unable to communicate between tool calls. Use background execution where supported to keep the controller responsive."* He was right — `PushNotification`'s own contract states that when the user is at the terminal *"your output already reaches them"*, and a background job here returned immediately while four tool calls ran alongside it. The real limit is only that nothing emits while a **foreground** call blocks. Emit at each real change of state — implementation starts, a reviewer starts or returns, correction begins, work completes or blocks — and stay quiet between them. **And keep a renderer distinct from a page:** `where_we_are.py` prints to a terminal and is not a clickable status page; link the existing work record unless an actual page exists.
 
 - **TREATMENT ASSURANCE IS A LIFECYCLE, NOT A PARSE RULE — A FATAL RISK ADVANCES ON A PLANNED TREATMENT AND ACCEPTANCE DEMANDS THE VERIFIED ONE. Tony, 2026-09-03, refusing revision 1 of `risk-state-split`'s design for a circular dependency.** The draft required resolving `Treatment evidence` at the ledger parse — every rung — which *"prevents an item from advancing to build the treatment that would produce that evidence"*: `gate-reachability` would be blocked at viability forever, unable to reach the loop that ships the very fixtures the gate demanded. **His shape, three clauses:** *"At viability: a fatal risk may advance only with a permanent or appropriately bounded temporary countermeasure, even though implementation evidence does not exist yet. Before acceptance — or the earliest gate after verification where evidence can exist — the treatment must have resolving evidence. The machine must distinguish 'planned treatment' from 'verified treatment' without claiming the former is proven."* **He also refused the blanket fatal + temporary refusal:** *"'Temporary' means it carries a return condition, not that it expires before protecting this increment"* — the draft's refusal had no support in the 2026-08-03 rule and would have retroactively invalidated previously accepted temporary controls. **And he corrected the resolution claim's verbs:** the machine verifies a citation *resolves*; never say the fixture "runs" when the check only proves its file exists — the producer decides whether the evidence supports the treatment. Two migration overclaims died in the same pass: the new column lands on all 21 records and 84 rows (not "20 records"), and *"do not claim no other rung positions change until all 79 severity decisions are known — a newly classified fatal row could legitimately change its route."* Same family as the 2026-08-31 scope-gate ruling (an executable manual control now, machinery later, dependency visible): assurance that cannot exist yet is declared as planned, never faked, never demanded early.
 
@@ -275,11 +288,16 @@ the schema migration SHIPPED.** Kerd at **v0.106.0**; CI green at the tip
 
 ## Active Mode
 
-- **conductor: RAN three times and closed** on 2026-09-03 — first sitting
-  orient 08:13 · execute 08:38 · close 09:16; second orient 10:34 · execute
-  10:40 · close 14:03; third (this one) orient 14:23 · execute 15:04 ·
-  re-planned 17:28 for the composer call · execute 19:10 · close 23:18.
-  `kivna/.active-modes` is cleared; nothing to resume.
+- **conductor: RAN three times on 2026-09-03** — first sitting orient 08:13 ·
+  execute 08:38 · close 09:16; second orient 10:34 · execute 10:40 · close
+  14:03; third orient 14:23 · execute 15:04 · re-planned 17:28 for the composer
+  call · execute 19:10 · close 23:18. **Correction, 2026-09-09: the earlier claim
+  that `kivna/.active-modes` was cleared is false** — it still holds
+  `conductor: plan @ 2026-09-03 23:59 EDT`, the parked schema-split marker that
+  every sitting since has been told not to restart. It is left in place
+  deliberately. **A trap that follows from it:** switch-out reads that line for
+  this sitting's open time when no conductor ran, which would stamp a heading six
+  days wrong — so a marker older than today is not an open time.
 - **Machine: the Mac Studio** (`Anthonys-Mac-Studio.local`), a thin-client host —
   sessions run in tmux over SSH from the MacBook; the user's screen is on the
   laptop and `open` is a shim that copies files there (see `~/.claude/CLAUDE.md`).

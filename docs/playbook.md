@@ -113,6 +113,46 @@ CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running o
 
 ## Gotchas
 
+### macOS `awk` in the C locale counts bytes, not characters
+
+`awk '{print length}'` reported 81 for a line that is 79 display columns,
+because `○` and `→` are three bytes each. Measured 2026-09-09 while checking a
+terminal render's width; it sent the session hunting an off-by-one that did not
+exist. Measure display width in Python, and count East-Asian wide characters as
+two columns — `len()` is also wrong there, in the opposite direction.
+
+### zsh does not word-split unquoted parameters
+
+`FILES="a.md b.md"; git add -- $FILES` passes the whole string as a single
+pathspec and fails with *"did not match any files"*. Bash would split it; zsh
+does not, and this repo's sessions run zsh. Use an array: `FILES=(a.md b.md)`
+then `"${FILES[@]}"`. Measured 2026-09-09 staging a scoped boundary — it failed
+safe (nothing staged), but the same shape in a loop would not.
+
+### `str.replace()` without asserting the match silently does nothing
+
+A scripted edit to a work record's job list matched nothing — one word differed —
+so it no-opped and the record was committed still claiming four finished jobs
+were "next". Nothing errored. Measured 2026-09-09. Assert the occurrence count
+before replacing; `assert s.count(old) == 1` turns a silent no-op into a stop.
+
+### A parked conductor marker is read as this sitting's open time
+
+Switch Out falls back to the `conductor:` line in `kivna/.active-modes` when no
+hand-off supplies an open time, and does not check whether that marker belongs to
+this session. On 2026-09-09 it held a stamp from 2026-09-03 — six days stale —
+which would have produced a heading days wrong. Write the `closed HH:MM` form
+instead when the marker predates the sitting. Seventh instance of the standing
+TODO item; the first measured in days rather than minutes.
+
+### A record can never contain the commit that saves it
+
+Any revision a handoff names is one it observed *before* its own save, so a
+record that embeds its resulting commit ID is impossible to write, and a record
+naming an ancestor is ordinary rather than stale. Name a boundary by branch and
+subject and leave the ID to `git log`. What makes a handoff wrong is an obsolete
+next action, which no hash can show.
+
 ### Render AFTER the commit that changes the derived model, never before
 
 The ship flow is **work commit → refresh → render commit → one push**.
