@@ -86,6 +86,25 @@ def source_text(path):
         return stream.read()
 
 
+def overtaken_revisions(root, content, head):
+    """Full commit IDs the record names that this checkout has already moved past.
+
+    A handoff states the revision observed while it was written, so a boundary
+    commit made afterwards leaves the saved record naming an ancestor. Reporting
+    that is a reconciliation prompt for the reader, not a staleness verdict, a
+    correctness claim about the record or a refusal. Unknown IDs stay unreported.
+    """
+    found = []
+    for value in dict.fromkeys(re.findall(r"(?<![0-9a-zA-Z])[0-9a-f]{40}(?![0-9a-zA-Z])", content)):
+        if value == head:
+            continue
+        probe = subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor", value, head],
+                               text=True, capture_output=True)
+        if probe.returncode == 0:
+            found.append(value)
+    return found
+
+
 def pickup(root, branch, record, sync=False, expected_commit=None):
     if expected_commit is not None and (not isinstance(expected_commit, str)
             or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", expected_commit)):
@@ -116,9 +135,15 @@ def pickup(root, branch, record, sync=False, expected_commit=None):
         require_branch(root, branch)
         if git(root, "rev-parse", "HEAD") != commit or git(root, "status", "--porcelain"):
             raise HandoffError("Project changed while reading the saved handoff; no pickup returned")
-    return {"status": "record_loaded", "branch": branch, "commit": commit,
-            "record": record, "bytes": len(content.encode()), "content": content,
-            "note": "Record loading is not proof of complete context restoration or permission to execute"}
+    result = {"status": "record_loaded", "branch": branch, "commit": commit,
+              "record": record, "bytes": len(content.encode()), "content": content,
+              "overtaken_revisions": overtaken_revisions(root, content, commit),
+              "note": "Record loading is not proof of complete context restoration or permission to execute"}
+    if result["overtaken_revisions"]:
+        result["reconcile"] = ("The record names a revision this checkout already contains; its stated "
+                               "position or next action may be done. Reconcile against later commits "
+                               "and dated evidence before acting. This is not a judgment of the record")
+    return result
 
 
 def named_section(content, heading):
@@ -174,11 +199,15 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
     require_branch(root, branch)
     if git(root, "status", "--porcelain") or git(root, "rev-parse", "HEAD") != loaded["commit"]:
         raise HandoffError("Project changed while preparing pickup; no packet returned")
-    return {"status": "pickup_prepared", "branch": branch, "commit": loaded["commit"],
-            "clean_at_check": True, "synchronized": sync, "sources": sources,
-            "note": "Caller-selected saved records, not fresh operational verification. "
-                    "Selection completeness and restored meaning still need assessment. "
-                    "No session is resumed and no execution authority is granted by this packet."}
+    packet = {"status": "pickup_prepared", "branch": branch, "commit": loaded["commit"],
+              "clean_at_check": True, "synchronized": sync, "sources": sources,
+              "overtaken_revisions": loaded["overtaken_revisions"],
+              "note": "Caller-selected saved records, not fresh operational verification. "
+                      "Selection completeness and restored meaning still need assessment. "
+                      "No session is resumed and no execution authority is granted by this packet."}
+    if "reconcile" in loaded:
+        packet["reconcile"] = loaded["reconcile"]
+    return packet
 
 
 def main():

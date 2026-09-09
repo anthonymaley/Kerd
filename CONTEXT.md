@@ -11,13 +11,15 @@ Visuals redesign lives in [model-ready-work](docs/work/model-ready-work/candidat
 Read its [current position and adoption actions](docs/work/model-ready-work/consolidation.md)
 for this work, not the older launch sequence below. Switch's bounded candidate
 trial is accepted; wider adoption and real-person journey validation remain open.
-The pack is local/uncommitted; this pointer is not a GitHub save or installation.
-Installed Kerd and the parked schema-split session are not changed by this work.
+The pack is committed on `main` and verified at `origin/main` (2026-09-09); that
+is a save, not installation, publication or release. Installed Kerd and the parked
+schema-split session are not changed by this work.
 
-Local closeout is saved in consolidation's **Pickup after local closeout**
-section. Read that complete section first for the small reading set, authority
-and next action. [Today's account](kivna/sessions/2026-09-09.md) records what
-was saved. No GitHub save, installation or closure of another terminal is implied.
+The current position is consolidation's **Pickup after local closeout** section,
+corrected 2026-09-09 after that boundary. Read that complete section first for the
+small reading set, authority and next action. [Today's account](kivna/sessions/2026-09-09.md)
+records what was saved and verified. No installation, publication or closure of
+another terminal is implied.
 
 ### Previous installed-Kerd position — retained, not freshly revalidated
 

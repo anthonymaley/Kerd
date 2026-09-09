@@ -27,7 +27,11 @@ work. Recover current stage, actual user agreement, last result, pending questio
 or next action, failure/resource state and relevant project constraints. Follow
 necessary evidence links; avoid loading the full log archive and every retired
 plan. An explicitly stale or contradictory pointer must be reconciled with current
-artifacts and dated evidence before work continues.
+artifacts and dated evidence before work continues. `overtaken_revisions` in a
+pickup or prepared packet is that signal in machine form: the record names a
+revision this checkout already contains, so its stated position or next action
+may be done. Reach an exhaustive changed-file list with `git show --name-only`
+on the named boundary rather than reading a manifest copied into memory.
 
 If that start point names a pickup reading set, use its complete files/sections
 first. It is a saved navigation aid, not a ban on further reading: check linked
@@ -108,6 +112,22 @@ Use the existing handoff/work record; do not add a parallel manifest or duplicat
 source text. This lets the next pickup reuse the outgoing session's knowledge
 of the work instead of rediscovering the entire repository. Preserve unresolved
 decisions and authority even when the next action looks simple.
+
+The living handoff describes the sitting that is ending, not the moment it was
+written. A record states the revision observed while writing, so a boundary
+commit made afterwards leaves it naming an ancestor with a next action already
+done. Keep those apart: label the observed revision as the position before the
+save, and let the next action be what remains after it. Never write the
+resulting commit ID into a file inside that commit; name the boundary by branch
+and record, and let `git log`/`git show` supply the ID. When the save completes
+work the record still lists as pending, correct that record in the same
+boundary. Say plainly which the handoff reached — prepared locally, committed,
+or verified at the remote; a local memory save is neither of the last two.
+
+Record the scope rule and where the boundary is, not an exhaustive file list.
+`git show --name-only <commit>` reproduces that inventory on demand, so a copied
+path list costs every later pickup and proves nothing Git does not already hold.
+Existing manifests stay as reachable history, not required pickup reading.
 
 Inspect pending jobs before ending a sitting. A running job is not saved merely
 because its task name appears in a file. Respect existing direction on whether

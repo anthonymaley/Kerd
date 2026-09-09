@@ -16,49 +16,51 @@ preloaded answers or a new invented demonstration.
 
 ### Pickup after local closeout
 
-Saved 2026-09-09 at 12:38:48 UTC (08:38:48 EDT); sitting start unknown.
-Project: Kerd, local branch `main`, observed HEAD
-`d223510451a91ded0eedfeeba95d048d7100b920`. Origin configured as
-`git@github.com:anthonymaley/Kerd.git`; remote freshness was not checked.
-This is a local memory save, not a committed or GitHub-verified boundary.
+Corrected 2026-09-09 at 13:40 UTC (09:40 EDT), from the clock. This replaces the
+08:38 local-closeout text, which recorded an uncommitted pack and named recording
+the boundary as the next action. The 09:00 boundary overtook both. The superseded
+wording stays in this file's Git history and in
+[today's account](../../../kivna/sessions/2026-09-09.md); dated records were not
+rewritten. The heading is unchanged so existing links still resolve.
+
+Position: Kerd, local branch `main`. The boundary commit *"Save Kerd's boundary:
+the Conductor/Switch/Visuals candidate pack enters git"* carries CONTEXT.md,
+TODO.md, today's account and the whole candidate pack. It is committed **and
+verified at the remote**: a read-only `git ls-remote origin refs/heads/main`
+at 13:29 UTC (09:29 EDT) returned the same commit as local `HEAD`. Boundaries are
+named by branch and subject here, not by ID; `git log`/`git show` supply the IDs.
+A verified save is not installation, publication or release.
 
 Purpose: continue controlled adoption of Conductor, Switch and Visuals. Switch's
-earlier bounded trial stays accepted. The latest Seinn date-filter change is
-locally complete with review and tests; no build remains active from that task.
-Repeated user nudges remain an experience failure, not a claimed usability pass.
+earlier bounded trial stays accepted. Seinn supplied testing evidence only; its
+tasks, memory and Git lifecycle are separate, and this handoff authorizes no Seinn
+Out/In, feature selection, installation, merge, deployment or device work. Do not
+restart the parked schema-split session. Do not repeat completed trials. No
+mandatory limits were declared for this work; no numeric budget or failed-correction
+tally exists to restore. Do not invent either, or start another review for appearance.
 
-Next action: restore this Kerd position in the Claude Kerd session or a fresh
-local Kerd session. Complete Kerd's own closeout under Kerd-specific Git authority
-if a remote save is wanted, then continue the remaining candidate adoption actions.
-Seinn supplied testing evidence only; its tasks, memory and Git lifecycle are
-separate. This handoff does not request a Seinn Out/In or authorize Seinn changes.
-No automatic Seinn feature selection, installation, merge, deployment or device
-work. Do not restart the parked legacy schema-split session. No mandatory limits
-were declared for this work; no numeric budget or failed-correction tally is
-available to restore. Do not invent either or start another review for appearance.
+Next action: the open adoption gaps below — continuation, visibility, and the
+remaining half of ordinary Out/In. No routine approval is pending.
 
 Reading set, complete selections:
 
 1. This **Pickup after local closeout** section: position and authority.
-2. `trials/seinn-adoption.md`, **Third work item: date-filter performance change**:
-   latest observed result and the remaining experience gap.
-3. This document's **Review reconciliation — 2026-09-08** section (including
+2. This document's **Current adoption list — corrected 2026-09-09**: what is open.
+3. [Ordinary Out/In](trials/ordinary-out-in.md): the newest observed evidence,
+   including what the candidate-only pickup did and did not establish.
+4. This document's **Review reconciliation — 2026-09-08** section (including
    children), when proceeding with adoption: agreed remaining actions.
-Seinn's own work record is supporting trial evidence only, linked from the trial
-note. Do not read or manage that project's working state during Kerd pickup
-unless a specific testing-evidence question requires it.
 
-Kerd has existing modified CONTEXT/TODO, the untracked candidate pack and
-`kerd-laptop-result.patch`; none was staged at inspection. Do not blanket
-stage, reset, stash or discard these. Kerd's old history remains reachable through
-CONTEXT and `kivna/sessions/`; it has not been migrated or fully revalidated.
-No input-token cost or full fresh-session restoration pass has been measured here.
+Linked evidence, not required reading: `trials/seinn-adoption.md`, **Third work
+item: date-filter performance change** carries the observations behind the
+continuation and visibility gaps. Seinn's own work record stays out of Kerd
+pickup unless a specific testing-evidence question requires it.
 
-The owned date-filter Claude review completed and its bridge alias was closed;
-the three listed native reviewers are completed. This does not establish the
-state of the user's independently opened Claude Kerd terminal. This controller
-has not messaged, attached to, or exited that terminal. No native session ID is
-needed to restore the repository record.
+The working tree holds two untracked items to leave alone: `kerd-laptop-result.patch`
+at the root and `trials/switch-redesign/live-control/output/__pycache__/`. Do not
+blanket stage, reset, stash or discard them. Kerd's old history remains reachable
+through CONTEXT and `kivna/sessions/`; it has not been migrated or fully revalidated.
+Actual input-token cost for a fresh pickup remains unmeasured; see the trial record.
 
 ### Current adoption list — corrected 2026-09-09
 
@@ -69,14 +71,20 @@ completed trials — the accepted Switch device trial and the three Seinn items 
 are not to be repeated. What remains, preserved as evidence gaps rather than
 claimed passes:
 
-1. **Kerd boundary** — commit and push Kerd's own state under explicit Git scope
-   (this pickup's action).
+1. ~~**Kerd boundary** — commit and push Kerd's own state under explicit Git scope
+   (this pickup's action).~~ *[Closed 2026-09-09: committed at 09:00 EDT and
+   verified at `origin/main` by read-only `ls-remote` at 09:29 EDT. Numbering is
+   kept so the remaining items keep the names other sections use.]*
 2. **Continuation** — the controller announced implementation and stopped until
    asked "so are you doing it?"; uninterrupted authorized delivery is unproved.
 3. **Visibility** — repeated user nudges ("okay....next?") remain an experience
    failure, not a usability pass.
-4. **Ordinary Out/In** — a save followed by a fresh-session pickup on real work
-   has not been observed; the measured pickup was a prepared local reader.
+4. **Ordinary Out/In** — narrowed 2026-09-09, not closed: a fresh session restored
+   this project through candidate Switch In alone, on real work, from a real save
+   ([record](trials/ordinary-out-in.md)). The Out that preceded it was local-only
+   and an intervening sitting picked up through installed Kerd Switch, so a single
+   candidate save-to-pickup cycle end to end is still unobserved. Input-token cost
+   remains unmeasured.
 5. Deferred, unchanged: many-item overview, archive/mirror cleanup, Kerd's own
    CI decision, a non-software product view, whole Git-backed pickup cost.
 
@@ -84,6 +92,16 @@ The two earlier "select the trial project" sentences below are struck in place
 with this correction named; dated observations are not rewritten.
 
 ### Latest work evidence
+
+2026-09-09 boundary and pickup: Kerd's own state reached GitHub — the candidate
+pack, CONTEXT and TODO — and a fresh session restored the project through
+candidate Switch In alone. Restoration succeeded and caught that the living
+handoff had been overtaken by its own sitting's commit. The
+[ordinary Out/In record](trials/ordinary-out-in.md) carries what that observed,
+what it cost and what stays unmeasured. Switch's Out guidance and its Git helper
+were corrected so a handoff separates local preparation from verified remote save
+and reports a record naming a revision the checkout already contains. This closes
+the boundary action; the continuation and visibility gaps are untouched by it.
 
 2026-09-09 continuation: the [third Seinn work item](trials/seinn-adoption.md#third-work-item-date-filter-performance-change)
 completed the authorized date-filter optimization, tests, both builds and an

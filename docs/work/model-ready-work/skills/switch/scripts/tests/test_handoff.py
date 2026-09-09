@@ -126,6 +126,46 @@ class HandoffTests(unittest.TestCase):
         self.assertEqual(result["content"], (self.source / "record.md").read_text())
         self.assertEqual(result["bytes"], len((self.dest / "record.md").read_bytes()))
 
+    def test_record_naming_an_already_contained_revision_is_reported_not_refused(self):
+        """The stale-handoff case: a boundary commit made after the record was written."""
+        observed = self.git(self.source, "rev-parse", "HEAD")
+        (self.source / "record.md").write_text(
+            f"Observed HEAD {observed}. Next action: record the boundary.\n")
+        self.publish(files=["record.md"], push=True)
+        boundary = self.git(self.source, "rev-parse", "HEAD")
+        (self.source / "result.txt").write_text("the boundary this record does not know about\n")
+        self.publish(files=["result.txt"], push=True)
+        result = handoff.pickup(self.dest, self.branch, "record.md", sync=True)
+        self.assertEqual(result["status"], "record_loaded")
+        self.assertEqual(result["overtaken_revisions"], [observed])
+        self.assertIn("Reconcile", result["reconcile"])
+        self.assertNotIn(self.git(self.dest, "rev-parse", "HEAD"), result["overtaken_revisions"])
+        self.assertNotEqual(boundary, self.git(self.dest, "rev-parse", "HEAD"))
+
+    def test_foreign_and_current_revisions_are_not_reported_as_overtaken(self):
+        """Another project's HEAD is unknown here; this checkout's own revision is not staleness."""
+        foreign = "47733d292268f8186c6e0b1e2f6b0e87cdf253da"
+        (self.source / "record.md").write_text(f"The other project sits at {foreign}.\n")
+        self.publish(files=["record.md"], push=True)
+        result = handoff.pickup(self.dest, self.branch, "record.md", sync=True)
+        self.assertEqual(result["overtaken_revisions"], [])
+        self.assertNotIn("reconcile", result)
+        # A record cannot contain the commit that saves it, so the current-HEAD leg is checked
+        # directly rather than through a save that would place the ID one commit behind.
+        head = self.git(self.dest, "rev-parse", "HEAD")
+        self.assertEqual(handoff.overtaken_revisions(self.dest, f"Saved at {head}.", head), [])
+
+    def test_prepared_packet_carries_the_same_reconciliation_signal(self):
+        observed = self.git(self.source, "rev-parse", "HEAD")
+        (self.source / "record.md").write_text(f"Observed HEAD {observed}.\n")
+        self.publish(files=["record.md"], push=True)
+        (self.source / "result.txt").write_text("later boundary\n")
+        self.publish(files=["result.txt"], push=True)
+        packet = handoff.prepare(self.dest, self.branch, "record.md", sync=True)
+        self.assertEqual(packet["status"], "pickup_prepared")
+        self.assertEqual(packet["overtaken_revisions"], [observed])
+        self.assertIn("Reconcile", packet["reconcile"])
+
     def test_dirty_pickup_does_not_change_head_or_local_content(self):
         self.advance_remote()
         (self.dest / "record.md").write_text("unsaved destination work")

@@ -5,8 +5,9 @@
 **Current work:** [Conductor / Switch / Visuals candidate](docs/work/model-ready-work/candidate-entry.md).
 Use its [current adoption actions](docs/work/model-ready-work/consolidation.md)
 as the single working list; do not repeat the accepted Switch trial or restart
-the parked schema-split session. Candidate changes are not yet installed or saved
-to GitHub. The earlier launch work below is retained, not declared complete.
+the parked schema-split session. Candidate changes are committed and pushed to
+`main`, verified at the remote 2026-09-09; they are not installed or published.
+The earlier launch work below is retained, not declared complete.
 
 ### Earlier launch sequence — retained pending reconciliation
 
