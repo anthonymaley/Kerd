@@ -74,11 +74,12 @@ The adjustments, all binding on the build:
 - [done] Correct the 7 confirmed findings · Claude Opus 5 — each retested
 - [done] Save the boundary · Claude Opus 5 — pushed, verified at origin/main
 - [done] Read records it was not designed around · Claude Opus 5 — 30 checks
-- [next] Your judgement · producer — does check 1 pass?
+- [done] Progress updates during work · Claude Opus 5 — compact mode + rule
+- [next] Your judgement · producer — does check 1 pass on the updated flow?
 
 ## Now
 
-Record updated: 2026-09-09 12:45 EDT
+Record updated: 2026-09-09 12:56 EDT
 Stage: Deliver
 Current activity: none. The build is reviewed, corrected, pushed and verified;
 the work now waits on the producer's assessment of the two checks.
@@ -91,11 +92,11 @@ Recommendation: read the conventional headings; show anything missing as "not
 recorded". A record that cannot say what is happening should show that.
 Open issues: none blocking. Whether the two producer checks actually pass is
 tested after the build, not assumed by it.
-Pending question: Could you follow what was happening during the build, and when
-you were needed — or did that only become clear in the final report?
-Proposed answer: none. The evidence is in the transcript's shape, not in a claim
-this record can make on your behalf.
-Reply with: Followed it / Only at the end
+Pending question: Having now seen a sitting that reports as it works, could you
+follow what was happening and when you were needed?
+Proposed answer: none. Only a person who lived the flow can answer it, and this
+record will not answer it on their behalf.
+Reply with: Followed it / Still only at the end
 Next action: the producer answers the two checks. The boundary is the commit
 "A 'Where we are' view that refuses to interpret" on `main`, verified at origin;
 its ID is in `git log`, not written into the record it saves.
@@ -191,6 +192,36 @@ Known limit, pinned by a check: a field's value runs on until a blank line or th
 next field, so a paragraph written directly beneath `Stage:` is absorbed. The
 result is an unrecognised stage the view labels, never a confident wrong one.
 
-Not established: whether check 1 passes. Only the producer can say
+Progress during work, added 2026-09-09 after the producer ruled that rendering a
+record on demand was only part of the solution.
+
+A claim of mine was challenged and proved wrong. I had said "nothing can print
+between turns". Two pieces of evidence contradict it. `PushNotification`'s own
+contract states that when the user is at the terminal "your output already reaches
+them" — it skips sending precisely because text emitted between tool calls is
+already arriving. And background execution exists: the independent review ran in
+the background, and going silent for its four minutes was my choice, not the
+host's limit. Tested here: a 45-second background job returned an ID immediately,
+and four tool calls and several updates ran while it was still going.
+
+What the narrower, real limit is: output cannot be emitted while a *foreground*
+tool call blocks. That is a reason to run long work in the background, not a
+reason to go quiet. Whether interleaved text renders live on the producer's screen
+is a property of their client that cannot be observed from inside the session; it
+is taken from the documented contract above, not from personal observation.
+
+Built: `--compact`, a few lines for a moment of change — what is happening, who
+has it, whether the person is needed, and the record's own time. It is
+deliberately not the full view; five checks pin its shape, including that it stays
+within four lines and omits the journey strip, the job list and the links.
+
+Recorded in the candidate Conductor's journey guide: emit at each real change of
+state — implementation starts, a reviewer starts or returns, correction begins,
+work completes or blocks — and stay quiet between them, because chatter spends the
+same attention the updates are for. Run long work in the background and keep
+reporting while it runs. No new service, hook or CI.
+
+Not established: whether check 1 passes. It stays open until a person has
+experienced the updated flow — this sitting is the first one to run it. Only the producer can say
 whether they can see what is happening, and whether the work reached a verified
 result without them typing "next".

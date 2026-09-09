@@ -232,6 +232,40 @@ class ViewTests(unittest.TestCase):
     def test_a_record_without_links_shows_no_empty_links_heading(self):
         self.assertNotIn("LINKS THE RECORD", render("# Work: x\n\n## Now\nStage: Deliver\n"))
 
+    def test_a_compact_update_names_the_work_the_actor_and_whether_you_are_needed(self):
+        text = ("# Work: x\n\n## Jobs\n- [done] Agreed · producer\n"
+                "- [active] Build it · Claude Opus 5 — renderer\n\n## Now\nStage: Deliver\n")
+        out = view.compact("record.md", text, NOW)
+        self.assertIn("● Build it · Claude Opus 5", out)
+        self.assertIn("You: nothing needed.", out)
+        self.assertIn("as recorded — not observed", out)
+
+    def test_a_compact_update_is_short_and_is_not_the_whole_view(self):
+        text = ("# Work: x\n\n## Jobs\n- [active] Build it · Claude Opus 5\n\n"
+                "## Now\nStage: Deliver\nNext action: keep going\n")
+        out = view.compact("record.md", text, NOW)
+        self.assertLessEqual(len(out.splitlines()), 4)
+        for absent in ("JOURNEY", "Understand →", "JOBS (as recorded", "LINKS THE RECORD"):
+            self.assertNotIn(absent, out)
+
+    def test_a_compact_update_makes_a_waiting_decision_unmistakable(self):
+        text = ("# Work: x\n\n## Jobs\n- [active] Build it · Claude Opus 5\n\n"
+                "## Now\nStage: Agree\nPending question: Which way?\n")
+        out = view.compact("record.md", text, NOW)
+        self.assertIn("You: a decision is waiting — Which way?", out)
+        self.assertNotIn("nothing needed", out)
+
+    def test_a_compact_update_reports_blocked_work_with_its_blocker(self):
+        text = ("# Work: x\n\n## Jobs\n- [blocked] Ship it — waiting on the key\n\n"
+                "## Now\nStage: Deliver\n")
+        out = view.compact("record.md", text, NOW)
+        self.assertIn("⨯ blocked: Ship it — waiting on the key", out)
+
+    def test_a_compact_update_with_no_active_job_says_so_plainly(self):
+        out = view.compact("record.md", "# Work: x\n\n## Now\nStage: Deliver\n", NOW)
+        self.assertIn("no job recorded as active", out)
+        self.assertNotIn("not recorded as active", out.replace("no job recorded as active", ""))
+
     def test_every_line_fits_the_requested_width(self):
         for width in (60, 80, 100):
             with self.subTest(width=width):

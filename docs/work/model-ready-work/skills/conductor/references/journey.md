@@ -125,6 +125,19 @@ as work changes, and keep tools, results and concise commentary flowing beneath
 it. This is a live work view, not a checklist pasted again on every turn.
 A tiny single action does not need a manufactured plan.
 
+Emit an update at each real change of state: implementation starts, a reviewer
+starts or returns, correction begins, work completes or blocks. Each one says what
+is happening, who has it, and whether the person is needed — three lines, not the
+whole view again. Between those moments, say nothing; chatter costs the same
+attention the updates are spending.
+
+Run long work in the background where the host supports it, and keep working and
+reporting while it runs. Going quiet for the duration of a job is a choice, not a
+limitation: a foreground call blocks output while it runs, a background one does
+not. Text written between tool calls reaches a person at their terminal. Where a
+host genuinely cannot deliver an update, say so plainly and do not present the
+experience as solved.
+
 Use the actual available tool and its supported statuses; don't invent tool
 names, install a tracker or start a goal merely to obtain a display. The host
 controls whether the list stays on screen. If task controls are unavailable,

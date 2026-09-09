@@ -310,17 +310,46 @@ def render(path, text, now, width=80):
     return "\n".join(lines)
 
 
+def compact(path, text, now, width=80):
+    """A few lines for a moment of change: what is happening, who has it, and
+    whether the person is needed. Not the full view — that is for asking, this is
+    for telling, and repeating everything on every change is the noise it avoids.
+    """
+    parts, _ = sections(text)
+    now_part = parts.get("Now")
+    question, _ = field(now_part, "Pending question")
+    jobs = jobs_of(parts.get("Jobs")) or []
+    lines = []
+    for job in [item for item in jobs if item["state"] == "active"]:
+        actor = f" · {job['actor']}" if job["actor"] else ""
+        lines += wrap(f"● {job['title']}{actor}", width)
+    for job in [item for item in jobs if item["state"] == "blocked"]:
+        lines += wrap(f"⨯ blocked: {job['title']}"
+                      + (f" — {job['detail']}" if job["detail"] else ""), width)
+    if not lines:
+        lines = wrap(f"● no job recorded as active in {path}", width)
+    if question:
+        lines += wrap(f"You: a decision is waiting — {question}", width)
+    else:
+        lines.append("You: nothing needed.")
+    lines.append(f"({now}, as recorded — not observed)")
+    return "\n".join(lines)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--record", required=True, help="Path to one work record")
     parser.add_argument("--width", type=int, default=80)
+    parser.add_argument("--compact", action="store_true",
+                        help="A few lines for a change of state, not the whole view")
     args = parser.parse_args()
     path = Path(args.record)
     if not path.is_file():
         print(f"No work record at {path}", file=sys.stderr)
         return 2
-    print(render(path, path.read_text(encoding="utf-8"),
-                 datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z"), args.width))
+    shape = compact if args.compact else render
+    print(shape(path, path.read_text(encoding="utf-8"),
+                datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z"), args.width))
     return 0
 
 
