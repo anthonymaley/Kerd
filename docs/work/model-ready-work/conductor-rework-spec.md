@@ -244,7 +244,12 @@ board refresh or CI run to update progress. Separate reported activity from
 reviewed results and reconcile discrepancies with the actual work.
 
 Switch reads the work pointer and next action. Update its Active Mode snapshot
-handling explicitly. Conductor records work progress; Switch writes the boundary
+handling explicitly. Its welcome-back summary — Last session, This session,
+Where we are, You, then a task-detail link, with an optional Insight callout — is
+specified in the Switch In guide. Presentation only. Conductor does not repeat it
+on resume.
+
+Conductor records work progress; Switch writes the boundary
 summary/history, without rewriting the complete work plan a second time.
 
 Candidate implementation: use an existing appropriate project handoff location,

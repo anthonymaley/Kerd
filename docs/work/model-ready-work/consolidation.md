@@ -156,6 +156,20 @@ not install those fixes or reopen Switch acceptance.
 
 ## What changed
 
+### Welcome-back summary — agreed 2026-09-09
+
+The user agreed a high-level Switch In opening: Last session, This session and
+why, Where we are in the project, You, then a link to existing tasks/detail.
+Insight is optional and uses the distinctive star-and-horizontal-rule treatment
+the user supplied from Claude. It carries a brief source-grounded learning or
+implication, not compulsory praise, a technical tangent or a hidden question.
+The example's subject matter is not inherited as a project requirement.
+
+Candidate Switch's In guide owns this presentation; the entrypoint, Conductor
+resume guidance, spec and solution map reference it. No record field, parser,
+dashboard, installer or helper changed, and required decisions stay bounded.
+This claims no live usability pass and changes no installed plugin.
+
 ### Live work visibility — agreed 2026-09-08
 
 The Seinn trial was easy to use but did not make the process or Claude's review

@@ -91,6 +91,39 @@ choices are settled or that it is the complete working state.
 This is a coverage check of material already loaded, not an instruction to read
 the whole archive. A small input is useful only if its meaning survives.
 
+### Welcome back: the screen summary
+
+After restoration, orient before detail. Four short blocks, worded for the project:
+
+- **Last session:** the main achievement or change.
+- **This session:** the next agreed work and why. If none is agreed, say so; a
+  suggestion stays a suggestion.
+- **Where we are:** position in the wider work, in the project's own stage names,
+  not the stage of the pickup itself.
+- **You:** "Nothing needed right now", or the specific decision and what it
+  unlocks, in Conductor's bounded question surface.
+
+Close with **View tasks and details**, linking the existing work/status page —
+HTML where one exists, otherwise the Markdown record or task list. Resolve a real
+target; don't invent a page or build one during In. The backlog and audit evidence
+live behind that link. This replaces an exhaustive switch-in report and adds no
+record field. Being short does not suspend the rules above: a contradiction,
+failed synchronization or restriction still appears on screen.
+
+An **Insight** is optional: one source-grounded learning, implication or tradeoff
+in its own callout — never compulsory, never a hidden question.
+
+```text
+★ Insight ─────────────────────────────────────────
+The draft is ready, but its benefit is not measured.
+A first-reader check can test whether the instructions
+actually help someone get started.
+───────────────────────────────────────────────────
+```
+
+A fictional example. Rewrap to width, use ASCII rules where the star renders
+poorly, and omit the callout when there is nothing useful to say.
+
 ## Out
 
 Read the active state and inspect what actually changed. Preserve the current

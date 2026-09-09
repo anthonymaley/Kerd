@@ -55,6 +55,10 @@ the specific blocker. Link the saved place. Distinguish planned, running, return
 and verified work. Don't claim a file save exited a session, moved a process or
 proved full restoration. No fake activity or progress percentages.
 
+For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
+Last session, This session, Where we are, You, and a real link to task detail.
+An evidence-grounded Insight is optional, never an entry requirement.
+
 An active Conductor build resumes its next authorized action in the same turn
 through [candidate Conductor](../conductor/SKILL.md). Restore a pending question
 with its shown answer using Conductor's journey layout. Apply a new answer already

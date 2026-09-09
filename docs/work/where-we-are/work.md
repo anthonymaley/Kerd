@@ -75,14 +75,13 @@ The adjustments, all binding on the build:
 - [done] Save the boundary · Claude Opus 5 — pushed, verified at origin/main
 - [done] Read records it was not designed around · Claude Opus 5 — 30 checks
 - [done] Progress updates during work · Claude Opus 5 — compact mode + rule
-- [next] Your judgement · producer — does check 1 pass on the updated flow?
+- [done] Condense the welcome-back guidance · Claude Opus 5 — 88 lines to 66
 
 ## Now
 
-Record updated: 2026-09-09 12:56 EDT
-Stage: Deliver
-Current activity: none. The build is reviewed, corrected, pushed and verified;
-the work now waits on the producer's assessment of the two checks.
+Record updated: 2026-09-09 16:47 EDT
+Stage: Complete
+Current activity: none. The build is reviewed, corrected, pushed and verified.
 Analysis so far: the candidate's work records are prose under a writing aid that
 explicitly is not a parser contract. So the source rule is the real design
 decision: read the conventional headings and degrade honestly, add a labelled
@@ -92,14 +91,8 @@ Recommendation: read the conventional headings; show anything missing as "not
 recorded". A record that cannot say what is happening should show that.
 Open issues: none blocking. Whether the two producer checks actually pass is
 tested after the build, not assumed by it.
-Pending question: Having now seen a sitting that reports as it works, could you
-follow what was happening and when you were needed?
-Proposed answer: none. Only a person who lived the flow can answer it, and this
-record will not answer it on their behalf.
-Reply with: Followed it / Still only at the end
-Next action: the producer answers the two checks. The boundary is the commit
-"A 'Where we are' view that refuses to interpret" on `main`, verified at origin;
-its ID is in `git log`, not written into the record it saves.
+Pending question: none
+Next action: none. Check 1 is left to ordinary use, not another trial.
 
 ## Results and evidence
 
@@ -221,7 +214,16 @@ work completes or blocks — and stay quiet between them, because chatter spends
 same attention the updates are for. Run long work in the background and keep
 reporting while it runs. No new service, hook or CI.
 
-Not established: whether check 1 passes. It stays open until a person has
-experienced the updated flow — this sitting is the first one to run it. Only the producer can say
+Check 1 is deliberately unassessed, by the producer's instruction of 2026-09-09:
+it waits on feedback from ordinary use rather than another trial or an approval
+stop. Whether the mid-work updates reach a person's screen was never confirmed
+from inside a session and is not claimed here.
+
+Welcome-back presentation, added by Skill Creator and condensed 2026-09-09 on the
+producer's instruction: the agreed headings, the optional Insight callout and the
+task-detail link are kept; repeated instruction text is gone, 88 added lines down
+to 66. It stays presentation — no record field, parser, dashboard or helper. Its
+"View tasks and details" link is the natural place for this view to render, which
+needs nothing new built. Only the producer can say
 whether they can see what is happening, and whether the work reached a verified
 result without them typing "next".

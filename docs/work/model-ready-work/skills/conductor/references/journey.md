@@ -26,6 +26,12 @@ achieve?” Rough ideas and optional notes are welcome. Use an already-supplied
 description instead of asking again. Do not read broadly or invent a diagram
 before intent exists. Small explicit work needs only proportionate orientation.
 
+When Switch has just restored the session, its
+[welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
+is the entry orientation: don't repeat it. Continue with the job update or the
+unresolved decision. Its optional Insight callout suits a useful learning during
+work too — distinct from a question card, never compulsory.
+
 Default to about 80 columns; rewrap to available width. Adapt detail while retaining position,
 the real question and consequential caveats. Never claim a Markdown checkbox is
 interactive or a terminal supports colour when it does not.
