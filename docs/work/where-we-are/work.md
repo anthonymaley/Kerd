@@ -69,16 +69,18 @@ The adjustments, all binding on the build:
 ## Jobs
 
 - [done] Direction agreed · producer — five corrections, then approval → work.md
-- [active] Build the terminal view · Claude Opus 5 — renderer and its checks
-- [next] Independent review · Claude Sonnet 5 (requested) — identity not observed
-- [next] Correct findings and verify against a record whose state has moved on
-- [next] Save the boundary — commit, push, verify at the remote
+- [done] Build the terminal view · Claude Opus 5 — 23 checks → where_we_are.py
+- [done] Independent review · Claude Sonnet 5 (requested; not observed) — 8 findings
+- [done] Correct the 7 confirmed findings · Claude Opus 5 — each retested
+- [done] Save the boundary · Claude Opus 5 — pushed, verified at origin/main
+- [next] Your judgement · producer — do the two checks pass?
 
 ## Now
 
-Record updated: 2026-09-09 12:35 EDT
+Record updated: 2026-09-09 12:37 EDT
 Stage: Deliver
-Current activity: saving the boundary; the build is reviewed and corrected.
+Current activity: none. The build is reviewed, corrected, pushed and verified;
+the work now waits on the producer's assessment of the two checks.
 Analysis so far: the candidate's work records are prose under a writing aid that
 explicitly is not a parser contract. So the source rule is the real design
 decision: read the conventional headings and degrade honestly, add a labelled
@@ -88,9 +90,14 @@ Recommendation: read the conventional headings; show anything missing as "not
 recorded". A record that cannot say what is happening should show that.
 Open issues: none blocking. Whether the two producer checks actually pass is
 tested after the build, not assumed by it.
-Pending question: none.
-Next action: commit and push under Kerd's Git scope with the acknowledged local
-paths preserved, then verify the remote carries it.
+Pending question: Do the two checks pass — could you see what was happening and
+whether you were needed, and did this reach a verified result without you typing
+"next"?
+Proposed answer: check 2 has an answer in the record; check 1 is yours alone.
+Reply with: Passed / Not passed — say which one failed
+Next action: the producer answers the two checks. The boundary is the commit
+"A 'Where we are' view that refuses to interpret" on `main`, verified at origin;
+its ID is in `git log`, not written into the record it saves.
 
 ## Results and evidence
 
@@ -140,6 +147,22 @@ Verified against a record the view did not help write — `consolidation.md`, wh
 uses no `Stage:`, no `## Jobs` and contains fenced shell examples. Every field
 reads "not recorded" or "unknown" rather than a guess, and the fences do not
 corrupt it.
+
+Two further defects surfaced after the first boundary, both by rendering this
+record and reading the result:
+
+- The view showed a pending question written across three lines as its first line
+  only — a silent truncation that presented half a question as the whole one. A
+  field value now runs on until a blank line or the next field, with a check.
+- The record itself was wrong: an earlier edit to the job list silently did
+  nothing, because the replacement was made without asserting that its target
+  matched, and it was committed that way. The view exposed it by showing four
+  jobs as still to do that were already done. Subsequent edits assert their
+  target. The `Record updated` line was also written ahead of the clock and is
+  now read from `date` rather than assumed.
+
+That is the same failure this whole sitting opened with — a record outliving its
+own next action — caught this time by the thing built to catch it.
 
 Not established: whether the two producer checks pass. Only the producer can say
 whether they can see what is happening, and whether the work reached a verified

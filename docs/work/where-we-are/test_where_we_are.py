@@ -184,6 +184,18 @@ class ViewTests(unittest.TestCase):
         self.assertIn("record updated: unknown", out)
         self.assertNotIn("2020-01-01", out)
 
+    def test_a_field_running_over_several_lines_is_read_whole(self):
+        """A question written across lines must not be shown as its first line."""
+        text = ("# Work: x\n\n## Now\nStage: Agree\n"
+                "Pending question: Do the two checks pass, could you see what was\n"
+                "happening, and did it finish without you asking again?\n"
+                "Proposed answer: one is yours to judge\n")
+        out = render(text)
+        flat = " ".join(line.strip("│ ") for line in box_lines(out)).split()
+        self.assertIn("did it finish without you asking again?", " ".join(flat))
+        self.assertIn("Proposed: one is yours to judge", " ".join(flat))
+        self.assertNotIn("Proposed: not recorded", out)
+
     def test_every_line_fits_the_requested_width(self):
         for width in (60, 80, 100):
             with self.subTest(width=width):

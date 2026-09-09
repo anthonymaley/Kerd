@@ -27,6 +27,7 @@ ORDER = ("done", "active", "next", "blocked")
 UNRECORDED = "not recorded"
 NOTHING = {"none", "none.", "n/a", "nothing", "-"}
 HEADING = re.compile(r"##[ \t]+(\S.*?)[ \t]*")
+FIELD_LINE = re.compile(r"([A-Za-z][A-Za-z ]{0,40}):[ \t]*(.*)")
 
 
 def columns(text):
@@ -105,21 +106,34 @@ def sections(text):
 
 
 def field(section, name):
-    """One explicit `Name:` line, as (value, note).
+    """One explicit `Name:` field, as (value, note).
 
-    Absent, empty or an explicit "none" is no value. Stated twice is ambiguous and
-    is not read: choosing between them would be interpretation, which this view
-    does not do. Whether a field sits under narrative prose is deliberately not
-    judged — that reading is exactly what the record's own convention replaces.
+    A value runs to the end of its line and on through following lines until a
+    blank line or the next field, so a question written across three lines is not
+    silently shown as its first line. Absent, empty or an explicit "none" is no
+    value. Stated twice is ambiguous and is not read: choosing between them would
+    be interpretation, which this view does not do. Whether a field sits under
+    narrative prose is deliberately not judged — that reading is exactly what the
+    record's own convention replaces.
     """
     if section is None:
         return None, None
-    matches = re.findall(rf"^{re.escape(name)}:[ \t]*(.*)$", section, re.MULTILINE)
-    if len(matches) > 1:
-        return None, f"{name.lower()} is recorded {len(matches)} times; not read"
-    if not matches or not matches[0].strip() or matches[0].strip().lower() in NOTHING:
+    lines, values, index = section.splitlines(), [], 0
+    while index < len(lines):
+        match = FIELD_LINE.fullmatch(lines[index])
+        index += 1
+        if not match or match[1] != name:
+            continue
+        parts = [match[2].strip()]
+        while index < len(lines) and lines[index].strip() and not FIELD_LINE.fullmatch(lines[index]):
+            parts.append(lines[index].strip())
+            index += 1
+        values.append(" ".join(part for part in parts if part).strip())
+    if len(values) > 1:
+        return None, f"{name.lower()} is recorded {len(values)} times; not read"
+    if not values or not values[0] or values[0].lower() in NOTHING:
         return None, None
-    return matches[0].strip(), None
+    return values[0], None
 
 
 def outcome_of(text):
