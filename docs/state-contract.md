@@ -8,7 +8,7 @@ The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`)
 
 **One definition, here.** Every skill that writes a wall-clock time points at this section; nothing restates it.
 
-A time is written into an artifact only when a machine produced it in the same turn as the write. Two sources, no third: `date` was run in this turn and its output read, or the time was copied from a machine-written record read in this turn — a `conductor: <phase> @ ...` marker stamp, a git commit timestamp. A time the model remembers, infers from the conversation, or estimates from how long the work felt is never written.
+A time is written into an artifact only when a machine produced it in the same turn as the write. Two sources, no third: `date` was run in this turn and its output read, or the time was copied from a machine-written record read in this turn — a git commit timestamp. (The `conductor: <phase> @ ...` marker was a third source until v0.107.0; Conductor no longer writes it, so read the clock instead.) A time the model remembers, infers from the conversation, or estimates from how long the work felt is never written.
 
 Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Clock:**` lines), `HH:MM TZ` where the date is already established (session-log headings, the switch-out banner), `HH:MM–HH:MM TZ` for a range. Produce them with `date '+%Y-%m-%d %H:%M %Z'` and `date '+%H:%M %Z'`.
 
@@ -16,8 +16,8 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 
 ## CONTEXT.md
 
-**Owner:** the Switch Out flow (standalone, or invoked by conductor close-out), conductor (records decisions during execution)
-**Readers:** switch (in), conductor (cold orient)
+**Owner:** the Switch Out flow, run explicitly
+**Readers:** switch (in)
 **Committed:** yes
 
 ### Format
@@ -41,8 +41,8 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 
 ## TODO.md
 
-**Owner:** conductor (writes session plan into `## Now`), the Switch Out flow (writes wrap-up, runs closure inference — standalone, or invoked by conductor close-out)
-**Readers:** switch (in), conductor (cold orient), lorg (work signals), kivna out (backlog export)
+**Owner:** the Switch Out flow, run explicitly (writes wrap-up, runs closure inference)
+**Readers:** switch (in), lorg (work signals), kivna out (backlog export)
 **Committed:** yes
 
 ### Format
@@ -61,8 +61,8 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 ### Rules
 
 - **TODO.md is forward-only and lean.** `## Now` + `## Backlog` only — no session story, no `### Context` section (standing context lives in CONTEXT.md). The record of completed work is the `kivna/sessions/<date>.md` log — never a retained TODO entry.
-- `## Now` is **overwritten in place** by conductor (plan phase) or switch (out) — never accumulated.
-- **Anti-pattern — demote-and-keep.** `## Previous Session` / `## Older Session` blocks (and the pre-split `## Current Session` / `### Context` shapes) must not exist; `switch out` self-migrates any that appear (rescue-before-remove into CONTEXT.md and session logs).
+- `## Now` is **overwritten in place** by switch (out) — never accumulated.
+- **Anti-pattern — demote-and-keep.** `## Previous Session` / `## Older Session` blocks (and the pre-split `## Current Session` / `### Context` shapes) must not exist; they are migrated explicitly (rescue-before-remove into CONTEXT.md and session logs); `/kerd:tend` detects them, and no skill heals them automatically as of v0.107.0.
 - **Closure inference (switch out):** every open item gets a verdict — done (evidence required; removed, recorded in the session log), open (kept), or unsure (kept, tagged `(done? — confirm)`). The verdict list is shown to the user as information, never a prompt; switch-in asks one question about tagged items.
 - `## Backlog` is append-only (items added, never silently removed outside closure inference).
 - conductor writes the plan, switch writes the wrap-up. They don't conflict because conductor runs within a session and switch runs at the boundary.
@@ -70,7 +70,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 ## kivna/.active-modes
 
 **Owner:** each skill owns its own line(s)
-**Readers:** switch (in), Stop hook, SessionStart hook, PostToolUse hook
+**Readers:** switch (in), SessionStart hook, PostToolUse hook
 **Committed:** no (gitignored, ephemeral)
 
 ### Format
@@ -94,7 +94,7 @@ skriv: active
 
 ## kivna/sessions/YYYY-MM-DD.md
 
-**Owner:** the Switch Out flow (creates on out — standalone, or invoked by conductor close-out)
+**Owner:** the Switch Out flow (creates on out, run explicitly)
 **Readers:** switch (in), lorg (work signals), kivna out (decisions export)
 **Committed:** yes
 
@@ -204,7 +204,7 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Responsibility | Owner | Others must NOT |
 |----------------|-------|-----------------|
 | Git pull | **switch-in** | Nothing else pulls, ever — pulling mid-session changes files under in-flight work |
-| Session-state commit + push | **the Switch Out flow** (standalone, or invoked by conductor close-out) | No other skill commits CONTEXT.md, TODO.md, or session logs |
+| Session-state commit + push | **the Switch Out flow**, run explicitly | No other skill commits CONTEXT.md, TODO.md, or session logs |
 | Work commits + push | **conductor** (per verified task, since v0.67.0) | Session-state files never ride along in a work commit |
 | Session log creation | **switch** | Conductor records decisions in TODO.md, not session logs |
 | Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills don't write `## Now`; kivna import may merge approved KIF items into `## Backlog` |

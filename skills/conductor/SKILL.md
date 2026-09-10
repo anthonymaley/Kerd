@@ -1,394 +1,210 @@
 ---
 name: conductor
-description: "Use when you need structured session discipline — frame a task, get a plan approved before building, and execute with verification — or when the user says 'conductor', 'session', 'let's get structured', or wants to plan and track a focused work block. Runs inside an already-open session (switch-in loads context first). Provides an orient-plan-execute-close protocol, and where a repo routes work through entry gates it frames new work onto the board rather than into a TODO stub. Coordinates four roles: you are the producer holding the intent and the approvals, a top-tier model is called as the composer to write the spec and leaves, the session model conducts the build, and cheaper subagents play the steps. It advises the conductor model and effort up front — down from an overpowered session as readily as up — sizes each call's model and effort (composer and players alike), and hands a failing step back to the composer rather than rewriting the spec itself."
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through clear direction, delivery and independent assessment. Resume saved work. Handle small explicit changes directly; status and review requests do not start a full intake.
 ---
 
-# Conductor (Session Discipline)
-
-The session conductor — keeps one session in tempo and coherent from open to close, the way an orchestra conductor holds a single performance together. (Renamed from `dian`, which was too opaque to signal the role.)
-
-A protocol for staying focused within a session. Conductor commits and pushes its own work as each task verifies, but never pulls and never writes session state by hand — the boundary is the Switch Out flow's, which close-out invokes as its final act. Conductor keeps you on track once you're working.
-
-## The Stage
-
-Conductor coordinates four roles. Keeping them distinct is what makes both the quality and the cost model work:
-
-| Role | Who | Owns |
-|---|---|---|
-| **Producer** | you | the idea or the input, and the approvals — is this the show we want to be making |
-| **Composer** | a top-tier model (Fable), called as a subagent | the score — turning intent into a spec each player can read cold |
-| **Conductor** | the session model (Opus) | the performance — dispatch, tempo, judging returned work against the score |
-| **Players** | subagents, spun up per step at a sized model and effort | execution of one step |
-
-The metaphor is load-bearing rather than decorative: a producer decides which
-show gets made and signs it off, a composer writes the score, a conductor
-directs the performance, players play. Every name does the job its word already
-means. **These names changed in v0.92.0** — the producer used to be called the
-composer and the composer used to be called the orchestrator, which inverted
-under reading often enough to mislead the person who chose them.
-
-The composer is a **call, not a mode**. It is summoned when a score needs writing, works from a tight brief, and returns to the wings. It never holds session context, never watches the build, and never reviews returned work — which is why buying its reasoning is affordable.
-
-The conductor holds the baton for everything else: orient, dispatch, verification, escalation, close-out. It is genuinely capable of most implementation, so steps it plays itself carry no premium.
-
-**The line that keeps the roles honest: the conductor may re-dispatch, never re-specify.** When a step fails, the conductor may hand the same spec slice to another player, refine *how* it's dispatched, or stop. It may not rewrite the score. A wrong score is the composer's to fix — see [Escalation](#escalation--when-the-score-is-wrong).
-
-## Usage
-
-`/kerd:conductor` run a structured session: orient, advise the conductor model, plan, execute, close.
-
-Conductor runs inside whatever session, model and effort you already started — a skill can't read or change any of them. So it **advises the conductor pair** (the model and effort holding the baton for the session) and gates on your confirmation — down from an overpowered session as readily as up from an underpowered one. Because the hardest reasoning happens in a composer *call* rather than in the session, a hard task never requires running the whole session on a top-tier model or a high effort: the expensive tiers are bought per-call, at a sized effort of their own. From there conductor sizes each mechanical step's model and effort and hands it to a player. There is no toggle — right-sizing is conductor's default behavior, scaled to the task in front of it. See [Model + effort advisory](#model--effort-advisory) and [Delegated execution](#delegated-execution--the-spec-is-the-contract).
-
-## Mode Markers
-
-Conductor is a modal skill. It runs across multiple responses. Announce the current phase so the user always knows what's active.
-
-**On every phase transition**, output a marker on its own line at the top of your response:
-
-- `[conductor: orient]` reading context, summarizing state
-- `[conductor: plan]` proposing session plan
-- `[conductor: plan · composer→<model>]` calling the composer to write or correct a score
-- `[conductor: execute]` working through tasks
-- `[conductor: execute step N/M]` working a specific plan step (fires at step transitions within execute)
-- `[conductor: execute step N/M · delegate→<model>]` a `[delegate]` step dispatched to a player
-- `[conductor: close-out]` updating docs, running checks
-- `[conductor: closed]` session complete (final marker, then done)
-
-**Why a step-boundary marker within execute:** phase markers fire 3-4 times per session — too coarse to gate claim-level failures (the Claim Discipline problem — gates asserted once don't bind the 50th claim). Step-boundary markers fire 5-30 times per session at the granularity where confident-wrong assertions actually happen. Each step marker is a reminder to re-engage the verification gate, not boilerplate. Don't re-emit the marker mid-step; only at the actual step transition.
-
-**State file:** the marker also lives on disk, in `kivna/.active-modes` — that is what lets `/kerd:switch in` report active modes and hooks surface reminders. The format and the stamp rule are defined here; **the instruction to write it sits in each phase section below**, at the transition where the write actually has to happen. Closing out removes the conductor line from the file (or deletes the file if it is the only entry).
-
-Format of `kivna/.active-modes` — conductor owns one line only:
-```
-conductor: <phase> @ YYYY-MM-DD HH:MM TZ
-```
-
-Example: `conductor: execute @ 2026-08-06 15:17 EDT`. Remove the line entirely when closing out (don't write `conductor: closed`). Never touch other skills' lines in this file.
-
-**The stamp has to be real.** Run `date '+%Y-%m-%d %H:%M %Z'` in the same turn as the write and copy its output — the same-turn rule, defined once in `docs/state-contract.md`. Never write a remembered or inferred time. The `execute` marker's stamp is the first conducted task's start time, which is why it is worth a `date` call rather than a guess.
-
-**Nothing checks that the marker is current.** `kivna/.active-modes` is gitignored, so no CI step sees it, and the hooks that read it report rather than refuse — the file is exactly as true as its last write. A marker left at an earlier phase is worse than a missing one: close-out reads it for the session's actuals, and a wrong stamp is far harder to catch than an absent one. That is why the write instruction is repeated at every phase transition below instead of being stated once here.
-
-## The Protocol
-
-### 1. Orient
-
-Output `[conductor: orient]` at the top of your response, and write the conductor line to `kivna/.active-modes` with a stamp from a `date` run in this same turn ([Mode Markers](#mode-markers) has the format). The file often does not exist yet — create it.
-
-Conductor runs inside an already-open session. Loading context is switch-in's job, not conductor's, so orient is conditional:
-
-**Warm path (the common case — switch-in already ran this session):** Don't re-read anything. Switch-in just loaded `CONTEXT.md`, `TODO.md`, the newest session log, and active modes. Confirm the current state in a line or two from what's already in context, then move to planning. Re-reading what switch-in just read is wasted work.
-
-**Cold path (conductor invoked with no switch-in this session):** Do a light orient — read only `CONTEXT.md` (`## Where We Are`) and `TODO.md` (`## Now`). That's enough to plan. Don't sweep the playbook, session logs, and progress files; that's switch-in's read. If you need the full picture, run `/kerd:switch in` first.
-
-**Bare repo (no Kerd structure detected — no CONTEXT.md, no TODO.md, no `kivna/`):** offer `/kerd:tend` to set the structure up before planning — one invoke; tend's own SKILL.md defines the setup. If declined, orient on what exists and continue.
-
-**Mode awareness:** Read `kivna/.active-modes`. If a mode is active, report it: what mode, which step, and the session instruction if one was set. Conductor operates within the mode's scope. If the mode says "focus on pricing strategy only," conductor's plan respects that constraint. If no mode is active, proceed normally.
-
-**Pre-flight inventory — ask the machine first, then the human for what's left.**
-
-- **If the repo has entry gates** (in Kerd: `python3 tools/gates/gate.py route <slug> --json`, which reports the work item's exact stage and names every missing input for the next one), run it and read what it says. It derives from disk, so it is never out of date and it never asks a question whose answer is already committed. Prefer it over asking. If the work has no slug yet, that itself is the first finding: the item is not on the board and nothing can notice it stalling.
-- **Then ask the user only for what the gates cannot know**: credentials or access not stored locally, sample inputs not in the repo, scope limits not in CLAUDE.md, hardware or environment state, fixtures and test data.
-
-Trickle-in friction (each missing input becomes a stop-and-ask round mid-execute) is 5-10x more expensive than collecting upfront. One round of questions now prevents many later. If the inventory is genuinely complete, say so explicitly and skip.
-
-This is the entry gates taking a job conductor used to do alone. Where no gate exists the behaviour is unchanged — ask the human for all of it.
-
-**Consistency sniff test:** Quick cross-check against what's in context — does CLAUDE.md or the playbook reference files, conventions, or a tech stack that no longer match reality? Flag contradictions before planning. This is a light pass; the deep audit is `/kerd:slainte`.
-
-Summarize the current state for the user, including any inconsistencies found, active mode context, and inventory gaps surfaced. The summary is a status moment: speak it as the **Status Report** format from the talk-formats library (`docs/design/talk-formats.md`) — Work item · Stage · Issue · Resolution path, in plain words readable without the repository open, and end the message on exactly one question (never a compound "X, or Y?").
-
-#### Model + effort advisory
-
-Before planning, size the work and advise the **conductor pair** — the model AND reasoning effort holding the baton for this session (`FUN-010`). Judge it on what the *conductor* has to do (dispatch, verify returned evidence, decide whether a failure is the player's or the score's), not on how hard the underlying problem is. The hard problem goes to the composer call, not the session.
-
-**First, establish the current pair — belief plus confirmation, never detection.** The harness names the session model in the system prompt, but that goes stale on every mid-session `/model` switch, and the session's effort setting is exposed nowhere at all. State what you believe the pair is and where the belief comes from, and have the user confirm the actual pair in the same breath as the gate below — one extra word in their answer, never a separate exchange.
-
-Then advise the cheapest pair that conducts well:
-
-- **Mechanical / small** (a rename, a config edit, a well-trodden fix): the pair you're on is almost certainly fine — or more than fine. Say so and move on.
-- **Anything with a real build** — including hard, architectural, or novel work: a strong mid-to-upper model (e.g. Opus) at a middling effort. It must judge returned evidence well, because bad conformance judgment is the most expensive failure in the system: it wastes player runs *and* buys a composer callback.
-- **An overpowered session is advised DOWN, by name.** A session opened at the top tier or a high effort (e.g. Fable xhigh) for work that needs neither gets the explicit downgrade with its reasoning: "conducting this needs Opus medium — difficulty is bought per-call, the composer at Fable and the players at their sized tags, each at the right effort." Saying nothing approves the burn: the four-role cost model exists so nobody idles at premium rates between the calls that need them.
-- **Never recommend switching the session to the top tier for difficulty alone.** That was the old shape. Difficulty is handled by [calling the composer](#calling-the-composer), which costs one brief and one score instead of an entire session at premium rates.
-
-State your recommendation in one line and **gate on it**: ask the user to switch (or confirm the pair) before you plan. Conductor can't set its own model or effort, so this is advice plus a confirmation beat — proceed on whatever pair the user confirms. Skip the gate only when the work is trivially small and the current pair obviously suffices; say why you're skipping.
-
-### 2. Plan
-
-Output `[conductor: plan]` at the top of your response, and rewrite the conductor line in `kivna/.active-modes` to this phase, restamped from a `date` run in this same turn. Rewriting is the whole point — a line left at `orient` while the session plans is the drift that costs the close-out its actuals.
-
-#### Critical review
-
-Before writing the plan, surface doubts and unresolved risks. If something about the task feels underspecified, contradictory, or risky, say so now. Do not hide concerns to appear confident. Do not guess or infer context. It's cheaper to spend two minutes clarifying than to build the wrong thing.
-
-**Challenge yourself on:**
-- Do I actually understand what the user wants, or am I filling in gaps with assumptions?
-- Are there dependencies between tasks that affect the order?
-- Is anything in the plan vague enough that I might interpret it differently than the user intended?
-- What could go wrong, and how will I catch it?
-- If a plan step predicts an outcome ("this will fix the issue", "this approach should scale", "this is the right pattern"), what is the prediction based on? Cite the source — prior session, doc, tested precedent, code reference. If no source exists, downgrade the prediction language to "expected outcome — to be verified after execution".
-
-Ask clarifying questions about anything ambiguous. Push back on things that don't make sense.
-
-#### Task framing
-
-Before planning implementation, decompose the request into one or more task candidates. For each candidate, write:
-
-- **Scope:** what is included (and what is explicitly out)
-- **Acceptance criteria:** what must be true when the task is done
-- **Files likely touched**
-- **Verification:** how we prove it worked (command to run, output to check, behavior to observe)
-
-Ask the user to approve the task boundaries before writing the detailed plan. Default to one task per conductor session. If the user's request naturally splits into multiple tasks, present them as candidates and ask: tackle all in this session, or pick one?
-
-If the output from a task is not good enough after execution, the right move is to refine the task framing (scope, acceptance criteria) and restart with a fresh conductor session rather than digging deeper into muddy context.
-
-#### New work entering the funnel gets a frame on disk, not a TODO stub
-
-**If the repo routes work through entry gates** (in Kerd: `tools/gates/`), the framing above is not the whole job when the request is *new work* rather than a task inside work already tracked. New work needs an artifact the machine can see, or nothing will ever notice it stalling.
-
-Tell the two apart by asking the gates, not by judgement: pick a slug and run `python3 tools/gates/gate.py route <slug>`. If it reports missing inputs at the first rung, this work is not tracked and the framing conversation should produce the frame artifact — in Kerd `docs/product/<slug>.md`, whose required sections the gate names for you.
-
-**What the frame must carry**, and each of these is checked rather than encouraged:
-
-- **The value, in the producer's own words and in units.** What winning is, stated so it can later be measured. Quote them verbatim; a paraphrase of intent is the first thing to rot.
-- **The grounding** — what was read to get here.
-- **A risk ledger that NAMES at least one killer risk.** At the frame this is presence only — no sizing, no evidence — because you cannot qualify the risks of a thing you have not defined yet. A risk with no countermeasure is a blocker, not a row.
-- **The scope** — the smallest valuable increment, and what is deliberately excluded with the reason. Full risk qualification (every row sized, evidenced, in exactly one state) is checked here too, one rung later than the killer-risk floor.
-
-**The producer's key belongs here.** Framing is their rung — the value statement is theirs and the model's job is to write it down accurately, not to author it. Ask, record, and read it back.
-
-**Why this is worth the extra beat, stated plainly because it looks like ceremony:** untracked work is invisible to every machine surface. It has no board row, no gate demanding anything, no render showing it unbuilt. This repo has already paid for that once at the top: the decision to give the funnel a driver was taken, specced in full, and sat unbuilt for three days — not because anyone forgot, but because it never entered through a frame, so nothing was capable of noticing. See `docs/product/funnel-driver.md`.
-
-**Where no entry gates exist the behaviour above is unchanged** — frame the task, write the plan into TODO.md, and carry on.
-
-**Not yet owned, and named so nobody assumes otherwise:** the design and work handoff stages. Nothing in `skills/` writes a design doc, a design GO record, or a Scope section. Conductor sheds one piece at a time — its own spec's transition rule 4 — so those are separate work, not an oversight here.
-
-#### Write the plan
-
-Propose a session plan based on the approved task framing. Each step must be concrete and testable:
-
-- **What:** specific action with file paths
-- **Verify:** how to confirm it worked
-
-Ban vague plan items. "Implement feature X" is not a plan step. "Write the handler in `src/api/handler.ts` that accepts POST requests and returns 201" is. Every step should be small enough that you can verify it independently before moving on.
-
-If a mode is active, scope the plan to the mode's current step and instruction. Don't plan beyond the mode's scope.
-
-Write this into TODO.md's `## Now` section with today's date — overwrite the section in place; `## Now` holds the current focus, and during a conductor session the focus is the plan. Wait for user approval before executing. Do not proceed until the user confirms the plan. A good plan prevents rework.
-
-#### The gate message carries the content
-
-Every conductor gate ends a turn with a question — the model advisory, the task-framing approval, the plan/spec approval. The message that asks the question must itself contain what is being approved: the orient summary, the findings, the task boundaries, the plan or spec steps. Never assume text written earlier in the turn was seen — display modes like Claude Code's focus mode show the user only the final message of a turn, so analysis written between tool calls may be invisible. A gate message that is only the question ("execute the plan?") erases the analysis for those users. Lead with the findings, end with the one ask — a compact summary is fine; an absent one is not. This applies to every gate in this skill.
-
-When the gate's question is a **decision** — the user choosing between real alternatives, not confirming a plan — the message follows the **Proposal** format from the talk-formats library (`docs/design/talk-formats.md`): what the situation is, why it matters and the gap, what we win, and **what we lose, named**. Those five fields are Proposal's sections (current situation → problems & cause → proposal & benefits); a decision message missing the loss is missing a section.
-
-#### Say it in the user's terms
-
-The rule above governs *whether* the content is in the message. This one governs *what language it's in*. Both fail the same way — a message the user cannot act on — and this one is harder to spot, because the message looks complete. A wall of correct technical detail doesn't slow a decision down; it makes the decision unmakeable, because the user is being asked to arbitrate something that was never theirs to arbitrate.
-
-**Trigger:** any change that alters what the user can *do*, and any question that is theirs to decide. Capability regressions always qualify — those read as improvements until someone spells out what's gone. Routine mechanical work doesn't need it; don't do this for a version bump.
-
-**The shape:**
-
-> **Now:** what they experience today
-> **The change:** what they'd experience instead
-> **What it means:** the consequence, including the cost
-
-This is the **Compare & Contrast** format from the talk-formats library (`docs/design/talk-formats.md`): current situation → new situation, in the reader's vocabulary.
-
-Write it in the vocabulary of *using* the thing, not building it. File paths, symbol names, table columns, line numbers and migration names belong in the spec and the commit message — not here. If a sentence can't be parsed without the codebase open, rewrite it.
-
-**Name the loss.** When a change removes something the user had, say so in those words: "this is a real capability you had yesterday and don't have now." The same removal described as a feature — "tap now picks the restaurant" — disappears into the good news, and the user approves a regression they never saw. Volunteering the cost of your own change is the substance of this rule, not a politeness.
-
-**The question test — could they answer it without reading the code?** If yes, ask it. If no, either restate it as an outcome, or recognise it as a call you should be making yourself: a question that requires the codebase to answer is usually not the user's question. "Should people be able to change their vote before the room finishes?" passes. "How do you want these three screens verified?" does not.
-
-**Framed well, a question needs no options.** When the change is stated clearly the user answers in their own terms — often resolving more than was asked — rather than picking from a menu that pre-narrows the space to what you already thought of. State the change, ask open, let them steer. Offer options only when they genuinely clarify a choice, never as a substitute for explaining the change.
-
-The same shape carries a **deferral**: what the user would have gained, that it is specced but deliberately not built and why, and an honest cost so a later session doesn't re-derive it and quietly decide it's too expensive.
-
-#### Delegated execution — the spec is the contract
-
-Once the task is framed, decide whether it has **mechanical bulk worth delegating**. Two cases, and conductor picks per task — there is no toggle:
-
-- **Lean/inline** — the task is small or all-judgment (nothing a player should do). Write the plan into TODO.md `## Now` as above and execute inline as conductor. No composer call, no spec file. Skip the rest of this section; most small sessions land here.
-- **Delegated** — the task decomposes into mechanical steps a cheaper model can do from a written contract. The plan becomes a **spec file**, and conductor sizes each of those steps and hands them down while it stays in the judgment loop.
-
-When delegating, the plan is not a lean TODO stub — it is a **spec file**, the contract handed to the implementer:
-
-- **Location:** `docs/plans/YYYY-MM-DD-<slug>-spec.md`. TODO.md `## Now` shrinks to a one-line pointer at the spec plus the step checklist. The spec file is a committed artifact — switch picks it up at the boundary.
-- **Executor tag per step — assigned *after* the step is written, never before.** Write the step body in full, then read the finished text and ask what decision is still left in it. Writing a spec slice well is the act that *removes* judgment from the model and deposits it in the document, so a tag assigned during planning measures the wrong moment — it records how hard the step felt to plan, not how much judgment survives being written down. The test is mechanical and self-checking: **can this step be written precisely enough to verify by command?** Yes → `[delegate]`. No → `[keep]`, and your inability to write it out is exactly the evidence that it needs judgment. Two buckets only: `[keep]` (the conductor plays it) and `[delegate]` (assigned to a player). Conductor assigns; the user approves at the plan gate alongside the plan itself.
-- **Blast radius is answered by a review step, not by keeping the work.** A tempting mistake: tagging a risky step `[keep]` because failure there compounds downstream. It doesn't help. The characteristic blast-radius failure is *mechanical* — a deletion range that swallows adjacent code, a rename that catches a near-match — and a stronger model has no better aim than a weaker one. Keeping such a step buys nothing and costs the conductor's attention. **Delegate the risky edit, then add a separate `[keep]` step that reviews the diff for unintended drift.** That step is a real keep: reading a diff for edits that pass every verify command yet violate the stated scope is judgment, and it cannot be written as a command. Note what the review must catch — "confirm nothing outside the named symbols was removed" — in the step body.
-- **What's left in `[keep]` after that is small, and that's correct.** Once tags are assigned against finished text and blast radius is handled by review steps, most keeps dissolve. Expect a spec to be mostly `[delegate]` with one or two `[keep]` review steps at the seams. If `[keep]` is still carrying half your steps, the tags were assigned before the bodies were written. Resist adding a third tag for any of this: tags encode *actions* (who executes), and a tag that encodes a *reason* decays into a vibe marker — reasons go in the step body, where they can say what to check.
-- **Sized model + effort per delegated step:** conductor sizes each `[delegate]` step's model and reasoning effort to the work and writes them into the tag — `[delegate, model: haiku, effort: low]` for trivial edits, `[delegate, model: sonnet, effort: medium]` for standard implementation, up to `[delegate, model: sonnet, effort: high]` for core-but-delegatable work. Model tier and effort are two independent levers; omit either and the subagent takes its default. Putting the sizing in the tag makes it reviewable at the plan gate — the user approves the model and effort choices, not just the steps. Sizing is the conductor's call, since it's a staffing decision about the performance; the composer may propose tags with the score, but the conductor owns the final assignment.
-- **The bar for a `[delegate]` step is higher than a normal plan step.** It must be playable by a model that never saw the composer's reasoning: exact files and paths, the function/type signatures or interfaces to add or change, the *why* behind any non-obvious choice (so the player doesn't re-derive intent and drift), and a verification command with its expected output. A vague spec produces a confidently-wrong implementation from a cheaper model with no recourse — spec quality *is* the safety mechanism, and it is the entire reason the composer's expensive tokens are worth spending.
-
-#### Calling the composer
-
-The score is written by a top-tier model invoked as a **subagent** (the Agent tool's `model` accepts the top tier, e.g. `fable`), not by the conductor itself — **at a sized effort of its own**: tier buys capability, effort buys deliberation, and they are sized independently, exactly like player tags. A routine spec earns the composer at a middling effort; a novel architecture earns high. Name the pair when dispatching the call, so the cost is a decision rather than a default. Two passes, both deliberately small:
-
-**Pass 1 — scoping.** Send intent, boundaries, and constraints only. Ask one question: *what do you need to see to write this score?* The composer replies with specific files. **Bound the request in the prompt — name files, not directories.** An unbounded scoping answer collapses this back into a full context dump and forfeits the entire saving.
-
-**Pass 2 — the score.** The conductor fetches exactly what pass 1 named (retrieval is mechanical; it belongs on the conductor) and sends it with the brief. The composer **writes the spec file directly to `docs/plans/YYYY-MM-DD-<slug>-spec.md`** and returns only a short summary — the step list, the tags, and any risk it wants raised at the gate. Writing to disk rather than returning the score as text keeps a 200-line spec out of the conductor's context entirely.
-
-Why two passes: it separates *deciding what's relevant* (judgment, and cheap to express — a list of paths) from *retrieving it* (mechanical, and now on the conductor). A conductor-curated brief is cheaper but makes the conductor's curation error the composer's blind spot — it writes a confident score against terrain it never saw, and nobody finds out until players have failed against it.
-
-The brief carries four things, and deliberately not a fifth:
-
-- **Intent** — the producer's words, plus explicit out-of-scope boundaries
-- **Terrain** — the actual file contents from pass 1, not summaries (the score must name exact paths, signatures, and values)
-- **Constraints** — binding conventions and standing decisions from CONTEXT.md the design can't violate
-- **Available players** — which model tiers exist to be assigned
-
-Not the orient narrative, not how the conductor reached its conclusions, not alternatives already rejected. That's session diary — it's the bulk of what a naive session handoff would carry, and the composer needs none of it.
-
-Hand the composer a **template** with judgment-shaped slots (step header, tag, what / why / verify) so its output tokens go to decisions instead of reinventing scaffolding. But **do not delegate spec *detail* to a cheaper model.** A template removes boilerplate; the exact values, signatures, and verify commands are where judgment gets encoded precisely enough to survive a player that never saw the reasoning. That detail *is* the safety mechanism, not padding around it.
-
-Skip the composer call entirely for lean/inline tasks — if there's no score to write, there's no one to summon.
-
-**When the composer is unavailable.** Top-tier capacity runs out — the call can fail on quota, not just on error. Don't stop the session: write the score yourself as conductor, and **say so explicitly at the approval gate** ("composer unavailable — this score is mine, expect it to be thinner"). The user is then approving a lesser score knowingly rather than receiving one silently. Retry the composer for a hand-back if a step later fails on score grounds; capacity may have returned. A conductor-written score is worse, not useless — the failure mode to avoid is the user believing they got the better one.
-
-Write the spec, write the pointer into TODO.md `## Now`, and wait for approval — the same gate as inline. The user approves the spec, the tags, the sized model/effort, and the boundaries together before any execution begins.
-
-### 3. Execute
-
-Output `[conductor: execute]` at the top of your response when entering this phase, and rewrite the conductor line in `kivna/.active-modes` to `execute`, restamped from a `date` run in this same turn. **This is the one marker write the session cannot reconstruct afterwards** — the stamp is the first conducted task's start time and the sitting's open time, and nothing else on disk holds it. Make the `date` call before you start the work, not after.
-
-Do the work. Stay focused on the plan.
-
-#### Dispatch mode (delegated plans only)
-
-If the plan is lean/inline, skip this — just work the plan. If it's a spec file with `[keep]`/`[delegate]` tags, pick the dispatch mode with the user at execute entry:
-
-- **In-session players (default).** Play `[keep]` steps yourself. For each `[delegate]` step, spawn a subagent via the Agent tool with its `model` and `effort` set to the step's sized tag — handing it *that step's spec slice*: scope, files, signatures, the why, and the verify command. The player returns its result plus evidence (command output, diff summary). You do not re-do the work — you **review the returned evidence against the step's acceptance criteria** (the verification gate below, applied to the player's output). Emit `[conductor: execute step N/M · delegate→<model>]` at each dispatch.
-- **Handoff to a fresh session.** Finish the spec and stop. Tell the user to open a new session pointed at `docs/plans/YYYY-MM-DD-<slug>-spec.md`; that session plays every step and self-verifies via the spec's built-in verify commands. Use this when the build is long enough that even the conductor's dispatch-and-review tokens aren't worth spending in this session — but note the trade: nobody with judgment watches the build, so the spec's verify commands are the only net.
-
-Either way the spec is the contract and the verification gate still governs "done" — the only question is who plays the steps. If a player's returned evidence fails the acceptance criteria, that counts as a failed attempt under the 3-fix limit. Don't silently accept muddy output — and don't quietly rewrite the score to make the failure go away (see [Escalation](#escalation--when-the-score-is-wrong)).
-
-#### Verification gate
-
-After each task, verify it with evidence before claiming it's done. No exceptions.
-
-1. **Identify** the check: what command, file read, or test confirms this task worked?
-2. **Run** it. Actually run it. Don't assume.
-3. **Read** the output. Look at what came back.
-4. **Confirm** the claim: does the evidence support "this task is done"?
-5. **Check for collateral:** did anything change that *shouldn't* have? Read the diff, not just the verify output.
-
-Only then mark the task complete. If you catch yourself thinking "should work", "probably fine", or "seems good" without evidence, stop. Run the check.
-
-Step 5 is not redundant. A verify command tests for the *presence* of the intended change; it is silent about the *absence* of unintended ones. A deletion range that swallows three neighbouring helpers, or a rename that catches a near-match, passes every check written for the step it belongs to — the damage lives in code nobody thought to grep for. Bulk deletions, renames across many call sites, and regex-driven edits all need the diff read, not just the command run.
-
-**When you catch your own mistake mid-step, say how you caught it.** One clause is enough — "the build failed", "step 5 diff read", "noticed while re-reading". A silent self-correction looks identical whether the guard worked or you got lucky, and only one of those is worth trusting next time. This is the cheapest signal available about whether the verification gate is actually load-bearing, and it's lost by default.
-
-#### Strong-language gate (claim-formation)
-
-The verification gate above covers "done" claims at end-of-step. The same discipline applies to claims made *during* a step. Before tagging anything with "verified", "fixed", "working", "confirmed", "the right approach", "the only way", "impossible", "always", "never" — or asserting platform/library/API specifics: require evidence in this loop iteration (a check run, an output read, a doc cited, a source URL). Without those, downgrade to "added but not yet verified", "the evidence I have suggests", or "from training data; may be wrong". Each external-system claim must carry a "verified by [URL/doc]" tag.
-
-This mirrors the Claim Discipline some users keep in a global CLAUDE.md; it's restated here so conductor enforces it even in projects without one. It applies at the moment of writing the assertion within execute, not deferred to end-of-step. The verification gate is a backstop; this gate is the primary line.
-
-#### 3-fix limit
-
-If a task isn't working after 3 attempts, stop. Do not attempt fix #4. Instead:
-- Summarize what was tried and why each attempt failed
-- Surface the problem to the user
-- Ask whether to continue with a different approach, skip the task, or rethink the plan
-
-The surfaced report follows the **Correcting Discrepancy from Standard** format (`docs/design/talk-formats.md`): the declaration the work was measured against, the discrepancy the evidence shows, then the countermeasure options. A failure report that never names the declaration it failed against is an anecdote, not a report.
-
-Three failed fixes usually means the approach is wrong, not the execution. It is also the talk-formats **problem-tier trigger** — "a problem that survived a few attempts" — the declared route for a point-of-cause tool (e.g. `/sensei:work`) where one is installed: route on the match, never by default. If the task framing itself was the problem (scope too broad, acceptance criteria unclear), suggest refining the task and restarting with a fresh conductor session rather than continuing in degraded context.
-
-#### Escalation — when the score is wrong
-
-**The conductor may re-dispatch, never re-specify.** When a delegated step fails, first decide which kind of failure it was:
-
-- **The player failed.** The evidence doesn't meet the acceptance criteria, but the spec slice was clear and correct. Re-dispatch — same slice, possibly a stronger tier or higher effort. Counts against the 3-fix limit.
-- **The score is wrong.** The spec asked for something that can't be done, contradicts the terrain, or assumed a structure that isn't there. Re-dispatching cannot fix this — a second player fails the same way, and a third confirms it.
-
-Three failures on one step means the score is wrong, not the players. That is the hand-back boundary: **summon the composer again for that passage.** Send the failing slice, the evidence from each attempt, and the terrain that contradicted it, and ask for a corrected passage — not a new score, one passage.
-
-Surface the callback to the user before making it. It spends top-tier tokens, and it means the plan they approved was wrong in a specific way they should see.
-
-If the corrected passage also fails, stop. That's the 3-fix limit applied one level up: the problem is the task framing, not the score. Refine the framing and restart with a fresh conductor session.
-
-Rewriting the score yourself is the failure this rule exists to prevent. It is quiet, it feels efficient, and it destroys the contract — the producer approved a score, the players are building to it, and a conductor editing it mid-performance means nobody can say what was actually agreed.
-
-#### Scope creep
-
-If something comes up that isn't in the plan, stop working on it immediately. Add it to TODO.md backlog. Do not continue on the tangent. Do not "just quickly" do it. Return to the current plan step. The user can reopen the plan if the new work is more important.
-
-#### Decision recording
-
-When a significant decision is made during execution (architecture choice, rejected approach, key trade-off), record it in `CONTEXT.md` immediately — `## Key Decisions` for what was decided and why, `## Open Questions` for what surfaced but wasn't resolved. Don't defer to close-out. Decisions lose their reasoning if you wait.
-
-Do not write to `kivna/sessions/` during execution. Switch owns session log creation at the git boundary. Conductor's decisions accumulate in CONTEXT.md and flow into the session log when switch runs.
-
-#### Gate records carry a Clock line
-
-When a step writes a `docs/gates/` record, that record carries a `**Clock:**` line directly under its title. The format, the rule and what it buys are defined once in `tools/gates/README.md` (Gate records) — read them there; this skill only tells you the line is owed. It is written under the same-turn rule like every other time conductor writes: a `date` run in the turn the record is written.
-
-Nothing validates the line's presence, deliberately — a backfilled time is manufactured history, so a record that missed it stays missed. This bullet is the only write-side instruction that exists; the two records born with the line so far were written by a session that had the feature fresh in context, which is not a mechanism.
-
-#### Docs travel with code
-
-If a task changes behavior, update the affected docs (README, playbook, CLAUDE.md) in the same commit. Don't defer doc updates to close-out. No commit should leave docs inconsistent with code.
-
-#### Work commits
-
-**Commit and push each task once its verification gate has passed.** Don't hold work until the boundary — a session that completes three tasks should leave three commits, not one. Do this on your own; no approval beat. The gate is what makes it safe: an unverified task isn't committable, and a verified one isn't work-in-progress.
-
-- **Stage by name.** Only the code and docs this task touched. Never `git add -A`. Session-state files — `CONTEXT.md`, `TODO.md`, anything under `kivna/` — never ride along in a work commit. Switch owns those at the boundary, and mixing them collapses the split.
-- **Push immediately.** Commits piling up unpushed until switch-out reintroduce exactly the risk the always-push convention exists to prevent.
-- **Never pull.** Pulling is a boundary sync and belongs to switch — pulling mid-execute can change files under an in-flight task.
-- **Commit per task, not per step.** A multi-phase spec may warrant a commit per completed phase; a single task is one commit. If the project's CLAUDE.md defines a pre-commit checklist (version bumps, changelog entries), it governs — and an expensive checklist is a reason to commit per phase rather than per step, not a reason to defer to the boundary.
-- **Name the piece in the commit.** When the work is running against a contract with a numbered `## Pieces` checklist, the work commit carries a trailer naming what landed: `Piece: <slug>/<n>`. One line, last in the message. This is what makes progress *derived* rather than reported — a checked box is a claim, a commit trailer is a fact, and where a repo renders progress from git the trailer is the only signal that cannot be falsified by ticking a box. No contract, no trailer.
-
-Why per-task rather than per-session: the collateral check (verification gate step 5) is only affordable when the diff is small. Three tasks' worth of interleaved change in one boundary commit hides exactly the drift that check exists to catch — a swallowed helper is obvious in one task's diff and invisible in a session's.
-
-**At each task's verified commit, name what's next in one line.** While the plan still has steps, that's the next plan step; when the plan is done, it's the top pick from TODO's `## Now` or `## Backlog`. Suggestion only — starting it stays a human reply; no loop, no hook, no auto-start.
-
-#### No vault writes
-
-Work accumulates in repo-side files (TODO.md) during execution. Conductor never writes the vault — and since v0.83.0 neither does the boundary: `/kerd:kivna save` is the deliberate, on-demand export for projects that keep one.
-
-### 4. Close Out
-
-Output `[conductor: close-out]` at the top of your response. **Read the conductor line in `kivna/.active-modes` before you touch it** — the capture below depends on it — then rewrite it to this phase, restamped from a `date` run in this same turn.
-
-**Capture the actuals first.** Writing the close-out marker replaces the `execute` line, and that line's stamp is the first task's start time — read the line you are about to overwrite, before you overwrite it. Then, for each task this session committed, produce one line:
-
-```
-<task> — started HH:MM (marker) · landed HH:MM (work commit)
-```
-
-Start: the `execute` stamp for the first task, the previous task's work-commit time for each task after it. Landed: `git log -1 --format=%cd --date=format:'%H:%M' <sha>`. Both sources are machine-written, which is what makes copying them legal under the same-turn rule (defined once in `docs/state-contract.md`). Hand these lines — **and the `execute` stamp's `HH:MM`, which is the sitting's open time** — to the boundary; capture both before step 5 clears the marker, because nothing on disk holds them afterwards. The Switch Out flow writes them into the session log; conductor never writes the log itself.
-
-**If the line you read is not an `execute` line, there is no open time.** The phase never advanced, or the file was never written — either way the stamp does not exist. Hand the boundary nothing for the open side and let it write `(<label>, closed HH:MM TZ)` instead. Do not substitute another phase's stamp, and do not reconstruct one from when the work felt like it began: an invented time is precisely what the same-turn rule exists to prevent, and it has already happened once (2026-08-06, caught by the expert-user pass on this feature's own first use). A missing open time is an honest record; a plausible wrong one is not.
-
-Close-out settles the work, then runs the boundary itself — one act, no session handoff ask. By now each verified task is already committed and pushed (see [Work commits](#work-commits)). Keep conductor's close-out short:
-
-1. **Update TODO.md and CONTEXT.md**: remove completed tasks from TODO, add new ones discovered during work, then overwrite `## Now` to forward-only state (what's next, a few lines — the completed record is the session log switch writes at the boundary). Record any *unresolved* decisions or questions in CONTEXT.md (`## Key Decisions` / `## Open Questions`). Apply Claim Discipline to summary text — don't claim "we verified X" unless we did; downgrade to "tested with Y; Z untried" when alternates exist; don't promote provisional findings to canonical without the survival test.
-2. **Doc impact**: docs should already be current (docs travel with code, see Execute). Confirm nothing was missed against the CLAUDE.md Doc Impact Table if one exists. Don't carry doc updates into the boundary.
-3. **Run checks**: run the project's build/test command if one exists. Do not close out with failing tests.
-4. **Mode-aware completion**: if a mode is active, do NOT suggest the session is done unless the mode flow is also complete. Conductor may be one step in a larger mode flow. After conductor's close-out, control returns to the mode for the next step. If no mode is active, this is the natural end point.
-5. **Clear the conductor marker**: remove the conductor line from `kivna/.active-modes`. Never touch the mode line — mode owns its own state.
-6. **Release close-out pass**: two moments fire it, either alone — this session's work commits changed the three plugin `"version"` fields (CI's release definition, rule R1), or this session landed an acceptance record (a new `docs/gates/*-acceptance.md` — a feature accepted as ready for release). Invoke `/kerd:tend` and then `/kerd:slainte` before the boundary — the structural drift check and the narrative pass with fixes, each defined in its own SKILL.md, not here. The pass's edits are work commits under the verification gate. Neither moment, no pass.
-7. **Run the boundary**: invoke `/kerd:switch out` via the Skill tool. There is one mode and it is the complete one (v0.90.0 removed `light` and `low`), so the invoke carries no modifier. The flow is defined once, in `skills/switch/SKILL.md` Switch Out; do not re-describe its steps here or anywhere in this file. When it completes, output `[conductor: closed]` as the final marker.
-
-## Principles
-
-- **Commit your work, never pull.** Work commits (code + the docs travelling with it) are conductor's, pushed at each verified task boundary, staged by name. Pulling is a boundary sync and belongs to `/kerd:switch` — it can change files under an in-flight task.
-- **Evidence before claims.** Every "done" must have a check that was run, output that was read, and a conclusion that follows.
-- **Hard stop on scope creep.** Out-of-plan work goes to backlog. No exceptions without reopening the plan.
-- **Three fixes, then escalate.** Don't thrash. Surface the problem.
-- **Docs travel with code.** If you change behavior, update the docs in the same commit.
-- **Conductor closes the session it conducted.** Work commits per verified task, then close-out invokes the Switch Out flow (`/kerd:switch out`) as its final act — one definition of the boundary, two callers. Standalone switch out serves sessions without conductor. Conductor still never pulls (pull is switch-in's) and never writes session state by hand.
-- **Four roles, kept distinct.** Producer owns intent, composer owns the score, conductor owns the performance, players execute. Nobody's authority overlaps — that's what makes each one affordable to staff correctly.
-- **The composer is a call, not a mode.** Top-tier reasoning is summoned for a brief and a score, then leaves. It never holds session context, watches the build, or reviews returned work. Buying it this way costs one brief and one score instead of a whole session at premium rates.
-- **Re-dispatch, never re-specify.** A failing step is either a player problem (re-dispatch) or a score problem (hand back to the composer). The conductor never edits the score to make a failure go away — that silently voids the contract the producer approved.
-- **Tag the step after writing it.** Writing a spec slice well is what removes the judgment from the model and puts it in the document. A tag assigned during planning measures how hard the step *felt*, not what judgment survives being written down. If you can write it precisely enough to verify by command, it's delegatable — and if you can't, that's the evidence it isn't.
-- **Advise the pair, don't assume it.** Conductor can't set its own model or effort, and what it believes about the current pair goes stale on every mid-session switch. It states its belief, confirms, and recommends the cheapest pair that conducts well — down from an overpowered session as readily as up — then sizes each call's model and effort from there: composer, players, all per-call. Difficulty never argues for running the whole session at the top tier or a high effort; that's what the composer call is for.
-- **The spec is the contract.** The composer's job is a score complete enough that a player never re-derives intent. Spec quality is what makes delegation safe — a vague `[delegate]` step produces a confidently-wrong build with no recourse. Spend the expensive tokens on the score, not the grind, and never delegate the *detail* to a cheaper model to save a few of them.
-- **The gate message carries the content.** Any message that asks for approval must contain what's being approved — findings, summary, plan — in that same message. Mid-turn text may be invisible to the user (focus mode shows only a turn's final message); a question-only gate erases the analysis.
-- **Say it in the user's terms.** When a change alters what the user can do, describe it as *now / the change / what it means* in the vocabulary of using the thing — and name any capability it removes as a loss, or it disappears into the good news. Ask only questions answerable without reading the code; if it needs the codebase to answer, it's usually your call, not theirs.
-- **Talk moments follow the format library.** Decision gates speak Proposal, user's-terms changes speak Compare & Contrast, failure reports speak Correcting Discrepancy from Standard, status moments (orient summaries, task reports) speak Status Report — plain words without the repository open, one final question — and three survived fixes trigger the problem tier. Formats and their used-when triggers are canonical in `docs/design/talk-formats.md`; a message claiming a format carries that format's sections.
+# Conductor — development candidate
+
+Help the person understand and agree what they want to make happen. Work can be
+software, research, a commercial offer, a process or another repo-based outcome.
+The conversation should feel like a capable partner, not a form or a gate ladder.
+
+Guide **Understand → Shape → Agree → Deliver → Complete**, including interrupted
+work. This is an experimental skill, not a claim that the whole journey has
+passed a real-user trial. After actual direction agreement and authorization,
+continue into delivery; a completed document is not a reason to stop. Preserve
+an explicitly requested planning-only boundary. An earlier intake-only agreement
+does not become build authorization because this skill was updated.
+
+Use the current project for work, not the directory containing this skill.
+Resolve supporting files relative to this SKILL.md. On entry, identify this as
+the candidate and name the project briefly. Do not invoke installed Conductor,
+Drive, gate tools or old session machinery to run it. Do not replace installed
+Kerd or change hooks, CI, global instructions, existing session markers or dated history.
+Optional job/diagram tools follow scoped installation approval in their guides;
+approval to use this candidate alone does not authorize those installations.
+If higher-priority instructions conflict, explain the specific conflict rather
+than claiming it is bypassed. Existing host permissions still apply.
+
+## Start from the person, or the saved place
+
+Match the requested scope first. A standalone status, review or input request
+is not automatically a new guided work package. Inspect the relevant material
+and answer within that authority; skip the guided intake, direction review
+and record creation. If another model is explicitly requested, use
+[the model-job guide](references/model-jobs.md). Read-only requests stay read-only.
+
+Natural creation/planning requests can select this skill without a special
+Conductor command when the host makes it discoverable. Match intent, not a word
+appearing in quoted text. Discussion is not build authorization. The candidate
+is not installed; its description enables consideration, not guaranteed selection
+or precedence over another host instruction.
+
+For a small, unambiguous, already-authorized change, act and verify proportionately;
+don't require a new package, ten answers or a ceremonial brief. The request can
+itself establish outcome, check and permission. A seemingly small change with
+consequential effects still needs those effects resolved.
+
+Before broad reading, follow an explicitly supplied work record or existing
+project/Now pointer, including a nested record. Otherwise check the candidate
+Switch handoff at `docs/work/SESSION.md`, then work-record names under
+`docs/work/`. The usual home is `docs/work/*/work.md`, not a depth restriction:
+if no active pointer resolves, locate nested `work.md` names within the relevant
+work folder and read only plausible current-position sections. This is a small lookup, not a
+project audit. Do not read the whole repository, session history or guidance pack
+to earn the right to ask the first question.
+
+- If the person supplies a new outcome, use it; don't ask them to repeat it.
+- If fresh and no outcome is supplied, ask **“What are you trying to achieve?”**
+  A rough idea, notes or examples are enough; none is required homework.
+  Then wait. Do not write a guessed brief or preload an example's answers.
+- If resuming, read the selected work record and necessary linked material.
+  Say where work stands, then restore the exact saved pending question or next
+  action. Account for an answer already supplied in the new message. Do not
+  restart the interview or treat an awaiting-agreement record as approved.
+- If several records could be active and the request doesn't identify one,
+  ask which work to continue. If the record is missing or contradictory, name
+  that small gap; don't manufacture the lost decision.
+
+## Understand and shape together
+
+Once intent is known, read the relevant project material to avoid asking for
+facts already on disk. Distinguish sourced facts, the person's decisions,
+proposals and unresolved questions. Challenge an unsupported premise when it
+could change the outcome; don't turn every suggestion into a requirement.
+
+Read [the understanding guide](references/understanding.md) once intent is known.
+Its ten areas are internal coverage, not a question sequence or ten confirmations.
+Reuse answers, inspect relevant sources, propose what needs judgment and ask only
+a gap that changes the next action or prevents a consequential mistake. Save an
+actual pending question before pausing.
+
+## Make the conversation easy to use
+
+Read [the journey presentation guide](references/journey.md) before the first
+substantive response. It owns the question layout, working-brief view, progress updates
+and worked examples. Use it throughout the conversation, not only at agreement.
+For multi-step work, use the host's available native task list and update it as
+work progresses, with actual work and model handoffs visible underneath. Follow
+the guide's compact fallback when native task controls are unavailable.
+
+At a decision, show the current stage, what is settled, what needs the person's
+input and what follows their reply—not “question 4 of 10”. Use a real bounded
+card when supported, with the proposed answer and its qualifications inside.
+Do not substitute an email-style blockquote. If the host requires a plain-text
+question, keep the surrounding progress and answer panel, then ask one concise
+plain-text question. A ban on numbered choices is not a ban on progress or borders.
+Never simulate clickable controls, colours or native capabilities that are absent.
+
+Default confirmation choices, only where permitted, remain Correct / Change.
+A clear yes settles the shown answer; a correction changes it. Missing answers
+need a focused question, not an invented proposal presented as confirmed.
+Follow host rules over these presentation defaults.
+
+Show meaningful visuals whenever they help understanding, including during
+intake. Do not save every diagram for the final direction review. Make real
+activity, returned findings and the effect of answers visible without inventing
+work, metrics, insight or extra confirmation turns. Save the actual state in the
+existing record; the display is a view of it, not another source of truth.
+
+## Enough shared understanding for the next action
+
+Use a concise “What we're building” brief: intended result, success checks,
+boundaries, room to decide and important unknowns. Keep Must (actual requirements),
+Prefer (qualities to optimize) and Open (delegated choices) distinct where useful.
+Don't turn every adjective into a requirement or a proposed omission into a user
+prohibition. Keep the brief easy to correct in conversation; no editable UI is
+implied where the host only supports text.
+
+The person supplies the intended benefit and known standards. Conductor proposes
+appropriate checks and evidence, resolving meaningful judgment with the person.
+Don't make them design an evaluation. Distinguish proposed measures, agreed checks
+and actual readings. A “looks right” about appearance doesn't approve unseen
+success criteria. Preserve existing agreement when resolving a missing measure.
+
+Show a compact interpretation before substantial execution and establish agreement
+to new direction or material choices. Reuse clear instructions and approvals
+already given; don't require a second yes for an unchanged authorized request.
+An unresolved later decision can stay open with a named revisit point while safe
+work proceeds. Stop the affected action if it requires that answer. Delivery can
+finish before a long-term benefit is measurable when that stopping point and its
+available evidence are agreed; never relabel unmeasured benefit as achieved.
+
+“Help me decide” calls for a recommendation with its tradeoff. “Not sure yet”
+keeps the issue open. “You decide” delegates that choice within existing scope;
+it doesn't authorize publishing, purchases, deletion or unrelated changes.
+
+Time, token and spending limits are optional. Record supplied limits, or that
+none were requested; never hold up authorized work merely to obtain a number.
+“Use it all” means work toward the agreed outcome until complete or the available
+allowance is exhausted, with no compulsory deadline. It does not authorize new
+purchases, paid overages or scope expansion. Disclose when remaining allowance
+cannot be measured rather than inventing a balance.
+
+Choose how much analysis the work needs and briefly explain any substantial
+effort. Don't ask the person to choose a rigor tier, model jargon or diagram
+type. Resolve routine choices from facts and agreed boundaries. Ask when there
+is no sound basis or a decision materially affects quality, experience, scope,
+authority or resources. Exploring a feasibility question is not proof that a
+proposed capability works. No external writes, paid jobs or new dependencies
+are authorized merely by this interview.
+
+## Show the direction
+
+Before drawing, read [the sibling visual skill](../visuals/SKILL.md) and the
+pattern it selects. Load this guidance at use, not during the opener. Use an
+available approach that fits the work and the person's preference; both
+diagram-design and Archify are valid choices. Don't silently install a tool.
+
+Produce the actual work's product view: connected people, capabilities, flow
+and boundaries. Mark proposed and unknown parts. Don't substitute a diagram of
+Conductor's stages for a picture of what this person wants to create. Start
+with a readable overview; offer deeper detail without requiring a long review.
+Keep material tradeoffs visible, not hidden inside optional detail.
+
+Save the drawing beside the record. Render and inspect it when supported, and
+provide a directly openable link or preview. Raw Mermaid or another source
+block alone is not the user view. If preview is unavailable, disclose it and
+ask the person to open the artifact; don't claim they saw or approved it.
+
+For a substantial package, alongside the view give a short direction summary: intended outcome, success
+and proof, boundaries/authority, resource limits or unresolved choices, and
+what happens next. Ask for a concrete next action when agreement is needed,
+such as “Shall I prepare that draft?”, naming what remains unresolved. Do not
+repeat settled agreement or add a seal or blanket approval of hidden detail.
+Small explicit work uses a visual only if it clarifies a real relationship.
+
+## Record agreement and carry the work forward
+
+Keep one readable record per work package, normally
+`docs/work/<short-work-name>/work.md`; use a suitable existing location instead
+when the project already has one. Read [the writing aid](references/work-record.md)
+when first saving work. It is not a required schema or a condition for permission.
+Keep diagrams and any necessary supporting detail with this record.
+
+Update it as the conversation progresses, including the exact pending question
+or next action before each pause. Capture the actual agreement response and
+its conditions; no invented approval or timestamps. An earlier discussion,
+draft or example is not the person's agreement to this direction. Preserve
+previous agreement when recording a material revision and its reason. Revisit
+the changed decision, not every unaffected detail. No hashes or fingerprints.
+
+After agreement, read [the delivery guide](references/execution.md), show
+**Deliver · <actual next activity>**, and perform the next authorized action in
+this turn. Don't end with “next is implementation” or “ready for implementation”
+when implementation is authorized and possible. Interpret a brief “okay” or “go”
+against the live decision, not an older suggestion or arbitrary backlog item.
+For repeated instructions, changed limits or a finished task, use the delivery
+guide's [reply handling](references/execution.md#resolve-the-reply-against-the-current-work).
+If execution is genuinely unavailable or outside the agreed scope, state the
+exact boundary and save an honest handoff.
+
+For status requests, give the stage, current activity, open issue and next
+action from the record and actual artifacts. Distinguish reported work from
+verified results. No commit, board render or CI result is required to save or
+resume. Do not commit, push or publish just to finish this trial.
+
+For an explicitly requested session save or pickup, use
+[the candidate Switch](../switch/SKILL.md). It carries a work pointer and session
+history, not another copy of the plan. Do not run installed Switch to finish the
+candidate or assume a local save transferred native model sessions elsewhere.

@@ -72,12 +72,12 @@ This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is op
 
 **Ten skills, each with a single responsibility, plus four hooks (three auto-loaded from `hooks/hooks.json`, plus the statusline):**
 - **drive**: the work-item umbrella (owns one item across frame → viability → scope → design → work handoff → loop → acceptance; frame-gate question set; calls conductor, never changes it — v0.104.0)
-- **conductor**: session discipline (orient/plan/execute/close-out protocol)
+- **conductor**: session discipline (understand/shape/agree/deliver/complete, v0.107.0)
 - **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
 - **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
-- **switch**: the boundary's single definition (pull on arrive is switch-in's; the Switch Out flow makes the session-state commit for either caller — standalone, or conductor close-out invoking it). Not the only committer — conductor commits its own work per verified task.
+- **switch**: the boundary's single definition (pull on arrive is switch-in's; the Switch Out flow makes the session-state commit, run explicitly — conductor stopped invoking it at v0.107.0, by decision). Not the only committer — conductor commits its own work per verified task.
 - **kivna**: knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)
-- **slainte**: the release close-out pass (triggered by conductor at version bumps and acceptance-record landings; fixes doc drift under the gate) + on-demand health audits
+- **slainte**: the release close-out pass (run explicitly at version bumps and acceptance-record landings — it has no automatic caller since v0.107.0; fixes doc drift under the gate) + on-demand health audits
 - **skriv**: human writing voice enforcement (audit, fix, session mode, self-audit pass)
 - **tend**: structural health check and convergence
 - **pair**: partner-mode toggle (per-repo rapid conversational style, default off)

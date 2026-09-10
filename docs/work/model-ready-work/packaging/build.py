@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Copy the candidate's supported files into a fresh portable plugin directory.
 
+The three skills come from the repository's own `skills/`, which is the single
+maintained source since v0.107.0 — packaging consumes it rather than keeping a
+second copy that would drift. Guidance stays with the pack.
+
 Development packaging only: no install, config changes, network or model calls.
 """
 import argparse
@@ -14,9 +18,11 @@ SUFFIXES = {".md", ".py", ".html"}
 
 
 def inputs(pack):
+    repo = pack.parents[2]
     result = {}
-    for relative in [*(f"skills/{name}" for name in SKILLS), "guidance"]:
-        folder = pack / relative
+    sources = [(repo, f"skills/{name}") for name in SKILLS] + [(pack, "guidance")]
+    for root, relative in sources:
+        folder = root / relative
         if not folder.is_dir() or folder.is_symlink():
             raise ValueError(f"Missing or linked source directory: {relative}")
         for path in sorted(folder.rglob("*")):
@@ -27,7 +33,7 @@ def inputs(pack):
             if path.is_file():
                 if path.suffix not in SUFFIXES and path.name != "LICENSE":
                     raise ValueError(f"Review new package file type: {path}")
-                result[path.relative_to(pack)] = path
+                result[path.relative_to(root)] = path
     for name in SKILLS:
         if Path(f"skills/{name}/SKILL.md") not in result:
             raise ValueError(f"Missing skill entry: {name}")

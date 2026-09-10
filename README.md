@@ -4,7 +4,7 @@
 
 ![Kerd — the whole system](docs/design/kerd-map.svg)
 
-**What is Kerd?** Ten workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift. Underneath them, every piece of work climbs the same seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
+**What is Kerd?** Eleven workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift. Underneath them, every piece of work climbs the same seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
 
 **Why should you care?** Because AI-assisted work has a silence problem. Things pass as "done" when nothing was in place to ask the question: was the risk sized? was the background read? was security ever even mentioned? A model choosing to comply is not a check. Kerd's answer is refusal from outside the model: CI that goes red at the exact push that broke a promise, with the fix named in the message. The skills keep you fast; the machinery keeps you honest.
 
@@ -15,7 +15,62 @@ claude plugins add-marketplace anthonymaley/Kerd
 claude plugins install kerd
 ```
 
-## What's New (v0.106.0)
+**Try a version before adopting it**, without touching your global setup:
+
+```
+claude --plugin-dir /absolute/path/to/kerd
+```
+
+A same-name local plugin takes precedence for that session only. Closing it
+restores the ordinary setup; nothing is installed or disabled globally.
+
+**Rollback is a Git reference, never a cached plugin file.** Claude Code garbage-
+collects old versions out of `~/.claude/plugins/cache/`, so a version you can see
+there today may be gone tomorrow — that is what silently killed hooks across eleven
+repos before v0.96.0. Roll back by pinning the marketplace to a tagged commit:
+
+| Want | Reference |
+|---|---|
+| The last commit before Conductor/Switch were replaced | `716a099` on `origin/main` |
+| Undo the release, keep the history | `git revert <release commit>` |
+| Pin a consumer repo to the old behaviour | marketplace `source.url` at `716a099` |
+
+This repo carries **no tags** — `git tag` returns nothing — so a commit SHA is the
+only durable reference today. If you want `v0.107.0` to be tag-addressable, the tag
+has to be created and pushed as part of publishing; until then, cite the SHA.
+Confirm what a reference points at with `git show --stat <ref>` before relying on it.
+
+## What's New (v0.107.0)
+
+### v0.107.0
+
+**Conductor and Switch are replaced, Visuals joins them, and Kerd is eleven skills.**
+Conductor now guides **Understand → Shape → Agree → Deliver → Complete** instead of
+orient → plan → execute → close, holds a real conversation about what you want
+before building, and handles a small explicit change without dragging it through a
+full intake. Switch In opens with a welcome-back dashboard — phase, task, state,
+last session, this session, and a box that says whether you are needed — instead of
+an exhaustive report of every backlog row. Switch Out gains explicit-file saves,
+acknowledged local-only paths that are never staged, and a remote check that the
+branch carries the exact commit. Visuals draws the direction so it can be agreed at
+a glance. **What it means:** the everyday surface is the conversation and the
+dashboard; the ladder, gates and board are still there, still derived from disk,
+and still run by `drive` and the tools.
+
+**Named as losses — four automatic triggers are gone by decision, not oversight.**
+The new Conductor and Switch call no other skill, and restoring the triggers was
+considered and declined: Switch Out stays explicit, and release checks belong to
+the release task rather than firing on ordinary completion. (1) Conductor's close-out no
+longer invokes the release close-out pass, so `/kerd:slainte release` is yours to
+run at a version bump or an acceptance record. (2) Conductor's close-out no longer
+runs the session boundary; `/kerd:switch out` is standalone again, as it was before
+v0.84.0. (3) Switch Out no longer self-migrates legacy `## Current Session` /
+`### Context` shapes in TODO.md — `/kerd:tend` still detects them, but the healing
+step is gone. (4) Conductor no longer writes the `conductor: <phase> @ <time>`
+marker into `kivna/.active-modes`, which the same-turn time rule names as one of
+its legal time sources and which the SessionStart hook reads — read the clock
+instead. Nothing goes red
+when any of these stops happening, which is why they are written down here.
 
 ### v0.106.0
 
@@ -122,37 +177,24 @@ Drive walks one work item from idea to acceptance, across as many sessions as it
 
 ### conductor (Session Discipline)
 
-Conductor gives an open session structure. It runs *after* switch-in has loaded context (switch-in is the session-opener; conductor is the disciplined middle), and walks through: orient (warm path — confirm the state switch-in just loaded; cold path — a light CONTEXT + TODO read if conductor was invoked without switch-in; on a bare repo it offers tend's setup first; **its pre-flight inventory now asks the entry gates before it asks you** — where a repo has them, `gate.py route` names every missing input from disk, and you are only asked for what no file can answer, like credentials or hardware state), plan (decompose the request into scoped tasks with acceptance criteria, approve boundaries, then write concrete implementation steps — and where the repo routes work through entry gates, **new work gets a frame on the board rather than a TODO stub**, because untracked work is invisible to every machine surface and cannot be noticed when it stalls), execute (do the work, verify each task with evidence before claiming done, escalate after 3 failed fixes), close out (update TODO, confirm docs are current, run checks, fire the release close-out pass when the session bumped the version or landed an acceptance record, then run the boundary itself — invoking switch out as its final act). It writes the session plan to TODO.md and enforces scope: out-of-plan work goes to backlog immediately, no tangents. Default one task per session.
+Conductor guides repo-based work from a request — "build an app", "create a guide",
+"plan a project" — through **Understand → Shape → Agree → Deliver → Complete**. It
+holds the conversation that works out what you actually want, agrees it before
+building, delivers, and gets an independent assessment. Work can be software,
+research, a commercial offer, a process or any other repo-based outcome.
 
-**Four roles: producer, composer, conductor, players.** Conductor coordinates four distinct roles, and keeping their authority from overlapping is what makes both the quality and the cost work. **You are the producer** — the idea or the input, and the approvals that keep it the show you wanted to make. The **composer** is a top-tier model (Fable) called as a *subagent* to write the score, then gone: it never holds session context, watches the build, or reviews returned work. The **conductor** is the session model you're on (Opus), holding the baton for orient, dispatch, verification and escalation. **Players** are subagents spun up per step at a sized model and effort. The metaphor is load-bearing: a producer decides which show gets made, a composer writes the score, a conductor directs the performance, players play.
-
-Because the hardest reasoning now happens in a *call* rather than in the session, a hard task no longer means running the whole session at premium rates — so the advisory recommends the **conductor pair**, model *and* reasoning effort (judged on dispatching and evaluating evidence, not on problem difficulty), and it works in both directions: a session opened overpowered (say, Fable at xhigh) is told the named downgrade — "conducting this needs Opus medium" — because difficulty is bought per-call, with the composer and each player dispatched at their own sized model and effort. A skill can't read or set its own model or effort, and what it believes about the current pair goes stale on a mid-session switch, so this stays stated belief plus a confirmation gate, never detection.
-
-**Work commits name their piece.** When a task runs against a contract with a numbered `## Pieces` checklist, its work commit carries a `Piece: <slug>/<n>` trailer. A checked box is a claim; a commit trailer is a fact — where a repo renders progress from git, the trailer is the signal that cannot be falsified by ticking a box. No contract, no trailer.
-
-**Calling the composer** takes two deliberately small passes. First a scoping pass — intent and boundaries only, answering *what do you need to see?*, bounded to naming files rather than directories. Then the score: conductor fetches exactly what was named and the composer **writes the spec file directly to `docs/plans/YYYY-MM-DD-<slug>-spec.md`, returning only a summary**, so a 200-line score never enters the session's context. The brief carries intent, terrain, constraints and available players — and deliberately not the orient narrative. If top-tier capacity is unavailable, conductor writes the score itself and says so at the gate, so you approve a thinner score knowingly rather than getting one silently.
-
-Steps are tagged `[keep]` (the conductor plays it) or `[delegate]` (assigned to a player, carrying a sized model and effort — `[delegate, model: haiku, effort: low]` up to `[delegate, model: sonnet, effort: high]`). **Tags are assigned after the step body is written, not before**, because writing a slice well is the act that removes judgment from the model and deposits it in the document; the test is whether the step can be written precisely enough to verify by command. Blast radius is answered by adding a `[keep]` step that *reviews the diff for unintended drift* — not by keeping the risky edit, since a mis-scoped deletion is an aim problem and a stronger model has no better aim.
-
-At execute, **the conductor may re-dispatch but never re-specify.** A failing step is either the player's fault (re-dispatch) or the score's; three failures on one step means the score is wrong, and that passage goes back to the composer rather than being quietly rewritten. Verification gained a fifth step — *check for collateral: did anything change that shouldn't have?* — because a verify command tests for the presence of the intended change and is silent about the absence of unintended ones.
-
-The project playbook (`docs/playbook.md`) — a living guide for rebuilding the project from scratch: tech stack, setup, architecture, integrations, gotchas, status — is updated as behavior changes (docs travel with code during execute), and switch captures session gotchas into it at the boundary. It grows with the project, session by session.
-
-**Changes get described in your terms, not the code's.** When a change alters what you can *do*, conductor states it as **now / the change / what it means** — in the vocabulary of using the thing, with paths and symbol names left in the spec and the commit. A removed capability must be named as a loss, because the same removal written as a feature disappears into the good news and gets approved unseen. Questions carry a test: *could you answer this without reading the code?* If not, it's restated as an outcome or recognised as conductor's own call. Framed well, a question needs no options — you answer in your own terms instead of picking from a menu that pre-narrows the space.
-
-**Conductor commits its own work.** As each task's verification gate passes, conductor commits the code and its travelling docs — staged by name, pushed immediately, no approval beat. It never pulls, and never stages session-state files. This exists so you don't have to end a session just to get work committed, and because the collateral check only works on a small diff: a whole session interleaved into one boundary commit is where a swallowed helper hides. Decisions accumulate in CONTEXT.md; conductor doesn't touch the vault or write session logs. At close-out it updates TODO.md, then runs the boundary itself — invoking switch out as its final act, one act instead of two — naming the next pick from TODO and offering `/clear` to free context. Standalone `/switch out` remains for conductor-less sessions.
-
-Conductor is mode-aware: if a mode is active, orient reports the mode context and instruction, the plan respects the mode's scope, and close-out doesn't claim the session is done when running as part of a larger mode flow.
-
-Conductor announces its current phase with a mode marker (`[conductor: orient]`, `[conductor: execute]`, etc.) so you always know what's active. When the session closes, it outputs `[conductor: closed]` so there's no ambiguity. The same marker is written to `kivna/.active-modes` with a real timestamp at every phase transition — that stamp is where the session log's start times come from, which is why the instruction to write it lives at each transition rather than once at the top.
-
-**The gate message carries the content.** Any conductor message that asks for approval contains what's being approved — findings, summary, plan — in that same message, never assuming earlier mid-turn text was seen. This keeps conductor readable under Claude Code's focus mode, which shows only a turn's final message.
-
-**Conductor's gates speak the talk-format library.** A decision gate carries the Proposal fields (what · why it matters · the gap · what we win · **the loss, named**), a change lands as Compare & Contrast (now → the change → what it means), a failure report follows Correcting Discrepancy from Standard (the declaration it failed against → the discrepancy → countermeasure options), and a problem that survives three fixes triggers the problem tier — the declared route for a point-of-cause tool. The formats and their used-when triggers are canonical in `docs/design/talk-formats.md`.
+It handles small explicit changes directly rather than dragging them through a full
+intake, and a status or review request does not start one either. Interrupted work
+resumes where it stopped.
 
 ```
-/conductor
+/kerd:conductor              # start, or resume saved work
 ```
+
+Supporting detail lives beside the skill: `references/understanding.md` (the
+intake conversation), `references/journey.md` (how a build is laid out),
+`references/execution.md` (delivery and checking), `references/model-jobs.md`
+(which model does which job), `references/work-record.md` (what gets written down).
 
 ### interrogate (Risk Ledger)
 
@@ -169,20 +211,40 @@ Design at `docs/design/risk-ledger.md`; the interview engine's original design a
 
 ### switch (Session Handoff)
 
-Switch-in owns `git pull`; the Switch Out flow makes the session-state commit — CONTEXT.md, TODO.md, and the session log, committed once at the boundary — and has two callers: standalone, or conductor's close-out invoking it. It is not the only thing that commits: conductor pushes each task's own work as that task verifies, so switch-out finds mostly session state rather than a session's worth of undelivered change. Nothing else pulls. The primary use is session handoff: you wrap up at a clean point, exit, and start fresh later with full context restored from disk. The same operations carry across machines as the secondary case. Switch keeps state, work, and history in three files — `CONTEXT.md` (what's currently true, overwritten in place), `TODO.md` (what's still to do, lean: `## Now` + `## Backlog`), and `kivna/sessions/` (what happened, immutable full-fidelity logs).
-
-When you wrap up a session, it updates CONTEXT.md and TODO.md, then runs closure inference over open TODO items. Each gets a done/open/unsure/dead verdict against session evidence, shown as a readable list: done items close into the session log, unsure ones get tagged `(done? — confirm)`, and a row whose premise died — still undone, but the reason it was filed no longer holds — is struck with a one-line reason. It writes the session log with branch metadata, reflects on the session (capturing gotchas and learnings, with a check that every gotcha reached the playbook), and runs the fidelity check where the repo has one: `tools/gates/fidelity.py` compares every file the session changed against what CONTEXT.md, TODO.md and the session log actually name, and refuses when something was produced that nothing a pickup reads points at. Then it shows a pre-commit summary of what's about to ship. Untracked files get triaged (commit, gitignore, or leave) so nothing drifts silently. The final confirmation cites evidence: commit hash, push target, clean tree status.
-
-When you pick up a session, it pulls, verifies the handoff was complete, runs a smoke test if tests exist, then reads exactly three files: CONTEXT.md, TODO.md, and the newest session log — each in full, with no silent shortening. It also recovers **where the work sits on the ladder** from the derived progress board, because the three files carry what was said better than they carry position. Older logs and the vault are never read per-session — session logs are archive, and vault Status.md exists for the human Obsidian reader. It asks one question about any `(done? — confirm)` items, reports any active modes left from a previous session, and tells you where you left off — closing with a short-form "what's next" pick-list — a numbered menu of every `## Now` and `## Backlog` item, one terse line each, so you can pick one by number or steer elsewhere. Since v0.105.0 the summary speaks the Status Report format — each in-flight item as Work item · Stage · Issue · Resolution path, plain words, the whole message ending on exactly one question. The first switch-out on a pre-split repo self-migrates the old TODO shape into CONTEXT.md and the session logs (rescue-before-remove), so there's no separate migration step.
-
-If you run it without arguments, it checks for uncommitted changes. Changes present means you're leaving. Clean repo means you're arriving.
+Switch saves, restores or moves repo-based work between sittings and devices. It
+keeps the work continuous while leaving room in the next context window, handles
+explicitly authorized Git handoffs, and distinguishes closing out from continuing
+mid-work exactly where you stopped.
 
 ```
-/switch out          # wrap up (closure inference, reflection, ladder position, fidelity check, commit, push)
-/switch in           # pick up (pull, smoke test, CONTEXT + TODO + newest log, ladder position)
+/kerd:switch in              # pick the work back up
+/kerd:switch out             # save the place
 ```
 
-There is one mode and it is the complete one. The purpose of the boundary is that the next session behaves as if it were the same session with a cleared window, so speed is only ever a tiebreaker between designs that all preserve that — never a reason to record or read less.
+**In** opens with a welcome-back dashboard rather than a full report: phase, task,
+state, what happened last session, what this session is for, and a bordered box
+saying whether you are needed — amber only while a decision is actually pending.
+It ends with links to the documents the work already names. `scripts/where_we_are.py`
+renders it from a summary Switch already holds, so nothing extra is read and no
+status file is written.
+
+**Out** reads what actually changed, preserves the agreement, decisions, exact next
+action and open questions, and appends an evidence-backed account to the project's
+history. `scripts/handoff.py` does the Git work: explicit-file saves, safe
+fast-forward, acknowledged local-only paths that are never staged, and a check that
+the remote carries the exact commit.
+
+### visuals (Diagrams)
+
+Visuals makes readable product, process and system diagrams — connected-parts
+views, responsibility flows, scope boundaries, decision paths. It produces an
+actual rendered view, not a document made of text boxes. A lightweight Kerd
+adaptation of Cathryn Lavery's diagram-design, with no CI, hooks, seals, branding
+onboarding or approval schema required.
+
+```
+/kerd:visuals                # draw the thing being discussed
+```
 
 ### kivna (Knowledge Management)
 

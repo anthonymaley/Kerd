@@ -40,7 +40,7 @@ would conflict with the lightweight process already agreed here.
 
 ## The interface
 
-The [journey guide](skills/conductor/references/journey.md) contains the maintained
+The [journey guide](../../../skills/conductor/references/journey.md) contains the maintained
 layouts and examples. The visible order is:
 
 Journey and working brief → what is settled → current answer/visual

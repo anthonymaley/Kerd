@@ -17,7 +17,7 @@ The three lines above are ISO/IEC/IEEE 24774 §5.3's required elements — name,
 /kerd:drive       owns the WORK ITEM   frame → viability → scope → design → handoff → loop → acceptance
                   spans many sessions · state lives on disk, in the work record
 
-/kerd:conductor   owns the SESSION     orient → plan → execute → close
+/kerd:conductor   owns the SESSION     understand → shape → agree → deliver → complete
                   spans one sitting
 ```
 
@@ -86,7 +86,7 @@ When a rung needs building, invoke `/kerd:conductor` via the Skill tool with a t
 <slug> is at <rung>; the gate still needs: <the need: lines>. This sitting's task: <one item from that list>.
 ```
 
-Conductor runs orient → plan → execute → close exactly as its own SKILL.md defines, and does not know the task came from Drive. Do not restate its steps here or anywhere. When it returns, go back to step 1 and print the position line.
+Conductor runs its own phases exactly as its own SKILL.md defines, and does not know the task came from Drive. Do not restate its steps here or anywhere. When it returns, go back to step 1 and print the position line.
 
 ### 5. Rungs beyond frame
 

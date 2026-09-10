@@ -15,7 +15,7 @@ support a direction-agreement conversation.
 
 This user decision replaces the initial recommendation to reserve Archify for
 later technical views. The test observations below remain unchanged. The
-[local visual skill](skills/visuals/SKILL.md) remains a curated diagram-design
+[local visual skill](../../../skills/visuals/SKILL.md) remains a curated diagram-design
 adaptation, not a complete installation of either upstream package.
 
 Both can help explain a proposal. Neither records or proves that the user agrees
@@ -40,7 +40,7 @@ and rendered inspection. It deliberately omits upstream's first-use brand gate,
 pre-drawing confirmation, mandatory lint ritual and external fonts. The skill-
 creator guidance informed the short core and on-demand local references.
 
-[Open the worked example](skills/visuals/assets/review-flow.html).
+[Open the worked example](../../../skills/visuals/assets/review-flow.html).
 It shows a proposed review request and return, not the whole session-routing
 design or a demonstrated transport. Browser inspection at 1440px and 390px found
 readable labels and no horizontal overflow; the detail disclosure works and the

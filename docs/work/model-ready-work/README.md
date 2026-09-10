@@ -2,6 +2,14 @@
 
 ## Current direction: strong process, lightweight records
 
+> **Where the three skills live.** Conductor, Switch and Visuals ship from the
+> repository's own [`skills/`](../../../skills) as of v0.107.0, which is the single
+> maintained source; `packaging/build.py` consumes it. The candidate copy that used
+> to sit beside this file is gone — dated records and trial notes below still cite
+> those paths, and they resolve in Git history at `716a099`, per the standing rule
+> that living surfaces are updated and dated records stand.
+
+
 The next proposal reworks Conductor inside Kerd and removes complex rung gates,
 seals, requirement fingerprints and elaborate approval schemes. No CI or custom
 hook setup is required to use any Kerd skill. Keep guided stages, recorded user
@@ -24,10 +32,10 @@ See [the working delivery loop](diagrams/working-loop.html).
 
 Current intake: ten internal coverage areas, not ten questions to answer. Natural
 work requests use context, supported suggestions and consequential clarifications;
-clear small changes proceed directly. [Adaptive understanding](skills/conductor/references/understanding.md)
+clear small changes proceed directly. [Adaptive understanding](../../../skills/conductor/references/understanding.md)
 and the solution map supersede earlier mandatory topic-count examples.
 
-Visuals are now codified in the [candidate visual skill](skills/visuals/SKILL.md).
+Visuals are now codified in the [candidate visual skill](../../../skills/visuals/SKILL.md).
 See the [diagram-design / Archify assessment and examples](visual-tools-assessment.md).
 Both are retained choices: Conductor selects for the work, the person may request
 either, and one package may use both without a rigid division of uses.
@@ -38,7 +46,7 @@ authorized delivery, independent assessment and saved resume. The first trial
 exposed an unconditional planning-only stop and insufficient visible guidance;
 those instructions were corrected. The subsequent Wholematter run completed a
 real work package, but the user's feedback exposed a weak conversation experience.
-See [how the journey should appear](skills/conductor/references/journey.md).
+See [how the journey should appear](../../../skills/conductor/references/journey.md).
 The [experience refresh](experience-refresh.md) responds to the completed
 Wholematter trial: a clearer working view and answer panel, earlier visuals, and
 real work/answer feedback. Completed output did not prove good conversation UX.

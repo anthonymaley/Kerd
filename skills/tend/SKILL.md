@@ -57,7 +57,7 @@ Check these files exist:
 - `TODO.md`
 - `docs/playbook.md`
 
-**TODO shape check (drift detection):** TODO.md must be lean — `## Now` + `## Backlog` only. Flag `⚠` if it contains a `## Current Session` block, a `### Context` section, or any `## Previous/Older Session` blocks (pre-split shape, v0.60.0). The fix is the next `/kerd:switch out`, which self-migrates; tend detects, switch heals. Same for a missing CONTEXT.md when TODO.md exists — flag as pre-split, don't create it here.
+**TODO shape check (drift detection):** TODO.md must be lean — `## Now` + `## Backlog` only. Flag `⚠` if it contains a `## Current Session` block, a `### Context` section, or any `## Previous/Older Session` blocks (pre-split shape, v0.60.0). **No automatic healer exists as of v0.107.0** — Switch Out self-migrated these shapes until Switch was replaced. Tend still detects them; the migration is now yours to make. Same for a missing CONTEXT.md when TODO.md exists — flag as pre-split, don't create it here.
 
 For brand new repos (user provided project name), create missing files using these templates:
 
@@ -94,7 +94,7 @@ For brand new repos (user provided project name), create missing files using the
 
 ## Session Workflow
 
-When wrapping up a session (`/kerd:switch out` or `/kerd:conductor`):
+When wrapping up a session (`/kerd:switch out`):
 1. Update `TODO.md`: check off completed items, add new ones.
 2. Update `docs/playbook.md`: if any new steps, tools, or config were added during the session, add them to the playbook. Always update the "Current Status" section.
 

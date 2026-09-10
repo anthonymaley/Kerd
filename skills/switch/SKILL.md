@@ -1,380 +1,89 @@
 ---
 name: switch
-description: "Use when the user says 'switch', 'wrapping up', 'picking up', 'save context', 'handoff', or 'switching machines', or needs to cleanly end a work session and resume it later with full context. The primary use is session handoff: wrap up, commit, exit, and pick up cold in a fresh session that behaves as if it were the same session with a cleared window. The same mechanism carries across machines as the secondary case. Owns `git pull` and the session-state commit (CONTEXT.md, TODO.md, session log); conductor commits its own work per verified task. Writes state to CONTEXT.md, work to TODO.md, history to kivna/sessions/; pickup reads exactly those three, in full, every time. Fidelity outranks cost: there are no reduced modes."
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Handles useful memory and explicitly authorized Git handoffs; distinguishes closeout from exact mid-work continuation.
 ---
 
-# Switch (Session Handoff)
-
-Clean session handoff between work sessions. The primary use: wrap up a session, commit and push, exit, then pick up cold in a fresh session with full context restored from disk. The same mechanism handles moving between machines, that's just the secondary case.
-
-**This file is the single definition of the boundary.** Switch-in owns `git pull` — nothing else pulls, ever. Switch Out makes the session-state commit and has two callers: standalone `/kerd:switch out`, and conductor's close-out invoking the same flow as its final act. Either way the steps below are the only definition — no caller re-describes them. The session-state commit is CONTEXT.md, TODO.md, and the session log — written and committed once, here, at the boundary.
-
-**Switch does not own every commit.** Conductor commits and pushes its own work — code plus the docs travelling with it — at each verified task boundary, staged by name (see `/kerd:conductor`). That is deliberate: holding work until the boundary piles a whole session's interleaved change into one diff, which is where collateral damage hides. So expect the tree at switch-out to hold mostly session state, with the session's actual work already pushed.
-
-## State, Work, and History
-
-Switch keeps three kinds of information in three files — one kind each, never smeared across files (design: `docs/plans/2026-07-03-context-history-split.md`):
-
-| File | Kind | Discipline |
-|---|---|---|
-| `CONTEXT.md` (root) | **State** — what's currently true | Overwritten in place; append-only between licensed prune events |
-| `TODO.md` (root) | **Work** — what's still to do | Forward-only, lean |
-| `kivna/sessions/` | **History** — what happened | Immutable, append-forever, full fidelity |
-
-Completeness comes from full-fidelity session logs plus git history of every CONTEXT.md version — nothing is lost in storage. Switch-in reads exactly three files: CONTEXT.md, TODO.md, and the newest session log. That read set is deliberately small **so that reading it completely is affordable** — it is never a licence to read part of it.
-
-**The purpose of the boundary, and the bar every rule here answers to:** the next session must behave as if it were the same session with a cleared window — nothing agreed, decided, or contributed by the user is forgotten or lost. Speed and token cost are tiebreakers between designs that all preserve that. They are never a reason to record less, read less, or skip a step. This is why there are no reduced modes.
-
-**The sharp edge: CONTEXT.md must never become a diary.** The session log is the diary. If a fact is episodic (what happened), it belongs in the log; if it's standing (a decision, a constraint, the current stage), it belongs in CONTEXT.md.
-
-**Pruning is event-licensed, not discretionary.** CONTEXT.md is **append-only** except at two moments: an **acceptance record landing** (a new `docs/gates/*-acceptance.md` — a work item accepted as ready for release) or an **explicit agreed drop** (the user and the session agree something dies). At those moments pruning is expected. Between them it is forbidden, even when the file feels long. The rule exists because erosion and unbounded growth are the same dial: a short session that prunes can silently delete an agreed point a deeper session recorded, and that loss is exactly what this boundary exists to prevent. A short session is structurally not a licensed event, so it cannot prune.
-
-## Usage
-
-`/kerd:switch out` wrapping up a session
-`/kerd:switch in` picking up a session
-
-The same path serves a fresh session on this machine (the common case) and a move to another machine (the same git boundary operations either way).
-
-If no argument is given, check for uncommitted changes. If changes exist, assume `out`. If clean, assume `in`.
-
-**There is one mode, and it is the complete one.** The `light` and `low` modifiers were removed in v0.90.0. Both were specced to reduce what the boundary recorded or what the pickup read, which is the one trade this skill may never make. Every step below runs every time. Steps that were genuinely conditional stay conditional on *the repo* (does a test command exist? does a progress board exist?) — never on a budget.
-
-Cost is controlled instead by the read set being small — three files — and by pruning at licensed events so those files do not grow without bound. If a boundary feels expensive, the answer is a shorter CONTEXT.md at the next goal landing, not a shallower read.
-
-The vault is neither read nor written by switch — it is kivna's, on demand.
-
-## Switch Out (Wrapping Up a Session)
-
-Wrap up everything so the next session can pick up cold, whether that's a fresh session on this machine or another.
-
-Two callers run this flow: standalone `/kerd:switch out`, and conductor's close-out invoking it as its final act. The steps below are identical either way — the flow cannot tell who called it, and doesn't need to.
-
-### 1. Update CONTEXT.md (state)
-
-Create `CONTEXT.md` at the repo root if it doesn't exist. **Overwrite in place** — it holds what is *currently true*, not what happened. Sections (bare headers, omit any that would be empty — same anti-padding discipline as session logs):
-
-```
-# Context
-
-## What This Is        — one paragraph, the project in brief
-## Where We Are        — current working state, a short paragraph, overwritten
-## Key Decisions       — standing decisions + their why; prune when superseded
-## Open Questions      — genuinely unresolved; remove when answered
-## Active Mode         — conductor snapshot for cross-machine session handoff
-```
-
-- **Add, don't remove — unless this is a licensed event.** The default is append-only: a new decision joins `## Key Decisions`, a resolved question leaves `## Open Questions`, `## Where We Are` is rewritten. Nothing else is deleted. Overwriting the file is how it is *edited*; it is not permission to shorten it.
-- **At a licensed event, prune — and say what you pruned.** The two events are an acceptance record landing this session (`docs/gates/*-acceptance.md`) and an explicit agreed drop. When one fires, remove decisions the closed work superseded and report each removal in the session log's `## Key Decisions`, so the deletion is reachable from the record rather than only from git. If no event fired, prune nothing, however long the file looks.
-- **Not a copy of the session narrative.** If it's in the session log and episodic, it does not belong here.
-- **Mode snapshot:** if `kivna/.active-modes` contains mode state, snapshot it into `## Active Mode` so cross-machine session handoff works without the ephemeral file. Include: mode name, current step number and total, session instruction (if any), and the steps list with status markers.
-
-### 2. Update TODO.md (work)
-
-Create TODO.md if it doesn't exist. Shape:
-
-```
-# TODO
-
-## Now       — current focus: pointers + deltas, a few lines, no re-narration
-## Backlog   — queued items, one line each
-```
-
-TODO.md is **forward-only and lean**: what still needs doing, nothing else. No session story — the latest session log carries "what happened"; point (`see kivna/sessions/<date>.md`) instead of re-telling. No `### Context` section — standing context lives in CONTEXT.md.
-
-**Closure inference.** Before writing the new TODO, review every open item (Now and Backlog) against what actually happened this session — files changed, commits made, work discussed and finished. Give each item a verdict:
-
-- **done** — session evidence shows it's complete → remove it from TODO and record the closure in the session log's What Was Done
-- **open** — untouched or still in progress → keep as-is
-- **unsure** — evidence suggests it may be done but isn't conclusive → keep it, tagged `(done? — confirm)`
-
-Show the verdicts as a readable list — **informational only, never a prompt; do not wait for input**:
-
-```
-TODO closure review:
-  ✓ done   — "PPS marketplace.json fix" (pushed in a1b2c3)
-  · open   — "wire the progress render into CI" (untouched)
-  ? unsure — "hook staleness check in tend" (discussed; unclear if the edit shipped) → tagged
-```
-
-A "done" verdict requires pointing at session evidence (a commit, a file, a log entry). When in doubt, the verdict is open or unsure — never silently close an item you can't evidence. Switch-in asks about tagged items; that's the only place a question happens.
-
-**Closure inference asks "is it done?" — also ask "is it still true?"** An item can be complete, or it can be *premise-dead*: still undone, but the reason it was filed no longer holds because something else shipped. A row whose premise died is worse than a stale one, because a later session will faithfully execute it and the drift is invisible. When an item's justification depends on a condition, check the condition. A dead premise is reported as a fourth verdict and the row is struck with a one-line reason:
-
-```
-  ✗ dead   — "boundary auto-sizing" (filed for a cost that vault-unhook v0.83.0 already removed)
-```
-
-### 2b. Heal and self-migrate
-
-TODO.md must contain no legacy shapes: no `## Current Session` block, no `### Context` section, no `## Previous Session` / `## Older Session` blocks. Scan for them (drift from before the split, or a slip). For each found:
-
-1. **`### Context` section** → move standing content (decisions, open questions, mode snapshot) into the matching CONTEXT.md sections, then remove it from TODO.
-2. **`## Current Session` block** → carry forward-looking items into `## Now`; episodic narrative goes to today's session log; then remove the block.
-3. **`## Previous Session` / `## Older Session` blocks** → read the date from the heading or any `kivna/sessions/<date>.md` reference inside. If a log already exists for that date, the block is archived — remove it. If not, **rescue first**: create the log from the block's content (or append under a `---` separator), then remove. Undated blocks rescue to `kivna/sessions/undated-<slug>.md`.
-4. Never delete a block whose content is not first preserved in CONTEXT.md or a session log — rescue is mandatory before removal.
-
-Report: "Healed TODO: N legacy block(s) migrated (M rescued)." If none exist, skip silently. It is cheap, it is the backstop against unbounded TODO growth, and it makes the split **self-migrating**: the first switch-out on a pre-split repo converts it with no separate migration step.
-
-### 3. Write session log (history)
-
-Create `kivna/sessions/YYYY-MM-DD.md` (or append if one already exists for today).
-
-If appending to an existing file for today (multiple sessions), add a `---` separator and a new section whose heading follows the shape below — the range is what distinguishes one sitting from another, so no separate sequence number is needed.
-
-**The sitting heading carries a real time range** — all modes. Shape: `# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)`. Close time: `date '+%H:%M %Z'`, run at the boundary, this turn. Open time: the `HH:MM` conductor's close-out hands over (its `execute` stamp). Standalone, with no hand-off, use the stamp on the `conductor:` line still in `kivna/.active-modes`, if one is there. If neither exists — no conductor ran this session — there is no honest open time, so write `(<sitting label>, closed HH:MM TZ)` instead. Never estimate the open side; a heading labelled hours wrong is the exact failure this rule exists to remove. The same-turn rule governing every time written here is defined once in `docs/state-contract.md`.
-
-**Per-task actuals.** When conductor conducted this session, its close-out hands over one line per task; put them in `## What Was Done` verbatim, shape `<task> — started HH:MM (marker) · landed HH:MM (work commit)`. Nothing was handed over, nothing is written — switch never reconstructs a start it was not given.
-
-The session log captures what happened in this session for the next session to pick up cold. This is the canonical record and the fidelity guarantee — it is never compressed and never rewritten. Two sections are **required**: `## What Was Done` and `## What's Next`. Four sections are **optional**: `## Key Decisions`, `## Commits`, `## Gotchas`, `## Insights`. Read the rules below before writing.
-
-**Anti-hallucination rule.** Include an optional section ONLY if you can point to specific moments in this session that produced its content. If a section would be empty, **omit the header entirely**. Empty headers are padding. Inventing content to fill structure is hallucination. Do not write "None" or "N/A" — omit the section.
-
-**It is okay not to know.** If you're uncertain why something happened, what something means, or what should come next, say so explicitly. Write "Unclear why this fix worked — needs investigation" or "Don't know what should come next — needs decision" rather than constructing a plausible-sounding explanation. "I don't know" is a valid log entry and a starting point for the next session. Do not guess. Do not jump to conclusions.
-
-**Match vocabulary to the work.** A code session references files, commits, tests. A writing session references drafts, edits, voice. A strategy session references frameworks, positioning, decisions. A sales session references calls, accounts, outreach. A research session references sources, findings, gaps. Use the language of the actual work — do not force code vocabulary onto non-code sessions.
-
-**Commits section** applies only when commits were made in this session. For non-code sessions or sessions with no commits, omit it.
-
-**Template** (bare headers — fill with content from this session, omit any optional header that would be empty):
-
-```
-# Session YYYY-MM-DD (<sitting label>, HH:MM–HH:MM TZ)
-
-**Machine:** {hostname}
-**Branch:** {current branch}
-**Tracking:** {upstream status, e.g. origin/main (up to date)}
-
-## What Was Done
-
-## What's Next
-
-## Key Decisions
-
-## Commits
-
-## Gotchas
-
-## Insights
-```
-
-### 4. Update position on the ladder
-
-Where the work stands must be recorded as a **location**, not only as narrative. Prefer a **derived-from-disk** board over any hand-maintained file — a self-reported position is the thing the derived-from-disk rule exists to forbid.
-
-- **If the repo has a progress renderer** (in Kerd: `python3 tools/diagram/progress.py`, which reports every slug's exact rung on the ladder), run it and let it rewrite its own artifacts. Do not hand-edit its output.
-- **If the repo has a hand-maintained progress file**, update it.
-- **If neither exists**, skip — and do not invent one.
-
-Whatever it reports, the session log's `## What's Next` names the rung the work now sits on, so the next pickup gets position from the record as well as from the board.
-
-### 5. Reflect and capture learnings
-
-Before committing, reflect on the session:
-
-- **What broke unexpectedly?** Any gotchas, edge cases, or non-obvious behavior discovered? These go in the session log `## Gotchas` section AND in `docs/playbook.md` Gotchas section (so they survive beyond session logs).
-- **What patterns emerged?** Any recurring problems, useful approaches, or workflow improvements worth codifying?
-- **What should be remembered?** Best practices discovered, conventions that worked well or didn't.
-- **What would make the next session better?** Anything about the project, tooling, or workflow that should be adjusted.
-
-Write actionable learnings to the appropriate place:
-- **Gotchas** → add to `docs/playbook.md` Gotchas section (duplicates what's in the session log, but the playbook is the living reference; session logs are archives)
-- **Project conventions and enforcement rules** → add to `CLAUDE.md` (so they're enforced in future sessions)
-- **Conventions and patterns** → record in CONTEXT.md Key Decisions; a project that keeps a vault updates it on demand via `/kerd:kivna save`
-
-**Gotcha-mirror verification (before commit):** for every entry in this session's `## Gotchas`, verify `docs/playbook.md` contains a counterpart (cheap grep). If one is missing, add it now. Older session logs are never skimmed at switch-in, so the playbook — not the log tail — is the durable gotcha net; an unmirrored gotcha is effectively lost.
-
-Skip the reflection (not the mirror check) if the session was trivial (quick fix, single file change). But for any session with meaningful work, take the time. Compounding small improvements across sessions is how projects stay healthy.
-
-### 5b. Fidelity check — is everything this session produced reachable?
-
-Run `python3 tools/gates/fidelity.py --force` if the repo has it (Kerd does).
-It compares every file the session changed against what `CONTEXT.md`, `TODO.md`
-and this session's log actually name, and refuses when something was produced
-that nothing a pickup reads points at.
-
-An unreachable artifact is not lost from disk — it is lost from the **session handoff**.
-The next session has no path to it. This repo has already paid for that at its
-highest altitude: `docs/design/conductor-role.md` decided the most important
-question in the rewrite and sat unbuilt for three days because nothing pointed
-at it.
-
-When it refuses, name each file in whichever of the three is its honest home,
-then run it again. Do not exempt your way to green — the exemption list in the
-tool is for artifacts that are *derived* or *immutable*, and adding to it is a
-design decision, not a fix.
-
-**What it cannot do, stated so nobody reads more into a green run:** it proves
-*reachability*, never *comprehension*. A path named in a sentence passes even if
-the sentence misdescribes it — the same declared limit as grounding-was-read.
-
-In CI it runs on every push and skips itself unless HEAD writes a session log,
-so it bites at the boundary and stays silent during normal work.
-
-### 6. Triage, commit, and push
-
-Before staging anything, run `git status` to see the actual state of the working tree. Classify every changed or untracked file into two buckets:
-
-- **Session files** — files this session created or modified (CONTEXT.md, TODO.md, session log, playbook updates, etc.). These are auto-committed without asking.
-- **Unexpected files** — untracked files that existed before switch-out started, or modifications the session didn't make. These need a decision.
-
-#### Normal path (no unexpected files)
-
-Stage session files by name, commit with a descriptive message, and push. No confirmation prompt. Then show the completion banner (step 7).
-
-#### Exception path (unexpected files found)
-
-If there are unexpected untracked or modified files, stop and show a decision banner before committing:
-
-```
-┌─────────────────────────────────────────────┐
-│  ⚠ INPUT REQUIRED — unexpected files found  │
-│                                             │
-│  Session files (will auto-commit):          │
-│    TODO.md, kivna/sessions/2026-04-05.md    │
-│                                             │
-│  Needs decision:                            │
-│    docs/demo-mode.gif — commit / ignore / .gitignore?  │
-│    docs/demo-mode.mp4 — commit / ignore / .gitignore?  │
-└─────────────────────────────────────────────┘
-```
-
-Wait for the user to decide on each unexpected file. Then stage, commit, and push everything together.
-
-### 7. Completion banner
-
-Run `git status`, `git log --oneline -1`, and `date '+%H:%M %Z'` fresh. Read the output. Show a completion banner with evidence — the `Closed:` line is this turn's `date`, never a recalled time:
-
-```
-┌─────────────────────────────────────────────┐
-│  ✓ Switch out complete                      │
-│                                             │
-│  Pushed: [hash] [message]                   │
-│  → origin/[branch] ([N files])              │
-│  Tree: clean                                │
-│  Closed: [HH:MM TZ]                         │
-│  Next: [what to pick up]                    │
-│  Free context: type /clear, then /kerd:switch in  │
-└─────────────────────────────────────────────┘
-```
-
-If the tree is not clean, report what remains and why (e.g., "3 untracked files left per triage decision"). If the push failed, stop and surface the error.
-
-If `kivna/vault.json` exists, append one line inside the banner: `vault not written (on-demand since v0.83.0) — /kerd:kivna save for the Obsidian export`.
-
-If this session was a licensed prune event, append one line naming what was removed from CONTEXT.md: `Pruned: N decisions superseded by <slug>`. A prune that happens silently is indistinguishable from erosion.
-
-## Switch In (Picking Up a Session)
-
-Pick up where the last session left off. The read set is three files: CONTEXT.md, TODO.md, the newest session log. Nothing else is loaded per-session — older logs, the playbook, and the vault are on-demand references.
-
-### 1. Pull
-
-`git pull`. If there are conflicts, resolve them before proceeding.
-
-### 2. Handoff contract verification
-
-After pulling, verify the outgoing machine completed its session handoff. Check:
-
-- Does `CONTEXT.md` exist?
-- Does `TODO.md` exist?
-- Does the latest file in `kivna/sessions/` have a `## What's Next` section?
-
-If all are present, proceed normally. If any is missing, flag it explicitly:
-
-```
-⚠ Partial session handoff detected:
-  - CONTEXT.md missing
-  - Latest session log missing ## What's Next
-
-  Proceeding with available context. Some state may be missing.
-```
-
-If CONTEXT.md is missing but TODO.md has a `## Current Session` block or `### Context` section, this is a **pre-split repo**, not a broken session handoff: read the legacy shape, note that the next switch-out will migrate it (step 2b), and proceed.
-
-Do not pretend the pickup is clean when the session handoff was incomplete.
-
-### 3. Smoke test
-
-If the project has a test command (check `package.json` scripts, `Makefile`, `pyproject.toml`, or similar), run it. If tests fail, report the failures in the summary. The user should know the state of the codebase before planning new work. If no test command exists, skip this step.
-
-### 4. Read CONTEXT.md
-
-The state file: what the project is, where it stands, standing decisions, open questions, active mode snapshot. Read all of it — the standing decisions are the thing a fresh session is most likely to contradict, and they are the last section a hurried reader reaches.
-
-### 5. Read TODO.md
-
-The work file: current focus (`## Now`) and queued items (`## Backlog`).
-
-**A row states what to do, not whether it is still worth doing.** An item filed weeks ago can be premise-dead — the work is undone, but the reason it was filed no longer holds. Before planning against any row, check whether its justification still stands; if the row names a condition, verify the condition. Faithfully executing a dead row is indistinguishable from drift, and it is the most common way a clean pickup still ends up on the wrong work.
-
-### 6. Read the newest session log
-
-Read the most recent file in `kivna/sessions/` in full. **Older logs are archive — do not skim or read them per-session.** Forward-only discipline guarantees anything still relevant was carried into CONTEXT.md, TODO.md, or the newest log's What's Next; gotchas live durably in `docs/playbook.md`. Grep or read older logs only when the user asks or a specific question needs history.
-
-**"In full" means in full — no silent bound.** Logs are per-day and a busy day holds many sittings; the newest file can run to a thousand lines or more. Read all of it, in successive chunks if one read will not hold it. **Reading the last sitting and reporting the log as read is the failure this rule exists to stop** — it has happened, and it is undetectable from the outside because the summary looks complete either way. If for any reason the whole file cannot be read, say so explicitly and name the line range that was skipped. An admitted gap is recoverable; a silent one is not.
-
-### 7. Confirm uncertain closures
-
-If any TODO items carry a `(done? — confirm)` tag, collect them and ask the user **one** question: which of these are actually done? Remove the confirmed ones (recording the closure in the summary); untag the rest back to open. If no tags exist, skip silently.
-
-### 8. Read position on the ladder
-
-Recover **where the work sits**, not just what was said about it. This is the half of the session handoff that the three files carry worst: they are prose, and position is a location.
-
-- **If the repo has a progress renderer**, run it and read what it reports — in Kerd, `python3 tools/diagram/progress.py`, which derives every slug's exact rung from disk and is CI-refused if stale, so it is never out of date.
-- **If the repo has a hand-maintained progress file**, read it.
-- **If neither exists**, skip.
-
-Carry the position into the summary alongside the narrative: which work items are in flight, and which rung each one has reached. A pickup that knows what happened but not where we are will re-enter the work at the wrong rung.
-
-### 9. Check active modes
-
-Check two sources for mode state:
-
-1. **`kivna/.active-modes`** (same-machine resume): if it exists and is non-empty, read it and report active modes.
-2. **CONTEXT.md `## Active Mode`** (cross-machine session handoff): if `.active-modes` doesn't exist or is empty, check CONTEXT.md's `## Active Mode` section for a snapshot. If found, report it and offer to restore it to `.active-modes`.
-
-Report any active modes in the summary (e.g., "**Active modes:** `greenfield (step 4 of 9)`"). If neither source has mode state, skip this. Don't mention modes.
-
-### 10. Summarize
-
-Tell the user:
-- What was done last session
-- Any open questions or decisions from the previous session
-- **Where the work sits on the ladder** (step 8) — the in-flight items and their rungs
-- Any test failures from the smoke test
-- Any session handoff issues detected in step 2
-- **A short-form "what's next" pick-list** — a numbered menu of every `## Now` and `## Backlog` item, one terse line each. TODO is forward-only and lean by design, so list it in full — don't truncate to "+N more". This is a compact menu, not a re-narration: title-only, no re-explaining what each item is, no reply-instructions (the user just types a number or says what they want).
-
-**Speak the summary as a Status Report** (the talk-formats library, `docs/design/talk-formats.md`): each in-flight item as Work item · Stage · Issue · Resolution path, in plain words readable without the repository open — repo shorthand fails the format even when technically exact. The whole message, pick-list and step 11's conductor offer included, ends on exactly one question, never a compound "X, or Y?".
-
-The pick-list is the point of the summary — the user reads it to pick their next move. Draw it straight from TODO.md; don't editorialize. Number the items and tag each with `[Now]`/`[Backlog]`. Shape:
-
-```
-What's next:
-
-  1. [Now]      Wire the progress renderer into the entry gate
-  2. [Backlog]  tend other repos onto the split
-  3. [Backlog]  vault-repo-commit contract question
-  4. [Backlog]  first /kerd:interrogate smoke test
-  5. [Backlog]  guard switch-in smoke test against context bloat
-  6. [Backlog]  slainte auto-trigger idea
-  ...
-```
-
-A number-reply picks that item as the session's focus; any freeform reply steers elsewhere. Don't auto-start work on a picked item — surface it and let the next step (offer conductor) frame it.
-
-**Say what you did not manage to read.** If any part of the read set was incomplete — a log chunked and one chunk missed, a file that failed to open — name it here rather than letting the summary imply a clean pickup. Step 2 does this for missing files; this covers files that were present and only partly read.
-
-### 11. Offer conductor
-
-Ask: "Start a `/kerd:conductor` session?" If yes, flow into `/kerd:conductor` orient. If no, stop. The user wants to do something quick without full session discipline.
-
-## Fallback Behavior
-
-If no CONTEXT.md, TODO.md, or session logs exist (fresh repo), say so cleanly:
-
-"Fresh repo. No previous session state found. No CONTEXT.md, no TODO.md, no session logs in kivna/sessions/. Ready to start from scratch."
-
-Do not fail silently or produce errors for missing files.
+# Switch — development candidate
+
+Keep the work continuous while leaving room in the next context window. Work in
+the person's project, not this skill's directory. Identify the candidate briefly.
+Do not invoke installed Switch or the old gate/mode machinery to run this version.
+No CI, custom hooks or plugin installation is required. Existing host permissions
+and repository boundaries still apply.
+
+## Pick the intended action
+
+- **In:** restore current repo state and useful memory; continue the exact
+  authorized action. Read [pickup and closeout](references/in-out.md).
+- **Out:** close this sitting well: record history, tidy active work and prepare
+  the next session. Read [pickup and closeout](references/in-out.md).
+- **To:** save the exact mid-work position through GitHub, relinquish source
+  control and restore at the destination. Not full Out. Read
+  [device handoff](references/to.md). Load managed detail only for an owned build.
+- **Roll:** preserve an active Conductor build across a fresh context window,
+  without a new interview or routine go-ahead. Read
+  [managed handoff and Roll](references/to-roll.md).
+
+Honor the named action. Don't infer In/Out from a dirty tree, or perform a boundary
+when the person asks only about its design/status. Ask only when the requested
+action or target is genuinely ambiguous. A new window does not grant new authority.
+
+For a named handoff or trial, resolve that record and any supplied repo/branch
+before ordinary project pickup. A missing or mismatched handoff is not a fresh
+start: report the mismatch and stop. Do not substitute a familiar Switch flow,
+project readiness check or operational task. If the person supplies only a trial
+name and no record can be located, request its location rather than infer its work.
+
+## One useful memory of the work
+
+Use existing project context, active-work records and history; don't introduce a
+parallel TODO, plan or dashboard. Save the current position, actual agreement and
+limits, relevant evidence, unresolved questions/jobs and exact next action. Keep
+failure counts and resource accounting across windows. Link source detail instead
+of copying the same narrative into several files. Missing information is a gap,
+not permission to invent memory or assume acceptance.
+
+Historical records stay reachable and unchanged. Completed work can leave the
+active list without erasing decisions that still govern new work. When reorganizing
+legacy memory, preserve a recoverable original and reconcile conflicting current
+claims. Do not silently apply a candidate migration to an unrelated live project.
+
+## Make the transition visible
+
+Show actual state: saving → saved locally / pushed → restoring → continuing, or
+the specific blocker. Link the saved place. Distinguish planned, running, returned
+and verified work. Don't claim a file save exited a session, moved a process or
+proved full restoration. No fake activity or progress percentages.
+
+For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
+Last session, This session, Where we are, You, and a real link to task detail.
+An evidence-grounded Insight is optional, never an entry requirement.
+
+An active Conductor build resumes its next authorized action in the same turn
+through [candidate Conductor](../conductor/SKILL.md). Restore a pending question
+with its shown answer using Conductor's journey layout. Apply a new answer already
+given rather than asking it again. A completed/inactive project does not become
+a new build merely because In ran. Never stop only to ask “start Conductor?”
+
+Keep pickup selective and explicit: fully read the chosen current working set,
+then relevant historical entries as needed. Don't silently truncate records or
+claim that small output means low input. Measure instructions, memory and tool
+output when testing context cost; disclose unavailable readings.
+
+## Implementation boundary
+
+[Git helper](scripts/handoff.py) supplies explicit-file save, safe fast-forward
+pickup and optional assembly of caller-selected current records. It does not
+choose what is done, select relevant memory, grant authority or control sessions.
+[Roll helper](scripts/roll.py) manages fresh CLI runs through the existing model
+connection. It does not take over arbitrary already-open interactive sessions.
+Read the relevant guide before running either. Unknown outcomes stop automatic
+relaunch; tests do not make this an enforcing security boundary.
+The [managed To helper](scripts/managed_to.py) can keep an owned Codex source open
+while its controller repairs a failed save; its lifecycle and limits are in the
+To/Roll guide. It does not take over an already-open user session.
+
+For a concise read-only view of a managed run, use
+`python3 /path/to/switch/scripts/roll_status.py --project /path/to/project`.
+It shows recorded state, next action and completed-worker history without private
+session IDs. This is recorded progress, not a live health probe or quality verdict.

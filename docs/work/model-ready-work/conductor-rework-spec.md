@@ -95,7 +95,7 @@ opener, then read relevant context. Ask useful questions one at a time, challeng
 unsupported premises and shape the direction. Conductor decides necessary
 analysis/review depth; the user does not select a rigor tier.
 
-Load [the adaptive understanding guide](skills/conductor/references/understanding.md)
+Load [the adaptive understanding guide](../../../skills/conductor/references/understanding.md)
 after intent is known. The 2026-09-08 user agreement supersedes mandatory ten-topic
 presentation and confirmation; the ten areas stay internal. Reuse the request
 and relevant sources. Ask only consequential missing information, propose scope
@@ -123,7 +123,7 @@ this step while success remains unconfirmed. Resume at that gap if necessary,
 preserving the scope decision instead of restarting intake. No numeric targets,
 measurement registry or extra formal approval step are required by this rule.
 
-Use [the journey presentation guide](skills/conductor/references/journey.md) as
+Use [the journey presentation guide](../../../skills/conductor/references/journey.md) as
 the single presentation contract. It owns the bounded question/answer card, native
 and plain-text host adaptations, compact working-brief view, acknowledgement and useful
 insight pattern, early visuals and live-work view. Do not copy a second layout rule
@@ -141,17 +141,17 @@ when direction and execution are actually authorized, continue into step 2 in
 the same run. Preserve expressly planning-only agreements; don't reinterpret
 historical permission. A document finished is not the work finished.
 
-Use the [journey presentation guide](skills/conductor/references/journey.md):
+Use the [journey presentation guide](../../../skills/conductor/references/journey.md):
 show the current stage in the whole journey, with interview topic or active job
 underneath. At consequential decisions, present relevant findings, uncertainty,
 recommendation and tradeoff, then the complete decision card. Explain which part
 of the outcome the decision affects and what it enables. No intake counter is required for orientation. The product drawing shows what we are creating;
 the journey strip shows where we are. Keep them distinct and connected.
 
-For this candidate, read [the local visual skill](skills/visuals/SKILL.md) when
+For this candidate, read [the local visual skill](../../../skills/visuals/SKILL.md) when
 preparing that view, then its selected pattern guidance. This codifies the useful
 diagram-design approach without its onboarding pauses. Use the
-[worked example](skills/visuals/assets/review-flow.html) as a visual starting
+[worked example](../../../skills/visuals/assets/review-flow.html) as a visual starting
 point, not as the task's approved facts. [Both diagram-design and Archify are
 retained choices](visual-tools-assessment.md): Conductor chooses by the work and
 the person's preference, without a rigid division of uses. Either may serve the

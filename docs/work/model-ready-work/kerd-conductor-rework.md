@@ -67,7 +67,7 @@ question or next action instead of replaying the interview.
 
 ~~Present the same ten questions for every project and confirm every topic.~~
 Superseded by the user's agreement to the Codex intake review: retain
-[ten internal coverage areas](skills/conductor/references/understanding.md), but
+[ten internal coverage areas](../../../skills/conductor/references/understanding.md), but
 ask only consequential gaps after reusing the request and relevant context.
 
 Natural build/create/plan requests should make Conductor discoverable without a
@@ -121,7 +121,7 @@ The person sees a simple visual of what will exist and how the parts connect.
 Analysis, architecture, prompts and evidence are available at greater depth.
 Less visible detail must not hide a consequential tradeoff or an unproved claim.
 
-The [local visual skill](skills/visuals/SKILL.md) now codifies a lightweight
+The [local visual skill](../../../skills/visuals/SKILL.md) now codifies a lightweight
 diagram-design adaptation for that job. See the [visual-tools assessment](visual-tools-assessment.md)
 for its scope and the Archify evaluation. Both tools are retained choices:
 Conductor selects what best explains the work, and the person may request either.

@@ -98,7 +98,7 @@ Next action: none. Checks 1 and 2 are left to ordinary use, not another trial.
 ## Results and evidence
 
 `where_we_are.py` now ships with candidate Switch at
-`docs/work/model-ready-work/skills/switch/scripts/`, so it travels to a consumer
+`skills/switch/scripts/`, so it travels to a consumer
 project with the skill rather than living under this closed item. It renders one record; `test_where_we_are.py` holds 22 checks, all
 passing. Run it with `--record <path>` and an optional `--width`.
 
@@ -245,7 +245,7 @@ Reopened once and closed again 2026-09-09 23:45 on the producer's instruction,
 for the dashboard mode the same view now carries: `--dashboard` for one record,
 `--summary -` for a summary Switch already holds, and the connection written into
 candidate Switch's In guide. The renderer moved to
-`docs/work/model-ready-work/skills/switch/scripts/` so it travels with the skill
+`skills/switch/scripts/` so it travels with the skill
 into a consumer project. Check 2 — whether the dashboard actually reads well on
 arrival — is left to the next ordinary candidate Switch In, by the same
 instruction: no synthetic trial, no further protocol work.
