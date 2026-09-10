@@ -124,6 +124,24 @@ actually help someone get started.
 A fictional example. Rewrap to width, use ASCII rules where the star renders
 poorly, and omit the callout when there is nothing useful to say.
 
+Render it with the packaged renderer, [scripts/where_we_are.py](../scripts/where_we_are.py),
+resolved relative to this skill so it travels with the package:
+
+```sh
+printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary -
+```
+
+Pass the summary already assembled during pickup — phase, task, state, last and
+this session, any pending question, the documents the context already names, and
+`restored`. It reads stdin, so nothing is written to disk. Do not re-read files to
+fill it, and do not stop for approval before showing it. If the renderer cannot
+run, say the same things as plain text; the information is the requirement, the
+frame is not.
+
+`restored` states whether the necessary context was recovered. Which presentation
+ran is a separate fact: an older Switch producing the long report is not an
+incomplete restore, and belongs in the attention lines if it matters at all.
+
 ## Out
 
 Read the active state and inspect what actually changed. Preserve the current

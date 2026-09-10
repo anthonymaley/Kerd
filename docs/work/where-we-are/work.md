@@ -76,10 +76,11 @@ The adjustments, all binding on the build:
 - [done] Read records it was not designed around · Claude Opus 5 — 30 checks
 - [done] Progress updates during work · Claude Opus 5 — compact mode + rule
 - [done] Condense the welcome-back guidance · Claude Opus 5 — 88 lines to 66
+- [done] Dashboard mode, wired to Switch · Claude Opus 5 — 66 checks, packaged
 
 ## Now
 
-Record updated: 2026-09-09 16:50 EDT
+Record updated: 2026-09-09 23:45 EDT
 Stage: Complete
 Current activity: none. The build is reviewed, corrected, pushed and verified.
 Analysis so far: the candidate's work records are prose under a writing aid that
@@ -92,11 +93,13 @@ recorded". A record that cannot say what is happening should show that.
 Open issues: none blocking. Whether the two producer checks actually pass is
 tested after the build, not assumed by it.
 Pending question: none
-Next action: none. Check 1 is left to ordinary use, not another trial.
+Next action: none. Checks 1 and 2 are left to ordinary use, not another trial.
 
 ## Results and evidence
 
-`where_we_are.py` renders one record; `test_where_we_are.py` holds 22 checks, all
+`where_we_are.py` now ships with candidate Switch at
+`docs/work/model-ready-work/skills/switch/scripts/`, so it travels to a consumer
+project with the skill rather than living under this closed item. It renders one record; `test_where_we_are.py` holds 22 checks, all
 passing. Run it with `--record <path>` and an optional `--width`.
 
 Found by running the build before any review, and fixed: an explicit
@@ -237,3 +240,12 @@ Closed 2026-09-09 on the producer's instruction: the result is saved, the format
 is agreed, and visibility feedback comes from ordinary use without blocking work.
 No further protocol change or review belongs to this item. Check 1 stays
 unassessed by that same instruction, not by omission.
+
+Reopened once and closed again 2026-09-09 23:45 on the producer's instruction,
+for the dashboard mode the same view now carries: `--dashboard` for one record,
+`--summary -` for a summary Switch already holds, and the connection written into
+candidate Switch's In guide. The renderer moved to
+`docs/work/model-ready-work/skills/switch/scripts/` so it travels with the skill
+into a consumer project. Check 2 — whether the dashboard actually reads well on
+arrival — is left to the next ordinary candidate Switch In, by the same
+instruction: no synthetic trial, no further protocol work.

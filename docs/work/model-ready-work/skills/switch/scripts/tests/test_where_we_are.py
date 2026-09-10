@@ -5,7 +5,7 @@ from pathlib import Path
 import unicodedata
 import unittest
 
-SCRIPT = Path(__file__).resolve().parent / "where_we_are.py"
+SCRIPT = Path(__file__).resolve().parents[1] / "where_we_are.py"
 SPEC = importlib.util.spec_from_file_location("where_we_are_tested", SCRIPT)
 view = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(view)
@@ -275,3 +275,275 @@ class ViewTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+DASH = """# Work: the candidate track
+
+## Jobs
+
+- [done] Build the "Where we are" view · Claude Opus 5 — reviewed and corrected
+- [active] Shape the welcome dashboard · producer
+- [blocked] Install the candidate — the setup choice is not made
+
+## Agreement
+
+Controlled adoption of Conductor, Switch and Visuals.
+
+## Now
+
+Record updated: 2026-09-09 21:00 EDT
+Stage: Deliver
+Phase: Controlled adoption
+Pending question: How do you want to enter the candidate?
+Proposed answer: install it
+Reply with: Install / Hand-load
+Insight: your usual command still opens the old door.
+
+See the [Design](design.md) and the [Tasks](consolidation.md).
+"""
+
+QUIET = """# Work: a quiet record
+
+## Jobs
+
+- [done] Ship the thing · Claude Opus 5
+
+## Agreement
+
+Standing agreement recorded.
+
+## Now
+
+Record updated: 2026-09-09 21:00 EDT
+Phase: Controlled adoption
+Pending question: none
+Next action: pick the next slice
+"""
+
+
+def dash(text, width=80, color=False, record="record.md"):
+    return view.dashboard(record, text, NOW, width, color)
+
+
+def strip_ansi(text):
+    import re as _re
+    return _re.sub(r"\x1b\[[0-9;]*m", "", text)
+
+
+class DashboardTests(unittest.TestCase):
+    def test_an_open_job_is_the_task_even_with_no_activity_field(self):
+        """Corrected: no current activity does not mean no selected task."""
+        self.assertIn("Shape the welcome dashboard", dash(DASH))
+        self.assertNotIn("Not selected yet", dash(DASH))
+
+    def test_task_shows_the_recorded_activity_when_there_is_one(self):
+        out = dash(DASH.replace("Stage: Deliver", "Stage: Deliver\nCurrent activity: draw it"))
+        self.assertIn("draw it", out)
+        self.assertNotIn("Not selected yet", out)
+
+    def test_phase_is_the_recorded_phase_verbatim(self):
+        self.assertIn("Controlled adoption", dash(DASH))
+
+    def test_phase_falls_back_to_stage_then_to_not_recorded(self):
+        self.assertIn("Deliver", dash(DASH.replace("Phase: Controlled adoption", "")))
+        self.assertIn(view.UNRECORDED,
+                      dash(DASH.replace("Phase: Controlled adoption", "").replace("Stage: Deliver", "")))
+
+    def test_state_reports_a_pending_decision_over_a_next_action(self):
+        self.assertIn("Decision pending", dash(DASH))
+
+    def test_state_uses_next_action_when_nothing_is_pending(self):
+        self.assertIn("pick the next slice", dash(QUIET))
+
+    def test_you_box_is_amber_only_while_a_decision_is_pending(self):
+        self.assertIn("\x1b[33m", dash(DASH, color=True))
+        self.assertNotIn("\x1b[33m", dash(QUIET, color=True))
+
+    def test_colour_is_absent_when_it_is_switched_off(self):
+        self.assertNotIn("\x1b[", dash(DASH, color=False))
+
+    def test_ansi_never_changes_a_bordered_line_width(self):
+        plain = [line for line in dash(DASH, color=False).splitlines() if line.startswith("│")]
+        painted = [strip_ansi(line) for line in dash(DASH, color=True).splitlines()
+                   if strip_ansi(line).startswith("│")]
+        self.assertTrue(plain)
+        self.assertEqual(plain, painted)
+        for line in plain:
+            self.assertEqual(display_columns(line), 80)
+
+    def test_a_blocked_job_is_reported_as_a_warning(self):
+        out = dash(DASH)
+        self.assertIn("Install the candidate", out)
+        self.assertIn("blocked", out.lower())
+
+    def test_a_clean_record_shows_no_warning_block(self):
+        self.assertNotIn("⚠", dash(QUIET))
+
+    def test_last_session_is_summarised_from_a_recorded_done_job(self):
+        self.assertIn("LAST SESSION", dash(DASH))
+        self.assertIn("Where we are", dash(DASH))
+
+    def test_this_session_is_the_active_job_and_says_so_when_there_is_none(self):
+        self.assertIn("Shape the welcome dashboard", dash(DASH))
+        self.assertIn("Nothing agreed yet", dash(QUIET))
+
+    def test_links_that_do_not_resolve_are_not_offered_as_navigation(self):
+        out = dash(DASH)
+        self.assertIn("cannot be opened", out)
+        self.assertEqual(out.count("design.md"), 1, "a broken target is named once, as a warning")
+        self.assertNotIn("design.md", "\n".join(
+            line for line in out.splitlines() if line.strip().startswith("→")))
+
+    def test_links_that_resolve_are_shown_with_label_and_path(self):
+        import tempfile, os
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "sub"), exist_ok=True)
+            record = os.path.join(tmp, "sub", "work.md")
+            open(os.path.join(tmp, "sub", "design.md"), "w").close()
+            open(os.path.join(tmp, "sub", "consolidation.md"), "w").close()
+            out = dash(DASH, record=record)
+        self.assertIn("Design", out)
+        self.assertIn("design.md", out)
+        self.assertNotIn("cannot be opened", out)
+
+    def test_one_source_block_names_the_record_once_with_both_stamps(self):
+        for w in (80, 120):
+            out = dash(DASH, width=w)
+            self.assertEqual(out.count("read:"), 1, "the source is named once, not per field")
+            tail = "\n".join(out.splitlines()[-2:])
+            self.assertIn("2026-09-09 21:00 EDT", tail)
+            self.assertIn(NOW, tail)
+
+    def test_insight_is_shown_when_recorded_and_absent_when_not(self):
+        self.assertIn("old door", dash(DASH))
+        self.assertNotIn("★", dash(QUIET))
+
+    def test_every_line_fits_the_requested_width(self):
+        for text in (DASH, QUIET):
+            for w in (60, 80, 100):
+                for line in dash(text, width=w).splitlines():
+                    self.assertLessEqual(display_columns(line), w)
+
+
+class NothingFirstTests(unittest.TestCase):
+    """A record writes "none." and then explains why. The word is the answer;
+    the explanation is not a task."""
+
+    def test_a_leading_none_is_read_as_no_task_and_its_reason_is_kept(self):
+        text = QUIET.replace("Next action: pick the next slice",
+                             "Current activity: none. The build is reviewed and pushed.\n"
+                             "Next action: none. Left to ordinary use.")
+        out = dash(text)
+        self.assertIn("Not selected yet", out)
+        self.assertIn("The build is reviewed and pushed.", out)
+        self.assertNotIn("TASK    none.", out)
+
+    def test_a_bare_none_still_carries_no_reason(self):
+        out = dash(QUIET.replace("Next action: pick the next slice", "Next action: none"))
+        self.assertIn(view.UNRECORDED, out)
+
+    def test_a_value_merely_starting_with_a_word_like_nonetheless_is_untouched(self):
+        out = dash(QUIET.replace("Next action: pick the next slice",
+                                 "Next action: nonetheless ship it"))
+        self.assertIn("nonetheless ship it", out)
+
+
+PAUSED = """# Work: paused work
+
+## Jobs
+
+- [done] Agree the shape · producer
+- [blocked] Ship the adapter — waiting on the producer's word
+
+## Agreement
+
+Agreed and paused.
+
+## Now
+
+Record updated: 2026-09-09 21:00 EDT
+Phase: Controlled adoption
+Pending question: none
+"""
+
+SELECTED_NONE = PAUSED.replace(
+    "Pending question: none",
+    "Current activity: none\nPending question: none").replace(
+    "- [blocked] Ship the adapter — waiting on the producer's word\n", "")
+
+
+class TaskHonestyTests(unittest.TestCase):
+    """No current activity is not the same claim as no selected task."""
+
+    def test_an_active_job_is_the_task_when_no_activity_field_exists(self):
+        text = PAUSED.replace("- [blocked] Ship the adapter",
+                              "- [active] Ship the adapter")
+        out = dash(text)
+        self.assertIn("Ship the adapter", out)
+        self.assertNotIn("Not selected yet", out)
+
+    def test_blocked_work_is_still_selected_work(self):
+        out = dash(PAUSED)
+        self.assertNotIn("Not selected yet", out)
+        self.assertIn("Ship the adapter", out)
+        self.assertIn("Blocked", out)
+
+    def test_an_absent_activity_field_is_not_recorded_not_unselected(self):
+        text = PAUSED.replace("- [blocked] Ship the adapter — waiting on the producer's word\n", "")
+        out = dash(text)
+        self.assertIn(view.UNRECORDED, out)
+        self.assertNotIn("Not selected yet", out)
+
+    def test_not_selected_needs_the_record_to_say_so_and_no_job_open(self):
+        self.assertIn("Not selected yet", dash(SELECTED_NONE))
+
+
+class BannerTests(unittest.TestCase):
+    """The tick is a claim about the pickup, not about the render succeeding."""
+
+    def test_direct_record_rendering_claims_no_session_restore(self):
+        out = dash(DASH)
+        self.assertNotIn("SESSION RESTORED", out)
+        self.assertNotIn("✓", out.splitlines()[0])
+
+    def test_a_completed_pickup_shows_the_green_tick(self):
+        out = view.dashboard("record.md", DASH, NOW, 80, True, restored="yes")
+        self.assertIn("SESSION RESTORED ✓", out)
+        self.assertIn("\x1b[32m", out.splitlines()[0])
+
+    def test_an_incomplete_pickup_says_so_and_is_not_green(self):
+        out = view.dashboard("record.md", DASH, NOW, 80, True,
+                             restored="partial", restore_note="TODO.md missing")
+        self.assertIn("PICKUP INCOMPLETE", out)
+        self.assertNotIn("\x1b[32m", out.splitlines()[0])
+        self.assertIn("TODO.md missing", out)
+
+
+class InMemorySummaryTests(unittest.TestCase):
+    """Switch passes what it already read; no file is created for the dashboard."""
+
+    def test_a_summary_renders_without_any_record_on_disk(self):
+        out = view.render_dashboard({
+            "phase": "Controlled adoption",
+            "task": "Not selected yet",
+            "state": "Setup choice pending",
+            "last_session": "Built the view.",
+            "this_session": "Nothing agreed yet.",
+            "source": "CONTEXT.md, TODO.md, consolidation.md",
+            "updated": "2026-09-09 21:00 EDT",
+            "restored": "yes",
+        }, NOW, 80, False)
+        self.assertIn("Controlled adoption", out)
+        self.assertIn("SESSION RESTORED", out)
+        self.assertIn("CONTEXT.md, TODO.md, consolidation.md", out)
+
+    def test_a_summary_omits_blocks_it_has_nothing_for(self):
+        out = view.render_dashboard({"source": "consolidation.md"}, NOW, 80, False)
+        self.assertNotIn("★", out)
+        self.assertNotIn("⚠", out)
+        self.assertIn(view.UNRECORDED, out)
+
+    def test_summary_documents_are_still_checked_against_disk(self):
+        out = view.render_dashboard(
+            {"source": "x", "documents": [["Tasks", "nope-not-here.md"]]}, NOW, 80, False)
+        self.assertIn("cannot be opened", out)

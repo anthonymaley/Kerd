@@ -15,7 +15,9 @@ Only the bracketed state carries meaning. Anything else is kept and labelled.
 """
 
 import argparse
+import json
 from datetime import datetime
+import os
 from pathlib import Path
 import re
 import sys
@@ -336,20 +338,282 @@ def compact(path, text, now, width=80):
     return "\n".join(lines)
 
 
+ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
+BORDERS = "\u256d\u2570\u251c\u250c\u2514"
+
+
+def ink(text, *tones, on=True):
+    """Colour is applied to already-padded text, never before, so an escape
+    sequence can never be counted as a column."""
+    if not on or not tones:
+        return text
+    return "\x1b[" + ";".join(ANSI[tone] for tone in tones) + "m" + text + "\x1b[0m"
+
+
+def panel(title, rows, width, tone=None, on=True):
+    """A titled box whose border carries the tone and whose content does not."""
+    inner = width - 4
+    dashes = max(0, width - 5 - columns(title))
+    lines = ["\u256d\u2500 " + title + " " + "\u2500" * dashes + "\u256e"]
+    for row in rows:
+        for line in ([""] if row == "" else wrap(row, inner)):
+            lines.append("\u2502 " + pad(line, inner) + " \u2502")
+    lines.append("\u2570" + "\u2500" * (width - 2) + "\u256f")
+    if not on or tone is None:
+        return lines
+    painted = []
+    for line in lines:
+        if line[0] in BORDERS or line[0] == "\u2570":
+            painted.append(ink(line, tone, on=True))
+        else:
+            painted.append(ink(line[0], tone, on=True) + line[1:-1] + ink(line[-1], tone, on=True))
+    return painted
+
+
+def resolve_links(found, record):
+    """Split the record's own links into what a reader can open and what they
+    cannot. A target that does not resolve is a defect in the record, so it is
+    reported rather than quietly dropped."""
+    base = Path(record)
+    open_able, broken = [], []
+    for label, target in found:
+        if target.startswith(("http://", "https://", "mailto:")):
+            open_able.append((label, target))
+        elif (base / target.split("#", 1)[0]).exists():
+            open_able.append((label, target))
+        else:
+            broken.append((label, target))
+    return open_able, broken
+
+
+def nothing_first(value):
+    """Split a value the record opened with "none" from the reason it gave.
+
+    Reading the word the record wrote is not interpretation; treating the
+    sentence after it as a task would be. Returns (is_nothing, reason).
+    """
+    if not value:
+        return True, None
+    match = re.match(r"(none|nothing|n/a|-)\s*[.;:,\u2014-]\s*(\S.*)$", value.strip(), re.I)
+    if match:
+        return True, match[2].strip()
+    return False, value
+
+
+def stated(section, name):
+    """Whether the record wrote the field at all. Absent and "none" are different
+    claims: one is silence, the other is an answer."""
+    if section is None:
+        return False
+    return any((match := FIELD_LINE.fullmatch(line)) and match[1] == name
+               for line in section.splitlines())
+
+
+def summary_from_record(path, text):
+    """Everything the dashboard shows, read from one record."""
+    parts, duplicated = sections(text)
+    now_part = parts.get("Now")
+    jobs = jobs_of(parts.get("Jobs")) or []
+    activity, activity_note = field(now_part, "Current activity")
+    action, action_note = field(now_part, "Next action")
+    question, question_note = field(now_part, "Pending question")
+    phase, phase_note = field(now_part, "Phase")
+    stage, stage_note = field(now_part, "Stage")
+    updated, updated_note = field(now_part, "Record updated")
+    active = [job for job in jobs if job["state"] == "active"]
+    blocked = [job for job in jobs if job["state"] == "blocked"]
+    done = [job for job in jobs if job["state"] == "done"]
+
+    # No current activity is not the same claim as no selected task: work can be
+    # agreed and paused, waiting on a review, or blocked. Only an explicit
+    # nothing-value with no job open supports "Not selected yet".
+    task_reason = None
+    if activity:
+        is_nothing, reason = nothing_first(activity)
+        if not is_nothing:
+            task = activity
+        elif active or blocked:
+            task = " \u00b7 ".join(job["title"] for job in active + blocked)
+        else:
+            task, task_reason = "Not selected yet", reason
+    elif active:
+        task, task_reason = " \u00b7 ".join(job["title"] for job in active), None
+    elif blocked:
+        task, task_reason = " \u00b7 ".join(job["title"] for job in blocked), None
+    elif stated(now_part, "Current activity"):
+        task, task_reason = "Not selected yet", None
+    else:
+        task, task_reason = UNRECORDED, None
+
+    state_reason = None
+    if question:
+        state = "Decision pending"
+    elif blocked and not active:
+        first = blocked[0]
+        state = "Blocked" + (f" \u2014 {first['detail']}" if first["detail"]
+                             else f" \u2014 blocker {UNRECORDED}")
+    elif action:
+        is_nothing, reason = nothing_first(action)
+        state, state_reason = (UNRECORDED, reason) if is_nothing else (action, None)
+    else:
+        state = UNRECORDED
+
+    warnings = [f'the record has more than one "## {name}" section, so nothing is read from it'
+                for name in sorted(duplicated)]
+    warnings += [note for note in (phase_note, stage_note, activity_note, action_note,
+                                   question_note, updated_note) if note]
+    warnings += [f"blocked: {job['title']}"
+                 + (f" \u2014 {job['detail']}" if job["detail"] else f" \u2014 blocker {UNRECORDED}")
+                 for job in blocked]
+    found, _ = links_of(now_part, limit=8)
+    insight, _ = field(now_part, "Insight")
+    proposed, _ = field(now_part, "Proposed answer")
+    reply, _ = field(now_part, "Reply with")
+    return {
+        "phase": phase or stage or UNRECORDED,
+        "task": task, "task_reason": task_reason,
+        "state": state, "state_reason": state_reason,
+        "last_session": (done[-1]["title"] + (f" \u2014 {done[-1]['detail']}"
+                                              if done[-1]["detail"] else "")) if done else None,
+        "this_session": " \u00b7 ".join(job["title"] for job in active) if active else None,
+        "question": {"text": question, "proposed": proposed, "reply": reply} if question else None,
+        "documents": [list(pair) for pair in found],
+        "warnings": warnings, "insight": insight,
+        "source": str(path), "updated": updated, "base": str(Path(path).resolve().parent),
+    }
+
+
+def render_dashboard(summary, now, width=80, color=True):
+    """One composed panel from a summary already in hand.
+
+    Switch passes what it has just read; nothing is written to disk for this.
+    The banner states whether the necessary context was recovered. It is never
+    proved by rendering succeeding, and it is not a claim about which
+    presentation ran.
+    """
+    get = summary.get
+    restored = get("restored")
+    if restored == "yes":
+        badge, tone = "SESSION RESTORED \u2713 ", "green"
+    elif restored in ("partial", "no"):
+        badge, tone = "PICKUP INCOMPLETE ", "amber"
+    else:
+        badge, tone = "", None
+    lines = [ink(pad(" KERD", width - columns(badge)), "bold", "cyan", on=color)
+             + ink(badge, tone, on=color and tone is not None),
+             ink("\u2501" * width, "cyan", on=color), ""]
+
+    rows = (("PHASE", get("phase") or UNRECORDED, None),
+            ("TASK", get("task") or UNRECORDED, get("task_reason")),
+            ("STATE", get("state") or UNRECORDED, get("state_reason")))
+    for label, value, reason in rows:
+        for index, line in enumerate(wrap(str(value), width - 10)):
+            lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color)
+                         + " " + line)
+        for line in wrap("\u2014 " + reason, width - 10) if reason else []:
+            lines.append(" " * 9 + ink(line, "dim", on=color))
+    lines.append("")
+
+    for label, value, empty in (("LAST SESSION", get("last_session"),
+                                 "no completed job is recorded"),
+                                ("THIS SESSION", get("this_session"), "Nothing agreed yet.")):
+        lines.append(ink(" " + label, "dim", on=color))
+        lines += ["   " + line for line in wrap(value or empty, width - 3)]
+    lines.append("")
+
+    warnings = list(get("warnings") or [])
+    if get("restore_note"):
+        warnings.insert(0, str(get("restore_note")))
+    base = get("base") or "."
+    open_able, broken = resolve_links([tuple(pair) for pair in (get("documents") or [])], base)
+    warnings += [f"cannot be opened: {target} ({label})" for label, target in broken]
+    if warnings:
+        lines += panel("\u26a0 NEEDS ATTENTION", warnings, width, "red", color) + [""]
+
+    question = get("question")
+    if question and question.get("text"):
+        lines += panel("YOU", [question["text"], "",
+                               "Proposed: " + (question.get("proposed") or UNRECORDED),
+                               "Reply: " + (question.get("reply") or "Correct / Change")],
+                       width, "amber", color) + [""]
+    else:
+        lines += panel("YOU", ["Nothing needs you right now."], width, None, color) + [""]
+
+    if open_able:
+        labels = " \u00b7 ".join(label for label, _ in open_able)
+        lines.append(" " + ink(pad("DOCUMENTS", 11), "dim", on=color)
+                     + ink(labels, "cyan", on=color) if columns(labels) <= width - 12
+                     else " " + ink("DOCUMENTS", "dim", on=color))
+        for label, target in open_able:
+            lines += ["   " + line for line in wrap(f"\u2192 {target}  ({label})", width - 3)]
+        lines.append("")
+
+    if get("insight"):
+        lines += [" " + ink("\u2605", "amber", on=color) + " " + line if index == 0
+                  else "   " + line
+                  for index, line in enumerate(wrap(get("insight"), width - 3))]
+        lines.append("")
+
+    lines.append(ink("\u2501" * width, "cyan", on=color))
+    stamps = f"updated {get('updated') or 'unknown'} \u00b7 rendered {now}"
+    one = f"read: {get('source')} \u00b7 {stamps}"
+    block = [one] if columns(one) <= width - 1 else [f"read: {get('source')}", stamps]
+    lines += [ink(" " + line, "dim", on=color)
+              for entry in block for line in wrap(entry, width - 1)]
+    return "\n".join(lines)
+
+
+def dashboard(path, text, now, width=80, color=True, restored=None, restore_note=None):
+    summary = summary_from_record(path, text)
+    summary["restored"], summary["restore_note"] = restored, restore_note
+    return render_dashboard(summary, now, width, color)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--record", required=True, help="Path to one work record")
+    parser.add_argument("--record", help="Path to one work record")
+    parser.add_argument("--summary", metavar="PATH_OR_DASH",
+                        help='Dashboard from a summary already in hand; "-" reads JSON '
+                             "on stdin, so the caller writes no file")
+    parser.add_argument("--restored", choices=("yes", "partial", "no"),
+                        help="Whether the necessary context was recovered. Not which presentation ran, and never proved by rendering succeeding")
+    parser.add_argument("--restore-note", help="What is missing when the pickup is not complete")
     parser.add_argument("--width", type=int, default=80)
     parser.add_argument("--compact", action="store_true",
                         help="A few lines for a change of state, not the whole view")
+    parser.add_argument("--dashboard", action="store_true",
+                        help="One composed panel on arrival, for switch-in")
+    parser.add_argument("--color", action="store_true",
+                        help="Force colour on when output is piped or captured")
+    parser.add_argument("--no-color", action="store_true",
+                        help="Plain text; also implied by NO_COLOR or a non-terminal")
     args = parser.parse_args()
+    now = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")
+    color = args.color or not (
+        args.no_color or os.environ.get("NO_COLOR") or not sys.stdout.isatty())
+    if args.summary:
+        raw = sys.stdin.read() if args.summary == "-" else Path(args.summary).read_text("utf-8")
+        try:
+            summary = json.loads(raw)
+        except json.JSONDecodeError as error:
+            print(f"Summary is not readable JSON: {error}", file=sys.stderr)
+            return 2
+        summary.setdefault("restored", args.restored)
+        summary.setdefault("restore_note", args.restore_note)
+        print(render_dashboard(summary, now, args.width, color))
+        return 0
+    if not args.record:
+        print("Give --record <path> or --summary -", file=sys.stderr)
+        return 2
     path = Path(args.record)
     if not path.is_file():
         print(f"No work record at {path}", file=sys.stderr)
         return 2
-    shape = compact if args.compact else render
-    print(shape(path, path.read_text(encoding="utf-8"),
-                datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z"), args.width))
+    text = path.read_text(encoding="utf-8")
+    if args.dashboard:
+        print(dashboard(path, text, now, args.width, color, args.restored, args.restore_note))
+        return 0
+    print((compact if args.compact else render)(path, text, now, args.width))
     return 0
 
 
