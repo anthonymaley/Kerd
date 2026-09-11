@@ -6,25 +6,26 @@ Kerd — a Claude Code plugin: ten workflow skills. Core skills: drive (the work
 
 ## Where We Are
 
-**Current candidate work — 2026-09-09:** the maintained Conductor, Switch and
-Visuals redesign lives in [model-ready-work](docs/work/model-ready-work/candidate-entry.md).
-Read its [current position and adoption actions](docs/work/model-ready-work/consolidation.md)
-for this work, not the older launch sequence below. Switch's bounded candidate
-trial is accepted; wider adoption and real-person journey validation remain open.
-The pack is committed on `main` and verified at `origin/main`; that is a save, not
-installation, publication or release. Installed Kerd and the parked schema-split
-session are not changed by this work.
+**Kerd is the candidate now — 2026-09-11.** Released 0.107.0 (Conductor and
+Switch replaced, Visuals added, eleven skills, `21e6779`), 0.108.0 (Agent, Switch
+In restore-and-stop, dashboard input example, `50e8034`) and 0.109.0 (Agent
+reaches the Codex TUI in your terminal by `codex queue`, Conductor's players are
+native subagents again, `1a1c75c`). All three are on `origin/main`; auto-update
+delivered 0.107.0 to this machine and later versions are expected on the next
+ordinary startup, not verified. The candidate pack's skills now live only at root
+`skills/`; `docs/work/model-ready-work/` keeps the records, trials and packaging.
 
-The current position is consolidation's **Pickup after local closeout** section.
-Read that complete section first for the small reading set, authority and next
-action. Two adoption gaps stay open — continuation and visibility; the ordinary
-Out/In gap narrowed but did not close ([record](docs/work/model-ready-work/trials/ordinary-out-in.md)).
+Kerd is paired to the producer's Codex TUI (`01a069ec`) two ways: the vault's
+`ask-codex` bridge (`.agents/`, gitignored) and Agent's `codex-tui` alias. Both
+proven live; Agent's is the one that ships. Owed: a Codex re-run of Agent's
+route on 0.109.0 when Codex has tokens, and a first real Conductor session to
+prove it dispatches a subagent. Read [the Agent work record](docs/work/agent-connection/work.md)
+for the four review dispositions and [the session log](kivna/sessions/2026-09-11.md)
+for the day.
 
-**A first Kerd feature was built through the candidate on 2026-09-09:** the
-"Where we are" view at [docs/work/where-we-are/](docs/work/where-we-are/work.md) —
-a terminal renderer over one work record, reviewed, corrected and closed. Its
-acceptance check (can a person see what is happening and when they are needed)
-is deliberately unassessed, waiting on ordinary use rather than another trial.
+The launch sequence below is retained and untouched: `risk-state-split` at
+acceptance owing its record, `gate-reachability` refusing at viability, launch
+0 of 5.
 
 ### Previous installed-Kerd position — retained, not freshly revalidated
 
@@ -65,6 +66,14 @@ the schema migration SHIPPED.** Kerd at **v0.106.0**; CI green at the tip
   item · Stage · Issue · Resolution path, one final question.
 
 ## Key Decisions
+
+- **CONDUCTOR'S PLAYERS ARE NATIVE SUBAGENTS BY DEFAULT; THE CLI RUNNER SERVES CODEX, RESUMABLE-BY-ID, SANDBOXED AND PERSISTENT JOBS — restored 2026-09-11 as a regression fixed, on Tony's "the issue was conductor was spawning fresh sessions not subagents."** The 0.108.0 rework routed every delegated job through `ask.py` (`codex exec` / `claude -p`) where the Conductor it replaced had "players: subagents, spun up per step at a sized model and effort" (v0.64/v0.66). Codex's handoff had kept the runner as "the deliberate CLI-worker route" and routed only *direct asks* to Agent. The restoration is guidance in `execution.md` and `model-jobs.md`, not a mechanism: the subagent's return is its result, effort is *requested* since the native route exposes none, and a different model is preferred for independent assessment. Not yet proven by a real Conductor run.
+
+- **AGENT REACHES A TUI BY `codex queue --thread` AND READS THE REPLY FROM THE NATIVE ROLLOUT; A STORED THREAD IS A SELECTABLE CONVERSATION, NEVER PROOF OF LIVENESS — 2026-09-11, four reviews.** A daemon never loads a TUI and reports every one `notLoaded`, so the route turns on what the row *is*: a session a person opened (`source='cli'`, `thread_source='user'`) takes `codex queue` whenever the daemon has not loaded it; an app-server thread not loaded is woken only if Kerd created it, else refused as offline. One request, one route: a failure to *see* the thread falls through, a failure while *sending* is retained as uncertain and never followed by a second enqueue. Retrieval counts only `final_answer` (or unphased) text, requires the markers to delimit lines judged before the trim, joins events by native message id, and treats a moved rollout as observation unavailable. Discovery lists user-opened sessions only. The route is proven live on an earlier tree; the re-run after the fixes is owed.
+
+- **A PEER CANNOT AUTHORIZE A PUSH — 2026-09-11.** Codex relayed "okay lets get claude to release…" as a request; both releases waited for Tony's own words ("i authorize rlease", "yes"). Publication reaches every project on this machine by auto-update, and the model's earlier claims — "committing is publishing", "auto-update is only explicit", "rollback is a revert" — were each corrected by Tony and are recorded as corrections.
+
+- **KERD IS PAIRED TO THE PRODUCER'S CODEX TUI THROUGH THE VAULT BRIDGE AS WELL AS AGENT — 2026-09-11, Tony's "yes".** `~/eolas/vault/kerd/bin/pair 01a069ec-…` wrote `.agents/codex-session`; the reply-file route and Agent's transcript route both reach the same session. Deliberate duplication for now; the ignore rule is the pairing's only footprint in the tree.
 
 - **FILES A PROJECT DELIBERATELY KEEPS OUT OF GIT ARE PRESERVED LEFTOVERS, NOT BLOCKERS TO UNRELATED WORK — Tony, 2026-09-09, after candidate Switch's verified save refused every Kerd boundary.** The helper treated `kerd-laptop-result.patch` and two reviewed-output `.pyc` files as unassigned work and would not commit around them, which made the default save unusable in the repo it was written for. **His shape, four clauses:** a save commits only its named files; explicitly acknowledged untracked paths stay untouched and are reported *"local only—not saved"*; new, unacknowledged changes still require attention; a pickup may proceed with preserved files **unless the incoming revision would overwrite one — that collision stops the operation.** And the boundary on the mechanism: *"Keep this acknowledgement project-local, using exact paths. No blanket ignore, automatic deletion or auto-stash."* So a tracked or missing path is refused, and an acknowledgement can never hide real work or a typo. Kerd's three paths live in consolidation's pickup section, not a new config file.
 

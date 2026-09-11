@@ -2,20 +2,30 @@
 
 ## Now
 
-**Current work:** [Conductor / Switch / Visuals candidate](docs/work/model-ready-work/candidate-entry.md).
-Use its [current adoption actions](docs/work/model-ready-work/consolidation.md)
-as the single working list; do not repeat the accepted Switch trial or restart
-the parked schema-split session. Candidate changes are committed and pushed to
-`main`, verified at the remote; they are not installed or published.
-The earlier launch work below is retained, not declared complete.
+**Current work:** Kerd *is* the candidate — 0.107.0, 0.108.0 and 0.109.0 are on
+`origin/main` (`21e6779`, `50e8034`, `1a1c75c`). Position and the four review
+dispositions: [Agent work record](docs/work/agent-connection/work.md); the day:
+`kivna/sessions/2026-09-11.md`. The candidate track's
+[consolidation list](docs/work/model-ready-work/consolidation.md) is superseded
+for Switch by the releases; its continuation and visibility gaps stay open as
+ordinary-use observations, not tasks.
 
-**Delta 2026-09-09** (detail in `kivna/sessions/2026-09-09.md`): candidate Switch
-gained preserved local paths and an overtaken-revision hint; its Out guidance now
-separates local preparation from verified remote save. A first Kerd feature was
-built through the candidate — the "Where we are" view at `docs/work/where-we-are/`
-— reviewed, corrected and closed, with its acceptance check left to ordinary use.
-Open next: the continuation and visibility adoption gaps.
-The earlier launch sequence below was not touched this session.
+**Delta 2026-09-11:** two owed proofs, neither a build —
+- Re-run Agent's Codex TUI route on 0.109.0 when Codex has tokens (the recorded
+  proof predates every fix). Requests `a7ef1375` and the vault bridge's are still
+  queued there; retrieve with `status`, never resend.
+- Run one real Conductor session on 0.109.0 and confirm it dispatches a native
+  subagent for a Claude player rather than `ask.py`.
+- Confirm `/plugin` shows 0.109.0 on the next ordinary startup.
+
+**Closure review at this boundary** (tested against today's evidence): no
+Backlog row was completed; "Stashes and local-equals-remote unchecked at the
+boundary" is *narrowed* — Agent's `handoff.py save` verifies the remote carries
+the exact commit, but Switch Out itself still does not — `(done? — confirm)` is
+not warranted, it stays open. Fable's disclosed-not-built limits from the
+foundation review (in-place rewrite with a preserved inode, unverified peer
+process on the Claude socket, first contribution in argv, shared `kerd-agent`
+sender name) are one Backlog row below, not four.
 
 ### Earlier launch sequence — retained pending reconciliation
 
@@ -73,6 +83,15 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   settled — open in CONTEXT.md `## Open Questions`.
 
 **High consequence**
+
+- **Agent's four disclosed-not-built limits** (Fable foundation review,
+  2026-09-11; stated in `native-sessions.md`): a native log rewritten in place
+  with its inode preserved passes the replacement guard; the Claude socket's
+  peer process is not verified where the native client verifies it; a new
+  partner's first contribution and every `codex queue` message travel in argv,
+  readable by other local accounts; every Kerd controller sends as
+  `kerd-agent`, so a per-sender throttle is shared. Each has a smallest
+  correction on record; none is built.
 
 - **A derived question set needs source-bound invalidation plus a scheduled
   discovery review — recommended, NOT built; FRAMED as `question-set-staleness`**
