@@ -340,7 +340,7 @@ def compact(path, text, now, width=80):
 
 # The renderer's input contract, written down so a caller fills the shape from
 # the guide's example instead of reading this module to discover key names.
-SUMMARY_KEYS = ("phase", "task", "task_reason", "state", "state_reason",
+SUMMARY_KEYS = ("phase", "task", "task_reason", "state", "state_reason", "now",
                 "last_session", "this_session", "question", "documents",
                 "warnings", "insight", "source", "updated", "base",
                 "restored", "restore_note")
@@ -518,6 +518,18 @@ def render_dashboard(summary, now, width=80, color=True):
                          + " " + line)
         for line in wrap("\u2014 " + reason, width - 10) if reason else []:
             lines.append(" " * 9 + ink(line, "dim", on=color))
+    lines.append("")
+
+    # The immediate work is part of the frame: it always renders, so a project
+    # with nothing under its Now heading shows that gap rather than hiding it.
+    # The backlog is deliberately not here; it stays behind the documents link.
+    lines.append(ink(" NOW", "dim", on=color))
+    items = [str(item) for item in (get("now") or []) if item]
+    for item in items:
+        for index, line in enumerate(wrap(item, width - 5)):
+            lines.append(("   \u25cb " if index == 0 else "     ") + line)
+    if not items:
+        lines.append("   no immediate work recorded")
     lines.append("")
 
     for label, value, empty in (("LAST SESSION", get("last_session"),

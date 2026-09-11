@@ -13,9 +13,9 @@ and repository boundaries still apply.
 
 ## Pick the intended action
 
-- **In:** restore useful memory, current status and the saved plan; load and orient
-  Conductor, show the welcome-back dashboard, then stop. Read
-  [pickup and closeout](references/in-out.md).
+- **In:** restore useful memory, current status and the saved plan; show the
+  welcome-back dashboard, open a Conductor session on that place and stop at one
+  approval line. Read [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work and prepare
   the next session. Read [pickup and closeout](references/in-out.md).
 - **To:** save the exact mid-work position through GitHub, relinquish source
@@ -60,11 +60,12 @@ For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back
 Last session, This session, Where we are, You, and a real link to task detail.
 An evidence-grounded Insight is optional, never an entry requirement.
 
-Ordinary In restores an active build's place without executing it. Show the saved
-next action or pending question; don't append a routine “start Conductor?” prompt.
-Load the sibling [Conductor](../conductor/SKILL.md) using the guide's
-[orientation-only handover](references/in-out.md#load-conductor-without-starting-work).
-An explicit request to continue work after pickup can proceed under Conductor;
+Ordinary In restores an active build's place without executing it. Then open the
+sibling [Conductor](../conductor/SKILL.md) on that place using the guide's
+[open-and-stop handover](references/in-out.md#open-conductor-and-stop-at-the-approval):
+Conductor shows its journey strip, brief and task list, then one line —
+“Starting on X — approve?” — and waits. One proposal, never two options, never
+an “or”. The approval, or an explicit request to continue, is what starts work;
 managed To/Roll keeps its agreed continuation. Loading is not build authorization.
 
 Keep pickup selective and explicit: fully read the chosen current working set,

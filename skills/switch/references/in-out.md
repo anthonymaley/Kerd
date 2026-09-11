@@ -56,16 +56,17 @@ there is no reason to load its whole stage history or neighboring backlog work.
 When deeper retrieval is needed, read the complete relevant entry, not a broad
 range of adjacent tasks; a few very long lines can still load pages of material.
 
-Ordinary In ends with restored memory, status and the saved plan, with Conductor
-loaded for the next request as described below. It does not
-execute that plan, draft replies, start reviews, repair files or investigate
-backlog issues. Keep checks to safe requested Git synchronization and resolving
-facts necessary to restore position; flag other uncertainty for the work itself.
-Do not measure pickup cost inside every pickup; assess the session logs afterward
-unless measurement was requested. A user explicitly asking to continue after In
-can proceed through Conductor without another approval. Managed To/Roll remains
-separate. If no task is selected, say so rather than choosing one or manufacturing
-a question. Existing project restrictions still apply.
+Ordinary In ends with restored memory, status and the saved plan on screen, and
+a Conductor session open on that place, stopped at one approval line as described
+below. It does not execute the plan before that approval, draft replies, start
+reviews, repair files or investigate backlog issues. Keep checks to safe requested
+Git synchronization and resolving facts necessary to restore position; flag other
+uncertainty for the work itself. Do not measure pickup cost inside every pickup;
+assess the session logs afterward unless measurement was requested. A user
+explicitly asking to continue after In can proceed through Conductor without
+another approval. Managed To/Roll remains separate and keeps its agreed
+continuation. If no task is selected, say so rather than choosing one or
+manufacturing a question. Existing project restrictions still apply.
 
 Context-cost targets come from the work agreement, not a universal magic number.
 Report added input separately from host overhead where measurable. The Switch trial
@@ -96,27 +97,36 @@ choices are settled or that it is the complete working state.
 This is a coverage check of material already loaded, not an instruction to read
 the whole archive. A small input is useful only if its meaning survives.
 
-### Load Conductor without starting work
+### Open Conductor and stop at the approval
 
-Before the dashboard, load the sibling [Conductor](../../conductor/SKILL.md) in
+After the dashboard, load the sibling [Conductor](../../conductor/SKILL.md) in
 this session using the host's skill mechanism, with an explicit instruction:
-“Switch In orientation only. Use the restored position and authority already in
-context; do not begin work.” Resolve the sibling from this Switch distribution,
-not another cached version. If native skill invocation is unavailable, read its
-SKILL.md directly; if neither route works, disclose that Conductor was not loaded.
-Do not claim successful loading merely because its name appears in the dashboard.
+“Switch In: open a session on the restored position and authority already in
+context; stop at the approval line.” Resolve the sibling from this Switch
+distribution, not another cached version. If native skill invocation is
+unavailable, read its SKILL.md directly; if neither route works, disclose that
+Conductor was not loaded. Do not claim successful loading merely because its
+name appears in the dashboard.
 
 Carry the restored project, selected work (or none), agreement and restrictions,
 pending decision and next action forward in context; don't create another record
-or re-read the pickup set. Conductor's orientation-only entry returns to this
-dashboard. Briefly say “Conductor loaded; no work started” only after loading.
-Then stop, even if the saved plan was previously authorized. A current explicit
-request to continue after pickup is the exception, not the default.
+or re-read the pickup set. Conductor's In entry is its resume branch: the journey
+strip, the brief from the record, the task list built from the NOW items, and
+then exactly one line — **“Starting on X — approve?”** — where X is the saved
+next action or the first NOW item. One proposal, never two options, never an
+“or”. If a saved pending question exists, that question replaces the approval
+line, with its one proposed answer. If no task is selected, say so and stop
+without manufacturing one. Then wait, even if the saved plan was previously
+authorized: a new window does not grant new authority, and the approval is what
+starts execution. Managed To/Roll is the exception and keeps its agreed
+continuation.
 
 ### Welcome back: the screen summary
 
-After restoration, orient before detail. Four short blocks, worded for the project:
+After restoration, orient before detail. Five short blocks, worded for the project:
 
+- **Now:** the immediate work, from the bullets under the project's `## Now`
+  heading (TODO.md by convention). The backlog stays behind the documents link.
 - **Last session:** the main achievement or change.
 - **This session:** the next agreed work and why. If none is agreed, say so; a
   suggestion stays a suggestion.
@@ -166,6 +176,10 @@ has nothing for.
   "task_reason": null,
   "state": "Decision pending",
   "state_reason": null,
+  "now": [
+    "Close the visibility gap",
+    "Run the dashboard on ordinary work"
+  ],
   "last_session": "Built the welcome-back dashboard and pushed it to origin/main.",
   "this_session": "Running the dashboard on ordinary work for the first time.",
   "question": {
@@ -198,9 +212,11 @@ same thing.** Given a correctly shaped JSON object, no field is validated: a
 missing, misspelled or null one degrades quietly, so a typo costs you a blank
 line rather than an error. That tolerance is about *fields*, not about input —
 malformed JSON exits 2 with a message, and a top-level value that is not an
-object (an array, say) exits 1 on an unhandled error. `PHASE`, `TASK`, `STATE`, `LAST SESSION`, `THIS SESSION` and the
+object (an array, say) exits 1 on an unhandled error. `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION`, `THIS SESSION` and the
 `YOU` box **always render**, falling back to "not recorded" or a plain sentence
 when they have nothing — they are the frame, and a gap in them is information.
+`now` is the list of bullets under the project's `## Now` heading, copied as
+read; the backlog is not supplied here.
 Only the attention panel, `DOCUMENTS` and the `★` insight line are **omitted
 entirely** when empty. Always supply `source`: it names what the pickup actually
 read, and it is the one field nothing else can stand in for.

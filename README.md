@@ -40,7 +40,27 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.109.0)
+## What's New (v0.110.0)
+
+### v0.110.0
+
+**Switch In opens a Conductor session and stops on one line.** 0.108.0 had In
+restore your place and stop dead, leaving you to ask for Conductor yourself —
+correct on authority, but it lost the focus: nothing on screen said what the
+sitting was for. In now shows the dashboard, then opens Conductor on the restored
+place — journey strip, brief, task list — and ends on exactly one line:
+*“Starting on X — approve?”*, where X is the saved next action. One proposal,
+never two options, never an “or”. Your approval starts the work; a new window
+still grants no new authority, so an already-authorized plan waits for the same
+line. `switch to` and Roll keep their agreed continuation untouched. **What it
+means:** every pickup lands in a session with its next move named, and the only
+thing between you and work is “yes”.
+
+**The dashboard shows the immediate work.** A `NOW` block lists the bullets
+under the project's `## Now` heading, between the frame and last session; the
+backlog stays behind the *Open work* link. It is part of the frame, so a project
+with nothing under Now shows that gap rather than hiding it. The guide's
+copy-ready example and its value-binding tests carry the new `now` list.
 
 ### v0.109.0
 
@@ -330,11 +350,15 @@ mid-work exactly where you stopped.
 ```
 
 **In** opens with a welcome-back dashboard rather than a full report: phase, task,
-state, what happened last session, what this session is for, and a bordered box
-saying whether you are needed — amber only while a decision is actually pending.
-It ends with links to the documents the work already names. `scripts/where_we_are.py`
-renders it from a summary Switch already holds, so nothing extra is read and no
-status file is written.
+state, the immediate work under `## Now`, what happened last session, what this
+session is for, and a bordered box saying whether you are needed — amber only
+while a decision is actually pending. It ends with links to the documents the
+work already names; the backlog lives behind the *Open work* link.
+`scripts/where_we_are.py` renders it from a summary Switch already holds, so
+nothing extra is read and no status file is written. Then In opens a Conductor
+session on that place and stops on one line — *“Starting on X — approve?”* —
+so the sitting has its next move named before any work runs. Roll keeps its
+agreed continuation instead of stopping there.
 
 **Out** reads what actually changed, preserves the agreement, decisions, exact next
 action and open questions, and appends an evidence-backed account to the project's

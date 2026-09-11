@@ -28,9 +28,11 @@ before intent exists. Small explicit work needs only proportionate orientation.
 
 When Switch has just restored the session, its
 [welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
-is the entry orientation: don't repeat it. Ordinary Switch In loads Conductor
-for orientation only and stops at restored status and plan; once work is explicitly
-requested, continue with the job update or unresolved decision. Its optional
+is the entry orientation: don't repeat it. Ordinary Switch In then opens a
+Conductor session on the restored place — journey strip, brief, task list — and
+stops on one line, “Starting on X — approve?”, never a pair of options; once the
+person approves or asks for work, continue with the job update or unresolved
+decision. Its optional
 Insight callout suits a useful learning during
 work too — distinct from a question card, never compulsory.
 

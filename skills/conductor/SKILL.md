@@ -28,13 +28,19 @@ than claiming it is bypassed. Existing host permissions still apply.
 
 ## Start from the person, or the saved place
 
-When loaded by **Switch In for orientation only**, use the position and authority
-Switch already restored. Read this skill and the journey guide, but skip the
-normal intake, discovery and delivery steps below. Do not ask a new question,
-create or update work records/tasks, launch a worker or execute the saved plan.
-Return to Switch's single welcome-back dashboard, then stop. This applies even
-when the saved work already has approval; only a current explicit request to
-continue after pickup also authorizes execution in that turn.
+When loaded by **Switch In**, use the position and authority Switch already
+restored and take the resume branch below: read this skill and the journey
+guide, skip intake and discovery, and open the session on the saved place. Show
+the journey strip, the brief from the record and a task list built from the
+restored NOW items; do not create or update work records, launch a worker or
+execute the saved plan. End on exactly one line — **“Starting on X — approve?”**
+— where X is the saved next action or the first NOW item, and wait. One
+proposal, never two options, never an “or”. A saved pending question replaces
+that line, with its one proposed answer. If no task is selected, say so and stop
+without manufacturing one. This applies even when the saved work already has
+approval: a new window does not grant new authority. Only the person's approval,
+or a current explicit request to continue, starts execution; managed To/Roll
+keeps its agreed continuation and does not stop here.
 
 On the person's next request, handle the actual request under Conductor: status
 stays status; a clear approval or continuation resumes the selected work without

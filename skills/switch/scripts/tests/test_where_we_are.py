@@ -553,6 +553,21 @@ class InMemorySummaryTests(unittest.TestCase):
             {"source": "x", "documents": [["Tasks", "nope-not-here.md"]]}, NOW, 80, False)
         self.assertIn("cannot be opened", out)
 
+    def test_now_items_render_as_a_list_under_the_frame(self):
+        """The immediate work is on screen; the backlog stays behind a link."""
+        out = view.render_dashboard(
+            {"source": "x", "now": ["Re-run the Codex route on 0.109.0",
+                                    "Run one real Conductor session"]}, NOW, 80, False)
+        self.assertIn(" NOW", out)
+        self.assertIn("\u25cb Re-run the Codex route on 0.109.0", out)
+        self.assertIn("\u25cb Run one real Conductor session", out)
+        self.assertLess(out.index(" NOW"), out.index(" LAST SESSION"))
+
+    def test_now_is_part_of_the_frame_so_an_empty_list_still_shows_the_label(self):
+        out = view.render_dashboard({"source": "x"}, NOW, 80, False)
+        self.assertIn(" NOW", out)
+        self.assertIn("no immediate work recorded", out)
+
 
 class DocumentedExampleTests(unittest.TestCase):
     """The guide's example is the renderer's input contract.
@@ -619,6 +634,9 @@ class DocumentedExampleTests(unittest.TestCase):
         for label, path in self.example().get("documents") or []:
             self.assertIn(label, out)
             self.assertIn(path, out)
+        for item in self.example().get("now") or []:
+            self.assertIn(flatten(item), flat, "a NOW item is missing or cut short")
+        self.assertTrue(self.example().get("now"), "the example must show the NOW list")
 
     def test_the_example_does_not_contradict_itself(self):
         example = self.example()
