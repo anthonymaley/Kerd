@@ -40,7 +40,50 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.108.0)
+## What's New (v0.109.0)
+
+### v0.109.0
+
+**Agent can now reach the Codex session in your terminal.** 0.108.0 talked to
+Codex only through the app-server daemon — and on a machine where every Codex
+is a TUI, that meant it could reach none of them. Agent now discovers the
+sessions you opened from Codex's own store, pairs one under a local name, sends
+through `codex queue --thread`, and reads the answer back out of that session's
+native transcript by request markers. No daemon, no reply file, no mailbox.
+Proven live on an earlier state of the tree: a request to a running TUI came
+back `reply-received` in twenty seconds; the Claude route was re-proven after
+every fix, the Codex route is owed a re-run when Codex has tokens. **What it means:** "ask Codex" works against the Codex you are actually
+using, through the one command that ships with Kerd, on any machine — no vault
+script, no symlink, nothing a consumer repo has to know about.
+
+**Five corrections from Codex's review of the design, all shipped; one more
+from a guard test after Codex ran out of tokens mid-review; eight from an
+Opus 5 review of the finished build; eight more from a Fable 5.1 review of the
+0.108.0 foundation beneath it; and eight from Fable's final pass over the whole
+diff — including a blocker in the fix for Opus's blocker.** The guard test caught an uncertain
+daemon send falling through to a second enqueue on the CLI route — the exact
+hazard Codex had named. The Opus review caught a deleted refusal: a thread a
+daemon reports offline was being handed to `codex queue`, which may be able to
+start a session — restored, so the CLI route serves only threads no daemon can
+see. Among the rest: a marker quoted in Codex's *commentary* stream was being
+archived as a final reply — only `final_answer` (and unphased older events)
+count now. From the Fable rounds, four changes you will notice: a reply's
+markers must now sit on their own lines (an inline mention of both markers
+parsed as a reply of one word); a message above about a million characters
+is refused before anything is recorded; a slow Claude launch keeps its short
+id and waits fifteen seconds instead of five; and no error names a private
+path or repeats your prompt. **Conductor's players are subagents again.** The
+rework routed every delegated job through a fresh CLI session; the Conductor
+it replaced spun players up as native subagents at a sized model and effort,
+and that is the better default — the work stays in the session and returns
+to the caller. Restored for Claude players; the CLI runner remains for Codex,
+resumable, sandboxed and persistent jobs. A regression fixed, not a feature. Discovery lists only threads a person opened, not the subagents they
+spawned. And an uncertain enqueue — a timeout mid-send — is retained as
+`delivery-uncertain` and never followed by a second send on another route.
+**Stated, not glossed:** a thread in the store is a *selectable* conversation,
+not proof anyone is at the keyboard; it is labelled `saved thread — activity
+unknown`, and `codex queue` exit 0 means enqueued, not answered. The vault's
+reply-file bridge stays available for repos not yet on Agent.
 
 ### v0.108.0
 
@@ -253,7 +296,9 @@ These are conversational examples, not fixed subcommands. See the
 [user guide](skills/agent/references/user-guide.md) for everyday use and
 [native-session reference](skills/agent/references/native-sessions.md) for setup.
 Both providers use their existing CLI sign-in. Discovery covers Claude native
-sessions and Codex's shared server, not every desktop/IDE session. New partners
+sessions, Codex's shared server, and the Codex sessions you opened in terminals
+(reached by `codex queue`, activity unknown until they answer) — not every
+desktop/IDE session. New partners
 default to read-only; the Claude launcher has file tools, not shell tests or
 nested delegation. Missing dependencies and held messages require disclosed
 setup, never a silent settings change. The separate three-skill trial package

@@ -30,7 +30,9 @@ target clear. “RO” means read-only.
 
 If no partner is established, or it is unclear which you mean, Kerd shows the
 matching sessions so you can choose: provider, available name/topic, project
-and availability, with a short ID only when needed to distinguish them. You
+and availability, with a short ID only when needed to distinguish them. The
+Codex sessions you have open in terminals appear here too, marked as saved
+threads whose activity is unknown until one answers. You
 can choose an existing session or ask for a new one. An unavailable partner is
 reported, never silently replaced. Explicitly asking for a fresh reviewer or
 new partner skips choosing an existing session.

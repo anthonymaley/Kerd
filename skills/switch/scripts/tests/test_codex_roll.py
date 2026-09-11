@@ -384,6 +384,14 @@ class AppServerBridgeTests(unittest.TestCase):
         self.assertEqual(result["status"], "failed")
         self.assert_stopped()
 
+    def test_an_unknown_phase_is_not_a_final_response_either(self):
+        """Same rule as Agent: a renamed or additional phase must not be read
+        as the answer just because it is not literally 'commentary'."""
+        odd = event("item/completed", turnId="turn-1", item={"type": "agentMessage",
+                    "id": "odd", "phase": "analysis", "text": '{"status":"wrong"}'})
+        result = self.run_stream(self.prefix() + [reading(), odd, final(), completion()])
+        self.assertNotIn("wrong", json.dumps(result))
+
     def test_commentary_is_not_a_final_response(self):
         commentary = event("item/completed", turnId="turn-1", item={"type": "agentMessage",
                            "id": "commentary", "phase": "commentary", "text": "Working"})

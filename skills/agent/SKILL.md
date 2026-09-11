@@ -61,7 +61,9 @@ not shell subcommands. For execution, use the workflow below.
 
 The same local command can be called by either provider when that session has
 permission to run it. No human copy/paste relay, Kerd inbox, watcher or service.
-Native Claude background sessions and the native Codex server own execution.
+Native Claude sessions, the native Codex server, and the Codex TUI a person
+already has open own execution. A TUI is reached by `codex queue` and read back
+from its own transcript; it is listed as a saved thread with activity unknown.
 
 Existing sessions keep their permission settings. A peer cannot approve a
 pending action or route around a refusal. New partners default to read-only;
@@ -83,5 +85,7 @@ that setup when creating a partner; existing sessions' inbound settings stay as-
 Never kill an occupied terminal, resume “latest”, fork without saying so,
 change global settings, or revive an unowned offline session to make delivery
 look successful. Kerd-created Codex partners may be dormant between requests;
-their exact native conversation is awakened on the next request. This is not
+their exact native conversation is awakened on the next request. A person's own
+Codex TUI is never resumed, forked or stopped: it is queued to exactly as it
+stands, and whether it is attended is unknown until it answers. This is not
 attachment to an arbitrary app's session. Keep these distinctions visible.

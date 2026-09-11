@@ -48,14 +48,18 @@ unless order itself matters. Save delegated prompts with a short model/effort
 and result note beside the work; exclude secrets and private session IDs.
 For inline work, use the same contract without manufacturing a dispatch record.
 
-For a delegated job, read [sending and receiving work](model-jobs.md). It connects
-this preparation to the bundled, tested Codex/Claude runner; no project install
-or copied session ID is needed. Use an appropriate authorized native route when
-that already provides the needed model and controls.
-
-Use available, authorized native delegation or the bundled transport.
-Do not assume a named CLI or session exists, install an integration silently,
-or report an independent review when none ran. Foreground or background work
+For a delegated job, the route is decided before the prompt is sent, and the
+default is the one that keeps the work inside this session. **A Claude player
+runs as a native subagent** — the host's own delegation, dispatched at the
+sized model with the requested effort — because it returns to the caller,
+costs no fresh-session context, and needs no session ID, socket or transport.
+That was Conductor's design before the rework ("players: subagents, spun up
+per step at a sized model and effort") and it stands. The bundled runner in
+[sending and receiving work](model-jobs.md) is for the cases a subagent cannot
+serve: a Codex worker, a job that must be resumable by native ID or sandboxed
+by the CLI, a host with no native delegation, or a persistent partner that
+outlives this session. Do not assume a named CLI or session exists, install an
+integration silently, or report an independent review when none ran. Foreground or background work
 is acceptable; background work needs observable results and a safe way to stop.
 If the needed route is unavailable, continue other useful authorized work and
 disclose what remains blocked. Respect host delegation and permission rules.

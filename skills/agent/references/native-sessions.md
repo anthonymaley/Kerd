@@ -6,10 +6,15 @@ consumer projects. Python 3.10+ and macOS/Linux process/filesystem semantics.
 
 ## Select or start
 
-`sessions` lists Claude's native interactive/background sessions in this project
-and threads currently loaded in Codex's shared server, plus Kerd's local partner
-bindings. It does not read every transcript, launch a model, or discover every
-Codex desktop/IDE/private-stdio backend. Saved partner metadata is not live state.
+`sessions` lists Claude's native interactive/background sessions in this project,
+threads currently loaded in Codex's shared server, and — from Codex's local store
+— the Codex sessions a person opened in this project (the TUIs in your terminals),
+plus Kerd's local partner bindings. Store rows are labelled `native-thread` with
+status `saved thread — activity unknown`: the store has no PID or heartbeat, so a
+row proves a selectable conversation, never that anyone is at the keyboard.
+Archived threads and spawned subagents are excluded. The store scan needs no
+daemon and no optional dependency. It does not read every transcript, launch a
+model, or discover every Codex desktop/IDE/private-stdio backend.
 
 Subdirectories of the same Git project are included; a nested repository is
 not. Codex discovery has a five-second native-connection/RPC budget and returns
@@ -76,10 +81,25 @@ retrieving after a timeout uses that ID, not a second ask. An optional
 different work with that ID is refused. An uncertain send is never auto-retried.
 `--seconds` bounds retrieval only; it is not a work budget or cancellation.
 
-Claude receives a message through its native session socket. Codex receives
-`thread/queue/add`; busy recipients retain their native queue ordering. A Claude
-socket write is only **submitted-unconfirmed**: native inbound policy can hold
-or refuse it. It never counts as a reply. Do not override that policy globally.
+Claude receives a message through its native session socket. A daemon-loaded
+Codex thread receives `thread/queue/add`. A saved Codex thread with no daemon —
+a TUI — receives `codex queue --cd <root> --thread <uuid> --message …`; `--cd`
+names the working root (both `codex` and `queue` accept it), it is not a
+project check, so the stored project is re-validated immediately before
+sending. A daemon never loads a TUI, so it reports every TUI as not loaded;
+that is why a session a person opened (`source = 'cli'`) always takes the
+`codex queue` route, daemon or not. The "not loaded" refusal applies only to
+app-server-created threads Kerd does not own: their owner's session is
+offline, and `codex queue` must never be used to find out whether it can wake
+one. The
+message text travels in the process's arguments, which other local accounts
+on the machine can read; do not put secrets in a request. The route is decided
+before anything is sent, and one request is enqueued by one route: an uncertain
+send is retained as `delivery-uncertain` and never followed by a second send
+elsewhere. Busy recipients retain their native queue ordering. Both a Claude
+socket write and a `codex queue` exit 0 are only **submitted-unconfirmed**:
+enqueued, not consumed, not answered. Native inbound policy can hold or refuse
+a Claude message. Neither ever counts as a reply. Do not override that policy globally.
 New Claude partners use native `crossSessionInbound: accept` for that session's
 lifetime, with permission prompts disabled and the listed tool restrictions.
 This is not a Kerd-peer allowlist: other local senders can submit messages too.
@@ -87,13 +107,37 @@ Existing partners' inbound settings remain untouched. The setting permits
 reception, not escalation or a grant of the person's pending approval.
 
 The recipient returns a complete answer with request-specific text markers.
-The helper reads only the selected native transcript's new suffix and archives
-the complete marked assistant reply before returning it. It does not ask the
+The helper reads only the selected native transcript's new suffix, accumulating
+final-answer text across events (a reply split across a commentary/final boundary
+yields no reply, never a false one), and archives the complete marked reply
+before returning it. Codex streams `commentary` before its `final_answer`; a marker
+quoted in commentary — in a fenced example, say — is not a reply and is ignored.
+Only `final_answer` text counts, and events with no phase at all (older
+rollouts) are read by explicit policy. The markers must delimit lines: the
+opening marker starts a line and the closing marker ends one, as the request
+instructs. A reply written inline — `<marker>answer</marker> Let me know…` —
+is not recognised and leaves the request submitted-unconfirmed, by design:
+that shape is indistinguishable from a sentence mentioning the markers. Codex may archive a thread, which moves
+its rollout file; a moved or truncated log is reported as observation
+unavailable, never re-read from the start and never re-sent. It does not ask the
 recipient to write an inbox/reply file, parse thinking, or pass earlier history
 back to the controller. Missing markers or unavailable native logs leave the
 reply unconfirmed; they never become a guessed success. Native log formats and
 cooperative answer markers are limitations, not authenticated proof of work.
 Inspect native state if a refusal or an interrupted job supplies no marked reply.
+
+Limits stated rather than glossed. A message larger than the native sender's
+documented same-machine cap (about a million serialized characters; Kerd refuses above 1,000,000) is refused locally
+before any record is written — point the recipient at a file instead. Every
+Kerd controller sends as `from: kerd-agent`, so a per-sender throttle on the
+recipient's side is shared across them, and a held, expired or throttled
+message is indistinguishable from a slow reply: all remain submitted-unconfirmed.
+The Claude socket target is checked for owner and type only; the native client
+additionally verifies the peer process, and Kerd does not, so a same-user write
+to session metadata could redirect a send. A native log rewritten in place with
+its inode preserved would pass the replacement guard; neither provider is known
+to do this. A new partner's first contribution, like a `codex queue` message,
+travels in process arguments visible to other local accounts.
 
 Private aliases, request prompts and returned text live under the current Git
 directory's `kerd-agent/`, not in the worktree or public Git history. The existing

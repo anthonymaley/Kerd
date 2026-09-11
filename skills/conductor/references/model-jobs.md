@@ -80,6 +80,18 @@ is not connected, explain that and provide its handoff prompt or ask whether a
 new worker is acceptable; never silently substitute one. Private session bindings
 are local, not transferred with the project's ordinary Git files.
 
+## Native route first
+
+When the chosen model is a Claude model and the job is bounded to this session,
+dispatch it as a native subagent: the same prepared brief, the model chosen from
+[model choice](../../../guidance/model-choice.md), and the effort **requested**
+in the brief — the native route exposes no effort setting, so record it as
+requested, never observed. A subagent's return is its result; nothing is
+retrieved from a transcript. Prefer a different suitable model for independent
+assessment, as for any route. Use the bundled runner below only when the job
+needs what a subagent lacks: Codex, resumability by native ID, a CLI sandbox,
+or a life beyond this session.
+
 ## Send it without adding project infrastructure
 
 Use [the live work view](journey.md#keep-the-tasks-visible-while-the-work-unfolds)

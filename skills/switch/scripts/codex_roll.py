@@ -374,7 +374,9 @@ class AppServerBridge:
                         if item.get("type") == "contextCompaction":
                             raise ProtocolError("Native compaction occurred; no no-compaction pass or automatic continuation")
                         if method == "item/completed" and item.get("type") == "agentMessage":
-                            if item.get("phase") != "commentary":
+                            # Final answers only; an unknown or renamed phase is not
+                            # one. Unphased items (older servers) are read.
+                            if item.get("phase") in (None, "final_answer"):
                                 final_messages[item["id"]] = item.get("text", "")
                         if method == "item/started" and item.get("type") in {"commandExecution", "fileChange"}:
                             emit("working", activity=item["type"])
