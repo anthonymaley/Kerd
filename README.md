@@ -4,7 +4,7 @@
 
 ![Kerd — the whole system](docs/design/kerd-map.svg)
 
-**What is Kerd?** Eleven workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift. Underneath them, every piece of work climbs the same seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
+**What is Kerd?** Twelve workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, and how Claude and Codex contribute through their native sessions. Underneath them, every piece of work climbs the same seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
 
 **Why should you care?** Because AI-assisted work has a silence problem. Things pass as "done" when nothing was in place to ask the question: was the risk sized? was the background read? was security ever even mentioned? A model choosing to comply is not a check. Kerd's answer is refusal from outside the model: CI that goes red at the exact push that broke a promise, with the fix named in the message. The skills keep you fast; the machinery keeps you honest.
 
@@ -40,7 +40,44 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.107.0)
+## What's New (v0.108.0)
+
+### v0.108.0
+
+**Ask the partner that already knows the work.** New `/kerd:agent` discovers
+local Claude/Codex sessions, pairs an existing conversation, or starts a fresh
+worker or ongoing partner. “Ask Claude to review” uses the established project
+partner; if the target is unclear, Kerd shows sessions to choose from. “Fresh”
+is a deliberate choice, not a silent substitute. `/kerd:agent help` explains
+the short requests, setup and limitations. Native queues carry requests; Kerd
+retrieves complete replies without a new inbox service or terminal takeover.
+Codex partners need an optional WebSocket dependency. Existing Claude partners
+may hold inbound requests for approval; pairing does not grant native trust.
+
+**Switch In restores your place and stops there.** It was telling itself to
+continue an active build in the same turn, which contradicted the welcome-back
+summary it had just shown you — so a pickup could start executing work before you
+had read where things stood. In now ends with memory, status and the saved plan
+on screen. **What it means:** arriving is arriving. Ask to continue and it hands
+over to Conductor without a second approval; `switch to` and Roll keep their
+agreed continuation untouched. **Named as a loss:** a pickup no longer resumes an
+authorized build by itself — if you relied on In carrying straight on, that is now
+one sentence from you.
+
+In also loads Conductor for orientation only, using the already-restored place;
+it does not start intake or execution. Later work stays under Conductor, with
+supporting skills supplying methods rather than replacing the workflow. This
+adds instruction reading, so reduced overall pickup time or tokens is not yet
+claimed. Ordinary-use comparisons remain to be observed.
+
+**The welcome-back dashboard stopped making Switch read code to use it.** The
+pickup guide now carries a complete, copy-ready example of the renderer's input,
+so filling it needs no trip through `where_we_are.py`. Two measured pickups spent
+three to four minutes getting oriented, with rediscovering those inputs among the
+avoidable work. The example is bound to the renderer by tests that compare whole
+rendered values, so the two cannot drift apart quietly. An absent `source` now
+reads `not recorded` instead of `None`, and the guide separates what a caller
+should supply from what the renderer actually checks.
 
 ### v0.107.0
 
@@ -195,6 +232,32 @@ Supporting detail lives beside the skill: `references/understanding.md` (the
 intake conversation), `references/journey.md` (how a build is laid out),
 `references/execution.md` (delivery and checking), `references/model-jobs.md`
 (which model does which job), `references/work-record.md` (what gets written down).
+
+### agent (Claude/Codex Partners)
+
+Get a contribution from an existing session with context, a fresh independent
+worker, or a new ongoing partner. Kerd handles session IDs, prompt preparation
+using the applicable model guidance, native submission and result retrieval.
+Established project partners are the default; ambiguous targets are shown as
+session choices. A review request does not authorize edits or publication.
+
+```text
+/kerd:agent help
+/kerd:agent show sessions
+/kerd:agent ask Claude to review, RO
+/kerd:agent start a Codex pairing partner
+/kerd:agent anything back from Codex?
+```
+
+These are conversational examples, not fixed subcommands. See the
+[user guide](skills/agent/references/user-guide.md) for everyday use and
+[native-session reference](skills/agent/references/native-sessions.md) for setup.
+Both providers use their existing CLI sign-in. Discovery covers Claude native
+sessions and Codex's shared server, not every desktop/IDE session. New partners
+default to read-only; the Claude launcher has file tools, not shell tests or
+nested delegation. Missing dependencies and held messages require disclosed
+setup, never a silent settings change. The separate three-skill trial package
+does not include Agent; this marketplace release does.
 
 ### interrogate (Risk Ledger)
 

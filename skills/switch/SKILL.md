@@ -13,8 +13,9 @@ and repository boundaries still apply.
 
 ## Pick the intended action
 
-- **In:** restore current repo state and useful memory; continue the exact
-  authorized action. Read [pickup and closeout](references/in-out.md).
+- **In:** restore useful memory, current status and the saved plan; load and orient
+  Conductor, show the welcome-back dashboard, then stop. Read
+  [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work and prepare
   the next session. Read [pickup and closeout](references/in-out.md).
 - **To:** save the exact mid-work position through GitHub, relinquish source
@@ -59,11 +60,12 @@ For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back
 Last session, This session, Where we are, You, and a real link to task detail.
 An evidence-grounded Insight is optional, never an entry requirement.
 
-An active Conductor build resumes its next authorized action in the same turn
-through [candidate Conductor](../conductor/SKILL.md). Restore a pending question
-with its shown answer using Conductor's journey layout. Apply a new answer already
-given rather than asking it again. A completed/inactive project does not become
-a new build merely because In ran. Never stop only to ask “start Conductor?”
+Ordinary In restores an active build's place without executing it. Show the saved
+next action or pending question; don't append a routine “start Conductor?” prompt.
+Load the sibling [Conductor](../conductor/SKILL.md) using the guide's
+[orientation-only handover](references/in-out.md#load-conductor-without-starting-work).
+An explicit request to continue work after pickup can proceed under Conductor;
+managed To/Roll keeps its agreed continuation. Loading is not build authorization.
 
 Keep pickup selective and explicit: fully read the chosen current working set,
 then relevant historical entries as needed. Don't silently truncate records or

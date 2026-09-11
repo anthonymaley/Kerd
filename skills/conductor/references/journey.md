@@ -28,8 +28,10 @@ before intent exists. Small explicit work needs only proportionate orientation.
 
 When Switch has just restored the session, its
 [welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
-is the entry orientation: don't repeat it. Continue with the job update or the
-unresolved decision. Its optional Insight callout suits a useful learning during
+is the entry orientation: don't repeat it. Ordinary Switch In loads Conductor
+for orientation only and stops at restored status and plan; once work is explicitly
+requested, continue with the job update or unresolved decision. Its optional
+Insight callout suits a useful learning during
 work too — distinct from a question card, never compulsory.
 
 Default to about 80 columns; rewrap to available width. Adapt detail while retaining position,

@@ -338,6 +338,12 @@ def compact(path, text, now, width=80):
     return "\n".join(lines)
 
 
+# The renderer's input contract, written down so a caller fills the shape from
+# the guide's example instead of reading this module to discover key names.
+SUMMARY_KEYS = ("phase", "task", "task_reason", "state", "state_reason",
+                "last_session", "this_session", "question", "documents",
+                "warnings", "insight", "source", "updated", "base",
+                "restored", "restore_note")
 ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
 BORDERS = "\u256d\u2570\u251c\u250c\u2514"
 
@@ -556,8 +562,9 @@ def render_dashboard(summary, now, width=80, color=True):
 
     lines.append(ink("\u2501" * width, "cyan", on=color))
     stamps = f"updated {get('updated') or 'unknown'} \u00b7 rendered {now}"
-    one = f"read: {get('source')} \u00b7 {stamps}"
-    block = [one] if columns(one) <= width - 1 else [f"read: {get('source')}", stamps]
+    source = get("source") or UNRECORDED
+    one = f"read: {source} \u00b7 {stamps}"
+    block = [one] if columns(one) <= width - 1 else [f"read: {source}", stamps]
     lines += [ink(" " + line, "dim", on=color)
               for entry in block for line in wrap(entry, width - 1)]
     return "\n".join(lines)

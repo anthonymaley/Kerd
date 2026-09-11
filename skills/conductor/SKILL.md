@@ -28,6 +28,21 @@ than claiming it is bypassed. Existing host permissions still apply.
 
 ## Start from the person, or the saved place
 
+When loaded by **Switch In for orientation only**, use the position and authority
+Switch already restored. Read this skill and the journey guide, but skip the
+normal intake, discovery and delivery steps below. Do not ask a new question,
+create or update work records/tasks, launch a worker or execute the saved plan.
+Return to Switch's single welcome-back dashboard, then stop. This applies even
+when the saved work already has approval; only a current explicit request to
+continue after pickup also authorizes execution in that turn.
+
+On the person's next request, handle the actual request under Conductor: status
+stays status; a clear approval or continuation resumes the selected work without
+repeating intake. Supporting skills can supply a job's method, but do not replace
+Conductor's agreement, progress display, model handoffs and outcome assessment.
+If instructions conflict, disclose the conflict rather than silently switching
+workflows or claiming this skill overrides higher-priority instructions.
+
 Match the requested scope first. A standalone status, review or input request
 is not automatically a new guided work package. Inspect the relevant material
 and answer within that authority; skip the guided intake, direction review
@@ -36,9 +51,9 @@ and record creation. If another model is explicitly requested, use
 
 Natural creation/planning requests can select this skill without a special
 Conductor command when the host makes it discoverable. Match intent, not a word
-appearing in quoted text. Discussion is not build authorization. The candidate
-is not installed; its description enables consideration, not guaranteed selection
-or precedence over another host instruction.
+appearing in quoted text. Discussion is not build authorization. A discoverable
+description enables consideration, not guaranteed selection or precedence over
+another host instruction; Switch In explicitly loads this skill as described above.
 
 For a small, unambiguous, already-authorized change, act and verify proportionately;
 don't require a new package, ten answers or a ceremonial brief. The request can

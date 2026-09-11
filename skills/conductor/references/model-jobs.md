@@ -1,7 +1,13 @@
 # Ask another model to contribute
 
-Read when preparing a delegated job, including a direct “ask Claude/Codex to
-review this.” A direct review request authorizes that review, not a new interview
+Read when preparing a delegated job. For a direct “ask Claude/Codex”, use
+`/kerd:agent` (sibling `../../agent/SKILL.md`) to resolve the established partner
+or show session choices before dispatch. If Agent is absent in a three-skill
+candidate package, disclose the missing partner route; do not silently substitute
+a fresh worker. Agent also reads this guide for prompt preparation: when it has
+already selected the route, do not route back or repeat selection. The `ask.py`
+instructions below apply to deliberately chosen CLI workers, not existing native
+partners. A direct review request authorizes that review, not a new interview
 or implementation. The current agreement supplies standing authority for jobs
 inside a delivery loop. Neither route creates permission for extra effects.
 

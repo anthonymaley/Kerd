@@ -56,11 +56,16 @@ there is no reason to load its whole stage history or neighboring backlog work.
 When deeper retrieval is needed, read the complete relevant entry, not a broad
 range of adjacent tasks; a few very long lines can still load pages of material.
 
-For an active authorized build, continue without a new permission ceremony. If
-there is no active task, show that honestly and the next unresolved decision or
-obligation; don't select a new product feature by assumption. A status-only request
-stays read-only. Ordinary pickup is not permission for production probes, device
-tests, messages or deployments. Project-specific restrictions still govern them.
+Ordinary In ends with restored memory, status and the saved plan, with Conductor
+loaded for the next request as described below. It does not
+execute that plan, draft replies, start reviews, repair files or investigate
+backlog issues. Keep checks to safe requested Git synchronization and resolving
+facts necessary to restore position; flag other uncertainty for the work itself.
+Do not measure pickup cost inside every pickup; assess the session logs afterward
+unless measurement was requested. A user explicitly asking to continue after In
+can proceed through Conductor without another approval. Managed To/Roll remains
+separate. If no task is selected, say so rather than choosing one or manufacturing
+a question. Existing project restrictions still apply.
 
 Context-cost targets come from the work agreement, not a universal magic number.
 Report added input separately from host overhead where measurable. The Switch trial
@@ -90,6 +95,23 @@ The short display may show only the next action; it must not imply that omitted
 choices are settled or that it is the complete working state.
 This is a coverage check of material already loaded, not an instruction to read
 the whole archive. A small input is useful only if its meaning survives.
+
+### Load Conductor without starting work
+
+Before the dashboard, load the sibling [Conductor](../../conductor/SKILL.md) in
+this session using the host's skill mechanism, with an explicit instruction:
+“Switch In orientation only. Use the restored position and authority already in
+context; do not begin work.” Resolve the sibling from this Switch distribution,
+not another cached version. If native skill invocation is unavailable, read its
+SKILL.md directly; if neither route works, disclose that Conductor was not loaded.
+Do not claim successful loading merely because its name appears in the dashboard.
+
+Carry the restored project, selected work (or none), agreement and restrictions,
+pending decision and next action forward in context; don't create another record
+or re-read the pickup set. Conductor's orientation-only entry returns to this
+dashboard. Briefly say “Conductor loaded; no work started” only after loading.
+Then stop, even if the saved plan was previously authorized. A current explicit
+request to continue after pickup is the exception, not the default.
 
 ### Welcome back: the screen summary
 
@@ -131,12 +153,62 @@ resolved relative to this skill so it travels with the package:
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary -
 ```
 
-Pass the summary already assembled during pickup — phase, task, state, last and
-this session, any pending question, the documents the context already names, and
-`restored`. It reads stdin, so nothing is written to disk. Do not re-read files to
-fill it, and do not stop for approval before showing it. If the renderer cannot
-run, say the same things as plain text; the information is the requirement, the
-frame is not.
+`$summary` is the shape below, filled from what pickup already read. **Copy it
+from here; do not open the script to work out the keys.** The example is one
+coherent sitting — a task is selected, so the session names it; a decision is
+genuinely open, so `question` is filled. Use `null` or `[]` for anything the work
+has nothing for.
+
+```json
+{
+  "phase": "Controlled adoption",
+  "task": "Close the visibility gap",
+  "task_reason": null,
+  "state": "Decision pending",
+  "state_reason": null,
+  "last_session": "Built the welcome-back dashboard and pushed it to origin/main.",
+  "this_session": "Running the dashboard on ordinary work for the first time.",
+  "question": {
+    "text": "How do you want to enter the candidate?",
+    "proposed": "install it",
+    "reply": "Install / Hand-load"
+  },
+  "documents": [
+    ["Tasks", "docs/work/model-ready-work/consolidation.md"],
+    ["Design", "docs/work/model-ready-work/design.md"]
+  ],
+  "warnings": ["origin/main has moved since this record was written"],
+  "insight": "The usual command still opens the older installed version.",
+  "source": "CONTEXT.md, TODO.md, the newest session log",
+  "updated": "2026-09-10 17:34 EDT",
+  "base": ".",
+  "restored": "yes",
+  "restore_note": null
+}
+```
+
+`documents` are `[label, path]` pairs resolved against `base`; a path that does
+not exist is reported as a warning rather than offered as a link. `task_reason`
+and `state_reason` carry the sentence after an explicit "none". `restored` is
+`"yes"`, `"partial"`, `"no"`, or omitted when no pickup claim is being made;
+`restore_note` says what is missing when it is not `"yes"`.
+
+**What the caller should supply, and what the renderer checks — they are not the
+same thing.** Given a correctly shaped JSON object, no field is validated: a
+missing, misspelled or null one degrades quietly, so a typo costs you a blank
+line rather than an error. That tolerance is about *fields*, not about input —
+malformed JSON exits 2 with a message, and a top-level value that is not an
+object (an array, say) exits 1 on an unhandled error. `PHASE`, `TASK`, `STATE`, `LAST SESSION`, `THIS SESSION` and the
+`YOU` box **always render**, falling back to "not recorded" or a plain sentence
+when they have nothing — they are the frame, and a gap in them is information.
+Only the attention panel, `DOCUMENTS` and the `★` insight line are **omitted
+entirely** when empty. Always supply `source`: it names what the pickup actually
+read, and it is the one field nothing else can stand in for.
+
+It reads stdin, so nothing is written to disk. Do not re-read files to fill it,
+and do not stop for approval before showing it. If the renderer cannot run, say
+the same things as plain text; the information is the requirement, the frame is
+not.
 
 `restored` states whether the necessary context was recovered. Which presentation
 ran is a separate fact: an older Switch producing the long report is not an

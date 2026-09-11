@@ -49,6 +49,11 @@ def display_columns(line):
                for c in line)
 
 
+def flatten(text):
+    """Collapse wrapping and indentation so a whole value can be compared."""
+    return " ".join(text.split())
+
+
 def box_lines(out):
     return [line for line in out.splitlines() if line.startswith(("┌", "│", "├", "└"))]
 
@@ -547,3 +552,96 @@ class InMemorySummaryTests(unittest.TestCase):
         out = view.render_dashboard(
             {"source": "x", "documents": [["Tasks", "nope-not-here.md"]]}, NOW, 80, False)
         self.assertIn("cannot be opened", out)
+
+
+class DocumentedExampleTests(unittest.TestCase):
+    """The guide's example is the renderer's input contract.
+
+    Switch fills the shape from the example it already reads at pickup, never by
+    inspecting this module. These checks bind on rendered VALUES, not on key
+    lists: a field the renderer stops reading, or reads partially, fails here.
+    """
+
+    GUIDE = Path(__file__).resolve().parents[2] / "references" / "in-out.md"
+
+    def example(self):
+        import json, re
+        blocks = re.findall(r"```json\n(.*?)```", self.GUIDE.read_text(), re.S)
+        self.assertTrue(blocks, "in-out.md carries no json example for the renderer")
+        return json.loads(blocks[0])
+
+    def rendered(self, width=78):
+        return view.render_dashboard(self.example(), NOW, width, False)
+
+    def test_the_example_uses_only_keys_the_renderer_reads(self):
+        unknown = set(self.example()) - set(view.SUMMARY_KEYS)
+        self.assertFalse(unknown, f"example carries keys the renderer ignores: {unknown}")
+
+    def test_the_example_shows_every_key_so_nothing_needs_looking_up(self):
+        missing = set(view.SUMMARY_KEYS) - set(self.example())
+        self.assertFalse(missing, f"example omits keys a caller would have to discover: {missing}")
+
+    def test_every_documented_value_reaches_the_screen_in_full(self):
+        """SUMMARY_KEYS is only a list, and a prefix match hides truncation.
+
+        Wrapping is normalized away and the WHOLE value compared, so a narrative
+        cut short — where the end of the sentence carries the qualification —
+        fails here instead of passing on its first sixty characters.
+        """
+        out = flatten(self.rendered(100))
+        example = self.example()
+        checked = 0
+        for key in ("phase", "task", "state", "last_session", "this_session",
+                    "insight", "source", "updated"):
+            value = example.get(key)
+            if not value:
+                continue
+            self.assertIn(flatten(value), out, f"{key} is missing or cut short on screen")
+            checked += 1
+        self.assertGreaterEqual(checked, 7, "too few fields carry a value to test with")
+
+    def test_the_complete_question_renders_inside_the_you_box(self):
+        out = self.rendered(100)
+        lines = out.splitlines()
+        top = next(i for i, l in enumerate(lines) if l.startswith("╭─ YOU"))
+        bottom = next(i for i, l in enumerate(lines[top:], top) if l.startswith("╰"))
+        box = " ".join(l.strip("│ ").strip() for l in lines[top:bottom + 1])
+        question = self.example()["question"]
+        self.assertIn(question["text"], box, "the whole question must appear, not its first word")
+        self.assertIn(question["proposed"], box)
+        self.assertIn(question["reply"], box)
+
+    def test_every_warning_and_document_reaches_the_screen(self):
+        out = self.rendered(100)
+        flat = flatten(out)
+        for warning in self.example().get("warnings") or []:
+            self.assertIn(flatten(warning), flat, "a warning is missing or cut short")
+        for label, path in self.example().get("documents") or []:
+            self.assertIn(label, out)
+            self.assertIn(path, out)
+
+    def test_the_example_does_not_contradict_itself(self):
+        example = self.example()
+        task, this = example.get("task") or "", example.get("this_session") or ""
+        if task and task.lower() not in ("not selected yet", view.UNRECORDED):
+            self.assertNotIn("nothing agreed", this.lower(),
+                             "a selected task and an empty session contradict each other")
+
+
+class OmissionContractTests(unittest.TestCase):
+    """What the guide promises about absent fields must match what runs."""
+
+    def test_an_empty_summary_renders_without_claiming_a_source(self):
+        out = view.render_dashboard({}, NOW, 78, False)
+        self.assertNotIn("None", out, "an absent source must not print as None")
+        self.assertIn(view.UNRECORDED, out)
+
+    def test_blocks_that_always_appear_do_so_even_when_empty(self):
+        out = view.render_dashboard({}, NOW, 78, False)
+        for always in ("PHASE", "TASK", "STATE", "LAST SESSION", "THIS SESSION", "YOU"):
+            self.assertIn(always, out)
+
+    def test_blocks_that_are_omitted_when_empty_are_absent(self):
+        out = view.render_dashboard({}, NOW, 78, False)
+        for omitted in ("⚠", "DOCUMENTS", "★"):
+            self.assertNotIn(omitted, out)

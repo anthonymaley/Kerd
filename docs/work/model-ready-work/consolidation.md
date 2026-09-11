@@ -14,6 +14,22 @@ preloaded answers or a new invented demonstration.
 
 ## Now
 
+Real-project use: use the [comparison and file-audit checklist](trials/real-use-checklist.md)
+when the user supplies sessions for assessment. It is an evaluation aid, not more
+runtime ceremony. File-read coverage requires tool evidence, not Git alone.
+
+[First ordinary 0.107.0 pickup audit](trials/2026-09-11-pickups.md): Seinn 4m29s,
+work-anthony 3m12s, with native usage and 52 explicit access events. The user's
+2026-09-11 correction makes ordinary In restore memory/status/plan and stop;
+it does not begin work. Root skill guidance is corrected locally, not released.
+
+The user's later 2026-09-11 clarification: In should **load and orient Conductor**
+before stopping, not leave workflow selection to the next build request.
+The orientation-only entry reuses restored context, starts no work and writes no
+project state. Supporting skills do not replace Conductor's overall workflow.
+Implementation and [Claude review](trials/switch-conductor-entry-review.md) are
+local; live pickup/next-request behavior remains to be observed after release.
+
 ### Pickup after local closeout
 
 Corrected 2026-09-09 at 13:40 UTC (09:40 EDT), from the clock. This replaces the
