@@ -134,4 +134,4 @@ the ladder as its own small change, and the first is already visible:
 - docs/design/requirement-shape.md — where 29148 was adopted, and the two techniques that were nearly invented
 - docs/requirements/register-v2.md — `R-0011`, the approved requirement whose quality column this grounds; `R-0018`, which routed this item as a spike
 - docs/kerd-goals.md — the three laws; Law 2's ceremony limit is kill criterion 2
-- CONTEXT.md — Law 4 and its second half, the ordering rule that lets analysis strike a prior statement
+- docs/decisions.md — Law 4 and its second half, the ordering rule that lets analysis strike a prior statement

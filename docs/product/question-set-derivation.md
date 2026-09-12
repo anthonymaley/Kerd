@@ -55,7 +55,8 @@ argued afterwards.
 
 1. **A machine-enforced gate need** — a check in `tools/gates/kit.py` that
    refuses when the thing is absent. Cited by symbol and line.
-2. **A named standing decision** — a bullet in `CONTEXT.md ## Key Decisions`,
+2. **A named standing decision** — a dated entry in `docs/decisions.md`
+   (moved from `CONTEXT.md ## Key Decisions` in 0.111.0),
    or a rule in a living design doc, that is already standards-anchored or
    already keyed by the producer. Cited by its dated headline.
 
@@ -84,13 +85,13 @@ anyway.
 3. **Test against representative items whose viability rung genuinely passed.**
    The test is not "does the question read well" — it is *would this question
    have surfaced the material viability issue that item actually hit?* An item's
-   real issues are recoverable from its risk ledger, its CONTEXT.md decisions
+   real issues are recoverable from its risk ledger, its decisions in `docs/decisions.md`
    and its gate records.
 
 4. **Read the verdict off the kill-or-keep below.** Do not argue it afterwards.
 
 **Evidence tiering, stated because it bounds the finding.** A citation to a
-line in `kit.py` is primary. A citation to a CONTEXT.md decision is primary for
+line in `kit.py` is primary. A citation to a dated `docs/decisions.md` entry is primary for
 *what was decided* and says nothing about whether it was right. A claim that no
 source exists is the weakest kind and is reported as *searched X, Y; not found*
 — never as *does not exist*.
@@ -141,7 +142,7 @@ how much is research.
 
 - tools/gates/kit.py — the machine-enforced demands one of the two legal citation sources points at
 - docs/work/question-sets/software-change.md — the one set that exists; the worked example the derivation is checked against
-- CONTEXT.md — the standing decisions that are the second legal citation source
+- docs/decisions.md — the standing decisions that are the second legal citation source
 - docs/product/hooks-autoload.md — a live item sitting at viability, and its ledger is a representative test case
 - docs/product/standards-grounding.md — the spike shape this frame follows, and the source of "a spike that ships is not a spike"
 - skills/drive/SKILL.md — where a question set is consumed at intake, and the text recording that six rungs have none

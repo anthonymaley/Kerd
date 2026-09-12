@@ -40,7 +40,43 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.111.0)
+## What's New (v0.112.0)
+
+### v0.112.0
+
+**One arrival, one decision.** Switch In now loads Conductor before rendering
+the dashboard, and the YOU box carries the arrival decision — *“Starting on X —
+approve?”* with the scope of X. The 0.110.0 two-step arrival gave two answers
+to “am I needed”: a dashboard saying nothing was needed, then Conductor asking
+for approval underneath. A fresh pickup on another project showed the cost. The
+proposed action keeps its saved scope (an unresolved design means designing,
+not building and deploying), stages carry no tick the record does not support,
+and no second brief, journey strip or copy of the task list follows. **What it
+means:** the dashboard is the whole arrival; say yes and work runs. Changed,
+not yet observed on a released pickup.
+
+**Switch Out ends on the saved-place box again.** 0.107.0 dropped the old
+close banner; Out ended on the helper's JSON. It now renders one box, from the
+helper's own save result: SESSION SAVED when the remote is verified to carry
+the exact commit, SAVED LOCALLY when only committed, NOT SAVED otherwise, each
+in words as well as tone; the tree state, the paths kept out of Git, the next
+action with its named reading set and measured size, and the day's log. It ends
+by saying the session is still open with the free-context hint. It never says
+the session exited or the context was cleared.
+
+**Four review findings fixed, one reproduced by the reviewer that would have
+swallowed its own review.** Agent could archive an inline mention of the reply
+markers followed by an ordinary update as a completed review of one word, and
+then ignore the real reply; the buffer now keeps the marker's line prefix.
+Oversized Claude socket requests are refused before a delivery record exists (a
+lock file may remain; the guide says so). Portable packaging reads the guidance
+from its home under Conductor's references, so the build is green again.
+`measure` refuses normalized aliases of the same source and names whole-file
+plus section overlap. Living pointers in TODO.md and `docs/product/` follow the
+0.111.0 memory move; their grounding lines became bare paths because the audit
+resolves those by glob. Codex implemented from a spec both sessions reviewed;
+the spec and both reviews are under `docs/work/release-111-followup/` and
+`docs/work/model-ready-work/trials/`.
 
 ### v0.111.0
 
@@ -399,9 +435,9 @@ session is for, and a bordered box saying whether you are needed — amber only
 while a decision is actually pending. It ends with links to the documents the
 work already names; the backlog lives behind the *Open work* link.
 `scripts/where_we_are.py` renders it from a summary Switch already holds, so
-nothing extra is read and no status file is written. Then In opens a Conductor
-session on that place and stops on one line — *“Starting on X — approve?”* —
-so the sitting has its next move named before any work runs. Roll keeps its
+nothing extra is read and no status file is written. Conductor is loaded before
+rendering and puts *“Starting on X — approve?”* in that same YOU box, with the
+scope of the next action. No second report follows. Roll keeps its
 agreed continuation instead of stopping there.
 
 **Out** reads what actually changed, preserves the agreement, decisions, exact next
@@ -412,7 +448,9 @@ full case moves to `docs/decisions.md`, closed Backlog rows move to
 is named, and `handoff.py measure` records its size against the pickup target.
 `scripts/handoff.py` does the Git work: explicit-file saves, safe fast-forward,
 acknowledged local-only paths that are never staged, and a check that the remote
-carries the exact commit.
+carries the exact commit. Out ends on the saved-place box: SESSION SAVED, SAVED
+LOCALLY or NOT SAVED in words, the tree, the local-only leftovers, the next
+action and its reading set, and a reminder that the session is still open.
 
 ### visuals (Diagrams)
 
@@ -585,7 +623,7 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
 
-**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and shows the welcome-back dashboard. It then opens a Conductor session on that place and stops on one line — *"Starting on X — approve?"* Say yes and the work runs under Conductor, with decisions recorded in the work record and CONTEXT.md as they're made. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and loads Conductor to compose the welcome-back dashboard. Its YOU box carries the one arrival decision — *"Starting on X — approve?"* — without a second report. Say yes and the work runs under Conductor, with decisions recorded in the work record and CONTEXT.md as they're made. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
 

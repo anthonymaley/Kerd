@@ -44,7 +44,7 @@ directions**, and over six weeks of real use, **zero stale sets used** and
 relevant decision that was never a named source — is what makes the scheduled
 review a separate mechanism rather than a fallback on the first.
 
-**The mechanism this frame exists to build was already ruled** (CONTEXT.md,
+**The mechanism this frame exists to build was already ruled** ([docs/decisions.md](../decisions.md),
 2026-09-02): the exact gate demands and standing decisions a set was derived
 from, named individually · a derivation fingerprint over those named sources ·
 a refusal condition, so any named source changing marks the set stale before
@@ -74,7 +74,7 @@ incompleteness, not a durable risk state.
 
 - docs/design/question-set-derivation-findings.md — the spike's verdict (PARTIAL), the candidate viability set with its per-question citations, and the recommended-but-unbuilt mechanism this item frames.
 - docs/product/question-set-derivation.md — the spike's own frame and its declared kill-or-keep, including the criterion reported as searched-and-not-found rather than satisfied.
-- CONTEXT.md — the 2026-09-02 ruling on source-bound invalidation versus re-derivation per use; the suspect-link-stamp decision this is same-family with (a stored reference proves existence, never sameness); the 2026-09-01 approval-fingerprint ruling that one versioned mechanism is preferred over a second recipe; and the measured count of dormant review triggers that nothing fires.
+- docs/decisions.md — the 2026-09-02 ruling on source-bound invalidation versus re-derivation per use; the suspect-link-stamp decision this is same-family with (a stored reference proves existence, never sameness); the 2026-09-01 approval-fingerprint ruling that one versioned mechanism is preferred over a second recipe; and the measured count of dormant review triggers that nothing fires.
 - tools/gates/kit.py — the refusals a derived question actually binds to (`parse_ledger` and `LEDGER_COLUMNS`), and `req_statement_hash` at line 1191, the one hashing recipe that exists on disk today.
 - tools/gates/README.md — the rung exit/entry rule (line 42) the whole derivation rests on: a rung's exit is the next rung's entry.
 - docs/work/question-sets/software-change.md — the only question set on disk, and the shape a derived set would have to carry its named sources in.

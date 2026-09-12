@@ -81,7 +81,7 @@ keyed by the producer the same sitting.
 - tools/gates/kit.py — `LEGAL_STATES` (line 70), the five-value set where `fatal` sits beside the four treatments; `parse_ledger`'s State legality check and FATAL refusal (lines 486–489), the machine half this item restructures.
 - tools/gates/README.md — the viability and scope gate rows (lines 43–44), the declared contract for the ledger's columns and the killer-risk floor.
 - docs/product/gate-reachability.md — killer row 1, the risk that is both fatal and treated: the case that exposed the defect and the item this one unblocks by shipping.
-- CONTEXT.md — the 2026-09-02 open question this ruling resolves; the 2026-08-23 `project type` split, the same defect class ruled once already; the 2026-08-31 `unqualified` ruling this frame's ledger discipline follows.
+- docs/decisions.md — the 2026-09-02 open question this ruling resolves; the 2026-08-23 `project type` split, the same defect class ruled once already; the 2026-08-31 `unqualified` ruling this frame's ledger discipline follows.
 - TODO.md — the Backlog row that carried the conflict, with its sizing note: 22 work records carry ledgers, so a column change is a migration.
 
 ## Risk ledger

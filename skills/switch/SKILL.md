@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Handles useful memory and explicitly authorized Git handoffs; distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor and presents one dashboard with the arrival decision; Out saves useful memory and explicitly authorized Git handoffs. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -12,12 +12,13 @@ and repository boundaries still apply.
 
 ## Pick the intended action
 
-- **In:** restore useful memory, current status and the saved plan; show the
-  welcome-back dashboard, open a Conductor session on that place and stop at one
-  approval line. Read [pickup and closeout](references/in-out.md).
-- **Out:** close this sitting well: record history, tidy active work, and leave
-  a lean, measured start point — rulings kept, cases and closed rows moved to
-  reachable records, the reading set named. Read
+- **In:** restore useful memory, current status and the saved plan; load Conductor
+  to compose one welcome-back dashboard with the arrival decision in YOU, then
+  wait. Read [pickup and closeout](references/in-out.md).
+- **Out:** close this sitting well: record history, tidy active work, leave a
+  lean, measured start point — rulings kept, cases and closed rows moved to
+  reachable records, the reading set named — and end on the saved-place box
+  that says how far the save reached. Read
   [pickup and closeout](references/in-out.md).
 - **To:** save the exact mid-work position through GitHub, relinquish source
   control and restore at the destination. Not full Out. Read
@@ -61,11 +62,11 @@ For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back
 Now, Last session, This session, Where we are, You, and a real link to task detail.
 An evidence-grounded Insight is optional, never an entry requirement.
 
-Ordinary In restores an active build's place without executing it. Then open the
-sibling [Conductor](../conductor/SKILL.md) on that place using the guide's
-[open-and-stop handover](references/in-out.md#open-conductor-and-stop-at-the-approval).
-Conductor ends on one approval line and waits; its SKILL.md In paragraph is the
-full rule. The approval, or an explicit request to continue, is what starts work;
+Ordinary In restores an active build's place without executing it. Before
+rendering the dashboard, load the sibling [Conductor](../conductor/SKILL.md) on
+that place as the guide's [handover](references/in-out.md#load-conductor-before-the-dashboard)
+describes. Conductor composes the dashboard's one decision and waits; its
+SKILL.md In paragraph is the full rule. The approval, or an explicit request to continue, is what starts work;
 managed To/Roll keeps its agreed continuation. Loading is not build authorization.
 
 Keep pickup selective and explicit: fully read the chosen current working set,

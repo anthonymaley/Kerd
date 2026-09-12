@@ -58,7 +58,7 @@ When deeper retrieval is needed, read the complete relevant entry, not a broad
 range of adjacent tasks; a few very long lines can still load pages of material.
 
 Ordinary In ends with restored memory, status and the saved plan on screen, and
-a Conductor session open on that place, stopped at one approval line as described
+a Conductor session open on that place, stopped at its dashboard decision as described
 below. It does not execute the plan before that approval, draft replies, start
 reviews, repair files or investigate backlog issues. Keep checks to safe requested
 Git synchronization and resolving facts necessary to restore position; flag other
@@ -99,12 +99,12 @@ choices are settled or that it is the complete working state.
 This is a coverage check of material already loaded, not an instruction to read
 the whole archive. A small input is useful only if its meaning survives.
 
-### Open Conductor and stop at the approval
+### Load Conductor before the dashboard
 
-After the dashboard, load the sibling [Conductor](../../conductor/SKILL.md) in
+Before rendering the dashboard, load the sibling [Conductor](../../conductor/SKILL.md) in
 this session using the host's skill mechanism, with an explicit instruction:
 “Switch In: open a session on the restored position and authority already in
-context; stop at the approval line.” Resolve the sibling from this Switch
+context; compose the arrival decision in the dashboard and wait.” Resolve the sibling from this Switch
 distribution, not another cached version. If native skill invocation is
 unavailable, read its SKILL.md directly; if neither route works, disclose that
 Conductor was not loaded. Do not claim successful loading merely because its
@@ -112,10 +112,10 @@ name appears in the dashboard.
 
 Carry the restored project, selected work (or none), agreement and restrictions,
 pending decision and next action forward in context; don't create another record
-or re-read the pickup set. Conductor's In entry is its resume branch, ending on
-exactly one line — **“Starting on X — approve?”** — and waiting; the In
-paragraph of Conductor's SKILL.md is the full rule, including how X is chosen,
-the pending-question case and the no-task case. Do not restate it here. Managed
+or re-read the pickup set. Conductor's In paragraph is the full rule for choosing
+the bounded next action and composing the one decision before rendering,
+including pending-question, explicit-continuation and no-task cases. Do not
+append a second report or approval after the dashboard. Managed
 To/Roll is the exception and keeps its agreed continuation.
 
 ### Welcome back: the screen summary
@@ -169,28 +169,28 @@ has nothing for.
 
 ```json
 {
-  "phase": "Controlled adoption",
-  "task": "Close the visibility gap",
+  "phase": "Design needed — freshness alert",
+  "task": "Design the freshness alert",
   "task_reason": null,
-  "state": "Decision pending",
+  "state": "Awaiting your approval",
   "state_reason": null,
   "now": [
-    "Close the visibility gap",
-    "Run the dashboard on ordinary work"
+    "Design the freshness alert",
+    "Later: implement the agreed design"
   ],
-  "last_session": "Built the welcome-back dashboard and pushed it to origin/main.",
-  "this_session": "Running the dashboard on ordinary work for the first time.",
+  "last_session": "Diagnosed the pipeline outage. No alert has been built.",
+  "this_session": "Proposed: design the alert. Implementation and deployment are not included in this approval.",
   "question": {
-    "text": "How do you want to enter the candidate?",
-    "proposed": "install it",
-    "reply": "Install / Hand-load"
+    "text": "Starting on the alert design — approve?",
+    "proposed": "Decide where it runs, what it checks and how it notifies you.",
+    "reply": "Approve / Change"
   },
   "documents": [
     ["Open work", "docs/work/model-ready-work/consolidation.md"],
     ["Design", "docs/work/model-ready-work/design.md"]
   ],
-  "warnings": ["origin/main has moved since this record was written"],
-  "insight": "The usual command still opens the older installed version.",
+  "warnings": ["Publisher health is a saved observation, not rechecked during pickup."],
+  "insight": "A freshness check makes an otherwise silent stop visible.",
   "source": "CONTEXT.md, TODO.md, the newest session log",
   "updated": "2026-09-10 17:34 EDT",
   "base": ".",
@@ -324,6 +324,54 @@ memory as exact paths; it is not a pattern, an ignore entry or a new config file
 and it never deletes or stashes. New or unacknowledged work still needs resolution,
 not blanket staging. Show locally saved vs committed vs remotely verified. A failed
 push leaves useful local work recoverable; do not call that a cross-device handoff.
+
+### Close with the saved-place box
+
+End Out on one box that says how far the save reached, rendered with the same
+packaged renderer:
+
+```sh
+printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing -
+```
+
+`$closing` is filled from the helper's save result and what Out just wrote.
+**Copy the shape from here; do not open the script for the keys.** `saved` is
+one of `remote-verified` (the helper's `saved_to_remote`), `committed` (a local
+commit, push not verified) or `not-saved`; the banner and its words follow it.
+An absent or unrecognised `saved` renders SAVE STATUS NOT RECORDED, never
+"nothing committed": unknown is not evidence. The free-context hint follows
+only a remote-verified or committed save; otherwise the box says to keep the
+session open and resolve the save first. `local_only` is the helper's
+`preserved_local_only`. `tree` is what remains in
+the working tree after the save, in words. `next` is the exact next action the
+start point names, `reading_set` the files and sections it names, `measured`
+the helper's `measure` reading. Use `null` or `[]` for anything Out has nothing
+for; a missing field renders as "not recorded", never as a claim.
+
+```json
+{
+  "project": "Kerd",
+  "branch": "main",
+  "saved": "remote-verified",
+  "commit": "2e59ab7",
+  "files": 15,
+  "remote": "origin/main",
+  "local_only": ["kerd-laptop-result.patch"],
+  "tree": "clean",
+  "closed": "2026-09-12 12:40 EDT",
+  "next": "Run one real Conductor session on 0.112.0 and confirm a Claude player is a native subagent.",
+  "reading_set": ["CONTEXT.md", "TODO.md ## Now", "kivna/sessions/2026-09-12.md"],
+  "measured": "23,482 bytes, about 5,871 tokens estimated at four bytes each, within the 8,000 target",
+  "log": "kivna/sessions/2026-09-12.md"
+}
+```
+
+The box distinguishes saved locally, committed and remote-verified in words,
+names local-only leftovers and an unclean tree rather than hiding them, and
+ends by saying the session is still open with the free-context hint. It never
+says the session exited or the context was cleared: a save is a Git fact, and
+only the person's `/clear` changes what is on screen. If the renderer cannot
+run, say the same things as plain text.
 
 ## Default verified save when pushing is authorized
 

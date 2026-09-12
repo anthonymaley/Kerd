@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through clear direction, delivery and independent assessment. Resume saved work. Handle small explicit changes directly; status and review requests do not start a full intake.
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, delivery and independent assessment. Resume saved work, including Switch In's single dashboard and arrival decision. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -29,22 +29,26 @@ than claiming it is bypassed. Existing host permissions still apply.
 ## Start from the person, or the saved place
 
 When loaded by **Switch In**, use the position and authority Switch already
-restored and take the resume branch below: read this skill and the journey
-guide, skip intake and discovery, and open the session on the saved place. Show
-the journey strip, the brief from the record and a task list built from the
-restored NOW items; do not create or update work records, launch a worker or
-execute the saved plan. End on exactly one line — **“Starting on X — approve?”**
-— and wait. X is chosen in this order: the saved next action; failing that, the
-first NOW item; only when both are absent, say that no task is selected and stop
-without manufacturing one. One proposal, never two options, never an “or”. A
-saved pending question replaces the approval line, with its one proposed answer.
-This line is a deliberate check-in on arrival, so the sitting's next move is
-named before anything runs; it applies even when the saved work already has
-approval, and it is the one place where an already-authorized request is asked
-again. Only the person's approval, or a current explicit request to continue,
-starts execution; managed To/Roll keeps its agreed continuation and does not
-stop here. This paragraph is the full In rule; Switch and the journey guide
-refer to it rather than restating it.
+restored: read this skill and the journey guide, skip intake and discovery, and
+compose the one welcome-back dashboard before it is rendered. X is the saved
+next action, otherwise the first NOW item; if neither exists, show no selected
+task and stop without inventing one. Preserve its scope: an unresolved design
+means designing, not a new grant to build or deploy. Put **“Starting on X —
+approve?”** in the dashboard's YOU box using its existing `question` fields;
+a saved pending question replaces it, with its proposed answer. STATE and THIS
+SESSION must agree with YOU: this sitting's action is proposed while awaiting
+approval, even if the wider plan was already agreed. Never say “nothing needed”
+while asking for an answer elsewhere. If the host requires a plain-text question,
+put scope in YOU and ask once immediately below it instead.
+
+This deliberate arrival check-in is the one exception to reusing an unchanged
+approval. Do not create or update work records, launch workers or execute the
+plan during ordinary In. A current explicit request to continue can proceed
+without another approval; managed To/Roll also keeps its agreed continuation.
+Use native task tools when available; otherwise the dashboard's NOW is the
+fallback list. Do not append another brief, journey strip or copy of the list.
+After approval, continue under Conductor without repeating pickup. This is the
+full In rule; Switch and the journey guide link here rather than duplicate it.
 
 On the person's next request, handle the actual request under Conductor: status
 stays status; a clear approval or continuation resumes the selected work without

@@ -3,6 +3,7 @@
 import importlib.util
 from pathlib import Path
 import unicodedata
+import sys
 import unittest
 
 SCRIPT = Path(__file__).resolve().parents[1] / "where_we_are.py"
@@ -649,6 +650,161 @@ class DocumentedExampleTests(unittest.TestCase):
         if task and task.lower() not in ("not selected yet", view.UNRECORDED):
             self.assertNotIn("nothing agreed", this.lower(),
                              "a selected task and an empty session contradict each other")
+
+    def test_arrival_decisions_use_the_existing_you_box_once(self):
+        # Content fixtures, not a claim that an LLM follows the arrival guide.
+        for case in ("design", "unknown-stage", "continue", "pending", "no-task"):
+            with self.subTest(case=case):
+                summary = self.example()
+                if case == "unknown-stage":
+                    summary["phase"] = None
+                elif case == "continue":
+                    summary.update(state="Continuing under your explicit request",
+                                   this_session="Design the alert; no deployment.", question=None)
+                elif case == "pending":
+                    summary.update(state="Decision pending", question={
+                        "text": "Which channel should receive the alert?",
+                        "proposed": "Use the existing operations channel; do not create a service.",
+                        "reply": "Use it / Change"})
+                elif case == "no-task":
+                    summary.update(phase=None, task="Not selected yet", now=[],
+                                   state="No saved next action", this_session="No work selected.",
+                                   question=None)
+                out = view.render_dashboard(summary, NOW, 78, False)
+                lines = out.splitlines()
+                top = next(i for i, line in enumerate(lines) if line.startswith("╭─ YOU"))
+                bottom = next(i for i in range(top + 1, len(lines)) if lines[i].startswith("╰"))
+                box = flatten(" ".join(line.strip("│ ") for line in lines[top + 1:bottom]))
+                self.assertEqual(sum(line.strip() == "NOW" for line in lines), 1)
+                self.assertNotIn("JOURNEY", out)
+                question = summary["question"]
+                if question:
+                    for value in question.values():
+                        self.assertIn(flatten(value), box)
+                    self.assertNotIn("Nothing needs you", out)
+                    self.assertEqual(flatten(out).count(flatten(question["text"])), 1)
+                else:
+                    self.assertIn("Nothing needs you right now", box)
+                    self.assertNotIn("approve?", out)
+                if case == "design":
+                    self.assertIn("Implementation and deployment are not included in this approval.",
+                                  flatten(out))
+                if case in ("unknown-stage", "no-task"):
+                    self.assertIn(view.UNRECORDED, out)
+
+
+class ClosingBoxTests(unittest.TestCase):
+    """Switch Out ends on one box that says how far the save reached.
+
+    The box never claims the session exited or the context was cleared: a save
+    is a Git fact, and the terminal the person is sitting in is still open.
+    """
+
+    GUIDE = Path(__file__).resolve().parents[2] / "references" / "in-out.md"
+
+    def example(self):
+        import json, re
+        blocks = re.findall(r"```json\n(.*?)```", self.GUIDE.read_text(), re.S)
+        self.assertGreaterEqual(len(blocks), 2, "in-out.md carries no json example for the closing box")
+        return json.loads(blocks[1])
+
+    def base(self, **over):
+        summary = {"project": "Kerd", "branch": "main", "saved": "remote-verified",
+                   "commit": "2e59ab7", "files": 15, "remote": "origin/main",
+                   "local_only": ["kerd-laptop-result.patch"], "tree": "clean",
+                   "closed": "2026-09-12 12:40 EDT",
+                   "next": "Run one real Conductor session on 0.112.0.",
+                   "reading_set": ["CONTEXT.md", "TODO.md ## Now", "kivna/sessions/2026-09-12.md"],
+                   "measured": "23,482 bytes, about 5,871 tokens estimated, within the 8,000 target",
+                   "log": "kivna/sessions/2026-09-12.md"}
+        summary.update(over)
+        return summary
+
+    def test_remote_verified_save_shows_the_saved_banner_and_every_field(self):
+        out = view.render_closing(self.base(), NOW, 80, False)
+        flat = flatten(out)
+        self.assertIn("SESSION SAVED", out)
+        for value in ("origin/main", "2e59ab7", "15 files", "kerd-laptop-result.patch", "clean",
+                      "2026-09-12 12:40 EDT", "Run one real Conductor session on 0.112.0.",
+                      "TODO.md ## Now", "23,482 bytes", "kivna/sessions/2026-09-12.md"):
+            self.assertIn(flatten(value), flat, f"{value!r} missing or cut short on screen")
+
+    def test_the_three_save_states_are_told_apart_and_never_confused_with_exit(self):
+        for saved, banner, absent in (("remote-verified", "SESSION SAVED", "NOT ON THE REMOTE"),
+                                      ("committed", "SAVED LOCALLY", "SESSION SAVED"),
+                                      ("not-saved", "NOT SAVED", "SESSION SAVED")):
+            with self.subTest(saved=saved):
+                out = view.render_closing(self.base(saved=saved), NOW, 80, False)
+                self.assertIn(banner, out)
+                self.assertNotIn(absent, out)
+                self.assertNotIn("exited", out.lower())
+                self.assertNotIn("cleared", out.lower())
+                self.assertIn("still open", out)
+
+    def test_the_free_context_hint_follows_only_a_confirmed_save(self):
+        for saved, hint in (("remote-verified", "Free context"), ("committed", "Free context"),
+                            ("not-saved", "resolve the save"), (None, "resolve the save"),
+                            ("something-else", "resolve the save")):
+            with self.subTest(saved=saved):
+                out = view.render_closing(self.base(saved=saved), NOW, 80, False)
+                self.assertIn(hint, out)
+                self.assertIn("still open", out)
+                if hint != "Free context":
+                    self.assertNotIn("/clear", out)
+
+    def test_an_unknown_save_status_is_not_reported_as_nothing_committed(self):
+        for summary in ({}, {"saved": "weird"}, self.base(saved=None)):
+            with self.subTest(summary=summary):
+                out = view.render_closing(summary, NOW, 80, False)
+                self.assertIn("SAVE STATUS NOT RECORDED", out)
+                self.assertNotIn("nothing committed", out)
+                self.assertNotIn("NOT SAVED", out)
+                self.assertNotIn("SESSION SAVED", out)
+
+    def test_every_line_including_a_long_log_path_fits_the_width(self):
+        long_log = "docs/work/" + "long-work-name-" * 7 + "/session.md"
+        for width in (78, 100):
+            out = view.render_closing(self.base(log=long_log), NOW, width, False)
+            over = [line for line in out.splitlines() if len(line) > width]
+            self.assertFalse(over, f"lines wider than {width}: {over}")
+            # A path has no spaces to wrap at, so compare with all whitespace removed.
+            self.assertIn("".join(long_log.split()), "".join(out.split()))
+
+    def test_a_committed_but_unpushed_save_says_so_in_words(self):
+        out = view.render_closing(self.base(saved="committed"), NOW, 80, False)
+        self.assertIn("not verified on the remote", flatten(out))
+
+    def test_local_only_leftovers_and_a_dirty_tree_are_named_not_hidden(self):
+        out = view.render_closing(self.base(tree="2 unassigned changes left, not saved",
+                                            local_only=["a.patch", "b/__pycache__/"]), NOW, 80, False)
+        flat = flatten(out)
+        self.assertIn("2 unassigned changes left, not saved", flat)
+        self.assertIn("a.patch", flat); self.assertIn("b/__pycache__/", flat)
+
+    def test_missing_fields_degrade_to_not_recorded_rather_than_crashing(self):
+        out = view.render_closing({"saved": "remote-verified"}, NOW, 80, False)
+        self.assertIn(view.UNRECORDED, out)
+        self.assertIn("SESSION SAVED", out)
+        self.assertNotIn("files)", out)
+
+    def test_the_guide_example_uses_only_keys_the_renderer_reads_and_all_reach_the_screen(self):
+        example = self.example()
+        unknown = set(example) - set(view.CLOSING_KEYS)
+        self.assertFalse(unknown, f"example carries keys the renderer ignores: {unknown}")
+        missing = set(view.CLOSING_KEYS) - set(example)
+        self.assertFalse(missing, f"example omits keys a caller would have to discover: {missing}")
+        out = flatten(view.render_closing(example, NOW, 100, False))
+        for key in ("commit", "remote", "tree", "closed", "next", "measured", "log"):
+            self.assertIn(flatten(str(example[key])), out, f"{key} is missing or cut short on screen")
+        for item in example["local_only"] + example["reading_set"]:
+            self.assertIn(flatten(item), out)
+
+    def test_the_cli_reads_the_closing_summary_from_stdin(self):
+        import json, subprocess
+        result = subprocess.run([sys.executable, str(Path(view.__file__)), "--closing", "-", "--no-color"],
+                                input=json.dumps(self.base()), capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("SESSION SAVED", result.stdout)
 
 
 class OmissionContractTests(unittest.TestCase):

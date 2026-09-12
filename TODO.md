@@ -83,7 +83,8 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
 - **A derived question set needs source-bound invalidation plus a scheduled
   discovery review — recommended, NOT built; FRAMED as `question-set-staleness`**
   (`85b8683`, at viability). The mechanism and both refused alternatives are
-  verbatim in CONTEXT.md (2026-09-02); frame, value statement and ledger in
+  in [docs/decisions.md](docs/decisions.md), the 2026-09-02 source-bound-invalidation
+  ruling; frame, value statement and ledger in
   `docs/product/question-set-staleness.md`. Candidate fingerprint shape, not
   decided: reuse `approval_fingerprint(category, fields)` rather than a second
   recipe — the rule-9 lesson. Next: viability, where the granularity tradeoff
@@ -121,7 +122,7 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   against a derived `design`; `funnel-driver` declares `designed` against a
   derived `acceptance`. Only the items whose stage was flipped at an acceptance
   record are correct. **This is the repo's own recurring class, stated in
-  CONTEXT.md 2026-08-26/27** — two living sources joined by nothing, where the
+  the 2026-08-26/27 entries in [docs/decisions.md](docs/decisions.md)** — two living sources joined by nothing, where the
   test is *what fails if one side moves?* and the answer is nothing. The
   dangerous direction is the overclaim: a board reader trusting front matter
   believes `hooks-autoload` is two rungs further along than the machine can
@@ -443,7 +444,7 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   silently accepting phantoms.
 
 - **Diagram-and-prose-together: flip the default in the skills.** Decided
-  2026-08-23 (CONTEXT.md). One deliverable, two renderings, produced from one
+  2026-08-23 ([docs/decisions.md](docs/decisions.md), diagram-and-prose ruling). One deliverable, two renderings, produced from one
   structure; declining to draw costs a `view: n/a — <reason>`, which
   `kit.py` already refuses without a reason — so this is a default flip, not new
   machinery. **Open, and it sizes the work:** does it bind as model discipline or
@@ -508,9 +509,9 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   `conversation-analyzer` also reads a transcript for behaviours worth
   preventing — the superpowers pull is one, since the v0.77.0 "tie is cut"
   countermeasure aims one layer below the cause.
-- **Requirement archaeology over CONTEXT.md's 74 standing decisions.** Framed
+- **Requirement archaeology over the then-74 standing decisions, now in [docs/decisions.md](docs/decisions.md).** Framed
   work, never ad-hoc, and **never from session logs** (see the decision in
-  CONTEXT.md). Provenance must be marked permanently or the register becomes
+  docs/decisions.md, requirement-archaeology ruling). Provenance must be marked permanently or the register becomes
   untrustworthy with no way back.
 - **The release-planning artifact.** Gained two inputs today: project type ==
   release type for the twelve that ship, and `TECH-006` requirement dependency —
@@ -592,7 +593,7 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   so. Either is a parser change and belongs to its own rung; mirrored to
   `docs/playbook.md` as the durable net meanwhile.
 
-- **`CONTEXT.md`'s 2026-08-25 bullet labels both risk checks one rung too high**
+- **The 2026-08-25 risk-check bullet, now in [docs/decisions.md](docs/decisions.md), labels both checks one rung too high**
   (found 2026-09-02 by the derivation spike). It reads *"viability requires
   killer risks named … scope requires every row qualified."* Under
   `tools/gates/README.md:42` — *"a rung's exit is the next rung's entry; it is

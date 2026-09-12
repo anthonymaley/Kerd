@@ -61,7 +61,7 @@ class QueueTests(unittest.TestCase):
         requests = self.app.folder('requests')
         self.assertEqual([p.name for p in requests.iterdir()] if requests.exists() else [], [])
 
-    def send(self, root, target, request, prompt):
+    def send(self, root, target, request, prompt, **kwargs):
         self.sent.append((target, request, prompt))
         return 'submitted-unconfirmed'
 
@@ -641,6 +641,83 @@ class OpusReviewTests(TuiRouteTests):
         with patch.object(agent, 'command', side_effect=cmd):
             listed = {r['id'] for r in self.app.list()['sessions'] if r['provider'] == 'codex'}
         self.assertEqual(listed, {self.sid, later})
+
+
+class ReleaseFollowupTests(unittest.TestCase):
+    setUp = QueueTests.setUp
+    tearDown = QueueTests.tearDown
+    send = QueueTests.send
+    ask = QueueTests.ask
+
+    def append_event(self, provider, text, mid):
+        if provider == 'claude':
+            event = {'type': 'assistant', 'message': {'id': mid,
+                     'content': [{'type': 'text', 'text': text}]}}
+        else:
+            event = {'type': 'response_item', 'payload': {'id': mid,
+                     'type': 'message', 'role': 'assistant', 'phase': 'final_answer',
+                     'content': [{'type': 'output_text', 'text': text}]}}
+        with self.log.open('a') as stream:
+            stream.write(json.dumps(event) + '\n')
+
+    def test_marker_mention_then_update_never_freezes_a_false_reply(self):
+        for provider in ('claude', 'codex'):
+            for poll_between in (False, True):
+                for suffix in ('', ' after reading.'):
+                    with self.subTest(provider=provider, poll=poll_between, suffix=suffix):
+                        rid = str(uuid.uuid4())
+                        self.app.new_request(provider, self.sid, 'Review', 'Reviewer', rid, self.log)
+                        begin, end = agent.markers(rid)
+                        self.append_event(provider, f'I will use {begin} and {end}' + suffix, 'mention')
+                        if poll_between:
+                            self.assertNotIn('reply', self.app.status(rid))
+                        self.append_event(provider, 'Still reviewing.', 'update')
+                        self.assertNotIn('reply', self.app.status(rid))
+                        self.append_event(provider, begin + '\nThe complete finding.\n' + end, 'answer')
+                        self.assertEqual(self.app.status(rid)['reply'], 'The complete finding.')
+
+    def test_valid_opening_split_across_events_is_still_retrieved(self):
+        for provider in ('claude', 'codex'):
+            with self.subTest(provider=provider):
+                rid = str(uuid.uuid4())
+                self.app.new_request(provider, self.sid, 'Review', 'Reviewer', rid, self.log)
+                begin, end = agent.markers(rid)
+                self.append_event(provider, begin[:12], 'answer')
+                self.assertNotIn('reply', self.app.status(rid))
+                self.append_event(provider, begin[12:] + '\nFinding with ', 'answer')
+                self.append_event(provider, 'its qualification.\n' + end, 'answer')
+                self.assertEqual(self.app.status(rid)['reply'], 'Finding with its qualification.')
+
+    def test_oversize_preflight_uses_serialized_frame_before_recording(self):
+        # Escaping makes this exceed the cap even though the raw text fits.
+        with patch.object(agent, 'FRAME_LIMIT', 2000), patch('socket.socket') as socket_call:
+            with self.assertRaisesRegex(agent.Unavailable, 'frame limit'):
+                self.ask('\U0001f600' * 200)
+            self.assertFalse(list((self.app.state / 'requests').glob('*.json')))
+            self.assertEqual(self.sent, [])
+            socket_call.assert_not_called()
+
+    def test_prepared_frame_is_exact_and_retry_does_not_send_again(self):
+        with patch.object(agent, 'send_claude', return_value='submitted-unconfirmed') as send:
+            result = self.ask('Read café and "quotes".\nNo edits.')
+            frame = send.call_args.kwargs['frame']
+            decoded = json.loads(frame)
+            self.assertEqual(decoded['session_id'], self.sid)
+            self.assertEqual(decoded['uuid'], self.rid)
+            self.assertEqual(decoded['message']['content'], send.call_args.args[3])
+            with patch.object(agent, 'FRAME_LIMIT', 1):
+                self.assertEqual(self.ask('Read café and "quotes".\nNo edits.'), result)
+            self.assertEqual(send.call_count, 1)
+
+    def test_attempted_claude_timeout_stays_recorded_without_resend(self):
+        timeout = subprocess.TimeoutExpired(['claude', 'private-prompt'], 5)
+        with patch.object(agent, 'send_claude', side_effect=timeout) as send:
+            record = self.ask()
+            self.assertEqual(record['status'], 'delivery-uncertain')
+            self.assertIn('timed out', record['error'])
+            self.assertNotIn('private-prompt', record['error'])
+            self.assertEqual(self.ask(), record)
+            self.assertEqual(send.call_count, 1)
 
 
 class FableFoundationTests(QueueTests):

@@ -125,7 +125,7 @@ Tony can see or decide; a page that only looks better is out of scope.
 - tools/diagram/progress.py — the machine-side derived board; the model's half of the same state
 - tools/design/README.md — the evaluation matrix standard, built and CI-enforced
 - tools/gates/README.md — the ladder vocabulary the journey renders
-- CONTEXT.md — standing decisions bind: derived-from-disk, a release is a grouping, a risk without a countermeasure is a blocker, design is agreed in diagrams
+- docs/decisions.md — standing decisions bind: derived-from-disk, a release is a grouping, a risk without a countermeasure is a blocker, design is agreed in diagrams
 
 ## The gap list
 

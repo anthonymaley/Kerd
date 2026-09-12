@@ -88,7 +88,7 @@ plausible disposition, per the 2026-08-31 ruling.
 - skills/conductor/SKILL.md — the two gate invocations at lines 90 and 150, the pre-flight inventory being where a foreign repo first meets the gates; and line 165, which declares the design and work-handoff stages unowned.
 - tools/gates/gate.py — the `--root` resolver whose CLI half shipped 2026-08-14 and which this item proves works against a foreign repo; also `_walk_up_for_git`, the site of the worktree escape defect this item's killer risk generalises.
 - hooks/hooks.json — the only place in the plugin where `${CLAUDE_PLUGIN_ROOT}` is proven to resolve at runtime, and therefore the precedent the invocation idiom is built on.
-- CONTEXT.md — the 2026-08-06 prompt-layer-only decision whose "the tool is absent" premise this item falsifies, and the 2026-08-27 ruling that version bumps are for real skill-behaviour changes, which this is.
+- docs/decisions.md — the 2026-08-06 prompt-layer-only decision whose "the tool is absent" premise this item falsifies, and the 2026-08-27 ruling that version bumps are for real skill-behaviour changes, which this is.
 - TODO.md — the `gate.py --root` row narrowed on 2026-08-14 to "the hooks and skills that invoke the tools still assume the Kerd tree", which is exactly this item.
 - docs/playbook.md — the cold-eyes trap recording that `tools/design/matrix.py` still resolves through `kit.ROOT`, the same class of defect one tool over.
 

@@ -67,7 +67,7 @@ are ranked last, behind every fidelity property above.
 - docs/plans/2026-07-03-context-history-split.md — why state/work/history are three files, and the "CONTEXT.md must never become a diary" edge
 - tools/gates/README.md — the ladder vocabulary the record must be structured against
 - tools/diagram/progress.py — the derived-from-disk position renderer
-- CONTEXT.md — standing decisions bind: derived-from-disk, older logs are archive, a risk without a countermeasure is a blocker
+- docs/decisions.md — standing decisions bind: derived-from-disk, older logs are archive, a risk without a countermeasure is a blocker
 
 ## The gap list
 

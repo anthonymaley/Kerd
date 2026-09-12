@@ -269,11 +269,12 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS):
     if not isinstance(target, int) or target <= 0:
         raise ValueError("Target must be a positive integer number of tokens")
     picks = [(record, None)] + [(value, None) for value in files] + [tuple(pair) for pair in sections]
+    picks = [(relative_file(root, value), heading.rstrip() if heading is not None else None)
+             for value, heading in picks]
     if len(set(picks)) != len(picks):
         raise HandoffError("Supply each source once; a repeated file or section would be counted twice")
     sources, total = [], 0
-    for value, heading in picks:
-        path = relative_file(root, value)
+    for path, heading in picks:
         text = source_text(root / path)
         if heading is None:
             selection, content = "complete file", text
@@ -289,7 +290,8 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS):
     return {"status": "measured", "sources": sources, "total_bytes": total,
             "approx_tokens": estimate, "target_tokens": target,
             "within_target": estimate <= target,
-            "method": "bytes counted exactly; tokens estimated at four bytes each, not a tokenizer reading"}
+            "method": "bytes counted exactly per selection, including any whole-file/section or nested-section overlap; "
+                      "tokens estimated at four bytes each, not a tokenizer reading"}
 
 
 def main():

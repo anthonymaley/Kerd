@@ -66,7 +66,7 @@ repair.
 - docs/product/funnel-driver.md — the frame whose contract spec is blocked behind this
 - tools/gates/kit.py — `RUNGS` (line 34) and `GATE_RECORD_RE` (line 91) are the two places the ladder is pinned
 - tools/gates/README.md — the canonical home of the rung vocabulary and the gate-record schema
-- CONTEXT.md — the currency rule (2026-08-23), Law 4 supersession, the cross-cutting sweep obligation
+- docs/decisions.md — the currency rule (2026-08-23), Law 4 supersession, the cross-cutting sweep obligation
 
 External sources are cited inline in the findings below rather than listed here:
 `## Grounding` resolves every reference against the filesystem, so a URL is

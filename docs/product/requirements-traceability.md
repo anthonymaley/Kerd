@@ -214,7 +214,7 @@ it referenceable — and a reference can be checked.
 - docs/state-contract.md — who owns and reads which files
 - tools/gates/kit.py — the gate ladder, and the ROOT derivation that stops the machinery travelling
 - hooks/session-start.sh — the CLAUDE_PROJECT_DIR pattern that already solves aiming
-- CONTEXT.md — the standing decisions this must not violate
+- docs/decisions.md — the standing decisions this must not violate
 
 ## The gap list
 

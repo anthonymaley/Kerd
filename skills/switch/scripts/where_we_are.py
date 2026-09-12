@@ -344,6 +344,10 @@ SUMMARY_KEYS = ("phase", "task", "task_reason", "state", "state_reason", "now",
                 "last_session", "this_session", "question", "documents",
                 "warnings", "insight", "source", "updated", "base",
                 "restored", "restore_note")
+# The closing box's input contract, the same way: Switch Out fills it from the
+# helper's save result and what it just wrote, never from this module.
+CLOSING_KEYS = ("project", "branch", "saved", "commit", "files", "remote", "local_only",
+                "tree", "closed", "next", "reading_set", "measured", "log")
 ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
 BORDERS = "\u256d\u2570\u251c\u250c\u2514"
 
@@ -585,6 +589,75 @@ def render_dashboard(summary, now, width=80, color=True):
     return "\n".join(lines)
 
 
+def render_closing(summary, now, width=80, color=True):
+    """One box at the end of Switch Out saying how far the save reached.
+
+    Three states, told apart in words as well as tone: remote-verified (the
+    helper checked the remote carries the exact commit), committed (local Git
+    only), not saved. Local-only leftovers, the tree, the next action and its
+    reading set are named. The box never claims the session exited or the
+    context was cleared: the terminal is still open, and only the person's
+    /clear changes that.
+    """
+    get = summary.get
+    saved = get("saved")
+    if saved == "remote-verified":
+        badge, tone, verdict = "SESSION SAVED \u2713 ", "green", "remote-verified"
+    elif saved == "committed":
+        badge, tone, verdict = "SAVED LOCALLY ", "amber", "committed, not verified on the remote"
+    elif saved == "not-saved":
+        badge, tone, verdict = "NOT SAVED ", "red", "nothing committed"
+    else:  # absent or unrecognised: unknown is not evidence that nothing was saved
+        badge, tone, verdict = "SAVE STATUS NOT RECORDED ", "amber", "not recorded"
+        saved = "unknown"
+    project = get("project") or "KERD"
+    lines = [ink(pad(" " + str(project).upper(), width - columns(badge)), "bold", "cyan", on=color)
+             + ink(badge, tone, on=color),
+             ink("\u2501" * width, "cyan", on=color), ""]
+
+    def row(label, value):
+        for index, line in enumerate(wrap(str(value) if value else UNRECORDED, width - 10)):
+            lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color) + " " + line)
+
+    files = get("files") if saved in ("remote-verified", "committed") else None
+    where = " \u2192 ".join(part for part in (
+        ("position " if saved in ("not-saved", "unknown") else "")
+        + f"{get('branch') or UNRECORDED} {get('commit') or UNRECORDED}"
+        + (f" ({files} file{'s' if files != 1 else ''})" if files is not None else ""),
+        get("remote") if saved == "remote-verified" and get("remote") else None) if part)
+    row("SAVED", f"{verdict}: {where}" if saved != "unknown" else "not recorded")
+    row("TREE", get("tree"))
+    leftovers = [str(item) for item in (get("local_only") or []) if item]
+    if leftovers:
+        row("LOCAL", "kept out of Git, not saved: " + ", ".join(leftovers))
+    row("CLOSED", get("closed"))
+    lines.append("")
+
+    lines.append(ink(" NEXT", "dim", on=color))
+    lines += ["   " + line for line in wrap(get("next") or UNRECORDED, width - 3)]
+    reading = [str(item) for item in (get("reading_set") or []) if item]
+    if reading or get("measured"):
+        lines.append(ink(" READ FIRST", "dim", on=color))
+        for item in reading:
+            lines += ["   \u25cb " + line if index == 0 else "     " + line
+                      for index, line in enumerate(wrap(item, width - 5))]
+        if get("measured"):
+            lines += ["   " + line for line in wrap("measured: " + str(get("measured")), width - 3)]
+    lines.append("")
+    if get("log"):
+        row("LOG", get("log"))
+        lines.append("")
+    lines.append(ink("\u2501" * width, "cyan", on=color))
+    # The free-context hint follows only a confirmed save; after a failed or
+    # unknown save, clearing context would lose the very work that is unsaved.
+    if saved in ("remote-verified", "committed"):
+        closing = "This session is still open. Free context: type /clear, then /kerd:switch in."
+    else:
+        closing = "This session is still open. Keep it open and resolve the save before clearing context."
+    lines += [ink(" " + line, "dim", on=color) for line in wrap(f"{closing} rendered {now}", width - 1)]
+    return "\n".join(lines)
+
+
 def dashboard(path, text, now, width=80, color=True, restored=None, restore_note=None):
     summary = summary_from_record(path, text)
     summary["restored"], summary["restore_note"] = restored, restore_note
@@ -597,6 +670,8 @@ def main():
     parser.add_argument("--summary", metavar="PATH_OR_DASH",
                         help='Dashboard from a summary already in hand; "-" reads JSON '
                              "on stdin, so the caller writes no file")
+    parser.add_argument("--closing", metavar="PATH_OR_DASH",
+                        help='The Switch Out box from a closing summary; "-" reads JSON on stdin')
     parser.add_argument("--restored", choices=("yes", "partial", "no"),
                         help="Whether the necessary context was recovered. Not which presentation ran, and never proved by rendering succeeding")
     parser.add_argument("--restore-note", help="What is missing when the pickup is not complete")
@@ -613,6 +688,15 @@ def main():
     now = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")
     color = args.color or not (
         args.no_color or os.environ.get("NO_COLOR") or not sys.stdout.isatty())
+    if args.closing:
+        raw = sys.stdin.read() if args.closing == "-" else Path(args.closing).read_text("utf-8")
+        try:
+            closing = json.loads(raw)
+        except json.JSONDecodeError as error:
+            print(f"Closing summary is not readable JSON: {error}", file=sys.stderr)
+            return 2
+        print(render_closing(closing, now, args.width, color))
+        return 0
     if args.summary:
         raw = sys.stdin.read() if args.summary == "-" else Path(args.summary).read_text("utf-8")
         try:

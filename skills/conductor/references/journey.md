@@ -29,12 +29,15 @@ before intent exists. Small explicit work needs only proportionate orientation.
 
 When Switch has just restored the session, its
 [welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
-is the entry orientation: don't repeat it. Ordinary Switch In then opens a
-Conductor session on the restored place and stops on one approval line, as the
-In paragraph of Conductor's SKILL.md describes in full; once the person approves
+is the entry orientation: don't repeat it. Conductor composes the decision before
+that dashboard is rendered, as its SKILL.md In paragraph describes in full;
+once the person approves
 or asks for work, continue with the job update or unresolved decision. Its optional
 Insight callout suits a useful learning during
 work too — distinct from a question card, never compulsory.
+
+Phase and any journey ticks describe the selected work, supported by its record;
+unknown stays unknown. Do not infer client rendering limits or diagnose caches at pickup.
 
 Default to about 80 columns; rewrap to available width. Adapt detail while retaining position,
 the real question and consequential caveats. Never claim a Markdown checkbox is

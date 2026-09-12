@@ -84,5 +84,5 @@ Deliberately excluded, named:
 - skills/conductor/SKILL.md — the close-out being given boundary authority
 - skills/switch/SKILL.md — the canonical boundary flow conductor will invoke; stays the single definition
 - docs/state-contract.md — the ownership rows the v0.83.0 goal block proved route behaviour
-- CONTEXT.md — standing decisions bound: v0.67.0 two-owner split (superseded by this frame), pull-is-switch-only (survives), the loop guard
+- docs/decisions.md — standing decisions bound: v0.67.0 two-owner split (superseded by this frame), pull-is-switch-only (survives), the loop guard
 - kivna/sessions/2026-08-06.md — the evening sitting's three briefs, this frame's evidence

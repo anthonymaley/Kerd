@@ -168,7 +168,7 @@ wrong about a third of the time and fails silently. Mechanics and homes:
 - skills/conductor/SKILL.md — the seedbed being changed, and the thing a wrong edit breaks
 - docs/product/shared-memory.md — the root cause this item is an instance of
 - docs/plans/2026-08-04-post-walk-tooling.md — decision 6, which seated the driving role
-- CONTEXT.md — the four-role seating, the human-gate map, derived-from-disk, no-rip
+- docs/decisions.md — the four-role seating, the human-gate map, derived-from-disk, no-rip
 
 ## The gap list
 

@@ -82,4 +82,4 @@ Deliberately excluded, named:
 - skills/tend/SKILL.md — Category 3's missing-vault nag softens (added at design when the tend amendment joined the slice; grounding healed same sitting)
 - docs/vault-spec.md — the vault contract the coverage table is checked against
 - kivna/sessions/2026-08-06.md — the interview record this frame's evidence cites
-- CONTEXT.md — standing decisions bind: the three-file read set, state-in-declared-artifacts
+- docs/decisions.md — standing decisions bind: the three-file read set, state-in-declared-artifacts

@@ -3,7 +3,7 @@
 
 The three skills come from the repository's own `skills/`, which is the single
 maintained source since v0.107.0 — packaging consumes it rather than keeping a
-second copy that would drift. Guidance stays with the pack.
+second copy that would drift. Guidance ships inside Conductor's references.
 
 Development packaging only: no install, config changes, network or model calls.
 """
@@ -20,7 +20,7 @@ SUFFIXES = {".md", ".py", ".html"}
 def inputs(pack):
     repo = pack.parents[2]
     result = {}
-    sources = [(repo, f"skills/{name}") for name in SKILLS] + [(pack, "guidance")]
+    sources = [(repo, f"skills/{name}") for name in SKILLS]
     for root, relative in sources:
         folder = root / relative
         if not folder.is_dir() or folder.is_symlink():

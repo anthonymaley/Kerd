@@ -376,6 +376,23 @@ class HandoffTests(unittest.TestCase):
         with self.assertRaises(handoff.HandoffError):
             handoff.measure(self.dest, "record.md", ["result.txt", "result.txt"])
 
+    def test_measure_refuses_normalized_file_and_heading_aliases(self):
+        (self.dest / "tasks.md").write_text("## Now\nCurrent\n## Later\nLater\n")
+        with self.assertRaises(handoff.HandoffError):
+            handoff.measure(self.dest, "record.md", ["./record.md"])
+        with self.assertRaises(handoff.HandoffError):
+            handoff.measure(self.dest, "record.md", sections=[
+                ("tasks.md", "## Now"), ("./tasks.md", "## Now  ")])
+        result = handoff.measure(self.dest, "record.md", sections=[
+            ("tasks.md", "## Now"), ("tasks.md", "## Later")])
+        self.assertEqual(len(result["sources"]), 3)
+
+    def test_measure_file_section_overlap_is_disclosed_not_refused(self):
+        (self.dest / "tasks.md").write_text("## Now\nCurrent\n")
+        result = handoff.measure(self.dest, "record.md", ["tasks.md"], [("tasks.md", "## Now")])
+        self.assertIn("overlap", result["method"])
+        self.assertEqual(result["total_bytes"], sum(s["bytes"] for s in result["sources"]))
+
     def test_measure_cli_reports_json_and_a_blocked_failure_exits_two(self):
         ok = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), "measure",
                              "--record", "record.md", "--file", "result.txt", "--target", "10"],

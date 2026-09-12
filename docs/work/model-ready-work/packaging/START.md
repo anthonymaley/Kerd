@@ -65,7 +65,8 @@ Switch handles In, Out and To. Roll continues owned build workers in fresh
 context; it does not replace an arbitrary open terminal. Git saves and external
 actions require the agreed authority. Completion is not automatic publication.
 
-Keep `skills/` and `guidance/` together. References load when needed, not as one
+Keep the `skills/` tree intact, including Conductor's `references/guidance/`.
+References load when needed, not as one
 large startup prompt. The bundle includes local regression tests and a short
 task-evidence summary; development histories, private sessions and optional
 upstream diagram tools are not included. Do not edit this generated copy as a

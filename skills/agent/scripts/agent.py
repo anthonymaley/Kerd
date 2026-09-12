@@ -422,12 +422,21 @@ def framed_prompt(root, request, role, prompt):
             'do not start a reciprocal waiting loop.')
 
 
-def send_claude(root, target, request, prompt):
-    frame = {'type': 'user', 'session_id': target['id'], 'uuid': request,
+def claude_frame(sid, request, prompt):
+    frame = {'type': 'user', 'session_id': sid, 'uuid': request,
              'msg_id': request, 'msgV': 1, 'priority': 'next', 'from': 'kerd-agent',
              'message': {'role': 'user', 'content': prompt}}
-    if len(json.dumps(frame)) > FRAME_LIMIT:
+    serialized = json.dumps(frame)
+    if len(serialized) > FRAME_LIMIT:
         raise Unavailable('Message exceeds the local frame limit; point the recipient at a file instead')
+    return serialized
+
+
+def send_claude(root, target, request, prompt, *, frame=None):
+    # ask() supplies the exact frame checked before creating a delivery record.
+    # Direct callers use the same serializer and limit.
+    if frame is None:
+        frame = claude_frame(target['id'], request, prompt)
     metadata = read_json(claude_home() / 'sessions' / (str(target['pid']) + '.json'))
     if (metadata.get('sessionId') != target['id'] or metadata.get('pid') != target['pid']
             or not same_project(metadata.get('cwd', ''), target.get('cwd', root))
@@ -439,7 +448,7 @@ def send_claude(root, target, request, prompt):
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as channel:
         channel.settimeout(5)
         channel.connect(str(path))
-        channel.sendall((json.dumps(frame) + '\n').encode())
+        channel.sendall((frame + '\n').encode())
     # A successful write is not proof the recipient's inbound policy accepted it.
     return 'submitted-unconfirmed'
 
@@ -621,12 +630,13 @@ class Agent:
                     raise ValueError('Request ID already belongs to different work')
                 return record  # Never resubmit, even after uncertain delivery.
             target = None if provider == 'codex' and owned_partner else live_target(self.root, provider, sid)
+            framed = framed_prompt(self.root, request, role, prompt)
+            frame = claude_frame(sid, request, framed) if provider == 'claude' else None
             log = None if fresh else transcript(self.root, provider, sid)
             record = self.new_request(provider, sid, prompt, role, request, log)
-            framed = framed_prompt(self.root, request, role, prompt)
             try:
                 if provider == 'claude':
-                    record['status'] = send_claude(self.root, target, request, framed)
+                    record['status'] = send_claude(self.root, target, request, framed, frame=frame)
                 else:
                     self.send_codex(sid, framed, request, record, owned_partner)
             except (Unavailable, OSError, ValueError, KeyError, subprocess.TimeoutExpired) as exc:
@@ -741,8 +751,9 @@ class Agent:
                 if begin in collected:
                     at = collected.rfind(begin)
                     opens_a_line = at == 0 or collected[at - 1] == '\n'
-                    # A later opening marker restarts an abandoned partial reply.
-                    collected = begin + collected.rsplit(begin, 1)[1]
+                    # Keep the marker's line prefix: dropping it could promote
+                    # an inline mention to a valid opening on the next event.
+                    collected = collected[collected.rfind('\n', 0, at) + 1:]
                 if (begin in collected and end in collected.split(begin, 1)[1]
                         and opens_a_line and delimits(collected, begin, end)):
                     answer = collected.split(begin, 1)[1].split(end, 1)[0]

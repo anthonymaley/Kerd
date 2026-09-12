@@ -46,7 +46,7 @@ is the source; nothing here is paraphrased into a target he did not give):
 > expectations. Measurable requirements force that alignment — and force the
 > result the user actually wanted.
 
-And the standing statement of 2026-08-23 (CONTEXT.md): *Kerd should make sure
+And the standing statement of 2026-08-23 ([docs/decisions.md](../decisions.md)): *Kerd should make sure
 that anyone using it declares, before design starts, how they'll know each
 requirement was actually met — asking for as much or as little as the size of
 the job warrants.*

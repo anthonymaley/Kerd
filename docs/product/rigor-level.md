@@ -106,4 +106,4 @@ Deliberately excluded, named:
 - tools/gates/README.md — the gate table and audit this refusal lands in
 - docs/product/grounding-was-read.md — the declarations-first slice precedent and the opt-in-versus-retrofit reasoning this reuses
 - docs/design/risk-ledger.md — the state vocabulary the disposition states mirror (a named waiver = accepted + review trigger)
-- CONTEXT.md — standing decisions bind: derived-from-disk, refusal-from-outside-the-model, rigor-rises-ceremony-low
+- docs/decisions.md — standing decisions bind: derived-from-disk, refusal-from-outside-the-model, rigor-rises-ceremony-low

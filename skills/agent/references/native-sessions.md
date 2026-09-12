@@ -126,9 +126,11 @@ reply unconfirmed; they never become a guessed success. Native log formats and
 cooperative answer markers are limitations, not authenticated proof of work.
 Inspect native state if a refusal or an interrupted job supplies no marked reply.
 
-Limits stated rather than glossed. A message larger than the native sender's
-documented same-machine cap (about a million serialized characters; Kerd refuses above 1,000,000) is refused locally
-before any record is written — point the recipient at a file instead. Every
+Limits stated rather than glossed. On the Claude socket route, a message larger
+than the native sender's documented same-machine cap (1,000,000 serialized
+characters) is refused before a request JSON or socket attempt; a local lock
+file may remain. Point the recipient at a file instead. This cap does not
+describe the Codex CLI or a new partner's CLI launch. Every
 Kerd controller sends as `from: kerd-agent`, so a per-sender throttle on the
 recipient's side is shared across them, and a held, expired or throttled
 message is indistinguishable from a slow reply: all remain submitted-unconfirmed.
