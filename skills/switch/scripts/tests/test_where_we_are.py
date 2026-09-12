@@ -563,6 +563,11 @@ class InMemorySummaryTests(unittest.TestCase):
         self.assertIn("\u25cb Run one real Conductor session", out)
         self.assertLess(out.index(" NOW"), out.index(" LAST SESSION"))
 
+    def test_a_now_written_as_one_string_is_one_item_not_a_bullet_per_letter(self):
+        out = view.render_dashboard({"source": "x", "now": "Close the gap"}, NOW, 80, False)
+        self.assertIn("\u25cb Close the gap", out)
+        self.assertNotIn("\u25cb C\n", out)
+
     def test_now_is_part_of_the_frame_so_an_empty_list_still_shows_the_label(self):
         out = view.render_dashboard({"source": "x"}, NOW, 80, False)
         self.assertIn(" NOW", out)

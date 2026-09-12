@@ -490,6 +490,9 @@ class SectionTests(unittest.TestCase):
         self.assertEqual(handoff.named_section(text, "## Now"),
                          "## Now\r\nexact\r\n### Child\r\nkeep\r\n")
 
+    def test_trailing_spaces_on_a_heading_line_still_match_the_named_heading(self):
+        self.assertEqual(handoff.named_section("## Now  \nbody\n", "## Now"), "## Now  \nbody\n")
+
     def test_last_section_runs_to_eof(self):
         self.assertEqual(handoff.named_section("# Top\n## Now\nlast", "## Now"), "## Now\nlast")
 

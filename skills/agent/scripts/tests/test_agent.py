@@ -53,6 +53,14 @@ class QueueTests(unittest.TestCase):
             item.stop()
         self.tmp.cleanup()
 
+    def test_status_of_an_unknown_request_names_it_and_leaves_the_store_untouched(self):
+        unknown = str(uuid.uuid4())
+        with self.assertRaises(agent.Unavailable) as caught:
+            self.app.status(unknown)
+        self.assertIn('No request ' + unknown, str(caught.exception))
+        requests = self.app.folder('requests')
+        self.assertEqual([p.name for p in requests.iterdir()] if requests.exists() else [], [])
+
     def send(self, root, target, request, prompt):
         self.sent.append((target, request, prompt))
         return 'submitted-unconfirmed'

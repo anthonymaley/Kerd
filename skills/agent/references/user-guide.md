@@ -149,8 +149,9 @@ has them, not label an unrun test as passed.
 
 ## When something is unavailable
 
-- **Session missing:** discovery covers Claude native listings and Codex's
-  shared server, not every desktop/IDE session or saved conversation. Kerd
+- **Session missing:** discovery covers Claude native listings, Codex's
+  shared server and the local Codex session store (saved threads appear as
+  `saved thread — activity unknown`), not every desktop/IDE session. Kerd
   explains the limitation; it does not kill a terminal or resume “latest.”
 - **No reply yet:** ask for status. Kerd retrieves the original request, not a
   duplicate. A wait timeout neither cancels the job nor proves delivery failed.

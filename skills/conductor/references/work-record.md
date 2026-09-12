@@ -71,5 +71,5 @@ to restricted material is preferable to exposing it. If progress cannot be
 saved, say so and offer a compact handoff; don't promise reliable resume.
 
 Preserve any explicit planning-only stopping point. Otherwise, actual agreement
-and authorization lead into delivery, not an artificial candidate handoff.
+and authorization lead into delivery, not an artificial handoff.
 The record must not claim the solution is built just because direction is agreed.

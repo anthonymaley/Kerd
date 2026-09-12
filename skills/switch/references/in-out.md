@@ -65,8 +65,9 @@ uncertainty for the work itself. Do not measure pickup cost inside every pickup;
 assess the session logs afterward unless measurement was requested. A user
 explicitly asking to continue after In can proceed through Conductor without
 another approval. Managed To/Roll remains separate and keeps its agreed
-continuation. If no task is selected, say so rather than choosing one or
-manufacturing a question. Existing project restrictions still apply.
+continuation. When neither a saved next action nor a NOW item exists, say that
+no task is selected rather than manufacturing one. Existing project restrictions
+still apply.
 
 Context-cost targets come from the work agreement, not a universal magic number.
 Report added input separately from host overhead where measurable. The Switch trial
@@ -110,16 +111,11 @@ name appears in the dashboard.
 
 Carry the restored project, selected work (or none), agreement and restrictions,
 pending decision and next action forward in context; don't create another record
-or re-read the pickup set. Conductor's In entry is its resume branch: the journey
-strip, the brief from the record, the task list built from the NOW items, and
-then exactly one line — **“Starting on X — approve?”** — where X is the saved
-next action or the first NOW item. One proposal, never two options, never an
-“or”. If a saved pending question exists, that question replaces the approval
-line, with its one proposed answer. If no task is selected, say so and stop
-without manufacturing one. Then wait, even if the saved plan was previously
-authorized: a new window does not grant new authority, and the approval is what
-starts execution. Managed To/Roll is the exception and keeps its agreed
-continuation.
+or re-read the pickup set. Conductor's In entry is its resume branch, ending on
+exactly one line — **“Starting on X — approve?”** — and waiting; the In
+paragraph of Conductor's SKILL.md is the full rule, including how X is chosen,
+the pending-question case and the no-task case. Do not restate it here. Managed
+To/Roll is the exception and keeps its agreed continuation.
 
 ### Welcome back: the screen summary
 
@@ -135,8 +131,9 @@ After restoration, orient before detail. Five short blocks, worded for the proje
 - **You:** "Nothing needed right now", or the specific decision and what it
   unlocks, in Conductor's bounded question surface.
 
-Close with **View tasks and details**, linking the existing work/status page —
-HTML where one exists, otherwise the Markdown record or task list. Resolve a real
+Close with the document links; the task list carries the label **Open work**
+and points at the existing work/status page — HTML where one exists, otherwise
+the Markdown record or task list. Resolve a real
 target; don't invent a page or build one during In. The backlog and audit evidence
 live behind that link. This replaces an exhaustive switch-in report and adds no
 record field. Being short does not suspend the rules above: a contradiction,
@@ -188,7 +185,7 @@ has nothing for.
     "reply": "Install / Hand-load"
   },
   "documents": [
-    ["Tasks", "docs/work/model-ready-work/consolidation.md"],
+    ["Open work", "docs/work/model-ready-work/consolidation.md"],
     ["Design", "docs/work/model-ready-work/design.md"]
   ],
   "warnings": ["origin/main has moved since this record was written"],

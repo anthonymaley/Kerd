@@ -31,7 +31,5 @@ Changed for Kerd:
   inspection remain required practice; unavailable inspection is disclosed.
 - Map patterns to what the person needs to understand, not Kerd rungs.
 
-This is development material in the proposal pack. Conductor's candidate loads
-this SKILL.md explicitly when preparing the direction visual. It is not yet
-registered as an installed Kerd command. Promote the same files, not a second
-instruction copy, when the reworked skill is adopted.
+Visuals ships as `/kerd:visuals`. Conductor loads this SKILL.md explicitly when
+preparing the direction visual.

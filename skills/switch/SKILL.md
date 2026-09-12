@@ -3,12 +3,11 @@ name: switch
 description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Handles useful memory and explicitly authorized Git handoffs; distinguishes closeout from exact mid-work continuation.
 ---
 
-# Switch — development candidate
+# Switch
 
 Keep the work continuous while leaving room in the next context window. Work in
-the person's project, not this skill's directory. Identify the candidate briefly.
-Do not invoke installed Switch or the old gate/mode machinery to run this version.
-No CI, custom hooks or plugin installation is required. Existing host permissions
+the person's project, not this skill's directory. Do not invoke the old gate/mode
+machinery to run this skill. No CI, custom hooks or plugin installation is required. Existing host permissions
 and repository boundaries still apply.
 
 ## Pick the intended action
@@ -57,15 +56,14 @@ and verified work. Don't claim a file save exited a session, moved a process or
 proved full restoration. No fake activity or progress percentages.
 
 For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
-Last session, This session, Where we are, You, and a real link to task detail.
+Now, Last session, This session, Where we are, You, and a real link to task detail.
 An evidence-grounded Insight is optional, never an entry requirement.
 
 Ordinary In restores an active build's place without executing it. Then open the
 sibling [Conductor](../conductor/SKILL.md) on that place using the guide's
-[open-and-stop handover](references/in-out.md#open-conductor-and-stop-at-the-approval):
-Conductor shows its journey strip, brief and task list, then one line —
-“Starting on X — approve?” — and waits. One proposal, never two options, never
-an “or”. The approval, or an explicit request to continue, is what starts work;
+[open-and-stop handover](references/in-out.md#open-conductor-and-stop-at-the-approval).
+Conductor ends on one approval line and waits; its SKILL.md In paragraph is the
+full rule. The approval, or an explicit request to continue, is what starts work;
 managed To/Roll keeps its agreed continuation. Loading is not build authorization.
 
 Keep pickup selective and explicit: fully read the chosen current working set,

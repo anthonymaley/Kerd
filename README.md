@@ -40,18 +40,41 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.110.0)
+## What's New (v0.110.1)
+
+### v0.110.1
+
+**The shipped skills stop calling themselves a candidate.** Conductor, Switch
+and Visuals still carried "development candidate" headers and told the model not
+to invoke installed Conductor — the very skill Switch In loads. A Fable review of
+the four 0.107–0.110 skills found that and fourteen more; the report is at
+`docs/work/model-ready-work/trials/2026-09-11-fable-skill-review.md`. Fixed in
+this release: the candidate wording; the In approval line's precedence (saved
+next action, then first NOW item, then "no task selected"); its stated reason,
+now a deliberate check-in on arrival rather than an authority claim that
+contradicted "don't require a second yes"; the In rule living in one place
+(Conductor's SKILL.md) with the other three copies pointing at it; Conductor's
+model-guidance links, which pointed at a directory that shipped nowhere — the
+guidance now lives under `skills/conductor/references/guidance/` and ships; a
+`docs/work/SESSION.md` pointer Switch never writes; the closing link's three
+names, now one (*Open work*); and this README's "How They Fit Together", which
+still described the pre-0.107 loop. Three reproduced script defects fixed with
+tests: a `now` written as one string rendered a bullet per letter; `agent.py
+status` on an unknown request left an empty lock file in the store; a section
+heading with trailing spaces failed the handoff helper with a misleading
+message. **Named as a loss:** the Slainte claim below is corrected rather than
+built — Conductor has no close-out hook, so the release pass runs on demand.
 
 ### v0.110.0
 
 **Switch In opens a Conductor session and stops on one line.** 0.108.0 had In
-restore your place and stop dead, leaving you to ask for Conductor yourself —
+restore your place and stop dead, leaving you to ask for the work yourself —
 correct on authority, but it lost the focus: nothing on screen said what the
 sitting was for. In now shows the dashboard, then opens Conductor on the restored
 place — journey strip, brief, task list — and ends on exactly one line:
 *“Starting on X — approve?”*, where X is the saved next action. One proposal,
-never two options, never an “or”. Your approval starts the work; a new window
-still grants no new authority, so an already-authorized plan waits for the same
+never two options, never an “or”. Your approval starts the work; the line is a
+deliberate check-in on arrival, so an already-authorized plan waits for the same
 line. `switch to` and Roll keep their agreed continuation untouched. **What it
 means:** every pickup lands in a session with its next move named, and the only
 thing between you and work is “yes”.
@@ -404,7 +427,7 @@ kivna/
 
 ### slainte (Project Health)
 
-Slainte is the release close-out pass, plus on-demand health audits. When a conductor session ships a version bump or lands an acceptance record, close-out triggers slainte before the boundary: it sweeps the repo's own narrative surfaces — README sections and What's New, the playbook, the state contract, the capability lists, any living design doc the release touched — fixes what is drift, and names in its report what it deliberately left untouched, so restraint is visible instead of assumed. Fixes land as normal work commits under the caller's verification gate, and prose it writes passes skriv's one-shot audit first. The mechanical layer stays CI's (version sync, capability lists, namespaces — R1–R3 and AU1–AU10); slainte owns the judgment layer: skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification. There is no config file — targets derive from the repo.
+Slainte is the release pass, plus on-demand health audits. Run `/kerd:slainte release` when a version bump or an acceptance record lands — Conductor does not trigger it on its own — and it sweeps the repo's own narrative surfaces — README sections and What's New, the playbook, the state contract, the capability lists, any living design doc the release touched — fixes what is drift, and names in its report what it deliberately left untouched, so restraint is visible instead of assumed. Fixes land as normal work commits under the caller's verification gate, and prose it writes passes skriv's one-shot audit first. The mechanical layer stays CI's (version sync, capability lists, namespaces — R1–R3 and AU1–AU10); slainte owns the judgment layer: skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification. There is no config file — targets derive from the repo.
 
 The on-demand area audits (docs, code, site, deps, playbook, release) still run any time, report-only by default. Everything gets a severity grade: high (factually wrong, broken build, security vulnerability), medium (stale but not misleading), low (nitpick).
 
@@ -535,13 +558,13 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 ## How They Fit Together
 
-**Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` to start your first session.
+**Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
 
-**Day to day:** You sit down at your laptop and run `/switch in`. It pulls and reads exactly three files — CONTEXT.md (where the project stands, standing decisions, open questions), TODO.md (what's next), and the newest session log (what happened last time). Then it offers to start a conductor session. You run `/conductor` to plan the session. Work happens, decisions get recorded in CONTEXT.md as they're made. When the work is done, conductor's close-out runs the boundary itself — the session log, the state commit, and the push happen as its final act, and the close names the suggested next pick from TODO and offers `/clear`. Run `/slainte docs` any time to check nothing drifted. A session without conductor still ends with `/switch out` directly. The Obsidian vault refreshes only when you ask — `/kivna save`, on demand, whenever you want the export current. Next session, same state, whether you pick up in a fresh session on this machine or on another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and shows the welcome-back dashboard. It then opens a Conductor session on that place and stops on one line — *"Starting on X — approve?"* Say yes and the work runs under Conductor, with decisions recorded in the work record and CONTEXT.md as they're made. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
-**On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying at three files and by CONTEXT.md being pruned at acceptance-record landings, so those files don't grow without bound. If a boundary feels expensive, the fix is a shorter CONTEXT.md at the next acceptance-record landing — not a shallower read.
+**On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by CONTEXT.md being pruned at acceptance-record landings, so those files don't grow without bound. If a boundary feels expensive, the fix is a shorter CONTEXT.md at the next acceptance-record landing — not a shallower read.
 
-**The layers:** The session boundary is defined once, in switch — pull on switch-in, the session-state commit at switch out — and has two callers: standalone, or conductor's close-out invoking it. Conductor owns session discipline, commits its own work as it verifies, and closes the session it conducted. Kivna owns the knowledge vault. Above them sits the ladder: every piece of work is a slug climbing frame → viability → scope → design → handoff → loop → acceptance, with `python3 tools/gates/gate.py route <slug>` reading what is on disk and naming the rung where the work enters, the progress board showing derived position, and CI refusing at every push what a document promised and the tree no longer delivers. Every skill works standalone.
+**The layers:** The session boundary is defined once, in switch — sync on switch-in, the named-file save and remote check at switch out — and you call it directly. Conductor owns the sitting: understanding, agreement, delivery and assessment, committing its own work as it verifies. Kivna owns the knowledge vault. Above them sits the ladder: every piece of work is a slug climbing frame → viability → scope → design → handoff → loop → acceptance, with `python3 tools/gates/gate.py route <slug>` reading what is on disk and naming the rung where the work enters, the progress board showing derived position, and CI refusing at every push what a document promised and the tree no longer delivers. Every skill works standalone.
 
 ## Naming
 

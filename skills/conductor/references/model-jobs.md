@@ -2,8 +2,8 @@
 
 Read when preparing a delegated job. For a direct “ask Claude/Codex”, use
 `/kerd:agent` (sibling `../../agent/SKILL.md`) to resolve the established partner
-or show session choices before dispatch. If Agent is absent in a three-skill
-candidate package, disclose the missing partner route; do not silently substitute
+or show session choices before dispatch. If Agent is absent from the
+installation, disclose the missing partner route; do not silently substitute
 a fresh worker. Agent also reads this guide for prompt preparation: when it has
 already selected the route, do not route back or repeat selection. The `ask.py`
 instructions below apply to deliberately chosen CLI workers, not existing native
@@ -13,7 +13,7 @@ inside a delivery loop. Neither route creates permission for extra effects.
 
 ## Prepare work the chosen model can do well
 
-Read [model choice](../../../guidance/model-choice.md) when assigning a new kind
+Read [model choice](guidance/model-choice.md) when assigning a new kind
 of job or changing the pair. It supplies the cross-provider shortlist, evidence
 limits and decision method. Reuse an applicable choice; do not run a new survey
 or ask the user to staff every job. Then load only the chosen model's guidance.
@@ -84,7 +84,7 @@ are local, not transferred with the project's ordinary Git files.
 
 When the chosen model is a Claude model and the job is bounded to this session,
 dispatch it as a native subagent: the same prepared brief, the model chosen from
-[model choice](../../../guidance/model-choice.md), and the effort **requested**
+[model choice](guidance/model-choice.md), and the effort **requested**
 in the brief — the native route exposes no effort setting, so record it as
 requested, never observed. A subagent's return is its result; nothing is
 retrieved from a transcript. Prefer a different suitable model for independent

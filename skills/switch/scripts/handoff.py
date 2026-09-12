@@ -211,7 +211,7 @@ def named_section(content, heading):
         match = re.fullmatch(pattern, text)
         if match:
             headings.append((index, len(match[1]), text))
-    matches = [entry for entry in headings if entry[2] == heading]
+    matches = [entry for entry in headings if entry[2].rstrip() == heading.rstrip()]
     if len(matches) != 1:
         raise HandoffError("Named section must occur exactly once outside fenced code")
     start, level, _ = matches[0]

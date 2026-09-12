@@ -524,7 +524,10 @@ def render_dashboard(summary, now, width=80, color=True):
     # with nothing under its Now heading shows that gap rather than hiding it.
     # The backlog is deliberately not here; it stays behind the documents link.
     lines.append(ink(" NOW", "dim", on=color))
-    items = [str(item) for item in (get("now") or []) if item]
+    now_items = get("now") or []
+    if isinstance(now_items, str):  # one item written as prose, not a typo per character
+        now_items = [now_items]
+    items = [str(item) for item in now_items if item]
     for item in items:
         for index, line in enumerate(wrap(item, width - 5)):
             lines.append(("   \u25cb " if index == 0 else "     ") + line)

@@ -274,22 +274,20 @@ first". Doc-only; the design is the v0.64/v0.66 decisions in CONTEXT.md.
 
 ## Now
 
-Stage: Release preparation
+Stage: Released (0.108.0 shipped Agent; 0.109.0 added the Codex TUI route;
+0.110.1 fixed the unknown-request lock litter found by the 2026-09-11 Fable review)
 
-Current activity: hand the integrated 0.108.0 release to the established Claude
-Kerd partner, as the producer explicitly requested. Codex stops editing before
-dispatch and remains responsible for retrieving the release result. The exact
-scope and checks are in [release-handoff.md](release-handoff.md).
+Current activity: none. The 0.108.0 handoff in [release-handoff.md](release-handoff.md)
+is history.
 
 Pending question: none.
 
-Next action: confirm in ordinary use that the published release reaches installed
-plugins; publication is not installation, and neither is a use-quality pass.
-Installation and ordinary-use experience remain separate observations. The
-three-skill controlled-trial package has not been expanded to include Agent.
+Next action: re-run the Codex TUI route on the current release when Codex has
+tokens (retrieve queued request a7ef1375 with `status`, never resend), since the
+recorded proof predates every fix.
 
-Remaining limits: discovery covers Claude native listings and Codex shared-server
-threads, not every desktop/IDE backend. Claude partner launcher has file tools,
+Remaining limits: discovery covers Claude native listings, Codex shared-server
+threads and the local Codex session store, not every desktop/IDE backend. Claude partner launcher has file tools,
 not Bash/nested delegation. Existing partners retain their own permissions.
 Answer markers/native logs are a cooperative, version-sensitive retrieval route.
 The optional WebSocket dependency has only been installed in the temporary test

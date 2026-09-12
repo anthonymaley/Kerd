@@ -4,6 +4,7 @@ Read when entering or resuming Deliver. The work record and actual artifacts
 establish the outcome, success, authority and current activity. Reconcile stale
 status with evidence, preserving prior decisions. If a genuine authorization
 gap remains, ask once; don't repeatedly ask to start already authorized work.
+The Switch In approval line on arrival is the one exception.
 Optional limits remain optional. Honor supplied limits and revoked authority.
 Use the existing request's authority for small explicit work; no intake or new
 approval record is required simply to act. Open later decisions stop only their
@@ -36,7 +37,7 @@ No new permission for purchases, publishing or installation is implied.
 
 Choose an available model and effort suited to that job, not a blanket
 “cheap worker” tier. Read the relevant provider guidance and, when applicable,
-the matching model profile in [local guidance](../../../guidance/README.md).
+the matching model profile in [local guidance](guidance/README.md).
 Check that it applies to the actual model and execution route. Guidance is
 advice, not proof of superior results. If no applicable profile is available,
 disclose that and use a clear outcome-first brief without invented tuning.
@@ -74,7 +75,7 @@ the next useful job without another permission turn inside existing authority.
 
 ## Keep a long build moving through Roll
 
-For an authorized long-running local build, use [candidate Switch's Roll guide](../../switch/references/to-roll.md).
+For an authorized long-running local build, use [Switch's Roll guide](../../switch/references/to-roll.md).
 Conductor prepares the actual agreement and small saved place, selects the model
 and tools, starts the managed loop and remains responsible for review and proof.
 The worker gets the relevant outcome contract, not the whole interview or skill

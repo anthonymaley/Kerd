@@ -39,12 +39,12 @@ out of the portable instruction. The
 destination must find that record before using generic project memory. A wrong
 checkout or absent record stops the attempt; do not replace it with local readiness
 checks. This instruction must travel with the handoff because the destination may
-not have this candidate skill installed.
+not have this skill installed.
 If the person must carry the instruction, put it in one copyable plain-text code
 block after the short status summary. Link the saved record for detail rather than
 repeating its whole narrative in the user-facing response.
 
-When the candidate helper is available, use `handoff.py prepare` with `--branch`,
+When the helper is available, use `handoff.py prepare` with `--branch`,
 `--record`, `--commit FULL_SAVED_COMMIT` and `--sync`, adding only the current sources
 needed for the next action. It checks the fetched revision before updating the
 checkout. Fetch can update Git metadata even when pickup refuses; working files

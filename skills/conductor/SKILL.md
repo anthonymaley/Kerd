@@ -3,26 +3,26 @@ name: conductor
 description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through clear direction, delivery and independent assessment. Resume saved work. Handle small explicit changes directly; status and review requests do not start a full intake.
 ---
 
-# Conductor — development candidate
+# Conductor
 
 Help the person understand and agree what they want to make happen. Work can be
 software, research, a commercial offer, a process or another repo-based outcome.
 The conversation should feel like a capable partner, not a form or a gate ladder.
 
 Guide **Understand → Shape → Agree → Deliver → Complete**, including interrupted
-work. This is an experimental skill, not a claim that the whole journey has
-passed a real-user trial. After actual direction agreement and authorization,
+work. The whole journey has not yet been through a recorded real-user sitting;
+say so if asked, not on every entry. After actual direction agreement and authorization,
 continue into delivery; a completed document is not a reason to stop. Preserve
 an explicitly requested planning-only boundary. An earlier intake-only agreement
 does not become build authorization because this skill was updated.
 
 Use the current project for work, not the directory containing this skill.
-Resolve supporting files relative to this SKILL.md. On entry, identify this as
-the candidate and name the project briefly. Do not invoke installed Conductor,
-Drive, gate tools or old session machinery to run it. Do not replace installed
-Kerd or change hooks, CI, global instructions, existing session markers or dated history.
+Resolve supporting files relative to this SKILL.md. On entry, name the project
+briefly. Do not invoke Drive, gate tools or old session machinery to run this
+skill. Do not change hooks, CI, global instructions, existing session markers or
+dated history.
 Optional job/diagram tools follow scoped installation approval in their guides;
-approval to use this candidate alone does not authorize those installations.
+approval to use this skill alone does not authorize those installations.
 If higher-priority instructions conflict, explain the specific conflict rather
 than claiming it is bypassed. Existing host permissions still apply.
 
@@ -34,13 +34,17 @@ guide, skip intake and discovery, and open the session on the saved place. Show
 the journey strip, the brief from the record and a task list built from the
 restored NOW items; do not create or update work records, launch a worker or
 execute the saved plan. End on exactly one line — **“Starting on X — approve?”**
-— where X is the saved next action or the first NOW item, and wait. One
-proposal, never two options, never an “or”. A saved pending question replaces
-that line, with its one proposed answer. If no task is selected, say so and stop
-without manufacturing one. This applies even when the saved work already has
-approval: a new window does not grant new authority. Only the person's approval,
-or a current explicit request to continue, starts execution; managed To/Roll
-keeps its agreed continuation and does not stop here.
+— and wait. X is chosen in this order: the saved next action; failing that, the
+first NOW item; only when both are absent, say that no task is selected and stop
+without manufacturing one. One proposal, never two options, never an “or”. A
+saved pending question replaces the approval line, with its one proposed answer.
+This line is a deliberate check-in on arrival, so the sitting's next move is
+named before anything runs; it applies even when the saved work already has
+approval, and it is the one place where an already-authorized request is asked
+again. Only the person's approval, or a current explicit request to continue,
+starts execution; managed To/Roll keeps its agreed continuation and does not
+stop here. This paragraph is the full In rule; Switch and the journey guide
+refer to it rather than restating it.
 
 On the person's next request, handle the actual request under Conductor: status
 stays status; a clear approval or continuation resumes the selected work without
@@ -67,8 +71,8 @@ itself establish outcome, check and permission. A seemingly small change with
 consequential effects still needs those effects resolved.
 
 Before broad reading, follow an explicitly supplied work record or existing
-project/Now pointer, including a nested record. Otherwise check the candidate
-Switch handoff at `docs/work/SESSION.md`, then work-record names under
+project/Now pointer, including a nested record. Otherwise check the project's
+current-context pointer (CONTEXT.md by convention), then work-record names under
 `docs/work/`. The usual home is `docs/work/*/work.md`, not a depth restriction:
 if no active pointer resolves, locate nested `work.md` names within the relevant
 work folder and read only plausible current-position sections. This is a small lookup, not a
@@ -146,6 +150,7 @@ success criteria. Preserve existing agreement when resolving a missing measure.
 Show a compact interpretation before substantial execution and establish agreement
 to new direction or material choices. Reuse clear instructions and approvals
 already given; don't require a second yes for an unchanged authorized request.
+The Switch In approval line is the one exception, by design.
 An unresolved later decision can stay open with a named revisit point while safe
 work proceeds. Stop the affected action if it requires that answer. Delivery can
 finish before a long-term benefit is measurable when that stopping point and its
@@ -223,9 +228,9 @@ exact boundary and save an honest handoff.
 For status requests, give the stage, current activity, open issue and next
 action from the record and actual artifacts. Distinguish reported work from
 verified results. No commit, board render or CI result is required to save or
-resume. Do not commit, push or publish just to finish this trial.
+resume. Do not commit, push or publish just to finish a status request.
 
 For an explicitly requested session save or pickup, use
-[the candidate Switch](../switch/SKILL.md). It carries a work pointer and session
-history, not another copy of the plan. Do not run installed Switch to finish the
-candidate or assume a local save transferred native model sessions elsewhere.
+[Switch](../switch/SKILL.md). It carries a work pointer and session
+history, not another copy of the plan. Do not assume a local save transferred
+native model sessions elsewhere.

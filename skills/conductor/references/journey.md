@@ -20,6 +20,7 @@ At entry/resume, decisions and stage transitions, show these in reading order:
 4. The question and proposed answer, source/reason and meaningful qualifications
    together. Add a relevant sketch or comparison when it helps.
 5. What the answer enables and the next action/stage. No extra “continue?”
+   (the Switch In approval line on arrival is the one exception).
 
 For a fresh opener, keep it light: current stage and “What are you trying to
 achieve?” Rough ideas and optional notes are welcome. Use an already-supplied
@@ -29,10 +30,9 @@ before intent exists. Small explicit work needs only proportionate orientation.
 When Switch has just restored the session, its
 [welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
 is the entry orientation: don't repeat it. Ordinary Switch In then opens a
-Conductor session on the restored place — journey strip, brief, task list — and
-stops on one line, “Starting on X — approve?”, never a pair of options; once the
-person approves or asks for work, continue with the job update or unresolved
-decision. Its optional
+Conductor session on the restored place and stops on one approval line, as the
+In paragraph of Conductor's SKILL.md describes in full; once the person approves
+or asks for work, continue with the job update or unresolved decision. Its optional
 Insight callout suits a useful learning during
 work too — distinct from a question card, never compulsory.
 
@@ -198,7 +198,8 @@ requested when the route has not confirmed it. No routine staffing approval.
 Mark a task complete only when its own check or intended contribution is done.
 “All implementation jobs done” must not hide missing proof or required user
 acceptance. A visible final review can remain pending while the build is ready.
-Updating a task is not an approval request and never a reason to end the turn.
+Updating a task is not an approval request and never a reason to end the turn;
+the Switch In approval line on arrival is the one designed stop.
 
 Show working only after execution begins. Distinguish preparing, running, waiting
 for result, returned, correcting and verified. When a job is quiet, state that it

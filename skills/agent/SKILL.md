@@ -39,9 +39,9 @@ not shell subcommands. For execution, use the workflow below.
    [model-job guidance](../conductor/references/model-jobs.md): relevant source
    paths, outcome, contribution, checks, authority and stopping point. Consult
    only the applicable model profile. Requested model/effort and observed model
-   are different facts. Resolve guidance at package-root `guidance/`, or in the
-   full Kerd checkout at `docs/work/model-ready-work/guidance/` when the first
-   location is absent. Do not re-survey model choices every turn.
+   are different facts. Resolve guidance at Conductor's
+   [references/guidance/](../conductor/references/guidance/README.md), which
+   ships with the plugin. Do not re-survey model choices every turn.
 5. Read [native sessions](references/native-sessions.md) for the selected route
    and its commands. Handle setup within existing authority; ask before installing
    dependencies or changing account/settings scope. Never request secrets in chat.

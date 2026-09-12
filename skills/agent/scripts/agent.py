@@ -477,7 +477,7 @@ class Agent:
             workers = [read_json(path) for path in (self.state / 'workers').glob('*.json')]
         return {'project': str(self.root), 'sessions': sessions, 'partners': aliases,
                 'worker_launch_records': workers, 'unavailable': unavailable,
-                'scope': 'Claude native discovery and Codex shared server; partner/worker records are not live probes of every app or closed conversation'}
+                'scope': 'Claude native discovery, Codex shared server and the local Codex session store; partner/worker records are not live probes of every app or closed conversation'}
 
     def pair(self, provider, sid, alias):
         live_target(self.root, provider, sid)
@@ -689,6 +689,8 @@ class Agent:
 
     def status(self, request):
         path = self.folder('requests') / (identifier(request) + '.json')
+        if not path.exists():  # checked before the lock, so an unknown id leaves no file behind
+            raise Unavailable('No request ' + identifier(request) + ' in this project')
         with locked(path.with_suffix('.lock')):
             return self._status(path, request)
 
