@@ -46,7 +46,7 @@ to sit here moved verbatim to `docs/backlog-archive.md` under “Retained positi
 **Pickup reading set** (Switch Out, 2026-09-11): this file complete;
 `TODO.md` `## Now`; `kivna/sessions/2026-09-11.md` complete. Add
 `docs/work/model-ready-work/trials/2026-09-11-fable-skill-review.md` only when
-acting on the review. Measured reading: 22,904 bytes, about 5,726 tokens estimated at four bytes each (not a tokenizer reading), against the 8,000 target — within target. Before the move the pointer alone was 216,391 bytes at 0.110.1.
+acting on the review. Measured reading: 23,482 bytes, about 5,871 tokens estimated at four bytes each (not a tokenizer reading), against the 8,000 target — within target. Before the move the pointer alone was 216,391 bytes at 0.110.1.
 
 ## Key Decisions
 
