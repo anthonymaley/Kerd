@@ -15,8 +15,10 @@ and repository boundaries still apply.
 - **In:** restore useful memory, current status and the saved plan; show the
   welcome-back dashboard, open a Conductor session on that place and stop at one
   approval line. Read [pickup and closeout](references/in-out.md).
-- **Out:** close this sitting well: record history, tidy active work and prepare
-  the next session. Read [pickup and closeout](references/in-out.md).
+- **Out:** close this sitting well: record history, tidy active work, and leave
+  a lean, measured start point — rulings kept, cases and closed rows moved to
+  reachable records, the reading set named. Read
+  [pickup and closeout](references/in-out.md).
 - **To:** save the exact mid-work position through GitHub, relinquish source
   control and restore at the destination. Not full Out. Read
   [device handoff](references/to.md). Load managed detail only for an owned build.
@@ -74,7 +76,9 @@ output when testing context cost; disclose unavailable readings.
 ## Implementation boundary
 
 [Git helper](scripts/handoff.py) supplies explicit-file save, safe fast-forward
-pickup and optional assembly of caller-selected current records. It does not
+pickup, optional assembly of caller-selected current records, and a `measure`
+of the reading set's size against the pickup target (bytes exact, tokens
+estimated; never blocking). It does not
 choose what is done, select relevant memory, grant authority or control sessions.
 [Roll helper](scripts/roll.py) manages fresh CLI runs through the existing model
 connection. It does not take over arbitrary already-open interactive sessions.

@@ -38,8 +38,9 @@ Name those exact paths with `--preserve` and the helper proceeds, reporting them
 as local only; it stops, untouched, if the incoming revision carries one of them,
 because that collision is a real decision. Unnamed changes still stop a pickup.
 
-If that start point names a pickup reading set, use its complete files/sections
-first. It is a saved navigation aid, not a ban on further reading: check linked
+The start point names a **pickup reading set** — the exact files and complete
+sections Out chose for this next action (see "Leave a lean start point" below).
+Read those first, in full, and nothing else by default. It is a saved navigation aid, not a ban on further reading: check linked
 detail when a contradiction or the next action requires it. Where the host can
 assemble those named sources before starting the fresh worker, use `prepare`
 below so the model receives their text once. Otherwise read them normally.
@@ -253,6 +254,46 @@ Use the existing handoff/work record; do not add a parallel manifest or duplicat
 source text. This lets the next pickup reuse the outgoing session's knowledge
 of the work instead of rediscovering the entire repository. Preserve unresolved
 decisions and authority even when the next action looks simple.
+
+### Leave a lean start point
+
+The next pickup pays for every byte the start point carries, so Out ends by
+making it small on purpose, not by reading less next time. Four moves, in this
+order, each leaving a reachable link behind:
+
+1. **Rulings stay, cases move.** The loaded pointer keeps each standing decision
+   as its ruling — the bold sentence and its date — only for decisions that
+   govern the next work or a constraint the next sitting must honour. The full
+   entry (the case, the evidence, the argument) lives in a living decisions
+   record (`docs/decisions.md` by convention), newest first with an index of
+   rulings so history is discoverable by subject. Superseded decisions are
+   marked there, never deleted. A ruling without its case is a link, not a loss.
+2. **Closed work leaves the active list with its reason.** The closure review
+   already gives every open row a verdict; rows judged done or dead move to a
+   backlog archive (`docs/backlog-archive.md` by convention) with the verdict,
+   the evidence and the date. Open and unsure rows stay. Age alone closes
+   nothing.
+3. **Name the reading set in the start point** as exact files and complete
+   sections, in the pointer's current-state section, with why each matters.
+   The default set is the pointer, the active list's `## Now`, and the newest
+   session log; add a work record section only when the next action needs it.
+4. **Measure it and record the reading.** Run the helper's `measure` on that
+   set and write the result beside the reading set:
+
+   ```sh
+   python3 /path/to/switch/scripts/handoff.py --project /path/to/project measure \
+     --record CONTEXT.md --section TODO.md '## Now' --file kivna/sessions/<date>.md
+   ```
+
+   It counts bytes exactly and estimates tokens at four bytes each, labelled as
+   an estimate; the target is the trial's 8,000 unless the work agreement sets
+   another (`--target`). Over target is information: prune further under the
+   rules above, or record why the set must stay larger. It never blocks a save.
+
+The first run on a legacy pointer is a migration: keep a recoverable original
+(the move itself, in Git, plus a dated note in the session log), reconcile any
+conflicting current claims, and say what was not reconciled. Do not apply the
+migration to an unrelated live project.
 
 The living handoff describes the sitting that is ending, not the moment it was
 written. A record states the revision observed while writing, so a boundary

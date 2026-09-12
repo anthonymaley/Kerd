@@ -2,30 +2,17 @@
 
 ## Now
 
-**Current work:** Kerd *is* the candidate — 0.107.0, 0.108.0 and 0.109.0 are on
-`origin/main` (`21e6779`, `50e8034`, `1a1c75c`). Position and the four review
-dispositions: [Agent work record](docs/work/agent-connection/work.md); the day:
-`kivna/sessions/2026-09-11.md`. The candidate track's
-[consolidation list](docs/work/model-ready-work/consolidation.md) is superseded
-for Switch by the releases; its continuation and visibility gaps stay open as
-ordinary-use observations, not tasks.
+**Current work:** Kerd is released; 0.107.0 through 0.110.1 are on `origin/main`
+and 0.111.0 (Switch Out's lean-start step) is the sitting in progress. Position
+and the reading set: `CONTEXT.md` `## Where We Are`. The day:
+`kivna/sessions/2026-09-11.md`. Review evidence:
+`docs/work/model-ready-work/trials/2026-09-11-fable-skill-review.md`.
 
-**Delta 2026-09-11:** two owed proofs, neither a build —
-- Re-run Agent's Codex TUI route on 0.109.0 when Codex has tokens (the recorded
-  proof predates every fix). Requests `a7ef1375` and the vault bridge's are still
-  queued there; retrieve with `status`, never resend.
-- Run one real Conductor session on 0.109.0 and confirm it dispatches a native
-  subagent for a Claude player rather than `ask.py`.
-- Confirm `/plugin` shows 0.109.0 on the next ordinary startup.
-
-**Closure review at this boundary** (tested against today's evidence): no
-Backlog row was completed; "Stashes and local-equals-remote unchecked at the
-boundary" is *narrowed* — Agent's `handoff.py save` verifies the remote carries
-the exact commit, but Switch Out itself still does not — `(done? — confirm)` is
-not warranted, it stays open. Fable's disclosed-not-built limits from the
-foundation review (in-place rewrite with a preserved inode, unverified peer
-process on the Claude socket, first contribution in argv, shared `kerd-agent`
-sender name) are one Backlog row below, not four.
+- Run one real Conductor session on 0.111.0 and confirm a Claude player is
+  dispatched as a native subagent, not through `ask.py`.
+- Re-run Agent's Codex TUI route when Codex has tokens: retrieve queued request
+  `a7ef1375` and the vault bridge's requests with `status`, never resend.
+- Confirm the plugin cache picks up 0.111.0 on an ordinary startup.
 
 ### Earlier launch sequence — retained pending reconciliation
 
@@ -577,6 +564,9 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   as a required evidence line, promote the script into `tools/` or a hook, or
   frame it as its own item. Same class as `check_stage_schema()`/AU10 — a
   prose rule that did not grip, replaced by a check that refuses.
+  **Narrowed 2026-09-11:** Agent's `handoff.py save` verifies the remote carries the
+  exact commit, but Switch Out itself still does not — `(done? — confirm)` is not
+  warranted; the row stays open.
 - **The playbook's `## Current Status` duplicates CONTEXT.md.** Its stale
   content was fixed this session (v0.90.0 → v0.95.0, three hooks → four); the
   duplication itself remains. Kill it or make it a pointer.
@@ -715,8 +705,6 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   confirmed unused.
 - **CI rule for the single-definition law** — nothing machine-enforces
   "conductor never re-describes a Switch Out step".
-- **Close-out double-write** — conductor step 1 writes CONTEXT/TODO, step 6's
-  invoked flow overwrites both.
 - Derive the rigor refusal messages from `RIGOR_LEVELS` via join.
 - Gate records can only say GO: a refused gate has no dated home.
 
@@ -727,48 +715,6 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
 - Stale `Kerd.md` MOC version field (says 0.31.0).
 - Consider promoting the refined question-formation rule from the pair hook into
   global `~/.claude/CLAUDE.md`.
-
-**Deferred — accepted costs, waiting on a named return condition**
-
-- **Switch-in costs ~17% of the context window — measured, diagnosed, and
-  DEFERRED by the producer 2026-09-01.** *"Do nothing for now"* — this repo is
-  complex, mid-planning, and losing context is the more expensive error. The
-  measurement is recorded here so no later session re-derives it, and **the row
-  as first filed blamed the wrong lever (pruning); that framing is superseded by
-  what follows.**
-  **Where the cost is:** the read set is 250KB — `CONTEXT.md` 177KB (70.7%, so
-  **12 of the 17 points**) · the day's session log 37KB (2.5 pts) · `TODO.md`
-  36KB (2.5 pts). `## Key Decisions` alone is **97.9%** of CONTEXT.md; every
-  other section totals 3.8KB.
-  **Growth is two multipliers, and pruning only reaches one.** Bullets went 17
-  (2026-07-06) -> 48 -> 74 -> 101 -> **131** today, while the MEAN bullet went
-  232B -> 676 -> 919 -> 1,239 -> **1,352B**. Count 7.7x, size 5.8x.
-  **The decisive measurement: old bullets do not accrete.** Of the 48 standing on
-  2026-08-04, **44 survive and grew 1.01x** (29,376B -> 29,593B) with 4 removed;
-  the **87 added since average 1,696B — 2.5x the survivors' 672B — and are 147KB,
-  83% of the whole section.** So deleting every pre-August decision recovers 29KB
-  (16%) and touches none of the growth. **Pruning is aimed at the wrong
-  variable**, which is why two licensed prune events both ended with the file
-  bigger.
-  **Rate: linear, not compounding.** ~30 new bullets per window, per-window mean
-  1,297B -> 2,117B -> 1,695B (inflated once in mid-August, then plateaued). ~5.3
-  KB/day, projecting ~250KB in two weeks (~22% of a pickup) and ~320KB in four
-  (~26%).
-  **Two options were priced and neither taken.** (a) A size budget per decision —
-  **refused on the producer's own reasoning**, the argument that got to a ruling
-  is the thing the boundary exists to preserve. (b) Tiered loading, his idea:
-  deferring the whole Backlog buys **2.2 pts**, and rank-and-read-High-only buys
-  **0.5 pts** because High is already 76% of the Backlog — both aimed at the
-  2.5-point file. (c) Named but untested: split CONTEXT.md the way 2026-07-03
-  split state/work/history, keeping the **ruling** in the loaded file and moving
-  the **case** to a reachable record — a full read of a smaller file rather than
-  a reduced mode, which `skills/switch/SKILL.md` forbids outright. **Its risk is
-  the one this repo has already paid:** `docs/design/conductor-role.md` was
-  reachable by name and sat unbuilt for three days, which is why `fidelity.py`
-  exists.
-  **Return condition:** CONTEXT.md passes **250KB**, or a pickup passes **25%**,
-  or the per-window bullet mean resumes climbing — whichever comes first. Until
-  one fires, this is an accepted cost, not an open task.
 
 **Blocked — not candidates at any consequence**
 

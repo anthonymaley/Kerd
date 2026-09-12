@@ -51,6 +51,8 @@ docs/gates/       # dated gate records, immutable
 docs/plans/       # dated contract specs and generated progress renders
 docs/playbook.md  # living project guide, updated by conductor close-out
 docs/state-contract.md # who owns and reads CONTEXT.md, TODO.md, kivna/sessions/
+docs/decisions.md # the full case for every standing decision; CONTEXT.md keeps only governing rulings
+docs/backlog-archive.md # Backlog rows closed at Switch Out, with verdict, evidence and date
 CONTEXT.md        # current state, overwritten each session
 TODO.md           # open work (## Now + ## Backlog)
 hooks/            # session hooks (statusline, pair toggle, session-start/stop, skill-complete)

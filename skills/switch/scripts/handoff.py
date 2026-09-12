@@ -256,6 +256,42 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
     return packet
 
 
+TARGET_TOKENS = 8000  # the Switch trial's pickup allowance, from the In guide
+
+
+def measure(root, record, files=(), sections=(), target=TARGET_TOKENS):
+    """Size the pickup reading set as it stands in the working tree.
+
+    Bytes are counted exactly; tokens are estimated at four bytes each, which
+    is a proxy and is labelled as one. An over-target set is information for
+    the person closing the sitting, not a refusal: the result never blocks.
+    """
+    if not isinstance(target, int) or target <= 0:
+        raise ValueError("Target must be a positive integer number of tokens")
+    picks = [(record, None)] + [(value, None) for value in files] + [tuple(pair) for pair in sections]
+    if len(set(picks)) != len(picks):
+        raise HandoffError("Supply each source once; a repeated file or section would be counted twice")
+    sources, total = [], 0
+    for value, heading in picks:
+        path = relative_file(root, value)
+        text = source_text(root / path)
+        if heading is None:
+            selection, content = "complete file", text
+        else:
+            selection, content = heading + " (including child sections)", named_section(text, heading)
+        if not content.strip():
+            raise HandoffError("Selected source is empty: " + path)
+        size = len(content.encode("utf-8"))
+        total += size
+        sources.append({"file": path, "selection": selection, "bytes": size,
+                        "approx_tokens": -(-size // 4)})
+    estimate = -(-total // 4)
+    return {"status": "measured", "sources": sources, "total_bytes": total,
+            "approx_tokens": estimate, "target_tokens": target,
+            "within_target": estimate <= target,
+            "method": "bytes counted exactly; tokens estimated at four bytes each, not a tokenizer reading"}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project", required=True)
@@ -283,10 +319,18 @@ def main():
     packet.add_argument("--commit", help="Exact saved revision; checked before updating the checkout")
     packet.add_argument("--preserve", action="append", default=[],
                         help="Exact untracked path to keep; a collision in the incoming revision stops the pickup")
+    size = sub.add_parser("measure", help="Size the pickup reading set in the working tree; never blocks")
+    size.add_argument("--record", required=True)
+    size.add_argument("--file", action="append", default=[])
+    size.add_argument("--section", nargs=2, action="append", default=[], metavar=("FILE", "HEADING"))
+    size.add_argument("--target", type=int, default=TARGET_TOKENS,
+                      help="Token allowance to compare against (default: the trial's %(default)s)")
     args = parser.parse_args()
     try:
         root = root_for(args.project)
-        if args.action == "save":
+        if args.action == "measure":
+            result = measure(root, args.record, args.file, args.section, args.target)
+        elif args.action == "save":
             result = publish(root, args.branch, args.file, args.message, args.push, preserve=args.preserve)
         elif args.action == "prepare":
             result = prepare(root, args.branch, args.record, args.file, args.section, args.sync,

@@ -354,6 +354,49 @@ class HandoffTests(unittest.TestCase):
             handoff.pickup(self.dest, self.branch, "record.md")
         self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
 
+    def test_measure_sizes_each_source_and_compares_to_the_target(self):
+        (self.dest / "tasks.md").write_text("# Tasks\n## Now\n" + "x" * 30 + "\n## Backlog\nlong\n")
+        result = handoff.measure(self.dest, "record.md", ["result.txt"], [("tasks.md", "## Now")])
+        self.assertEqual(result["status"], "measured")
+        self.assertEqual([s["file"] for s in result["sources"]], ["record.md", "result.txt", "tasks.md"])
+        self.assertEqual(result["sources"][2]["bytes"], len("## Now\n" + "x" * 30 + "\n"))
+        self.assertEqual(result["total_bytes"], sum(s["bytes"] for s in result["sources"]))
+        self.assertEqual(result["approx_tokens"], -(-result["total_bytes"] // 4))
+        self.assertTrue(result["within_target"])
+        self.assertIn("not a tokenizer", result["method"])
+
+    def test_measure_over_target_is_information_not_a_refusal(self):
+        (self.dest / "big.md").write_text("y" * 4000 + "\n")
+        result = handoff.measure(self.dest, "record.md", ["big.md"], target=500)
+        self.assertEqual(result["status"], "measured")
+        self.assertFalse(result["within_target"])
+        self.assertEqual(result["target_tokens"], 500)
+
+    def test_measure_refuses_a_repeated_source_rather_than_counting_it_twice(self):
+        with self.assertRaises(handoff.HandoffError):
+            handoff.measure(self.dest, "record.md", ["result.txt", "result.txt"])
+
+    def test_measure_cli_reports_json_and_a_blocked_failure_exits_two(self):
+        ok = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), "measure",
+                             "--record", "record.md", "--file", "result.txt", "--target", "10"],
+                            capture_output=True, text=True)
+        self.assertEqual(ok.returncode, 0, ok.stderr)
+        packet = json.loads(ok.stdout)
+        self.assertEqual(packet["status"], "measured")
+        self.assertFalse(packet["within_target"])
+        bad = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), "measure",
+                              "--record", "record.md", "--file", "missing.md"],
+                             capture_output=True, text=True)
+        self.assertEqual(bad.returncode, 2)
+        self.assertEqual(json.loads(bad.stderr)["status"], "blocked")
+
+    def test_measure_reads_the_working_tree_and_refuses_an_empty_section(self):
+        (self.dest / "tasks.md").write_text("## Now\n\n## Later\nbody\n")  # uncommitted on purpose
+        with self.assertRaises(handoff.HandoffError):
+            handoff.measure(self.dest, "record.md", [], [("tasks.md", "## Now")])
+        with self.assertRaises(ValueError):
+            handoff.measure(self.dest, "record.md", target=0)
+
     def test_prepare_preserves_raw_sources_and_nested_section_without_writes(self):
         content = "# Tasks\nintro\n## Now\nCurrent café.\n### Owed\nDo not deploy.\n\n## Later\nNot needed.\n"
         (self.dest / "tasks.md").write_text(content)

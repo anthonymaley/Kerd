@@ -2,7 +2,7 @@
 
 Kerd skills share state through a small set of files. This document defines who owns each file, who reads it, what format it uses, and what the rules are.
 
-The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`): **state, work, and history are three different things, one file each.** CONTEXT.md holds what's currently true (overwritten), TODO.md holds what's still to do (forward-only, lean), `kivna/sessions/` holds what happened (immutable, full fidelity). Switch-in reads exactly those three; everything else is on-demand reference.
+The design principle (v0.60.0, `docs/plans/2026-07-03-context-history-split.md`): **state, work, and history are three different things, one file each.** CONTEXT.md holds what's currently true (overwritten), TODO.md holds what's still to do (forward-only, lean), `kivna/sessions/` holds what happened (immutable, full fidelity). Switch-in reads the pickup set the last Out named — by default exactly those three; everything else is on-demand reference.
 
 ## The same-turn rule (time)
 
@@ -27,7 +27,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 
 ## What This Is        — one paragraph, the project in brief
 ## Where We Are        — current working state, short, overwritten
-## Key Decisions       — standing decisions + their why; pruned when superseded
+## Key Decisions       — rulings only (bold sentence + date) for decisions that govern the next work; the full case lives in docs/decisions.md
 ## Open Questions      — genuinely unresolved; removed when answered
 ## Active Mode         — conductor snapshot for cross-machine handoff
 ```
@@ -36,6 +36,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 
 - **Never a diary.** Episodic content (what happened) belongs in the session log; CONTEXT.md holds only what is *currently true*. If it accumulates per-session narrative, it regrows the bloat the split removed.
 - Overwritten in place; superseded decisions and answered questions are pruned. Git history archives every version — pruning loses nothing.
+- **Rulings stay, cases move (Switch Out, from v0.111.0).** `## Key Decisions` holds a ruling only while it governs the next work or a constraint the next sitting must honour; every full entry lives in `docs/decisions.md`, newest first with a ruling index, superseded entries marked rather than deleted. Out names the pickup reading set in `## Where We Are` and records the helper's `measure` reading beside it.
 - Bare headers, omit-if-empty (same anti-padding discipline as session logs).
 - `## Active Mode` replaces the old TODO.md `### Context` mode snapshot for cross-machine handoff.
 
@@ -60,11 +61,12 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 
 ### Rules
 
-- **TODO.md is forward-only and lean.** `## Now` + `## Backlog` only — no session story, no `### Context` section (standing context lives in CONTEXT.md). The record of completed work is the `kivna/sessions/<date>.md` log — never a retained TODO entry.
+- **TODO.md is forward-only and lean.** `## Now` + `## Backlog` only — no session story, no `### Context` section (standing context lives in CONTEXT.md). The record of completed work is the `kivna/sessions/<date>.md` log and, from v0.111.0, the closed row itself in `docs/backlog-archive.md` — never a retained TODO entry.
 - `## Now` is **overwritten in place** by switch (out) — never accumulated.
 - **Anti-pattern — demote-and-keep.** `## Previous Session` / `## Older Session` blocks (and the pre-split `## Current Session` / `### Context` shapes) must not exist; they are migrated explicitly (rescue-before-remove into CONTEXT.md and session logs); `/kerd:tend` detects them, and no skill heals them automatically as of v0.107.0.
-- **Closure inference (switch out):** every open item gets a verdict — done (evidence required; removed, recorded in the session log), open (kept), or unsure (kept, tagged `(done? — confirm)`). The verdict list is shown to the user as information, never a prompt; switch-in asks one question about tagged items.
+- **Closure inference (switch out):** every open item gets a verdict — done (evidence required; removed, recorded in the session log and the archive), dead (undone, its reason gone or its subject removed; archived with that reason), open (kept), or unsure (kept, tagged `(done? — confirm)`). The verdict list is shown to the user as information, never a prompt; switch-in asks one question about tagged items.
 - `## Backlog` is append-only (items added, never silently removed outside closure inference).
+- **Closed rows leave with their reason (Switch Out, from v0.111.0).** Rows the closure review judges done or dead move to `docs/backlog-archive.md` with verdict, evidence and date; open and unsure rows stay. Age alone closes nothing.
 - conductor writes the plan, switch writes the wrap-up. They don't conflict because conductor runs within a session and switch runs at the boundary.
 
 ## kivna/.active-modes
@@ -183,6 +185,22 @@ Two files per export:
 - Duplicate copy written to vault (`[Name] Lorg Report.md`).
 - Includes `Last scanned: YYYY-MM-DD` date line.
 
+## docs/decisions.md
+
+**Owner:** the Switch Out flow (moves each decision's full entry here; marks superseded entries)
+**Readers:** conductor and slainte on demand, by ruling; never part of the default pickup set
+**Committed:** yes
+
+Living, newest first, with an index of rulings. Entries are never deleted; a superseded one is marked. Started 2026-09-11 (v0.111.0) from the whole of CONTEXT.md `## Key Decisions`.
+
+## docs/backlog-archive.md
+
+**Owner:** the Switch Out flow (appends closed rows with verdict, evidence and date)
+**Readers:** slainte on demand; never part of the default pickup set
+**Committed:** yes
+
+Append-only. Nothing here is edited after it lands.
+
 ## Cross-Skill Interaction Summary
 
 | File | conductor | switch | skriv | kivna | slainte | tend | lorg | hooks |
@@ -194,6 +212,8 @@ Two files per export:
 | vault Status | - | - | - | W/R | R | - | R | - |
 | KIF exports | - | - | - | W | - | - | - | - |
 | lorg-report | - | - | - | - | - | - | W/R | - |
+| docs/decisions.md | R | W/R | - | - | R | - | - | - |
+| docs/backlog-archive.md | - | W | - | - | R | - | - | - |
 
 W = writes, R = reads, - = no interaction
 

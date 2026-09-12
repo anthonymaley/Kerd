@@ -40,7 +40,28 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.110.1)
+## What's New (v0.111.0)
+
+### v0.111.0
+
+**Switch Out leaves a lean, measured start point.** Every pickup was paying for
+the whole pointer file: on Kerd itself `## Key Decisions` had grown to 210 KB,
+97 percent of CONTEXT.md, and a 2026-09-01 measurement had already shown that
+pruning old entries was aimed at the wrong variable, while naming the untried
+option — keep the ruling in the loaded file, move the case out. Out now does
+exactly that, in four moves: rulings stay in CONTEXT.md only while they govern
+the next work, with the full case in a living `docs/decisions.md` indexed by
+ruling; Backlog rows the closure review judges done or dead move to
+`docs/backlog-archive.md` with their verdict and evidence; the start point names
+the exact reading set for the next sitting; and a new `handoff.py measure`
+sizes that set against the pickup target (bytes exact, tokens estimated at four
+bytes each and labelled so) and records the reading. Over target is information,
+never a refused save. In reads the named set first and nothing else by default.
+**What it means:** the boundary, not the reader, is responsible for pickup cost.
+**Named as a loss:** a ruling in CONTEXT.md no longer carries its argument; the
+argument is one link away, and the 2026-09-01 row records the known risk that a
+reachable record can sit unread. The first run was on Kerd's own files at this
+release; the measured reading is in CONTEXT.md.
 
 ### v0.110.1
 
@@ -385,9 +406,13 @@ agreed continuation instead of stopping there.
 
 **Out** reads what actually changed, preserves the agreement, decisions, exact next
 action and open questions, and appends an evidence-backed account to the project's
-history. `scripts/handoff.py` does the Git work: explicit-file saves, safe
-fast-forward, acknowledged local-only paths that are never staged, and a check that
-the remote carries the exact commit.
+history. It then leaves a lean start point: rulings stay in CONTEXT.md while the
+full case moves to `docs/decisions.md`, closed Backlog rows move to
+`docs/backlog-archive.md` with their reason, the reading set for the next sitting
+is named, and `handoff.py measure` records its size against the pickup target.
+`scripts/handoff.py` does the Git work: explicit-file saves, safe fast-forward,
+acknowledged local-only paths that are never staged, and a check that the remote
+carries the exact commit.
 
 ### visuals (Diagrams)
 
@@ -562,7 +587,7 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and shows the welcome-back dashboard. It then opens a Conductor session on that place and stops on one line — *"Starting on X — approve?"* Say yes and the work runs under Conductor, with decisions recorded in the work record and CONTEXT.md as they're made. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
-**On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by CONTEXT.md being pruned at acceptance-record landings, so those files don't grow without bound. If a boundary feels expensive, the fix is a shorter CONTEXT.md at the next acceptance-record landing — not a shallower read.
+**On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
 
 **The layers:** The session boundary is defined once, in switch — sync on switch-in, the named-file save and remote check at switch out — and you call it directly. Conductor owns the sitting: understanding, agreement, delivery and assessment, committing its own work as it verifies. Kivna owns the knowledge vault. Above them sits the ladder: every piece of work is a slug climbing frame → viability → scope → design → handoff → loop → acceptance, with `python3 tools/gates/gate.py route <slug>` reading what is on disk and naming the rung where the work enters, the progress board showing derived position, and CI refusing at every push what a document promised and the tree no longer delivers. Every skill works standalone.
 
