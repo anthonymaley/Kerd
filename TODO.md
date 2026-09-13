@@ -22,8 +22,6 @@ authority to run installation or checks during pickup.
   1–2: Anthony's assessment; "not now" starts nothing). Results go on the rows.
 - Then Codex checks the binding and sends the successor one real request that
   arrives (row 4 messaging proof).
-- Codex updates its installed Kerd plugin to 0.118.0 (Anthony, 13:00: "ask
-  codex to do plugin on codex too"); Codex reports the installed version on row 5.
 - Observe Out's role-ownership check and contribution checkpoint, released in
   0.118.0, on the next real coordinated Out (first run was the 12:43 Out, from
   the local guide before release).
