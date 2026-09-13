@@ -177,6 +177,25 @@ no receipt or designation was written, as expected for explicit replacement.
 The contact alias `kerd-83-review` stays as it was. Out (12:43) then saves the
 account and designates the successor against the final `CONTEXT.md`.
 
+### Out pre-save role ownership check — local, unreleased
+
+On Anthony's "do we need to add this to switch out?" and "lets add that" (as
+reported by Codex), Codex added a pre-save check to Out: verify this owner's
+identity against the intended existing role before editing the pointer; same ID
+keeps it; an explicit replacement choice already given is reused; Out alone
+grants no role; no binding means no setup stop; designation follows the final
+save and is reported separately from Git and memory. Files: `README.md`,
+`skills/agent/references/session-succession.md`, `skills/switch/SKILL.md`,
+`skills/switch/references/in-out.md`, one sequence test in
+`skills/agent/scripts/tests/test_agent.py`; no runtime script. Codex reports
+succession 21, packaging 9, skill validator and release gate passing. Claude's
+read-only review (12:47, Agent suite run) returned ready with two wording fixes:
+the unresolved-role question goes in the closing next action after the save, not
+as a stop before it; the closing JSON has no designation field, so say it goes in
+`next` or add one. Also observed: a contributor's uncommitted edits during a
+coordinated Out block `handoff.py save`, leaving only the manual fallback.
+Not committed, versioned, published or installed; release needs Anthony.
+
 ## Implementation and checks
 
 Switch's existing renderer uses the approved compact chat shape. Optional
