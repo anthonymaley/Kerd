@@ -24,8 +24,9 @@ authority to run installation or checks during pickup.
   arrives (row 4 messaging proof).
 - Codex's Out pre-save role ownership check is local and unreleased in five
   files (work record, `### Out pre-save role ownership check — local,
-  unreleased`). Claude's review returned ready with two wording fixes; a release
-  needs Anthony's authorization. The fresh 0.117.0 In does not contain it.
+  unreleased`). Reviewed ready; both wording fixes made and confirmed; Codex's
+  full Switch regression result not yet recorded. Include it in the next release
+  Anthony authorizes; the fresh 0.117.0 In does not contain it.
 - Unplanned restart recovery is observed only when a role-holding session is
   actually lost later; nothing is crashed deliberately (Anthony, via Codex,
   12:42). Receipts stop matching when `CONTEXT.md` bytes change.

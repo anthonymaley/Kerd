@@ -192,7 +192,12 @@ succession 21, packaging 9, skill validator and release gate passing. Claude's
 read-only review (12:47, Agent suite run) returned ready with two wording fixes:
 the unresolved-role question goes in the closing next action after the save, not
 as a stop before it; the closing JSON has no designation field, so say it goes in
-`next` or add one. Also observed: a contributor's uncommitted edits during a
+`next` or add one. Codex made both by 12:50 (safe memory saving proceeds with
+the unresolved pairing choice in the closing next action; designation status
+goes in the existing `next` text, no new field), confirmed by Claude's reading;
+Codex reports Agent 144, packaging 9, Switch validator, release gate and diff
+check passing, and a full Switch regression not yet returned. Also observed: a
+contributor's uncommitted edits during a
 coordinated Out block `handoff.py save`, leaving only the manual fallback.
 Not committed, versioned, published or installed; release needs Anthony.
 

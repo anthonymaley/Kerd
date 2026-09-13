@@ -55,9 +55,9 @@ Receipts stop matching when this file's bytes change.
 `README.md`, `skills/agent/references/session-succession.md`,
 `skills/agent/scripts/tests/test_agent.py`, `skills/switch/SKILL.md` and
 `skills/switch/references/in-out.md`: an Out pre-save role-ownership check that
-Codex built on Anthony's "lets add that" (reported by Codex). Claude's review
-returned ready with two wording fixes; Codex's account is in today's log and the
-work record. Left uncommitted and unreleased; release needs Anthony.
+Codex built on Anthony's "lets add that" (reported by Codex). Reviewed ready,
+its two wording fixes made and confirmed; Codex's account is in today's log and
+the work record. Left uncommitted and unreleased; release needs Anthony.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
@@ -78,7 +78,7 @@ for the stage and agreement. The verification rows live in that record's
 result is recorded. Add `skills/agent/references/session-succession.md` for the
 routing step.
 Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--section", "TODO.md", "## Now", "--section", "kivna/sessions/2026-09-13.md", "## Sitting: the 0.116.0 arrival, four peer reviews, the 0.117.0 release and role adoption (2026-09-13 11:20 – 12:46 EDT, Claude session on the 0.116.0 cache; Codex in the paired TUI)", "--section", "docs/work/switch-coordinated-closeout/work.md", "## Now"]`.
-Measured reading: 27,206 bytes, about 6,802 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target; measured before this line was written, so the saved file is slightly larger.
+Measured reading:  bytes, about  tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target; measured before this line was written, so the saved file is slightly larger.
 
 ## Key Decisions
 
