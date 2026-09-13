@@ -34,7 +34,7 @@ compose the one welcome-back dashboard before it is rendered. X is the saved
 next action, otherwise the first NOW item; if neither exists, show no selected
 task and stop without inventing one. Preserve its scope: an unresolved design
 means designing, not a new grant to build or deploy. Put **“Starting on X —
-approve?”** in the dashboard's YOU box using its existing `question` fields;
+approve?”** in the dashboard's existing `question` fields;
 a saved pending question replaces it, with its proposed answer. A factual
 clarification is not approval: answering it resolves that fact only, not permission
 for the proposed next work. Bind the reply to the question actually asked:
@@ -46,14 +46,15 @@ that supplies both the fact and permission can proceed without another stop.
 STATE and THIS
 SESSION must agree with YOU: this sitting's action is proposed while awaiting
 approval, even if the wider plan was already agreed. Never say “nothing needed”
-while asking for an answer elsewhere. If the host requires a plain-text question,
-put scope in YOU and ask once below the frame instead; Switch's renderer offers
-`--question-below`. Do not repeat the question after either presentation.
+while asking for an answer elsewhere. In chat, put scope and proposal in YOU;
+Switch renders the actual question once immediately after END OF PICKUP.
+Plain terminal output uses YOU unless `--question-below` is supplied.
+Do not append another question after either presentation.
 
 Reconcile the displayed next work with observations already obtained during this
 pickup. An arrival check observed now is not still waiting to start: annotate
-its remaining assessment or recording, consistently in NOW, THIS SESSION and any
-Insight. Do not award the person's experience verdict, rewrite the saved list,
+its remaining assessment or recording as the next action in NOW, consistent with
+THIS SESSION and any Insight. Do not award the person's experience verdict, rewrite the saved list,
 or repeat the check merely to record it. In itself still does no project work.
 
 For a proposed installation or session launch, name the target project and, for

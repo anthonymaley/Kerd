@@ -6,15 +6,20 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.116.0 — branch `main`, subject "Release Kerd 0.116.0:
-role continuity and implementation delegation", `b70f07f`, published by Codex
-2026-09-13 and remote-verified from the Claude session by fetch; Codex reports
-CI run 34762986143 succeeded.** It adds private role succession across
-session-ID changes, Conductor's implementation-split decision and the arrival
-clarifications. Record, reviews and the verification list:
-`docs/work/switch-coordinated-closeout/work.md`. Operational guide:
-`skills/agent/references/session-succession.md`. Earlier source releases:
-0.115.0, 0.114.0, 0.113.0 (`docs/work/codex-plugin/work.md`).
+**Release boundary: 0.117.0 — branch `main`, subject "Release Kerd 0.117.0:
+question after the marker and restart recovery", published 2026-09-13 from the
+Claude reviewer session on Anthony's 12:35 "okay lets release and i'll try";
+resolve its revision and remote/CI result with Git.** Built by Codex, reviewed
+read-only by Claude. It puts the arrival question right after END OF PICKUP,
+numbers NOW as priority next actions, and adds a private restart receipt so a
+lost Claude session's role can be recovered by the next restart. Record, reviews
+and the verification list: `docs/work/switch-coordinated-closeout/work.md`.
+Guides: `skills/agent/references/session-succession.md`,
+`skills/agent/references/user-guide.md`, `skills/conductor/references/execution.md`
+(0.116.0's implementation split). Tests: `skills/agent/scripts/tests/test_agent.py`,
+`skills/switch/scripts/tests/test_where_we_are.py`. Earlier source releases:
+0.116.0 (role succession, delegation), 0.115.0, 0.114.0, 0.113.0
+(`docs/work/codex-plugin/work.md`).
 
 **The current work is proof, not building** — Anthony, 2026-09-13 10:41: "no
 point picking up projects when Kerd isn't working as it should, prove that
@@ -30,24 +35,20 @@ outcome alone does not clear the hold.
 **Installed state, not to be overclaimed:** the Claude plugin cache holds
 0.116.0 on disk (its `plugin.json` read 0.116.0 at 10:52); no session has
 been observed loading it. This session's ordinary startup at 09:38 loaded the
-0.115.0 cache (observed once). Installed Codex Kerd is 0.113.0, confirmed by
-Codex at about 11:00 by `codex plugin list` and the cached manifest; nothing
-updated. Presence in a cache does not establish what the next start loads:
+0.115.0 cache (observed once); the 11:20 Claude session loaded the 0.116.0
+cache (observed once). Installed Codex Kerd was updated to 0.116.0 on Anthony's
+authorization, reported by Codex (row 5); it does not carry 0.117.0. Presence in a cache does not establish what the next start loads:
 verify the loaded path and version first.
 
-**Where the sequence stands at this save:** Out from the Claude session on the
-0.115.0 cache under the released 0.116.0 guide (a disclosed test route), both
-contributions in `kivna/sessions/2026-09-13.md`. After the save, the session
-bound as `kerd-b5-review` (role: arrival and closeout checks, defined
-explicitly this sitting) designates its continuation with the released helper
-`skills/agent/scripts/agent.py handoff --record CONTEXT.md`; then Anthony
-clears. The fresh session's In: verify the loaded version, run `identity` and
-`adopt --expected-session <old ID> --record CONTEXT.md` during the routing
-step, then the dashboard with one question, whether Anthony can give his
-assessment of the arrival now. A "not now" must start nothing. Then tell
-Codex by a new peer request so it checks the binding and sends the successor
-a real request. Results go on the rows. A safe refusal on unknown identity is
-a safety observation, not continuation.
+**Where the sequence stands at this release:** the 10:58 designation was
+consumed at 11:11 by the first adopting Claude session, which was then lost;
+Anthony restarted, selected the listed session explicitly for review, and that
+gap became the 0.117.0 restart receipt. No row 1–4 result is recorded yet.
+Anthony is trying the release. The legacy `kerd-b5-review` binding has no
+receipt: automatic recovery needs a new Out designation and a record-based
+adoption first. Receipts are invalidated when this file's bytes change, and a
+release edit changes them. Plugin caches do not change by publication alone;
+verify the loaded version before counting a result.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,

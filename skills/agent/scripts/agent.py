@@ -12,6 +12,7 @@ import hashlib
 import json
 import math
 import os
+import plistlib
 from pathlib import Path
 import re
 import socket
@@ -49,6 +50,22 @@ def identifier(value):
     if str(uuid.UUID(value)) != value:
         raise ValueError('Use the exact, canonical session/request UUID')
     return value
+
+
+def machine_identity():
+    """Private host fingerprint: a shared Git directory is not a local host."""
+    if sys.platform == 'darwin':
+        data = command(['ioreg', '-a', '-rd1', '-c', 'IOPlatformExpertDevice'], timeout=5)
+        rows = plistlib.loads(data.encode())
+        value = (rows[0].get('IOPlatformUUID') if isinstance(rows, list) and rows
+                 and isinstance(rows[0], dict) else None)
+    elif sys.platform.startswith('linux'):
+        value = Path('/etc/machine-id').read_text().strip()
+    else:
+        raise Unavailable('Machine identity unavailable for restart recovery')
+    if not isinstance(value, str) or not value.strip():
+        raise Unavailable('Machine identity unavailable for restart recovery')
+    return hashlib.sha256(value.strip().encode()).hexdigest()
 
 
 def alias_name(value):
@@ -519,14 +536,46 @@ class Agent:
             if prior.get('owned'):
                 raise ValueError('Owned launch partners cannot prepare external replacement')
             if cancel:
-                if 'handoff' not in prior:
+                if 'handoff' not in prior and 'recovery' not in prior:
                     return prior
-                prior.pop('handoff')
+                prior.pop('handoff', None)
             else:
                 prior['handoff'] = {**evidence, 'from_session': current['id'],
                                     'prepared_at': time.time()}
+            # An explicit revocation or newer saved account supersedes the old
+            # restart receipt, even when no one-use handoff remains.
+            prior.pop('recovery', None)
             atomic_json(path, prior)
             return prior
+
+    def check_restart(self, provider, previous, current, permit):
+        if provider != 'claude':
+            raise Unavailable('Restart recovery unavailable: Codex saved threads do not establish predecessor absence; use a prepared handoff or explicit selection')
+        if permit.get('host') != machine_identity():
+            raise Unavailable('Restart recovery requires the same recorded machine')
+        retired = permit.get('retired_sessions')
+        if not isinstance(retired, list) or any(not isinstance(sid, str) for sid in retired):
+            raise Unavailable('Restart recovery receipt has no valid retired-session history')
+        if current in retired:
+            raise Unavailable('This session previously relinquished the role; no automatic reclaim')
+        # Fail closed on an incomplete/unknown response; ordinary discovery may
+        # skip malformed rows, which is unsuitable evidence for replacement.
+        rows = json.loads(command(['claude', 'agents', '--json'], timeout=5))
+        if not isinstance(rows, list):
+            raise Unavailable('Restart recovery needs a complete native Claude listing')
+        ids = set()
+        for row in rows:
+            if not isinstance(row, dict) or not isinstance(row.get('cwd'), str) or not row['cwd']:
+                raise Unavailable('Restart recovery encountered incomplete native metadata')
+            if not isinstance(row.get('sessionId'), str):
+                raise Unavailable('Restart recovery encountered a missing native identity')
+            ids.add(identifier(row['sessionId']))
+            if row['sessionId'] == current and not belongs_to_project(row['cwd'], self.root):
+                raise Unavailable('Current identity is no longer in this project')
+        if previous in ids:
+            raise Unavailable('Predecessor is still natively listed; restart recovery will not replace it')
+        if current not in ids:
+            raise Unavailable('Current identity is no longer natively listed')
 
     def adopt(self, provider, alias, expected_session, record=None, confirm=False):
         identifier(expected_session)
@@ -540,14 +589,20 @@ class Agent:
                 return prior  # Byte-preserving no-op, including metadata.
             if prior.get('owned'):
                 raise ValueError('Owned launch partners cannot be replaced by an external session')
+            evidence = None
             if not confirm:
                 permit = prior.get('handoff')
+                recovering = permit is None
+                if recovering:
+                    permit = prior.get('recovery')
                 if not record or not isinstance(permit, dict):
-                    raise ValueError('Replacement needs a prepared handoff or explicit user selection')
+                    raise ValueError('Replacement needs a prepared handoff, restart receipt or explicit user selection')
                 evidence = self.handoff_record(record)
                 if (permit.get('from_session') != expected_session or
                         any(permit.get(k) != v for k, v in evidence.items())):
                     raise ValueError('Handoff changed or does not designate this binding')
+                if recovering:
+                    self.check_restart(provider, expected_session, current['id'], permit)
             # No launch settings/ownership migrate. Requests already store their
             # exact target IDs and are deliberately not touched by replacement.
             successor = {'alias': alias, 'provider': provider, 'id': current['id'],
@@ -555,6 +610,17 @@ class Agent:
                          'previous': {'id': prior['id'], 'replaced_at': time.time()}}
             if 'partner_role' in prior:
                 successor['partner_role'] = prior['partner_role']
+            if evidence is not None:
+                retired = permit.get('retired_sessions', []) if recovering else []
+                try:
+                    host = machine_identity()
+                except (Unavailable, OSError, ValueError, subprocess.TimeoutExpired):
+                    # Recovery is optional; an OS fingerprint outage must not
+                    # prevent a planned, record-authorized role handoff.
+                    host = None
+                successor['recovery'] = {
+                    **evidence, 'from_session': current['id'], 'host': host,
+                    'retired_sessions': list(dict.fromkeys([*retired, expected_session]))}
             atomic_json(path, successor)
             return successor
 
@@ -909,13 +975,13 @@ def main():
     handoff.add_argument('--alias', required=True)
     handoff_mode = handoff.add_mutually_exclusive_group(required=True)
     handoff_mode.add_argument('--record', help='Final saved handoff file in this project')
-    handoff_mode.add_argument('--cancel', action='store_true', help='Revoke a prior handoff designation')
-    adopt = sub.add_parser('adopt', help='Keep this session or adopt an explicitly designated existing role')
+    handoff_mode.add_argument('--cancel', action='store_true', help='Revoke handoff and restart recovery evidence')
+    adopt = sub.add_parser('adopt', help='Keep this session, adopt a designated role, or recover its saved restart receipt')
     adopt.add_argument('--provider', choices=['claude', 'codex'], required=True)
     adopt.add_argument('--alias', required=True)
     adopt.add_argument('--expected-session', required=True, help='Exact currently bound UUID, never latest')
     adoption = adopt.add_mutually_exclusive_group()
-    adoption.add_argument('--record', help='Prepared handoff file already restored by Switch In')
+    adoption.add_argument('--record', help='Designated handoff or restart-recovery file already restored by Switch In')
     adoption.add_argument('--confirm-replacement', action='store_true',
                           help='Use only after the person explicitly selects this role replacement')
     start = sub.add_parser('start', help='Launch a fresh worker or persistent partner with its first job',

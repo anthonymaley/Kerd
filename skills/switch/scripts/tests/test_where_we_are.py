@@ -656,14 +656,14 @@ class InMemorySummaryTests(unittest.TestCase):
             {"source": "x", "now": ["Re-run the Codex route on 0.109.0",
                                     "Run one real Conductor session"]}, NOW, 80, False)
         self.assertIn(" NOW", out)
-        self.assertIn("\u25cb Re-run the Codex route on 0.109.0", out)
-        self.assertIn("\u25cb Run one real Conductor session", out)
+        self.assertIn("1. Re-run the Codex route on 0.109.0", out)
+        self.assertIn("2. Run one real Conductor session", out)
         self.assertLess(out.index(" NOW"), out.index(" LAST SESSION"))
 
     def test_a_now_written_as_one_string_is_one_item_not_a_bullet_per_letter(self):
         out = view.render_dashboard({"source": "x", "now": "Close the gap"}, NOW, 80, False)
-        self.assertIn("\u25cb Close the gap", out)
-        self.assertNotIn("\u25cb C\n", out)
+        self.assertIn("1. Close the gap", out)
+        self.assertNotIn("2. ", out)
 
     def test_now_is_part_of_the_frame_so_an_empty_list_still_shows_the_label(self):
         out = view.render_dashboard({"source": "x"}, NOW, 80, False)
@@ -950,15 +950,55 @@ class MarkdownTests(unittest.TestCase):
         for value in summary["now"] + summary["warnings"]:
             self.assertIn(value, visible)
         you = self.text_of_box(visible, "YOU")
-        for value in summary["question"].values():
-            self.assertIn(value, you)
+        for key in ("proposed", "reply"):
+            self.assertIn(summary["question"][key], you)
+        self.assertNotIn(summary["question"]["text"], you)
         self.assertEqual(visible.count(summary["question"]["text"]), 1)
         self.assertIn("┌─ KERD · SWITCH IN COMPLETE ✓", out)
         self.assertIn("**LAST SESSION** ·", out)
         self.assertIn("> **★ Insight**", out)
         self.assertNotIn("\x1b", out)
         self.assertTrue(out.startswith("```text\n┌"))
-        self.assertTrue(out.endswith("━━ END OF PICKUP · SESSION READY ━━\n```"))
+        self.assertTrue(visible.endswith("━━ END OF PICKUP · SESSION READY ━━\n```\n\n"
+                                         + summary["question"]["text"]))
+
+    def test_markdown_cli_question_is_first_content_after_end_without_opt_in(self):
+        import json, subprocess
+        question = "Can you approve this dashboard now?"
+        for restored in ("yes", "partial", None):
+            summary = self.arrival(restored=restored, question={
+                "text": question, "proposed": "Judge the presentation only, not the implementation.",
+                "reply": "Approve or describe what needs changing"})
+            result = subprocess.run([sys.executable, str(SCRIPT), "--summary", "-", "--markdown"],
+                                    input=json.dumps(summary), text=True, capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            out = self.visible(result.stdout)
+            self.assertEqual(out.rsplit("```", 1)[1].strip(), question)
+            self.assertEqual(out.count(question), 1)
+            self.assertIn(summary["question"]["proposed"], self.text_of_box(out, "YOU"))
+
+    def test_markdown_without_a_question_stops_at_end(self):
+        for question in (None, {}, {"text": ""}):
+            out = view.render_dashboard(self.arrival(question=question), NOW, markdown=True)
+            self.assertTrue(out.endswith("━━ END OF PICKUP · SESSION READY ━━\n```"))
+            self.assertIn("Nothing needs you right now.", self.text_of_box(out, "YOU"))
+
+    def test_now_numbers_supplied_priority_order_without_reordering_or_dropping(self):
+        items = [f"Action {i}: preserve the full scope and qualification for this step."
+                 for i in range(1, 13)]
+        for markdown in (False, True):
+            out = self.visible(view.render_dashboard(self.arrival(now=items), NOW,
+                                                     width=40, color=False, markdown=markdown))
+            section = out.split("**NOW**\n" if markdown else " NOW\n", 1)[1]
+            section = section.split("**ATTENTION**" if markdown else " LAST SESSION", 1)[0]
+            positions = []
+            for i, item in enumerate(items, 1):
+                expected = f"{i}. {item}"
+                self.assertIn(expected, flatten(section))
+                positions.append(flatten(section).index(expected))
+            self.assertEqual(positions, sorted(positions))
+            if not markdown:
+                self.assertTrue(all(display_columns(line) <= 40 for line in section.splitlines()))
 
     def test_question_below_retains_context_and_asks_once_outside_you(self):
         summary = self.arrival()

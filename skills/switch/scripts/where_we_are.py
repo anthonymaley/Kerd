@@ -553,6 +553,7 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     presentation ran.
     """
     get = summary.get
+    question_below = question_below or markdown
     restored = get("restored")
     if restored == "yes":
         badge, tone = "SESSION RESTORED \u2713 ", "green"
@@ -603,12 +604,13 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     if isinstance(now_items, str):  # one item written as prose, not a typo per character
         now_items = [now_items]
     items = [str(item) for item in now_items if item]
-    for item in items:
+    for position, item in enumerate(items, 1):
         if markdown:
-            lines.append(f"- {md(item)}")
+            lines.append(f"{position}. {md(item)}")
             continue
-        for index, line in enumerate(wrap(item, width - 5)):
-            lines.append(("   \u25cb " if index == 0 else "     ") + line)
+        prefix = f"   {position}. "
+        for index, line in enumerate(wrap(item, width - len(prefix))):
+            lines.append((prefix if index == 0 else " " * len(prefix)) + line)
     if not items:
         lines.append("no immediate work recorded" if markdown else "   no immediate work recorded")
     lines.append("")

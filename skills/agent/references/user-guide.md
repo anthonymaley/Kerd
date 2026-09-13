@@ -79,8 +79,12 @@ it to another machine does not re-establish pairing. No second session tracker
 or automatic native-title rename is required.
 
 After a clear or restart, Kerd checks the actual native ID. Same ID keeps the
-binding. A new session can adopt the same role from its designated saved handoff,
-or from your explicit selection if no designation exists. Old requests stay
+binding. A new session can adopt the same role from its designated saved handoff.
+After that, Claude can recover it again from an eligible restart receipt without
+another teammate selection; changed memory, a missing machine identity or a
+still-listed predecessor is explained instead of guessed around. Codex new-ID
+unplanned recovery is not supported. With neither designation nor valid receipt,
+an explicit replacement choice is still needed. Old requests stay
 with their original sessions; a competing replacement or an ambiguous role is
 shown rather than overwritten. Out prepares only its own role, after the final
 handoff is saved. This is local routing, not a launch or work approval. See

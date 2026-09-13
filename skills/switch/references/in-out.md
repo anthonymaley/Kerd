@@ -132,14 +132,17 @@ the route for later contributions; load its full instructions when a contributio
 is requested, not merely to display a pairing. Retain the exact
 provider, alias, session ID and recorded ongoing role privately in context.
 First compare the actual host's session variable (`CLAUDE_CODE_SESSION_ID` or
-`CODEX_THREAD_ID`) with the bindings, and look for a `handoff` designation.
-Only when an ID matches or a designation exists, read the short
+`CODEX_THREAD_ID`) with the bindings, and look for a `handoff` designation or
+`recovery` receipt (including its retired IDs).
+When an ID matches or either form of continuity evidence exists, read the short
 [succession guide](../../agent/references/session-succession.md) and check its
 verified identity. Same ID keeps the binding; an authorized successor uses its
-prepared handoff or explicit selection. Only this private routing update is
+prepared handoff, eligible restart receipt or explicit selection. A retired
+session reports the moved role instead of reclaiming it. Only this private routing update is
 permitted during In, never a project repair or plan execution.
-This restores routing, not a running job or a Conductor mode. Do not discover,
-contact or resume other peers during In merely to validate a binding.
+This restores routing, not a running job or a Conductor mode. The succession
+helper's native identity/absence check is allowed for restart recovery. Do not
+otherwise discover, contact or resume peers merely to validate a binding.
 Availability stays unverified until Agent checks the selected target for work.
 Missing roles stay undefined; ambiguous bindings remain a choice when a
 contribution is requested. No binding means no Agent setup question during In.
@@ -150,8 +153,8 @@ project's saved records or another dashboard panel.
 
 After restoration, orient before detail. Five short blocks, worded for the project:
 
-- **Now:** the immediate work, from the bullets under the project's `## Now`
-  heading (TODO.md by convention). The backlog stays behind the documents link.
+- **Now:** prioritized next actions from the project's `## Now` and saved plan,
+  not a copy of status bullets. The backlog stays behind the documents link.
 - **Last session:** the main achievement or change.
 - **This session:** the next agreed work and why. If none is agreed, say so; a
   suggestion stays a suggestion.
@@ -196,10 +199,18 @@ Use `--markdown` in assistant chat. Keep its completion and YOU boxes in their
 own code fences; do not fence the whole dashboard. In order: tight completion
 box (PROJECT / PHASE / TASK / STATE), short LAST SESSION and THIS SESSION,
 NOW list, essential ATTENTION, YOU box, document links, optional Insight and
-source footer, then **END OF PICKUP · SESSION READY**. Keep the header values
+source footer, then **END OF PICKUP · SESSION READY**, followed immediately by
+the one pending question in ordinary chat text. Keep the header values
 brief, each session summary to one high-level sentence and NOW items concise;
 retain consequential scope and uncertainty, linking the detailed work instead
 of pasting its history. The renderer wraps rather than truncates supplied text.
+Compose NOW as short next actions in priority order from the saved plan and
+dependencies, not a report of numbered evidence rows. Name the actor when it
+matters. The renderer numbers the supplied order; it does not infer priority.
+Completed observations belong in the session summary or relevant status, not
+as next actions. Keep deferred work behind Open work, with a brief restriction
+in ATTENTION when needed. Do not silently discard an unresolved blocker or
+change the agreed ordering; describe a proposed order as proposed if unsettled.
 The end line ends restoration, not the user's session, and starts no work.
 Partial or unknown restoration gets an incomplete or unconfirmed ending instead.
 No report or duplicate approval follows it. Colour is optional enhancement,
@@ -210,11 +221,14 @@ Markdown mode emits no ANSI even with `--color`. If Markdown is unavailable,
 use the plain terminal frame instead. These are presentation choices, not new
 state, memory reads or permission to continue work.
 
-The question appears once inside YOU by default. Where the host requires a
-plain-text question outside the panel, add `--question-below`: YOU keeps the
-context and the renderer places the question once after the frame. Do not
-append another question yourself. In that host adaptation alone the one question
-follows the end marker. The same flag works with `--record ... --dashboard`.
+In chat, YOU holds the scope, proposal and reply guidance; the actual question
+appears once as the first content after the end marker. No intervening recap or
+report. If no answer is needed, stop at the marker without inventing a question.
+For dashboard acceptance, for example: “Can you approve this dashboard now?” with its
+presentation-only scope in YOU; a factual clarification still asks for the fact,
+not approval. The renderer places the question: do not append it yourself.
+Plain terminal output keeps it inside YOU unless `--question-below` is supplied.
+The same behavior applies to `--record ... --dashboard --markdown`.
 
 `$summary` is the shape below, filled from what pickup already read. **Copy it
 from here; do not open the script to work out the keys.** The example is one
@@ -278,9 +292,11 @@ malformed JSON exits 2 with a message, and a top-level value that is not an
 object (an array, say) exits 1 on an unhandled error. `PROJECT` (in chat), `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION`, `THIS SESSION` and the
 `YOU` box **always render**, falling back to "not recorded" or a plain sentence
 when they have nothing — they are the frame, and a gap in them is information.
-`now` comes from the project's `## Now` bullets; retain their meaning, annotating
-observations obtained during pickup under Conductor's In rule. This changes the
-display, not the saved list. The backlog is not supplied here.
+Compose `now` as prioritized next actions from the project's `## Now` and saved
+plan, preserving agreed order. An observation made during pickup appears here
+only as its remaining action (assessment or recording, for example). Completed
+observations belong in the summary; deferred work stays behind the detail link.
+This changes the display, not the saved list. The backlog is not supplied here.
 Only the attention panel, `DOCUMENTS` and the `★` insight line are **omitted
 entirely** when empty. Always supply `source`: it names what the pickup actually
 read, and it is the one field nothing else can stand in for.

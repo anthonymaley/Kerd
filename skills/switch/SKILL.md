@@ -13,8 +13,9 @@ and repository boundaries still apply.
 ## Pick the intended action
 
 - **In:** restore useful memory, current status and the saved plan; load Conductor
-  to compose one welcome-back dashboard with the arrival decision in YOU, then
-  wait. Read [pickup and closeout](references/in-out.md).
+  to compose one welcome-back dashboard with the decision's scope in YOU and
+  its question once after the end marker, then wait. Read
+  [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work, leave a
   lean, measured start point — rulings kept, cases and closed rows moved to
   reachable records, the reading set named — and end on the saved-place box
@@ -73,7 +74,9 @@ managed To/Roll keeps its agreed continuation. Loading is not build authorizatio
 Retain existing local Agent pairing context as that guide describes; load Agent
 when a contribution is requested. The short succession guide permits verifying
 this session's ID and adopting its designated role in private metadata, not
-probing or contacting other peers or starting project work at In.
+contacting other peers or starting project work at In. Eligible restart recovery
+may check native identity/absence through that helper, preserving the role rather
+than asking the person to select an established teammate again.
 
 Keep pickup selective and explicit: fully read the chosen current working set,
 then relevant historical entries as needed. Don't silently truncate records or

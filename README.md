@@ -40,7 +40,27 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.116.0)
+## What's New (v0.117.0)
+
+### v0.117.0
+
+**The question comes last, and NOW is a to-do list.** Switch In's chat arrival
+ends on END OF PICKUP followed immediately by its one question; YOU keeps the
+scope, proposal and reply guidance. With nothing to ask, it stops at the marker.
+NOW is a numbered list of next actions in priority order, not a report of
+observations or deferred rows. Terminal output keeps `--question-below` opt-in.
+
+**A lost session no longer loses its role.** A record-based adoption keeps a
+private restart receipt in the same binding. If that Claude session is lost and
+another restarts, In can recover the same alias and role when the saved account
+is unchanged, the machine matches and the predecessor is no longer natively
+listed. Retired IDs cannot reclaim it automatically; a new Out, cancellation or
+explicit replacement supersedes it. Refusals show their reason. This recovers
+routing, not unsaved work. Codex new-ID crash recovery stays unsupported, and a
+binding consumed before this release has no receipt to recover from.
+
+Fixture checks and Claude reviews passed. A real restart recovery and the
+experience of the new arrival remain unobserved.
 
 ### v0.116.0
 
@@ -486,7 +506,11 @@ from the terminal lifetime. A saved role designation or explicit replacement
 selection lets the successor update that private binding; stale expectations
 refuse and old request targets remain intact. See
 [session succession](skills/agent/references/session-succession.md) for the
-supported hosts, handoff checks and limits.
+supported hosts, handoff checks and limits. Record-based adoption retains a
+private restart receipt: Claude can recover the same role after another loss
+when the saved account and machine match and its predecessor is no longer
+natively listed. Retired IDs cannot automatically reclaim it. This recovers
+routing, not unsaved work; Codex new-ID crash recovery remains unsupported.
 
 ```text
 /kerd:agent help
@@ -534,11 +558,12 @@ mid-work exactly where you stopped.
 ```
 
 **In** opens with a welcome-back dashboard rather than a full report: phase, task,
-state, the immediate work under `## Now`, what happened last session, what this
+state, a numbered priority list of immediate actions under NOW, what happened last session, what this
 session is for, and a distinct YOU section saying whether you are needed.
 Chat uses a tight completion box, short Last/This session lines, NOW and a
-separate YOU box, ending on END OF PICKUP · SESSION READY when restoration is
-complete. The two boxes are fenced; the surrounding Markdown is not. A missing
+separate YOU box. END OF PICKUP · SESSION READY closes restoration; the one
+pending question follows immediately in ordinary chat text. With no question,
+stop at the marker. The two boxes are fenced; the surrounding Markdown is not. A missing
 log alone does not make restoration incomplete when its necessary context was
 recovered elsewhere. The terminal keeps the bordered box, amber only while a decision is actually pending.
 Colours follow the client, while status stays explicit in words.
@@ -546,15 +571,16 @@ It ends with links and visible paths to the documents the
 work already names; the backlog lives behind the *Open work* link.
 `scripts/where_we_are.py` renders it from a summary Switch already holds, so
 nothing extra is read and no status file is written. Conductor is loaded before
-rendering and puts *“Starting on X — approve?”* in that same YOU box, with the
-scope of the next action. A missing fact is asked as a clarification, not an
+rendering and supplies *“Starting on X — approve?”* as the next-action question,
+with its scope and proposal in YOU. A missing fact is asked as a clarification, not an
 approval; supplying a project name alone does not start an install or launch.
 A check belonging to you is labelled as yours, preserving any per-occasion
 permission rather than presenting it as an agent job.
 Existing local Agent bindings restore pairing context, with Agent loaded when a
 contribution is requested, without contacting or resuming peers during pickup.
 For its own designated role, In verifies the actual session ID and can replace
-the old binding from Out's prepared handoff; ambiguity needs a selection. Out
+the old binding from Out's prepared handoff or an eligible restart receipt;
+genuine ambiguity needs a selection. Out
 prepares that private handoff only after saving the final account. Old requests
 keep their original session targets. Saved roles
 are not live availability or permission to act. No second report follows. Roll keeps its

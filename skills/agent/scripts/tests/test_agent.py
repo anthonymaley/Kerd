@@ -33,6 +33,9 @@ class HelpTests(unittest.TestCase):
 
 class SuccessionTests(unittest.TestCase):
     def setUp(self):
+        host = patch.object(agent, 'machine_identity', return_value='fixture-machine')
+        host.start()
+        self.addCleanup(host.stop)
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         subprocess.run(['git', 'init', '-q', self.temp.name], check=True)
@@ -107,6 +110,166 @@ class SuccessionTests(unittest.TestCase):
                 self.assertEqual(self.path.read_bytes(), before)
             result = self.app.adopt('claude', 'partner', self.old, confirm=True)
         self.assertEqual(result['id'], self.new)
+
+    def recover_listing(self, current, others=()):
+        rows = [{'sessionId': sid, 'cwd': str(self.app.root)}
+                for sid in (current, *others)]
+        return patch.object(agent, 'command', return_value=json.dumps(rows))
+
+    def test_two_restarts_keep_role_and_refresh_recovery_without_dispatch(self):
+        self.prepare()
+        with self.identity(self.new):
+            first = self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        self.assertEqual(first['recovery']['from_session'], self.new)
+        third = str(uuid.uuid4())
+        with self.identity(third), self.recover_listing(third), \
+                patch.object(self.app, 'ask', side_effect=AssertionError('No dispatch')):
+            result = self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+        self.assertEqual(result['id'], third)
+        self.assertEqual(result['partner_role'], 'Reviewer')
+        self.assertEqual(result['previous']['id'], self.new)
+        self.assertEqual(result['recovery']['from_session'], third)
+        self.assertNotIn('handoff', result)
+
+    def test_recovery_refuses_present_predecessor_or_unavailable_listing(self):
+        self.prepare()
+        with self.identity(self.new):
+            self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        before = self.path.read_bytes()
+        third = str(uuid.uuid4())
+        probes = [self.recover_listing(third, (self.new,)),
+                  patch.object(agent, 'command', side_effect=agent.Unavailable('Offline')),
+                  patch.object(agent, 'command', return_value='{}'),
+                  patch.object(agent, 'command', return_value='[{}]'),
+                  patch.object(agent, 'command', return_value=json.dumps([
+                      {'sessionId': third, 'cwd': '/tmp'},
+                      {'sessionId': self.new, 'cwd': '/outside-this-project'}])),
+                  patch.object(agent, 'command', return_value=json.dumps([
+                      {'sessionId': third, 'cwd': '/tmp'}])),
+                  self.recover_listing(str(uuid.uuid4()))]
+        for probe in probes:
+            with self.identity(third), probe:
+                with self.assertRaises((ValueError, agent.Unavailable)):
+                    self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+            self.assertEqual(self.path.read_bytes(), before)
+
+    def test_restart_refuses_other_machine_missing_host_and_retired_identity(self):
+        self.prepare()
+        with self.identity(self.new):
+            self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        original = json.loads(self.path.read_text())
+        third = str(uuid.uuid4())
+        for host in ('different-machine', None):
+            changed = json.loads(json.dumps(original))
+            changed['recovery']['host'] = host
+            agent.atomic_json(self.path, changed)
+            before = self.path.read_bytes()
+            with self.identity(third), self.recover_listing(third):
+                with self.assertRaisesRegex(agent.Unavailable, 'same recorded machine'):
+                    self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+            self.assertEqual(self.path.read_bytes(), before)
+        agent.atomic_json(self.path, original)
+        with self.identity(third), self.recover_listing(third):
+            self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+        fourth = str(uuid.uuid4())
+        with self.identity(fourth), self.recover_listing(fourth):
+            self.app.adopt('claude', 'partner', third, 'handoff.md')
+        before = self.path.read_bytes()
+        for retired in (self.old, self.new, third):
+            with self.identity(retired), self.recover_listing(retired):
+                with self.assertRaisesRegex(agent.Unavailable, 'relinquished'):
+                    self.app.adopt('claude', 'partner', fourth, 'handoff.md')
+            self.assertEqual(self.path.read_bytes(), before)
+
+    def test_recovery_refuses_changed_pointer_and_cancel_revokes_it(self):
+        self.prepare()
+        with self.identity(self.new):
+            self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        before = self.path.read_bytes()
+        self.record.write_text('A different saved account.\n')
+        third = str(uuid.uuid4())
+        with self.identity(third), self.recover_listing(third):
+            with self.assertRaises(ValueError):
+                self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+        self.assertEqual(self.path.read_bytes(), before)
+        with self.identity(self.new):
+            result = self.app.handoff('claude', 'partner', cancel=True)
+        self.assertNotIn('recovery', result)
+        with self.identity(third), self.recover_listing(third):
+            with self.assertRaises(ValueError):
+                self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+
+    def test_recovery_never_infers_codex_absence_from_saved_threads(self):
+        self.prepare()
+        with self.identity(self.new):
+            self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        record = json.loads(self.path.read_text())
+        record['provider'] = 'codex'
+        agent.atomic_json(self.path, record)
+        before = self.path.read_bytes()
+        with self.identity(str(uuid.uuid4())), \
+                patch.object(agent, 'command', side_effect=AssertionError('No discovery')):
+            with self.assertRaises(agent.Unavailable):
+                self.app.adopt('codex', 'partner', self.new, 'handoff.md')
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_new_handoff_supersedes_recovery_and_explicit_replacement_drops_it(self):
+        self.prepare()
+        with self.identity(self.new):
+            self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+            self.record.write_text('New closeout.\n')
+            result = self.app.handoff('claude', 'partner', 'handoff.md')
+        self.assertNotIn('recovery', result)
+        self.assertEqual(result['handoff']['sha256'], agent.hashlib.sha256(self.record.read_bytes()).hexdigest())
+        with self.identity(str(uuid.uuid4())):
+            result = self.app.adopt('claude', 'partner', self.new, confirm=True)
+        self.assertNotIn('recovery', result)
+        self.assertNotIn('handoff', result)
+
+    def test_planned_handoff_survives_unavailable_fingerprint_but_recovery_refuses(self):
+        failures = [agent.Unavailable('Host unknown'), FileNotFoundError('No machine-id'),
+                    ValueError('Bad host metadata'), subprocess.TimeoutExpired('ioreg', 5)]
+        original = self.path.read_bytes()
+        for failure in failures:
+            self.path.write_bytes(original)
+            with patch.object(agent, 'machine_identity', side_effect=failure):
+                self.prepare()
+                with self.identity(self.new):
+                    result = self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+            self.assertEqual(result['id'], self.new)
+            self.assertEqual(result['partner_role'], 'Reviewer')
+            self.assertIsNone(result['recovery']['host'])
+            before = self.path.read_bytes()
+            third = str(uuid.uuid4())
+            with self.identity(third), self.recover_listing(third):
+                with self.assertRaisesRegex(agent.Unavailable, 'same recorded machine'):
+                    self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+            self.assertEqual(self.path.read_bytes(), before)
+
+    def test_competing_recoveries_have_one_winner(self):
+        self.prepare()
+        with self.identity(self.new):
+            self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        barrier = threading.Barrier(2)
+        results = []
+        ids = [str(uuid.uuid4()), str(uuid.uuid4())]
+        apps = {sid: agent.Agent(self.temp.name) for sid in ids}
+        def run(sid):
+            app = apps[sid]
+            def identity(provider):
+                barrier.wait(timeout=5)
+                return {'id': sid}
+            app.identity = identity
+            try:
+                results.append(('ok', app.adopt('claude', 'partner', self.new, 'handoff.md')['id']))
+            except ValueError:
+                results.append(('refused', sid))
+        with self.recover_listing(ids[0], (ids[1],)):
+            threads = [threading.Thread(target=run, args=(sid,)) for sid in ids]
+            for thread in threads: thread.start()
+            for thread in threads: thread.join(timeout=10)
+        self.assertTrue(all(not thread.is_alive() for thread in threads))
+        self.assertEqual(sorted(row[0] for row in results), ['ok', 'refused'])
 
     def test_changed_handoff_and_wrong_handoff_refused(self):
         self.prepare()

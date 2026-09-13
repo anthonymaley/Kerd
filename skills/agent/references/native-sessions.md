@@ -48,6 +48,10 @@ For a session taking over an established role after Out/In, use
 [session succession](session-succession.md): `identity`, `handoff`, and `adopt`
 reuse the private binding, with explicit expected-old-ID replacement. Ordinary
 `pair` still refuses a conflicting identity and discovery never replaces it.
+After record-based adoption, the same binding holds a restart receipt for the
+saved account. The succession guide defines Claude's same-machine absence check,
+retired-ID refusal and Codex's new-ID recovery limit; ordinary discovery never
+chooses or installs a successor.
 
 For a new session, supply its first real contribution rather than a paid greeting:
 

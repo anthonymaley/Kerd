@@ -48,8 +48,9 @@ interactive or a terminal supports colour when it does not.
 Switch's Markdown arrival uses the linked welcome-back convention: a prominent
 completion box and separate four-sided YOU box, with LAST/THIS SESSION, NOW
 and document links between the arrival and its end marker. Keep those boxes
-fenced, not the whole dashboard. `--question-below` is the sole exception to
-ending on the marker; do not append another report or question.
+fenced, not the whole dashboard. YOU keeps the scope and proposal; the actual
+pending question is the first content after END OF PICKUP, once in ordinary chat.
+With no question, stop at the marker. Do not append another report or question.
 
 Use a real native bounded card if suitable and available. Otherwise use a
 four-sided text box in a monospace code block, with the answer and qualifications

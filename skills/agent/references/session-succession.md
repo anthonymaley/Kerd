@@ -41,7 +41,7 @@ leaves the saved work intact; disclose that automatic pairing pickup is unavaila
 If this session resumes work instead of handing over, revoke the designation
 with `handoff --provider claude --alias ROLE_ALIAS --cancel` before that work.
 
-## In: keep or adopt, then stop at the dashboard
+## In: keep, adopt or recover, then stop at the dashboard
 
 Restore the designated handoff before changing routing. Reuse the role selected
 by that handoff or by the person; same cwd, provider, title, latest activity or
@@ -57,10 +57,46 @@ has `handoff`, name the outstanding designation in dashboard attention. Cancel
 it during this routing step if this session is continuing the role; otherwise
 state that it remains designated for a successor. Do not silently continue work
 with an outstanding designation. A new ID requires the prepared
-record to match. Without it, ask for the actual role replacement; only after
+record to match. A successful record-based adoption consumes `handoff` but keeps
+a private `recovery` receipt bound to this holder and the saved record. It is
+not a release of an active role. After a lost session and another restart, use
+the same `adopt --expected-session ... --record ...` command against that receipt:
+
+- The current session verifies its own native identity and restores the exact
+  recorded path and bytes. The helper checks the recorded machine fingerprint.
+- For Claude recovery, a successful unfiltered native listing must include the
+  current ID and exclude the predecessor. Missing, malformed or unavailable
+  evidence refuses. It does not choose a replacement from that list.
+- The receipt carries retired IDs so an old session cannot automatically reclaim
+  the role, even after several restarts. A session matching one of those IDs
+  reports that the role moved; it does not adopt back. Each successful recovery
+  updates the same alias and receipt, retaining the role. There is no arbitrary
+  one-restart limit requiring the user to select the teammate again.
+- Codex saved-thread metadata does not establish terminal absence. New-ID
+  unplanned recovery is unsupported there; same-ID continuation and prepared
+  Out handoffs still work. No cross-provider parity is implied.
+
+Show the restored pairing and ongoing role in the arrival summary. After crash
+recovery, attention must say that routing was recovered from the saved account,
+not that the lost session's later work was saved. Carry any missing account and
+dirty-tree facts already found during ordinary pickup; do not infer lost work
+solely from a restart or award memory completeness from a successful adoption.
+
+New Out supersedes the receipt; `handoff --cancel` revokes both designation and
+recovery. Explicit replacement drops recovery evidence rather than inheriting
+it. A dead holder cannot cancel itself; an explicit user-selected replacement
+remains the override. Earlier versions that consumed their handoff without a
+receipt cannot be retroactively recovered from a guessed history.
+
+Without a matching designation or recovery receipt, ask for the actual role replacement; only after
 the person's explicit selection use `--confirm-replacement` instead of `--record`.
 Unknown identity or ambiguity leaves routing unchanged, not pickup memory failed.
-No probing other peers, launching, resuming, stopping, dispatching or project
+Show the actual refusal in dashboard attention: changed saved record, predecessor
+still listed, missing/different machine, or unresolved identity—not just “routing
+unchanged”. A missing fingerprint disables unplanned recovery, not a prepared
+Out handoff or its designated adoption.
+The narrow native listing above is allowed for recovery, not a peer health check.
+No contacting peers, launching, resuming, stopping, dispatching or project
 file repairs is authorized by this local routing update. This is the narrow
 private-metadata exception to status-only In, not authority to start the plan.
 
@@ -71,11 +107,23 @@ Old request/reply records keep their original targets. Owned launch partners
 cannot be replaced externally. Roles may be changed separately through ordinary
 `pair --partner-role`; this operation never inherits permissions or launch settings.
 
-Bindings and designations are local to this Git worktree and machine. A fresh
+Bindings and designations live in this Git worktree's private directory. A shared
+filesystem can expose that directory to another machine; unplanned recovery
+refuses a different or missing host fingerprint. A fresh
 clone has no routing state; retain the project handoff and select a local partner
 when needed. These checks protect ordinary mistakes, not against a same-user
 process forging environment values or editing private metadata. The helper
 checks identity and saved bytes, not whether a person authorized the command.
+Native absence is only a current observation, not authenticated proof of death;
+a predecessor could resume after the check. Its next In must honor the moved
+role, and senders resolve the alias again for new jobs. Old requests keep their
+original target. If several roles or intended pickups are genuinely ambiguous,
+retain the bindings and ask about that choice, not a routine session-ID selection.
+Another same-machine project session holding the same account could take this
+role while its holder is unlisted; the helper cannot prove intended readership.
+Only the session performing that role's pickup may recover it. The strict listing
+also refuses malformed metadata from unrelated sessions rather than trusting an
+incomplete view; this is a diagnosable refusal, not evidence the partner died.
 
 Source: [Claude session environment](https://code.claude.com/docs/en/env-vars).
 `CODEX_THREAD_ID` was observed and corroborated locally on 2026-09-13; hosts

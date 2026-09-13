@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles, carry a designated role across verified session-ID changes, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
 ---
 
 # Agent

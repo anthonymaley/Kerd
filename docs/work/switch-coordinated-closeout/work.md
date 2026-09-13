@@ -5,15 +5,17 @@
 Outcome: a recognizable Switch In dashboard and a handoff that preserves
 collaborating sessions' necessary context without duplicate shared-file saves.
 
-Stage: 0.116.0 release contents tested and reviewed; publication authorized.
-Current activity: no implementation in flight. Publication authorized by Anthony's
-“lets releaese”; resolve its state from the source boundary below.
+Stage: 0.117.0 released with the arrival and restart corrections below, on
+Anthony's 12:35 EDT "okay lets release and i'll try"; published from the Claude
+reviewer session.
+Current activity: Anthony tries the release.
 Pending question: none.
-Next action: the shared verification list below (`## Targeted verification of
-reported failures`), item by item, owners as named. Consumer pickups stay deferred
-until items 1–5 carry evidence of the fixes working. No consumer installation is part of this source release.
+Next action: Anthony observes the new arrival and, after a new Out designation,
+restart recovery in ordinary use; results go on rows 1, 2 and 4. Consumer pickups
+stay deferred until items 1–5 carry evidence of the fixes working. No consumer
+installation is part of this source release.
 
-Source boundary: branch `main`, subject `Release Kerd 0.116.0: role continuity and implementation delegation`.
+Source boundary: branch `main`, subject `Release Kerd 0.117.0: question after the marker and restart recovery`.
 This record is saved with the release; its resulting hash and remote/CI result
 are checked after saving, not pre-asserted inside it. Prior local-only statements
 below describe the earlier reviews; publication was subsequently authorized.
@@ -52,9 +54,117 @@ remaining gap per item; results are appended here by the owner.
 | 2 | Human-owned check presented as agent work: Seinn 0.115.0 In asked "Starting on the couch verdict — approve?" | The same fresh In: the saved next action includes Anthony's own assessment of the arrival, so TASK/STATE name him as actor and YOU asks whether he can give it, not "Starting on X" | Claude (fresh session) | Anthony's supplied Seinn output | Kerd has no device; the assessment stands in for the couch verdict |
 | 3 | Coordinated Out lost a contributor: Leru Out/In had no Codex log and conflicting TV claims, reconstructed not resolved | This session runs Out as owner: loaded skill is the 0.115.0 cache, guide followed is the released 0.116.0 `in-out.md` from the repository (a disclosed test route, not an installed-0.116.0 result); Codex's returned account captured once; MEMORY row shown; the fresh In (item 1) recovers both accounts without either old conversation | Claude (this session, owner); Codex returns its account | `kivna/sessions/2026-09-13.md` (one contributor, already saved) | Unresolved facts stay unresolved in the record, never reconstructed into proof |
 | 4 | Role not recoverable when the session ID changes (pairing showed a stale title; ordinary `pair` refused a new ID) | After the Out save, this session (bound as `kerd-b5-review`, which has no `partner_role`, no ownership flag and no `handoff`; role preservation cannot be claimed for a field that is absent) runs `handoff --record CONTEXT.md` with the released helper `skills/agent/scripts/agent.py`, not the 0.115.0 cache helper, which lacks the command; the designation is verified against the final saved pointer before Anthony clears; the new session's In records the actual identity before and after, then `adopt --expected-session <old> --record CONTEXT.md`; Codex checks the binding and sends the successor one real request that arrives | Claude designates and adopts; Codex verifies and routes | Fixture tests and one native self-ID read (Agent 135) | Compare the actual identity before and after the clear; never infer it. A safe refusal on unknown or conflicting identity is a successful safety observation, not successful role continuation |
-| 5 | Installed Codex snapshot reported stale since 2026-09-12 | Read the installed version before any Codex-side result is counted | Codex | Not rechecked at the 0.116.0 release | **Result 2026-09-13 ~11:00, Codex:** `codex plugin list --marketplace kerd-core --json` reports kerd@kerd-core installed, enabled, version 0.113.0, and the cached manifest agrees. Stale installed version confirmed; not 0.116.0 readiness. Nothing updated |
+| 5 | Installed Codex snapshot reported stale since 2026-09-12 | Read the installed version before any Codex-side result is counted | Codex | Earlier 2026-09-13 read found installed/enabled 0.113.0, corroborated by its cache manifest; no update at that check | **Update 2026-09-13, Codex:** Anthony subsequently authorized the user-level update (“lets do that too”). Built `output/kerd-codex-0.116.0`, repointed only `kerd-core` via the CLI and reinstalled Kerd. `codex plugin list --marketplace kerd-core --json` now reports installed/enabled 0.116.0; the cached manifest agrees and all four core skill entries exist. Old 0.113.0 catalog retained. Installed-version check met; a fresh session loading it and its behavior remain unverified. No consumer pickup started |
 | 6 | Implementation never delegated (Anthony: not seen in a long time; Codex: reviews only, today) | Judged at the next real build where a split is useful; the check is the decision and visible ownership, including an inline choice with its reason. Not a prerequisite for items 1–5. The Backlog's Agent four-limits work is a candidate, and a separate scope decision for Anthony | Claude (Conductor) when a build runs | Four hypothetical choices reviewed 2026-09-13 | No real build in this verification |
 | 7 | Consumer pickups (Codex in a work project; Seinn, Leru) | Deferred until items 1–5 carry evidence of the fixes working, not merely a recorded outcome; failed or unresolved checks stay visible here and keep the hold | — | — | Anthony's instruction, 10:41 |
+
+### Local arrival refinements after 0.116.0
+
+Anthony requested the actual dashboard question as the first content after END,
+and NOW as numbered next actions in priority order instead of a report of evidence
+rows. Markdown now places the question below automatically; YOU retains scope,
+proposal and reply guidance. No question means stop at END. Terminal output keeps
+the explicit question-below option. Both modes enumerate supplied NOW order;
+the composing skill selects actionable priority from the saved plan, not the
+renderer. Completed observations and deferred work are not next actions.
+
+Tests first failed on the old placement and bullets, then the renderer suite
+passed 116 tests, including complete values, no duplicate question, no-question
+output and multi-digit numbering. Full Switch suite 325, packaging 9, both skill
+validators and release gate passed. Local
+changes only: no new version, commit, publication or installed-plugin update.
+
+Codex checked the successor binding: previous ID matches the outgoing Claude,
+role retained, designation consumed. The subsequent real review submission was
+refused before delivery: exact bound session not reachable. Native discovery
+lists a different, unpaired Claude session. No substitution, resume, role edit or
+retry occurred. Row 4's messaging proof and independent review remain open;
+the cause of the later identity difference is unverified. Review prompt and
+routing metadata remain private.
+
+Follow-up: Anthony explicitly selected the listed Claude session. Codex created
+a separate contact alias without overwriting the designated role, sent the review
+and retrieved its complete reply. Claude (observed `claude-opus-5`; native effort
+unchanged/unobserved) ran renderer 116 and Switch 325 successfully, accepted the
+renderer and found two live guidance contradictions about question placement
+and status bullets in NOW. Those are corrected locally. This manually selected
+contact is not a successful automatic-succession result.
+
+### Lost successor and another restart
+
+Anthony then explained: “i lost the claude session and had to restart”. The
+binding shows the first adoption consumed its designation and retained the role;
+the next native session had a different identity and nothing left to adopt.
+That explains why a single Out/In fixture was insufficient. No claim is made
+about what unsaved memory the lost session held.
+
+Agreed work: recover established-role continuity after restart, without selecting
+a teammate again or guessing from the only visible session. Codex implements;
+the selected Claude partner reviews read-only. No release, install, lifecycle
+operation or consumer-repo change is part of this correction. Recovery evidence
+belongs in the existing private Agent binding, not a second Markdown roster.
+Tests must cover a second restart, unchanged alias/role, stale expected IDs,
+changed saved memory, a still-listed predecessor, unavailable native evidence,
+revocation and no rerouting of old requests. Pairing recovery is not memory
+completeness or authority to start work.
+
+Implemented in the existing binding: record-based adoption consumes the one-use
+designation but retains a restart receipt for the same saved path/digest and
+holder. Claude recovery checks verified self, matching machine fingerprint,
+unfiltered native listing with current present/predecessor absent, retired IDs
+and the expected-old-ID lock. It retains the alias/role and old request targets.
+New Out, cancellation or explicit replacement supersedes the receipt. Switch In
+recognizes the receipt, shows pairing and exposes specific refusal reasons.
+Codex new-ID unplanned recovery refuses because saved threads do not establish
+terminal absence. Same-ID continuation and planned handoffs remain supported.
+
+Claude design review caught cross-machine and resumed-predecessor risks; both
+became guards and tests. Its suggested one-recovery cap was declined: repeatedly
+asking for the same teammate after a restart recreates the reported failure.
+Retired IDs prevent automatic reclaim across the recovery chain instead; Claude
+accepted that disposition in implementation review. That review also reproduced
+an unintended dependency of planned handoffs on the OS fingerprint. Fixed:
+Out does not need it; designated adoption captures it best-effort, and only
+unplanned recovery requires a valid match. Final read-only review returned ready
+and reran the failing reproduction successfully.
+
+Verification: Agent **143**, including **20** succession cases; Switch **325**;
+packaging **9**; Agent/Switch/Conductor skill validators pass; release gate clean;
+audit retains its pre-existing requirements trace finding; diff check clean.
+In-memory mutations disabling predecessor, host, retired-ID and digest checks
+each failed tests. Removing the planned-handoff fallback also failed its new
+test. The native macOS fingerprint read succeeded without exposing its value.
+Initial full Agent run exposed fixture ResourceWarnings for SQLite; the clean
+rerun suppressed only that warning category, not errors. An initial packaging
+command used a nonexistent root path; the actual packaging suite above was
+then located and run. Reviews used observed `claude-opus-5`, native effort
+unchanged/unobserved, profile `opus-5` version `2026-09`.
+
+Limits: real restart recovery and the user's experience are unobserved, so row 4
+is not closed. Native absence is observational; another same-machine session
+restoring the identical account can be indistinguishable from the intended
+successor. Guidance limits adoption to that role's pickup. Missing or changed
+memory is never repaired by routing. Legacy consumed designations have no
+receipt to reconstruct; explicit replacement remains necessary for those.
+The reviewer noted a non-blocking extra host read while writing the recovery
+receipt: a transient failure after the first successful check can disable the
+next automatic recovery; the null host is explicit and fails closed.
+No live binding changes, lifecycle operations, commit, release or installation
+were performed for this correction. The earlier authorized Codex installation
+result remains in row 5; it does not include these local changes.
+
+### 0.117.0 release checks
+
+Released 2026-09-13 after Anthony's 12:35 EDT "okay lets release and i'll try",
+from the Claude reviewer session; the tree had been still since 11:44. Run
+there before the save: Agent 143, Conductor 37, Switch 325, hooks 21; gate
+selftest, audit (the pre-existing trace finding only), release, progress,
+matrix, journey and stale checks all clean; diff check clean. The packaging
+suite was not rerun there. CI had been red since the two session-close pushes
+on `fidelity.py`: four new artifacts were named nowhere a pickup reads. This
+release names them in `CONTEXT.md`. The legacy `kerd-b5-review` binding has no
+restart receipt, so automatic recovery starts only after a new Out designation
+and a record-based adoption.
 
 ## Implementation and checks
 

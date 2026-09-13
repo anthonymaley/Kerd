@@ -2,8 +2,8 @@
 
 ## Now
 
-**Release boundary:** 0.116.0, branch `main`, subject "Release Kerd 0.116.0:
-role continuity and implementation delegation", authorized 2026-09-13;
+**Release boundary:** 0.117.0, branch `main`, subject "Release Kerd 0.117.0:
+question after the marker and restart recovery", authorized 2026-09-13 12:35;
 resolve its revision and remote state with Git. Position, installed state and
 the reading set: `CONTEXT.md` `## Where We Are`. Records:
 `docs/work/switch-coordinated-closeout/work.md` (compact arrival, coordinated Out,
