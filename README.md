@@ -40,7 +40,19 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.121.1)
+## What's New (v0.121.2)
+
+### v0.121.2
+
+**An action, not a compressed checklist.** NOW names who, what and which target;
+navigation steps and pass criteria stay behind the task link even when they fit
+in one sentence. Necessary target, safety and permission details stay visible.
+THIS SESSION states the current scope without promising the next unrelated
+build. No runtime renderer or Out change.
+
+In Leru's ordinary 0.121.1 pickup, Claude verified that renderer output and
+final text matched exactly. That sequencing held once; this patch addresses the
+remaining composition drift, not a renewed renderer failure.
 
 ### v0.121.1
 
@@ -684,8 +696,10 @@ approval; supplying a project name alone does not start an install or launch.
 A check belonging to you is labelled as yours, preserving any per-occasion
 permission rather than presenting it as an agent job.
 NOW holds short, owner-labelled actions for this sitting and their necessary
-follow-through. Detailed checks, future-event work and later projects stay behind
-Open work; immediate permission limits and blockers remain visible.
+follow-through, not procedures or pass criteria compressed into one sentence.
+Detailed checks, future-event work and later projects stay behind Open work;
+immediate target, safety and permission limits remain visible. THIS SESSION
+states the selected action's scope without scheduling a later unrelated task.
 The single question after END asks directly about the recommendation;
 you can decline or redirect without choosing from an offered alternative.
 Existing local Agent bindings restore pairing context, with Agent loaded when a

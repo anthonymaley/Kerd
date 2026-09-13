@@ -1,7 +1,7 @@
 {
   "name": "kerd",
   "description": "Opinionated workflow toolkit: driving a work item from idea to acceptance with scoped delegation, session discipline, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, risk qualification, visual agreement, conversational pair mode, and native Claude/Codex session collaboration with role continuity",
-  "version": "0.121.1",
+  "version": "0.121.2",
   "author": {
     "name": "Anthony Maley"
   },

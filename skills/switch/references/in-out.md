@@ -166,7 +166,9 @@ After restoration, orient before detail. Four short blocks, worded for the proje
   not a copy of status bullets. The backlog stays behind the documents link.
 - **Last session:** the main achievement or change.
 - **This session:** the next agreed work and why. If none is agreed, say so; a
-  suggestion stays a suggestion.
+  suggestion stays a suggestion. Describe this action's scope, not the next
+  roadmap item: “No build, deploy or push” states a limit without promising
+  that a separate build follows. Name other work only if it affects this action.
 - **Where we are:** position in the wider work, in the project's own stage names,
   not the stage of the pickup itself.
 
@@ -237,16 +239,29 @@ an unrelated build awaiting separate approval does not become NOW just because
 it follows in the roadmap. Keep a consequential blocker or restriction visible
 in ATTENTION, or an actionable step to resolve it in NOW.
 
-Each item is a short owner + action/outcome, not a checking procedure. Link the
-existing task/spec for detailed steps and pass criteria. Keep immediate safety
-and permission limits in the item or THIS SESSION. Combine related recording
+Each item identifies the owner, action and target/outcome. Before rendering,
+remove the **how** (clicks, restart sequences, navigation) and the **pass criteria**
+(expected colours, values or states), even when they fit in one short sentence.
+Point to their existing task/spec or saved account; do not claim a link contains
+steps that were never recorded there. Keep details needed to identify the right
+target, distinguish the scope, or avoid an immediate safety/permission mistake
+in the item or THIS SESSION. Combine related recording
 into one follow-through action; do not silently change saved priority or retire
 work merely to shorten the display. There is no fixed item count to fill.
+Do not relocate the removed procedure or checklist into another dashboard
+section or the final question. An Insight may explain what the check can or
+cannot establish; it is not another home for the test instructions.
 
 Use `**Owner:** action` inside the existing string, for example:
 
-1. `**Anthony:** Check the finished build on a device.`
+1. `**Anthony:** Check the installed stats panel on either TV against the linked device-pass task.`
 2. `**Claude:** After your report, record the result and identify any correction needed.`
+
+For example, “Quit and reopen the app, open the match, check the bar is green
+and the count is zero” is procedure plus pass criteria, not a tighter version
+of item 1. Keep it behind the task link. THIS SESSION can say “Proposed: your
+device check, then recording the result; no build, deploy or push.” This selects
+the current work without retiring or rescheduling anything in the saved plan.
 
 Only use established owners; otherwise say owner unassigned. This explicit
 notation distinguishes owners from ordinary colon prose. The renderer preserves

@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing and designated role continuity, notifies established partners without requesting work or a reply, and returns the rendered status grid unchanged with provider/role TEAM, LAST/THIS/NOW sections and one question callout after END. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing and designated role continuity, notifies established partners without requesting work or a reply, and returns the rendered status grid unchanged with provider/role TEAM, LAST/THIS sections, action-only NOW and one question callout after END. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -13,7 +13,8 @@ and repository boundaries still apply.
 ## Pick the intended action
 
 - **In:** restore useful memory, current status and the saved plan; load Conductor
-  to compose one welcome-back dashboard with owner-labelled NOW actions and
+  to compose one welcome-back dashboard with owner-labelled NOW actions (not
+  checking procedures or pass criteria) and
   one question callout after the end marker. Return the renderer's complete
   Markdown as the final message unchanged, then wait; do not rewrite its prose. Read
   [pickup and closeout](references/in-out.md).

@@ -4,8 +4,8 @@
 
 Outcome: Switch In makes the established team recognizable and tells those
 partners when the current native identity arrives, without starting work.
-Stage: Complete — arrival-fidelity correction implemented, reviewed and included in release 0.121.1.
-Source boundary: main, “Release Kerd 0.121.1: preserve the rendered arrival”.
+Stage: Complete — NOW composition correction implemented, reviewed and included in release 0.121.2.
+Source boundary: main, “Release Kerd 0.121.2: keep NOW to actions”.
 This account is saved with the release; remote publication and CI are checked
 after saving, not pre-asserted inside this commit.
 Owner: Codex implemented Agent/Switch/Conductor and tests. The established Claude
@@ -13,13 +13,74 @@ partner reviewed read-only and published both 0.120.0 (Anthony's “lets release
 2026-09-13 16:51) and 0.121.0 (his second “lets release”, 17:57), each after
 Codex confirmed its edits finished and that it would not release in parallel.
 Claude's separate shared verification record stays under its ownership.
-Next action: a fresh session loads 0.121.1 for an ordinary arrival, checking NOW
-selection and unchanged renderer-to-final delivery. A real delegation still
-provides the ordinary-use observation of Conductor's grid. Long-cell
-wrapping in the actual client is unverified. Publication does not update an
+Next action: a fresh session loads 0.121.2; observe its ordinary arrival's
+action/detail split. Leru 0.121.1 held unchanged
+renderer-to-final delivery once, per Claude's native comparison; that result is
+not reopened. A real delegation still provides the ordinary-use observation of
+Conductor's grid. Client styling remains client-dependent. Publication does not update an
 installed plugin cache; no install, Codex update or consumer-project work is
 authorized. Earlier release accounts remain history.
 Pending question: none.
+
+## Ordinary 0.121.1 result and remaining composition (2026-09-13)
+
+Anthony relayed Claude's native Leru comparison: the 0.121.1 skill paths loaded,
+stdout and final message were identical at 2,010 characters, and the Insight's
+garbled phrase was a paste artifact. NOW had the device check and its recording
+follow-through, with owner-only labels. This is reported native inspection by
+Claude, not a second transcript inspection by Codex or universal acceptance.
+Sequencing held once in ordinary use; do not discard that evidence. Claude
+confirmed one confounder: this successful run had only hook_success and a token
+reminder after rendering, whereas the failed 0.121.0 run also had the
+silent_turn_reminder. The observation does not establish compliance when that
+reminder fires, nor prove that reminder caused the earlier rewrite.
+
+The remaining NOW item still carried restart/navigation steps and expected bar
+appearance. Shortness alone had not separated an action from its how/pass
+criteria. THIS SESSION's heartbeat sentence did state a scope distinction;
+Codex's initial claim that it necessarily assigned another action was too strong.
+The cleaner arrival states the current limit without advertising the next task.
+No saved priority is changed and no later task is retired.
+
+Anthony authorized “get with hthem and fix, release and we go again”. Codex owns
+this correction and publication; Claude owns read-only review, not a competing
+release. [Review brief](now-composition-review.md) retains the selected evidence,
+scope and a bounded tablet-check composition with an explicit test-account
+safety limit. Existing Claude model/effort retained; local Opus 5 2026-09 guidance
+used, applied effort unverified. Full framed request remains private in Agent.
+
+Change is in Switch guidance and living usage only: owner/action/target, remove
+how and pass criteria even when brief, link actual recorded detail, preserve
+necessary identification/safety/permission qualifiers. THIS SESSION covers the
+selected scope, not the roadmap. No new fields, parser, word budget, runtime
+change, consumer edit, install or binding change.
+
+Claude confirmed the evidence and found a relocation loophole: a composer could
+move the removed checklist into another section. Closed by prohibiting that
+relocation, while retaining a useful Insight about a check's evidential limits;
+not a blanket ban on technical learning. The bounded tablet replay kept two NOW
+actions, the test-account-only/never-production qualifier and current scope;
+navigation, badge colour, expected count and later export work remained in the
+real scratch task. Codex inspected the input, rendered output and linked task.
+Its unsupported “nobody has verified it” narrative was returned for correction:
+the supplied fact was that verification is next, not that it never happened.
+No new product rule was inferred from that replay wording issue.
+
+Claude's [final review](now-composition-release-review.md) cleared the correction
+and release surfaces. It corrected and rerendered the scratch narrative to
+“Release 8 is installed on the lab tablet; tablet verification is next.” Codex
+checked that line and the retained safety limit in the new output. No claim of
+ordinary-use acceptance follows from this replay. Returned model: claude-opus-5;
+applied effort unverified. Both requests returned and were retrieved; Claude
+confirmed no competing edits/publication or unrecorded contribution.
+
+Checks: Switch 345 (renderer subset 136), Conductor 37, Agent 168, packaging 9,
+hooks 21 passed. All CI commands passed locally; fidelity skipped because HEAD
+was not a session-log boundary. The pre-existing requirements trace finding
+remains. Known Agent ResourceWarnings were suppressed for this run, not test
+failures; shellcheck was unavailable/skipped. Skill validation and diff check
+passed. Remote publication and CI are verified after the save, not asserted in
+the saving record. No plugin install, shared handoff or binding change.
 
 ## Arrival fidelity correction (2026-09-13)
 
