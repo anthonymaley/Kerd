@@ -32,23 +32,32 @@ request. Consumer pickups, including the Codex pickup in a work project, are
 deferred until rows 1–5 carry evidence of the fixes working; a recorded
 outcome alone does not clear the hold.
 
-**Installed state, not to be overclaimed:** the Claude plugin cache holds
-0.116.0 on disk (its `plugin.json` read 0.116.0 at 10:52); no session has
-been observed loading it. This session's ordinary startup at 09:38 loaded the
-0.115.0 cache (observed once); the 11:20 Claude session loaded the 0.116.0
-cache (observed once). Installed Codex Kerd was updated to 0.116.0 on Anthony's
-authorization, reported by Codex (row 5); it does not carry 0.117.0. Presence in a cache does not establish what the next start loads:
-verify the loaded path and version first.
+**Installed state, not to be overclaimed:** the 11:20 Claude session loaded
+the 0.116.0 cache (observed once); no session has been observed loading
+0.117.0, and publication does not update a plugin cache. Installed Codex Kerd
+is 0.116.0 on Anthony's authorization, reported by Codex (row 5); it does not
+carry 0.117.0. Verify the loaded skill path and version before counting a result.
 
-**Where the sequence stands at this release:** the 10:58 designation was
+**Where the sequence stands at this save:** the 10:58 designation was
 consumed at 11:11 by the first adopting Claude session, which was then lost;
-Anthony restarted, selected the listed session explicitly for review, and that
-gap became the 0.117.0 restart receipt. No row 1–4 result is recorded yet.
-Anthony is trying the release. The legacy `kerd-b5-review` binding has no
-receipt: automatic recovery needs a new Out designation and a record-based
-adoption first. Receipts are invalidated when this file's bytes change, and a
-release edit changes them. Plugin caches do not change by publication alone;
-verify the loaded version before counting a result.
+that gap became 0.117.0's restart receipt. The 11:20 reviewer session
+explicitly adopted `kerd-b5-review` at 12:42 (role: arrival and closeout checks)
+and ran this Out; after the save it designates its successor against this file
+with the repository's `skills/agent/scripts/agent.py handoff --record CONTEXT.md`.
+Anthony then restarts Claude if needed (`/clear` is not assumed to update the
+plugin). The fresh session: verify the loaded skill path reads 0.117.0; Switch
+In's routing step runs `identity`, then `adopt --expected-session <the currently
+bound ID> --record CONTEXT.md`; then the 0.117.0 arrival for Anthony's
+assessment, with a "not now" starting nothing. Then Codex checks the binding
+and sends the successor a real request. No row 1–4 result is recorded yet.
+Receipts stop matching when this file's bytes change.
+**Not in this save:** at 12:46, during this Out, uncommitted edits appeared in
+`README.md`, `skills/agent/references/session-succession.md`,
+`skills/agent/scripts/tests/test_agent.py`, `skills/switch/SKILL.md` and
+`skills/switch/references/in-out.md`: an Out pre-save role-ownership check that
+Codex built on Anthony's "lets add that" (reported by Codex, sent to this session
+for read-only review). Left untouched and unreleased; check `git status` before
+counting what 0.117.0 contains.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
@@ -60,24 +69,27 @@ fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
 the root (2026-09-09). Name it with `--preserve` at every save.
 
-**Pickup reading set** (Switch Out, 2026-09-13 10:58): this file complete;
-`TODO.md` `## Now`; `kivna/sessions/2026-09-13.md` complete;
-`docs/work/switch-coordinated-closeout/work.md` section
-`## Targeted verification of reported failures (2026-09-13)`. Add
-`skills/agent/references/session-succession.md` when running the routing step.
-Helper arguments: `--record CONTEXT.md --file kivna/sessions/2026-09-13.md
---section TODO.md "## Now" --section docs/work/switch-coordinated-closeout/work.md
-"## Targeted verification of reported failures (2026-09-13)"`.
-Measured reading: 33,765 bytes, about 8,442 tokens estimated at four bytes each (not a tokenizer reading), measured before this line was written; over the 8,000 target by about 440 and kept so on purpose: the log carries both of today's sittings and Codex's account, and the verification section is the next action itself. Prune the earlier sitting from the set once the fresh In has picked it up.
+**Pickup reading set** (Switch Out, 2026-09-13 12:43): this file complete, for
+position, routing sequence and rulings; `TODO.md` `## Now`, the next actions;
+the newest sitting only in `kivna/sessions/2026-09-13.md` (the earlier two were
+picked up at 11:20 and stay in that file on demand); the work record's `## Now`,
+for the stage and agreement. The verification rows live in that record's
+`## Targeted verification of reported failures (2026-09-13)`, opened when a
+result is recorded. Add `skills/agent/references/session-succession.md` for the
+routing step.
+Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--section", "TODO.md", "## Now", "--section", "kivna/sessions/2026-09-13.md", "## Sitting: the 0.116.0 arrival, four peer reviews, the 0.117.0 release and role adoption (2026-09-13 11:20 – 12:46 EDT, Claude session on the 0.116.0 cache; Codex in the paired TUI)", "--section", "docs/work/switch-coordinated-closeout/work.md", "## Now"]`.
+Measured reading: 24,187 bytes, about 6,047 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target; measured before this line was written, so the saved file is slightly larger.
 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (166 entries at the
-2026-09-13 10:58 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (168 entries at the
+2026-09-13 12:43 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **AN ESTABLISHED ROLE SURVIVES A LOST SESSION: THE NEXT RESTART RECOVERS IT FROM THE UNCHANGED SAVED ACCOUNT WITHOUT SELECTING THE TEAMMATE AGAIN; NO ONE-RECOVERY CAP — 2026-09-13, Anthony's request (reported by Codex), released in 0.117.0.**
+- **THE ARRIVAL QUESTION IS THE FIRST CONTENT AFTER END OF PICKUP; NOW IS A NUMBERED LIST OF NEXT ACTIONS IN PRIORITY ORDER, NOT A REPORT — Anthony, 2026-09-13 (reported by Codex), released in 0.117.0.**
 - **PROVE KERD WORKS AS IT SHOULD BEFORE ANY CONSUMER PICKUP; EXISTING ORDINARY-USE EVIDENCE IS THE BASELINE, NOT REPEATED — Anthony, 2026-09-13 10:41, deferring the Codex pickup.**
 - **COMPARE ACTUAL SESSION IDs BEFORE AND AFTER A CLEAR OR RESTART; NEVER INFER IDENTITY FROM A TERMINAL, A TITLE OR RECENCY — Anthony, 2026-09-13, agreeing the succession design.**
 - **ONE STABLE ALIAS PER ROLE; A SUCCESSOR REPLACES THE ID ATOMICALLY AGAINST THE EXPECTED OLD ID, ON A DESIGNATED HANDOFF OR THE PERSON'S EXPLICIT SELECTION, NEVER ON RECENCY — 2026-09-13, Codex's design chosen over Claude's two-alias chain, Anthony's "lets do it".**

@@ -8,10 +8,13 @@ collaborating sessions' necessary context without duplicate shared-file saves.
 Stage: 0.117.0 released with the arrival and restart corrections below, on
 Anthony's 12:35 EDT "okay lets release and i'll try"; published from the Claude
 reviewer session.
-Current activity: Anthony tries the release.
+Current activity: Out saved by the Claude reviewer session, which now holds
+`kerd-b5-review` and designates its successor after the save.
 Pending question: none.
-Next action: Anthony observes the new arrival and, after a new Out designation,
-restart recovery in ordinary use; results go on rows 1, 2 and 4. Consumer pickups
+Next action: a fresh Claude session verifies it loaded 0.117.0 (restart Claude if
+needed), runs Switch In with the planned adoption, and shows the new arrival for
+Anthony's assessment; results go on rows 1, 2 and 4. Unplanned recovery is
+observed only if a role-holding session is actually lost later. Consumer pickups
 stay deferred until items 1–5 carry evidence of the fixes working. No consumer
 installation is part of this source release.
 
@@ -164,7 +167,15 @@ suite was not rerun there. CI had been red since the two session-close pushes
 on `fidelity.py`: four new artifacts were named nowhere a pickup reads. This
 release names them in `CONTEXT.md`. The legacy `kerd-b5-review` binding has no
 restart receipt, so automatic recovery starts only after a new Out designation
-and a record-based adoption.
+and a record-based adoption. CI on the release commit succeeded (run 34769275129).
+
+Before Out, at Codex's advice relayed by Anthony (12:42): the reviewer session
+verified its identity and explicitly adopted `kerd-b5-review` with
+`--confirm-replacement` against the lost successor's ID, using the repository's
+0.117.0 helper. The role was kept and the lost session recorded as `previous`;
+no receipt or designation was written, as expected for explicit replacement.
+The contact alias `kerd-83-review` stays as it was. Out (12:43) then saves the
+account and designates the successor against the final `CONTEXT.md`.
 
 ## Implementation and checks
 

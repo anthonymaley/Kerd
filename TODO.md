@@ -12,38 +12,31 @@ partner roles, succession, delegation and review dispositions),
 scenario), `docs/work/release-111-followup/` (0.112.0). These lists are not
 authority to run installation or checks during pickup.
 
-- **First: the shared verification list**, `docs/work/switch-coordinated-closeout/work.md`
-  `## Targeted verification of reported failures (2026-09-13)`: seven items with
-  owner, evidence baseline and remaining gap. Anthony, 10:41: prove Kerd works as
-  it should before any consumer pickup. Claude owns arrival and closeout checks;
-  Codex owns the installed Codex version, pairing state and the successor request.
-- DEFERRED until that list carries evidence (Anthony, 10:41): refresh the installed
-  Codex snapshot from 0.116.0, then a fresh Codex Switch In in a work project;
-  record the tested version in `docs/work/codex-plugin/work.md`.
-- Claude pickup on a 0.116.0 cache: observe the corrected arrival —
-  completion box, one question in YOU, END OF PICKUP marker, no second
-  report — and Anthony's assessment; record it in
-  `docs/work/switch-coordinated-closeout/work.md`. (The 0.113.0 arrival was
-  observed 2026-09-12 22:27: composed, one question, no second report; the
-  layout was superseded before Anthony assessed it.)
-  Claude's 2026-09-13 release review also reports a direct 09:38 EDT 0.115.0
-  cache/arrival observation; assessment absent. Neither proves 0.116.0 delivery.
+- **First: a fresh Claude In on 0.117.0** (rows 1, 2 and 4 of the shared
+  verification list in `docs/work/switch-coordinated-closeout/work.md`).
+  Restart Claude if needed; don't assume `/clear` updates the plugin (Anthony,
+  12:43). The new session first verifies the loaded skill path reads 0.117.0,
+  then runs Switch In: the routing step adopts `kerd-b5-review` from the Out
+  designation against the saved `CONTEXT.md` (planned adoption, row 4); the
+  arrival puts its one question after END OF PICKUP with NOW numbered (rows
+  1–2: Anthony's assessment; "not now" starts nothing). Results go on the rows.
+- Then Codex checks the binding and sends the successor one real request that
+  arrives (row 4 messaging proof).
+- Unplanned restart recovery is observed only when a role-holding session is
+  actually lost later; nothing is crashed deliberately (Anthony, via Codex,
+  12:42). Receipts stop matching when `CONTEXT.md` bytes change.
+- DEFERRED until rows 1–5 carry evidence (Anthony, 10:41): a fresh Codex
+  Switch In in a work project. Installed Codex Kerd is 0.116.0 (row 5); 0.117.0
+  is not installed there.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a
   model, not a fixture: a factual Yes, No or Not sure that grants no approval.
-- Coordinated Out with a live contributor on a 0.116.0 cache: observe
-  ownership, contributor capture and the MEMORY row; record it in
-  `docs/work/switch-coordinated-closeout/work.md`. (The 2026-09-13 Out ran the
-  0.115.0 guide from the 0.113.0 cache with its one contributor already saved:
-  `kivna/sessions/2026-09-13.md`.)
-- Observe role continuity across actual clear/restart: unchanged verified IDs
-  preserve bindings; changed IDs require the designated handoff or explicit
-  selection. Fixture tests and native self-ID reads passed, no live replacement yet.
+- Coordinated Out with a live contributor on a 0.117.0 cache: observe
+  ownership, contributor capture and the MEMORY row. (The 12:43 Out ran from
+  the 0.116.0 cache under the repository's 0.117.0 guide, whose Out section is
+  unchanged; Codex's account came from the work record.)
 - Observe Conductor assigning useful implementation work with owners and edit
-  boundaries. The four hypothetical choices were reviewed; no ordinary build
-  or token/latency benefit is established by that review.
-- At the next owning Out, carry the three new rulings from the work record into
-  docs/decisions.md: verify actual IDs, stable-alias expected-ID replacement,
-  and decide the implementation split before building. This release is not Out.
+  boundaries at a real build (row 6). The 0.117.0 split (Codex built, Claude
+  reviewed) was a peer arrangement Anthony set up, not a Conductor decision.
 
 ### Earlier launch sequence — retained pending reconciliation
 
