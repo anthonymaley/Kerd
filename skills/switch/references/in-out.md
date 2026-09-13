@@ -167,11 +167,18 @@ resolved relative to this skill so it travels with the package:
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary - --markdown
 ```
 
-Use `--markdown` when presenting the result in assistant chat, and reproduce it
-as Markdown, **not inside a code fence**. Inline-code accents, bold labels and
-the optional Insight blockquote take their colours from the client's theme;
-no exact palette or coloured border is promised. YOU is a separate section
-bounded by horizontal rules, never part of the Insight. The client wraps text.
+Use `--markdown` in assistant chat. Keep its completion and YOU boxes in their
+own code fences; do not fence the whole dashboard. In order: tight completion
+box (PROJECT / PHASE / TASK / STATE), short LAST SESSION and THIS SESSION,
+NOW list, essential ATTENTION, YOU box, document links, optional Insight and
+source footer, then **END OF PICKUP · SESSION READY**. Keep the header values
+brief, each session summary to one high-level sentence and NOW items concise;
+retain consequential scope and uncertainty, linking the detailed work instead
+of pasting its history. The renderer wraps rather than truncates supplied text.
+The end line ends restoration, not the user's session, and starts no work.
+Partial or unknown restoration gets an incomplete or unconfirmed ending instead.
+No report or duplicate approval follows it. Colour is optional enhancement,
+never the structure; no exact palette or coloured border is promised.
 For direct terminal output, omit `--markdown` to retain the ANSI-coloured boxes;
 `--color` forces ANSI, `--no-color` or `NO_COLOR` provides plain terminal output.
 Markdown mode emits no ANSI even with `--color`. If Markdown is unavailable,
@@ -181,7 +188,8 @@ state, memory reads or permission to continue work.
 The question appears once inside YOU by default. Where the host requires a
 plain-text question outside the panel, add `--question-below`: YOU keeps the
 context and the renderer places the question once after the frame. Do not
-append another question yourself. The same flag works with `--record ... --dashboard`.
+append another question yourself. In that host adaptation alone the one question
+follows the end marker. The same flag works with `--record ... --dashboard`.
 
 `$summary` is the shape below, filled from what pickup already read. **Copy it
 from here; do not open the script to work out the keys.** The example is one
@@ -191,6 +199,7 @@ has nothing for.
 
 ```json
 {
+  "project": "Kerd",
   "phase": "Design needed — freshness alert",
   "task": "Design the freshness alert",
   "task_reason": null,
@@ -221,7 +230,8 @@ has nothing for.
 }
 ```
 
-`documents` are `[label, path]` pairs resolved against `base`; a path that does
+`project` is the project already restored, never inferred from the renderer's
+installation path. `documents` are `[label, path]` pairs resolved against `base`; a path that does
 not exist is reported as a warning rather than offered as a link. `task_reason`
 and `state_reason` carry the sentence after an explicit "none". `restored` is
 `"yes"`, `"partial"`, `"no"`, or omitted when no pickup claim is being made;
@@ -240,7 +250,7 @@ same thing.** Given a correctly shaped JSON object, fields are not required: a
 missing, misspelled or null one degrades quietly, so a typo costs you a blank
 line rather than an error. That tolerance is about *fields*, not about input —
 malformed JSON exits 2 with a message, and a top-level value that is not an
-object (an array, say) exits 1 on an unhandled error. `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION`, `THIS SESSION` and the
+object (an array, say) exits 1 on an unhandled error. `PROJECT` (in chat), `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION`, `THIS SESSION` and the
 `YOU` box **always render**, falling back to "not recorded" or a plain sentence
 when they have nothing — they are the frame, and a gap in them is information.
 `now` comes from the project's `## Now` bullets; retain their meaning, annotating
@@ -258,6 +268,12 @@ not.
 `restored` states whether the necessary context was recovered. Which presentation
 ran is a separate fact: an older Switch producing the long report is not an
 incomplete restore, and belongs in the attention lines if it matters at all.
+Use `yes` when the necessary position, authority and next action were recovered,
+even with a dirty tree, unpushed commits, pending approval or a missing log whose
+necessary content was recovered elsewhere. Those facts may still need attention.
+Use `partial` or `no` only for a material context gap, and name it in `restore_note`.
+Missing session paperwork alone is not a failed restoration. Never turn a
+reconstructed claim into verified evidence merely to make the banner complete.
 
 ## Out
 
@@ -272,6 +288,47 @@ contribution and evidenced result, plus the relevant next-action/work-record
 link in that existing account. Do not copy private pairing IDs or aliases into
 Git history. This is project memory, not a session registry or proof that a
 particular partner has read it; Agent resolves live identities separately.
+
+### One coordinated closeout
+
+The owner is the session the person asked to run Out. If another Out owner is
+already known, return this session's account to that owner instead of rewriting
+shared pointers. If both sessions were asked to own the closeout, the person
+names one before either writes. Coordinate with known participating peers before
+editing: during Out, the owner alone writes the shared pointer, active list,
+session account and any work record it is reconciling. Contributors write only
+an already-owned record no other session is editing; otherwise they return their
+account to the owner. Re-read affected records from disk after a contributor
+finishes editing, before reconciling them. Contributors retain decisions, scope/authority,
+findings, verification limits and unfinished work in their existing work record
+as contributions finish. A read-only contributor returns that account for the
+owner to record, rather than gaining write permission.
+
+Before finalizing, compare the participating sessions' known contributions with
+what the next reading set carries. Reuse adequate records and returned results.
+If material detail remains only with an established partner, use the sibling
+[Agent](../../agent/SKILL.md) to request that specific missing account and retrieve
+its reply. No all-session sweep, whole-transcript read or new inbox. The reply
+does not grant approval, prove a claimed observation or settle a contradiction.
+Discovery lists sessions, not what they hold; unknown standalone contributions
+are not covered by a known-partner check. If there is concrete uncertainty about
+who holds necessary work, ask the person to identify the contributor. Do not
+make every ordinary Out repeat a session census or assume an unseen session
+has nothing relevant.
+
+The owner reconciles the contributions into the existing account, work record
+and lean start point; other sessions do not run competing shared-file closeouts.
+Link the detailed contribution instead of copying it into every file. Work on
+another branch or worktree is named by branch, record and saved location in the
+start point, with local-only/uncommitted limits carried; retain the necessary
+account in the handoff if its record is not reachable there. Out does not merge,
+push an additional branch or sweep another session's edits into this save.
+Check that a fresh reader can recover the agreement, restrictions, evidence
+limits, unresolved work and next action without either old conversation open.
+A pending job keeps its actual owner/status; do not stop it or call it finished
+to close the record. If a peer is unavailable, preserve known work and name the
+specific missing context and recovery step. Do not claim the handoff ready or
+advise clearing context while necessary detail is still unsaved.
 
 Reconcile active work against evidence. Remove completed tasks from active lists
 while retaining their completion record. Retire redundant work only with a known
@@ -388,7 +445,8 @@ printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing 
 
 Use the same chat-versus-terminal presentation choice as In above. In chat,
 show the Markdown directly: the emphasized save verdict is the completion
-signal, not a claim that a green theme colour proves a successful push.
+signal, not a claim that a green theme colour proves a successful push. Out's
+presentation is unchanged by the compact In layout.
 
 `$closing` is filled from the helper's save result and what Out just wrote.
 **Copy the shape from here; do not open the script for the keys.** `saved` is
@@ -396,8 +454,13 @@ one of `remote-verified` (the helper's `saved_to_remote`), `committed` (a local
 commit, push not verified) or `not-saved`; the banner and its words follow it.
 An absent or unrecognised `saved` renders SAVE STATUS NOT RECORDED, never
 "nothing committed": unknown is not evidence. The free-context hint follows
-only a remote-verified or committed save; otherwise the box says to keep the
-session open and resolve the save first. `local_only` is the helper's
+only a remote-verified or committed save **and** `handoff_ready: true` after
+the coordinated-closeout check. This boolean is the owner's memory-coverage
+assessment, not something a Git push or renderer can prove. False or omitted
+keeps the session open; omitted means readiness unassessed, not context missing.
+False also names the missing detail/recovery action in
+`next`. The MEMORY row distinguishes readiness from the SAVED Git verdict.
+`local_only` is the helper's
 `preserved_local_only`. `tree` is what remains in
 the working tree after the save, in words. `next` is the exact next action the
 start point names, `reading_set` the files and sections it names, `measured`
@@ -409,6 +472,7 @@ for; a missing field renders as "not recorded", never as a claim.
   "project": "Kerd",
   "branch": "main",
   "saved": "remote-verified",
+  "handoff_ready": true,
   "commit": "2e59ab7",
   "files": 15,
   "remote": "origin/main",

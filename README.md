@@ -40,7 +40,26 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.114.0)
+## What's New (v0.115.0)
+
+### v0.115.0
+
+**A compact welcome, with a clear finish.** Switch In's chat view has a tight
+completion box, short Last/This session summaries, NOW, essential warnings,
+a separate YOU box and document links. END OF PICKUP marks the transition to
+the session without authorizing work. Structure no longer depends on colour.
+
+**One closeout for collaborating sessions.** The Out owner reuses recorded
+contributions and retrieves material missing detail from the established partner,
+then saves one resumable handoff. Read-only contributors return their account;
+they do not rewrite shared pointers. MEMORY readiness is separate from the Git
+SAVED verdict: the clear-context hint requires both a confirmed save and an
+explicitly ready handoff. Missing necessary context remains visible.
+
+**Define the partner's role once.** Agent remembers an ongoing implementation,
+review or other agreed responsibility alongside the existing private pairing.
+It stays separate from each job's role and grants neither permissions nor
+Switch Out ownership. No tracked session-ID roster is created.
 
 ### v0.114.0
 
@@ -430,6 +449,9 @@ session choices. A review request does not authorize edits or publication.
 Session choices lead with pairing role, alias and short ID; the saved native
 title is secondary and may describe old work. Known recent exchanges are labelled
 as recorded, not current activity.
+Define the ongoing role when pairing ("Use Codex as reviewer"), then reuse it;
+a one-off job does not change it. Roles and IDs stay in private pairing metadata,
+not a tracked roster, and neither roles nor aliases grant permissions.
 
 ```text
 /kerd:agent help
@@ -479,8 +501,11 @@ mid-work exactly where you stopped.
 **In** opens with a welcome-back dashboard rather than a full report: phase, task,
 state, the immediate work under `## Now`, what happened last session, what this
 session is for, and a distinct YOU section saying whether you are needed.
-Chat uses theme-styled Markdown without an enclosing code fence; the terminal
-keeps the bordered box, amber only while a decision is actually pending.
+Chat uses a tight completion box, short Last/This session lines, NOW and a
+separate YOU box, ending on END OF PICKUP · SESSION READY when restoration is
+complete. The two boxes are fenced; the surrounding Markdown is not. A missing
+log alone does not make restoration incomplete when its necessary context was
+recovered elsewhere. The terminal keeps the bordered box, amber only while a decision is actually pending.
 Colours follow the client, while status stays explicit in words.
 It ends with links and visible paths to the documents the
 work already names; the backlog lives behind the *Open work* link.
@@ -505,7 +530,11 @@ acknowledged local-only paths that are never staged, and a check that the remote
 carries the exact commit. Out ends on the saved-place box: SESSION SAVED, SAVED
 LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, the tree, the local-only
 leftovers, the next action and its reading set, and a reminder that the session
-is still open. Out uses the same Markdown-in-chat / ANSI-in-terminal choice.
+is still open. The Out owner combines participating sessions' contributions
+under the [coordinated-closeout rule](skills/switch/references/in-out.md#one-coordinated-closeout).
+MEMORY readiness is distinct from the Git save result; only a confirmed save
+with a ready handoff suggests clearing context. Out retains its Markdown-in-chat
+/ ANSI-in-terminal presentation.
 
 ### visuals (Diagrams)
 

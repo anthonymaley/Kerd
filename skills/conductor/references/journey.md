@@ -46,9 +46,10 @@ interactive or a terminal supports colour when it does not.
 ## Question surface and host adaptation
 
 Switch's Markdown arrival uses the linked welcome-back convention: a prominent
-YOU section bounded by horizontal rules, separate from the optional Insight.
-Its terminal mode keeps the four-sided box. Do not fence the whole Markdown
-dashboard or append another question; `--question-below` remains available.
+completion box and separate four-sided YOU box, with LAST/THIS SESSION, NOW
+and document links between the arrival and its end marker. Keep those boxes
+fenced, not the whole dashboard. `--question-below` is the sole exception to
+ending on the marker; do not append another report or question.
 
 Use a real native bounded card if suitable and available. Otherwise use a
 four-sided text box in a monospace code block, with the answer and qualifications

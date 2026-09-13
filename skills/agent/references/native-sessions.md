@@ -36,6 +36,13 @@ Bind the exact session selected from discovery:
 The ellipsis denotes the command prefix above, not literal shell syntax.
 Pairing writes a private local alias. It does not send work or change the
 session's tools, model or authority. A conflicting alias is not overwritten.
+Add `--partner-role 'Implementation partner'` to `pair` or `start --kind partner`
+to retain an ongoing responsibility in that existing private binding. Repeating
+`pair` for the same alias/provider/ID with the flag updates only that role;
+omitting it preserves a recorded role. Pair still checks the exact native target,
+so an unavailable target cannot be re-paired just to change its role. The per-job
+`--role` remains separate. `sessions` returns the role in `partners`; it does not
+infer roles for unpaired sessions. No tracked roster or permissions change.
 
 For a new session, supply its first real contribution rather than a paid greeting:
 

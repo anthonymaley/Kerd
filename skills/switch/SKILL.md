@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor and presents one dashboard with current observations and a scoped arrival decision; Out saves useful memory, measured reading selections and authorized Git handoffs. Both use theme-styled chat or terminal frames with explicit status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor and presents a compact completion dashboard with NOW and one arrival decision. Out coordinates contributing sessions into one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -60,8 +60,8 @@ proved full restoration. No fake activity or progress percentages.
 
 For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
 Now, Last session, This session, Where we are, You, and a real link to task detail.
-Use its theme-styled Markdown presentation in chat, without a surrounding code
-fence; retain the coloured/plain boxes for direct-terminal output.
+Use its compact chat layout: fenced completion and YOU boxes, short summaries,
+NOW, links and an end-of-pickup marker. Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 
 Ordinary In restores an active build's place without executing it. Before

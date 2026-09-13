@@ -6,13 +6,16 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Current release boundary: 0.114.0.** Anthony authorized publication on
-2026-09-12 after the Switch presentation review. Branch `main`, subject
-"Release Kerd 0.114.0: styled Switch and recognizable partners". This pointer
+**Current release boundary: 0.115.0.** Anthony authorized review, implementation
+and publication of the compact arrival and coordinated Out, then added ongoing
+Agent roles. Branch `main`, subject
+"Release Kerd 0.115.0: compact arrival and coordinated closeout". This pointer
 is prepared before that save; resolve its revision and remote state with Git.
-Includes theme-styled Switch In/Out, the observed-arrival/timestamp corrections
-and Agent partner identity display. Evidence and review disposition:
-`docs/work/codex-plugin/work.md`. No installation refresh or live UX verdict.
+Includes the tight completion/YOU boxes and end marker, one Out owner preserving
+participating sessions' context, memory readiness separate from Git save, and
+private ongoing partner roles. Evidence and review disposition:
+`docs/work/switch-coordinated-closeout/work.md`. No installation refresh or live
+UX verdict. The prior source release was 0.114.0 at b80d932.
 
 **0.112.0 and 0.113.0 are released — 2026-09-12, late.** On `origin/main`: 0.107.0 through 0.111.0, then 0.112.0 (branch
 `main`, subject "One arrival, one decision; the saved-place box returns":

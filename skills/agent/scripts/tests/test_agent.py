@@ -31,6 +31,53 @@ class HelpTests(unittest.TestCase):
 
 
 class SessionIdentityTests(unittest.TestCase):
+    def test_ongoing_role_is_private_reused_and_explicitly_updated_without_dispatch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            sid = str(uuid.uuid4())
+            with patch.object(agent, 'live_target'), patch.object(app, 'ask', side_effect=AssertionError('No dispatch')):
+                first = app.pair('codex', sid, 'partner', ' Independent reviewer ')
+                self.assertEqual(first['partner_role'], 'Independent reviewer')
+                self.assertEqual(app.pair('codex', sid, 'partner'), first)
+                changed = app.pair('codex', sid, 'partner', 'Implementation partner')
+                self.assertEqual(changed['partner_role'], 'Implementation partner')
+                self.assertEqual({k: v for k, v in changed.items() if k != 'partner_role'},
+                                 {k: v for k, v in first.items() if k != 'partner_role'})
+                with self.assertRaisesRegex(ValueError, 'another session'):
+                    app.pair('codex', str(uuid.uuid4()), 'partner', 'Reviewer')
+            with patch.object(agent, 'codex_sessions', return_value=[]), patch.object(agent, 'claude_sessions', return_value=[]):
+                self.assertEqual(app.list()['partners'][0]['partner_role'], 'Implementation partner')
+            self.assertEqual(subprocess.check_output(['git', 'status', '--porcelain'], cwd=directory, text=True), '')
+
+    def test_invalid_roles_and_worker_roles_fail_before_side_effects(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            with patch.object(agent, 'live_target', side_effect=AssertionError('No native probe')):
+                for role in ('', '  ', 1):
+                    with self.assertRaises(ValueError):
+                        app.pair('codex', str(uuid.uuid4()), 'partner', role)
+                    with self.assertRaises(ValueError):
+                        app.start('codex', 'partner', 'partner', '/missing', 'One job', partner_role=role)
+                with self.assertRaisesRegex(ValueError, 'worker assignment'):
+                    app.start('claude', 'worker', 'worker', '/missing', 'One job', partner_role='Reviewer')
+            self.assertFalse(app.state.exists())
+
+    def test_uncertain_partner_launch_retains_ongoing_role(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            prompt = Path(directory) / 'prompt.md'
+            prompt.write_text('Review the implementation, no edits.')
+            with patch.object(agent, 'codex_home', return_value=Path(directory)), \
+                 patch.object(agent, 'command', side_effect=agent.Unavailable('native offline')):
+                with self.assertRaises(agent.Unavailable):
+                    app.start('codex', 'partner', 'review', prompt, 'First review', partner_role='Independent reviewer')
+            saved = agent.read_json(app.state / 'partners/review.json')
+            self.assertEqual(saved['partner_role'], 'Independent reviewer')
+            self.assertEqual(saved['status'], 'start-uncertain')
+
     def test_aliases_match_exact_provider_and_id_not_an_old_title(self):
         with tempfile.TemporaryDirectory() as directory:
             subprocess.run(['git', 'init', '-q', directory], check=True)
@@ -316,13 +363,18 @@ class QueueTests(unittest.TestCase):
         with patch.object(agent, 'claude_sessions', side_effect=rows), \
                 patch.object(agent, 'command', return_value='backgrounded · ' + sid[:8]) as launch, \
                 patch.object(self.app, 'status', return_value={'status': 'submitted-unconfirmed'}):
-            result = self.app.start('claude', 'partner', 'partner', prompt, 'Reviewer')
+            result = self.app.start('claude', 'partner', 'partner', prompt, 'Reviewer',
+                                    partner_role='Implementation partner')
         self.assertEqual(result['partner']['id'], sid)
+        self.assertEqual(result['partner']['partner_role'], 'Implementation partner')
+        self.assertEqual(agent.read_json(self.app.state / 'partners/partner.json')['partner_role'],
+                         'Implementation partner')
         self.assertNotIn('--session-id', launch.call_args.args[0])
         self.assertNotIn('--dangerously-skip-permissions', launch.call_args.args[0])
         pending = agent.read_json(self.app.state / 'requests' / (result['partner']['request_id'] + '.json'))
         self.assertEqual(pending['session'], sid)
         self.assertEqual(pending['prompt'], 'Actual bounded job')
+        self.assertEqual(pending['role'], 'Reviewer')
 
     def test_worker_reuses_existing_runner_and_does_not_duplicate_alias(self):
         prompt = self.root / 'prompt.md'

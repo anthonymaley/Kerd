@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, identify established partners separately from old session titles, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles separately from current jobs and old titles, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
 ---
 
 # Agent
@@ -47,6 +47,15 @@ not shell subcommands. For execution, use the workflow below.
 3. Choose deliberately: **existing partner**, **new persistent partner**, or
    **fresh bounded worker**. Do not silently replace one with another. A fresh
    independent review and a contextual pairing conversation serve different jobs.
+   Define the partner's ongoing role during Agent setup, using the person's
+   stated responsibility (for example implementation partner or reviewer).
+   Reuse a recorded role; ask briefly if a needed role is unclear, not on every
+   request. `pair` and `start --kind partner` accept `--partner-role`; pairing
+   again with the exact alias/provider/ID and an explicit role updates that role.
+   Show it from the private `partners` binding alongside provider, alias and ID.
+   Missing means not defined, never guessed from the title or model. The existing
+   `--role` on a job is that contribution, not an automatic standing-role change.
+   A role is neither a permission grant nor appointment as the current Out owner.
 4. Prepare the contribution using Conductor's
    [model-job guidance](../conductor/references/model-jobs.md): relevant source
    paths, outcome, contribution, checks, authority and stopping point. Consult
@@ -70,6 +79,9 @@ not shell subcommands. For execution, use the workflow below.
 7. Read and assess the returned answer. Record the useful findings and disposition
    beside the work; keep private native IDs, prompts and raw transport records
    local. A returned review is not a passed outcome. Continue authorized work.
+   When contributing to another session's Switch Out, return the missing account
+   to its established owner; do not also rewrite shared handoff files. Follow
+   [coordinated closeout](../switch/references/in-out.md#one-coordinated-closeout).
 
 The same local command can be called by either provider when that session has
 permission to run it. No human copy/paste relay, Kerd inbox, watcher or service.

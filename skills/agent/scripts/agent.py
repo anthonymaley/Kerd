@@ -491,7 +491,11 @@ class Agent:
                 'worker_launch_records': workers, 'unavailable': unavailable,
                 'scope': 'Claude native discovery, Codex shared server and the local Codex session store; partner/worker records are not live probes of every app or closed conversation'}
 
-    def pair(self, provider, sid, alias):
+    def pair(self, provider, sid, alias, partner_role=None):
+        if partner_role is not None:
+            if not isinstance(partner_role, str) or not partner_role.strip():
+                raise ValueError('Partner role must be nonempty text')
+            partner_role = partner_role.strip()
         live_target(self.root, provider, sid)
         path = self.folder('partners') / (alias_name(alias) + '.json')
         with locked(path.with_suffix('.lock')):
@@ -499,12 +503,24 @@ class Agent:
                 prior = read_json(path)
                 if prior['provider'] != provider or prior.get('id') != sid:
                     raise ValueError('Alias already names another session; choose a new alias')
+                if partner_role is not None:
+                    prior['partner_role'] = partner_role
+                    atomic_json(path, prior)
                 return prior
             record = {'alias': alias, 'provider': provider, 'id': sid, 'project': str(self.root)}
+            if partner_role is not None:
+                record['partner_role'] = partner_role
             atomic_json(path, record)
             return record
 
-    def start(self, provider, kind, alias, prompt_file, role, model=None, effort=None, writable=False):
+    def start(self, provider, kind, alias, prompt_file, role, model=None, effort=None, writable=False,
+              partner_role=None):
+        if partner_role is not None:
+            if kind != 'partner':
+                raise ValueError('An ongoing partner role is not a worker assignment')
+            if not isinstance(partner_role, str) or not partner_role.strip():
+                raise ValueError('Partner role must be nonempty text')
+            partner_role = partner_role.strip()
         alias_name(alias)
         prompt = Path(prompt_file).read_text()
         if not prompt.strip():
@@ -543,10 +559,13 @@ class Agent:
                 raise ValueError('Partner alias already used; inspect its saved launch before choosing another alias') from None
             with os.fdopen(fd, 'w') as stream:
                 json.dump({'alias': alias, 'provider': provider, 'project': str(self.root),
-                           'status': 'start-uncertain', 'request_id': request}, stream)
+                           'status': 'start-uncertain', 'request_id': request,
+                           'partner_role': partner_role}, stream)
         record = {'alias': alias, 'provider': provider, 'project': str(self.root),
                   'kind': 'partner', 'owned': True, 'requested_model': model,
                   'requested_effort': effort, 'write_requested': writable, 'request_id': request}
+        if partner_role is not None:
+            record['partner_role'] = partner_role
         if provider == 'codex':
             native_socket = codex_home() / 'app-server-control/app-server-control.sock'
             if not native_socket.exists():
@@ -798,6 +817,7 @@ def main():
     start.add_argument('--alias', required=True)
     start.add_argument('--prompt-file', required=True)
     start.add_argument('--role', required=True)
+    start.add_argument('--partner-role', help='Ongoing partner responsibility; separate from this job and not permissions')
     start.add_argument('--model')
     start.add_argument('--effort')
     start.add_argument('--write', action='store_true', help='Enable file edits only within already-agreed authority')
@@ -805,6 +825,7 @@ def main():
     pair.add_argument('--provider', choices=['claude', 'codex'], required=True)
     pair.add_argument('--session', required=True)
     pair.add_argument('--alias', required=True)
+    pair.add_argument('--partner-role', help='Set or update the ongoing responsibility of this exact partner; no dispatch')
     ask = sub.add_parser('ask', help='Send one contribution request to a saved partner')
     ask.add_argument('--alias', required=True)
     ask.add_argument('--prompt-file', required=True)
@@ -824,9 +845,9 @@ def main():
             result = agent.list()
         elif args.action == 'start':
             result = agent.start(args.provider, args.kind, args.alias, args.prompt_file,
-                                 args.role, args.model, args.effort, args.write)
+                                 args.role, args.model, args.effort, args.write, args.partner_role)
         elif args.action == 'pair':
-            result = agent.pair(args.provider, args.session, args.alias)
+            result = agent.pair(args.provider, args.session, args.alias, args.partner_role)
         elif args.action == 'ask':
             partner = read_json(agent.folder('partners') / (alias_name(args.alias) + '.json'))
             result = agent.ask(partner['provider'], partner['id'], Path(args.prompt_file).read_text(),

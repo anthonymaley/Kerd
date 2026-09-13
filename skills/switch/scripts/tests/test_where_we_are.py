@@ -805,7 +805,7 @@ class ClosingBoxTests(unittest.TestCase):
         return json.loads(blocks[1])
 
     def base(self, **over):
-        summary = {"project": "Kerd", "branch": "main", "saved": "remote-verified",
+        summary = {"project": "Kerd", "branch": "main", "saved": "remote-verified", "handoff_ready": True,
                    "commit": "2e59ab7", "files": 15, "remote": "origin/main",
                    "local_only": ["kerd-laptop-result.patch"], "tree": "clean",
                    "closed": "2026-09-12 12:40 EDT",
@@ -917,7 +917,7 @@ class MarkdownTests(unittest.TestCase):
         return re.sub(r"\\([!\"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])", r"\1", text)
 
     def arrival(self, **over):
-        summary = {"restored": "yes", "phase": "Testing", "task": "Check the view",
+        summary = {"project": "Example project", "restored": "yes", "phase": "Testing", "task": "Check the view",
                    "state": "Review pending", "task_reason": "No release yet.",
                    "state_reason": "Waiting for evidence, not permission.",
                    "now": ["Review", "Correct findings"],
@@ -932,23 +932,33 @@ class MarkdownTests(unittest.TestCase):
         summary.update(over)
         return summary
 
+    @staticmethod
+    def text_of_box(out, title):
+        lines = out.splitlines()
+        start = next(i for i, line in enumerate(lines) if line.startswith("┌─ " + title))
+        end = next(i for i in range(start + 1, len(lines)) if lines[i].startswith("└"))
+        return flatten(" ".join(line.strip("│ ") for line in lines[start + 1:end]))
+
     def test_arrival_preserves_complete_values_and_bounds_the_question_once(self):
         summary = self.arrival()
         out = view.render_dashboard(summary, NOW, markdown=True)
         visible = self.visible(out)
-        for key in ("phase", "task", "state", "task_reason", "state_reason",
+        all_text = flatten(" ".join(line.strip("│ ") for line in visible.splitlines()))
+        for key in ("project", "phase", "task", "state", "task_reason", "state_reason",
                     "last_session", "this_session", "insight", "source", "updated"):
-            self.assertIn(summary[key], visible)
+            self.assertIn(summary[key], all_text)
         for value in summary["now"] + summary["warnings"]:
             self.assertIn(value, visible)
-        you = visible.split("### YOU\n", 1)[1].split("\n---", 1)[0]
+        you = self.text_of_box(visible, "YOU")
         for value in summary["question"].values():
             self.assertIn(value, you)
         self.assertEqual(visible.count(summary["question"]["text"]), 1)
-        self.assertIn("> **PHASE**", out)
+        self.assertIn("┌─ KERD · SWITCH IN COMPLETE ✓", out)
+        self.assertIn("**LAST SESSION** ·", out)
         self.assertIn("> **★ Insight**", out)
         self.assertNotIn("\x1b", out)
-        self.assertNotIn("```", out)
+        self.assertTrue(out.startswith("```text\n┌"))
+        self.assertTrue(out.endswith("━━ END OF PICKUP · SESSION READY ━━\n```"))
 
     def test_question_below_retains_context_and_asks_once_outside_you(self):
         summary = self.arrival()
@@ -956,7 +966,7 @@ class MarkdownTests(unittest.TestCase):
         question = summary["question"]["text"]
         self.assertEqual(out.count(question), 1)
         self.assertTrue(out.endswith(question))
-        you = out.split("### YOU\n", 1)[1].split("\n---", 1)[0]
+        you = self.text_of_box(out, "YOU")
         self.assertNotIn(question, you)
         self.assertIn(summary["question"]["proposed"], you)
 
@@ -985,9 +995,10 @@ class MarkdownTests(unittest.TestCase):
     def test_values_cannot_inject_headings_or_links(self):
         summary = self.arrival(task="unsafe\n### YOU\n[link](https://example.com) **claim**")
         out = view.render_dashboard(summary, NOW, markdown=True)
-        self.assertEqual(out.count("\n### YOU\n"), 1)
-        self.assertNotIn("[link](https://example.com)", out)
-        self.assertIn("unsafe ### YOU [link](https://example.com) **claim**", self.visible(out))
+        self.assertEqual(out.count("┌─ YOU"), 1)
+        self.assertNotIn("\n### YOU\n", out)
+        header = self.text_of_box(out, "KERD")
+        self.assertIn("unsafe ### YOU [link](https://example.com) **claim**", header)
 
     def test_paths_are_visible_and_percent_filenames_are_not_url_decoded(self):
         from tempfile import TemporaryDirectory
@@ -1039,13 +1050,72 @@ class MarkdownTests(unittest.TestCase):
 
     def test_cli_supports_markdown_for_both_modes_even_with_color_forced(self):
         import json, subprocess
-        for mode, data, expected in (("--summary", self.arrival(), "SESSION RESTORED"),
-                                      ("--closing", ClosingBoxTests().base(), "SESSION SAVED")):
+        for mode, data, expected in (("--summary", self.arrival(), "SWITCH IN COMPLETE"),
+                                      ("--closing", ClosingBoxTests().base(), "**SESSION SAVED")):
             result = subprocess.run([sys.executable, str(SCRIPT), mode, "-", "--markdown", "--color"],
                                     input=json.dumps(data), text=True, capture_output=True)
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn(f"**{expected}", result.stdout)
+            self.assertIn(expected, result.stdout)
             self.assertNotIn("\x1b", result.stdout)
+
+    def test_compact_layout_order_and_width(self):
+        for width in (40, 52, 80):
+            out = view.render_dashboard(self.arrival(documents=[["Design", "https://example.com/design"]]),
+                                        NOW, width=width, markdown=True)
+            order = ["┌─ KERD", "**LAST SESSION**", "**THIS SESSION**", "**NOW**",
+                     "**ATTENTION**", "┌─ YOU", "**DOCUMENTS**", "END OF PICKUP"]
+            positions = [out.index(label) for label in order]
+            self.assertEqual(positions, sorted(positions))
+            box = [line for line in out.splitlines() if line.startswith(("┌", "│", "└"))]
+            self.assertTrue(all(display_columns(line) == min(width, 64) for line in box), box)
+            self.assertIn("│ PROJECT  Example project", out)
+            self.assertNotIn("\x1b", out)
+
+    def test_completion_is_not_changed_by_dirty_tree_or_missing_log_warning(self):
+        summary = self.arrival(warnings=["Dirty tree; push not authorized.",
+                                        "No log, but required context recovered from work record."])
+        out = view.render_dashboard(summary, NOW, markdown=True)
+        self.assertIn("SWITCH IN COMPLETE", out)
+        self.assertIn("END OF PICKUP · SESSION READY", out)
+        for state in ("partial", "no", None, "weird"):
+            out = view.render_dashboard(dict(summary, restored=state, restore_note="Missing scope ruling."),
+                                        NOW, markdown=True)
+            self.assertNotIn("SWITCH IN COMPLETE", out)
+            self.assertNotIn("SESSION READY", out)
+            self.assertIn("Missing scope ruling.", out)
+
+    def test_backticks_in_box_values_cannot_close_its_fence(self):
+        out = view.render_dashboard(self.arrival(task="Keep ``` literal"), NOW, markdown=True)
+        self.assertTrue(out.startswith("````text\n"))
+        self.assertIn("Keep ``` literal", self.text_of_box(out, "KERD"))
+
+
+class MemoryReadinessTests(unittest.TestCase):
+    def test_git_save_and_memory_readiness_are_independent(self):
+        for markdown in (False, True):
+            for saved in ("remote-verified", "committed", "not-saved", None):
+                for ready in (True, False, None, "true", 1):
+                    with self.subTest(markdown=markdown, saved=saved, ready=ready):
+                        summary = ClosingBoxTests().base(saved=saved, handoff_ready=ready,
+                            next="Recover the partner's unrecorded verification limits before resuming.")
+                        out = flatten(view.render_closing(summary, NOW, color=False, markdown=markdown))
+                        allowed = saved in ("remote-verified", "committed") and ready is True
+                        self.assertEqual("Free context:" in out, allowed)
+                        if not allowed:
+                            self.assertIn("Keep it open", out)
+                        if saved == "remote-verified":
+                            self.assertIn("SESSION SAVED", out)
+                        self.assertIn("MEMORY", out)
+                        self.assertIn(summary["next"], out)
+                        if ready is True:
+                            self.assertIn("ready for handoff", out)
+                        elif ready is False:
+                            self.assertIn("incomplete", out)
+                        else:
+                            self.assertIn("handoff readiness not recorded", out)
+                            self.assertNotIn("missing handoff context", out)
+                            if saved in ("committed", "remote-verified"):
+                                self.assertIn("record handoff readiness before clearing", out)
 
 
 class OmissionContractTests(unittest.TestCase):

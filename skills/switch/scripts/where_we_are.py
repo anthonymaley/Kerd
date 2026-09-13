@@ -340,13 +340,13 @@ def compact(path, text, now, width=80):
 
 # The renderer's input contract, written down so a caller fills the shape from
 # the guide's example instead of reading this module to discover key names.
-SUMMARY_KEYS = ("phase", "task", "task_reason", "state", "state_reason", "now",
+SUMMARY_KEYS = ("project", "phase", "task", "task_reason", "state", "state_reason", "now",
                 "last_session", "this_session", "question", "documents",
                 "warnings", "insight", "source", "updated", "base",
                 "restored", "restore_note")
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
-CLOSING_KEYS = ("project", "branch", "saved", "commit", "files", "remote", "local_only",
+CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "commit", "files", "remote", "local_only",
                 "tree", "closed", "next", "reading_set", "measured", "log")
 ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
 BORDERS = "\u256d\u2570\u251c\u250c\u2514"
@@ -380,6 +380,18 @@ def markdown_panel(title, rows):
         if row:
             lines += [md(row), ""]
     return ["---", ""] + lines + ["---"] if title == "YOU" else lines
+
+
+def chat_box(title, rows, width, prewrapped=False):
+    lines = ["┌─ " + title + " " + "─" * max(0, width - columns(title) - 5) + "┐"]
+    for row in rows:
+        for line in ([row] if prewrapped else wrap(row, width - 4)):
+            lines.append("│ " + pad(line, width - 4) + " │")
+    lines.append("└" + "─" * (width - 2) + "┘")
+    # A value containing backticks must not close the surrounding code block.
+    fence = "`" * max(3, 1 + max((len(run) for line in lines
+                                 for run in re.findall(r"`+", line)), default=0))
+    return [fence + "text", *lines, fence]
 
 
 def panel(title, rows, width, tone=None, on=True):
@@ -552,14 +564,29 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
              + ink(badge, tone, on=color and tone is not None),
              ink("\u2501" * width, "cyan", on=color), ""]
     if markdown:
-        lines = [f"{code('KERD')} · **{badge.strip()}**" if badge else code("KERD"), "", "---", ""]
+        box_width = min(width, 64)
+        status = ("SWITCH IN COMPLETE ✓" if restored == "yes" else
+                  "SWITCH IN INCOMPLETE" if restored in ("partial", "no") else
+                  "SWITCH IN STATUS UNKNOWN")
+        header_rows = []
+        for label, value, reason in (("PROJECT", get("project") or UNRECORDED, None),
+                                    ("PHASE", get("phase") or UNRECORDED, None),
+                                    ("TASK", get("task") or UNRECORDED, get("task_reason")),
+                                    ("STATE", get("state") or UNRECORDED, get("state_reason"))):
+            value = str(value) + (" — " + str(reason) if reason else "")
+            for index, line in enumerate(wrap(value, box_width - 13)):
+                header_rows.append((pad(label, 9) if index == 0 else " " * 9) + line)
+        lines = chat_box("KERD · " + status, header_rows, box_width, prewrapped=True) + [""]
+        for label, value, empty in (("LAST SESSION", get("last_session"), "no completed job is recorded"),
+                                   ("THIS SESSION", get("this_session"), "Nothing agreed yet.")):
+            lines += [f"**{label}** · {md(value or empty)}", ""]
 
-    rows = (("PHASE", get("phase") or UNRECORDED, None),
+    rows = (("PROJECT", get("project") or UNRECORDED, None),
+            ("PHASE", get("phase") or UNRECORDED, None),
             ("TASK", get("task") or UNRECORDED, get("task_reason")),
             ("STATE", get("state") or UNRECORDED, get("state_reason")))
     for label, value, reason in rows:
         if markdown:
-            lines += [f"> **{label}** · {md(value)}" + (f" — {md(reason)}" if reason else ""), ">"]
             continue
         for index, line in enumerate(wrap(str(value), width - 10)):
             lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color)
@@ -590,7 +617,6 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
                                  "no completed job is recorded"),
                                 ("THIS SESSION", get("this_session"), "Nothing agreed yet.")):
         if markdown:
-            lines += [f"**{label}**", "", md(value or empty), ""]
             continue
         lines.append(ink(" " + label, "dim", on=color))
         lines += ["   " + line for line in wrap(value or empty, width - 3)]
@@ -602,11 +628,13 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
         warnings.append(time_warning)
     if get("restore_note"):
         warnings.insert(0, str(get("restore_note")))
+    elif restored in ("partial", "no"):
+        warnings.insert(0, "Missing context: not recorded.")
     base = get("base") or "."
     open_able, broken = resolve_links([tuple(pair) for pair in (get("documents") or [])], base)
     warnings += [f"cannot be opened: {target} ({label})" for label, target in broken]
     if warnings:
-        lines += (markdown_panel("⚠ NEEDS ATTENTION", warnings) if markdown else
+        lines += (["**ATTENTION**\n"] + [f"- {md(warning)}" for warning in warnings] if markdown else
                   panel("\u26a0 NEEDS ATTENTION", warnings, width, "red", color)) + [""]
 
     question = get("question")
@@ -615,10 +643,10 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
                                else question["text"], "",
                                "Proposed: " + (question.get("proposed") or UNRECORDED),
                                "Reply: " + (question.get("reply") or "Correct / Change")]
-        lines += (markdown_panel("YOU", question_rows) if markdown else
+        lines += (chat_box("YOU", question_rows, box_width) if markdown else
                   panel("YOU", question_rows, width, "amber", color)) + [""]
     else:
-        lines += (markdown_panel("YOU", ["Nothing needs you right now."]) if markdown else
+        lines += (chat_box("YOU", ["Nothing needs you right now."], box_width) if markdown else
                   panel("YOU", ["Nothing needs you right now."], width, None, color)) + [""]
 
     if open_able:
@@ -656,6 +684,11 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     lines += ([f"**Read:** {md(source)}", "", md(stamps)] if markdown else
               [ink(" " + line, "dim", on=color)
                for entry in block for line in wrap(entry, width - 1)])
+    if markdown:
+        ending = ("END OF PICKUP · SESSION READY" if restored == "yes" else
+                  "END OF PICKUP · RESTORATION INCOMPLETE" if restored in ("partial", "no") else
+                  "END OF PICKUP · RESTORATION UNCONFIRMED")
+        lines += ["", "```text", "━━ " + ending + " ━━", "```"]
     if question_below and question and question.get("text"):
         lines += [""] + ([md(question["text"])] if markdown else wrap(question["text"], width))
     return "\n".join(lines)
@@ -703,6 +736,10 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         get("remote") if saved == "remote-verified" and get("remote") else None) if part)
     row("SAVED", f"{verdict}: {where}" if saved != "unknown" else "not recorded")
     row("TREE", get("tree"))
+    ready = get("handoff_ready")
+    row("MEMORY", "ready for handoff" if ready is True else
+        "incomplete — see NEXT for the missing context" if ready is False else
+        "handoff readiness not recorded")
     leftovers = [str(item) for item in (get("local_only") or []) if item]
     if leftovers:
         row("LOCAL", "kept out of Git, not saved: " + ", ".join(leftovers))
@@ -729,11 +766,15 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     lines.append("---\n" if markdown else ink("\u2501" * width, "cyan", on=color))
     # The free-context hint follows only a confirmed save; after a failed or
     # unknown save, clearing context would lose the very work that is unsaved.
-    if saved in ("remote-verified", "committed"):
+    if saved in ("remote-verified", "committed") and ready is True:
         closing = ("This session is still open. Free context: start a new conversation in your client, "
                    "then ask Kerd to switch in.")
-    else:
+    elif saved not in ("remote-verified", "committed"):
         closing = "This session is still open. Keep it open and resolve the save before clearing context."
+    elif ready is False:
+        closing = "This session is still open. Keep it open and resolve the missing handoff context before clearing context."
+    else:
+        closing = "This session is still open. Keep it open and record handoff readiness before clearing context."
     lines += ([md(closing), "", f"Rendered: {md(now)}"] if markdown else
               [ink(" " + line, "dim", on=color) for line in wrap(f"{closing} rendered {now}", width - 1)])
     return "\n".join(lines)

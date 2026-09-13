@@ -15,6 +15,7 @@ the Agent skill loaded; the Claude slash command is not a universal Codex comman
 | See available sessions | “Show sessions” |
 | Ask the established partner | “Ask Claude to review, RO” |
 | Keep a pairing partner | “Pair with Codex on this” |
+| Define an ongoing role | “Use Claude as the implementation partner and Codex as reviewer” |
 | Get a fresh perspective | “Start a fresh Claude reviewer” |
 | Start an ongoing conversation | “Start a Codex pairing partner” |
 | Follow up | “Ask Claude to recheck the fix” |
@@ -58,6 +59,16 @@ pairing identify your partner; a title or recent reply does not prove it is
 currently working. Last exchange is shown only when known, not invented from
 the title. Multiple aliases for one session are grouped, not offered as separate
 people. **This session** requires its current host identity to be verified.
+
+Agent defines an ongoing role when pairing, reuses it on later requests, and
+asks when a needed responsibility is unclear. You can say “Make Codex the
+implementation partner for this work” to change it explicitly. A single request
+such as “review this diff” does not change the ongoing role. Session listings
+show that role separately from the current contribution and native saved title.
+Roles and exact IDs live in the existing private Git metadata, not a committed
+`agentandroles.md`. They stay local to this pairing; shared work records retain
+useful contributions without private IDs. A role neither grants write permission
+nor appoints the owner of a particular Switch Out.
 
 Switch Out keeps a short provider/contribution/result and next-action pointer
 in the existing work or session record when collaboration matters to pickup.
