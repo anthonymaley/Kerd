@@ -298,6 +298,35 @@ class SuccessionTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.app.adopt('claude', 'partner', self.old, 'handoff.md')
 
+    def test_out_preflight_explicit_replacement_then_final_record_designation(self):
+        # A contact alias does not confer the established role. The caller's
+        # explicit selection is represented by confirm=True, not inferred here.
+        with patch.object(agent, 'live_target'):
+            self.app.pair('claude', self.new, 'contact')
+        contact = self.app.state / 'partners/contact.json'
+        contact_before = contact.read_bytes()
+        before = self.path.read_bytes()
+        with self.identity(self.new):
+            with self.assertRaises(ValueError):
+                self.app.handoff('claude', 'partner', 'handoff.md')
+            self.assertEqual(self.path.read_bytes(), before)
+            current = self.app.adopt('claude', 'partner', self.old, confirm=True)
+            self.assertEqual(current['id'], self.new)
+            self.assertEqual(current['partner_role'], 'Reviewer')
+            self.assertNotIn('handoff', current)
+            self.assertNotIn('recovery', current)
+            self.record.write_text('Final saved account, after preflight.\n')
+            designated = self.app.handoff('claude', 'partner', 'handoff.md')
+        self.assertEqual(designated['handoff']['from_session'], self.new)
+        self.assertEqual(designated['handoff']['sha256'],
+                         agent.hashlib.sha256(self.record.read_bytes()).hexdigest())
+        successor = str(uuid.uuid4())
+        with self.identity(successor):
+            restored = self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+        self.assertEqual(restored['partner_role'], 'Reviewer')
+        self.assertEqual(restored['id'], successor)
+        self.assertEqual(contact.read_bytes(), contact_before)
+
     def test_owned_partners_provider_and_project_mismatches_refused(self):
         original = json.loads(self.path.read_text())
         for changes in ({'owned': True, 'native_launch': 'launcher', 'request_id': 'old'},

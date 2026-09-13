@@ -320,7 +320,8 @@ reconstructed claim into verified evidence merely to make the banner complete.
 
 Read the active state and inspect what actually changed. Preserve the current
 agreement, decisions, exact next action, unresolved jobs and important findings.
-Append an evidence-backed session account to the existing history; read the clock
+After the contribution checkpoint below, append an evidence-backed session
+account to the existing history; read the clock
 for dates/times written now. Unknown start time stays unknown. Do not retain the
 whole native conversation or private session IDs as project history.
 
@@ -335,8 +336,48 @@ particular partner has read it; Agent resolves live identities separately.
 The owner is the session the person asked to run Out. If another Out owner is
 already known, return this session's account to that owner instead of rewriting
 shared pointers. If both sessions were asked to own the closeout, the person
-names one before either writes. Coordinate with known participating peers before
-editing: during Out, the owner alone writes the shared pointer, active list,
+names one before either writes. Before editing the handoff, check the owner's
+existing pairing-role continuity using Agent's
+[Out ownership check](../../agent/references/session-succession.md#out-designate-this-roles-continuation).
+Reuse an explicit replacement choice already given; Out alone grants no role.
+No binding means no setup stop. Unresolved routing does not prevent a safe memory
+save, but its continuation limit must remain visible.
+
+**Contribution checkpoint — before drafting or editing closeout records.**
+Identify the known sessions that contributed to this sitting, including the
+owner. Compare their necessary decisions, authority, results, limits and unfinished
+work with the accounts already available. Returned subagent results and adequate
+work records count; do not request ceremonial acknowledgements or fresh accounts
+for material already captured. If a necessary delta remains with a participant,
+request it directly through Agent and retrieve the response before drafting the
+combined closeout. Submission or timeout is not receipt. The owner drives this
+collection; the person must not have to ask each agent or relay their accounts.
+A known pending job is covered when its owner, current state and result-retrieval
+location are captured. Its unfinished result is not itself missing memory; carry
+the wait/retrieval step forward instead of waiting merely to finish Out or
+claiming the job done.
+
+Show the checkpoint in one short line, for example: “Contributions captured:
+Claude (review) + Codex (implementation); missing: none.” Name actual contributors
+and roles, not private IDs; this is an accountable coverage statement, not a
+machine proof. An unavailable participant is not itself missing necessary memory:
+if other evidence restores the scope, authority, known outcomes, limits and next
+action, record any residual gap and why it does not prevent safe continuation.
+Never turn an unresolved observation into a verified result. If necessary memory
+is unavailable, explicitly report incomplete coverage, the missing contribution
+and the recovery step before writing a partial account.
+Preserve known memory, but set `handoff_ready: false` and do not offer to clear
+or designate a ready successor. Do not wait indefinitely or invent completeness.
+Only after coverage is complete—or its specific gap is explicitly reported as
+incomplete—draft the closeout. A material contribution arriving during drafting
+reopens the checkpoint; incorporate its delta before finalizing, not in a late
+repair after claiming completion. Reuse one account, not duplicate session logs.
+If a necessary delta arrives after saving, reopen the account and correct the
+completion claim. Save the amendment within existing authority, then re-designate
+after any pointer change; if saving is not authorized, report the pending amendment
+instead of claiming the old handoff includes it.
+
+During Out, the owner alone writes the shared pointer, active list,
 session account and any work record it is reconciling. Contributors write only
 an already-owned record no other session is editing; otherwise they return their
 account to the owner. Re-read affected records from disk after a contributor
@@ -345,11 +386,8 @@ findings, verification limits and unfinished work in their existing work record
 as contributions finish. A read-only contributor returns that account for the
 owner to record, rather than gaining write permission.
 
-Before finalizing, compare the participating sessions' known contributions with
-what the next reading set carries. Reuse adequate records and returned results.
-If material detail remains only with an established partner, use the sibling
-[Agent](../../agent/SKILL.md) to request that specific missing account and retrieve
-its reply. No all-session sweep, whole-transcript read or new inbox. The reply
+Use the sibling [Agent](../../agent/SKILL.md) for missing accounts and own their
+retrieval. No all-session sweep, whole-transcript read or new inbox. The reply
 does not grant approval, prove a claimed observation or settle a contradiction.
 Discovery lists sessions, not what they hold; unknown standalone contributions
 are not covered by a known-partner check. If there is concrete uncertainty about
@@ -366,6 +404,8 @@ account in the handoff if its record is not reachable there. Out does not merge,
 push an additional branch or sweep another session's edits into this save.
 Check that a fresh reader can recover the agreement, restrictions, evidence
 limits, unresolved work and next action without either old conversation open.
+Before finalizing, verify the checkpoint's captured contributions are actually
+represented in that reading set, rather than only in the owner's native context.
 A pending job keeps its actual owner/status; do not stop it or call it finished
 to close the record. If a peer is unavailable, preserve known work and name the
 specific missing context and recovery step. Do not claim the handoff ready or
@@ -509,11 +549,14 @@ the helper's `measure` reading. Use `null` or `[]` for anything Out has nothing
 for; a missing field renders as "not recorded", never as a claim.
 
 After the final save, if this session has an established role and the handoff is
-ready, prepare that role's private continuation under the
+ready, prepare the role verified by the pre-save check under the
 [succession guide](../../agent/references/session-succession.md) before showing
 the closing box. Do not create a role or transfer another session's role here.
 Failure affects automatic pairing recovery, not the Git save verdict; name it
-in the closing next action. No session is ended by preparing its handoff.
+in the closing next action. Use the existing `next` text for successful designation
+or not applicable too, keeping the saved next action intact; no new JSON field.
+Do not include private IDs or claim memory completeness from routing. No session is
+ended by preparing its handoff.
 
 ```json
 {

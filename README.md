@@ -40,7 +40,29 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.117.0)
+## What's New (v0.118.0)
+
+### v0.118.0
+
+**Out checks who holds the role before saving.** Before editing the handoff,
+Switch Out verifies its own session against any existing pairing role. The same
+ID keeps it; an explicit replacement choice already given is reused without
+asking again; Out alone never takes a role. When only pairing is unresolved, the
+memory save still goes ahead and the choice goes in the closing next action.
+After the final save, whether successor designation succeeded, was unavailable
+or did not apply is reported in the existing next text.
+
+**Out collects contributions before it writes.** The closeout owner names the
+sessions that contributed, reuses accounts already captured, and requests only
+a missing delta through Agent before drafting, so you no longer have to ask each
+agent. It shows one line saying who is captured and what is missing. A known
+pending job is covered by its owner, state and where its result lands. An
+unavailable participant is a recorded gap only when the available evidence
+preserves the necessary context; otherwise the handoff is not ready. A delta
+arriving after the save reopens the account and needs re-designation.
+
+Fixture checks, a Claude review and one real run of the checkpoint on a Kerd
+closeout passed. Model compliance in ordinary use remains unobserved.
 
 ### v0.117.0
 
@@ -588,7 +610,11 @@ agreed continuation instead of stopping there.
 
 **Out** reads what actually changed, preserves the agreement, decisions, exact next
 action and open questions, and appends an evidence-backed account to the project's
-history. It then leaves a lean start point: rulings stay in CONTEXT.md while the
+history. Before editing the handoff, it checks ownership of any existing pairing
+role, reusing an explicit replacement choice already given rather than asking
+again. Out alone does not authorize taking a role. After the final save it reports
+whether successor designation succeeded, was unavailable or was not applicable.
+The saved account has a lean start point: rulings stay in CONTEXT.md while the
 full case moves to `docs/decisions.md`, closed Backlog rows move to
 `docs/backlog-archive.md` with their reason, the reading set for the next sitting
 is named, and `handoff.py measure` records its size against the pickup target.
@@ -603,6 +629,10 @@ LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, the tree, the local-onl
 leftovers, the next action and its reading set, and a reminder that the session
 is still open. The Out owner combines participating sessions' contributions
 under the [coordinated-closeout rule](skills/switch/references/in-out.md#one-coordinated-closeout).
+Before drafting that account, the owner collects any missing contributor deltas
+directly, reuses adequate returned results, and shows who is captured or missing.
+The person should not have to chase each agent. Missing necessary material stays
+explicitly incomplete; a late contribution reopens the check before finalizing.
 MEMORY readiness is distinct from the Git save result; only a confirmed save
 with a ready handoff suggests clearing context. Out retains its Markdown-in-chat
 / ANSI-in-terminal presentation.

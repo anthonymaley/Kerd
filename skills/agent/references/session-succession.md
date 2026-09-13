@@ -19,6 +19,32 @@ from terminal lifetime. Codex TUI membership is not a heartbeat.
 
 ## Out: designate this role's continuation
 
+Before editing the handoff account, check this Out owner's existing role binding.
+Read only the project's private partner metadata; no binding means skip this
+step, not compulsory Agent setup. Verify this host's current identity using
+`identity` above and compare it with the intended role's bound ID. Out ownership
+is the person's choice of who saves; it does not itself grant a pairing role.
+
+If the IDs match, retain the alias and recorded role without re-pairing. A second
+contact alias for the same ID is not another role to designate. If they differ,
+use an already-established role replacement choice from this conversation:
+`adopt --provider ... --alias ... --expected-session ... --confirm-replacement`.
+Do not ask the person to repeat that explicit choice. Without such a choice,
+use the In adoption/recovery path below only when this session is the intended
+pickup of a matching saved designation or receipt and has restored that account.
+Do this before rewriting its bytes. Never substitute a convenient current file,
+infer selection from an absent peer, or run `--confirm-replacement` merely because
+Out was requested. Unknown identity, a competing update or genuinely ambiguous
+role leaves routing unchanged. When only pairing continuity is unresolved,
+complete the safe memory save and put the unresolved choice in the closing next
+action; do not add a pre-save approval stop. Report role continuation unavailable.
+
+After any adoption, read its result: the intended alias must name this verified
+ID and retain its recorded role. Do not create a role, transfer another
+contributor's role, or replace an owned launch partner as an Out prerequisite.
+Keep IDs private. This pre-save check settles who can designate; it does not yet
+designate a successor or prove the necessary session memory was saved.
+
 After the final handoff file is saved and necessary memory is ready, prepare
 the existing alias belonging to this verified session:
 
@@ -38,6 +64,10 @@ alias; when several roles could be transferred, resolve which before writing.
 No existing binding means no compulsory pairing during Out. The command records
 no future ID and does not end a process or stop its jobs. A failed designation
 leaves the saved work intact; disclose that automatic pairing pickup is unavailable.
+Report designation succeeded, unavailable with its reason, or not applicable
+in the closing box's existing `next` text, alongside the intact saved next action
+and separately from Git save and memory readiness. If the
+pre-save ownership check was unresolved, do not attempt designation anyway.
 If this session resumes work instead of handing over, revoke the designation
 with `handoff --provider claude --alias ROLE_ALIAS --cancel` before that work.
 

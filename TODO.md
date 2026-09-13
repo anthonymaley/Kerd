@@ -2,8 +2,8 @@
 
 ## Now
 
-**Release boundary:** 0.117.0, branch `main`, subject "Release Kerd 0.117.0:
-question after the marker and restart recovery", authorized 2026-09-13 12:35;
+**Release boundary:** 0.118.0, branch `main`, subject "Release Kerd 0.118.0:
+Out role check and contribution checkpoint", authorized 2026-09-13 13:00;
 resolve its revision and remote state with Git. Position, installed state and
 the reading set: `CONTEXT.md` `## Where We Are`. Records:
 `docs/work/switch-coordinated-closeout/work.md` (compact arrival, coordinated Out,
@@ -12,30 +12,29 @@ partner roles, succession, delegation and review dispositions),
 scenario), `docs/work/release-111-followup/` (0.112.0). These lists are not
 authority to run installation or checks during pickup.
 
-- **First: a fresh Claude In on 0.117.0** (rows 1, 2 and 4 of the shared
+- **First: a fresh Claude In on 0.118.0** (rows 1, 2 and 4 of the shared
   verification list in `docs/work/switch-coordinated-closeout/work.md`).
   Restart Claude if needed; don't assume `/clear` updates the plugin (Anthony,
-  12:43). The new session first verifies the loaded skill path reads 0.117.0,
+  12:43). The new session first verifies the loaded skill path reads 0.118.0,
   then runs Switch In: the routing step adopts `kerd-b5-review` from the Out
   designation against the saved `CONTEXT.md` (planned adoption, row 4); the
   arrival puts its one question after END OF PICKUP with NOW numbered (rows
   1–2: Anthony's assessment; "not now" starts nothing). Results go on the rows.
 - Then Codex checks the binding and sends the successor one real request that
   arrives (row 4 messaging proof).
-- Codex's Out pre-save role ownership check and contribution checkpoint are
-  local and unreleased in five files (work record, `### Out pre-save role
-  ownership check — local, unreleased`). Reviewed; checkpoint first run on the
-  12:53 Out; Switch 325. Include both in the next release Anthony authorizes;
-  the fresh 0.117.0 In does not contain them.
+- Codex updates its installed Kerd plugin to 0.118.0 (Anthony, 13:00: "ask
+  codex to do plugin on codex too"); Codex reports the installed version on row 5.
+- Observe Out's role-ownership check and contribution checkpoint, released in
+  0.118.0, on the next real coordinated Out (first run was the 12:43 Out, from
+  the local guide before release).
 - Unplanned restart recovery is observed only when a role-holding session is
   actually lost later; nothing is crashed deliberately (Anthony, via Codex,
   12:42). Receipts stop matching when `CONTEXT.md` bytes change.
 - DEFERRED until rows 1–5 carry evidence (Anthony, 10:41): a fresh Codex
-  Switch In in a work project. Installed Codex Kerd is 0.116.0 (row 5); 0.117.0
-  is not installed there.
+  Switch In in a work project.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a
   model, not a fixture: a factual Yes, No or Not sure that grants no approval.
-- Coordinated Out with a live contributor on a 0.117.0 cache: observe
+- Coordinated Out with a live contributor on a 0.118.0 cache: observe
   ownership, contributor capture and the MEMORY row. (The 12:43 Out ran from
   the 0.116.0 cache under the repository's 0.117.0 guide, whose Out section is
   unchanged; Codex's account came from the work record.)

@@ -5,20 +5,21 @@
 Outcome: a recognizable Switch In dashboard and a handoff that preserves
 collaborating sessions' necessary context without duplicate shared-file saves.
 
-Stage: 0.117.0 released with the arrival and restart corrections below, on
-Anthony's 12:35 EDT "okay lets release and i'll try"; published from the Claude
-reviewer session.
+Stage: 0.118.0 released with Out's role-ownership check and contribution
+checkpoint, on Anthony's 13:00 EDT "yes"; 0.117.0 (arrival and restart
+corrections) at 12:40, on "okay lets release and i'll try". Both published from
+the Claude reviewer session.
 Current activity: Out saved by the Claude reviewer session, which now holds
 `kerd-b5-review` and designates its successor after the save.
 Pending question: none.
-Next action: a fresh Claude session verifies it loaded 0.117.0 (restart Claude if
+Next action: a fresh Claude session verifies it loaded 0.118.0 (restart Claude if
 needed), runs Switch In with the planned adoption, and shows the new arrival for
 Anthony's assessment; results go on rows 1, 2 and 4. Unplanned recovery is
 observed only if a role-holding session is actually lost later. Consumer pickups
 stay deferred until items 1–5 carry evidence of the fixes working. No consumer
 installation is part of this source release.
 
-Source boundary: branch `main`, subject `Release Kerd 0.117.0: question after the marker and restart recovery`.
+Source boundary: branch `main`, subject `Release Kerd 0.118.0: Out role check and contribution checkpoint`.
 This record is saved with the release; its resulting hash and remote/CI result
 are checked after saving, not pre-asserted inside it. Prior local-only statements
 below describe the earlier reviews; publication was subsequently authorized.
@@ -214,8 +215,13 @@ validator, release gate and diff check passing. First real use, this Out,
 compliance; one observed run is not acceptance. Also observed: a
 contributor's uncommitted edits during a
 coordinated Out block `handoff.py save`, leaving only the manual fallback.
-Both changes: not committed, versioned, published or installed; meant for the next
-release together, which needs Anthony.
+Both changes released together in 0.118.0 on Anthony's 13:00 "yes". Checks run
+by Claude before that save: Agent 144, Conductor 37, Switch 325, packaging 9
+(`docs/work/model-ready-work/packaging/test_build.py`), hooks 21, every CI gate
+step clean except `fidelity.py`, which found `skills/conductor/references/journey.md`
+(changed in 0.117.0) unnamed; the release names it in `CONTEXT.md`. Anthony also
+asked for Codex's plugin to be updated ("ask codex to do plugin on codex too");
+requested from Codex by Agent after the save, result on row 5.
 
 ## Implementation and checks
 

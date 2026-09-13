@@ -6,17 +6,20 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.117.0 — branch `main`, subject "Release Kerd 0.117.0:
-question after the marker and restart recovery", published 2026-09-13 from the
-Claude reviewer session on Anthony's 12:35 "okay lets release and i'll try";
-resolve its revision and remote/CI result with Git.** Built by Codex, reviewed
-read-only by Claude. It puts the arrival question right after END OF PICKUP,
-numbers NOW as priority next actions, and adds a private restart receipt so a
-lost Claude session's role can be recovered by the next restart. Record, reviews
-and the verification list: `docs/work/switch-coordinated-closeout/work.md`.
-Guides: `skills/agent/references/session-succession.md`,
-`skills/agent/references/user-guide.md`, `skills/conductor/references/execution.md`
-(0.116.0's implementation split). Tests: `skills/agent/scripts/tests/test_agent.py`,
+**Release boundary: 0.118.0 — branch `main`, subject "Release Kerd 0.118.0:
+Out role check and contribution checkpoint", published 2026-09-13 from the
+Claude reviewer session on Anthony's 13:00 "yes"; resolve its revision and
+remote/CI result with Git.** Built by Codex, reviewed by Claude: Switch Out now
+checks role ownership before saving and collects contributors' missing deltas
+before drafting. 0.117.0 (same day) put the arrival question right after END OF
+PICKUP, numbered NOW as priority next actions and added the private restart
+receipt. Record, reviews and the verification list:
+`docs/work/switch-coordinated-closeout/work.md`. Guides:
+`skills/agent/references/session-succession.md`,
+`skills/agent/references/user-guide.md`, `skills/switch/references/in-out.md`,
+`skills/conductor/references/journey.md` (arrival presentation),
+`skills/conductor/references/execution.md` (0.116.0's implementation split).
+Tests: `skills/agent/scripts/tests/test_agent.py`,
 `skills/switch/scripts/tests/test_where_we_are.py`. Earlier source releases:
 0.116.0 (role succession, delegation), 0.115.0, 0.114.0, 0.113.0
 (`docs/work/codex-plugin/work.md`).
@@ -34,9 +37,9 @@ outcome alone does not clear the hold.
 
 **Installed state, not to be overclaimed:** the 11:20 Claude session loaded
 the 0.116.0 cache (observed once); no session has been observed loading
-0.117.0, and publication does not update a plugin cache. Installed Codex Kerd
-is 0.116.0 on Anthony's authorization, reported by Codex (row 5); it does not
-carry 0.117.0. Verify the loaded skill path and version before counting a result.
+0.117.0 or 0.118.0, and publication does not update a plugin cache. Installed
+Codex Kerd was 0.116.0 (row 5); at 13:00 Anthony asked for Codex's plugin to be
+updated to this release, requested from Codex by Agent, result on row 5. Verify the loaded skill path and version before counting a result.
 
 **Where the sequence stands at this save:** the 10:58 designation was
 consumed at 11:11 by the first adopting Claude session, which was then lost;
@@ -45,19 +48,15 @@ explicitly adopted `kerd-b5-review` at 12:42 (role: arrival and closeout checks)
 and ran this Out; after the save it designates its successor against this file
 with the repository's `skills/agent/scripts/agent.py handoff --record CONTEXT.md`.
 Anthony then restarts Claude if needed (`/clear` is not assumed to update the
-plugin). The fresh session: verify the loaded skill path reads 0.117.0; Switch
+plugin). The fresh session: verify the loaded skill path reads 0.118.0; Switch
 In's routing step runs `identity`, then `adopt --expected-session <the currently
-bound ID> --record CONTEXT.md`; then the 0.117.0 arrival for Anthony's
+bound ID> --record CONTEXT.md`; then the arrival for Anthony's
 assessment, with a "not now" starting nothing. Then Codex checks the binding
 and sends the successor a real request. No row 1–4 result is recorded yet.
 Receipts stop matching when this file's bytes change.
-**Not in this save:** at 12:46, during this Out, uncommitted edits appeared in
-`README.md`, `skills/agent/references/session-succession.md`,
-`skills/agent/scripts/tests/test_agent.py`, `skills/switch/SKILL.md` and
-`skills/switch/references/in-out.md`: Codex's Out pre-save role-ownership check
-and contribution checkpoint, on Anthony's requests (reported by Codex). Reviewed;
-the checkpoint's first run was this Out. Codex's accounts are in today's log and
-the work record. Left uncommitted and unreleased; release needs Anthony.
+Codex's Out pre-save role-ownership check and contribution checkpoint, built
+during the 12:43 Out and run for the first time on it, are released in 0.118.0;
+Codex's accounts are in today's log and the work record.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
@@ -69,7 +68,7 @@ fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
 the root (2026-09-09). Name it with `--preserve` at every save.
 
-**Pickup reading set** (Switch Out, 2026-09-13 12:43): this file complete, for
+**Pickup reading set** (Switch Out, 2026-09-13 12:43, updated at the 0.118.0 release): this file complete, for
 position, routing sequence and rulings; `TODO.md` `## Now`, the next actions;
 the newest sitting only in `kivna/sessions/2026-09-13.md` (the earlier two were
 picked up at 11:20 and stay in that file on demand); the work record's `## Now`,
@@ -77,8 +76,8 @@ for the stage and agreement. The verification rows live in that record's
 `## Targeted verification of reported failures (2026-09-13)`, opened when a
 result is recorded. Add `skills/agent/references/session-succession.md` for the
 routing step.
-Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--section", "TODO.md", "## Now", "--section", "kivna/sessions/2026-09-13.md", "## Sitting: the 0.116.0 arrival, four peer reviews, the 0.117.0 release and role adoption (2026-09-13 11:20 – 12:46 EDT, Claude session on the 0.116.0 cache; Codex in the paired TUI)", "--section", "docs/work/switch-coordinated-closeout/work.md", "## Now"]`.
-Measured reading: 29,539 bytes, about 7,385 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target; measured before this line was written, so the saved file is slightly larger.
+Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--section", "TODO.md", "## Now", "--section", "kivna/sessions/2026-09-13.md", "## Sitting: the 0.116.0 arrival, four peer reviews, the 0.117.0 and 0.118.0 releases and role adoption (2026-09-13 11:20 – 13:03 EDT, Claude session on the 0.116.0 cache; Codex in the paired TUI)", "--section", "docs/work/switch-coordinated-closeout/work.md", "## Now"]`.
+Measured reading: 29,840 bytes, about 7,460 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target; measured before this line was written, so the saved file is slightly larger.
 
 ## Key Decisions
 
