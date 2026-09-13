@@ -153,7 +153,7 @@ for the selected established partners, or the helper's unambiguous private
 pairing default when the restored context names none. The caller does not
 enumerate aliases as recipients; the helper reads private binding metadata and
 selects only an unambiguous partner, never by title or recency. Show a compact TEAM line in
-the completion box: `Claude (role) + Codex (role)`. Use brief faithful role labels,
+the status grid: `Claude (role) + Codex (role)`. Use brief faithful role labels,
 not new assignments; a missing role stays unassigned. IDs and routine notice status
 remain in Agent details, not the dashboard or project records. Surface a routing
 problem in ATTENTION only when it affects the next action. A failed notice does not make restored memory incomplete.
@@ -202,24 +202,39 @@ resolved relative to this skill so it travels with the package:
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary - --markdown
 ```
 
-Use `--markdown` in assistant chat. Keep only the tight completion box fenced:
-PROJECT / PHASE / TASK / STATE / TEAM. Follow with short LAST SESSION and THIS
-SESSION, NOW, essential ATTENTION, document links, optional Insight and source
-footer, then **END OF PICKUP · SESSION READY**. There is no YOU box.
+Use `--markdown` in assistant chat. Start with the explicit completion heading
+and a Markdown grid: PROJECT / PHASE / STATE / TEAM. Then three separated bullets:
+LAST SESSION, THIS SESSION and NOW, with owner-labelled numbered actions nested
+under NOW. Keep each session summary to one high-level sentence. Follow with
+essential ATTENTION, document links, optional Insight, source footer and
+**END OF PICKUP · SESSION READY**. No arrival boxes or fenced tables; let the
+client render the grid. Grid appearance and wrapping depend on that client.
 
-NOW is the action surface: number genuinely pressing work and logical next
-steps for this sitting in priority order, with a known owner as `**Owner:** action` inside the existing string.
-This explicit display notation distinguishes owners from ordinary colon-prefixed
-prose; the renderer preserves its bold label in chat and strips the emphasis in
-terminal output. It neither assigns owners nor
-infers priority. Mark an unknown owner unassigned rather than choosing one at
-pickup. Combine related recording work into one follow-through action.
-Completed observations, evidence-row inventories and conditional “record it when
-it happens” reminders belong behind Open work, not in NOW. Keep deferred work
-there too, with a restriction in ATTENTION when consequential. A logical next
-step may be included with its dependency explicit; it is not approval to do it.
-Preserve agreed ordering, unresolved blockers and scope limits. Keep necessary
-limits in the action or THIS SESSION, not in a second proposal panel.
+NOW answers who can move the work forward in this sitting, and what they should
+do next. Number the immediate actions in priority order; include necessary
+follow-through after their results, with that dependency explicit. Do not fill
+the list with later projects, future-event checks or evidence bookkeeping.
+“At the next live event” stays behind Open work until that event is available;
+an unrelated build awaiting separate approval does not become NOW just because
+it follows in the roadmap. Keep a consequential blocker or restriction visible
+in ATTENTION, or an actionable step to resolve it in NOW.
+
+Each item is a short owner + action/outcome, not a checking procedure. Link the
+existing task/spec for detailed steps and pass criteria. Keep immediate safety
+and permission limits in the item or THIS SESSION. Combine related recording
+into one follow-through action; do not silently change saved priority or retire
+work merely to shorten the display. There is no fixed item count to fill.
+
+Use `**Owner:** action` inside the existing string, for example:
+
+1. `**Anthony:** Check the finished build on a device.`
+2. `**Claude · after your report:** Record the result and identify any correction needed.`
+
+Only use established owners; otherwise say owner unassigned. This explicit
+notation distinguishes owners from ordinary colon prose. The renderer preserves
+bold labels in chat and strips emphasis in terminal output; it neither assigns
+owners nor chooses priorities. Completed observations belong in LAST SESSION or
+status, not NOW. A displayed recommendation is not permission to execute it.
 
 The single immediate question comes first after END, as a bold speech-bubble
 blockquote: `> 💬 **Can you run these checks on Master now?**`.
@@ -247,7 +262,7 @@ has nothing for.
 {
   "project": "Kerd",
   "phase": "Design needed — freshness alert",
-  "task": "Design the freshness alert",
+  "task": null,
   "task_reason": null,
   "state": "Awaiting your approval",
   "state_reason": null,
@@ -278,6 +293,13 @@ has nothing for.
   "restore_note": null
 }
 ```
+
+New chat summaries put the task in NOW, leaving `task` null to avoid repeating
+it in the orientation grid. Older inputs retain a task unless a NOW action
+matches it exactly (apart from its explicit owner label). The retained task
+appears as Focus under NOW; any `task_reason` appears there as task context.
+Neither fallback invents an owner or additional numbered action.
+Terminal output retains its existing labelled rows as the plain-text fallback.
 
 `project` is the project already restored, never inferred from the renderer's
 installation path. `documents` are `[label, path]` pairs resolved against `base`; a path that does
@@ -315,12 +337,9 @@ same thing.** Given a correctly shaped JSON object, fields are not required: a
 missing, misspelled or null one degrades quietly, so a typo costs you a blank
 line rather than an error. That tolerance is about *fields*, not about input —
 malformed JSON exits 2 with a message, and a top-level value that is not an
-object (an array, say) exits 1 on an unhandled error. `PROJECT` (in chat), `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION` and `THIS SESSION` **always render**, falling back to "not recorded" or a plain sentence
+object (an array, say) exits 1 on an unhandled error. `PROJECT`, `PHASE`, `STATE`, `NOW`, `LAST SESSION` and `THIS SESSION` **always render**, falling back to "not recorded" or a plain sentence
 when they have nothing — they are the frame, and a gap in them is information.
-Compose `now` as prioritized next actions from the project's `## Now` and saved
-plan, preserving agreed order. An observation made during pickup appears here
-only as its remaining action (assessment or recording, for example). Completed
-observations belong in the summary; deferred work stays behind the detail link.
+Compose `now` using the immediate-action guidance above, from the saved plan.
 This changes the display, not the saved list. The backlog is not supplied here.
 TEAM always renders (unknown versus no established pairing stay distinct).
 Only the attention panel, `DOCUMENTS` and the `★` insight line are **omitted

@@ -4,22 +4,127 @@
 
 Outcome: Switch In makes the established team recognizable and tells those
 partners when the current native identity arrives, without starting work.
-Stage: Complete — compact arrival follow-up implemented, reviewed and released as 0.120.0.
-Source boundary: main, “Release Kerd 0.120.0: compact arrival without YOU”.
+Stage: Complete — NOW tightening and both grid changes implemented, reviewed and released as 0.121.0.
+Source boundary: main, “Release Kerd 0.121.0: status grid arrival and delegation grid”.
 This account is saved with the release; remote publication and CI are checked
 after saving, not pre-asserted inside this commit.
-Owner: Codex implemented Agent/Switch and tests. The established Claude partner
-reviewed read-only and published 0.120.0 on Anthony's direct “lets release”
-(2026-09-13 16:51), after Codex confirmed its edits finished and that it would
-not release in parallel. Claude's separate shared verification record stays
-under its ownership.
-Next action: a fresh Claude session loads 0.120.0 and shows the compact arrival
-for Anthony's assessment. Publication does not update an installed plugin cache;
-no install or Codex update is authorized. Anthony approved the implementation
-with “perfect - okay lets do it”; approving it is not his assessment of the
-arrival in ordinary use. The earlier 0.119.0 release is history, not this
-boundary.
+Owner: Codex implemented Agent/Switch/Conductor and tests. The established Claude
+partner reviewed read-only and published both 0.120.0 (Anthony's “lets release”,
+2026-09-13 16:51) and 0.121.0 (his second “lets release”, 17:57), each after
+Codex confirmed its edits finished and that it would not release in parallel.
+Claude's separate shared verification record stays under its ownership.
+Next action: a fresh session loads 0.121.0 and shows the grid arrival, and a
+real delegation shows the Conductor grid, for Anthony's assessment. Long-cell
+wrapping in the actual client is unverified. Publication does not update an
+installed plugin cache; no install, Codex update or consumer-project work is
+authorized. Earlier release accounts remain history.
 Pending question: none.
+
+## Shared grid style (2026-09-13, local)
+
+Anthony approved two changes with “lets do both changes”: Switch In uses the
+four-column PROJECT / PHASE / STATE / TEAM grid and three separated LAST SESSION,
+THIS SESSION and NOW bullets, with owner-labelled numbered actions under NOW;
+Conductor uses a task/route/model-requested/effort/status delegation grid and
+visible guidance, saved-prompt, dispatch and checked-result transitions.
+No invented counts or effort, no route mislabelling, no staffing quota. The
+completion claim and one question after END remain; Out's display is unchanged.
+
+The existing renderer handles the chat grid and nested sections. New summaries
+name the task in NOW, not a duplicate TASK column. Old task context not
+exactly matching a NOW action remains as Focus, with all task_reason limits preserved.
+The labelled terminal view remains the plain-text fallback. Markdown values
+are escaped, including pipes, newlines, backticks and HTML-like text; actual
+table styling and wrapping remain client-dependent.
+
+The Conductor delivery/journey guides own the live grid; no new status file,
+runner or transport. Native tasks remain available without duplicating the full
+plan. Shareable prompt briefs and model/effort/result notes stay beside work;
+full private requests remain in Agent records or native history. Announce which
+form was retained, not that a sanitized brief is an exact private-input copy.
+Renderer 136 passed after corrections; full Switch 345 and Conductor 37 passed
+on the corrected tree. Skill validators, release gate and diff check pass.
+This does not prove human acceptance or future model compliance.
+
+The first read-only review brief was saved as [grid-review.md](grid-review.md),
+using local Opus 5 2026-09 scope/evidence guidance and the established Claude
+partner with unchanged native model/effort. Applied effort is unknown. The review
+was submitted via Kerd Agent after its grid and guidance/prompt update were shown;
+submission was labelled unconfirmed, not running. No native subagent launched.
+Codex owns implementation; Claude reviews, with shared source edits paused while
+it checks. No release, install, pairing or consumer-project changes authorized.
+
+Claude returned three supported findings, now corrected: human ownership still
+pointed at TASK; substring/negative mentions could hide an old task; and prompt
+location wording did not distinguish shareable briefs from private Agent requests.
+It also raised client-dependent long-cell wrapping (retained as an unverified
+limit) and suggested Unverified instead of Not exposed in illustrative effort
+cells (changed). Table escaping, three nested sections, complete scope, partial
+restoration and unchanged Out passed its probes. Its returned model was
+claude-opus-5; applied effort remains unknown.
+
+The correction request is saved in [grid-review-fixes.md](grid-review-fixes.md).
+Both briefs are shareable; Agent retains their full framed requests privately.
+The live grid was updated to submitted/unconfirmed for the correction review,
+not running. Two saved briefs were reported, not the example count of three.
+Claude's correction review returned and was checked: owner wording, exact-only
+Focus suppression, prompt location and illustrative effort all cleared. It
+independently ran 136 renderer tests and diff-check. Long-cell client wrapping
+remains unverified, not a claim these checks establish. Both reviews observed
+claude-opus-5 in reply metadata; applied effort remains unknown. No participant
+or native job remains pending for this implementation. No publication, install
+or consumer pickup was performed.
+
+## Ordinary Leru arrival: NOW tightening (2026-09-13, local)
+
+Anthony supplied a Leru arrival labelled 0.120.0. It showed the compact team,
+no YOU box, and the question after END, but NOW contained a long device-check
+procedure, a next-live-match check and a different build not yet authorized.
+His direction: “now is the vitial part really. so tighen.” This is supplied
+ordinary-use evidence, not a consumer-tree inspection or an overall acceptance
+verdict. The pasted owner labels were unbolded and the final line truncated;
+neither is claimed as a reproduced rendering defect.
+
+The existing guide now defines NOW as immediate owner-labelled actions plus
+necessary follow-through. Detailed checks remain reachable through the task/spec;
+future-event work and unrelated later builds stay behind Open work. Immediate
+safety limits and consequential blockers stay visible. No fixed list length,
+saved-list pruning, automatic task selection or new schema. Conductor links
+that rule rather than repeating an evidence-row instruction. README current
+usage follows it. Runtime code and examples' JSON shape are unchanged.
+
+Checked locally: renderer suite 131 passed (including the documented input),
+Switch and Conductor skill validators passed, and diff whitespace check clean.
+These checks do not prove model composition compliance; the next ordinary
+arrival after this wording is released is the observation. No new trial or
+consumer work was started.
+
+Claude acknowledged the four-file delta and retained it for its next authorized
+Out; no competing edits. It additionally reported inspecting Leru's native
+transcript: the loaded path was 0.120.0, owner labels were bold in source and
+the final question was complete. Those are Claude's reported checks, not Codex's
+independent inspection; the paste alone is not evidence of renderer truncation
+or missing emphasis. Anthony's “seems very close” plus the NOW correction is
+specific experience feedback, not a blanket acceptance of every open check.
+
+### Apple Music delegation evidence supplied alongside
+
+Anthony also pasted a session, version uncertain (“118 i think”), showing a
+native Agent mutation job labelled Sonnet 5, background execution and a returned
+result. The session reported 18 mutations caught, spot-checking four raw outputs,
+restored files and a 51-test baseline, followed by an independent Codex review.
+This is ordinary-use evidence of delegation; it does not itself prove invocation
+of the Kerd Agent bridge, measured savings or a completed implementation review.
+
+The session admitted not saving delegated prompts beside the work. Existing
+Conductor execution/model-job guidance already requires that plus model/effort
+and result notes; no new policy was added. It reported requesting the sonnet
+alias but unknown applied effort, and did not identify a consulted model profile.
+Writing prompts itself is normal, not proof of ignoring guidance. Configuration
+alone would not prove what a past run applied. Necessary follow-up belongs to
+that project's owner: retain the actual sanitized prompts with per-job evidence
+and label unknowns, rather than copying a second narrative into both designs.
+No Apple Music files, settings, prompts or job outputs were inspected or edited.
 
 ## Agreement
 

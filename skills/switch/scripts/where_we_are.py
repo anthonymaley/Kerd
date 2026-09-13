@@ -627,23 +627,21 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
              + ink(badge, tone, on=color and tone is not None),
              ink("\u2501" * width, "cyan", on=color), ""]
     if markdown:
-        box_width = min(width, 64)
         status = ("SWITCH IN COMPLETE ✓" if restored == "yes" else
                   "SWITCH IN INCOMPLETE" if restored in ("partial", "no") else
                   "SWITCH IN STATUS UNKNOWN")
-        header_rows = []
-        for label, value, reason in (("PROJECT", get("project") or UNRECORDED, None),
-                                    ("PHASE", get("phase") or UNRECORDED, None),
-                                    ("TASK", get("task") or UNRECORDED, get("task_reason")),
-                                    ("STATE", get("state") or UNRECORDED, get("state_reason")),
-                                    *team_rows(get("team"))):
-            value = str(value) + (" — " + str(reason) if reason else "")
-            for index, line in enumerate(wrap(value, box_width - 13)):
-                header_rows.append((pad(label, 9) if index == 0 else " " * 9) + line)
-        lines = chat_box("KERD · " + status, header_rows, box_width, prewrapped=True) + [""]
+        state = str(get("state") or UNRECORDED)
+        if get("state_reason"):
+            state += " — " + str(get("state_reason"))
+        cells = [get("project") or UNRECORDED, get("phase") or UNRECORDED,
+                 state, team_rows(get("team"))[0][1]]
+        lines = [f"**KERD · {status}**", "",
+                 "| PROJECT | PHASE | STATE | TEAM |",
+                 "| --- | --- | --- | --- |",
+                 "| " + " | ".join(md(value) for value in cells) + " |", ""]
         for label, value, empty in (("LAST SESSION", get("last_session"), "no completed job is recorded"),
                                    ("THIS SESSION", get("this_session"), "Nothing agreed yet.")):
-            lines += [f"**{label}** · {md(value or empty)}", ""]
+            lines += [f"- **{label}**", "", f"  {md(value or empty)}", ""]
 
     rows = (("PROJECT", get("project") or UNRECORDED, None),
             ("PHASE", get("phase") or UNRECORDED, None),
@@ -663,27 +661,39 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     # The immediate work is part of the frame: it always renders, so a project
     # with nothing under its Now heading shows that gap rather than hiding it.
     # The backlog is deliberately not here; it stays behind the documents link.
-    lines.append("**NOW**\n" if markdown else ink(" NOW", "dim", on=color))
+    lines.append("- **NOW**\n" if markdown else ink(" NOW", "dim", on=color))
     now_items = get("now") or []
     if isinstance(now_items, str):  # one item written as prose, not a typo per character
         now_items = [now_items]
     items = [str(item) for item in now_items if item]
+    if markdown:
+        # The grid has no duplicate TASK column. Retain old-input task context
+        # unless a NOW action is identical, and never drop limits.
+        task = str(get("task") or "")
+        covered = []
+        for item in items:
+            owner = re.fullmatch(r"\*\*([^*\n]+):\*\* (.+)", item, re.S)
+            covered.append(owner.group(2) if owner else item)
+        if task and task != UNRECORDED and not any(task == text for text in covered):
+            lines += [f"  Focus: {md(task)}", ""]
+        if get("task_reason"):
+            lines += [f"  Task context: {md(get('task_reason'))}", ""]
     for position, item in enumerate(items, 1):
         if markdown:
-            lines.append(f"{position}. {action_text(item, markdown=True)}")
+            lines.append(f"  {position}. {action_text(item, markdown=True)}")
             continue
         prefix = f"   {position}. "
         for index, line in enumerate(wrap(action_text(item), width - len(prefix))):
             lines.append((prefix if index == 0 else " " * len(prefix)) + line)
     if not items:
-        lines.append("no immediate work recorded" if markdown else "   no immediate work recorded")
+        lines.append("  no immediate work recorded" if markdown else "   no immediate work recorded")
     lines.append("")
     # Older callers placed consequential limits in YOU. Preserve those under
     # NOW, without inferring ownership or turning the prose into extra tasks.
     if question and question.get("proposed"):
-        lines += ["**Scope / recommendation**" if markdown else " Scope / recommendation", ""]
+        lines += ["  **Scope / recommendation**" if markdown else " Scope / recommendation", ""]
         proposal = str(question["proposed"])
-        lines += (recommendation_markdown(proposal) if markdown else
+        lines += (["  " + line if line else "" for line in recommendation_markdown(proposal)] if markdown else
                   ["   " + line if line else "" for line in recommendation_rows(proposal, width - 3)])
         lines.append("")
 

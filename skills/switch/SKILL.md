@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing and designated role continuity, notifies established partners without requesting work or a reply, and presents a compact dashboard with provider/role TEAM, owner-labelled NOW and one question callout after END. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing and designated role continuity, notifies established partners without requesting work or a reply, and presents a status grid with provider/role TEAM, LAST/THIS/NOW sections and one question callout after END. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -61,8 +61,9 @@ proved full restoration. No fake activity or progress percentages.
 
 For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
 Now, Last session, This session, Where we are, and a real link to task detail.
-Use its compact chat layout: one fenced completion box with a provider/role TEAM
-line, short summaries, owner-labelled NOW, links and an end-of-pickup marker.
+Use its compact chat layout: explicit completion heading and a status grid with
+provider/role TEAM, then LAST / THIS / NOW bullets with numbered owner-labelled
+actions nested under NOW, links and an end-of-pickup marker.
 The single question follows as a bold speech-bubble blockquote; no YOU box.
 Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.

@@ -69,8 +69,11 @@ disclose that and use a clear outcome-first brief without invented tuning.
 Prepare the actual prompt: outcome, relevant facts and sources, deliverable,
 success and evidence, authority, boundaries, unresolved questions and stopping
 condition. Preserve meaning across models; let the worker choose the method
-unless order itself matters. Save delegated prompts with a short model/effort
-and result note beside the work; exclude secrets and private session IDs.
+unless order itself matters. Save shareable prompt briefs with a short model/effort
+and result note beside the work; exclude secrets and private session IDs. Agent's
+full requests and transport framing stay in its existing private request store.
+For native subagents, retain the actual prompt only where safe; a sanitized brief
+is not a claim of an exact private-input copy. Report which form was saved.
 For inline work, use the same contract without manufacturing a dispatch record.
 
 For a delegated job, the route is decided before the prompt is sent, and the
@@ -86,9 +89,9 @@ is acceptable; background work needs observable results and a safe way to stop.
 If the needed route is unavailable, continue other useful authorized work and
 disclose what remains blocked. Respect host delegation and permission rules.
 
-Keep the live work view current using [the journey guide](journey.md#keep-the-tasks-visible-while-the-work-unfolds):
-show the acting model and contribution before delegation, reflect the actual
-launch/return, and show findings and corrections as they happen. The native
+Keep the live work view current using [the journey guide](journey.md#delegation-grid-and-preparation-updates):
+show its task/route/model/effort/status grid and the actual guidance, saved-prompt
+and dispatch transitions. Reflect observed launch/return, findings and corrections. The native
 list tracks real jobs; commentary and tool activity remain visible beneath it.
 Show current activity and perform the job. A plan or caller contract being
 written does not complete an implementation request. Continue from results to

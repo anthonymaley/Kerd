@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation and independent assessment. Resume saved work with current observations and owner-labelled next actions and one question callout in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation with visible task/model/effort and prompt-preparation updates, and independent assessment. Resume saved work with current observations and owner-labelled next actions and one question callout in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -54,11 +54,13 @@ Recommend one next action, with a known owner and its limits in NOW. Ask one dir
 question about it; do not tack on “or later?” or an alternative task. No REPLY
 menu: the person can decline, defer or redirect without being prompted to choose.
 
-Reconcile the displayed next work with observations already obtained during this
-pickup. An arrival check observed now is not still waiting to start: annotate
-its remaining assessment or recording as the next action in NOW, consistent with
-THIS SESSION and any Insight. Do not award the person's experience verdict, rewrite the saved list,
-or repeat the check merely to record it. In itself still does no project work.
+Reconcile displayed work with observations already obtained during pickup.
+Use Switch's [NOW composition](../switch/references/in-out.md#welcome-back-the-screen-summary):
+immediate owner-labelled actions and necessary follow-through, not a checklist
+of evidence rows or future events. An observed arrival is not still waiting to
+start; only a genuinely needed assessment or recording remains. Do not award the
+person's verdict, rewrite the saved list or repeat a check merely to record it.
+In itself still does no project work.
 
 For a proposed installation or session launch, name the target project and, for
 installation, its scope (project or user-wide) before requesting approval. If a
@@ -66,7 +68,7 @@ required target or scope is unresolved, make that gap the question; do not bundl
 project” into authorization to choose one later. Reuse already-established targets.
 
 When the next action belongs to the person (for example a device check), name
-that actor in TASK/STATE and ask whether they can do that specific check now,
+that actor as the NOW owner and in STATE, and ask whether they can do that specific check now,
 or ask for its missing result,
 not “Starting on X” as though the agent can perform it. Preserve any per-occasion
 permission needed for the check. Availability alone authorizes no agent operation;
@@ -147,7 +149,9 @@ substantive response. It owns the question layout, working-brief view, progress 
 and worked examples. Use it throughout the conversation, not only at agreement.
 For multi-step work, use the host's available native task list and update it as
 work progresses, with actual work and model handoffs visible underneath. Follow
-the guide's compact fallback when native task controls are unavailable.
+the guide's compact fallback when native task controls are unavailable. For
+delegation, use its task/route/model/effort/status grid and report actual guidance,
+saved-prompt and dispatch transitions; do not leave these facts until asked.
 
 At a decision, show the current stage, what is settled, what needs the person's
 input and what follows their reply—not “question 4 of 10”. Use a real bounded

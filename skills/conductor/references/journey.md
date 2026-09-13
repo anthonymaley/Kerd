@@ -45,9 +45,10 @@ interactive or a terminal supports colour when it does not.
 
 ## Question surface and host adaptation
 
-Switch's Markdown arrival uses the linked welcome-back convention: one fenced
-completion box with a compact provider/role TEAM line, LAST/THIS SESSION,
-owner-labelled prioritized NOW actions and document links. No YOU box. Keep scope
+Switch's Markdown arrival uses the linked welcome-back convention: an explicit
+completion heading and PROJECT / PHASE / STATE / TEAM grid, followed by three
+bullets: LAST SESSION, THIS SESSION and NOW (with owner-labelled numbered actions
+nested beneath NOW), then document links. No arrival boxes. Keep scope
 with the actions or THIS SESSION. The pending question is the first content after
 END OF PICKUP, once as a bold speech-bubble blockquote (`> 💬 **Question?**`).
 With no question, stop at the marker. Do not append another report or question.
@@ -149,9 +150,47 @@ A tiny single action does not need a manufactured plan.
 
 Emit an update at each real change of state: implementation starts, a reviewer
 starts or returns, correction begins, work completes or blocks. Each one says what
-is happening, who has it, and whether the person is needed — three lines, not the
+is happening, who has it, and whether the person is needed. For delegation, use
+the grid and preparation updates below; otherwise keep it to a few lines, not the
 whole view again. Between those moments, say nothing; chatter costs the same
 attention the updates are spending.
+
+#### Delegation grid and preparation updates
+
+When a real delivery split includes contributors, show **Preparing delegation ·
+Conductor** and a compact Markdown grid. Use native task controls too when
+available, but do not duplicate their full plan: the grid adds route/model/effort
+visibility. Illustrative rows, not model defaults or jobs to manufacture:
+
+| Task | Route | Model requested | Effort | Status |
+| --- | --- | --- | --- | --- |
+| Check transport mutations | Native subagent | Sonnet 5 | Unverified | Preparing |
+| Survey API callers | Native subagent | Opus 5 | Unverified | Preparing |
+| Review implementation | Established Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
+
+Name the actual contribution and route; say `kerd:agent` only when that skill
+handles it, not for a native subagent tool call. Keep requested settings distinct
+from observed model/effort; expose unknowns rather than infer them from defaults.
+Put the owner, edit boundary and expected result in the nearby task detail.
+
+Show these short updates at their actual transitions, not as a closing claim:
+
+> Checking the applicable model prompt guidance.
+
+> 3 shareable prompt briefs saved beside the work. Scope, permissions and expected results included.
+
+> 2 subagents dispatched. Codex review waits until implementation is ready.
+
+Those counts are examples: report only actual prompts/briefs saved and submissions made.
+Say which was retained: shareable brief beside the work, or full request in Agent's
+existing private store. Keep private framing/IDs out of public records. Link a
+safe brief location, not private contents. Do not claim a sanitized brief is an
+exact prompt copy. Consult only applicable guidance and do not reread
+it just to announce a check. Update affected rows as evidence moves from preparing
+to submitted/queued, running, returned and checked, or blocked/failed. Submission
+alone is not running, and a returned answer still needs assessment. Include the
+useful findings and next action at return. No fixed grid size, repeated polling
+chatter, fake effort setting, staffing approval or delegation merely for display.
 
 Run long work in the background where the host supports it, and keep working and
 reporting while it runs. Going quiet for the duration of a job is a choice, not a

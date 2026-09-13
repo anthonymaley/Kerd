@@ -40,7 +40,28 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.120.0)
+## What's New (v0.121.0)
+
+### v0.121.0
+
+**Arrival as a status grid.** Switch In's chat view opens with an explicit
+completion heading and a PROJECT / PHASE / STATE / TEAM grid, then three bullets:
+LAST SESSION, THIS SESSION and NOW, with owner-labelled numbered actions nested
+under NOW. NOW holds only immediate actions and necessary follow-through;
+detailed procedures, future-event checks and unrelated later work stay behind
+Open work, while immediate limits stay visible. The explicit END and the single
+question after it remain. Plain terminal output and Out are unchanged. Older
+`task` context and `question.proposed` limits still survive under NOW.
+
+**Delegation you can see.** Conductor shows a task / route / model requested /
+effort / status grid when it splits work, with short updates at real
+transitions: guidance checked, prompt briefs saved, dispatched, returned and
+checked. Shareable briefs sit beside the work; Agent's full requests stay in its
+private store. Unknown effort stays unverified, a native subagent is never
+labelled as a Kerd Agent request, and queued is not running.
+
+Fixture checks and two Claude review rounds cover the change. How long grid
+cells wrap in your client, and both grids in ordinary use, remain to be observed.
 
 ### v0.120.0
 
@@ -521,6 +542,14 @@ Drive walks one work item from idea to acceptance, across as many sessions as it
 
 ### conductor (Session Discipline)
 
+During delegation, Conductor shows a task/route/model-requested/effort/status
+grid and updates it through actual dispatch, return and checked results. Short
+updates show applicable prompt guidance being checked and how many prompt briefs
+or full requests were saved, distinguishing shareable files from private records.
+Unknown effort stays unknown; a native subagent is not
+mislabelled as a Kerd Agent request. These updates expose real work, not a
+mandatory worker count or a new approval step.
+
 Conductor guides repo-based work from a request — "build an app", "create a guide",
 "plan a project" — through **Understand → Shape → Agree → Deliver → Complete**. It
 holds the conversation that works out what you actually want, agrees it before
@@ -617,10 +646,12 @@ mid-work exactly where you stopped.
 **In** opens with a welcome-back dashboard rather than a full report: phase, task,
 state, owner-labelled actions in priority order under NOW, what happened last
 session and what this session is for. No separate YOU box.
-Chat uses one tight completion box and short Last/This session lines.
+Chat uses a PROJECT / PHASE / STATE / TEAM grid under the explicit completion
+heading, then three bullets: LAST SESSION, THIS SESSION and NOW, with numbered
+owner-labelled actions nested beneath NOW.
 END OF PICKUP · SESSION READY closes restoration; the one pending question
 follows as a bold speech-bubble blockquote. With no question, stop at the marker.
-Only the completion box is fenced; the surrounding Markdown is not. A missing
+The grid and sections are native Markdown, not fenced ASCII boxes. A missing
 log alone does not make restoration incomplete when its necessary context was
 recovered elsewhere. Terminal output keeps explicit status and the question after END.
 Colours follow the client, while status stays explicit in words.
@@ -633,11 +664,13 @@ with its scope in NOW or THIS SESSION. A missing fact is asked as a clarificatio
 approval; supplying a project name alone does not start an install or launch.
 A check belonging to you is labelled as yours, preserving any per-occasion
 permission rather than presenting it as an agent job.
-NOW holds pressing actions and logical next steps, not an evidence checklist.
+NOW holds short, owner-labelled actions for this sitting and their necessary
+follow-through. Detailed checks, future-event work and later projects stay behind
+Open work; immediate permission limits and blockers remain visible.
 The single question after END asks directly about the recommendation;
 you can decline or redirect without choosing from an offered alternative.
 Existing local Agent bindings restore pairing context, with Agent loaded when a
-contribution is requested. TEAM is one compact line: Claude (role) + Codex (role).
+contribution is requested. TEAM is one compact grid cell: Claude (role) + Codex (role).
 Session IDs and notice status stay in Agent details. After restoring routing, In sends the established partners one
 informational identity notice, with no work or reply requested. A repeated In
 with the same sender/recipient IDs does not resend. Notice status is not peer

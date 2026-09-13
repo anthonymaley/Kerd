@@ -32,8 +32,12 @@ asking the worker to think harder. Label it requested unless the route supplies
 evidence of the applied setting. Record observed model identity separately;
 neither identity nor a successful request proves that effort was applied.
 
-Write the actual prompt beside the work using ordinary Markdown or useful XML
-boundaries. This is Conductor's judgment, not a required JSON form. A useful
+Write a shareable prompt brief beside the work using ordinary Markdown or useful
+XML boundaries. Agent's full requests and transport framing stay in its existing
+private records; native subagent prompts stay in native history unless safe to
+retain beside the work. Do not copy private inputs into public files. Label sanitized briefs
+as such rather than claiming they are exact copies. This is Conductor's judgment,
+not a required JSON form. A useful
 job contains the outcome, selected source material, specific contribution,
 agreed success/proof, allowed changes and stopping condition. A review receives
 the original agreement and artifacts, not only the builder's summary. Keep

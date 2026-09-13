@@ -1,6 +1,7 @@
 """What the view may and may not say about a record."""
 
 import importlib.util
+import re
 from pathlib import Path
 import unicodedata
 import sys
@@ -757,8 +758,8 @@ class TeamTests(unittest.TestCase):
         text = "Check only.\n\n1. First check.\n2. Final check.\n\nNo deployment."
         out = view.render_dashboard({"question": {"text": "Can you check now?", "proposed": text}},
                                     NOW, markdown=True)
-        self.assertIn("\n1. First check.\n2. Final check.\n", out)
-        self.assertIn("\n\nNo deployment.\n", out)
+        self.assertIn("\n  1. First check.\n  2. Final check.\n", out)
+        self.assertIn("\n\n  No deployment.\n", out)
         self.assertNotIn("1\\.", out)
 
     def test_owner_labels_are_emphasized_without_assigning_missing_owners(self):
@@ -1054,6 +1055,51 @@ class ClosingBoxTests(unittest.TestCase):
 
 
 class MarkdownTests(unittest.TestCase):
+    def test_grid_has_four_cells_and_untrusted_values_cannot_add_columns(self):
+        summary = self.arrival(project="A | B\n### injected", phase="Build `x|y`",
+                               state="<b>Waiting</b>",
+                               team=[dict(provider="claude", id="private-id", role="Build | review")])
+        out = view.render_dashboard(summary, NOW, markdown=True)
+        rows = [line for line in out.splitlines() if line.startswith("|")]
+        self.assertEqual(len(rows), 3)
+        self.assertEqual(rows[0], "| PROJECT | PHASE | STATE | TEAM |")
+        self.assertEqual(len(re.split(r"(?<!\\)\|", rows[2])), 6)
+        for value in ("A | B ### injected", "Build `x|y`", "<b>Waiting</b>", "Build | review"):
+            self.assertIn(value, self.visible(rows[2]))
+        self.assertNotIn("private-id", out)
+
+    def test_three_sections_are_bullets_with_actions_nested_under_now(self):
+        out = view.render_dashboard(self.arrival(task=None, task_reason=None,
+            now=["**Anthony:** Check the result.", "**Claude:** Record the verdict."]), NOW, markdown=True)
+        self.assertIn("- **LAST SESSION**\n\n  Built the first slice", out)
+        self.assertIn("- **THIS SESSION**\n\n  Review the full change", out)
+        self.assertIn("- **NOW**\n\n  1. **Anthony:** Check the result.\n  2. **Claude:** Record the verdict.", out)
+        self.assertNotIn("Focus:", out)
+        self.assertNotIn("┌", out)
+        self.assertNotIn("─ YOU", out)
+
+    def test_legacy_task_context_survives_without_inventing_an_action(self):
+        out = view.render_dashboard(self.arrival(now=[], task="Await approval", task_reason="Never deploy."),
+                                    NOW, markdown=True)
+        self.assertIn("  Focus: Await approval", out)
+        self.assertIn("  Task context: Never deploy.", out)
+        self.assertIn("no immediate work recorded", out)
+        self.assertNotIn("  1.", out)
+
+    def test_task_already_named_in_now_does_not_repeat_as_focus(self):
+        out = view.render_dashboard(self.arrival(task="Check the view", task_reason="No release.",
+                                    now=["**Anthony:** Check the view"]), NOW, markdown=True)
+        self.assertNotIn("Focus:", out)
+        self.assertIn("Task context: No release.", out)
+
+    def test_task_is_not_hidden_by_negative_or_qualified_mentions(self):
+        for now in (["**Claude:** Design the alert"], ["**Claude:** Deploy the alert only after approval"]):
+            out = view.render_dashboard(self.arrival(task="Deploy the alert", task_reason=None,
+                this_session="Proposed: design; deploy the alert is not included.", now=now),
+                NOW, markdown=True)
+            self.assertIn("  Focus: Deploy the alert", out)
+            self.assertIn("deploy the alert is not included.", out)
+
     @staticmethod
     def visible(text):
         import re
@@ -1098,11 +1144,11 @@ class MarkdownTests(unittest.TestCase):
         self.assertNotIn(summary["question"]["reply"], you)
         self.assertNotIn(summary["question"]["text"], you)
         self.assertEqual(visible.count(summary["question"]["text"]), 1)
-        self.assertIn("┌─ KERD · SWITCH IN COMPLETE ✓", out)
-        self.assertIn("**LAST SESSION** ·", out)
+        self.assertIn("**KERD · SWITCH IN COMPLETE ✓**", out)
+        self.assertIn("- **LAST SESSION**\n\n  ", out)
         self.assertIn("> **★ Insight**", out)
         self.assertNotIn("\x1b", out)
-        self.assertTrue(out.startswith("```text\n┌"))
+        self.assertTrue(out.startswith("**KERD · SWITCH IN"))
         self.assertTrue(visible.endswith("━━ END OF PICKUP · SESSION READY ━━\n```\n\n"
                                          + "> 💬 **" + summary["question"]["text"] + "**"))
 
@@ -1205,8 +1251,7 @@ class MarkdownTests(unittest.TestCase):
         out = view.render_dashboard(summary, NOW, markdown=True)
         self.assertEqual(out.count("┌─ YOU"), 0)
         self.assertNotIn("\n### YOU\n", out)
-        header = self.text_of_box(out, "KERD")
-        self.assertIn("unsafe ### YOU [link](https://example.com) **claim**", header)
+        self.assertIn("unsafe ### YOU [link](https://example.com) **claim**", self.visible(out))
 
     def test_paths_are_visible_and_percent_filenames_are_not_url_decoded(self):
         from tempfile import TemporaryDirectory
@@ -1270,13 +1315,13 @@ class MarkdownTests(unittest.TestCase):
         for width in (40, 52, 80):
             out = view.render_dashboard(self.arrival(documents=[["Design", "https://example.com/design"]]),
                                         NOW, width=width, markdown=True)
-            order = ["┌─ KERD", "**LAST SESSION**", "**THIS SESSION**", "**NOW**",
+            order = ["**KERD", "| PROJECT | PHASE | STATE | TEAM |", "- **LAST SESSION**", "- **THIS SESSION**", "- **NOW**",
                      "**ATTENTION**", "**DOCUMENTS**", "END OF PICKUP"]
             positions = [out.index(label) for label in order]
             self.assertEqual(positions, sorted(positions))
             box = [line for line in out.splitlines() if line.startswith(("┌", "│", "└"))]
-            self.assertTrue(all(display_columns(line) == min(width, 64) for line in box), box)
-            self.assertIn("│ PROJECT  Example project", out)
+            self.assertFalse(box, "arrival must not reintroduce boxes")
+            self.assertIn("| Example project | Testing |", out)
             self.assertNotIn("\x1b", out)
 
     def test_completion_is_not_changed_by_dirty_tree_or_missing_log_warning(self):
@@ -1292,10 +1337,11 @@ class MarkdownTests(unittest.TestCase):
             self.assertNotIn("SESSION READY", out)
             self.assertIn("Missing scope ruling.", out)
 
-    def test_backticks_in_box_values_cannot_close_its_fence(self):
+    def test_backticks_in_values_cannot_introduce_fences(self):
         out = view.render_dashboard(self.arrival(task="Keep ``` literal"), NOW, markdown=True)
-        self.assertTrue(out.startswith("````text\n"))
-        self.assertIn("Keep ``` literal", self.text_of_box(out, "KERD"))
+        self.assertTrue(out.startswith("**KERD"))
+        self.assertIn("Keep ``` literal", self.visible(out))
+        self.assertEqual(out.count("```"), 2, "only the END marker is fenced")
 
 
 class MemoryReadinessTests(unittest.TestCase):
