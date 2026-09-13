@@ -221,24 +221,35 @@ def named_section(content, heading):
     return "".join(lines[start:end])
 
 
+def reading_picks(root, record, files, sections):
+    picks = [(record, None)] + [(value, None) for value in files] + [tuple(pair) for pair in sections]
+    picks = [(relative_file(root, value), heading.rstrip() if heading is not None else None)
+             for value, heading in picks]
+    if len(set(picks)) != len(picks):
+        raise HandoffError("Supply each source once; a repeated file or section would be counted twice")
+    return picks
+
+
+def selected_source(root, path, heading):
+    """Measurement and preparation resolve the same bytes, never a prose excerpt."""
+    text = source_text(root / path)
+    content = text if heading is None else named_section(text, heading)
+    if not content.strip():
+        raise HandoffError("Selected source is empty: " + path)
+    return {"file": path,
+            "selection": "complete file" if heading is None else heading + " (including child sections)",
+            "content": content,
+            "reaches_eof": text.endswith(content)}
+
+
 def prepare(root, branch, record, files=(), sections=(), sync=False, expected_commit=None, preserve=()):
     """Assemble caller-selected raw sources; never choose or summarise memory."""
     loaded = pickup(root, branch, record, sync, expected_commit, preserve)
     keep = loaded["preserved_local_only"]
-    git(root, "ls-files", "--error-unmatch", "--", ":(literal)" + relative_file(root, record))
-    sources = [{"file": loaded["record"], "selection": "complete file", "content": loaded["content"]}]
-    for value in files:
-        path = relative_file(root, value)
+    sources = []
+    for path, heading in reading_picks(root, record, files, sections):
         git(root, "ls-files", "--error-unmatch", "--", ":(literal)" + path)
-        content = source_text(root / path)
-        if not content.strip():
-            raise HandoffError("Selected source is empty: " + path)
-        sources.append({"file": path, "selection": "complete file", "content": content})
-    for value, heading in sections:
-        path = relative_file(root, value)
-        git(root, "ls-files", "--error-unmatch", "--", ":(literal)" + path)
-        sources.append({"file": path, "selection": heading + " (including child sections)",
-                        "content": named_section(source_text(root / path), heading)})
+        sources.append(selected_source(root, path, heading))
     # A concurrent edit must not silently acquire the earlier clean/commit claim.
     require_branch(root, branch)
     if (git(root, "diff", "--cached", "--name-only") or (local_changes(root) - set(keep))
@@ -268,26 +279,18 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS):
     """
     if not isinstance(target, int) or target <= 0:
         raise ValueError("Target must be a positive integer number of tokens")
-    picks = [(record, None)] + [(value, None) for value in files] + [tuple(pair) for pair in sections]
-    picks = [(relative_file(root, value), heading.rstrip() if heading is not None else None)
-             for value, heading in picks]
-    if len(set(picks)) != len(picks):
-        raise HandoffError("Supply each source once; a repeated file or section would be counted twice")
-    sources, total = [], 0
-    for path, heading in picks:
-        text = source_text(root / path)
-        if heading is None:
-            selection, content = "complete file", text
-        else:
-            selection, content = heading + " (including child sections)", named_section(text, heading)
-        if not content.strip():
-            raise HandoffError("Selected source is empty: " + path)
+    sources, total, read_args = [], 0, []
+    for index, (path, heading) in enumerate(reading_picks(root, record, files, sections)):
+        source = selected_source(root, path, heading)
+        content = source.pop("content")
         size = len(content.encode("utf-8"))
         total += size
-        sources.append({"file": path, "selection": selection, "bytes": size,
-                        "approx_tokens": -(-size // 4)})
+        source.update(bytes=size, approx_tokens=-(-size // 4))
+        sources.append(source)
+        read_args += (["--record", path] if index == 0 else
+                      ["--file", path] if heading is None else ["--section", path, heading])
     estimate = -(-total // 4)
-    return {"status": "measured", "sources": sources, "total_bytes": total,
+    return {"status": "measured", "sources": sources, "read_args": read_args, "total_bytes": total,
             "approx_tokens": estimate, "target_tokens": target,
             "within_target": estimate <= target,
             "method": "bytes counted exactly per selection, including any whole-file/section or nested-section overlap; "

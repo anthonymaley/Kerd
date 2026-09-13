@@ -1,14 +1,13 @@
 {
   "name": "kerd",
-  "version": "0.107.0-candidate.1",
-  "description": "Guided work, visual agreement and session continuity: Conductor, Visuals and Switch.",
+  "description": "Conductor, Switch, Visuals and Agent: guided work, session continuity, visual agreement and cross-model collaboration.",
   "author": {"name": "Anthony Maley"},
   "license": "MIT",
   "skills": "./skills/",
   "interface": {
-    "displayName": "Kerd candidate",
+    "displayName": "Kerd",
     "shortDescription": "Turn an idea into checked, ready-to-use work.",
-    "longDescription": "Conductor guides and delivers the work, Visuals makes the direction clear, and Switch preserves the place across sessions.",
+    "longDescription": "Conductor guides delivery, Switch preserves the place, Visuals makes the work clear, and Agent connects Claude and Codex. Four core skills; no legacy Claude hooks.",
     "developerName": "Anthony Maley",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],

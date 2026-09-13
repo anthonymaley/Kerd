@@ -40,7 +40,32 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.112.0)
+## What's New (v0.113.0)
+
+### v0.113.0
+
+**Codex gets a native core package.** Build a relocatable Codex marketplace
+artifact with Conductor, Switch, Visuals and Agent from the same maintained
+`skills/` tree. The package inherits the release version, includes Agent's
+optional dependency declaration, and excludes all eight legacy skills and
+Claude hooks. Building is not installation or publication; use the
+[Codex setup and update guide](docs/work/model-ready-work/packaging/START.md#install-in-codex).
+Native model jobs now depend on the host's actual capabilities, and the Out
+completion hint no longer assumes a Claude-only context command.
+
+**Measure the selection you hand off.** Switch Out saves the helper's reusable
+read arguments beside its measurement. Measurement and preparation share the
+same selector; a section reaching EOF is labelled rather than treated as a
+short excerpt. Evidence archives stay intact and available on demand.
+
+**Clarify without accidentally approving.** A factual answer during pickup does
+not authorize the next proposed job. The arrival question appears once, with a
+`--question-below` option for hosts requiring it outside the panel. Insights
+keep reported claims distinct from verified observations.
+
+Package and regression checks do not prove a successful install, automatic
+discovery, user-visible arrival or token savings. Those require an ordinary
+session running the installed version.
 
 ### v0.112.0
 
@@ -446,6 +471,10 @@ history. It then leaves a lean start point: rulings stay in CONTEXT.md while the
 full case moves to `docs/decisions.md`, closed Backlog rows move to
 `docs/backlog-archive.md` with their reason, the reading set for the next sitting
 is named, and `handoff.py measure` records its size against the pickup target.
+The handoff keeps the helper's exact `read_args` alongside that size so In reads
+the measured selection, not a broader paraphrase. A lone heading includes the
+remainder of its file; Out must narrow an oversized selection with real heading
+boundaries or explain why it is needed, without discarding the evidence.
 `scripts/handoff.py` does the Git work: explicit-file saves, safe fast-forward,
 acknowledged local-only paths that are never staged, and a check that the remote
 carries the exact commit. Out ends on the saved-place box: SESSION SAVED, SAVED

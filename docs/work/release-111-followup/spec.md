@@ -5,8 +5,8 @@
 Status: implemented locally and reviewed by Claude (verdict: ready for the
 release checklist as a MINOR bump after three wording fixes, which Claude made);
 Codex reviewed Claude's new Out box and the release diff (four findings, fixed).
-Release as 0.112.0 prepared by Claude; not yet committed or pushed at the time
-of this line.
+Released as 0.112.0 on `main` (subject "One arrival, one decision; the saved-place
+box returns"), remote-verified by the helper's save, CI green.
 
 User request, 2026-09-12: "go ahead and spec he changes needed and get the paired
 claude session to review". Scope: Kerd only. The supplied Leru pickup is experience

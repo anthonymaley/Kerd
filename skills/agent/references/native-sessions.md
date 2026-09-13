@@ -172,5 +172,5 @@ Sources: [Claude cross-session messaging](https://code.claude.com/docs/en/cross-
 [Codex app-server transport](https://learn.chatgpt.com/docs/app-server),
 [WebSocket Unix client](https://websockets.readthedocs.io/en/stable/reference/sync/client.html).
 Local CLI help and generated experimental schemas supplied the installed queue
-methods. See the [implementation evidence](../../../docs/work/agent-connection/work.md)
-in the Kerd source checkout; it is not a runtime dependency of this skill.
+methods. Development evidence is at `docs/work/agent-connection/work.md` in the
+Kerd source checkout; it is not shipped or needed at runtime.

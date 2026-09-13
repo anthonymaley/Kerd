@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor and presents one dashboard with the arrival decision; Out saves useful memory and explicitly authorized Git handoffs. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor and presents one dashboard with the arrival decision; Out saves useful memory, exact measured reading selections and explicitly authorized Git handoffs. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch

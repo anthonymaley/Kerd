@@ -82,15 +82,20 @@ are local, not transferred with the project's ordinary Git files.
 
 ## Native route first
 
-When the chosen model is a Claude model and the job is bounded to this session,
-dispatch it as a native subagent: the same prepared brief, the model chosen from
+When the host actually exposes a native subagent for the chosen model and the
+job is bounded to this session, dispatch it there: the same prepared brief, the model chosen from
 [model choice](guidance/model-choice.md), and the effort **requested**
-in the brief — the native route exposes no effort setting, so record it as
-requested, never observed. A subagent's return is its result; nothing is
+in the native setting when exposed, otherwise in the brief. Keep requested and
+observed effort distinct. A subagent's return is its result; nothing is
 retrieved from a transcript. Prefer a different suitable model for independent
 assessment, as for any route. Use the bundled runner below only when the job
-needs what a subagent lacks: Codex, resumability by native ID, a CLI sandbox,
+needs what this host's subagents lack: another provider, resumability by native ID, a CLI sandbox,
 or a life beyond this session.
+
+Claude Code's native subagents are not a way for a Codex host to run Claude.
+Use Agent for a named/existing Claude partner from Codex; a deliberately fresh
+cross-provider worker uses the bounded CLI route. Do not substitute an OpenAI
+subagent and label it a Claude review (or vice versa).
 
 ## Send it without adding project infrastructure
 

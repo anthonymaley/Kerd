@@ -493,7 +493,7 @@ def summary_from_record(path, text):
     }
 
 
-def render_dashboard(summary, now, width=80, color=True):
+def render_dashboard(summary, now, width=80, color=True, question_below=False):
     """One composed panel from a summary already in hand.
 
     Switch passes what it has just read; nothing is written to disk for this.
@@ -557,7 +557,8 @@ def render_dashboard(summary, now, width=80, color=True):
 
     question = get("question")
     if question and question.get("text"):
-        lines += panel("YOU", [question["text"], "",
+        lines += panel("YOU", ["Your answer is needed; question below." if question_below
+                               else question["text"], "",
                                "Proposed: " + (question.get("proposed") or UNRECORDED),
                                "Reply: " + (question.get("reply") or "Correct / Change")],
                        width, "amber", color) + [""]
@@ -586,6 +587,8 @@ def render_dashboard(summary, now, width=80, color=True):
     block = [one] if columns(one) <= width - 1 else [f"read: {source}", stamps]
     lines += [ink(" " + line, "dim", on=color)
               for entry in block for line in wrap(entry, width - 1)]
+    if question_below and question and question.get("text"):
+        lines += [""] + wrap(question["text"], width)
     return "\n".join(lines)
 
 
@@ -596,8 +599,7 @@ def render_closing(summary, now, width=80, color=True):
     helper checked the remote carries the exact commit), committed (local Git
     only), not saved. Local-only leftovers, the tree, the next action and its
     reading set are named. The box never claims the session exited or the
-    context was cleared: the terminal is still open, and only the person's
-    /clear changes that.
+    context was cleared: starting fresh context is a separate client action.
     """
     get = summary.get
     saved = get("saved")
@@ -651,17 +653,19 @@ def render_closing(summary, now, width=80, color=True):
     # The free-context hint follows only a confirmed save; after a failed or
     # unknown save, clearing context would lose the very work that is unsaved.
     if saved in ("remote-verified", "committed"):
-        closing = "This session is still open. Free context: type /clear, then /kerd:switch in."
+        closing = ("This session is still open. Free context: start a new conversation in your client, "
+                   "then ask Kerd to switch in.")
     else:
         closing = "This session is still open. Keep it open and resolve the save before clearing context."
     lines += [ink(" " + line, "dim", on=color) for line in wrap(f"{closing} rendered {now}", width - 1)]
     return "\n".join(lines)
 
 
-def dashboard(path, text, now, width=80, color=True, restored=None, restore_note=None):
+def dashboard(path, text, now, width=80, color=True, restored=None, restore_note=None,
+              question_below=False):
     summary = summary_from_record(path, text)
     summary["restored"], summary["restore_note"] = restored, restore_note
-    return render_dashboard(summary, now, width, color)
+    return render_dashboard(summary, now, width, color, question_below)
 
 
 def main():
@@ -680,6 +684,8 @@ def main():
                         help="A few lines for a change of state, not the whole view")
     parser.add_argument("--dashboard", action="store_true",
                         help="One composed panel on arrival, for switch-in")
+    parser.add_argument("--question-below", action="store_true",
+                        help="Dashboard question once below the frame, with context in YOU")
     parser.add_argument("--color", action="store_true",
                         help="Force colour on when output is piped or captured")
     parser.add_argument("--no-color", action="store_true",
@@ -706,7 +712,7 @@ def main():
             return 2
         summary.setdefault("restored", args.restored)
         summary.setdefault("restore_note", args.restore_note)
-        print(render_dashboard(summary, now, args.width, color))
+        print(render_dashboard(summary, now, args.width, color, args.question_below))
         return 0
     if not args.record:
         print("Give --record <path> or --summary -", file=sys.stderr)
@@ -717,7 +723,8 @@ def main():
         return 2
     text = path.read_text(encoding="utf-8")
     if args.dashboard:
-        print(dashboard(path, text, now, args.width, color, args.restored, args.restore_note))
+        print(dashboard(path, text, now, args.width, color, args.restored, args.restore_note,
+                        args.question_below))
         return 0
     print((compact if args.compact else render)(path, text, now, args.width))
     return 0

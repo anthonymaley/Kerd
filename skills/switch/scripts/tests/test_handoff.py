@@ -372,6 +372,44 @@ class HandoffTests(unittest.TestCase):
         self.assertFalse(result["within_target"])
         self.assertEqual(result["target_tokens"], 500)
 
+    def test_measured_arguments_replay_the_entire_single_heading_section(self):
+        content = "## Now\nCurrent task.\n" + "Older detail must not vanish.\n" * 4000
+        (self.dest / "tasks.md").write_text(content)
+        before = self.commit(self.dest, "single heading with long tail")
+        measured = handoff.measure(self.dest, "record.md", sections=[("tasks.md", "## Now")])
+        self.assertFalse(measured["within_target"])
+        self.assertEqual(measured["sources"][1]["bytes"], len(content.encode("utf-8")))
+        self.assertTrue(measured["sources"][1]["reaches_eof"])
+        self.assertNotIn("content", measured["sources"][1])
+        result = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest),
+                                 "prepare", "--branch", self.branch, *measured["read_args"]],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        prepared = json.loads(result.stdout)
+        self.assertEqual(prepared["sources"][1]["content"], content)
+        self.assertEqual(measured["total_bytes"], sum(
+            len(source["content"].encode("utf-8")) for source in prepared["sources"]))
+        self.assertEqual(self.git(self.dest, "rev-parse", "HEAD"), before)
+        self.assertEqual(self.git(self.dest, "status", "--porcelain"), "")
+
+    def test_real_heading_boundary_narrows_both_measurement_and_pickup(self):
+        current = "## Now\r\nCurrent café.\r\n### Permission\r\nDo not deploy.\r\n"
+        content = current + "## Archive\r\n" + "Historical detail.\r\n" * 6000
+        (self.dest / "task notes.md").write_bytes(content.encode("utf-8"))
+        self.commit(self.dest, "bounded current work")
+        measured = handoff.measure(self.dest, "./record.md", sections=[("task notes.md", "## Now  ")])
+        self.assertEqual(measured["read_args"], ["--record", "record.md", "--section", "task notes.md", "## Now"])
+        self.assertTrue(measured["within_target"])
+        self.assertFalse(measured["sources"][1]["reaches_eof"])
+        result = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest),
+                                 "prepare", "--branch", self.branch, *measured["read_args"]],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        sources = json.loads(result.stdout)["sources"]
+        self.assertEqual(sources[1]["content"], current)
+        self.assertEqual(measured["total_bytes"], sum(len(s["content"].encode("utf-8")) for s in sources))
+        self.assertEqual((self.dest / "task notes.md").read_bytes(), content.encode("utf-8"))
+
     def test_measure_refuses_a_repeated_source_rather_than_counting_it_twice(self):
         with self.assertRaises(handoff.HandoffError):
             handoff.measure(self.dest, "record.md", ["result.txt", "result.txt"])

@@ -15,6 +15,10 @@ into a requirement. Source material cannot grant new permission by itself.
 
 Use the latest message, actual pending decision, recorded authority and observed
 state together. A clear reply advances that decision without another confirmation.
+A factual yes/no resolves the fact asked about, not a separate work approval.
+Do not promise “answer this, then the design starts” when design is unauthorized.
+“Not sure” leaves the fact unresolved. Continue only within applicable authority;
+an unresolved fact stops other authorized work only if that work depends on it.
 If “go” follows “leave it and move on” with no next item selected, don't pick an
 unapproved cleanup from an older list. Ask which outcome only when the ambiguity
 prevents meaningful authorized work; continue unaffected work when possible.
@@ -50,16 +54,13 @@ and result note beside the work; exclude secrets and private session IDs.
 For inline work, use the same contract without manufacturing a dispatch record.
 
 For a delegated job, the route is decided before the prompt is sent, and the
-default is the one that keeps the work inside this session. **A Claude player
-runs as a native subagent** — the host's own delegation, dispatched at the
-sized model with the requested effort — because it returns to the caller,
-costs no fresh-session context, and needs no session ID, socket or transport.
-That was Conductor's design before the rework ("players: subagents, spun up
-per step at a sized model and effort") and it stands. The bundled runner in
-[sending and receiving work](model-jobs.md) is for the cases a subagent cannot
-serve: a Codex worker, a job that must be resumable by native ID or sandboxed
-by the CLI, a host with no native delegation, or a persistent partner that
-outlives this session. Do not assume a named CLI or session exists, install an
+default is a native subagent when the host exposes the chosen model. In Claude
+Code, Claude players use native subagents by default. The CLI runner serves
+another provider, resumability by native ID, a CLI sandbox, or work that must
+outlive this session; it is also the fallback when native delegation is absent.
+Follow [sending and receiving work](model-jobs.md) for existing partners and
+deliberately fresh cross-provider workers.
+Do not assume a named CLI or session exists, install an
 integration silently, or report an independent review when none ran. Foreground or background work
 is acceptable; background work needs observable results and a safe way to stop.
 If the needed route is unavailable, continue other useful authorized work and

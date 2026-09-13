@@ -60,6 +60,169 @@ sit unread) stand and are the reason the reading set is measured at every Out.
   or the per-window bullet mean resumes climbing — whichever comes first. Until
   one fires, this is an accepted cost, not an open task.
 
+## Closed 2026-09-12
+
+Verdicts from the closure review a native Opus 5 subagent returned on 2026-09-12
+(the first real Conductor session on 0.111.0; full table at
+`docs/work/model-ready-work/trials/2026-09-12-conductor-session-closure-review.md`).
+Three done, eight dead; the sixty open and two unsure rows stay in TODO.md. The
+hooks-verification row's open sub-finding was kept in TODO as its own row.
+
+**Verdict: done.** `71391f8` exists; `docs/product/gate-visuals.md:8,12` carry the resealed fingerprints the row names.
+
+- ~~**THREE sealed views are factually stale.**~~ **CLOSED 2026-08-29.**
+  `funnel-driver`'s two were resealed 2026-08-28 (`71391f8`); `gate-visuals`'
+  `visual-lifecycle.html` was corrected and resealed at its own acceptance gate
+  on 2026-08-29 (`fp:3ef85a6441d5` -> `fp:c4f3e8949191`, producer's eye), and
+  `design-gate-check.html` was found stale by cold eyes at the same gate and
+  resealed with it (`fp:ccbac6efdb93` -> `fp:d210312a9bec`). The rule the row
+  existed to enforce held throughout: each was redrawn at ITS OWN gate, never
+  from another slug's slice.
+
+**Verdict: done.** `hooks/hooks.json` present; `hooks/session-start.sh` builds the string; the row's three observations stand. Its open sub-finding stays in TODO as its own row.
+
+- ~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED 2026-08-13
+  ~16:40**, at this sitting's switch-in. Three confirming observations: the
+  cache carries 0.96.0 with `hooks/hooks.json`; neither `.claude/settings.local.json`
+  nor `~/.claude/settings.json` holds any Kerd hook wiring; and `📋 Last session:
+  2026-08-13` appeared at session start — a string built only by
+  `hooks/session-start.sh` (lines 39, 58, 63). Auto-load works and
+  `${CLAUDE_PLUGIN_ROOT}` resolves at runtime with zero per-repo wiring.
+  **Note for `docs/product/hooks-autoload.md`:** its risk ledger still calls
+  this open, and its acceptance test quotes the rendered string `Last session`
+  when the source literal is lowercase — a grep for the documented string
+  returns nothing and reads as "the hook didn't fire".
+
+**Verdict: done.** `find ~/development/work/krutho-strategy -maxdepth 4 -name 'sessions-of-record*'` returns nothing; the directory is gone.
+
+- Clean krutho-strategy's stray `sessions-of-record/`.
+
+**Verdict: dead.** The composer was removed at 0.107.0 (`21e6779`; `grep -rni composer skills/` is empty). Artifact half verified fixed: 0 absolute home paths, 21 `rev-parse --show-toplevel` in the 2026-09-01 spec.
+
+- **The composer emits hard-coded absolute repository paths, and a cold review
+  pass does not catch them** (measured 2026-09-01 on the
+  `requirements-success-measurement` spec). Pass 1 produced 24 of them
+  (`/Users/anthonymaley/development/product/Kerd`), the dedicated cold-review
+  pass read the whole spec and missed every one, and the amendment inherited
+  them and added two more — 26 at review. **This is the same defect handed back
+  to the composer on 2026-08-28**, when a reviewer's host had the repo at
+  `~/Kerd` and the score assumed this one; it is therefore reproduced, not
+  new. A player on another machine, or in a git worktree, follows the score to
+  the wrong tree. Fixed in place this time on the producer's call (mechanical,
+  no judgment): every block now derives `repo_root=$(git rev-parse
+  --show-toplevel)`. **The countermeasure is a brief clause, not a fix:** the
+  composer dispatch should forbid absolute paths outright, and the cold-review
+  brief should name them as a hunt target. Neither is written down anywhere
+  today, which is why the same defect arrived twice.
+
+**Verdict: dead.** Same composer removal (`21e6779`). Artifact half fixed: the spec's verify chain uses `test … -eq 0`.
+
+- **`grep -c` in a fail-fast verify chain fails exactly when it should pass**
+  (found 2026-09-01, second instance). The spec's final step ended
+  `&& grep -c "^- \[ \] " <spec>` to prove zero unchecked boxes — and `grep -c`
+  exits 1 on zero matches, so the `&&` chain aborted on the desired answer.
+  Corrected to an exit-safe count (`awk` then `test -eq 0`), tested both ways.
+  **Also handed back on 2026-08-28** as one of the same three sibling score
+  defects. Two of those three have now recurred, which says the 2026-08-28
+  findings were fixed in the artifact and never in the process that produces it.
+
+**Verdict: dead.** Same composer removal (`21e6779`). Artifact half fixed by `528ca88`; cross-step invalidation marked in the spec.
+
+- **A spec writes the CONSEQUENCE of an open question as settled fact, so
+  answering the question falsifies prose elsewhere in the document** (measured
+  2026-09-01, twice in one sitting, on the
+  `requirements-success-measurement` spec). Step 5's `categories.md` rewrite was
+  written assuming `MSC` would be another requirement category, and ruling 1
+  falsified it — its own override clause covers only item 1, so items 2 and 3
+  stand as written and contradict the ruling. Step 4 stated that a machine
+  comparison was *"feasible only under Step 2's ruling (a)"*, and ruling 2 took
+  (b) — but the premise was already wrong on its own terms: `kit.py:892` globs
+  and parses acceptance records today, so the option was **relocated, not
+  eliminated**, and would have been silently dropped by anyone reading the spec
+  literally. **Same family as the hard-coded-path and `grep -c` rows above: a
+  countermeasure that is a brief clause nobody has written down.** The clause:
+  a spec whose steps depend on an unanswered gate must mark those cross-step
+  dependencies explicitly, so keying a gate names what it invalidates instead of
+  leaving it to be found one gate at a time. Not fixed here — carried into the
+  composer hand-back for this item, which is not the same as fixing the process.
+
+**Verdict: dead.** Its named home, Conductor's "Calling the composer" section, no longer exists; the intent survives at `skills/conductor/references/execution.md` ("Finish the outcome").
+
+- **The three composer-brief clauses need a DURABLE home in
+  `skills/conductor/SKILL.md` — the producer's ruling, 2026-09-01: two places at
+  two times.** *Now* they are explicit acceptance conditions in tonight's
+  composer brief (done — dispatched this sitting). *Later*, as **its own scoped
+  skill-behaviour change — not inside `requirements-success-measurement`** — they
+  land in the composer-brief section (`skills/conductor/SKILL.md:226-249`,
+  "Calling the composer" / what the brief carries), **with verification that a
+  future score actually carries all three.** The three, as he worded them: every
+  repository path derives from `git rev-parse --show-toplevel` · zero-match
+  checks remain successful when zero is the expected result · consequences of
+  unresolved producer gates are expressed as dependencies or branches, never as
+  settled facts.
+  **Why this is High and not Medium: it is the generator fix for the three rows
+  above, and the defect has now survived being fixed twice.** Two of the three
+  sibling score defects handed back on 2026-08-28 came back on 2026-09-01,
+  because the correction was written into the artifact and never into the thing
+  that produces artifacts. The session log's own insight states the mechanism —
+  *a finding fixed in the artifact and not in the generator is a finding that
+  will arrive again* — and this is its measured proof. **Verified 2026-09-01:**
+  `grep -rn "absolute path\|hard-coded path\|rev-parse --show-toplevel" skills/`
+  returns **zero**, so nothing in any skill forbids absolute paths, names them as
+  a cold-review hunt target, or requires cross-step dependencies to be marked.
+  **Sizing note:** this is a real skill-behaviour change, so it carries the full
+  release checklist (version in three locations, README, trigger description) —
+  which is exactly why the producer refused to fold it into tonight's sitting,
+  per the 2026-08-27 ruling that bumps are not for corrections inside one
+  unfinished item. **Cold-review brief is a second surface** and may need the
+  same clause: the dedicated cold-review pass read the whole spec on 2026-09-01
+  and missed all 24 hard-coded paths — *a reviewer hunting meaning does not see
+  form*, which argues the two hunts are separate briefs.
+
+**Verdict: dead.** The marker was removed at 0.107.0 (`21e6779`); `docs/state-contract.md:11` records the removal.
+
+- **The conductor marker cannot carry a sitting's open time, and 2026-08-23 is
+  the second and worse instance — the diagnosis is now broader than "planning
+  twice".** First bite (2026-08-22): re-entering `plan` overwrote the `execute`
+  stamp. Second bite (2026-08-23): the session ran ~08:44–12:17 almost entirely
+  in `plan` — a design conversation carried by drawings — so `execute` stamped
+  at **12:17**, fourteen minutes before close. Handing that over as the sitting's
+  open time would have labelled a four-hour session as fourteen minutes. **The
+  real defect: the marker holds one line, so it can only ever report the LAST
+  phase, while the open time is a property of the FIRST.** Any design-heavy
+  session reproduces this, planning once or twice. Two candidate fixes, neither
+  chosen: keep a separate never-overwritten `opened` stamp, or have the boundary
+  derive the open side from the session's first machine-written timestamp rather
+  than from the marker at all. Owner: conductor's mode-marker section + switch's
+  sitting-heading rule. **SIXTH instance 2026-08-25 at ~14 minutes, the smallest yet** (switch-in
+  12:13, `execute` stamped 12:27). **FIFTH instance 2026-08-25, ~26
+  minutes** (switch-in 07:46, `execute` stamped 08:12) — small because execute
+  was reached early. The measured spread is now 14 min · 26 min · 66 min · 157
+  min, which shows the defect scales with how long the planning phase runs, not
+  with anything random. **SEVENTH instance 2026-09-09, and a new failure mode:
+  six DAYS, not minutes.** No conductor ran that session at all, yet
+  `kivna/.active-modes` still held `conductor: plan @ 2026-09-03 23:59 EDT` — the
+  parked schema-split marker — so switch-out's fallback ("use the stamp on the
+  `conductor:` line still in `.active-modes`, if one is there") pointed at a
+  marker from a previous *session*, not a previous phase. The boundary wrote
+  `closed HH:MM` instead. **This widens the diagnosis a second time:** the marker
+  cannot report the first phase (the 2026-08-23 finding), and it cannot report
+  *whether it belongs to this sitting at all*. A staleness guard is needed
+  regardless of which of the two candidate fixes is chosen.
+
+**Verdict: dead.** `hooks/stop.sh` was cut at v0.96.0 (`2146925`, "Ship hooks via plugin auto-load; cut stop.sh").
+
+- **Stop-hook over-prescription**: distinguish work-dirty from
+  session-state-dirty at a real stopping point.
+
+**Verdict: dead.** Its reason is gone: `skills/tend/SKILL.md:207` says the hook path never version-rots (v0.96.0, `2146925`).
+
+- Hook version staleness check in `/kerd:tend`.
+
+**Verdict: dead.** Switch was replaced at 0.107.0 (`21e6779`); the numbered steps and the smoke test no longer exist.
+
+- Guard switch-in step 3 smoke test against context bloat.
+
 ## Retained position, 2026-09-03
 
 Moved verbatim from `CONTEXT.md` `## Where We Are` on 2026-09-11; it was a position

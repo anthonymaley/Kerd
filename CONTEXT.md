@@ -6,47 +6,50 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Kerd is released and being tightened in ordinary use — 2026-09-11, late.**
-On `origin/main`: 0.107.0 (Conductor and Switch replaced, Visuals added),
-0.108.0 (Agent, Switch In restore-and-stop), 0.109.0 (Agent reaches the Codex
-TUI by `codex queue`, Conductor's players native subagents again), 0.110.0
-(Switch In opens a Conductor session and stops on one approval line; NOW block
-on the dashboard) and 0.110.1 (the fifteen findings of the Fable skill review,
-report and dispositions at
-[the review record](docs/work/model-ready-work/trials/2026-09-11-fable-skill-review.md)).
-0.111.0 — Switch Out's lean-start step, the `measure` helper, and this file's
-first migration — is the sitting in progress; its boundary is named by branch
-and this record, `git log` supplies the commit.
+**0.112.0 is released and 0.113.0 is prepared for publication — 2026-09-12,
+late.** On `origin/main`: 0.107.0 through 0.111.0, then 0.112.0 (branch
+`main`, subject "One arrival, one decision; the saved-place box returns":
+one arrival with the decision in YOU, the Out saved-place box, Codex's five
+follow-up fixes). 0.113.0 — the Codex core package (Conductor, Switch,
+Visuals, Agent from one source, no legacy skills or hooks), measured reading
+selections (`read_args`, `reaches_eof`), and the pickup clarifications — was
+reviewed by both sessions and Anthony said "okay lets release"; Codex owns that
+save, so it is not remote-verified as this line is written. Locate the boundary
+by branch `main` and Codex's release subject, not by a hash written here.
 
-The plugin cache on this machine held 0.109.0 when the sitting opened; later
-versions arrive on the next ordinary startup, not verified.
+**Records:** [the Codex package record](docs/work/codex-plugin/work.md)
+(package, install, reviews, live checks);
+[the release-111 spec](docs/work/release-111-followup/spec.md) and
+[the Out-box review](docs/work/release-111-followup/out-box-review.md);
+[the closure-review trial](docs/work/model-ready-work/trials/2026-09-12-conductor-session-closure-review.md).
 
-**Owed, none a build:** re-run Agent's Codex TUI route on the current release
-when Codex has tokens (request `a7ef1375` and the vault bridge's requests are
-still queued there; retrieve with `status`, never resend); one real Conductor
-session on the current release, confirming a Claude player is dispatched as a
-native subagent rather than through `ask.py`; confirm the cache picks up
-0.111.0. The candidate track's consolidation list
-(`docs/work/model-ready-work/consolidation.md`) is superseded for Switch by the
-releases; its continuation and visibility gaps stay open as ordinary-use
-observations, not tasks.
+**Installed state, not to be overclaimed:** the local Codex user installation
+is an older generated 0.113.0 snapshot that predates the pickup corrections;
+it needs an explicit refresh before those are tested. The Claude installation
+was not changed; this machine's plugin cache held 0.111.0 at midday.
 
-**Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
-the root (2026-09-09). Name it with `--preserve` at every save; it is not a
-pattern or an ignore entry.
+**Owed, none a build:** the live checks in TODO `## Now` — a fresh Codex
+session on the refreshed snapshot, a fresh Claude pickup on a released build,
+the behavioural clarification scenario run by a model — and recording today's
+three product rulings in `docs/decisions.md`. The Agent TUI route re-run owed
+since 0.109.0 is met: two Codex reviews came back by `codex queue` today.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
 `gate-reachability` refusing at viability on row 2, the four exposed
-fatal/accepted risks, then the `agent-request` pilot. The detail lives in
-TODO.md under "Earlier launch sequence — retained pending reconciliation" and
-in `kivna/sessions/2026-09-03.md`; the 2026-09-03 position paragraph that used
-to sit here moved verbatim to `docs/backlog-archive.md` under “Retained position, 2026-09-03”.
+fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
+"Earlier launch sequence — retained pending reconciliation" and in
+`kivna/sessions/2026-09-03.md`.
 
-**Pickup reading set** (Switch Out, 2026-09-11): this file complete;
-`TODO.md` `## Now`; `kivna/sessions/2026-09-11.md` complete. Add
-`docs/work/model-ready-work/trials/2026-09-11-fable-skill-review.md` only when
-acting on the review. Measured reading: 23,482 bytes, about 5,871 tokens estimated at four bytes each (not a tokenizer reading), against the 8,000 target — within target. Before the move the pointer alone was 216,391 bytes at 0.110.1.
+**Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
+the root (2026-09-09). Name it with `--preserve` at every save.
+
+**Pickup reading set** (Switch Out, 2026-09-12): this file complete;
+`TODO.md` `## Now`; `kivna/sessions/2026-09-12.md` complete. Add
+`docs/work/codex-plugin/work.md` only when acting on the Codex package.
+Helper arguments: `--record CONTEXT.md --file kivna/sessions/2026-09-12.md --section TODO.md "## Now"`.
+Measured reading: 18,552 bytes, about 4,638 tokens estimated at four bytes each (not a
+tokenizer reading), against the 8,000 target — within target.
 
 ## Key Decisions
 

@@ -35,11 +35,14 @@ next action, otherwise the first NOW item; if neither exists, show no selected
 task and stop without inventing one. Preserve its scope: an unresolved design
 means designing, not a new grant to build or deploy. Put **“Starting on X —
 approve?”** in the dashboard's YOU box using its existing `question` fields;
-a saved pending question replaces it, with its proposed answer. STATE and THIS
+a saved pending question replaces it, with its proposed answer. A factual
+clarification is not approval: answering it resolves that fact only, not permission
+for the proposed next work. STATE and THIS
 SESSION must agree with YOU: this sitting's action is proposed while awaiting
 approval, even if the wider plan was already agreed. Never say “nothing needed”
 while asking for an answer elsewhere. If the host requires a plain-text question,
-put scope in YOU and ask once immediately below it instead.
+put scope in YOU and ask once below the frame instead; Switch's renderer offers
+`--question-below`. Do not repeat the question after either presentation.
 
 This deliberate arrival check-in is the one exception to reusing an unchanged
 approval. Do not create or update work records, launch workers or execute the

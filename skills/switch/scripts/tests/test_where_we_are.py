@@ -431,6 +431,69 @@ class DashboardTests(unittest.TestCase):
                     self.assertLessEqual(display_columns(line), w)
 
 
+class QuestionPlacementTests(unittest.TestCase):
+    """Presentation checks, not proof that a model interprets authority correctly."""
+
+    def summary(self):
+        return {
+            "task": "Design the next change",
+            "state": "Factual clarification pending; design not authorized",
+            "this_session": "Clarify the conflicting reports. Design still needs approval.",
+            "question": {"text": "Did you see the preview?",
+                         "proposed": "The notes disagree; neither establishes what you saw.",
+                         "reply": "Yes / No / Not sure"},
+            "warnings": ["The log records a claim, not independent observation."],
+            "source": "Current work and delivery notes",
+        }
+
+    def test_default_question_is_once_inside_you(self):
+        out = view.render_dashboard(self.summary(), NOW, color=False)
+        self.assertEqual(out.count("Did you see the preview?"), 1)
+        self.assertIn("Did you see the preview?", out.split("YOU", 1)[1].split("╰", 1)[0])
+
+    def test_question_below_is_once_outside_you_and_preserves_qualifications(self):
+        for width in (50, 78, 100):
+            out = view.render_dashboard(self.summary(), NOW, width, False, question_below=True)
+            self.assertEqual(out.count("Did you see the preview?"), 1)
+            self.assertNotIn("Did you see the preview?", out.split("YOU", 1)[1].split("╰", 1)[0])
+            self.assertTrue(out.endswith("Did you see the preview?"))
+            self.assertNotIn("Nothing needs you", out)
+            plain = flatten(out.replace("│", " "))
+            self.assertIn(self.summary()["this_session"], plain)
+            self.assertIn(self.summary()["warnings"][0], plain)
+            self.assertIn(self.summary()["question"]["proposed"], plain)
+            for line in out.splitlines():
+                self.assertLessEqual(display_columns(line), width)
+
+    def test_question_below_without_question_does_not_invent_one(self):
+        out = view.render_dashboard({}, NOW, color=False, question_below=True)
+        self.assertIn("Nothing needs you right now.", out)
+        self.assertNotIn("question below", out)
+
+    def test_summary_cli_places_question_below(self):
+        import json
+        import subprocess
+        result = subprocess.run([sys.executable, str(SCRIPT), "--summary", "-",
+                                 "--question-below", "--no-color"],
+                                input=json.dumps(self.summary()), text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.count("Did you see the preview?"), 1)
+        self.assertTrue(result.stdout.rstrip().endswith("Did you see the preview?"))
+
+    def test_record_cli_places_question_below(self):
+        import subprocess
+        import tempfile
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "work.md"
+            path.write_text("# Preview\n\n## Now\n\nPending question: Did you see the preview?\n", encoding="utf-8")
+            result = subprocess.run([sys.executable, str(SCRIPT), "--record", str(path),
+                                     "--dashboard", "--question-below", "--no-color"],
+                                    text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.count("Did you see the preview?"), 1)
+        self.assertTrue(result.stdout.rstrip().endswith("Did you see the preview?"))
+
+
 class NothingFirstTests(unittest.TestCase):
     """A record writes "none." and then explains why. The word is the answer;
     the explanation is not a task."""
@@ -773,6 +836,12 @@ class ClosingBoxTests(unittest.TestCase):
     def test_a_committed_but_unpushed_save_says_so_in_words(self):
         out = view.render_closing(self.base(saved="committed"), NOW, 80, False)
         self.assertIn("not verified on the remote", flatten(out))
+
+    def test_confirmed_save_hint_does_not_assume_a_claude_slash_command(self):
+        out = flatten(view.render_closing(self.base(), NOW, 80, False))
+        self.assertIn("start a new conversation in your client", out)
+        self.assertIn("then ask Kerd to switch in", out)
+        self.assertNotIn("/clear", out)
 
     def test_local_only_leftovers_and_a_dirty_tree_are_named_not_hidden(self):
         out = view.render_closing(self.base(tree="2 unassigned changes left, not saved",

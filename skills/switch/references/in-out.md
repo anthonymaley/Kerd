@@ -40,6 +40,9 @@ because that collision is a real decision. Unnamed changes still stop a pickup.
 
 The start point names a **pickup reading set** — the exact files and complete
 sections Out chose for this next action (see "Leave a lean start point" below).
+When the handoff includes the helper's `read_args`, use those exact file/heading
+selections, not a broader paraphrase. They are arguments to `prepare` (with the
+current project and branch supplied), or the boundaries for reading normally.
 Read those first, in full, and nothing else by default. It is a saved navigation aid, not a ban on further reading: check linked
 detail when a contradiction or the next action requires it. Where the host can
 assemble those named sources before starting the fresh worker, use `prepare`
@@ -142,6 +145,9 @@ failed synchronization or restriction still appears on screen.
 
 An **Insight** is optional: one source-grounded learning, implication or tradeoff
 in its own callout — never compulsory, never a hidden question.
+A log preserves a reported claim; it does not prove someone observed the event.
+Missing logs do not make verification impossible, and reconstructing a log does
+not resolve conflicting claims. Keep the uncertainty visible or omit the Insight.
 
 ```text
 ★ Insight ─────────────────────────────────────────
@@ -160,6 +166,11 @@ resolved relative to this skill so it travels with the package:
 ```sh
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary -
 ```
+
+The question appears once inside YOU by default. Where the host requires a
+plain-text question outside the panel, add `--question-below`: YOU keeps the
+context and the renderer places the question once after the frame. Do not
+append another question yourself. The same flag works with `--record ... --dashboard`.
 
 `$summary` is the shape below, filled from what pickup already read. **Copy it
 from here; do not open the script to work out the keys.** The example is one
@@ -290,6 +301,21 @@ order, each leaving a reachable link behind:
    another (`--target`). Over target is information: prune further under the
    rules above, or record why the set must stay larger. It never blocks a save.
 
+   Save the returned `read_args` array beside that measurement in the existing
+   start point. It is the exact selection to reuse at In, not another manifest.
+   For the example above it is:
+   `["--record", "CONTEXT.md", "--file", "kivna/sessions/<date>.md", "--section", "TODO.md", "## Now"]`.
+   Measure and prepare resolve these arguments through the same selector. Never
+   measure an excerpt then hand off its containing file or section. Each source
+   reports its byte count and `reaches_eof`. Complete files always reach EOF;
+   for a section, true means no later same-level or higher-level heading ends
+   the selection: a lone `## Now` includes the entire remainder, not just the
+   first task. If that is too broad, give the intended
+   block a real heading boundary (preserving the history), select it and measure
+   again; do not substitute a smaller estimate or silently truncate the read.
+   Re-measure changed selections or source content; a previous reading is not a
+   size guarantee for edited files. Keep findings archives available on demand.
+
 The first run on a legacy pointer is a migration: keep a recoverable original
 (the move itself, in Git, plus a dated note in the session log), reconcile any
 conflicting current claims, and say what was not reconciled. Do not apply the
@@ -370,7 +396,7 @@ The box distinguishes saved locally, committed and remote-verified in words,
 names local-only leftovers and an unclean tree rather than hiding them, and
 ends by saying the session is still open with the free-context hint. It never
 says the session exited or the context was cleared: a save is a Git fact, and
-only the person's `/clear` changes what is on screen. If the renderer cannot
+starting fresh context is a separate action in the person's client. If the renderer cannot
 run, say the same things as plain text.
 
 ## Default verified save when pushing is authorized
