@@ -465,6 +465,99 @@ class Agent:
             owned(path, stat.S_ISDIR)
         return self.state / name
 
+    def identity(self, provider):
+        """Corroborate the current tool process's host ID; never infer newest."""
+        variable = {'claude': 'CLAUDE_CODE_SESSION_ID', 'codex': 'CODEX_THREAD_ID'}[provider]
+        sid = os.environ.get(variable)
+        if not sid:
+            raise Unavailable('Current session identity unavailable: ' + variable)
+        target = live_target(self.root, provider, identifier(sid))
+        return {**target, 'identity_source': variable, 'self': True}
+
+    def binding_path(self, alias):
+        # Reading or refusing a missing binding must not create a store.
+        path = self.state / 'partners' / (alias_name(alias) + '.json')
+        owned(self.state, stat.S_ISDIR)
+        owned(path.parent, stat.S_ISDIR)
+        owned(path, stat.S_ISREG)
+        return path
+
+    def checked_binding(self, path, provider):
+        prior = read_json(path)
+        if not isinstance(prior, dict) or prior.get('provider') != provider:
+            raise ValueError('Binding provider mismatch')
+        if prior.get('alias') != path.stem or not isinstance(prior.get('project'), str):
+            raise ValueError('Invalid binding metadata')
+        if not same_project(prior['project'], self.root):
+            raise ValueError('Binding belongs to another project')
+        if not isinstance(prior.get('id'), str):
+            raise ValueError('Invalid binding session ID')
+        identifier(prior['id'])
+        return prior
+
+    def handoff_record(self, record):
+        if not isinstance(record, str) or not record:
+            raise ValueError('Name the saved handoff record')
+        path = (self.root / record).resolve()
+        if not path.is_relative_to(self.root) or not belongs_to_project(path.parent, self.root):
+            raise ValueError('Handoff record must belong to this project')
+        owned(path, stat.S_ISREG)
+        data = path.read_bytes()
+        if not data.strip():
+            raise ValueError('Handoff record is empty')
+        return {'record': str(path.relative_to(self.root)),
+                'sha256': hashlib.sha256(data).hexdigest()}
+
+    def handoff(self, provider, alias, record=None, cancel=False):
+        current = self.identity(provider)
+        path = self.binding_path(alias)
+        evidence = None if cancel else self.handoff_record(record)
+        with locked(path.with_suffix('.lock')):
+            prior = self.checked_binding(path, provider)
+            if prior['id'] != current['id']:
+                raise ValueError('Only the bound current session can prepare its handoff')
+            if prior.get('owned'):
+                raise ValueError('Owned launch partners cannot prepare external replacement')
+            if cancel:
+                if 'handoff' not in prior:
+                    return prior
+                prior.pop('handoff')
+            else:
+                prior['handoff'] = {**evidence, 'from_session': current['id'],
+                                    'prepared_at': time.time()}
+            atomic_json(path, prior)
+            return prior
+
+    def adopt(self, provider, alias, expected_session, record=None, confirm=False):
+        identifier(expected_session)
+        current = self.identity(provider)
+        path = self.binding_path(alias)
+        with locked(path.with_suffix('.lock')):
+            prior = self.checked_binding(path, provider)
+            if prior['id'] != expected_session:
+                raise ValueError('Binding changed; current session is ' + prior['id'])
+            if prior['id'] == current['id']:
+                return prior  # Byte-preserving no-op, including metadata.
+            if prior.get('owned'):
+                raise ValueError('Owned launch partners cannot be replaced by an external session')
+            if not confirm:
+                permit = prior.get('handoff')
+                if not record or not isinstance(permit, dict):
+                    raise ValueError('Replacement needs a prepared handoff or explicit user selection')
+                evidence = self.handoff_record(record)
+                if (permit.get('from_session') != expected_session or
+                        any(permit.get(k) != v for k, v in evidence.items())):
+                    raise ValueError('Handoff changed or does not designate this binding')
+            # No launch settings/ownership migrate. Requests already store their
+            # exact target IDs and are deliberately not touched by replacement.
+            successor = {'alias': alias, 'provider': provider, 'id': current['id'],
+                         'project': str(self.root),
+                         'previous': {'id': prior['id'], 'replaced_at': time.time()}}
+            if 'partner_role' in prior:
+                successor['partner_role'] = prior['partner_role']
+            atomic_json(path, successor)
+            return successor
+
     def list(self):
         sessions, unavailable = [], {}
         for provider, discover in (('claude', claude_sessions), ('codex', codex_sessions)):
@@ -809,6 +902,22 @@ def main():
     parser.add_argument('--project', default='.', help='Project directory (default: current directory)')
     sub = parser.add_subparsers(dest='action', required=True)
     sub.add_parser('sessions', help='List discoverable project sessions and saved local partners')
+    identity = sub.add_parser('identity', help='Read and corroborate this host session ID; no writes or dispatch')
+    identity.add_argument('--provider', choices=['claude', 'codex'], required=True)
+    handoff = sub.add_parser('handoff', help='Prepare or revoke this bound session\'s private role handoff')
+    handoff.add_argument('--provider', choices=['claude', 'codex'], required=True)
+    handoff.add_argument('--alias', required=True)
+    handoff_mode = handoff.add_mutually_exclusive_group(required=True)
+    handoff_mode.add_argument('--record', help='Final saved handoff file in this project')
+    handoff_mode.add_argument('--cancel', action='store_true', help='Revoke a prior handoff designation')
+    adopt = sub.add_parser('adopt', help='Keep this session or adopt an explicitly designated existing role')
+    adopt.add_argument('--provider', choices=['claude', 'codex'], required=True)
+    adopt.add_argument('--alias', required=True)
+    adopt.add_argument('--expected-session', required=True, help='Exact currently bound UUID, never latest')
+    adoption = adopt.add_mutually_exclusive_group()
+    adoption.add_argument('--record', help='Prepared handoff file already restored by Switch In')
+    adoption.add_argument('--confirm-replacement', action='store_true',
+                          help='Use only after the person explicitly selects this role replacement')
     start = sub.add_parser('start', help='Launch a fresh worker or persistent partner with its first job',
                           description='Launch a fresh worker or persistent partner; read-only unless --write. '
                           'Workers return their own runner for status/wait; partners use this helper.')
@@ -843,6 +952,13 @@ def main():
         agent = Agent(args.project)
         if args.action == 'sessions':
             result = agent.list()
+        elif args.action == 'identity':
+            result = agent.identity(args.provider)
+        elif args.action == 'handoff':
+            result = agent.handoff(args.provider, args.alias, args.record, args.cancel)
+        elif args.action == 'adopt':
+            result = agent.adopt(args.provider, args.alias, args.expected_session,
+                                 args.record, args.confirm_replacement)
         elif args.action == 'start':
             result = agent.start(args.provider, args.kind, args.alias, args.prompt_file,
                                  args.role, args.model, args.effort, args.write, args.partner_role)

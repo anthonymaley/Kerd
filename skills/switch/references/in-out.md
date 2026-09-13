@@ -121,6 +121,31 @@ including pending-question, explicit-continuation and no-task cases. Do not
 append a second report or approval after the dashboard. Managed
 To/Roll is the exception and keeps its agreed continuation.
 
+If collaboration is already established, restore it too. Resolve the local
+pairing directory with `git rev-parse --git-path kerd-agent/partners` in the
+current project; if it exists, read its binding metadata, not request archives
+or transcripts. Use only bindings for this project; malformed or conflicting
+metadata is unresolved, not a reason to guess a peer. The directory is local to
+this Git worktree, not shared with linked worktrees or transferred by Git.
+With an existing binding, retain the sibling [Agent](../../agent/SKILL.md) as
+the route for later contributions; load its full instructions when a contribution
+is requested, not merely to display a pairing. Retain the exact
+provider, alias, session ID and recorded ongoing role privately in context.
+First compare the actual host's session variable (`CLAUDE_CODE_SESSION_ID` or
+`CODEX_THREAD_ID`) with the bindings, and look for a `handoff` designation.
+Only when an ID matches or a designation exists, read the short
+[succession guide](../../agent/references/session-succession.md) and check its
+verified identity. Same ID keeps the binding; an authorized successor uses its
+prepared handoff or explicit selection. Only this private routing update is
+permitted during In, never a project repair or plan execution.
+This restores routing, not a running job or a Conductor mode. Do not discover,
+contact or resume other peers during In merely to validate a binding.
+Availability stays unverified until Agent checks the selected target for work.
+Missing roles stay undefined; ambiguous bindings remain a choice when a
+contribution is requested. No binding means no Agent setup question during In.
+Show a brief recorded pairing/role note when relevant, not private IDs in the
+project's saved records or another dashboard panel.
+
 ### Welcome back: the screen summary
 
 After restoration, orient before detail. Five short blocks, worded for the project:
@@ -466,6 +491,13 @@ the working tree after the save, in words. `next` is the exact next action the
 start point names, `reading_set` the files and sections it names, `measured`
 the helper's `measure` reading. Use `null` or `[]` for anything Out has nothing
 for; a missing field renders as "not recorded", never as a claim.
+
+After the final save, if this session has an established role and the handoff is
+ready, prepare that role's private continuation under the
+[succession guide](../../agent/references/session-succession.md) before showing
+the closing box. Do not create a role or transfer another session's role here.
+Failure affects automatic pairing recovery, not the Git save verdict; name it
+in the closing next action. No session is ended by preparing its handoff.
 
 ```json
 {

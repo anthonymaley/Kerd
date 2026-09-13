@@ -16,6 +16,7 @@ the Agent skill loaded; the Claude slash command is not a universal Codex comman
 | Ask the established partner | “Ask Claude to review, RO” |
 | Keep a pairing partner | “Pair with Codex on this” |
 | Define an ongoing role | “Use Claude as the implementation partner and Codex as reviewer” |
+| Continue a role in a new session | “This session takes over the Claude reviewer role” |
 | Get a fresh perspective | “Start a fresh Claude reviewer” |
 | Start an ongoing conversation | “Start a Codex pairing partner” |
 | Follow up | “Ask Claude to recheck the fix” |
@@ -76,6 +77,14 @@ Native IDs, aliases and raw exchanges stay private in local Git metadata.
 The project summary does not mean every listed session has read it, and moving
 it to another machine does not re-establish pairing. No second session tracker
 or automatic native-title rename is required.
+
+After a clear or restart, Kerd checks the actual native ID. Same ID keeps the
+binding. A new session can adopt the same role from its designated saved handoff,
+or from your explicit selection if no designation exists. Old requests stay
+with their original sessions; a competing replacement or an ambiguous role is
+shown rather than overwritten. Out prepares only its own role, after the final
+handoff is saved. This is local routing, not a launch or work approval. See
+[session succession](session-succession.md) for the helper commands and limits.
 
 ## Which kind of session?
 

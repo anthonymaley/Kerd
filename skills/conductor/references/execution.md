@@ -34,6 +34,26 @@ safety issue. An explicit reversal request still needs its exact scope resolved.
 
 ## Prepare and do the next useful job
 
+At delivery start, or when resuming without a settled split, decide who does the
+implementation before doing it all inline. Reuse settled assignments. Look for
+bounded contributions a worker or an established partner with that role can finish
+and check, using relevant context already held where appropriate.
+Delegate useful independent work when the route and authority permit it; don't
+reserve delegation for the final review. Keep small or tightly coupled changes
+inline when briefing, coordination and integration would cost more than they help.
+Consider context transfer, latency and token cost, not agent count. No worker quota
+or fresh-session launch merely to demonstrate delegation.
+
+For a meaningful split, show each contribution's owner, edit boundary and expected
+result in the existing work view. Give parallel editors disjoint ownership;
+serialize shared-file changes. The controller owns integration and its evidence;
+independent review stays as below. Do useful complementary work while contributors
+run, without duplicating their assignment or manufacturing work to stay busy.
+If staying inline, give the brief practical reason in the starting update, not a
+new staffing document or approval stop. Reassess the split when dependencies,
+scope or available routes change, not on every turn. A blocked delegation does not
+stop useful authorized inline work or permit a forbidden fallback.
+
 Choose a bounded contribution that advances the agreed outcome. Resolve routine
 method choices from facts and the recorded direction. Ask only when there is no
 sound basis or a choice materially changes outcome, experience, quality or scope.

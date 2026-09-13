@@ -44,6 +44,11 @@ so an unavailable target cannot be re-paired just to change its role. The per-jo
 `--role` remains separate. `sessions` returns the role in `partners`; it does not
 infer roles for unpaired sessions. No tracked roster or permissions change.
 
+For a session taking over an established role after Out/In, use
+[session succession](session-succession.md): `identity`, `handoff`, and `adopt`
+reuse the private binding, with explicit expected-old-ID replacement. Ordinary
+`pair` still refuses a conflicting identity and discovery never replaces it.
+
 For a new session, supply its first real contribution rather than a paid greeting:
 
 ```sh

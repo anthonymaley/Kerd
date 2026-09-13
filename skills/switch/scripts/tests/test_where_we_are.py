@@ -970,6 +970,29 @@ class MarkdownTests(unittest.TestCase):
         self.assertNotIn(question, you)
         self.assertIn(summary["question"]["proposed"], you)
 
+    def test_long_arrival_lines_retain_their_qualifying_endings(self):
+        summary = self.arrival(
+            now=["Owed: read the device settings, report the build and its differences; "
+                 "retire interim fields only after a separate migration decision."],
+            warnings=["The installed snapshot was last reported stale at the previous "
+                      "closeout and was not rechecked during this pickup.",
+                      "Playback on real shares needs approval every occasion; "
+                      "anything needing the person at a TV is asked first."],
+            insight="The arrival records delivery, but the person's experience verdict "
+                    "remains theirs to supply; it is never self-awarded.",
+            source="CONTEXT.md ## Where We Are, ## Working Constraints, ## Open Questions, "
+                   "## Active Mode; TODO.md ## Now; last session log; git status")
+        import json, subprocess
+        for width in (40, 64, 100):
+            result = subprocess.run(
+                [sys.executable, str(SCRIPT), "--summary", "-", "--markdown",
+                 "--width", str(width)], input=json.dumps(summary),
+                text=True, capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            visible = self.visible(result.stdout)
+            for value in summary["now"] + summary["warnings"] + [summary["insight"], summary["source"]]:
+                self.assertIn(value, visible)
+
     def test_unknowns_and_timestamp_warnings_are_not_lost(self):
         out = view.render_dashboard({}, NOW, markdown=True)
         self.assertNotIn("SESSION RESTORED", out)

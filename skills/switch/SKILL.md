@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor and presents a compact completion dashboard with NOW and one arrival decision. Out coordinates contributing sessions into one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing context and designated role continuity without contacting peers, and presents a compact completion dashboard with NOW and one arrival decision. Out coordinates contributing sessions into one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -70,6 +70,10 @@ that place as the guide's [handover](references/in-out.md#load-conductor-before-
 describes. Conductor composes the dashboard's one decision and waits; its
 SKILL.md In paragraph is the full rule. The approval, or an explicit request to continue, is what starts work;
 managed To/Roll keeps its agreed continuation. Loading is not build authorization.
+Retain existing local Agent pairing context as that guide describes; load Agent
+when a contribution is requested. The short succession guide permits verifying
+this session's ID and adopting its designated role in private metadata, not
+probing or contacting other peers or starting project work at In.
 
 Keep pickup selective and explicit: fully read the chosen current working set,
 then relevant historical entries as needed. Don't silently truncate records or

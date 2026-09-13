@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles separately from current jobs and old titles, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles, carry a designated role across verified session-ID changes, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
 ---
 
 # Agent
@@ -56,6 +56,9 @@ not shell subcommands. For execution, use the workflow below.
    Missing means not defined, never guessed from the title or model. The existing
    `--role` on a job is that contribution, not an automatic standing-role change.
    A role is neither a permission grant nor appointment as the current Out owner.
+   For a designated replacement after a clear, restart or handoff, follow
+   [session succession](references/session-succession.md). Verify this host's
+   actual identity; do not overwrite a binding just because its peer is absent.
 4. Prepare the contribution using Conductor's
    [model-job guidance](../conductor/references/model-jobs.md): relevant source
    paths, outcome, contribution, checks, authority and stopping point. Consult

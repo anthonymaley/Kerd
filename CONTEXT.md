@@ -6,28 +6,36 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Current release boundary: 0.115.0 — branch `main`, subject "Release Kerd
-0.115.0: compact arrival and coordinated closeout", published by Codex early
-2026-09-13 and remote-verified from the Claude session by fetch.** It carries
-the compact chat arrival (completion and YOU boxes, NOW, END OF PICKUP marker),
-one coordinated Out owner with contribution capture, `handoff_ready` separate
-from the Git verdict, and private ongoing partner roles. Record, review and
-checks: `docs/work/switch-coordinated-closeout/work.md`. Earlier the same
-night: 0.114.0 (styled Switch and recognizable partners) and 0.113.0 (the
-Codex core package, measured reading selections, pickup clarifications;
-`docs/work/codex-plugin/work.md`), both on `origin/main`; 0.112.0's records
-are in `docs/work/release-111-followup/`. Resolve revisions with `git log`.
+**Release boundary: 0.116.0 — branch `main`, subject "Release Kerd 0.116.0:
+role continuity and implementation delegation".** Anthony authorized publication
+on 2026-09-13. This pointer is prepared before the release save; resolve its commit
+and remote verification with Git, not an embedded saving hash. The next work is
+ordinary-use assessment, not rebuilding these completed changes.
+It adds verified private role succession across session-ID changes, an explicit
+implementation split in Conductor, and reviewed arrival clarifications. Record,
+review and checks: `docs/work/switch-coordinated-closeout/work.md`. Operational
+guide: `skills/agent/references/session-succession.md`; delivery instructions:
+`skills/conductor/references/execution.md`. Earlier source releases are 0.115.0
+(compact arrival and coordinated Out), 0.114.0 (styled Switch) and 0.113.0
+(Codex core package; `docs/work/codex-plugin/work.md`).
 
 **Installed state, not to be overclaimed:** this machine's Claude plugin cache
 delivered 0.113.0 on an ordinary startup at 22:25 on 2026-09-12 (observed
-once). Whether 0.114.0 or 0.115.0 arrive the same way is unobserved. The Codex
+once). Anthony subsequently supplied Kerd and Seinn arrivals reported as 0.115.0;
+their review is in the work record, not a self-awarded experience pass. Claude's
+release reviewer separately reports its own ordinary 09:38 EDT startup today
+read the 0.115.0 cache manifest and showed the compact arrival; Anthony's
+assessment remains absent. This is the reviewer's observation, not a Codex probe. No
+installation or 0.116.0 delivery check was performed for this release. The Codex
 user snapshot was reported stale (predating 0.113.0's pickup corrections) at
 the 2026-09-12 close and has not been rechecked since.
 
-**Owed, none a build:** the live checks in TODO `## Now`, all against 0.115.0:
+**Owed, none a build:** the live checks in TODO `## Now`, now targeting 0.116.0:
 a fresh Codex pickup on a refreshed snapshot, a fresh Claude pickup showing the
 compact arrival, the behavioural clarification scenario run by a model, and a
-coordinated Out with a live contributor. The four rulings owed to
+coordinated Out with a live contributor, clear/restart role continuity and useful
+implementation delegation. Model scenario reviews are recorded, not substitutes
+for ordinary installed use. The four rulings owed to
 `docs/decisions.md` were recorded at the 2026-09-13 Out.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
@@ -42,11 +50,12 @@ the root (2026-09-09). Name it with `--preserve` at every save.
 
 **Pickup reading set** (Switch Out, 2026-09-13): this file complete;
 `TODO.md` `## Now`; `kivna/sessions/2026-09-13.md` complete. Add
-`docs/work/switch-coordinated-closeout/work.md` when acting on Switch or Agent,
+`docs/work/switch-coordinated-closeout/work.md` when acting on Switch, Agent or Conductor,
 `docs/work/codex-plugin/work.md` when acting on the Codex package or the
 clarification scenario. Helper arguments:
 `--record CONTEXT.md --file kivna/sessions/2026-09-13.md --section TODO.md "## Now"`.
-Measured reading: 17,513 bytes, about 4,379 tokens estimated at four bytes each (not a tokenizer reading), against the 8,000 target — within target.
+Prior Out measured 17,513 bytes (a byte-based token proxy, not measured tokens).
+That observation predates this release's pointer edits; it is not a current cost verdict.
 
 ## Key Decisions
 

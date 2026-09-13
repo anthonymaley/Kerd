@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, delivery and independent assessment. Resume saved work with current observations and a scoped arrival decision in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation and independent assessment. Resume saved work with current observations and a scoped arrival decision in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -37,7 +37,13 @@ means designing, not a new grant to build or deploy. Put **“Starting on X —
 approve?”** in the dashboard's YOU box using its existing `question` fields;
 a saved pending question replaces it, with its proposed answer. A factual
 clarification is not approval: answering it resolves that fact only, not permission
-for the proposed next work. STATE and THIS
+for the proposed next work. Bind the reply to the question actually asked:
+a project name fills the target, not an install/launch approval; “not now”
+defers that action without starting another task or leaving an answer shown as
+owed now. Once clarified, ask for the
+scoped action only if authorization is still missing. An explicit instruction
+that supplies both the fact and permission can proceed without another stop.
+STATE and THIS
 SESSION must agree with YOU: this sitting's action is proposed while awaiting
 approval, even if the wider plan was already agreed. Never say “nothing needed”
 while asking for an answer elsewhere. If the host requires a plain-text question,
@@ -55,9 +61,17 @@ installation, its scope (project or user-wide) before requesting approval. If a
 required target or scope is unresolved, make that gap the question; do not bundle “a work
 project” into authorization to choose one later. Reuse already-established targets.
 
+When the next action belongs to the person (for example a device check), name
+that actor in TASK/STATE and ask whether they can do that specific check now,
+or ask for its missing result,
+not “Starting on X” as though the agent can perform it. Preserve any per-occasion
+permission needed for the check. Availability alone authorizes no agent operation;
+agreement to that check covers only its stated scope, not a build or deployment.
+
 This deliberate arrival check-in is the one exception to reusing an unchanged
 approval. Do not create or update work records, launch workers or execute the
-plan during ordinary In. A current explicit request to continue can proceed
+plan during ordinary In. Switch's verified private Agent role succession is
+routing maintenance, not work authorization. A current explicit request to continue can proceed
 without another approval; managed To/Roll also keeps its agreed continuation.
 Use native task tools when available; otherwise the dashboard's NOW is the
 fallback list. Do not append another brief, journey strip or copy of the list.
@@ -233,7 +247,8 @@ draft or example is not the person's agreement to this direction. Preserve
 previous agreement when recording a material revision and its reason. Revisit
 the changed decision, not every unaffected detail. No hashes or fingerprints.
 
-After agreement, read [the delivery guide](references/execution.md), show
+After agreement, read [the delivery guide](references/execution.md), decide the
+inline/delegated implementation split there, show
 **Deliver · <actual next activity>**, and perform the next authorized action in
 this turn. Don't end with “next is implementation” or “ready for implementation”
 when implementation is authorized and possible. Interpret a brief “okay” or “go”

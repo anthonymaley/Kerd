@@ -18,7 +18,8 @@ import agent
 class HelpTests(unittest.TestCase):
     def test_all_help_routes_work_without_project_or_provider_tools(self):
         with tempfile.TemporaryDirectory() as directory:
-            for command in ([], ['sessions'], ['pair'], ['start'], ['ask'], ['status'], ['wait']):
+            for command in ([], ['sessions'], ['pair'], ['start'], ['ask'], ['status'], ['wait'],
+                            ['identity'], ['handoff'], ['adopt']):
                 with self.subTest(command=command):
                     result = subprocess.run(
                         [sys.executable, '-B', agent.__file__, *command, '--help'],
@@ -28,6 +29,188 @@ class HelpTests(unittest.TestCase):
                     self.assertEqual(result.stderr, '')
                     self.assertIn('usage:', result.stdout)
                     self.assertEqual(list(Path(directory).iterdir()), [])
+
+
+class SuccessionTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        subprocess.run(['git', 'init', '-q', self.temp.name], check=True)
+        self.app = agent.Agent(self.temp.name)
+        self.old, self.new = str(uuid.uuid4()), str(uuid.uuid4())
+        with patch.object(agent, 'live_target'):
+            self.app.pair('claude', self.old, 'partner', 'Reviewer')
+        self.path = self.app.state / 'partners/partner.json'
+        self.record = self.app.root / 'handoff.md'
+        self.record.write_text('The reviewer role continues from this saved place.\n')
+
+    def identity(self, sid):
+        return patch.object(self.app, 'identity', return_value={'id': sid, 'provider': 'claude'})
+
+    def prepare(self):
+        with self.identity(self.old):
+            return self.app.handoff('claude', 'partner', 'handoff.md')
+
+    def test_identity_selects_provider_env_and_requires_native_corroboration_without_writes(self):
+        before = self.path.read_bytes()
+        for provider, key in [('claude', 'CLAUDE_CODE_SESSION_ID'), ('codex', 'CODEX_THREAD_ID')]:
+            with patch.dict(os.environ, {'CLAUDE_CODE_SESSION_ID': self.old,
+                                        'CODEX_THREAD_ID': self.new}, clear=True):
+                sid = os.environ[key]
+                with patch.object(agent, 'live_target', return_value={'id': sid}) as native:
+                    result = self.app.identity(provider)
+                native.assert_called_once_with(self.app.root, provider, sid)
+                self.assertEqual(result['identity_source'], key)
+                self.assertTrue(result['self'])
+                with patch.object(agent, 'live_target', side_effect=agent.Unavailable('Not in project')):
+                    with self.assertRaises(agent.Unavailable):
+                        self.app.identity(provider)
+            with patch.dict(os.environ, {}, clear=True):
+                with self.assertRaises(agent.Unavailable):
+                    self.app.identity(provider)
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_same_id_is_byte_preserving_even_with_prepared_handoff(self):
+        self.prepare()
+        before = self.path.read_bytes()
+        with self.identity(self.old):
+            result = self.app.adopt('claude', 'partner', self.old)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(result['handoff'], json.loads(before)['handoff'])
+
+    def test_handoff_consumed_role_kept_and_request_bytes_untouched(self):
+        self.prepare()
+        request = self.app.folder('requests') / (str(uuid.uuid4()) + '.json')
+        original = {'session': self.old, 'project': str(self.app.root),
+                    'status': 'reply-received', 'reply': 'Original review'}
+        agent.atomic_json(request, original)
+        before = request.read_bytes()
+        with self.identity(self.new), patch.object(self.app, 'ask', side_effect=AssertionError('No dispatch')):
+            result = self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        self.assertEqual(result['id'], self.new)
+        self.assertEqual(result['partner_role'], 'Reviewer')
+        self.assertEqual(result['previous']['id'], self.old)
+        self.assertNotIn('handoff', result)
+        self.assertNotIn('owned', result)
+        self.assertEqual(request.read_bytes(), before)
+        self.assertEqual(self.app.status(request.stem), original)
+        self.assertEqual(json.loads(self.path.read_text()), result)
+        self.assertEqual(subprocess.check_output(['git', 'status', '--porcelain'],
+                                                cwd=self.app.root, text=True), '?? handoff.md\n')
+
+    def test_missing_authority_and_stale_expected_id_do_not_write(self):
+        before = self.path.read_bytes()
+        with self.identity(self.new):
+            for old in (self.old, str(uuid.uuid4())):
+                with self.assertRaises(ValueError):
+                    self.app.adopt('claude', 'partner', old)
+                self.assertEqual(self.path.read_bytes(), before)
+            result = self.app.adopt('claude', 'partner', self.old, confirm=True)
+        self.assertEqual(result['id'], self.new)
+
+    def test_changed_handoff_and_wrong_handoff_refused(self):
+        self.prepare()
+        before = self.path.read_bytes()
+        other = self.app.root / 'other.md'
+        other.write_bytes(self.record.read_bytes())
+        with self.identity(self.new):
+            with self.assertRaises(ValueError):
+                self.app.adopt('claude', 'partner', self.old, 'other.md')
+            self.record.write_text('Changed scope.\n')
+            with self.assertRaises(ValueError):
+                self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_out_only_designates_its_own_binding_and_can_cancel(self):
+        before = self.path.read_bytes()
+        with self.identity(self.new):
+            with self.assertRaises(ValueError):
+                self.app.handoff('claude', 'partner', 'handoff.md')
+        self.assertEqual(self.path.read_bytes(), before)
+        self.prepare()
+        with self.identity(self.old):
+            result = self.app.handoff('claude', 'partner', cancel=True)
+        self.assertNotIn('handoff', result)
+        with self.identity(self.new):
+            with self.assertRaises(ValueError):
+                self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+
+    def test_owned_partners_provider_and_project_mismatches_refused(self):
+        original = json.loads(self.path.read_text())
+        for changes in ({'owned': True, 'native_launch': 'launcher', 'request_id': 'old'},
+                        {'provider': 'codex'}, {'project': '/tmp'}):
+            agent.atomic_json(self.path, {**original, **changes})
+            before = self.path.read_bytes()
+            with self.identity(self.new):
+                with self.assertRaises(ValueError):
+                    self.app.adopt('claude', 'partner', self.old, confirm=True)
+            with self.identity(self.old):
+                with self.assertRaises(ValueError):
+                    self.app.handoff('claude', 'partner', 'handoff.md')
+            self.assertEqual(self.path.read_bytes(), before)
+
+    def test_unverified_self_cannot_replace_and_plain_pair_still_refuses(self):
+        before = self.path.read_bytes()
+        with patch.object(self.app, 'identity', side_effect=agent.Unavailable('Identity unresolved')):
+            with self.assertRaises(agent.Unavailable):
+                self.app.adopt('claude', 'partner', self.old, confirm=True)
+        with patch.object(agent, 'live_target'):
+            with self.assertRaisesRegex(ValueError, 'another session'):
+                self.app.pair('claude', self.new, 'partner')
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_competing_replacements_have_one_winner(self):
+        barrier = threading.Barrier(2)
+        results = []
+        def run(sid):
+            app = agent.Agent(self.temp.name)
+            def identity(provider):
+                barrier.wait(timeout=5)
+                return {'id': sid}
+            app.identity = identity
+            try:
+                results.append(('ok', app.adopt('claude', 'partner', self.old, confirm=True)['id']))
+            except ValueError:
+                results.append(('refused', sid))
+        ids = [self.new, str(uuid.uuid4())]
+        threads = [threading.Thread(target=run, args=(sid,)) for sid in ids]
+        for thread in threads: thread.start()
+        for thread in threads: thread.join(timeout=10)
+        self.assertTrue(all(not t.is_alive() for t in threads))
+        self.assertEqual(sorted(x[0] for x in results), ['ok', 'refused'])
+        winner = next(sid for status, sid in results if status == 'ok')
+        self.assertEqual(json.loads(self.path.read_text())['id'], winner)
+
+    def test_handoff_path_escape_and_missing_binding_never_create_a_store(self):
+        before = self.path.read_bytes()
+        with self.identity(self.old):
+            with self.assertRaises(ValueError):
+                self.app.handoff('claude', 'partner', '../elsewhere.md')
+            with self.assertRaises(agent.Unavailable):
+                self.app.handoff('claude', 'missing', 'handoff.md')
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertFalse((self.path.parent / 'missing.json').exists())
+
+    def test_failed_atomic_replace_leaves_prior_binding_and_designation_intact(self):
+        self.prepare()
+        before = self.path.read_bytes()
+        with self.identity(self.new), patch.object(agent.os, 'replace', side_effect=OSError('fixture failure')):
+            with self.assertRaises(OSError):
+                self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(list(self.path.parent.glob('*.tmp')), [])
+
+    def test_new_ask_uses_replacement_and_no_launch_privileges(self):
+        import contextlib, io
+        with self.identity(self.new):
+            self.app.adopt('claude', 'partner', self.old, confirm=True)
+        argv = ['agent.py', '--project', str(self.app.root), 'ask', '--alias', 'partner',
+                '--prompt-file', str(self.record), '--role', 'Read-only reviewer']
+        with patch.object(sys, 'argv', argv), patch.object(agent.Agent, 'ask', return_value={}) as ask:
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(agent.main(), 0)
+        self.assertEqual(ask.call_args.args[:2], ('claude', self.new))
+        self.assertIs(ask.call_args.kwargs['owned_partner'], False)
 
 
 class SessionIdentityTests(unittest.TestCase):

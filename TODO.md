@@ -2,33 +2,44 @@
 
 ## Now
 
-**Latest boundary:** 0.115.0, branch `main`, subject "Release Kerd 0.115.0:
-compact arrival and coordinated closeout", published by Codex 2026-09-13;
+**Release boundary:** 0.116.0, branch `main`, subject "Release Kerd 0.116.0:
+role continuity and implementation delegation", authorized 2026-09-13;
 resolve its revision and remote state with Git. Position, installed state and
 the reading set: `CONTEXT.md` `## Where We Are`. Records:
-`docs/work/switch-coordinated-closeout/work.md` (0.115.0: compact arrival,
-coordinated Out, partner roles, both reviews),
+`docs/work/switch-coordinated-closeout/work.md` (compact arrival, coordinated Out,
+partner roles, succession, delegation and review dispositions),
 `docs/work/codex-plugin/work.md` (0.113.0: package, install, the clarification
 scenario), `docs/work/release-111-followup/` (0.112.0). These lists are not
 authority to run installation or checks during pickup.
 
-- Refresh the installed Codex snapshot explicitly from 0.115.0, then open a
+- Refresh the installed Codex snapshot explicitly from 0.116.0, then open a
   fresh Codex session in a work project and run Switch In without starting
   work; record the tested source revision or installed version in
   `docs/work/codex-plugin/work.md`.
-- First Claude pickup on a 0.115.0 cache: observe the compact arrival —
+- Claude pickup on a 0.116.0 cache: observe the corrected arrival —
   completion box, one question in YOU, END OF PICKUP marker, no second
   report — and Anthony's assessment; record it in
   `docs/work/switch-coordinated-closeout/work.md`. (The 0.113.0 arrival was
   observed 2026-09-12 22:27: composed, one question, no second report; the
   layout was superseded before Anthony assessed it.)
+  Claude's 2026-09-13 release review also reports a direct 09:38 EDT 0.115.0
+  cache/arrival observation; assessment absent. Neither proves 0.116.0 delivery.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a
   model, not a fixture: a factual Yes, No or Not sure that grants no approval.
-- First coordinated Out with a live contributor on a 0.115.0 cache: observe
+- Coordinated Out with a live contributor on a 0.116.0 cache: observe
   ownership, contributor capture and the MEMORY row; record it in
   `docs/work/switch-coordinated-closeout/work.md`. (The 2026-09-13 Out ran the
   0.115.0 guide from the 0.113.0 cache with its one contributor already saved:
   `kivna/sessions/2026-09-13.md`.)
+- Observe role continuity across actual clear/restart: unchanged verified IDs
+  preserve bindings; changed IDs require the designated handoff or explicit
+  selection. Fixture tests and native self-ID reads passed, no live replacement yet.
+- Observe Conductor assigning useful implementation work with owners and edit
+  boundaries. The four hypothetical choices were reviewed; no ordinary build
+  or token/latency benefit is established by that review.
+- At the next owning Out, carry the three new rulings from the work record into
+  docs/decisions.md: verify actual IDs, stable-alias expected-ID replacement,
+  and decide the implementation split before building. This release is not Out.
 
 ### Earlier launch sequence — retained pending reconciliation
 

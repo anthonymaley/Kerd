@@ -40,7 +40,31 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.115.0)
+## What's New (v0.116.0)
+
+### v0.116.0
+
+**Keep the role when the session changes.** Agent verifies the current host's
+session ID. Out can designate its existing role for continuation after saving;
+In keeps the same ID or adopts the designated role with an expected-old-ID check.
+Changed handoff records and competing replacements refuse. Old requests keep
+their original targets; roles and IDs stay private to the worktree and machine.
+No session is launched, stopped or granted new permissions by this update.
+
+**Decide who builds, not just who reviews.** Conductor considers useful bounded
+implementation contributions at delivery start, including established partners.
+Owners and edit boundaries stay visible; small coupled edits can remain inline.
+The controller integrates and checks the work; independent review stays separate.
+No worker quota or new staffing approval step.
+
+**A clarification is not permission.** A project name does not approve an install;
+“not now” defers that action. Human-owned checks are labelled as yours. In restores
+existing pairing context without contacting peers, loading Agent for contributions
+and its short succession guide only when the local binding needs it.
+
+Fixture checks and Claude reviews passed. Live clear/restart succession, actual
+delivery of this release to installed clients, and delegation cost improvements
+remain unverified; source publication is not installation or an experience verdict.
 
 ### v0.115.0
 
@@ -430,6 +454,11 @@ It handles small explicit changes directly rather than dragging them through a f
 intake, and a status or review request does not start one either. Interrupted work
 resumes where it stopped.
 
+At delivery start it decides what stays inline and what a worker or established
+implementation partner can usefully own. It shows the split, avoids overlapping
+edits and keeps integration and independent review explicit. Small coupled work
+does not need an extra agent; resumed builds reuse settled assignments.
+
 ```
 /kerd:conductor              # start, or resume saved work
 ```
@@ -452,6 +481,12 @@ as recorded, not current activity.
 Define the ongoing role when pairing ("Use Codex as reviewer"), then reuse it;
 a one-off job does not change it. Roles and IDs stay in private pairing metadata,
 not a tracked roster, and neither roles nor aliases grant permissions.
+After a clear or restart, Agent verifies the host's actual ID rather than guessing
+from the terminal lifetime. A saved role designation or explicit replacement
+selection lets the successor update that private binding; stale expectations
+refuse and old request targets remain intact. See
+[session succession](skills/agent/references/session-succession.md) for the
+supported hosts, handoff checks and limits.
 
 ```text
 /kerd:agent help
@@ -512,7 +547,17 @@ work already names; the backlog lives behind the *Open work* link.
 `scripts/where_we_are.py` renders it from a summary Switch already holds, so
 nothing extra is read and no status file is written. Conductor is loaded before
 rendering and puts *“Starting on X — approve?”* in that same YOU box, with the
-scope of the next action. No second report follows. Roll keeps its
+scope of the next action. A missing fact is asked as a clarification, not an
+approval; supplying a project name alone does not start an install or launch.
+A check belonging to you is labelled as yours, preserving any per-occasion
+permission rather than presenting it as an agent job.
+Existing local Agent bindings restore pairing context, with Agent loaded when a
+contribution is requested, without contacting or resuming peers during pickup.
+For its own designated role, In verifies the actual session ID and can replace
+the old binding from Out's prepared handoff; ambiguity needs a selection. Out
+prepares that private handoff only after saving the final account. Old requests
+keep their original session targets. Saved roles
+are not live availability or permission to act. No second report follows. Roll keeps its
 agreed continuation instead of stopping there.
 
 **Out** reads what actually changed, preserves the agreement, decisions, exact next
