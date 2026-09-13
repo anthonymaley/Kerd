@@ -5,8 +5,8 @@
 **Current work:** 0.112.0 is on `origin/main` (branch `main`, subject "One
 arrival, one decision; the saved-place box returns"). 0.113.0 — the Codex core
 package, measured reading selections, the pickup clarifications — is reviewed
-and prepared for Codex's publication on `main` under the subject Codex chooses;
-not yet remote-verified as this line is written. Position and reading set:
+is on `origin/main` too (`4532f4c`, subject "Release Kerd 0.113.0: Codex core
+and reliable pickup", CI green). Position and reading set:
 `CONTEXT.md` `## Where We Are`. The day: `kivna/sessions/2026-09-12.md`.
 Records: `docs/work/codex-plugin/work.md` (package, install, reviews),
 `docs/work/release-111-followup/` (spec, both reviews),

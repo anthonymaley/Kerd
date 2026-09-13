@@ -6,16 +6,15 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**0.112.0 is released and 0.113.0 is prepared for publication — 2026-09-12,
-late.** On `origin/main`: 0.107.0 through 0.111.0, then 0.112.0 (branch
+**0.112.0 and 0.113.0 are released — 2026-09-12, late.** On `origin/main`: 0.107.0 through 0.111.0, then 0.112.0 (branch
 `main`, subject "One arrival, one decision; the saved-place box returns":
 one arrival with the decision in YOU, the Out saved-place box, Codex's five
 follow-up fixes). 0.113.0 — the Codex core package (Conductor, Switch,
 Visuals, Agent from one source, no legacy skills or hooks), measured reading
 selections (`read_args`, `reaches_eof`), and the pickup clarifications — was
-reviewed by both sessions and Anthony said "okay lets release"; Codex owns that
-save, so it is not remote-verified as this line is written. Locate the boundary
-by branch `main` and Codex's release subject, not by a hash written here.
+reviewed by both sessions, released by Codex on `main` as `4532f4c`, subject
+"Release Kerd 0.113.0: Codex core and reliable pickup", remote-verified from
+this session after a fetch and CI green.
 
 **Records:** [the Codex package record](docs/work/codex-plugin/work.md)
 (package, install, reviews, live checks);
@@ -48,7 +47,7 @@ the root (2026-09-09). Name it with `--preserve` at every save.
 `TODO.md` `## Now`; `kivna/sessions/2026-09-12.md` complete. Add
 `docs/work/codex-plugin/work.md` only when acting on the Codex package.
 Helper arguments: `--record CONTEXT.md --file kivna/sessions/2026-09-12.md --section TODO.md "## Now"`.
-Measured reading: 18,552 bytes, about 4,638 tokens estimated at four bytes each (not a
+Measured reading: 18,626 bytes, about 4,657 tokens estimated at four bytes each (not a
 tokenizer reading), against the 8,000 target — within target.
 
 ## Key Decisions
