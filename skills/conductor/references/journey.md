@@ -45,6 +45,11 @@ interactive or a terminal supports colour when it does not.
 
 ## Question surface and host adaptation
 
+Switch's Markdown arrival uses the linked welcome-back convention: a prominent
+YOU section bounded by horizontal rules, separate from the optional Insight.
+Its terminal mode keeps the four-sided box. Do not fence the whole Markdown
+dashboard or append another question; `--question-below` remains available.
+
 Use a real native bounded card if suitable and available. Otherwise use a
 four-sided text box in a monospace code block, with the answer and qualifications
 inside it. No email-forward blockquote as question UI. A bold heading alone is

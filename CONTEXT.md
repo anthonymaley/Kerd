@@ -6,6 +6,14 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
+**Current release boundary: 0.114.0.** Anthony authorized publication on
+2026-09-12 after the Switch presentation review. Branch `main`, subject
+"Release Kerd 0.114.0: styled Switch and recognizable partners". This pointer
+is prepared before that save; resolve its revision and remote state with Git.
+Includes theme-styled Switch In/Out, the observed-arrival/timestamp corrections
+and Agent partner identity display. Evidence and review disposition:
+`docs/work/codex-plugin/work.md`. No installation refresh or live UX verdict.
+
 **0.112.0 and 0.113.0 are released — 2026-09-12, late.** On `origin/main`: 0.107.0 through 0.111.0, then 0.112.0 (branch
 `main`, subject "One arrival, one decision; the saved-place box returns":
 one arrival with the decision in YOU, the Out saved-place box, Codex's five
@@ -47,7 +55,8 @@ the root (2026-09-09). Name it with `--preserve` at every save.
 `TODO.md` `## Now`; `kivna/sessions/2026-09-12.md` complete. Add
 `docs/work/codex-plugin/work.md` only when acting on the Codex package.
 Helper arguments: `--record CONTEXT.md --file kivna/sessions/2026-09-12.md --section TODO.md "## Now"`.
-Measured reading: 18,626 bytes, about 4,657 tokens estimated at four bytes each (not a
+Measured at that Out, before the 0.114.0 release-pointer edits: 18,626 bytes,
+about 4,657 tokens estimated at four bytes each (not a
 tokenizer reading), against the 8,000 target — within target.
 
 ## Key Decisions

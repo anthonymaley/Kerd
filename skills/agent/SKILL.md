@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, discover or pair existing local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, identify established partners separately from old session titles, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
 ---
 
 # Agent
@@ -25,13 +25,25 @@ not shell subcommands. For execution, use the workflow below.
    do not ask the person to select the same partner again. If none is established
    or the target is ambiguous, discover with
    `scripts/agent.py --project ABSOLUTE_PROJECT sessions` and show the matching
-   sessions before asking which to use. Label each with provider, available
-   name/topic, project and observed availability; use a short ID to distinguish
-   otherwise identical entries. Use metadata, not invented conversation summaries.
+   sessions before asking which to use. Lead with provider, established-partner
+   status, alias and short ID; group aliases for the same provider/ID into one
+   row. Discovery's `partner_aliases` supplies that exact match. Show native
+   `name` second as **Saved title (may be old)**, never the current task.
+   Keep project and observed availability visible; lengthen colliding short IDs.
+   Mark **This session** only when a host-supplied current ID matches exactly,
+   never from its title, working directory or position in the list. A peer may
+   identify its own ID, but that is reported identity until locally checked.
+   Label unavailable bindings separately; do not make them appear selectable
+   merely because their alias survives. Use metadata, not invented summaries.
    Offer starting a new session as a separate choice, not a silent fallback.
    An explicit fresh/new request goes directly to that route. If an established
    partner is unavailable, explain before offering alternatives; never substitute.
    An empty list does not prove no saved conversation or other-app session exists.
+   A recent exchange already in context may supply **Last exchange (recorded):
+   contribution, result, date**. Keep that separate from present activity; don't
+   read transcripts or scan all requests merely to decorate discovery. A project
+   handoff is project context, not proof a listed session has loaded it. See the
+   [user guide](references/user-guide.md#recognize-your-partner) for the display.
 3. Choose deliberately: **existing partner**, **new persistent partner**, or
    **fresh bounded worker**. Do not silently replace one with another. A fresh
    independent review and a contextual pairing conversation serve different jobs.

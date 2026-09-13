@@ -2,7 +2,14 @@
 
 ## Now
 
-**Current work:** 0.112.0 is on `origin/main` (branch `main`, subject "One
+**Latest boundary:** 0.114.0, branch `main`, subject
+"Release Kerd 0.114.0: styled Switch and recognizable partners". Source
+publication authorized; this pointer is written before the save, so resolve
+its revision and remote state with Git. Review and checks are in
+`docs/work/codex-plugin/work.md`. Installation refresh and ordinary-use checks
+remain separate; the lists below are not authority to run them during pickup.
+
+**Previous releases:** 0.112.0 is on `origin/main` (branch `main`, subject "One
 arrival, one decision; the saved-place box returns"). 0.113.0 — the Codex core
 package, measured reading selections, the pickup clarifications — is reviewed
 is on `origin/main` too (`4532f4c`, subject "Release Kerd 0.113.0: Codex core

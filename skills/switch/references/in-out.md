@@ -164,8 +164,19 @@ Render it with the packaged renderer, [scripts/where_we_are.py](../scripts/where
 resolved relative to this skill so it travels with the package:
 
 ```sh
-printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary -
+printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary - --markdown
 ```
+
+Use `--markdown` when presenting the result in assistant chat, and reproduce it
+as Markdown, **not inside a code fence**. Inline-code accents, bold labels and
+the optional Insight blockquote take their colours from the client's theme;
+no exact palette or coloured border is promised. YOU is a separate section
+bounded by horizontal rules, never part of the Insight. The client wraps text.
+For direct terminal output, omit `--markdown` to retain the ANSI-coloured boxes;
+`--color` forces ANSI, `--no-color` or `NO_COLOR` provides plain terminal output.
+Markdown mode emits no ANSI even with `--color`. If Markdown is unavailable,
+use the plain terminal frame instead. These are presentation choices, not new
+state, memory reads or permission to continue work.
 
 The question appears once inside YOU by default. Where the host requires a
 plain-text question outside the panel, add `--question-below`: YOU keeps the
@@ -216,16 +227,25 @@ and `state_reason` carry the sentence after an explicit "none". `restored` is
 `"yes"`, `"partial"`, `"no"`, or omitted when no pickup claim is being made;
 `restore_note` says what is missing when it is not `"yes"`.
 
+`updated` is the selected source's recorded update time, not the current time,
+an estimated close time or a guessed aggregate across files. If no applicable
+source time is known, use `null`. The renderer supplies `rendered` from its clock;
+do not hand-type that footer. Reversed displayed times in the renderer's
+`YYYY-MM-DD HH:MM ZONE` format with identical zone labels produce an attention
+warning, leaving both values intact. Other formats and differing or absent zones
+are not compared; no timezone conversion or clock-cause diagnosis is implied.
+
 **What the caller should supply, and what the renderer checks — they are not the
-same thing.** Given a correctly shaped JSON object, no field is validated: a
+same thing.** Given a correctly shaped JSON object, fields are not required: a
 missing, misspelled or null one degrades quietly, so a typo costs you a blank
 line rather than an error. That tolerance is about *fields*, not about input —
 malformed JSON exits 2 with a message, and a top-level value that is not an
 object (an array, say) exits 1 on an unhandled error. `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION`, `THIS SESSION` and the
 `YOU` box **always render**, falling back to "not recorded" or a plain sentence
 when they have nothing — they are the frame, and a gap in them is information.
-`now` is the list of bullets under the project's `## Now` heading, copied as
-read; the backlog is not supplied here.
+`now` comes from the project's `## Now` bullets; retain their meaning, annotating
+observations obtained during pickup under Conductor's In rule. This changes the
+display, not the saved list. The backlog is not supplied here.
 Only the attention panel, `DOCUMENTS` and the `★` insight line are **omitted
 entirely** when empty. Always supply `source`: it names what the pickup actually
 read, and it is the one field nothing else can stand in for.
@@ -246,6 +266,12 @@ agreement, decisions, exact next action, unresolved jobs and important findings.
 Append an evidence-backed session account to the existing history; read the clock
 for dates/times written now. Unknown start time stays unknown. Do not retain the
 whole native conversation or private session IDs as project history.
+
+When collaboration matters to the next pickup, retain a short provider,
+contribution and evidenced result, plus the relevant next-action/work-record
+link in that existing account. Do not copy private pairing IDs or aliases into
+Git history. This is project memory, not a session registry or proof that a
+particular partner has read it; Agent resolves live identities separately.
 
 Reconcile active work against evidence. Remove completed tasks from active lists
 while retaining their completion record. Retire redundant work only with a known
@@ -357,8 +383,12 @@ End Out on one box that says how far the save reached, rendered with the same
 packaged renderer:
 
 ```sh
-printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing -
+printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing - --markdown
 ```
+
+Use the same chat-versus-terminal presentation choice as In above. In chat,
+show the Markdown directly: the emphasized save verdict is the completion
+signal, not a claim that a green theme colour proves a successful push.
 
 `$closing` is filled from the helper's save result and what Out just wrote.
 **Copy the shape from here; do not open the script for the keys.** `saved` is

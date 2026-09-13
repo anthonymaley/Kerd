@@ -30,6 +30,57 @@ class HelpTests(unittest.TestCase):
                     self.assertEqual(list(Path(directory).iterdir()), [])
 
 
+class SessionIdentityTests(unittest.TestCase):
+    def test_aliases_match_exact_provider_and_id_not_an_old_title(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            sid, other = str(uuid.uuid4()), str(uuid.uuid4())
+            with patch.object(agent, 'live_target'):
+                app.pair('codex', sid, 'build-partner')
+            binding = app.state / 'partners' / 'build-partner.json'
+            before = binding.read_bytes()
+            codex = [{'provider': 'codex', 'id': sid, 'name': 'Old setup task', 'status': 'activity unknown'},
+                     {'provider': 'codex', 'id': other, 'name': 'Old setup task', 'status': 'activity unknown'}]
+            claude = [{'provider': 'claude', 'id': sid, 'name': 'Old setup task', 'status': 'idle'}]
+            with patch.object(agent, 'codex_sessions', return_value=codex), \
+                 patch.object(agent, 'claude_sessions', return_value=claude), \
+                 patch.object(agent, 'transcript', side_effect=AssertionError('Discovery must not read history')):
+                rows = app.list()['sessions']
+            target = next(row for row in rows if row['provider'] == 'codex' and row['id'] == sid)
+            self.assertEqual(target['partner_aliases'], ['build-partner'])
+            self.assertEqual(target['name'], 'Old setup task')
+            self.assertEqual(target['status'], 'activity unknown')
+            self.assertTrue(all(row['partner_aliases'] == [] for row in rows if row is not target))
+            self.assertEqual(binding.read_bytes(), before)
+
+    def test_multiple_aliases_group_under_one_session_and_offline_partner_stays_offline(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            sid, offline = str(uuid.uuid4()), str(uuid.uuid4())
+            with patch.object(agent, 'live_target'):
+                for alias in ('review-partner', 'build-partner'):
+                    app.pair('claude', sid, alias)
+                app.pair('claude', offline, 'old-partner')
+            with patch.object(agent, 'codex_sessions', return_value=[]), \
+                 patch.object(agent, 'claude_sessions', return_value=[{'provider': 'claude', 'id': sid, 'status': 'idle'}]):
+                result = app.list()
+            self.assertEqual(len(result['sessions']), 1)
+            self.assertEqual(result['sessions'][0]['partner_aliases'], ['build-partner', 'review-partner'])
+            old = next(row for row in result['partners'] if row['alias'] == 'old-partner')
+            self.assertEqual(old['live_status'], 'not listed')
+
+    def test_unpaired_discovery_creates_no_state(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            with patch.object(agent, 'codex_sessions', return_value=[]), \
+                 patch.object(agent, 'claude_sessions', return_value=[{'provider': 'claude', 'id': str(uuid.uuid4()), 'status': 'idle'}]):
+                self.assertEqual(app.list()['sessions'][0]['partner_aliases'], [])
+            self.assertFalse(app.state.exists())
+
+
 class QueueTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

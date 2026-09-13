@@ -16,6 +16,11 @@ Archived threads and spawned subagents are excluded. The store scan needs no
 daemon and no optional dependency. It does not read every transcript, launch a
 model, or discover every Codex desktop/IDE/private-stdio backend.
 
+Each discovered row carries `partner_aliases`, derived from exact provider/ID
+matches in existing bindings. It adds no saved state or history reads. `name`
+remains the native saved title, not a current-work summary. Unlisted bindings
+remain in `partners` with their unavailable status; no discovery row is invented.
+
 Subdirectories of the same Git project are included; a nested repository is
 not. Codex discovery has a five-second native-connection/RPC budget and returns
 partial results with an explicit note if exhausted. This is a responsiveness

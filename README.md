@@ -40,7 +40,26 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.113.0)
+## What's New (v0.114.0)
+
+### v0.114.0
+
+**Colour and emphasis on arrival and closeout.** Switch In and Out can now
+render theme-styled Markdown directly in chat: accented identity, bold status,
+a distinct YOU section and linked documents. The existing ANSI terminal boxes
+remain available. The client chooses the palette; status stays explicit in
+words, including unknown or failed saves. No extra dashboard or memory reads.
+
+**Pickup reflects what just happened.** Arrival checks observed during In are
+shown with their remaining assessment or recording, not as untouched future
+work. Setup approvals name the installation scope and target project. A source
+update time later than the render time in the same displayed zone gets a warning;
+unknown times stay unknown. No automatic project edits or installation changes.
+
+**Recognize the partner, not its old title.** Agent leads with provider, pairing
+role, alias and short ID, labels saved native titles as potentially old, and
+groups aliases for one session. Switch Out retains useful collaboration results
+in its existing handoff, without a second tracker or public session IDs.
 
 ### v0.113.0
 
@@ -408,6 +427,9 @@ worker, or a new ongoing partner. Kerd handles session IDs, prompt preparation
 using the applicable model guidance, native submission and result retrieval.
 Established project partners are the default; ambiguous targets are shown as
 session choices. A review request does not authorize edits or publication.
+Session choices lead with pairing role, alias and short ID; the saved native
+title is secondary and may describe old work. Known recent exchanges are labelled
+as recorded, not current activity.
 
 ```text
 /kerd:agent help
@@ -456,8 +478,11 @@ mid-work exactly where you stopped.
 
 **In** opens with a welcome-back dashboard rather than a full report: phase, task,
 state, the immediate work under `## Now`, what happened last session, what this
-session is for, and a bordered box saying whether you are needed — amber only
-while a decision is actually pending. It ends with links to the documents the
+session is for, and a distinct YOU section saying whether you are needed.
+Chat uses theme-styled Markdown without an enclosing code fence; the terminal
+keeps the bordered box, amber only while a decision is actually pending.
+Colours follow the client, while status stays explicit in words.
+It ends with links and visible paths to the documents the
 work already names; the backlog lives behind the *Open work* link.
 `scripts/where_we_are.py` renders it from a summary Switch already holds, so
 nothing extra is read and no status file is written. Conductor is loaded before
@@ -478,8 +503,9 @@ boundaries or explain why it is needed, without discarding the evidence.
 `scripts/handoff.py` does the Git work: explicit-file saves, safe fast-forward,
 acknowledged local-only paths that are never staged, and a check that the remote
 carries the exact commit. Out ends on the saved-place box: SESSION SAVED, SAVED
-LOCALLY or NOT SAVED in words, the tree, the local-only leftovers, the next
-action and its reading set, and a reminder that the session is still open.
+LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, the tree, the local-only
+leftovers, the next action and its reading set, and a reminder that the session
+is still open. Out uses the same Markdown-in-chat / ANSI-in-terminal choice.
 
 ### visuals (Diagrams)
 

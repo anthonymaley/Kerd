@@ -6,7 +6,7 @@ Outcome: installable Codex packaging for Conductor, Switch, Visuals and Agent,
 using the same maintained skills as Claude, with honest host-specific behavior.
 
 Stage: Implementation and independent review complete. Release boundary:
-`main`, subject `Release Kerd 0.113.0: Codex core and reliable pickup`.
+`main`, subject `Release Kerd 0.114.0: styled Switch and recognizable partners`.
 Resolve its saved revision and remote state with Git; this record is prepared
 before that save. Fresh-session checks remain pending.
 
@@ -26,8 +26,11 @@ Plan: extend the existing packager; derive the version from the source release;
 include Agent and its dependency declaration; document installation/update/use;
 correct host assumptions; test the relocated package and save/pickup round trip.
 
-Current activity: release boundary prepared after verification. The installed
-snapshot is unchanged; ordinary-use checks remain after publication.
+Current activity: 0.114.0 implementation and presentation review complete;
+Anthony authorized release with "lets release". The release includes the earlier
+unreleased 0.113.1 pickup and Agent identity corrections; see the follow-ups below.
+The named boundary above identifies this save without embedding its resulting
+revision. Installed packages are not refreshed by source publication.
 
 ## Implementation
 
@@ -159,3 +162,108 @@ shellcheck is unavailable. Conductor's first release run errored in
 with PermissionError; an isolated complete rerun passed 37/37. No code or test
 was weakened, and the intermittent process-check error is not diagnosed or
 claimed fixed. Release and audit checks retain the known audit trace gap.
+## Post-release arrival follow-up: 0.113.1, local only
+
+Anthony supplied a Claude 0.113.0 arrival and asked to fix three shared defects:
+an arrival check observed in this pickup still described as future work; an
+update timestamp later than the rendered time; an installation/session proposal
+without named scope and target. This is not permission to update installed
+packages, launch a test session, publish, or alter another project.
+
+Conductor now reconciles in-memory presentation with pickup observations while
+leaving records and user acceptance untouched. Setup proposals name installation
+scope and target before approval; unknown targets become a clarification, not
+permission to choose later. Switch identifies `updated` as a sourced time or
+unknown, and adds a non-blocking warning when two valid displayed wall times in
+the same zone label sort backwards. It preserves both values and does not infer
+clock drift, normalize timezones, or compare unsupported formats. The actual
+cause of the pasted timestamp discrepancy has not been established.
+
+Regression: four timestamp tests cover reversed, equal/past, absent/invalid/
+incomparable timestamps, preserved warnings and question-once/width behavior.
+The reversed example failed before implementation. An existing "clean record"
+fixture also had a future timestamp; its no-warning test now uses an earlier
+source time rather than suppressing the warning.
+
+Behavioral check still to observe in ordinary use: a saved list names observing
+the current arrival and a user-wide installation in an unspecified project.
+After loading the skill, presentation should label only the witnessed arrival
+as observed with assessment/recording pending, leave the saved files unchanged,
+ask for the missing project, and neither self-award acceptance nor install or
+launch anything. Timestamp unit tests do not prove this model behavior.
+
+Verified locally: Switch 308 (including renderer 99), packaging 9, release check,
+both skill validators and diff whitespace check pass. Audit keeps its existing
+trace-gap finding. No commit, push, installation or live-model acceptance test.
+The coordination send to the established Claude partner was refused because
+that exact session is no longer reachable; no replacement was silently selected.
+Discovery found one new Claude Kerd session; selection is awaiting the user.
+
+Subsequently the user identified the new Claude session, Agent paired it without
+overwriting the old binding, and the new partner acknowledged the pending patch.
+No overlapping edits or installation authority resulted from that exchange.
+
+### Recognizable Agent sessions
+
+Anthony then asked to fix Agent identification and considered saving last-session
+context during Switch Out. The pending 0.113.1 now joins existing partner aliases
+onto discovered rows by exact provider and ID. Three tests cover same-title and
+cross-provider false matches, grouped aliases, unavailable bindings, no history
+reads and no new state from discovery. They failed before the join was added.
+
+Agent's presentation rule puts provider, pairing role/alias and short ID first;
+the native title is explicitly a possibly-old saved title. Current-session labels
+require a verified host ID; recent exchanges are recorded history, not liveness.
+Switch Out retains useful provider/contribution/result and next-work links in its
+existing account when relevant. No new registry, title renaming, transcript scan,
+public private-ID copy or extra required handoff field. A project record never
+proves that a listed partner has loaded it. This remains local and unreleased.
+
+## Theme-styled Switch In and Out: local 0.114.0
+
+Anthony asked for colour and emphasis like the client's treatment of inline
+code, bold text and blockquotes. Both arrival and closing now accept
+`--markdown`, using the same values and status logic as the terminal renderer.
+The guide calls this mode for assistant chat without an enclosing code fence;
+direct terminal output retains ANSI colour and the existing boxes. YOU is a
+separate, rule-bounded section, not an Insight. Document links resolve to real
+targets; summary values are escaped as text. No new input fields, state files,
+memory reads or installation changes.
+
+The unreleased 0.113.1 corrections above are included in the pending 0.114.0
+minor bundle because this adds an output mode. Released history is unchanged.
+Switch 317 tests (renderer 108), packaging 9, release check and skill validation
+pass. Audit retains its pre-existing requirements trace finding. Nine new
+Markdown checks cover full values, question placement, unknown/timestamp states,
+real links, escaping, save guards and both CLI paths. The documented JSON
+examples were also rendered directly. Actual colour and wrapping belong to the
+client; terminal screen appearance and experience acceptance are not asserted.
+
+The established Claude partner acknowledged ownership with no overlapping
+edits, then reviewed the presentation read-only through Agent. Three findings
+were accepted: retain visible document paths beside links; separate footer
+paragraphs without trailing-space dependence; reduce escaping of ordinary
+paths and versions. All were corrected. Two additional checks cover copyable
+values, line-start syntax, robust footer spacing and percent-encoded filenames.
+The first escaping check caught an incorrect escape before a list's number;
+it now escapes the punctuation instead. Renderer 108 passes. Claude retrieved
+the corrected source, ran those tests and the release check, and confirmed all
+three findings closed with no remaining consequential presentation issue.
+Actual client appearance remains unobserved; no experience verdict was awarded.
+Its source-time suggestion was not adopted: the guide already says to use null
+when no applicable recorded update time is known, and choosing a new timestamp
+policy is outside this presentation change.
+
+Profile: Claude Fable 5.1, version 2026-09; existing model and effort retained,
+observed model claude-fable-5-1, effort unobserved. Agent 120, Conductor 37,
+packaging 9, gate selftest 57/root resolution 7 and hooks 21 pass; shellcheck is
+unavailable and Agent retains its existing SQLite ResourceWarnings. At review
+completion nothing was committed, pushed or installed. Anthony subsequently
+authorized the release identified in Now; installation remains outside this
+action. The root local-only patch remains untouched.
+
+Agent identity checks: 120 tests pass (including the three new identity tests);
+packaging 9, release check, Agent/Switch skill validation and diff whitespace
+check pass. Existing SQLite ResourceWarnings remain disclosed. Discovery's
+data association is tested; the host's actual presentation still needs ordinary
+use. No title or pairing was changed by this implementation.

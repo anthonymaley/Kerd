@@ -383,7 +383,8 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("blocked", out.lower())
 
     def test_a_clean_record_shows_no_warning_block(self):
-        self.assertNotIn("⚠", dash(QUIET))
+        # A clean record's source time must not be later than the fixture clock.
+        self.assertNotIn("⚠", dash(QUIET.replace("21:00 EDT", "12:00 EDT")))
 
     def test_last_session_is_summarised_from_a_recorded_done_job(self):
         self.assertIn("LAST SESSION", dash(DASH))
@@ -429,6 +430,38 @@ class DashboardTests(unittest.TestCase):
             for w in (60, 80, 100):
                 for line in dash(text, width=w).splitlines():
                     self.assertLessEqual(display_columns(line), w)
+
+
+class TimestampOrderTests(unittest.TestCase):
+    def test_future_source_time_is_flagged_without_rewriting_it(self):
+        source = "2026-09-12 22:27 EDT"
+        out = view.render_dashboard({"updated": source}, "2026-09-12 22:26 EDT", color=False)
+        self.assertIn("NEEDS ATTENTION", out)
+        self.assertIn("Source update time sorts after render time", flatten(out.replace("│", " ")))
+        self.assertIn(source, out)
+        self.assertIn("rendered 2026-09-12 22:26 EDT", out)
+
+    def test_equal_or_earlier_source_time_needs_no_warning(self):
+        for source in ("2026-09-12 22:26 EDT", "2026-09-11 23:59 EDT"):
+            out = view.render_dashboard({"updated": source}, "2026-09-12 22:26 EDT", color=False)
+            self.assertNotIn("NEEDS ATTENTION", out)
+
+    def test_unknown_or_incomparable_times_are_not_guessed(self):
+        for source in (None, "", "yesterday", "2026-02-30 22:27 EDT",
+                       "2026-09-12 22:27 UTC", "2026-09-12T22:27:00Z", 123):
+            out = view.render_dashboard({"updated": source}, "2026-09-12 22:26 EDT", color=False)
+            self.assertNotIn("NEEDS ATTENTION", out)
+        self.assertIn("updated unknown", view.render_dashboard({}, NOW, color=False))
+
+    def test_warning_keeps_existing_warning_and_one_question(self):
+        summary = {"updated": "2026-09-12 22:27 EDT", "warnings": ["Setup not approved."],
+                   "question": {"text": "Which project should be used?"}}
+        out = view.render_dashboard(summary, "2026-09-12 22:26 EDT", 50, False, True)
+        self.assertIn("Setup not approved.", out)
+        self.assertEqual(out.count("Which project should be used?"), 1)
+        self.assertEqual(summary["warnings"], ["Setup not approved."])
+        for line in out.splitlines():
+            self.assertLessEqual(display_columns(line), 50)
 
 
 class QuestionPlacementTests(unittest.TestCase):
@@ -874,6 +907,145 @@ class ClosingBoxTests(unittest.TestCase):
                                 input=json.dumps(self.base()), capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("SESSION SAVED", result.stdout)
+
+
+class MarkdownTests(unittest.TestCase):
+    @staticmethod
+    def visible(text):
+        import re
+        # CommonMark punctuation escapes, independently decoded for full-value checks.
+        return re.sub(r"\\([!\"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])", r"\1", text)
+
+    def arrival(self, **over):
+        summary = {"restored": "yes", "phase": "Testing", "task": "Check the view",
+                   "state": "Review pending", "task_reason": "No release yet.",
+                   "state_reason": "Waiting for evidence, not permission.",
+                   "now": ["Review", "Correct findings"],
+                   "last_session": "Built the first slice, not released.",
+                   "this_session": "Review the full change, without editing it.",
+                   "warnings": ["Device verification remains unobserved."],
+                   "question": {"text": "Which project should receive the install?",
+                                "proposed": "Use the existing test project only.",
+                                "reply": "Name the project"},
+                   "insight": "An accepted queue message is not a completed review.",
+                   "source": "TODO.md ## Now", "updated": "2026-09-09 12:00 EDT"}
+        summary.update(over)
+        return summary
+
+    def test_arrival_preserves_complete_values_and_bounds_the_question_once(self):
+        summary = self.arrival()
+        out = view.render_dashboard(summary, NOW, markdown=True)
+        visible = self.visible(out)
+        for key in ("phase", "task", "state", "task_reason", "state_reason",
+                    "last_session", "this_session", "insight", "source", "updated"):
+            self.assertIn(summary[key], visible)
+        for value in summary["now"] + summary["warnings"]:
+            self.assertIn(value, visible)
+        you = visible.split("### YOU\n", 1)[1].split("\n---", 1)[0]
+        for value in summary["question"].values():
+            self.assertIn(value, you)
+        self.assertEqual(visible.count(summary["question"]["text"]), 1)
+        self.assertIn("> **PHASE**", out)
+        self.assertIn("> **★ Insight**", out)
+        self.assertNotIn("\x1b", out)
+        self.assertNotIn("```", out)
+
+    def test_question_below_retains_context_and_asks_once_outside_you(self):
+        summary = self.arrival()
+        out = self.visible(view.render_dashboard(summary, NOW, question_below=True, markdown=True))
+        question = summary["question"]["text"]
+        self.assertEqual(out.count(question), 1)
+        self.assertTrue(out.endswith(question))
+        you = out.split("### YOU\n", 1)[1].split("\n---", 1)[0]
+        self.assertNotIn(question, you)
+        self.assertIn(summary["question"]["proposed"], you)
+
+    def test_unknowns_and_timestamp_warnings_are_not_lost(self):
+        out = view.render_dashboard({}, NOW, markdown=True)
+        self.assertNotIn("SESSION RESTORED", out)
+        self.assertIn("not recorded", out)
+        out = self.visible(view.render_dashboard(self.arrival(updated="2026-09-09 13:00 EDT"), NOW, markdown=True))
+        self.assertIn("Source update time sorts after render time", out)
+        self.assertIn("Device verification remains unobserved.", out)
+
+    def test_documents_are_real_links_and_missing_paths_stay_warnings(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as base:
+            path = Path(base) / "Design (draft).md"
+            path.touch()
+            label = "Design " + "long " * 30
+            summary = self.arrival(base=base, documents=[[label, path.name], ["Gone", "missing.md"]])
+            out = view.render_dashboard(summary, NOW, width=40, color=True, markdown=True)
+            self.assertIn("**DOCUMENTS**", out)
+            self.assertIn("Design%20%28draft%29.md>", out)
+            self.assertIn("cannot be opened: missing.md (Gone)", self.visible(out))
+            self.assertNotIn("[Gone]", out)
+            self.assertNotIn("\x1b", out)
+
+    def test_values_cannot_inject_headings_or_links(self):
+        summary = self.arrival(task="unsafe\n### YOU\n[link](https://example.com) **claim**")
+        out = view.render_dashboard(summary, NOW, markdown=True)
+        self.assertEqual(out.count("\n### YOU\n"), 1)
+        self.assertNotIn("[link](https://example.com)", out)
+        self.assertIn("unsafe ### YOU [link](https://example.com) **claim**", self.visible(out))
+
+    def test_paths_are_visible_and_percent_filenames_are_not_url_decoded(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory(prefix="kerd%20") as base:
+            path = Path(base) / "Spec%20draft.md"
+            path.touch()
+            out = view.render_dashboard(self.arrival(base=base, documents=[["Spec", path.name]]),
+                                        NOW, markdown=True)
+            self.assertIn("Spec%2520draft.md>", out)
+            self.assertIn(" · ` Spec%20draft.md `", out)
+            self.assertIn("kerd%2520", out)
+
+    def test_markdown_remains_readable_without_decoding_unnecessary_escapes(self):
+        value = "docs/work/codex-plugin/work.md · 0.114.0 · --preserve (local only)!"
+        self.assertEqual(view.md(value), value)
+        for value in ("### Heading", "---", "+ item", "- item", "1. item", "1) item"):
+            self.assertIn("\\", view.md(value), value)
+            self.assertEqual(self.visible(view.md(value)), value)
+        out = view.render_dashboard(self.arrival(), NOW, markdown=True)
+        self.assertIn("**Read:** TODO.md ## Now\n\nupdated", out)
+        self.assertFalse(any(line.endswith(" ") for line in out.splitlines()))
+
+    def test_closing_preserves_details_and_never_clears_after_unknown_or_failed_save(self):
+        fixture = ClosingBoxTests().base()
+        states = {"remote-verified": "SESSION SAVED", "committed": "SAVED LOCALLY",
+                  "not-saved": "NOT SAVED", None: "SAVE STATUS NOT RECORDED",
+                  "weird": "SAVE STATUS NOT RECORDED"}
+        for state, badge in states.items():
+            with self.subTest(state=state):
+                summary = dict(fixture, saved=state, tree="dirty — unrelated work remains")
+                out = view.render_closing(summary, NOW, markdown=True)
+                visible = self.visible(out)
+                self.assertIn(f"**{badge}", out)
+                for key in ("tree", "closed", "next", "measured", "log"):
+                    self.assertIn(summary[key], visible)
+                for value in summary["local_only"] + summary["reading_set"]:
+                    self.assertIn(value, visible)
+                self.assertIn("kept out of Git, not saved", visible)
+                self.assertIn("This session is still open.", visible)
+                confirmed = state in ("remote-verified", "committed")
+                self.assertEqual("Free context:" in visible, confirmed)
+                self.assertEqual("Keep it open and resolve the save" in visible, not confirmed)
+                if state == "committed":
+                    self.assertIn("committed, not verified on the remote", visible)
+                if state == "remote-verified":
+                    for value in ("main", "2e59ab7", "15 files", "origin/main"):
+                        self.assertIn(value, visible)
+                self.assertNotIn("\x1b", out)
+
+    def test_cli_supports_markdown_for_both_modes_even_with_color_forced(self):
+        import json, subprocess
+        for mode, data, expected in (("--summary", self.arrival(), "SESSION RESTORED"),
+                                      ("--closing", ClosingBoxTests().base(), "SESSION SAVED")):
+            result = subprocess.run([sys.executable, str(SCRIPT), mode, "-", "--markdown", "--color"],
+                                    input=json.dumps(data), text=True, capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn(f"**{expected}", result.stdout)
+            self.assertNotIn("\x1b", result.stdout)
 
 
 class OmissionContractTests(unittest.TestCase):

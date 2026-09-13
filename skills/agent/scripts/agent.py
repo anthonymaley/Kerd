@@ -481,6 +481,9 @@ class Agent:
                 saved['recorded_status'] = saved.pop('status', 'paired')
                 saved['live_status'] = live['status'] if live else 'not listed'
                 aliases.append(saved)
+        sessions = [{**row, 'partner_aliases': sorted({saved['alias'] for saved in aliases
+                     if saved.get('id') == row['id'] and saved['provider'] == row['provider']})}
+                    for row in sessions]
         workers = []
         if (self.state / 'workers').exists():
             workers = [read_json(path) for path in (self.state / 'workers').glob('*.json')]

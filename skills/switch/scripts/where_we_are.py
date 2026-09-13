@@ -360,6 +360,28 @@ def ink(text, *tones, on=True):
     return "\x1b[" + ";".join(ANSI[tone] for tone in tones) + "m" + text + "\x1b[0m"
 
 
+def md(text):
+    """Treat summary values as text, not Markdown instructions or headings."""
+    value = re.sub(r"([\\`*_\[\]<>|~])", r"\\\1", " ".join(str(text).split()))
+    value = re.sub(r"^(#{1,6}|[-+]+)(?=\s|$)", r"\\\1", value)
+    return re.sub(r"^(\d+)([.)])(?=\s|$)", r"\1\\\2", value)
+
+
+def code(text):
+    value = " ".join(str(text).split())
+    fence = "`" * (max((len(run) for run in re.findall(r"`+", value)), default=0) + 1)
+    return f"{fence} {value} {fence}"
+
+
+def markdown_panel(title, rows):
+    # Rules bound YOU separately from the optional, theme-coloured Insight.
+    lines = [f"### {title}", ""]
+    for row in rows:
+        if row:
+            lines += [md(row), ""]
+    return ["---", ""] + lines + ["---"] if title == "YOU" else lines
+
+
 def panel(title, rows, width, tone=None, on=True):
     """A titled box whose border carries the tone and whose content does not."""
     inner = width - 4
@@ -493,7 +515,24 @@ def summary_from_record(path, text):
     }
 
 
-def render_dashboard(summary, now, width=80, color=True, question_below=False):
+def timestamp_warning(updated, now):
+    """Compare displayed wall times only; zone labels are not timezone rules."""
+    pattern = r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}) ([A-Za-z0-9_+/-]+)"
+    stamps = [re.fullmatch(pattern, value) if isinstance(value, str) else None
+              for value in (updated, now)]
+    if not all(stamps) or stamps[0][2] != stamps[1][2]:
+        return None
+    try:
+        source, rendered = [datetime.strptime(stamp[1], "%Y-%m-%d %H:%M") for stamp in stamps]
+    except ValueError:
+        return None
+    if source > rendered:
+        return ("Source update time sorts after render time in the same displayed zone; "
+                "verify the source timestamp or clock. Neither value was corrected.")
+    return None
+
+
+def render_dashboard(summary, now, width=80, color=True, question_below=False, markdown=False):
     """One composed panel from a summary already in hand.
 
     Switch passes what it has just read; nothing is written to disk for this.
@@ -512,11 +551,16 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False):
     lines = [ink(pad(" KERD", width - columns(badge)), "bold", "cyan", on=color)
              + ink(badge, tone, on=color and tone is not None),
              ink("\u2501" * width, "cyan", on=color), ""]
+    if markdown:
+        lines = [f"{code('KERD')} · **{badge.strip()}**" if badge else code("KERD"), "", "---", ""]
 
     rows = (("PHASE", get("phase") or UNRECORDED, None),
             ("TASK", get("task") or UNRECORDED, get("task_reason")),
             ("STATE", get("state") or UNRECORDED, get("state_reason")))
     for label, value, reason in rows:
+        if markdown:
+            lines += [f"> **{label}** · {md(value)}" + (f" — {md(reason)}" if reason else ""), ">"]
+            continue
         for index, line in enumerate(wrap(str(value), width - 10)):
             lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color)
                          + " " + line)
@@ -527,72 +571,97 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False):
     # The immediate work is part of the frame: it always renders, so a project
     # with nothing under its Now heading shows that gap rather than hiding it.
     # The backlog is deliberately not here; it stays behind the documents link.
-    lines.append(ink(" NOW", "dim", on=color))
+    lines.append("**NOW**\n" if markdown else ink(" NOW", "dim", on=color))
     now_items = get("now") or []
     if isinstance(now_items, str):  # one item written as prose, not a typo per character
         now_items = [now_items]
     items = [str(item) for item in now_items if item]
     for item in items:
+        if markdown:
+            lines.append(f"- {md(item)}")
+            continue
         for index, line in enumerate(wrap(item, width - 5)):
             lines.append(("   \u25cb " if index == 0 else "     ") + line)
     if not items:
-        lines.append("   no immediate work recorded")
+        lines.append("no immediate work recorded" if markdown else "   no immediate work recorded")
     lines.append("")
 
     for label, value, empty in (("LAST SESSION", get("last_session"),
                                  "no completed job is recorded"),
                                 ("THIS SESSION", get("this_session"), "Nothing agreed yet.")):
+        if markdown:
+            lines += [f"**{label}**", "", md(value or empty), ""]
+            continue
         lines.append(ink(" " + label, "dim", on=color))
         lines += ["   " + line for line in wrap(value or empty, width - 3)]
     lines.append("")
 
     warnings = list(get("warnings") or [])
+    time_warning = timestamp_warning(get("updated"), now)
+    if time_warning:
+        warnings.append(time_warning)
     if get("restore_note"):
         warnings.insert(0, str(get("restore_note")))
     base = get("base") or "."
     open_able, broken = resolve_links([tuple(pair) for pair in (get("documents") or [])], base)
     warnings += [f"cannot be opened: {target} ({label})" for label, target in broken]
     if warnings:
-        lines += panel("\u26a0 NEEDS ATTENTION", warnings, width, "red", color) + [""]
+        lines += (markdown_panel("⚠ NEEDS ATTENTION", warnings) if markdown else
+                  panel("\u26a0 NEEDS ATTENTION", warnings, width, "red", color)) + [""]
 
     question = get("question")
     if question and question.get("text"):
-        lines += panel("YOU", ["Your answer is needed; question below." if question_below
+        question_rows = ["Your answer is needed; question below." if question_below
                                else question["text"], "",
                                "Proposed: " + (question.get("proposed") or UNRECORDED),
-                               "Reply: " + (question.get("reply") or "Correct / Change")],
-                       width, "amber", color) + [""]
+                               "Reply: " + (question.get("reply") or "Correct / Change")]
+        lines += (markdown_panel("YOU", question_rows) if markdown else
+                  panel("YOU", question_rows, width, "amber", color)) + [""]
     else:
-        lines += panel("YOU", ["Nothing needs you right now."], width, None, color) + [""]
+        lines += (markdown_panel("YOU", ["Nothing needs you right now."]) if markdown else
+                  panel("YOU", ["Nothing needs you right now."], width, None, color)) + [""]
 
     if open_able:
         labels = " \u00b7 ".join(label for label, _ in open_able)
-        lines.append(" " + ink(pad("DOCUMENTS", 11), "dim", on=color)
+        lines.append("**DOCUMENTS**\n" if markdown else (" " + ink(pad("DOCUMENTS", 11), "dim", on=color)
                      + ink(labels, "cyan", on=color) if columns(labels) <= width - 12
-                     else " " + ink("DOCUMENTS", "dim", on=color))
+                     else " " + ink("DOCUMENTS", "dim", on=color)))
         for label, target in open_able:
+            if markdown:
+                from urllib.parse import quote
+                if target.startswith(("http://", "https://", "mailto:")):
+                    href = quote(target, safe="/:#?=&%+@")
+                else:
+                    path, sep, fragment = target.partition("#")
+                    href = quote(str((Path(base) / path).resolve()), safe="/")
+                    if sep:
+                        href += "#" + quote(fragment, safe="/")
+                lines.append(f"- [{md(label)}](<{href}>) · {code(target)}")
+                continue
             lines += ["   " + line for line in wrap(f"\u2192 {target}  ({label})", width - 3)]
         lines.append("")
 
     if get("insight"):
-        lines += [" " + ink("\u2605", "amber", on=color) + " " + line if index == 0
+        lines += (["> **★ Insight**", ">", f"> {md(get('insight'))}"] if markdown else
+                  [" " + ink("\u2605", "amber", on=color) + " " + line if index == 0
                   else "   " + line
-                  for index, line in enumerate(wrap(get("insight"), width - 3))]
+                  for index, line in enumerate(wrap(get("insight"), width - 3))])
         lines.append("")
 
-    lines.append(ink("\u2501" * width, "cyan", on=color))
+    lines.append("---\n" if markdown else ink("\u2501" * width, "cyan", on=color))
     stamps = f"updated {get('updated') or 'unknown'} \u00b7 rendered {now}"
     source = get("source") or UNRECORDED
     one = f"read: {source} \u00b7 {stamps}"
     block = [one] if columns(one) <= width - 1 else [f"read: {source}", stamps]
-    lines += [ink(" " + line, "dim", on=color)
-              for entry in block for line in wrap(entry, width - 1)]
+    lines += ([f"**Read:** {md(source)}", "", md(stamps)] if markdown else
+              [ink(" " + line, "dim", on=color)
+               for entry in block for line in wrap(entry, width - 1)])
     if question_below and question and question.get("text"):
-        lines += [""] + wrap(question["text"], width)
+        lines += [""] + ([md(question["text"])] if markdown else wrap(question["text"], width))
     return "\n".join(lines)
 
 
-def render_closing(summary, now, width=80, color=True):
+def render_closing(summary, now, width=80, color=True, markdown=False):
     """One box at the end of Switch Out saying how far the save reached.
 
     Three states, told apart in words as well as tone: remote-verified (the
@@ -616,8 +685,13 @@ def render_closing(summary, now, width=80, color=True):
     lines = [ink(pad(" " + str(project).upper(), width - columns(badge)), "bold", "cyan", on=color)
              + ink(badge, tone, on=color),
              ink("\u2501" * width, "cyan", on=color), ""]
+    if markdown:
+        lines = [f"{code(str(project).upper())} · **{badge.strip()}**", "", "---", ""]
 
     def row(label, value):
+        if markdown:
+            lines.extend([f"**{label}** · {md(value or UNRECORDED)}", ""])
+            return
         for index, line in enumerate(wrap(str(value) if value else UNRECORDED, width - 10)):
             lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color) + " " + line)
 
@@ -635,21 +709,24 @@ def render_closing(summary, now, width=80, color=True):
     row("CLOSED", get("closed"))
     lines.append("")
 
-    lines.append(ink(" NEXT", "dim", on=color))
-    lines += ["   " + line for line in wrap(get("next") or UNRECORDED, width - 3)]
+    lines.append("**NEXT**\n" if markdown else ink(" NEXT", "dim", on=color))
+    lines += ([md(get("next") or UNRECORDED), ""] if markdown else
+              ["   " + line for line in wrap(get("next") or UNRECORDED, width - 3)])
     reading = [str(item) for item in (get("reading_set") or []) if item]
     if reading or get("measured"):
-        lines.append(ink(" READ FIRST", "dim", on=color))
+        lines.append("**READ FIRST**\n" if markdown else ink(" READ FIRST", "dim", on=color))
         for item in reading:
-            lines += ["   \u25cb " + line if index == 0 else "     " + line
-                      for index, line in enumerate(wrap(item, width - 5))]
+            lines += ([f"- {md(item)}"] if markdown else
+                      ["   \u25cb " + line if index == 0 else "     " + line
+                       for index, line in enumerate(wrap(item, width - 5))])
         if get("measured"):
-            lines += ["   " + line for line in wrap("measured: " + str(get("measured")), width - 3)]
+            lines += (["", f"**Measured:** {md(get('measured'))}"] if markdown else
+                      ["   " + line for line in wrap("measured: " + str(get("measured")), width - 3)])
     lines.append("")
     if get("log"):
         row("LOG", get("log"))
         lines.append("")
-    lines.append(ink("\u2501" * width, "cyan", on=color))
+    lines.append("---\n" if markdown else ink("\u2501" * width, "cyan", on=color))
     # The free-context hint follows only a confirmed save; after a failed or
     # unknown save, clearing context would lose the very work that is unsaved.
     if saved in ("remote-verified", "committed"):
@@ -657,15 +734,16 @@ def render_closing(summary, now, width=80, color=True):
                    "then ask Kerd to switch in.")
     else:
         closing = "This session is still open. Keep it open and resolve the save before clearing context."
-    lines += [ink(" " + line, "dim", on=color) for line in wrap(f"{closing} rendered {now}", width - 1)]
+    lines += ([md(closing), "", f"Rendered: {md(now)}"] if markdown else
+              [ink(" " + line, "dim", on=color) for line in wrap(f"{closing} rendered {now}", width - 1)])
     return "\n".join(lines)
 
 
 def dashboard(path, text, now, width=80, color=True, restored=None, restore_note=None,
-              question_below=False):
+              question_below=False, markdown=False):
     summary = summary_from_record(path, text)
     summary["restored"], summary["restore_note"] = restored, restore_note
-    return render_dashboard(summary, now, width, color, question_below)
+    return render_dashboard(summary, now, width, color, question_below, markdown)
 
 
 def main():
@@ -690,6 +768,8 @@ def main():
                         help="Force colour on when output is piped or captured")
     parser.add_argument("--no-color", action="store_true",
                         help="Plain text; also implied by NO_COLOR or a non-terminal")
+    parser.add_argument("--markdown", action="store_true",
+                        help="Chat presentation: theme-styled Markdown, no ANSI; client controls colour and wrapping")
     args = parser.parse_args()
     now = datetime.now().astimezone().strftime("%Y-%m-%d %H:%M %Z")
     color = args.color or not (
@@ -701,7 +781,7 @@ def main():
         except json.JSONDecodeError as error:
             print(f"Closing summary is not readable JSON: {error}", file=sys.stderr)
             return 2
-        print(render_closing(closing, now, args.width, color))
+        print(render_closing(closing, now, args.width, color, args.markdown))
         return 0
     if args.summary:
         raw = sys.stdin.read() if args.summary == "-" else Path(args.summary).read_text("utf-8")
@@ -712,7 +792,7 @@ def main():
             return 2
         summary.setdefault("restored", args.restored)
         summary.setdefault("restore_note", args.restore_note)
-        print(render_dashboard(summary, now, args.width, color, args.question_below))
+        print(render_dashboard(summary, now, args.width, color, args.question_below, args.markdown))
         return 0
     if not args.record:
         print("Give --record <path> or --summary -", file=sys.stderr)
@@ -724,7 +804,7 @@ def main():
     text = path.read_text(encoding="utf-8")
     if args.dashboard:
         print(dashboard(path, text, now, args.width, color, args.restored, args.restore_note,
-                        args.question_below))
+                        args.question_below, args.markdown))
         return 0
     print((compact if args.compact else render)(path, text, now, args.width))
     return 0

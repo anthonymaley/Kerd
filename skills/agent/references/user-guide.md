@@ -29,8 +29,8 @@ can say “ask it to recheck” or “anything back?” when the conversation ma
 target clear. “RO” means read-only.
 
 If no partner is established, or it is unclear which you mean, Kerd shows the
-matching sessions so you can choose: provider, available name/topic, project
-and availability, with a short ID only when needed to distinguish them. The
+matching sessions so you can choose: provider, pairing role/alias and short ID
+first, followed by project, availability and the saved native title. The
 Codex sessions you have open in terminals appear here too, marked as saved
 threads whose activity is unknown until one answers. You
 can choose an existing session or ask for a new one. An unavailable partner is
@@ -40,6 +40,31 @@ new partner skips choosing an existing session.
 The command must be present in the loaded Kerd version. If your installed copy
 does not include Agent, ask to check availability before changing the installation.
 Loading these instructions does not install missing provider tools or dependencies.
+
+## Recognize your partner
+
+An illustrative session listing:
+
+```text
+Codex · established partner · build-partner · 8c12f7a1
+  Project: /projects/example
+  Saved title (may be old): Initial setup
+  Availability: saved thread — activity unknown
+  Last exchange (recorded): implementation review — reply received, 12 Sep
+```
+
+The title can outlive the task that named it. The exact session ID and local
+pairing identify your partner; a title or recent reply does not prove it is
+currently working. Last exchange is shown only when known, not invented from
+the title. Multiple aliases for one session are grouped, not offered as separate
+people. **This session** requires its current host identity to be verified.
+
+Switch Out keeps a short provider/contribution/result and next-action pointer
+in the existing work or session record when collaboration matters to pickup.
+Native IDs, aliases and raw exchanges stay private in local Git metadata.
+The project summary does not mean every listed session has read it, and moving
+it to another machine does not re-establish pairing. No second session tracker
+or automatic native-title rename is required.
 
 ## Which kind of session?
 

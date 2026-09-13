@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, delivery and independent assessment. Resume saved work, including Switch In's single dashboard and arrival decision. Small explicit changes, status and review requests do not start a full intake.
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, delivery and independent assessment. Resume saved work with current observations and a scoped arrival decision in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -43,6 +43,17 @@ approval, even if the wider plan was already agreed. Never say “nothing needed
 while asking for an answer elsewhere. If the host requires a plain-text question,
 put scope in YOU and ask once below the frame instead; Switch's renderer offers
 `--question-below`. Do not repeat the question after either presentation.
+
+Reconcile the displayed next work with observations already obtained during this
+pickup. An arrival check observed now is not still waiting to start: annotate
+its remaining assessment or recording, consistently in NOW, THIS SESSION and any
+Insight. Do not award the person's experience verdict, rewrite the saved list,
+or repeat the check merely to record it. In itself still does no project work.
+
+For a proposed installation or session launch, name the target project and, for
+installation, its scope (project or user-wide) before requesting approval. If a
+required target or scope is unresolved, make that gap the question; do not bundle “a work
+project” into authorization to choose one later. Reuse already-established targets.
 
 This deliberate arrival check-in is the one exception to reusing an unchanged
 approval. Do not create or update work records, launch workers or execute the
