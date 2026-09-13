@@ -4,16 +4,21 @@
 
 Outcome: Switch In makes the established team recognizable and tells those
 partners when the current native identity arrives, without starting work.
-Stage: Complete — implementation and independent review for 0.119.0.
-Source boundary: main, “Release Kerd 0.119.0: visible team and recommended next action”.
+Stage: Complete — compact arrival follow-up implemented, reviewed and released as 0.120.0.
+Source boundary: main, “Release Kerd 0.120.0: compact arrival without YOU”.
 This account is saved with the release; remote publication and CI are checked
 after saving, not pre-asserted inside this commit.
-Owner: Codex implements Agent/Switch and tests. Established Claude partner
-reviews read-only; its separate shared verification record stays under its ownership.
-Next action: observe the next ordinary arrival after confirming the client loaded
-0.119.0. Anthony authorized “whe done work with claude to release”; Codex owns
-the source save/push and remote CI check, Claude the independent review. No
-plugin installation or consumer work is included in that release authority.
+Owner: Codex implemented Agent/Switch and tests. The established Claude partner
+reviewed read-only and published 0.120.0 on Anthony's direct “lets release”
+(2026-09-13 16:51), after Codex confirmed its edits finished and that it would
+not release in parallel. Claude's separate shared verification record stays
+under its ownership.
+Next action: a fresh Claude session loads 0.120.0 and shows the compact arrival
+for Anthony's assessment. Publication does not update an installed plugin cache;
+no install or Codex update is authorized. Anthony approved the implementation
+with “perfect - okay lets do it”; approving it is not his assessment of the
+arrival in ordinary use. The earlier 0.119.0 release is history, not this
+boundary.
 Pending question: none.
 
 ## Agreement
@@ -180,3 +185,59 @@ should show the correct team/IDs and notice outcome without waiting or starting
 work. Compare the receiver's native notice with the sender's retained receipt
 only if live delivery needs verification. Human judgement remains the dashboard
 experience; fixtures cover mechanics without requiring Anthony to supervise them.
+
+## Compact arrival follow-up (2026-09-13, local)
+
+Anthony's assessment of the ordinary 0.119.0 arrival changed the presentation:
+remove YOU entirely; put known owners against pressing actions and logical next
+steps in numbered NOW, rather than listing evidence rows. TEAM becomes one
+provider/role line. IDs and routine notice state stay in Agent details; surface
+only routing problems consequential to the next action in ATTENTION. The actual
+question comes once after END as `> 💬 **Question?**`. Do not add alternatives.
+These supersede the earlier display agreement above, not its routing safeguards.
+
+Codex received the preceding Claude arrival notice in this conversation and did
+not acknowledge it or start work. This confirms that notice's receipt only, not
+general availability or acceptance. Anthony's revised display preferences are
+the evidence for this change, not a generic passed dashboard verdict.
+
+Implementation changes dashboard rendering and living Switch/Conductor/Agent
+display guidance only. No new schema, roster, transport, bindings or workflow.
+The caller supplies faithful brief role labels and known owners; the renderer
+does not invent them. Old `question.proposed` values keep their full scope below
+NOW; new inputs leave it null and keep limits in the actions or THIS SESSION.
+Legacy non-dashboard record view and Out completion rendering are unchanged.
+
+131 renderer tests pass, including compact identity grouping, actual helper
+undefined-role wording, explicit owner emphasis, ordinary colon text not treated
+as an owner, escaped question text, no-question arrivals and full old-input scope
+and Markdown list structure. Full Switch 340 and Conductor 37 passed.
+Release gate and skill validators pass; audit retains its pre-existing trace gap.
+These checks are not a release, installation or user experience verdict.
+
+Claude returned five supported findings: ordinary colon text had been styled as
+owners; README Day to day still named YOU; Conductor's generic blockquote ban
+conflicted with arrival; old proposals lost Markdown list layout; real helper
+undefined-role text produced nested parentheses. All corrected, with regression
+checks for the behavior changes. Explicit `**Owner:** action` is display notation
+inside the existing NOW string, not a new record field or owner assignment.
+
+One proposed correction was declined: automatically showing every failed notice.
+Anthony agreed that only routing problems affecting the next action belong in
+ATTENTION. The caller sees the plan and receipt, so supplies that warning when
+consequential; a failed greeting alone cannot establish it. Agent retains the
+error/receipt. A test verifies supplied routing warnings are not lost. This is
+an intentional caller judgment, not a promise that every failed notice appears.
+Claude rechecked the corrections read-only and cleared the local implementation,
+not publication. It independently reran 131 renderer tests, checked owner syntax
+and near misses, old proposal structure, actual undefined-role wording and both
+guidance corrections. It withdrew the unconditional notice-warning finding as
+contrary to Anthony's agreed display scope. Profile used:
+Opus 5 2026-09, existing native model/effort unchanged; observed model is recorded
+as claude-opus-5 by the reply metadata; applied effort remains unobserved.
+
+Non-blocking display limit retained: an old proposal with a restriction directly
+after a list and no blank line is treated by Markdown as continuation of the last
+item. Its full text survives; the documented blank-line shape renders separately.
+No known caller evidence requires another formatting rule. No shared handoff,
+verification-record, binding or installed-plugin changes were made in this task.

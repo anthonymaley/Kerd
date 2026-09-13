@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing and designated role continuity, notifies established partners without requesting work or a reply, and presents a compact dashboard with TEAM, NOW and one arrival decision. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing and designated role continuity, notifies established partners without requesting work or a reply, and presents a compact dashboard with provider/role TEAM, owner-labelled NOW and one question callout after END. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -13,8 +13,8 @@ and repository boundaries still apply.
 ## Pick the intended action
 
 - **In:** restore useful memory, current status and the saved plan; load Conductor
-  to compose one welcome-back dashboard with the decision's scope in YOU and
-  its question once after the end marker, then wait. Read
+  to compose one welcome-back dashboard with owner-labelled NOW actions and
+  one question callout after the end marker, then wait. Read
   [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work, leave a
   lean, measured start point — rulings kept, cases and closed rows moved to
@@ -60,9 +60,11 @@ and verified work. Don't claim a file save exited a session, moved a process or
 proved full restoration. No fake activity or progress percentages.
 
 For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
-Now, Last session, This session, Where we are, You, and a real link to task detail.
-Use its compact chat layout: fenced completion and YOU boxes, short summaries,
-NOW, links and an end-of-pickup marker. Retain the terminal output when appropriate.
+Now, Last session, This session, Where we are, and a real link to task detail.
+Use its compact chat layout: one fenced completion box with a provider/role TEAM
+line, short summaries, owner-labelled NOW, links and an end-of-pickup marker.
+The single question follows as a bold speech-bubble blockquote; no YOU box.
+Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 
 Ordinary In restores an active build's place without executing it. Before

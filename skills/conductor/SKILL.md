@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation and independent assessment. Resume saved work with current observations and one recommended next action in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation and independent assessment. Resume saved work with current observations and owner-labelled next actions and one question callout in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -44,13 +44,13 @@ owed now. Once clarified, ask for the
 scoped action only if authorization is still missing. An explicit instruction
 that supplies both the fact and permission can proceed without another stop.
 STATE and THIS
-SESSION must agree with YOU: this sitting's action is proposed while awaiting
+SESSION must agree with NOW and the question: this sitting's action is proposed while awaiting
 approval, even if the wider plan was already agreed. Never say “nothing needed”
-while asking for an answer elsewhere. In chat, put scope and proposal in YOU;
-Switch renders the actual question once immediately after END OF PICKUP.
-Plain terminal output uses YOU unless `--question-below` is supplied.
+while asking for an answer elsewhere. Put scope in NOW or THIS SESSION;
+Switch renders the actual question once immediately after END OF PICKUP,
+as a bold speech-bubble blockquote in chat. No YOU box.
 Do not append another question after either presentation.
-Recommend one next action, with short steps and its limits in YOU. Ask one direct
+Recommend one next action, with a known owner and its limits in NOW. Ask one direct
 question about it; do not tack on “or later?” or an alternative task. No REPLY
 menu: the person can decline, defer or redirect without being prompted to choose.
 
@@ -152,7 +152,8 @@ the guide's compact fallback when native task controls are unavailable.
 At a decision, show the current stage, what is settled, what needs the person's
 input and what follows their reply—not “question 4 of 10”. Use a real bounded
 card when supported, with the proposed answer and its qualifications inside.
-Do not substitute an email-style blockquote. If the host requires a plain-text
+Outside Switch's arrival callout, do not substitute an email-style blockquote.
+If the host requires a plain-text
 question, keep the surrounding progress and answer panel, then ask one concise
 plain-text question. A ban on numbered choices is not a ban on progress or borders.
 Never simulate clickable controls, colours or native capabilities that are absent.

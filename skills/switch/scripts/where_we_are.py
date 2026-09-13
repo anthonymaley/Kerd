@@ -559,8 +559,21 @@ def recommendation_rows(text, width):
     return rows
 
 
+def recommendation_markdown(text):
+    """Preserve explicit list markers while escaping their content."""
+    rows = []
+    for line in str(text).splitlines():
+        match = re.match(r"^\s*(\d+[.)] |[-*] )(.*)$", line)
+        if match:
+            prefix, value = match.groups()
+            rows.append(prefix + md(value))
+        else:
+            rows.append(md(line) if line.strip() else "")
+    return rows
+
+
 def team_rows(team):
-    """Private display only. Short IDs distinguish sessions, not live activity."""
+    """Compact roster only; identity and delivery details remain in Agent."""
     if team is None:
         return [("TEAM", "not recorded", None)]
     if not team:
@@ -570,28 +583,25 @@ def team_rows(team):
         key = (member.get("provider"), member.get("id") or index)
         if key not in members:
             members[key] = member
-    ids = {str(member["id"]) for member in members.values() if member.get("id")}
-    rows = []
+    labels = []
     for member in members.values():
-        sid = str(member.get("id") or "")
-        size = 8
-        while sid and any(other != sid and other[:size] == sid[:size] for other in ids):
-            size += 1
         label = str(member.get("provider") or member.get("alias") or "Partner")
-        role = member.get("role") or ("role not defined" if sid else "recipient not selected")
-        rows.append(("TEAM", f"{label} · {role} · {sid[:size] or 'ID unresolved'}", None))
-        if member.get("self"):
-            continue
-        status = {"queued": "notice queued", "submitted-unconfirmed": "notice submitted, delivery unconfirmed",
-                  "delivery-uncertain": "notice delivery uncertain", "notice-unavailable": "notice unavailable"}.get(
-                      member.get("status"), member.get("status") or "not contacted")
-        if member.get("reused"):
-            status = "earlier " + status + " (not resent)"
-        detail = f"{label}: {status} · availability unverified"
-        if member.get("error"):
-            detail += " — " + str(member["error"])
-        rows.append(("PEER", detail, None))
-    return rows
+        label = {"claude": "Claude", "codex": "Codex"}.get(label, label)
+        role = member.get("role") or ("partner · role unassigned" if member.get("id")
+                                      else "recipient not selected")
+        role = {"established partner (role not defined)": "partner · role unassigned",
+                "role not defined": "role unassigned"}.get(role, role)
+        labels.append(f"{label} ({role})")
+    return [("TEAM", " + ".join(labels), None)]
+
+
+def action_text(item, markdown=False):
+    """Only explicit **Owner:** notation declares a display label."""
+    match = re.fullmatch(r"\*\*([^*\n]+):\*\* (.+)", item, re.S)
+    if match:
+        owner, action = match.groups()
+        return f"**{md(owner)}:** {md(action)}" if markdown else f"{owner}: {action}"
+    return md(item) if markdown else item
 
 
 def render_dashboard(summary, now, width=80, color=True, question_below=False, markdown=False):
@@ -603,7 +613,9 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     presentation ran.
     """
     get = summary.get
-    question_below = question_below or markdown
+    # --question-below remains accepted for older callers; all arrivals now
+    # put the question after the end marker.
+    question = get("question")
     restored = get("restored")
     if restored == "yes":
         badge, tone = "SESSION RESTORED \u2713 ", "green"
@@ -658,14 +670,22 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     items = [str(item) for item in now_items if item]
     for position, item in enumerate(items, 1):
         if markdown:
-            lines.append(f"{position}. {md(item)}")
+            lines.append(f"{position}. {action_text(item, markdown=True)}")
             continue
         prefix = f"   {position}. "
-        for index, line in enumerate(wrap(item, width - len(prefix))):
+        for index, line in enumerate(wrap(action_text(item), width - len(prefix))):
             lines.append((prefix if index == 0 else " " * len(prefix)) + line)
     if not items:
         lines.append("no immediate work recorded" if markdown else "   no immediate work recorded")
     lines.append("")
+    # Older callers placed consequential limits in YOU. Preserve those under
+    # NOW, without inferring ownership or turning the prose into extra tasks.
+    if question and question.get("proposed"):
+        lines += ["**Scope / recommendation**" if markdown else " Scope / recommendation", ""]
+        proposal = str(question["proposed"])
+        lines += (recommendation_markdown(proposal) if markdown else
+                  ["   " + line if line else "" for line in recommendation_rows(proposal, width - 3)])
+        lines.append("")
 
     for label, value, empty in (("LAST SESSION", get("last_session"),
                                  "no completed job is recorded"),
@@ -690,18 +710,6 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     if warnings:
         lines += (["**ATTENTION**\n"] + [f"- {md(warning)}" for warning in warnings] if markdown else
                   panel("\u26a0 NEEDS ATTENTION", warnings, width, "red", color)) + [""]
-
-    question = get("question")
-    if question and question.get("text"):
-        inner = (box_width if markdown else width) - 4
-        question_rows = [] if question_below else wrap(question["text"], inner) + [""]
-        question_rows += ["RECOMMENDED", ""] + recommendation_rows(
-            question.get("proposed") or UNRECORDED, inner) + [""]
-        lines += (chat_box("YOU", question_rows, box_width, prewrapped=True) if markdown else
-                  panel("YOU", question_rows, width, "amber", color, prewrapped=True)) + [""]
-    else:
-        lines += (chat_box("YOU", ["Nothing needs you right now."], box_width) if markdown else
-                  panel("YOU", ["Nothing needs you right now."], width, None, color)) + [""]
 
     if open_able:
         labels = " \u00b7 ".join(label for label, _ in open_able)
@@ -738,13 +746,17 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     lines += ([f"**Read:** {md(source)}", "", md(stamps)] if markdown else
               [ink(" " + line, "dim", on=color)
                for entry in block for line in wrap(entry, width - 1)])
+    ending = ("END OF PICKUP · SESSION READY" if restored == "yes" else
+              "END OF PICKUP · RESTORATION INCOMPLETE" if restored in ("partial", "no") else
+              "END OF PICKUP · RESTORATION UNCONFIRMED")
     if markdown:
-        ending = ("END OF PICKUP · SESSION READY" if restored == "yes" else
-                  "END OF PICKUP · RESTORATION INCOMPLETE" if restored in ("partial", "no") else
-                  "END OF PICKUP · RESTORATION UNCONFIRMED")
         lines += ["", "```text", "━━ " + ending + " ━━", "```"]
-    if question_below and question and question.get("text"):
-        lines += [""] + ([md(question["text"])] if markdown else wrap(question["text"], width))
+    else:
+        lines += [""] + [ink(line, "cyan", on=color) for line in wrap(ending, width)]
+    if question and question.get("text"):
+        lines += [""] + ([f"> 💬 **{md(question['text'])}**"] if markdown else
+                          [ink("💬 " + line if index == 0 else "   " + line, "bold", on=color)
+                           for index, line in enumerate(wrap(question["text"], width - 3))])
     return "\n".join(lines)
 
 
@@ -858,7 +870,7 @@ def main():
     parser.add_argument("--dashboard", action="store_true",
                         help="One composed panel on arrival, for switch-in")
     parser.add_argument("--question-below", action="store_true",
-                        help="Dashboard question once below the frame, with context in YOU")
+                        help="Compatibility flag: dashboard questions always follow the end marker")
     parser.add_argument("--color", action="store_true",
                         help="Force colour on when output is piped or captured")
     parser.add_argument("--no-color", action="store_true",

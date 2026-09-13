@@ -188,9 +188,10 @@ persistent partner is eligible, but cannot be resumed merely for a notice.
 With no established partner, no notice or setup prompt. The helper corroborates self identity and refuses a
 self-role binding that was not restored to this ID.
 
-Pass the returned `team` unchanged to Switch's in-memory summary. Show provider,
-role and short ID in TEAM in the existing completion box; exact IDs stay in
-private context and are available through Agent, not tracked Markdown. Repeated
+Pass the returned `team` to Switch's in-memory summary, optionally shortening role
+wording faithfully for display without editing the binding. Show one compact
+TEAM line: provider (role) + provider (role). IDs and routine notice status stay
+in Agent details, not the welcome dashboard or tracked Markdown. Repeated
 aliases for the same provider/ID are one member. Missing role means undefined,
 not inferred from the native title. Sending cannot make availability verified.
 
@@ -209,6 +210,7 @@ receipt. A new ID on either side permits a new notice. Compare identities, not
 commands: a Claude clear that changes its ID sends a new notice; any same-ID
 continuation does not. This is identity announcement, not a heartbeat.
 Pre-enqueue refusals are unavailable; only an attempted native send can be
-delivery-uncertain. A failed notice remains visible
-without turning complete memory into incomplete pickup. Later actual work uses
+delivery-uncertain. A failed notice remains in Agent details; surface it in
+dashboard ATTENTION when it affects the next action, without turning complete
+memory into incomplete pickup. Later actual work uses
 ordinary Agent request/reply handling and resolves the binding again.

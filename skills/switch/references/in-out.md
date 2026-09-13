@@ -152,14 +152,15 @@ After identity and any required adoption, run Agent's bounded
 for the selected established partners, or the helper's unambiguous private
 pairing default when the restored context names none. The caller does not
 enumerate aliases as recipients; the helper reads private binding metadata and
-selects only an unambiguous partner, never by title or recency. Show its `team` result in
-the completion box, with short session IDs and notice status, not buried in
-ATTENTION. Full IDs remain available through Agent; neither goes into the
-project's saved records. A failed notice does not make restored memory incomplete.
+selects only an unambiguous partner, never by title or recency. Show a compact TEAM line in
+the completion box: `Claude (role) + Codex (role)`. Use brief faithful role labels,
+not new assignments; a missing role stays unassigned. IDs and routine notice status
+remain in Agent details, not the dashboard or project records. Surface a routing
+problem in ATTENTION only when it affects the next action. A failed notice does not make restored memory incomplete.
 
 ### Welcome back: the screen summary
 
-After restoration, orient before detail. Five short blocks, worded for the project:
+After restoration, orient before detail. Four short blocks, worded for the project:
 
 - **Now:** prioritized next actions from the project's `## Now` and saved plan,
   not a copy of status bullets. The backlog stays behind the documents link.
@@ -168,8 +169,6 @@ After restoration, orient before detail. Five short blocks, worded for the proje
   suggestion stays a suggestion.
 - **Where we are:** position in the wider work, in the project's own stage names,
   not the stage of the pickup itself.
-- **You:** "Nothing needed right now", or the specific decision and what it
-  unlocks, in Conductor's bounded question surface.
 
 Close with the document links; the task list carries the label **Open work**
 and points at the existing work/status page — HTML where one exists, otherwise
@@ -203,49 +202,40 @@ resolved relative to this skill so it travels with the package:
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary - --markdown
 ```
 
-Use `--markdown` in assistant chat. Keep its completion and YOU boxes in their
-own code fences; do not fence the whole dashboard. In order: tight completion
-box (PROJECT / PHASE / TASK / STATE / TEAM and peer-notice status), short LAST SESSION and THIS SESSION,
-NOW list, essential ATTENTION, YOU box, document links, optional Insight and
-source footer, then **END OF PICKUP · SESSION READY**, followed immediately by
-the one pending question in ordinary chat text. Keep the header values
-brief, each session summary to one high-level sentence and NOW items concise;
-retain consequential scope and uncertainty, linking the detailed work instead
-of pasting its history. The renderer wraps rather than truncates supplied text.
-Compose NOW as short next actions in priority order from the saved plan and
-dependencies, not a report of numbered evidence rows. Name the actor when it
-matters. The renderer numbers the supplied order; it does not infer priority.
-Completed observations belong in the session summary or relevant status, not
-as next actions. Keep deferred work behind Open work, with a brief restriction
-in ATTENTION when needed. Do not silently discard an unresolved blocker or
-change the agreed ordering; describe a proposed order as proposed if unsettled.
-The end line ends restoration, not the user's session, and starts no work.
-Partial or unknown restoration gets an incomplete or unconfirmed ending instead.
-No report or duplicate approval follows it. Colour is optional enhancement,
-never the structure; no exact palette or coloured border is promised.
-For direct terminal output, omit `--markdown` to retain the ANSI-coloured boxes;
-`--color` forces ANSI, `--no-color` or `NO_COLOR` provides plain terminal output.
-Markdown mode emits no ANSI even with `--color`. If Markdown is unavailable,
-use the plain terminal frame instead. These are presentation choices, not new
-state, memory reads or permission to continue work.
+Use `--markdown` in assistant chat. Keep only the tight completion box fenced:
+PROJECT / PHASE / TASK / STATE / TEAM. Follow with short LAST SESSION and THIS
+SESSION, NOW, essential ATTENTION, document links, optional Insight and source
+footer, then **END OF PICKUP · SESSION READY**. There is no YOU box.
 
-In chat, YOU holds one recommended action and its scope; the actual question
-appears once as the first content after the end marker. No intervening recap or
-report. If no answer is needed, stop at the marker without inventing a question.
-Use short paragraphs with a blank line between the recommendation and its limits.
-For several concrete steps, put numbered lines in the existing `proposed` string;
-use bullets for unordered checks. These are actions, not answer choices. The
-renderer preserves their spacing and indents wrapped continuations. Do not
-compress the steps and permission boundary into one paragraph.
-No REPLY menu or generic “your answer is needed” line. Recommend the next action
-and ask one direct question, such as “Can you run these checks on Master now?”
-Do not append “or later?” or an alternative task; the person can push back without
-being offered a second question. A yes to doing a check is not its result.
-For dashboard acceptance, for example: “Can you approve this dashboard now?” with its
-presentation-only scope in YOU; a factual clarification still asks for the fact,
-not approval. The renderer places the question: do not append it yourself.
-Plain terminal output keeps it inside YOU unless `--question-below` is supplied.
-The same behavior applies to `--record ... --dashboard --markdown`.
+NOW is the action surface: number genuinely pressing work and logical next
+steps for this sitting in priority order, with a known owner as `**Owner:** action` inside the existing string.
+This explicit display notation distinguishes owners from ordinary colon-prefixed
+prose; the renderer preserves its bold label in chat and strips the emphasis in
+terminal output. It neither assigns owners nor
+infers priority. Mark an unknown owner unassigned rather than choosing one at
+pickup. Combine related recording work into one follow-through action.
+Completed observations, evidence-row inventories and conditional “record it when
+it happens” reminders belong behind Open work, not in NOW. Keep deferred work
+there too, with a restriction in ATTENTION when consequential. A logical next
+step may be included with its dependency explicit; it is not approval to do it.
+Preserve agreed ordering, unresolved blockers and scope limits. Keep necessary
+limits in the action or THIS SESSION, not in a second proposal panel.
+
+The single immediate question comes first after END, as a bold speech-bubble
+blockquote: `> 💬 **Can you run these checks on Master now?**`.
+Recommend one action; no “or later?”, alternative task, reply menu or duplicate
+question. A factual clarification asks for the fact, not approval; a yes to
+doing a check is not its result. With no answer needed, stop at END. The renderer
+places the question; do not append it yourself.
+
+The end line ends restoration, not the session, and starts no work. Partial or
+unknown restoration gets an incomplete or unconfirmed ending instead. Keep
+header values and summaries brief; the renderer wraps rather than truncates.
+Terminal mode uses colour when supported and puts the question after END too;
+`--question-below` remains a compatibility flag. `--color` forces ANSI,
+`--no-color` or `NO_COLOR` disables it. Markdown never emits ANSI. Plain terminal
+output is the fallback when Markdown is unavailable. These are presentation
+choices, not new state, memory reads or permission to continue work.
 
 `$summary` is the shape below, filled from what pickup already read. **Copy it
 from here; do not open the script to work out the keys.** The example is one
@@ -266,14 +256,14 @@ has nothing for.
     {"provider": "codex", "id": "22222222-2222-4222-8222-222222222222", "role": "Implementation partner", "status": "submitted-unconfirmed"}
   ],
   "now": [
-    "Design the freshness alert",
-    "Later: implement the agreed design"
+    "**Claude:** Design the freshness alert after approval; no implementation or deployment.",
+    "**Anthony:** Review the design when it is ready."
   ],
   "last_session": "Diagnosed the pipeline outage. No alert has been built.",
   "this_session": "Proposed: design the alert. Implementation and deployment are not included in this approval.",
   "question": {
     "text": "Starting on the alert design — approve?",
-    "proposed": "Design the freshness alert.\n\n1. Choose where it runs.\n2. Define the check and notification.\n\nDesign only; no implementation or deployment."
+    "proposed": null
   },
   "documents": [
     ["Open work", "docs/work/model-ready-work/consolidation.md"],
@@ -296,19 +286,21 @@ and `state_reason` carry the sentence after an explicit "none". `restored` is
 `"yes"`, `"partial"`, `"no"`, or omitted when no pickup claim is being made;
 `restore_note` says what is missing when it is not `"yes"`.
 
-`question` uses `text` for the one question and `proposed` for the recommended
-action, steps and limits. JSON `\n` preserves a line break and `\n\n` a paragraph
-break inside `proposed`. Legacy `question.reply` is tolerated but no longer
-displayed; never put scope, constraints or necessary facts in that field.
+`question.text` supplies the one question. New callers leave `proposed` null:
+put scope in NOW or THIS SESSION. For older callers, a nonempty `proposed` still
+renders below NOW as scope/recommendation, preserving paragraphs and complete
+limits rather than silently losing them when YOU disappears. Legacy `reply`
+is tolerated but not displayed; it must not carry necessary facts.
 
-`team` is the Agent arrival result's `team` array, passed unchanged; the fictional
-IDs above illustrate the shape, never values to send. Each row has provider, ID,
-role and status; optional `self`, `alias`, `error`, `reused` and `created_at` come
-from the helper. A reused receipt renders as an earlier notice, not a new send.
-The renderer shortens IDs, lengthens collisions and groups identical identities.
-Use `[]` for no established pairing; `null` for unresolved/unread pairing state,
-with its reason in ATTENTION. If no recipient is established, there is no notice
-or setup question. Do not claim online/connected from a submission result.
+`team` uses the Agent arrival result's array; the fictional IDs above illustrate
+its input shape only. A caller may shorten a role's wording faithfully for
+display, without modifying its private binding or assigning new responsibility.
+The renderer groups identical identities and displays providers and roles only.
+IDs, receipt status, errors and other helper metadata remain available in Agent.
+Use `[]` for no established pairing and `null` for unread/unresolved state.
+A consequential routing problem belongs in `warnings`; routine unconfirmed
+notice delivery is not a blocker or an availability claim. No pairing means no
+notice or setup question.
 
 `updated` is the selected source's recorded update time, not the current time,
 an estimated close time or a guessed aggregate across files. If no applicable
@@ -323,8 +315,7 @@ same thing.** Given a correctly shaped JSON object, fields are not required: a
 missing, misspelled or null one degrades quietly, so a typo costs you a blank
 line rather than an error. That tolerance is about *fields*, not about input —
 malformed JSON exits 2 with a message, and a top-level value that is not an
-object (an array, say) exits 1 on an unhandled error. `PROJECT` (in chat), `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION`, `THIS SESSION` and the
-`YOU` box **always render**, falling back to "not recorded" or a plain sentence
+object (an array, say) exits 1 on an unhandled error. `PROJECT` (in chat), `PHASE`, `TASK`, `STATE`, `NOW`, `LAST SESSION` and `THIS SESSION` **always render**, falling back to "not recorded" or a plain sentence
 when they have nothing — they are the frame, and a gap in them is information.
 Compose `now` as prioritized next actions from the project's `## Now` and saved
 plan, preserving agreed order. An observation made during pickup appears here

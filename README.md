@@ -40,7 +40,23 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.119.0)
+## What's New (v0.120.0)
+
+### v0.120.0
+
+**A compact arrival, without YOU.** Switch In's dashboard drops the separate YOU
+box. NOW is the action list: pressing work and logical next steps in priority
+order, each owner written as `**Owner:** action`, not an evidence checklist.
+Plain colon text never gets owner emphasis; the renderer assigns no owner.
+TEAM is one line, `Claude (role) + Codex (role)`; session IDs and routine
+notice status stay in Agent's details, and a routing problem appears under
+ATTENTION only when it affects the next action. The one question follows END OF
+PICKUP as a bold speech-bubble callout, in chat and terminal alike.
+
+Older callers keep their scope: a `question.proposed` value still renders under
+NOW with its paragraphs and lists intact. Agent routing, arrival notices and Out
+are unchanged. Fixture checks and two Claude review rounds cover the change; the
+new layout in ordinary use remains to be observed.
 
 ### v0.119.0
 
@@ -599,33 +615,34 @@ mid-work exactly where you stopped.
 ```
 
 **In** opens with a welcome-back dashboard rather than a full report: phase, task,
-state, a numbered priority list of immediate actions under NOW, what happened last session, what this
-session is for, and a distinct YOU section saying whether you are needed.
-Chat uses a tight completion box, short Last/This session lines, NOW and a
-separate YOU box. END OF PICKUP · SESSION READY closes restoration; the one
-pending question follows immediately in ordinary chat text. With no question,
-stop at the marker. The two boxes are fenced; the surrounding Markdown is not. A missing
+state, owner-labelled actions in priority order under NOW, what happened last
+session and what this session is for. No separate YOU box.
+Chat uses one tight completion box and short Last/This session lines.
+END OF PICKUP · SESSION READY closes restoration; the one pending question
+follows as a bold speech-bubble blockquote. With no question, stop at the marker.
+Only the completion box is fenced; the surrounding Markdown is not. A missing
 log alone does not make restoration incomplete when its necessary context was
-recovered elsewhere. The terminal keeps the bordered box, amber only while a decision is actually pending.
+recovered elsewhere. Terminal output keeps explicit status and the question after END.
 Colours follow the client, while status stays explicit in words.
 It ends with links and visible paths to the documents the
 work already names; the backlog lives behind the *Open work* link.
 `scripts/where_we_are.py` renders it from a summary Switch already holds, so
 nothing extra is read and no status file is written. Conductor is loaded before
 rendering and supplies *“Starting on X — approve?”* as the next-action question,
-with its scope and proposal in YOU. A missing fact is asked as a clarification, not an
+with its scope in NOW or THIS SESSION. A missing fact is asked as a clarification, not an
 approval; supplying a project name alone does not start an install or launch.
 A check belonging to you is labelled as yours, preserving any per-occasion
 permission rather than presenting it as an agent job.
-YOU shows one recommended action with spaced steps and limits, without a REPLY
-menu. The single question after END asks directly about that recommendation;
+NOW holds pressing actions and logical next steps, not an evidence checklist.
+The single question after END asks directly about the recommendation;
 you can decline or redirect without choosing from an offered alternative.
 Existing local Agent bindings restore pairing context, with Agent loaded when a
-contribution is requested. TEAM in the completion box shows roles and short
-session IDs. After restoring routing, In sends the established partners one
+contribution is requested. TEAM is one compact line: Claude (role) + Codex (role).
+Session IDs and notice status stay in Agent details. After restoring routing, In sends the established partners one
 informational identity notice, with no work or reply requested. A repeated In
 with the same sender/recipient IDs does not resend. Notice status is not peer
-availability; failed delivery stays visible without blocking restored memory.
+availability; a routing problem appears in ATTENTION when it affects the next action,
+without making restored memory incomplete.
 No dormant peer is resumed, and private IDs are not saved in project records.
 For its own designated role, In verifies the actual session ID and can replace
 the old binding from Out's prepared handoff or an eligible restart receipt;
@@ -835,7 +852,7 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
 
-**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and loads Conductor to compose the welcome-back dashboard. Its YOU box carries the one arrival decision — *"Starting on X — approve?"* — without a second report. Say yes and the work runs under Conductor, with decisions recorded in the work record and CONTEXT.md as they're made. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and loads Conductor to compose the welcome-back dashboard. NOW carries owner-labelled next actions; the single arrival question — *"Starting on X — approve?"* — follows END as a bold speech-bubble callout, without a second report. Say yes and the work runs under Conductor, with decisions recorded in the work record and CONTEXT.md as they're made. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
 

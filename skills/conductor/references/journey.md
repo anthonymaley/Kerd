@@ -45,14 +45,14 @@ interactive or a terminal supports colour when it does not.
 
 ## Question surface and host adaptation
 
-Switch's Markdown arrival uses the linked welcome-back convention: a prominent
-completion box and separate four-sided YOU box, with LAST/THIS SESSION, NOW
-and document links between the arrival and its end marker. Keep those boxes
-fenced, not the whole dashboard. YOU keeps the scope and proposal; the actual
-pending question is the first content after END OF PICKUP, once in ordinary chat.
+Switch's Markdown arrival uses the linked welcome-back convention: one fenced
+completion box with a compact provider/role TEAM line, LAST/THIS SESSION,
+owner-labelled prioritized NOW actions and document links. No YOU box. Keep scope
+with the actions or THIS SESSION. The pending question is the first content after
+END OF PICKUP, once as a bold speech-bubble blockquote (`> 💬 **Question?**`).
 With no question, stop at the marker. Do not append another report or question.
 
-Use a real native bounded card if suitable and available. Otherwise use a
+For other Conductor decisions, use a real native bounded card if suitable and available. Otherwise use a
 four-sided text box in a monospace code block, with the answer and qualifications
 inside it. No email-forward blockquote as question UI. A bold heading alone is
 not a bounded surface. Keep routine updates outside question cards.

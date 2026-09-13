@@ -417,7 +417,7 @@ class DashboardTests(unittest.TestCase):
         for w in (80, 120):
             out = dash(DASH, width=w)
             self.assertEqual(out.count("read:"), 1, "the source is named once, not per field")
-            tail = "\n".join(out.splitlines()[-2:])
+            tail = out.split("read:", 1)[1].split("END OF PICKUP", 1)[0]
             self.assertIn("2026-09-09 21:00 EDT", tail)
             self.assertIn(NOW, tail)
 
@@ -479,16 +479,16 @@ class QuestionPlacementTests(unittest.TestCase):
             "source": "Current work and delivery notes",
         }
 
-    def test_default_question_is_once_inside_you(self):
+    def test_default_question_is_once_after_end(self):
         out = view.render_dashboard(self.summary(), NOW, color=False)
         self.assertEqual(out.count("Did you see the preview?"), 1)
-        self.assertIn("Did you see the preview?", out.split("YOU", 1)[1].split("╰", 1)[0])
+        self.assertIn("Did you see the preview?", out.split("END OF PICKUP", 1)[1])
 
     def test_question_below_is_once_outside_you_and_preserves_qualifications(self):
         for width in (50, 78, 100):
             out = view.render_dashboard(self.summary(), NOW, width, False, question_below=True)
             self.assertEqual(out.count("Did you see the preview?"), 1)
-            self.assertNotIn("Did you see the preview?", out.split("YOU", 1)[1].split("╰", 1)[0])
+            self.assertNotIn("Did you see the preview?", out.split("END OF PICKUP", 1)[0])
             self.assertTrue(out.endswith("Did you see the preview?"))
             self.assertNotIn("Nothing needs you", out)
             plain = flatten(out.replace("│", " "))
@@ -500,7 +500,7 @@ class QuestionPlacementTests(unittest.TestCase):
 
     def test_question_below_without_question_does_not_invent_one(self):
         out = view.render_dashboard({}, NOW, color=False, question_below=True)
-        self.assertIn("Nothing needs you right now.", out)
+        self.assertNotIn("─ YOU", out)
         self.assertNotIn("question below", out)
 
     def test_summary_cli_places_question_below(self):
@@ -686,21 +686,21 @@ class RecommendationTests(unittest.TestCase):
             for width in (40, 64, 78):
                 out = view.render_dashboard(self.summary(), NOW, width, False,
                                             question_below=True, markdown=markdown)
-                start = out.index('─ YOU')
-                end = out.index('└' if markdown else '╰', start)
-                rows = [line[2:-2] for line in out[start:end].splitlines() if line.startswith('│')]
-                content = flatten(' '.join(rows))
+                section = out.split('Scope / recommendation', 1)[1].split('END OF PICKUP', 1)[0]
+                rows = section.splitlines()
+                content = flatten(MarkdownTests.visible(section))
                 self.assertIn(flatten(self.summary()['question']['proposed']), content)
-                self.assertIn('RECOMMENDED', content)
+                self.assertNotIn('─ YOU', out)
                 self.assertGreaterEqual(sum(not row.strip() for row in rows), 3)
-                self.assertTrue(any(row.startswith('1. Open Review') for row in rows))
+                self.assertIn('1. Open Review', MarkdownTests.visible(section))
                 self.assertNotIn('Reply:', out)
                 self.assertNotIn('Yes / No / Later', out)
                 self.assertNotIn('Your answer is needed', out)
-                self.assertTrue(out.endswith(self.summary()['question']['text']))
-                self.assertEqual(out.count(self.summary()['question']['text']), 1)
-                self.assertTrue(all(display_columns(row) <= min(width, 64) - 4 if markdown
-                                    else display_columns(row) <= width - 4 for row in rows))
+                end = flatten(MarkdownTests.visible(out.split('END OF PICKUP', 1)[1])).rstrip('*')
+                self.assertTrue(end.endswith(self.summary()['question']['text']))
+                self.assertEqual(flatten(MarkdownTests.visible(out)).count(self.summary()['question']['text']), 1)
+                if not markdown:
+                    self.assertTrue(all(display_columns(row) <= width for row in rows))
 
     def test_wrapped_number_and_bullet_lines_have_hanging_indent(self):
         for prefix in ('1. ', '12. ', '- ', '* '):
@@ -724,54 +724,96 @@ class RecommendationTests(unittest.TestCase):
     def test_documented_proposal_keeps_steps_and_restrictions(self):
         summary = DocumentedExampleTests().example()
         out = view.render_dashboard(summary, NOW, markdown=True)
-        content = MarkdownTests.text_of_box(out, 'YOU')
-        self.assertIn(flatten(summary['question']['proposed']), content)
-        self.assertIn('Design only; no implementation or deployment.', content)
+        content = flatten(MarkdownTests.visible(out))
+        self.assertIsNone(summary['question']['proposed'])
+        self.assertIn('no implementation or deployment.', content)
+        self.assertNotIn('Scope / recommendation', out)
         self.assertNotIn('reply', summary['question'])
 
 
 class TeamTests(unittest.TestCase):
-    def test_documented_team_is_in_header_in_chat_and_terminal(self):
-        summary = DocumentedExampleTests().example()
+    def test_plain_colon_text_does_not_become_an_owner(self):
+        items = ["Deferred until rows 1-5 carry evidence: a fresh Codex Switch In",
+                 "Note: the time is 14:30",
+                 "Record the result on rows 1, 2 and 4: the version loaded"]
+        out = view.render_dashboard({"now": items}, NOW, markdown=True)
+        for i, item in enumerate(items, 1):
+            self.assertIn(f"{i}. {item}", out)
+        self.assertNotIn("**Note", out)
+        self.assertNotIn("**Deferred", out)
+        self.assertNotIn("**Record", out)
+
+    def test_actual_helper_undefined_role_has_no_nested_parentheses(self):
+        rows = view.team_rows([dict(provider="codex", id="sample",
+                                   role="established partner (role not defined)")])
+        self.assertEqual(rows, [("TEAM", "Codex (partner · role unassigned)", None)])
+
+    def test_explicit_owner_has_no_markdown_in_terminal(self):
+        out = view.render_dashboard({"now": ["**Anthony:** Assess the arrival."]}, NOW, color=False)
+        self.assertIn("1. Anthony: Assess the arrival.", out)
+        self.assertNotIn("**", out)
+
+    def test_legacy_proposal_keeps_real_markdown_list_structure(self):
+        text = "Check only.\n\n1. First check.\n2. Final check.\n\nNo deployment."
+        out = view.render_dashboard({"question": {"text": "Can you check now?", "proposed": text}},
+                                    NOW, markdown=True)
+        self.assertIn("\n1. First check.\n2. Final check.\n", out)
+        self.assertIn("\n\nNo deployment.\n", out)
+        self.assertNotIn("1\\.", out)
+
+    def test_owner_labels_are_emphasized_without_assigning_missing_owners(self):
+        out = view.render_dashboard({"now": [
+            "**Anthony:** Assess this arrival.",
+            "**Claude · after assessment:** Record the verdict.",
+            "**Owner unassigned:** Run the clarification check.",
+            "Review the remaining design"]}, NOW, markdown=True)
+        for expected in (
+            "1. **Anthony:** Assess this arrival.",
+            "2. **Claude · after assessment:** Record the verdict.",
+            "3. **Owner unassigned:** Run the clarification check.",
+            "4. Review the remaining design"):
+            self.assertIn(expected, out)
+        self.assertNotIn("─ YOU", out)
+        self.assertNotIn("💬", out)
+
+    def test_question_callout_escapes_markup_and_keeps_whole_question(self):
+        question = "Can you check **all** cases\nwithout deploying?"
+        out = view.render_dashboard({"restored": "yes", "question": {"text": question}},
+                                    NOW, markdown=True)
+        ending = out.rsplit("```", 1)[1].strip()
+        self.assertEqual(ending, "> 💬 **Can you check \\*\\*all\\*\\* cases without deploying?**")
+        self.assertNotIn("─ YOU", out)
+        self.assertEqual(out.count("💬"), 1)
+
+    def test_one_roster_line_without_ids_or_routine_notice_status(self):
+        team = [
+            dict(provider="claude", id="12345678-aaaa", role="arrival & closeout", self=True),
+            dict(provider="codex", id="87654321-bbbb", status="submitted-unconfirmed")]
         for markdown in (False, True):
-            out = view.render_dashboard(summary, NOW, 78, False, markdown=markdown)
-            header = out.split('LAST SESSION')[0] if markdown else out.split(' NOW')[0]
-            flat = flatten(header.replace('│', ''))
-            for member in summary['team']:
-                self.assertIn(member['provider'], flat)
-                self.assertIn(member['role'], flat)
-                self.assertIn(member['id'][:8], flat)
-                self.assertNotIn(member['id'], out)
-            self.assertIn('availability unverified', flat)
-            self.assertNotIn('partner online', flat)
-            if markdown:
-                self.assertTrue(all(display_columns(line) <= 64 for line in box_lines(out)))
+            out = view.render_dashboard(dict(team=team), NOW, color=False, markdown=markdown)
+            text = flatten(out.replace("│", ""))
+            self.assertIn("Claude (arrival & closeout) + Codex (partner · role unassigned)", text)
+            self.assertNotIn("12345678", out)
+            self.assertNotIn("87654321", out)
+            self.assertNotIn("PEER", out)
+            self.assertNotIn("submitted", out)
+            self.assertEqual(out.count("TEAM"), 1)
 
-    def test_duplicate_ids_group_and_prefix_collisions_lengthen(self):
-        team = [dict(provider='claude', id='12345678-aaaa', role='Reviewer'),
-                dict(provider='claude', id='12345678-aaaa', role='Reviewer'),
-                dict(provider='codex', id='12345678-bbbb', role='Builder')]
-        rows = view.team_rows(team)
-        self.assertEqual(sum(label == 'TEAM' for label, _, _ in rows), 2)
-        text = ' '.join(value for _, value, _ in rows)
-        self.assertIn('12345678-a', text)
-        self.assertIn('12345678-b', text)
+    def test_duplicate_identity_groups_but_same_provider_different_members_survive(self):
+        member = dict(provider="claude", id="one", role="Reviewer")
+        rows = view.team_rows([member, member, dict(provider="claude", id="two", role="Builder")])
+        self.assertEqual(rows, [("TEAM", "Claude (Reviewer) + Claude (Builder)", None)])
 
-    def test_unknown_empty_and_failed_pairing_are_distinct(self):
-        self.assertIn('not recorded', view.team_rows(None)[0][1])
-        self.assertIn('No established pairing', view.team_rows([])[0][1])
-        rows = view.team_rows([{'alias': 'review', 'error': 'offline', 'status': 'notice-unavailable'}])
-        self.assertIn('ID unresolved', rows[0][1])
-        self.assertIn('recipient not selected', rows[0][1])
-        self.assertNotIn('role not defined', rows[0][1])
-        self.assertIn('offline', rows[1][1])
+    def test_unknown_empty_and_unselected_are_distinct(self):
+        self.assertIn("not recorded", view.team_rows(None)[0][1])
+        self.assertIn("No established pairing", view.team_rows([])[0][1])
+        self.assertIn("recipient not selected", view.team_rows([dict(provider="codex")])[0][1])
 
-    def test_reused_receipt_cannot_look_like_a_new_send(self):
-        team = [{'provider': 'codex', 'id': '12345678-abcd', 'status': 'submitted-unconfirmed',
-                 'reused': True, 'created_at': 123}]
-        text = ' '.join(value for _, value, _ in view.team_rows(team))
-        self.assertIn('earlier notice submitted', text)
-        self.assertIn('not resent', text)
+    def test_actionable_routing_warning_is_preserved_when_supplied(self):
+        warning = "Review cannot be routed: established Claude partner is unavailable."
+        out = view.render_dashboard(dict(warnings=[warning]), NOW, markdown=True)
+        self.assertIn(warning, MarkdownTests.visible(out))
+        self.assertIn("**ATTENTION**", out)
 
 
 class DocumentedExampleTests(unittest.TestCase):
@@ -820,16 +862,15 @@ class DocumentedExampleTests(unittest.TestCase):
             checked += 1
         self.assertGreaterEqual(checked, 7, "too few fields carry a value to test with")
 
-    def test_the_complete_question_renders_inside_the_you_box(self):
+    def test_the_complete_question_follows_end_without_you(self):
         out = self.rendered(100)
-        lines = out.splitlines()
-        top = next(i for i, l in enumerate(lines) if l.startswith("╭─ YOU"))
-        bottom = next(i for i, l in enumerate(lines[top:], top) if l.startswith("╰"))
-        box = " ".join(l.strip("│ ").strip() for l in lines[top:bottom + 1])
         question = self.example()["question"]
-        self.assertIn(question["text"], box, "the whole question must appear, not its first word")
-        self.assertIn(flatten(question["proposed"]), flatten(box))
-        self.assertNotIn("Reply:", box)
+        before, after = out.split("END OF PICKUP", 1)
+        self.assertIn(question["text"], after)
+        self.assertNotIn(question["text"], before)
+        self.assertIn(self.example()["this_session"], flatten(before))
+        self.assertNotIn("─ YOU", out)
+        self.assertNotIn("Reply:", out)
 
     def test_every_warning_and_document_reaches_the_screen(self):
         out = self.rendered(100)
@@ -840,7 +881,7 @@ class DocumentedExampleTests(unittest.TestCase):
             self.assertIn(label, out)
             self.assertIn(path, out)
         for item in self.example().get("now") or []:
-            self.assertIn(flatten(item), flat, "a NOW item is missing or cut short")
+            self.assertIn(flatten(item.replace("**", "")), flat, "a NOW item is missing or cut short")
         self.assertTrue(self.example().get("now"), "the example must show the NOW list")
 
     def test_the_example_does_not_contradict_itself(self):
@@ -850,7 +891,7 @@ class DocumentedExampleTests(unittest.TestCase):
             self.assertNotIn("nothing agreed", this.lower(),
                              "a selected task and an empty session contradict each other")
 
-    def test_arrival_decisions_use_the_existing_you_box_once(self):
+    def test_arrival_decisions_ask_once_without_you(self):
         # Content fixtures, not a claim that an LLM follows the arrival guide.
         for case in ("design", "unknown-stage", "continue", "pending", "no-task"):
             with self.subTest(case=case):
@@ -871,19 +912,19 @@ class DocumentedExampleTests(unittest.TestCase):
                                    question=None)
                 out = view.render_dashboard(summary, NOW, 78, False)
                 lines = out.splitlines()
-                top = next(i for i, line in enumerate(lines) if line.startswith("╭─ YOU"))
-                bottom = next(i for i in range(top + 1, len(lines)) if lines[i].startswith("╰"))
-                box = flatten(" ".join(line.strip("│ ") for line in lines[top + 1:bottom]))
+                box = flatten(out)
+                self.assertNotIn("─ YOU", out)
                 self.assertEqual(sum(line.strip() == "NOW" for line in lines), 1)
                 self.assertNotIn("JOURNEY", out)
                 question = summary["question"]
                 if question:
                     for value in (question['text'], question['proposed']):
-                        self.assertIn(flatten(value), box)
+                        if value:
+                            self.assertIn(flatten(value), box)
                     self.assertNotIn("Nothing needs you", out)
                     self.assertEqual(flatten(out).count(flatten(question["text"])), 1)
                 else:
-                    self.assertIn("Nothing needs you right now", box)
+                    self.assertNotIn("💬", out)
                     self.assertNotIn("approve?", out)
                 if case == "design":
                     self.assertIn("Implementation and deployment are not included in this approval.",
@@ -1052,7 +1093,7 @@ class MarkdownTests(unittest.TestCase):
             self.assertIn(summary[key], all_text)
         for value in summary["now"] + summary["warnings"]:
             self.assertIn(value, visible)
-        you = self.text_of_box(visible, "YOU")
+        you = visible.split("END OF PICKUP", 1)[0]
         self.assertIn(summary["question"]["proposed"], you)
         self.assertNotIn(summary["question"]["reply"], you)
         self.assertNotIn(summary["question"]["text"], you)
@@ -1063,7 +1104,7 @@ class MarkdownTests(unittest.TestCase):
         self.assertNotIn("\x1b", out)
         self.assertTrue(out.startswith("```text\n┌"))
         self.assertTrue(visible.endswith("━━ END OF PICKUP · SESSION READY ━━\n```\n\n"
-                                         + summary["question"]["text"]))
+                                         + "> 💬 **" + summary["question"]["text"] + "**"))
 
     def test_markdown_cli_question_is_first_content_after_end_without_opt_in(self):
         import json, subprocess
@@ -1076,15 +1117,15 @@ class MarkdownTests(unittest.TestCase):
                                     input=json.dumps(summary), text=True, capture_output=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             out = self.visible(result.stdout)
-            self.assertEqual(out.rsplit("```", 1)[1].strip(), question)
+            self.assertEqual(out.rsplit("```", 1)[1].strip(), "> 💬 **" + question + "**")
             self.assertEqual(out.count(question), 1)
-            self.assertIn(summary["question"]["proposed"], self.text_of_box(out, "YOU"))
+            self.assertIn(summary["question"]["proposed"], out.split("END OF PICKUP", 1)[0])
 
     def test_markdown_without_a_question_stops_at_end(self):
         for question in (None, {}, {"text": ""}):
             out = view.render_dashboard(self.arrival(question=question), NOW, markdown=True)
             self.assertTrue(out.endswith("━━ END OF PICKUP · SESSION READY ━━\n```"))
-            self.assertIn("Nothing needs you right now.", self.text_of_box(out, "YOU"))
+            self.assertNotIn("─ YOU", out)
 
     def test_now_numbers_supplied_priority_order_without_reordering_or_dropping(self):
         items = [f"Action {i}: preserve the full scope and qualification for this step."
@@ -1097,8 +1138,9 @@ class MarkdownTests(unittest.TestCase):
             positions = []
             for i, item in enumerate(items, 1):
                 expected = f"{i}. {item}"
-                self.assertIn(expected, flatten(section))
-                positions.append(flatten(section).index(expected))
+                plain = flatten(section.replace('**', ''))
+                self.assertIn(expected, plain)
+                positions.append(plain.index(expected))
             self.assertEqual(positions, sorted(positions))
             if not markdown:
                 self.assertTrue(all(display_columns(line) <= 40 for line in section.splitlines()))
@@ -1108,8 +1150,8 @@ class MarkdownTests(unittest.TestCase):
         out = self.visible(view.render_dashboard(summary, NOW, question_below=True, markdown=True))
         question = summary["question"]["text"]
         self.assertEqual(out.count(question), 1)
-        self.assertTrue(out.endswith(question))
-        you = self.text_of_box(out, "YOU")
+        self.assertTrue(out.endswith(question + "**"))
+        you = out.split("END OF PICKUP", 1)[0]
         self.assertNotIn(question, you)
         self.assertIn(summary["question"]["proposed"], you)
 
@@ -1134,7 +1176,7 @@ class MarkdownTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             visible = self.visible(result.stdout)
             for value in summary["now"] + summary["warnings"] + [summary["insight"], summary["source"]]:
-                self.assertIn(value, visible)
+                self.assertIn(value, visible.replace("**", ""))
 
     def test_unknowns_and_timestamp_warnings_are_not_lost(self):
         out = view.render_dashboard({}, NOW, markdown=True)
@@ -1161,7 +1203,7 @@ class MarkdownTests(unittest.TestCase):
     def test_values_cannot_inject_headings_or_links(self):
         summary = self.arrival(task="unsafe\n### YOU\n[link](https://example.com) **claim**")
         out = view.render_dashboard(summary, NOW, markdown=True)
-        self.assertEqual(out.count("┌─ YOU"), 1)
+        self.assertEqual(out.count("┌─ YOU"), 0)
         self.assertNotIn("\n### YOU\n", out)
         header = self.text_of_box(out, "KERD")
         self.assertIn("unsafe ### YOU [link](https://example.com) **claim**", header)
@@ -1229,7 +1271,7 @@ class MarkdownTests(unittest.TestCase):
             out = view.render_dashboard(self.arrival(documents=[["Design", "https://example.com/design"]]),
                                         NOW, width=width, markdown=True)
             order = ["┌─ KERD", "**LAST SESSION**", "**THIS SESSION**", "**NOW**",
-                     "**ATTENTION**", "┌─ YOU", "**DOCUMENTS**", "END OF PICKUP"]
+                     "**ATTENTION**", "**DOCUMENTS**", "END OF PICKUP"]
             positions = [out.index(label) for label in order]
             self.assertEqual(positions, sorted(positions))
             box = [line for line in out.splitlines() if line.startswith(("┌", "│", "└"))]
@@ -1294,7 +1336,7 @@ class OmissionContractTests(unittest.TestCase):
 
     def test_blocks_that_always_appear_do_so_even_when_empty(self):
         out = view.render_dashboard({}, NOW, 78, False)
-        for always in ("PHASE", "TASK", "STATE", "LAST SESSION", "THIS SESSION", "YOU"):
+        for always in ("PHASE", "TASK", "STATE", "LAST SESSION", "THIS SESSION", "TEAM", "NOW"):
             self.assertIn(always, out)
 
     def test_blocks_that_are_omitted_when_empty_are_absent(self):
