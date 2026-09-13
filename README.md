@@ -40,7 +40,26 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.121.2)
+## What's New (v0.122.0)
+
+### v0.122.0
+
+**One saved continuation, one session scope.** Out preserves the selected next
+action, owner, agreement status, completion steps, stopping point and pending
+question in the existing handoff. In recognizes that meaning in prose as well
+as headings; no new required fields or parallel plan. Legacy handoffs still
+work, with any recommendation labelled proposed rather than agreed.
+
+Conductor composes THIS SESSION, NOW and the question from that same scope.
+An approval-only question is not a duplicate task, and a separately approved
+later build or playback check is not follow-through. Omitted work stays open
+behind Open work. ATTENTION retains consequential contradictions and limits,
+plus recorded urgent risks, not every owed task. No renderer or transport change.
+
+This addresses the selection failures reported in Seinn, Weefish and Leru;
+the earlier unchanged renderer-to-final observation remains valid. Source and
+non-independent bounded replay review are evidence, not a claim that every future arrival will
+comply. An ordinary Out/In remains the real-world check.
 
 ### v0.121.2
 
@@ -688,7 +707,11 @@ work already names; the backlog lives behind the *Open work* link.
 nothing extra is read and no status file is written. Conductor is loaded before
 rendering to finish the summary; Switch then returns the complete rendered
 Markdown unchanged. Corrections are made in the input and rendered again, not
-paraphrased after the renderer. NOW is checked before rendering: only the current
+paraphrased after the renderer. Conductor first restores one selected scope:
+owner/action, approval status, completion steps and stopping point. It uses that
+scope for THIS SESSION, NOW and the question, recognizing saved prose as well as
+headings. Without a saved selection it offers a grounded proposal, not a new
+agreement. NOW is checked before rendering: only the current
 action and its necessary follow-through, not a later build labelled “needs approval”.
 It supplies *“Starting on X — approve?”* as the next-action question,
 with its scope in NOW or THIS SESSION. A missing fact is asked as a clarification, not an
@@ -700,6 +723,10 @@ follow-through, not procedures or pass criteria compressed into one sentence.
 Detailed checks, future-event work and later projects stay behind Open work;
 immediate target, safety and permission limits remain visible. THIS SESSION
 states the selected action's scope without scheduling a later unrelated task.
+The final approval question is not another NOW task; a real human-owned check
+still is. Omission from the dashboard does not retire or reorder saved work.
+ATTENTION keeps material restoration/action limits, false decision claims and
+recorded urgent risks, not the rest of the backlog.
 The single question after END asks directly about the recommendation;
 you can decline or redirect without choosing from an offered alternative.
 Existing local Agent bindings restore pairing context, with Agent loaded when a
@@ -720,7 +747,13 @@ agreed continuation instead of stopping there.
 
 **Out** reads what actually changed, preserves the agreement, decisions, exact next
 action and open questions, and appends an evidence-backed account to the project's
-history. Before editing the handoff, it checks ownership of any existing pairing
+history. Its [selected continuation](skills/switch/references/in-out.md#save-the-selected-continuation)
+names who does what next, its agreed/proposed status, necessary completion steps,
+where the scope stops and any pending question. It reconciles an existing current
+account in place, using ordinary prose or headings rather than new required
+fields; the broader TODO remains open. The selected continuation is included in
+the reading set and the closing box's existing next-action text. Before editing
+the handoff, it checks ownership of any existing pairing
 role, reusing an explicit replacement choice already given rather than asking
 again. Out alone does not authorize taking a role. After the final save it reports
 whether successor designation succeeded, was unavailable or was not applicable.

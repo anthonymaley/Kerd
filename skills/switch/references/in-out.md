@@ -162,8 +162,9 @@ problem in ATTENTION only when it affects the next action. A failed notice does 
 
 After restoration, orient before detail. Four short blocks, worded for the project:
 
-- **Now:** prioritized next actions from the project's `## Now` and saved plan,
-  not a copy of status bullets. The backlog stays behind the documents link.
+- **Now:** work within the selected continuation and its necessary completion
+  steps, not a copy of the project's wider `## Now`. Conductor restores that
+  selection before composing; the rest stays behind the documents link.
 - **Last session:** the main achievement or change.
 - **This session:** the next agreed work and why. If none is agreed, say so; a
   suggestion stays a suggestion. Describe this action's scope, not the next
@@ -238,6 +239,16 @@ the list with later projects, future-event checks or evidence bookkeeping.
 an unrelated build awaiting separate approval does not become NOW just because
 it follows in the roadmap. Keep a consequential blocker or restriction visible
 in ATTENTION, or an actionable step to resolve it in NOW.
+Not shown is not dropped: omitting other open items from this screen changes
+neither the saved priority nor their status. Keep them behind Open work, not
+in ATTENTION merely because they remain owed. ATTENTION covers material limits
+on the selected action or safe restoration: for example failed synchronization,
+a consequential contradiction or a falsely recorded decision. A later question
+can stay off-screen while a false claim that it was answered remains visible.
+Also retain risks the restored record itself flags as urgent or imminent, even
+outside this action, unless already resolved by available evidence. Keep each
+brief and distinguish the dated saved observation from a fresh check; this is
+not permission to relabel every owed item urgent or re-audit them at pickup.
 
 Each item identifies the owner, action and target/outcome. Before rendering,
 remove the **how** (clicks, restart sequences, navigation) and the **pass criteria**
@@ -497,7 +508,42 @@ historical detail with reachable links; age alone doesn't retire a decision,
 dependency or risk. For an initial legacy reorganization, keep a recoverable
 original. Do not rewrite dated history or maintain duplicate living plans.
 
+### Save the selected continuation
+
 Update the next session's lean start point with what is true and what to do next.
+After reconciling contributions and active work, leave one concise continuation
+in the existing pointer's current section, or a directly linked current work
+record included in the pickup reading set. Save the choice the sitting reached,
+not only its collection of open tasks:
+
+- the selected next action and owner, with agreed/proposed/awaiting-approval status;
+- the completion steps within that scope and where it stops, including exclusions;
+- its pending question, if any, distinguished from other open questions.
+
+Use existing prose or headings; these are meanings to preserve, not three new
+required fields. If the selection already exists clearly, reconcile it in place
+rather than copy it to several living records. Keep the session log as the dated
+account and the broader TODO list as open work; link instead of duplicating them.
+Do not turn a proposed next step into agreement. Where the person has not selected
+work, retain a grounded recommendation as proposed or a genuine unresolved choice;
+Out does not need a ceremonial approval just to save that uncertainty.
+
+For example: “Pending approval: Claude builds main, installs it on Master,
+verifies and records the installation; stop before playback. Question: may I
+build and install on Master?” is one scope. A later playback check can remain
+in the wider plan without becoming part of that approval. If no action is
+selected and none can be grounded, say so. Never change a user's priority to
+make the handoff neater.
+
+Before saving, check that the pointer/current record and the log's next-action
+account agree on that scope and stopping point; a fresh reader should not have
+to assemble them from competing lists. Include this selection in the measured
+reading set and carry it into the closing box's existing `next` text. In restores
+the meaning even when an older handoff has no named fields; it does not declare
+the selection missing merely because it was written as a sentence. New user
+direction can supersede it. Changed evidence can make it stale; Conductor
+explains that and proposes a replacement, never calls that replacement agreed.
+
 Historical decisions needed by a future feature remain discoverable by subject;
 the active memory must include constraints that affect the next work. Be explicit
 about unreconciled historical sections rather than calling the migration lossless.

@@ -4,8 +4,8 @@
 
 Outcome: Switch In makes the established team recognizable and tells those
 partners when the current native identity arrives, without starting work.
-Stage: Complete — NOW composition correction implemented, reviewed and included in release 0.121.2.
-Source boundary: main, “Release Kerd 0.121.2: keep NOW to actions”.
+Stage: Complete — selected continuation across Out/In implemented, reviewed and included in release 0.122.0.
+Source boundary: main, “Release Kerd 0.122.0: preserve the selected session scope”.
 This account is saved with the release; remote publication and CI are checked
 after saving, not pre-asserted inside this commit.
 Owner: Codex implemented Agent/Switch/Conductor and tests. The established Claude
@@ -13,14 +13,92 @@ partner reviewed read-only and published both 0.120.0 (Anthony's “lets release
 2026-09-13 16:51) and 0.121.0 (his second “lets release”, 17:57), each after
 Codex confirmed its edits finished and that it would not release in parallel.
 Claude's separate shared verification record stays under its ownership.
-Next action: a fresh session loads 0.121.2; observe its ordinary arrival's
-action/detail split. Leru 0.121.1 held unchanged
+Next action: with 0.122.0 loaded, observe an ordinary Out/In's selected scope;
+legacy handoffs remain supported. No consumer
+work is authorized by this release. Leru 0.121.1 held unchanged
 renderer-to-final delivery once, per Claude's native comparison; that result is
 not reopened. A real delegation still provides the ordinary-use observation of
 Conductor's grid. Client styling remains client-dependent. Publication does not update an
 installed plugin cache; no install, Codex update or consumer-project work is
 authorized. Earlier release accounts remain history.
 Pending question: none.
+
+## Selected continuation across Out and In (2026-09-13)
+
+Anthony supplied Weefish and Seinn arrivals and Claude's source trace, then
+directed “work together and fix this, release and we go again”. Codex owns this
+implementation and publication; Claude reviews read-only. This targets restored
+scope and its saving at Out, not another layout or renderer revision.
+
+Evidence distinctions, reconciled with Claude:
+- Seinn already saved the build/install question and the no-playback boundary
+  in Current prose, TODO and the dated log. Codex inspected those sections;
+  Claude confirmed and withdrew “no saved choice” for that project. Its pickup
+  duplicated the approval as a task and included separately approved playback.
+- Leru's saved continuation itself chained heartbeat with “Then”, so the later
+  build was not solely imported from TODO. Its boundary needs to survive Out.
+- Weefish's dated log had an ordered list starting with the auto-ID decision;
+  no literal Next action label does not erase that order. cst and routine owed
+  items spilled into the arrival. Capacity was explicitly urgent in the source,
+  so retaining that warning is justified even outside the selected investigation.
+- Claude corrected the reading claim: Leru's 1–227 lines were precisely TODO
+  Now (Backlog starts at 228); Weefish read the whole TODO but had no saved
+  read_args selection to violate. These are not evidence for a new read refuser.
+Consumer trace details are Claude's reported targeted inspection except the
+Seinn sections independently read by Codex. No consumer files were changed.
+
+Out now reconciles one selected continuation in the existing current pointer
+or linked current work record: owner/action, agreement status, completion steps,
+stopping point and relevant question. Meanings, not a new required schema; no
+parallel plan. Include it in the existing reading set and closing `next` text.
+Conductor recognizes prose and resolves this scope once before filling THIS
+SESSION, NOW and the question. Legacy fallback stays proposed. Evidence can
+invalidate an old selection but never grant a new agreement. A real human task
+remains work; an approval-only ask is not duplicated as a task. Separately
+approved next work is outside the scope even when the log says “then”.
+
+Not shown is not dropped: wider tasks retain their status and priority behind
+Open work. ATTENTION preserves material restoration/action limits, false decision
+claims and risks the record itself marks urgent/imminent, with saved versus
+current evidence clear. A no-alternatives question can recommend one grounded
+route or ask a genuinely missing fact; it does not guess an unknown preference.
+
+The [design brief](selected-scope-review.md) and
+[three-case review/replay brief](selected-scope-replay.md) are shareable summaries;
+full requests stay in private Agent records. Existing Claude session/model/effort
+kept; local Opus 5 2026-09 scope guidance used, effort unverified. Claude's four
+design findings were incorporated: recommendations for unresolved choices,
+evidence does not authorize replacement work, retain urgent risks, keep human
+actions distinct from approval-only asks. The replay uses supplied consumer
+excerpts in scratch, not consumer edits or real boundary operations.
+
+Claude's implementation review cleared the boundaries and requested one retained
+sentence: Out still explicitly updates what is true as well as what comes next.
+Restored. Its three scratch Out selections and six rendered In summaries were
+inspected by Codex. Seinn preserves build/install/verification/recording and stops
+before playback, without an approval-only task; Weefish proposes route A, retains
+the urgent dated disk risk and omits unrelated owed work; Leru retains the human
+check and recording, excluding the later heartbeat and live-match task. The
+scope fields match between each legacy and saved-selection pair; only source
+and document pointers differ. This comparison is not independent: one composer
+already holding the design wrote both sides. It demonstrates the guide can
+represent those scopes, not that a cold reader will do so reliably. An ordinary
+Out/In is still needed. No human acceptance, peer availability, install or
+consumer state is proved by these scratch artifacts.
+
+Checks run: Switch 345, Conductor 37, Agent 168, packaging 9, hooks 21 passed.
+All CI commands passed locally; fidelity skipped because HEAD was not a log
+boundary. Audit retains the pre-existing trace finding. Known Agent resource
+warnings were suppressed for this run; shellcheck was unavailable/skipped.
+Switch and Conductor validators passed. Claude's
+[final release-surface review](selected-scope-release-review.md) returned ready
+with no consequential findings and no competing edits or missing contribution.
+Its optional wording improvements were adopted: README explicitly calls the
+replay non-independent and Switch again distinguishes memory readiness from Git
+save status. Returned model was claude-opus-5; effort remained unverified. All
+three contribution requests returned and were retrieved. Remote and CI checks
+are performed after saving; no resulting commit ID is embedded here. No installed
+plugin, shared handoff file, binding or consumer-project change was made.
 
 ## Ordinary 0.121.1 result and remaining composition (2026-09-13)
 

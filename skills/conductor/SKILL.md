@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation with visible task/model/effort and prompt-preparation updates, and independent assessment. Resume saved work with current observations and owner-labelled next actions and one question callout in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation with visible task/model/effort and prompt-preparation updates, and independent assessment. Restore one selected session scope from saved work and current direction for owner-labelled actions and one question in Switch In's dashboard. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -30,12 +30,27 @@ than claiming it is bypassed. Existing host permissions still apply.
 
 When loaded by **Switch In**, use the position and authority Switch already
 restored: read this skill and the journey guide, skip intake and discovery, and
-compose the one welcome-back dashboard before it is rendered. X is the saved
-next action, otherwise the first NOW item; if neither exists, show no selected
-task and stop without inventing one. Preserve its scope: an unresolved design
-means designing, not a new grant to build or deploy. Put **“Starting on X —
-approve?”** in the dashboard's existing `question` fields;
-a saved pending question replaces it, with its proposed answer. A factual
+compose the one welcome-back dashboard before it is rendered. Resolve **one
+session scope before writing its fields**: selected action and owner, its
+agreement/approval status, included completion steps, stopping point and relevant
+pending question. Recognize a saved selection in current prose as well as named
+fields; use Switch's [selected continuation](../switch/references/in-out.md#save-the-selected-continuation).
+Current user direction takes precedence. Evidence can show a saved action stale
+or already done; explain that and label any replacement proposed, not a newly
+agreed selection. Reconcile contradictions from restored evidence and necessary detail.
+Without a saved selection, propose the first actionable item in the saved
+priority, not a completed/status row. If no priority is established, recommend
+a bounded next action from the restored agreement and explain briefly why; mark
+it proposed, not agreed. For a saved unresolved choice, recommend one grounded
+route and ask about it; keep alternatives behind the link, not an either/or menu.
+If a missing fact or preference prevents a grounded recommendation, ask one
+direct clarification rather than guessing. With no actionable work, show no
+selected task and invent none.
+An unresolved design means designing, not a grant to build or deploy.
+Put **“Starting on X — approve?”** for that scope in the dashboard's existing
+`question` fields; its saved pending question replaces it when still applicable,
+with any recorded proposed answer. Do not select an unrelated open question
+merely because it remains unanswered. A factual
 clarification is not approval: answering it resolves that fact only, not permission
 for the proposed next work. Bind the reply to the question actually asked:
 a project name fills the target, not an install/launch approval; “not now”
@@ -47,6 +62,15 @@ STATE and THIS
 SESSION must agree with NOW and the question: this sitting's action is proposed while awaiting
 approval, even if the wider plan was already agreed. Never say “nothing needed”
 while asking for an answer elsewhere. Put scope in NOW or THIS SESSION;
+compose all of them from the selected scope, not separately from different
+parts of the backlog. NOW contains work and necessary completion steps; the
+approval question itself is not another task (“Anthony: answer below”). A real
+human-owned check remains work. Follow-through finishes the selected action;
+work behind a separate decision stays outside it even when the log says “then”.
+Before rendering, compare the included operations and exclusions across these
+fields; “build and install, no playback” cannot become “install only” in one
+field or a playback task in another. This uses restored context, not another
+record, retrieval pass or user approval.
 Switch renders the actual question once immediately after END OF PICKUP,
 as a bold speech-bubble blockquote in chat. No YOU box.
 Do not append another question after either presentation.
