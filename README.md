@@ -40,7 +40,26 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.118.0)
+## What's New (v0.119.0)
+
+### v0.119.0
+
+**See your team at arrival.** Switch In's completion box now shows providers,
+roles and short session IDs, plus the outcome of a one-way arrival notice.
+An explicit partner selection wins; otherwise Agent uses an unambiguous existing
+pairing, preferring a recorded role. Multiple candidates remain unresolved and
+unsent. Repeating In with the same IDs reuses the earlier notice rather than
+sending again. No reply is requested, no dormant session is resumed, and a queued
+notice does not prove the peer is online. Native delivery can still trigger a
+recipient turn or hold the message; no zero-token guarantee is made.
+
+**YOU recommends, without a reply menu.** The box presents one recommended action,
+numbered steps when useful, and a separately spaced scope limit. One direct
+question follows END OF PICKUP. No “or later?” alternative or REPLY menu; you can
+decline or redirect naturally. Agreeing to perform a check is not a passing result.
+
+Fixture checks and independent Claude review cover the changes. Live arrival
+notice delivery and the new layout in ordinary use remain to be observed.
 
 ### v0.118.0
 
@@ -598,8 +617,16 @@ with its scope and proposal in YOU. A missing fact is asked as a clarification, 
 approval; supplying a project name alone does not start an install or launch.
 A check belonging to you is labelled as yours, preserving any per-occasion
 permission rather than presenting it as an agent job.
+YOU shows one recommended action with spaced steps and limits, without a REPLY
+menu. The single question after END asks directly about that recommendation;
+you can decline or redirect without choosing from an offered alternative.
 Existing local Agent bindings restore pairing context, with Agent loaded when a
-contribution is requested, without contacting or resuming peers during pickup.
+contribution is requested. TEAM in the completion box shows roles and short
+session IDs. After restoring routing, In sends the established partners one
+informational identity notice, with no work or reply requested. A repeated In
+with the same sender/recipient IDs does not resend. Notice status is not peer
+availability; failed delivery stays visible without blocking restored memory.
+No dormant peer is resumed, and private IDs are not saved in project records.
 For its own designated role, In verifies the actual session ID and can replace
 the old binding from Out's prepared handoff or an eligible restart receipt;
 genuine ambiguity needs a selection. Out

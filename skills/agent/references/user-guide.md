@@ -92,6 +92,13 @@ handoff is saved. This is local routing, not a launch or work approval. See
 
 ## Which kind of session?
 
+On Switch In, TEAM shows the current session and established partners with roles
+and short IDs; ask Agent for full IDs when needed. An informational arrival
+notice tells the selected partners which session now holds the role, without
+asking for work or a reply. It does not mean the recipient is online. Repeating
+pickup with the same pair of IDs does not resend; unavailable delivery stays
+visible. No session census or setup question is added to an unpaired project.
+
 **Existing partner:** use when its earlier conversation matters. Kerd finds
 matching local sessions and asks which one only if the choice is ambiguous.
 It does not silently send a fresh reviewer instead.

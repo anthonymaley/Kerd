@@ -340,7 +340,7 @@ def compact(path, text, now, width=80):
 
 # The renderer's input contract, written down so a caller fills the shape from
 # the guide's example instead of reading this module to discover key names.
-SUMMARY_KEYS = ("project", "phase", "task", "task_reason", "state", "state_reason", "now",
+SUMMARY_KEYS = ("project", "phase", "task", "task_reason", "state", "state_reason", "team", "now",
                 "last_session", "this_session", "question", "documents",
                 "warnings", "insight", "source", "updated", "base",
                 "restored", "restore_note")
@@ -394,13 +394,13 @@ def chat_box(title, rows, width, prewrapped=False):
     return [fence + "text", *lines, fence]
 
 
-def panel(title, rows, width, tone=None, on=True):
+def panel(title, rows, width, tone=None, on=True, prewrapped=False):
     """A titled box whose border carries the tone and whose content does not."""
     inner = width - 4
     dashes = max(0, width - 5 - columns(title))
     lines = ["\u256d\u2500 " + title + " " + "\u2500" * dashes + "\u256e"]
     for row in rows:
-        for line in ([""] if row == "" else wrap(row, inner)):
+        for line in ([row] if prewrapped else [""] if row == "" else wrap(row, inner)):
             lines.append("\u2502 " + pad(line, inner) + " \u2502")
     lines.append("\u2570" + "\u2500" * (width - 2) + "\u256f")
     if not on or tone is None:
@@ -544,6 +544,56 @@ def timestamp_warning(updated, now):
     return None
 
 
+def recommendation_rows(text, width):
+    """Keep supplied paragraph/list structure; never infer steps from prose."""
+    rows = []
+    for line in str(text).splitlines():
+        if not line.strip():
+            if rows and rows[-1] != "":
+                rows.append("")
+            continue
+        match = re.match(r"^\s*(\d+[.)] |[-*] )(.*)$", line)
+        prefix, value = match.groups() if match else ("", line)
+        for index, part in enumerate(wrap(value, max(1, width - columns(prefix)))):
+            rows.append((prefix if index == 0 else " " * columns(prefix)) + part)
+    return rows
+
+
+def team_rows(team):
+    """Private display only. Short IDs distinguish sessions, not live activity."""
+    if team is None:
+        return [("TEAM", "not recorded", None)]
+    if not team:
+        return [("TEAM", "No established pairing", None)]
+    members = {}
+    for index, member in enumerate(team):
+        key = (member.get("provider"), member.get("id") or index)
+        if key not in members:
+            members[key] = member
+    ids = {str(member["id"]) for member in members.values() if member.get("id")}
+    rows = []
+    for member in members.values():
+        sid = str(member.get("id") or "")
+        size = 8
+        while sid and any(other != sid and other[:size] == sid[:size] for other in ids):
+            size += 1
+        label = str(member.get("provider") or member.get("alias") or "Partner")
+        role = member.get("role") or ("role not defined" if sid else "recipient not selected")
+        rows.append(("TEAM", f"{label} · {role} · {sid[:size] or 'ID unresolved'}", None))
+        if member.get("self"):
+            continue
+        status = {"queued": "notice queued", "submitted-unconfirmed": "notice submitted, delivery unconfirmed",
+                  "delivery-uncertain": "notice delivery uncertain", "notice-unavailable": "notice unavailable"}.get(
+                      member.get("status"), member.get("status") or "not contacted")
+        if member.get("reused"):
+            status = "earlier " + status + " (not resent)"
+        detail = f"{label}: {status} · availability unverified"
+        if member.get("error"):
+            detail += " — " + str(member["error"])
+        rows.append(("PEER", detail, None))
+    return rows
+
+
 def render_dashboard(summary, now, width=80, color=True, question_below=False, markdown=False):
     """One composed panel from a summary already in hand.
 
@@ -573,7 +623,8 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
         for label, value, reason in (("PROJECT", get("project") or UNRECORDED, None),
                                     ("PHASE", get("phase") or UNRECORDED, None),
                                     ("TASK", get("task") or UNRECORDED, get("task_reason")),
-                                    ("STATE", get("state") or UNRECORDED, get("state_reason"))):
+                                    ("STATE", get("state") or UNRECORDED, get("state_reason")),
+                                    *team_rows(get("team"))):
             value = str(value) + (" — " + str(reason) if reason else "")
             for index, line in enumerate(wrap(value, box_width - 13)):
                 header_rows.append((pad(label, 9) if index == 0 else " " * 9) + line)
@@ -585,7 +636,8 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     rows = (("PROJECT", get("project") or UNRECORDED, None),
             ("PHASE", get("phase") or UNRECORDED, None),
             ("TASK", get("task") or UNRECORDED, get("task_reason")),
-            ("STATE", get("state") or UNRECORDED, get("state_reason")))
+            ("STATE", get("state") or UNRECORDED, get("state_reason")),
+            *team_rows(get("team")))
     for label, value, reason in rows:
         if markdown:
             continue
@@ -641,12 +693,12 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
 
     question = get("question")
     if question and question.get("text"):
-        question_rows = ["Your answer is needed; question below." if question_below
-                               else question["text"], "",
-                               "Proposed: " + (question.get("proposed") or UNRECORDED),
-                               "Reply: " + (question.get("reply") or "Correct / Change")]
-        lines += (chat_box("YOU", question_rows, box_width) if markdown else
-                  panel("YOU", question_rows, width, "amber", color)) + [""]
+        inner = (box_width if markdown else width) - 4
+        question_rows = [] if question_below else wrap(question["text"], inner) + [""]
+        question_rows += ["RECOMMENDED", ""] + recommendation_rows(
+            question.get("proposed") or UNRECORDED, inner) + [""]
+        lines += (chat_box("YOU", question_rows, box_width, prewrapped=True) if markdown else
+                  panel("YOU", question_rows, width, "amber", color, prewrapped=True)) + [""]
     else:
         lines += (chat_box("YOU", ["Nothing needs you right now."], box_width) if markdown else
                   panel("YOU", ["Nothing needs you right now."], width, None, color)) + [""]

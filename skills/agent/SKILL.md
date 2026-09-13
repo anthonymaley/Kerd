@@ -1,12 +1,17 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
 ---
 
 # Agent
 
 Get a contribution from the right session, then use its answer. This command
 supports Conductor or a direct user request; it does not start another intake.
+
+For Switch In's informational arrival (no contribution or reply), use only the
+[arrival notice](references/session-succession.md#arrival-notice-and-team-display)
+path. It shows the restored team and deduplicates identity announcements without
+turning them into review jobs or waiting for a response.
 
 ## Help
 

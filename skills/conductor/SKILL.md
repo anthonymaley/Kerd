@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation and independent assessment. Resume saved work with current observations and a scoped arrival decision in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
+description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation and independent assessment. Resume saved work with current observations and one recommended next action in Switch In's single dashboard. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -50,6 +50,9 @@ while asking for an answer elsewhere. In chat, put scope and proposal in YOU;
 Switch renders the actual question once immediately after END OF PICKUP.
 Plain terminal output uses YOU unless `--question-below` is supplied.
 Do not append another question after either presentation.
+Recommend one next action, with short steps and its limits in YOU. Ask one direct
+question about it; do not tack on “or later?” or an alternative task. No REPLY
+menu: the person can decline, defer or redirect without being prompted to choose.
 
 Reconcile the displayed next work with observations already obtained during this
 pickup. An arrival check observed now is not still waiting to start: annotate
@@ -154,7 +157,7 @@ question, keep the surrounding progress and answer panel, then ask one concise
 plain-text question. A ban on numbered choices is not a ban on progress or borders.
 Never simulate clickable controls, colours or native capabilities that are absent.
 
-Default confirmation choices, only where permitted, remain Correct / Change.
+No routine Correct / Change menu: recommend one answer and ask one direct question.
 A clear yes settles the shown answer; a correction changes it. Missing answers
 need a focused question, not an invented proposal presented as confirmed.
 Follow host rules over these presentation defaults.

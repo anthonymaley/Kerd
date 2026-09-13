@@ -19,7 +19,7 @@ class HelpTests(unittest.TestCase):
     def test_all_help_routes_work_without_project_or_provider_tools(self):
         with tempfile.TemporaryDirectory() as directory:
             for command in ([], ['sessions'], ['pair'], ['start'], ['ask'], ['status'], ['wait'],
-                            ['identity'], ['handoff'], ['adopt']):
+                            ['identity'], ['handoff'], ['adopt'], ['arrival']):
                 with self.subTest(command=command):
                     result = subprocess.run(
                         [sys.executable, '-B', agent.__file__, *command, '--help'],

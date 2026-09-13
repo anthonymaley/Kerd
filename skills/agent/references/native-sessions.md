@@ -89,6 +89,13 @@ available when the person wants to open or retire a partner.
 
 ## Ask and receive
 
+Switch In's no-reply identity announcement uses `arrival --provider ...
+--self-alias ... --peer ...`, not `ask`. See
+[arrival notices](session-succession.md#arrival-notice-and-team-display) for
+recipient selection, deduplication and TEAM display. Its `arrival-notice`
+receipt has `reply_expected: false`; `status` and `wait` return it immediately
+without reading transcripts. This is not an unanswered contribution job.
+
 ```sh
 … ask --alias design-partner --role 'Review the changed design' \
   --prompt-file /PATH/TO/follow-up.md

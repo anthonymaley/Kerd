@@ -139,15 +139,23 @@ When an ID matches or either form of continuity evidence exists, read the short
 verified identity. Same ID keeps the binding; an authorized successor uses its
 prepared handoff, eligible restart receipt or explicit selection. A retired
 session reports the moved role instead of reclaiming it. Only this private routing update is
-permitted during In, never a project repair or plan execution.
+permitted during In alongside the informational arrival notice below, never a
+project repair or plan execution.
 This restores routing, not a running job or a Conductor mode. The succession
 helper's native identity/absence check is allowed for restart recovery. Do not
-otherwise discover, contact or resume peers merely to validate a binding.
+otherwise discover or resume peers merely to validate a binding.
 Availability stays unverified until Agent checks the selected target for work.
 Missing roles stay undefined; ambiguous bindings remain a choice when a
 contribution is requested. No binding means no Agent setup question during In.
-Show a brief recorded pairing/role note when relevant, not private IDs in the
-project's saved records or another dashboard panel.
+After identity and any required adoption, run Agent's bounded
+[arrival notice](../../agent/references/session-succession.md#arrival-notice-and-team-display)
+for the selected established partners, or the helper's unambiguous private
+pairing default when the restored context names none. The caller does not
+enumerate aliases as recipients; the helper reads private binding metadata and
+selects only an unambiguous partner, never by title or recency. Show its `team` result in
+the completion box, with short session IDs and notice status, not buried in
+ATTENTION. Full IDs remain available through Agent; neither goes into the
+project's saved records. A failed notice does not make restored memory incomplete.
 
 ### Welcome back: the screen summary
 
@@ -197,7 +205,7 @@ printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary 
 
 Use `--markdown` in assistant chat. Keep its completion and YOU boxes in their
 own code fences; do not fence the whole dashboard. In order: tight completion
-box (PROJECT / PHASE / TASK / STATE), short LAST SESSION and THIS SESSION,
+box (PROJECT / PHASE / TASK / STATE / TEAM and peer-notice status), short LAST SESSION and THIS SESSION,
 NOW list, essential ATTENTION, YOU box, document links, optional Insight and
 source footer, then **END OF PICKUP · SESSION READY**, followed immediately by
 the one pending question in ordinary chat text. Keep the header values
@@ -221,9 +229,18 @@ Markdown mode emits no ANSI even with `--color`. If Markdown is unavailable,
 use the plain terminal frame instead. These are presentation choices, not new
 state, memory reads or permission to continue work.
 
-In chat, YOU holds the scope, proposal and reply guidance; the actual question
+In chat, YOU holds one recommended action and its scope; the actual question
 appears once as the first content after the end marker. No intervening recap or
 report. If no answer is needed, stop at the marker without inventing a question.
+Use short paragraphs with a blank line between the recommendation and its limits.
+For several concrete steps, put numbered lines in the existing `proposed` string;
+use bullets for unordered checks. These are actions, not answer choices. The
+renderer preserves their spacing and indents wrapped continuations. Do not
+compress the steps and permission boundary into one paragraph.
+No REPLY menu or generic “your answer is needed” line. Recommend the next action
+and ask one direct question, such as “Can you run these checks on Master now?”
+Do not append “or later?” or an alternative task; the person can push back without
+being offered a second question. A yes to doing a check is not its result.
 For dashboard acceptance, for example: “Can you approve this dashboard now?” with its
 presentation-only scope in YOU; a factual clarification still asks for the fact,
 not approval. The renderer places the question: do not append it yourself.
@@ -244,6 +261,10 @@ has nothing for.
   "task_reason": null,
   "state": "Awaiting your approval",
   "state_reason": null,
+  "team": [
+    {"provider": "claude", "id": "11111111-1111-4111-8111-111111111111", "role": "current session", "self": true, "status": "identity verified"},
+    {"provider": "codex", "id": "22222222-2222-4222-8222-222222222222", "role": "Implementation partner", "status": "submitted-unconfirmed"}
+  ],
   "now": [
     "Design the freshness alert",
     "Later: implement the agreed design"
@@ -252,8 +273,7 @@ has nothing for.
   "this_session": "Proposed: design the alert. Implementation and deployment are not included in this approval.",
   "question": {
     "text": "Starting on the alert design — approve?",
-    "proposed": "Decide where it runs, what it checks and how it notifies you.",
-    "reply": "Approve / Change"
+    "proposed": "Design the freshness alert.\n\n1. Choose where it runs.\n2. Define the check and notification.\n\nDesign only; no implementation or deployment."
   },
   "documents": [
     ["Open work", "docs/work/model-ready-work/consolidation.md"],
@@ -276,6 +296,20 @@ and `state_reason` carry the sentence after an explicit "none". `restored` is
 `"yes"`, `"partial"`, `"no"`, or omitted when no pickup claim is being made;
 `restore_note` says what is missing when it is not `"yes"`.
 
+`question` uses `text` for the one question and `proposed` for the recommended
+action, steps and limits. JSON `\n` preserves a line break and `\n\n` a paragraph
+break inside `proposed`. Legacy `question.reply` is tolerated but no longer
+displayed; never put scope, constraints or necessary facts in that field.
+
+`team` is the Agent arrival result's `team` array, passed unchanged; the fictional
+IDs above illustrate the shape, never values to send. Each row has provider, ID,
+role and status; optional `self`, `alias`, `error`, `reused` and `created_at` come
+from the helper. A reused receipt renders as an earlier notice, not a new send.
+The renderer shortens IDs, lengthens collisions and groups identical identities.
+Use `[]` for no established pairing; `null` for unresolved/unread pairing state,
+with its reason in ATTENTION. If no recipient is established, there is no notice
+or setup question. Do not claim online/connected from a submission result.
+
 `updated` is the selected source's recorded update time, not the current time,
 an estimated close time or a guessed aggregate across files. If no applicable
 source time is known, use `null`. The renderer supplies `rendered` from its clock;
@@ -297,6 +331,7 @@ plan, preserving agreed order. An observation made during pickup appears here
 only as its remaining action (assessment or recording, for example). Completed
 observations belong in the summary; deferred work stays behind the detail link.
 This changes the display, not the saved list. The backlog is not supplied here.
+TEAM always renders (unknown versus no established pairing stay distinct).
 Only the attention panel, `DOCUMENTS` and the `★` insight line are **omitted
 entirely** when empty. Always supply `source`: it names what the pickup actually
 read, and it is the one field nothing else can stand in for.

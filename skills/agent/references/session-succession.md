@@ -126,8 +126,9 @@ still listed, missing/different machine, or unresolved identity—not just “ro
 unchanged”. A missing fingerprint disables unplanned recovery, not a prepared
 Out handoff or its designated adoption.
 The narrow native listing above is allowed for recovery, not a peer health check.
-No contacting peers, launching, resuming, stopping, dispatching or project
-file repairs is authorized by this local routing update. This is the narrow
+No launching, resuming, stopping, work dispatch or project
+file repairs is authorized by this local routing update. The bounded arrival
+notice below is its only peer-contact exception. This is the narrow
 private-metadata exception to status-only In, not authority to start the plan.
 
 Replacement locks and checks the expected old ID, preserves the ongoing role
@@ -160,3 +161,54 @@ Source: [Claude session environment](https://code.claude.com/docs/en/env-vars).
 without it remain unsupported for self-adoption, never inferred from history.
 Codex corroboration supports daemon-loaded threads or stored TUI threads; a
 non-TUI thread without a daemon is unsupported, not inferred to be live.
+
+## Arrival notice and TEAM display
+
+After restoring identity and routing, announce this arrival once to established
+pairing partners. If the restored context explicitly selects peer aliases, pass
+them; otherwise omit `--peer` and use the private pairing's unambiguous default:
+
+```sh
+agent.py --project /PROJECT arrival --provider claude --self-alias RESTORED_ROLE --peer PARTNER_ALIAS
+```
+
+Use the actual host provider. Omit `--self-alias` if this session has no standing
+role; repeat `--peer` only for additional selected established partners. Without
+`--peer`, the helper groups existing bindings by provider and exact ID, preferring
+an explicitly recorded ongoing role. A unique other-provider binding can supply
+the partner even without a defined role; its role remains undefined. Same-provider
+contact aliases without roles are not default recipients. Multiple eligible IDs
+for a provider stay unresolved and unsent, with Agent available to choose when
+needed; no setup stop or guessed newest session. This uses private binding
+metadata only, not native discovery or request history.
+
+Self and its previous/retired IDs are excluded. Workers and owned launches with
+no defined ongoing partner role are excluded too. An explicitly role-bearing
+persistent partner is eligible, but cannot be resumed merely for a notice.
+With no established partner, no notice or setup prompt. The helper corroborates self identity and refuses a
+self-role binding that was not restored to this ID.
+
+Pass the returned `team` unchanged to Switch's in-memory summary. Show provider,
+role and short ID in TEAM in the existing completion box; exact IDs stay in
+private context and are available through Agent, not tracked Markdown. Repeated
+aliases for the same provider/ID are one member. Missing role means undefined,
+not inferred from the native title. Sending cannot make availability verified.
+
+The notice names project, sender ID, recorded role and previous ID when known.
+It says no reply needed and no work requested; recipients do not acknowledge,
+announce back, change bindings or treat it as user approval. Native queues may
+still activate a recipient turn or hold the message under inbound policy; this
+is informational content, not a promise of zero token cost or silent delivery.
+
+Receipts reuse Git-private Agent requests. One sender/recipient identity pair
+gets one attempt, including unavailable or uncertain attempts: no automatic
+retry, alternate route, transcript retrieval, acknowledgement wait or dormant
+partner resume. Repeating In with the same IDs reuses that result, labelled
+“earlier notice … (not resent)”; the original time remains in the returned
+receipt. A new ID on either side permits a new notice. Compare identities, not
+commands: a Claude clear that changes its ID sends a new notice; any same-ID
+continuation does not. This is identity announcement, not a heartbeat.
+Pre-enqueue refusals are unavailable; only an attempted native send can be
+delivery-uncertain. A failed notice remains visible
+without turning complete memory into incomplete pickup. Later actual work uses
+ordinary Agent request/reply handling and resolves the binding again.

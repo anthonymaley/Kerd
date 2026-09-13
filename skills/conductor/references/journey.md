@@ -61,9 +61,11 @@ display width. Use simple characters if the host renders wide symbols unevenly.
 Use bold headings and restrained colour on surfaces that actually support them;
 never put Markdown bold or ANSI escapes inside a plain code block as fake styling.
 
-Where textual options are allowed, keep Correct / Change inside the card.
-Correct needs no explanation; Change invites a normal correction, not an inline
-editor. A missing answer needs its actual question, not confirmation of a guess.
+Recommend one next action and ask one direct question. Do not add a routine
+Correct / Change menu or append an alternative such as “or would you rather do
+something else?” The person can push back. Keep action steps and scope spaced
+inside the card; numbered steps are not numbered answer choices. A missing fact
+still needs its actual question, not confirmation of a guess.
 
 If numbered choices are forbidden, omit only those choices; preserve the frame
 and answer panel. If the host requires a plain-text question, put context in the

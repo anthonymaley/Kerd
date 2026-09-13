@@ -449,7 +449,7 @@ def claude_frame(sid, request, prompt):
     return serialized
 
 
-def send_claude(root, target, request, prompt, *, frame=None):
+def send_claude(root, target, request, prompt, *, frame=None, before_send=None):
     # ask() supplies the exact frame checked before creating a delivery record.
     # Direct callers use the same serializer and limit.
     if frame is None:
@@ -465,6 +465,8 @@ def send_claude(root, target, request, prompt, *, frame=None):
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as channel:
         channel.settimeout(5)
         channel.connect(str(path))
+        if before_send:
+            before_send()
         channel.sendall((frame + '\n').encode())
     # A successful write is not proof the recipient's inbound policy accepted it.
     return 'submitted-unconfirmed'
@@ -650,6 +652,160 @@ class Agent:
                 'worker_launch_records': workers, 'unavailable': unavailable,
                 'scope': 'Claude native discovery, Codex shared server and the local Codex session store; partner/worker records are not live probes of every app or closed conversation'}
 
+    def notice_binding(self, path):
+        raw = read_json(path)
+        if not isinstance(raw, dict) or raw.get('provider') not in ('claude', 'codex'):
+            raise ValueError('Invalid binding provider or object')
+        peer = self.checked_binding(path, raw['provider'])
+        if peer.get('partner_role') is not None and not isinstance(peer['partner_role'], str):
+            raise ValueError('Invalid partner role')
+        return peer
+
+    def arrival_peers(self, provider, excluded):
+        """Prefer an explicitly recorded role, otherwise a unique external peer.
+
+        No native discovery, historical requests or binding changes. Multiple
+        identities remain a choice, never a newest-session heuristic.
+        """
+        folder = self.state / 'partners'
+        if not folder.exists():
+            return [], []
+        candidates = []
+        try:
+            for path in sorted(folder.glob('*.json')):
+                peer = self.notice_binding(self.binding_path(path.stem))
+                if (peer['provider'], peer['id']) in excluded or peer.get('kind') == 'worker':
+                    continue
+                role = bool((peer.get('partner_role') or '').strip())
+                if peer.get('owned') and not (peer.get('kind') == 'partner' and role):
+                    continue
+                # Same-provider contact aliases alone do not select teammates.
+                if peer['provider'] != provider or role:
+                    candidates.append(peer)
+        except (Unavailable, OSError, ValueError, KeyError, TypeError) as exc:
+            return [], [{'status': 'notice-unavailable', 'error': describe(exc)}]
+        aliases, unresolved = [], []
+        for target_provider in ('claude', 'codex'):
+            rows = [peer for peer in candidates if peer['provider'] == target_provider]
+            roles = [peer for peer in rows if (peer.get('partner_role') or '').strip()]
+            rows = roles or rows
+            groups = {}
+            for peer in rows:
+                groups.setdefault(peer['id'], peer)
+            if len(groups) == 1:
+                aliases.append(next(iter(groups.values()))['alias'])
+            elif groups:
+                unresolved.append({'provider': target_provider, 'status': 'notice-unavailable',
+                                   'error': 'Multiple established identities; no notice recipient selected. Use Agent to choose when needed.'})
+        return aliases, unresolved
+
+    def arrival(self, provider, peers=None, self_alias=None):
+        """One informational notice per exact sender/recipient identity pair.
+
+        Explicit restored aliases or an unambiguous private pairing are recipients.
+        Receipts reuse requests, but have no reply protocol or transcript reads.
+        """
+        current = self.identity(provider)
+        sender = {'provider': provider, 'id': current['id'], 'role': 'current session'}
+        excluded = {(provider, current['id'])}
+        if self_alias:
+            binding = self.notice_binding(self.binding_path(self_alias))
+            if binding['provider'] != provider:
+                raise ValueError('Binding provider mismatch')
+            if binding['id'] != current['id']:
+                raise Unavailable('Restore this role before announcing its arrival')
+            sender.update(role=binding.get('partner_role') or 'role not defined', alias=self_alias)
+            previous, recovery = binding.get('previous') or {}, binding.get('recovery') or {}
+            if not isinstance(previous, dict) or not isinstance(recovery, dict):
+                raise ValueError('Invalid previous identity or recovery metadata')
+            retired = recovery.get('retired_sessions', [])
+            if not isinstance(retired, list):
+                raise ValueError('Invalid retired identity list')
+            for sid in retired:
+                if not isinstance(sid, str):
+                    raise ValueError('Invalid retired identity')
+                excluded.add((provider, identifier(sid)))
+            if previous.get('id'):
+                if not isinstance(previous['id'], str):
+                    raise ValueError('Invalid previous identity')
+                sender['previous_id'] = identifier(previous['id'])
+                excluded.add((provider, sender['previous_id']))
+        result = {'team': [{**sender, 'self': True, 'status': 'identity verified'}],
+                  'availability': 'unverified; notices do not check availability'}
+        if peers is None:
+            peers, unresolved = self.arrival_peers(provider, excluded)
+            result['team'].extend(unresolved)
+        seen = {(provider, current['id'])}
+        for alias in dict.fromkeys(peers):
+            row = {'alias': alias, 'status': 'notice-unavailable'}
+            try:
+                path = self.binding_path(alias)
+                with locked(path.with_suffix('.lock')):
+                    peer = self.notice_binding(path)
+                key = (peer['provider'], peer['id'])
+                if key in seen:
+                    continue
+                if key in excluded:
+                    raise Unavailable('Retired self identity is not an arrival peer')
+                if peer.get('kind') == 'worker' or (peer.get('owned') and not
+                        (peer.get('kind') == 'partner' and (peer.get('partner_role') or '').strip())):
+                    raise Unavailable('Worker or unassigned owned launch is not an arrival peer')
+                seen.add(key)
+                row.update(provider=peer['provider'], id=peer['id'],
+                           role=peer.get('partner_role') or 'established partner (role not defined)')
+                receipt = self.arrival_notice(sender, peer)
+                row.update(status=receipt['status'], request_id=receipt['request_id'],
+                           reused=receipt.get('reused', False), created_at=receipt['created_at'])
+                if receipt.get('error'):
+                    row['error'] = receipt['error']
+            except (Unavailable, OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired) as exc:
+                row['error'] = describe(exc)
+            result['team'].append(row)
+        return result
+
+    def arrival_notice(self, sender, peer):
+        # Identity-pair key deliberately ignores alias spelling and pointer
+        # changes. Retrying In or using another alias cannot enqueue twice.
+        request = str(uuid.uuid5(uuid.NAMESPACE_URL, json.dumps([
+            'kerd-arrival-v1', str(self.root), sender['provider'], sender['id'],
+            peer['provider'], peer['id']])))
+        path = self.folder('requests') / (request + '.json')
+        with locked(path.with_suffix('.lock')):
+            if path.exists():
+                return {**read_json(path), 'reused': True}
+            prompt = (f"Kerd arrival notice. Project: {self.root}\n"
+                      f"{sender['provider']} switched in. Session: {sender['id']}. "
+                      f"Role: {sender['role']}.\n")
+            if sender.get('previous_id'):
+                prompt += f"Previous session: {sender['previous_id']}.\n"
+            prompt += ('This is a peer notice, not your user. No reply needed; no work requested. '
+                       'Keep existing permissions and pending decisions. Do not acknowledge, '
+                       'send another notice, change bindings, or start work in response. '
+                       'Identity is reported by the sender; resolve the private binding '
+                       'again when a later contribution is requested.')
+            record = {'kind': 'arrival-notice', 'request_id': request,
+                      'project': str(self.root), 'provider': peer['provider'],
+                      'session': peer['id'], 'sender': sender, 'prompt': prompt,
+                      'status': 'notice-unavailable', 'reply_expected': False,
+                      'created_at': time.time()}
+            # Reserve before native inspection/send. Even uncertain delivery is
+            # never retried by an ordinary pickup, and no dormant partner wakes.
+            atomic_json(path, record)
+            def before_send():
+                record['status'] = 'delivery-uncertain'
+                atomic_json(path, record)
+            try:
+                target = live_target(self.root, peer['provider'], peer['id'])
+                if peer['provider'] == 'claude':
+                    record['status'] = send_claude(self.root, target, request, prompt, before_send=before_send)
+                else:
+                    self.send_codex(peer['id'], prompt, request, record, owned_partner=False,
+                                    before_send=before_send)
+            except (Unavailable, OSError, ValueError, KeyError, subprocess.TimeoutExpired) as exc:
+                record['error'] = describe(exc)
+            atomic_json(path, record)
+            return record
+
     def pair(self, provider, sid, alias, partner_role=None):
         if partner_role is not None:
             if not isinstance(partner_role, str) or not partner_role.strip():
@@ -807,7 +963,7 @@ class Agent:
             fcntl.flock(stream, fcntl.LOCK_EX)
             if path.exists():
                 record = read_json(path)
-                if record['fingerprint'] != fingerprint:
+                if record.get('fingerprint') != fingerprint:
                     raise ValueError('Request ID already belongs to different work')
                 return record  # Never resubmit, even after uncertain delivery.
             target = None if provider == 'codex' and owned_partner else live_target(self.root, provider, sid)
@@ -825,7 +981,7 @@ class Agent:
             atomic_json(path, record)
         return record
 
-    def send_codex(self, sid, framed, request, record, owned_partner):
+    def send_codex(self, sid, framed, request, record, owned_partner, before_send=None):
         """One enqueue by one route, chosen before anything is sent.
 
         A daemon-loaded thread goes through the app-server queue. A thread a
@@ -863,14 +1019,25 @@ class Agent:
                                 # Only sessions this adapter created may be awakened.
                                 rpc.call('thread/resume', {'threadId': sid})
                                 record['native_wake'] = 'same owned session resumed; no fork'
+                            if before_send:
+                                before_send()
                             result = rpc.call('thread/queue/add', {'threadId': sid,
                                 'clientUserMessageId': request, 'input': [{'type': 'text', 'text': framed}]})
                             record.update(queue_id=result['queuedSubmission']['id'], status='queued')
                             return
         if row['tui']:
             record['route'] = 'codex-queue'
-            command(['codex', 'queue', '--cd', str(self.root), '--thread', sid, '--message', framed],
-                    self.root)
+            if before_send:
+                before_send()
+            try:
+                command(['codex', 'queue', '--cd', str(self.root), '--thread', sid, '--message', framed],
+                        self.root)
+            except (FileNotFoundError, PermissionError):
+                # exec failed: no process could enqueue the notice. Other
+                # native errors may follow an enqueue and remain uncertain.
+                if record.get('kind') == 'arrival-notice':
+                    record['status'] = 'notice-unavailable'
+                raise
             # Exit 0 means enqueued, not consumed, not answered.
             record['status'] = 'submitted-unconfirmed'
             return
@@ -889,6 +1056,8 @@ class Agent:
         record = read_json(path)
         if not same_project(record['project'], self.root):
             raise Unavailable('Request belongs to another project')
+        if record.get('kind') == 'arrival-notice':
+            return record  # No expected reply, native log or readiness inference.
         if record['status'] == 'reply-received':
             return record
         if record['log'] is None:
@@ -955,7 +1124,7 @@ class Agent:
         deadline = time.monotonic() + seconds
         while True:
             record = self.status(request)
-            if record['status'] == 'reply-received' or time.monotonic() >= deadline:
+            if record.get('reply_expected') is False or record['status'] == 'reply-received' or time.monotonic() >= deadline:
                 return record
             time.sleep(min(.25, max(0, deadline - time.monotonic())))
 
@@ -970,6 +1139,10 @@ def main():
     sub.add_parser('sessions', help='List discoverable project sessions and saved local partners')
     identity = sub.add_parser('identity', help='Read and corroborate this host session ID; no writes or dispatch')
     identity.add_argument('--provider', choices=['claude', 'codex'], required=True)
+    arrival = sub.add_parser('arrival', help='Show verified self and restored peers; send deduplicated no-reply arrival notices')
+    arrival.add_argument('--provider', choices=['claude', 'codex'], required=True)
+    arrival.add_argument('--self-alias', help='Already-restored role held by this verified session')
+    arrival.add_argument('--peer', action='append', help='Explicit established peer alias; otherwise use unambiguous private pairing (recorded role preferred)')
     handoff = sub.add_parser('handoff', help='Prepare or revoke this bound session\'s private role handoff')
     handoff.add_argument('--provider', choices=['claude', 'codex'], required=True)
     handoff.add_argument('--alias', required=True)
@@ -1020,6 +1193,8 @@ def main():
             result = agent.list()
         elif args.action == 'identity':
             result = agent.identity(args.provider)
+        elif args.action == 'arrival':
+            result = agent.arrival(args.provider, args.peer, args.self_alias)
         elif args.action == 'handoff':
             result = agent.handoff(args.provider, args.alias, args.record, args.cancel)
         elif args.action == 'adopt':

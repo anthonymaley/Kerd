@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing context and designated role continuity without contacting peers, and presents a compact completion dashboard with NOW and one arrival decision. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor, restores existing Agent pairing and designated role continuity, notifies established partners without requesting work or a reply, and presents a compact dashboard with TEAM, NOW and one arrival decision. Out checks existing role ownership and collects necessary contributor accounts before drafting one resumable handoff, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -73,8 +73,9 @@ SKILL.md In paragraph is the full rule. The approval, or an explicit request to 
 managed To/Roll keeps its agreed continuation. Loading is not build authorization.
 Retain existing local Agent pairing context as that guide describes; load Agent
 when a contribution is requested. The short succession guide permits verifying
-this session's ID and adopting its designated role in private metadata, not
-contacting other peers or starting project work at In. Eligible restart recovery
+this session's ID and adopting its designated role in private metadata, plus a
+deduplicated no-reply arrival notice to restored partners, not starting project
+work at In. Eligible restart recovery
 may check native identity/absence through that helper, preserving the role rather
 than asking the person to select an established teammate again.
 
