@@ -59,7 +59,7 @@ fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
 the root (2026-09-09). Name it with `--preserve` at every save.
 
-**Pickup reading set** (Switch Out, 2026-09-13 11:05): this file complete;
+**Pickup reading set** (Switch Out, 2026-09-13 10:58): this file complete;
 `TODO.md` `## Now`; `kivna/sessions/2026-09-13.md` complete;
 `docs/work/switch-coordinated-closeout/work.md` section
 `## Targeted verification of reported failures (2026-09-13)`. Add
@@ -73,7 +73,7 @@ Measured reading: 33,765 bytes, about 8,442 tokens estimated at four bytes each 
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
 other standing decision, is in [docs/decisions.md](docs/decisions.md) (166 entries at the
-2026-09-13 11:05 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
+2026-09-13 10:58 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
