@@ -4,8 +4,8 @@
 
 Outcome: Switch In makes the established team recognizable and tells those
 partners when the current native identity arrives, without starting work.
-Stage: Complete — NOW tightening and both grid changes implemented, reviewed and released as 0.121.0.
-Source boundary: main, “Release Kerd 0.121.0: status grid arrival and delegation grid”.
+Stage: Complete — arrival-fidelity correction implemented, reviewed and included in release 0.121.1.
+Source boundary: main, “Release Kerd 0.121.1: preserve the rendered arrival”.
 This account is saved with the release; remote publication and CI are checked
 after saving, not pre-asserted inside this commit.
 Owner: Codex implemented Agent/Switch/Conductor and tests. The established Claude
@@ -13,12 +13,73 @@ partner reviewed read-only and published both 0.120.0 (Anthony's “lets release
 2026-09-13 16:51) and 0.121.0 (his second “lets release”, 17:57), each after
 Codex confirmed its edits finished and that it would not release in parallel.
 Claude's separate shared verification record stays under its ownership.
-Next action: a fresh session loads 0.121.0 and shows the grid arrival, and a
-real delegation shows the Conductor grid, for Anthony's assessment. Long-cell
+Next action: a fresh session loads 0.121.1 for an ordinary arrival, checking NOW
+selection and unchanged renderer-to-final delivery. A real delegation still
+provides the ordinary-use observation of Conductor's grid. Long-cell
 wrapping in the actual client is unverified. Publication does not update an
 installed plugin cache; no install, Codex update or consumer-project work is
 authorized. Earlier release accounts remain history.
 Pending question: none.
+
+## Arrival fidelity correction (2026-09-13)
+
+Anthony supplied Claude's comparison of the ordinary Leru 0.121.0 pickup and
+directed: “work with them to fix this finally then lets release and try again”.
+Codex owns this implementation and publication; the established Claude partner
+reviews read-only, with no competing edits or release. Earlier ownership below
+describes earlier releases. No install, consumer change or session mutation.
+
+Claude rechecked selected native input/output and reported two independent
+failures: the original summary already contained the long TV-check procedure
+and unrelated heartbeat build; the final assistant message then expanded NOW
+and rewrote ATTENTION after rendering (2,176 versus 2,489 characters). The owner
+label's embedded dependency matched our example, not an invented convention.
+Its earlier claim that released In explicitly said to show Markdown directly
+was withdrawn: that wording existed under Out only. Codex verified this
+distinction in the source. The native transcript inspection is Claude's reported
+evidence; Codex did not independently read the consumer history. Client a/b/c
+styling of source 1/2/3 is not a defect. A post-tool reminder was present, but
+neither reviewer established it as the cause of the rewrite.
+
+Fix: review NOW's membership before rendering, retain current approval limits,
+move long procedures behind linked detail, and keep owner labels to owners.
+Composition ends at the summary input. The complete successful stdout is the
+final assistant message unchanged; correct input and rerender instead of
+paraphrasing. Retrieve truncated output instead of reconstructing it. Only an
+actual failure/unavailable renderer uses the disclosed text fallback. No new
+schema, parser, hook, queue or runtime gate. Renderer and Out code are unchanged.
+
+Review briefs: [evidence](arrival-fidelity-review.md) and
+[review/replay](arrival-fidelity-replay.md). Both use the established Claude
+partner and local Opus 5 2026-09 scope/evidence guidance; returned model was
+claude-opus-5, applied effort unknown. Full requests remain in Agent's private
+store. The replay brief initially named an invalid flag, corrected here after
+dispatch; Claude used the actual guide's --markdown command and returned a
+successful result. That was a request error, not a product defect.
+
+Claude returned the bounded replay with no consequential review finding.
+Codex inspected its scratch summary: two NOW items (Tony's current TV check;
+Claude recording the result), no heartbeat build, owner-only labels, separate
+permission limits. Codex rerendered that input and compared the complete reply
+with stdout: exact equality after excluding only the terminal trailing newline
+and Agent reply envelope (1,544 characters). The saved scratch render also
+matched. This is one model replay on supplied facts, not a fresh In, consumer
+health check, installation, human acceptance or universal compliance guarantee.
+
+Focused renderer suite: 136 passed; full Switch 345, Conductor 37, Agent 168,
+packaging 9 and hooks 21 passed. All CI commands passed locally; fidelity skipped
+because HEAD was not a session-log boundary. Audit retains the pre-existing
+requirements trace finding. Agent tests emitted unclosed SQLite ResourceWarnings;
+shellcheck was unavailable and skipped. Switch and Conductor skill validators
+passed. No test failure was hidden by those limits.
+
+Claude's [release-surface review](arrival-fidelity-release-review.md) found only
+two wording corrections, both made: README now says the change addresses the
+observed failures rather than claiming ordinary-use proof, and this Now section
+describes the included release rather than a stale preparation step. The remote
+and CI checks remain after-save facts, not claims inside the saving commit.
+Claude confirmed no competing work, edits or unrecorded contribution; all three
+requests returned and were retrieved. No participant job remains pending.
 
 ## Shared grid style (2026-09-13, local)
 

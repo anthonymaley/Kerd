@@ -198,9 +198,27 @@ poorly, and omit the callout when there is nothing useful to say.
 Render it with the packaged renderer, [scripts/where_we_are.py](../scripts/where_we_are.py),
 resolved relative to this skill so it travels with the package:
 
+Finish composing and checking the summary **before** this call. For each NOW
+item, keep it only if it is the current action or necessary follow-through on
+that action's result. A separately scoped later build does not qualify merely
+because it is tagged “needs approval”; the current proposed action may still
+await its own approval. Move checking procedures to the linked
+task detail; keep only the action/outcome and immediate permission limits here.
+Put dependencies in the action text, not in the owner label.
+
 ```sh
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary - --markdown
 ```
+
+The complete stdout from this call **is the final assistant message**. Return
+it unchanged: no paraphrasing, expanded checklist, reworded warning, added intro
+or second question. Rendering is the last step of In, not material for another
+writing pass. If content needs correcting, change the summary and render again;
+use that latest complete output. If the tool output is truncated, retrieve the
+complete result rather than reconstructing missing text. A genuinely unavailable
+renderer uses the disclosed plain-text fallback below, not a claimed renderer result.
+The client may style numbered lists as letters; do not rewrite content to undo
+client styling. This instruction governs the assistant's text, not client pixels.
 
 Use `--markdown` in assistant chat. Start with the explicit completion heading
 and a Markdown grid: PROJECT / PHASE / STATE / TEAM. Then three separated bullets:
@@ -228,7 +246,7 @@ work merely to shorten the display. There is no fixed item count to fill.
 Use `**Owner:** action` inside the existing string, for example:
 
 1. `**Anthony:** Check the finished build on a device.`
-2. `**Claude · after your report:** Record the result and identify any correction needed.`
+2. `**Claude:** After your report, record the result and identify any correction needed.`
 
 Only use established owners; otherwise say owner unassigned. This explicit
 notation distinguishes owners from ordinary colon prose. The renderer preserves
@@ -347,9 +365,10 @@ entirely** when empty. Always supply `source`: it names what the pickup actually
 read, and it is the one field nothing else can stand in for.
 
 It reads stdin, so nothing is written to disk. Do not re-read files to fill it,
-and do not stop for approval before showing it. If the renderer cannot run, say
-the same things as plain text; the information is the requirement, the frame is
-not.
+and do not stop for approval before showing it. Only if rendering fails or the
+renderer is unavailable, disclose that failure and present the restored facts
+and single question as plain text. A successful complete render uses the unchanged
+stdout rule above; this fallback is not permission to restyle or paraphrase it.
 
 `restored` states whether the necessary context was recovered. Which presentation
 ran is a separate fact: an older Switch producing the long report is not an

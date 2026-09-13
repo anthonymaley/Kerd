@@ -40,7 +40,22 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.121.0)
+## What's New (v0.121.1)
+
+### v0.121.1
+
+**Keep the rendered arrival intact.** Switch In now explicitly returns the
+complete renderer output unchanged, with no second prose pass. Corrections go
+into the summary and are rendered again; the disclosed plain-text fallback is
+only for renderer failure or unavailability. Before rendering, NOW is checked
+for the current action and its necessary follow-through, keeping unrelated later
+builds and long checking procedures behind Open work. Owner labels contain the
+owner; dependencies go in the action text.
+
+This addresses the two separate failures observed in Leru on 0.121.0. A bounded
+Claude replay kept NOW tight and returned the complete rendered text unchanged.
+The next ordinary pickup still needs observation; guidance is not runtime
+enforcement. Renderer code, Out and installed plugin copies are unchanged.
 
 ### v0.121.0
 
@@ -659,7 +674,11 @@ It ends with links and visible paths to the documents the
 work already names; the backlog lives behind the *Open work* link.
 `scripts/where_we_are.py` renders it from a summary Switch already holds, so
 nothing extra is read and no status file is written. Conductor is loaded before
-rendering and supplies *“Starting on X — approve?”* as the next-action question,
+rendering to finish the summary; Switch then returns the complete rendered
+Markdown unchanged. Corrections are made in the input and rendered again, not
+paraphrased after the renderer. NOW is checked before rendering: only the current
+action and its necessary follow-through, not a later build labelled “needs approval”.
+It supplies *“Starting on X — approve?”* as the next-action question,
 with its scope in NOW or THIS SESSION. A missing fact is asked as a clarification, not an
 approval; supplying a project name alone does not start an install or launch.
 A check belonging to you is labelled as yours, preserving any per-occasion

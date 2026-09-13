@@ -50,6 +50,9 @@ while asking for an answer elsewhere. Put scope in NOW or THIS SESSION;
 Switch renders the actual question once immediately after END OF PICKUP,
 as a bold speech-bubble blockquote in chat. No YOU box.
 Do not append another question after either presentation.
+Composition ends with the summary input: Switch returns the complete rendered
+Markdown unchanged. Do not resume Conductor's narration after the renderer call;
+correct the input and rerender if necessary, rather than rewriting the dashboard.
 Recommend one next action, with a known owner and its limits in NOW. Ask one direct
 question about it; do not tack on “or later?” or an alternative task. No REPLY
 menu: the person can decline, defer or redirect without being prompted to choose.

@@ -52,6 +52,8 @@ nested beneath NOW), then document links. No arrival boxes. Keep scope
 with the actions or THIS SESSION. The pending question is the first content after
 END OF PICKUP, once as a bold speech-bubble blockquote (`> 💬 **Question?**`).
 With no question, stop at the marker. Do not append another report or question.
+Switch returns the complete renderer output unchanged; this is not a draft for
+a second presentation pass. Corrections go into the input and are rendered again.
 
 For other Conductor decisions, use a real native bounded card if suitable and available. Otherwise use a
 four-sided text box in a monospace code block, with the answer and qualifications
