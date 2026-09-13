@@ -9,9 +9,9 @@ Stage: 0.116.0 release contents tested and reviewed; publication authorized.
 Current activity: no implementation in flight. Publication authorized by Anthony's
 “lets releaese”; resolve its state from the source boundary below.
 Pending question: none.
-Next action: after resolving the source boundary below with Git, observe delegation
-choices and clear/restart succession in ordinary use; neither is a live experience
-pass yet. No consumer installation is part of this source release.
+Next action: the shared verification list below (`## Targeted verification of
+reported failures`), item by item, owners as named. Consumer pickups stay deferred
+until items 1–5 carry evidence of the fixes working. No consumer installation is part of this source release.
 
 Source boundary: branch `main`, subject `Release Kerd 0.116.0: role continuity and implementation delegation`.
 This record is saved with the release; its resulting hash and remote/CI result
@@ -31,6 +31,30 @@ the existing private pairing records, not a tracked session-ID roster.
 Earlier 0.115.0 boundary: branch main, subject
 `Release Kerd 0.115.0: compact arrival and coordinated closeout`.
 That save preceded the 0.116.0 work above; resolve its revision with Git.
+
+## Targeted verification of reported failures (2026-09-13)
+
+Anthony, 10:41–10:50 EDT: "no point picking up projects when Kerd isn't working
+as it should, prove that first." Codex's account of the reported failures (from
+Anthony's supplied outputs, not watched terminals) and its three corrections to
+Claude's plan are accepted: the consumer-pickup question is deferred, not pending;
+existing ordinary-use evidence is the baseline, not repeated; a build delegates
+when useful and never manufactures subagent work. Agreed division: Claude owns
+arrival and closeout checks; Codex verifies the installed Codex version, checks
+pairing state and sends the successor a real request. Before any clear, both
+contributions are preserved and the handoff confirmed ready. Fixtures passing and
+0.116.0 shipping establish none of this. One list, one owner, evidence and the
+remaining gap per item; results are appended here by the owner.
+
+| # | Reported failure | Check on 0.116.0, in Kerd | Owner | Evidence baseline | Remaining gap |
+|---|---|---|---|---|---|
+| 1 | Arrival reply bound to the wrong thing: Leru 0.112.0 In promised design would start on a yes/no; Kerd 0.115.0 In (09:40) said "naming the project is what starts it" | Fresh Claude session after a clear; first verify which skill path and version actually loaded (0.116.0 is in the cache on disk, `plugin.json` 0.116.0; presence does not establish what loads). Switch In, then reply "not now" to its one pending question: nothing starts, nothing shown as owed. The project-name and factual Yes/No/Not sure replies each need their own genuine pending question; Kerd's arrival carries neither, so they stay with the deferred Codex pickup and the clarification scenario in `docs/work/codex-plugin/work.md`. | Claude (fresh session) | Anthony's supplied Leru and Kerd outputs, held by Codex | Needs Anthony to clear and open the session; he reads one reply. Only the "not now" case is exercised here |
+| 2 | Human-owned check presented as agent work: Seinn 0.115.0 In asked "Starting on the couch verdict — approve?" | The same fresh In: the saved next action includes Anthony's own assessment of the arrival, so TASK/STATE name him as actor and YOU asks whether he can give it, not "Starting on X" | Claude (fresh session) | Anthony's supplied Seinn output | Kerd has no device; the assessment stands in for the couch verdict |
+| 3 | Coordinated Out lost a contributor: Leru Out/In had no Codex log and conflicting TV claims, reconstructed not resolved | This session runs Out as owner: loaded skill is the 0.115.0 cache, guide followed is the released 0.116.0 `in-out.md` from the repository (a disclosed test route, not an installed-0.116.0 result); Codex's returned account captured once; MEMORY row shown; the fresh In (item 1) recovers both accounts without either old conversation | Claude (this session, owner); Codex returns its account | `kivna/sessions/2026-09-13.md` (one contributor, already saved) | Unresolved facts stay unresolved in the record, never reconstructed into proof |
+| 4 | Role not recoverable when the session ID changes (pairing showed a stale title; ordinary `pair` refused a new ID) | After the Out save, this session (bound as `kerd-b5-review`, which has no `partner_role`, no ownership flag and no `handoff`; role preservation cannot be claimed for a field that is absent) runs `handoff --record CONTEXT.md` with the released helper `skills/agent/scripts/agent.py`, not the 0.115.0 cache helper, which lacks the command; the designation is verified against the final saved pointer before Anthony clears; the new session's In records the actual identity before and after, then `adopt --expected-session <old> --record CONTEXT.md`; Codex checks the binding and sends the successor one real request that arrives | Claude designates and adopts; Codex verifies and routes | Fixture tests and one native self-ID read (Agent 135) | Compare the actual identity before and after the clear; never infer it. A safe refusal on unknown or conflicting identity is a successful safety observation, not successful role continuation |
+| 5 | Installed Codex snapshot reported stale since 2026-09-12 | Read the installed version before any Codex-side result is counted | Codex | Not rechecked at the 0.116.0 release | **Result 2026-09-13 ~11:00, Codex:** `codex plugin list --marketplace kerd-core --json` reports kerd@kerd-core installed, enabled, version 0.113.0, and the cached manifest agrees. Stale installed version confirmed; not 0.116.0 readiness. Nothing updated |
+| 6 | Implementation never delegated (Anthony: not seen in a long time; Codex: reviews only, today) | Judged at the next real build where a split is useful; the check is the decision and visible ownership, including an inline choice with its reason. Not a prerequisite for items 1–5. The Backlog's Agent four-limits work is a candidate, and a separate scope decision for Anthony | Claude (Conductor) when a build runs | Four hypothetical choices reviewed 2026-09-13 | No real build in this verification |
+| 7 | Consumer pickups (Codex in a work project; Seinn, Leru) | Deferred until items 1–5 carry evidence of the fixes working, not merely a recorded outcome; failed or unresolved checks stay visible here and keep the hold | — | — | Anthony's instruction, 10:41 |
 
 ## Implementation and checks
 

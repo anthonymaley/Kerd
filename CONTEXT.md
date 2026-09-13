@@ -7,36 +7,47 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 ## Where We Are
 
 **Release boundary: 0.116.0 — branch `main`, subject "Release Kerd 0.116.0:
-role continuity and implementation delegation".** Anthony authorized publication
-on 2026-09-13. This pointer is prepared before the release save; resolve its commit
-and remote verification with Git, not an embedded saving hash. The next work is
-ordinary-use assessment, not rebuilding these completed changes.
-It adds verified private role succession across session-ID changes, an explicit
-implementation split in Conductor, and reviewed arrival clarifications. Record,
-review and checks: `docs/work/switch-coordinated-closeout/work.md`. Operational
-guide: `skills/agent/references/session-succession.md`; delivery instructions:
-`skills/conductor/references/execution.md`. Earlier source releases are 0.115.0
-(compact arrival and coordinated Out), 0.114.0 (styled Switch) and 0.113.0
-(Codex core package; `docs/work/codex-plugin/work.md`).
+role continuity and implementation delegation", `b70f07f`, published by Codex
+2026-09-13 and remote-verified from the Claude session by fetch; Codex reports
+CI run 34762986143 succeeded.** It adds private role succession across
+session-ID changes, Conductor's implementation-split decision and the arrival
+clarifications. Record, reviews and the verification list:
+`docs/work/switch-coordinated-closeout/work.md`. Operational guide:
+`skills/agent/references/session-succession.md`. Earlier source releases:
+0.115.0, 0.114.0, 0.113.0 (`docs/work/codex-plugin/work.md`).
 
-**Installed state, not to be overclaimed:** this machine's Claude plugin cache
-delivered 0.113.0 on an ordinary startup at 22:25 on 2026-09-12 (observed
-once). Anthony subsequently supplied Kerd and Seinn arrivals reported as 0.115.0;
-their review is in the work record, not a self-awarded experience pass. Claude's
-release reviewer separately reports its own ordinary 09:38 EDT startup today
-read the 0.115.0 cache manifest and showed the compact arrival; Anthony's
-assessment remains absent. This is the reviewer's observation, not a Codex probe. No
-installation or 0.116.0 delivery check was performed for this release. The Codex
-user snapshot was reported stale (predating 0.113.0's pickup corrections) at
-the 2026-09-12 close and has not been rechecked since.
+**The current work is proof, not building** — Anthony, 2026-09-13 10:41: "no
+point picking up projects when Kerd isn't working as it should, prove that
+first." The seven-row shared verification list in the work record
+(`## Targeted verification of reported failures (2026-09-13)`) names each
+reported failure from Seinn, Leru and Kerd, its check in Kerd, its owner,
+evidence baseline and remaining gap. Claude owns arrival and closeout checks;
+Codex owns the installed Codex version, pairing state and the successor
+request. Consumer pickups, including the Codex pickup in a work project, are
+deferred until rows 1–5 carry evidence of the fixes working; a recorded
+outcome alone does not clear the hold.
 
-**Owed, none a build:** the live checks in TODO `## Now`, now targeting 0.116.0:
-a fresh Codex pickup on a refreshed snapshot, a fresh Claude pickup showing the
-compact arrival, the behavioural clarification scenario run by a model, and a
-coordinated Out with a live contributor, clear/restart role continuity and useful
-implementation delegation. Model scenario reviews are recorded, not substitutes
-for ordinary installed use. The four rulings owed to
-`docs/decisions.md` were recorded at the 2026-09-13 Out.
+**Installed state, not to be overclaimed:** the Claude plugin cache holds
+0.116.0 on disk (its `plugin.json` read 0.116.0 at 10:52); no session has
+been observed loading it. This session's ordinary startup at 09:38 loaded the
+0.115.0 cache (observed once). Installed Codex Kerd is 0.113.0, confirmed by
+Codex at about 11:00 by `codex plugin list` and the cached manifest; nothing
+updated. Presence in a cache does not establish what the next start loads:
+verify the loaded path and version first.
+
+**Where the sequence stands at this save:** Out from the Claude session on the
+0.115.0 cache under the released 0.116.0 guide (a disclosed test route), both
+contributions in `kivna/sessions/2026-09-13.md`. After the save, the session
+bound as `kerd-b5-review` (role: arrival and closeout checks, defined
+explicitly this sitting) designates its continuation with the released helper
+`skills/agent/scripts/agent.py handoff --record CONTEXT.md`; then Anthony
+clears. The fresh session's In: verify the loaded version, run `identity` and
+`adopt --expected-session <old ID> --record CONTEXT.md` during the routing
+step, then the dashboard with one question, whether Anthony can give his
+assessment of the arrival now. A "not now" must start nothing. Then tell
+Codex by a new peer request so it checks the binding and sends the successor
+a real request. Results go on the rows. A safe refusal on unknown identity is
+a safety observation, not continuation.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
@@ -48,23 +59,28 @@ fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
 the root (2026-09-09). Name it with `--preserve` at every save.
 
-**Pickup reading set** (Switch Out, 2026-09-13): this file complete;
-`TODO.md` `## Now`; `kivna/sessions/2026-09-13.md` complete. Add
-`docs/work/switch-coordinated-closeout/work.md` when acting on Switch, Agent or Conductor,
-`docs/work/codex-plugin/work.md` when acting on the Codex package or the
-clarification scenario. Helper arguments:
-`--record CONTEXT.md --file kivna/sessions/2026-09-13.md --section TODO.md "## Now"`.
-Prior Out measured 17,513 bytes (a byte-based token proxy, not measured tokens).
-That observation predates this release's pointer edits; it is not a current cost verdict.
+**Pickup reading set** (Switch Out, 2026-09-13 11:05): this file complete;
+`TODO.md` `## Now`; `kivna/sessions/2026-09-13.md` complete;
+`docs/work/switch-coordinated-closeout/work.md` section
+`## Targeted verification of reported failures (2026-09-13)`. Add
+`skills/agent/references/session-succession.md` when running the routing step.
+Helper arguments: `--record CONTEXT.md --file kivna/sessions/2026-09-13.md
+--section TODO.md "## Now" --section docs/work/switch-coordinated-closeout/work.md
+"## Targeted verification of reported failures (2026-09-13)"`.
+Measured reading: 33,765 bytes, about 8,442 tokens estimated at four bytes each (not a tokenizer reading), measured before this line was written; over the 8,000 target by about 440 and kept so on purpose: the log carries both of today's sittings and Codex's account, and the verification section is the next action itself. Prune the earlier sitting from the set once the fresh In has picked it up.
 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (162 entries at the
-2026-09-13 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (166 entries at the
+2026-09-13 11:05 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **PROVE KERD WORKS AS IT SHOULD BEFORE ANY CONSUMER PICKUP; EXISTING ORDINARY-USE EVIDENCE IS THE BASELINE, NOT REPEATED — Anthony, 2026-09-13 10:41, deferring the Codex pickup.**
+- **COMPARE ACTUAL SESSION IDs BEFORE AND AFTER A CLEAR OR RESTART; NEVER INFER IDENTITY FROM A TERMINAL, A TITLE OR RECENCY — Anthony, 2026-09-13, agreeing the succession design.**
+- **ONE STABLE ALIAS PER ROLE; A SUCCESSOR REPLACES THE ID ATOMICALLY AGAINST THE EXPECTED OLD ID, ON A DESIGNATED HANDOFF OR THE PERSON'S EXPLICIT SELECTION, NEVER ON RECENCY — 2026-09-13, Codex's design chosen over Claude's two-alias chain, Anthony's "lets do it".**
+- **DECIDE WHO BUILDS BEFORE BUILDING: CONDUCTOR CHOOSES THE INLINE/DELEGATED SPLIT AT DELIVERY START, DELEGATES WHEN USEFUL AND NEVER MANUFACTURES WORK — Anthony, 2026-09-13, "not seen delegation in a long time".**
 - **ONE OUT OWNER, NAMED BY THE PERSON; MEMORY READINESS IS THE OWNER'S JUDGMENT, SEPARATE FROM THE GIT VERDICT — Tony, 2026-09-13.** The owner alone writes the pointer, active list, session account and the record it is reconciling; contributors return their account; Out names other-branch work, never merges it.
 - **A FACTUAL CLARIFICATION IS NOT AUTHORIZATION; THE ARRIVAL QUESTION IS ASKED ONCE; A LOG PRESERVES A CLAIM, NOT PROOF — Anthony, 2026-09-12.**
 - **ONE PROPOSAL, NEVER TWO OPTIONS, NEVER AN “OR” — an approval prompt or question carries exactly one proposal, “Starting on X — approve?”, and Switch In ends on that line. Tony, 2026-09-11.**

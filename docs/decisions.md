@@ -12,171 +12,179 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
-1. ONE OUT OWNER, NAMED BY THE PERSON; MEMORY READINESS IS THE OWNER'S JUDGMENT, SEPARATE FROM THE GIT VERDICT — Tony, 2026-09-13, approving one coordinated Out after naming the split-session memory gap.
-2. A FACTUAL CLARIFICATION IS NOT AUTHORIZATION — Anthony, 2026-09-12, approving Codex's 0.113.0 pickup clarifications.
-3. THE ARRIVAL QUESTION IS ASKED ONCE — Anthony, 2026-09-12, same approval.
-4. A LOG PRESERVES A CLAIM; IT DOES NOT PROVE THE EVENT — Anthony, 2026-09-12, same approval.
-5. SWITCH OUT LEAVES A LEAN, MEASURED START POINT — Tony, 2026-09-11
-6. ONE PROPOSAL, NEVER TWO OPTIONS, NEVER AN "OR" — Tony, 2026-09-11
-7. CONDUCTOR'S PLAYERS ARE NATIVE SUBAGENTS BY DEFAULT; THE CLI RUNNER SERVES CODEX, RESUMABLE-BY-ID, SANDBOXED AND PERSISTENT JOBS — restored 2026-09-11 as a regression fixed, on Tony's "the issue was c…
-8. AGENT REACHES A TUI BY `codex queue --thread` AND READS THE REPLY FROM THE NATIVE ROLLOUT; A STORED THREAD IS A SELECTABLE CONVERSATION, NEVER PROOF OF LIVENESS — 2026-09-11, four reviews.
-9. A PEER CANNOT AUTHORIZE A PUSH — 2026-09-11.
-10. KERD IS PAIRED TO THE PRODUCER'S CODEX TUI THROUGH THE VAULT BRIDGE AS WELL AS AGENT — 2026-09-11, Tony's "yes".
-11. FILES A PROJECT DELIBERATELY KEEPS OUT OF GIT ARE PRESERVED LEFTOVERS, NOT BLOCKERS TO UNRELATED WORK — Tony, 2026-09-09, after candidate Switch's verified save refused every Kerd boundary.
-12. AN OLDER HASH IS NOT A STALE HANDOFF — THE DEFECT IS AN OBSOLETE NEXT ACTION. Tony, 2026-09-09, correcting the session's framing of its own countermeasure.
-13. A TOKEN-BUDGET RESULT STAYS UNMEASURED; A BYTE PROXY IS GROUNDS FOR CONCERN, NOT A MEASURED FAILURE. Tony, 2026-09-09.
-14. PROGRESS MUST BE SHOWN DURING WORK, NOT ONLY IN A FINAL REPORT — AND "THE HOST CANNOT" NEEDS PROVING. Tony, 2026-09-09.
-15. TREATMENT ASSURANCE IS A LIFECYCLE, NOT A PARSE RULE — A FATAL RISK ADVANCES ON A PLANNED TREATMENT AND ACCEPTANCE DEMANDS THE VERIFIED ONE. Tony, 2026-09-03, refusing revision 1 of `risk-state-split`…
-16. AN OLD LEDGER PASSING WITHOUT `fatal` DOES NOT PROVE ITS SEVERITY WAS NON-FATAL — TREATMENT MIGRATES MECHANICALLY, SEVERITY NEEDS EXPLICIT PRIOR EVIDENCE OR PRODUCER REVIEW. Tony, 2026-09-03, at `risk…
-17. THE RISK LEDGER'S `State` COLUMN SPLITS INTO SEVERITY AND TREATMENT — Tony, 2026-09-03, resolving the 2026-09-02 axes conflict on option 2 by name.
-18. STATUS IS SPOKEN AS WORK ITEM · STAGE · ISSUE · RESOLUTION PATH, IN PLAIN WORDS, AND A MESSAGE ENDS ON EXACTLY ONE QUESTION — Tony, 2026-09-03, correcting a switch-in and orient that spoke repo shorth…
-19. LAUNCH IS A CLEAN INDEPENDENT PILOT, NOT A PERCENTAGE — FIVE OUTCOMES, CURRENTLY 0 OF 5. Tony, 2026-09-02, replacing every progress measure the project had.
-20. A COUNTERMEASURE CHANGES TREATMENT, NEVER IMPACT CLASSIFICATION — Tony, 2026-09-02, refusing the session's own risk classification.
-21. A VALUE STATEMENT MAY NAME TWO OPPOSITE FAILURES, AND WHEN IT DOES, NEITHER HALF ALONE IS THE REQUIREMENT — Tony, 2026-09-02, framing `question-set-staleness`.
-22. AN ACCEPTANCE RECORD AND A LEGACY CLOSURE ARE EVIDENCE-BACKED KEYS, NEVER MECHANICAL CLEANUP — Tony, 2026-09-02, correcting the session that had just made the error.
-23. A DERIVED SET IS INVALIDATED BY SOURCE CHANGE, NEVER RE-DERIVED PER USE — AND THE TWO HALVES ANSWER DIFFERENT FAILURES. Tony, 2026-09-02, ruling on the question-set-derivation spike's sharpest finding…
-24. A SPIKE'S HONEST OUTPUT MAY BE "MOST OF IT DERIVES, AND HERE IS PRECISELY WHAT DOES NOT" — PARTIAL was declared legal BEFORE the work ran, 2026-09-02.
-25. A RUNG LEAVES ONE OF FOUR THINGS BEHIND, AND CONFLATING THEM IS THE FAILURE THE RECORDS EXIST TO PREVENT — Tony, 2026-09-02.
-26. AUTHORSHIP IS NEVER THE TEST — THE PRODUCER'S KEY IS. Tony, 2026-09-02, refusing revision 1 of `inline-composer`'s design.
-27. A LEGACY CLOSURE CLOSES THE ROUTING GAP AND NEVER THE EVIDENCE GAP — Tony, 2026-09-02, correcting the drawing at the eye.
-28. A REFERENCE THAT PARSES IS NOT A REFERENCE THAT RESOLVES — Tony, 2026-09-01, at the D6 check-6 gate.
-29. DRIVE DRIVES ONE GATE OF SEVEN, AND THE BOARD CANNOT TELL YOU THAT — measured 2026-09-01 after the producer refused the claim that Drive had shipped.
-30. THE CEREMONY HAS NO WORKING PROPORTIONALITY DIAL, AND IT IS MEASURABLE AT 1:45 — 2026-09-01.
-31. A QUESTION SET IS PER RUNG AND WORK-TYPE-NEUTRAL — the model's call, 2026-09-01, producer answered "dont know" and licensed the default.
-32. THE DESIGN PACKAGE IS AMENDED BEFORE THE SPEC IS REVISED — A WORK SPECIFICATION MUST NEVER BE THE FIRST AUTHORITATIVE STATEMENT OF A DESIGN. Tony, 2026-09-01, ruling at the reassessment after `require…
-33. THE APPROVAL FINGERPRINT IS ONE VERSIONED MECHANISM WITH ARTIFACT-SPECIFIC CANONICAL PAYLOADS — AND EVERY EXISTING HASH SURVIVES BYTE-FOR-BYTE. Tony, 2026-09-01, ruling on a hole found while convertin…
-34. A SEALED DRAWING ASSERTED A MECHANISM THE CODE DOES NOT PROVIDE — FOR THE SECOND TIME ON ONE ITEM, AND THE SWEEP FOUND IT IN ALL THREE VIEWS. 2026-09-01.
-35. AN ASSURANCE TALLY IS COUNTED BY TENSE, BECAUSE A DUAL-MARKED ROW IS ONE QUESTION WITH TWO ANSWERS — Tony, 2026-09-01.
-36. ACCEPTANCE IS TWO DECISIONS AND THREE OUTCOMES: A LINKED READING PROVES *ASSESSABLE*, NEVER *MET*. Tony, 2026-08-31, at `requirements-success-measurement`'s design review — the catch that goes to the …
-37. A REQUIREMENT AND ITS MEASURABLE SUCCESS CONDITION ARE TWO ARTIFACTS JOINED BY TYPED EDGES, AND THE REQUIREMENT BLOCK GAINS NO FIELD — Tony, 2026-08-31, closing a question open since 2026-08-14.
-38. THE SUSPECT-LINK STAMP PROTECTS ONE DIRECTION ONLY, AND THE UNPROTECTED ONE IS THE DANGEROUS ONE — verified 2026-08-31 at `tools/gates/kit.py:1445` after the producer refused an unverified claim.
-39. IF A CHECKER MISTAKES STRUCK TEXT FOR A LIVE CLAIM, TEACH THE CHECKER — DO NOT REWRITE HISTORY TO SATISFY A RAW TEXT SCAN. Tony, 2026-08-31.
-40. A KILLER RISK WHOSE COUNTERMEASURE POINTS AT UNBUILT MACHINERY GETS AN EXECUTABLE MANUAL CONTROL AND A `countermeasure - temporary` STATE — NEVER A CLAIM ON MACHINERY THAT DOES NOT EXIST, AND NEVER AN…
-41. "UNQUALIFIED" IS WORKFLOW INCOMPLETENESS, NOT A DURABLE RISK DISPOSITION — `LEGAL_STATES` STAYS AT FIVE. Tony, 2026-08-31.
-42. A PRODUCT DOC'S `stage:` IS VALIDATED FOR LEGALITY AND NEVER AGAINST THE DERIVED ROUTE — measured 2026-08-31, and it has already overclaimed.
-43. COLD EYES IS THE ACCEPTANCE MECHANISM, SO A LAYER-4 BLOCK ON THE ITEM'S OWN SHIPPED CLAIMS IS REPAIRED BEFORE ACCEPTANCE — NEVER FILED AS A SECOND EXCEPTION. Tony, 2026-08-29, setting the amendment bo…
-44. AN ABSENT MEASUREMENT DECLARATION IS "NOT ASSESSABLE" AND AN EXPLICIT PRODUCER EXCEPTION — NEVER A PASSED ROW, AND NEVER A TARGET AUTHORED AFTER THE BUILD. Tony, 2026-08-29, ruling at `gate-visuals`' …
-45. A GATE CHECK'S CODE LOCATION AND ITS READER-FACING NAME ARE TWO DIFFERENT THINGS, AND THE READER'S ONE WINS — Tony, 2026-08-28, correcting the score before dispatch.
-46. THE SEAL IS WRITTEN ON THE KEY, NEVER BEFORE IT — producer review, 2026-08-28, after Piece 4 had already landed.
-47. DRIVE MUST STATE THE SUBJECT IN PLAIN LANGUAGE WHEN IT OPENS A FRAME GATE, NEVER THE SLUG ALONE — measured on the first real run, 2026-08-28.
-48. WHAT THE MODEL ADDS TO A PRODUCER'S ANSWER IS MARKED AS THE MODEL'S, NEVER ATTRIBUTED TO HIM — Tony, 2026-08-28, on Q6.
-49. A NEVER-LAUNCHED CHROME HANGS EVERY HEADLESS CALL, SILENTLY — the Mac Studio, 2026-08-28.
-50. MACHINE-LOCAL STATE IS A REAL CATEGORY, IT HAS AN INVENTORY AT `docs/machine-setup.md`, AND THAT INVENTORY IS A LIST RATHER THAN A CHECK — 2026-08-27 evening, the move to the Mac Studio.
-51. A DECLARED CONTRACT THAT NOTHING CHECKS IS THE REPO'S RECURRING DEFECT CLASS — three instances found in one day, 2026-08-26/27, two of them by Tony reading a draft rather than reading code.
-52. THE FIRST ACCEPTANCE RECORD, AND THE GUARDRAIL THAT MADE WRITING IT SAFE — Tony, 2026-08-25/27.
-53. THE ACCEPTANCE TRIGGER FIRES, AND THAT PROVES THE CONDITION — NOT ENFORCEMENT. Measured 2026-08-27 on its first real run.
-54. A ROUTE LINE IS READ BY SOMEONE WHO WAS NOT IN THE ROOM — Tony, 2026-08-27, the expert-user pass's one finding.
-55. VERSION BUMPS ARE FOR RELEASES AND REAL SKILL BEHAVIOUR CHANGES, NOT FOR EACH TOOL-ONLY CORRECTION INSIDE ONE UNFINISHED ITEM — Tony, 2026-08-27
-56. A RENAME HAS TWO HALVES AND ONLY ONE OF THEM IS SWEEPABLE — measured across sixteen pieces, 2026-08-25.
-57. A FINGERPRINT PROVES UNCHANGED, NEVER TRUE — and a sealed view can be visually approved and factually false at the same time. Tony, 2026-08-25, ruling on a contradiction the build created.
-58. A DOC THAT QUOTES A MACHINE STRING MUST BE CHECKED AGAINST THE RUNTIME VALUE, NEVER A SOURCE GREP — 2026-08-25, found at the release close-out.
-59. A LIVING SURFACE REGENERATES; A DATED RECORD STANDS — Tony, 2026-08-25, ruling on a divergence the composer refused to resolve by itself.
-60. AN ALIAS READS OLD RECORDS; IT NEVER FIRES A NEW LIFECYCLE EVENT — Tony, 2026-08-25, ruling at the contract gate.
-61. THE GATES WERE HOLDING THE WRONG THINGS, AND THE SESSION'S FIX WAS REFUTED BEFORE IT LANDED — Tony, 2026-08-25, reading the drawing he had sealed two days earlier.
-62. A SEALED DRAWING CARRIED FOUR FACTUAL ERRORS, AND ONLY A LINE-BY-LINE AUDIT AGAINST THE CODE FOUND THEM — 2026-08-25, prompted by Tony asking the right question.
-63. THE CURRENCY RULE GAINS A SECOND CLAUSE — CROSS-WORK READABILITY — AND THREE RUNG NAMES FAIL IT. Tony, 2026-08-23 evening, raised at the moment the `funnel-driver` contract spec was about to be writte…
-64. THE LADDER IS SEVEN GATES, NOT EIGHT — `loop` IS A CONTAINER AND `acceptance` IS THE PRODUCER'S LAST GATE. Tony, 2026-08-23 late, correcting the drawing that was made to check his own rename.
-65. THE DIAGRAM RULE PAID OFF THREE TIMES IN ONE SITTING, AND ONCE IT BEAT ITS OWN AUTHOR — 2026-08-23 late, measured rather than asserted.
-66. BARE `handoff` IS BANNED IN LIVING DOCS WHERE AMBIGUITY MATTERS — say SESSION HANDOFF for switch, WORK HANDOFF for the Drive rung. Tony, 2026-08-23, overruling the model's objection with a better argu…
-67. DIAGRAM AND PROSE ARE ONE DELIVERABLE, PRODUCED TOGETHER — Tony, 2026-08-23 evening, refining the 2026-08-02 decision rather than superseding it.
-68. THE UMBRELLA IS NAMED `drive`, AND `project type` IS SUPERSEDED INTO THREE AXES — Tony, 2026-08-23 afternoon.
-69. THE FUNNEL DRIVER IS AN UMBRELLA ABOVE CONDUCTOR, NOT A GRADUATION INTO IT — Tony, 2026-08-23, and it dissolves `funnel-driver`'s killer risk rather than managing it.
-70. THE GUIDANCE ORDER, stated by Tony 2026-08-23: diagrams first, standards-anchored names throughout, numbers last — and the three are one product, not three features.
-71. `gate-visuals` slice 1 is ACCEPTED — ready to release, 2026-08-30 (`docs/gates/2026-08-30-gate-visuals-acceptance.md`, record + `stage:` flip atomic in `69e8193`).
-72. Every layer stands on a standard — 4 of 4 after the standards-grounding spike, and 42010 is a SPINE, not the one vocabulary (2026-08-22).
-73. A visual at every gate, approved and locked — and it needs no new machinery (2026-08-22).
-74. ISO/IEC/IEEE 42010 is ADOPTED for architecture description, and its completeness rule is the design gate (2026-08-22).
-75. A box must mean something — the diagram toolkit is adopted for explaining a design and closed forever for the board (2026-08-22).
-76. LAW 4 — learn from what exists before designing anything, and the analysis outranks what was said before it (2026-08-14).
-77. The requirements capability is BUILT, evidence-first, and every decision this day removed something (2026-08-14).
-78. The format refuses ambiguity rather than guessing — and that rule was earned (2026-08-14).
-79. THE RESET — 2026-08-13 evening. `docs/kerd-interview.md` is the source of truth and `docs/kerd-goals.md` is approved; everything else in this file is evidence rather than precedent.
-80. The self-check ladder is REAL and its tiers have measurably different reach — proven on its first run, 2026-08-13.
-81. The register has its refuser — AU7/AU8 shipped v0.97.0 (2026-08-13, `8b7f52d`, CI green), and nothing in it is hardcoded.
-82. The trace gap fills top-down, folded into the design-package rework — agreed 2026-08-13.
-83. Conductor advises the PAIR — model and effort, both directions — v0.98.0 (2026-08-13, `f4c51c0`, CI green), building `FUN-010`, keyed final the same sitting.
-84. The category taxonomy is a PRIMARY prefix plus TAGS, not a twenty-way partition — 2026-08-08, after measuring what mature tools actually do.
-85. The twenty categories now carry decisive definitions, and they survived ATTACK rather than review — 2026-08-08.
-86. Convergence of proposers is worthless; surviving attack is the signal — 2026-08-08, and it corrects a tactic adopted the same day.
-87. The completeness check is TIERED and must bind on countable facts — `TST-004`, `TST-005`, the producer 2026-08-08.
-88. BUILD the register; adopt none of the five external tools — decided 2026-08-08 by the repo's FIRST evaluation matrix (`docs/design/requirements-traceability.md`, 6 options × 24 criteria, marks-only, `…
-89. The promotion beat is TWO beats, and the machine's role is to DETECT that the first one didn't run — not to perform it. Tony, 2026-08-07 late: *"it should be recorded as a potential requirement and th…
-90. Requirement archaeology: NEVER from session logs; from CONTEXT.md only, as framed work with provenance marked.
-91. PROJECT TYPE is the project's current state and the goal gate INCREMENTS it; `route` and `Rigor level` become derived; and the funnel is closed to non-conductor sessions.
-92. The alignment gate is a shared STRUCTURE, not specifically a drawing — Tony 2026-08-07: *"i gave you the drawing in text form there, the categories etc - i approve the drawing not needed."
-93. Never route to superpowers — and the v0.77.0 "tie is cut" countermeasure does not hold, because the pull is injected from outside the repo.
-94. The funnel state belongs to the USER'S project, and Kerd holds none of its own — Tony, 2026-08-07: *"it needs to also write the funnel state, requirements, stage data steps, journey etc — right? nothi…
-95. When Tony says "capability", he means what the SKILL gives its users — not what the Kerd repo does for itself. Standing, stated 2026-08-07 as a correction: *"KERD is the skill that people use to build…
-96. The plan-approval gate is DELETED — approving the design is enough, and a plan is redefined (Tony, 2026-08-07).
-97. The four roles are PRODUCER → COMPOSER → CONDUCTOR → PLAYERS as of v0.92.0, and the rename happened because the old names inverted under reading.
-98. The funnel has no driver, and that was decided on 2026-08-04 (`docs/product/funnel-driver.md`, framed 2026-08-07, at the design rung).
-99. The division of labour, stated by Tony 2026-08-07 and now standing: his rungs are frame, viability, slice and design — spec, direction, problem definition — plus evaluation at the goal rung; contract …
-100. ROOT CAUSE, Tony 2026-08-07: "we solve for code level but all the context is not code — much of it is human input that we lose."
-101. Roughly 90% of Tony's input is the thinking layer, and the boundary is built for the other 10%
-102. The someday/maybe pile wakes as a phase, never as a notification
-103. A gotcha surfaces when you are about to touch the thing it is about, not at every pickup
-104. switch-fidelity slice 1 is BUILT — v0.90.0 (2026-08-07, `47b30ad`), and it is the first item to skip the design rung, on Tony's call ("as many as we can do, lets fill the gaps before we lose the windo…
-105. The refusal surface is Kerd's own, and prompt-layer-only in consuming projects is the intended contract for now
-106. time-awareness is DONE — the eighth full ladder walk (2026-08-06 17:45 EDT; goal record 628281e, route all-pass, v0.88.0), and the first gate where BOTH keys produced findings.
-107. trim CUT at v0.87.0 — the fourth rip, count Ten→Nine
-108. release-closeout is DONE — the seventh full ladder walk (2026-08-06 ~14:25 EDT; goal record 68f8cbf, route all-pass), and the pass's trigger gained a second clause at the record (0716567, v0.86.0, Ton…
-109. The gate parsers are fence-aware as of v0.83.1 (2026-08-06 evening, 2a0ea4a)
-110. vault-unhook is DONE — v0.83.0, goal record db9b47c (2026-08-06 evening), the fifth full ladder walk
-111. rigor-level slice 1 is BUILT — v0.81.0 (2026-08-05/06 night, goal directive: stages tonight, keys in the morning).
-112. rigor-level framed and sliced in one sitting (2026-08-05 second boundary; 6e5c37e/54fd552, CI green headSha-verified)
-113. AU5 is live as of v0.80.0 — grounding-was-read walked the full ladder in one day
-114. The journey view converged on a mock and PARKED
-115. The staleness refuser is live as of v0.78.0 — and the ship flow changed for every future push
-116. The graduation map executes zero graduations — the ladder fires instead
-117. The evaluation matrix is machine-checked as of v0.77.0
-118. Conductor's talk moments name their format as of v0.76.0
-119. mode CUT at v0.75.0 — the third rip, closing the graveyard queue
-120. sherpa CUT at v0.74.0 — the second rip, executing post-walk decision 4
-121. capturerequirements CUT at v0.73.0 — the first true rip
-122. Interrogate IS the tiered risk ledger as of v0.72.0
-123. R3 quoting convention: living docs never write a bare skill reference, even to illustrate it
-124. Rules born in the specs, now standing
-125. Post-walk tooling: six decisions taken
-126. The walk challenges everything current tooling does; skill changes are defined AFTER the walk, from the agreed requirements
-127. The walk's late findings, all 2026-08-04, detailed in the walk doc:
-128. The DESIGN rung is ONE function: Design the solution — one conversation, one package
-129. CONTRACT: no human gate when the machine can measure
-130. BUILD: two functions + a rung-wide property
-131. No solution vocabulary during the requirements walk
-132. Choose what matters next: two constant axes, both OUTCOME — consequence x value
-133. A release is a GROUPING, not a time axis
-134. A risk without a countermeasure is a BLOCKER
-135. "What we ruled out, and why" is its own artifact
-136. Hold product truth: CUT
-137. A requirement row has four fields, in execution order: in / grounding / out / acceptance
-138. Date records of events. Never date living documents
-139. Colour grammar: red = cost, green = Tony's input, blue = changed since last reviewed
-140. Annotations are a queue, not an archive
-141. A tool declares the route it serves and is invoked on match
-142. Kerd's gap is above the contract rung, and it is a routing problem as much as a capability one
-143. Don't adopt OpenSpec, Spec Kit or BMAD; don't clone superpowers; don't remove it either
-144. Nothing in the system can refuse, and nothing counts
-145. Design is agreed in diagrams, not prose
-146. conductor-boundary slice 1 is BUILT and goal-amended — v0.84.0 (2026-08-06 late evening; frame b3b919f · design GO 2d63926 · build b8140a7/ed34392, all CI-green).
-147. Conductor commits its own work; switch keeps the boundary
-148. Say it in the user's terms
-149. Conductor re-seated: four roles, composer is a call not a mode
-150. The gate message carries the content — findings are not framing
-151. Conductor: model advisory replaces the `fable` toggle
-152. Switch-in Summarize ends with a numbered pick-list
-153. State/work/history are different things — one file each
-154. Closure inference is a readable list, never a prompt
-155. kivna save writes without approval
-156. Conductor's decisions live in CONTEXT.md, its plan in TODO `## Now`
-157. Vault: never read at switch-in, and since v0.83.0 never written at switch-out either
-158. Older session logs are archive, never per-session load.
-159. Validate is risk-driven, not menu-driven
-160. Memory tools (claude-mem/mem0/mempalace/beads/agentmemory): adopt none
-161. skriv voice profile: HELD
-162. TODO is forward-only
+1. PROVE KERD WORKS AS IT SHOULD BEFORE ANY CONSUMER PICKUP; EXISTING ORDINARY-USE EVIDENCE IS THE BASELINE, NOT REPEATED — Anthony, 2026-09-13 10:41, deferring the Codex pickup.
+2. COMPARE ACTUAL SESSION IDs BEFORE AND AFTER A CLEAR OR RESTART; NEVER INFER IDENTITY FROM A TERMINAL, A TITLE OR RECENCY — Anthony, 2026-09-13, agreeing the succession design.
+3. ONE STABLE ALIAS PER ROLE; A SUCCESSOR REPLACES THE ID ATOMICALLY AGAINST THE EXPECTED OLD ID, ON A DESIGNATED HANDOFF OR THE PERSON'S EXPLICIT SELECTION, NEVER ON RECENCY — 2026-09-13, Codex's design over Claude's two-alias chain, Anthony's "lets do it".
+4. DECIDE WHO BUILDS BEFORE BUILDING: CONDUCTOR CHOOSES THE INLINE/DELEGATED SPLIT AT DELIVERY START, DELEGATES WHEN USEFUL AND NEVER MANUFACTURES WORK — Anthony, 2026-09-13, "not seen delegation in a long time".
+5. ONE OUT OWNER, NAMED BY THE PERSON; MEMORY READINESS IS THE OWNER'S JUDGMENT, SEPARATE FROM THE GIT VERDICT — Tony, 2026-09-13, approving one coordinated Out after naming the split-session memory gap.
+6. A FACTUAL CLARIFICATION IS NOT AUTHORIZATION — Anthony, 2026-09-12, approving Codex's 0.113.0 pickup clarifications.
+7. THE ARRIVAL QUESTION IS ASKED ONCE — Anthony, 2026-09-12, same approval.
+8. A LOG PRESERVES A CLAIM; IT DOES NOT PROVE THE EVENT — Anthony, 2026-09-12, same approval.
+9. SWITCH OUT LEAVES A LEAN, MEASURED START POINT — Tony, 2026-09-11
+10. ONE PROPOSAL, NEVER TWO OPTIONS, NEVER AN "OR" — Tony, 2026-09-11
+11. CONDUCTOR'S PLAYERS ARE NATIVE SUBAGENTS BY DEFAULT; THE CLI RUNNER SERVES CODEX, RESUMABLE-BY-ID, SANDBOXED AND PERSISTENT JOBS — restored 2026-09-11 as a regression fixed, on Tony's "the issue was c…
+12. AGENT REACHES A TUI BY `codex queue --thread` AND READS THE REPLY FROM THE NATIVE ROLLOUT; A STORED THREAD IS A SELECTABLE CONVERSATION, NEVER PROOF OF LIVENESS — 2026-09-11, four reviews.
+13. A PEER CANNOT AUTHORIZE A PUSH — 2026-09-11.
+14. KERD IS PAIRED TO THE PRODUCER'S CODEX TUI THROUGH THE VAULT BRIDGE AS WELL AS AGENT — 2026-09-11, Tony's "yes".
+15. FILES A PROJECT DELIBERATELY KEEPS OUT OF GIT ARE PRESERVED LEFTOVERS, NOT BLOCKERS TO UNRELATED WORK — Tony, 2026-09-09, after candidate Switch's verified save refused every Kerd boundary.
+16. AN OLDER HASH IS NOT A STALE HANDOFF — THE DEFECT IS AN OBSOLETE NEXT ACTION. Tony, 2026-09-09, correcting the session's framing of its own countermeasure.
+17. A TOKEN-BUDGET RESULT STAYS UNMEASURED; A BYTE PROXY IS GROUNDS FOR CONCERN, NOT A MEASURED FAILURE. Tony, 2026-09-09.
+18. PROGRESS MUST BE SHOWN DURING WORK, NOT ONLY IN A FINAL REPORT — AND "THE HOST CANNOT" NEEDS PROVING. Tony, 2026-09-09.
+19. TREATMENT ASSURANCE IS A LIFECYCLE, NOT A PARSE RULE — A FATAL RISK ADVANCES ON A PLANNED TREATMENT AND ACCEPTANCE DEMANDS THE VERIFIED ONE. Tony, 2026-09-03, refusing revision 1 of `risk-state-split`…
+20. AN OLD LEDGER PASSING WITHOUT `fatal` DOES NOT PROVE ITS SEVERITY WAS NON-FATAL — TREATMENT MIGRATES MECHANICALLY, SEVERITY NEEDS EXPLICIT PRIOR EVIDENCE OR PRODUCER REVIEW. Tony, 2026-09-03, at `risk…
+21. THE RISK LEDGER'S `State` COLUMN SPLITS INTO SEVERITY AND TREATMENT — Tony, 2026-09-03, resolving the 2026-09-02 axes conflict on option 2 by name.
+22. STATUS IS SPOKEN AS WORK ITEM · STAGE · ISSUE · RESOLUTION PATH, IN PLAIN WORDS, AND A MESSAGE ENDS ON EXACTLY ONE QUESTION — Tony, 2026-09-03, correcting a switch-in and orient that spoke repo shorth…
+23. LAUNCH IS A CLEAN INDEPENDENT PILOT, NOT A PERCENTAGE — FIVE OUTCOMES, CURRENTLY 0 OF 5. Tony, 2026-09-02, replacing every progress measure the project had.
+24. A COUNTERMEASURE CHANGES TREATMENT, NEVER IMPACT CLASSIFICATION — Tony, 2026-09-02, refusing the session's own risk classification.
+25. A VALUE STATEMENT MAY NAME TWO OPPOSITE FAILURES, AND WHEN IT DOES, NEITHER HALF ALONE IS THE REQUIREMENT — Tony, 2026-09-02, framing `question-set-staleness`.
+26. AN ACCEPTANCE RECORD AND A LEGACY CLOSURE ARE EVIDENCE-BACKED KEYS, NEVER MECHANICAL CLEANUP — Tony, 2026-09-02, correcting the session that had just made the error.
+27. A DERIVED SET IS INVALIDATED BY SOURCE CHANGE, NEVER RE-DERIVED PER USE — AND THE TWO HALVES ANSWER DIFFERENT FAILURES. Tony, 2026-09-02, ruling on the question-set-derivation spike's sharpest finding…
+28. A SPIKE'S HONEST OUTPUT MAY BE "MOST OF IT DERIVES, AND HERE IS PRECISELY WHAT DOES NOT" — PARTIAL was declared legal BEFORE the work ran, 2026-09-02.
+29. A RUNG LEAVES ONE OF FOUR THINGS BEHIND, AND CONFLATING THEM IS THE FAILURE THE RECORDS EXIST TO PREVENT — Tony, 2026-09-02.
+30. AUTHORSHIP IS NEVER THE TEST — THE PRODUCER'S KEY IS. Tony, 2026-09-02, refusing revision 1 of `inline-composer`'s design.
+31. A LEGACY CLOSURE CLOSES THE ROUTING GAP AND NEVER THE EVIDENCE GAP — Tony, 2026-09-02, correcting the drawing at the eye.
+32. A REFERENCE THAT PARSES IS NOT A REFERENCE THAT RESOLVES — Tony, 2026-09-01, at the D6 check-6 gate.
+33. DRIVE DRIVES ONE GATE OF SEVEN, AND THE BOARD CANNOT TELL YOU THAT — measured 2026-09-01 after the producer refused the claim that Drive had shipped.
+34. THE CEREMONY HAS NO WORKING PROPORTIONALITY DIAL, AND IT IS MEASURABLE AT 1:45 — 2026-09-01.
+35. A QUESTION SET IS PER RUNG AND WORK-TYPE-NEUTRAL — the model's call, 2026-09-01, producer answered "dont know" and licensed the default.
+36. THE DESIGN PACKAGE IS AMENDED BEFORE THE SPEC IS REVISED — A WORK SPECIFICATION MUST NEVER BE THE FIRST AUTHORITATIVE STATEMENT OF A DESIGN. Tony, 2026-09-01, ruling at the reassessment after `require…
+37. THE APPROVAL FINGERPRINT IS ONE VERSIONED MECHANISM WITH ARTIFACT-SPECIFIC CANONICAL PAYLOADS — AND EVERY EXISTING HASH SURVIVES BYTE-FOR-BYTE. Tony, 2026-09-01, ruling on a hole found while convertin…
+38. A SEALED DRAWING ASSERTED A MECHANISM THE CODE DOES NOT PROVIDE — FOR THE SECOND TIME ON ONE ITEM, AND THE SWEEP FOUND IT IN ALL THREE VIEWS. 2026-09-01.
+39. AN ASSURANCE TALLY IS COUNTED BY TENSE, BECAUSE A DUAL-MARKED ROW IS ONE QUESTION WITH TWO ANSWERS — Tony, 2026-09-01.
+40. ACCEPTANCE IS TWO DECISIONS AND THREE OUTCOMES: A LINKED READING PROVES *ASSESSABLE*, NEVER *MET*. Tony, 2026-08-31, at `requirements-success-measurement`'s design review — the catch that goes to the …
+41. A REQUIREMENT AND ITS MEASURABLE SUCCESS CONDITION ARE TWO ARTIFACTS JOINED BY TYPED EDGES, AND THE REQUIREMENT BLOCK GAINS NO FIELD — Tony, 2026-08-31, closing a question open since 2026-08-14.
+42. THE SUSPECT-LINK STAMP PROTECTS ONE DIRECTION ONLY, AND THE UNPROTECTED ONE IS THE DANGEROUS ONE — verified 2026-08-31 at `tools/gates/kit.py:1445` after the producer refused an unverified claim.
+43. IF A CHECKER MISTAKES STRUCK TEXT FOR A LIVE CLAIM, TEACH THE CHECKER — DO NOT REWRITE HISTORY TO SATISFY A RAW TEXT SCAN. Tony, 2026-08-31.
+44. A KILLER RISK WHOSE COUNTERMEASURE POINTS AT UNBUILT MACHINERY GETS AN EXECUTABLE MANUAL CONTROL AND A `countermeasure - temporary` STATE — NEVER A CLAIM ON MACHINERY THAT DOES NOT EXIST, AND NEVER AN…
+45. "UNQUALIFIED" IS WORKFLOW INCOMPLETENESS, NOT A DURABLE RISK DISPOSITION — `LEGAL_STATES` STAYS AT FIVE. Tony, 2026-08-31.
+46. A PRODUCT DOC'S `stage:` IS VALIDATED FOR LEGALITY AND NEVER AGAINST THE DERIVED ROUTE — measured 2026-08-31, and it has already overclaimed.
+47. COLD EYES IS THE ACCEPTANCE MECHANISM, SO A LAYER-4 BLOCK ON THE ITEM'S OWN SHIPPED CLAIMS IS REPAIRED BEFORE ACCEPTANCE — NEVER FILED AS A SECOND EXCEPTION. Tony, 2026-08-29, setting the amendment bo…
+48. AN ABSENT MEASUREMENT DECLARATION IS "NOT ASSESSABLE" AND AN EXPLICIT PRODUCER EXCEPTION — NEVER A PASSED ROW, AND NEVER A TARGET AUTHORED AFTER THE BUILD. Tony, 2026-08-29, ruling at `gate-visuals`' …
+49. A GATE CHECK'S CODE LOCATION AND ITS READER-FACING NAME ARE TWO DIFFERENT THINGS, AND THE READER'S ONE WINS — Tony, 2026-08-28, correcting the score before dispatch.
+50. THE SEAL IS WRITTEN ON THE KEY, NEVER BEFORE IT — producer review, 2026-08-28, after Piece 4 had already landed.
+51. DRIVE MUST STATE THE SUBJECT IN PLAIN LANGUAGE WHEN IT OPENS A FRAME GATE, NEVER THE SLUG ALONE — measured on the first real run, 2026-08-28.
+52. WHAT THE MODEL ADDS TO A PRODUCER'S ANSWER IS MARKED AS THE MODEL'S, NEVER ATTRIBUTED TO HIM — Tony, 2026-08-28, on Q6.
+53. A NEVER-LAUNCHED CHROME HANGS EVERY HEADLESS CALL, SILENTLY — the Mac Studio, 2026-08-28.
+54. MACHINE-LOCAL STATE IS A REAL CATEGORY, IT HAS AN INVENTORY AT `docs/machine-setup.md`, AND THAT INVENTORY IS A LIST RATHER THAN A CHECK — 2026-08-27 evening, the move to the Mac Studio.
+55. A DECLARED CONTRACT THAT NOTHING CHECKS IS THE REPO'S RECURRING DEFECT CLASS — three instances found in one day, 2026-08-26/27, two of them by Tony reading a draft rather than reading code.
+56. THE FIRST ACCEPTANCE RECORD, AND THE GUARDRAIL THAT MADE WRITING IT SAFE — Tony, 2026-08-25/27.
+57. THE ACCEPTANCE TRIGGER FIRES, AND THAT PROVES THE CONDITION — NOT ENFORCEMENT. Measured 2026-08-27 on its first real run.
+58. A ROUTE LINE IS READ BY SOMEONE WHO WAS NOT IN THE ROOM — Tony, 2026-08-27, the expert-user pass's one finding.
+59. VERSION BUMPS ARE FOR RELEASES AND REAL SKILL BEHAVIOUR CHANGES, NOT FOR EACH TOOL-ONLY CORRECTION INSIDE ONE UNFINISHED ITEM — Tony, 2026-08-27
+60. A RENAME HAS TWO HALVES AND ONLY ONE OF THEM IS SWEEPABLE — measured across sixteen pieces, 2026-08-25.
+61. A FINGERPRINT PROVES UNCHANGED, NEVER TRUE — and a sealed view can be visually approved and factually false at the same time. Tony, 2026-08-25, ruling on a contradiction the build created.
+62. A DOC THAT QUOTES A MACHINE STRING MUST BE CHECKED AGAINST THE RUNTIME VALUE, NEVER A SOURCE GREP — 2026-08-25, found at the release close-out.
+63. A LIVING SURFACE REGENERATES; A DATED RECORD STANDS — Tony, 2026-08-25, ruling on a divergence the composer refused to resolve by itself.
+64. AN ALIAS READS OLD RECORDS; IT NEVER FIRES A NEW LIFECYCLE EVENT — Tony, 2026-08-25, ruling at the contract gate.
+65. THE GATES WERE HOLDING THE WRONG THINGS, AND THE SESSION'S FIX WAS REFUTED BEFORE IT LANDED — Tony, 2026-08-25, reading the drawing he had sealed two days earlier.
+66. A SEALED DRAWING CARRIED FOUR FACTUAL ERRORS, AND ONLY A LINE-BY-LINE AUDIT AGAINST THE CODE FOUND THEM — 2026-08-25, prompted by Tony asking the right question.
+67. THE CURRENCY RULE GAINS A SECOND CLAUSE — CROSS-WORK READABILITY — AND THREE RUNG NAMES FAIL IT. Tony, 2026-08-23 evening, raised at the moment the `funnel-driver` contract spec was about to be writte…
+68. THE LADDER IS SEVEN GATES, NOT EIGHT — `loop` IS A CONTAINER AND `acceptance` IS THE PRODUCER'S LAST GATE. Tony, 2026-08-23 late, correcting the drawing that was made to check his own rename.
+69. THE DIAGRAM RULE PAID OFF THREE TIMES IN ONE SITTING, AND ONCE IT BEAT ITS OWN AUTHOR — 2026-08-23 late, measured rather than asserted.
+70. BARE `handoff` IS BANNED IN LIVING DOCS WHERE AMBIGUITY MATTERS — say SESSION HANDOFF for switch, WORK HANDOFF for the Drive rung. Tony, 2026-08-23, overruling the model's objection with a better argu…
+71. DIAGRAM AND PROSE ARE ONE DELIVERABLE, PRODUCED TOGETHER — Tony, 2026-08-23 evening, refining the 2026-08-02 decision rather than superseding it.
+72. THE UMBRELLA IS NAMED `drive`, AND `project type` IS SUPERSEDED INTO THREE AXES — Tony, 2026-08-23 afternoon.
+73. THE FUNNEL DRIVER IS AN UMBRELLA ABOVE CONDUCTOR, NOT A GRADUATION INTO IT — Tony, 2026-08-23, and it dissolves `funnel-driver`'s killer risk rather than managing it.
+74. THE GUIDANCE ORDER, stated by Tony 2026-08-23: diagrams first, standards-anchored names throughout, numbers last — and the three are one product, not three features.
+75. `gate-visuals` slice 1 is ACCEPTED — ready to release, 2026-08-30 (`docs/gates/2026-08-30-gate-visuals-acceptance.md`, record + `stage:` flip atomic in `69e8193`).
+76. Every layer stands on a standard — 4 of 4 after the standards-grounding spike, and 42010 is a SPINE, not the one vocabulary (2026-08-22).
+77. A visual at every gate, approved and locked — and it needs no new machinery (2026-08-22).
+78. ISO/IEC/IEEE 42010 is ADOPTED for architecture description, and its completeness rule is the design gate (2026-08-22).
+79. A box must mean something — the diagram toolkit is adopted for explaining a design and closed forever for the board (2026-08-22).
+80. LAW 4 — learn from what exists before designing anything, and the analysis outranks what was said before it (2026-08-14).
+81. The requirements capability is BUILT, evidence-first, and every decision this day removed something (2026-08-14).
+82. The format refuses ambiguity rather than guessing — and that rule was earned (2026-08-14).
+83. THE RESET — 2026-08-13 evening. `docs/kerd-interview.md` is the source of truth and `docs/kerd-goals.md` is approved; everything else in this file is evidence rather than precedent.
+84. The self-check ladder is REAL and its tiers have measurably different reach — proven on its first run, 2026-08-13.
+85. The register has its refuser — AU7/AU8 shipped v0.97.0 (2026-08-13, `8b7f52d`, CI green), and nothing in it is hardcoded.
+86. The trace gap fills top-down, folded into the design-package rework — agreed 2026-08-13.
+87. Conductor advises the PAIR — model and effort, both directions — v0.98.0 (2026-08-13, `f4c51c0`, CI green), building `FUN-010`, keyed final the same sitting.
+88. The category taxonomy is a PRIMARY prefix plus TAGS, not a twenty-way partition — 2026-08-08, after measuring what mature tools actually do.
+89. The twenty categories now carry decisive definitions, and they survived ATTACK rather than review — 2026-08-08.
+90. Convergence of proposers is worthless; surviving attack is the signal — 2026-08-08, and it corrects a tactic adopted the same day.
+91. The completeness check is TIERED and must bind on countable facts — `TST-004`, `TST-005`, the producer 2026-08-08.
+92. BUILD the register; adopt none of the five external tools — decided 2026-08-08 by the repo's FIRST evaluation matrix (`docs/design/requirements-traceability.md`, 6 options × 24 criteria, marks-only, `…
+93. The promotion beat is TWO beats, and the machine's role is to DETECT that the first one didn't run — not to perform it. Tony, 2026-08-07 late: *"it should be recorded as a potential requirement and th…
+94. Requirement archaeology: NEVER from session logs; from CONTEXT.md only, as framed work with provenance marked.
+95. PROJECT TYPE is the project's current state and the goal gate INCREMENTS it; `route` and `Rigor level` become derived; and the funnel is closed to non-conductor sessions.
+96. The alignment gate is a shared STRUCTURE, not specifically a drawing — Tony 2026-08-07: *"i gave you the drawing in text form there, the categories etc - i approve the drawing not needed."
+97. Never route to superpowers — and the v0.77.0 "tie is cut" countermeasure does not hold, because the pull is injected from outside the repo.
+98. The funnel state belongs to the USER'S project, and Kerd holds none of its own — Tony, 2026-08-07: *"it needs to also write the funnel state, requirements, stage data steps, journey etc — right? nothi…
+99. When Tony says "capability", he means what the SKILL gives its users — not what the Kerd repo does for itself. Standing, stated 2026-08-07 as a correction: *"KERD is the skill that people use to build…
+100. The plan-approval gate is DELETED — approving the design is enough, and a plan is redefined (Tony, 2026-08-07).
+101. The four roles are PRODUCER → COMPOSER → CONDUCTOR → PLAYERS as of v0.92.0, and the rename happened because the old names inverted under reading.
+102. The funnel has no driver, and that was decided on 2026-08-04 (`docs/product/funnel-driver.md`, framed 2026-08-07, at the design rung).
+103. The division of labour, stated by Tony 2026-08-07 and now standing: his rungs are frame, viability, slice and design — spec, direction, problem definition — plus evaluation at the goal rung; contract …
+104. ROOT CAUSE, Tony 2026-08-07: "we solve for code level but all the context is not code — much of it is human input that we lose."
+105. Roughly 90% of Tony's input is the thinking layer, and the boundary is built for the other 10%
+106. The someday/maybe pile wakes as a phase, never as a notification
+107. A gotcha surfaces when you are about to touch the thing it is about, not at every pickup
+108. switch-fidelity slice 1 is BUILT — v0.90.0 (2026-08-07, `47b30ad`), and it is the first item to skip the design rung, on Tony's call ("as many as we can do, lets fill the gaps before we lose the windo…
+109. The refusal surface is Kerd's own, and prompt-layer-only in consuming projects is the intended contract for now
+110. time-awareness is DONE — the eighth full ladder walk (2026-08-06 17:45 EDT; goal record 628281e, route all-pass, v0.88.0), and the first gate where BOTH keys produced findings.
+111. trim CUT at v0.87.0 — the fourth rip, count Ten→Nine
+112. release-closeout is DONE — the seventh full ladder walk (2026-08-06 ~14:25 EDT; goal record 68f8cbf, route all-pass), and the pass's trigger gained a second clause at the record (0716567, v0.86.0, Ton…
+113. The gate parsers are fence-aware as of v0.83.1 (2026-08-06 evening, 2a0ea4a)
+114. vault-unhook is DONE — v0.83.0, goal record db9b47c (2026-08-06 evening), the fifth full ladder walk
+115. rigor-level slice 1 is BUILT — v0.81.0 (2026-08-05/06 night, goal directive: stages tonight, keys in the morning).
+116. rigor-level framed and sliced in one sitting (2026-08-05 second boundary; 6e5c37e/54fd552, CI green headSha-verified)
+117. AU5 is live as of v0.80.0 — grounding-was-read walked the full ladder in one day
+118. The journey view converged on a mock and PARKED
+119. The staleness refuser is live as of v0.78.0 — and the ship flow changed for every future push
+120. The graduation map executes zero graduations — the ladder fires instead
+121. The evaluation matrix is machine-checked as of v0.77.0
+122. Conductor's talk moments name their format as of v0.76.0
+123. mode CUT at v0.75.0 — the third rip, closing the graveyard queue
+124. sherpa CUT at v0.74.0 — the second rip, executing post-walk decision 4
+125. capturerequirements CUT at v0.73.0 — the first true rip
+126. Interrogate IS the tiered risk ledger as of v0.72.0
+127. R3 quoting convention: living docs never write a bare skill reference, even to illustrate it
+128. Rules born in the specs, now standing
+129. Post-walk tooling: six decisions taken
+130. The walk challenges everything current tooling does; skill changes are defined AFTER the walk, from the agreed requirements
+131. The walk's late findings, all 2026-08-04, detailed in the walk doc:
+132. The DESIGN rung is ONE function: Design the solution — one conversation, one package
+133. CONTRACT: no human gate when the machine can measure
+134. BUILD: two functions + a rung-wide property
+135. No solution vocabulary during the requirements walk
+136. Choose what matters next: two constant axes, both OUTCOME — consequence x value
+137. A release is a GROUPING, not a time axis
+138. A risk without a countermeasure is a BLOCKER
+139. "What we ruled out, and why" is its own artifact
+140. Hold product truth: CUT
+141. A requirement row has four fields, in execution order: in / grounding / out / acceptance
+142. Date records of events. Never date living documents
+143. Colour grammar: red = cost, green = Tony's input, blue = changed since last reviewed
+144. Annotations are a queue, not an archive
+145. A tool declares the route it serves and is invoked on match
+146. Kerd's gap is above the contract rung, and it is a routing problem as much as a capability one
+147. Don't adopt OpenSpec, Spec Kit or BMAD; don't clone superpowers; don't remove it either
+148. Nothing in the system can refuse, and nothing counts
+149. Design is agreed in diagrams, not prose
+150. conductor-boundary slice 1 is BUILT and goal-amended — v0.84.0 (2026-08-06 late evening; frame b3b919f · design GO 2d63926 · build b8140a7/ed34392, all CI-green).
+151. Conductor commits its own work; switch keeps the boundary
+152. Say it in the user's terms
+153. Conductor re-seated: four roles, composer is a call not a mode
+154. The gate message carries the content — findings are not framing
+155. Conductor: model advisory replaces the `fable` toggle
+156. Switch-in Summarize ends with a numbered pick-list
+157. State/work/history are different things — one file each
+158. Closure inference is a readable list, never a prompt
+159. kivna save writes without approval
+160. Conductor's decisions live in CONTEXT.md, its plan in TODO `## Now`
+161. Vault: never read at switch-in, and since v0.83.0 never written at switch-out either
+162. Older session logs are archive, never per-session load.
+163. Validate is risk-driven, not menu-driven
+164. Memory tools (claude-mem/mem0/mempalace/beads/agentmemory): adopt none
+165. skriv voice profile: HELD
+166. TODO is forward-only
 
 ## Entries, newest first
 
+- **PROVE KERD WORKS AS IT SHOULD BEFORE ANY CONSUMER PICKUP; EXISTING ORDINARY-USE EVIDENCE IS THE BASELINE, NOT REPEATED — Anthony, 2026-09-13 10:41, "no point picking up projects when kerd isnt working as it should, prove that then we do the codex work".** The case: 0.116.0 shipped with fixture suites green and six model reviews, yet every reported failure from ordinary use (Leru 0.112.0 In promising design on a yes/no; Kerd 0.115.0 In bundling a project name with install and launch authority; Seinn 0.115.0 In presenting a couch verdict as agent work; Leru Out/In losing Codex's log; a stale pairing title with no succession path; implementation never delegated) had a fix but no observation of the fix working. Anthony corrected the Claude session's inaccurate claim that ordinary use was unobserved: Kerd has run in Seinn and Leru, and that evidence, held by Codex from Anthony's supplied outputs, is the baseline. Codex's three corrections were accepted: the consumer-pickup question is deferred rather than pending; the existing evidence informs the checks, which Anthony does not supervise one by one; a build delegates when useful and never manufactures subagent work to earn a pass. The countermeasure is one shared verification list in the work record, each row with a reported failure, a check in Kerd, an owner, its evidence baseline and its remaining gap; consumer pickups stay deferred until rows 1–5 carry evidence of the fixes working, and a recorded outcome alone does not clear the hold. Anthony, 10:48: "be a team, communication and collaboration is key"; coordination between the sessions is theirs, never relayed through him.
+- **COMPARE ACTUAL SESSION IDs BEFORE AND AFTER A CLEAR OR RESTART; NEVER INFER IDENTITY FROM A TERMINAL, A TITLE OR RECENCY — Anthony, 2026-09-13, agreeing the succession design after asking how `/kerd:agent` identified the Codex partner and how both IDs would stay current through Out and In.** The case: pairing displayed an old native conversation title, and ordinary `pair` refused a different ID for an existing alias, so a role had no path across a session-ID change. Claude's host evidence for its own identity is `CLAUDE_CODE_SESSION_ID`, its transcript filename and the native `claude agents` listing, three host-owned sources that agreed; Codex's is `CODEX_THREAD_ID` against the native store row. Claude documents its ID changing on `/clear`, so terminal lifetime proves nothing. Agent's `identity` corroborates the environment value against the native listing for this project and writes nothing; unknown or conflicting identity leaves routing unchanged, and a safe refusal is a safety observation, not continuation.
+- **ONE STABLE ALIAS PER ROLE; A SUCCESSOR REPLACES THE ID ATOMICALLY AGAINST THE EXPECTED OLD ID, ON A DESIGNATED HANDOFF OR THE PERSON'S EXPLICIT SELECTION, NEVER ON RECENCY — 2026-09-13, Codex's design chosen over Claude's two-alias chain, Anthony's "lets do it".** The case: Claude first proposed a new alias per successor with a `succeeds` link across two files; Codex proposed keeping the alias and role fixed and replacing only the ID under the existing per-alias lock, which Claude judged smaller and sounder. Built as `handoff` (Out designates its own bound session's continuation against the saved pointer's path and content digest, after the final save) and `adopt` (same ID is a byte-preserving no-op; a new ID needs the matching prepared record or the person's explicit `--confirm-replacement`; the expected old ID is checked under the lock so a competing update refuses; the role and one previous identity are kept; the designation is consumed; owned launch partners refuse replacement; old request records keep their targets). The helper cannot distinguish the intended pickup from another same-project session holding the same record, and it checks identity and saved bytes, not whether a person authorized the command; the guide says so. Released in 0.116.0 with Agent 135 fixture tests; no live replacement observed at the ruling.
+- **DECIDE WHO BUILDS BEFORE BUILDING: CONDUCTOR CHOOSES THE INLINE/DELEGATED SPLIT AT DELIVERY START, DELEGATES WHEN USEFUL AND NEVER MANUFACTURES WORK — Anthony, 2026-09-13, "not seen delegation in a long time".** The case: the 2026-09-11 ruling restored native subagents as Conductor's default players, and `execution.md` defined the mechanics of a delegated job, but nothing asked the controller whether to split the implementation at all, so it reached the delegation paragraph only if it had already decided to delegate, and it never did; in the 0.116.0 build Codex delegated only reviews. The standard existed and was not followed because its entry point was missing. Countermeasure in 0.116.0: at delivery start, or when resuming without a settled split, decide who does the implementation; look for bounded contributions a worker or an established partner with that role can finish; keep small or tightly coupled changes inline with a one-line reason; show owners and disjoint edit boundaries in the work view; serialize shared-file changes; the controller integrates and supplies the evidence, and independent review stays separate; no worker quota, no launch merely to demonstrate delegation, and a blocked route neither stops inline work nor permits a forbidden fallback. Codex's correction at verification: a build must delegate when useful, not manufacture subagent work to earn a pass, and another build is not a prerequisite for verifying shipped fixes.
 - **ONE OUT OWNER, NAMED BY THE PERSON; MEMORY READINESS IS THE OWNER'S JUDGMENT, SEPARATE FROM THE GIT VERDICT — Tony, 2026-09-13, approving one coordinated Out after naming the split-session memory gap (one session runs Out while another holds unsaved decisions or evidence).** The owner is the session the person asked to run Out; a session that learns of another owner returns its account to that owner instead of writing shared pointers; if two were asked, the person names one before either writes. During Out the owner alone writes the pointer, the active list, the session account and any work record it is reconciling, rereading each from disk first; contributors write only an already-owned record nobody else is editing, otherwise they return their account by reply, and a read-only contributor gains no write permission. Material detail held only by an established partner is requested through Agent, once, for that account; discovery lists sessions, not what they hold, so unknown standalone contributions are outside the known-partner check and concrete uncertainty is put to the person. Work on another branch or worktree is named by branch, record and saved location, never merged or pushed by Out. `handoff_ready` is the owner's memory-coverage assessment: only `true` together with a remote-verified or committed save offers the free-context hint; `false` names the missing detail in NEXT; unrecorded says record readiness, not that context is missing. Built as v0.115.0 with Claude's independent review and two walked scenarios: `docs/work/switch-coordinated-closeout/work.md`. First run 2026-09-13 by the Claude session, single contributor already saved.
 - **A FACTUAL CLARIFICATION IS NOT AUTHORIZATION — Anthony, 2026-09-12, approving Codex's 0.113.0 pickup clarifications as product fixes rather than edits to the project that supplied the example.** Answering a factual question at arrival — Yes, No or Not sure — settles that reported fact only; it grants no approval for the proposed next work, and Not sure leaves the fact unresolved. An independent, already-authorized task may proceed if it does not depend on that fact. Found by Codex on a conflicting-preview scenario: the work notes said a preview was seen, the delivery checklist said it was never opened, and the next design had no approval. Rule in Conductor SKILL.md's In paragraph; the scenario itself still owed as a model run: `docs/work/codex-plugin/work.md`.
 - **THE ARRIVAL QUESTION IS ASKED ONCE — Anthony, 2026-09-12, same approval.** The question lives inside YOU with its proposed answer; where a host needs a plain-text question outside the panel, the renderer's `--question-below` places it once after the frame, and nothing repeats it after either presentation. At v0.115.0 that is the sole thing allowed after the END OF PICKUP marker. Companion to ONE PROPOSAL, NEVER TWO OPTIONS (2026-09-11).

@@ -12,10 +12,14 @@ partner roles, succession, delegation and review dispositions),
 scenario), `docs/work/release-111-followup/` (0.112.0). These lists are not
 authority to run installation or checks during pickup.
 
-- Refresh the installed Codex snapshot explicitly from 0.116.0, then open a
-  fresh Codex session in a work project and run Switch In without starting
-  work; record the tested source revision or installed version in
-  `docs/work/codex-plugin/work.md`.
+- **First: the shared verification list**, `docs/work/switch-coordinated-closeout/work.md`
+  `## Targeted verification of reported failures (2026-09-13)`: seven items with
+  owner, evidence baseline and remaining gap. Anthony, 10:41: prove Kerd works as
+  it should before any consumer pickup. Claude owns arrival and closeout checks;
+  Codex owns the installed Codex version, pairing state and the successor request.
+- DEFERRED until that list carries evidence (Anthony, 10:41): refresh the installed
+  Codex snapshot from 0.116.0, then a fresh Codex Switch In in a work project;
+  record the tested version in `docs/work/codex-plugin/work.md`.
 - Claude pickup on a 0.116.0 cache: observe the corrected arrival —
   completion box, one question in YOU, END OF PICKUP marker, no second
   report — and Anthony's assessment; record it in
