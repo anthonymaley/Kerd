@@ -78,7 +78,7 @@ for the stage and agreement. The verification rows live in that record's
 result is recorded. Add `skills/agent/references/session-succession.md` for the
 routing step.
 Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--section", "TODO.md", "## Now", "--section", "kivna/sessions/2026-09-13.md", "## Sitting: the 0.116.0 arrival, four peer reviews, the 0.117.0 release and role adoption (2026-09-13 11:20 – 12:46 EDT, Claude session on the 0.116.0 cache; Codex in the paired TUI)", "--section", "docs/work/switch-coordinated-closeout/work.md", "## Now"]`.
-Measured reading:  bytes, about  tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target; measured before this line was written, so the saved file is slightly larger.
+Measured reading: 27,408 bytes, about 6,852 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target; measured before this line was written, so the saved file is slightly larger.
 
 ## Key Decisions
 
