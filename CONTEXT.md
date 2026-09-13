@@ -6,43 +6,29 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Current release boundary: 0.115.0.** Anthony authorized review, implementation
-and publication of the compact arrival and coordinated Out, then added ongoing
-Agent roles. Branch `main`, subject
-"Release Kerd 0.115.0: compact arrival and coordinated closeout". This pointer
-is prepared before that save; resolve its revision and remote state with Git.
-Includes the tight completion/YOU boxes and end marker, one Out owner preserving
-participating sessions' context, memory readiness separate from Git save, and
-private ongoing partner roles. Evidence and review disposition:
-`docs/work/switch-coordinated-closeout/work.md`. No installation refresh or live
-UX verdict. The prior source release was 0.114.0 at b80d932.
+**Current release boundary: 0.115.0 — branch `main`, subject "Release Kerd
+0.115.0: compact arrival and coordinated closeout", published by Codex early
+2026-09-13 and remote-verified from the Claude session by fetch.** It carries
+the compact chat arrival (completion and YOU boxes, NOW, END OF PICKUP marker),
+one coordinated Out owner with contribution capture, `handoff_ready` separate
+from the Git verdict, and private ongoing partner roles. Record, review and
+checks: `docs/work/switch-coordinated-closeout/work.md`. Earlier the same
+night: 0.114.0 (styled Switch and recognizable partners) and 0.113.0 (the
+Codex core package, measured reading selections, pickup clarifications;
+`docs/work/codex-plugin/work.md`), both on `origin/main`; 0.112.0's records
+are in `docs/work/release-111-followup/`. Resolve revisions with `git log`.
 
-**0.112.0 and 0.113.0 are released — 2026-09-12, late.** On `origin/main`: 0.107.0 through 0.111.0, then 0.112.0 (branch
-`main`, subject "One arrival, one decision; the saved-place box returns":
-one arrival with the decision in YOU, the Out saved-place box, Codex's five
-follow-up fixes). 0.113.0 — the Codex core package (Conductor, Switch,
-Visuals, Agent from one source, no legacy skills or hooks), measured reading
-selections (`read_args`, `reaches_eof`), and the pickup clarifications — was
-reviewed by both sessions, released by Codex on `main` as `4532f4c`, subject
-"Release Kerd 0.113.0: Codex core and reliable pickup", remote-verified from
-this session after a fetch and CI green.
+**Installed state, not to be overclaimed:** this machine's Claude plugin cache
+delivered 0.113.0 on an ordinary startup at 22:25 on 2026-09-12 (observed
+once). Whether 0.114.0 or 0.115.0 arrive the same way is unobserved. The Codex
+user snapshot was reported stale (predating 0.113.0's pickup corrections) at
+the 2026-09-12 close and has not been rechecked since.
 
-**Records:** [the Codex package record](docs/work/codex-plugin/work.md)
-(package, install, reviews, live checks);
-[the release-111 spec](docs/work/release-111-followup/spec.md) and
-[the Out-box review](docs/work/release-111-followup/out-box-review.md);
-[the closure-review trial](docs/work/model-ready-work/trials/2026-09-12-conductor-session-closure-review.md).
-
-**Installed state, not to be overclaimed:** the local Codex user installation
-is an older generated 0.113.0 snapshot that predates the pickup corrections;
-it needs an explicit refresh before those are tested. The Claude installation
-was not changed; this machine's plugin cache held 0.111.0 at midday.
-
-**Owed, none a build:** the live checks in TODO `## Now` — a fresh Codex
-session on the refreshed snapshot, a fresh Claude pickup on a released build,
-the behavioural clarification scenario run by a model — and recording today's
-three product rulings in `docs/decisions.md`. The Agent TUI route re-run owed
-since 0.109.0 is met: two Codex reviews came back by `codex queue` today.
+**Owed, none a build:** the live checks in TODO `## Now`, all against 0.115.0:
+a fresh Codex pickup on a refreshed snapshot, a fresh Claude pickup showing the
+compact arrival, the behavioural clarification scenario run by a model, and a
+coordinated Out with a live contributor. The four rulings owed to
+`docs/decisions.md` were recorded at the 2026-09-13 Out.
 
 **The launch sequence is retained and untouched** — five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
@@ -54,22 +40,24 @@ fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
 the root (2026-09-09). Name it with `--preserve` at every save.
 
-**Pickup reading set** (Switch Out, 2026-09-12): this file complete;
-`TODO.md` `## Now`; `kivna/sessions/2026-09-12.md` complete. Add
-`docs/work/codex-plugin/work.md` only when acting on the Codex package.
-Helper arguments: `--record CONTEXT.md --file kivna/sessions/2026-09-12.md --section TODO.md "## Now"`.
-Measured at that Out, before the 0.114.0 release-pointer edits: 18,626 bytes,
-about 4,657 tokens estimated at four bytes each (not a
-tokenizer reading), against the 8,000 target — within target.
+**Pickup reading set** (Switch Out, 2026-09-13): this file complete;
+`TODO.md` `## Now`; `kivna/sessions/2026-09-13.md` complete. Add
+`docs/work/switch-coordinated-closeout/work.md` when acting on Switch or Agent,
+`docs/work/codex-plugin/work.md` when acting on the Codex package or the
+clarification scenario. Helper arguments:
+`--record CONTEXT.md --file kivna/sessions/2026-09-13.md --section TODO.md "## Now"`.
+Measured reading: 17,513 bytes, about 4,379 tokens estimated at four bytes each (not a tokenizer reading), against the 8,000 target — within target.
 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (158 entries at the
-2026-09-11 move, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (162 entries at the
+2026-09-13 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **ONE OUT OWNER, NAMED BY THE PERSON; MEMORY READINESS IS THE OWNER'S JUDGMENT, SEPARATE FROM THE GIT VERDICT — Tony, 2026-09-13.** The owner alone writes the pointer, active list, session account and the record it is reconciling; contributors return their account; Out names other-branch work, never merges it.
+- **A FACTUAL CLARIFICATION IS NOT AUTHORIZATION; THE ARRIVAL QUESTION IS ASKED ONCE; A LOG PRESERVES A CLAIM, NOT PROOF — Anthony, 2026-09-12.**
 - **ONE PROPOSAL, NEVER TWO OPTIONS, NEVER AN “OR” — an approval prompt or question carries exactly one proposal, “Starting on X — approve?”, and Switch In ends on that line. Tony, 2026-09-11.**
 - **SWITCH OUT LEAVES A LEAN, MEASURED START POINT — rulings stay in CONTEXT.md while they govern the next work, the case lives in `docs/decisions.md`, closed Backlog rows move to `docs/backlog-archive.md` with their reason, the reading set is named and measured. Tony, 2026-09-11, superseding the 2026-09-01 “do nothing for now” deferral by taking its own option (c).**
 - **CONDUCTOR'S PLAYERS ARE NATIVE SUBAGENTS BY DEFAULT; THE CLI RUNNER SERVES CODEX, RESUMABLE-BY-ID, SANDBOXED AND PERSISTENT JOBS — restored 2026-09-11 as a regression fixed, on Tony's "the issue was conductor was spawning fresh sessions not subagents."**

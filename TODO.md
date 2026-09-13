@@ -2,34 +2,33 @@
 
 ## Now
 
-**Latest boundary:** 0.115.0, branch `main`, subject
-"Release Kerd 0.115.0: compact arrival and coordinated closeout". Source
-publication authorized; this pointer is written before the save, so resolve
-its revision and remote state with Git. Review and checks are in
-`docs/work/switch-coordinated-closeout/work.md`. Installation refresh and ordinary-use checks
-remain separate; the lists below are not authority to run them during pickup.
+**Latest boundary:** 0.115.0, branch `main`, subject "Release Kerd 0.115.0:
+compact arrival and coordinated closeout", published by Codex 2026-09-13;
+resolve its revision and remote state with Git. Position, installed state and
+the reading set: `CONTEXT.md` `## Where We Are`. Records:
+`docs/work/switch-coordinated-closeout/work.md` (0.115.0: compact arrival,
+coordinated Out, partner roles, both reviews),
+`docs/work/codex-plugin/work.md` (0.113.0: package, install, the clarification
+scenario), `docs/work/release-111-followup/` (0.112.0). These lists are not
+authority to run installation or checks during pickup.
 
-**Previous releases:** 0.112.0 is on `origin/main` (branch `main`, subject "One
-arrival, one decision; the saved-place box returns"). 0.113.0 — the Codex core
-package, measured reading selections, the pickup clarifications — is reviewed
-is on `origin/main` too (`4532f4c`, subject "Release Kerd 0.113.0: Codex core
-and reliable pickup", CI green). Position and reading set:
-`CONTEXT.md` `## Where We Are`. The day: `kivna/sessions/2026-09-12.md`.
-Records: `docs/work/codex-plugin/work.md` (package, install, reviews),
-`docs/work/release-111-followup/` (spec, both reviews),
-`docs/work/model-ready-work/trials/2026-09-12-conductor-session-closure-review.md`.
-
-- Refresh the installed Codex snapshot explicitly (it predates the pickup
-  corrections), then open a fresh Codex session in a work project and run
-  Switch In without starting work; record the tested source revision or
-  installed version in `docs/work/codex-plugin/work.md`.
-- First Claude pickup on a released build (0.112.0 or later cache): observe the
-  composed arrival, one question in YOU, no second report; record it.
+- Refresh the installed Codex snapshot explicitly from 0.115.0, then open a
+  fresh Codex session in a work project and run Switch In without starting
+  work; record the tested source revision or installed version in
+  `docs/work/codex-plugin/work.md`.
+- First Claude pickup on a 0.115.0 cache: observe the compact arrival —
+  completion box, one question in YOU, END OF PICKUP marker, no second
+  report — and Anthony's assessment; record it in
+  `docs/work/switch-coordinated-closeout/work.md`. (The 0.113.0 arrival was
+  observed 2026-09-12 22:27: composed, one question, no second report; the
+  layout was superseded before Anthony assessed it.)
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a
   model, not a fixture: a factual Yes, No or Not sure that grants no approval.
-- Record today's three product rulings (factual clarification is not
-  authorization; ask once; logs preserve claims) in `docs/decisions.md` at the
-  next Out that owns that file.
+- First coordinated Out with a live contributor on a 0.115.0 cache: observe
+  ownership, contributor capture and the MEMORY row; record it in
+  `docs/work/switch-coordinated-closeout/work.md`. (The 2026-09-13 Out ran the
+  0.115.0 guide from the 0.113.0 cache with its one contributor already saved:
+  `kivna/sessions/2026-09-13.md`.)
 
 ### Earlier launch sequence — retained pending reconciliation
 
