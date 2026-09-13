@@ -196,10 +196,26 @@ as a stop before it; the closing JSON has no designation field, so say it goes i
 the unresolved pairing choice in the closing next action; designation status
 goes in the existing `next` text, no new field), confirmed by Claude's reading;
 Codex reports Agent 144, packaging 9, Switch validator, release gate and diff
-check passing, and a full Switch regression not yet returned. Also observed: a
+check passing; its full Switch regression later finished at 325.
+
+Then, on Anthony's "i had to ask you both if it happended" and "lets add it and
+do it so we can actually test this" (as quoted by Codex), Codex added a
+**contribution checkpoint** to Out in the same local files (`in-out.md`, Switch
+`SKILL.md` description, `README.md`): the owner identifies contributors, reuses
+captured accounts, requests only a missing delta through Agent and retrieves it
+before drafting; a known pending job is covered by its owner, state and result
+location; an unavailable participant is a recorded residual gap when other
+evidence restores the rest; a necessary delta after saving reopens the account
+and needs re-designation. Codex reports renderer 116, packaging 9, Switch
+validator, release gate and diff check passing. First real use, this Out,
+12:53–12:56: collection ran before drafting and requested one delta; result
+"missing: none", with the lost 11:11 session carried as a non-blocking gap
+(session log, newest sitting). Tests cover mechanics and the example, not model
+compliance; one observed run is not acceptance. Also observed: a
 contributor's uncommitted edits during a
 coordinated Out block `handoff.py save`, leaving only the manual fallback.
-Not committed, versioned, published or installed; release needs Anthony.
+Both changes: not committed, versioned, published or installed; meant for the next
+release together, which needs Anthony.
 
 ## Implementation and checks
 

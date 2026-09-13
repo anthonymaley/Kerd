@@ -22,11 +22,11 @@ authority to run installation or checks during pickup.
   1–2: Anthony's assessment; "not now" starts nothing). Results go on the rows.
 - Then Codex checks the binding and sends the successor one real request that
   arrives (row 4 messaging proof).
-- Codex's Out pre-save role ownership check is local and unreleased in five
-  files (work record, `### Out pre-save role ownership check — local,
-  unreleased`). Reviewed ready; both wording fixes made and confirmed; Codex's
-  full Switch regression result not yet recorded. Include it in the next release
-  Anthony authorizes; the fresh 0.117.0 In does not contain it.
+- Codex's Out pre-save role ownership check and contribution checkpoint are
+  local and unreleased in five files (work record, `### Out pre-save role
+  ownership check — local, unreleased`). Reviewed; checkpoint first run on the
+  12:53 Out; Switch 325. Include both in the next release Anthony authorizes;
+  the fresh 0.117.0 In does not contain them.
 - Unplanned restart recovery is observed only when a role-holding session is
   actually lost later; nothing is crashed deliberately (Anthony, via Codex,
   12:42). Receipts stop matching when `CONTEXT.md` bytes change.
