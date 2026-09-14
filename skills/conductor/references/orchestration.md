@@ -12,11 +12,15 @@ or model/account/billing surveys. Reconcile resumed jobs before dispatching.
 ## Establish suitability from available evidence
 
 Start with the task's outcome, consequences of error, tools, context, authority,
-success check and supplied resource limits. Consider the current controller and
-each useful contribution using [model choice](guidance/model-choice.md). State the
-main pair's fit and evidence limits briefly; recommend an available alternative
-when a material mismatch warrants it. No universal switch or proven optimum.
-Respect named models, existing partners, host role choices and permission limits.
+success check and supplied resource limits. Assess the requirement and suitable
+available pairs before deciding to retain the current controller or inherit it
+for a worker; capability alone is not a reason to use the highest pair. Consider
+the current controller and each useful contribution using [model choice](guidance/model-choice.md).
+State the main pair's fit and evidence limits briefly; recommend an available
+alternative when the current pair materially exceeds or misses the work's needs.
+Give a brief reason for retaining or inheriting a pair. No universal switch,
+cheap tier or proven optimum. Respect named models, existing partners, host role
+choices and permission limits.
 
 Keep settings evidence explicit: **host-declared** means supplied by the host;
 **observed** means runtime confirmation; **configured** means a default/override
@@ -34,23 +38,92 @@ configuration defaults, permissions or accounts; state a recommendation and its
 reason when a change is warranted. Select delegated settings only through the
 chosen route's supported controls and within existing authority.
 
-## Assign functions to actual work
+## Compose a score before assigning executable work
 
-For every task, decide who composes, performs and controls it. **Composer** drafts
-direction, design or job briefs from the relevant intent, agreement and sources
-for Conductor's assessment. The controller can do it. Delegate only when a bounded
-independent contribution adds value; composition needs no mandatory extra model.
-It delegates neither agreement nor permission. A delegated composer needs its
-own prepared brief; Conductor assesses its return against the authorized task
-before using the draft as direction or sending a resulting prompt to a worker.
+Keep four responsibilities distinct; they are capability requirements, not
+provider brands or permanent named assignments:
+
+- **Producer** owns intent, priorities and agreement on consequential choices.
+- **Composer** owns the execution score's substantive content and repairs to a
+  defective passage.
+- **Conductor** owns task-based session advice, staffing, dispatch, integration
+  and judging returned evidence against the score.
+- **Players** execute individual complete score steps and return their evidence.
+
+A composer call neither approves work nor becomes a persistent controller or an
+independent reviewer. Conductor preserves the agreement and makes routine
+staffing choices within it. A new score exposes a material outcome, quality,
+scope or authority change for producer agreement, but writing a score does not
+require a second approval of an unchanged authorized request.
+
+For a non-trivial execution specification with useful bounded player work, use
+an available top reasoning-capability composer at a separately sized, supported
+effort. Compose in two passes:
+
+1. Send the intended outcome, boundaries, constraints and actual authority, and
+   ask for the smallest explicit named-file reading set required to write the
+   score.
+2. Retrieve exactly that terrain, the relevant agreement and available routes;
+   provide them with a score template. The composer writes the score directly
+   beside the existing work record and returns a short summary plus material
+   risks.
+
+Retrieval belongs to Conductor. If necessary terrain is missing, the composer
+returns a named gap; it does not guess an interface or receive an unlimited
+context dump. The composer writes the substantive detail, rather than passing
+unfinished specification to a lower-capability writer.
+
+Small, unambiguous or entirely judgment-bound work may stay lean and inline with
+a concrete reason and no composer ceremony. Direction-setting without a selected
+authorized task also stays inline; do not launch a contributor merely to choose
+work. If a suitable composer is unavailable, disclose why and that Conductor is
+authoring the fallback score, then assess it against the same success bar. Do not
+claim that fallback is necessarily inferior, silently substitute a named partner,
+or demand new approval for an unchanged authorized task. Stop only when a real
+missing capability or decision prevents safe progress. Return later score defects
+to the composer for repair when that composer is available.
+
+### Make every score step independently executable
+
+Before assigning a step, write its complete body. A score step states its
+intended result; rationale for non-obvious choices; exact files, interfaces and
+values where relevant; dependencies; owned boundaries; authority; success and
+evidence; a verification command and expected result; and any needed collateral
+or qualitative review. Use the same contract for non-code work, with appropriate
+artifacts and checks. A player receives sufficient settled intent to execute the
+slice without re-deriving product intent.
+
+Only after that body is complete, tag it `[delegate]` or `[keep]`. A
+command-verifiable mechanical edit is necessary but not sufficient for
+delegation: assess remaining judgment, context transfer, access, tools,
+consequences and independent-review needs. A passing grep is not semantic proof.
+Risk alone does not require keeping an otherwise well-specified edit; add an
+explicit independent or seam review where damage could escape its command. Bias
+toward delegation for a well-factored multi-step score, never toward a ratio,
+quota, fixed keep count or a presumption that a kept step is mistagged.
 
 Consider useful independent research, implementation and review at startup and
 as they emerge. Apply [job splitting](execution.md#prepare-and-do-the-next-useful-job):
-assign a useful authorized job or give its concrete inline reason, such as tiny
-scope, shared-state sequencing or briefing cost. Assess model/effort suitability
-for each actual role; no fixed staffing pattern, mandatory tier or worker quota.
-The controller retains direction, consequential decisions, integration and
-assessment. Give editors disjoint ownership or serialize shared-file changes.
+assign a useful authorized complete score step or give its concrete inline reason,
+such as tiny scope, shared-state sequencing, coordination/context-transfer cost,
+or the cost of creating a complete score step where none exists. A finished score
+step's remaining transport supplement is not by itself a reason to keep work
+inline. Give editors disjoint ownership or serialize shared-file changes.
+
+### Size roles and advise the controller by the work
+
+Size the controller for dispatch, conformance judgment and escalation, separately
+from the hardest underlying design problem. Advise down as well as up where the
+available evidence supports it: top-tier design does not automatically require a
+top-tier or high-effort controller session. Do not require a settings-confirmation
+survey or change settings automatically.
+
+Use [model choice](guidance/model-choice.md) to map composition, evidence
+judgment, standard implementation and mechanical work to suitable available
+capability. Choose supported effort independently for each contribution, and give
+a task-based reason for retaining or inheriting a pair. Respect named models,
+existing partners, host role choices and permission limits; no universal tier,
+cheap-worker rule, worker quota or claimed optimum follows from this guidance.
 
 When Conductor is open for direction-setting without a selected authorized task,
 keep composition and control inline using bounded local context. Show that
@@ -88,12 +161,14 @@ still-applicable profile already read. Apply matching clauses and record the
 version, or disclose no matching profile and use the clear outcome-contract
 fallback. A family name or formatted headings do not establish tailored prompting.
 
-Prepare the real prompt with outcome, sources, contribution, success/proof,
-allowed changes, unresolved questions and stopping condition. Check against the
-agreement. Save a safe shareable brief beside the work; full private requests
-stay in their established private store or native history. State which was
-retained; a sanitized brief is not an exact copy.
-Inline work needs the same clear contract, without a fake prompt or dispatch log.
+For a complete score step, reuse that step plus its identified transport
+supplement as the saved shareable brief; do not rewrite its outcome, constraints,
+proof or decision rights. Only when no score step applies, prepare the real brief
+with outcome, sources, contribution, success/proof, allowed changes, unresolved
+questions and stopping condition. Check it against the agreement. Full private
+requests stay in their established private store or native history. State which
+brief was retained; a sanitized brief is not an exact copy. Inline work needs the
+same clear contract, without a fake prompt or dispatch log.
 
 Show actual guidance use and preparation before sending; then distinguish
 prepared, submitted/queued, observed running, returned, checked and blocked/failed.

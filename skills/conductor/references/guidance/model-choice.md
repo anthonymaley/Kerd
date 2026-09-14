@@ -55,7 +55,9 @@ effort sweep. A passed job is evidence for that job, not certification of a clas
    actually be available for visual assessment. A bigger model cannot fix this.
 3. **Prefer relevant evidence over reputation.** Consider suitable candidates
    across permitted providers using the same success bar. Do not favor the
-   controller's own provider, highest price, newest name or a familiar role label.
+   controller's own provider, its inherited settings, highest price, newest name
+   or a familiar role label. Retain or inherit the current pair only after that
+   assessment, with a task-based reason.
    With no comparable evidence, choose a defensible capability-first starting
    point, state the uncertainty and assess its first useful result. Missing
    historical evaluation is not a universal ban on trying a model.

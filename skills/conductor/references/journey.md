@@ -52,9 +52,11 @@ Switch's Markdown arrival uses the linked welcome-back convention: an explicit
 completion heading and PROJECT / PHASE / STATE / TEAM grid, followed by three
 bullets: LAST SESSION, THIS SESSION and NOW (with owner-labelled numbered actions
 nested beneath NOW), then document links. No arrival boxes. Keep scope
-with the actions or THIS SESSION. The pending question is the first content after
-END OF PICKUP, once as a bold speech-bubble blockquote (`> 💬 **Question?**`).
-With no question, stop at the marker. Do not append another report or question.
+with the actions or THIS SESSION. For ordinary In, the generic **“Start a
+Conductor session?”** offer is the first content after END OF PICKUP, once as a
+bold speech-bubble blockquote; it is not a pending-task question. Managed Roll
+does not use it. Other renderer callers may omit a question. Do not append
+another report or question.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
 
@@ -175,7 +177,11 @@ same grid with the controller and actual composer/work assignments included,
 even when the result is one inline task and no worker. The main pair's evidence
 and suitability stay explicit. Reuse the view and settled choices; update new
 jobs or changes, not every tool call. Narrow managed decision sessions don't
-repeat this interactive startup view.
+repeat this interactive startup view. When composition is actually called, make
+its bounded scope and score transition visible; when players are assigned, name
+the score-step identifier and link it to the score. Do not manufacture a
+composer row for inline composition, or a player row before a complete score
+step has been assigned.
 
 When a real delivery split includes contributors, show **Preparing delegation ·
 Conductor** and a compact Markdown grid. Use native task controls too when
@@ -191,7 +197,12 @@ visibility. Illustrative rows, not model defaults or jobs to manufacture:
 Name the actual contribution and route; say `kerd:agent` only when that skill
 handles it, not for a native subagent tool call. Keep requested settings distinct
 from observed model/effort; expose unknowns rather than infer them from defaults.
-Put the owner, edit boundary and expected result in the nearby task detail.
+Put the owner, edit boundary and expected result in the nearby task detail. A
+composer row can move through scoped, terrain requested, score requested,
+returned and assessed; a player row can move through preparing, submitted or
+queued, running, returned and checked. Use only transitions the route actually
+reports: a submitted request is not running, a returned score is not accepted,
+and a returned player result is not checked.
 
 Show these short updates at their actual transitions, not as a closing claim:
 
@@ -206,11 +217,19 @@ Say which was retained: shareable brief beside the work, or full request in Agen
 existing private store. Keep private framing/IDs out of public records. Link a
 safe brief location, not private contents. Do not claim a sanitized brief is an
 exact prompt copy. Consult only applicable guidance and do not reread
-it just to announce a check. Update affected rows as evidence moves from preparing
-to submitted/queued, running, returned and checked, or blocked/failed. Submission
-alone is not running, and a returned answer still needs assessment. Include the
-useful findings and next action at return. No fixed grid size, repeated polling
-chatter, fake effort setting, staffing approval or delegation merely for display.
+it just to announce a check. A complete score step is itself the shareable brief:
+reuse its intended result, constraints, authority, success and evidence instead
+of writing a second paraphrased prompt. Add only missing transport facts such as
+the absolute project root, resolved recipient, current dependency result,
+route/tool rights, supported requested controls, result destination or necessary
+private framing; identify that supplement separately. Update affected rows as
+evidence moves from preparing to submitted/queued, running, returned and checked,
+or blocked/failed. Submission alone is not running, and a returned answer still
+needs assessment. Include the useful findings and next action at return. If the
+score passage itself is defective, show the affected passage as awaiting composer
+repair rather than presenting a semantic rewrite as player progress. No fixed
+grid size, repeated polling chatter, fake effort setting, staffing approval or
+delegation merely for display.
 
 Run long work in the background where the host supports it, and keep working and
 reporting while it runs. Going quiet for the duration of a job is a choice, not a
@@ -310,8 +329,10 @@ Don't add a review stop when the user already authorized the remaining work.
 
 Derive the view from the existing work record and actual job results. Record the
 settled understanding, material open issues, pending question, active job, next action and
-useful artifact links there. Correct stale displays when state changes. No second
-dashboard database, fixed percentages, CI, hooks, seals or approval ladder.
+useful artifact links there. When a score is in use, the same record can also
+point to its current passage, assignment and evidence/repair disposition. Correct
+stale displays when state changes. No second dashboard database, fixed
+percentages, CI, hooks, seals or approval ladder.
 
 ## Relaxed, useful language
 

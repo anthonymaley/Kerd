@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In restores memory and pairing and composes its own recommendation without loading Conductor; action approval or a direct workflow request invokes Conductor with the actual scope. Returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, then offers “Start a Conductor session?” after END without loading Conductor; a plain yes opens direction-setting, while an explicitly selected and authorized task enters work. Returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
 ---
 
 # Switch
@@ -12,11 +12,12 @@ and repository boundaries still apply.
 
 ## Pick the intended action
 
-- **In:** restore useful memory, current status and the saved plan; compose
-  one welcome-back dashboard without loading Conductor, with owner-labelled NOW actions (not
-  checking procedures or pass criteria) and
-  one question callout after the end marker, explicitly proposing to start or
-  resume Conductor for agent-owned work. Return the renderer's complete
+- **In:** restore useful memory, the wider active-work picture and the saved
+  plan; compose one welcome-back dashboard without loading Conductor, with
+  owner-labelled NOW actions (not checking procedures or pass criteria) and
+  the one question callout after the end marker: **“Start a Conductor
+  session?”**. Ordinary In always makes that offer, whether or not a task is
+  selected. Return the renderer's complete
   Markdown as the final message unchanged, then wait; do not rewrite its prose. Read
   [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work, leave a
@@ -74,11 +75,14 @@ The single question follows as a bold speech-bubble blockquote; no YOU box.
 Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 
-Ordinary In restores an active build's place without executing it. Switch owns
+Ordinary In restores the current work picture without executing it. Switch owns
 the [arrival decision](references/in-out.md#compose-the-arrival-in-switch): use
-the restored context, not a Conductor invocation or another intake. An action
-approval or direct workflow request invokes Conductor through the host skill
-mechanism as the guide's [work handover](references/in-out.md#enter-conductor-after-an-action-approval)
+the restored context, not a Conductor invocation or another intake. Its generic
+offer, **“Start a Conductor session?”**, maps a plain yes to Conductor
+direction-setting only; it never approves the saved task by implication. An
+explicitly selected and authorized task, direct workflow request or action
+approval invokes Conductor through the host skill mechanism as the guide's
+[work handover](references/in-out.md#enter-conductor-after-the-ordinary-offer)
 describes. Carry the actual approval and exclusions; opening the workflow alone
 does not approve operations. This is not a second approval; managed To/Roll
 keeps its agreed continuation.
@@ -90,10 +94,14 @@ work at In. Eligible restart recovery
 may check native identity/absence through that helper, preserving the role rather
 than asking the person to select an established teammate again.
 
-Keep pickup selective and explicit: fully read the chosen current working set,
-then relevant historical entries as needed. Don't silently truncate records or
-claim that small output means low input. Measure instructions, memory and tool
-output when testing context cost; disclose unavailable readings.
+Keep pickup selective and explicit: fully read the chosen current working set
+and the complete active task list, including child sections, then relevant
+current decisions, constraints and risks. Saved `read_args` are navigation, not
+permission to omit other active work. Retrieve a bounded complete relevant entry
+when a gap affects orientation or a recommendation; do not sweep the archive.
+Don't silently truncate records or claim that small output means low input.
+Measure instructions, memory and tool output when testing context cost; disclose
+unavailable readings.
 
 ## Implementation boundary
 

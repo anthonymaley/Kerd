@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, approves a Switch proposal, or continues established Conductor work. Assess every task for composer work, contributors, controller ownership and model/effort suitability; prepare assignments using applicable model guidance and assess returned evidence. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, accepts Switch’s generic “Start a Conductor session?” offer for direction-setting, explicitly selects and authorizes work, or continues established Conductor work. For non-trivial executable work, use a bounded composer to write an execution score before staffing complete steps; assess model/effort suitability and returned evidence. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor
@@ -37,18 +37,21 @@ An explicit request to use Conductor opens it without another invitation.
 Choosing Conductor chooses orchestration. Assess every task before acting and
 each new task as it emerges: a task is a user-visible job with its own result,
 not every tool call. Read [orchestration startup](references/orchestration.md)
-on entry for current-session model/effort suitability, composer work and the
-visible assignment view. Small tasks get a brief suitability/inline decision,
-not an exemption or compulsory worker. Reuse settled assessments on resume;
-status questions inside the work need no new staffing grid. Established means
+on entry for current-session model/effort suitability, bounded composition and
+the execution-score/assignment contract, plus the visible assignment view. Small
+tasks get a brief suitability/inline decision, not an exemption or compulsory
+worker. Reuse settled assessments on resume; status questions inside the work
+need no new staffing grid. Established means
 the current conversation or selected record identifies this work as entered or
 owned by Conductor; an old work.md, Agent pairing or unfinished task alone does
 not establish guided ownership. Continuing established work doesn't re-offer it.
 
-There are two valid entries: an approved action, and a request to use the
-workflow while deciding what to do. Reuse the restored project, work pointer,
-current decision, actual approval and latest exclusions. Do not repeat pickup,
-intake already answered or approval already supplied.
+There are two valid entries: an explicitly selected and authorized action, and a
+request to use the workflow while deciding what to do. Switch's generic **“Start
+a Conductor session?”** offer maps a plain yes to the latter, never to approval
+of a saved task. Reuse the restored project, work pointer, current decision,
+actual approval and latest exclusions. Do not repeat pickup, intake already
+answered or approval already supplied.
 
 - **Approved action:** enter its actual stage and perform it in this turn.
   Design-only approval enters Shape, not Deliver; an approved diagnostic can
@@ -57,10 +60,16 @@ intake already answered or approval already supplied.
   as permission to investigate every adjacent issue or live system.
 - **Workflow requested, action absent or excluded:** Conductor is open at
   Understand/Shape. Acknowledge the exclusion, use the restored context to
-  recommend a relevant direction or ask the missing outcome question, and wait
+  inspect missing relevant active work, recommend a relevant direction before
+  asking for facts already recorded, or ask the missing outcome question, and wait
   where a real choice is needed. Do not ask again to start Conductor, treat a
   rejected task as a grant for a similar one, or launch probes to choose a task.
-  Opening Conductor is not operation approval. A bare invocation after a
+  A human-blocked saved continuation is not a project-wide hold: assess other
+  eligible independent active work by dependency, priority and authority, and
+  recommend a useful direction when grounded. Keep pending human evidence open;
+  do not ignore eligible work merely because it was not the saved selection,
+  invent substitute approval, impose a fixed task count or always choose an
+  alternative. Opening Conductor is not operation approval. A bare invocation after a
   human-owned check supplies neither its result nor authority to do it for them.
   Use bounded local record/repository reads for direction-setting. Live-system
   queries, SSH/database access, device or audible actions and paid/shared-resource
@@ -108,8 +117,13 @@ a new chat or a bare “resume” label is not evidence of managed authority or
 exclusive ownership. Do not claim this entry replaces an arbitrary open TUI.
 
 Switch owns [ordinary arrival composition](../switch/references/in-out.md#compose-the-arrival-in-switch)
-without loading this skill. Use the context it restored when the person enters
-Conductor; do not recreate the pickup or its dashboard.
+without loading this skill. A plain yes to its generic offer enters
+direction-setting, not the saved task; an explicitly selected and authorized task
+can enter work. Use its restored active-work context when the person enters
+Conductor; inspect bounded missing relevant active work yourself, but do not
+recreate the pickup or its dashboard. A managed owner remains owned: ordinary
+direction-setting may inspect that ownership issue, never take over or duplicate
+the managed work.
 
 On the person's next request, handle the actual request: status stays status;
 a clear action approval or explicit continuation enters the selected work without

@@ -53,8 +53,10 @@ by default.
 When a useful bounded job has independent inputs, a checkable result and an
 authorized available route, assign it before doing that same work yourself.
 A grid or a statement that delegation was considered is not the contribution;
-retrieve and assess the result. Do not duplicate the worker's investigation
-while waiting or treat its unverified return as an accepted conclusion.
+retrieve and assess the result. Assign against the finished score step, then
+judge the Player's actual evidence against it. Do not duplicate or re-perform
+the Player's work while waiting, or treat its unverified return as an accepted
+conclusion.
 
 Separate the jobs by the question/result each can finish: for example a caller
 survey, analysis of captured measurements, a disjoint implementation or an
@@ -66,10 +68,12 @@ into the whole investigation. Reassess when a new independent job emerges.
 
 For each useful candidate either assign it or give the concrete reason to retain
 it: shared-state sequencing, unavailable tools/permissions, genuinely tiny work,
-or briefing/coordination cost that outweighs the contribution. One blanket
-“better inline” for a coupled implementation does not cover unrelated research
-or verification. Do not invent access for a worker: the controller can collect
-an authorized live sample and delegate analysis of its safe captured result.
+or briefing/coordination cost that still outweighs the contribution after applying
+the [composition and score contract](orchestration.md#compose-a-score-before-assigning-executable-work).
+A finished score step's remaining transport supplement is not itself such a cost.
+One blanket “better inline” for a coupled implementation does not cover unrelated
+research or verification. Do not invent access for a worker: the controller can
+collect an authorized live sample and delegate analysis of its safe captured result.
 Background shell scripts are not subagents. A missing route is a disclosed limit,
 not permission to install, substitute a model or copy secrets into a prompt.
 Consider context transfer, latency and token cost, not agent count. No worker quota
@@ -98,22 +102,25 @@ Check that it applies to the actual model and execution route. Guidance is
 advice, not proof of superior results. If no applicable profile is available,
 disclose that and use a clear outcome-first brief without invented tuning.
 
-Composer work drafts direction, design or job briefs for Conductor's assessment.
-Keep it here when small; assign a bounded composer contribution when it helps.
-The controller checks its output against the actual agreement before dispatch;
-a composer cannot grant permission or silently change the success bar. Use
-[orchestration startup](orchestration.md#assign-functions-to-actual-work) for that
-function's ownership; it is not a required extra model.
+Use the [composition and score contract](orchestration.md#compose-a-score-before-assigning-executable-work)
+before assigning non-trivial executable work. Its finished score steps carry
+the Composer's specification to Players. Tiny, unambiguous work and work that
+is entirely judgment-bound may stay inline for the concrete reasons described
+there; direction-setting without an authorized task also stays inline. These
+exceptions do not make composition optional for non-trivial work with useful
+bounded Player steps.
 
-Prepare the actual prompt: outcome, relevant facts and sources, deliverable,
-success and evidence, authority, boundaries, unresolved questions and stopping
-condition. Preserve meaning across models; let the worker choose the method
-unless order itself matters. Save shareable prompt briefs with a short model/effort
-and result note beside the work; exclude secrets and private session IDs. Agent's
-full requests and transport framing stay in its existing private request store.
-For native subagents, retain the actual prompt only where safe; a sanitized brief
-is not a claim of an exact private-input copy. Report which form was saved.
-For inline work, use the same contract without manufacturing a dispatch record.
+Use the complete applicable score step as the worker brief. Add only transport
+facts the recipient still needs: selected terrain, current dependency results,
+route/tool permissions, resolved recipient and required private request framing.
+Provider guidance may change presentation, but never the intended outcome, exact
+constraints, proof or decision rights. Save the reusable score step and a short
+model/effort and result note beside the work; exclude secrets and private session
+IDs. Agent's full requests and transport framing stay in its existing private
+request store. For native subagents, retain the actual supplemented prompt only
+where safe; a sanitized brief is not a claim of an exact private-input copy.
+Report which form was saved. For inline work, use the same clear contract without
+manufacturing a score, prompt or dispatch record.
 
 For a delegated job, the route is decided before the prompt is sent, and the
 default is a native subagent when the host exposes the chosen model. In Claude
@@ -186,11 +193,41 @@ review question—not a request to endorse the builder's account. Prefer a
 different suitable model where available. Preserve unavailable or incomplete
 independent assessment as an explicit gap, not a self-awarded pass.
 
+For every returned Player edit, Conductor reads the actual diff and checks every
+changed path and hunk against the score step's owned boundaries before relying
+on its verification output. Bulk deletions, renames and pattern-driven edits,
+whether returned by a Player or made inline by Conductor, always receive that
+complete diff read against the applicable owned boundaries. Verification and
+independent or seam review add evidence; neither substitutes for Conductor's
+diff inspection. For every defect found, including one Conductor catches in its
+own work, state how it was caught—for example by diff inspection, a verification
+command or an independent or seam review.
+
 Address supported findings, rerun affected checks and assess the integrated
-outcome. Three materially different failed corrections of the same measure
-trigger Conductor reassessment: inspect the cause, choose another supported
-route within authority, or bring back the consequential decision. Do not reset
-the count by renaming the measure or loop indefinitely on the same attempt.
+outcome. Diagnose a failure against the score before changing either the work
+or its specification:
+
+- When the score step is sound but the Player's work or evidence fails it,
+  re-dispatch the same semantics with the useful failure evidence. Supported
+  changes to Player, model, effort, framing or route may improve execution, but
+  Conductor must not rewrite the contract merely to make a failing check pass.
+- A defect, contradiction, missing consequential decision or impossible premise
+  in the score returns immediately to the Composer with the exact affected
+  passage and discrepancy evidence. Do not spend Player attempts proving a
+  defect already known. The Composer repairs only that passage, preserves prior
+  requirements and explains any consequential change. New outcome, quality,
+  scope or authority choices return to the Producer; routine repairs within the
+  agreement need no new staffing approval.
+- Three unsuccessful Player attempts against the same score step and measure are
+  the ceiling for reassessment and hand-back, not proof that the score is wrong.
+  Count failures cumulatively across renamed tasks, changed routes and repaired
+  passages. If a corrected passage fails, reassess cause and framing rather than
+  granting it another fresh three-attempt loop.
+
+Conductor owns that diagnosis, integration and evidence judgment. It may clarify
+transport or point to the existing contract, but it does not absorb a delegated
+step by re-performing it. Retain stronger route-specific or managed failure stops.
+Do not loop indefinitely on the same attempt.
 
 ## Finish the outcome, not a stage label
 

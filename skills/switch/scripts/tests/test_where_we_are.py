@@ -928,7 +928,7 @@ class DocumentedExampleTests(unittest.TestCase):
                     self.assertNotIn("💬", out)
                     self.assertNotIn("approve?", out)
                 if case == "design":
-                    self.assertIn("Implementation and deployment are not included in this approval.",
+                    self.assertIn("a plain yes opens direction-setting, not design work.",
                                   flatten(out))
                 if case in ("unknown-stage", "no-task"):
                     self.assertIn(view.UNRECORDED, out)

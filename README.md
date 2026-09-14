@@ -40,7 +40,47 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.124.0)
+## What's New (v0.125.0)
+
+### v0.125.0
+
+**Switch restores the whole active picture, then offers Conductor once.** Every
+ordinary Switch In ends with *“Start a Conductor session?”* without loading
+Conductor or treating the saved task as approved. A plain yes opens
+direction-setting; an explicit selected task can carry its own authority. The
+compact dashboard remains selective, while the pointer-designated active list,
+current linked records, decisions, constraints and known risks remain available
+for an intelligent recommendation. A human-blocked continuation is not a
+project-wide hold, and managed Roll keeps its exact non-interactive authority.
+
+**The composer writes the score; players execute complete steps.** Non-trivial
+work with useful bounded player jobs uses four distinct responsibilities:
+producer, bounded top-capability composer, Conductor and players. Composition is
+two-pass—first the smallest named terrain, then a cold-readable score beside the
+work record. Only complete steps receive keep/delegate assignments. A well-factored
+score is biased toward delegation without quotas, while tiny or judgment-bound
+work stays inline for a concrete reason. Model and effort are selected for the
+task, with advice down as well as up; inherited or highest settings are not a
+self-justifying default.
+
+**The score remains the contract through failure and review.** A complete score
+step is the reusable player brief, supplemented only with missing transport facts.
+Conductor reads every returned edit's actual diff against its owned boundary;
+bulk deletions, renames and pattern edits always get the full diff, including
+inline Conductor edits. A sound step can be re-dispatched without semantic change;
+a known score defect returns immediately to the composer, and three failed player
+attempts are a ceiling rather than proof of cause. Managed runs use their existing
+`blocked` boundary and verified stop before score repair—no nested composer action
+or mutable live agreement was added.
+
+The integrated source was compared with v0.105.0 using the same six synthetic
+scenarios and one cold-player execution. It restores the historical composition,
+specification and delegation strengths while retaining current authority,
+Agent-routing, model-evidence and managed-run safeguards. Claude independently
+found the missing universal diff gate; the score went back to its composer before
+the player correction, then the integrated fixes were rechecked. These are source
+and synthetic-execution results, not proof of installed behavior, lower token use
+or efficiency. The next two real multi-step builds remain the acceptance check.
 
 ### v0.124.0
 
@@ -672,10 +712,11 @@ mislabelled as a Kerd Agent request. These updates expose real work, not a
 mandatory worker count or a new approval step.
 
 Its startup uses that same grid for the controller and actual composer/work
-assignments, including a one-row inline decision when no worker is useful. The
-main model and effort are labelled by their evidence, not guessed from defaults.
-It assesses their suitability and recommends a change only for a material
-mismatch; it doesn't change your session settings itself.
+assignments, including a one-row inline decision when no worker is useful. It
+assesses the task and suitable available pairs before retaining or inheriting the
+current settings; the main model and effort are labelled by their evidence, not
+guessed from defaults. It recommends a change when the current pair materially
+exceeds or misses the work's needs, but doesn't change your session settings itself.
 
 Conductor can be offered for a substantial build, design or workflow request,
 whether new or continuing in an existing repo. When chosen it guides work
@@ -696,10 +737,11 @@ rollover. Codex is the pressure-aware coordinator/implementation adapter. Either
 chat can be the control surface, but no arbitrary open TUI is replaced. Native
 process loss or uncertain work requires inspection, never a blind second launch.
 
-Switch In restores and recommends without loading Conductor. Approving its
-scoped proposal invokes Conductor for work; a direct invocation can instead
-open direction-setting with no task approved. Excluding the proposal doesn't
-require another yes to open, and doesn't authorize a substitute operation.
+Switch In restores and recommends without loading Conductor, then always asks
+*“Start a Conductor session?”* after END. A plain yes opens direction-setting;
+an explicitly selected and authorized task invokes actual work. It does not
+silently substitute work or create native sessions, and managed Roll retains its
+separate continuation.
 
 Every guided task gets assessed for model/effort fit, composer work and useful
 contributors before it starts, including small tasks and new diagnosis branches.
@@ -712,12 +754,45 @@ there too. It shows the split, avoids overlapping edits and owns integration
 and assessment. Small coupled work does not need an extra agent; resumed work
 reuses settled assignments.
 
-Composer work drafts direction, design or model-appropriate job briefs; the
-controller keeps agreement, consequential decisions and integration. Every
-assignment consults matching model guidance before sending, or discloses the
-clear-contract fallback. Safe prompt briefs, requested/observed settings and
-returned evidence stay distinguishable. See the
-[startup contract](skills/conductor/references/orchestration.md).
+Conductor uses four responsibilities when a score is useful: the **producer**
+holds intent, priorities and consequential agreement; a bounded **composer**
+writes or repairs the score; **Conductor** staffs, dispatches, integrates and
+judges evidence against it; **players** execute complete score steps and return
+their evidence. These are responsibilities, not permanent provider brands. A
+composer call neither approves work nor becomes the controller or independent
+reviewer.
+
+For a non-trivial execution spec with useful bounded player work, composition is
+two-pass: the composer first receives intent, boundaries and constraints and
+names the smallest needed reading set; Conductor retrieves exactly that terrain,
+the relevant agreement and available routes, then the composer writes the score
+beside the work record. Small, unambiguous or judgment-bound work can remain
+inline with a concrete reason. If composition is unavailable, Conductor records
+the limit and authors a fallback score against the same checks; it does not
+silently substitute a named partner or ask again for unchanged authority.
+
+Each complete score step states its intended result, relevant rationale, exact
+terrain, dependencies, owned boundary, authority, success/evidence and
+verification where appropriate. Only after that body is written does Conductor
+choose to delegate or keep it, based on judgment, transfer, access, consequences
+and review needs as well as mechanical verifiability. The complete step is the
+reusable shareable brief; a send adds only necessary transport facts such as the
+project root, recipient, dependency result, route/tool rights, supported
+requested controls, result destination or private framing. The work record and
+live grid identify those supplements without inventing a duplicate prompt.
+
+If player evidence fails a sound step, Conductor can re-dispatch the same
+semantics with that evidence. A contradiction, impossible premise, missing
+consequential decision or other score defect goes to the composer with its
+affected passage and evidence; it is not silently rewritten to pass a check.
+Composer repairs that passage while preserving prior requirements, and material
+outcome, quality, scope or authority changes return to the producer. Requested
+and observed settings, preparing/submitted/running/returned/checked states, and
+unresolved repair/attempt state remain distinct. Every assignment consults
+matching model guidance before sending, or discloses the clear-contract fallback.
+See the [startup contract](skills/conductor/references/orchestration.md),
+[working view](skills/conductor/references/journey.md) and
+[work record](skills/conductor/references/work-record.md).
 
 ```
 /kerd:conductor              # start, or resume saved work
@@ -803,8 +878,8 @@ session and what this session is for. No separate YOU box.
 Chat uses a PROJECT / PHASE / STATE / TEAM grid under the explicit completion
 heading, then three bullets: LAST SESSION, THIS SESSION and NOW, with numbered
 owner-labelled actions nested beneath NOW.
-END OF PICKUP · SESSION READY closes restoration; the one pending question
-follows as a bold speech-bubble blockquote. With no question, stop at the marker.
+END OF PICKUP · SESSION READY closes restoration; ordinary In always follows it
+with *“Start a Conductor session?”* as a bold speech-bubble blockquote.
 The grid and sections are native Markdown, not fenced ASCII boxes. A missing
 log alone does not make restoration incomplete when its necessary context was
 recovered elsewhere. Terminal output keeps explicit status and the question after END.
@@ -815,20 +890,21 @@ work already names; the backlog lives behind the *Open work* link.
 nothing extra is read and no status file is written. Switch composes the summary
 without loading Conductor and returns the complete rendered Markdown unchanged.
 Corrections are made in the input and rendered again, not paraphrased after the
-renderer. Switch first restores one selected scope:
-owner/action, approval status, completion steps and stopping point. It uses that
-scope for THIS SESSION, NOW and the question, recognizing saved prose as well as
-headings. Without a saved selection it offers a grounded proposal, not a new
-agreement. NOW is checked before rendering: only the current
-action and its necessary follow-through, not a later build labelled “needs approval”.
-It supplies *“Start Conductor on X?”* as the next-action question, or
-*“Resume Conductor on X?”* for recorded Conductor work already underway,
-with its scope in NOW or THIS SESSION. A missing fact is asked as a clarification, not an
-approval; supplying a project name alone does not start an install or launch.
-A clear action approval invokes Conductor for its work entry,
-carrying the restored scope, actual approval and exclusions. Asking for Conductor
-while excluding the proposed task opens direction-setting, not a substitute
-operation. It does not require another yes just to open the workflow. Conductor
+renderer. Switch restores the pointer-designated active list (by convention
+`TODO.md`'s `## Now`, including child sections) and explicitly current linked work
+records, plus relevant current decisions, standing constraints and known risks,
+before composing a compact view. It does not scan every `work.md`; a missing or
+old pointer uses bounded lookup. Saved reading arguments are navigation, not
+permission to omit that active work; bounded missing coverage is retrieved or
+disclosed. It resolves any selected scope—owner/action, approval status,
+completion steps and stopping point—recognizing saved prose as well as headings.
+Without a saved selection it offers a grounded proposal, not a new agreement. NOW
+is checked before rendering: only the current action and its necessary
+follow-through, not a later build labelled “needs approval”. After END it always
+asks *“Start a Conductor session?”*. A plain yes opens direction-setting; only an
+explicit selected and authorized task enters work. Missing facts and human checks
+remain unresolved context, and supplying a project name alone does not start an
+install or launch. Conductor
 shows the actual stage, owner and boundary before substantial work and resolves
 the inline/delegated split for research and design as well as implementation.
 It does not repeat intake or an unchanged approval. Managed Roll retains its authorized
@@ -840,12 +916,12 @@ follow-through, not procedures or pass criteria compressed into one sentence.
 Detailed checks, future-event work and later projects stay behind Open work;
 immediate target, safety and permission limits remain visible. THIS SESSION
 states the selected action's scope without scheduling a later unrelated task.
-The final approval question is not another NOW task; a real human-owned check
-still is. Omission from the dashboard does not retire or reorder saved work.
+The Conductor offer is not another NOW task. Omission from the dashboard does
+not retire or reorder saved work.
 ATTENTION keeps material restoration/action limits, false decision claims and
 recorded urgent risks, not the rest of the backlog.
-The single question after END asks directly about the recommendation;
-you can decline or redirect without choosing from an offered alternative.
+The single question after END is *“Start a Conductor session?”*; you can decline
+or redirect without selecting work from the dashboard.
 Existing local Agent bindings restore pairing context, with Agent loaded when a
 contribution is requested. TEAM is one compact grid cell: Claude (role) + Codex (role).
 Session IDs and notice status stay in Agent details. After restoring routing, In sends the established partners one
@@ -1073,7 +1149,7 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
 
-**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and composes the welcome-back dashboard without loading Conductor. NOW carries owner-labelled next actions; for agent-owned work the single arrival question is *“Start Conductor on X?”* or *“Resume Conductor on X?”*, after END as a bold speech-bubble callout. Human checks and factual questions stay their actual questions. An action approval explicitly invokes Conductor's work entry with the restored scope and limits; it does not repeat intake or ask again. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), its designated active list including child sections and explicitly current linked work records, the newest session log and the named reading set, then fills bounded gaps in current decisions, constraints and risks as needed. It does not scan every `work.md`. NOW remains compact, but omitted active work remains restored and discoverable. After END its one ordinary question is *“Start a Conductor session?”*. Usually, a plain yes opens direction-setting and a later scoped task agreement starts work; *“Yes, design the alert”* can explicitly select and authorize that task in one turn. Human checks and factual questions remain unresolved context unless reported as evidence; they do not replace the offer. Managed Roll keeps its authorized continuation. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
 

@@ -18,7 +18,10 @@ of job or changing the pair. It supplies the cross-provider shortlist, evidence
 limits and decision method. Reuse an applicable choice; do not run a new survey
 or ask the user to staff every job. Then load only the chosen model's guidance.
 
-Choose the model for the contribution and available tools. Check installed CLI
+Choose the model for the contribution and available tools. Assess suitable
+available pairs before retaining or inheriting the controller's settings; the
+current pair is one candidate, not the default. State the brief task-based reason
+when retaining or inheriting it. Check installed CLI
 help and known account availability when the route is unfamiliar; don't probe
 with paid jobs merely to list models. Prefer a different suitable model for
 independent assessment. Do not silently replace a specifically requested model.
@@ -41,16 +44,24 @@ the disclosed clear-contract fallback, never a guessed profile. If a returned
 model identity differs, reassess the fit and preserve both requested and observed
 facts; do not rewrite the history or automatically resend the job.
 
-Write a shareable prompt brief beside the work using ordinary Markdown or useful
-XML boundaries. Agent's full requests and transport framing stay in its existing
-private records; native subagent prompts stay in native history unless safe to
-retain beside the work. Do not copy private inputs into public files. Label sanitized briefs
-as such rather than claiming they are exact copies. This is Conductor's judgment,
-not a required JSON form. A useful
-job contains the outcome, selected source material, specific contribution,
-agreed success/proof, allowed changes and stopping condition. A review receives
-the original agreement and artifacts, not only the builder's summary. Keep
-irrelevant interview history and the whole skill pack out of worker prompts.
+When an execution score applies, its complete applicable score step is the
+shareable worker brief; do not require Conductor to rewrite it into a second
+specification. Supplement it only with terrain the recipient lacks, current
+dependency results, route/tool permissions, resolved recipient and required
+transport or private-request fields. Provider guidance may change presentation,
+not the intended outcome, exact constraints, proof or decision rights. Confirm
+that the score step and supplement together are resolvable by this recipient.
+
+Otherwise write a shareable prompt brief beside the work using ordinary Markdown
+or useful XML boundaries. Agent's full requests and transport framing stay in
+its existing private records; native subagent prompts stay in native history
+unless safe to retain beside the work. Do not copy private inputs into public
+files. Label sanitized briefs as such rather than claiming they are exact copies.
+This is Conductor's judgment, not a required JSON form. A useful job contains
+the outcome, selected source material, specific contribution, agreed success/proof,
+allowed changes and stopping condition. A review receives the original agreement
+and artifacts, not only the builder's summary. Keep irrelevant interview history
+and the whole skill pack out of worker prompts.
 
 For Claude, use descriptive tags when mixing instructions and source material;
 use the selected profile's relevant effort/autonomy advice. For OpenAI reasoning
@@ -59,9 +70,11 @@ and freedom over method. With no matching profile, use the same clear outcome
 contract and disclose the fallback. Neither presentation changes the agreement.
 An example is a writing aid, never an extra requirement or invented project fact.
 
-Before sending, compare the prepared prompt with the agreed contribution: did
-it retain the required outcome, evidence and boundaries? Correct omissions.
-This is a semantic check, not a fingerprint, parser gate or separate user stop.
+Before sending, compare the prepared prompt or reused score step and transport
+supplement with the agreed contribution: did it retain the required outcome,
+evidence and boundaries? Correct transport omissions without changing the score's
+semantics. This is a semantic check, not a fingerprint, parser gate or separate
+user stop.
 
 ## First use: handle setup, not a session-ID exercise
 
@@ -183,8 +196,15 @@ Close a finished alias with `close ALIAS` when useful; results remain retrievabl
 This retires the bridge alias, not somebody's open terminal or native history.
 
 On a failed request, inspect `status REQUEST` before retrying. Reusing an identical
-request ID returns its existing result; a correction is a new request, not a
-hidden rerun. Do not relabel a failed assessment by changing its measure name.
+request ID returns its existing result; another dispatch is a new request, not a
+hidden rerun. Apply execution.md's score-failure distinction before sending it:
+a sound step keeps the same semantics and gains useful failure evidence plus only
+supported dispatch changes; a known defective passage returns immediately to
+the Composer instead. Keep the unsuccessful-attempt count for the same step and
+measure across request IDs, aliases, routes, names and score repairs. The third
+failed Player attempt triggers reassessment/hand-back, not a fourth request or a
+conclusion that the score must be wrong. Do not relabel a failed assessment by
+changing its measure name.
 Use `cancel REQUEST` to request cancellation; inspect the final state before
 claiming it stopped. `interrupted`/`unknown` means native work may still exist.
 Reuse stays blocked; do not delete its metadata or kill an unverified stored PID.

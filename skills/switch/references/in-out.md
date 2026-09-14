@@ -47,12 +47,20 @@ Don't auto-stash, force-reset, resolve a meaningful conflict by guessing, or qui
 claim local memory is current with GitHub when sync failed. An offline/local-only
 pickup can proceed only as such, with that limitation visible.
 
-Read the project's existing current-context/handoff pointer and selected active
-work. Recover current stage, actual user agreement, last result, pending question
-or next action, failure/resource state and relevant project constraints. Follow
-necessary evidence links; avoid loading the full log archive and every retired
-plan. An explicitly stale or contradictory pointer must be reconciled with current
-artifacts and dated evidence before work continues. What makes a pointer stale is
+Read the project's existing current-context/handoff pointer, its designated
+project active list (by convention `TODO.md`'s `## Now`, including child
+sections), and explicitly current work records linked from that pointer/list.
+Do not scan every repository `work.md`. Recover current stage, actual user
+agreement, last result, pending question or next action, failure/resource state,
+relevant current decisions, standing constraints and known risks. A missing or
+old pointer can require a bounded lookup for the current project list and linked
+records. Saved `read_args` identify where to begin; they do not authorize omission
+of that active work. Follow necessary evidence links and retrieve the complete
+relevant entry when proposing from it; avoid loading the full log archive and
+every retired plan. If bounded local retrieval cannot establish the missing
+coverage, name that gap honestly rather than sweeping history. An explicitly stale
+or contradictory pointer must be reconciled with current artifacts and dated
+evidence before work continues. What makes a pointer stale is
 an obsolete next action, not an old revision: `overtaken_revisions` in a pickup or
 prepared packet is a diagnostic hint, and citing history or a pre-save position is
 legitimate. Reach an exhaustive changed-file list with `git show --name-only` on
@@ -64,12 +72,16 @@ as local only; it stops, untouched, if the incoming revision carries one of them
 because that collision is a real decision. Unnamed changes still stop a pickup.
 
 The start point names a **pickup reading set** — the exact files and complete
-sections Out chose for this next action (see "Leave a lean start point" below).
+sections Out chose for this next action and wider active-work orientation (see
+"Leave a lean start point" below).
 When the handoff includes the helper's `read_args`, use those exact file/heading
 selections, not a broader paraphrase. They are arguments to `prepare` (with the
 current project and branch supplied), or the boundaries for reading normally.
-Read those first, in full, and nothing else by default. It is a saved navigation aid, not a ban on further reading: check linked
-detail when a contradiction or the next action requires it. Where the host can
+Read those first, in full. They are a saved navigation aid, not a ban on further
+reading: also cover the pointer-designated active list and child sections, its
+explicitly current linked work records, governing current decisions, standing
+constraints and known risks; check linked detail when a
+contradiction, orientation gap or recommendation requires it. Where the host can
 assemble those named sources before starting the fresh worker, use `prepare`
 below so the model receives their text once. Otherwise read them normally.
 For a long work record, locate its current-position section before reading from
@@ -111,7 +123,9 @@ that historical sources can never matter. The caller selects from the project's
 existing memory structure, not a universal fixed list of filenames.
 
 Before calling restoration complete, check the answer against the supplied current
-records for unresolved decisions, owed work and restrictions. Keep these in the
+records for the pointer-designated active list (including child sections), its
+explicitly current linked work records, unresolved decisions, owed work, standing
+constraints and known risks. Keep these in the
 restored working state, even when the user-facing summary only shows the next one.
 Preserve explicit prohibitions, parked choices, unknowns and not-yet-authorized
 actions; do not silently replace them with defaults or drop them for brevity.
@@ -129,13 +143,13 @@ the whole archive. A small input is useful only if its meaning survives.
 
 ### Compose the arrival in Switch
 
-Switch chooses and presents the next action from the restored material itself.
+Switch chooses and presents an orientation from the restored material itself.
 Do not load Conductor, its journey guide or another skill for composition.
 Carry the project, selected work (or none), agreement, restrictions and pending
 decision forward in context; no extra record or repeated pickup reading set.
 
-Resolve one session scope before writing the fields: action and owner, approval
-status, necessary completion steps, stopping point and actual pending question.
+Resolve any saved session scope before writing the fields: action and owner,
+approval status, necessary completion steps, stopping point and pending questions.
 Recognize the [saved selection](#save-the-selected-continuation) in current prose
 as well as named headings. Current user direction takes precedence. If evidence
 shows it stale or completed, explain and label any replacement proposed, not
@@ -145,38 +159,29 @@ priority. If no priority exists, recommend a grounded bounded action and briefly
 say why. No actionable work means no selected task, not an invented one.
 
 For a saved unresolved choice, recommend one grounded route, leaving alternatives
-behind its link. If a fact or preference prevents that recommendation, ask that
-one clarification. An unresolved design means design, not permission to build.
-Once clarified, ask for the scoped action only if authorization is still missing.
-An explicit instruction supplying both the missing fact and permission can
-proceed without another stop; filling a fact alone cannot.
-For agent-owned work ask **“Start Conductor on X?”**; use **“Resume Conductor on
-X?”** only when the record establishes that Conductor work as already underway,
-not merely an unfinished task or established Agent pairing. Preserve the actual
-scope and exclusions when replacing an older generic approval question.
+behind its link. Keep missing facts, product decisions and human-owned checks as
+unresolved context, with their recorded proposed answer where useful; do not ask
+them as the arrival question or select an unrelated unanswered question. An
+unresolved design is not permission to build, and availability is neither a
+result nor agent authority. Preserve per-occasion permission and the established
+target/install scope; a project name supplies a target, not permission to install
+or launch.
 
-A still-applicable factual or product-decision question stays that question,
-with its recorded proposed answer where useful. Do not select an unrelated
-unanswered question. Human-owned checks name that actor in NOW and STATE and
-ask for the specific check or its missing result, not an agent start. Preserve
-per-occasion permission; availability is neither a result nor agent authority.
-For installations or session launches, reuse the established target and install
-scope; if either is missing, ask for that gap rather than authorizing an unnamed
-project. A project name supplies a target, not permission to install or launch.
-
-THIS SESSION, NOW, STATE and the final question express that same scope and
-approval status. Necessary follow-through finishes the chosen action; work behind
-a separate decision stays outside it even if the log says “then”. Never show
+THIS SESSION, NOW and STATE express the saved scope and approval status where
+one exists. Necessary follow-through finishes the chosen action; work behind a
+separate decision stays outside it even if the log says “then”. Never show
 “nothing needed” while requesting an answer. An observation obtained at pickup
 is already observed; only a genuinely needed assessment or recording remains.
-Don't award the person's verdict or repeat a check merely to record it. The
-approval question isn't a separate NOW task; a real human-owned check is.
+Don't award the person's verdict or repeat a check merely to record it.
 
-This ordinary arrival check-in is deliberate even when a saved approval remains;
-it does not execute project work or launch workers. A current explicit request
-to continue can supply authority without another approval, and verified managed
-To/Roll retains its separate continuation. Private Agent routing maintenance
-below is not work authorization. Compose the dashboard using the
+This ordinary arrival check-in is deliberate even when a saved approval remains:
+after END, its sole question is **“Start a Conductor session?”**. It does not
+select work, create a native session, execute project work, launch workers or
+grant permission. A plain yes opens Conductor for scoped direction-setting; only
+an explicit selected/authorized task enters actual work. A current explicit
+request to continue can supply authority without another approval, and verified
+managed To/Roll retains its separate continuation. Private Agent routing
+maintenance below is not work authorization. Compose the dashboard using the
 [summary rules](#welcome-back-the-screen-summary), return its renderer output
 unchanged and stop; no second journey strip, task list or narration.
 
@@ -219,41 +224,43 @@ not new assignments; a missing role stays unassigned. IDs and routine notice sta
 remain in Agent details, not the dashboard or project records. Surface a routing
 problem in ATTENTION only when it affects the next action. A failed notice does not make restored memory incomplete.
 
-### Enter Conductor after an action approval
+### Enter Conductor after the ordinary offer
 
-On the answer to the normal arrival's proposal, resolve the whole message
-against that question and its shown scope, including corrections or exclusions.
-A clear approval of the Conductor proposal invokes `/kerd:conductor` through the host's skill
-mechanism for the actual work. Resolve it from this distribution, not another
-cache's file. Pass the restored project, selected work/pointer,
-actual approval and exclusions, and the exact next action already in context.
-For example: “Start the approved alert-design work in this project from the
-restored work record. Design only; no implementation or deployment. Enter the
-work without repeating pickup or intake. Read Kerd's orchestration startup and
-relevant job-split/work-view sections if not already loaded, then begin with
-Conductor · Shape, current model/effort evidence, owner, intended design result,
-stopping boundary and work split. Only then
-start substantive project research.” Include the same entry instruction
-with the actual stage/scope for other jobs; it is not a request to read the whole
-skill pack or announce work already finished. For underway work, say resume.
+On the answer to **“Start a Conductor session?”**, resolve the whole message
+against that offer and any explicit selected/authorized task. A plain yes invokes
+`/kerd:conductor` through the host's skill mechanism for direction-setting, not
+for a saved task by implication. Resolve it from this distribution, not another
+cache's file. Pass the restored project, full active-work context, selected
+work/pointer if any, known authority, exclusions and unresolved questions.
 
-This invocation starts the approved work; do not ask whether to start Conductor
-after the person has just approved it. A direct `/kerd:conductor` or request to
-use Conductor can also open the workflow without approving the proposed task.
-If the person says yes to Conductor but excludes the whole action, pass that
-exclusion and the unresolved outcome into Conductor's Understand/Shape entry;
-don't require another yes just to open it or substitute related backlog work.
-The entry should acknowledge the exclusion and establish direction from local
-context, not start a newly recommended operation. A recommendation from the saved
-priority can still need its own scoped approval; that question is about the
-operation, not whether Conductor is open.
-A plain “not now” or factual reply is not a workflow request. When native invocation is unavailable,
-read its work-entry section and relevant guide explicitly and disclose the
-fallback. Missing Conductor is a stated limitation, not a silent replacement
-workflow. A factual answer or availability for a human-owned check is not an
-agent-work approval. If the shown scope includes recording the person's result,
-that follow-through can proceed when the actual report arrives; availability
-alone is not the result, and a new correction/build still needs its own authority.
+If the same answer explicitly selects and authorizes a task, invoke Conductor for
+that actual work. For example: “Start the approved alert-design work in this
+project from the restored work record. Design only; no implementation or
+deployment. Enter the work without repeating pickup or intake. Read Kerd's
+orchestration startup and relevant job-split/work-view sections if not already
+loaded, then begin with Conductor · Shape, current model/effort evidence, owner,
+intended design result, stopping boundary and work split. Only then start
+substantive project research.” Include the same entry instruction with the actual
+stage/scope for other jobs; it is not a request to read the whole skill pack or
+announce work already finished. For underway work, say resume.
+
+Do not ask whether to start Conductor again after the person has accepted the
+ordinary offer. If they exclude the saved action, pass that exclusion and the
+unresolved outcome into Conductor's Understand/Shape entry; do not substitute
+related backlog work. The entry should inspect the restored active work and
+recommend direction from local context before asking the person for facts already
+recorded. A recommendation from saved priority can still need its own scoped
+approval; that question is about the operation, not whether Conductor is open.
+A plain “not now” or factual reply is not a workflow request. A fact or actual
+human-check result is usable evidence within existing authority to record it:
+show what it changes, but do not treat it as acceptance of the Conductor offer or
+authority for new work unless the person also requests that. When native invocation
+is unavailable, read its work-entry section and relevant guide explicitly and
+disclose the fallback. Missing Conductor is a stated limitation, not a silent
+replacement workflow. Availability for a human-owned check is not an agent-work
+approval or its result. If the shown scope includes recording the person's result,
+that follow-through can proceed when the actual report arrives; a new
+correction/build still needs its own authority.
 A deferral starts nothing. A new explicit work request can
 itself supply authority. If the person chooses ordinary work without Conductor,
 do not invoke it or impose its startup assessment; carry actual task authority
@@ -264,9 +271,10 @@ continuation, never through this ordinary-arrival approval step.
 
 After restoration, orient before detail. Four short blocks, worded for the project:
 
-- **Now:** work within the selected continuation and its necessary completion
-  steps, not a copy of the project's wider `## Now`. Switch restores that
-  selection before composing; the rest stays behind the documents link.
+- **Now:** a compact view of the selected continuation and its necessary
+  completion steps, not a copy of the project's wider `## Now`. Switch still
+  restores the complete active work picture before composing; the rest stays
+  discoverable behind the documents link.
 - **Last session:** the main achievement or change.
 - **This session:** the next agreed work and why. If none is agreed, say so; a
   suggestion stays a suggestion. Describe this action's scope, not the next
@@ -383,11 +391,12 @@ owners nor chooses priorities. Completed observations belong in LAST SESSION or
 status, not NOW. A displayed recommendation is not permission to execute it.
 
 The single immediate question comes first after END, as a bold speech-bubble
-blockquote: `> 💬 **Can you run these checks on Master now?**`.
-Recommend one action; no “or later?”, alternative task, reply menu or duplicate
-question. A factual clarification asks for the fact, not approval; a yes to
-doing a check is not its result. With no answer needed, stop at END. The renderer
-places the question; do not append it yourself.
+blockquote: `> 💬 **Start a Conductor session?**`. Ordinary In always supplies
+this question, including when no task is selected or a factual/human question is
+open. Do not add an alternative task, reply menu or duplicate question. Those
+open items remain context; a plain yes opens direction-setting and is not their
+answer or authority to execute work. The renderer places the question; do not
+append it yourself.
 
 The end line ends restoration, not the session, and starts no work. Partial or
 unknown restoration gets an incomplete or unconfirmed ending instead. Keep
@@ -400,8 +409,8 @@ choices, not new state, memory reads or permission to continue work.
 
 `$summary` is the shape below, filled from what pickup already read. **Copy it
 from here; do not open the script to work out the keys.** The example is one
-coherent sitting — a task is selected, so the session names it; a decision is
-genuinely open, so `question` is filled. Use `null` or `[]` for anything the work
+coherent sitting: alert design is a possible direction, not approved work, and
+the generic ordinary-In offer is filled. Use `null` or `[]` for anything the work
 has nothing for.
 
 ```json
@@ -410,20 +419,19 @@ has nothing for.
   "phase": "Design needed — freshness alert",
   "task": null,
   "task_reason": null,
-  "state": "Awaiting your approval",
+  "state": "Direction-setting available",
   "state_reason": null,
   "team": [
     {"provider": "claude", "id": "11111111-1111-4111-8111-111111111111", "role": "current session", "self": true, "status": "identity verified"},
     {"provider": "codex", "id": "22222222-2222-4222-8222-222222222222", "role": "Implementation partner", "status": "submitted-unconfirmed"}
   ],
   "now": [
-    "**Claude:** Design the freshness alert after approval; no implementation or deployment.",
-    "**Anthony:** Review the design when it is ready."
+    "**Claude:** Consider the freshness-alert design in Conductor; no implementation or deployment."
   ],
   "last_session": "Diagnosed the pipeline outage. No alert has been built.",
-  "this_session": "Proposed: design the alert. Implementation and deployment are not included in this approval.",
+  "this_session": "The alert design is a possible starting point; a plain yes opens direction-setting, not design work.",
   "question": {
-    "text": "Start Conductor on the alert design?",
+    "text": "Start a Conductor session?",
     "proposed": null
   },
   "documents": [
@@ -454,8 +462,9 @@ and `state_reason` carry the sentence after an explicit "none". `restored` is
 `"yes"`, `"partial"`, `"no"`, or omitted when no pickup claim is being made;
 `restore_note` says what is missing when it is not `"yes"`.
 
-`question.text` supplies the one question. New callers leave `proposed` null:
-put scope in NOW or THIS SESSION. For older callers, a nonempty `proposed` still
+`question.text` supplies the one ordinary-In question: **“Start a Conductor
+session?”**. New callers leave `proposed` null: put scope in NOW or THIS SESSION.
+For older callers, a nonempty `proposed` still
 renders below NOW as scope/recommendation, preserving paragraphs and complete
 limits rather than silently losing them when YOU disappears. Legacy `reply`
 is tolerated but not displayed; it must not carry necessary facts.
@@ -694,15 +703,17 @@ order, each leaving a reachable link behind:
    nothing.
 3. **Name the reading set in the start point** as exact files and complete
    sections, in the pointer's current-state section, with why each matters.
-   The default set is the pointer, the active list's `## Now`, and the newest
-   session log; add a source section when the selected action or urgent-risk
-   coverage needs it. Before measuring or claiming memory ready, compare the
-   unresolved urgent/imminent flags in the active records used for this closeout
-   (including their Backlog sections) with the actual selected text. Carry any
-   missing risk into that text or select its source section. Do not search the
-   whole archive or recheck live systems to perform this coverage check. An
-   unresolved gap stays disclosed, not a complete handoff claim. Size targets
-   never justify dropping an urgent risk; re-measure after changing the set.
+   The default set is the pointer, its designated complete active list (including
+   child sections), explicitly current linked work records, and the newest session
+   log; add source sections for governing current decisions, standing constraints
+   or known risks when they are not already covered. Before measuring or claiming
+   memory ready, compare those active records used for this closeout with the
+   actual selected text, including unresolved urgent/imminent flags in their
+   Backlog sections. Carry any missing risk, constraint or decision into that
+   text or select its source section. Do not search the whole archive or recheck
+   live systems to perform this coverage check. An unresolved gap stays disclosed,
+   not a complete handoff claim. Size targets never justify dropping material
+   active-work context or an urgent risk; re-measure after changing the set.
 4. **Measure it and record the reading.** Run the helper's `measure` on that
    set and write the result beside the reading set:
 

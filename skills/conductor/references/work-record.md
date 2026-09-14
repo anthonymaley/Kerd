@@ -45,6 +45,14 @@ Pending question: <exact user-visible wording, or none>
 Decision context: <which part of the outcome it affects and what the answer enables>
 Next action: <specific next action and who owns it>
 
+## Score and delivery (when used)
+Score: <relative link to the current score, or none>
+Current passage: <stable score-step identifier/link, or none>
+Assignment: <composer/player/controller; actual route, owner and disposition>
+Evidence: <what was returned, checked, failed or remains unproved>
+Repair/attempt state: <affected passage, unresolved repair and cumulative relevant
+attempts, or none>
+
 ## Results and evidence
 <When available: what was actually checked and what remains unproved.>
 ```
@@ -64,6 +72,19 @@ Record relevant delivery facts (local, committed, pushed, merged, deployed) and
 remaining gaps separately from the agreed completion state. Retire completed
 backlog entries within scope, preserving still-open clauses and evidence links.
 A native task list is a display, not the only home of a pending decision.
+
+Use the optional score-and-delivery lines only when a score helps this work; they
+are not a second tracker or required schema. Keep the score link and its current
+passage resolvable, but do not duplicate the complete score step as a new prompt
+artifact. Record actual composer scope/score calls and player assignments, with
+requested and observed model/effort facts kept distinct. Keep transport-only
+supplements or private requests identified by location and access boundary rather
+than copied into the record. A submitted request is not running, a returned
+result is not checked, and a failed check is not repaired merely because a new
+request was sent. For a score defect, record the affected passage, discrepancy,
+evidence and repair disposition; retain the cumulative relevant attempt state
+without treating a renamed request as a reset. Preserve the actual agreement,
+pending question and delivery facts while repair is unresolved.
 
 Keep links relative within the work package. Don't copy credentials, private
 session routing data or an entire conversation into the record. A reference

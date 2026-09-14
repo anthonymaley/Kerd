@@ -2,12 +2,157 @@
 
 ## Now
 
-Stage: 0.124.0 release candidate; implemented, independently reviewed and checked.
-Owner: Codex implements; established Claude partner reviews read-only.
-Next action: commit/push as the sole release owner under Anthony's latest authority,
-then verify remote and CI. Installed ordinary-use testing follows release.
-Source candidate is 0.124.0. No install or consumer change is requested. Earlier
-no-release statements below describe the completed first part of this work.
+Stage: 0.125.0 release candidate after composer/spec/player restoration.
+Owner: Codex controls; Astra/high composed the score; disjoint Terra/medium and
+Sol/medium players implemented; established Claude partner reviews read-only.
+Next action: run the final release checklist, publish once, inspect CI, then
+ordinary installed observation. Anthony authorized implementation, cross-review
+and release together; no automatic install or consumer work is included.
+0.124.0 was released at 0cd6535 with CI run 34848499568 passing, and its Codex
+snapshot was installed/enabled afterward. Resuming the existing Codex conversation
+made all four 0.124.0 skills available in its host-provided skill catalog.
+Earlier candidate/no-install statements below describe their historical stage.
+
+## Interactive orientation follow-up — 2026-09-14
+
+Anthony agreed that ordinary Switch In always offers a Conductor session; the
+saved task is a jumping-off point, not the entry permission. It must restore a
+wider working picture than its compact NOW display. Exact task continuation stays
+critical for managed rolling Conductor, which is non-interactive. Agreement,
+scope and evidence are in [interactive-orientation-brief.md](interactive-orientation-brief.md).
+
+Three supplied arrivals end with a design vote, format decision and human check
+report request. None proves its installed version. The current rule explicitly
+preserves those task questions instead of the workflow offer. Seinn's dated
+account reports asking what Conductor should work on, then reading TODO after
+Anthony requested it. Current Now has other active work; prior read omission
+versus failure to use loaded context is not established.
+
+Anthony also rejected accepting the current model/effort by default. The initial
+controller proposed inheritance without an adequate selection reason. It then
+explicitly assigned gpt-5.6-terra/medium for the bounded implementation and checks,
+using shared OpenAI guidance 2026-09 and the GPT-5.6 profile 2026-09-05. The user
+reports changing the controller from Astra/xhigh to Sol/medium. These are requested
+worker and reported controller settings, not independent runtime measurements.
+Claude remains the existing partner, last observed claude-opus-5, effort retained
+and unverified. No controller or partner setting was changed by a tool here.
+
+The native worker owns only skill guidance, living README usage and necessary
+tests; the controller owns fixtures, review and these records. No consumer edits,
+shared pointer/log writes, bindings, installs, commits or pushes are in this scope.
+
+### Follow-up checks and peer review
+
+Claude's first review (`d2e270fe`) found four source gaps: generic-yes mapping,
+factual-result handling, stale trigger descriptions and an unbounded definition
+of the active list. Root also found the old handover anchor, journey text and an
+example that still implied design approval. All were corrected. Final integration
+removed an artificial Anthony task and preserved the explicit urgent/imminent
+Backlog-risk coverage check added after Weefish.
+
+An independent Sol/medium source-guided fixture restored TODO and constraints
+beyond narrow read_args and produced the generic offer. Its initial response to
+yes still treated the saved human check as a project-wide hold. The corrected
+Conductor rule explicitly assesses independent eligible work by dependency,
+priority and authority. A fresh no-history Sol/medium recheck then opened
+Understand, kept the resize verdict unknown, recommended independent retry-flow
+design and asked approval before drafting. This held once in a synthetic fixture;
+it is not installed-host acceptance or a model/effort cost comparison.
+
+Claude's correction review (`029453e1`) was retrieved through Agent, not relayed
+by Anthony. It confirmed all four findings and integration repairs, with no
+consequential defect remaining: ready locally, not a release verdict. This review
+stayed within Kerd source, with no consumer or transcript access. Claude ran the
+renderer suite, release gate and whitespace check. Model behaviour remained
+unobserved by that reviewer.
+
+Root reran the full Switch suite after the final changes: 379 passed; Conductor
+37 passed; packaging 9 passed. Both skill validators and diff whitespace passed. Release gate is
+clean at unchanged 0.124.0; audit retains only the pre-existing requirements-trace
+finding. No CI result exists for this uncommitted diff. The preserved root patch
+still hashes to a42a4154a1db4279259de5c7b351f774a9f3c9713ea49e22e1e714a53f4a40b8.
+
+Exact requested worker settings and actual task messages are saved in
+[implementation dispatch](interactive-orientation-dispatch.md) and
+[forward fixture](interactive-orientation-fixture.md); the detailed
+[implementation brief](interactive-orientation-brief.md),
+[first review brief](interactive-orientation-review.md) and
+[correction review brief](interactive-orientation-recheck.md) are shareable.
+These exclude provider-generated system framing and private routing metadata.
+Anthony clarified that Claude's earlier caveat concerned not checking CI, not
+absence of source review; there is no outstanding dispute about that review.
+
+## Composer/spec/player restoration — 2026-09-14
+
+Anthony authorized restoring the Conductor behavior that worked under v0.105.0
+and required an end comparison. Claude supplied source and reported-transcript
+evidence for the regression; Codex reviewed the proposal and accepted it with
+eight safeguards, including no delegation quota, task-based capability sizing,
+immediate score hand-back for known defects and three Player failures as a ceiling
+rather than proof of cause.
+
+A fresh GPT-6 Astra/high composer call used two passes. Pass 1 returned eleven
+specific named sources. Pass 2 wrote
+[the execution score](composer-restoration-spec.md) beside this record and left
+implementation/release authority with the controller. No Astra-specific local
+profile exists; OpenAI shared outcome-contract guidance was used and that limit
+was disclosed. Effective runtime settings were not independently observed.
+
+Three disjoint players executed score steps 1–3 concurrently:
+
+- Terra/medium restored four-role ownership, bounded two-pass composition,
+  complete score bodies before tags, task-based sizing and frontmatter/entry.
+- Sol/medium restored reusable score-step briefs, semantic re-dispatch versus
+  immediate Composer repair, a finite attempt ceiling and managed `blocked`
+  repair after verified shutdown, without adding a runtime action or schema.
+- Terra/medium made Composer/Player transitions and score passages visible in
+  the journey/work record and updated living README usage without changing
+  published release history.
+
+The controller read the integrated diffs and traced normal entry, score reuse,
+sound Player failure, known score defect, third failure and managed repair. No
+optional-composer contradiction, broken score anchor, expanded managed action or
+lost interactive-orientation rule remained. Exact composer and player prompts,
+requested controls and evidence boundaries are in
+[composer dispatch](composer-restoration-dispatch.md) and
+[player dispatch](composer-restoration-players.md).
+
+[The comparison](composer-restoration-comparison.md) uses the same six raw
+scenarios against historical v0.105.0 and current source with fresh Sol/medium
+interpreters, plus one actual cold Terra/medium Player execution. Current source
+restores the historical strengths and deliberately improves the old false
+three-failures inference, managed score-defect handling, established-partner
+routing and direction-setting around a blocked human result. The cold Player
+changed only its owned file, passed both tests and preserved the public neighbor
+and sentinel. This is source/synthetic evidence, not installed acceptance or an
+efficiency claim. Two future real-build slots remain open in the comparison.
+
+Integrated local checks before final peer review: Conductor 37, Switch 379,
+Agent 168 and packaging 9 passed; Agent retained its existing SQLite
+ResourceWarnings. Both skill validators, release gate and whitespace check pass.
+Audit is clean with the pre-existing 46-requirement trace finding. No current-diff
+CI, commit, push or install has occurred at this point.
+
+Claude's integrated review found one score defect: the historical universal
+controller diff gate had been weakened into optional composer foresight. The
+score returned to the Astra/high Composer first; it repaired the passage. The
+Sol/medium execution owner then required path-and-hunk inspection for every
+returned Player edit and complete diff reads for bulk, rename and pattern edits,
+including Conductor's inline work, with how-caught disclosure. Two briefing-cost/
+brief-reuse inconsistencies returned to their original owners. The controller
+corrected the comparison's causal wording and missing rows. Claude's focused
+recheck confirmed all five findings, then named two small execution consistency
+edits; the same Sol/medium owner applied them. Claude stated no further review
+round was needed. The candidate is now locally review-clean; ordinary installed
+behavior and the two future builds remain unobserved.
+
+Final versioned 0.125.0 candidate checks after every correction: Conductor 37,
+Switch 379, Agent 168, packaging 9, hooks 21, gate selftest 57/root resolution 7,
+release gate, both skill validators and whitespace all pass. Audit remains clean
+with the pre-existing 46-requirement trace finding. Agent still emits its existing
+SQLite ResourceWarnings; shellcheck is unavailable and the optional hook check
+was skipped. The capability descriptions are byte-identical and all three version
+fields read 0.125.0. These are pre-commit checks, not CI or publication evidence.
 
 ## Agreement and evidence
 
