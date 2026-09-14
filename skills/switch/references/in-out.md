@@ -544,6 +544,20 @@ the selection missing merely because it was written as a sentence. New user
 direction can supersede it. Changed evidence can make it stale; Conductor
 explains that and proposes a replacement, never calls that replacement agreed.
 
+Alongside that selection, keep each known, unresolved risk the active records
+flag as urgent or imminent **inside the pickup reading set**, even when it does
+not affect the selected action. A concise line in the pointer's current section
+can carry the risk, its recorded observation date and source, clearly labelled
+saved or freshly checked; otherwise include the relevant source section in
+`read_args`. Unknown dates stay unknown. A link to an unread section is not
+coverage. Reconcile an existing risk line rather than adding a second stale copy.
+If the risk is only a bullet inside a large Backlog, prefer the concise carried
+line rather than loading that whole section; the existing heading-boundary rule
+also allows a narrow source selection. When the source section is selected,
+the pointer can identify the risk and source without repeating its figures.
+This carries recorded urgency, not a fresh operational verdict or authority to
+investigate; routine owed work does not become urgent to justify inclusion.
+
 Historical decisions needed by a future feature remain discoverable by subject;
 the active memory must include constraints that affect the next work. Be explicit
 about unreconciled historical sections rather than calling the migration lossless.
@@ -576,7 +590,14 @@ order, each leaving a reachable link behind:
 3. **Name the reading set in the start point** as exact files and complete
    sections, in the pointer's current-state section, with why each matters.
    The default set is the pointer, the active list's `## Now`, and the newest
-   session log; add a work record section only when the next action needs it.
+   session log; add a source section when the selected action or urgent-risk
+   coverage needs it. Before measuring or claiming memory ready, compare the
+   unresolved urgent/imminent flags in the active records used for this closeout
+   (including their Backlog sections) with the actual selected text. Carry any
+   missing risk into that text or select its source section. Do not search the
+   whole archive or recheck live systems to perform this coverage check. An
+   unresolved gap stays disclosed, not a complete handoff claim. Size targets
+   never justify dropping an urgent risk; re-measure after changing the set.
 4. **Measure it and record the reading.** Run the helper's `measure` on that
    set and write the result beside the reading set:
 

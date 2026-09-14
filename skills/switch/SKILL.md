@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor on the selected continuation, restores Agent pairing and role continuity, notifies established partners without requesting work or a reply, and returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership and contributor coverage, then saves the selected next action and approval boundary, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor on the selected continuation, restores Agent pairing and role continuity, notifies established partners without requesting work or a reply, and returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership, contributor coverage and recorded urgent risks in the pickup set, then saves the selected next action and approval boundary, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
 ---
 
 # Switch
@@ -19,8 +19,8 @@ and repository boundaries still apply.
   Markdown as the final message unchanged, then wait; do not rewrite its prose. Read
   [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work, leave a
-  lean, measured start point with the selected continuation and its approval
-  boundary — rulings kept, cases and closed rows moved to
+  lean, measured start point with the selected continuation, its approval
+  boundary and recorded urgent risks — rulings kept, cases and closed rows moved to
   reachable records, the reading set named — and end on the saved-place box
   that says how far the save reached. Read
   [pickup and closeout](references/in-out.md).

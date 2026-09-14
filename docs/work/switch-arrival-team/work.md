@@ -4,24 +4,93 @@
 
 Outcome: Switch In makes the established team recognizable and tells those
 partners when the current native identity arrives, without starting work.
-Stage: Complete — selected continuation across Out/In implemented, reviewed and included in release 0.122.0.
-Source boundary: main, “Release Kerd 0.122.0: preserve the selected session scope”.
-This account is saved with the release; remote publication and CI are checked
-after saving, not pre-asserted inside this commit.
+Stage: Included in 0.122.1 — Out urgent-risk coverage reviewed; ordinary Out/In observation next.
+Source boundary: this release includes the urgent-risk correction on 0.122.0.
+Remote publication and CI are verified after the named-file save, not asserted
+by this record. Source publication is not installed-plugin delivery.
 Owner: Codex implemented Agent/Switch/Conductor and tests. The established Claude
 partner reviewed read-only and published both 0.120.0 (Anthony's “lets release”,
 2026-09-13 16:51) and 0.121.0 (his second “lets release”, 17:57), each after
 Codex confirmed its edits finished and that it would not release in parallel.
 Claude's separate shared verification record stays under its ownership.
-Next action: with 0.122.0 loaded, observe an ordinary Out/In's selected scope;
-legacy handoffs remain supported. No consumer
+Next action: observe urgent-risk coverage at the next ordinary Out/In on the
+loaded 0.122.1 fix, retaining the selected continuation and dated risk evidence.
+No consumer
 work is authorized by this release. Leru 0.121.1 held unchanged
 renderer-to-final delivery once, per Claude's native comparison; that result is
 not reopened. A real delegation still provides the ordinary-use observation of
 Conductor's grid. Client styling remains client-dependent. Publication does not update an
 installed plugin cache; no install, Codex update or consumer-project work is
 authorized. Earlier release accounts remain history.
-Pending question: none.
+Pending question: none for publication; Anthony answered “yes” to the explicit
+release question after local review. No install is included.
+
+## Out urgent-risk coverage (2026-09-13)
+
+The first reported Weefish 0.122.0 Out/In preserved the selected credential
+rotation scope but omitted an urgent capacity observation from the pickup set.
+Claude reported the native In's warnings omitted it. Codex independently checked
+the saved sources at Weefish 22276a5: TODO Backlog 45–48 holds dated 2026-09-12
+capacity (drive4 99%, drive2 96%) explicitly flagged urgent; the pointer selects
+CONTEXT, the log and TODO Now. Its capacity figures are older, and playbook
+Current Status's standing-risk entry is not selected. A successful scope restore
+is not complete urgent-risk coverage. No native transcript or live drives were
+rechecked by Codex. The Weefish session's subsequent drive reading, relayed by
+Anthony and reported by the Claude review partner, remains reported evidence,
+not a new reading by either review participant or a proven trend.
+
+Anthony's “go” authorized the local fix and review. After that review, his “yes”
+to the explicit release question authorized publication as 0.122.1 by Codex,
+with Claude reviewing rather than releasing in parallel.
+Out now carries known unresolved urgent/imminent observations
+inside the actual selected text or includes their source section, with dates,
+source and saved/fresh distinction. It compares active-record risk coverage
+before measurement and readiness, without promoting routine backlog, scanning
+the whole archive or re-auditing live state. In, rendering, transport, bindings
+and the queued-human-message exception are unchanged. No new required fields,
+parser or duplicate living risk register.
+
+[Review brief](urgent-risk-review.md): established Claude partner, unchanged
+native model/effort; local Opus 5 2026-09 scope guidance reused, effort unverified.
+Full request retained privately by Agent. Claude returned no consequential
+defects. Its two low suggestions were incorporated: prefer a carried line for
+a risk buried as a Backlog bullet, and avoid duplicate figures when selecting
+the risk's source section. The [follow-up review](urgent-risk-review-followup.md)
+cleared those clauses and the README/Out bullet. Both replies were retrieved;
+observed model claude-opus-5, applied effort unverified, no missing contribution.
+
+Codex independently assembled the selected scratch content with the same
+selected_source/measure functions the helper uses. The dated 99% / 97 GB risk
+survived both representations: selected Capacity section (final 1,433 bytes,
+359 estimated tokens) and a carried line without that section (1,030 bytes,
+258 estimated tokens). Section boundaries exclude the theme and resolved
+certificate entries. Routine idle-check work remains in the dated session
+account, but is not promoted to urgent coverage; Claude corrected its earlier
+claim that it was wholly excluded. Its first fixture pointer held a pre-fill
+measurement; it was corrected and independently remeasured after the final edit.
+These are bounded composition/selection checks, not a real Out or a guarantee
+of future model compliance. The helper itself has no semantic risk detector.
+
+Local implementation checks: handoff 57 and renderer 136 passed; skill validation,
+diff check and release/audit gates passed (pre-existing trace finding retained).
+Those checks preceded the version bump and did not publish anything. Release
+preparation syncs the three version fields to 0.122.1, updates the trigger
+description and adds the README note. Full suites passed: Switch 345, Agent 168,
+Conductor 37, packaging 9, hooks 21. Agent's existing ResourceWarnings were
+suppressed; shellcheck was unavailable and skipped by the hook harness.
+All entry-gate commands passed; audit retains its pre-existing trace finding,
+and fidelity skipped because HEAD was not a session-log boundary commit.
+Skill validation and diff check also passed.
+
+The [final release review](urgent-risk-release-review.md), retrieved through
+Agent, cleared versions, notes, trigger and scope subject to those checks and
+post-push CI. Its attribution correction is applied above: the Weefish session,
+not the review partner, read the drives. Claude made no edits or competing
+publication. Review used the same observed claude-opus-5 session; effort remains
+unverified. Codex owns the named-file save, remote check and CI retrieval.
+No consumer records or shared
+handoff files edited. Root patch preserved. Queued-user-message behavior remains
+outside this change.
 
 ## Selected continuation across Out and In (2026-09-13)
 

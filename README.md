@@ -40,7 +40,21 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.122.0)
+## What's New (v0.122.1)
+
+### v0.122.1
+
+**Urgent risks survive a lean handoff.** Out checks that known unresolved risks
+the active records flag as urgent or imminent are inside the actual pickup
+reading set before measurement and memory readiness. It carries a concise,
+dated risk line or selects the source section; a link to unread material is
+not coverage. Saved observations stay distinct from fresh checks, and ordinary
+owed work does not become urgent.
+
+This corrects the missing capacity warning in Weefish's first 0.122.0 Out/In
+loop. Both reading-set representations were checked locally and Claude reviewed
+the correction. A real Out/In remains the ordinary-use test; no renderer,
+transport or installed plugin was changed by this source release.
 
 ### v0.122.0
 
@@ -752,8 +766,13 @@ names who does what next, its agreed/proposed status, necessary completion steps
 where the scope stops and any pending question. It reconciles an existing current
 account in place, using ordinary prose or headings rather than new required
 fields; the broader TODO remains open. The selected continuation is included in
-the reading set and the closing box's existing next-action text. Before editing
-the handoff, it checks ownership of any existing pairing
+the reading set and the closing box's existing next-action text. Before measuring
+or claiming memory ready, Out checks that known unresolved urgent/imminent risks are
+inside the measured reading set, even when unrelated to the selected action.
+It retains a dated, source-linked risk line in current context or selects the
+source section; a link outside the reading set is not coverage. Routine owed
+work stays behind Open work, and saved risk observations are not fresh checks.
+Before editing the handoff, it checks ownership of any existing pairing
 role, reusing an explicit replacement choice already given rather than asking
 again. Out alone does not authorize taking a role. After the final save it reports
 whether successor designation succeeded, was unavailable or was not applicable.
