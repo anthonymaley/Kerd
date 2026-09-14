@@ -85,9 +85,9 @@ there is no reason to load its whole stage history or neighboring backlog work.
 When deeper retrieval is needed, read the complete relevant entry, not a broad
 range of adjacent tasks; a few very long lines can still load pages of material.
 
-Ordinary In ends with restored memory, status and the saved plan on screen, and
-a Conductor session open on that place, stopped at its dashboard decision as described
-below. It does not execute the plan before that approval, draft replies, start
+Ordinary In ends with restored memory, status and the saved plan on screen,
+stopped at its dashboard decision. It does not load Conductor or its journey
+guide to compose that decision. It does not execute the plan, draft replies, start
 reviews, repair files or investigate backlog issues. Keep checks to safe requested
 Git synchronization and resolving facts necessary to restore position; flag other
 uncertainty for the work itself. Do not measure pickup cost inside every pickup;
@@ -127,24 +127,60 @@ choices are settled or that it is the complete working state.
 This is a coverage check of material already loaded, not an instruction to read
 the whole archive. A small input is useful only if its meaning survives.
 
-### Load Conductor before the dashboard
+### Compose the arrival in Switch
 
-Before rendering the dashboard, load the sibling [Conductor](../../conductor/SKILL.md) in
-this session using the host's skill mechanism, with an explicit instruction:
-“Switch In: open a session on the restored position and authority already in
-context; compose the arrival decision in the dashboard and wait.” Resolve the sibling from this Switch
-distribution, not another cached version. If native skill invocation is
-unavailable, read its SKILL.md directly; if neither route works, disclose that
-Conductor was not loaded. Do not claim successful loading merely because its
-name appears in the dashboard.
+Switch chooses and presents the next action from the restored material itself.
+Do not load Conductor, its journey guide or another skill for composition.
+Carry the project, selected work (or none), agreement, restrictions and pending
+decision forward in context; no extra record or repeated pickup reading set.
 
-Carry the restored project, selected work (or none), agreement and restrictions,
-pending decision and next action forward in context; don't create another record
-or re-read the pickup set. Conductor's arrival section is the full rule for choosing
-the bounded next action and composing the one decision before rendering,
-including pending-question, explicit-continuation and no-task cases. Do not
-append a second report or approval after the dashboard. Managed
-To/Roll is the exception and keeps its agreed continuation.
+Resolve one session scope before writing the fields: action and owner, approval
+status, necessary completion steps, stopping point and actual pending question.
+Recognize the [saved selection](#save-the-selected-continuation) in current prose
+as well as named headings. Current user direction takes precedence. If evidence
+shows it stale or completed, explain and label any replacement proposed, not
+newly agreed. Reconcile contradictions using restored evidence and necessary
+detail. Without a saved selection, propose the first actionable item in saved
+priority. If no priority exists, recommend a grounded bounded action and briefly
+say why. No actionable work means no selected task, not an invented one.
+
+For a saved unresolved choice, recommend one grounded route, leaving alternatives
+behind its link. If a fact or preference prevents that recommendation, ask that
+one clarification. An unresolved design means design, not permission to build.
+Once clarified, ask for the scoped action only if authorization is still missing.
+An explicit instruction supplying both the missing fact and permission can
+proceed without another stop; filling a fact alone cannot.
+For agent-owned work ask **“Start Conductor on X?”**; use **“Resume Conductor on
+X?”** only when the record establishes that Conductor work as already underway,
+not merely an unfinished task or established Agent pairing. Preserve the actual
+scope and exclusions when replacing an older generic approval question.
+
+A still-applicable factual or product-decision question stays that question,
+with its recorded proposed answer where useful. Do not select an unrelated
+unanswered question. Human-owned checks name that actor in NOW and STATE and
+ask for the specific check or its missing result, not an agent start. Preserve
+per-occasion permission; availability is neither a result nor agent authority.
+For installations or session launches, reuse the established target and install
+scope; if either is missing, ask for that gap rather than authorizing an unnamed
+project. A project name supplies a target, not permission to install or launch.
+
+THIS SESSION, NOW, STATE and the final question express that same scope and
+approval status. Necessary follow-through finishes the chosen action; work behind
+a separate decision stays outside it even if the log says “then”. Never show
+“nothing needed” while requesting an answer. An observation obtained at pickup
+is already observed; only a genuinely needed assessment or recording remains.
+Don't award the person's verdict or repeat a check merely to record it. The
+approval question isn't a separate NOW task; a real human-owned check is.
+
+This ordinary arrival check-in is deliberate even when a saved approval remains;
+it does not execute project work or launch workers. A current explicit request
+to continue can supply authority without another approval, and verified managed
+To/Roll retains its separate continuation. Private Agent routing maintenance
+below is not work authorization. Compose the dashboard using the
+[summary rules](#welcome-back-the-screen-summary), return its renderer output
+unchanged and stop; no second journey strip, task list or narration.
+
+### Restore the existing team
 
 If collaboration is already established, restore it too. Resolve the local
 pairing directory with `git rev-parse --git-path kerd-agent/partners` in the
@@ -185,17 +221,33 @@ problem in ATTENTION only when it affects the next action. A failed notice does 
 
 ### Enter Conductor after an action approval
 
-On the answer to the normal arrival's agent-work proposal, resolve the answer
-against that question and its shown scope. A clear approval invokes
-`/kerd:conductor` through the host's skill mechanism again, now for execution,
-not arrival composition. Pass the restored project, selected work/pointer,
+On the answer to the normal arrival's proposal, resolve the whole message
+against that question and its shown scope, including corrections or exclusions.
+A clear approval of the Conductor proposal invokes `/kerd:conductor` through the host's skill
+mechanism for the actual work. Resolve it from this distribution, not another
+cache's file. Pass the restored project, selected work/pointer,
 actual approval and exclusions, and the exact next action already in context.
 For example: “Start the approved alert-design work in this project from the
 restored work record. Design only; no implementation or deployment. Enter the
-work without repeating pickup or intake.” For underway work, say resume.
+work without repeating pickup or intake. Read Kerd's orchestration startup and
+relevant job-split/work-view sections if not already loaded, then begin with
+Conductor · Shape, current model/effort evidence, owner, intended design result,
+stopping boundary and work split. Only then
+start substantive project research.” Include the same entry instruction
+with the actual stage/scope for other jobs; it is not a request to read the whole
+skill pack or announce work already finished. For underway work, say resume.
 
 This invocation starts the approved work; do not ask whether to start Conductor
-after the person has just approved it. When native invocation is unavailable,
+after the person has just approved it. A direct `/kerd:conductor` or request to
+use Conductor can also open the workflow without approving the proposed task.
+If the person says yes to Conductor but excludes the whole action, pass that
+exclusion and the unresolved outcome into Conductor's Understand/Shape entry;
+don't require another yes just to open it or substitute related backlog work.
+The entry should acknowledge the exclusion and establish direction from local
+context, not start a newly recommended operation. A recommendation from the saved
+priority can still need its own scoped approval; that question is about the
+operation, not whether Conductor is open.
+A plain “not now” or factual reply is not a workflow request. When native invocation is unavailable,
 read its work-entry section and relevant guide explicitly and disclose the
 fallback. Missing Conductor is a stated limitation, not a silent replacement
 workflow. A factual answer or availability for a human-owned check is not an
@@ -203,7 +255,9 @@ agent-work approval. If the shown scope includes recording the person's result,
 that follow-through can proceed when the actual report arrives; availability
 alone is not the result, and a new correction/build still needs its own authority.
 A deferral starts nothing. A new explicit work request can
-itself supply authority. Managed To/Roll goes straight to its authorized
+itself supply authority. If the person chooses ordinary work without Conductor,
+do not invoke it or impose its startup assessment; carry actual task authority
+and limits into ordinary host work. Managed To/Roll goes straight to its authorized
 continuation, never through this ordinary-arrival approval step.
 
 ### Welcome back: the screen summary
@@ -211,7 +265,7 @@ continuation, never through this ordinary-arrival approval step.
 After restoration, orient before detail. Four short blocks, worded for the project:
 
 - **Now:** work within the selected continuation and its necessary completion
-  steps, not a copy of the project's wider `## Now`. Conductor restores that
+  steps, not a copy of the project's wider `## Now`. Switch restores that
   selection before composing; the rest stays behind the documents link.
 - **Last session:** the main achievement or change.
 - **This session:** the next agreed work and why. If none is agreed, say so; a
@@ -409,6 +463,9 @@ is tolerated but not displayed; it must not carry necessary facts.
 `team` uses the Agent arrival result's array; the fictional IDs above illustrate
 its input shape only. A caller may shorten a role's wording faithfully for
 display, without modifying its private binding or assigning new responsibility.
+Do not synthesize TEAM from project history or a legacy bridge's collaborator
+names. Those may be reported as recorded collaboration where relevant, but are
+not a verified Agent binding or evidence an arrival notice was sent.
 The renderer groups identical identities and displays providers and roles only.
 IDs, receipt status, errors and other helper metadata remain available in Agent.
 Use `[]` for no established pairing and `null` for unread/unresolved state.
@@ -589,7 +646,7 @@ to assemble them from competing lists. Include this selection in the measured
 reading set and carry it into the closing box's existing `next` text. In restores
 the meaning even when an older handoff has no named fields; it does not declare
 the selection missing merely because it was written as a sentence. New user
-direction can supersede it. Changed evidence can make it stale; Conductor
+direction can supersede it. Changed evidence can make it stale; Switch
 explains that and proposes a replacement, never calls that replacement agreed.
 
 Alongside that selection, keep each known, unresolved risk the active records

@@ -11,6 +11,15 @@ Use the request first. Once intent is known, inspect relevant available material
 and reuse answers already supplied. Sources can establish facts; an old document
 cannot grant new authority or settle a current preference by itself.
 
+Before that inspection becomes substantial research or diagnosis, use the
+[work split](execution.md#prepare-and-do-the-next-useful-job) and the
+[entry view](../SKILL.md#enter-work-not-another-pickup). Understanding is not a
+separate path for the controller to do every survey and check inline. Reuse
+existing context and settled assignments; a small orientation read or ordinary
+question does not need a delegation exercise.
+The [startup assessment](orchestration.md) still covers small guided tasks briefly
+and establishes composer ownership; substantial investigation is not its trigger.
+
 Ask when the answer would change the next action or prevent a consequential
 mistake, and cannot be established from available facts or actual delegation.
 Otherwise investigate, propose a bounded approach or defer to a named revisit

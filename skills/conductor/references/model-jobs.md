@@ -32,6 +32,15 @@ asking the worker to think harder. Label it requested unless the route supplies
 evidence of the applied setting. Record observed model identity separately;
 neither identity nor a successful request proves that effort was applied.
 
+This preparation applies to every assignment, including a delegated composer:
+choose the recipient/route, consult applicable guidance, compose the actual
+prompt and check it against the agreement before sending. Reuse matching guidance
+already loaded for this model and task; don't reread it merely to announce a check.
+An unresolved alias gets only guidance known to apply to that alias/family, or
+the disclosed clear-contract fallback, never a guessed profile. If a returned
+model identity differs, reassess the fit and preserve both requested and observed
+facts; do not rewrite the history or automatically resend the job.
+
 Write a shareable prompt brief beside the work using ordinary Markdown or useful
 XML boundaries. Agent's full requests and transport framing stay in its existing
 private records; native subagent prompts stay in native history unless safe to
@@ -89,8 +98,9 @@ are local, not transferred with the project's ordinary Git files.
 When the host actually exposes a native subagent for the chosen model and the
 job is bounded to this session, dispatch it there: the same prepared brief, the model chosen from
 [model choice](guidance/model-choice.md), and the effort **requested**
-in the native setting when exposed, otherwise in the brief. Keep requested and
-observed effort distinct. A subagent's return is its result; nothing is
+in the native setting when exposed. If the control isn't exposed, say no override
+was set and leave effective effort unverified; prompt wording doesn't configure
+reasoning effort. Keep requested and observed effort distinct. A subagent's return is its result; nothing is
 retrieved from a transcript. Prefer a different suitable model for independent
 assessment, as for any route. Use the bundled runner below only when the job
 needs what this host's subagents lack: another provider, resumability by native ID, a CLI sandbox,

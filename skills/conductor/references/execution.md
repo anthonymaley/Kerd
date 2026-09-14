@@ -1,6 +1,7 @@
 # Carry agreed work through delivery
 
-Read when entering or resuming Deliver. The work record and actual artifacts
+Read when entering or resuming Deliver; the job-split section also applies before
+substantial design research or diagnosis. The work record and actual artifacts
 establish the outcome, success, authority and current activity. Reconcile stale
 status with evidence, preserving prior decisions. If a genuine authorization
 gap remains, ask once; don't repeatedly ask to start already authorized work.
@@ -23,6 +24,11 @@ If “go” follows “leave it and move on” with no next item selected, don't
 unapproved cleanup from an older list. Ask which outcome only when the ambiguity
 prevents meaningful authorized work; continue unaffected work when possible.
 
+A request to use Conductor with the proposed action excluded enters
+Understand/Shape, not execution of that action or a related substitute. Preserve
+the exclusion and resolve direction from the restored context; do not ask again
+to open Conductor. A plain deferral without a workflow request starts nothing.
+
 A repeated implementation instruction after completion is not a new build.
 Report the existing result briefly; repeat checks only for changed inputs, a
 requested verification or a real evidence gap. New restrictions govern future
@@ -34,15 +40,41 @@ safety issue. An explicit reversal request still needs its exact scope resolved.
 
 ## Prepare and do the next useful job
 
-At delivery start, or when resuming without a settled split, decide who does the
-implementation before doing it all inline. Reuse settled assignments. Look for
-bounded contributions a worker or an established partner with that role can finish
-and check, using relevant context already held where appropriate.
-Delegate useful independent work when the route and authority permit it; don't
-reserve delegation for the final review. Keep small or tightly coupled changes
-inline when briefing, coordination and integration would cost more than they help.
+Assess every task under Conductor using the [startup contract](orchestration.md),
+including small work, design research, diagnosis and implementation. A tiny task
+can resolve to a short inline decision; substantial work needs the actual job
+split before it is done. Reuse settled assignments. Conductor owns direction, consequential
+decisions, integration and assessment; useful independent research, implementation
+and checking belong with contributors when the route and authority permit it.
+Don't reserve delegation for the final review. Use relevant context already held
+by an established partner when that is the right contribution, not a fresh worker
+by default.
+
+When a useful bounded job has independent inputs, a checkable result and an
+authorized available route, assign it before doing that same work yourself.
+A grid or a statement that delegation was considered is not the contribution;
+retrieve and assess the result. Do not duplicate the worker's investigation
+while waiting or treat its unverified return as an accepted conclusion.
+
+Separate the jobs by the question/result each can finish: for example a caller
+survey, analysis of captured measurements, a disjoint implementation or an
+independent check of a proposed design. A tightly coupled edit or live-device
+operation may stay with the controller without also keeping every survey and
+check inline. Use the restored scope for this decision; if job boundaries are
+unknown, make a bounded local orientation pass and decide before expanding it
+into the whole investigation. Reassess when a new independent job emerges.
+
+For each useful candidate either assign it or give the concrete reason to retain
+it: shared-state sequencing, unavailable tools/permissions, genuinely tiny work,
+or briefing/coordination cost that outweighs the contribution. One blanket
+“better inline” for a coupled implementation does not cover unrelated research
+or verification. Do not invent access for a worker: the controller can collect
+an authorized live sample and delegate analysis of its safe captured result.
+Background shell scripts are not subagents. A missing route is a disclosed limit,
+not permission to install, substitute a model or copy secrets into a prompt.
 Consider context transfer, latency and token cost, not agent count. No worker quota
-or fresh-session launch merely to demonstrate delegation.
+or launch merely to demonstrate delegation, and no extra staffing approval for
+jobs already inside the task's authority.
 
 For a meaningful split, show each contribution's owner, edit boundary and expected
 result in the existing work view. Give parallel editors disjoint ownership;
@@ -65,6 +97,13 @@ the matching model profile in [local guidance](guidance/README.md).
 Check that it applies to the actual model and execution route. Guidance is
 advice, not proof of superior results. If no applicable profile is available,
 disclose that and use a clear outcome-first brief without invented tuning.
+
+Composer work drafts direction, design or job briefs for Conductor's assessment.
+Keep it here when small; assign a bounded composer contribution when it helps.
+The controller checks its output against the actual agreement before dispatch;
+a composer cannot grant permission or silently change the success bar. Use
+[orchestration startup](orchestration.md#assign-functions-to-actual-work) for that
+function's ownership; it is not a required extra model.
 
 Prepare the actual prompt: outcome, relevant facts and sources, deliverable,
 success and evidence, authority, boundaries, unresolved questions and stopping

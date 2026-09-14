@@ -40,7 +40,39 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.123.0)
+## What's New (v0.124.0)
+
+### v0.124.0
+
+**Switch restores; Conductor orchestrates when chosen.** Switch In now composes
+its own selected continuation and dashboard without loading Conductor. Approval
+of its Conductor proposal opens the actual stage, carrying scope and exclusions.
+“Use Conductor, but not that task” opens direction-setting, not another start
+confirmation or an unapproved substitute. Substantial build, design and workflow
+requests can offer Conductor for new or existing work; small standalone fixes
+stay direct, and established guided work doesn't repeat the offer.
+
+**Every guided task gets a staffing and model-fit decision.** At startup,
+Conductor shows the current model/effort evidence, owner, boundary and actual
+work split. Composer work drafts direction, designs or job briefs for the
+controller's assessment; it can stay inline or be a useful contribution, never
+delegated approval authority. Independent work is assigned before the controller
+does it itself; retained work gets a concrete reason. Tiny jobs still get a
+brief decision, not a compulsory worker. New jobs and changed scope reopen the
+assessment; tool calls and unchanged turns do not.
+
+**Prepare for the chosen model before sending.** Assignments consult applicable
+model guidance, preserve the outcome and permissions in the prompt, retain a
+safe brief, and show real preparation, submission, return and assessment.
+Configured, requested, host-declared, observed and unknown settings are distinct;
+Conductor doesn't silently change the main session's model or effort. A missing
+profile is disclosed, not replaced by a claim of optimized prompting.
+
+The earlier clean-entry rules and source-level scenarios were independently
+reviewed. These changes are instruction contracts, not a host-enforced guarantee
+of compliance, lower token usage or optimal staffing. Ordinary installed startup
+and post-approval work remain the acceptance test. Managed decision sessions
+keep their narrow existing contract, without a startup grid on every cycle.
 
 ### v0.123.0
 
@@ -639,8 +671,15 @@ Unknown effort stays unknown; a native subagent is not
 mislabelled as a Kerd Agent request. These updates expose real work, not a
 mandatory worker count or a new approval step.
 
-Conductor guides repo-based work from a request — "build an app", "create a guide",
-"plan a project" — through **Understand → Shape → Agree → Deliver → Complete**. It
+Its startup uses that same grid for the controller and actual composer/work
+assignments, including a one-row inline decision when no worker is useful. The
+main model and effort are labelled by their evidence, not guessed from defaults.
+It assesses their suitability and recommends a change only for a material
+mismatch; it doesn't change your session settings itself.
+
+Conductor can be offered for a substantial build, design or workflow request,
+whether new or continuing in an existing repo. When chosen it guides work
+through **Understand → Shape → Agree → Deliver → Complete**. It
 holds the conversation that works out what you actually want, agrees it before
 building, delivers, and gets an independent assessment. Work can be software,
 research, a commercial offer, a process or any other repo-based outcome.
@@ -657,10 +696,28 @@ rollover. Codex is the pressure-aware coordinator/implementation adapter. Either
 chat can be the control surface, but no arbitrary open TUI is replaced. Native
 process loss or uncertain work requires inspection, never a blind second launch.
 
-At delivery start it decides what stays inline and what a worker or established
-implementation partner can usefully own. It shows the split, avoids overlapping
-edits and keeps integration and independent review explicit. Small coupled work
-does not need an extra agent; resumed builds reuse settled assignments.
+Switch In restores and recommends without loading Conductor. Approving its
+scoped proposal invokes Conductor for work; a direct invocation can instead
+open direction-setting with no task approved. Excluding the proposal doesn't
+require another yes to open, and doesn't authorize a substitute operation.
+
+Every guided task gets assessed for model/effort fit, composer work and useful
+contributors before it starts, including small tasks and new diagnosis branches.
+A task is a user-visible job with its own result, not each tool call. At startup
+and meaningful changes it shows the stage, owner and boundary and which jobs contributors can
+own. Useful surveys, disjoint edits and checks are delegated when the available
+route and authority permit; retained jobs get a practical reason. Keeping a
+coupled implementation inline doesn't silently keep all its research and checking
+there too. It shows the split, avoids overlapping edits and owns integration
+and assessment. Small coupled work does not need an extra agent; resumed work
+reuses settled assignments.
+
+Composer work drafts direction, design or model-appropriate job briefs; the
+controller keeps agreement, consequential decisions and integration. Every
+assignment consults matching model guidance before sending, or discloses the
+clear-contract fallback. Safe prompt briefs, requested/observed settings and
+returned evidence stay distinguishable. See the
+[startup contract](skills/conductor/references/orchestration.md).
 
 ```
 /kerd:conductor              # start, or resume saved work
@@ -755,23 +812,26 @@ Colours follow the client, while status stays explicit in words.
 It ends with links and visible paths to the documents the
 work already names; the backlog lives behind the *Open work* link.
 `scripts/where_we_are.py` renders it from a summary Switch already holds, so
-nothing extra is read and no status file is written. Conductor is loaded before
-rendering to finish the summary; Switch then returns the complete rendered
-Markdown unchanged. Corrections are made in the input and rendered again, not
-paraphrased after the renderer. Conductor first restores one selected scope:
+nothing extra is read and no status file is written. Switch composes the summary
+without loading Conductor and returns the complete rendered Markdown unchanged.
+Corrections are made in the input and rendered again, not paraphrased after the
+renderer. Switch first restores one selected scope:
 owner/action, approval status, completion steps and stopping point. It uses that
 scope for THIS SESSION, NOW and the question, recognizing saved prose as well as
 headings. Without a saved selection it offers a grounded proposal, not a new
 agreement. NOW is checked before rendering: only the current
 action and its necessary follow-through, not a later build labelled “needs approval”.
 It supplies *“Start Conductor on X?”* as the next-action question, or
-*“Resume Conductor on X?”* for work already underway,
+*“Resume Conductor on X?”* for recorded Conductor work already underway,
 with its scope in NOW or THIS SESSION. A missing fact is asked as a clarification, not an
 approval; supplying a project name alone does not start an install or launch.
-A clear action approval explicitly invokes Conductor again for its work entry,
-carrying the restored scope, actual approval and exclusions. Composition-only
-loading does not count as starting delivery. Conductor enters the actual stage
-without repeating intake or asking again. Managed Roll retains its authorized
+A clear action approval invokes Conductor for its work entry,
+carrying the restored scope, actual approval and exclusions. Asking for Conductor
+while excluding the proposed task opens direction-setting, not a substitute
+operation. It does not require another yes just to open the workflow. Conductor
+shows the actual stage, owner and boundary before substantial work and resolves
+the inline/delegated split for research and design as well as implementation.
+It does not repeat intake or an unchanged approval. Managed Roll retains its authorized
 continuation and does not use this ordinary-arrival question.
 A check belonging to you is labelled as yours, preserving any per-occasion
 permission rather than presenting it as an agent job.
@@ -1013,7 +1073,7 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
 
-**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and loads Conductor to compose the welcome-back dashboard. NOW carries owner-labelled next actions; for agent-owned work the single arrival question is *“Start Conductor on X?”* or *“Resume Conductor on X?”*, after END as a bold speech-bubble callout. Human checks and factual questions stay their actual questions. An action approval explicitly invokes Conductor's work entry with the restored scope and limits; it does not repeat intake or ask again. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and composes the welcome-back dashboard without loading Conductor. NOW carries owner-labelled next actions; for agent-owned work the single arrival question is *“Start Conductor on X?”* or *“Resume Conductor on X?”*, after END as a bold speech-bubble callout. Human checks and factual questions stay their actual questions. An action approval explicitly invokes Conductor's work entry with the restored scope and limits; it does not repeat intake or ask again. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
 

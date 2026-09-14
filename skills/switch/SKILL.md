@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In restores memory and pairing, loads Conductor for arrival composition and asks to start/resume the selected agent work; action approval explicitly invokes Conductor's work entry. Returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In restores memory and pairing and composes its own recommendation without loading Conductor; action approval or a direct workflow request invokes Conductor with the actual scope. Returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
 ---
 
 # Switch
@@ -12,8 +12,8 @@ and repository boundaries still apply.
 
 ## Pick the intended action
 
-- **In:** restore useful memory, current status and the saved plan; load Conductor
-  to compose one welcome-back dashboard with owner-labelled NOW actions (not
+- **In:** restore useful memory, current status and the saved plan; compose
+  one welcome-back dashboard without loading Conductor, with owner-labelled NOW actions (not
   checking procedures or pass criteria) and
   one question callout after the end marker, explicitly proposing to start or
   resume Conductor for agent-owned work. Return the renderer's complete
@@ -74,15 +74,14 @@ The single question follows as a bold speech-bubble blockquote; no YOU box.
 Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 
-Ordinary In restores an active build's place without executing it. Before
-rendering the dashboard, load the sibling [Conductor](../conductor/SKILL.md) on
-that place as the guide's [handover](references/in-out.md#load-conductor-before-the-dashboard)
-describes. Conductor composes the dashboard's one decision and waits; its
-SKILL.md arrival paragraph is the full composition rule. An action approval or
-explicit continuation invokes Conductor's work entry through the host skill
-mechanism as the guide's [execution handover](references/in-out.md#enter-conductor-after-an-action-approval)
-describes. This is not a second approval; managed To/Roll keeps its agreed
-continuation. Loading for composition is not build authorization.
+Ordinary In restores an active build's place without executing it. Switch owns
+the [arrival decision](references/in-out.md#compose-the-arrival-in-switch): use
+the restored context, not a Conductor invocation or another intake. An action
+approval or direct workflow request invokes Conductor through the host skill
+mechanism as the guide's [work handover](references/in-out.md#enter-conductor-after-an-action-approval)
+describes. Carry the actual approval and exclusions; opening the workflow alone
+does not approve operations. This is not a second approval; managed To/Roll
+keeps its agreed continuation.
 Retain existing local Agent pairing context as that guide describes; load Agent
 when a contribution is requested. The short succession guide permits verifying
 this session's ID and adopting its designated role in private metadata, plus a

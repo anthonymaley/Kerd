@@ -29,11 +29,12 @@ before intent exists. Small explicit work needs only proportionate orientation.
 
 When Switch has just restored the session, its
 [welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
-is the entry orientation: don't repeat it. Conductor composes the decision before
-that dashboard is rendered, as its SKILL.md arrival section describes in full;
-once the person approves the scoped Conductor start/resume or explicitly asks
-for work, Switch invokes Conductor's work entry. Continue with the job update
-or unresolved decision, not a second pickup or approval. A managed rolling
+is the entry orientation: don't repeat it. Switch composes that decision without
+loading Conductor. Once the person approves the scoped action or explicitly asks
+for Conductor, enter the actual work or direction-setting stage. A workflow
+request can exclude the proposed task; carry that exclusion instead of requiring
+another start confirmation. Continue with the job update or unresolved decision,
+not a second pickup or approval. A managed rolling
 continuation bypasses that arrival question. Its optional
 Insight callout suits a useful learning during
 work too — distinct from a question card, never compulsory.
@@ -152,7 +153,15 @@ as work changes, and keep tools, results and concise commentary flowing beneath
 it. This is a live work view, not a checklist pasted again on every turn.
 A tiny single action does not need a manufactured plan.
 
-Emit an update at each real change of state: implementation starts, a reviewer
+Show the actual stage, owner, outcome and stopping boundary before substantial
+research/design or implementation starts, not only at its finish. Reuse the
+restored brief rather than reciting the dashboard. For example, after approval
+of a design-only task: “Conductor · Shape — draft the pagination design. Claude
+owns the draft (use the host-declared model if supplied; effort unknown unless
+verified); code, deployment and push remain excluded.” The inline/split
+decision accompanies this start, proportionate to the actual work.
+
+Emit an update at each real change of state: investigation or implementation starts, a reviewer
 starts or returns, correction begins, work completes or blocks. Each one says what
 is happening, who has it, and whether the person is needed. For delegation, use
 the grid and preparation updates below; otherwise keep it to a few lines, not the
@@ -160,6 +169,13 @@ whole view again. Between those moments, say nothing; chatter costs the same
 attention the updates are spending.
 
 #### Delegation grid and preparation updates
+
+At interactive Conductor startup, use [orchestration](orchestration.md) for the
+same grid with the controller and actual composer/work assignments included,
+even when the result is one inline task and no worker. The main pair's evidence
+and suitability stay explicit. Reuse the view and settled choices; update new
+jobs or changes, not every tool call. Narrow managed decision sessions don't
+repeat this interactive startup view.
 
 When a real delivery split includes contributors, show **Preparing delegation ·
 Conductor** and a compact Markdown grid. Use native task controls too when

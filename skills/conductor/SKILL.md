@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work such as "build an app", "create a guide", "plan a project" or "help me make this happen". Start or resume from a direct request or approved Switch arrival, with direction, scoped delegation, visible task/model/effort and independent assessment. At Switch In, compose the selected scope and ask to start or resume it; orientation alone does not start execution. Managed Roll continues authorized work without that approval. Small explicit changes, status and review requests do not start a full intake.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, approves a Switch proposal, or continues established Conductor work. Assess every task for composer work, contributors, controller ownership and model/effort suitability; prepare assignments using applicable model guidance and assess returned evidence. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor
@@ -28,20 +28,72 @@ than claiming it is bypassed. Existing host permissions still apply.
 
 ## Enter work, not another pickup
 
-Distinguish **arrival composition** from **starting/resuming work**. Switch In's
-invocation only composes the dashboard and waits, as below. An invocation after
-the person's action approval enters the selected work: reuse its project, scope,
-work pointer, approval and exclusions already in context. Do not repeat the
-dashboard, intake or approval. Direct start/resume requests use the same entry.
+For a substantial build, design or workflow request, whether new or continuing
+in an existing repo, offer Conductor with one grounded approach and useful
+fan-out if appropriate. This is an invitation, not permission to launch jobs or
+a forced model change. A small standalone fix stays direct without that offer.
+An explicit request to use Conductor opens it without another invitation.
 
-For authorized delivery, read [execution](references/execution.md) before broad
-work reads or edits, resolve the inline/delegated split and show
-**Conductor · Deliver — <actual next activity>** with its owner and boundary.
-Use the delegation grid when contributors are assigned; otherwise explain the
-practical inline choice briefly. Then do the work in this turn. For design or
-planning, enter the actual stage instead; starting Conductor grants neither
-implementation nor deployment beyond the approved scope. Status and factual
-questions remain proportionate answers, not new work sessions.
+Choosing Conductor chooses orchestration. Assess every task before acting and
+each new task as it emerges: a task is a user-visible job with its own result,
+not every tool call. Read [orchestration startup](references/orchestration.md)
+on entry for current-session model/effort suitability, composer work and the
+visible assignment view. Small tasks get a brief suitability/inline decision,
+not an exemption or compulsory worker. Reuse settled assessments on resume;
+status questions inside the work need no new staffing grid. Established means
+the current conversation or selected record identifies this work as entered or
+owned by Conductor; an old work.md, Agent pairing or unfinished task alone does
+not establish guided ownership. Continuing established work doesn't re-offer it.
+
+There are two valid entries: an approved action, and a request to use the
+workflow while deciding what to do. Reuse the restored project, work pointer,
+current decision, actual approval and latest exclusions. Do not repeat pickup,
+intake already answered or approval already supplied.
+
+- **Approved action:** enter its actual stage and perform it in this turn.
+  Design-only approval enters Shape, not Deliver; an approved diagnostic can
+  deliver findings without authorizing repairs. Bound research to the outcome:
+  inspect what informs the design or diagnosis, rather than treating “read-only”
+  as permission to investigate every adjacent issue or live system.
+- **Workflow requested, action absent or excluded:** Conductor is open at
+  Understand/Shape. Acknowledge the exclusion, use the restored context to
+  recommend a relevant direction or ask the missing outcome question, and wait
+  where a real choice is needed. Do not ask again to start Conductor, treat a
+  rejected task as a grant for a similar one, or launch probes to choose a task.
+  Opening Conductor is not operation approval. A bare invocation after a
+  human-owned check supplies neither its result nor authority to do it for them.
+  Use bounded local record/repository reads for direction-setting. Live-system
+  queries, SSH/database access, device or audible actions and paid/shared-resource
+  jobs need authority for that actual task; workflow entry alone supplies none.
+  A relevant recommendation from saved priority is allowed, labelled proposed,
+  with a single approval for its operations—not another approval to open.
+  Without a selected authorized task, do not dispatch contributor/model jobs
+  merely to choose one. An explicit research request can itself supply that
+  task authority; it does not need a second approval because it uses contributors.
+
+Before substantial research, design or delivery, show a short entry update:
+**Conductor · <actual stage> — <next activity>**, with the owner, intended result
+and stopping boundary. This is an acknowledgement of the actual agreement,
+not a second approval or a label added only to the final report. For multi-step
+work already scoped by Switch, the order is:
+
+1. Read [orchestration startup](references/orchestration.md), the relevant
+   [job-split guidance](references/execution.md#prepare-and-do-the-next-useful-job)
+   and [work view](references/journey.md#keep-the-tasks-visible-while-the-work-unfolds)
+   if not already loaded. These Kerd instruction reads are not project research.
+2. Give the entry update as the first work response, including current
+   model/effort evidence, suitability and the actual split:
+   reuse settled assignments or decide independent research/checks as well as
+   implementation. Use the grid for contributors, or a practical inline reason.
+3. Then do the substantive project reads, dispatches or edits and continue the
+   authorized job. No second pickup or approval.
+
+With missing context, bounded local orientation may establish the stage and job
+boundaries first; do not guess an agreement or settled split. State that limited
+orientation and resolve the split before it expands into the investigation.
+Small explicit work
+and status/factual questions stay proportionate; no ceremonial plan or staffing
+approval. Supporting skills supply a method without replacing this direction.
 
 For sustained authorized local work requiring automatic context continuation,
 enter [managed Conductor](references/managed-conductor.md) from the outset.
@@ -55,95 +107,9 @@ and unchanged agreement without the normal arrival question. Follow the
 a new chat or a bare “resume” label is not evidence of managed authority or
 exclusive ownership. Do not claim this entry replaces an arbitrary open TUI.
 
-## Compose the ordinary arrival
-
-When loaded by **Switch In**, use the position and authority Switch already
-restored: read this skill and the journey guide, skip intake and discovery, and
-compose the one welcome-back dashboard before it is rendered. Resolve **one
-session scope before writing its fields**: selected action and owner, its
-agreement/approval status, included completion steps, stopping point and relevant
-pending question. Recognize a saved selection in current prose as well as named
-fields; use Switch's [selected continuation](../switch/references/in-out.md#save-the-selected-continuation).
-Current user direction takes precedence. Evidence can show a saved action stale
-or already done; explain that and label any replacement proposed, not a newly
-agreed selection. Reconcile contradictions from restored evidence and necessary detail.
-Without a saved selection, propose the first actionable item in the saved
-priority, not a completed/status row. If no priority is established, recommend
-a bounded next action from the restored agreement and explain briefly why; mark
-it proposed, not agreed. For a saved unresolved choice, recommend one grounded
-route and ask about it; keep alternatives behind the link, not an either/or menu.
-If a missing fact or preference prevents a grounded recommendation, ask one
-direct clarification rather than guessing. With no actionable work, show no
-selected task and invent none.
-An unresolved design means designing, not a grant to build or deploy.
-For an agent-owned work proposal put **“Start Conductor on X?”** in the existing
-`question` fields, or **“Resume Conductor on X?”** when the saved record shows
-that work already underway. Name the actual scope, not a generic invitation to
-start a session. An old generic “start work?” approval is expressed in this form;
-preserve its scope and exclusions. A still-applicable factual or product-decision
-question remains that question, with any recorded proposed answer. Do not select an unrelated open question
-merely because it remains unanswered. A factual
-clarification is not approval: answering it resolves that fact only, not permission
-for the proposed next work. Bind the reply to the question actually asked:
-a project name fills the target, not an install/launch approval; “not now”
-defers that action without starting another task or leaving an answer shown as
-owed now. Once clarified, ask for the
-scoped action only if authorization is still missing. An explicit instruction
-that supplies both the fact and permission can proceed without another stop.
-STATE and THIS
-SESSION must agree with NOW and the question: this sitting's action is proposed while awaiting
-approval, even if the wider plan was already agreed. Never say “nothing needed”
-while asking for an answer elsewhere. Put scope in NOW or THIS SESSION;
-compose all of them from the selected scope, not separately from different
-parts of the backlog. NOW contains work and necessary completion steps; the
-approval question itself is not another task (“Anthony: answer below”). A real
-human-owned check remains work. Follow-through finishes the selected action;
-work behind a separate decision stays outside it even when the log says “then”.
-Before rendering, compare the included operations and exclusions across these
-fields; “build and install, no playback” cannot become “install only” in one
-field or a playback task in another. This uses restored context, not another
-record, retrieval pass or user approval.
-Switch renders the actual question once immediately after END OF PICKUP,
-as a bold speech-bubble blockquote in chat. No YOU box.
-Do not append another question after either presentation.
-Composition ends with the summary input: Switch returns the complete rendered
-Markdown unchanged. Do not resume Conductor's narration after the renderer call;
-correct the input and rerender if necessary, rather than rewriting the dashboard.
-Recommend one next action, with a known owner and its limits in NOW. Ask one direct
-question about it; do not tack on “or later?” or an alternative task. No REPLY
-menu: the person can decline, defer or redirect without being prompted to choose.
-
-Reconcile displayed work with observations already obtained during pickup.
-Use Switch's [NOW composition](../switch/references/in-out.md#welcome-back-the-screen-summary):
-immediate owner-labelled actions and necessary follow-through, not a checklist
-of evidence rows or future events. An observed arrival is not still waiting to
-start; only a genuinely needed assessment or recording remains. Do not award the
-person's verdict, rewrite the saved list or repeat a check merely to record it.
-In itself still does no project work.
-
-For a proposed installation or session launch, name the target project and, for
-installation, its scope (project or user-wide) before requesting approval. If a
-required target or scope is unresolved, make that gap the question; do not bundle “a work
-project” into authorization to choose one later. Reuse already-established targets.
-
-When the next action belongs to the person (for example a device check), name
-that actor as the NOW owner and in STATE, and ask whether they can do that specific check now,
-or ask for its missing result,
-not “Starting on X” as though the agent can perform it. Preserve any per-occasion
-permission needed for the check. Availability alone authorizes no agent operation;
-agreement to that check covers only its stated scope, not a build or deployment.
-
-This deliberate arrival check-in is the one exception to reusing an unchanged
-approval. Do not create or update work records, launch workers or execute the
-plan during ordinary In. Switch's verified private Agent role succession is
-routing maintenance, not work authorization. A current explicit request to continue can proceed
-without another approval; managed To/Roll also keeps its agreed continuation.
-Use native task tools when available; otherwise the dashboard's NOW is the
-fallback list. Do not append another brief, journey strip or copy of the list.
-After approval of the proposed agent work, Switch explicitly invokes Conductor's
-[work entry](#enter-work-not-another-pickup). This is the full composition rule;
-Switch owns the invocation, not a second approval. Loading for composition is
-not evidence that delivery has started.
+Switch owns [ordinary arrival composition](../switch/references/in-out.md#compose-the-arrival-in-switch)
+without loading this skill. Use the context it restored when the person enters
+Conductor; do not recreate the pickup or its dashboard.
 
 On the person's next request, handle the actual request: status stays status;
 a clear action approval or explicit continuation enters the selected work without
@@ -158,11 +124,14 @@ and answer within that authority; skip the guided intake, direction review
 and record creation. If another model is explicitly requested, use
 [the model-job guide](references/model-jobs.md). Read-only requests stay read-only.
 
-Natural creation/planning requests can select this skill without a special
-Conductor command when the host makes it discoverable. Match intent, not a word
-appearing in quoted text. Discussion is not build authorization. A discoverable
-description enables consideration, not guaranteed selection or precedence over
-another host instruction; Switch In explicitly loads this skill as described above.
+Match actual intent, not a word in quoted text. Discovering this skill for a
+substantial work request permits the offer above, not silently opting the person
+into guided work. Discussion is not build authorization; host instructions still
+govern. Switch invokes this skill on its approved Conductor proposal or a direct
+workflow request, not while restoring the dashboard. When the person chooses
+ordinary work, retain ordinary host behavior and actual task limits. Exiting
+guidance does not stop already-running managed jobs: preserve and resolve their
+ownership rather than abandoning them or starting competing work.
 
 ## Start from the person, or the saved place
 
