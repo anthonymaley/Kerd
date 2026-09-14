@@ -4,6 +4,57 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+## Closed 2026-09-14
+
+**Verdict: done — observed 2026-09-13 16:08 EDT by the Claude session that adopted
+`kerd-b5-review`.** That session's loaded skill path and `plugin.json` read 0.119.0;
+`identity` matched, `adopt --expected-session … --record CONTEXT.md` consumed the
+designation and wrote the recovery receipt against unchanged `CONTEXT.md` bytes;
+`arrival` showed TEAM and returned the first live notice to `codex-tui` as
+submitted-unconfirmed. The 0.119.0 layout it assessed was itself replaced the same
+evening (0.120.0, no YOU box). Evidence: `kivna/sessions/2026-09-14.md`.
+
+- **First: a fresh Claude In on 0.119.0** (rows 1, 2 and 4 of the shared
+  verification list), with routing adoption and the first live arrival notice.
+
+**Verdict: superseded — replaced by the two real-build observation slots in
+`docs/work/conductor-clean-entry/composer-restoration-comparison.md`.** Delegation
+was redesigned three times since (0.124.0 task assessment, 0.125.0 composer/score
+restoration, 0.126.0 Conductor-written steps); observing "useful implementation
+work with owners and edit boundaries" is now part of those slots.
+
+- **Observe Conductor assigning useful implementation work with owners and edit
+  boundaries at a real build (row 6).**
+
+## Retained position, 2026-09-13 (moved from `CONTEXT.md` at the 2026-09-14 Out)
+
+The 0.119.0 position paragraphs, no longer current: installed state and routing
+sequence as they stood at the 2026-09-13 15:31 Out.
+
+**Installed state, not to be overclaimed:** the 13:51 Claude session loaded the
+0.118.0 cache (skill base path and `plugin.json`, observed once); no session has
+been observed loading 0.119.0, and publication does not update a plugin cache.
+Installed Codex Kerd is 0.118.0 (row 5, reported by Codex 13:30); no Codex
+update to 0.119.0 is authorized. Verify the loaded skill path and version before
+counting a result.
+
+**Where the sequence stands at this save:** the 13:51 session adopted
+`kerd-b5-review` at 13:52 from the 12:43 Out's designation against the unchanged
+saved record (row 4's planned adoption), then took seven real requests from Codex
+on that binding, all answered (row 4's messaging proof). It ran this Out on the
+0.118.0 cache: the ownership check matched, and the contribution checkpoint
+requested Codex's delta since the release, which returned "none". After the save
+it designates its successor against this file with
+`skills/agent/scripts/agent.py handoff --record CONTEXT.md`. Anthony then
+restarts Claude so the plugin can load 0.119.0 (`/clear` is not assumed to
+update it). The fresh session: verify the loaded skill path reads 0.119.0; Switch
+In's routing runs `identity`, then `adopt --expected-session <the currently bound
+ID> --record CONTEXT.md`, then 0.119.0's `arrival --provider claude --self-alias
+kerd-b5-review` (its default recipient on Kerd is `codex-tui`, by a metadata-only
+check); the arrival shows TEAM and the notice outcome for Anthony's assessment.
+Receipts and the designation stop matching when this file's bytes change.
+
+
 ## Closed 2026-09-11
 
 **Verdict: dead — the step it describes no longer exists.** Conductor has had no close-out

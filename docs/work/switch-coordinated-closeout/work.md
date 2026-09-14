@@ -5,20 +5,18 @@
 Outcome: a recognizable Switch In dashboard and a handoff that preserves
 collaborating sessions' necessary context without duplicate shared-file saves.
 
-Stage: 0.119.0 released 14:40 by Codex (TEAM, arrival notice, YOU recommendation;
-record `docs/work/switch-arrival-team/work.md`), after 0.118.0 (13:03) and
-0.117.0 (12:40). Rows 3 and 4 carry results from this sitting; rows 1 and 2
-carry the 0.118.0 arrival observation, with Anthony's assessment given through
-Codex rather than as a reply.
-Current activity: Out saved by the Claude session holding `kerd-b5-review`,
-which designates its successor after the save.
+Stage: The 0.119.0 arrival was observed at 2026-09-13 16:08 EDT (loaded path and
+`plugin.json` 0.119.0, planned adoption with recovery receipt, TEAM shown, first live
+notice submitted-unconfirmed); rows 1, 2 and 4 carry that observation. The arrival
+was then redesigned through 0.120.0-0.125.0 (no YOU box, status grid, unchanged
+render delivery, action-only NOW, selected continuation, urgent risks, generic
+Conductor offer); ordinary arrivals checked in Leru, Weefish, Seinn and Apple Music
+are in `kivna/sessions/2026-09-14.md`.
+Current activity: 2026-09-14 Out by the Claude session holding `kerd-b5-review`.
 Pending question: none.
-Next action: a fresh Claude session verifies it loaded 0.119.0 (Anthony restarts
-Claude), runs Switch In with the planned adoption and its first live arrival
-notice, and shows the 0.119.0 arrival for Anthony's assessment; results on rows
-1, 2 and 4. Unplanned recovery is observed only if a role-holding session is
-actually lost later. Consumer pickups stay deferred until items 1–5 carry
-evidence of the fixes working. No installation is authorized.
+Next action: remaining rows stay open for real events only: a "not now" reply to
+the arrival question, and unplanned restart recovery. Consumer pickups under the
+2026-09-13 hold: see `TODO.md` `## Now`. No installation is authorized.
 
 Source boundary: branch `main`, subject `Release Kerd 0.119.0: visible team and recommended next action`;
 this Out's rows and account are saved in the boundary commit that follows it.

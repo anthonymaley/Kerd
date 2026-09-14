@@ -2,12 +2,18 @@
 
 ## Now
 
-Stage: Implementation, independent review and bounded native proof complete for 0.123.0.
-Owner: Codex implements; established Claude partner reviews read-only.
-Next action: observe ordinary 0.123.0 Switch In and Conductor entry after the
-release is available and its loaded version is verified. For sustained local
-work, observe managed continuation; do not manufacture a build for a display.
-Installed-plugin acceptance remains unmeasured by this source-level trial.
+Stage: Released in 0.123.0 (explicit Conductor entry, managed Conductor) and
+carried forward: the ordinary entry rules were replaced by 0.124.0 and 0.125.0
+(Switch composes without Conductor; "Start a Conductor session?"), recorded in
+[conductor-clean-entry/work.md](../conductor-clean-entry/work.md). Managed Conductor
+itself is unchanged since 0.123.0.
+Next action: observe managed continuation only in a real sustained local build on
+an installed release that includes it; installed Claude is at 0.124.0 at most and
+Codex at 0.124.0 (2026-09-14). Automatic outer-controller or TUI replacement stays
+unimplemented. No installation or consumer change is authorized here.
+
+## 0.123.0 position and agreement (moved from Now at the 2026-09-14 Out, unchanged)
+
 Pending question: None for implementation. Anthony approved managed Conductor
 sessions with this chat as the control surface. Design: managed-design.md.
 Anthony subsequently authorized release after agreement between Codex and Claude,

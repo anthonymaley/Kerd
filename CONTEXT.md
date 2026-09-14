@@ -6,62 +6,60 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.119.0 — branch `main`, subject "Release Kerd 0.119.0:
-visible team and recommended next action", published 2026-09-13 14:40 by Codex
-under Anthony's direct authority, reviewed by Claude; the save helper verified
-the remote and CI entry-gate run 34775349913 succeeded on it (both rechecked
-read-only by Claude).** Switch In's completion box now shows TEAM (provider,
-role, short session ID) and sends established partners one no-reply arrival
-notice per identity pair; YOU recommends one action with spaced steps and
-limits, with no REPLY menu. Record: `docs/work/switch-arrival-team/work.md`.
-0.118.0 (13:03) added Out's role-ownership check and contribution checkpoint;
-0.117.0 (12:40) the arrival question after END OF PICKUP, numbered NOW and the
-restart receipt. Verification list: `docs/work/switch-coordinated-closeout/work.md`. Guides:
-`skills/agent/references/session-succession.md`,
-`skills/agent/references/user-guide.md`, `skills/switch/references/in-out.md`,
-`skills/conductor/references/journey.md` (arrival presentation),
-`skills/conductor/references/execution.md` (0.116.0's implementation split).
-Tests: `skills/agent/scripts/tests/test_agent.py`,
-`skills/agent/scripts/tests/test_arrival.py` (0.119.0's arrival notice),
-`skills/switch/scripts/tests/test_where_we_are.py`. Earlier source releases:
-0.116.0 (role succession, delegation), 0.115.0, 0.114.0, 0.113.0
-(`docs/work/codex-plugin/work.md`).
+**Release boundary: 0.126.0, branch `main`, subject "Release Kerd 0.126.0:
+delegate clear work without a composer" (2026-09-14, released by Claude on
+Anthony's "yes", reviewed by Codex; the save helper verified the remote and CI
+entry-gate run 34873569071 succeeded).** Since 0.119.0, all on 2026-09-13/14:
+- 0.120.0: no YOU box; one-line TEAM.
+- 0.121.0–0.121.2: status grid; rendered dashboard returned unchanged; NOW holds
+  actions only.
+- 0.122.0–0.122.1: Out saves the selected continuation and carries urgent risks.
+- 0.123.0: explicit Conductor entry; managed Conductor sessions.
+- 0.124.0: Switch composes without loading Conductor; model-aware orchestration.
+- 0.125.0: "Start a Conductor session?" on every In; wider active-work restore;
+  composer, score and players restored and assessed against v0.105.0.
+- 0.126.0: Conductor writes clear steps itself and delegates them; the composer
+  for design; inline only for tiny, coupled or judgment work; defects return to
+  the step's author.
 
-**The current work is proof, not building** — Anthony, 2026-09-13 10:41: "no
-point picking up projects when Kerd isn't working as it should, prove that
-first." The seven-row shared verification list in the work record
-(`## Targeted verification of reported failures (2026-09-13)`) names each
-reported failure from Seinn, Leru and Kerd, its check in Kerd, its owner,
-evidence baseline and remaining gap. Claude owns arrival and closeout checks;
-Codex owns the installed Codex version, pairing state and the successor
-request. Consumer pickups, including the Codex pickup in a work project, are
-deferred until rows 1–5 carry evidence of the fixes working; a recorded
-outcome alone does not clear the hold.
+Records: `docs/work/conductor-clean-entry/work.md` (0.124.0–0.126.0; comparison in
+`composer-restoration-comparison.md`), `docs/work/conductor-entry-roll/work.md`
+(0.123.0), `docs/work/switch-arrival-team/work.md` (0.120.0–0.122.1),
+`docs/work/switch-coordinated-closeout/work.md` (verification list). The sitting's
+account is `kivna/sessions/2026-09-14.md`; the diagrams are the Kerd Sitting Map
+artifact linked there.
 
-**Installed state, not to be overclaimed:** the 13:51 Claude session loaded the
-0.118.0 cache (skill base path and `plugin.json`, observed once); no session has
-been observed loading 0.119.0, and publication does not update a plugin cache.
-Installed Codex Kerd is 0.118.0 (row 5, reported by Codex 13:30); no Codex
-update to 0.119.0 is authorized. Verify the loaded skill path and version before
-counting a result.
+**The current work is proof, not building** (the 2026-09-13 10:41 ruling below).
+The source now carries the restored delegation contract, but none of 0.125.0 or
+0.126.0 has run installed.
+- Evidence gathered this sitting is ordinary pickups checked from native
+  transcripts: renderer output equalled the final message in 11 of 11 from 0.121.1
+  on.
+- The real-build comparison slots are unobserved.
+- Anthony has since run ordinary pickups in Leru, Weefish, Seinn, Apple Music and
+  work-anthony. Whether that lifts the consumer-pickup hold is his call.
 
-**Where the sequence stands at this save:** the 13:51 session adopted
-`kerd-b5-review` at 13:52 from the 12:43 Out's designation against the unchanged
-saved record (row 4's planned adoption), then took seven real requests from Codex
-on that binding, all answered (row 4's messaging proof). It ran this Out on the
-0.118.0 cache: the ownership check matched, and the contribution checkpoint
-requested Codex's delta since the release, which returned "none". After the save
-it designates its successor against this file with
-`skills/agent/scripts/agent.py handoff --record CONTEXT.md`. Anthony then
-restarts Claude so the plugin can load 0.119.0 (`/clear` is not assumed to
-update it). The fresh session: verify the loaded skill path reads 0.119.0; Switch
-In's routing runs `identity`, then `adopt --expected-session <the currently bound
-ID> --record CONTEXT.md`, then 0.119.0's `arrival --provider claude --self-alias
-kerd-b5-review` (its default recipient on Kerd is `codex-tui`, by a metadata-only
-check); the arrival shows TEAM and the notice outcome for Anthony's assessment.
-Receipts and the designation stop matching when this file's bytes change.
+**Installed state, not to be overclaimed:** Claude's plugin cache on this Mac
+Studio tops out at 0.124.0 (listed 2026-09-14 12:44). Codex runs 0.124.0, installed
+and enabled (reported by Codex, `codex plugin list`, 2026-09-14). A session loads
+the cache it started with; verify the skill base path before counting a result.
 
-**The launch sequence is retained and untouched** — five outcomes, 0 of 5:
+**Selected continuation (proposed, not agreed):**
+1. Anthony brings the installed Claude and Codex plugins to 0.126.0. That is his
+   action or needs his authorization.
+2. The next two real multi-step builds on 0.126.0 are then observed and recorded in
+   the comparison slots, by the session doing the build or the `kerd-b5-review`
+   role: the route Conductor chose and why, composer calls, delegation share and
+   fan-out, returned-diff reads, failure routing, and a visible controller
+   model/effort assessment.
+Stops at recorded observations: no manufactured build, no new release, no consumer
+edits. Pending question: may the plugins be updated to 0.126.0?
+
+**Urgent or imminent risks:** none recorded in Kerd's active records (`TODO.md`
+and the current work records checked at this Out, 2026-09-14). Weefish's
+unrecorded drive4 capacity readings belong to that project (session log, Gotchas).
+
+**The launch sequence is retained and untouched**: five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
 `gate-reachability` refusing at viability on row 2, the four exposed
 fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
@@ -71,37 +69,48 @@ fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
 the root (2026-09-09). Name it with `--preserve` at every save.
 
-**Pickup reading set** (Switch Out, 2026-09-13 15:31): this file complete, for
-position, routing sequence and rulings; `TODO.md` `## Now`, the next actions;
-the newest sitting only in `kivna/sessions/2026-09-13.md` (earlier sittings stay
-in that file on demand); the verification work record's `## Now`, for the stage
-and agreement. The rows live in that record's `## Targeted verification of
-reported failures (2026-09-13)`, opened when a result is recorded. Add
-`skills/agent/references/session-succession.md` for the routing step and the
-arrival notice, and `docs/work/switch-arrival-team/work.md` only if TEAM or the
-notice misbehaves.
-Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--section", "TODO.md", "## Now", "--section", "kivna/sessions/2026-09-13.md", "## Sitting: the 0.118.0 arrival and role adoption, arrival-team reviews, the 0.119.0 release review and Out (2026-09-13 13:51 – 15:35 EDT, Claude session on the 0.118.0 cache; Codex in the paired TUI)", "--section", "docs/work/switch-coordinated-closeout/work.md", "## Now"]`.
-Measured reading: measured 25,993 bytes, about 6,499 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target, before this line was filled in, so the saved file is slightly larger.
+**Routing:** after this save, the Claude session holding `kerd-b5-review`
+designates its successor against this file with `skills/agent/scripts/agent.py
+handoff --record CONTEXT.md`. The next Claude In adopts it with `adopt
+--expected-session <bound ID> --record CONTEXT.md`. Receipts and the designation
+stop matching when this file's bytes change. Previous position paragraphs are in
+`docs/backlog-archive.md` ("Retained position, 2026-09-13").
+
+**Pickup reading set** (Switch Out, 2026-09-14 14:40):
+- this file complete, for position, the selected continuation, risks and rulings;
+- `TODO.md` `## Now` with its child section, the designated active list;
+- `kivna/sessions/2026-09-14.md` complete, the sitting's account;
+- `docs/work/conductor-clean-entry/work.md` `## Now`, the current work record's
+  stage and next action.
+
+Open `composer-restoration-comparison.md` when recording a build, and
+`docs/decisions.md` for any ruling's case.
+Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-14.md", "--section", "TODO.md", "## Now", "--section", "docs/work/conductor-clean-entry/work.md", "## Now"]`.
+Measured reading: 28,413 bytes, about 7,104 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target, including this line.
 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (170 entries at the
-2026-09-13 15:31 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (178 entries at the
+2026-09-14 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
-- **YOU RECOMMENDS ONE NEXT ACTION WITH SPACED STEPS AND LIMITS AND NO REPLY MENU; ONE DIRECT QUESTION FOLLOWS END OF PICKUP, WITH NO APPENDED "OR LATER?" — Anthony, 2026-09-13 (reported by Codex), released in 0.119.0.**
-- **SWITCH IN SHOWS TEAM — PROVIDER, ROLE, SHORT SESSION ID — IN THE COMPLETION BOX AND SENDS ESTABLISHED PARTNERS ONE NO-REPLY ARRIVAL NOTICE PER IDENTITY PAIR; A NOTICE IS NOT AVAILABILITY — Anthony, 2026-09-13 (reported by Codex), released in 0.119.0.**
+- **DELEGATE CLEAR WORK WITHOUT A COMPOSER: CONDUCTOR CHOOSES WHO WRITES EACH STEP — ITSELF FOR CLEAR WORK, THE COMPOSER WHEN THE SPECIFICATION NEEDS DESIGN, INLINE ONLY FOR TINY, COUPLED OR JUDGMENT-BOUND WORK; DELEGATION IS THE DEFAULT WHEN A JOB CAN BE BRIEFED, CHECKED AND IS WORTH ITS HANDOFF COST; A DEFECT RETURNS TO THE STEP'S AUTHOR — Anthony, 2026-09-14, released in 0.126.0.**
+- **RESTORE THE COMPOSER AS A BOUNDED TWO-PASS CALL, THE SCORE AS THE EXECUTION CONTRACT, TAGS AFTER WRITING AND PER-STEP PLAYERS FROM v0.105.0; RE-DISPATCH, NEVER RE-SPECIFY; CONDUCTOR READS EVERY RETURNED DIFF — Anthony, 2026-09-14, released in 0.125.0.**
+- **ORDINARY SWITCH IN ALWAYS ENDS ON "START A CONDUCTOR SESSION?"; A PLAIN YES OPENS DIRECTION-SETTING, NEVER APPROVAL OF THE SAVED TASK; IN RESTORES THE DESIGNATED ACTIVE LIST; A HUMAN-BLOCKED CONTINUATION IS NOT A PROJECT-WIDE HOLD — Anthony, 2026-09-14 (reported by Codex), released in 0.125.0.**
+- **SUBSTANTIAL BUILD, DESIGN OR WORKFLOW REQUESTS OFFER CONDUCTOR, NEW OR EXISTING; SMALL FIXES STAY DIRECT; A CHOSEN CONDUCTOR ASSESSES EVERY TASK FOR MODEL/EFFORT FIT AND WHO DOES IT, STARTING FROM THE TASK, NOT THE INHERITED PAIR; SWITCH COMPOSES ITS OWN ARRIVAL WITHOUT LOADING CONDUCTOR — Anthony, 2026-09-14 (reported by Codex), released in 0.124.0–0.125.0.**
+- **MANAGED CONDUCTOR SESSIONS CARRY AN AUTHORIZED LOCAL BUILD ACROSS FRESH DECISION CONTEXTS, WITH THE CHAT AS THE CONTROL SURFACE; NO TUI TAKEOVER; UNCERTAIN WORK IS INSPECTED, NEVER BLINDLY RELAUNCHED — Anthony, 2026-09-13/14 (reported by Codex), released in 0.123.0.**
+- **OUT SAVES THE SELECTED CONTINUATION — OWNER, ACTION, AGREED OR PROPOSED STATUS, STOPPING POINT AND PENDING QUESTION — AND KEEPS EVERY RECORDED URGENT OR IMMINENT RISK INSIDE THE PICKUP READING SET — Anthony, 2026-09-13/14, released in 0.122.0–0.122.1.**
+- **SWITCH IN RETURNS THE RENDERED DASHBOARD UNCHANGED; CORRECTIONS GO INTO THE INPUT AND ARE RENDERED AGAIN; NOW HOLDS ONLY IMMEDIATE OWNER-LABELLED ACTIONS AND NECESSARY FOLLOW-THROUGH — Anthony, 2026-09-13, released in 0.121.0–0.121.2.**
+- **NO YOU BOX; TEAM IS ONE PROVIDER (ROLE) LINE; TEAM COMES ONLY FROM AGENT PAIRING, NEVER PROJECT HISTORY — Anthony, 2026-09-13 (reported by Codex), released in 0.120.0–0.124.0.**
 - **AN ESTABLISHED ROLE SURVIVES A LOST SESSION: THE NEXT RESTART RECOVERS IT FROM THE UNCHANGED SAVED ACCOUNT WITHOUT SELECTING THE TEAMMATE AGAIN; NO ONE-RECOVERY CAP — 2026-09-13, Anthony's request (reported by Codex), released in 0.117.0.**
-- **THE ARRIVAL QUESTION IS THE FIRST CONTENT AFTER END OF PICKUP; NOW IS A NUMBERED LIST OF NEXT ACTIONS IN PRIORITY ORDER, NOT A REPORT — Anthony, 2026-09-13 (reported by Codex), released in 0.117.0.**
 - **PROVE KERD WORKS AS IT SHOULD BEFORE ANY CONSUMER PICKUP; EXISTING ORDINARY-USE EVIDENCE IS THE BASELINE, NOT REPEATED — Anthony, 2026-09-13 10:41, deferring the Codex pickup.**
 - **COMPARE ACTUAL SESSION IDs BEFORE AND AFTER A CLEAR OR RESTART; NEVER INFER IDENTITY FROM A TERMINAL, A TITLE OR RECENCY — Anthony, 2026-09-13, agreeing the succession design.**
 - **ONE STABLE ALIAS PER ROLE; A SUCCESSOR REPLACES THE ID ATOMICALLY AGAINST THE EXPECTED OLD ID, ON A DESIGNATED HANDOFF OR THE PERSON'S EXPLICIT SELECTION, NEVER ON RECENCY — 2026-09-13, Codex's design chosen over Claude's two-alias chain, Anthony's "lets do it".**
-- **DECIDE WHO BUILDS BEFORE BUILDING: CONDUCTOR CHOOSES THE INLINE/DELEGATED SPLIT AT DELIVERY START, DELEGATES WHEN USEFUL AND NEVER MANUFACTURES WORK — Anthony, 2026-09-13, "not seen delegation in a long time".**
 - **ONE OUT OWNER, NAMED BY THE PERSON; MEMORY READINESS IS THE OWNER'S JUDGMENT, SEPARATE FROM THE GIT VERDICT — Tony, 2026-09-13.** The owner alone writes the pointer, active list, session account and the record it is reconciling; contributors return their account; Out names other-branch work, never merges it.
 - **A FACTUAL CLARIFICATION IS NOT AUTHORIZATION; THE ARRIVAL QUESTION IS ASKED ONCE; A LOG PRESERVES A CLAIM, NOT PROOF — Anthony, 2026-09-12.**
-- **ONE PROPOSAL, NEVER TWO OPTIONS, NEVER AN “OR” — an approval prompt or question carries exactly one proposal, “Starting on X — approve?”, and Switch In ends on that line. Tony, 2026-09-11.**
+- **ONE PROPOSAL, NEVER TWO OPTIONS, NEVER AN “OR” — an approval prompt or question carries exactly one proposal. Tony, 2026-09-11.**
 - **SWITCH OUT LEAVES A LEAN, MEASURED START POINT — rulings stay in CONTEXT.md while they govern the next work, the case lives in `docs/decisions.md`, closed Backlog rows move to `docs/backlog-archive.md` with their reason, the reading set is named and measured. Tony, 2026-09-11, superseding the 2026-09-01 “do nothing for now” deferral by taking its own option (c).**
 - **CONDUCTOR'S PLAYERS ARE NATIVE SUBAGENTS BY DEFAULT; THE CLI RUNNER SERVES CODEX, RESUMABLE-BY-ID, SANDBOXED AND PERSISTENT JOBS — restored 2026-09-11 as a regression fixed, on Tony's "the issue was conductor was spawning fresh sessions not subagents."**
 - **AGENT REACHES A TUI BY `codex queue --thread` AND READS THE REPLY FROM THE NATIVE ROLLOUT; A STORED THREAD IS A SELECTABLE CONVERSATION, NEVER PROOF OF LIVENESS — 2026-09-11, four reviews.**

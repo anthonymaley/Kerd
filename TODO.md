@@ -2,41 +2,44 @@
 
 ## Now
 
-**Release boundary:** 0.119.0, branch `main`, subject "Release Kerd 0.119.0:
-visible team and recommended next action", published 2026-09-13 14:40 by Codex;
-resolve its revision and remote state with Git. Position, installed state and
-the reading set: `CONTEXT.md` `## Where We Are`. Records:
-`docs/work/switch-arrival-team/work.md` (TEAM, arrival notice, YOU
-recommendation), `docs/work/switch-coordinated-closeout/work.md` (the shared
-verification list, coordinated Out, roles, succession, delegation),
-`docs/work/codex-plugin/work.md` (0.113.0: package, install, the clarification
-scenario). These lists are not authority to run installation or checks during
-pickup.
+**Release boundary:** 0.126.0, branch `main`, subject "Release Kerd 0.126.0:
+delegate clear work without a composer" (2026-09-14, released by Claude, reviewed
+by Codex); resolve its revision and remote state with Git. Position, installed
+state, the selected continuation and the reading set: `CONTEXT.md`
+`## Where We Are`. Records: `docs/work/conductor-clean-entry/work.md` (0.124.0-0.126.0:
+Switch offer, orientation, composer restoration, Conductor-written steps; the
+v0.105.0 comparison is `composer-restoration-comparison.md`),
+`docs/work/conductor-entry-roll/work.md` (0.123.0 entry, managed Conductor),
+`docs/work/switch-arrival-team/work.md` (0.120.0-0.122.1 arrival layout, NOW,
+selected continuation, urgent risks), `docs/work/switch-coordinated-closeout/work.md`
+(the shared verification list). These lists are not authority to install or run
+checks during pickup.
 
-- **First: a fresh Claude In on 0.119.0** (rows 1, 2 and 4 of the shared
-  verification list). Anthony restarts Claude; don't assume `/clear` updates the
-  plugin. The new session first verifies the loaded skill path reads 0.119.0,
-  then Switch In: routing adopts `kerd-b5-review` from this Out's designation
-  against the saved `CONTEXT.md`, then runs `arrival` (TEAM plus the first live
-  no-reply notice, default recipient `codex-tui`). The arrival recommends one
-  action in YOU and asks one direct question after END. Anthony assesses the
-  TEAM and YOU layout (rows 1–2); the notice outcome goes on row 4 as the
-  sender's receipt, and Codex's receipt of it only if Codex reports it. Results
-  go on the rows.
-- Row 1's "not now" reply to an arrival question is still unexercised: Anthony
-  answered neither the 0.118.0 arrival question nor its menu, and gave his
-  assessment through Codex. Record it when a real reply occurs; don't stage one.
+- **First (proposed): bring the installed plugins to 0.126.0.** Claude's plugin
+  cache on this Mac Studio tops out at 0.124.0 (listed 2026-09-14 12:44); Codex
+  runs 0.124.0 (Codex, `codex plugin list`, 2026-09-14). Nothing of 0.125.0 or
+  0.126.0 has run installed. Updating either plugin is Anthony's action or needs
+  his authorization; verify the loaded skill path before counting any result.
+- **Then: observe the next two real multi-step builds on 0.126.0** and fill the two
+  slots in `composer-restoration-comparison.md`: the route Conductor chose
+  (Conductor-written, composer or inline) and why, composer calls, share of steps
+  delegated and fan-out, returned-diff reads, failure routing, and a visible
+  task-based controller model/effort assessment. Don't manufacture a build.
+- Check the Conductor staffing grid in the original work-anthony transcript:
+  Anthony's pasted grid looked mangled (terminal or paste, unverified), the
+  controller named Opus 5 without a visible fit assessment, and route 1 was not
+  exercised (Codex, 2026-09-14).
+- A "not now" reply to the arrival question is still unexercised; the question is
+  now the generic "Start a Conductor session?". Record it when a real reply occurs.
 - Unplanned restart recovery is observed only when a role-holding session is
-  actually lost later; nothing is crashed deliberately (Anthony, via Codex,
-  12:42). Receipts stop matching when `CONTEXT.md` bytes change.
-- DEFERRED until rows 1–5 carry evidence (Anthony, 10:41): a fresh Codex
-  Switch In in a work project. Installed Codex Kerd is 0.118.0; no update to
-  0.119.0 is authorized.
-- Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a
-  model, not a fixture: a factual Yes, No or Not sure that grants no approval.
-- Observe Conductor assigning useful implementation work with owners and edit
-  boundaries at a real build (row 6). The 0.119.0 split (Codex built, Claude
-  reviewed) was again a peer arrangement Anthony set up, not a Conductor decision.
+  actually lost; nothing is crashed deliberately (Anthony, via Codex, 2026-09-13).
+  Receipts stop matching when `CONTEXT.md` bytes change.
+- The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
+  project. Since then Anthony has run ordinary pickups in Leru, Weefish, Seinn,
+  Apple Music and work-anthony (session log 2026-09-14). Whether the hold is lifted
+  is his call; don't assume it.
+- Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model,
+  not a fixture: a factual Yes, No or Not sure that grants no approval.
 
 ### Earlier launch sequence — retained pending reconciliation
 

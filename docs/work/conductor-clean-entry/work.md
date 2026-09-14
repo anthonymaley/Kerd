@@ -2,16 +2,21 @@
 
 ## Now
 
-Stage: 0.125.0 release candidate after composer/spec/player restoration.
-Owner: Codex controls; Astra/high composed the score; disjoint Terra/medium and
-Sol/medium players implemented; established Claude partner reviews read-only.
-Next action: run the final release checklist, publish once, inspect CI, then
-ordinary installed observation. Anthony authorized implementation, cross-review
-and release together; no automatic install or consumer work is included.
-0.124.0 was released at 0cd6535 with CI run 34848499568 passing, and its Codex
-snapshot was installed/enabled afterward. Resuming the existing Codex conversation
-made all four 0.124.0 skills available in its host-provided skill catalog.
-Earlier candidate/no-install statements below describe their historical stage.
+Stage: Released. 0.124.0 (`0cd6535`, model-aware orchestration, Switch composes
+without Conductor), 0.125.0 (`ae2f17e`, generic Conductor offer, wider active-work
+restore, composer/score/player restoration assessed against v0.105.0) and 0.126.0
+(`8e1ddb6`, Conductor-written delegated steps for clear work; Claude implemented,
+Codex reviewed with three corrections). CI passed on each.
+Owner: observation belongs to the session doing the next real build; the Claude
+role `kerd-b5-review` records results in the comparison slots.
+Next action (proposed): Anthony brings the installed plugins to 0.126.0 (Claude's
+cache tops out at 0.124.0, Codex runs 0.124.0), then the next two real multi-step
+builds fill the slots in [composer-restoration-comparison.md](composer-restoration-comparison.md).
+Codex's 0.124.0 snapshot was installed and enabled after that release; resuming the
+existing Codex conversation made all four 0.124.0 skills available in its catalog.
+No install, consumer work or manufactured build is authorized by this record.
+Pending question: none recorded here; installation is Anthony's call.
+Earlier Stage/Next statements in the sections below describe their own dates.
 
 ## Interactive orientation follow-up — 2026-09-14
 
