@@ -76,7 +76,7 @@ handoff --record CONTEXT.md`. The next Claude In adopts it with `adopt
 stop matching when this file's bytes change. Previous position paragraphs are in
 `docs/backlog-archive.md` ("Retained position, 2026-09-13").
 
-**Pickup reading set** (Switch Out, 2026-09-14 14:40):
+**Pickup reading set** (Switch Out, 2026-09-14 14:25):
 - this file complete, for position, the selected continuation, risks and rulings;
 - `TODO.md` `## Now` with its child section, the designated active list;
 - `kivna/sessions/2026-09-14.md` complete, the sitting's account;
