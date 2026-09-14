@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Guide repo-based work from a request such as "build an app", "create a guide", "plan a project" or "help me make this happen" through direction, scoped implementation delegation with visible task/model/effort and prompt-preparation updates, and independent assessment. Restore one selected session scope from saved work and current direction for owner-labelled actions and one question in Switch In's dashboard. Small explicit changes, status and review requests do not start a full intake.
+description: Guide repo-based work such as "build an app", "create a guide", "plan a project" or "help me make this happen". Start or resume from a direct request or approved Switch arrival, with direction, scoped delegation, visible task/model/effort and independent assessment. At Switch In, compose the selected scope and ask to start or resume it; orientation alone does not start execution. Managed Roll continues authorized work without that approval. Small explicit changes, status and review requests do not start a full intake.
 ---
 
 # Conductor
@@ -26,7 +26,36 @@ approval to use this skill alone does not authorize those installations.
 If higher-priority instructions conflict, explain the specific conflict rather
 than claiming it is bypassed. Existing host permissions still apply.
 
-## Start from the person, or the saved place
+## Enter work, not another pickup
+
+Distinguish **arrival composition** from **starting/resuming work**. Switch In's
+invocation only composes the dashboard and waits, as below. An invocation after
+the person's action approval enters the selected work: reuse its project, scope,
+work pointer, approval and exclusions already in context. Do not repeat the
+dashboard, intake or approval. Direct start/resume requests use the same entry.
+
+For authorized delivery, read [execution](references/execution.md) before broad
+work reads or edits, resolve the inline/delegated split and show
+**Conductor · Deliver — <actual next activity>** with its owner and boundary.
+Use the delegation grid when contributors are assigned; otherwise explain the
+practical inline choice briefly. Then do the work in this turn. For design or
+planning, enter the actual stage instead; starting Conductor grants neither
+implementation nor deployment beyond the approved scope. Status and factual
+questions remain proportionate answers, not new work sessions.
+
+For sustained authorized local work requiring automatic context continuation,
+enter [managed Conductor](references/managed-conductor.md) from the outset.
+The chat stays the control surface while managed decision sessions own delivery
+and review; do not wait until this chat is full and promise a TUI replacement.
+Use only its supported provider, permission and lifecycle scope.
+
+A verified managed rolling continuation enters delivery from its saved place
+and unchanged agreement without the normal arrival question. Follow the
+[Roll boundary](../switch/references/to-roll.md#roll-fresh-window-same-authorized-build);
+a new chat or a bare “resume” label is not evidence of managed authority or
+exclusive ownership. Do not claim this entry replaces an arbitrary open TUI.
+
+## Compose the ordinary arrival
 
 When loaded by **Switch In**, use the position and authority Switch already
 restored: read this skill and the journey guide, skip intake and discovery, and
@@ -47,9 +76,12 @@ If a missing fact or preference prevents a grounded recommendation, ask one
 direct clarification rather than guessing. With no actionable work, show no
 selected task and invent none.
 An unresolved design means designing, not a grant to build or deploy.
-Put **“Starting on X — approve?”** for that scope in the dashboard's existing
-`question` fields; its saved pending question replaces it when still applicable,
-with any recorded proposed answer. Do not select an unrelated open question
+For an agent-owned work proposal put **“Start Conductor on X?”** in the existing
+`question` fields, or **“Resume Conductor on X?”** when the saved record shows
+that work already underway. Name the actual scope, not a generic invitation to
+start a session. An old generic “start work?” approval is expressed in this form;
+preserve its scope and exclusions. A still-applicable factual or product-decision
+question remains that question, with any recorded proposed answer. Do not select an unrelated open question
 merely because it remains unanswered. A factual
 clarification is not approval: answering it resolves that fact only, not permission
 for the proposed next work. Bind the reply to the question actually asked:
@@ -108,11 +140,13 @@ routing maintenance, not work authorization. A current explicit request to conti
 without another approval; managed To/Roll also keeps its agreed continuation.
 Use native task tools when available; otherwise the dashboard's NOW is the
 fallback list. Do not append another brief, journey strip or copy of the list.
-After approval, continue under Conductor without repeating pickup. This is the
-full In rule; Switch and the journey guide link here rather than duplicate it.
+After approval of the proposed agent work, Switch explicitly invokes Conductor's
+[work entry](#enter-work-not-another-pickup). This is the full composition rule;
+Switch owns the invocation, not a second approval. Loading for composition is
+not evidence that delivery has started.
 
-On the person's next request, handle the actual request under Conductor: status
-stays status; a clear approval or continuation resumes the selected work without
+On the person's next request, handle the actual request: status stays status;
+a clear action approval or explicit continuation enters the selected work without
 repeating intake. Supporting skills can supply a job's method, but do not replace
 Conductor's agreement, progress display, model handoffs and outcome assessment.
 If instructions conflict, disclose the conflict rather than silently switching
@@ -129,6 +163,8 @@ Conductor command when the host makes it discoverable. Match intent, not a word
 appearing in quoted text. Discussion is not build authorization. A discoverable
 description enables consideration, not guaranteed selection or precedence over
 another host instruction; Switch In explicitly loads this skill as described above.
+
+## Start from the person, or the saved place
 
 For a small, unambiguous, already-authorized change, act and verify proportionately;
 don't require a new package, ten answers or a ceremonial brief. The request can
@@ -283,10 +319,8 @@ draft or example is not the person's agreement to this direction. Preserve
 previous agreement when recording a material revision and its reason. Revisit
 the changed decision, not every unaffected detail. No hashes or fingerprints.
 
-After agreement, read [the delivery guide](references/execution.md), decide the
-inline/delegated implementation split there, show
-**Deliver · <actual next activity>**, and perform the next authorized action in
-this turn. Don't end with “next is implementation” or “ready for implementation”
+After agreement, use [the work entry](#enter-work-not-another-pickup) and perform
+the next authorized action in this turn. Don't end with “next is implementation” or “ready for implementation”
 when implementation is authorized and possible. Interpret a brief “okay” or “go”
 against the live decision, not an older suggestion or arbitrary backlog item.
 For repeated instructions, changed limits or a finished task, use the delivery

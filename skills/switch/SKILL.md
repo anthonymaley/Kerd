@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In loads Conductor on the selected continuation, restores Agent pairing and role continuity, notifies established partners without requesting work or a reply, and returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership, contributor coverage and recorded urgent risks in the pickup set, then saves the selected next action and approval boundary, with memory readiness distinct from Git save status. Distinguishes closeout from exact mid-work continuation.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. In restores memory and pairing, loads Conductor for arrival composition and asks to start/resume the selected agent work; action approval explicitly invokes Conductor's work entry. Returns the status grid unchanged with TEAM, LAST/THIS, action-only NOW and one question after END. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
 ---
 
 # Switch
@@ -15,7 +15,8 @@ and repository boundaries still apply.
 - **In:** restore useful memory, current status and the saved plan; load Conductor
   to compose one welcome-back dashboard with owner-labelled NOW actions (not
   checking procedures or pass criteria) and
-  one question callout after the end marker. Return the renderer's complete
+  one question callout after the end marker, explicitly proposing to start or
+  resume Conductor for agent-owned work. Return the renderer's complete
   Markdown as the final message unchanged, then wait; do not rewrite its prose. Read
   [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work, leave a
@@ -29,7 +30,9 @@ and repository boundaries still apply.
   [device handoff](references/to.md). Load managed detail only for an owned build.
 - **Roll:** preserve an active Conductor build across a fresh context window,
   without a new interview or routine go-ahead. Read
-  [managed handoff and Roll](references/to-roll.md).
+  [managed handoff and Roll](references/to-roll.md). For the continuing decision
+  and review loop as well as workers, use sibling Conductor's
+  [managed controller](../conductor/references/managed-conductor.md).
 
 Honor the named action. Don't infer In/Out from a dirty tree, or perform a boundary
 when the person asks only about its design/status. Ask only when the requested
@@ -75,8 +78,11 @@ Ordinary In restores an active build's place without executing it. Before
 rendering the dashboard, load the sibling [Conductor](../conductor/SKILL.md) on
 that place as the guide's [handover](references/in-out.md#load-conductor-before-the-dashboard)
 describes. Conductor composes the dashboard's one decision and waits; its
-SKILL.md In paragraph is the full rule. The approval, or an explicit request to continue, is what starts work;
-managed To/Roll keeps its agreed continuation. Loading is not build authorization.
+SKILL.md arrival paragraph is the full composition rule. An action approval or
+explicit continuation invokes Conductor's work entry through the host skill
+mechanism as the guide's [execution handover](references/in-out.md#enter-conductor-after-an-action-approval)
+describes. This is not a second approval; managed To/Roll keeps its agreed
+continuation. Loading for composition is not build authorization.
 Retain existing local Agent pairing context as that guide describes; load Agent
 when a contribution is requested. The short succession guide permits verifying
 this session's ID and adopting its designated role in private metadata, plus a

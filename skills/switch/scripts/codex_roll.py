@@ -157,14 +157,15 @@ class AppServerBridge:
         self.core.close(alias)
 
     def run(self, target, prompt, role, session, request_id, writable=False,
-            model=None, effort=None, timeout=None, hold=False, checkpoint_requested=None):
+            model=None, effort=None, timeout=None, hold=False, checkpoint_requested=None,
+            checkpoint_instruction=None):
         if self._held is not None:
             raise ProtocolError("This controller still owns a held source")
         lock = self.transport.exclusive(self.core.session_path(session).with_suffix(".lock"))
         lock.__enter__()
         try:
             self.core.ensure_resolved(session)
-            return self._run(target, prompt, role, session, request_id, writable, model, effort, timeout, hold, checkpoint_requested)
+            return self._run(target, prompt, role, session, request_id, writable, model, effort, timeout, hold, checkpoint_requested, checkpoint_instruction)
         finally:
             if self._held is not None:
                 self._held_lock = lock
@@ -240,7 +241,8 @@ class AppServerBridge:
         return dict(record)
 
     def _run(self, target, prompt, role, session, request_id, writable=False,
-             model=None, effort=None, timeout=None, hold=False, checkpoint_requested=None):
+             model=None, effort=None, timeout=None, hold=False, checkpoint_requested=None,
+             checkpoint_instruction=None):
         if target != "codex" or not model or not effort:
             raise ValueError("Context-aware Roll currently requires an explicit Codex model/effort")
         if timeout is not None and (not math.isfinite(timeout) or timeout <= 0):
@@ -249,8 +251,8 @@ class AppServerBridge:
             raise ProtocolError("Context-aware Roll requires a fresh alias, never session resume")
         folder = self.core.request_path(request_id)
         folder.mkdir(mode=0o700)
-        record = {"request_id": request_id, "session": session, "target": target,
-                  "status": "running", "project": str(self.root), "owner_pid": os.getpid(),
+        record = {"request_id": request_id, "session": session, "target": target, "project": str(self.root),
+                  "status": "running", "owner_pid": os.getpid(),
                   "started_at": self.transport.now(), "requested_model": model,
                   "requested_effort": effort, "session_id": None,
                   "authority": "project edits" if writable else "read only",
@@ -279,10 +281,10 @@ class AppServerBridge:
                 return
             record["checkpoint_requested"] = reason
             steer_pending = request("turn/steer", {"threadId": record["session_id"], "expectedTurnId": active_turn,
-                "input": [{"type": "text", "text": reason + ". Finish the current safe local operation; "
+                "input": [{"type": "text", "text": reason + ". " + (checkpoint_instruction or "Finish the current safe local operation; "
                 "do not start another work package. Return the saved-place JSON now, retaining actual "
                 "progress, decisions, evidence and failed attempts. Use continue if work remains, "
-                "review only if genuinely ready. Do not launch any other job."}]})
+                "review only if genuinely ready. Do not launch any other job.")}]})
 
         try:
             with self.transport.shutdown_signals(), open(folder / "stderr.txt", "x") as stderr:
@@ -398,6 +400,13 @@ class AppServerBridge:
                 candidates = list(final_messages.values())
                 record.update(status="completed", provider_completed=True, reply=candidates[-1],
                               checkpoint_candidates=candidates)
+                # Retain the complete contribution before releasing the source process.
+                # It is not a validated place or clean shutdown yet. A dead driver can
+                # inspect this exact receipt instead of guessing or replaying the job.
+                self.transport.save(folder / "result.json", {**record, "status": "running", "phase": "checkpoint_saved"})
+                saved = self.transport.read(folder / "result.json")
+                if saved.get("checkpoint_candidates") != candidates:
+                    raise ProtocolError("Source checkpoint failed read-back before release")
         except BaseException as exc:
             record.update(status="cancelled" if interrupted or isinstance(exc, KeyboardInterrupt) else "failed",
                           provider_completed=False, error=str(exc))

@@ -100,10 +100,62 @@ Roll's automatic shutdown after each completed worker.
 
 ## Roll: fresh window, same authorized build
 
+### Rolling Out and rolling In
+
+These are the two halves of the existing managed Roll, not new ordinary
+Switch commands or a request for the person to clear a terminal. The controller
+must already own the managed run and hold its agreed authority.
+
+- **Rolling Out:** at the context request or safe worker boundary, preserve the
+  active work, decisions and limits, actual evidence, failure counts and exact
+  next action in the saved place. Carry governing urgent risks as dated saved
+  observations, not fresh operational checks. No backlog pruning, replanning,
+  release or routine full-session closeout.
+- **Transfer:** reconcile contributions before the next worker starts. The
+  controller captures returned review/subagent findings and their disposition in
+  the existing work record when they arrive, not only when its context is low.
+  Include the needed findings or referenced record in the next saved place.
+  Keep pending job owner, state and result location explicit; the current runner
+  refuses another worker while any job remains unresolved. The controller owns
+  retrieving and reconciling it without asking for routine continuation approval.
+  Do not clear pending_jobs merely to get past that refusal.
+- **Rolling In:** only after the checkpoint is saved/read back and the source's
+  release is verified, start the fresh worker from the unchanged agreement and
+  saved place. Continue the exact next action without ordinary In's dashboard,
+  start/resume question or another interview. Review and genuine blockers return
+  to Conductor; a fresh worker cannot declare the whole job accepted.
+
+Keep these boundaries visible as checkpointing, source released and continuing
+when those events are actually observed. A saved file alone is not a completed
+transfer. Ordinary In on another terminal cannot become this continuation by
+reading a Roll ledger: recorded running/held state is not current ownership or
+proof the source is gone. Inspect a known managed run read-only and preserve
+its owner; do not start a competing controller or worker in that checkout.
+
+This covers **managed worker** succession. It does not implement automatic
+replacement of the outer Conductor chat when that chat's context runs low;
+that missing controller lifecycle remains distinct from this tested worker loop.
+
+### Run the existing managed loop
+
+The command below rolls **workers**, leaving this chat as decision owner. For
+the user-requested automatic continuation of Conductor decisions and review too,
+start [managed Conductor](../../conductor/references/managed-conductor.md).
+It uses the same ownership record and refuses a competing worker loop. Neither
+route takes over an arbitrary TUI or supplies a pressure-aware Claude adapter.
+
 Use the small local helper only for a designated managed build. It owns fresh
 CLI runs outside the workers' context windows, through the existing Conductor
 model connection. Model/effort are explicit and job-appropriate. Do not change
 accounts, buy capacity or bypass permissions. No global hooks or service setup.
+
+Use a host-supported long-running execution handle and monitor its output. On a
+Claude controller, use the native background Bash route for a loop that can
+outlast the foreground tool limit, then retrieve its result; `roll_status.py`
+is a recorded-status aid, not proof the process survived. Preserve the live
+stdin handle when `--control` is used; a background route that closes stdin
+cannot support it. Child survival after a host tool timeout is unverified here:
+inspect the retained run instead of assuming it stopped or launching a duplicate.
 
 The current managed-run interface has an agreed-work Markdown file and a compact
 saved-place JSON file. The latter carries status (continue/review/blocked),

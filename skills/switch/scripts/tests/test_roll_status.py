@@ -115,7 +115,7 @@ class RollStatusTests(unittest.TestCase):
 
     def test_all_known_states_are_friendly_and_successful(self) -> None:
         expected = {
-            "running": "Running - a worker is active.",
+            "running": "Recorded running - worker liveness has not been checked.",
             "paused": "Paused - waiting to resume.",
             "continue": "Continue - ready for another useful piece.",
             "review": "Review - awaiting independent assessment (not accepted).",
@@ -253,6 +253,14 @@ class RollStatusTests(unittest.TestCase):
         self.assertIn("status is unknown", result.stderr)
         self.assertNotIn("passed", result.stdout)
         self.assertNotIn("Traceback", result.stderr)
+
+    def test_managed_conductor_completion_and_phase_are_explicit(self) -> None:
+        self.write_record(self.valid_record(status="complete", kind="conductor", phase="stopped"))
+        result = self.run_status()
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("Managed Conductor status", result.stdout)
+        self.assertIn("reports completion after review", result.stdout)
+        self.assertIn("Phase: stopped", result.stdout)
 
     def test_invalid_json_and_schema_are_concise_nonzero_errors(self) -> None:
         invalid_cases = [

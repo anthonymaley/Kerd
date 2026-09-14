@@ -99,12 +99,23 @@ the next useful job without another permission turn inside existing authority.
 
 ## Keep a long build moving through Roll
 
+To roll the **Conductor decision and review loop itself**, use
+[managed Conductor](managed-conductor.md) from delivery entry. Its local driver
+owns fresh decision, implementation and review sessions without returning to
+this chat for routine continuation. The following older worker-only route still
+applies when this live chat intentionally remains the decision owner.
+
 For an authorized long-running local build, use [Switch's Roll guide](../../switch/references/to-roll.md).
 Conductor prepares the actual agreement and small saved place, selects the model
 and tools, starts the managed loop and remains responsible for review and proof.
 The worker gets the relevant outcome contract, not the whole interview or skill
 pack. A saved place is not a second approval and a fresh window does not restart
-the interview. Keep working from returned results within the standing authority.
+the interview. Use the guide's rolling Out/transfer/In boundary: record returned
+contributors' findings and disposition before they can be lost from controller
+context, and carry the necessary account into the next worker's saved place.
+Keep working from returned results within the standing authority. Managed worker
+succession does not replace this outer Conductor session; do not promise
+automatic whole-session rollover from a worker-only run.
 
 Where supported, observe context usage and request a safe checkpoint with room
 left to save. Otherwise disclose the route's limits; don't label preset pieces

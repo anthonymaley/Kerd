@@ -30,9 +30,11 @@ before intent exists. Small explicit work needs only proportionate orientation.
 When Switch has just restored the session, its
 [welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
 is the entry orientation: don't repeat it. Conductor composes the decision before
-that dashboard is rendered, as its SKILL.md In paragraph describes in full;
-once the person approves
-or asks for work, continue with the job update or unresolved decision. Its optional
+that dashboard is rendered, as its SKILL.md arrival section describes in full;
+once the person approves the scoped Conductor start/resume or explicitly asks
+for work, Switch invokes Conductor's work entry. Continue with the job update
+or unresolved decision, not a second pickup or approval. A managed rolling
+continuation bypasses that arrival question. Its optional
 Insight callout suits a useful learning during
 work too — distinct from a question card, never compulsory.
 

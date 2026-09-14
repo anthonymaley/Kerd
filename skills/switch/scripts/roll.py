@@ -161,6 +161,8 @@ class Roller:
             raise RollError("Recovery requires the inspected cause and disposition of jobs")
         with self.transport.exclusive(self.local / "owner.lock"):
             prior = self.transport.read(self.ledger)
+            if prior and prior.get("kind") == "conductor":
+                raise RollError("Managed Conductor owns this record; worker Roll cannot recover it")
             if not prior or prior.get("status") not in {"uncertain", "failed"}:
                 raise RollError("Only an inspected failed/uncertain Roll can be recovered")
             if any(prior.get(k) != str(v.relative_to(self.root)) for k, v in
@@ -215,6 +217,8 @@ class Roller:
             raise RollError("Live control requires the held-source Codex adapter")
         with self.transport.exclusive(self.local / "owner.lock"):
             prior = self.transport.read(self.ledger)
+            if prior and prior.get("kind") == "conductor":
+                raise RollError("Managed Conductor owns this record; worker Roll cannot resume it")
             if prior and prior.get("status") in {"running", "uncertain", "failed"}:
                 raise RollError("Previous Roll needs inspection; no automatic rerun of uncertain work")
             if prior and prior.get("status") in {"handed_off", "awaiting_destination"}:

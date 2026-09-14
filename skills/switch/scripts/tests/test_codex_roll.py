@@ -141,7 +141,7 @@ class AppServerBridgeTests(unittest.TestCase):
             ensure_resolved = ask.Bridge.ensure_resolved
 
         Core.stop = staticmethod(stop)
-        self.transport = types.SimpleNamespace(Bridge=Core, save=ask.save, now=ask.now,
+        self.transport = types.SimpleNamespace(Bridge=Core, save=ask.save, read=ask.read, now=ask.now,
                                                shutdown_signals=contextlib.nullcontext,
                                                exclusive=ask.exclusive)
         self.bridge = adapter.AppServerBridge(self.root, self.transport)
@@ -296,6 +296,29 @@ class AppServerBridgeTests(unittest.TestCase):
         self.assertEqual(steers[0]["expectedTurnId"], "turn-1")
         self.assertTrue(result["steer_accepted"])
         self.assert_stopped()
+
+    def test_conductor_checkpoint_uses_its_contract_not_worker_schema(self):
+        instruction = "Return the decision object with action checkpoint and exact ack."
+        result = self.run_stream(self.prefix() + [reading(700),
+            {"id": 4, "result": {"turnId": "turn-1"}}, final(), completion()],
+            checkpoint_instruction=instruction)
+        self.assertEqual(result["status"], "completed")
+        steer = next(p for m, p in self.server.sent if m == "turn/steer")
+        text = steer["input"][0]["text"]
+        self.assertIn(instruction, text)
+        self.assertNotIn("Use continue", text)
+
+    def test_reply_is_saved_and_read_back_before_source_shutdown(self):
+        original = self.bridge._shutdown
+        def inspect(server, record):
+            saved = ask.read(self.bridge.state / "requests/request-1/result.json")
+            self.assertEqual(saved["phase"], "checkpoint_saved")
+            self.assertEqual(saved["status"], "running")
+            self.assertEqual(saved["checkpoint_candidates"], [final()["params"]["item"]["text"]])
+            original(server, record)
+        with patch.object(self.bridge, "_shutdown", side_effect=inspect):
+            result = self.run_stream(self.prefix() + [reading(), final(), completion()])
+        self.assertEqual(result["status"], "completed")
 
     def test_accepted_steer_preserves_same_turn_revised_final_candidates(self):
         revised = final()

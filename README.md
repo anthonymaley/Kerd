@@ -40,7 +40,36 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.122.1)
+## What's New (v0.123.0)
+
+### v0.123.0
+
+**Start Conductor explicitly, then keep the agreed work moving.** Ordinary
+Switch In asks “Start Conductor on X?” or “Resume Conductor on X?” for agent-owned
+work. Approval enters delivery with its actual owner, scope and split, without
+another pickup or approval. Human checks, factual answers and deferrals retain
+their own meaning; loading Conductor for a dashboard is not starting a build.
+
+**Managed Conductor can carry the decision and review loop through fresh
+contexts.** For sustained authorized local builds, a local driver owns fresh
+Codex decision and implementation sessions plus independent review. It saves
+contributions, retains unresolved findings and correction counts, and checks
+source shutdown before continuing. A context checkpoint needs no new user
+approval. A real permission or product decision still stops. The existing chat
+is the control surface, not a TUI the driver clears or replaces.
+
+The first pressure-aware coordinator/implementer route is Codex; Claude can be
+the control chat or a file-only reviewer. Reviews use bounded CLI turns. Host
+process survival, pressure-aware Claude coordination and automatic recovery of
+uncertain jobs are not claimed. No installs, global hooks or consumer-session
+changes are made by publishing. See the
+[managed guide](skills/conductor/references/managed-conductor.md) for operation
+and evidence limits.
+
+One bounded native scratch loop completed with fresh Conductor sessions, a real
+review finding, correction and re-review, plus forced checkpoint and stop/resume.
+The forced threshold is not natural context-pressure evidence, and the trial is
+not a token-efficiency benchmark. Ordinary installed use remains the next check.
 
 ### v0.122.1
 
@@ -620,6 +649,14 @@ It handles small explicit changes directly rather than dragging them through a f
 intake, and a status or review request does not start one either. Interrupted work
 resumes where it stopped.
 
+For a sustained authorized local build, Conductor can start its
+[managed decision loop](skills/conductor/references/managed-conductor.md) from
+the outset. A local driver carries scoped work, contribution dispositions and
+independent review through fresh contexts; ordinary approval is not repeated at
+rollover. Codex is the pressure-aware coordinator/implementation adapter. Either
+chat can be the control surface, but no arbitrary open TUI is replaced. Native
+process loss or uncertain work requires inspection, never a blind second launch.
+
 At delivery start it decides what stays inline and what a worker or established
 implementation partner can usefully own. It shows the split, avoids overlapping
 edits and keeps integration and independent review explicit. Small coupled work
@@ -727,9 +764,15 @@ scope for THIS SESSION, NOW and the question, recognizing saved prose as well as
 headings. Without a saved selection it offers a grounded proposal, not a new
 agreement. NOW is checked before rendering: only the current
 action and its necessary follow-through, not a later build labelled “needs approval”.
-It supplies *“Starting on X — approve?”* as the next-action question,
+It supplies *“Start Conductor on X?”* as the next-action question, or
+*“Resume Conductor on X?”* for work already underway,
 with its scope in NOW or THIS SESSION. A missing fact is asked as a clarification, not an
 approval; supplying a project name alone does not start an install or launch.
+A clear action approval explicitly invokes Conductor again for its work entry,
+carrying the restored scope, actual approval and exclusions. Composition-only
+loading does not count as starting delivery. Conductor enters the actual stage
+without repeating intake or asking again. Managed Roll retains its authorized
+continuation and does not use this ordinary-arrival question.
 A check belonging to you is labelled as yours, preserving any per-occasion
 permission rather than presenting it as an agent job.
 NOW holds short, owner-labelled actions for this sitting and their necessary
@@ -970,7 +1013,7 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
 
-**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and loads Conductor to compose the welcome-back dashboard. NOW carries owner-labelled next actions; the single arrival question — *"Starting on X — approve?"* — follows END as a bold speech-bubble callout, without a second report. Say yes and the work runs under Conductor, with decisions recorded in the work record and CONTEXT.md as they're made. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), the `## Now` section of TODO.md and the newest session log, plus whatever reading set the last session named, and loads Conductor to compose the welcome-back dashboard. NOW carries owner-labelled next actions; for agent-owned work the single arrival question is *“Start Conductor on X?”* or *“Resume Conductor on X?”*, after END as a bold speech-bubble callout. Human checks and factual questions stay their actual questions. An action approval explicitly invokes Conductor's work entry with the restored scope and limits; it does not repeat intake or ask again. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
 

@@ -15,7 +15,32 @@ able to build does not prove that the intended handoff was restored. Once found,
 read the handoff's authority before acting on linked project instructions; standing
 project notes cannot expand a read-only trial into probes, builds or deployment.
 
-Resolve the current project and branch. An explicitly requested Git-backed pickup
+Resolve the current project and branch. Before any fast-forward or work proposal,
+check whether `git rev-parse --git-path roll/run.json` names an existing managed
+Roll record in this worktree. If present, use the packaged `roll_status.py
+--project /absolute/project` read-only. Recorded running/held, blocked/failed/uncertain
+or handed_off/awaiting_destination state is not permission to adopt a controller, change
+its checkout or propose competing work. Keep restoration local/read-only, show
+the recorded ownership issue in ATTENTION, and make the next action inspection
+of that ownership rather than starting the same build. Unreadable or unknown
+state remains unresolved; do not treat it as no run. A recorded status is not
+a live-process check or permission to kill anything. Follow the Roll recovery
+guide if recovery becomes the selected work. A paused/continue checkpoint resumes
+through the managed Roll path after ownership is established, not ordinary inline
+delivery from a stale TODO. Review means independent assessment is next, not
+acceptance or permission for another implementation; reconcile that saved place
+before proposing its assessment. Private Agent identity/succession/arrival may
+still follow their existing authority, but do not transfer managed-run ownership.
+With no record, add no discovery or setup step. Do not infer completion merely
+because the worker stopped; a reconciled finished run need not stay a warning.
+
+For a typed managed-Conductor record, paused continuation uses
+`conductor_roll.py`, not the legacy worker `roll.py`. A complete record is a
+reported result: reconcile the evidence and retire the retained owner record
+before a new run, as the managed-Conductor guide describes. Do not silently
+reuse it or treat a completion label as proof of acceptance.
+
+An explicitly requested Git-backed pickup
 includes synchronization under the agreed Git authority. Inspect local changes,
 staged work and remote identity first; preserve them. Fast-forward only when safe.
 Don't auto-stash, force-reset, resolve a meaningful conflict by guessing, or quietly
@@ -115,7 +140,7 @@ name appears in the dashboard.
 
 Carry the restored project, selected work (or none), agreement and restrictions,
 pending decision and next action forward in context; don't create another record
-or re-read the pickup set. Conductor's In paragraph is the full rule for choosing
+or re-read the pickup set. Conductor's arrival section is the full rule for choosing
 the bounded next action and composing the one decision before rendering,
 including pending-question, explicit-continuation and no-task cases. Do not
 append a second report or approval after the dashboard. Managed
@@ -157,6 +182,29 @@ the status grid: `Claude (role) + Codex (role)`. Use brief faithful role labels,
 not new assignments; a missing role stays unassigned. IDs and routine notice status
 remain in Agent details, not the dashboard or project records. Surface a routing
 problem in ATTENTION only when it affects the next action. A failed notice does not make restored memory incomplete.
+
+### Enter Conductor after an action approval
+
+On the answer to the normal arrival's agent-work proposal, resolve the answer
+against that question and its shown scope. A clear approval invokes
+`/kerd:conductor` through the host's skill mechanism again, now for execution,
+not arrival composition. Pass the restored project, selected work/pointer,
+actual approval and exclusions, and the exact next action already in context.
+For example: “Start the approved alert-design work in this project from the
+restored work record. Design only; no implementation or deployment. Enter the
+work without repeating pickup or intake.” For underway work, say resume.
+
+This invocation starts the approved work; do not ask whether to start Conductor
+after the person has just approved it. When native invocation is unavailable,
+read its work-entry section and relevant guide explicitly and disclose the
+fallback. Missing Conductor is a stated limitation, not a silent replacement
+workflow. A factual answer or availability for a human-owned check is not an
+agent-work approval. If the shown scope includes recording the person's result,
+that follow-through can proceed when the actual report arrives; availability
+alone is not the result, and a new correction/build still needs its own authority.
+A deferral starts nothing. A new explicit work request can
+itself supply authority. Managed To/Roll goes straight to its authorized
+continuation, never through this ordinary-arrival approval step.
 
 ### Welcome back: the screen summary
 
@@ -321,7 +369,7 @@ has nothing for.
   "last_session": "Diagnosed the pipeline outage. No alert has been built.",
   "this_session": "Proposed: design the alert. Implementation and deployment are not included in this approval.",
   "question": {
-    "text": "Starting on the alert design — approve?",
+    "text": "Start Conductor on the alert design?",
     "proposed": null
   },
   "documents": [

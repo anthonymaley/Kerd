@@ -17,13 +17,14 @@ from typing import Any
 KNOWN_STATES = {
     "awaiting_destination": "Awaiting destination - source released; other-device pickup has not started.",
     "handed_off": "Handed off - source released and destination pickup prepared; continuation belongs to Conductor.",
-    "running": "Running - a worker is active.",
+    "running": "Recorded running - worker liveness has not been checked.",
     "paused": "Paused - waiting to resume.",
     "continue": "Continue - ready for another useful piece.",
     "review": "Review - awaiting independent assessment (not accepted).",
     "blocked": "Blocked - the recorded blocker needs attention.",
     "uncertain": "Uncertain - the recorded state needs clarification.",
     "failed": "Failed - the Roll did not complete successfully.",
+    "complete": "Complete - Conductor reports completion after review; inspect its evidence.",
 }
 
 # CSI, OSC, and the remaining single-character ANSI escape forms.  Removing the
@@ -103,6 +104,8 @@ def validate_record(record: dict[str, Any]) -> tuple[str, str, list[Any] | None]
         raise StatusError("The Roll status record has no valid status.")
     if status not in KNOWN_STATES:
         raise StatusError("The Roll status is unknown; no outcome was inferred.")
+    if status == "complete" and record.get("kind") != "conductor":
+        raise StatusError("The Roll status is unknown; no outcome was inferred.")
 
     next_action = record.get("next_action")
     if not isinstance(next_action, str) or not next_action:
@@ -173,6 +176,14 @@ def make_panel(root: Path, record: dict[str, Any]) -> str:
         *history_lines(history),
         "Read result only; this does not mean the work passed.",
     ]
+    if record.get("kind") == "conductor":
+        lines[0] = "Managed Conductor status"
+        lines.insert(3, "Phase: " + safe_text(str(record.get("phase", "not recorded"))))
+        lines = [line.replace("Completed workers:", "Completed decision/job sessions:") for line in lines]
+        pending = record.get("pending")
+        if isinstance(pending, dict):
+            lines.insert(4, "Pending: " + safe_text(str(pending.get("kind", "unknown"))) +
+                         " - retained result in the private request store; not a liveness check")
     return "\n".join(lines)
 
 
