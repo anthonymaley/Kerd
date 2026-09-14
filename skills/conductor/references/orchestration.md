@@ -38,27 +38,58 @@ configuration defaults, permissions or accounts; state a recommendation and its
 reason when a change is warranted. Select delegated settings only through the
 chosen route's supported controls and within existing authority.
 
-## Compose a score before assigning executable work
+## Write the score before assigning executable work
 
 Keep four responsibilities distinct; they are capability requirements, not
 provider brands or permanent named assignments:
 
 - **Producer** owns intent, priorities and agreement on consequential choices.
-- **Composer** owns the execution score's substantive content and repairs to a
-  defective passage.
-- **Conductor** owns task-based session advice, staffing, dispatch, integration
-  and judging returned evidence against the score.
+- **Composer** owns the score passages it writes and repairs to them.
+- **Conductor** owns task-based session advice, the choice of who writes each
+  step, staffing, dispatch, integration and judging returned evidence. When the
+  work is already clear, Conductor writes the steps itself.
 - **Players** execute individual complete score steps and return their evidence.
 
-A composer call neither approves work nor becomes a persistent controller or an
-independent reviewer. Conductor preserves the agreement and makes routine
-staffing choices within it. A new score exposes a material outcome, quality,
-scope or authority change for producer agreement, but writing a score does not
-require a second approval of an unchanged authorized request.
+A composer call neither approves work, dispatches players, nor becomes a
+persistent controller or an independent reviewer; it returns its score to
+Conductor. Conductor preserves the agreement and makes routine staffing choices
+within it. A new score exposes a material outcome, quality, scope or authority
+change for producer agreement, but writing a score does not require a second
+approval of an unchanged authorized request.
 
-For a non-trivial execution specification with useful bounded player work, use
-an available top reasoning-capability composer at a separately sized, supported
-effort. Compose in two passes:
+### Choose who writes the steps
+
+Delegate by default whenever a job can be briefed and checked and the contribution
+is useful, authorized and worth its transfer and integration cost; route 3 below
+is the exception when it is not. The decision is who writes the brief, not whether
+delegation needs a composer first. For each piece of executable work, choose one
+route:
+
+1. **Conductor writes the steps and delegates them** when the outcome, approach,
+   files and checks are already settled by the agreement and terrain Conductor
+   holds. Write each step in the complete form below, then assign it. Fan out
+   independent steps to parallel players, choosing a suitable available pair for
+   each and preferring lower cost where task evidence supports it against the
+   complete step and its evidence bar. A composer call here adds cost without
+   adding judgment.
+2. **The composer writes the score** when the specification still needs design
+   or reasoning Conductor cannot settle confidently: an unclear approach, a
+   cross-file or public contract, competing constraints, or a step Conductor
+   cannot write precisely enough for a cold player. Uncertainty about whether a
+   step can be written precisely is itself the signal for this route.
+3. **Conductor does it inline** only when the work is tiny, tightly coupled
+   through shared state or sequencing, or judgment all the way through, so that
+   briefing and integrating would cost more than it saves. State that concrete
+   reason; being able to do it faster yourself is not one when a brief is cheap.
+
+Routes can mix in one task: Conductor may write the clear steps and send a
+design-heavy passage to the composer. Whoever writes a step owns its repair: a
+defect in a Conductor-written step returns to Conductor, a defect in a composer
+passage returns to the composer. Mark each step's author in the score or work
+record so repairs route correctly.
+
+For route 2, use an available top reasoning-capability composer at a separately
+sized, supported effort. Compose in two passes:
 
 1. Send the intended outcome, boundaries, constraints and actual authority, and
    ask for the smallest explicit named-file reading set required to write the
@@ -66,22 +97,22 @@ effort. Compose in two passes:
 2. Retrieve exactly that terrain, the relevant agreement and available routes;
    provide them with a score template. The composer writes the score directly
    beside the existing work record and returns a short summary plus material
-   risks.
+   risks to Conductor, which checks the score against the agreement before
+   tagging or assigning any step.
 
 Retrieval belongs to Conductor. If necessary terrain is missing, the composer
 returns a named gap; it does not guess an interface or receive an unlimited
-context dump. The composer writes the substantive detail, rather than passing
-unfinished specification to a lower-capability writer.
+context dump. Whoever writes a step writes its substantive detail; never pass an
+unfinished specification to a lower-capability player to complete.
 
-Small, unambiguous or entirely judgment-bound work may stay lean and inline with
-a concrete reason and no composer ceremony. Direction-setting without a selected
-authorized task also stays inline; do not launch a contributor merely to choose
-work. If a suitable composer is unavailable, disclose why and that Conductor is
-authoring the fallback score, then assess it against the same success bar. Do not
-claim that fallback is necessarily inferior, silently substitute a named partner,
-or demand new approval for an unchanged authorized task. Stop only when a real
-missing capability or decision prevents safe progress. Return later score defects
-to the composer for repair when that composer is available.
+Direction-setting without a selected authorized task stays inline; do not launch
+a contributor merely to choose work. If route 2 is warranted but a suitable
+composer is unavailable, disclose why and that Conductor is authoring that score,
+then assess it against the same success bar. Do not claim that fallback is
+necessarily inferior, silently substitute a named partner, or demand new approval
+for an unchanged authorized task. Stop only when a real missing capability or
+decision prevents safe progress. Return later defects in a composer passage to
+the composer when that composer is available.
 
 ### Make every score step independently executable
 
@@ -106,9 +137,10 @@ Consider useful independent research, implementation and review at startup and
 as they emerge. Apply [job splitting](execution.md#prepare-and-do-the-next-useful-job):
 assign a useful authorized complete score step or give its concrete inline reason,
 such as tiny scope, shared-state sequencing, coordination/context-transfer cost,
-or the cost of creating a complete score step where none exists. A finished score
-step's remaining transport supplement is not by itself a reason to keep work
-inline. Give editors disjoint ownership or serialize shared-file changes.
+or writing the step costing more than doing the work. A finished score step's
+remaining transport supplement is not by itself a reason to keep work inline.
+Independent steps run in parallel; give editors disjoint ownership or serialize
+shared-file changes.
 
 ### Size roles and advise the controller by the work
 
@@ -135,7 +167,8 @@ research/review request can itself be the task, authorizing its permitted contri
 Before substantive execution, show the actual stage, intended result, owner and
 stopping boundary, with the suitability and inline/delegation decision. Use the
 [existing work grid](journey.md#delegation-grid-and-preparation-updates), including
-the controller and actual composer/worker jobs in the same view. Show only real
+the controller, any composer call and each assigned step (Conductor- or
+composer-written) in the same view. Show only real
 assignments; inline composition need not become a separate row. Include a controller
 row even when no worker launches. This illustrative tiny task needs only one row:
 

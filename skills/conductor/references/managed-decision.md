@@ -14,8 +14,8 @@ When the agreement contains or references an execution score, select only within
 its finished steps. Retain the exact step/passage identity, evidence and cumulative
 unsuccessful-attempt count in the existing place memory, evidence and failures;
 do not reset them by renaming work, changing route or repairing a passage. You
-may clarify transport, but never edit or re-specify the score, launch a Composer
-or change its semantics to pass a failing check.
+may clarify transport, but never edit or re-specify the score, launch a Composer,
+rewrite a Conductor-written step or change its semantics to pass a failing check.
 Keep scope, required quality, stopping conditions, prior decisions, failures,
 urgent saved risks and unresolved findings in the saved memory. A real new
 permission or product decision returns blocked with the exact question; a low
@@ -81,7 +81,8 @@ On a context checkpoint request, finish the current read, retain what matters,
 and return action checkpoint. Do not start another analysis or job.
 
 A blocked score defect is the handoff to the control owner, not permission to
-launch a Composer, edit the immutable agreement or create another action. The
+launch a Composer, repair a step itself, edit the immutable agreement or create
+another action. The
 control owner must inspect the result and verify this managed owner has stopped
 before correction proceeds under existing agreement/run-replacement authority.
 

@@ -24,8 +24,8 @@ applicable content or a resolvable reference in the immutable agreement's existi
 narrative; this adds no required agreement or Roll field. Each managed decision
 selects work within those finished steps and retains the current passage identity,
 evidence and cumulative unsuccessful-attempt count in existing place memory and
-failures. It may clarify transport, but cannot edit or re-specify the score,
-launch a Composer or turn the score itself into new authority.
+failures. It may clarify transport, but cannot edit or re-specify the score
+(whoever wrote it), launch a Composer or turn the score itself into new authority.
 
 Read model-jobs.md and the applicable model profiles. Choose explicit available
 coordinator, implementation and review models/efforts for this task; reuse a
@@ -134,7 +134,8 @@ For a defective score passage, the managed decision uses the existing `blocked`
 action and records the exact passage, discrepancy evidence and needed repair in
 the existing place fields. It neither composes a correction nor edits the live
 agreement. The control owner inspects that result and verifies the managed owner
-has stopped before any change. A Composer may then repair only the affected
+has stopped before any change. The passage's author, a Composer or the
+controlling Conductor for a step it wrote, may then repair only the affected
 passage under the existing agreement and run-replacement authority, preserving
 prior requirements and explaining consequential changes. Any new outcome,
 quality, scope or authority choice returns to the Producer. Follow the existing

@@ -173,7 +173,7 @@ attention the updates are spending.
 #### Delegation grid and preparation updates
 
 At interactive Conductor startup, use [orchestration](orchestration.md) for the
-same grid with the controller and actual composer/work assignments included,
+same grid with the controller, any composer call and each assigned step included,
 even when the result is one inline task and no worker. The main pair's evidence
 and suitability stay explicit. Reuse the view and settled choices; update new
 jobs or changes, not every tool call. Narrow managed decision sessions don't
@@ -226,8 +226,9 @@ private framing; identify that supplement separately. Update affected rows as
 evidence moves from preparing to submitted/queued, running, returned and checked,
 or blocked/failed. Submission alone is not running, and a returned answer still
 needs assessment. Include the useful findings and next action at return. If the
-score passage itself is defective, show the affected passage as awaiting composer
-repair rather than presenting a semantic rewrite as player progress. No fixed
+score passage itself is defective, show the affected passage as awaiting repair by
+its author (composer or Conductor) rather than presenting a semantic rewrite as
+player progress. No fixed
 grid size, repeated polling chatter, fake effort setting, staffing approval or
 delegation merely for display.
 

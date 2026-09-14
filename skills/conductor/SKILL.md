@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, accepts Switch’s generic “Start a Conductor session?” offer for direction-setting, explicitly selects and authorizes work, or continues established Conductor work. For non-trivial executable work, use a bounded composer to write an execution score before staffing complete steps; assess model/effort suitability and returned evidence. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, accepts Switch’s generic “Start a Conductor session?” offer for direction-setting, explicitly selects and authorizes work, or continues established Conductor work. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; assess model/effort suitability and returned evidence. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor

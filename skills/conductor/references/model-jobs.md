@@ -200,7 +200,7 @@ request ID returns its existing result; another dispatch is a new request, not a
 hidden rerun. Apply execution.md's score-failure distinction before sending it:
 a sound step keeps the same semantics and gains useful failure evidence plus only
 supported dispatch changes; a known defective passage returns immediately to
-the Composer instead. Keep the unsuccessful-attempt count for the same step and
+its author instead (Composer or Conductor). Keep the unsuccessful-attempt count for the same step and
 measure across request IDs, aliases, routes, names and score repairs. The third
 failed Player attempt triggers reassessment/hand-back, not a fourth request or a
 conclusion that the score must be wrong. Do not relabel a failed assessment by

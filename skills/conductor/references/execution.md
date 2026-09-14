@@ -69,7 +69,7 @@ into the whole investigation. Reassess when a new independent job emerges.
 For each useful candidate either assign it or give the concrete reason to retain
 it: shared-state sequencing, unavailable tools/permissions, genuinely tiny work,
 or briefing/coordination cost that still outweighs the contribution after applying
-the [composition and score contract](orchestration.md#compose-a-score-before-assigning-executable-work).
+the [score contract](orchestration.md#write-the-score-before-assigning-executable-work).
 A finished score step's remaining transport supplement is not itself such a cost.
 One blanket “better inline” for a coupled implementation does not cover unrelated
 research or verification. Do not invent access for a worker: the controller can
@@ -102,13 +102,15 @@ Check that it applies to the actual model and execution route. Guidance is
 advice, not proof of superior results. If no applicable profile is available,
 disclose that and use a clear outcome-first brief without invented tuning.
 
-Use the [composition and score contract](orchestration.md#compose-a-score-before-assigning-executable-work)
-before assigning non-trivial executable work. Its finished score steps carry
-the Composer's specification to Players. Tiny, unambiguous work and work that
-is entirely judgment-bound may stay inline for the concrete reasons described
-there; direction-setting without an authorized task also stays inline. These
-exceptions do not make composition optional for non-trivial work with useful
-bounded Player steps.
+Use the [score contract](orchestration.md#write-the-score-before-assigning-executable-work)
+before assigning executable work, and choose who writes each step there. Delegate
+by default whenever a job can be briefed and checked and is worth its transfer
+and integration cost: Conductor writes steps
+itself when the work is already clear and fans independent steps out; the
+Composer writes passages that still need design or reasoning; tiny, tightly
+coupled or judgment-bound work stays inline with its concrete reason.
+Direction-setting without an authorized task also stays inline. Finished score
+steps carry their author's specification to Players, whoever wrote them.
 
 Use the complete applicable score step as the worker brief. Add only transport
 facts the recipient still needs: selected terrain, current dependency results,
@@ -212,10 +214,13 @@ or its specification:
   changes to Player, model, effort, framing or route may improve execution, but
   Conductor must not rewrite the contract merely to make a failing check pass.
 - A defect, contradiction, missing consequential decision or impossible premise
-  in the score returns immediately to the Composer with the exact affected
-  passage and discrepancy evidence. Do not spend Player attempts proving a
-  defect already known. The Composer repairs only that passage, preserves prior
-  requirements and explains any consequential change. New outcome, quality,
+  in the score returns immediately to that step's author with the exact affected
+  passage and discrepancy evidence: the Composer for a composer passage,
+  Conductor for a step Conductor wrote. Do not spend Player attempts proving a
+  defect already known. The author repairs only that passage, preserves prior
+  requirements and explains any consequential change. If a Conductor-written
+  step proves to need design Conductor cannot settle, send that passage to the
+  Composer instead of patching it inline. New outcome, quality,
   scope or authority choices return to the Producer; routine repairs within the
   agreement need no new staffing approval.
 - Three unsuccessful Player attempts against the same score step and measure are

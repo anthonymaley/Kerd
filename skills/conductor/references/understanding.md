@@ -18,7 +18,8 @@ separate path for the controller to do every survey and check inline. Reuse
 existing context and settled assignments; a small orientation read or ordinary
 question does not need a delegation exercise.
 The [startup assessment](orchestration.md) still covers small guided tasks briefly
-and establishes composer ownership; substantial investigation is not its trigger.
+and establishes who writes and performs each step; substantial investigation is not
+its trigger.
 
 Ask when the answer would change the next action or prevent a consequential
 mistake, and cannot be established from available facts or actual delegation.

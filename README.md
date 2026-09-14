@@ -40,7 +40,29 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.125.0)
+## What's New (v0.126.0)
+
+### v0.126.0
+
+**Clear work is delegated without waiting for a composer.** Conductor now
+chooses who writes each step. When the outcome, approach, files and checks are
+already settled, Conductor writes complete steps itself and hands them to
+players, fanning independent steps out in parallel. The composer is called when
+the specification still needs design or reasoning Conductor can't settle; being
+unsure a step can be written precisely is the signal. Only tiny, tightly coupled
+or judgment-bound work stays inline, with a stated reason. Delegation is the
+default when a job can be briefed, checked and is worth its handoff cost.
+
+**Repairs go back to whoever wrote the step.** A defect in a step Conductor wrote
+returns to Conductor; one in a composer passage returns to the composer, and a
+step that turns out to need design goes to the composer rather than being patched
+inline. The composer hands its score back to Conductor and never dispatches
+work. Players are sized to a suitable available pair for the complete step,
+preferring lower cost only where the evidence supports it.
+
+This change is instruction guidance, reviewed by Codex with three corrections
+applied. It has no fixture, synthetic or real-build evidence yet; the next real
+multi-step builds are the test. No efficiency or token saving is claimed.
 
 ### v0.125.0
 
@@ -711,12 +733,13 @@ Unknown effort stays unknown; a native subagent is not
 mislabelled as a Kerd Agent request. These updates expose real work, not a
 mandatory worker count or a new approval step.
 
-Its startup uses that same grid for the controller and actual composer/work
-assignments, including a one-row inline decision when no worker is useful. It
-assesses the task and suitable available pairs before retaining or inheriting the
-current settings; the main model and effort are labelled by their evidence, not
-guessed from defaults. It recommends a change when the current pair materially
-exceeds or misses the work's needs, but doesn't change your session settings itself.
+Its startup uses that same grid for the controller and actual Conductor-written
+delegated steps and composer work, including a one-row inline decision when no
+worker is useful. It assesses the task and suitable available pairs before
+retaining or inheriting the current settings; the main model and effort are
+labelled by their evidence, not guessed from defaults. It recommends a change
+when the current pair materially exceeds or misses the work's needs, but
+doesn't change your session settings itself.
 
 Conductor can be offered for a substantial build, design or workflow request,
 whether new or continuing in an existing repo. When chosen it guides work
@@ -743,8 +766,9 @@ an explicitly selected and authorized task invokes actual work. It does not
 silently substitute work or create native sessions, and managed Roll retains its
 separate continuation.
 
-Every guided task gets assessed for model/effort fit, composer work and useful
-contributors before it starts, including small tasks and new diagnosis branches.
+Every guided task gets assessed for model/effort fit, who writes its steps —
+Conductor, composer or inline — and who performs them before it starts,
+including small tasks and new diagnosis branches.
 A task is a user-visible job with its own result, not each tool call. At startup
 and meaningful changes it shows the stage, owner and boundary and which jobs contributors can
 own. Useful surveys, disjoint edits and checks are delegated when the available
@@ -756,20 +780,27 @@ reuses settled assignments.
 
 Conductor uses four responsibilities when a score is useful: the **producer**
 holds intent, priorities and consequential agreement; a bounded **composer**
-writes or repairs the score; **Conductor** staffs, dispatches, integrates and
-judges evidence against it; **players** execute complete score steps and return
-their evidence. These are responsibilities, not permanent provider brands. A
-composer call neither approves work nor becomes the controller or independent
-reviewer.
+writes only the passages it is asked for and returns the score to Conductor,
+never dispatching; **Conductor** chooses who writes each step, writes clear
+steps itself, staffs, dispatches, integrates and judges evidence against them;
+**players** execute complete score steps and return their evidence. These are
+responsibilities, not permanent provider brands. A composer call neither
+approves work nor becomes the controller or independent reviewer.
 
-For a non-trivial execution spec with useful bounded player work, composition is
-two-pass: the composer first receives intent, boundaries and constraints and
-names the smallest needed reading set; Conductor retrieves exactly that terrain,
-the relevant agreement and available routes, then the composer writes the score
-beside the work record. Small, unambiguous or judgment-bound work can remain
-inline with a concrete reason. If composition is unavailable, Conductor records
-the limit and authors a fallback score against the same checks; it does not
-silently substitute a named partner or ask again for unchanged authority.
+Conductor chooses one of three routes for each piece of executable work, and
+delegation is the default whenever a job can be briefed and checked and is worth
+its handoff cost. (1) When the outcome, approach, files and checks are already
+settled, Conductor writes complete steps itself and delegates them, fanning out
+independent steps to parallel players. (2) When the specification still needs design or reasoning
+Conductor cannot settle confidently, composition is two-pass: the composer
+first receives intent, boundaries and constraints and names the smallest
+needed reading set; Conductor retrieves exactly that terrain, the relevant
+agreement and available routes, then the composer writes the score beside the
+work record. If composition is unavailable, Conductor records the limit and
+authors a fallback score against the same checks; it does not silently
+substitute a named partner or ask again for unchanged authority. (3) Only
+tiny, tightly coupled or judgment-bound work stays inline, with a stated
+concrete reason.
 
 Each complete score step states its intended result, relevant rationale, exact
 terrain, dependencies, owned boundary, authority, success/evidence and
@@ -783,11 +814,12 @@ live grid identify those supplements without inventing a duplicate prompt.
 
 If player evidence fails a sound step, Conductor can re-dispatch the same
 semantics with that evidence. A contradiction, impossible premise, missing
-consequential decision or other score defect goes to the composer with its
-affected passage and evidence; it is not silently rewritten to pass a check.
-Composer repairs that passage while preserving prior requirements, and material
-outcome, quality, scope or authority changes return to the producer. Requested
-and observed settings, preparing/submitted/running/returned/checked states, and
+consequential decision or other score defect returns to whoever wrote that
+step — Conductor or the composer — with its affected passage and evidence; it
+is not silently rewritten to pass a check. Whoever wrote the passage repairs
+it while preserving prior requirements, and material outcome, quality, scope
+or authority changes return to the producer. Requested and observed settings,
+preparing/submitted/running/returned/checked states, and
 unresolved repair/attempt state remain distinct. Every assignment consults
 matching model guidance before sending, or discloses the clear-contract fallback.
 See the [startup contract](skills/conductor/references/orchestration.md),

@@ -3,7 +3,8 @@
 ## Evidence boundary
 
 Historical source is `54c28cd:skills/conductor/SKILL.md`, the v0.105.0 four-role
-contract. Current source is this uncommitted integrated candidate. Two fresh
+contract. The compared source is the 0.125.0 candidate as released at `ae2f17e`;
+line and heading references below are to that commit. Two fresh
 Sol/medium interpreters received the same six raw scenarios in
 [composer-restoration-fixtures.md](composer-restoration-fixtures.md), one source
 variant each, without this comparison or its expected verdicts. These are
@@ -20,9 +21,9 @@ recounted by Codex and are not normalized for work volume or evidence of quality
 
 | Contract | v0.105.0 | Integrated candidate | Verdict |
 | --- | --- | --- | --- |
-| Four owners | Named producer/composer/conductor/players at historical lines 18–34 | Capability-based owners in `orchestration.md` “Compose a score…” | Restored; provider branding removed |
-| Composer | Top-tier call, not a mode; two bounded passes at lines 226–249 | Two-pass bounded composer at `orchestration.md` lines 59–84 | Restored; fallback judged to same bar rather than presumed inferior |
-| Cold-readable score | Spec body, then tag, exact terrain/why/verify at lines 217–224 | Complete step before assignment at `orchestration.md` lines 86–103 | Restored and broadened beyond code |
+| Four owners | Named producer/composer/conductor/players at historical lines 18–34 | Capability-based owners in `ae2f17e:orchestration.md` “Compose a score…” | Restored; provider branding removed |
+| Composer | Top-tier call, not a mode; two bounded passes at lines 226–249 | Two-pass bounded composer at `ae2f17e:orchestration.md` lines 59–84 | Restored; fallback judged to same bar rather than presumed inferior |
+| Cold-readable score | Spec body, then tag, exact terrain/why/verify at lines 217–224 | Complete step before assignment at `ae2f17e:orchestration.md` lines 86–103 | Restored and broadened beyond code |
 | Delegation bias | Mostly delegate with seam review at lines 220–223 | Bias for well-factored work; no ratio/quota; collateral review explicit | Adapted to retain judgment and permission checks |
 | Model/effort | Fixed named ladder and session advice down/up at lines 101–114, 223 | Task-based capability mapping and supported effort, advice down/up | Restored without frozen provider tiers or mandatory confirmation |
 | Worker brief | Spec slice sent to player at lines 263–266 | Complete score step reused; only missing transport facts added | Restored with less duplicate briefing |
@@ -76,6 +77,18 @@ as a project-wide hold.
 
 This verdict is source and synthetic-execution evidence. It is not ordinary-use
 acceptance or proof of lower tokens, cost or elapsed time.
+
+## Addendum, 2026-09-14 13:06 EDT: third delegation route (local, after 0.125.0)
+
+Anthony asked for a route that delegates already-clear work without a composer
+call. The local change after `ae2f17e` adds it in `orchestration.md` “Choose who
+writes the steps”: Conductor writes clear steps and delegates them when the
+contribution is worth its handoff cost; the composer is used when the spec needs
+design or reasoning; tiny, coupled or judgment-bound work stays inline. A defect
+returns to the step's author. Codex reviewed it read-only and found no managed
+boundary issue. The verdict above assesses the released 0.125.0 contract only;
+the third route has no fixture, synthetic or real-build evidence yet, and v0.105.0
+had no equivalent route to compare against.
 
 ## Future real-build observations
 

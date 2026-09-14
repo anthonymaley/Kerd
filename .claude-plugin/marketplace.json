@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Kerd: opinionated workflow skills for Claude Code",
-    "version": "0.125.0"
+    "version": "0.126.0"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
         "url": "git@github.com:anthonymaley/Kerd.git"
       },
       "description": "Opinionated workflow toolkit: driving a work item from idea to acceptance with bounded score composition, per-step delegation and managed Codex context continuation, session discipline, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, risk qualification, visual agreement, conversational pair mode, and native Claude/Codex session collaboration with role continuity",
-      "version": "0.125.0",
+      "version": "0.126.0",
       "strict": true
     }
   ]
