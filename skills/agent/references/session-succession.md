@@ -131,12 +131,17 @@ file repairs is authorized by this local routing update. The bounded arrival
 notice below is its only peer-contact exception. This is the narrow
 private-metadata exception to status-only In, not authority to start the plan.
 
-Replacement locks and checks the expected old ID, preserves the ongoing role
-and previous identity, and consumes the designation. A competing update refuses;
-inspect that conflict rather than retrying with a newly guessed expectation.
-Old request/reply records keep their original targets. Owned launch partners
-cannot be replaced externally. Roles may be changed separately through ordinary
-`pair --partner-role`; this operation never inherits permissions or launch settings.
+Replacement locks and checks the expected old ID, preserves the ongoing role,
+review cadence and previous identity, and consumes the designation. A
+competing update refuses; inspect that conflict rather than retrying with a
+newly guessed expectation. Old request/reply records keep their original
+targets. Owned launch partners cannot be replaced externally. Roles may be
+changed separately through ordinary `pair --partner-role`; this operation
+never inherits permissions or launch settings.
+
+The recorded review cadence travels the same way through a prepared handoff
+and restart recovery, not only explicit replacement. An invalid stored
+cadence is carried unchanged rather than corrected here; readers report it.
 
 Bindings and designations live in this Git worktree's private directory. A shared
 filesystem can expose that directory to another machine; unplanned recovery

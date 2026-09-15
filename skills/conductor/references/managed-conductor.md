@@ -37,7 +37,9 @@ narrow; it does not load the entire interactive Conductor skill per decision.
 
 Show the delegation grid: Conductor decisions (Codex, read-only), implementation
 (Codex, local writable), and independent review (fresh Codex or Claude, read-only),
-with actual requested models/efforts. This serial route owns one child at a time,
+with actual requested models/efforts and a Fit line for each. The managed route's
+forced review after every implementation takes precedence over an established
+partner's recorded review cadence; the cadence neither relaxes nor replaces it. This serial route owns one child at a time,
 not parallel editors. It chooses a scoped implementation contribution and judges
 results; it does not hand the entire interactive interview to a worker.
 

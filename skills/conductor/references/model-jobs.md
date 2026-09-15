@@ -25,6 +25,9 @@ when retaining or inheriting it. Check installed CLI
 help and known account availability when the route is unfamiliar; don't probe
 with paid jobs merely to list models. Prefer a different suitable model for
 independent assessment. Do not silently replace a specifically requested model.
+When a job is dispatched with a different model, effort or route than its plan
+recorded, state why in a Fit line
+([startup contract](orchestration.md#one-visible-startup-view)) before sending.
 
 Read the applicable local provider/model guidance linked from execution.md.
 Use only clauses relevant to this job and actual model. Record the selected

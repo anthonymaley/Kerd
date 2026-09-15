@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
 ---
 
 # Agent
@@ -61,6 +61,18 @@ not shell subcommands. For execution, use the workflow below.
    Missing means not defined, never guessed from the title or model. The existing
    `--role` on a job is that contribution, not an automatic standing-role change.
    A role is neither a permission grant nor appointment as the current Out owner.
+   When pairing or starting a persistent partner, ask once for whatever is not
+   yet recorded, never re-asking a recorded role. If neither role nor cadence
+   is recorded, ask for both together in one question — the host's
+   multi-select question control where available (for example Claude's
+   multi-select), otherwise one plain question listing the four cadence
+   values with one-line meanings. If a role is recorded and only the cadence
+   is missing, ask for the cadence alone, the same way. Record the answers
+   with `--partner-role` and `--review-cadence`; do not re-ask on later
+   requests, and the person changes either by saying so. A cadence schedules
+   this partner's review only inside authorized work and grants no work,
+   contact beyond it, commit, push or release. Conductor reads bindings
+   through `agent.py partners`.
    For a designated replacement after a clear, restart or handoff, follow
    [session succession](references/session-succession.md). Verify this host's
    actual identity; do not overwrite a binding just because its peer is absent.

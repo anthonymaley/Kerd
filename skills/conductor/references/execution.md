@@ -195,13 +195,40 @@ review question—not a request to endorse the builder's account. Prefer a
 different suitable model where available. Preserve unavailable or incomplete
 independent assessment as an explicit gap, not a self-awarded pass.
 
-For every returned Player edit, Conductor reads the actual diff and checks every
-changed path and hunk against the score step's owned boundaries before relying
-on its verification output. Bulk deletions, renames and pattern-driven edits,
-whether returned by a Player or made inline by Conductor, always receive that
-complete diff read against the applicable owned boundaries. Verification and
-independent or seam review add evidence; neither substitutes for Conductor's
-diff inspection. For every defect found, including one Conductor catches in its
+For every returned Player edit, Conductor reads the actual change set and checks
+every changed path and hunk against the score step's owned boundaries before
+relying on its verification output. A plain `git diff` is not that change set: it
+omits staged changes and new files, and cannot tell a Player's edit from a file
+that was already dirty. So:
+
+1. **Before dispatch**, record a content baseline for the step's owned paths with
+   `python3 skills/conductor/scripts/change_read.py --project ROOT baseline --name
+   <step> --path <owned> [--generated <glob>]`. It walks the filesystem, so ignored
+   directories are inventoried file by file (a plain `git status --ignored` lists
+   them as one entry), hashes contents, and records staged and unstaged patches
+   against `HEAD` separately. Declared generated trees are summarized. The baseline
+   lives in private Git metadata, never in the work tree or a work record, because
+   it holds local filenames, hashes and paths.
+2. **After return**, run `change_read.py --project ROOT compare --name <step>` and
+   read what it reports. It compares contents, not just membership, so a pre-dirty
+   file edited again, a staging-only change and a commit since the baseline are all
+   caught. Once the return is accepted, run `change_read.py --project ROOT discard
+   --name <step>`. Read every changed tracked hunk and every new or changed text file
+   in full; check binaries and symlinks by type, target, size or hash plus their
+   domain check; read deletions and renames as part of the set. Check declared
+   generated output with its named command. An undeclared change under an ignored
+   path is a finding, never silently treated as generated.
+3. Record the helper's `summary` line in the work view and work record for each
+   return, after you have read what it lists, and treat anything in `unexpected`,
+   `outside` or `committed`, and any HEAD change (even an empty or reverted
+   commit), as a finding until reconciled. Only the summary and findings go into
+   shared records, never the baseline itself. The helper finds the change set; it does not read it for you.
+
+Bulk deletions, renames, pattern-driven edits, new files, binaries, symlinks and
+ignored-path changes, whether returned by a Player or made inline by Conductor,
+always receive that complete change-set read against the applicable owned
+boundaries. Verification and independent or seam review add evidence; neither
+substitutes for Conductor's change-set read. For every defect found, including one Conductor catches in its
 own work, state how it was caught—for example by diff inspection, a verification
 command or an independent or seam review.
 
@@ -211,8 +238,9 @@ or its specification:
 
 - When the score step is sound but the Player's work or evidence fails it,
   re-dispatch the same semantics with the useful failure evidence. Supported
-  changes to Player, model, effort, framing or route may improve execution, but
-  Conductor must not rewrite the contract merely to make a failing check pass.
+  changes to Player, model, effort, framing or route may improve execution; state
+  each change's reason in a Fit line before re-dispatch and record it with the
+  step. Conductor must not rewrite the contract merely to make a failing check pass.
 - A defect, contradiction, missing consequential decision or impossible premise
   in the score returns immediately to that step's author with the exact affected
   passage and discrepancy evidence: the Composer for a composer passage,

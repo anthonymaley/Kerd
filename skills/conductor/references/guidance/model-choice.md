@@ -69,8 +69,9 @@ effort sweep. A passed job is evidence for that job, not certification of a clas
    keep the same outcome, proof and boundaries whatever the model.
 5. **Explain briefly, run, learn.** Record the chosen model/route, requested
    effort, profile version, reason, relevant alternative and uncertainty in the
-   existing job note. Show the person a short useful explanation, not a selection
-   approval form. Assess actual artifacts and feed findings into future choices.
+   existing job note. Show the person a short useful explanation as the Fit line
+   under the work grid ([startup contract](../orchestration.md#one-visible-startup-view)),
+   not a selection approval form. Assess actual artifacts and feed findings into future choices.
 
 Quality remains the agreed bar. Among routes with evidence they meet it, use
 elapsed time and total resources per accepted outcome to improve efficiency—not

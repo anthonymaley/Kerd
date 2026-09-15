@@ -40,7 +40,22 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.126.0)
+## What's New (v0.127.0)
+
+### v0.127.0
+
+**Reviews are planned, fit is argued, and returned work is read.** Real builds on
+0.126.0 showed three gaps: partner reviews happened only when asked, grids named
+models without saying why, and returned player work was trusted to its own checks.
+Pairing now asks once how a partner reviews (checkpoints, before push, at the end,
+or only on request), stores that with the pairing and carries it across session
+changes; Conductor reads it with `agent.py partners` and plans those reviews, and a
+change after a review repeats the gate. Every model job gets a **Fit** line saying
+why that model suits it. After each return, Conductor compares the owned paths
+against a content baseline taken before dispatch with
+`skills/conductor/scripts/change_read.py`, so new, ignored, binary and pre-dirty
+files are seen too. A cadence schedules review inside authorized work only; it
+grants nothing.
 
 ### v0.126.0
 
@@ -739,7 +754,17 @@ worker is useful. It assesses the task and suitable available pairs before
 retaining or inheriting the current settings; the main model and effort are
 labelled by their evidence, not guessed from defaults. It recommends a change
 when the current pair materially exceeds or misses the work's needs, but
-doesn't change your session settings itself.
+doesn't change your session settings itself. A **Fit** line under the grid gives
+that reason for the controller and for every composer, player and reviewer it
+selects, and again whenever a model, effort or route changes.
+
+When an established Agent partner exists, Conductor plans its reviews from the
+pairing's recorded review cadence (checkpoints, before push, at the end, or only
+on request) and shows them in the grid; with no cadence recorded it proposes one
+and asks once. A later change repeats the gate it invalidated. After each
+returned edit it reads the actual change set against a baseline taken before
+dispatch, including new, ignored, binary and symlinked files, and shows a
+`Change read` line rather than trusting the player's own checks.
 
 Conductor can be offered for a substantial build, design or workflow request,
 whether new or continuing in an existing repo. When chosen it guides work
@@ -846,7 +871,10 @@ Session choices lead with pairing role, alias and short ID; the saved native
 title is secondary and may describe old work. Known recent exchanges are labelled
 as recorded, not current activity.
 Define the ongoing role when pairing ("Use Codex as reviewer"), then reuse it;
-a one-off job does not change it. Roles and IDs stay in private pairing metadata,
+a one-off job does not change it. Pairing also asks once how that partner
+reviews (`checkpoints`, `before-push`, `end`, or `on-request` alone), carries it
+across session changes, and Conductor reads it with `agent.py partners`. A
+cadence schedules review inside authorized work only; it grants nothing. Roles and IDs stay in private pairing metadata,
 not a tracked roster, and neither roles nor aliases grant permissions.
 After a clear or restart, Agent verifies the host's actual ID rather than guessing
 from the terminal lifetime. A saved role designation or explicit replacement

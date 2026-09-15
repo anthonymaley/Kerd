@@ -15,7 +15,7 @@ the Agent skill loaded; the Claude slash command is not a universal Codex comman
 | See available sessions | “Show sessions” |
 | Ask the established partner | “Ask Claude to review, RO” |
 | Keep a pairing partner | “Pair with Codex on this” |
-| Define an ongoing role | “Use Claude as the implementation partner and Codex as reviewer” |
+| Define an ongoing role | “Use Claude as the implementation partner and Codex as reviewer”; “Pair Codex as reviewer before push” |
 | Continue a role in a new session | “This session takes over the Claude reviewer role” |
 | Get a fresh perspective | “Start a fresh Claude reviewer” |
 | Start an ongoing conversation | “Start a Codex pairing partner” |
@@ -70,6 +70,14 @@ Roles and exact IDs live in the existing private Git metadata, not a committed
 `agentandroles.md`. They stay local to this pairing; shared work records retain
 useful contributions without private IDs. A role neither grants write permission
 nor appoints the owner of a particular Switch Out.
+
+Pairing also records a review cadence: `checkpoints` (review at the risk
+points Conductor names), `before-push` (review the full change before
+commit, push or release), `end` (one review when the work completes), or
+`on-request` (no automatic review; exclusive of the other three). Change the
+review cadence by telling any session. It schedules review only inside a task
+already authorized; it grants no work, no contact beyond that task, and no
+commit, push or release.
 
 Switch Out keeps a short provider/contribution/result and next-action pointer
 in the existing work or session record when collaboration matters to pickup.

@@ -44,6 +44,30 @@ so an unavailable target cannot be re-paired just to change its role. The per-jo
 `--role` remains separate. `sessions` returns the role in `partners`; it does not
 infer roles for unpaired sessions. No tracked roster or permissions change.
 
+Add a repeatable `--review-cadence VALUE` to `pair` or `start --kind partner`
+for how that partner reviews: `checkpoints`, `before-push` and `end` may be
+combined freely; `on-request` is refused in combination with any of them and
+must be given alone. Repeating `pair` for the same alias/provider/ID with the
+flag replaces the stored list; omitting it preserves a recorded cadence, the
+same way an omitted role is preserved. `start` refuses the flag for
+`--kind worker`.
+
+`partners` (no arguments) reads this project's private bindings only — no
+native discovery, socket or contact — and returns `{"partners": [...]}`
+ordered by alias. Each row has `alias`, `provider`, `kind` (`partner` when
+absent), `role` (or null), `review_cadence` (list or null) and `valid`. A row
+can be invalid for more reasons than these: its JSON is unreadable, provider
+or alias is missing, the provider is not `claude` or `codex`, the alias does
+not match its file, the project does not match, the binding has no confirmed
+session yet (for example an unconfirmed `start`), the role is not a string, or
+the stored cadence is malformed. An invalid row is kept, with `valid: false`,
+an `error` string and `review_cadence: null`; Conductor never selects an
+invalid row. A mix of valid and invalid rows exits 0, so one corrupt binding
+never hides usable partners; a non-zero exit is reserved for a store-level
+failure such as an unreadable partners directory or a project that is not a
+Git repository. It shows no session IDs beyond what `sessions` already
+returns.
+
 For a session taking over an established role after Out/In, use
 [session succession](session-succession.md): `identity`, `handoff`, and `adopt`
 reuse the private binding, with explicit expected-old-ID replacement. Ordinary

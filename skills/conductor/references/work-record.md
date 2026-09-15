@@ -50,6 +50,10 @@ Score: <relative link to the current score, or none>
 Current passage: <stable score-step identifier/link, or none>
 Assignment: <step author (Conductor/composer); performer (player/controller); actual
 route, owner and disposition>
+Fit: <the Fit line for each selected model job and any model/effort/route change>
+Review plan: <reviewer, recorded cadence and the gates it protects; reviews done
+and whether a later change reopened a gate; or none planned and why>
+Change read: <per return, the `Change read ·` line against the recorded baseline>
 Evidence: <what was returned, checked, failed or remains unproved>
 Repair/attempt state: <affected passage, unresolved repair and cumulative relevant
 attempts, or none>

@@ -19,7 +19,7 @@ class HelpTests(unittest.TestCase):
     def test_all_help_routes_work_without_project_or_provider_tools(self):
         with tempfile.TemporaryDirectory() as directory:
             for command in ([], ['sessions'], ['pair'], ['start'], ['ask'], ['status'], ['wait'],
-                            ['identity'], ['handoff'], ['adopt'], ['arrival']):
+                            ['identity'], ['handoff'], ['adopt'], ['arrival'], ['partners']):
                 with self.subTest(command=command):
                     result = subprocess.run(
                         [sys.executable, '-B', agent.__file__, *command, '--help'],
@@ -327,6 +327,45 @@ class SuccessionTests(unittest.TestCase):
         self.assertEqual(restored['id'], successor)
         self.assertEqual(contact.read_bytes(), contact_before)
 
+    def test_review_cadence_survives_handoff_second_restart_and_explicit_replacement(self):
+        with patch.object(agent, 'live_target'):
+            self.app.pair('claude', self.old, 'partner', review_cadence=['before-push', 'end'])
+        self.prepare()
+        with self.identity(self.new), patch.object(self.app, 'ask', side_effect=AssertionError('No dispatch')):
+            first = self.app.adopt('claude', 'partner', self.old, 'handoff.md')
+        # Fails if adopt's review_cadence copy line is removed.
+        self.assertEqual(first.get('review_cadence'), ['before-push', 'end'])
+        self.assertEqual(json.loads(self.path.read_text()).get('review_cadence'), ['before-push', 'end'])
+        third = str(uuid.uuid4())
+        with self.identity(third), self.recover_listing(third):
+            second = self.app.adopt('claude', 'partner', self.new, 'handoff.md')
+        self.assertEqual((second['id'], second.get('review_cadence'), second['partner_role']),
+                         (third, ['before-push', 'end'], 'Reviewer'))
+        fourth = str(uuid.uuid4())
+        with self.identity(fourth):
+            replaced = self.app.adopt('claude', 'partner', third, confirm=True)
+        self.assertEqual((replaced['id'], replaced.get('review_cadence'), replaced['partner_role']),
+                         (fourth, ['before-push', 'end'], 'Reviewer'))
+        row = self.app.partners()['partners'][0]
+        self.assertEqual((row['review_cadence'], row['valid']), (['before-push', 'end'], True))
+
+    def test_malformed_stored_cadence_is_carried_unchanged_and_reported_by_readers(self):
+        stored = json.loads(self.path.read_text())
+        stored['review_cadence'] = ['on-request', 'end']
+        agent.atomic_json(self.path, stored)
+        with self.identity(self.new):
+            successor = self.app.adopt('claude', 'partner', self.old, confirm=True)
+        self.assertEqual(successor['id'], self.new)
+        self.assertEqual(successor.get('review_cadence'), ['on-request', 'end'])
+        self.assertEqual(json.loads(self.path.read_text()).get('review_cadence'), ['on-request', 'end'])
+        with self.assertRaisesRegex(ValueError, 'Invalid review cadence'):
+            self.app.notice_binding(self.path)
+        row = self.app.partners()['partners'][0]
+        self.assertFalse(row['valid'])
+        self.assertIsNone(row['review_cadence'])
+        self.assertIn('review cadence', row['error'])
+        self.assertEqual(row['role'], 'Reviewer')
+
     def test_owned_partners_provider_and_project_mismatches_refused(self):
         original = json.loads(self.path.read_text())
         for changes in ({'owned': True, 'native_launch': 'launcher', 'request_id': 'old'},
@@ -453,6 +492,106 @@ class SessionIdentityTests(unittest.TestCase):
             self.assertEqual(saved['partner_role'], 'Independent reviewer')
             self.assertEqual(saved['status'], 'start-uncertain')
 
+    def test_review_cadence_is_stored_replaced_and_kept_across_single_field_updates(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            sid = str(uuid.uuid4())
+            path = app.state / 'partners/partner.json'
+            with patch.object(agent, 'live_target'), patch.object(app, 'ask', side_effect=AssertionError('No dispatch')):
+                first = app.pair('codex', sid, 'partner', 'Reviewer', ['end', 'checkpoints', 'end'])
+                self.assertEqual(first['review_cadence'], ['end', 'checkpoints'])
+                self.assertEqual(agent.read_json(path), first)
+                self.assertEqual(app.pair('codex', sid, 'partner'), first)
+                replaced = app.pair('codex', sid, 'partner', review_cadence=['before-push'])
+                self.assertEqual((replaced['review_cadence'], replaced['partner_role']), (['before-push'], 'Reviewer'))
+                role_only = app.pair('codex', sid, 'partner', 'Implementation partner')
+                self.assertEqual((role_only['review_cadence'], role_only['partner_role']),
+                                 (['before-push'], 'Implementation partner'))
+                cadence_only = app.pair('codex', sid, 'partner', review_cadence=['on-request'])
+                self.assertEqual((cadence_only['review_cadence'], cadence_only['partner_role']),
+                                 (['on-request'], 'Implementation partner'))
+                self.assertEqual(agent.read_json(path), cadence_only)
+            self.assertEqual(subprocess.check_output(['git', 'status', '--porcelain'], cwd=directory, text=True), '')
+
+    def test_validator_preserves_given_order_and_removes_duplicates(self):
+        self.assertEqual(agent.REVIEW_CADENCES, ('checkpoints', 'before-push', 'end', 'on-request'))
+        self.assertEqual(agent.validate_review_cadence(['end', 'before-push', 'end', 'checkpoints']),
+                         ['end', 'before-push', 'checkpoints'])
+        self.assertEqual(agent.validate_review_cadence(['on-request', 'on-request']), ['on-request'])
+        for value, message in ((['weekly'], 'Unknown review cadence'), (['on-request', 'end'], 'on-request'),
+                               ([], 'nonempty list'), ('end', 'nonempty list'), (['end', 1], 'nonempty list'),
+                               (('end',), 'nonempty list')):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ValueError, message):
+                    agent.validate_review_cadence(value)
+
+    def test_invalid_cadences_and_worker_cadence_fail_before_side_effects(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            with patch.object(agent, 'live_target', side_effect=AssertionError('No native probe')), \
+                 patch.object(agent, 'command', side_effect=AssertionError('No launch')):
+                for cadence in (['weekly'], ['on-request', 'end'], [], 'end', ['end', 1]):
+                    with self.subTest(cadence=cadence):
+                        with self.assertRaises(ValueError):
+                            app.pair('codex', str(uuid.uuid4()), 'partner', 'Reviewer', cadence)
+                        with self.assertRaises(ValueError):
+                            app.start('codex', 'partner', 'partner', '/missing', 'One job',
+                                      partner_role='Reviewer', review_cadence=cadence)
+                with self.assertRaisesRegex(ValueError, 'A review cadence is not a worker assignment'):
+                    app.start('claude', 'worker', 'worker', '/missing', 'One job', review_cadence=['end'])
+            self.assertFalse(app.state.exists())
+
+    def test_partner_launch_keeps_cadence_in_reservation_and_final_record(self):
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            app = agent.Agent(directory)
+            prompt = Path(directory) / 'prompt.md'
+            prompt.write_text('Review the implementation, no edits.')
+            with patch.object(agent, 'codex_home', return_value=Path(directory)), \
+                 patch.object(agent, 'command', side_effect=agent.Unavailable('native offline')):
+                with self.assertRaises(agent.Unavailable):
+                    app.start('codex', 'partner', 'review', prompt, 'First review',
+                              review_cadence=['before-push'])
+            saved = agent.read_json(app.state / 'partners/review.json')
+            self.assertEqual((saved['status'], saved['review_cadence']), ('start-uncertain', ['before-push']))
+            from unittest.mock import MagicMock
+            rpc = MagicMock()
+            rpc.__enter__.return_value = rpc
+            rpc.call.return_value = {'thread': {'id': str(uuid.uuid4())}, 'model': 'fixture'}
+            with patch.object(agent, 'codex_home', return_value=Path(directory)), \
+                 patch.object(agent, 'command', return_value=''), \
+                 patch.object(agent, 'RPC', return_value=rpc), \
+                 patch.object(app, 'ask', return_value={}):
+                result = app.start('codex', 'partner', 'second', prompt, 'First review',
+                                   partner_role='Reviewer', review_cadence=['checkpoints', 'end'])
+            self.assertEqual(result['partner']['review_cadence'], ['checkpoints', 'end'])
+            self.assertEqual(agent.read_json(app.state / 'partners/second.json')['review_cadence'],
+                             ['checkpoints', 'end'])
+
+    def test_cli_threads_repeatable_review_cadence_to_pair_and_start(self):
+        import contextlib, io
+        with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['git', 'init', '-q', directory], check=True)
+            sid = str(uuid.uuid4())
+            pair = ['agent.py', '--project', directory, 'pair', '--provider', 'codex', '--session', sid,
+                    '--alias', 'partner', '--review-cadence', 'before-push', '--review-cadence', 'end']
+            start = ['agent.py', '--project', directory, 'start', '--provider', 'codex', '--kind', 'partner',
+                     '--alias', 'partner', '--prompt-file', '/missing', '--role', 'Job',
+                     '--review-cadence', 'checkpoints']
+            plain = ['agent.py', '--project', directory, 'pair', '--provider', 'codex', '--session', sid,
+                     '--alias', 'partner', '--partner-role', 'Reviewer']
+            with patch.object(agent.Agent, 'pair', return_value={}) as paired, \
+                 patch.object(agent.Agent, 'start', return_value={}) as started, \
+                 contextlib.redirect_stdout(io.StringIO()):
+                for argv in (pair, start, plain):
+                    with patch.object(sys, 'argv', argv):
+                        self.assertEqual(agent.main(), 0)
+            self.assertEqual(paired.call_args_list[0].args, ('codex', sid, 'partner', None, ['before-push', 'end']))
+            self.assertEqual(paired.call_args_list[1].args, ('codex', sid, 'partner', 'Reviewer', None))
+            self.assertEqual(started.call_args.args[-1], ['checkpoints'])
+
     def test_aliases_match_exact_provider_and_id_not_an_old_title(self):
         with tempfile.TemporaryDirectory() as directory:
             subprocess.run(['git', 'init', '-q', directory], check=True)
@@ -501,6 +640,189 @@ class SessionIdentityTests(unittest.TestCase):
                  patch.object(agent, 'claude_sessions', return_value=[{'provider': 'claude', 'id': str(uuid.uuid4()), 'status': 'idle'}]):
                 self.assertEqual(app.list()['sessions'][0]['partner_aliases'], [])
             self.assertFalse(app.state.exists())
+
+
+class PartnersReaderTests(unittest.TestCase):
+    """`partners` reads private bindings only and reports each one, valid or not."""
+
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        subprocess.run(['git', 'init', '-q', temp.name], check=True)
+        self.app = agent.Agent(temp.name)
+
+    def bind(self, alias, provider, sid, **fields):
+        path = self.app.folder('partners') / (alias + '.json')
+        agent.atomic_json(path, {'alias': alias, 'provider': provider, 'id': sid,
+                                 'project': str(self.app.root), **fields})
+        return path
+
+    def run_partners(self, project=None):
+        import contextlib, io
+        original = agent.command
+        def git_only(args, cwd=None, timeout=30):
+            if args[:1] != ['git']:
+                raise AssertionError('No provider CLI: ' + args[0])
+            return original(args, cwd, timeout)
+        probe = AssertionError('partners must not probe native sessions')
+        out, err = io.StringIO(), io.StringIO()
+        argv = ['agent.py', '--project', project or str(self.app.root), 'partners']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(agent, 'command', side_effect=git_only), \
+             patch.object(agent, 'live_target', side_effect=probe), \
+             patch.object(agent, 'claude_sessions', side_effect=probe), \
+             patch.object(agent, 'codex_sessions', side_effect=probe), \
+             patch.object(agent, 'store_row', side_effect=probe), \
+             patch.object(agent, 'transcript', side_effect=probe), \
+             patch.object(agent, 'send_claude', side_effect=probe), \
+             patch.object(agent, 'RPC', side_effect=probe), \
+             patch.object(agent.socket, 'socket', side_effect=probe), \
+             patch.object(agent.sqlite3, 'connect', side_effect=probe), \
+             contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = agent.main()
+        return code, out.getvalue(), err.getvalue()
+
+    def test_two_valid_bindings_in_alias_order_with_exact_rows_and_no_probes(self):
+        review, build = str(uuid.uuid4()), str(uuid.uuid4())
+        with patch.object(agent, 'live_target'):
+            self.app.pair('codex', review, 'zeta-review', 'Independent reviewer', ['before-push', 'end'])
+            self.app.pair('claude', build, 'alpha-build')
+        folder = self.app.state / 'partners'
+        before = sorted((p.name, p.read_bytes()) for p in folder.iterdir())
+        code, out, err = self.run_partners()
+        self.assertEqual((code, err), (0, ''))
+        self.assertEqual(json.loads(out), {'partners': [
+            {'alias': 'alpha-build', 'provider': 'claude', 'kind': 'partner', 'role': None,
+             'review_cadence': None, 'valid': True},
+            {'alias': 'zeta-review', 'provider': 'codex', 'kind': 'partner', 'role': 'Independent reviewer',
+             'review_cadence': ['before-push', 'end'], 'valid': True}]})
+        self.assertNotIn(review, out)
+        self.assertNotIn(build, out)
+        self.assertEqual(sorted((p.name, p.read_bytes()) for p in folder.iterdir()), before)
+
+    def test_one_malformed_cadence_is_an_invalid_row_and_the_listing_still_exits_zero(self):
+        self.bind('build', 'codex', str(uuid.uuid4()), partner_role='Implementation partner',
+                  review_cadence=['end'])
+        self.bind('review', 'claude', str(uuid.uuid4()), partner_role='Reviewer',
+                  review_cadence=['on-request', 'end'])
+        code, out, err = self.run_partners()
+        self.assertEqual((code, err), (0, ''))
+        build, review = json.loads(out)['partners']
+        self.assertEqual(build, {'alias': 'build', 'provider': 'codex', 'kind': 'partner',
+                                 'role': 'Implementation partner', 'review_cadence': ['end'], 'valid': True})
+        self.assertEqual(set(review), {'alias', 'provider', 'kind', 'role', 'review_cadence', 'valid', 'error'})
+        self.assertEqual((review['alias'], review['provider'], review['role']), ('review', 'claude', 'Reviewer'))
+        self.assertFalse(review['valid'])
+        self.assertIsNone(review['review_cadence'])
+        self.assertIn('review cadence', review['error'])
+
+    def test_each_malformed_binding_is_its_own_row(self):
+        sid = str(uuid.uuid4())
+        self.bind('good', 'codex', sid, review_cadence=['checkpoints'], kind='partner', owned=True)
+        self.bind('no-provider', 'codex', sid).write_text(json.dumps({'alias': 'no-provider', 'id': sid,
+                                                                     'project': str(self.app.root)}))
+        self.bind('elsewhere', 'codex', sid, project='/tmp')
+        self.bind('number-role', 'codex', sid, partner_role=3)
+        for alias, cadence in (('text-cadence', 'end'), ('unknown-cadence', ['weekly']), ('empty-cadence', [])):
+            self.bind(alias, 'claude', sid, review_cadence=cadence)
+        (self.app.state / 'partners/broken.json').write_text('{not json')
+        (self.app.state / 'partners/list.json').write_text('[]')
+        code, out, err = self.run_partners()
+        self.assertEqual((code, err), (0, ''))
+        rows = json.loads(out)['partners']
+        self.assertEqual([row['alias'] for row in rows], sorted(row['alias'] for row in rows))
+        by_alias = {row['alias']: row for row in rows}
+        self.assertEqual(set(by_alias), {'good', 'no-provider', 'elsewhere', 'number-role', 'text-cadence',
+                                         'unknown-cadence', 'empty-cadence', 'broken', 'list'})
+        self.assertTrue(by_alias.pop('good')['valid'])
+        for alias, row in by_alias.items():
+            with self.subTest(alias=alias):
+                self.assertFalse(row['valid'])
+                self.assertTrue(row['error'])
+                self.assertIsNone(row['review_cadence'])
+        self.assertIsNone(by_alias['number-role']['role'])
+        self.assertEqual(by_alias['elsewhere']['provider'], 'codex')
+        self.assertNotIn(str(self.app.state), out)
+
+    def test_binding_without_a_session_id_is_an_invalid_row(self):
+        request = str(uuid.uuid4())
+        agent.atomic_json(self.app.folder('partners') / 'pending.json', {
+            'alias': 'pending', 'provider': 'codex', 'project': str(self.app.root),
+            'status': 'start-uncertain', 'request_id': request,
+            'partner_role': 'Independent reviewer', 'review_cadence': ['before-push']})
+        code, out, err = self.run_partners()
+        self.assertEqual((code, err), (0, ''))
+        self.assertEqual(json.loads(out), {'partners': [
+            {'alias': 'pending', 'provider': 'codex', 'kind': 'partner', 'role': 'Independent reviewer',
+             'review_cadence': None, 'valid': False, 'error': 'Binding has no confirmed session yet'}]})
+        self.assertNotIn(request, out)
+        self.assertNotIn('"id"', out)
+
+    def test_worker_kind_and_noncanonical_session_ids_are_invalid_rows(self):
+        sid = str(uuid.uuid4())
+        self.bind('worker', 'codex', sid, kind='worker', partner_role='Reviewer', review_cadence=['end'])
+        self.bind('number-id', 'claude', 1, partner_role='Reviewer', review_cadence=['end'])
+        self.bind('upper-id', 'claude', sid.upper(), kind='partner', review_cadence=['end'])
+        self.bind('brace-id', 'codex', '{' + sid + '}', review_cadence=['end'])
+        code, out, err = self.run_partners()
+        self.assertEqual((code, err), (0, ''))
+        rows = {row['alias']: row for row in json.loads(out)['partners']}
+        expected = {'worker': ('codex', 'worker', 'Reviewer', 'Binding is not a partner'),
+                    'number-id': ('claude', 'partner', 'Reviewer', 'Invalid binding session ID'),
+                    'upper-id': ('claude', 'partner', None, 'Invalid binding session ID'),
+                    'brace-id': ('codex', 'partner', None, 'Invalid binding session ID')}
+        self.assertEqual(set(rows), set(expected))
+        for alias, (provider, kind, role, error) in expected.items():
+            with self.subTest(alias=alias):
+                self.assertEqual(rows[alias], {'alias': alias, 'provider': provider, 'kind': kind, 'role': role,
+                                               'review_cadence': None, 'valid': False, 'error': error})
+        self.assertNotIn(sid, out.lower())
+
+    def test_store_failures_are_nonzero_and_an_unpaired_project_is_empty(self):
+        code, out, err = self.run_partners()
+        self.assertEqual((code, json.loads(out), err), (0, {'partners': []}, ''))
+        self.assertFalse(self.app.state.exists())
+        elsewhere = Path(self.app.root) / 'elsewhere'
+        elsewhere.mkdir()
+        self.app.state.mkdir()
+        (self.app.state / 'partners').symlink_to(elsewhere, target_is_directory=True)
+        code, out, err = self.run_partners()
+        self.assertEqual((code, out), (2, ''))
+        self.assertIn('agent:', err)
+        with tempfile.TemporaryDirectory() as outside:
+            code, out, err = self.run_partners(outside)
+        self.assertEqual((code, out), (2, ''))
+
+    def test_arrival_treats_a_malformed_cadence_like_a_malformed_role(self):
+        me, peer = str(uuid.uuid4()), str(uuid.uuid4())
+        self.bind('self-role', 'claude', me, partner_role='Closeout reviewer')
+        cases = [('role', {'partner_role': 3}),
+                 ('cadence-mixed', {'partner_role': 'Implementation partner', 'review_cadence': ['on-request', 'end']}),
+                 ('cadence-text', {'partner_role': 'Implementation partner', 'review_cadence': 'end'})]
+        with patch.object(self.app, 'identity', return_value={'id': me, 'provider': 'claude'}), \
+             patch.object(agent, 'live_target', return_value={'id': peer}):
+            for name, fields in cases:
+                with self.subTest(case=name):
+                    path = self.bind('build', 'codex', peer, **fields)
+                    with self.assertRaisesRegex(ValueError, '^Invalid'):
+                        self.app.notice_binding(path)
+                    with patch.object(self.app, 'send_codex') as send:
+                        explicit = self.app.arrival('claude', ['build'], 'self-role')
+                        fresh = self.app.arrival('claude', None, 'self-role')
+                    send.assert_not_called()
+                    self.assertEqual(explicit['team'][1]['status'], 'notice-unavailable')
+                    self.assertTrue(explicit['team'][1]['error'].startswith('Invalid'))
+                    self.assertEqual(fresh['team'][1]['status'], 'notice-unavailable')
+                    self.assertTrue(fresh['team'][1]['error'].startswith('Invalid'))
+            self.bind('build', 'codex', peer, partner_role='Implementation partner', review_cadence=['before-push'])
+            def send(sid, prompt, request, record, owned_partner, before_send=None):
+                record['status'] = 'submitted-unconfirmed'
+            with patch.object(self.app, 'send_codex', side_effect=send) as sent:
+                result = self.app.arrival('claude', ['build'], 'self-role')
+            self.assertEqual(sent.call_count, 1)
+            self.assertEqual(result['team'][1]['status'], 'submitted-unconfirmed')
+        # Only the well-formed binding produced a notice record.
+        self.assertEqual(len(list((self.app.state / 'requests').glob('*.json'))), 1)
 
 
 class QueueTests(unittest.TestCase):

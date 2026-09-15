@@ -118,9 +118,10 @@ the composer when that composer is available.
 
 Before assigning a step, write its complete body. A score step states its
 intended result; rationale for non-obvious choices; exact files, interfaces and
-values where relevant; dependencies; owned boundaries; authority; success and
-evidence; a verification command and expected result; and any needed collateral
-or qualitative review. Use the same contract for non-code work, with appropriate
+values where relevant; dependencies; owned boundaries, including any generated or
+ignored output paths the step may produce; authority; success and evidence; a
+verification command and expected result; and any needed collateral or
+qualitative review. Use the same contract for non-code work, with appropriate
 artifacts and checks. A player receives sufficient settled intent to execute the
 slice without re-deriving product intent.
 
@@ -134,7 +135,8 @@ toward delegation for a well-factored multi-step score, never toward a ratio,
 quota, fixed keep count or a presumption that a kept step is mistagged.
 
 Consider useful independent research, implementation and review at startup and
-as they emerge. Apply [job splitting](execution.md#prepare-and-do-the-next-useful-job):
+as they emerge, including the review an established partner's recorded cadence
+schedules (see [plan independent review](#plan-independent-review-from-the-pairing)). Apply [job splitting](execution.md#prepare-and-do-the-next-useful-job):
 assign a useful authorized complete score step or give its concrete inline reason,
 such as tiny scope, shared-state sequencing, coordination/context-transfer cost,
 or writing the step costing more than doing the work. A finished score step's
@@ -162,6 +164,43 @@ keep composition and control inline using bounded local context. Show that
 boundary; do not dispatch model jobs merely to choose work. A direct authorized
 research/review request can itself be the task, authorizing its permitted contributors.
 
+### Plan independent review from the pairing
+
+At startup, read this project's established partners with Agent's read-only
+`agent.py --project /PROJECT partners`; do not parse its private binding files.
+It returns each binding's role, `review_cadence` and validity without contacting
+any session. Select the reviewer by recorded role and task fit; when several
+remain materially plausible, show that choice once. Never schedule every binding
+or choose by recency. An invalid row is a routing gap to show, not a partner.
+
+Plan that partner's reviews from its cadence and show them as rows in the startup
+grid, with the gate each protects:
+
+- `checkpoints`: at the risk points this plan names;
+- `before-push`: the full change set before commit, push or release;
+- `end`: once when the work completes;
+- `on-request`: no automatic partner review.
+
+With an established partner and no recorded cadence, propose one grounded in this
+task's risk, ask once, and record the answer through Agent (`pair` with
+`--review-cadence`); do not ask again. The person can change it by telling any
+session. With no established partner, plan independent review from the other
+available routes as before.
+
+A cadence schedules review only inside authorized work. It grants no work,
+contact beyond that work, commit, push or release, and a review never approves
+an action. `on-request` does not waive Conductor's own independent assessment in
+[review, prove and improve](execution.md#review-prove-and-improve). Inside
+[managed Conductor](managed-conductor.md), the forced review after every
+implementation takes precedence over a stored cadence.
+
+One accepted review satisfies coincident gates, such as a final checkpoint,
+before-push and end, only while the reviewed tree and evidence stay unchanged.
+Any change after it, including a correction the reviewer asked for, invalidates
+every gate that review satisfied: repeat that gate before its protected effect,
+unless another coincident gate necessarily runs first and reviews the current
+tree and evidence.
+
 ## One visible startup view
 
 Before substantive execution, show the actual stage, intended result, owner and
@@ -176,9 +215,22 @@ row even when no worker launches. This illustrative tiny task needs only one row
 | --- | --- | --- | --- | --- |
 | Controller: correct the heading and check the diff | Current session; compose and edit inline | Host-declared model if supplied, otherwise unknown | Live effort unknown unless verified | Ready inline |
 
+Fit · Controller — needs one exact wording edit and a diff check; the current
+session because the edit is tiny and judgment is minimal.
+
 “This single heading edit fits inline work; briefing a contributor adds more
 work than it resolves. I'll retain the current session and check the diff.”
-In real work, substitute the actual evidence and decision. Qualify configured,
+In real work, substitute the actual evidence and decision.
+
+Directly under the grid, give a **Fit** line for the controller and for every
+newly selected model job — composer, player and reviewer — as
+`Fit · <job> — needs <requirement>; <pair> because <reason>`. Identical jobs may
+share one line. Add `; consider <alternative>` only when the pair materially
+exceeds or misses the need; do not manufacture alternatives. Write another Fit
+line whenever a job's model, effort or route differs from its plan or changes on
+retry, before dispatching it. A grid row naming a model without its Fit line is
+incomplete. Fit lines are reasons, not settings evidence: keep the evidence labels
+above, and never turn them into a confirmation question. Qualify configured,
 requested and observed values in the cells or nearby text despite the column
 title. Put each contribution's owner, edit boundary and expected result nearby.
 Use native task controls without duplicating their plan. Show startup, new jobs

@@ -74,6 +74,26 @@ def alias_name(value):
     return value
 
 
+REVIEW_CADENCES = ('checkpoints', 'before-push', 'end', 'on-request')
+
+
+def validate_review_cadence(value):
+    """The one check for a partner's review cadence, from the CLI or a stored
+    binding. Returns the values in the order given, duplicates removed. It
+    schedules review inside authorized work only; it grants no permission."""
+    if (not isinstance(value, list) or not value
+            or any(not isinstance(item, str) for item in value)):
+        raise ValueError('Review cadence must be a nonempty list of: ' + ', '.join(REVIEW_CADENCES))
+    unknown = [item for item in value if item not in REVIEW_CADENCES]
+    if unknown:
+        raise ValueError('Unknown review cadence ' + json.dumps(unknown[0])
+                         + '; use ' + ', '.join(REVIEW_CADENCES))
+    normalized = list(dict.fromkeys(value))
+    if 'on-request' in normalized and len(normalized) > 1:
+        raise ValueError('Review cadence on-request stands alone; do not combine it with another value')
+    return normalized
+
+
 def same_project(a, b):
     return Path(a).resolve() == Path(b).resolve()
 
@@ -612,6 +632,11 @@ class Agent:
                          'previous': {'id': prior['id'], 'replaced_at': time.time()}}
             if 'partner_role' in prior:
                 successor['partner_role'] = prior['partner_role']
+            if 'review_cadence' in prior:
+                # Copied unchanged, even when malformed. Readers (notice_binding,
+                # partners) validate it and report the binding; dropping it here
+                # would silently hide the problem.
+                successor['review_cadence'] = prior['review_cadence']
             if evidence is not None:
                 retired = permit.get('retired_sessions', []) if recovering else []
                 try:
@@ -659,7 +684,97 @@ class Agent:
         peer = self.checked_binding(path, raw['provider'])
         if peer.get('partner_role') is not None and not isinstance(peer['partner_role'], str):
             raise ValueError('Invalid partner role')
+        if peer.get('review_cadence') is not None:
+            try:
+                validate_review_cadence(peer['review_cadence'])
+            except ValueError as exc:
+                raise ValueError('Invalid review cadence: ' + str(exc)) from None
         return peer
+
+    def partners(self):
+        """This project's partner bindings from private metadata only.
+
+        No native discovery, session probe, socket, provider CLI or network.
+        One unreadable or malformed binding is its own invalid row, never a
+        hidden partner or a failed listing. Session IDs are not returned.
+        """
+        folder = self.state / 'partners'
+        for path in (self.state, folder):
+            try:
+                path.lstat()
+            except FileNotFoundError:
+                return {'partners': []}  # never paired here; nothing to report
+            owned(path, stat.S_ISDIR)  # a symlinked or foreign store is a store failure
+        # iterdir, not glob: an unreadable directory must fail, not list nothing.
+        paths = [path for path in folder.iterdir() if path.name.endswith('.json')]
+        rows = [self.partner_row(path) for path in paths]
+        return {'partners': sorted(rows, key=lambda row: row['alias'])}
+
+    def partner_row(self, path):
+        row = {'alias': path.stem, 'provider': None, 'kind': 'partner', 'role': None,
+               'review_cadence': None, 'valid': False}
+        try:
+            raw = read_json(path)
+        except (Unavailable, OSError, ValueError) as exc:
+            return {**row, 'error': 'Unreadable binding: ' + describe(exc)}
+        if not isinstance(raw, dict):
+            return {**row, 'error': 'Invalid binding object'}
+        if isinstance(raw.get('provider'), str):
+            row['provider'] = raw['provider']
+        if isinstance(raw.get('kind', 'partner'), str):
+            row['kind'] = raw.get('kind', 'partner')
+        if isinstance(raw.get('partner_role'), str):
+            row['role'] = raw['partner_role']
+        error = None
+        try:
+            alias_name(path.stem)
+            alias_ok = raw.get('alias') == path.stem
+        except ValueError:
+            alias_ok = False
+        if raw.get('provider') not in ('claude', 'codex'):
+            error = 'Invalid binding provider'
+        elif not alias_ok:
+            error = 'Invalid binding alias'
+        elif not isinstance(raw.get('project'), str):
+            error = 'Invalid binding project'
+        elif not self.stored_project_matches(raw['project']):
+            error = 'Binding belongs to another project'
+        elif not isinstance(raw.get('kind', 'partner'), str):
+            error = 'Invalid binding kind'
+        elif raw.get('kind', 'partner') != 'partner':
+            error = 'Binding is not a partner'
+        elif raw.get('partner_role') is not None and not isinstance(raw['partner_role'], str):
+            error = 'Invalid partner role'
+        elif raw.get('id') in (None, ''):
+            # E.g. a start-uncertain reservation: never offer an unreachable partner.
+            error = 'Binding has no confirmed session yet'
+        elif not self.canonical_session(raw['id']):
+            error = 'Invalid binding session ID'
+        elif raw.get('review_cadence') is not None:
+            try:
+                row['review_cadence'] = validate_review_cadence(raw['review_cadence'])
+            except ValueError as exc:
+                error = 'Invalid review cadence: ' + str(exc)
+        if error:
+            return {**row, 'review_cadence': None, 'error': error}
+        return {**row, 'valid': True}
+
+    @staticmethod
+    def canonical_session(value):
+        # The same check checked_binding applies: a string, then identifier().
+        if not isinstance(value, str):
+            return False
+        try:
+            identifier(value)
+        except ValueError:
+            return False
+        return True
+
+    def stored_project_matches(self, project):
+        try:
+            return same_project(project, self.root)
+        except (OSError, ValueError, RuntimeError):
+            return False  # e.g. an embedded NUL or a symlink loop: not this project
 
     def arrival_peers(self, provider, excluded):
         """Prefer an explicitly recorded role, otherwise a unique external peer.
@@ -806,11 +921,13 @@ class Agent:
             atomic_json(path, record)
             return record
 
-    def pair(self, provider, sid, alias, partner_role=None):
+    def pair(self, provider, sid, alias, partner_role=None, review_cadence=None):
         if partner_role is not None:
             if not isinstance(partner_role, str) or not partner_role.strip():
                 raise ValueError('Partner role must be nonempty text')
             partner_role = partner_role.strip()
+        if review_cadence is not None:
+            review_cadence = validate_review_cadence(review_cadence)
         live_target(self.root, provider, sid)
         path = self.folder('partners') / (alias_name(alias) + '.json')
         with locked(path.with_suffix('.lock')):
@@ -818,24 +935,34 @@ class Agent:
                 prior = read_json(path)
                 if prior['provider'] != provider or prior.get('id') != sid:
                     raise ValueError('Alias already names another session; choose a new alias')
+                # Each supplied field replaces only itself; the other is kept.
                 if partner_role is not None:
                     prior['partner_role'] = partner_role
+                if review_cadence is not None:
+                    prior['review_cadence'] = review_cadence
+                if partner_role is not None or review_cadence is not None:
                     atomic_json(path, prior)
                 return prior
             record = {'alias': alias, 'provider': provider, 'id': sid, 'project': str(self.root)}
             if partner_role is not None:
                 record['partner_role'] = partner_role
+            if review_cadence is not None:
+                record['review_cadence'] = review_cadence
             atomic_json(path, record)
             return record
 
     def start(self, provider, kind, alias, prompt_file, role, model=None, effort=None, writable=False,
-              partner_role=None):
+              partner_role=None, review_cadence=None):
         if partner_role is not None:
             if kind != 'partner':
                 raise ValueError('An ongoing partner role is not a worker assignment')
             if not isinstance(partner_role, str) or not partner_role.strip():
                 raise ValueError('Partner role must be nonempty text')
             partner_role = partner_role.strip()
+        if review_cadence is not None:
+            if kind != 'partner':
+                raise ValueError('A review cadence is not a worker assignment')
+            review_cadence = validate_review_cadence(review_cadence)
         alias_name(alias)
         prompt = Path(prompt_file).read_text()
         if not prompt.strip():
@@ -875,12 +1002,14 @@ class Agent:
             with os.fdopen(fd, 'w') as stream:
                 json.dump({'alias': alias, 'provider': provider, 'project': str(self.root),
                            'status': 'start-uncertain', 'request_id': request,
-                           'partner_role': partner_role}, stream)
+                           'partner_role': partner_role, 'review_cadence': review_cadence}, stream)
         record = {'alias': alias, 'provider': provider, 'project': str(self.root),
                   'kind': 'partner', 'owned': True, 'requested_model': model,
                   'requested_effort': effort, 'write_requested': writable, 'request_id': request}
         if partner_role is not None:
             record['partner_role'] = partner_role
+        if review_cadence is not None:
+            record['review_cadence'] = review_cadence
         if provider == 'codex':
             native_socket = codex_home() / 'app-server-control/app-server-control.sock'
             if not native_socket.exists():
@@ -1136,6 +1265,9 @@ def main():
         'In Claude Code with this skill loaded: /kerd:agent help.'))
     parser.add_argument('--project', default='.', help='Project directory (default: current directory)')
     sub = parser.add_subparsers(dest='action', required=True)
+    cadence_help = ('How this partner reviews: checkpoints, before-push, end or on-request '
+                    '(repeatable; on-request alone). Schedules review only inside authorized '
+                    'work; grants no permission.')
     sub.add_parser('sessions', help='List discoverable project sessions and saved local partners')
     identity = sub.add_parser('identity', help='Read and corroborate this host session ID; no writes or dispatch')
     identity.add_argument('--provider', choices=['claude', 'codex'], required=True)
@@ -1166,6 +1298,7 @@ def main():
     start.add_argument('--prompt-file', required=True)
     start.add_argument('--role', required=True)
     start.add_argument('--partner-role', help='Ongoing partner responsibility; separate from this job and not permissions')
+    start.add_argument('--review-cadence', action='append', help=cadence_help)
     start.add_argument('--model')
     start.add_argument('--effort')
     start.add_argument('--write', action='store_true', help='Enable file edits only within already-agreed authority')
@@ -1174,6 +1307,9 @@ def main():
     pair.add_argument('--session', required=True)
     pair.add_argument('--alias', required=True)
     pair.add_argument('--partner-role', help='Set or update the ongoing responsibility of this exact partner; no dispatch')
+    pair.add_argument('--review-cadence', action='append', help=cadence_help)
+    sub.add_parser('partners', help='List this project\'s partner bindings with role and review cadence; '
+                   'private metadata only, no discovery or contact')
     ask = sub.add_parser('ask', help='Send one contribution request to a saved partner')
     ask.add_argument('--alias', required=True)
     ask.add_argument('--prompt-file', required=True)
@@ -1202,9 +1338,13 @@ def main():
                                  args.record, args.confirm_replacement)
         elif args.action == 'start':
             result = agent.start(args.provider, args.kind, args.alias, args.prompt_file,
-                                 args.role, args.model, args.effort, args.write, args.partner_role)
+                                 args.role, args.model, args.effort, args.write, args.partner_role,
+                                 args.review_cadence)
         elif args.action == 'pair':
-            result = agent.pair(args.provider, args.session, args.alias, args.partner_role)
+            result = agent.pair(args.provider, args.session, args.alias, args.partner_role,
+                                args.review_cadence)
+        elif args.action == 'partners':
+            result = agent.partners()
         elif args.action == 'ask':
             partner = read_json(agent.folder('partners') / (alias_name(args.alias) + '.json'))
             result = agent.ask(partner['provider'], partner['id'], Path(args.prompt_file).read_text(),

@@ -28,7 +28,51 @@ checks during pickup.
 - Check the Conductor staffing grid in the original work-anthony transcript:
   Anthony's pasted grid looked mangled (terminal or paste, unverified), the
   controller named Opus 5 without a visible fit assessment, and route 1 was not
-  exercised (Codex, 2026-09-14).
+  exercised (Codex, 2026-09-14). Partly checked 2026-09-14 15:29: the 14:10 consumer
+  session on 0.126.0 has six well-formed grids at source, none arguing controller fit.
+  If that is the grid Anthony pasted, the mangling happened in display or paste; which
+  transcript Codex meant is not established. Detail: comparison Build 1.
+- **Proposed correction (Anthony's direction, 2026-09-14 20:10; source untouched,
+  held behind the proof-first scope): Conductor offers reviews itself.** Anthony:
+  "it should offer the reviews or ask how i want reviews run through the project
+  once". Two gaps, corrected after Codex's review (2026-09-14 23:05):
+  - Conductor compliance/visibility: `orchestration.md` already says "Consider
+    useful independent research, implementation and review at startup", and
+    `execution.md` "Prepare and do the next useful job" says to use an established
+    partner when that is the right contribution. The observed sessions did not
+    surface it.
+  - Agent: step 3 stores a role only, with no review-cadence preference.
+  Observed across both pieces of work in the 14:10 consumer 0.126.0 session: every
+  Codex review followed Anthony's request. Once asked, that session chose
+  risk-based checkpoints (after step 6; before push with the full diff and `ci.sh`
+  evidence; mechanical steps skipped) and recorded Codex's role. Refined by Anthony, 20:14: "if we set a pair we should ask
+  prefernce at that time or if we /agent we ask preferences - can be adjusted by
+  telling ssession of course but we can ask user up front - maybe even a multiple
+  picker". Countermeasure to test (behavioural contract):
+  - When `/kerd:agent` pairs a partner, it asks up front for the role and a review
+    cadence (for example at risk checkpoints, before push, at the end, or only on
+    request), and stores the cadence with the pairing. A multi-select picker is an
+    implementation option, not an acceptance criterion.
+  - Conductor's startup visibly plans independent review from that stored cadence.
+  - With an established partner and no stored cadence, Conductor offers once.
+  - The person can change the cadence by telling a session.
+
+  This extends Agent step 3, which today defines a role only from what the person
+  states and asks only when a needed role is unclear (`skills/agent/SKILL.md` lines
+  55–63). Kerd's own Codex pairing has no recorded role. Constraint: bindings are
+  Git-private and local to the worktree, so the preference travels with the
+  pairing, not with a clone. Hypothesis check: the next real paired build plans
+  reviews without a reminder.
+- **Next release (Anthony, 2026-09-14 23:55): effort-sized Claude players.** Evidence:
+  in 341 Agent tool calls (25 Aug–10 Sep), none passed effort. v0.105.0's
+  "effort: low" tags only reached prompt text. The Claude Code sub-agents doc
+  (retrieved 2026-09-14) sets `effort` only in definition frontmatter ("Overrides
+  the session effort level. Default: inherits from session"). Plugin agents may
+  use it; only `hooks`, `mcpServers` and `permissionMode` are ignored for them.
+  `/tasks` shows the effort when a definition sets it. Proposed: ship
+  effort-sized player definitions and have Conductor choose them by
+  `subagent_type`, proving the effort applies with `/tasks` before claiming it.
+  Not started.
 - A "not now" reply to the arrival question is still unexercised; the question is
   now the generic "Start a Conductor session?". Record it when a real reply occurs.
 - Unplanned restart recovery is observed only when a role-holding session is

@@ -196,7 +196,9 @@ this Git worktree, not shared with linked worktrees or transferred by Git.
 With an existing binding, retain the sibling [Agent](../../agent/SKILL.md) as
 the route for later contributions; load its full instructions when a contribution
 is requested, not merely to display a pairing. Retain the exact
-provider, alias, session ID and recorded ongoing role privately in context.
+provider, alias, session ID, recorded ongoing role and any recorded review cadence
+privately in context. TEAM still shows provider and role only; the cadence is for
+Conductor's review planning, not the dashboard.
 First compare the actual host's session variable (`CLAUDE_CODE_SESSION_ID` or
 `CODEX_THREAD_ID`) with the bindings, and look for a `handoff` designation or
 `recovery` receipt (including its retired IDs).

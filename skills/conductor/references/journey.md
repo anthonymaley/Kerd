@@ -192,7 +192,14 @@ visibility. Illustrative rows, not model defaults or jobs to manufacture:
 | --- | --- | --- | --- | --- |
 | Check transport mutations | Native subagent | Sonnet 5 | Unverified | Preparing |
 | Survey API callers | Native subagent | Opus 5 | Unverified | Preparing |
-| Review implementation | Established Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
+| Review implementation (cadence: before-push) | Established Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
+
+Fit · Check transport mutations — needs a bounded, command-checkable edit; Sonnet 5
+because the step is fully specified.
+Fit · Survey API callers — needs judgment across call sites that differ in intent;
+Opus 5 because misclassifying a caller would mislead the design.
+Fit · Review implementation — needs an independent reading by a different model;
+the established Codex partner, scheduled by its recorded review cadence.
 
 Name the actual contribution and route; say `kerd:agent` only when that skill
 handles it, not for a native subagent tool call. Keep requested settings distinct
@@ -202,7 +209,10 @@ composer row can move through scoped, terrain requested, score requested,
 returned and assessed; a player row can move through preparing, submitted or
 queued, running, returned and checked. Use only transitions the route actually
 reports: a submitted request is not running, a returned score is not accepted,
-and a returned player result is not checked.
+and a returned player result is not checked. The Fit lines under the grid follow
+[the startup contract](orchestration.md#one-visible-startup-view); add one when
+a job's model, effort or route changes. A planned review row names the cadence
+gate it serves.
 
 Show these short updates at their actual transitions, not as a closing claim:
 
@@ -225,7 +235,9 @@ route/tool rights, supported requested controls, result destination or necessary
 private framing; identify that supplement separately. Update affected rows as
 evidence moves from preparing to submitted/queued, running, returned and checked,
 or blocked/failed. Submission alone is not running, and a returned answer still
-needs assessment. Include the useful findings and next action at return. If the
+needs assessment. Moving a returned player row to checked shows its
+`Change read ·` line from [the change-set read](execution.md#review-prove-and-improve).
+Include the useful findings and next action at return. If the
 score passage itself is defective, show the affected passage as awaiting repair by
 its author (composer or Conductor) rather than presenting a semantic rewrite as
 player progress. No fixed
