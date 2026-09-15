@@ -6,58 +6,53 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.126.0, branch `main`, subject "Release Kerd 0.126.0:
-delegate clear work without a composer" (2026-09-14, released by Claude on
-Anthony's "yes", reviewed by Codex; the save helper verified the remote and CI
-entry-gate run 34873569071 succeeded).** Since 0.119.0, all on 2026-09-13/14:
-- 0.120.0: no YOU box; one-line TEAM.
-- 0.121.0–0.121.2: status grid; rendered dashboard returned unchanged; NOW holds
-  actions only.
-- 0.122.0–0.122.1: Out saves the selected continuation and carries urgent risks.
-- 0.123.0: explicit Conductor entry; managed Conductor sessions.
-- 0.124.0: Switch composes without loading Conductor; model-aware orchestration.
-- 0.125.0: "Start a Conductor session?" on every In; wider active-work restore;
-  composer, score and players restored and assessed against v0.105.0.
-- 0.126.0: Conductor writes clear steps itself and delegates them; the composer
-  for design; inline only for tiny, coupled or judgment work; defects return to
-  the step's author.
+**Release boundary: 0.128.0, branch `main`, subject "Release Kerd 0.128.0:
+effort-sized native Claude players" (2026-09-15, released by Claude on Anthony's "y",
+reviewed by Codex; the save helper verified the remote and CI entry-gate run
+34970583757 succeeded).** Since 0.126.0:
+- 0.127.0 (2026-09-15 00:42): pairing records a review cadence; Conductor plans
+  review from it; Fit lines for every model job; returned work is read against a
+  private content baseline with `skills/conductor/scripts/change_read.py`. CI ran on
+  the empty trigger commit that follows it (run 34931229115), because GitHub
+  registered no push event for the release itself.
+- 0.128.0 (08:43): five `kerd:effort-<level>` agents set a native Claude job's effort
+  while the call still passes the model; `job_evidence.py` observes what ran; the
+  portable package ships the agents.
 
-Records: `docs/work/conductor-clean-entry/work.md` (0.124.0–0.126.0; comparison in
-`composer-restoration-comparison.md`), `docs/work/conductor-entry-roll/work.md`
-(0.123.0), `docs/work/switch-arrival-team/work.md` (0.120.0–0.122.1),
-`docs/work/switch-coordinated-closeout/work.md` (verification list). The sitting's
-account is `kivna/sessions/2026-09-14.md`; the diagrams are the Kerd Sitting Map
-artifact linked there.
+Records: `docs/work/effort-sized-players/work.md` (0.128.0),
+`docs/work/review-and-fit-corrections/work.md` (0.127.0),
+`docs/work/conductor-clean-entry/composer-restoration-comparison.md` (Builds 1–2, real
+use of 0.126.0). The sitting's account is `kivna/sessions/2026-09-15.md`.
 
-**The current work is proof, not building** (the 2026-09-13 10:41 ruling below).
-The source now carries the restored delegation contract, but none of 0.125.0 or
-0.126.0 has run installed.
-- Evidence gathered this sitting is ordinary pickups checked from native
-  transcripts: renderer output equalled the final message in 11 of 11 from 0.121.1
-  on.
-- The real-build comparison slots are unobserved.
-- Anthony has since run ordinary pickups in Leru, Weefish, Seinn, Apple Music and
-  work-anthony. Whether that lifts the consumer-pickup hold is his call.
+**The current work is proof again.** 0.127.0 and 0.128.0 were built from real-use
+evidence (the 2026-09-14 23:08 ruling), but neither has run in real use yet.
+- Evidence so far: fixtures and suites; four Codex review rounds for 0.127.0 and two
+  for 0.128.0; one end-to-end probe (`kerd:effort-low` + `model: sonnet` observed as
+  claude-sonnet-5 at low, Claude Code 2.1.272).
+- Nothing yet shows reviews planned without a reminder, Fit lines, `Change read` lines
+  or effort agents in a real build.
 
-**Installed state, not to be overclaimed:** Claude's plugin cache on this Mac
-Studio tops out at 0.124.0 (listed 2026-09-14 12:44). Codex runs 0.124.0, installed
-and enabled (reported by Codex, `codex plugin list`, 2026-09-14). A session loads
-the cache it started with; verify the skill base path before counting a result.
+**Installed state, not to be overclaimed:** Claude's `installed_plugins.json` records
+Kerd 0.128.0 (installed 2026-09-15 08:47). Sessions started before then keep their
+loaded version; this one loaded 0.126.0. Codex runs 0.124.0 (reported by Codex
+2026-09-14, not rechecked). Verify the skill base path before counting a result.
+`/usr/bin/git` works again: Anthony accepted the Xcode license at 08:46, after it
+failed from 00:27, when a stale `.git/index.lock` also had to be removed.
 
 **Selected continuation (proposed, not agreed):**
-1. Anthony brings the installed Claude and Codex plugins to 0.126.0. That is his
-   action or needs his authorization.
-2. The next two real multi-step builds on 0.126.0 are then observed and recorded in
-   the comparison slots, by the session doing the build or the `kerd-b5-review`
-   role: the route Conductor chose and why, composer calls, delegation share and
-   fan-out, returned-diff reads, failure routing, and a visible controller
-   model/effort assessment.
-Stops at recorded observations: no manufactured build, no new release, no consumer
-edits. Pending question: may the plugins be updated to 0.126.0?
+1. Anthony starts fresh Claude sessions on 0.128.0 and brings Codex to 0.128.0 (his
+   action, or needs his authorization).
+2. The next real paired Conductor build is observed and recorded like Builds 1–2.
+   Record: review planned from the cadence or offered once; Fit lines; a `Change read`
+   line per return; `kerd:effort-<level>` dispatch with a `job_evidence.py`
+   observation. Observed by the session doing the build or the `kerd-b5-review` role.
 
-**Urgent or imminent risks:** none recorded in Kerd's active records (`TODO.md`
-and the current work records checked at this Out, 2026-09-14). Weefish's
-unrecorded drive4 capacity readings belong to that project (session log, Gotchas).
+Stops at recorded observations: no manufactured build, no release. Pending question:
+may Codex be updated to 0.128.0?
+
+**Urgent or imminent risks:** none recorded in Kerd's active records (`TODO.md` and the
+current work records checked at this Out, 2026-09-15). Weefish's unrecorded drive4
+capacity readings belong to that project (session log 2026-09-14, Gotchas).
 
 **The launch sequence is retained and untouched**: five outcomes, 0 of 5:
 `risk-state-split` at acceptance owing its evidence-backed record,
@@ -73,29 +68,34 @@ the root (2026-09-09). Name it with `--preserve` at every save.
 designates its successor against this file with `skills/agent/scripts/agent.py
 handoff --record CONTEXT.md`. The next Claude In adopts it with `adopt
 --expected-session <bound ID> --record CONTEXT.md`. Receipts and the designation
-stop matching when this file's bytes change. Previous position paragraphs are in
-`docs/backlog-archive.md` ("Retained position, 2026-09-13").
+stop matching when this file's bytes change. The role's pairing has no recorded review
+cadence yet (0.127.0 asks for one at the next pairing).
 
-**Pickup reading set** (Switch Out, 2026-09-14 14:25):
+**Pickup reading set** (Switch Out, 2026-09-15):
 - this file complete, for position, the selected continuation, risks and rulings;
 - `TODO.md` `## Now` with its child section, the designated active list;
-- `kivna/sessions/2026-09-14.md` complete, the sitting's account;
-- `docs/work/conductor-clean-entry/work.md` `## Now`, the current work record's
-  stage and next action.
+- `kivna/sessions/2026-09-15.md` complete, the sitting's account;
+- `docs/work/effort-sized-players/work.md` `## Now`, the latest record's stage and
+  next action.
 
-Open `composer-restoration-comparison.md` when recording a build, and
+Open `docs/work/review-and-fit-corrections/work.md` and
+`composer-restoration-comparison.md` when recording the next build, and
 `docs/decisions.md` for any ruling's case.
-Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-14.md", "--section", "TODO.md", "## Now", "--section", "docs/work/conductor-clean-entry/work.md", "## Now"]`.
-Measured reading: 28,413 bytes, about 7,104 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target, including this line.
+Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-15.md", "--section", "TODO.md", "## Now", "--section", "docs/work/effort-sized-players/work.md", "## Now"]`.
+Measured reading: 29,449 bytes, about 7,363 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target, including this line.
 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (178 entries at the
-2026-09-14 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (182 entries at the
+2026-09-15 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **EFFORT IS SET PER NATIVE CLAUDE JOB THROUGH KERD'S kerd:effort-<level> AGENTS WHILE THE CALL STILL PASSES THE MODEL; WHAT RAN IS OBSERVED WITH job_evidence.py, AND PARTIAL OR MISSING EVIDENCE IS UNVERIFIED; CODEX MODELS ARE NOT CLAUDE AGENT FILES — Anthony, 2026-09-15, released in 0.128.0.**
+- **OBSERVATIONS EXIST TO DRIVE CORRECTIONS: RECORD WHAT REAL USE SHOWS, FIX THE GAPS IT EVIDENCES, THEN OBSERVE AGAIN — Anthony, 2026-09-14 23:08.**
+- **EVERY MODEL JOB SHOWS A FIT LINE; RETURNED WORK IS READ AGAINST A PRIVATE CONTENT BASELINE, AND ANY UNEXPECTED, OUTSIDE, COMMITTED OR HEAD CHANGE IS A FINDING — Anthony, 2026-09-14/15, released in 0.127.0.**
+- **PAIRING ASKS ONCE FOR ROLE AND REVIEW CADENCE AND CARRIES IT ACROSS SESSION CHANGES; CONDUCTOR PLANS INDEPENDENT REVIEW FROM IT OR OFFERS ONCE; A CADENCE GRANTS NOTHING; A CHANGE AFTER A REVIEW REPEATS ITS GATE — Anthony, 2026-09-14, released in 0.127.0.**
 - **DELEGATE CLEAR WORK WITHOUT A COMPOSER: CONDUCTOR CHOOSES WHO WRITES EACH STEP — ITSELF FOR CLEAR WORK, THE COMPOSER WHEN THE SPECIFICATION NEEDS DESIGN, INLINE ONLY FOR TINY, COUPLED OR JUDGMENT-BOUND WORK; DELEGATION IS THE DEFAULT WHEN A JOB CAN BE BRIEFED, CHECKED AND IS WORTH ITS HANDOFF COST; A DEFECT RETURNS TO THE STEP'S AUTHOR — Anthony, 2026-09-14, released in 0.126.0.**
 - **RESTORE THE COMPOSER AS A BOUNDED TWO-PASS CALL, THE SCORE AS THE EXECUTION CONTRACT, TAGS AFTER WRITING AND PER-STEP PLAYERS FROM v0.105.0; RE-DISPATCH, NEVER RE-SPECIFY; CONDUCTOR READS EVERY RETURNED DIFF — Anthony, 2026-09-14, released in 0.125.0.**
 - **ORDINARY SWITCH IN ALWAYS ENDS ON "START A CONDUCTOR SESSION?"; A PLAIN YES OPENS DIRECTION-SETTING, NEVER APPROVAL OF THE SAVED TASK; IN RESTORES THE DESIGNATED ACTIVE LIST; A HUMAN-BLOCKED CONTINUATION IS NOT A PROJECT-WIDE HOLD — Anthony, 2026-09-14 (reported by Codex), released in 0.125.0.**

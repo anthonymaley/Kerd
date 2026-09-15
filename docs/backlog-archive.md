@@ -4,6 +4,46 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+## Closed 2026-09-15
+
+**Verdict: done — both real-build slots recorded 2026-09-14.** Builds 1 and 2 (a
+consumer project on 0.126.0, non-code notes and a composer-route packaging build) are in
+`docs/work/conductor-clean-entry/composer-restoration-comparison.md`. They are read from
+source, reviewed by Codex, and assessed met, unmet or unassessed. The unmet findings
+were fixed in 0.127.0.
+
+- **Then: observe the next two real multi-step builds on 0.126.0** and fill the two
+  slots in `composer-restoration-comparison.md`: the route Conductor chose, composer
+  calls, delegation share and fan-out, returned-diff reads, failure routing, and a
+  visible controller model/effort assessment.
+
+**Verdict: done — released in 0.127.0 (2026-09-15).** Pairing asks once for role
+and review cadence; Conductor plans review from it or offers once. Design, four Codex
+before-push rounds and evidence: `docs/work/review-and-fit-corrections/`.
+
+- **Proposed correction: Conductor offers reviews itself** (Anthony, 2026-09-14
+  20:10 and 20:14): ask once how reviews run, store it with the pairing, plan from it.
+
+**Verdict: done — released in 0.128.0 (2026-09-15).** Five `kerd:effort-<level>`
+agents set a delegated Claude job's effort. `job_evidence.py` observes what ran. A probe
+observed `kerd:effort-low` as Sonnet 5 at `low`. Record:
+`docs/work/effort-sized-players/`.
+
+- **Next release: effort-sized Claude players** (Anthony, 2026-09-14 23:55).
+
+**Verdict: superseded — by bringing the plugins to 0.128.0 (current `TODO.md`).**
+0.127.0 and 0.128.0 were released after this row.
+
+- **First (proposed): bring the installed plugins to 0.126.0.**
+
+**Verdict: superseded — the fit gap is fixed and the mangling is probably display
+(one paste).** The grids in that 0.126.0 session were well-formed Markdown at source.
+Anthony's pasted table was box-drawn by the client, which supports display or paste
+as the cause, from one paste, not verified against the exact transcript Codex meant.
+The missing controller fit assessment is addressed by 0.127.0's required Fit line.
+
+- **Check the Conductor staffing grid in the original work-anthony transcript.**
+
 ## Closed 2026-09-14
 
 **Verdict: done — observed 2026-09-13 16:08 EDT by the Claude session that adopted

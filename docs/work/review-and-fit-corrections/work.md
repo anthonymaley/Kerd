@@ -11,10 +11,9 @@ matrix, journey, fidelity).
 Next action (proposed, not agreed): the real-use correction test below, on the next
 real paired build running 0.127.0 installed. Then the next release: effort-sized
 Claude players (`TODO.md` `## Now`).
-Environment note: `/usr/bin/git` on the Mac Studio stopped at "You have not agreed
-to the Xcode license agreements" (2026-09-15 00:35). This build used
-`DEVELOPER_DIR=/Library/Developer/CommandLineTools`. Accepting the license needs
-`sudo`, so it is Anthony's action.
+Environment note: `/usr/bin/git` failed on an Xcode license prompt from 2026-09-15
+00:27 until Anthony accepted it at 08:46. This build used
+`DEVELOPER_DIR=/Library/Developer/CommandLineTools`, which is no longer needed.
 
 ## Agreement
 

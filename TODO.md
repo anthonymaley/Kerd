@@ -2,77 +2,38 @@
 
 ## Now
 
-**Release boundary:** 0.126.0, branch `main`, subject "Release Kerd 0.126.0:
-delegate clear work without a composer" (2026-09-14, released by Claude, reviewed
-by Codex); resolve its revision and remote state with Git. Position, installed
-state, the selected continuation and the reading set: `CONTEXT.md`
-`## Where We Are`. Records: `docs/work/conductor-clean-entry/work.md` (0.124.0-0.126.0:
-Switch offer, orientation, composer restoration, Conductor-written steps; the
-v0.105.0 comparison is `composer-restoration-comparison.md`),
-`docs/work/conductor-entry-roll/work.md` (0.123.0 entry, managed Conductor),
-`docs/work/switch-arrival-team/work.md` (0.120.0-0.122.1 arrival layout, NOW,
-selected continuation, urgent risks), `docs/work/switch-coordinated-closeout/work.md`
-(the shared verification list). These lists are not authority to install or run
-checks during pickup.
+**Release boundary:** 0.128.0, branch `main`, subject "Release Kerd 0.128.0:
+effort-sized native Claude players" (2026-09-15, released by Claude on Anthony's "y",
+reviewed by Codex). Resolve its revision and remote state with Git. Position,
+installed state, the selected continuation and the reading set are in `CONTEXT.md`
+`## Where We Are`. Records:
+- `docs/work/effort-sized-players/work.md` (0.128.0);
+- `docs/work/review-and-fit-corrections/work.md` (0.127.0: review cadence, Fit lines,
+  change reads);
+- `docs/work/conductor-clean-entry/composer-restoration-comparison.md` (Builds 1–2,
+  real use of 0.126.0);
+- `docs/work/conductor-entry-roll/work.md` (0.123.0);
+- `docs/work/switch-arrival-team/work.md` (0.120.0–0.122.1);
+- `docs/work/switch-coordinated-closeout/work.md` (the shared verification list).
 
-- **First (proposed): bring the installed plugins to 0.126.0.** Claude's plugin
-  cache on this Mac Studio tops out at 0.124.0 (listed 2026-09-14 12:44); Codex
-  runs 0.124.0 (Codex, `codex plugin list`, 2026-09-14). Nothing of 0.125.0 or
-  0.126.0 has run installed. Updating either plugin is Anthony's action or needs
-  his authorization; verify the loaded skill path before counting any result.
-- **Then: observe the next two real multi-step builds on 0.126.0** and fill the two
-  slots in `composer-restoration-comparison.md`: the route Conductor chose
-  (Conductor-written, composer or inline) and why, composer calls, share of steps
-  delegated and fan-out, returned-diff reads, failure routing, and a visible
-  task-based controller model/effort assessment. Don't manufacture a build.
-- Check the Conductor staffing grid in the original work-anthony transcript:
-  Anthony's pasted grid looked mangled (terminal or paste, unverified), the
-  controller named Opus 5 without a visible fit assessment, and route 1 was not
-  exercised (Codex, 2026-09-14). Partly checked 2026-09-14 15:29: the 14:10 consumer
-  session on 0.126.0 has six well-formed grids at source, none arguing controller fit.
-  If that is the grid Anthony pasted, the mangling happened in display or paste; which
-  transcript Codex meant is not established. Detail: comparison Build 1.
-- **Proposed correction (Anthony's direction, 2026-09-14 20:10; source untouched,
-  held behind the proof-first scope): Conductor offers reviews itself.** Anthony:
-  "it should offer the reviews or ask how i want reviews run through the project
-  once". Two gaps, corrected after Codex's review (2026-09-14 23:05):
-  - Conductor compliance/visibility: `orchestration.md` already says "Consider
-    useful independent research, implementation and review at startup", and
-    `execution.md` "Prepare and do the next useful job" says to use an established
-    partner when that is the right contribution. The observed sessions did not
-    surface it.
-  - Agent: step 3 stores a role only, with no review-cadence preference.
-  Observed across both pieces of work in the 14:10 consumer 0.126.0 session: every
-  Codex review followed Anthony's request. Once asked, that session chose
-  risk-based checkpoints (after step 6; before push with the full diff and `ci.sh`
-  evidence; mechanical steps skipped) and recorded Codex's role. Refined by Anthony, 20:14: "if we set a pair we should ask
-  prefernce at that time or if we /agent we ask preferences - can be adjusted by
-  telling ssession of course but we can ask user up front - maybe even a multiple
-  picker". Countermeasure to test (behavioural contract):
-  - When `/kerd:agent` pairs a partner, it asks up front for the role and a review
-    cadence (for example at risk checkpoints, before push, at the end, or only on
-    request), and stores the cadence with the pairing. A multi-select picker is an
-    implementation option, not an acceptance criterion.
-  - Conductor's startup visibly plans independent review from that stored cadence.
-  - With an established partner and no stored cadence, Conductor offers once.
-  - The person can change the cadence by telling a session.
+These lists are not authority to install or run checks during pickup.
 
-  This extends Agent step 3, which today defines a role only from what the person
-  states and asks only when a needed role is unclear (`skills/agent/SKILL.md` lines
-  55–63). Kerd's own Codex pairing has no recorded role. Constraint: bindings are
-  Git-private and local to the worktree, so the preference travels with the
-  pairing, not with a clone. Hypothesis check: the next real paired build plans
-  reviews without a reminder.
-- **Next release (Anthony, 2026-09-14 23:55): effort-sized Claude players.** Evidence:
-  in 341 Agent tool calls (25 Aug–10 Sep), none passed effort. v0.105.0's
-  "effort: low" tags only reached prompt text. The Claude Code sub-agents doc
-  (retrieved 2026-09-14) sets `effort` only in definition frontmatter ("Overrides
-  the session effort level. Default: inherits from session"). Plugin agents may
-  use it; only `hooks`, `mcpServers` and `permissionMode` are ignored for them.
-  `/tasks` shows the effort when a definition sets it. Proposed: ship
-  effort-sized player definitions and have Conductor choose them by
-  `subagent_type`, proving the effort applies with `/tasks` before claiming it.
-  Not started.
+- **First (proposed): start fresh Claude sessions on 0.128.0, and bring Codex to
+  0.128.0.** Claude's `installed_plugins.json` records Kerd 0.128.0, installed
+  2026-09-15 08:47, so sessions started after that load it. Earlier sessions keep
+  their loaded version (this one loaded 0.126.0) and don't see `kerd:effort-*`.
+  Codex runs 0.124.0 (reported by Codex 2026-09-14, not rechecked). Updating Codex is
+  Anthony's action or needs his authorization. Verify the loaded skill path before
+  counting any result.
+- **Then: observe the next real paired Conductor build on 0.128.0.** Record whether:
+  - review is planned from the pairing's cadence, or offered once, without a
+    reminder (0.127.0);
+  - Fit lines appear for the controller and every model job (0.127.0);
+  - a `Change read` line from `change_read.py` appears on each return (0.127.0);
+  - native Claude jobs are sent as `kerd:effort-<level>`, with the observed model and
+    effort from `job_evidence.py` (0.128.0).
+
+  Record the result like Builds 1–2. Don't manufacture a build.
 - A "not now" reply to the arrival question is still unexercised; the question is
   now the generic "Start a Conductor session?". Record it when a real reply occurs.
 - Unplanned restart recovery is observed only when a role-holding session is
@@ -80,8 +41,8 @@ checks during pickup.
   Receipts stop matching when `CONTEXT.md` bytes change.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
   project. Since then Anthony has run ordinary pickups in Leru, Weefish, Seinn,
-  Apple Music and work-anthony (session log 2026-09-14). Whether the hold is lifted
-  is his call; don't assume it.
+  Apple Music and work-anthony (session log 2026-09-14), and Conductor builds in that
+  consumer project on 0.126.0. Whether the hold is lifted is his call; don't assume it.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model,
   not a fixture: a factual Yes, No or Not sure that grants no approval.
 

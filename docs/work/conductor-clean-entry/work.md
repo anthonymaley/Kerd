@@ -2,20 +2,15 @@
 
 ## Now
 
-Stage: Released. 0.124.0 (`0cd6535`, model-aware orchestration, Switch composes
-without Conductor), 0.125.0 (`ae2f17e`, generic Conductor offer, wider active-work
-restore, composer/score/player restoration assessed against v0.105.0) and 0.126.0
-(`8e1ddb6`, Conductor-written delegated steps for clear work; Claude implemented,
-Codex reviewed with three corrections). CI passed on each.
-Owner: observation belongs to the session doing the next real build; the Claude
-role `kerd-b5-review` records results in the comparison slots.
-Next action (proposed): Anthony brings the installed plugins to 0.126.0 (Claude's
-cache tops out at 0.124.0, Codex runs 0.124.0), then the next two real multi-step
-builds fill the slots in [composer-restoration-comparison.md](composer-restoration-comparison.md).
-Codex's 0.124.0 snapshot was installed and enabled after that release; resuming the
-existing Codex conversation made all four 0.124.0 skills available in its catalog.
-No install, consumer work or manufactured build is authorized by this record.
-Pending question: none recorded here; installation is Anthony's call.
+Stage: Released and observed. 0.124.0, 0.125.0 and 0.126.0 are released (CI passed on
+each). Their real use was recorded 2026-09-14 as Builds 1 and 2 in
+[composer-restoration-comparison.md](composer-restoration-comparison.md), from a
+consumer project's transcript, reviewed by Codex. The gaps found (no planned review, no
+argued fit, returned work not read) were fixed in 0.127.0
+(`docs/work/review-and-fit-corrections/`); effort sizing followed in 0.128.0
+(`docs/work/effort-sized-players/`).
+Next action (proposed): none in this record. The next real-use observation belongs to
+0.127.0 and 0.128.0 (`CONTEXT.md` selected continuation).
 Earlier Stage/Next statements in the sections below describe their own dates.
 
 ## Interactive orientation follow-up — 2026-09-14
