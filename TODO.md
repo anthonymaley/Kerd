@@ -22,16 +22,34 @@ set are in `CONTEXT.md` `## Where We Are`. Records:
 
 These lists are not authority to install or run checks during pickup.
 
-- **First (proposed): update both sides to 0.130.0.** Codex was brought to 0.129.0 at
-  13:16 on 2026-09-15 (local `kerd-core` marketplace, `output/kerd-codex-0.129.0`);
-  0.130.0 needs a fresh build and `codex plugin add`, which is Anthony's call. Claude
-  sessions pick it up on restart. Verify the loaded skill path before counting any
-  result.
+- **Update both sides to 0.130.0 when wanted.** Codex reached 0.129.0 at 13:16 via the
+  local `kerd-core` marketplace (`output/kerd-codex-0.129.0`); 0.130.0 needs a fresh
+  build plus `codex plugin add`, Anthony's call. Claude picks it up on restart. Verify
+  the loaded skill path before counting a result.
 - **Then: build the visual-communication release** in
   `docs/work/visual-communication/work.md`: visuals by default for substantial
   proposals, `kerd:visuals` on an explicit request, diagram-design and Archify as
   required tools, a static guard and real-model behavioural tests. Archify is not
   installed, so its install needs approval.
+- **Next release: the question form gains pickers, and Agent gets a role selector
+  (Anthony, 2026-09-15 19:50/19:51).** The 0.129.0 "no boxed cards or native pickers"
+  wording was Claude's over-reach; a picker may follow the speech bubble for its
+  options whenever one suits, including approvals, and never replaces or precedes the
+  bubble. The ruling is corrected in `CONTEXT.md` and `docs/decisions.md`; the code and
+  guidance still carry the old rule. To change:
+  - `skills/conductor/references/journey.md` lines 79-80 ("no native picker or
+    multi-select control replaces the bubble");
+  - the "Asking the person" line in all 12 `skills/*/SKILL.md` entry points;
+  - `skills/conductor/scripts/tests/test_question_form.py:44`, which asserts every
+    entry point contains "no native picker" — the guard currently enforces the wrong
+    rule, so it must assert the corrected one instead;
+  - Agent pairing: a missing partner role keeps the bubble question and follows it with
+    a single-choice selector (Pairing partner, Implementation partner, Independent
+    reviewer, Specialist adviser, Other); a missing role and cadence keep ask-once with
+    structured choices; never re-ask a recorded one.
+  - Consider bundling with the visual-communication release
+    (`docs/work/visual-communication/work.md`).
+
 - **0.128.0 and 0.127.0 features were observed in the 0.130.0 build** (cadence-planned
   review, Fit lines, `Change read` per return, `kerd:effort-*` with `job_evidence.py`).
   What remains unobserved for 0.130.0 is a pressure-triggered handover into a second

@@ -213,7 +213,8 @@ is the control surface, not a TUI the driver clears or replaces.
 The first pressure-aware coordinator/implementer route is Codex; Claude can be
 the control chat or a file-only reviewer. Reviews use bounded CLI turns. Host
 process survival, pressure-aware Claude coordination and automatic recovery of
-uncertain jobs are not claimed. No installs, global hooks or consumer-session
+uncertain jobs are not claimed. Worker Roll does have an observed Claude route
+since v0.130.0, but it is not wired into this managed decision loop. No installs, global hooks or consumer-session
 changes are made by publishing. See the
 [managed guide](skills/conductor/references/managed-conductor.md) for operation
 and evidence limits.
