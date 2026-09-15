@@ -6,51 +6,54 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.129.0, branch `main`, subject "Release Kerd 0.129.0: one
-question form across Kerd" (2026-09-15, released by Claude on Anthony's "y", reviewed by
-Codex; resolve its revision and CI with Git and `gh`).** Since 0.126.0:
-- 0.127.0 (2026-09-15 00:42): pairing records a review cadence; Conductor plans
-  review from it; Fit lines for every model job; returned work is read against a
-  private content baseline with `skills/conductor/scripts/change_read.py`. CI ran on
-  the empty trigger commit that follows it (run 34931229115), because GitHub
-  registered no push event for the release itself.
+**Release boundary: 0.130.0, branch `main`, subject "Release Kerd 0.130.0: unattended
+Claude Roll saves its place at 65%" (2026-09-15, released by Claude on Anthony's "yes",
+reviewed by Codex; resolve its revision and CI with Git and `gh`).** Since 0.126.0:
+- 0.127.0 (00:42): pairing records a review cadence; Conductor plans review from it;
+  Fit lines for every model job; returned work is read against a private content
+  baseline with `skills/conductor/scripts/change_read.py`.
 - 0.128.0 (08:43): five `kerd:effort-<level>` agents set a native Claude job's effort
-  while the call still passes the model; `job_evidence.py` observes what ran; the
-  portable package ships the agents.
-- 0.129.0 (11:15, after the Out): every Kerd question is one speech-bubble line,
-  `> 💬 **The question?**`, with options and context above it; the rule is in all 12
-  skills and `test_question_form.py` guards it.
+  while the call still passes the model; `job_evidence.py` observes what ran.
+- 0.129.0 (11:15): every Kerd question is one speech-bubble line, guarded by
+  `test_question_form.py`.
+- 0.130.0 (18:40): `roll.py --target claude --context-aware` watches an unattended
+  Claude worker and asks for its saved place at 65% of its reported window;
+  `skills/switch/scripts/claude_roll.py` is the adapter; `parse_reply` accepts prose
+  around exactly one JSON fence. Codex's route and managed Conductor are unchanged.
 
 Records: `docs/work/effort-sized-players/work.md` (0.128.0),
 `docs/work/review-and-fit-corrections/work.md` (0.127.0),
 `docs/work/conductor-clean-entry/composer-restoration-comparison.md` (Builds 1–2, real
 use of 0.126.0). The sitting's account is `kivna/sessions/2026-09-15.md`.
 
-**The current work is proof again.** 0.127.0, 0.128.0 and 0.129.0 were built from real-use
-evidence and Anthony's direction (the 2026-09-14 23:08 ruling), but neither has run in real use yet.
-- Evidence so far: fixtures and suites; four Codex review rounds for 0.127.0 and two
-  for 0.128.0; one end-to-end probe (`kerd:effort-low` + `model: sonnet` observed as
-  claude-sonnet-5 at low, Claude Code 2.1.272).
-- Nothing yet shows reviews planned without a reminder, Fit lines, `Change read` lines
-  or effort agents in a real build.
+**0.130.0 was the first real paired Conductor build of this run**, and it evidenced the
+0.127.0-0.128.0 features in use: review planned from the recorded cadence, Fit lines per
+job, `Change read` per return, and `kerd:effort-xhigh`/`-high` dispatch observed by
+`job_evidence.py` as claude-opus-5 at those efforts. Record:
+`docs/work/context-awareness/` (`work.md`, `score.md`, two rendered views).
+- Still unobserved for 0.130.0: a pressure-triggered handover into a second fresh Claude
+  worker, and receipt recovery after a real controller loss. Three disclosed
+  test-threshold trials cost $1.24.
 
-**Installed state, not to be overclaimed:** Claude's `installed_plugins.json` records
-Kerd 0.128.0 (installed 2026-09-15 08:47). Sessions started before then keep their
-loaded version; this one loaded 0.126.0. Codex runs 0.124.0 (reported by Codex
-2026-09-14, not rechecked). Verify the skill base path before counting a result.
+**Installed state, not to be overclaimed:** this session loaded Kerd 0.129.0; Claude's
+installed plugin was 0.128.0 at 08:47 and 0.129.0 in this session's path. Codex was
+updated to 0.129.0 at 13:16 (built to `output/kerd-codex-0.129.0`, `kerd-core`
+repointed, confirmed by Codex itself after restarting its thread). Neither side runs
+0.130.0 yet. Verify the skill base path before counting a result.
 `/usr/bin/git` works again: Anthony accepted the Xcode license at 08:46, after it
 failed from 00:27, when a stale `.git/index.lock` also had to be removed.
 
 **Selected continuation (proposed, not agreed):**
-1. Anthony starts fresh Claude sessions on 0.128.0 and brings Codex to 0.128.0 (his
-   action, or needs his authorization).
-2. The next real paired Conductor build is observed and recorded like Builds 1–2.
-   Record: review planned from the cadence or offered once; Fit lines; a `Change read`
-   line per return; `kerd:effort-<level>` dispatch with a `job_evidence.py`
-   observation. Observed by the session doing the build or the `kerd-b5-review` role.
+1. Update both sides to 0.130.0 (Claude sessions restart; Codex needs a fresh build of
+   `output/kerd-codex-0.130.0` and `codex plugin add`, which is Anthony's call).
+2. Build the visual-communication follow-up, the separate MINOR release recorded in
+   `docs/work/visual-communication/work.md`: visuals by default for substantial
+   proposals, `kerd:visuals` on an explicit request, diagram-design and Archify
+   required, a static guard and real-model behavioural tests. Archify is not installed.
+3. Observe a pressure-triggered Claude Roll handover into a second fresh worker when a
+   real unattended build needs one; don't manufacture it.
 
-Stops at recorded observations: no manufactured build, no release. Pending question:
-may Codex be updated to 0.128.0?
+Stops at recorded observations: no release without approval.
 
 **Urgent or imminent risks:** none recorded in Kerd's active records (`TODO.md` and the
 current work records checked at this Out, 2026-09-15). Weefish's unrecorded drive4
@@ -89,11 +92,13 @@ Measured reading: 30,978 bytes, about 7,745 tokens estimated at four bytes each 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (183 entries at the
-2026-09-15 Out, one added at the 0.129.0 release, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (185 entries at the
+2026-09-15 Out, one added at the 0.129.0 release and two for 0.130.0, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **CONTEXT PRESSURE IS HANDLED BY ROLLING TO A FRESH SESSION FROM KERD'S SAVED PLACE, NEVER BY COMPACTION; AN INTERACTIVE SESSION SWITCHES OUT WHEN THE PERSON DECIDES; AUTOMATIC PRESSURE HANDLING IS ONLY FOR UNATTENDED ROLL — Anthony, 2026-09-15 13:39/13:42, applied in 0.130.0.**
+- **AN UNATTENDED CLAUDE ROLL RUN IS ASKED FOR ITS SAVED PLACE AT 65% OF ITS REPORTED CONTEXT WINDOW (USED TOKENS), NO ABSOLUTE CAP; READINGS ARE RECORDED TO TUNE IT — Anthony, 2026-09-15 13:57, released in 0.130.0.**
 - **EVERY KERD QUESTION IS ONE SPEECH-BUBBLE LINE AT THE END OF THE MESSAGE, `> 💬 **The question?**`, WITH OPTIONS OR CONTEXT ABOVE IT; NO BOXED CARDS OR NATIVE PICKERS — Anthony, 2026-09-15, released in 0.129.0.**
 - **EFFORT IS SET PER NATIVE CLAUDE JOB THROUGH KERD'S kerd:effort-<level> AGENTS WHILE THE CALL STILL PASSES THE MODEL; WHAT RAN IS OBSERVED WITH job_evidence.py, AND PARTIAL OR MISSING EVIDENCE IS UNVERIFIED; CODEX MODELS ARE NOT CLAUDE AGENT FILES — Anthony, 2026-09-15, released in 0.128.0.**
 - **OBSERVATIONS EXIST TO DRIVE CORRECTIONS: RECORD WHAT REAL USE SHOWS, FIX THE GAPS IT EVIDENCES, THEN OBSERVE AGAIN — Anthony, 2026-09-14 23:08.**

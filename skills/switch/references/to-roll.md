@@ -142,7 +142,9 @@ The command below rolls **workers**, leaving this chat as decision owner. For
 the user-requested automatic continuation of Conductor decisions and review too,
 start [managed Conductor](../../conductor/references/managed-conductor.md).
 It uses the same ownership record and refuses a competing worker loop. Neither
-route takes over an arbitrary TUI or supplies a pressure-aware Claude adapter.
+route takes over an arbitrary TUI. Worker Roll has observed-context routes for
+Codex and Claude (below); managed Conductor's decision and implementation
+sessions remain Codex.
 
 Use the small local helper only for a designated managed build. It owns fresh
 CLI runs outside the workers' context windows, through the existing Conductor
@@ -188,7 +190,7 @@ A `blocked` or uncertain outcome needs actual diagnosis before any retry; don't
 delete the helper's private Git metadata to bypass it. One managed Roll currently
 owns a repo at a time; do not run competing builds in that same checkout.
 
-## Observed context route — Codex candidate
+## Observed context routes: Codex and Claude
 
 For a managed Codex build, add `--context-aware` to the Roll command above. The
 installed CLI must support app-server stdio, context-usage notifications and
@@ -217,10 +219,34 @@ result can still cross the reserve before steering. Do not promise universal
 compaction prevention. Record what the actual run showed. Current usage includes
 host input; it does not alone prove Switch-added input meets the pickup budget.
 
+For a managed Claude build, use `--target claude --context-aware`. This is for
+unattended worker Roll only; an interactive session still Switches Out when the
+person decides. The helper starts one fresh `claude -p` stream-json process per
+run, with the same file tools and permission flags as the Claude CLI route, and
+never resumes a session. It sends a fixed bootstrap turn first: the `init` that
+follows must show this project, `dontAsk` and exactly the requested tools, and
+its result must report the model's context window. Only then does it send the
+work, whose own `init` must match before any content. Usage comes from each
+main-conversation response (input plus cache tokens, deduplicated by message);
+subagent usage is not the worker's context. At the same 65% threshold it sends
+one checkpoint request, and only while a tool call is outstanding, because
+injection at the next tool boundary is what was observed. A turn that finishes
+first is recorded as a race, not steered.
+
+The reply is saved and read back whole as a provisional receipt, with the
+process and child identities, before input closes. The stream must then end
+with only known hook or command events: a hook that fails or asks to block or
+stop, any further model or user event, a second result, a queued turn,
+permission denials, compaction, an unknown event or a changed `init` stops
+automatic continuation. Cleanup stops the owned process group and still-matching
+children and confirms both are gone. `--control` and held sources are refused
+for Claude: there is no retainable Claude source, so managed To stays Codex.
+Stream-json fields are version-specific and were probed on Claude Code 2.1.272;
+one large tool result can still cross the threshold before the request lands.
+
 Conductor remains outside the workers and owns the next job, independent review
 and evidence. A completed worker must return review or blocked, not invent extra
-work to make a Roll happen. Claude still uses the existing bounded-piece route;
-observed-pressure steering for Claude has not been implemented or proved.
+work to make a Roll happen.
 
 ### Recover an inspected failure
 
@@ -228,8 +254,17 @@ An uncertain run is a stop for Conductor to inspect, not a fresh user interview.
 Read the retained error and artifacts, reconcile any jobs and verify source
 processes have ended. The connection's `resolve` command can retire an interrupted
 request only after its recorded group is gone; it cannot prove the work succeeded.
-The observed-context route also requires verified shutdown of its owned children.
+Both observed-context routes also require verified shutdown of their owned children.
 If their identities or state are missing, do not bypass the refusal.
+
+A controller lost after its provisional receipt leaves the ledger `running` and
+the request at `checkpoint_saved`. Recovery accepts that only when the owner lock
+is free, the recorded controller process is gone, the provider completed, the
+process group is gone (or its PID now leads an unrelated group with a different
+recorded start time) and the recorded children are gone. The receipt's reply is
+never promoted: the inspector still prepares the saved place. Today only the
+Claude route records its children before the receipt, so this path is
+effectively Claude-only; a Codex receipt without them is refused.
 
 Prepare a corrected saved-place file inside the project, keeping prior evidence
 and failure counts. Then use the existing Roll command with

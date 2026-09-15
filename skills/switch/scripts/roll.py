@@ -72,12 +72,31 @@ def check_state(state, root, previous=None):
 
 
 def parse_reply(reply):
+    """A bare JSON reply, or prose around exactly one ```json fence and no other fence."""
+    if not isinstance(reply, str):
+        raise RollError("Worker did not return an unambiguous saved place")
     text = reply.strip()
-    if text.startswith("```json\n") and text.endswith("```"):
-        text = text[8:-3].strip()
     try:
         return json.loads(text)
-    except (json.JSONDecodeError, TypeError) as exc:
+    except json.JSONDecodeError:
+        pass
+    lines = text.split("\n")
+    fences = [i for i, line in enumerate(lines) if line.lstrip().startswith("```")]
+    if len(fences) != 2 or lines[fences[0]].strip() != "```json" or lines[fences[1]].strip() != "```":
+        raise RollError("Worker did not return an unambiguous saved place")
+    prose = "\n".join(lines[:fences[0]] + lines[fences[1] + 1:])
+    decoder = json.JSONDecoder()
+    for start, char in enumerate(prose):
+        if char in "{[":
+            try:
+                value, _ = decoder.raw_decode(prose, start)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(value, (dict, list)):
+                raise RollError("Worker did not return an unambiguous saved place")
+    try:
+        return json.loads("\n".join(lines[fences[0] + 1:fences[1]]))
+    except json.JSONDecodeError as exc:
         raise RollError("Worker did not return an unambiguous saved place") from exc
 
 
@@ -131,6 +150,36 @@ def group_gone(result):
     return False
 
 
+CONTEXT_AWARE_ROUTES = {"app-server-stdio", "claude-stream-json"}
+
+
+def process_start(pid):
+    """The start time of pid as `ps -p pid -o lstart=` prints it, stripped; "" when unreadable."""
+    try:
+        done = subprocess.run(["ps", "-p", str(pid), "-o", "lstart="], capture_output=True,
+                              text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError):
+        return ""
+    return done.stdout.strip() if done.returncode == 0 else ""
+
+
+def reused_leader(result, pid):
+    """True only when pid now belongs to a different process that leads its own group.
+
+    A reused PID can lead a new group only once the original group is gone. Never signals it.
+    """
+    recorded = result.get("process_start")
+    if not isinstance(recorded, str) or not recorded.strip():
+        return False
+    current = process_start(pid)
+    if not current or current == recorded.strip():
+        return False
+    try:
+        return os.getpgid(pid) == pid
+    except OSError:
+        return False
+
+
 class Roller:
     def __init__(self, project, agreement, place, target, model, effort, bridge=None):
         self.transport = connection()
@@ -163,17 +212,37 @@ class Roller:
             prior = self.transport.read(self.ledger)
             if prior and prior.get("kind") == "conductor":
                 raise RollError("Managed Conductor owns this record; worker Roll cannot recover it")
-            if not prior or prior.get("status") not in {"uncertain", "failed"}:
+            # owner.lock is flock-based and held here, so a "running" ledger's controller is gone.
+            if not prior or prior.get("status") not in {"uncertain", "failed", "running"}:
                 raise RollError("Only an inspected failed/uncertain Roll can be recovered")
             if any(prior.get(k) != str(v.relative_to(self.root)) for k, v in
                    (("agreement", self.agreement), ("place", self.place))):
                 raise RollError("Recovery record belongs to different work")
             request = prior.get("request_id")
             result = self.transport.read(self.bridge.state / "requests" / str(request) / "result.json")
-            if not result or result.get("status") not in {"abandoned", "failed", "cancelled", "timed_out", "completed"}:
+            receipt = prior["status"] == "running"
+            if receipt:
+                # Controller lost after the provisional receipt: inspected recovery only, never promotion.
+                if not result or result.get("status") != "running" or result.get("phase") != "checkpoint_saved":
+                    raise RollError("Resolve the retained provider request before preparing continuation")
+                if result.get("route") not in CONTEXT_AWARE_ROUTES or result.get("provider_completed") is not True:
+                    raise RollError("Retained receipt lacks a completed context-aware provider; inspect before recovery")
+            elif not result or result.get("status") not in {"abandoned", "failed", "cancelled", "timed_out", "completed"}:
                 raise RollError("Resolve the retained provider request before preparing continuation")
             if result.get("project") != str(self.root) or result.get("request_id") != request:
                 raise RollError("Retained provider result belongs to different work")
+            if receipt:
+                owner = result.get("owner_pid")
+                if type(owner) is not int or owner <= 1:
+                    raise RollError("Receipt controller may still be alive; no recorded owner identity")
+                try:
+                    os.kill(owner, 0)
+                except ProcessLookupError:
+                    pass
+                except OSError as exc:
+                    raise RollError("Receipt controller may still be alive; inspect before recovery") from exc
+                else:
+                    raise RollError("Receipt controller may still be alive; inspect before recovery")
             pid = result.get("process_id")
             if type(pid) is not int or pid <= 1:
                 raise RollError("Missing provider identity; no safe automatic recovery")
@@ -182,8 +251,9 @@ class Roller:
             except ProcessLookupError:
                 pass
             else:
-                raise RollError("Prior provider group still exists; no recovery or dispatch")
-            if result.get("route") == "app-server-stdio" and not result.get("owned_children_gone"):
+                if not (receipt and reused_leader(result, pid)):
+                    raise RollError("Prior provider group still exists; no recovery or dispatch")
+            if receipt or (result.get("route") in CONTEXT_AWARE_ROUTES and not result.get("owned_children_gone")):
                 from codex_roll import children_gone
                 identities = result.get("owned_children")
                 if not isinstance(identities, dict) or not children_gone(identities):
@@ -194,7 +264,8 @@ class Roller:
             recoveries = prior.get("recoveries", [])
             recoveries.append({"at": self.transport.now(), "reason": reason,
                                "request_id": request, "previous_status": prior["status"],
-                               "previous_error": prior.get("error"), "previous_place": old_state})
+                               "previous_error": prior.get("error"), "previous_place": old_state,
+                               **({"previous_phase": result["phase"]} if receipt else {})})
             # Preserve the before-image while still refusing dispatch, before changing place.
             prior["recoveries"] = recoveries
             self.transport.save(self.ledger, prior)
@@ -213,7 +284,8 @@ class Roller:
     def run(self, max_runs=None, timeout=None, control=None):
         if max_runs is not None and (type(max_runs) is not int or max_runs <= 0):
             raise RollError("Optional max-runs must be a positive integer")
-        if control is not None and not getattr(self.bridge, "context_aware", False):
+        if control is not None and (not getattr(self.bridge, "context_aware", False)
+                                    or not callable(getattr(self.bridge, "release_held", None))):
             raise RollError("Live control requires the held-source Codex adapter")
         with self.transport.exclusive(self.local / "owner.lock"):
             prior = self.transport.read(self.ledger)
@@ -360,7 +432,7 @@ def main():
     parser.add_argument("--effort", required=True)
     parser.add_argument("--max-runs", type=int, help="Optional invocation limit; no limit by default")
     parser.add_argument("--timeout", type=float, help="Optional timeout per run")
-    parser.add_argument("--context-aware", action="store_true", help="Use observed Codex context usage via local stdio")
+    parser.add_argument("--context-aware", action="store_true", help="Use observed context usage (Codex app-server stdio or Claude stream-json)")
     parser.add_argument("--control", action="store_true", help="Accept live Conductor commands on stdin; keep this command channel open")
     parser.add_argument("--context-fraction", type=float, default=0.65, help="Roll request threshold; leave room to save")
     parser.add_argument("--test-roll-at-tokens", type=int, help="Explicit lower threshold for exercising the mechanism, not a production context limit")
@@ -369,11 +441,15 @@ def main():
     args = parser.parse_args()
     try:
         bridge = None
+        if args.control and args.target == "claude":
+            raise RollError("Live control and held sources are Codex-only; Claude context-aware Roll has no retainable source")
         if args.context_aware:
-            if args.target != "codex":
-                raise RollError("Observed-pressure Roll currently supports Codex only; Claude remains on bounded CLI pieces")
-            from codex_roll import AppServerBridge
-            bridge = AppServerBridge(args.project, connection(), args.context_fraction, args.test_roll_at_tokens)
+            if args.target == "claude":
+                from claude_roll import ClaudeStreamBridge
+                bridge = ClaudeStreamBridge(args.project, connection(), args.context_fraction, args.test_roll_at_tokens)
+            else:
+                from codex_roll import AppServerBridge
+                bridge = AppServerBridge(args.project, connection(), args.context_fraction, args.test_roll_at_tokens)
         elif args.test_roll_at_tokens is not None:
             raise RollError("A test context trigger requires --context-aware")
         roller = Roller(args.project, args.agreement, args.place, args.target, args.model, args.effort, bridge=bridge)

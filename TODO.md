@@ -2,11 +2,15 @@
 
 ## Now
 
-**Release boundary:** 0.129.0, branch `main`, subject "Release Kerd 0.129.0: one
-question form across Kerd" (2026-09-15, released by Claude on Anthony's "y", reviewed
-by Codex). Resolve its revision and remote state with Git. Position,
-installed state, the selected continuation and the reading set are in `CONTEXT.md`
-`## Where We Are`. Records:
+**Release boundary:** 0.130.0, branch `main`, subject "Release Kerd 0.130.0:
+unattended Claude Roll saves its place at 65%" (2026-09-15, released by Claude on
+Anthony's "yes", reviewed by Codex at every gate). Resolve its revision and remote
+state with Git. Position, installed state, the selected continuation and the reading
+set are in `CONTEXT.md` `## Where We Are`. Records:
+- `docs/work/context-awareness/work.md` and `score.md` (0.130.0: design, four Codex
+  design reviews, the build, checkpoint and before-push reviews, three live trials);
+- `docs/work/visual-communication/work.md` (the next release: visuals by default,
+  diagram-design and Archify required);
 - `docs/work/effort-sized-players/work.md` (0.128.0);
 - `docs/work/review-and-fit-corrections/work.md` (0.127.0: review cadence, Fit lines,
   change reads);
@@ -18,22 +22,21 @@ installed state, the selected continuation and the reading set are in `CONTEXT.m
 
 These lists are not authority to install or run checks during pickup.
 
-- **First (proposed): start fresh Claude sessions on 0.129.0, and bring Codex to
-  0.129.0.** Claude's `installed_plugins.json` records Kerd 0.128.0, installed
-  2026-09-15 08:47, so sessions started after that load it. Earlier sessions keep
-  their loaded version (this one loaded 0.126.0) and don't see `kerd:effort-*`.
-  Codex runs 0.124.0 (reported by Codex 2026-09-14, not rechecked). Updating Codex is
-  Anthony's action or needs his authorization. Verify the loaded skill path before
-  counting any result.
-- **Then: observe the next real paired Conductor build on 0.128.0.** Record whether:
-  - review is planned from the pairing's cadence, or offered once, without a
-    reminder (0.127.0);
-  - Fit lines appear for the controller and every model job (0.127.0);
-  - a `Change read` line from `change_read.py` appears on each return (0.127.0);
-  - native Claude jobs are sent as `kerd:effort-<level>`, with the observed model and
-    effort from `job_evidence.py` (0.128.0).
-
-  Record the result like Builds 1–2. Don't manufacture a build.
+- **First (proposed): update both sides to 0.130.0.** Codex was brought to 0.129.0 at
+  13:16 on 2026-09-15 (local `kerd-core` marketplace, `output/kerd-codex-0.129.0`);
+  0.130.0 needs a fresh build and `codex plugin add`, which is Anthony's call. Claude
+  sessions pick it up on restart. Verify the loaded skill path before counting any
+  result.
+- **Then: build the visual-communication release** in
+  `docs/work/visual-communication/work.md`: visuals by default for substantial
+  proposals, `kerd:visuals` on an explicit request, diagram-design and Archify as
+  required tools, a static guard and real-model behavioural tests. Archify is not
+  installed, so its install needs approval.
+- **0.128.0 and 0.127.0 features were observed in the 0.130.0 build** (cadence-planned
+  review, Fit lines, `Change read` per return, `kerd:effort-*` with `job_evidence.py`).
+  What remains unobserved for 0.130.0 is a pressure-triggered handover into a second
+  fresh Claude worker, and receipt recovery after a real controller loss. Record those
+  when a real unattended build needs them; don't manufacture a build.
 - A "not now" reply to the arrival question is still unexercised; the question is
   now the generic "Start a Conductor session?". Record it when a real reply occurs.
 - Unplanned restart recovery is observed only when a role-holding session is

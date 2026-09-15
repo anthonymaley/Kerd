@@ -18,6 +18,13 @@ class ProtocolError(RuntimeError):
     pass
 
 
+# Shared by the Codex and Claude context-aware routes' checkpoint requests.
+DEFAULT_CHECKPOINT_INSTRUCTION = ("Finish the current safe local operation; "
+    "do not start another work package. Return the saved-place JSON now, retaining actual "
+    "progress, decisions, evidence and failed attempts. Use continue if work remains, "
+    "review only if genuinely ready. Do not launch any other job.")
+
+
 def descendants(pid):
     """Snapshot child identities while the owned parent still exists (POSIX)."""
     result = subprocess.run(["ps", "-axo", "pid=,ppid=,lstart="], text=True, capture_output=True, check=True)
@@ -79,12 +86,16 @@ class ContextWatch:
     def observe(self, usage):
         last = usage.get("last", {})
         used, window = last.get("totalTokens"), usage.get("modelContextWindow")
+        return self.observe_tokens(used, window, last)
+
+    def observe_tokens(self, used, window, detail):
+        """Shared threshold rule; `detail` is retained as the reading's `last` value."""
         if type(used) is not int or used < 0:
             raise ProtocolError("Missing valid last-request context usage")
         if type(window) is not int or window <= 0:
             raise ProtocolError("Usable context window is unavailable; no guessed pressure threshold")
         threshold = min(int(window * self.fraction), self.test_tokens or window)
-        reading = {"last": last, "model_context_window": window, "threshold": threshold}
+        reading = {"last": detail, "model_context_window": window, "threshold": threshold}
         self.readings.append(reading)
         if self.trigger is None and used >= threshold:
             self.trigger = reading
@@ -281,10 +292,7 @@ class AppServerBridge:
                 return
             record["checkpoint_requested"] = reason
             steer_pending = request("turn/steer", {"threadId": record["session_id"], "expectedTurnId": active_turn,
-                "input": [{"type": "text", "text": reason + ". " + (checkpoint_instruction or "Finish the current safe local operation; "
-                "do not start another work package. Return the saved-place JSON now, retaining actual "
-                "progress, decisions, evidence and failed attempts. Use continue if work remains, "
-                "review only if genuinely ready. Do not launch any other job.")}]})
+                "input": [{"type": "text", "text": reason + ". " + (checkpoint_instruction or DEFAULT_CHECKPOINT_INSTRUCTION)}]})
 
         try:
             with self.transport.shutdown_signals(), open(folder / "stderr.txt", "x") as stderr:
@@ -431,37 +439,52 @@ class AppServerBridge:
 
     def _shutdown(self, server, record):
         # Shared by ordinary Roll and explicit held-source release.
-        owned_children = None
+        shutdown_owned(self.transport, server, record)
+
+
+def snapshot_owned(server, record):
+    """Identify owned descendants while the owned parent still exists."""
+    owned_children = None
+    try:
+        owned_children = descendants(server.proc.pid)
+        record["owned_children"] = owned_children
+    except Exception as exc:
+        record["cleanup_error"] = f"Cannot identify owned children: {exc}"
+    return owned_children
+
+
+def shutdown_owned(transport, server, record):
+    """Snapshot owned descendants, then stop and confirm the owned process tree."""
+    finish_owned(transport, server, record, snapshot_owned(server, record))
+
+
+def finish_owned(transport, server, record, owned_children):
+    """Stop from an identity snapshot taken earlier (None when it failed)."""
+    try:
+        server.proc.stdin.close()
         try:
-            owned_children = descendants(server.proc.pid)
-            record["owned_children"] = owned_children
-        except Exception as exc:
-            record["cleanup_error"] = f"Cannot identify owned children: {exc}"
-        try:
-            server.proc.stdin.close()
-            try:
-                server.proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self.transport.Bridge.stop(server.proc)
-                server.proc.wait(timeout=5)
-            server.reader.join(timeout=2)
-            if server.reader.is_alive():
-                raise ProtocolError("Owned stream remains open after shutdown; possible detached writer")
-            server.proc.stdout.close()
-            if owned_children is None:
-                raise ProtocolError("Owned child identity unavailable; parent stopped but continuation is uncertain")
-            record["owned_child_count"] = len(owned_children)
-            deadline = time.monotonic() + 3
-            stopped_survivors = False
-            while not (children_gone(owned_children) and group_gone(server.proc.pid)):
-                if time.monotonic() >= deadline:
-                    if stopped_survivors:
-                        raise ProtocolError("Owned child or process group is still present; no fresh worker may start")
-                    stop_owned_children(owned_children)
-                    record["owned_survivor_shutdown_requested"] = True
-                    stopped_survivors = True
-                    deadline = time.monotonic() + 3
-                time.sleep(0.05)
-            record["owned_children_gone"] = True
-        except Exception as exc:
-            record.update(status="interrupted", cleanup_error=str(exc), provider_completed=False)
+            server.proc.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            transport.Bridge.stop(server.proc)
+            server.proc.wait(timeout=5)
+        server.reader.join(timeout=2)
+        if server.reader.is_alive():
+            raise ProtocolError("Owned stream remains open after shutdown; possible detached writer")
+        server.proc.stdout.close()
+        if owned_children is None:
+            raise ProtocolError("Owned child identity unavailable; parent stopped but continuation is uncertain")
+        record["owned_child_count"] = len(owned_children)
+        deadline = time.monotonic() + 3
+        stopped_survivors = False
+        while not (children_gone(owned_children) and group_gone(server.proc.pid)):
+            if time.monotonic() >= deadline:
+                if stopped_survivors:
+                    raise ProtocolError("Owned child or process group is still present; no fresh worker may start")
+                stop_owned_children(owned_children)
+                record["owned_survivor_shutdown_requested"] = True
+                stopped_survivors = True
+                deadline = time.monotonic() + 3
+            time.sleep(0.05)
+        record["owned_children_gone"] = True
+    except Exception as exc:
+        record.update(status="interrupted", cleanup_error=str(exc), provider_completed=False)

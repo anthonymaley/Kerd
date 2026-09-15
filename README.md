@@ -40,7 +40,24 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.129.0)
+## What's New (v0.130.0)
+
+### v0.130.0
+
+**Unattended Claude Roll runs now save their place before their context fills.**
+`roll.py --target claude --context-aware` watches a worker's own context usage and,
+at 65% of its reported window, asks it for its saved place; the next fresh Claude
+run continues from there. Nothing is compacted, and interactive sessions are
+untouched: you still decide when to Switch Out. A bootstrap turn first confirms the
+worker's tools, permission mode, project and window before any work is sent; the
+checkpoint request goes out only while a tool call is running; the reply is saved
+and read back before the process is closed, and cleanup must be verified before a
+new run starts. Anything unexpected stops for inspection instead of relaunching.
+Live control and device handoff stay Codex-only. `roll.py` now also accepts a saved
+place wrapped in prose when it sits in exactly one JSON fence and nothing else in
+the reply is JSON. Evidence so far: three test-threshold trials, including one
+complete run through to a saved place; a pressure-triggered handover into a second
+fresh run has not yet been seen live.
 
 ### v0.129.0
 
@@ -809,7 +826,9 @@ For a sustained authorized local build, Conductor can start its
 [managed decision loop](skills/conductor/references/managed-conductor.md) from
 the outset. A local driver carries scoped work, contribution dispositions and
 independent review through fresh contexts; ordinary approval is not repeated at
-rollover. Codex is the pressure-aware coordinator/implementation adapter. Either
+rollover. Codex is the pressure-aware coordinator/implementation adapter; worker
+Roll can also watch an unattended Claude run and roll it at 65% of its context
+window into a fresh run from its saved place, never by compaction. Either
 chat can be the control surface, but no arbitrary open TUI is replaced. Native
 process loss or uncertain work requires inspection, never a blind second launch.
 

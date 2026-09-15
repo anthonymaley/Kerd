@@ -154,6 +154,8 @@ selected continuation. Do not close as complete while the driver still owns jobs
 - First pressure-aware coordinator and implementation adapter: **Codex only**.
   Either Claude or Codex may be the control chat. Claude can review, but this is
   not pressure-aware Claude coordination or automatic replacement of its TUI.
+  Worker Roll (`roll.py --target claude --context-aware`) does have an observed
+  Claude route; it is not yet wired into this managed decision loop.
 - Reviews use a bounded fresh CLI turn, not pressure-aware Roll. Claude's review
   route has file-inspection tools, no Bash. Both review routes are instructed
   not to run write-producing tests. Required test evidence must be supplied by
