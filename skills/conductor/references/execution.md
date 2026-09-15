@@ -126,7 +126,8 @@ manufacturing a score, prompt or dispatch record.
 
 For a delegated job, the route is decided before the prompt is sent, and the
 default is a native subagent when the host exposes the chosen model. In Claude
-Code, Claude players use native subagents by default. The CLI runner serves
+Code, Claude players use native subagents by default, with effort set through
+Kerd's `kerd:effort-<level>` agents per the [route table](model-jobs.md#prepare-work-the-chosen-model-can-do-well). The CLI runner serves
 another provider, resumability by native ID, a CLI sandbox, or work that must
 outlive this session; it is also the fallback when native delegation is absent.
 Follow [sending and receiving work](model-jobs.md) for existing partners and

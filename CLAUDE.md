@@ -41,6 +41,7 @@ Use semver: `MAJOR.MINOR.PATCH`
 
 ```
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
+agents/           # kerd:effort-<level> subagent definitions: effort for delegated native Claude jobs
 tools/gates/      # entry-gate ladder + release/audit/fidelity checks (gate.py, kit.py, fidelity.py)
 tools/diagram/    # progress board and journey renders
 tools/design/     # the evaluation-matrix checker

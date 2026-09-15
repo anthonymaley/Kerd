@@ -40,7 +40,23 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.127.0)
+## What's New (v0.128.0)
+
+### v0.128.0
+
+**Conductor now requests effort per delegated Claude job.** Earlier
+Conductor wrote effort levels into prompts, but no Agent tool call ever passed one.
+Players ran at whatever effort Claude Code had saved for their model. Kerd now
+ships five subagent definitions, `kerd:effort-low` through `kerd:effort-max`, each
+setting only its effort; Conductor picks one per job and still passes the model.
+A small probe confirmed that the definition's effort applies even with a different
+model on the call. After a job returns, `skills/conductor/scripts/job_evidence.py`
+reads the model and effort it actually ran with from that job's transcript. It
+reads only those structured fields and never outputs conversation content, and it
+shows "unverified" when the evidence is missing, partial or malformed. A Claude
+session only sees newly installed agents after it restarts, and
+`CLAUDE_CODE_EFFORT_LEVEL` still overrides them. Codex routes keep their own
+controls.
 
 ### v0.127.0
 
@@ -756,7 +772,9 @@ labelled by their evidence, not guessed from defaults. It recommends a change
 when the current pair materially exceeds or misses the work's needs, but
 doesn't change your session settings itself. A **Fit** line under the grid gives
 that reason for the controller and for every composer, player and reviewer it
-selects, and again whenever a model, effort or route changes.
+selects, and again whenever a model, effort or route changes. A native Claude job's
+effort is set through Kerd's `kerd:effort-<level>` agents, and the model and effort
+it actually ran with are shown as observed once it returns.
 
 When an established Agent partner exists, Conductor plans its reviews from the
 pairing's recorded review cadence (checkpoints, before push, at the end, or only

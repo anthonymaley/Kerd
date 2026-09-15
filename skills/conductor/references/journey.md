@@ -190,12 +190,12 @@ visibility. Illustrative rows, not model defaults or jobs to manufacture:
 
 | Task | Route | Model requested | Effort | Status |
 | --- | --- | --- | --- | --- |
-| Check transport mutations | Native subagent | Sonnet 5 | Unverified | Preparing |
-| Survey API callers | Native subagent | Opus 5 | Unverified | Preparing |
+| Check transport mutations | Native subagent `kerd:effort-medium` | Sonnet 5 | medium (requested via definition) | Preparing |
+| Survey API callers | Native subagent `kerd:effort-high` | Opus 5 | high (requested via definition) | Preparing |
 | Review implementation (cadence: before-push) | Established Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
 
 Fit · Check transport mutations — needs a bounded, command-checkable edit; Sonnet 5
-because the step is fully specified.
+at medium because the step is fully specified.
 Fit · Survey API callers — needs judgment across call sites that differ in intent;
 Opus 5 because misclassifying a caller would mislead the design.
 Fit · Review implementation — needs an independent reading by a different model;

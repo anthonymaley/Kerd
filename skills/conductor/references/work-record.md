@@ -51,6 +51,8 @@ Current passage: <stable score-step identifier/link, or none>
 Assignment: <step author (Conductor/composer); performer (player/controller); actual
 route, owner and disposition>
 Fit: <the Fit line for each selected model job and any model/effort/route change>
+Settings: <requested model and effort per job, and the observed model and effort
+from `job_evidence.py` or the route, or "unverified" with its reason>
 Review plan: <reviewer, recorded cadence and the gates it protects; reviews done
 and whether a later change reopened a gate; or none planned and why>
 Change read: <per return, the `Change read ·` line against the recorded baseline>

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Build the four core skills into a fresh portable plugin or Codex catalog.
+"""Build the four core skills plus the effort agents into a fresh portable
+plugin or Codex catalog.
 
 The four skills come from the repository's own `skills/`, which is the single
 maintained source since v0.107.0 — packaging consumes it rather than keeping a
-second copy that would drift. Guidance ships inside Conductor's references.
+second copy that would drift. The five `agents/effort-*.md` routing
+definitions come from the repository root's `agents/` the same way. Guidance
+ships inside Conductor's references.
 
 Development packaging only: no install, config changes, network or model calls.
 """
@@ -16,6 +19,7 @@ PACK = Path(__file__).resolve().parents[1]
 SKILLS = ("conductor", "switch", "visuals", "agent")
 SUFFIXES = {".md", ".py", ".html"}
 REVIEWED_FILES = {Path("skills/agent/scripts/requirements.txt")}
+AGENT_LEVELS = ("low", "medium", "high", "xhigh", "max")
 
 
 def inputs(pack):
@@ -39,6 +43,21 @@ def inputs(pack):
     for name in SKILLS:
         if Path(f"skills/{name}/SKILL.md") not in result:
             raise ValueError(f"Missing skill entry: {name}")
+    agents = repo / "agents"
+    if not agents.is_dir() or agents.is_symlink():
+        raise ValueError("Missing or linked source directory: agents")
+    for path in sorted(agents.rglob("*")):
+        if path.is_symlink():
+            raise ValueError(f"Linked source is not packaged: {path}")
+        if "__pycache__" in path.parts or path.name == ".DS_Store":
+            continue
+        if path.is_file():
+            if path.suffix != ".md":
+                raise ValueError(f"Review new package file type: {path}")
+            result[path.relative_to(repo)] = path
+    for level in AGENT_LEVELS:
+        if Path(f"agents/effort-{level}.md") not in result:
+            raise ValueError(f"Missing effort agent: agents/effort-{level}.md")
     for host in ("claude", "codex"):
         path = pack / "packaging" / f"{host}-plugin.json"
         if json.loads(path.read_text())["name"] != "kerd":

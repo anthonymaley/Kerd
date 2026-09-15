@@ -34,9 +34,29 @@ Use only clauses relevant to this job and actual model. Record the selected
 profile/version, or the absence of a matching profile. A CLI default is not an
 observed model identity. Do not claim that a prompt is optimized merely because
 its headings look vendor-specific. Effort is a native setting, not a sentence
-asking the worker to think harder. Label it requested unless the route supplies
-evidence of the applied setting. Record observed model identity separately;
-neither identity nor a successful request proves that effort was applied.
+asking the worker to think harder: never write a level into the prompt as if it
+applied. Set it through the route's own control:
+
+| Route | How effort is set | What to show |
+| --- | --- | --- |
+| Claude native subagent, Kerd's effort agents installed | `subagent_type: kerd:effort-<low\|medium\|high\|xhigh\|max>` plus the per-call `model` | requested via definition; observed with `job_evidence.py` |
+| Claude native subagent, no effort agents | the ordinary native route | inherits the host's per-model setting; unverified |
+| Fresh Codex worker or native Codex subagent | that route's supported model and effort controls | requested; observed where the route reports it |
+| Established Codex partner or TUI | not retunable by a queued contribution; the session keeps its own pair | configured, observed or unknown |
+| Managed Conductor | its existing explicit pair | as that route records it |
+
+The `kerd:effort-*` agents set only effort; the call still passes `model`. Their
+descriptions ask Claude to use them only when Kerd selects one. That is routing
+guidance, not a host prohibition. A Claude session loads agent definitions when
+it starts, so a session opened before they were installed can't use them: say
+so rather than claim a reload. Codex models are not added as Claude agent files.
+
+Effective effort can still differ from the request. `CLAUDE_CODE_EFFORT_LEVEL`
+overrides definitions, `maxEffortLevel` and organization caps still apply, and an
+unsupported level falls back to the highest supported level below it. Keep the
+requested level, report the observed one separately, and treat a mismatch as a
+finding. Record observed model identity separately; neither identity nor a
+successful request proves that effort was applied.
 
 This preparation applies to every assignment, including a delegated composer:
 choose the recipient/route, consult applicable guidance, compose the actual

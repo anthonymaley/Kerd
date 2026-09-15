@@ -31,7 +31,13 @@ and a successful reply proves neither identity nor applied effort.
 
 Use already available session evidence or a supported, bounded status check.
 Do not mine native transcripts, inspect credentials or survey accounts to fill
-the display. Unknown live settings do not automatically block safe work or require
+the display. The one exception is the observed model and effort of a native
+Claude job Conductor dispatched in this session, read with
+`skills/conductor/scripts/job_evidence.py --agent-id <id>`: best-effort. It
+parses private, version-specific transcript records but reads only their
+structured model and effort fields, and never emits conversation content. Partial
+or malformed evidence returns `unverified`. When
+it returns `unverified`, that is an evidence gap, not a failed job. Unknown live settings do not automatically block safe work or require
 the person to verify them. Ask only if the missing fact changes a material
 decision. Do not automatically change the current session's model/effort,
 configuration defaults, permissions or accounts; state a recommendation and its

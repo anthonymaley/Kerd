@@ -65,7 +65,10 @@ effort sweep. A passed job is evidence for that job, not certification of a clas
    current model/route guidance. For Opus 5 and Fable 5.1, high is the documented
    starting point, not a proved optimum. For other models, use an evidenced
    supported setting or disclose the native default; never copy effort labels
-   between providers as though equal. Load only applicable prompt guidance and
+   between providers as though equal. Apply the level through the route's control
+   in the [route table](../model-jobs.md#prepare-work-the-chosen-model-can-do-well):
+   for a native Claude job that is `kerd:effort-<level>`, then confirm what ran
+   with `job_evidence.py`. Load only applicable prompt guidance and
    keep the same outcome, proof and boundaries whatever the model.
 5. **Explain briefly, run, learn.** Record the chosen model/route, requested
    effort, profile version, reason, relevant alternative and uncertainty in the

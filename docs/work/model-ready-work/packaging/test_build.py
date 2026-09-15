@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from urllib.parse import unquote, urlsplit
 
-from build import PACK, SKILLS, build, build_marketplace, inputs
+from build import AGENT_LEVELS, PACK, SKILLS, build, build_marketplace, inputs
 
 
 class PackageTests(unittest.TestCase):
@@ -19,6 +19,8 @@ class PackageTests(unittest.TestCase):
                              {"conductor", "switch", "visuals", "agent"})
             self.assertEqual((destination / "skills/agent/scripts/requirements.txt").read_bytes(),
                              (PACK.parents[2] / "skills/agent/scripts/requirements.txt").read_bytes())
+            self.assertEqual(sorted(p.name for p in (destination / "agents").iterdir()),
+                             sorted(f"effort-{level}.md" for level in AGENT_LEVELS))
             version = json.loads((PACK.parents[2] / ".claude-plugin/plugin.json").read_text())["version"]
             for host in ("claude", "codex"):
                 self.assertEqual(json.loads((destination / f".{host}-plugin/plugin.json").read_text())["version"], version)
@@ -83,6 +85,8 @@ class PackageTests(unittest.TestCase):
             self.assertEqual(size, sum((destination / p).stat().st_size for p in selected))
             self.assertEqual(sorted(p.name for p in (destination / "skills").iterdir()),
                              sorted(SKILLS))
+            self.assertEqual(sorted(p.name for p in (destination / "agents").iterdir()),
+                             sorted(f"effort-{level}.md" for level in AGENT_LEVELS))
             for relative, source in selected.items():
                 if relative.parts[0] in (".claude-plugin", ".codex-plugin"):
                     expected = json.loads(source.read_text())
@@ -157,6 +161,39 @@ class PackageTests(unittest.TestCase):
             destination = root / "kerd"
             with self.assertRaises(ValueError):
                 build(destination, pack=root / "missing")
+            self.assertFalse(destination.exists())
+
+    def _minimal_pack(self, root, agent_levels):
+        """A self-contained fixture repository, not the real checkout, so this
+        test is independent of anything else touching the real agents/."""
+        repo = root / "fixture-repo"
+        for name in SKILLS:
+            skill = repo / "skills" / name
+            skill.mkdir(parents=True)
+            (skill / "SKILL.md").write_text(f"# {name}\n")
+        agents = repo / "agents"
+        agents.mkdir()
+        for level in agent_levels:
+            (agents / f"effort-{level}.md").write_text("---\nname: x\neffort: x\n---\nbody\n")
+        (repo / ".claude-plugin").mkdir()
+        (repo / ".claude-plugin/plugin.json").write_text(json.dumps({"version": "0.0.0-fixture"}))
+        (repo / "LICENSE").write_text("license\n")
+        pack = repo / "docs" / "work" / "model-ready-work"
+        packaging = pack / "packaging"
+        packaging.mkdir(parents=True)
+        for host in ("claude", "codex"):
+            (packaging / f"{host}-plugin.json").write_text(json.dumps({"name": "kerd"}))
+        (packaging / "START.md").write_text("start\n")
+        return pack
+
+    def test_missing_effort_agent_does_not_create_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pack = self._minimal_pack(root, agent_levels=[l for l in AGENT_LEVELS if l != "max"])
+            destination = root / "out" / "kerd"
+            with self.assertRaises(ValueError) as cm:
+                build(destination, pack=pack)
+            self.assertIn("effort-max", str(cm.exception))
             self.assertFalse(destination.exists())
 
 
