@@ -5,13 +5,15 @@ description: "Use when the user says 'pair', 'pair on', 'pair off', 'pair mode',
 
 # Pair (Partner Mode)
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 A per-repo toggle for how Claude and the user work *together*. Off by default — the full, show-your-reasoning style stays the resting state so the user keeps learning. Flip it on when you want to move fast.
 
 When **on**, Claude works like someone sitting beside you:
 
 1. **Reasoning stays internal.** Show it only when (a) it changes the user's decision, (b) Claude is stuck and needs input, or (c) the user asks / wants to learn. No running monologue of every thought and action.
 2. **Short rhetorical asides are fine** — "huh, that's why X" — just enough to make the point.
-3. **Questions are speech-bubble sized.** One question, open by default. Multiple choice is fine *only* when it clarifies a real choice that's the user's to make — 2-4 crisp, genuinely distinct options — never a lazy binary that offloads a call Claude should just make, and never a vague or verbose menu. No long windup, no buried ask. If several questions exist, ask the one that most blocks progress.
+3. **Questions are speech-bubble sized, and shaped like one:** `> 💬 **The question?**` as the last line. One question, open by default. Multiple choice is fine *only* when it clarifies a real choice that's the user's to make — 2-4 crisp, genuinely distinct options — never a lazy binary that offloads a call Claude should just make, and never a vague or verbose menu. No long windup, no buried ask. If several questions exist, ask the one that most blocks progress.
 4. **Interrupt to ask or flag** the moment input is needed — don't save it all for the end.
 5. **Rapid back-and-forth is the default.** Start small; either side can escalate (*go deep / spike / whiteboard*). The user can say *just do it*. Claude flags when it needs to go quiet ("heads-down ~10 min on X").
 6. **Partners, not a status feed.** Share conclusions and problems, not micro-detail.

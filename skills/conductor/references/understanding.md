@@ -60,7 +60,7 @@ training section essential for Friday?” It is not an eleventh standard questio
 ## Contribute, don't just collect
 
 Present a concise supported answer or recommendation, why it fits and its
-consequential qualification inside the bounded surface from journey.md. Source
+consequential qualification above the speech-bubble question from journey.md. Source
 notes can say “from your notes”; technical paths belong in the record. A clear
 answer/correction can settle the issue without another confirmation. Suggestions
 stay proposed until accepted or the choice is actually delegated.

@@ -6,10 +6,9 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.128.0, branch `main`, subject "Release Kerd 0.128.0:
-effort-sized native Claude players" (2026-09-15, released by Claude on Anthony's "y",
-reviewed by Codex; the save helper verified the remote and CI entry-gate run
-34970583757 succeeded).** Since 0.126.0:
+**Release boundary: 0.129.0, branch `main`, subject "Release Kerd 0.129.0: one
+question form across Kerd" (2026-09-15, released by Claude on Anthony's "y", reviewed by
+Codex; resolve its revision and CI with Git and `gh`).** Since 0.126.0:
 - 0.127.0 (2026-09-15 00:42): pairing records a review cadence; Conductor plans
   review from it; Fit lines for every model job; returned work is read against a
   private content baseline with `skills/conductor/scripts/change_read.py`. CI ran on
@@ -18,14 +17,17 @@ reviewed by Codex; the save helper verified the remote and CI entry-gate run
 - 0.128.0 (08:43): five `kerd:effort-<level>` agents set a native Claude job's effort
   while the call still passes the model; `job_evidence.py` observes what ran; the
   portable package ships the agents.
+- 0.129.0 (11:15, after the Out): every Kerd question is one speech-bubble line,
+  `> 💬 **The question?**`, with options and context above it; the rule is in all 12
+  skills and `test_question_form.py` guards it.
 
 Records: `docs/work/effort-sized-players/work.md` (0.128.0),
 `docs/work/review-and-fit-corrections/work.md` (0.127.0),
 `docs/work/conductor-clean-entry/composer-restoration-comparison.md` (Builds 1–2, real
 use of 0.126.0). The sitting's account is `kivna/sessions/2026-09-15.md`.
 
-**The current work is proof again.** 0.127.0 and 0.128.0 were built from real-use
-evidence (the 2026-09-14 23:08 ruling), but neither has run in real use yet.
+**The current work is proof again.** 0.127.0, 0.128.0 and 0.129.0 were built from real-use
+evidence and Anthony's direction (the 2026-09-14 23:08 ruling), but neither has run in real use yet.
 - Evidence so far: fixtures and suites; four Codex review rounds for 0.127.0 and two
   for 0.128.0; one end-to-end probe (`kerd:effort-low` + `model: sonnet` observed as
   claude-sonnet-5 at low, Claude Code 2.1.272).
@@ -82,16 +84,17 @@ Open `docs/work/review-and-fit-corrections/work.md` and
 `composer-restoration-comparison.md` when recording the next build, and
 `docs/decisions.md` for any ruling's case.
 Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-15.md", "--section", "TODO.md", "## Now", "--section", "docs/work/effort-sized-players/work.md", "## Now"]`.
-Measured reading: 29,449 bytes, about 7,363 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target, including this line.
+Measured reading: 30,978 bytes, about 7,745 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target, including this line.
 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (182 entries at the
-2026-09-15 Out, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (183 entries at the
+2026-09-15 Out, one added at the 0.129.0 release, newest first, indexed by ruling). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **EVERY KERD QUESTION IS ONE SPEECH-BUBBLE LINE AT THE END OF THE MESSAGE, `> 💬 **The question?**`, WITH OPTIONS OR CONTEXT ABOVE IT; NO BOXED CARDS OR NATIVE PICKERS — Anthony, 2026-09-15, released in 0.129.0.**
 - **EFFORT IS SET PER NATIVE CLAUDE JOB THROUGH KERD'S kerd:effort-<level> AGENTS WHILE THE CALL STILL PASSES THE MODEL; WHAT RAN IS OBSERVED WITH job_evidence.py, AND PARTIAL OR MISSING EVIDENCE IS UNVERIFIED; CODEX MODELS ARE NOT CLAUDE AGENT FILES — Anthony, 2026-09-15, released in 0.128.0.**
 - **OBSERVATIONS EXIST TO DRIVE CORRECTIONS: RECORD WHAT REAL USE SHOWS, FIX THE GAPS IT EVIDENCES, THEN OBSERVE AGAIN — Anthony, 2026-09-14 23:08.**
 - **EVERY MODEL JOB SHOWS A FIT LINE; RETURNED WORK IS READ AGAINST A PRIVATE CONTENT BASELINE, AND ANY UNEXPECTED, OUTSIDE, COMMITTED OR HEAD CHANGE IS A FINDING — Anthony, 2026-09-14/15, released in 0.127.0.**

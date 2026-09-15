@@ -5,6 +5,8 @@ description: Offer Conductor for substantial builds, designs or workflow work, n
 
 # Conductor
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
+
 Help the person understand and agree what they want to make happen. Work can be
 software, research, a commercial offer, a process or another repo-based outcome.
 The conversation should feel like a capable partner, not a form or a gate ladder.
@@ -200,12 +202,10 @@ delegation, use its task/route/model/effort/status grid and report actual guidan
 saved-prompt and dispatch transitions; do not leave these facts until asked.
 
 At a decision, show the current stage, what is settled, what needs the person's
-input and what follows their reply—not “question 4 of 10”. Use a real bounded
-card when supported, with the proposed answer and its qualifications inside.
-Outside Switch's arrival callout, do not substitute an email-style blockquote.
-If the host requires a plain-text
-question, keep the surrounding progress and answer panel, then ask one concise
-plain-text question. A ban on numbered choices is not a ban on progress or borders.
+input and what follows their reply—not “question 4 of 10”. Put the proposed answer
+and its qualifications above, then end on one speech-bubble question,
+`> 💬 **The question?**`, the same form as Switch's arrival question and every Kerd
+question. A ban on numbered choices is not a ban on progress or structure.
 Never simulate clickable controls, colours or native capabilities that are absent.
 
 No routine Correct / Change menu: recommend one answer and ask one direct question.

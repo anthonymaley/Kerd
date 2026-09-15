@@ -5,6 +5,8 @@ description: "Use when the user says 'drive', 'drive <slug>', 'start a work item
 
 # Drive (Work Item Umbrella)
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 **Name.** Drive — `/kerd:drive`.
 **Purpose.** Walk one work item from idea to acceptance, one rung at a time, across as many sittings as it takes — so nothing that entered through a frame can stall unseen.
 **Outcomes.** (a) The item has a work record on disk, at the position the gates derive from it. (b) At the frame gate: a declared work type, and a question set the person edited and answered. (c) Each sitting's work is handed to `/kerd:conductor` framed from the record, and the position is read again when it returns.

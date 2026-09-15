@@ -5,6 +5,8 @@ description: "Use when the user says 'tend', 'check structure', 'fix drift', 'st
 
 # Tend (Structural Health & Convergence)
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 Audits repo infrastructure against current Kerd conventions. Shows a visual report of current vs expected state. Fixes with approval.
 
 Run it on a new repo to set up everything. Run it on an existing repo to catch drift. Run it after a Kerd version bump to pick up new conventions. Safe to run anytime. It converges, never destroys.
@@ -295,9 +297,13 @@ Format the report as a visual table. Show passing categories as one-liners. Show
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  4 passing  ·  2 warnings  ·  1 failing
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Fix all? [yes / pick individually / skip]
 ```
+
+After the report, outside its code block, list the options and ask the question:
+
+Options: fix all · pick individually · skip
+
+> 💬 **Fix all of these?**
 
 ### 5. Fix flow
 

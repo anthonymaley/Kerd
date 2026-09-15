@@ -5,6 +5,8 @@ description: "Use when the user says 'lorg', 'discover', 'find skills', 'what pl
 
 # Lorg (Skill Gap Analysis)
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 From Gaelic "lorg" (to seek, track down). Pronounced "LORG".
 
 Scans the current project and recommends skills or plugins you should be using but aren't. Three tiers of widening search radius, all informed by the same project signals. Each tier runs independently with its own freshness tracking.
@@ -271,9 +273,9 @@ Both files get identical content. The repo copy travels with git. The vault copy
 
 After the report, walk through each newly scanned item individually. Different actions per tier:
 
-- **Tier 1:** "Want me to show how to use [skill] in this project?"
-- **Tier 2:** "Install [plugin]?" On approval, run the install command
-- **Tier 3:** "Want me to fetch the README for [repo] so you can see more?"
+- **Tier 1:** `> 💬 **Shall I show how to use [skill] in this project?**`
+- **Tier 2:** `> 💬 **Shall I install [plugin]?**` On approval, run the install command
+- **Tier 3:** `> 💬 **Shall I fetch the README for [repo] so you can see more?**`
 
 No batch actions across tiers. Different trust levels require different handling.
 

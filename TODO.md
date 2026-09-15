@@ -2,9 +2,9 @@
 
 ## Now
 
-**Release boundary:** 0.128.0, branch `main`, subject "Release Kerd 0.128.0:
-effort-sized native Claude players" (2026-09-15, released by Claude on Anthony's "y",
-reviewed by Codex). Resolve its revision and remote state with Git. Position,
+**Release boundary:** 0.129.0, branch `main`, subject "Release Kerd 0.129.0: one
+question form across Kerd" (2026-09-15, released by Claude on Anthony's "y", reviewed
+by Codex). Resolve its revision and remote state with Git. Position,
 installed state, the selected continuation and the reading set are in `CONTEXT.md`
 `## Where We Are`. Records:
 - `docs/work/effort-sized-players/work.md` (0.128.0);
@@ -18,8 +18,8 @@ installed state, the selected continuation and the reading set are in `CONTEXT.m
 
 These lists are not authority to install or run checks during pickup.
 
-- **First (proposed): start fresh Claude sessions on 0.128.0, and bring Codex to
-  0.128.0.** Claude's `installed_plugins.json` records Kerd 0.128.0, installed
+- **First (proposed): start fresh Claude sessions on 0.129.0, and bring Codex to
+  0.129.0.** Claude's `installed_plugins.json` records Kerd 0.128.0, installed
   2026-09-15 08:47, so sessions started after that load it. Earlier sessions keep
   their loaded version (this one loaded 0.126.0) and don't see `kerd:effort-*`.
   Codex runs 0.124.0 (reported by Codex 2026-09-14, not rechecked). Updating Codex is

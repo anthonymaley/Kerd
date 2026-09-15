@@ -5,6 +5,8 @@ description: "Use when the user says 'slainte', 'audit', 'health check', 'check 
 
 # Slainte (Project Health)
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 From Irish "slàinte" (health). Pronounced "SLAHN-chuh".
 
 Slainte is the release close-out pass, plus on-demand health audits. The pass fixes what is drift and reports what it deliberately left; the on-demand area audits report issues with severity grades and fix only when the caller asks.

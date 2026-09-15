@@ -5,6 +5,8 @@ description: "Use when the user says 'interrogate', 'risk ledger', 'qualify risk
 
 # Interrogate (Risk Ledger)
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 Interview the user relentlessly about a plan or idea until every risk is QUALIFIED — sized, evidenced, with Severity and Treatment each stated — because a named, unsized risk reads as managed, and that is the failure this skill exists to stop. The interview engine is the instrument; the tiered risk ledger is the output. For a large bet, the exit ritual is mutual co-sign of the ledger.
 
 This skill is the countermeasure to the convergence pull in normal brainstorming — verbose framing, premature multiple-choice, unilateral declarations of "done." It cannot be ratified with a yes/no.
@@ -43,7 +45,7 @@ Both paths converge on the same artifact — a co-signed risk ledger — under t
 
 These rules govern every turn during a session. They are not aspirational — they are the structural floor.
 
-1. **One question per turn.** No "Question 1 of N." No bundled questions. Each turn surfaces exactly one open thread.
+1. **One question per turn.** No "Question 1 of N." No bundled questions. Each turn surfaces exactly one open thread, asked as the last line in Kerd's speech-bubble form: `> 💬 **The question?**`.
 
 2. **No multiple choice unless genuinely discrete and small.** Default open-ended. Force articulation, not selection. Multiple choice is a cop-out that lets the user agree without thinking.
 

@@ -40,7 +40,17 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.128.0)
+## What's New (v0.129.0)
+
+### v0.129.0
+
+**Every Kerd question looks the same.** A question is now always one speech-bubble
+line at the end of the message, `> 💬 **The question?**`: the form Switch In already
+used for "Start a Conductor session?". Conductor decisions and approvals no longer
+use a boxed card with a plain-text question underneath. The proposed answer and its
+qualifications sit above the bubble, and the bubble holds only the one question.
+Every skill's entry point now carries the same rule, options are listed above the
+bubble instead of in a picker, and a test guards the form.
 
 ### v0.128.0
 

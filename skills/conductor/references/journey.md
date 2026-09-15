@@ -37,7 +37,7 @@ another start confirmation. Continue with the job update or unresolved decision,
 not a second pickup or approval. A managed rolling
 continuation bypasses that arrival question. Its optional
 Insight callout suits a useful learning during
-work too — distinct from a question card, never compulsory.
+work too — distinct from the question, never compulsory.
 
 Phase and any journey ticks describe the selected work, supported by its record;
 unknown stays unknown. Do not infer client rendering limits or diagnose caches at pickup.
@@ -60,55 +60,42 @@ another report or question.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
 
-For other Conductor decisions, use a real native bounded card if suitable and available. Otherwise use a
-four-sided text box in a monospace code block, with the answer and qualifications
-inside it. No email-forward blockquote as question UI. A bold heading alone is
-not a bounded surface. Keep routine updates outside question cards.
-Keep both borders aligned: wrap content first, then pad every row to the same
-display width. Use simple characters if the host renders wide symbols unevenly.
-Use bold headings and restrained colour on surfaces that actually support them;
-never put Markdown bold or ANSI escapes inside a plain code block as fake styling.
+Every other Kerd question, in every skill, including Conductor decisions and
+approvals, uses the same form. Each skill's entry point links here: one speech-bubble line, `> 💬 **The question?**`, rendered as a quote
+bar, 💬 and the bold question. It is the last thing in the message. Put the
+progress, what is settled, the proposed answer and its consequential
+qualifications above it as ordinary compact Markdown (a short labelled list, or a
+small grid or text box when layout genuinely helps), never inside the bubble. The
+bubble holds only the one question. A bold heading or a plain sentence is not the
+question form; a routine update carries no bubble.
 
 Recommend one next action and ask one direct question. Do not add a routine
 Correct / Change menu or append an alternative such as “or would you rather do
 something else?” The person can push back. Keep action steps and scope spaced
-inside the card; numbered steps are not numbered answer choices. A missing fact
+above the bubble; numbered steps are not numbered answer choices. A missing fact
 still needs its actual question, not confirmation of a guess.
 
-If numbered choices are forbidden, omit only those choices; preserve the frame
-and answer panel. If the host requires a plain-text question, put context in the
-bounded answer panel, then ask one concise plain-text question directly below.
-If borders are unavailable too, use the strongest permitted grouping and briefly
-name that limitation. Do not use optional-input tools for required approvals or
-hide an authority decision in a presentation-only control.
+Choices, including a genuine pick-several choice such as Agent's review cadence at
+pairing, are listed above the bubble and answered in words; no native picker or
+multi-select control replaces the bubble. Do not hide an authority decision in a
+presentation-only control. Where a host renders no
+Markdown, keep the `💬` line as plain text and name that limitation once.
 
 The example below uses fictional facts, not answers to inherit into another task.
-Here the host requires a plain-text question.
 
-```text
+```markdown
 JOURNEY  [NOW: Understand] → Shape → Agree → Deliver → Complete
 
-WHAT WE'RE BUILDING: an offering and pitch package from the existing material.
+**What we're building:** an offering and pitch package from the existing material.
 Settled: preserve originals; no customer commitments or live publication.
-Needed before drafting: whether the delivery guide belongs in this package.
 
-┌──────────────────────────────────────────────────────────────────────────────┐
-│ ONE SCOPE DECISION                                                           │
-├──────────────────────────────────────────────────────────────────────────────┤
-│ Proposed: an offering, delivery guide and pitch package.                     │
-│                                                                              │
-│ Existing evidence → Offer + delivery approach → Pitch + proof                │
-│                                                                              │
-│ Outside this work: live operations, publishing and customer commitments.     │
-│ Based on your outcome and the starting point you just confirmed.             │
-│                                                                              │
-│ My recommendation: include the guide so the pitch has a delivery basis.      │
-│ Your answer lets me finish the direction and propose its checks.             │
-└──────────────────────────────────────────────────────────────────────────────┘
+**Proposed scope:** an offering, delivery guide and pitch package.
+- Outside this work: live operations, publishing and customer commitments.
+- Recommendation: include the guide, so the pitch has a delivery basis.
+- Your answer lets me finish the direction and propose its checks.
+
+> 💬 **Is this the right package boundary?**
 ```
-
-Then ask in plain text: “Is this the right package boundary?” If the host allows
-the full question inside the card, keep it there instead. Do not duplicate it.
 
 ## Visuals belong throughout
 

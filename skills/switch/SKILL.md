@@ -5,6 +5,8 @@ description: Save, restore or move repo-based work between sittings and devices,
 
 # Switch
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 Keep the work continuous while leaving room in the next context window. Work in
 the person's project, not this skill's directory. Do not invoke the old gate/mode
 machinery to run this skill. No CI, custom hooks or plugin installation is required. Existing host permissions

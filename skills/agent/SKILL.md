@@ -5,6 +5,8 @@ description: Connect Claude and Codex for a contribution, define ongoing partner
 
 # Agent
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 Get a contribution from the right session, then use its answer. This command
 supports Conductor or a direct user request; it does not start another intake.
 
@@ -63,10 +65,9 @@ not shell subcommands. For execution, use the workflow below.
    A role is neither a permission grant nor appointment as the current Out owner.
    When pairing or starting a persistent partner, ask once for whatever is not
    yet recorded, never re-asking a recorded role. If neither role nor cadence
-   is recorded, ask for both together in one question — the host's
-   multi-select question control where available (for example Claude's
-   multi-select), otherwise one plain question listing the four cadence
-   values with one-line meanings. If a role is recorded and only the cadence
+   is recorded, ask for both together: list the four cadence values with
+   one-line meanings, then one speech-bubble question, `> 💬 **…?**`; the
+   person may name several values. If a role is recorded and only the cadence
    is missing, ask for the cadence alone, the same way. Record the answers
    with `--partner-role` and `--review-cadence`; do not re-ask on later
    requests, and the person changes either by saying so. A cadence schedules

@@ -5,6 +5,8 @@ description: "Use when the user says 'kivna', 'vault', 'save context', 'save', '
 
 # Kivna (Knowledge Management)
 
+**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
 From Gaelic "cuimhne" (memory), respelled phonetically.
 
 Single owner of the project's knowledge layer. The vault is a human knowledge base. Every file answers a question someone would actually ask. Files are living, updated in place, not appended to.
@@ -22,7 +24,9 @@ Every kivna command starts here. Resolve the vault location before doing anythin
    - Check if `~/eolas/vault/[folder]/` exists on disk.
 
 3. **No vault found.** If neither `vault.json` exists nor `~/eolas/vault/` exists on disk, ask:
-   > Where is your Obsidian vault? (default: `~/eolas/vault/`)
+   Default: `~/eolas/vault/`.
+
+   > 💬 **Where is your Obsidian vault?**
 
    If the user provides a path, use it. If they accept the default, create `~/eolas/vault/` and proceed. Then run the scaffold mechanic to set up the project folder within it.
 
@@ -254,18 +258,20 @@ Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded 
 
 1. **Create the vault folder.** `~/eolas/vault/[folder]/`.
 
-2. **Run the per-project intake.** A short, batched interview that seeds the spine — this replaces "blank folder, figure it out later." It is *batched*, not drilled: ask everything in one round (≤5 questions), the way conductor's pre-flight inventory does. (Intake is *seeding*, not *deciding*, so it batches rather than drilling one question at a time.)
+2. **Run the per-project intake.** A short, batched interview that seeds the spine — this replaces "blank folder, figure it out later." It is *batched*, not drilled: ask everything in one round (≤5 prompts), the way conductor's pre-flight inventory does. Show the prompts as labelled fields, not questions, then close with one speech-bubble question. (Intake is *seeding*, not *deciding*, so it batches rather than drilling one question at a time.)
 
    Rules: open-ended and consequential only (every answer must change what gets written, no yes/no); skip and pre-fill anything the repo README, folder, or conversation already answers; reflect understanding back in 2–3 lines and let the user correct before writing; if the user gives a one-line brain-dump that covers it, skip straight to reflect-back. The interview is a floor, not a gate.
 
-   The questions (adapt wording, drop any already answered):
-   1. **What is this project, in a line or two — and why does it exist?** → MOC opening + purpose.
-   2. **What does "done" or "working well" look like?** → success criteria in the MOC.
-   3. **Where does it stand today — what's already true?** → Status.md.
-   4. **What are the hard constraints or non-negotiables?** → constraints in the MOC.
-   5. **What's explicitly *out* of scope, or what do you not want?** → scope ceiling, prevents over-production.
+   The fields (adapt wording, drop any already answered):
+   1. **Purpose:** what the project is, in a line or two, and why it exists. → MOC opening + purpose.
+   2. **Success:** what "done" or "working well" looks like. → success criteria in the MOC.
+   3. **Current state:** where it stands today, what's already true. → Status.md.
+   4. **Constraints:** hard limits or non-negotiables. → constraints in the MOC.
+   5. **Exclusions:** what's explicitly out of scope, or unwanted. → scope ceiling, prevents over-production.
 
-   Optional 6th, only if material clearly exists: **Any existing docs, repos, or references I should read in first?** → suggest a Sources slot + `/kerd:kivna in` import rather than asking content questions a source already answers.
+   Optional 6th, only if material clearly exists: **Sources:** existing docs, repos or references to read in first. → suggest a Sources slot + `/kerd:kivna in` import rather than asking content questions a source already answers.
+
+   Close with one bubble covering the batch, for example `> 💬 **What would you put in each of these?**`.
 
 3. **Create `[Name].md`** (MOC). Seed the opening, purpose, success criteria, and constraints from the intake answers (1, 2, 4). Links to `[Name] Status.md` and `[Name] Weekly.md` (the spine). Under 40 lines. Show the draft and get approval before writing.
 
