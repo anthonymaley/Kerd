@@ -395,10 +395,18 @@ status, not NOW. A displayed recommendation is not permission to execute it.
 The single immediate question comes first after END, as a bold speech-bubble
 blockquote: `> 💬 **Start a Conductor session?**`. Ordinary In always supplies
 this question, including when no task is selected or a factual/human question is
-open. Do not add an alternative task, reply menu or duplicate question. Those
-open items remain context; a plain yes opens direction-setting and is not their
-answer or authority to execute work. The renderer places the question; do not
-append it yourself.
+open. Do not add an alternative task, reply menu of other work, or duplicate
+question. Those open items remain context; a plain yes opens direction-setting
+and is not their answer or authority to execute work. The renderer places the
+question; do not append it yourself. Where the host offers one, a native picker may follow that
+rendered output carrying the same offer — labelled “Yes — open
+direction-setting” and “Not now”, never a bare Yes — as a separate
+surface, never replacing or preceding the bubble and never adding another task
+to it. The label is the countermeasure: a picked Yes states what it opens, so it
+cannot read as approval of the saved task, and a host picker with a description
+field says so there too; the host's own free-form route
+takes anything else the person wants to say, so the picker never narrows this
+question. Without picker support, the bubble is answered normally.
 
 The end line ends restoration, not the session, and starts no work. Partial or
 unknown restoration gets an incomplete or unconfirmed ending instead. Keep

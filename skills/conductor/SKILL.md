@@ -5,7 +5,7 @@ description: Offer Conductor for substantial builds, designs or workflow work, n
 
 # Conductor
 
-**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
 Help the person understand and agree what they want to make happen. Work can be
 software, research, a commercial offer, a process or another repo-based outcome.

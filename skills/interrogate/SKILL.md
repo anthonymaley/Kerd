@@ -5,7 +5,7 @@ description: "Use when the user says 'interrogate', 'risk ledger', 'qualify risk
 
 # Interrogate (Risk Ledger)
 
-**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 Interview the user relentlessly about a plan or idea until every risk is QUALIFIED — sized, evidenced, with Severity and Treatment each stated — because a named, unsized risk reads as managed, and that is the failure this skill exists to stop. The interview engine is the instrument; the tiered risk ledger is the output. For a large bet, the exit ritual is mutual co-sign of the ledger.
 

@@ -5,7 +5,7 @@ description: Save, restore or move repo-based work between sittings and devices,
 
 # Switch
 
-**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 Keep the work continuous while leaving room in the next context window. Work in
 the person's project, not this skill's directory. Do not invoke the old gate/mode
@@ -73,7 +73,8 @@ Now, Last session, This session, Where we are, and a real link to task detail.
 Use its compact chat layout: explicit completion heading and a status grid with
 provider/role TEAM, then LAST / THIS / NOW bullets with numbered owner-labelled
 actions nested under NOW, links and an end-of-pickup marker.
-The single question follows as a bold speech-bubble blockquote; no YOU box.
+The single question follows as a bold speech-bubble blockquote; no YOU box. A
+native picker carrying that same offer may follow it where the host has one.
 Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 

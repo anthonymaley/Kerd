@@ -40,7 +40,39 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.130.0)
+## What's New (v0.131.0)
+
+### v0.131.0
+
+**A picker may now follow the question, and Agent offers the roles it knows.**
+v0.129.0 unified every Kerd question into one speech-bubble line — and also banned
+native pickers outright, which was never asked for. That ban is withdrawn. The bubble
+is still the question and is still the last prose line, but where the host offers one,
+a native single- or multi-select picker may follow it carrying that question's own
+options, approvals included. The picker always leaves a free-form answer open, never
+narrows a question meant to stay open, and never broadens what an approval authorizes;
+where there is no picker, the bubble is answered in words exactly as before. It names
+shortcuts and defers to the host's own free-form route rather than adding an "Other"
+entry where the host supplies one — Claude Code's picker does. A stock Correct / Change
+menu stays banned, precisely because it carries none of the question's own options.
+Switch In's "Start a Conductor session?" can now be answered from a picker whose
+options are labelled "Yes — open direction-setting" and "Not now" — never a bare
+Yes, so a picked answer states what it opens and cannot read as approving the
+saved task.
+Agent is the first skill to use it: a missing partner role follows the bubble with a
+single-choice picker naming Pairing partner, Implementation partner, Independent
+reviewer and Specialist adviser, and a missing review cadence gets a multi-select over
+the four cadence values — a recorded role or cadence is still never re-asked, and those
+four roles are shortcuts, never the permitted set, which `--partner-role` enforces by
+taking any wording at all. The guard test that enforced the ban now enforces its
+replacement, mutation-checked in eight places.
+
+**What is not yet verified.** A bubble followed by a native picker was observed once,
+leaving the prose above it unchanged. Two things were not: that Switch's renderer
+returns byte-identical Markdown with a picker attached, and that a picker Yes opens
+direction-setting without approving saved work. The second is an authority question,
+not a presentation one — a misread Yes could start work that was only meant to be
+discussed. Both are deferred to the first real Switch In on 0.131.0 and recorded there.
 
 ### v0.130.0
 
@@ -67,7 +99,8 @@ used for "Start a Conductor session?". Conductor decisions and approvals no long
 use a boxed card with a plain-text question underneath. The proposed answer and its
 qualifications sit above the bubble, and the bubble holds only the one question.
 Every skill's entry point now carries the same rule, options are listed above the
-bubble instead of in a picker, and a test guards the form.
+bubble, and a test guards the form. (The picker ban that shipped alongside it was
+withdrawn in v0.131.0.)
 
 ### v0.128.0
 

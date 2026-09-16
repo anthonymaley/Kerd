@@ -56,13 +56,19 @@ with the actions or THIS SESSION. For ordinary In, the generic **“Start a
 Conductor session?”** offer is the first content after END OF PICKUP, once as a
 bold speech-bubble blockquote; it is not a pending-task question. Managed Roll
 does not use it. Other renderer callers may omit a question. Do not append
-another report or question.
+another report or question. A native picker may still follow the rendered
+output, carrying that same offer — the option is labelled “Yes — open
+direction-setting”, never a bare Yes, with Not now beside it and the host's own
+free-form route — because it is a separate surface rather than appended text, so
+the renderer's output stays unchanged. Where the host's picker carries a
+description as well, say there that it does not approve the saved task. Its Yes opens direction-setting only, never approval of the saved
+task, and Other takes the person's own words.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
 
 Every other Kerd question, in every skill, including Conductor decisions and
 approvals, uses the same form. Each skill's entry point links here: one speech-bubble line, `> 💬 **The question?**`, rendered as a quote
-bar, 💬 and the bold question. It is the last thing in the message. Put the
+bar, 💬 and the bold question. It is the last prose line of the message. Put the
 progress, what is settled, the proposed answer and its consequential
 qualifications above it as ordinary compact Markdown (a short labelled list, or a
 small grid or text box when layout genuinely helps), never inside the bubble. The
@@ -71,15 +77,25 @@ question form; a routine update carries no bubble.
 
 Recommend one next action and ask one direct question. Do not add a routine
 Correct / Change menu or append an alternative such as “or would you rather do
-something else?” The person can push back. Keep action steps and scope spaced
-above the bubble; numbered steps are not numbered answer choices. A missing fact
-still needs its actual question, not confirmation of a guess.
+something else?” The person can push back. A picker does not change this: it
+carries the question's own options, never a stock Correct / Change pair. Keep
+action steps and scope spaced above the bubble; numbered steps are not
+numbered answer choices. A missing fact still needs its actual question, not
+confirmation of a guess.
 
 Choices, including a genuine pick-several choice such as Agent's review cadence at
-pairing, are listed above the bubble and answered in words; no native picker or
-multi-select control replaces the bubble. Do not hide an authority decision in a
-presentation-only control. Where a host renders no
-Markdown, keep the `💬` line as plain text and name that limitation once.
+pairing, are listed above the bubble with the recommendation. The bubble is always
+the last prose line and holds the single question. Where the host offers one, a
+native single- or multi-select picker may follow it so the person can answer
+faster, including for an approval. The picker represents that same question: it
+carries the options already shown, always leaves a free-form answer open, never
+narrows a question meant to stay open, and never broadens what an approval
+authorizes. Keep it to a few genuinely distinct options, and do not add an
+“Other” entry where the host supplies that route itself. It never replaces or
+precedes the bubble. Where no picker is available, the person answers the
+bubble normally. Do not hide an authority
+decision in a presentation-only control. Where a host renders no Markdown, keep
+the `💬` line as plain text and name that limitation once.
 
 The example below uses fictional facts, not answers to inherit into another task.
 

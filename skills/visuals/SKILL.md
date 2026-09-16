@@ -6,7 +6,7 @@ license: MIT
 
 # Visuals
 
-**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 A lightweight Kerd adaptation of Cathryn Lavery's diagram-design. See
 [sources and adaptation](references/sources.md). No CI, hooks, seals, branding

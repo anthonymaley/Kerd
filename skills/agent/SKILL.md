@@ -5,7 +5,7 @@ description: Connect Claude and Codex for a contribution, define ongoing partner
 
 # Agent
 
-**Asking the person:** every question is one speech-bubble line at the end of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 Get a contribution from the right session, then use its answer. This command
 supports Conductor or a direct user request; it does not start another intake.
@@ -64,16 +64,32 @@ not shell subcommands. For execution, use the workflow below.
    `--role` on a job is that contribution, not an automatic standing-role change.
    A role is neither a permission grant nor appointment as the current Out owner.
    When pairing or starting a persistent partner, ask once for whatever is not
-   yet recorded, never re-asking a recorded role. If neither role nor cadence
-   is recorded, ask for both together: list the four cadence values with
-   one-line meanings, then one speech-bubble question, `> 💬 **…?**`; the
-   person may name several values. If a role is recorded and only the cadence
-   is missing, ask for the cadence alone, the same way. Record the answers
-   with `--partner-role` and `--review-cadence`; do not re-ask on later
-   requests, and the person changes either by saying so. A cadence schedules
-   this partner's review only inside authorized work and grants no work,
-   contact beyond it, commit, push or release. Conductor reads bindings
-   through `agent.py partners`.
+   yet recorded, never re-asking a recorded role or a recorded cadence. If
+   neither is recorded, ask for both together, in one message: the options
+   listed above, one speech-bubble question, `> 💬 **…?**`, as the last prose
+   line, then the picker or pickers. For a missing role, follow the bubble,
+   where the host offers one, with a native single-choice picker naming the
+   four shortcuts — **Pairing partner**, **Implementation partner**,
+   **Independent reviewer**, **Specialist adviser** — and leave anything else
+   to the host's own free-form route; do not add an “Other” entry where the
+   host supplies that route itself. Those four are shortcuts, never the
+   permitted set: any responsibility the person names is a valid answer, and
+   the role recorded is whatever they actually say, in their wording —
+   `--partner-role` takes any wording, where `--review-cadence` enforces its
+   four values. Where a host's picker offers no free-form route, the role
+   question is answered in words instead. For a missing cadence, list the four values — `checkpoints`,
+   `before-push`, `end`, `on-request` — with one-line meanings above the
+   bubble, and follow the bubble with a native multi-select picker over those
+   same four, since the person may name several values, though `on-request`
+   stands alone. If a role is recorded and only the cadence is missing, ask
+   for the cadence alone, the same way. Where the host offers no picker, the
+   bubble is answered in words exactly as before; a picker accelerates the
+   answer, never gates it, and never narrows it. Record the answers with
+   `--partner-role` and `--review-cadence`; do not re-ask on later requests,
+   and the person changes either by saying so. A cadence schedules this
+   partner's review only inside authorized work and grants no work, contact
+   beyond it, commit, push or release. Conductor reads bindings through
+   `agent.py partners`.
    For a designated replacement after a clear, restart or handoff, follow
    [session succession](references/session-succession.md). Verify this host's
    actual identity; do not overwrite a binding just because its peer is absent.
