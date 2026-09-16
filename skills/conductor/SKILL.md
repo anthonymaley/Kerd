@@ -7,6 +7,10 @@ description: Offer Conductor for substantial builds, designs or workflow work, n
 
 **Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
+**Keeping the decision with the question:** immediately before a consequential bubble, put a self-contained capsule — the recommended concrete action, what it decides or changes, material cost or risk, and the stopping or authority boundary — so the bubble can be answered from that block alone, without reading upward. Restate the recommendation there even when it already appears earlier; the repetition costs less than the reader's search. Never point upward with “the steps above” or “as described”. Nothing unrelated comes between the capsule and the bubble; name the concrete action and target in the bubble; tiny or factual questions stay proportionate — see [the question form](references/journey.md#question-surface-and-host-adaptation).
+
+**Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](references/journey.md#visuals-belong-throughout).
+
 Help the person understand and agree what they want to make happen. Work can be
 software, research, a commercial offer, a process or another repo-based outcome.
 The conversation should feel like a capable partner, not a form or a gate ladder.
@@ -23,8 +27,11 @@ Resolve supporting files relative to this SKILL.md. On entry, name the project
 briefly. Do not invoke Drive, gate tools or old session machinery to run this
 skill. Do not change hooks, CI, global instructions, existing session markers or
 dated history.
-Optional job/diagram tools follow scoped installation approval in their guides;
-approval to use this skill alone does not authorize those installations.
+Supporting job tools, and installing a required diagram tool that is missing on
+this host, follow the scoped approval rules in their guides; approval to use this
+skill alone does not authorize those installations. Required use and installation
+authority are different things: the diagram tools are required, their install is
+still asked for.
 If higher-priority instructions conflict, explain the specific conflict rather
 than claiming it is bypassed. Existing host permissions still apply.
 
@@ -213,8 +220,9 @@ A clear yes settles the shown answer; a correction changes it. Missing answers
 need a focused question, not an invented proposal presented as confirmed.
 Follow host rules over these presentation defaults.
 
-Show meaningful visuals whenever they help understanding, including during
-intake. Do not save every diagram for the final direction review. Make real
+Show the rendered view as soon as the work qualifies — two or more connected
+parts, a branch, an ownership boundary or a before → after change — including
+during intake. Do not save every diagram for the final direction review. Make real
 activity, returned findings and the effect of answers visible without inventing
 work, metrics, insight or extra confirmation turns. Save the actual state in the
 existing record; the display is a view of it, not another source of truth.
@@ -265,9 +273,12 @@ are authorized merely by this interview.
 ## Show the direction
 
 Before drawing, read [the sibling visual skill](../visuals/SKILL.md) and the
-pattern it selects. Load this guidance at use, not during the opener. Use an
-available approach that fits the work and the person's preference; both
-diagram-design and Archify are valid choices. Don't silently install a tool.
+pattern it selects. Load this guidance at use, not during the opener. A rendered
+view goes through diagram-design or Archify: diagram-design for static layouts,
+Archify where exploration or comparison earns it. Hand-rolled ASCII in a code
+fence, or the bundled starter patterns alone, does not satisfy this. Where the
+work and the person's preference both fit, follow the preference; the choice is
+between the required tools, not away from them. Don't silently install a tool.
 
 Produce the actual work's product view: connected people, capabilities, flow
 and boundaries. Mark proposed and unknown parts. Don't substitute a diagram of
@@ -285,7 +296,8 @@ and proof, boundaries/authority, resource limits or unresolved choices, and
 what happens next. Ask for a concrete next action when agreement is needed,
 such as “Shall I prepare that draft?”, naming what remains unresolved. Do not
 repeat settled agreement or add a seal or blanket approval of hidden detail.
-Small explicit work uses a visual only if it clarifies a real relationship.
+Only a single action or a factual answer goes without the view; work that is
+easy to describe in words is not thereby a single action.
 
 ## Record agreement and carry the work forward
 

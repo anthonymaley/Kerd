@@ -40,7 +40,53 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.131.0)
+## What's New (v0.132.0)
+
+### v0.132.0
+
+**A proposal now arrives as a picture, not a wall of text.** Kerd's skills had a
+standing instruction to draw — and a discretionary one ("consider whether seeing the
+relationship would help"), plus an explicit licence to "use a small inline sketch". So
+models hand-rolled ASCII in code fences and called it a diagram. Both holes are closed.
+Every skill entry point now carries a **Showing the person** line beside its Asking the
+person line: when someone asks to see something, and whenever a proposal carries two
+or more connected parts, a branch, an ownership boundary or a before → after change,
+the answer carries a saved, rendered view. The threshold is countable on purpose —
+"substantial" was the first draft, and a model can call a multi-part proposal small
+because it is easy to describe in words. There is no "shall I draw one?"
+offer and no quota — tiny or factual work staying text is the proportional control, not
+a failure. The view is drawn with **diagram-design or Archify, which are now required
+rather than merely allowed**: hand-rolled ASCII in a code fence is not a visual, and
+the bundled starter patterns alone do not satisfy the rule. Archify is installed and
+verified for this release; diagram-design keeps the static default, Archify takes
+exploration and before/after comparison. A guard test covers the rule across all twelve
+entry points, the linked section, the required-tool wording and a ban on offer phrases,
+mutation-checked — including cases that must *pass*: a mid-sentence rewrap, and prose
+that forbids the offer while discussing how the two tools relate.
+
+**A decision now stays attached to the question that asks for it.** Immediately
+before a consequential speech-bubble question, Kerd gives the smallest
+answer-ready capsule: the recommended concrete action, what it decides or
+changes, any material cost or risk, and the stopping or authority boundary that
+applies. No account, Insight, history, follow-on work or document list may split
+that capsule from the bubble, and the bubble names the concrete action and
+target instead of asking about an abstract “measurement”, “proposal” or “it”.
+Tiny and factual questions remain proportionate. Ordinary Switch In is the one
+explicit exception: its complete rendered dashboard is already the orientation,
+and its fixed, labelled Yes opens direction-setting only.
+
+**What the tests show, and what they don't.** The visual rule is demonstrated. On a
+deliberately marginal case — two components and one branch, comfortably answerable in
+prose — three of three runs carrying the rule rendered a view and none of three without
+it did; it also declined to fire on a one-line factual question (0/3) and worked from
+entry points other than Conductor (2/2). Nineteen valid runs across three arms that
+isolate each rule. The capsule rule was **tightened and re-tested**: its first wording produced one
+clean capsule in three, because models gave their recommendation early and left the block
+above the question carrying only the deciding consideration. It now requires the
+recommendation to be *restated* there. Re-tested against the same scenario: **4/4 clean
+capsules against 0/4** for the wording without it. A
+static guard proves a rule is *written*, never that it is *followed* — which is exactly
+how the discretionary wording this release removes survived so long.
 
 ### v0.131.0
 
@@ -1123,9 +1169,16 @@ with a ready handoff suggests clearing context. Out retains its Markdown-in-chat
 
 Visuals makes readable product, process and system diagrams — connected-parts
 views, responsibility flows, scope boundaries, decision paths. It produces an
-actual rendered view, not a document made of text boxes. A lightweight Kerd
-adaptation of Cathryn Lavery's diagram-design, with no CI, hooks, seals, branding
-onboarding or approval schema required.
+actual rendered view, not a document made of text boxes. Since v0.132.0 it is not
+something you have to ask for: an explicit request always gets one, and a proposal
+carrying two or more connected parts, a branch, an ownership boundary or a before →
+after change gets one by default, with no offer question and no quota. Only a single
+action or a factual answer stays text.
+The view is drawn with diagram-design or Archify, which are required — the
+bundled starter patterns alone do not satisfy the rule, and hand-rolled ASCII in a
+code fence is not a visual. A lightweight Kerd adaptation of Cathryn Lavery's
+diagram-design, with no CI, hooks, seals, branding onboarding or approval schema
+required; installing a missing tool still needs your approval.
 
 ```
 /kerd:visuals                # draw the thing being discussed

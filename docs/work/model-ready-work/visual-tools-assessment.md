@@ -1,5 +1,17 @@
 # Visual tools: keep both, choose for the work
 
+> **Superseded, 2026-09-15.** The "Agreed direction" below — both tools held as
+> equal options, neither a universal Kerd dependency — no longer stands. At 15:31
+> Anthony ruled that diagram-design and Archify are *required* for Kerd's rendered
+> views, not merely allowed ("yes required"), his reason being that otherwise models
+> will choose to do their own thing. Two further facts have overtaken the text below:
+> Archify was installed at 21:37 the same day (`npx skills add tt-a1i/archify -g`,
+> user-global at `~/.agents/skills/archify`), and `archify doctor` passes 15/15, so
+> statements here that treat an Archify runtime as absent or optional are out of date.
+> The record of what was actually tested on 2026-09-09, and every observation in it,
+> is unchanged and still stands — including why static work stays with diagram-design.
+> See `docs/work/visual-communication/work.md` for the ruling and the install record.
+
 ## Agreed direction
 
 Keep diagram-design and Archify as complementary choices. Conductor chooses
@@ -120,3 +132,9 @@ diagram-design library in scope, not just this pack's few starter patterns.
 Use both only when the second view adds understanding, not to duplicate every
 diagram. No new abstraction layer, installation requirement, approval receipts
 or user-facing setup process follows from keeping both choices.
+
+> **Superseded — see the note at the top of this file.** An installation
+> requirement *does* now follow: Anthony's 2026-09-15 15:31 ruling made both
+> tools required, and Archify was installed 2026-09-15 21:37. This closing
+> sentence is preserved as what the assessment concluded on the day, not as
+> current guidance.

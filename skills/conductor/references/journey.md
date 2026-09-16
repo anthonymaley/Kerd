@@ -18,7 +18,9 @@ At entry/resume, decisions and stage transitions, show these in reading order:
 3. A short acknowledgement of what the last answer established, with its useful
    implication if there is one. No mandatory praise or manufactured insight.
 4. The question and proposed answer, source/reason and meaningful qualifications
-   together. Add a relevant sketch or comparison when it helps.
+   together. Add the rendered view, or a compact comparison, whenever the
+   question turns on two or more connected parts, a branch, an ownership
+   boundary or a before → after change.
 5. What the answer enables and the next action/stage. No extra “continue?”
    (the Switch In approval line on arrival is the one exception).
 
@@ -65,15 +67,30 @@ description as well, say there that it does not approve the saved task. Its Yes 
 task, and Other takes the person's own words.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
+The ordinary Switch In **“Start a Conductor session?”** arrival is exempt from
+the consequential-question capsule: its complete rendered dashboard is the
+orientation, and its labelled Yes opens direction-setting only.
 
 Every other Kerd question, in every skill, including Conductor decisions and
-approvals, uses the same form. Each skill's entry point links here: one speech-bubble line, `> 💬 **The question?**`, rendered as a quote
-bar, 💬 and the bold question. It is the last prose line of the message. Put the
-progress, what is settled, the proposed answer and its consequential
-qualifications above it as ordinary compact Markdown (a short labelled list, or a
+approvals, uses the same form. Every consequential question must be answer-ready
+from the compact capsule immediately above its bubble: include the recommended
+concrete action, what it decides or changes, any material cost or risk, and the
+stopping or authority boundary that applies. The capsule is self-contained —
+restate the recommendation there even when it already appears earlier in the
+message. The repetition costs less than making the reader search for it, and a
+capsule that carries only the deciding consideration while the recommendation
+sits paragraphs above has failed the rule. Never substitute a pointer such as
+“the steps above”, “as described” or “per the earlier list”. Nothing unrelated
+intervenes between that capsule and the bubble: keep account, Insight, history,
+follow-on work and document lists earlier or behind links. The bubble names the concrete action and
+target, rather than relying on a pronoun or abstract label. Each skill's entry
+point links here: one speech-bubble line, `> 💬 **The question?**`, rendered as a
+quote bar, 💬 and the bold question. It is the last prose line of the message. Put
+the compact capsule above it as ordinary Markdown (a short labelled list, or a
 small grid or text box when layout genuinely helps), never inside the bubble. The
-bubble holds only the one question. A bold heading or a plain sentence is not the
-question form; a routine update carries no bubble.
+bubble holds only the one question. Tiny or factual questions stay proportionate;
+they do not need a ceremonial capsule. A bold heading or a plain sentence is not
+the question form; a routine update carries no bubble.
 
 Recommend one next action and ask one direct question. Do not add a routine
 Correct / Change menu or append an alternative such as “or would you rather do
@@ -115,10 +132,11 @@ Settled: preserve originals; no customer commitments or live publication.
 
 ## Visuals belong throughout
 
-During understanding, consider whether seeing the relationship would make the answer
-easier or expose an assumption. Use the smallest useful visual, not a quota:
+During understanding, showing the relationship is the default, not something to
+weigh first: draw it wherever seeing it makes the answer easier or exposes an
+assumption. Use the smallest useful visual, not a quota:
 
-- Outcome: a tentative before → after sketch once the outcome is known.
+- Outcome: a tentative before → after view once the outcome is known.
 - Audience: people connected to the result they need.
 - Scope: included/excluded boundaries, feature relationships or a package map.
 - Experience: a short user journey or mockup.
@@ -128,16 +146,24 @@ easier or expose an assumption. Use the smallest useful visual, not a quota:
 - Agree: the integrated product view, not just Conductor's process diagram.
 - Deliver: the actual artifact, a useful before/after or a correction in context.
 
-Load the sibling Visuals skill when drawing. Early sketches stay explicitly
-proposed or partial; no seal, extra approval or new browser service is implied.
-A sketch does not invent scope or move the stage to Agree. Update affected parts
-after an answer instead of rebuilding the whole view every turn. Use a small
-inline sketch for a simple relationship and a rendered linked view when layout
-or interaction needs it. Disclose an unavailable render; retain a readable fallback.
-Keep the product view distinct from the journey strip: one explains what we are
-making; the other locates us in the process. Lead with an accessible overview,
-with deeper design, sequence and evidence linked for those who want it. Show
-material findings and tradeoffs directly; do not hide decision-critical detail.
+Load the sibling Visuals skill when drawing, and let the view render through
+diagram-design or Archify; the bundled starter patterns alone do not satisfy
+this rule. Hand-rolled ASCII in a code fence is not a visual. A proposal with
+two or more connected parts, a branch, an ownership boundary or a before →
+after change carries a rendered view of the solution itself, without asking
+first: there is no offer question inviting the person to ask for a diagram, and
+no quota. Tiny or factual work staying text is the proportional control, not a
+failure, and only a single action or a factual answer qualifies: being easy to
+describe in words does not make something a single action, so ease of prose is
+never grounds to downgrade it. An early view stays explicitly proposed or
+partial; no seal, extra approval or new browser service is implied. A view
+does not invent scope or move the stage to Agree. Update affected parts after
+an answer instead of rebuilding the whole view every turn. Disclose an
+unavailable render; retain a readable fallback. Keep the product view distinct
+from the journey strip: one explains what we are making; the other locates us
+in the process. Lead with an accessible overview, with deeper design, sequence
+and evidence linked for those who want it. Show material findings and tradeoffs
+directly; do not hide decision-critical detail.
 
 ## Make answers feel consequential
 

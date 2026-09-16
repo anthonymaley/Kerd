@@ -1,9 +1,9 @@
-"""Guards Kerd's one question form: `> 💬 **The question?**` as the last prose line.
+"""Guards Kerd's written question form: `> 💬 **The question?**` as the last prose line.
 
 Every skill entry point carries the shared rule, including the clause allowing a
 native picker to follow the bubble, and links to Conductor's question surface; the
 legacy forms it replaced, and the withdrawn picker ban, do not come back. This checks
-presence and known legacy text, not the meaning of prose.
+written structure and known legacy text, not model behavior or pronoun semantics.
 """
 from pathlib import Path
 import re
@@ -13,6 +13,17 @@ REPO = Path(__file__).resolve().parents[4]
 SKILLS = REPO / "skills"
 JOURNEY = SKILLS / "conductor" / "references" / "journey.md"
 ANCHOR = "question-surface-and-host-adaptation"
+QUESTION_CONTEXT_RULE = (
+    "**Keeping the decision with the question:** immediately before a consequential "
+    "bubble, put a self-contained capsule — the recommended concrete action, what it "
+    "decides or changes, material cost or risk, and the stopping or authority boundary — "
+    "so the bubble can be answered from that block alone, without reading upward. "
+    "Restate the recommendation there even when it already appears earlier; the "
+    "repetition costs less than the reader's search. Never point upward with "
+    "\u201cthe steps above\u201d or \u201cas described\u201d. Nothing unrelated comes between the capsule "
+    "and the bubble; name the concrete action and target in the bubble; tiny or factual "
+    "questions stay proportionate — see [the question form]({link})."
+)
 
 
 def flat(text):
@@ -35,13 +46,42 @@ LEGACY = (
 class QuestionFormTests(unittest.TestCase):
     def test_every_skill_entry_point_carries_the_rule_and_link(self):
         entries = sorted(SKILLS.glob("*/SKILL.md"))
-        self.assertGreaterEqual(len(entries), 12)
+        self.assertEqual(len(entries), 12)
         for path in entries:
             with self.subTest(skill=path.parent.name):
                 text = path.read_text(encoding="utf-8")
                 self.assertIn("**Asking the person:**", text)
                 self.assertIn("`> 💬 **The question?**`", text)
                 self.assertIn("journey.md#" + ANCHOR, text)
+                relative_journey = (
+                    "references/journey.md"
+                    if path.parent.name == "conductor"
+                    else "../conductor/references/journey.md"
+                )
+                expected = QUESTION_CONTEXT_RULE.format(
+                    link=relative_journey + "#" + ANCHOR
+                )
+                self.assertEqual(text.count(expected), 1)
+
+    def test_the_linked_section_states_the_answer_ready_capsule_bounds(self):
+        """Static wording guard; it does not prove a model follows the form."""
+        prose = flat(JOURNEY.read_text(encoding="utf-8"))
+        for phrase in (
+            "Every consequential question must be answer-ready from the compact "
+            "capsule immediately above its bubble",
+            "recommended concrete action, what it decides or changes, any material "
+            "cost or risk, and the stopping or authority boundary",
+            "Nothing unrelated intervenes between that capsule and the bubble",
+            "The bubble names the concrete action and target",
+            "Tiny or factual questions stay proportionate; they do not need a "
+            "ceremonial capsule",
+            "The ordinary Switch In **“Start a Conductor session?”** arrival is "
+            "exempt from the consequential-question capsule",
+            "its complete rendered dashboard is the orientation, and its labelled Yes "
+            "opens direction-setting only",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(flat(phrase), prose)
 
     def test_the_linked_section_exists_and_shows_the_form(self):
         text = JOURNEY.read_text(encoding="utf-8")

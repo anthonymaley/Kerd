@@ -1,12 +1,16 @@
 ---
 name: visuals
-description: Create readable product, process and system diagrams that help a person understand or agree a direction. Use for connected-parts views, responsibility flows, scope boundaries and decision paths. Produce an actual rendered view, not a document made of text boxes.
+description: Create readable product, process and system diagrams that help a person understand or agree a direction. Use whenever the person asks to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change — connected-parts views, responsibility flows, scope boundaries and decision paths. Draw with diagram-design or Archify, which are required: produce a saved, rendered view, never hand-rolled ASCII in a code fence or a document made of text boxes.
 license: MIT
 ---
 
 # Visuals
 
 **Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Keeping the decision with the question:** immediately before a consequential bubble, put a self-contained capsule — the recommended concrete action, what it decides or changes, material cost or risk, and the stopping or authority boundary — so the bubble can be answered from that block alone, without reading upward. Restate the recommendation there even when it already appears earlier; the repetition costs less than the reader's search. Never point upward with “the steps above” or “as described”. Nothing unrelated comes between the capsule and the bubble; name the concrete action and target in the bubble; tiny or factual questions stay proportionate — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](../conductor/references/journey.md#visuals-belong-throughout).
 
 A lightweight Kerd adaptation of Cathryn Lavery's diagram-design. See
 [sources and adaptation](references/sources.md). No CI, hooks, seals, branding
@@ -15,10 +19,11 @@ onboarding or diagram approval schema is required.
 ## Draw the relationship the person needs to understand
 
 Use during understanding as well as design, delivery and final review. An early
-before/after sketch, audience map or scope boundary can clarify a question before
+before/after view, audience map or scope boundary can clarify a question before
 the full direction exists. Label partial/proposed content; do not infer missing
-requirements to complete a picture. A small inline relationship can be enough;
-use a rendered artifact when spatial detail warrants it. No visual quota per topic.
+requirements to complete a picture. Inline prose, a list or a table supplements
+the rendered artifact; it never stands in for one, and spatial detail being easy
+to describe in words is not a reason to skip the view. No visual quota per topic.
 
 Use the current work agreement and conversation. Identify the question the
 picture must answer, then read the matching section of
@@ -68,31 +73,36 @@ Offer deeper detail without forcing the person to read it. Do not pause for
 routine colour, layout, type or export choices. If the drawing exposes an
 important unresolved product decision, ask that decision rather than guessing.
 
-Keep diagram-design and Archify as complementary choices. Choose the available
-tool that best explains this work; honor the person's preference. Diagram-design
-offers broad static layouts; Archify can help with exploration, focused paths
-and comparisons. These are tendencies, not a rigid technical/nontechnical split.
-Either can support user agreement, and a work package may use both when each
-view adds something. Do not ask the person to select a tool before understanding
-the outcome. This local adaptation contains starter patterns, not the full
-diagram-design catalogue or an installed Archify runtime. Disclose unavailable
-capabilities; do not silently substitute, install tools or start a preview server.
+For Kerd's rendered views, diagram-design and Archify are required, not one
+option among several: a view goes through one of them. Choose the tool that best
+explains this work; honor the person's preference. Diagram-design carries broad
+static layouts — processes, timelines, responsibilities, scope, comparisons;
+Archify carries exploration, focused paths and comparing changes. These are
+tendencies, not a rigid technical/nontechnical split. Either can support user
+agreement, and a work package may use both when each view adds something. Do not
+ask the person to select a tool before understanding the outcome. The starter
+patterns bundled here do not satisfy the rule on their own — they are neither the
+full diagram-design catalogue nor a substitute for it; they help choose the view,
+and the view itself is drawn with one of the two required tools. Disclose
+unavailable capabilities; do not silently substitute or start a preview server.
 
-## When an optional tool would help
+## When a required tool is not available here
 
-Built-in diagrams need no additional diagram skill installation. The source
-record distinguishes this bundled diagram-design adaptation from the full
-upstream catalogue and optional Archify. Do not present either extra as required.
+Keeping one of the two tools working is part of the job, not an extra. The source
+record still distinguishes this bundled diagram-design adaptation from the full
+upstream catalogue and from Archify's own runtime.
 
-If the person requests an unavailable tool, or it would materially improve the
-view, offer to set it up: name the benefit, source, install location and any
+If a required tool is missing on this host, or the second one would materially
+improve the view, set it up: name the benefit, source, install location and any
 dependencies, network use or preview service. Use current upstream instructions
-and the host's supported installer. Obtain approval unless existing authority
-explicitly covers that installation; ordinary diagram approval does not.
-Once setup is approved, perform it and verify the tool can produce a usable view.
-Continue the original diagram task without
+and the host's supported installer. Installing anything still needs approval
+unless existing authority explicitly covers that installation; ordinary diagram
+approval does not. Once setup is approved, perform it and verify the tool can
+produce a usable view. Continue the original diagram task without
 another routine “shall I install?” turn. The offer is to do the work, not hand
 the person a list of commands. Report any genuine access or host limitation.
-If setup is declined or blocked, offer the built-in view and disclose any lost capability.
-Do not repeat an install question when the tool is already available. Record
-the selected tool/version beside the work only when it matters for reproduction.
+If setup is declined or blocked, fall back to the other required tool; if neither
+can run here, say plainly that the view is not rendered and what that costs,
+rather than substituting a hand-drawn picture. Do not repeat an install question
+when the tool is already available. Record the selected tool/version beside the
+work only when it matters for reproduction.
