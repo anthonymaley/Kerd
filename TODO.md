@@ -2,70 +2,61 @@
 
 ## Now
 
-**Release boundary:** 0.130.0, branch `main`, subject "Release Kerd 0.130.0:
-unattended Claude Roll saves its place at 65%" (2026-09-15, released by Claude on
-Anthony's "yes", reviewed by Codex at every gate). Resolve its revision and remote
-state with Git. Position, installed state, the selected continuation and the reading
-set are in `CONTEXT.md` `## Where We Are`. Records:
-- `docs/work/context-awareness/work.md` and `score.md` (0.130.0: design, four Codex
-  design reviews, the build, checkpoint and before-push reviews, three live trials);
-- `docs/work/visual-communication/work.md` (the next release: visuals by default,
-  diagram-design and Archify required);
+**Release boundary:** 0.132.0, branch `main`, subject "Release Kerd 0.132.0: a proposal
+arrives as a picture, and its question carries its own decision" (2026-09-16, built and
+released by Claude, reviewed by Codex across five rounds). Position, installed state,
+the agreed continuation and the reading set are in `CONTEXT.md` `## Where We Are`.
+Records:
+- `docs/work/visual-communication/work.md` and `scope.html` (0.132.0: both rules, the
+  three-arm behavioural method, the two corrected mis-readings);
+- `docs/work/question-pickers/work.md` (0.131.0);
+- `docs/work/context-awareness/work.md` and `score.md` (0.130.0);
 - `docs/work/effort-sized-players/work.md` (0.128.0);
-- `docs/work/review-and-fit-corrections/work.md` (0.127.0: review cadence, Fit lines,
-  change reads);
-- `docs/work/conductor-clean-entry/composer-restoration-comparison.md` (Builds 1–2,
-  real use of 0.126.0);
-- `docs/work/conductor-entry-roll/work.md` (0.123.0);
-- `docs/work/switch-arrival-team/work.md` (0.120.0–0.122.1);
-- `docs/work/switch-coordinated-closeout/work.md` (the shared verification list).
+- `docs/work/review-and-fit-corrections/work.md` (0.127.0).
 
 These lists are not authority to install or run checks during pickup.
 
-- **Update both sides to 0.130.0 when wanted.** Codex reached 0.129.0 at 13:16 via the
-  local `kerd-core` marketplace (`output/kerd-codex-0.129.0`); 0.130.0 needs a fresh
-  build plus `codex plugin add`, Anthony's call. Claude picks it up on restart. Verify
-  the loaded skill path before counting a result.
-- **Then: build the visual-communication release** in
-  `docs/work/visual-communication/work.md`: visuals by default for substantial
-  proposals, `kerd:visuals` on an explicit request, diagram-design and Archify as
-  required tools, a static guard and real-model behavioural tests. Archify is not
-  installed, so its install needs approval.
-- **Next release: the question form gains pickers, and Agent gets a role selector
-  (Anthony, 2026-09-15 19:50/19:51).** The 0.129.0 "no boxed cards or native pickers"
-  wording was Claude's over-reach; a picker may follow the speech bubble for its
-  options whenever one suits, including approvals, and never replaces or precedes the
-  bubble. The ruling is corrected in `CONTEXT.md` and `docs/decisions.md`; the code and
-  guidance still carry the old rule. To change:
-  - `skills/conductor/references/journey.md` lines 79-80 ("no native picker or
-    multi-select control replaces the bubble");
-  - the "Asking the person" line in all 12 `skills/*/SKILL.md` entry points;
-  - `skills/conductor/scripts/tests/test_question_form.py:44`, which asserts every
-    entry point contains "no native picker" — the guard currently enforces the wrong
-    rule, so it must assert the corrected one instead;
-  - Agent pairing: a missing partner role keeps the bubble question and follows it with
-    a single-choice selector (Pairing partner, Implementation partner, Independent
-    reviewer, Specialist adviser, Other); a missing role and cadence keep ask-once with
-    structured choices; never re-ask a recorded one.
-  - Consider bundling with the visual-communication release
-    (`docs/work/visual-communication/work.md`).
+- **NEXT: build 0.133.0, the explicit-model dispatch guard.** Agreed with Anthony
+  2026-09-16 14:20; **Claude owns build and release, Codex reviews and investigates**
+  (14:21). The defect: every `kerd:effort-*` job silently inherits the caller's model.
+  Observed six times this session (`requested_model` null, `claude-opus-5` running), and
+  Sonnet workers' sub-jobs came back `claude-sonnet-5` — same definitions, different
+  inherited model. A Seinn run burned ~860K tokens on Opus for mechanical survey slices.
+  Design so far, with two defects already found:
+  - a `PreToolUse` hook matching `Agent` denies a `kerd:effort-*` dispatch that carries
+    no explicit `model`; a valid explicit model passes and the guard judges no capability;
+  - **`hooks/hooks.json` nests events under a `hooks` key** — a top-level `PreToolUse`
+    registration parses cleanly and never fires. Prove the matcher fires *before*
+    writing denial tests, or the suite passes by doing nothing;
+  - **the `Agent` tool's `model` is an enum of four aliases** (`sonnet`, `opus`,
+    `haiku`, `fable`) — full model IDs cannot pass, so "full IDs accepted" is not a
+    valid test case;
+  - inheritance is expressed by *absence*, not an `inherit` sentinel;
+  - `SendMessage` resume carries no `subagent_type`, so it sits outside the guard;
+    worth a regression test naming that boundary;
+  - the release must say the guard prevents silent inheritance at dispatch and proves
+    nothing about what a grid later claims. A static check cannot verify runtime prose.
+  - keep the five effort definitions model-free; no model×effort agent matrix.
 
-- **0.128.0 and 0.127.0 features were observed in the 0.130.0 build** (cadence-planned
-  review, Fit lines, `Change read` per return, `kerd:effort-*` with `job_evidence.py`).
-  What remains unobserved for 0.130.0 is a pressure-triggered handover into a second
-  fresh Claude worker, and receipt recovery after a real controller loss. Record those
-  when a real unattended build needs them; don't manufacture a build.
-- A "not now" reply to the arrival question is still unexercised; the question is
-  now the generic "Start a Conductor session?". Record it when a real reply occurs.
-- Unplanned restart recovery is observed only when a role-holding session is
-  actually lost; nothing is crashed deliberately (Anthony, via Codex, 2026-09-13).
-  Receipts stop matching when `CONTEXT.md` bytes change.
+- **Deferred from 0.131.0, still unobserved:** whether Switch's renderer returns
+  byte-identical Markdown with a picker attached, and whether a picked
+  "Yes — open direction-setting" opens direction-setting without approving the saved
+  task. The 0.132.0 Switch In capsule exemption rests partly on the second. Record what
+  the next real Switch In shows; don't manufacture a run.
+- **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario
+  tested. Nineteen valid runs plus an eight-run re-test, n=3–4 per arm, one scenario.
+- **Update the installed plugins.** Nothing released today has run through an installed
+  plugin: this session loaded 0.129.0 throughout and the cache carries nothing newer.
+  Claude picks it up on restart; Codex needs a fresh build plus `codex plugin add`.
+- **Archify's two Socket alerts were never identified** — recorded as unknown, not
+  cleared. Its version is still the dev snapshot `2.17.0-dev.1`.
+- **Upstream, not Kerd:** `diagram-design`'s style guide has `accent` at Krutho blue
+  `#1A6FFF` while `accent-tint` still holds the old tangerine. Two sessions hit it
+  independently and worked around it by hand.
+- Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
+  fixture: a factual Yes, No or Not sure that grants no approval.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
-  project. Since then Anthony has run ordinary pickups in Leru, Weefish, Seinn,
-  Apple Music and work-anthony (session log 2026-09-14), and Conductor builds in that
-  consumer project on 0.126.0. Whether the hold is lifted is his call; don't assume it.
-- Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model,
-  not a fixture: a factual Yes, No or Not sure that grants no approval.
+  project. Whether it is lifted is Anthony's call; don't assume it.
 
 ### Earlier launch sequence — retained pending reconciliation
 

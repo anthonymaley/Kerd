@@ -6,100 +6,98 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.130.0, branch `main`, subject "Release Kerd 0.130.0: unattended
-Claude Roll saves its place at 65%" (2026-09-15, released by Claude on Anthony's "yes",
-reviewed by Codex; resolve its revision and CI with Git and `gh`).** Since 0.126.0:
-- 0.127.0: review cadence at pairing, Fit lines, `change_read.py` baselines.
-  0.128.0: `kerd:effort-<level>` agents and `job_evidence.py`. 0.129.0: the
-  speech-bubble question form, guarded by `test_question_form.py` (its no-picker half
-  is corrected above and awaits the next release).
-- 0.130.0 (18:40): `roll.py --target claude --context-aware` watches an unattended
-  Claude worker and asks for its saved place at 65% of its window;
-  `skills/switch/scripts/claude_roll.py` is the adapter. Codex's route and managed
-  Conductor are unchanged.
+**Release boundary: 0.132.0, branch `main`, subject "Release Kerd 0.132.0: a proposal
+arrives as a picture, and its question carries its own decision" (2026-09-16, built and
+released by Claude, reviewed by Codex across five rounds; resolve its revision and CI
+with Git and `gh`).** Three releases this sitting:
+- **0.131.0**: a native picker may follow the speech bubble, never replace it; Agent's
+  missing partner role offers four shortcuts. This withdrew 0.129.0's "no native
+  pickers", which was Claude's over-reach defended by a *passing test* for two releases.
+- **0.132.0**: visuals by default and the decision capsule, combined. The visual
+  threshold is countable — two or more connected parts, a branch, an ownership boundary
+  or a before → after change — because "substantial" carries no test a model can fail.
+  Both rules behaviourally evidenced; see `docs/work/visual-communication/work.md`.
 
-Records: `docs/work/` carries one folder per release (`context-awareness` 0.130.0,
-`effort-sized-players` 0.128.0, `review-and-fit-corrections` 0.127.0,
-`conductor-clean-entry` Builds 1–2). The sitting's account is
-`kivna/sessions/2026-09-15.md`.
+**The finding worth carrying: the defect was a class of sentence, not one sentence.**
+Seven were closed across three files, each reading like discipline while handing the
+model an unfalsifiable judgment about its own work ("only if it clarifies a real
+relationship", "whenever they help", "when it helps", "a substantial proposal",
+"Optional job/diagram tools", the inline-sketch licence). Static gates were green the
+whole time all seven were live.
 
-**0.130.0 was the first real paired Conductor build of this run**, evidencing 0.127.0
-and 0.128.0 in use: cadence-planned review, Fit lines, `Change read` per return, and
-`kerd:effort-xhigh`/`-high` observed by `job_evidence.py` as claude-opus-5 at those
-efforts. Record: `docs/work/context-awareness/`. Still unobserved: a pressure-triggered
-handover into a second fresh Claude worker, and receipt recovery after a controller
-loss; three disclosed test-threshold trials cost $1.24.
+**Evidence went wrong twice before going right**, and the corrections are recorded, not
+buried: the first behavioural design had no control arm; the second was scored off disk
+while workers were still running and produced a reported failure that did not exist.
+The third used three arms isolating each rule, byte-identical prompts, and criteria
+fixed in writing before the last runs reported. Method, not just result:
+`docs/work/visual-communication/work.md`.
 
-**Installed state, not to be overclaimed:** this session loaded Kerd 0.129.0; Claude's
-installed plugin was 0.128.0 at 08:47 and 0.129.0 in this session's path. Codex was
-updated to 0.129.0 at 13:16 (built to `output/kerd-codex-0.129.0`, `kerd-core`
-repointed, confirmed by Codex itself after restarting its thread). Neither side runs
-0.130.0 yet. Verify the skill base path before counting a result.
-`/usr/bin/git` works again: Anthony accepted the Xcode license at 08:46, after it
-failed from 00:27, when a stale `.git/index.lock` also had to be removed.
+**Installed state, not to be overclaimed:** this session loaded Kerd 0.129.0 throughout;
+the plugin cache does not carry 0.130.0 or later, so nothing released today has been
+exercised through an installed plugin. Behavioural runs read the working tree directly.
+Archify installed 2026-09-15 21:37 at `~/.agents/skills/archify`, `doctor` 15/15, zero
+runtime dependencies, still a dev snapshot `2.17.0-dev.1`; its installer reported two
+Socket alerts that were never identified.
 
-**Selected continuation (proposed, not agreed):**
-1. Build the next release from `TODO.md` `## Now`: the corrected question form (a
-   native picker may follow the bubble, including for approvals) across
-   `journey.md`, the 12 skill entry points and `test_question_form.py:44`, plus
-   Agent's role selector; consider bundling the visual-communication work
-   (`docs/work/visual-communication/work.md`) into the same release.
-2. Update both sides to 0.130.0 when wanted: Claude sessions on restart; Codex needs a
-   fresh `output/kerd-codex-0.130.0` build and `codex plugin add`, which is Anthony's
-   call.
-3. Observe a pressure-triggered Claude Roll handover into a second fresh worker when a
-   real unattended build needs one; don't manufacture it.
+**Selected continuation (agreed, Anthony 2026-09-16 14:20/14:21):** build 0.133.0, the
+explicit-model dispatch guard. **Claude owns build and release; Codex is the pairing
+partner for expert review and investigation** — that ruling supersedes the 08:13
+agreement giving Codex the implementation. Evidence already gathered: every
+`kerd:effort-*` job dispatched this session silently inherited the caller's model
+(`requested_model` null, `claude-opus-5` observed, six times), and Sonnet workers' own
+sub-jobs came back `claude-sonnet-5` — same definitions, different inherited model,
+which isolates the mechanism rather than the symptom. Two design defects found before
+any code: `hooks/hooks.json` nests events under a `hooks` key, so a top-level
+`PreToolUse` registration parses cleanly and never fires; and the `Agent` tool's `model`
+is an enum of four aliases (`sonnet`, `opus`, `haiku`, `fable`), so full model IDs
+cannot pass. Stops at recorded work: no commit, push or release without Anthony's word.
 
-Stops at recorded work: no release without Anthony's approval, and no install or
-launch without it either. No pending question.
+**Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
-**Urgent or imminent risks:** none recorded in Kerd's active records (`TODO.md` and the
-current work records checked at this Out, 2026-09-15). Weefish's unrecorded drive4
-capacity readings belong to that project (session log 2026-09-14, Gotchas).
+**Deferred, not dropped:** 0.131.0's two unverified behaviours — renderer byte-identity
+with a picker attached, and a picked labelled Yes opening direction-setting without
+approving saved work. The 0.132.0 Switch In capsule exemption rests partly on the
+second. Also unverified: whether either 0.132.0 rule holds beyond the one marginal
+scenario tested; Archify's two Socket alerts; and `diagram-design`'s style guide, where
+`accent` is Krutho blue while `accent-tint` still holds the old tangerine (upstream's
+file, found independently by two sessions).
 
-**The launch sequence is retained and untouched**: five outcomes, 0 of 5:
-`risk-state-split` at acceptance owing its evidence-backed record,
-`gate-reachability` refusing at viability on row 2, the four exposed
-fatal/accepted risks, then the `agent-request` pilot. Detail in TODO.md under
-"Earlier launch sequence — retained pending reconciliation" and in
-`kivna/sessions/2026-09-03.md`.
+**The launch sequence is retained and untouched**: five outcomes, 0 of 5, detail in
+TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
 
-**Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at
-the root (2026-09-09). Name it with `--preserve` at every save.
+**Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at the root
+(2026-09-09). Name it with `--preserve` at every save.
 
-**Routing:** `codex-tui` carries the review cadence checkpoints + before-push
-(recorded 2026-09-15 15:43); its partner role is still undefined. After this save, the
-Claude session holding `kerd-b5-review`
-designates its successor against this file with `skills/agent/scripts/agent.py
-handoff --record CONTEXT.md`. The next Claude In adopts it with `adopt
---expected-session <bound ID> --record CONTEXT.md`. Receipts and the designation
-stop matching when this file's bytes change.
+**Routing:** `codex-tui` carries checkpoints + before-push and is now the expert
+reviewer and investigator by Anthony's 14:21 ruling; its partner role is still
+undefined in the binding. The Claude session holding `kerd-b5-review` designates its
+successor against this file after this save.
 
-**Pickup reading set** (Switch Out, 2026-09-15 evening):
-- this file complete, for position, the selected continuation, risks and rulings;
-- `TODO.md` `## Now` with its child section, the designated active list, which carries
-  the next release's work;
-- `kivna/sessions/2026-09-15.md` section "## Afternoon sitting: Codex on 0.129.0, then
-  0.130.0 context-aware Claude Roll", which includes the evening and this closeout;
-- `docs/work/context-awareness/work.md` `## Now`, the 0.130.0 record's stage and limits.
+**Pickup reading set** (Switch Out, 2026-09-16):
+- this file complete, for position, the agreed continuation, rulings and deferred items;
+- `TODO.md` `## Now` with its child section, the designated active list;
+- `kivna/sessions/2026-09-16.md`, the sitting's account including the evidence method
+  and the ownership collision;
+- `docs/work/visual-communication/work.md` `## Now`, the 0.132.0 record.
 
-Open `docs/work/visual-communication/work.md` when starting the next release,
-`docs/work/context-awareness/score.md` for the build's steps, reviews and trials, and
-`docs/decisions.md` for any ruling's case.
-Helper arguments (`read_args`): `["--record", "CONTEXT.md", "--section", "TODO.md", "## Now", "--section", "kivna/sessions/2026-09-15.md", "## Afternoon sitting: Codex on 0.129.0, then 0.130.0 context-aware Claude Roll (2026-09-15 12:20 – 18:40 EDT, same Claude session, now holding `kerd-b5-review` as f9d4da17; Codex in the paired TUI)", "--section", "docs/work/context-awareness/work.md", "## Now"]`.
-Measured reading: 31,986 bytes, about 7,997 tokens estimated at four bytes each (not a tokenizer reading), within the 8,000 target, including this line. Five rulings moved out of this file at this Out; their cases stay in `docs/decisions.md`.
+Open `docs/decisions.md` for any ruling's case (the newest three are the ownership
+split, the countable visual threshold and the capsule rule).
 
 ## Key Decisions
 
 Rulings only, kept here while they govern the next work; the full case for each, and every
-other standing decision, is in [docs/decisions.md](docs/decisions.md) (185 entries at the
-2026-09-15 Out, one added at the 0.129.0 release and two for 0.130.0, newest first, indexed by ruling). The three risk-ledger and acceptance
+other standing decision, is in [docs/decisions.md](docs/decisions.md) (newest first, indexed
+by ruling; four added this sitting — the ownership split, the countable visual threshold,
+the decision capsule and the picker correction). The three risk-ledger and acceptance
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **CLAUDE OWNS BUILD AND RELEASE; CODEX IS THE PAIRING PARTNER FOR EXPERT-LEVEL REVIEW AND INVESTIGATION — Anthony, 2026-09-16 14:21.** The reviewer does not touch the tree, and the builder reports a release remote-verified before follow-on work starts. Replaces the 08:13 agreement giving Codex the 0.133.0 implementation, after a shared-tree collision made the two change sets inseparable in Git.
+- **A RENDERED VIEW IS THE DEFAULT WHENEVER A PROPOSAL CARRIES TWO OR MORE CONNECTED PARTS, A BRANCH, AN OWNERSHIP BOUNDARY OR A BEFORE → AFTER CHANGE; diagram-design AND Archify ARE REQUIRED TOOLS — Anthony, 2026-09-15 15:26/15:31/21:37, released in 0.132.0 and behaviourally evidenced 3/3 against 0/3.** The threshold is countable because "substantial" carries no test a model can fail; only a single action or a factual answer stays text, and being easy to describe in words does not make it one.
+- **A CONSEQUENTIAL QUESTION KEEPS ITS ANSWER-READY FACTS IMMEDIATELY ABOVE IT, WITH THE RECOMMENDATION RESTATED THERE EVEN IF IT APPEARS EARLIER; THE BUBBLE NAMES THE CONCRETE ACTION AND TARGET — Anthony, 2026-09-16, released in 0.132.0, 4/4 against 0/4 after tightening from 1/3.** Ordinary Switch In is exempt; that exemption rests partly on a behaviour deferred at 0.131.0 and still unobserved.
 - **CONTEXT PRESSURE IS HANDLED BY ROLLING TO A FRESH SESSION FROM KERD'S SAVED PLACE, NEVER BY COMPACTION; AN INTERACTIVE SESSION SWITCHES OUT WHEN THE PERSON DECIDES; AUTOMATIC PRESSURE HANDLING IS ONLY FOR UNATTENDED ROLL — Anthony, 2026-09-15 13:39/13:42, applied in 0.130.0.**
 - **AN UNATTENDED CLAUDE ROLL RUN IS ASKED FOR ITS SAVED PLACE AT 65% OF ITS REPORTED CONTEXT WINDOW (USED TOKENS), NO ABSOLUTE CAP; READINGS ARE RECORDED TO TUNE IT — Anthony, 2026-09-15 13:57, released in 0.130.0.**
-- **EVERY KERD QUESTION IS ONE SPEECH-BUBBLE LINE AT THE END OF THE MESSAGE, `> 💬 **The question?**`, WITH OPTIONS OR CONTEXT ABOVE IT; A NATIVE PICKER MAY FOLLOW THE BUBBLE FOR ITS OPTIONS WHENEVER ONE SUITS, INCLUDING APPROVALS, BUT NEVER REPLACES OR PRECEDES IT — Anthony, 2026-09-15, released in 0.129.0 and corrected 19:50/19:51. The 0.129.0 "no boxed cards or native pickers" wording was Claude's over-reach, not Anthony's instruction; the skills, `journey.md` and `test_question_form.py` still carry it and are corrected in the next release.**
+- **EVERY KERD QUESTION IS ONE SPEECH-BUBBLE LINE AT THE END OF THE MESSAGE, `> 💬 **The question?**`, WITH OPTIONS OR CONTEXT ABOVE IT; A NATIVE PICKER MAY FOLLOW THE BUBBLE FOR ITS OPTIONS WHENEVER ONE SUITS, INCLUDING APPROVALS, BUT NEVER REPLACES OR PRECEDES IT — Anthony, 2026-09-15, released in 0.129.0 and corrected 19:50/19:51. The 0.129.0 "no boxed cards or native pickers" wording was Claude's over-reach, not Anthony's instruction, and a passing test defended it for two releases; **corrected and released in 0.131.0**.**
 - **EFFORT IS SET PER NATIVE CLAUDE JOB THROUGH KERD'S kerd:effort-<level> AGENTS WHILE THE CALL STILL PASSES THE MODEL; WHAT RAN IS OBSERVED WITH job_evidence.py, AND PARTIAL OR MISSING EVIDENCE IS UNVERIFIED; CODEX MODELS ARE NOT CLAUDE AGENT FILES — Anthony, 2026-09-15, released in 0.128.0.**
 - **OBSERVATIONS EXIST TO DRIVE CORRECTIONS: RECORD WHAT REAL USE SHOWS, FIX THE GAPS IT EVIDENCES, THEN OBSERVE AGAIN — Anthony, 2026-09-14 23:08.**
 - **EVERY MODEL JOB SHOWS A FIT LINE; RETURNED WORK IS READ AGAINST A PRIVATE CONTENT BASELINE, AND ANY UNEXPECTED, OUTSIDE, COMMITTED OR HEAD CHANGE IS A FINDING — Anthony, 2026-09-14/15, released in 0.127.0.**
