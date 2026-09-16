@@ -129,9 +129,12 @@ class JobEvidenceTests(unittest.TestCase):
         self.assertEqual((result["agent_type"], result["requested_model"]), (None, None))
         self.assertEqual(result["gaps"], ["metadata missing"])
 
-    def test_metadata_fields_are_validated_and_absent_model_is_inherited(self):
+    def test_metadata_fields_are_validated_and_absent_model_is_unspecified(self):
         self.write_job(meta={"agentType": "general-purpose"})
         result = self.observe()
+        # Null means the call did not specify a model, not that the caller's model was
+        # inherited: resolution can reach CLAUDE_CODE_SUBAGENT_MODEL before the caller.
+        # With no gaps recorded, this null is qualified evidence of an omitted argument.
         self.assertEqual((result["agent_type"], result["requested_model"]), ("general-purpose", None))
         self.assertEqual(result["gaps"], [])
         self.write_job(meta={"model": "sonnet"})

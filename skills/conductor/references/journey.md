@@ -230,6 +230,13 @@ Opus 5 because misclassifying a caller would mislead the design.
 Fit · Review implementation — needs an independent reading by a different model;
 the established Codex partner, scheduled by its recorded review cadence.
 
+Both native-subagent rows above name a concrete model and a concrete
+`kerd:effort-<level>`, because that is what their `Agent` calls will carry; an
+inherited or unnamed model is not a valid plan for any native Claude dispatch,
+composer, player or reviewer alike ([the dispatch contract](model-jobs.md)). The
+Codex partner row is different: it names that route's own evidence and carries no
+`kerd:effort-<level>`.
+
 Name the actual contribution and route; say `kerd:agent` only when that skill
 handles it, not for a native subagent tool call. Keep requested settings distinct
 from observed model/effort; expose unknowns rather than infer them from defaults.

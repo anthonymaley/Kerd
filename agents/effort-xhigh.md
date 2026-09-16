@@ -1,6 +1,6 @@
 ---
 name: effort-xhigh
-description: Internal Kerd routing agent at xhigh reasoning effort. Invoke only when Kerd Conductor or Agent explicitly selects kerd:effort-xhigh for a delegated job; do not choose it for ordinary requests.
+description: Internal Kerd routing agent at xhigh reasoning effort. Invoke only when Kerd Conductor or Agent explicitly selects kerd:effort-xhigh for a delegated job; do not choose it for ordinary requests. The dispatching call names the model explicitly: this agent sets effort only and never a model, so a call that omits `model` falls through to CLAUDE_CODE_SUBAGENT_MODEL or the caller's model — a model the call never selected, whether or not it happens to match the plan.
 effort: xhigh
 ---
 

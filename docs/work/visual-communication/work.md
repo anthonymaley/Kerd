@@ -4,8 +4,10 @@
 
 Owner: the Claude session holding `kerd-b5-review`, sole release owner for the
 combined 0.132.0 by agreement with the Codex-side session and `codex-tui`
-(2026-09-16 08:13). Stage: **Deliver — built, verified, at the before-push
-boundary.** Nothing is committed, staged or pushed.
+(2026-09-16 08:13). Stage: **Released.** Pushed as `a7daeec` on `main` with the
+CI entry gate green; `195439b` closed the sitting. (This section read "at the
+before-push boundary, nothing committed" until 2026-09-16 17:0x, when the next
+Switch In caught the contradiction — the record was never updated after the push.)
 
 0.132.0 combines two rules: visuals by default (this record) and the decision
 capsule folded in on Anthony's authorization at 07:52-07:58. Both are behaviourally

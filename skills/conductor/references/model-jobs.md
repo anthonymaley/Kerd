@@ -40,16 +40,116 @@ applied. Set it through the route's own control:
 | Route | How effort is set | What to show |
 | --- | --- | --- |
 | Claude native subagent, Kerd's effort agents installed | `subagent_type: kerd:effort-<low\|medium\|high\|xhigh\|max>` plus the per-call `model` | requested via definition; observed with `job_evidence.py` |
-| Claude native subagent, no effort agents | the ordinary native route | inherits the host's per-model setting; unverified |
+| Claude native subagent, no effort agents | the ordinary native route; the call still names `model` | effort unset and unverified; requested model still shown |
 | Fresh Codex worker or native Codex subagent | that route's supported model and effort controls | requested; observed where the route reports it |
 | Established Codex partner or TUI | not retunable by a queued contribution; the session keeps its own pair | configured, observed or unknown |
 | Managed Conductor | its existing explicit pair | as that route records it |
 
 The `kerd:effort-*` agents set only effort; the call still passes `model`. Their
 descriptions ask Claude to use them only when Kerd selects one. That is routing
-guidance, not a host prohibition. A Claude session loads agent definitions when
-it starts, so a session opened before they were installed can't use them: say
-so rather than claim a reload. Codex models are not added as Claude agent files.
+guidance, not a host prohibition.
+
+**The dispatch contract: every `Agent` call names both keys, concretely.** This
+covers every native Claude job this session sends — composer, player or reviewer.
+`model` requests the model and `subagent_type` sets the effort:
+
+```
+Agent(
+  subagent_type: "kerd:effort-high",
+  model: "sonnet",
+  ...
+)
+```
+
+There is no unplanned dispatch. If you are calling `Agent`, the call is the plan,
+whatever the job is called and whether or not a row was drawn for it. “Per
+definition”, “inherited”, “the controller's” and “default” are not softer choices;
+they are the defect described in words. The `model` value is a concrete alias —
+`haiku`, `sonnet`, `opus` or `fable`; the field itself also accepts a full model ID,
+but a host may expose only the aliases, so name an alias unless a full ID is known
+to pass on this host.
+
+The two keys are required differently, because one of them can be genuinely
+unavailable:
+
+- **`model` is required in every case.** No route and no session state excuses
+  omitting it. One host state removes the *route* instead of the requirement: while
+  `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` is `1` a caller cannot pass a model at all, so
+  a native Claude dispatch is not a compliant Kerd route in that state — see below.
+- **`subagent_type` names a `kerd:effort-<level>` whenever those definitions are
+  loaded.** When they are not — a session opened before they were installed cannot
+  load them — the call still names a concrete ordinary `subagent_type`, effort is
+  shown as *unset and unverified*, and the disclosure says why. That is the
+  documented fallback, not a waiver: the `model` half is untouched by it.
+
+Omission is not a neutral default, and it does not resolve to the caller's model by
+some simple rule. [The documented resolution order](https://code.claude.com/docs/en/sub-agents#choose-a-model)
+is: the per-invocation `model`; then the definition's `model` frontmatter, where
+`inherit` selects the main conversation's model; then `CLAUDE_CODE_SUBAGENT_MODEL`
+when it is set to an alias or ID; then the main conversation's model. Kerd's effort
+definitions are deliberately model-free, so an omitted `model` lands on the
+environment variable when it is set and on the caller's model when it is not —
+either way, on a model **not selected explicitly by the call**, which the call
+cannot show. It may coincide with the one the plan wanted; nothing records that it
+was chosen. A slice planned for Haiku can run on Opus, and the plan's cost
+reasoning is then void.
+
+**Naming `model` requests the model; it does not guarantee what runs.** Two
+documented host conditions override an explicit request: with
+`CLAUDE_CODE_SUBAGENT_MODEL_FORCE` set to `1`, Claude Code ignores the model field
+and a caller cannot pass a model at all; and every requested value is checked
+against an organization's `availableModels` allowlist, which substitutes the newest
+permitted version of a blocked family alias, or the inherited model when no version
+is permitted. So the request is what Kerd controls, and observed evidence is what
+establishes the model that ran.
+
+The two conditions call for different handling, and the difference is not cosmetic:
+
+- **`CLAUDE_CODE_SUBAGENT_MODEL_FORCE` is `1`.** The call cannot carry a model, so
+  native Claude dispatch is **unavailable as a compliant Kerd route** for as long as
+  that setting holds. Choose another authorized route, or say plainly that the
+  setting has to change and let the person decide. **Never retry the dispatch
+  without `model` to get past it** — that is the defect this contract exists to
+  remove, arriving with an excuse. Report the state rather than working around it.
+- **An `availableModels` allowlist.** The request can still be made, and must be:
+  send the explicit `model`, then report any substitution the observed evidence
+  shows. A substitution is a finding about the environment, not a reason to stop
+  naming the model.
+
+**The countable test is `requested_model`, with one qualification that matters.**
+`job_evidence.py` fills it from the job's own metadata, so a call that omitted
+`model` reports `requested_model: null` while its status may still read `observed`.
+But the field is *initialised* to null, and unreadable or invalid metadata leaves it
+null too, recording a gap. So null is evidence of omission **only when the metadata
+parsed and carries no model-related gap**; otherwise it is unverified, and counting
+it as a violation would accuse a compliant dispatch. Count the qualified nulls
+across a run's jobs and report the count separately from the unverified ones; the
+contract holds at zero qualified nulls. A non-zero count is a finding about this
+session's dispatches, not about the rows that described them.
+
+Be exact about what that buys. This contract is instruction text at the point of
+use: nothing blocks a dispatch mechanically, and no static check can confirm that a
+call carried what a row promised. Afterward, `job_evidence.py` reads the requested
+and observed values separately from the host's private transcript records; it
+returns `unverified` with a reason whenever those records are missing or partial,
+and an absent effort record means unverifiable, not confirmed.
+
+Never send a dispatch without `model`. If you cannot choose between two models,
+name both and their cost difference to the person and wait; no call goes out
+meanwhile.
+
+**A resume is not a second dispatch.** `SendMessage` to an existing job carries no
+`subagent_type` and no new pair. The per-invocation `model` from the original call
+keeps applying to a resume or follow-up, so an explicitly dispatched job stays on
+its named model — which is another reason to name it at the first call. Say which
+job is being resumed and the pair it was dispatched with; start a new dispatch
+rather than a resume when the work needs a different pair.
+
+A Claude session loads agent definitions when it starts, so a session opened before
+they were installed cannot load them: say so rather than claim a reload, and take
+the fallback above. Codex models are not added as Claude agent files. A Codex or
+established-partner route names that route's own model and effort evidence instead;
+it cannot carry a `kerd:effort-<level>` and is not expected to.
 
 Effective effort can still differ from the request. `CLAUDE_CODE_EFFORT_LEVEL`
 overrides definitions, `maxEffortLevel` and organization caps still apply, and an

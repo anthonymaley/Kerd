@@ -111,7 +111,9 @@ def read_metadata(path, result):
     if not isinstance(meta, dict):
         gaps.append("metadata is not a JSON object")
         return
-    # An absent model is normal (the job inherits it); an absent agent type is a gap.
+    # An absent model means the call made no per-call request; resolution then continues
+    # through the definition, CLAUDE_CODE_SUBAGENT_MODEL and the caller. An absent agent
+    # type is a gap.
     for field, key, name, absent_gap in (("agent_type", "agentType", "agent type", True),
                                          ("requested_model", "model", "requested model", False)):
         value = meta.get(key)

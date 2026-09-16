@@ -16,27 +16,38 @@ Records:
 
 These lists are not authority to install or run checks during pickup.
 
-- **NEXT: build 0.133.0, the explicit-model dispatch guard.** Agreed with Anthony
-  2026-09-16 14:20; **Claude owns build and release, Codex reviews and investigates**
-  (14:21). The defect: every `kerd:effort-*` job silently inherits the caller's model.
-  Observed six times this session (`requested_model` null, `claude-opus-5` running), and
-  Sonnet workers' sub-jobs came back `claude-sonnet-5` — same definitions, different
-  inherited model. A Seinn run burned ~860K tokens on Opus for mechanical survey slices.
-  Design so far, with two defects already found:
-  - a `PreToolUse` hook matching `Agent` denies a `kerd:effort-*` dispatch that carries
-    no explicit `model`; a valid explicit model passes and the guard judges no capability;
-  - **`hooks/hooks.json` nests events under a `hooks` key** — a top-level `PreToolUse`
-    registration parses cleanly and never fires. Prove the matcher fires *before*
-    writing denial tests, or the suite passes by doing nothing;
-  - **the `Agent` tool's `model` is an enum of four aliases** (`sonnet`, `opus`,
-    `haiku`, `fable`) — full model IDs cannot pass, so "full IDs accepted" is not a
-    valid test case;
-  - inheritance is expressed by *absence*, not an `inherit` sentinel;
-  - `SendMessage` resume carries no `subagent_type`, so it sits outside the guard;
-    worth a regression test naming that boundary;
-  - the release must say the guard prevents silent inheritance at dispatch and proves
-    nothing about what a grid later claims. A static check cannot verify runtime prose.
-  - keep the five effort definitions model-free; no model×effort agent matrix.
+- **0.133.0 BUILT, NOT RELEASED: the explicit-model dispatch contract.** Anthony
+  refused the earlier `PreToolUse` guard design at 16:48 — "It turns a missing tool
+  argument into a hook subsystem" — and set the contract instead: `model` picks
+  Haiku/Sonnet/Opus/Fable, `subagent_type` picks the effort, the grid names both
+  concretely before dispatch, "per definition" or "inherited" is invalid, and
+  `job_evidence.py` verifies afterward. No hook, no matcher framework, no
+  model×effort matrix. Record: `docs/work/model-dispatch-guard/work.md`, view at
+  `direction.html`.
+  - In the tree: the five `agents/effort-*.md` descriptions, the contract in
+    `skills/conductor/references/model-jobs.md`, the dispatch-row rule in
+    `orchestration.md`, the grid note in `journey.md`, Conductor's trigger
+    description, README + What's New, version 0.133.0 in all three locations, and
+    six new assertions in `test_effort_agents.py`. 728 tests green, `gate.py
+    release` clean, hooks 21/21.
+  - **Evidenced by one real mixed-model fan-out**: three jobs in a single dispatch
+    at `haiku`/low, `sonnet`/medium, `opus`/high, observed as
+    `claude-haiku-4-5-20251001`, `claude-sonnet-5`, `claude-opus-5`. The Haiku job
+    returned **no effort records**, so its requested effort is unverifiable — stated
+    in the release, not smoothed over.
+  - **Still owed before push:** Codex `codex-tui`'s before-push review, then
+    Anthony's word. Nothing is committed or staged.
+  - **Two facts corrected against the docs this sitting** (both were wrong in this
+    list): the subagent `model` field accepts a full model ID as well as the four
+    aliases — the four-alias enum is this host's `Agent` *tool parameter*, not the
+    field, so "full IDs cannot pass" was overstated; and an omitted `model` follows
+    a documented four-step order — per-invocation, then definition frontmatter,
+    then `CLAUDE_CODE_SUBAGENT_MODEL`, then the caller's model — so "silently
+    inherits the caller's" is only one of two branches.
+  - **`SendMessage` resume is not outside the contract** the way this list claimed:
+    a resume carries no `subagent_type`, but the per-invocation `model` from the
+    original call keeps applying to a resume or follow-up. Naming it at the first
+    call is what carries it.
 
 - **Deferred from 0.131.0, still unobserved:** whether Switch's renderer returns
   byte-identical Markdown with a picker attached, and whether a picked
@@ -45,14 +56,26 @@ These lists are not authority to install or run checks during pickup.
   the next real Switch In shows; don't manufacture a run.
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario
   tested. Nineteen valid runs plus an eight-run re-test, n=3–4 per arm, one scenario.
-- **Update the installed plugins.** Nothing released today has run through an installed
-  plugin: this session loaded 0.129.0 throughout and the cache carries nothing newer.
-  Claude picks it up on restart; Codex needs a fresh build plus `codex plugin add`.
+- **Update the installed plugins — Codex side only now.** The cache carries 0.132.0 and
+  this session is running it, so Claude's side is done; the 2026-09-16 Switch In was the
+  first arrival to run from an installed 0.132.0 plugin. Codex still needs a fresh build
+  plus `codex plugin add`. Nothing from 0.133.0 has run through an installed plugin.
+- **The test suite does not run clean by module name, and CI never runs it.**
+  `skills/switch/scripts/tests/test_roll_control.py` does `import roll_control`
+  *above* its own `sys.path.insert`, so the 728-test suite only passes with
+  `skills/switch/scripts` and its `tests/` dir on `PYTHONPATH`. Pre-existing, found
+  2026-09-16 while verifying 0.133.0, deliberately not fixed in it. `.github/workflows/gate.yml`
+  runs only three selftests, so no CI job would have caught it — that is the larger
+  half of this item.
 - **Archify's two Socket alerts were never identified** — recorded as unknown, not
   cleared. Its version is still the dev snapshot `2.17.0-dev.1`.
-- **Upstream, not Kerd:** `diagram-design`'s style guide has `accent` at Krutho blue
-  `#1A6FFF` while `accent-tint` still holds the old tangerine. Two sessions hit it
-  independently and worked around it by hand.
+- **Palette drift — separate work, Anthony's instruction 2026-09-16 16:48.** Two parts:
+  (a) upstream, `diagram-design`'s installed style guide has `accent` at Krutho blue
+  `#1A6FFF` while `accent-tint` still holds the old tangerine, hit independently by two
+  sessions; (b) in Kerd, `docs/work/visual-communication/scope.html` is skinned in that
+  same Krutho palette. **Krutho is Anthony's brand, not Kerd's, and Kerd ships to
+  anyone** — Kerd's own views use diagram-design's neutral default skin, as
+  `docs/work/model-dispatch-guard/direction.html` now does. Not part of 0.133.0.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture: a factual Yes, No or Not sure that grants no approval.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work

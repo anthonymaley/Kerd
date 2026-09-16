@@ -32,25 +32,60 @@ The third used three arms isolating each rule, byte-identical prompts, and crite
 fixed in writing before the last runs reported. Method, not just result:
 `docs/work/visual-communication/work.md`.
 
-**Installed state, not to be overclaimed:** this session loaded Kerd 0.129.0 throughout;
-the plugin cache does not carry 0.130.0 or later, so nothing released today has been
-exercised through an installed plugin. Behavioural runs read the working tree directly.
+**Installed state, not to be overclaimed:** the plugin cache now carries 0.132.0 and the
+session that picked up on 2026-09-16 at 14:33 is running it — the first arrival to run
+from an installed post-0.129.0 plugin. Codex still needs a fresh build plus
+`codex plugin add`. Nothing from 0.133.0 has run through an installed plugin; its
+behavioural run read the working tree directly.
 Archify installed 2026-09-15 21:37 at `~/.agents/skills/archify`, `doctor` 15/15, zero
 runtime dependencies, still a dev snapshot `2.17.0-dev.1`; its installer reported two
 Socket alerts that were never identified.
 
-**Selected continuation (agreed, Anthony 2026-09-16 14:20/14:21):** build 0.133.0, the
-explicit-model dispatch guard. **Claude owns build and release; Codex is the pairing
-partner for expert review and investigation** — that ruling supersedes the 08:13
-agreement giving Codex the implementation. Evidence already gathered: every
-`kerd:effort-*` job dispatched this session silently inherited the caller's model
-(`requested_model` null, `claude-opus-5` observed, six times), and Sonnet workers' own
-sub-jobs came back `claude-sonnet-5` — same definitions, different inherited model,
-which isolates the mechanism rather than the symptom. Two design defects found before
-any code: `hooks/hooks.json` nests events under a `hooks` key, so a top-level
-`PreToolUse` registration parses cleanly and never fires; and the `Agent` tool's `model`
-is an enum of four aliases (`sonnet`, `opus`, `haiku`, `fable`), so full model IDs
-cannot pass. Stops at recorded work: no commit, push or release without Anthony's word.
+**Selected continuation (agreed, Anthony 2026-09-16 14:20/14:21, scope set 16:48):**
+0.133.0, the explicit-model **dispatch contract** — built, evidenced, and not pushed.
+**Claude owns build and release; Codex is the pairing partner for expert review and
+investigation** — that ruling supersedes the 08:13 agreement giving Codex the
+implementation.
+
+**Anthony refused the hook design at 16:48** — "It turns a missing tool argument into
+a hook subsystem" — and set the contract instead: `model` requests Haiku/Sonnet/Opus/Fable,
+`subagent_type` sets the effort, the grid names both concretely before dispatch,
+"per definition" or "inherited" is invalid, and `job_evidence.py` verifies afterward.
+**A `PreToolUse` hook, a matcher framework and a model×effort matrix are out of scope
+by that refusal; the `hooks.json` nesting trap is no longer this release's problem.
+Do not revive them.** Palette drift is separate work, and Krutho is Anthony's brand,
+not Kerd's.
+
+What the release says, and its ceiling: naming `model` is a *request*. With
+`CLAUDE_CODE_SUBAGENT_MODEL_FORCE` set to `1` the host ignores the field and a caller
+cannot pass a model at all, and an organization's `availableModels` allowlist can
+substitute another; observed evidence, not the call, establishes what ran. An omitted
+`model` falls through to `CLAUDE_CODE_SUBAGENT_MODEL` or the caller's model — a model
+the call never selected. `requested_model: null` is the countable failure signature,
+but only when that job's metadata parsed without a model-related gap.
+
+Evidence: one real mixed-model fan-out — `haiku`/low, `sonnet`/medium, `opus`/high in
+one dispatch, observed `claude-haiku-4-5-20251001`, `claude-sonnet-5`, `claude-opus-5`.
+The Haiku job returned no effort records, so its effort is unverifiable, not confirmed.
+728 tests green, `gate.py release` clean, hooks 21/21.
+
+Reviewed twice: an Opus job at high effort (eleven findings, all acted on) and Codex
+`codex-tui`'s before-push gate (**verdict: not ready to push**, five findings, all
+applied after retrieval — the all-keys absolute that made the no-effort-agent route
+impossible, the unqualified null signature, request-versus-execution overclaims, the
+README's narrowing to "player", and this file itself still restoring the refused
+design). Round 2 found three more — forced-model mode making the rule unsatisfiable
+exactly when it binds, two assertions that guarded phrases rather than facts, and
+selection wording where only a request is established. **Round 3 passed: "ready for
+Anthony's release decision. No blocking findings."** Anthony authorized the push at
+18:02.
+
+**Carry this forward:** three of this release's defects were the same error — a rule
+stated so absolutely that a legitimate situation could not satisfy it. That is
+0.132.0's own defect class, produced three times while removing it. Codex's closing
+judgment, worth honouring: three rounds of prose hardening is the limit of useful
+refinement; observe real dispatches and change it again only for demonstrated
+behaviour.
 
 **Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
@@ -78,7 +113,10 @@ successor against this file after this save.
 - `TODO.md` `## Now` with its child section, the designated active list;
 - `kivna/sessions/2026-09-16.md`, the sitting's account including the evidence method
   and the ownership collision;
-- `docs/work/visual-communication/work.md` `## Now`, the 0.132.0 record.
+- `docs/work/visual-communication/work.md` `## Now`, the 0.132.0 record;
+- `docs/work/model-dispatch-guard/work.md` complete, the 0.133.0 record — the refused
+  design and why, the two review passes, the corrected facts and the ceiling on what
+  the contract can promise; `direction.html` beside it is its rendered view.
 
 Open `docs/decisions.md` for any ruling's case (the newest three are the ownership
 split, the countable visual threshold and the capsule rule).

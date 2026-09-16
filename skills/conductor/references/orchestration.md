@@ -235,14 +235,36 @@ share one line. Add `; consider <alternative>` only when the pair materially
 exceeds or misses the need; do not manufacture alternatives. Write another Fit
 line whenever a job's model, effort or route differs from its plan or changes on
 retry, before dispatching it. A grid row naming a model without its Fit line is
-incomplete. Fit lines are reasons, not settings evidence: keep the evidence labels
-above, and never turn them into a confirmation question. Qualify configured,
-requested and observed values in the cells or nearby text despite the column
-title. Put each contribution's owner, edit boundary and expected result nearby.
-Use native task controls without duplicating their plan. Show startup, new jobs
-and split changes, with brief inline reasons; avoid microstep staffing updates.
-Managed decision sessions retain their narrow contract, without per-cycle startup
-grids; their owning work view carries material changes. No retrospective substitute.
+incomplete.
+
+**Every native Claude dispatch row names both cells concretely before dispatch**,
+matching the call that will be sent: `model` as Haiku, Sonnet, Opus or Fable, and a
+`kerd:effort-<level>`. This covers composer, player and reviewer alike — anything
+sent with an `Agent` call. The `model` cell has no exception. The effort cell takes
+the documented fallback when the effort definitions are not loaded in this session:
+a concrete ordinary `subagent_type` with effort shown as “unset and unverified”, and
+the reason disclosed. “Per definition”, “inherited”, “the controller's”,
+“default”, “unknown” or an empty cell is not a valid plan for such a row; see
+[the dispatch contract](model-jobs.md), which also gives the documented resolution
+order an omitted `model` actually follows. A Codex or established-partner row names
+that route's own model and effort evidence instead, labelled configured, requested,
+observed or unknown; it cannot carry a `kerd:effort-<level>` and is not expected to.
+
+Exactly one row per grid is the controller row: the row whose work this session
+performs itself, with no `Agent` call. It reports its own host-declared or unknown
+settings, because it is not a dispatch. Any row whose work is performed by another
+agent is a dispatch and carries both cells, whatever the row is called — a row
+labelled “controller” that results in an `Agent` call is a mislabelled dispatch,
+not an exemption.
+
+After the run, what actually executed is read with `job_evidence.py` and reported
+beside the requested values; a mismatch is a finding, and a returned result never
+proves the pair. `requested_model: null` is the signature of a call that omitted
+`model` **only when that job's metadata parsed without a model-related gap** —
+the field is also null when metadata is unreadable, and treating that as a
+violation would accuse a compliant dispatch. Naming `model` requests a model; a
+forced-model host setting or an organization allowlist can still substitute
+another, which is why observed evidence and not the call establishes what ran.
 
 ## Prepare, send and assess visibly
 

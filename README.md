@@ -40,7 +40,31 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.132.0)
+## What's New (v0.133.0)
+
+### v0.133.0
+
+**A delegated job now says which model it runs on, in the call.** Kerd's five
+`kerd:effort-<level>` agents set effort and carry no model, and the guidance said
+the call "still passes `model`" — a note, not a requirement. So every job dispatched
+in the 0.132.0 sitting omitted it and fell through to the caller's Opus:
+`requested_model` null with `claude-opus-5` observed six times, and one survey run
+elsewhere burning roughly 860K Opus tokens on mechanical slices. The contract is now
+stated where the dispatch happens: `model` requests Haiku, Sonnet, Opus or Fable,
+`subagent_type` sets the effort, the grid names both concretely before dispatch, and
+"per definition" or "inherited" is invalid for any of them. `job_evidence.py`
+still reports what actually ran, afterward.
+
+Evidenced by one real mixed-model fan-out — three jobs in a single dispatch at
+`haiku`/low, `sonnet`/medium and `opus`/high — observed as
+`claude-haiku-4-5-20251001`, `claude-sonnet-5` and `claude-opus-5` respectively. With `CLAUDE_CODE_SUBAGENT_MODEL` unset, as it was here, the same three calls without
+an explicit `model` would have resolved to the controller's Opus — the pattern the 0.132.0
+sitting produced six times.
+One honest gap the run exposed: the Haiku job returned no effort records at all, so
+its requested effort stays unverifiable rather than confirmed.
+
+No `PreToolUse` hook, matcher framework or model×effort agent matrix: the defect was
+a missing tool argument, and a subsystem is not the countermeasure for it.
 
 ### v0.132.0
 
@@ -879,9 +903,15 @@ labelled by their evidence, not guessed from defaults. It recommends a change
 when the current pair materially exceeds or misses the work's needs, but
 doesn't change your session settings itself. A **Fit** line under the grid gives
 that reason for the controller and for every composer, player and reviewer it
-selects, and again whenever a model, effort or route changes. A native Claude job's
-effort is set through Kerd's `kerd:effort-<level>` agents, and the model and effort
-it actually ran with are shown as observed once it returns.
+selects, and again whenever a model, effort or route changes. Every native Claude
+job it dispatches — composer, player or reviewer — names both halves in the call:
+`model` requests Haiku, Sonnet, Opus or Fable, and a `kerd:effort-<level>` agent sets
+the effort, with the grid naming both concretely before the call goes out. An
+inherited or unnamed model is not a valid plan, because an omitted `model` falls
+through to an environment default or the caller's model — one the call never
+selected. Naming it is a request, not a guarantee: a forced-model host setting or
+an organization allowlist can still substitute another, so the model and effort it
+actually ran with are shown as observed once it returns.
 
 When an established Agent partner exists, Conductor plans its reviews from the
 pairing's recorded review cadence (checkpoints, before push, at the end, or only
