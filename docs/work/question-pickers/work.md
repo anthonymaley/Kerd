@@ -3,8 +3,9 @@
 ## Now
 
 Owner: the Claude session holding `kerd-b5-review` (Conductor controller, Kerd).
-Stage: Deliver. Target release 0.131.0, MINOR. Built but not committed, pushed or
-released without Anthony's approval.
+Stage: Complete. **Released as 0.131.0**, commit `6610f60`, pushed to `main`
+2026-09-15 21:09, CI `entry-gate` green on that SHA. Anthony approved the release at
+21:02 and reconfirmed at 21:04.
 
 **Scope agreed, Anthony, 2026-09-15 20:06** ("yes" to taking the question-form
 correction and Agent's role selector as the next release, with visual communication
@@ -151,7 +152,15 @@ without approving saved work. Both are to be recorded at the next real Switch In
 
 ## Next
 
-S1 and S2 repairs dispatched for findings 1-3. When they return: change reads against
-`qp-s1` and `qp-s2`, then the before-push review with Codex, then commit, push and
-release. Anthony approved the release path at finding 4; the before-push review is
-still owed under `codex-tui`'s recorded cadence.
+Nothing owed on this release. Two deferred observations are recorded for the first
+real Switch In on 0.131.0, and belong in that sitting's account, not here:
+
+1. whether the renderer returns byte-identical Markdown with a picker attached;
+2. whether a picked "Yes - open direction-setting" opens direction-setting without
+   approving the saved task - the authority half, and the reason the label exists.
+
+Neither is a build. Record what the next pickup actually shows; do not manufacture a
+run to see it.
+
+The visual-communication release (`docs/work/visual-communication/work.md`) is the
+next one, still at Shape, with Archify's install needing Anthony's approval.
