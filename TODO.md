@@ -2,11 +2,14 @@
 
 ## Now
 
-**Release boundary:** 0.132.0, branch `main`, subject "Release Kerd 0.132.0: a proposal
-arrives as a picture, and its question carries its own decision" (2026-09-16, built and
-released by Claude, reviewed by Codex across five rounds). Position, installed state,
-the agreed continuation and the reading set are in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.133.0, `7cf5782` on `main`, subject "Release Kerd 0.133.0: a
+delegated job names the model it runs on, in the call" (2026-09-16, built and released
+by Claude, reviewed by Codex across three before-push rounds; CI entry gate green).
+Position, installed state and the reading set are in `CONTEXT.md` `## Where We Are`.
 Records:
+- `docs/work/model-dispatch-guard/work.md` and `direction.html` (0.133.0: the refused
+  hook design and why, the dispatch contract, the mixed-model fan-out, four review
+  passes);
 - `docs/work/visual-communication/work.md` and `scope.html` (0.132.0: both rules, the
   three-arm behavioural method, the two corrected mis-readings);
 - `docs/work/question-pickers/work.md` (0.131.0);
@@ -16,38 +19,27 @@ Records:
 
 These lists are not authority to install or run checks during pickup.
 
-- **0.133.0 BUILT, NOT RELEASED: the explicit-model dispatch contract.** Anthony
-  refused the earlier `PreToolUse` guard design at 16:48 — "It turns a missing tool
-  argument into a hook subsystem" — and set the contract instead: `model` picks
-  Haiku/Sonnet/Opus/Fable, `subagent_type` picks the effort, the grid names both
-  concretely before dispatch, "per definition" or "inherited" is invalid, and
-  `job_evidence.py` verifies afterward. No hook, no matcher framework, no
-  model×effort matrix. Record: `docs/work/model-dispatch-guard/work.md`, view at
-  `direction.html`.
-  - In the tree: the five `agents/effort-*.md` descriptions, the contract in
-    `skills/conductor/references/model-jobs.md`, the dispatch-row rule in
-    `orchestration.md`, the grid note in `journey.md`, Conductor's trigger
-    description, README + What's New, version 0.133.0 in all three locations, and
-    six new assertions in `test_effort_agents.py`. 728 tests green, `gate.py
-    release` clean, hooks 21/21.
-  - **Evidenced by one real mixed-model fan-out**: three jobs in a single dispatch
-    at `haiku`/low, `sonnet`/medium, `opus`/high, observed as
-    `claude-haiku-4-5-20251001`, `claude-sonnet-5`, `claude-opus-5`. The Haiku job
-    returned **no effort records**, so its requested effort is unverifiable — stated
-    in the release, not smoothed over.
-  - **Still owed before push:** Codex `codex-tui`'s before-push review, then
-    Anthony's word. Nothing is committed or staged.
-  - **Two facts corrected against the docs this sitting** (both were wrong in this
-    list): the subagent `model` field accepts a full model ID as well as the four
-    aliases — the four-alias enum is this host's `Agent` *tool parameter*, not the
-    field, so "full IDs cannot pass" was overstated; and an omitted `model` follows
-    a documented four-step order — per-invocation, then definition frontmatter,
-    then `CLAUDE_CODE_SUBAGENT_MODEL`, then the caller's model — so "silently
-    inherits the caller's" is only one of two branches.
-  - **`SendMessage` resume is not outside the contract** the way this list claimed:
-    a resume carries no `subagent_type`, but the per-invocation `model` from the
-    original call keeps applying to a resume or follow-up. Naming it at the first
-    call is what carries it.
+- **0.133.0 RELEASED** (`7cf5782`, CI green): the explicit-model dispatch contract.
+  Every native Claude `Agent` call — composer, player or reviewer — names `model` and
+  `subagent_type`; there is no unplanned dispatch; one controller row per grid is
+  exempt because it makes no `Agent` call. Naming `model` is a *request*: forced-model
+  mode makes native dispatch non-compliant rather than excusing omission, an
+  `availableModels` allowlist can substitute, and `requested_model: null` counts only
+  when the job's metadata parsed without a model-related gap. No hook, no matcher, no
+  model×effort matrix — Anthony refused that design at 16:48: "It turns a missing tool
+  argument into a hook subsystem."
+  - Evidence: one mixed-model fan-out, `haiku`/low + `sonnet`/medium + `opus`/high in a
+    single dispatch, observed `claude-haiku-4-5-20251001`, `claude-sonnet-5`,
+    `claude-opus-5`. **The Haiku job returned no effort records**, so its effort is
+    unverifiable, not confirmed.
+  - Reviewed by an Opus job (eleven findings) and Codex across three rounds (five,
+    three, clean). **Every defect was calibration, never design — and three were the
+    same error**, a rule stated so absolutely that a legitimate situation could not
+    satisfy it. That is 0.132.0's own defect class, produced three times while
+    removing it.
+  - Codex's closing judgment, adopted: three rounds of prose hardening is the limit of
+    useful refinement here. **Change this contract again only for demonstrated
+    behaviour from real dispatches**, not for further semantic tightening.
 
 - **Deferred from 0.131.0, still unobserved:** whether Switch's renderer returns
   byte-identical Markdown with a picker attached, and whether a picked
@@ -56,11 +48,13 @@ These lists are not authority to install or run checks during pickup.
   the next real Switch In shows; don't manufacture a run.
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario
   tested. Nineteen valid runs plus an eight-run re-test, n=3–4 per arm, one scenario.
-- **Update the installed plugins — Codex side only now.** The cache carries 0.132.0 and
-  this session is running it, so Claude's side is done; the 2026-09-16 Switch In was the
-  first arrival to run from an installed 0.132.0 plugin. Codex still needs a fresh build
-  plus `codex plugin add`. Nothing from 0.133.0 has run through an installed plugin.
-- **The test suite does not run clean by module name, and CI never runs it.**
+- **Update the installed plugins — both sides now lag the release.** Claude's cache
+  carries 0.132.0 (this session is running it); Codex has 0.129.0. **Neither is running
+  0.133.0**, so the dispatch contract is not yet in force in any live session: Claude
+  picks it up on restart, Codex needs a fresh build plus `codex plugin add`. Anthony
+  named this the second priority after closing the records, 2026-09-16 18:13.
+- **NEXT (Anthony's third priority, 18:13): the CI/test-path defect, as a small
+  standalone fix.** The suite does not run clean by module name, and CI never runs it.
   `skills/switch/scripts/tests/test_roll_control.py` does `import roll_control`
   *above* its own `sys.path.insert`, so the 728-test suite only passes with
   `skills/switch/scripts` and its `tests/` dir on `PYTHONPATH`. Pre-existing, found

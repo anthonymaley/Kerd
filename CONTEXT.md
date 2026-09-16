@@ -6,10 +6,11 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.132.0, branch `main`, subject "Release Kerd 0.132.0: a proposal
-arrives as a picture, and its question carries its own decision" (2026-09-16, built and
-released by Claude, reviewed by Codex across five rounds; resolve its revision and CI
-with Git and `gh`).** Three releases this sitting:
+**Release boundary: 0.133.0, `7cf5782` on `main`, subject "Release Kerd 0.133.0: a
+delegated job names the model it runs on, in the call" (2026-09-16, built and released
+by Claude, reviewed by Codex across three before-push rounds; CI entry gate green —
+re-resolve its revision and CI with Git and `gh` rather than trusting this line).**
+Four releases this sitting:
 - **0.131.0**: a native picker may follow the speech bubble, never replace it; Agent's
   missing partner role offers four shortcuts. This withdrew 0.129.0's "no native
   pickers", which was Claude's over-reach defended by a *passing test* for two releases.
@@ -41,11 +42,15 @@ Archify installed 2026-09-15 21:37 at `~/.agents/skills/archify`, `doctor` 15/15
 runtime dependencies, still a dev snapshot `2.17.0-dev.1`; its installer reported two
 Socket alerts that were never identified.
 
-**Selected continuation (agreed, Anthony 2026-09-16 14:20/14:21, scope set 16:48):**
-0.133.0, the explicit-model **dispatch contract** — built, evidenced, and not pushed.
-**Claude owns build and release; Codex is the pairing partner for expert review and
-investigation** — that ruling supersedes the 08:13 agreement giving Codex the
-implementation.
+**0.133.0, the explicit-model dispatch contract — RELEASED** at `7cf5782`, CI green,
+Anthony's word given at 18:02. **Claude owns build and release; Codex is the pairing
+partner for expert review and investigation** — that ruling supersedes the 08:13
+agreement giving Codex the implementation.
+
+**Selected continuation (Anthony's priority, 2026-09-16 18:13, after this release):**
+close the records (done in this save), **update the installed plugins — Claude 0.132.0,
+Codex 0.129.0, neither running 0.133.0**, then fix the CI/test-path defect as a small
+standalone change. Nothing else holds up using 0.133.0.
 
 **Anthony refused the hook design at 16:48** — "It turns a missing tool argument into
 a hook subsystem" — and set the contract instead: `model` requests Haiku/Sonnet/Opus/Fable,
