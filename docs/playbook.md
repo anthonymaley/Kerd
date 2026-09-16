@@ -45,7 +45,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill — ten skills, one folder each
+skills/           # SKILL.md per skill — twelve skills, one folder each
 hooks/            # hooks.json + shell scripts, auto-loaded from the plugin (v0.96.0); never wired per repo
 hooks/statusline.sh # the clock segment — not a hook; wired via statusLine by hand, never by tend
 tests/            # hooks_test.sh
@@ -70,7 +70,7 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 
 This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is opt-in and never on the session path (v0.83.0) — a human knowledge base of living files updated in place, not append-only dumps, and not a machine sync layer. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions) only when you run `/kerd:kivna save`. The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Ten skills, each with a single responsibility, plus four hooks (three auto-loaded from `hooks/hooks.json`, plus the statusline):**
+**Twelve skills, each with a single responsibility, plus four hooks (three auto-loaded from `hooks/hooks.json`, plus the statusline):**
 - **drive**: the work-item umbrella (owns one item across frame → viability → scope → design → work handoff → loop → acceptance; frame-gate question set; calls conductor, never changes it — v0.104.0)
 - **conductor**: session discipline (understand/shape/agree/deliver/complete, v0.107.0)
 - **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
@@ -81,6 +81,8 @@ This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is op
 - **skriv**: human writing voice enforcement (audit, fix, session mode, self-audit pass)
 - **tend**: structural health check and convergence
 - **pair**: partner-mode toggle (per-repo rapid conversational style, default off)
+- **agent**: native Claude/Codex session collaboration (a contribution from a chosen session, ongoing partner roles and review cadence asked once, role succession across verified session-ID changes — v0.109.0)
+- **visuals**: rendered product and system views (connected parts, responsibility flows, scope boundaries, decision paths — an actual rendered diagram, never a document made of text boxes — v0.108.0)
 
 **Four opt-in hooks** (registered via `/kerd:tend`, stored in `.claude/settings.local.json`):
 - **Stop**: reminds about uncommitted changes and active modes on session end
