@@ -14,6 +14,14 @@ import uuid
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import agent
 
+# The real class, captured before any test can patch `agent.RPC`. A test that needs the
+# genuine class must use this rather than reading the module attribute at call time:
+# the attribute is patched by many tests here, and a leaked patch turns
+# `agent.RPC.__new__(agent.RPC)` into `Mock.__new__(<Mock instance>)`, which raises
+# `TypeError: issubclass() arg 1 must be a class` instead of failing as a test.
+# Observed in CI on 2026-09-16 while green locally; which test leaks it is unresolved.
+REAL_RPC = agent.RPC
+
 
 class HelpTests(unittest.TestCase):
     def test_all_help_routes_work_without_project_or_provider_tools(self):
@@ -1089,7 +1097,9 @@ class QueueTests(unittest.TestCase):
         self.assertEqual(run.call_count, 1)
 
     def test_native_rpc_matches_response_id_without_accepting_notifications(self):
-        rpc = agent.RPC.__new__(agent.RPC)
+        # REAL_RPC, not agent.RPC: this must exercise the genuine call loop even if a
+        # patch on the module attribute has leaked from another test (see REAL_RPC above).
+        rpc = object.__new__(REAL_RPC)
         rpc.counter = 0
         rpc.deadline = None
         rpc.native_errors = (OSError,)

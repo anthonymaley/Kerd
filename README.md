@@ -40,7 +40,18 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.133.1)
+## What's New (v0.133.2)
+
+### v0.133.2
+
+**0.133.1 said CI runs the tests; CI was red, so it didn't.** Its first real run found a
+test that depended on `agent.RPC` being unpatched global state — many tests in that
+module patch it, and a leaked patch turns `agent.RPC.__new__(agent.RPC)` into
+`Mock.__new__(<instance>)`, which raises `TypeError` rather than failing as a test. The
+test now captures the real class at import time, so it exercises the genuine call loop
+regardless. **Which test leaks the patch is unresolved and recorded as such** — the
+dependence is removed, the leak is not diagnosed. Green locally on 3.14 the whole time,
+which is exactly why the suite needed to run somewhere else.
 
 ### v0.133.1
 

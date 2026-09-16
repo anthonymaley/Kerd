@@ -53,8 +53,14 @@ These lists are not authority to install or run checks during pickup.
   0.133.0**, so the dispatch contract is not yet in force in any live session: Claude
   picks it up on restart, Codex needs a fresh build plus `codex plugin add`. Anthony
   named this the second priority after closing the records, 2026-09-16 18:13.
-- **NEXT (Anthony's third priority, 18:13): the CI/test-path defect, as a small
-  standalone fix.** The suite does not run clean by module name, and CI never runs it.
+- **A patch leak in `skills/agent/scripts/tests/test_agent.py` is unresolved.** Its
+  `test_native_rpc_matches_response_id_without_accepting_notifications` failed in CI on
+  Python 3.12 while green locally on 3.14, because `agent.RPC` was still patched when it
+  ran. The test no longer depends on that global (it captures the real class at import),
+  but **which of the nine `patch.object(agent, 'RPC', ...)` sites leaks, and why only in
+  that environment, was not diagnosed.** Other tests in the combined run could be
+  passing for the wrong reason. Found 2026-09-16 by the CI step added in 0.133.1.
+- **DONE (Anthony's third priority, 18:13): the CI/test-path defect, fixed in 0.133.1.** The suite does not run clean by module name, and CI never runs it.
   `skills/switch/scripts/tests/test_roll_control.py` does `import roll_control`
   *above* its own `sys.path.insert`, so the 728-test suite only passes with
   `skills/switch/scripts` and its `tests/` dir on `PYTHONPATH`. Pre-existing, found
