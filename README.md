@@ -40,7 +40,17 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.133.0)
+## What's New (v0.133.1)
+
+### v0.133.1
+
+**The test suite now runs in CI, and runs at all by module name.** 730 tests across 17
+modules existed and CI ran none of them — `.github/workflows/gate.yml` ran three
+selftests. It now runs `tools/run_tests.py` and the hook tests too. The suite also
+could not be invoked by dotted module name: `skills/switch/scripts/tests/test_roll_control.py`
+imported its siblings *above* its own `sys.path` inserts, so it only worked when the
+interpreter happened to start in the right directory. Found while verifying 0.133.0 and
+deliberately left out of it; no skill behaviour changes.
 
 ### v0.133.0
 

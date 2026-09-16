@@ -6,9 +6,15 @@ import queue
 import sys
 import unittest
 from unittest.mock import Mock, patch
-import roll_control
 
+# Both directories go on the path before any local import below. `roll_control` and
+# `handoff` live in scripts/; `test_roll` is a sibling here. Importing above these
+# inserts only works when the interpreter already happens to be started from one of
+# them, which is why this module failed under `python3 -m unittest <dotted.name>`.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import roll_control
 from roll_control import LiveControl, ControlEnded
 import handoff
 import test_roll
