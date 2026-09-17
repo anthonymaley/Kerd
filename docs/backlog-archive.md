@@ -439,3 +439,39 @@ the schema migration SHIPPED.** Kerd at **v0.106.0**; CI green at the tip
   anyone. Evidence: re-applying the same substitution to a copy of the original produced
   a byte-identical file, so the re-skin changed no geometry; the redraw was inspected at
   1400px. **The upstream half stays open** and is still in `TODO.md`.
+
+## Closed 2026-09-17 (afternoon)
+
+- **0.134.0 — the Visuals contract correction. RELEASED,** `43241ae`, entry-gate CI
+  green, 731 tests, `gate.py release` clean. Anthony supplied two versions of one
+  diagram card (implementation-first against product language) and asked for the
+  difference codified as a contract correction, not a governance protocol. Two clauses
+  in `skills/visuals/SKILL.md`: code references sit in a subordinate evidence layer and
+  removing them must leave the main relationship readable without the source; a view
+  depicting or recommending a change carries the fuller test; every view saved beside
+  work names its project, product or repository inside the render. **Evidence:**
+  `docs/work/visual-communication/work.md`, both review rounds recorded there.
+  **Not measured on real diagram output** — both halves are producer checks at review,
+  and that limit stays open in `TODO.md ## Now`.
+
+- **The 0.131.0 authority deferral — CLOSED by observation, twice.** A picked "Yes —
+  open direction-setting" opens direction-setting without approving the saved task.
+  First seen 2026-09-16; seen again at the 2026-09-17 12:23 arrival, where Conductor
+  opened at Shape while the saved task stayed unapproved and unstarted. The visible
+  label is doing the work it was added for, and the 0.132.0 Switch In capsule exemption
+  rests on this. **Evidence:** `docs/work/question-pickers/work.md`,
+  `kivna/sessions/2026-09-17.md`.
+
+- **The 0.131.0 byte-identity deferral — CLOSED as worded, REOPENED corrected.** It
+  named the renderer, and `where_we_are.py` has no picker argument, environment variable
+  or awareness across 931 lines, so a picker cannot reach it: no situation in which the
+  check could fail. Replaced by the claim it was protecting — whether the assistant
+  returns that stdout unchanged when it also attaches a picker. That form is **tested,
+  not verified** and stays open in `TODO.md ## Now`; it needs a reading taken outside
+  the producing session. **Evidence:** `docs/work/question-pickers/work.md`, `8be16dc`.
+
+**The through-line of all three rows.** The governing rule — a rule needs a test it can
+fail and a situation it can pass — reached five instances today and has never needed
+changing. Two of the five were introduced *inside 0.134.0*, the release that codifies
+the class, one of them hours after its author wrote the record naming it. Every instance
+was caught by an independent reader; none by a static check.

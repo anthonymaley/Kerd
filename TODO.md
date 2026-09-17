@@ -2,17 +2,19 @@
 
 ## Now
 
-**Release boundary:** 0.133.2 on `main`, the third of three commits this evening —
-0.133.0 the dispatch contract, 0.133.1 the CI/test-path fix, 0.133.2 the defect CI's
-first run found. All three pushed with the entry gate green; resolve their IDs with
-`git log`. Position, installed state and the reading set are in `CONTEXT.md`
-`## Where We Are`.
+**Release boundary:** 0.134.0 on `main`, the Visuals contract correction — a diagram's
+main relationship must survive having every code reference stripped, and every view
+saved beside work names its project inside the render. Pushed with the entry gate green;
+resolve IDs with `git log`. Position, installed state and the reading set are in
+`CONTEXT.md` `## Where We Are`.
 Records:
+- `docs/work/visual-communication/work.md` and `scope.html` — **both** the 0.134.0
+  contract correction (the two clauses, the five bullets dropped as already contracted,
+  both review rounds, all five findings) and 0.132.0 (both rules, the three-arm
+  behavioural method, the two corrected mis-readings);
 - `docs/work/model-dispatch-guard/work.md` and `direction.html` (0.133.0: the refused
   hook design and why, the dispatch contract, the mixed-model fan-out, four review
   passes);
-- `docs/work/visual-communication/work.md` and `scope.html` (0.132.0: both rules, the
-  three-arm behavioural method, the two corrected mis-readings);
 - `docs/work/question-pickers/work.md` (0.131.0);
 - `docs/work/context-awareness/work.md` and `score.md` (0.130.0);
 - `docs/work/effort-sized-players/work.md` (0.128.0);
@@ -20,24 +22,28 @@ Records:
 
 These lists are not authority to install or run checks during pickup.
 
-- **Released and archived this evening** — 0.133.0 the dispatch contract, 0.133.1 the
-  CI/test-path fix, 0.133.2 the defect CI found on its first run, and both installations
-  brought to 0.133.0. Verdicts and evidence are in `docs/backlog-archive.md`
-  `## Closed 2026-09-16 (evening)`; the release record is
-  `docs/work/model-dispatch-guard/work.md`. **Adopted from Codex's close:** change the
+- **Released and archived** — 0.133.0 the dispatch contract, 0.133.1 the CI/test-path
+  fix, 0.133.2 the defect CI found on its first run, and **0.134.0 the Visuals contract
+  correction**. Verdicts and evidence are in `docs/backlog-archive.md`
+  `## Closed 2026-09-16 (evening)` and `## Closed 2026-09-17 (afternoon)`; the release
+  records are `docs/work/model-dispatch-guard/work.md` and
+  `docs/work/visual-communication/work.md`. **Adopted from Codex's close:** change the
   dispatch contract again only for demonstrated behaviour from real dispatches, not for
   further prose tightening.
 
-- **Deferred from 0.131.0 — one half observed 2026-09-16, one half still not.**
-  **Observed, in this sitting's real Switch In:** the arrival rendered, a native picker
-  followed the bubble carrying "Yes — open direction-setting" and "Not now", Anthony
-  picked Yes, and Conductor opened at direction-setting **without** approving the saved
-  task — the saved 0.133.0 build then needed its own approval, which he refused and
-  replaced. That is the behaviour the 0.132.0 Switch In capsule exemption rests on, and
-  it held. **Still not observed:** whether the renderer returns byte-identical Markdown
-  with a picker attached. This sitting rendered twice and compared neither; a byte
-  comparison was never run, so the claim stays open. Don't manufacture a run — check it
-  at the next real arrival.
+- **Both 0.131.0 deferrals resolved 2026-09-17; one of them is reopened in corrected
+  form.** The authority half is closed — at the 12:23 arrival the picker carried "Yes —
+  open direction-setting", Anthony picked it, and Conductor opened at Shape while the
+  saved task stayed unapproved and unstarted. The byte-identity half **could not fail as
+  written**: it named the renderer, which has no picker input of any kind, so it now
+  names the *assistant* returning that stdout unchanged. **Open in that corrected form:**
+  the claim is tested, not verified, because the assistant cannot hash its own emitted
+  message. Needs a reading taken outside the producing session.
+  → `docs/work/question-pickers/work.md`
+
+- **0.134.0's two clauses have never been measured on real diagram output.** Both the
+  expansion test and visible project identity are producer checks at review; no diagram
+  has yet exercised either. No gate, hook or schema was added, deliberately.
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario
   tested. Nineteen valid runs plus an eight-run re-test, n=3–4 per arm, one scenario.
 - **Archify's two Socket alerts were never identified** — recorded as unknown, not
