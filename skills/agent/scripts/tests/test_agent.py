@@ -19,7 +19,10 @@ import agent
 # the attribute is patched by many tests here, and a leaked patch turns
 # `agent.RPC.__new__(agent.RPC)` into `Mock.__new__(<Mock instance>)`, which raises
 # `TypeError: issubclass() arg 1 must be a class` instead of failing as a test.
-# Observed in CI on 2026-09-16 while green locally; which test leaks it is unresolved.
+# Observed in CI on 2026-09-16 while green locally. The leak was diagnosed the same
+# day: FinalReviewTests.tearDown restarted the patcher its own daemon() had not
+# stopped, which only leaks on a Python without the double-start guard — CI's 3.12.3.
+# Fixed there and held by FixtureIsolationTests below.
 REAL_RPC = agent.RPC
 
 
@@ -1622,10 +1625,15 @@ class FableFoundationTests(QueueTests):
 class FinalReviewTests(TuiRouteTests):
     """Findings from the final cross-model pass over the whole diff."""
 
+    def setUp(self):
+        super().setUp()
+        self.no_daemon_suspended = False
+
     def daemon(self, *responses):
         """A daemon that knows the thread but never loads it — how every TUI looks."""
         from unittest.mock import MagicMock
         self.no_daemon.stop()
+        self.no_daemon_suspended = True
         sock = self.codex.home / 'app-server-control'; sock.mkdir(exist_ok=True)
         (sock / 'app-server-control.sock').touch()
         rpc = MagicMock(); rpc.__enter__.return_value = rpc
@@ -1633,10 +1641,15 @@ class FinalReviewTests(TuiRouteTests):
         return patch.object(agent, 'RPC', return_value=rpc)
 
     def tearDown(self):
-        try:
+        # Restart only what daemon() actually stopped. Starting an already-started
+        # patcher re-saves the current value — by then a MagicMock — as its original,
+        # so the parent's single stop() restores the mock and agent.RPC stays patched
+        # for every later test. Python raises "Patch is already started" from 3.12.8,
+        # but CI's 3.12.3 has no such guard and the double start silently succeeds;
+        # `is_started` cannot carry this state because it does not exist there either.
+        if self.no_daemon_suspended:
             self.no_daemon.start()
-        except RuntimeError:
-            pass
+            self.no_daemon_suspended = False
         super().tearDown()
 
     def test_1_a_tui_takes_codex_queue_even_when_a_daemon_reports_it_not_loaded(self):
@@ -1724,3 +1737,53 @@ class LaunchWindowTests(unittest.TestCase):
             self.assertEqual(saved.get('native_short_id'), 'abcdef12')
         finally:
             tmp.cleanup()
+
+
+class FixtureIsolationTests(unittest.TestCase):
+    """No class in the TuiRoute family may leave `agent.RPC` patched behind it.
+
+    A leak here is invisible to the rest of the suite until a later test reads the
+    module attribute, and it only occurs on a Python without the `is_started`
+    double-start guard — which is CI's 3.12.3, not this machine. So the guard is
+    removed for the duration of the check: asserting the invariant the way CI
+    actually behaves is the whole point. Checking it any other way is what let the
+    original defect ship green for one commit.
+
+    Each nested run's result is checked as well as the attribute: a discarded result
+    would let this test report green over hidden nested failures, which is the same
+    false evidence it exists to catch.
+    """
+
+    FAMILY = ('TuiRouteTests', 'OneRouteOneSendTests', 'OpusReviewTests', 'FinalReviewTests')
+
+    def test_no_class_leaves_agent_rpc_patched(self):
+        import io
+        from unittest import mock as _mock
+
+        entered = _mock._patch.__enter__
+
+        def without_guard(patcher):
+            if getattr(patcher, 'is_started', False):
+                patcher.is_started = False      # a Python before 3.12.8, i.e. CI
+            return entered(patcher)
+
+        _mock._patch.__enter__ = without_guard
+        offenders = []
+        try:
+            for name in self.FAMILY:
+                agent.RPC = REAL_RPC
+                suite = unittest.defaultTestLoader.loadTestsFromTestCase(globals()[name])
+                result = unittest.TextTestRunner(verbosity=0, stream=io.StringIO()).run(suite)
+                # A discarded nested result would let this check pass green over hidden
+                # failures, provided the attribute happened to end restored — the same
+                # shape of false evidence it exists to catch.
+                if not result.wasSuccessful():
+                    offenders.append(f'{name} nested run was not clean: '
+                                     f'{len(result.failures)} failed, {len(result.errors)} errored')
+                if agent.RPC is not REAL_RPC:
+                    offenders.append(f'{name} left agent.RPC as {type(agent.RPC).__name__}')
+        finally:
+            _mock._patch.__enter__ = entered
+            agent.RPC = REAL_RPC
+
+        self.assertEqual(offenders, [], '; '.join(offenders))

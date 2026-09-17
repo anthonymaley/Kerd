@@ -238,3 +238,124 @@ says so rather than implying enforcement.
   brand, not Kerd's, and Kerd ships to anyone, so this view uses
   diagram-design's neutral default tokens. `docs/work/visual-communication/scope.html`
   still carries the Krutho palette; that is drift to fix, not a Kerd standard.
+- 2026-09-16 evening, diagnosis of the patch leak CI found — **complete, and the
+  leak is still open**. View: `patch-leak.html` beside this file.
+  **Mechanism, proven by experiment:** `TuiRouteTests.setUp` starts a patcher on
+  `agent.RPC` and keeps it as `self.no_daemon`. `FinalReviewTests` inherits 13
+  tests and only 2 of them call `self.daemon()`, which stops that patcher; for the
+  other **11** the class's `tearDown` calls `self.no_daemon.start()` on an
+  already-started patcher, inside
+  `try: ... except RuntimeError: pass`. On Python >= 3.12.8 `unittest.mock`
+  raises `RuntimeError("Patch is already started")`, the `except` swallows it, the
+  patch stays single-started and `super().tearDown()` restores the real class. On
+  Python <= 3.12.7 — CI's `ubuntu-24.04` system `python3.12` — that guard does not
+  exist, so the second start re-saves the *current* value (a MagicMock) as
+  `temp_original`, and the single `stop()` restores the Mock. `agent.RPC` then
+  stays mocked for every later test in loader order, and `FinalReviewTests` sorts
+  before `QueueTests`.
+  **Evidence:** out-of-order stop leaks on 3.14 (direct test); `test_agent.py`
+  alone and all 730 modules are clean on 3.14; with the guard disabled to emulate
+  3.12.3, `agent.RPC` is left a MagicMock after `FinalReviewTests` and the
+  pre-0.133.2 line `agent.RPC.__new__(agent.RPC)` raises the verbatim CI
+  `TypeError: issubclass() arg 1 must be a class`. Guard absent in CPython
+  v3.12.0–v3.12.7 and v3.13.0, present from v3.12.8. Failed run 35157429517.
+  **The "passing for the wrong reason" question, partly answered:** the full 730
+  under the emulated CI Python give 0 failures and 0 errors — identical verdicts to
+  the control, so no test's pass/fail depends on the leak. That does *not* rule out
+  a test asserting against a Mock it did not install; verdict comparison cannot see
+  that, and it was not checked.
+  **0.133.2 repaired the symptom only.** The one test now captures the real class
+  at import as `REAL_RPC`; the fixture leak is unchanged.
+  **Proposed, not agreed:** the defect is a subclass blind-restarting its parent's
+  patcher plus the `except RuntimeError: pass` that hides the second start. A
+  subclass should record whether it actually suspended that patcher and restart only
+  then; `is_started` cannot carry the state because it does not exist on CI's Python.
+- 2026-09-16 evening, the bounded diagnosis Anthony scoped (reproduce through the
+  real runner · name the exact patcher · prove it with a regression test · report
+  who else could receive a mocked `agent.RPC` · stop before any fixture redesign).
+  **Reproduced through `tools/run_tests.py` itself**, untouched, with a
+  `sitecustomize` on `PYTHONPATH` removing the >= 3.12.8 guard so this 3.14 behaves
+  like CI's 3.12. Run: 730 tests, 144s.
+  **Exact cause.** The patcher is `self.no_daemon`, started in `TuiRouteTests.setUp`
+  (`test_agent.py:1227`). The responsible class is **`FinalReviewTests` alone** —
+  `TuiRouteTests`, `OneRouteOneSendTests` and `OpusReviewTests` are each clean when
+  run from a clean attribute. The responsible line is its `tearDown` (`:1628`),
+  which calls `self.no_daemon.start()` unconditionally inside
+  `except RuntimeError: pass`. It inherits 13 tests; **11 leak**, the two clean ones
+  being those that call `self.daemon()` and stop the patcher first. First leak
+  observed after `test_2_a_block_ending_in_a_prose_mention_is_not_a_reply`.
+  **Regression test** (out of tree, not landed — it goes red until the fixture is
+  fixed): asserts no class in that family leaves `agent.RPC` patched, with the guard
+  removed for the duration so the invariant is checked the way CI's Python behaves.
+  Without that removal it would pass on 3.14 and fail only on CI — the same blind
+  spot that produced the defect. It fails today with
+  `['FinalReviewTests left agent.RPC as MagicMock']`.
+  **Who else could receive the mock.** 692 of 730 tests ran while `agent.RPC` was
+  leaked. Replacing the leaked value with an object fatal on use, 53 tests actually
+  read it. 44 of those are in the four `TuiRoute` family classes that manage that
+  attribute themselves, where the probe entangles with their own start/stop
+  juggling — not claimed as CI exposure. The remaining 9 sit outside that family:
+  `PartnersReaderTests` (6, and it has no `agent.RPC` patch site at all),
+  `ArrivalTests` (1), `SessionIdentityTests` (1), `QueueTests` (1). **No `conductor`
+  or `switch` test touched the value.** On CI the leaked value is a permissive
+  MagicMock rather than a fatal one, so those reads returned mocks silently and the
+  tests still passed — passing for the wrong reason, evidenced, and bounded to the
+  `agent` skill's own tests.
+  **Not done, by instruction:** no fixture change, no landed test, no release.
+- 2026-09-16 late, **the fixture repair, applied and verified** (Anthony's approval
+  23:12; boundary: fixture plus regression only, no production change, no version
+  bump, no broader patch-management abstraction).
+  `FinalReviewTests` now sets `no_daemon_suspended = False` in `setUp`, `daemon()`
+  sets it when it stops the parent's patcher, and `tearDown` restarts that patcher
+  only when the flag says it was actually suspended. The
+  `except RuntimeError: pass` is gone, so a future double start surfaces instead of
+  being hidden. The stale comment above `REAL_RPC` — "which test leaks it is
+  unresolved" — now names the cause.
+  **Regression test `FixtureIsolationTests` lives in `test_agent.py`, not a separate
+  file.** Anthony's rule: a separate file is justified only if the defect depends on
+  cross-module discovery order, and it does not — `FinalReviewTests` sorts before
+  `QueueTests` inside one module, and the test runs those classes directly. Staying
+  in the module also drops the fragile repo-root import a standalone file needed.
+  It asserts no class in the `TuiRoute` family leaves `agent.RPC` patched, with the
+  double-start guard removed for the duration so the invariant is checked the way
+  CI's Python behaves — checking it any other way is what let the defect ship green.
+  **Verified, four ways.** The regression test passes with the fix and, with the old
+  `tearDown` re-installed as a negative control, fails with
+  `FinalReviewTests left agent.RPC as MagicMock` — so it genuinely guards. Through
+  the real `tools/run_tests.py`: 731 tests OK as shipped, and 731 tests OK under the
+  guard-removed, leak-poisoned emulation of CI's 3.12.3, where the probe now reports
+  **no leak observed, 0 tests exposed, 0 uses** — against 53 failures and 692
+  exposed before the fix. `gate.py` selftest 57 cases / audit / release all clean,
+  `fidelity.py` clean, hook tests green.
+  **Observed, not fixed:** `OneRouteOneSendTests.tearDown` has the same unguarded
+  `self.no_daemon.start()` shape. It is clean today only because its `setUp` always
+  stops the patcher first, so the restart is correctly paired. Left alone as outside
+  the agreed boundary; `FixtureIsolationTests` now covers it if that changes.
+  **Uncommitted at this point.**
+- 2026-09-17, **Codex before-push review round 1 — one medium finding, accepted and
+  applied.** Relayed by a peer Claude session; read-only, no tree changes by Codex.
+  Verdict on the repair mechanism: sound and proportionate, no production change, no
+  patch-management abstraction.
+  **Finding:** `FixtureIsolationTests` ran four complete test classes nested but
+  **discarded each `TestResult`**, so the outer test could report green over hidden
+  nested failures whenever `agent.RPC` happened to end restored. Correct, and it is
+  the same shape of false evidence the test exists to catch — a check that passes
+  while proving less than it claims.
+  **Applied:** the nested `TestResult` is now retained and the outer test fails with
+  a class-specific message when `result.wasSuccessful()` is false, alongside the
+  existing `agent.RPC is REAL_RPC` assertion. No framework, no redesign.
+  **Re-verified after the correction.** Targeted regression passes. Control A (old
+  `tearDown` restored) fails on the leak. **Control B (a nested test induced to fail
+  while the attribute ends restored) now fails on the nested result** — and in that
+  scenario `agent.RPC` was confirmed restored, so the attribute assertion alone
+  would have reported green. The gap Codex named was real, not theoretical. Through
+  the real `tools/run_tests.py`: 731 OK as shipped and 731 OK under the
+  guard-removed, leak-poisoned CI emulation, probe reporting no leak / 0 exposed /
+  0 uses.
+  **Note:** the scratchpad probe had to be rebuilt this morning — the machine
+  rebooted overnight and `/private/tmp` was cleared. The probe is out-of-tree
+  scaffolding, so nothing in the repository was affected.
+  **Owed, not done:** `CONTEXT.md` still frames this diagnosis as the proposed next
+  action and is stale. Codex is right that it needs reconciling; it belongs to the
+  next Switch Out, and reconciling it now would describe an uncommitted state.
+  **Still uncommitted.**

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green here, red in CI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #eb6c36;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      padding: 3rem 1rem;
+    }
+    .frame { max-width: 1000px; margin: 0 auto; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--color-muted); margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 2.4vw + 0.75rem, 2.25rem);
+      font-weight: 400; letter-spacing: -0.02em; line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .standfirst { color: var(--color-muted); font-size: 0.95rem; max-width: 60ch; margin-bottom: 1.5rem; }
+    .scroller { overflow-x: auto; }
+    svg { width: 100%; min-width: 900px; display: block; }
+    .notes { margin-top: 2rem; display: grid; gap: 1rem; grid-template-columns: 1.1fr 0.9fr; }
+    @media (max-width: 720px) { .notes { grid-template-columns: 1fr; } }
+    .card {
+      background: #ffffff; border: 1px solid rgba(45,49,66,0.12);
+      border-radius: 6px; padding: 1.25rem;
+    }
+    .card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.88rem; color: var(--color-muted); margin-bottom: 0.5rem; }
+    .card p:last-child { margin-bottom: 0; }
+    .card code { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-ink); }
+    .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 0.5rem; vertical-align: 0.1em; }
+    .dot.coral { background: var(--color-accent); }
+    .dot.muted { background: var(--color-muted); }
+    footer {
+      margin-top: 2rem; padding-top: 1rem;
+      border-top: 1px solid rgba(45,49,66,0.12);
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--color-muted); line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Flowchart · Kerd · diagnosed 2026-09-16</p>
+    <h1>Green here, red in CI.</h1>
+    <p class="standfirst">The same <code>tearDown</code> line behaves two ways, decided by a <code>unittest.mock</code> guard that exists in one Python and not the other. Verified by experiment, not inferred.</p>
+
+    <div class="scroller">
+    <svg viewBox="0 0 1000 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="patch-leak-title patch-leak-desc">
+      <title id="patch-leak-title">Green here, red in CI</title>
+      <desc id="patch-leak-desc">A test fixture starts a patcher on agent.RPC and a subclass tearDown starts it a second time. On Python 3.12.8 and later a guard raises an error that the fixture swallows and the suite stays green; on Python 3.12.7 and earlier, including the CI runner, no guard exists, the double start re-saves the mock as the original, stopping the patch restores the mock, and a later test fails with a TypeError.</desc>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+      <!-- connectors first, so nodes paint over them -->
+      <path d="M500 88 V128" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M500 200 V264" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M500 344 V376" fill="none" stroke="#eb6c36" stroke-width="1" marker-end="url(#arrow-accent)"/>
+      <path d="M332 440 H248 a8,8 0 0,0 -8,8 V560" fill="none" stroke="#eb6c36" stroke-width="1" marker-end="url(#arrow-accent)"/>
+      <path d="M668 440 H752 a8,8 0 0,1 8,8 V560" fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+      <path d="M240 664 V712" fill="none" stroke="#eb6c36" stroke-width="1" marker-end="url(#arrow-accent)"/>
+
+      <!-- connector labels -->
+      <rect x="256" y="420" width="68" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="290" y="429" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">NO GUARD</text>
+
+      <rect x="664" y="420" width="92" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="710" y="429" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">GUARD RAISES</text>
+
+      <rect x="252" y="682" width="104" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="304" y="691" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">LEAKED STATE</text>
+
+      <!-- A · start: loader order -->
+      <rect x="300" y="24" width="400" height="64" rx="20" fill="#f5f5f5"/>
+      <rect x="300" y="24" width="400" height="64" rx="20" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="500" y="52" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">unittest sorts test classes alphabetically</text>
+      <text x="500" y="70" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">FinalReviewTests runs before QueueTests</text>
+
+      <!-- B · fixture -->
+      <rect x="300" y="128" width="400" height="72" rx="6" fill="#f5f5f5"/>
+      <rect x="300" y="128" width="400" height="72" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="308" y="134" width="52" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="334" y="143" fill="rgba(45,49,66,0.80)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">FIXTURE</text>
+      <text x="500" y="170" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">setUp starts a patcher on agent.RPC</text>
+      <text x="500" y="188" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">self.no_daemon — inherited by every subclass</text>
+
+      <!-- C · the defect (coral) -->
+      <rect x="272" y="264" width="456" height="80" rx="6" fill="#f5f5f5"/>
+      <rect x="272" y="264" width="456" height="80" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <rect x="280" y="270" width="48" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.50)" stroke-width="0.8"/>
+      <text x="304" y="279" fill="#b94319" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">DEFECT</text>
+      <text x="500" y="304" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">FinalReviewTests.tearDown restarts it unconditionally</text>
+      <text x="500" y="320" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">11 of its 13 tests never stopped it — siblings are clean</text>
+      <text x="500" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">except RuntimeError: pass</text>
+
+      <!-- D · decision diamond -->
+      <polygon points="500,376 668,440 500,504 332,440" fill="#f5f5f5"/>
+      <polygon points="500,376 668,440 500,504 332,440" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="500" y="432" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Does this Python refuse</text>
+      <text x="500" y="452" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">a double start?</text>
+
+      <!-- E · CI path (coral) -->
+      <rect x="40" y="560" width="400" height="104" rx="6" fill="#f5f5f5"/>
+      <rect x="40" y="560" width="400" height="104" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <rect x="48" y="566" width="28" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.50)" stroke-width="0.8"/>
+      <text x="62" y="575" fill="#b94319" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CI</text>
+      <text x="240" y="600" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">No — Python 3.12.7 and earlier</text>
+      <text x="240" y="620" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ubuntu-24.04 system python3.12</text>
+      <text x="240" y="636" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">the second start re-saves the Mock as the original,</text>
+      <text x="240" y="652" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">so one stop() restores the Mock — SUITE RED</text>
+
+      <!-- G · dev path -->
+      <rect x="560" y="560" width="400" height="104" rx="6" fill="#f5f5f5"/>
+      <rect x="560" y="560" width="400" height="104" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="568" y="566" width="36" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="586" y="575" fill="rgba(45,49,66,0.80)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">DEV</text>
+      <text x="760" y="600" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Yes — Python 3.12.8 and later</text>
+      <text x="760" y="620" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">this machine runs 3.14.7</text>
+      <text x="760" y="636" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">RuntimeError is raised and swallowed, the patch</text>
+      <text x="760" y="652" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">stays single — stop() restores it — SUITE GREEN</text>
+
+      <!-- I · the symptom -->
+      <rect x="40" y="712" width="400" height="88" rx="6" fill="#f5f5f5"/>
+      <rect x="40" y="712" width="400" height="88" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <rect x="48" y="718" width="60" height="12" rx="2" fill="transparent" stroke="rgba(79,93,117,0.40)" stroke-width="0.8"/>
+      <text x="78" y="727" fill="rgba(79,93,117,0.90)" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">SYMPTOM</text>
+      <text x="240" y="752" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">A later QueueTests test reads agent.RPC</text>
+      <text x="240" y="772" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">agent.RPC.__new__(agent.RPC) becomes Mock.__new__(&lt;Mock&gt;)</text>
+      <text x="240" y="788" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">TypeError: issubclass() arg 1 must be a class</text>
+
+      <!-- legend strip -->
+      <line x1="40" y1="824" x2="960" y2="824" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+      <text x="40" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND</text>
+      <rect x="120" y="836" width="20" height="10" rx="5" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="148" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">START</text>
+      <rect x="216" y="836" width="20" height="10" rx="3" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="244" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">STEP</text>
+      <polygon points="316,834 330,841 316,848 302,841" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="340" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">DECISION</text>
+      <rect x="432" y="836" width="20" height="10" rx="3" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <text x="460" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace">THE DEFECT AND ITS FAILING PATH</text>
+    </svg>
+    </div>
+
+    <div class="notes">
+      <div class="card">
+        <p class="eyebrow">WHAT IT COST BEFORE THE FIX</p>
+        <h3><span class="dot coral"></span>0.133.2 had repaired the symptom, not the leak</h3>
+        <p>That release made the failing test capture the real class at import as <code>REAL_RPC</code>, so it stopped depending on the module attribute. CI went green while the leak was untouched.</p>
+        <p>Measured through the real runner before the repair: 692 of 730 tests ran while <code>agent.RPC</code> was leaked and 53 actually read it. Nine sit outside the family that manages the attribute — six in <code>PartnersReaderTests</code>, which has no patch site at all. On CI the leaked value is a permissive MagicMock, so they passed while reading it. No verdict ever changed.</p>
+      </div>
+      <div class="card">
+        <p class="eyebrow">APPLIED · UNCOMMITTED</p>
+        <h3><span class="dot muted"></span>The fix, and what holds it</h3>
+        <p><code>daemon()</code> now records that it suspended the parent's patcher, and <code>tearDown</code> restarts it only then. The <code>except RuntimeError: pass</code> is deleted, so a future double start surfaces instead of hiding. <code>is_started</code> could not carry that state — it does not exist on the CI Python.</p>
+        <p><code>FixtureIsolationTests</code>, in the same module, asserts the invariant with the guard removed so it is checked the way CI behaves. It fails when the old <code>tearDown</code> is restored. 731 tests green both as shipped and under the emulated CI Python, where the probe now reports no leak.</p>
+      </div>
+    </div>
+
+    <footer>
+      EVIDENCE · Out-of-order stop leaks on 3.14 (direct test). Module alone and all 730 tests: clean on 3.14. Guard disabled to emulate 3.12.3: agent.RPC left as MagicMock after FinalReviewTests, and the pre-0.133.2 line raises the verbatim CI TypeError. Guard absent in CPython v3.12.0–v3.12.7 and v3.13.0, present from v3.12.8. CI log: ubuntu-24.04, /usr/lib/python3.12/unittest/mock.py:429.<br>
+      SKIN · diagram-design shipped neutral defaults, deliberately not the installed style guide, whose accent is currently Krutho blue. Kerd ships to anyone.
+    </footer>
+  </div>
+</body>
+</html>
