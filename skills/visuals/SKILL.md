@@ -31,7 +31,20 @@ picture must answer, then read the matching section of
 person to choose a diagram type or repeat facts already supplied.
 
 Start at product level: people, capabilities, work and outcomes. Technical
-architecture is a deeper view when useful, not the default vocabulary. A box
+architecture is a deeper view when useful, not the default vocabulary. Symbols,
+file names, line numbers, and type or protocol names belong in a subordinate
+evidence layer, never in the main relationship. The invariant, for every view:
+remove every code reference, and the main relationship must still be
+understandable to a reader who has not opened the source. A solution, proposal
+or correction view carries more — stripped of those references it must still
+show what the person can and cannot do today, where the responsibility sits,
+what changes, and any material cost or boundary that exists. Content decides
+which applies, never the title or diagram type: any view that depicts or
+recommends a change takes the fuller test, and only a view limited to present
+facts uses the invariant alone. If
+removing them leaves the view unreadable, it was drawn at the wrong level. A
+deliberately technical deep-dive may use engineering vocabulary throughout,
+provided its title and summary still pass that removal test. A box
 means a component, action or boundary; containment means inclusion; an arrow
 means a particular flow or relationship. Paragraphs in panels are not a diagram.
 
@@ -52,7 +65,12 @@ only when it helps explain the work.
 Use clear grouping, restrained emphasis and readable labels. Prefer simple
 horizontal/vertical connections with clear endpoints; route around unrelated
 nodes. Avoid line/label collisions. Make the title and SVG description explain
-the actual subject, and do not rely on colour alone. Reflow or split a wide
+the actual subject, and name the project, product or repository inside the
+render itself — in the title or a small identity label. A filename, browser
+tab, surrounding message or filesystem path sits outside the picture and does
+not satisfy this, because the view travels without them; where more than one
+name could apply, the repository name is the floor. The untouched bundled
+starter asset is the sole exception; a rendered view produced from it is not. Do not rely on colour alone. Reflow or split a wide
 diagram for narrow screens instead of shrinking its text into illegibility.
 
 Render and inspect the actual output at the intended viewing size. If it is

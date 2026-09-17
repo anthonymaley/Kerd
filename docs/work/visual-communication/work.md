@@ -351,3 +351,129 @@ Anthony insisted on is the only thing that caught it. Conductor would have shipp
 step is a higher-n T2 with the corpus confound removed - same path shape for both arms -
 to establish whether the phantom effect is real before a single sentence changes. Put to
 Anthony; awaiting his answer.
+
+## Plain-English and visible identity, 0.134.0 — 2026-09-17
+
+Anthony supplied two versions of the same diagram card: one implementation-first
+(`slice.play(id:)`, line numbers, dispatch tuples, protocol names, codesigning), one
+in product language (one Discover song works, albums and rails do not; Bridge already
+understands catalog IDs; MusicTUI cannot send them; so the fix is one MusicTUI sender
+plus two key bindings, with no Bridge change). He asked for the difference codified.
+Shaped through a peer Claude session's request `c5f0bdca`; landed here.
+
+**The proposal arrived at roughly twice its necessary size.** Five of its seven
+bullets were already contracted in `skills/visuals/SKILL.md` — "Technical
+architecture is a deeper view when useful, not the default vocabulary" alone covered
+three of them plus the whole technical-deep-dive exception. Only two clauses were
+genuinely new: the expansion test, and visible project identity. The rest would have
+re-stated existing contract text as though it were new.
+
+**Three clauses were reworded before landing, each for the falsifiability rule this
+repository already governs by — a rule needs a test it can fail and a situation it
+can pass:**
+
+- *"Must make sense to a product stakeholder without source-code knowledge"* is
+  unfalsifiable as prose: it hands the model a judgment about its own output with no
+  failing situation. Dropped. The expansion test is its operational form, and one
+  falsifiable sentence beats two where one is decorative.
+- *"Use the name that meaningfully identifies the work to its audience"* carries the
+  same defect inside the identity rule; "meaningfully identifies" cannot be judged at
+  check time. Replaced with a concrete floor: the repository name, where more than
+  one candidate applies.
+- *"Every rendered diagram"* had no passing situation for a real case — the opposite
+  end of the same defect. `skills/visuals/assets/review-flow.html` is the bundled
+  starter, titled "Ask another model to review — proposed experience", deliberately
+  carrying no project because it is a template to be overwritten. An absolute "every"
+  makes a shipped asset non-compliant on arrival. Scoped to views saved beside work,
+  with the starter named as the exception.
+
+**Where it deliberately did not go.** The `**Showing the person:**` preamble is
+byte-identical across twelve `SKILL.md` entry points and guarded by
+`test_visual_default.py::test_every_skill_entry_point_carries_the_showing_rule_and_link`.
+Putting this rule there would have been a twelve-file synchronised edit plus a test
+change to express something belonging in one skill's body. Two edits to
+`skills/visuals/SKILL.md` instead. No new gate, hook, schema or scoring system:
+`tools/gates/` could grep for the identity rule, but that is a new enforcement
+surface for a rule with no violation history.
+
+**Acceptance, testable on both halves.**
+
+- *Plain English:* strip every symbol, path, line number and type name from the
+  rendered view. The main relationship must still be understandable to a reader who
+  has never opened the source. For a solution, proposal or correction view they can
+  also still state, from the view alone, what works today, what does not, which
+  component owns the gap, what changes and any material cost or boundary that exists.
+  Content decides which applies, never the diagram's title or type. The
+  implementation-first card fails — stripped, its boxes have no subject. The
+  product-language card passes unchanged.
+- *Visible identity:* open the rendered file with no filename, tab title or
+  surrounding message visible. The project, product or repository name is readable
+  inside the frame — in the diagram's own title or identity label, not only in an
+  HTML comment, `<title>` element or metadata block, none of which is inside the
+  picture.
+
+Both are producer checks at review, not gates.
+
+**Prepared for 0.134.0**, not yet released at the time of writing:
+`skills/visuals/SKILL.md` (two edits), README's Visuals section and its What's New
+entry, and the version bumped in all three locations. The skill's frontmatter
+`description` is unchanged on purpose — this governs what a diagram must contain,
+not when the skill is invoked. 731 tests green, `gate.py release` clean.
+
+**Before-push review, `codex-tui`, 2026-09-17.** Three findings, all accepted and
+fixed before push; the first is the reason this round exists.
+
+1. **High — the expansion test had no passing situation for a whole class of view.**
+   As first written it required every view to show "what changes, and what that
+   costs". A factual current-state, architecture or audience view has neither. That
+   is the 0.133.0 defect — a rule so absolute no legitimate case satisfies it —
+   reintroduced in the release whose own record names that defect, by the session
+   that had corrected it four hours earlier. Split into a general invariant
+   (strip the code references, the main relationship still reads) plus the four-part
+   test scoped to solution, proposal and correction views, with cost qualified by
+   "where a cost or boundary exists". Mirrored in README and in the acceptance
+   statement above, which had the same gap and would have passed a view the skill
+   rejected.
+2. **Medium — the starter exception could exempt finished work.** "The bundled
+   starter patterns carry no project and are the exception" reads as "anything made
+   from a starter is exempt", and the same file instructs the model to start from
+   that asset. Narrowed to the untouched asset alone.
+3. **Medium — README's What's New heading still read v0.133.2** against three
+   manifests at 0.134.0. Heading corrected and a v0.134.0 entry added.
+
+It also caught **"Shipped" written before the release action** in this record, now
+"Prepared for 0.134.0". Its answers on the four questions asked: the technical
+deep-dive clauses are two clauses doing separate work, not duplication; no collision
+with the `BANNED` list and no contradiction with journey.md; MINOR is the correct
+bump; no gate, schema, hook or scoring system is warranted.
+
+**The lesson, and it is the third instance:** every static check was green on the
+first draft — 731 tests, `gate.py release` clean, and an author who had spent the
+morning writing the record about exactly this defect class. Static gates cannot see
+an unfalsifiable rule. Independent review is the only thing that has ever caught one
+here.
+
+**Re-review, `codex-tui`, same sitting.** Two further findings, both accepted.
+
+4. **Medium — the three-way split I introduced as the fix for finding 1 created a
+   self-classification judgment**, which is the 0.132.0 defect in a new place. A
+   future-state architecture is both an architecture view and a proposal, and the
+   author could select the lighter "factual … architecture" branch while depicting
+   change. Codex's wording is better than mine and was taken verbatim in substance:
+   **content decides the branch, never the title or diagram type** — any view that
+   depicts or recommends a change takes the fuller test; only a view limited to
+   present facts uses the invariant alone.
+5. **Medium — the new README entry both overstated and narrowed the contract**,
+   requiring "what it costs" without the "where one exists" qualification, and saying
+   every view names its "project" where the rule permits project, product or
+   repository. Corrected, with "material" adopted throughout to make the threshold
+   explicit.
+
+It confirmed the invariant is falsifiable enough as a producer check, that "where a
+cost or boundary exists" is not an escape hatch, that the starter exception is now
+precise, and that the README's disclosure of no measured diagram output is accurate.
+
+**Two review rounds, five findings, three of them the same defect class.** The first
+draft reintroduced it; the fix for that reintroduction introduced it again one level
+up. Both were caught by review, neither by any static check — 731 tests and a clean
+gate were green at every one of those points.

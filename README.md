@@ -40,7 +40,26 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.133.2)
+## What's New (v0.134.0)
+
+### v0.134.0
+
+**A diagram that only a reader of the source can follow is not doing its job.**
+Anthony supplied two versions of one card — implementation-first against product
+language — and Visuals now carries the difference as contract. Code references sit
+in a subordinate evidence layer; removing them must leave the main relationship
+understandable without the source, and a solution, proposal or correction view must
+still show what works today, what does not, who owns the gap, what changes and any
+material cost or boundary that exists. Every view saved beside work also names its
+project, product or repository inside the render,
+because a filename, browser tab or surrounding message does not travel with the
+picture. Both are **producer checks at review, not automated proof** — no gate, hook
+or schema was added, and nothing here has been measured on real diagram output.
+
+Five of the seven clauses originally proposed were dropped as already contracted, and
+three more were reworded because they could not fail, or could not pass — the defect
+class 0.132.0 and 0.133.0 each shipped once. A before-push review caught a fourth
+instance in the first draft of this very release.
 
 ### v0.133.2
 
@@ -1225,6 +1244,18 @@ something you have to ask for: an explicit request always gets one, and a propos
 carrying two or more connected parts, a branch, an ownership boundary or a before →
 after change gets one by default, with no offer question and no quota. Only a single
 action or a factual answer stays text.
+Since v0.134.0 the view is also held to its audience: code references sit in a
+subordinate evidence layer, and removing every one of them must leave the main
+relationship still understandable to someone who has not opened the source. A
+solution, proposal or correction view carries more — stripped, it must still
+show what you can and cannot do today, where the responsibility sits, what
+changes and any material cost or boundary that exists. Content decides which
+applies, not the diagram type: anything depicting or recommending a change takes
+the fuller test, and only a view limited to present facts uses the invariant. A deliberately technical
+deep-dive may use engineering vocabulary, provided its title and summary still
+pass that removal test. Every view saved beside work also names its project,
+product or repository inside the render — a filename, browser tab or surrounding
+message sits outside the picture, and the view travels without them.
 The view is drawn with diagram-design or Archify, which are required — the
 bundled starter patterns alone do not satisfy the rule, and hand-rolled ASCII in a
 code fence is not a visual. A lightweight Kerd adaptation of Cathryn Lavery's
