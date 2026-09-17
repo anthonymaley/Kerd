@@ -4,6 +4,63 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+## Position paragraphs moved out of CONTEXT.md, 2026-09-16 (evening)
+
+These were current while 0.131.0 and 0.132.0 were the boundary. Moved here unchanged
+when 0.133.2 became the boundary and the lean-start measurement ran over target.
+
+- **0.131.0**: a native picker may follow the speech bubble, never replace it; Agent's
+  missing partner role offers four shortcuts. This withdrew 0.129.0's "no native
+  pickers", which was Claude's over-reach defended by a *passing test* for two releases.
+- **0.132.0**: visuals by default and the decision capsule, combined. The visual
+  threshold is countable — two or more connected parts, a branch, an ownership boundary
+  or a before → after change — because "substantial" carries no test a model can fail.
+  Both rules behaviourally evidenced; see `docs/work/visual-communication/work.md`.
+
+**The finding worth carrying: the defect was a class of sentence, not one sentence.**
+Seven were closed across three files, each reading like discipline while handing the
+model an unfalsifiable judgment about its own work ("only if it clarifies a real
+relationship", "whenever they help", "when it helps", "a substantial proposal",
+"Optional job/diagram tools", the inline-sketch licence). Static gates were green the
+whole time all seven were live.
+
+**Evidence went wrong twice before going right**, and the corrections are recorded, not
+buried: the first behavioural design had no control arm; the second was scored off disk
+while workers were still running and produced a reported failure that did not exist.
+The third used three arms isolating each rule, byte-identical prompts, and criteria
+fixed in writing before the last runs reported. Method, not just result:
+`docs/work/visual-communication/work.md`.
+
+## Closed 2026-09-16 (evening)
+
+**Verdict: done — 0.133.0 released, `7cf5782` on `main`, CI entry gate green.** The
+explicit-model dispatch contract: every native Claude `Agent` call names `model` and
+`subagent_type`. Evidenced by one mixed-model fan-out (`haiku`/low, `sonnet`/medium,
+`opus`/high in a single dispatch, observed `claude-haiku-4-5-20251001`,
+`claude-sonnet-5`, `claude-opus-5`; the Haiku job returned no effort records, so its
+effort is unverifiable). Reviewed by an Opus job (eleven findings) and Codex across
+three before-push rounds. The row's earlier design — a `PreToolUse` hook, matcher
+framework and model×effort matrix — was **refused by Anthony at 16:48** and is dead,
+not deferred: see the ruling in `docs/decisions.md`. Record:
+`docs/work/model-dispatch-guard/work.md`.
+
+**Verdict: done — both installations updated, 2026-09-16 evening.** Claude's plugin
+cache moved 0.132.0 → 0.133.0 (`claude plugin marketplace update` then
+`claude plugin update kerd@kerd-marketplace`; applies on restart). Codex moved 0.129.0
+→ 0.133.0: `output/kerd-codex-0.133.0` built from source, the `kerd-core` marketplace
+re-pointed at it, `codex plugin add kerd@kerd-core` reporting `installed, enabled
+0.133.0`. The row had been open since 0.130.0 with neither side current.
+
+**Verdict: done — the CI/test-path defect, fixed across 0.133.1 and 0.133.2.**
+`skills/switch/scripts/tests/test_roll_control.py` imported its siblings above its own
+`sys.path` inserts, so the suite could not be invoked by dotted module name; both
+inserts now precede every local import and the suite runs green with no `PYTHONPATH`.
+`tools/run_tests.py` collects `skills/*/scripts/tests/test_*.py` by path, and
+`.github/workflows/gate.yml` now runs it plus the hook tests — **CI had run none of the
+730 tests before this**. Its first real run went red and found a second defect, fixed
+in 0.133.2. **One part stays open and has moved to `TODO.md`, not closed here: which
+`patch.object(agent, 'RPC', ...)` site leaks was never diagnosed.**
+
 ## Closed 2026-09-15
 
 **Verdict: done — both real-build slots recorded 2026-09-14.** Builds 1 and 2 (a

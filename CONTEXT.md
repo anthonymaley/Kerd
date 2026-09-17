@@ -6,91 +6,57 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.133.0, `7cf5782` on `main`, subject "Release Kerd 0.133.0: a
-delegated job names the model it runs on, in the call" (2026-09-16, built and released
-by Claude, reviewed by Codex across three before-push rounds; CI entry gate green —
-re-resolve its revision and CI with Git and `gh` rather than trusting this line).**
-Four releases this sitting:
-- **0.131.0**: a native picker may follow the speech bubble, never replace it; Agent's
-  missing partner role offers four shortcuts. This withdrew 0.129.0's "no native
-  pickers", which was Claude's over-reach defended by a *passing test* for two releases.
-- **0.132.0**: visuals by default and the decision capsule, combined. The visual
-  threshold is countable — two or more connected parts, a branch, an ownership boundary
-  or a before → after change — because "substantial" carries no test a model can fail.
-  Both rules behaviourally evidenced; see `docs/work/visual-communication/work.md`.
+**Release boundary: 0.133.2 on branch `main`** — three commits this evening, in order:
+0.133.0 the explicit-model dispatch contract, 0.133.1 the CI/test-path fix, 0.133.2 the
+defect CI's first run found. All pushed, entry gate green on each; resolve their IDs and
+CI with `git log` and `gh` rather than trusting this line. Six releases this sitting; 0.131.0 and 0.132.0's position paragraphs moved to
+`docs/backlog-archive.md` when they stopped being current.
 
-**The finding worth carrying: the defect was a class of sentence, not one sentence.**
-Seven were closed across three files, each reading like discipline while handing the
-model an unfalsifiable judgment about its own work ("only if it clarifies a real
-relationship", "whenever they help", "when it helps", "a substantial proposal",
-"Optional job/diagram tools", the inline-sketch licence). Static gates were green the
-whole time all seven were live.
+**Two findings that still govern how rules are written here.** 0.132.0 removed a *class*
+of sentence — seven that read like discipline while handing the model an unfalsifiable
+judgment about its own work, with static gates green the whole time. 0.133.0 then
+produced the mirror image three times: a rule stated so absolutely that a legitimate
+situation could not satisfy it, which a model will exempt itself from. A new rule needs
+a test it can fail **and** a situation it can pass. The cases are in
+`docs/backlog-archive.md` and `docs/work/model-dispatch-guard/work.md`.
 
-**Evidence went wrong twice before going right**, and the corrections are recorded, not
-buried: the first behavioural design had no control arm; the second was scored off disk
-while workers were still running and produced a reported failure that did not exist.
-The third used three arms isolating each rule, byte-identical prompts, and criteria
-fixed in writing before the last runs reported. Method, not just result:
-`docs/work/visual-communication/work.md`.
+**Archify:** installed 2026-09-15 at `~/.agents/skills/archify`, `doctor` 15/15, zero
+runtime dependencies, still the dev snapshot `2.17.0-dev.1`; **its installer reported two
+Socket alerts that were never identified** — recorded as unknown, not cleared.
 
-**Installed state, not to be overclaimed:** the plugin cache now carries 0.132.0 and the
-session that picked up on 2026-09-16 at 14:33 is running it — the first arrival to run
-from an installed post-0.129.0 plugin. Codex still needs a fresh build plus
-`codex plugin add`. Nothing from 0.133.0 has run through an installed plugin; its
-behavioural run read the working tree directly.
-Archify installed 2026-09-15 21:37 at `~/.agents/skills/archify`, `doctor` 15/15, zero
-runtime dependencies, still a dev snapshot `2.17.0-dev.1`; its installer reported two
-Socket alerts that were never identified.
+**0.133.0–0.133.2 are RELEASED and archived.** `docs/backlog-archive.md`
+`## Closed 2026-09-16 (evening)` carries the verdicts and evidence; the release record is
+`docs/work/model-dispatch-guard/work.md`. **Claude owns build and release; Codex
+`codex-tui` is the pairing partner for expert review and investigation** (cadence:
+checkpoints, before-push) — that ruling supersedes the 08:13 agreement giving Codex the
+implementation.
 
-**0.133.0, the explicit-model dispatch contract — RELEASED** at `7cf5782`, CI green,
-Anthony's word given at 18:02. **Claude owns build and release; Codex is the pairing
-partner for expert review and investigation** — that ruling supersedes the 08:13
-agreement giving Codex the implementation.
+**Installed state, now current:** both sides run 0.133.0 — Claude's cache updated from
+0.132.0 (applies on restart), Codex from 0.129.0 via a fresh `output/kerd-codex-0.133.0`
+build and `codex plugin add`. Nothing from 0.133.1 or 0.133.2 has run through an
+installed plugin; those are CI and test changes with no skill behaviour.
 
-**Selected continuation (Anthony's priority, 2026-09-16 18:13, after this release):**
-close the records (done in this save), **update the installed plugins — Claude 0.132.0,
-Codex 0.129.0, neither running 0.133.0**, then fix the CI/test-path defect as a small
-standalone change. Nothing else holds up using 0.133.0.
+**No task is selected for the next sitting.** Anthony's three priorities of 18:13 —
+close the records, update the installations, fix the CI/test-path defect — are all done.
 
-**Anthony refused the hook design at 16:48** — "It turns a missing tool argument into
-a hook subsystem" — and set the contract instead: `model` requests Haiku/Sonnet/Opus/Fable,
-`subagent_type` sets the effort, the grid names both concretely before dispatch,
-"per definition" or "inherited" is invalid, and `job_evidence.py` verifies afterward.
-**A `PreToolUse` hook, a matcher framework and a model×effort matrix are out of scope
-by that refusal; the `hooks.json` nesting trap is no longer this release's problem.
-Do not revive them.** Palette drift is separate work, and Krutho is Anthony's brand,
-not Kerd's.
+**Proposed, not agreed — the grounded recommendation:** diagnose the patch leak in
+`skills/agent/scripts/tests/test_agent.py`. Nine sites patch `agent.RPC`; one leaks on
+CI and not locally, and the test that hit it was repaired by removing its dependence on
+that global rather than by finding the leak. **It matters because other tests in the
+combined run could be passing for the wrong reason.** Owner would be Claude; stopping
+point: a diagnosis and its evidence, no repair of unrelated tests, and no release
+without Anthony's word. No pending question is owed on it.
 
-What the release says, and its ceiling: naming `model` is a *request*. With
-`CLAUDE_CODE_SUBAGENT_MODEL_FORCE` set to `1` the host ignores the field and a caller
-cannot pass a model at all, and an organization's `availableModels` allowlist can
-substitute another; observed evidence, not the call, establishes what ran. An omitted
-`model` falls through to `CLAUDE_CODE_SUBAGENT_MODEL` or the caller's model — a model
-the call never selected. `requested_model: null` is the countable failure signature,
-but only when that job's metadata parsed without a model-related gap.
+**Observed this sitting, closing half of a deferred 0.131.0 item:** at this session's
+real Switch In, a native picker followed the arrival bubble with "Yes — open
+direction-setting" and "Not now"; Anthony picked Yes; Conductor opened at
+direction-setting and did **not** approve the saved task, which then needed its own
+approval and was refused and replaced. The 0.132.0 Switch In capsule exemption rests
+partly on that behaviour, and it held. The other half — renderer byte-identity with a
+picker attached — was **not** checked; no byte comparison was run.
 
-Evidence: one real mixed-model fan-out — `haiku`/low, `sonnet`/medium, `opus`/high in
-one dispatch, observed `claude-haiku-4-5-20251001`, `claude-sonnet-5`, `claude-opus-5`.
-The Haiku job returned no effort records, so its effort is unverifiable, not confirmed.
-728 tests green, `gate.py release` clean, hooks 21/21.
-
-Reviewed twice: an Opus job at high effort (eleven findings, all acted on) and Codex
-`codex-tui`'s before-push gate (**verdict: not ready to push**, five findings, all
-applied after retrieval — the all-keys absolute that made the no-effort-agent route
-impossible, the unqualified null signature, request-versus-execution overclaims, the
-README's narrowing to "player", and this file itself still restoring the refused
-design). Round 2 found three more — forced-model mode making the rule unsatisfiable
-exactly when it binds, two assertions that guarded phrases rather than facts, and
-selection wording where only a request is established. **Round 3 passed: "ready for
-Anthony's release decision. No blocking findings."** Anthony authorized the push at
-18:02.
-
-**Carry this forward:** three of this release's defects were the same error — a rule
-stated so absolutely that a legitimate situation could not satisfy it. That is
-0.132.0's own defect class, produced three times while removing it. Codex's closing
-judgment, worth honouring: three rounds of prose hardening is the limit of useful
-refinement; observe real dispatches and change it again only for demonstrated
-behaviour.
+**Adopted from Codex's close:** change the dispatch contract again only for demonstrated
+behaviour from real dispatches, not for further prose tightening.
 
 **Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
@@ -113,18 +79,38 @@ reviewer and investigator by Anthony's 14:21 ruling; its partner role is still
 undefined in the binding. The Claude session holding `kerd-b5-review` designates its
 successor against this file after this save.
 
-**Pickup reading set** (Switch Out, 2026-09-16):
-- this file complete, for position, the agreed continuation, rulings and deferred items;
+**Pickup reading set** (Switch Out, 2026-09-16 evening):
+- this file complete — position, the proposed continuation, the rulings that govern the
+  next work, and what was deliberately not verified;
 - `TODO.md` `## Now` with its child section, the designated active list;
-- `kivna/sessions/2026-09-16.md`, the sitting's account including the evidence method
-  and the ownership collision;
-- `docs/work/visual-communication/work.md` `## Now`, the 0.132.0 record;
-- `docs/work/model-dispatch-guard/work.md` complete, the 0.133.0 record — the refused
-  design and why, the two review passes, the corrected facts and the ceiling on what
-  the contract can promise; `direction.html` beside it is its rendered view.
+- `kivna/sessions/2026-09-16.md`, section `# Continuation, 18:13 → 21:00 — two
+  releases CI asked for, and the palette correction` — this evening's account. The two
+  earlier sections of the same file hold the rest of the day (0.131.0–0.133.0) and are
+  reachable there; they were dropped from the measured set, not from history.
 
-Open `docs/decisions.md` for any ruling's case (the newest three are the ownership
-split, the countable visual threshold and the capsule rule).
+**Measured** 2026-09-16 evening: 30,488 bytes, about 7,622 tokens estimated at four
+bytes each, within the 8,000 target. `read_args` for the next pickup, the exact
+selection to reuse:
+
+```
+["--record", "CONTEXT.md", "--section", "TODO.md", "## Now",
+ "--section", "kivna/sessions/2026-09-16.md",
+ "# Continuation, 18:13 → 21:00 — two releases CI asked for, and the palette correction"]
+```
+
+An earlier reading of this set came to 10,360 tokens; the position paragraphs for
+0.131.0 and 0.132.0 moved to `docs/backlog-archive.md` and the session-log selection
+narrowed to this evening's section to bring it under target. The standing rulings in
+`## Key Decisions` are the bulk of what remains and were not pruned to hit the number.
+
+The release records are reachable, not required reading: 0.133.0's is
+`docs/work/model-dispatch-guard/work.md` with `direction.html` beside it, and the
+verdicts and evidence for everything closed this evening are in
+`docs/backlog-archive.md` `## Closed 2026-09-16 (evening)`. The proposed next action
+needs `skills/agent/scripts/tests/test_agent.py`, not a work record.
+
+Open `docs/decisions.md` for any ruling's case (the newest three are the
+countermeasure-size rule, the Krutho/Kerd skin rule and the ownership split).
 
 ## Key Decisions
 
@@ -135,6 +121,8 @@ the decision capsule and the picker correction). The three risk-ledger and accep
 rulings are held because the retained launch sequence resumes under them; they leave when
 it does.
 
+- **A COUNTERMEASURE IS THE SIZE OF THE DEFECT: A MISSING TOOL ARGUMENT IS FIXED WHERE IT IS WRITTEN, NOT WITH A SUBSYSTEM — Anthony, 2026-09-16 16:48.** "I would not approve that guard design. It turns a missing tool argument into a hook subsystem." The size of the machinery is itself a design claim, and the refused hook would have registered in a shape that parses cleanly and never fires — its tests would have passed by doing nothing. Shaped 0.133.0.
+- **KRUTHO IS ANTHONY'S BRAND, NOT KERD'S — KERD SHIPS TO ANYONE, SO ITS OWN VIEWS USE diagram-design'S NEUTRAL DEFAULT SKIN — Anthony, 2026-09-16 16:11.** "No. krutho is not KERD. this skill is for anyone." Prior use of a palette in a Kerd document is not an established project skin. `scope.html` still carries the drift, recorded as separate work.
 - **CLAUDE OWNS BUILD AND RELEASE; CODEX IS THE PAIRING PARTNER FOR EXPERT-LEVEL REVIEW AND INVESTIGATION — Anthony, 2026-09-16 14:21.** The reviewer does not touch the tree, and the builder reports a release remote-verified before follow-on work starts. Replaces the 08:13 agreement giving Codex the 0.133.0 implementation, after a shared-tree collision made the two change sets inseparable in Git.
 - **A RENDERED VIEW IS THE DEFAULT WHENEVER A PROPOSAL CARRIES TWO OR MORE CONNECTED PARTS, A BRANCH, AN OWNERSHIP BOUNDARY OR A BEFORE → AFTER CHANGE; diagram-design AND Archify ARE REQUIRED TOOLS — Anthony, 2026-09-15 15:26/15:31/21:37, released in 0.132.0 and behaviourally evidenced 3/3 against 0/3.** The threshold is countable because "substantial" carries no test a model can fail; only a single action or a factual answer stays text, and being easy to describe in words does not make it one.
 - **A CONSEQUENTIAL QUESTION KEEPS ITS ANSWER-READY FACTS IMMEDIATELY ABOVE IT, WITH THE RECOMMENDATION RESTATED THERE EVEN IF IT APPEARS EARLIER; THE BUBBLE NAMES THE CONCRETE ACTION AND TARGET — Anthony, 2026-09-16, released in 0.132.0, 4/4 against 0/4 after tightening from 1/3.** Ordinary Switch In is exempt; that exemption rests partly on a behaviour deferred at 0.131.0 and still unobserved.

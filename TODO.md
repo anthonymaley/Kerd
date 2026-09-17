@@ -2,10 +2,11 @@
 
 ## Now
 
-**Release boundary:** 0.133.0, `7cf5782` on `main`, subject "Release Kerd 0.133.0: a
-delegated job names the model it runs on, in the call" (2026-09-16, built and released
-by Claude, reviewed by Codex across three before-push rounds; CI entry gate green).
-Position, installed state and the reading set are in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.133.2 on `main`, the third of three commits this evening —
+0.133.0 the dispatch contract, 0.133.1 the CI/test-path fix, 0.133.2 the defect CI's
+first run found. All three pushed with the entry gate green; resolve their IDs with
+`git log`. Position, installed state and the reading set are in `CONTEXT.md`
+`## Where We Are`.
 Records:
 - `docs/work/model-dispatch-guard/work.md` and `direction.html` (0.133.0: the refused
   hook design and why, the dispatch contract, the mixed-model fan-out, four review
@@ -19,40 +20,26 @@ Records:
 
 These lists are not authority to install or run checks during pickup.
 
-- **0.133.0 RELEASED** (`7cf5782`, CI green): the explicit-model dispatch contract.
-  Every native Claude `Agent` call — composer, player or reviewer — names `model` and
-  `subagent_type`; there is no unplanned dispatch; one controller row per grid is
-  exempt because it makes no `Agent` call. Naming `model` is a *request*: forced-model
-  mode makes native dispatch non-compliant rather than excusing omission, an
-  `availableModels` allowlist can substitute, and `requested_model: null` counts only
-  when the job's metadata parsed without a model-related gap. No hook, no matcher, no
-  model×effort matrix — Anthony refused that design at 16:48: "It turns a missing tool
-  argument into a hook subsystem."
-  - Evidence: one mixed-model fan-out, `haiku`/low + `sonnet`/medium + `opus`/high in a
-    single dispatch, observed `claude-haiku-4-5-20251001`, `claude-sonnet-5`,
-    `claude-opus-5`. **The Haiku job returned no effort records**, so its effort is
-    unverifiable, not confirmed.
-  - Reviewed by an Opus job (eleven findings) and Codex across three rounds (five,
-    three, clean). **Every defect was calibration, never design — and three were the
-    same error**, a rule stated so absolutely that a legitimate situation could not
-    satisfy it. That is 0.132.0's own defect class, produced three times while
-    removing it.
-  - Codex's closing judgment, adopted: three rounds of prose hardening is the limit of
-    useful refinement here. **Change this contract again only for demonstrated
-    behaviour from real dispatches**, not for further semantic tightening.
+- **Released and archived this evening** — 0.133.0 the dispatch contract, 0.133.1 the
+  CI/test-path fix, 0.133.2 the defect CI found on its first run, and both installations
+  brought to 0.133.0. Verdicts and evidence are in `docs/backlog-archive.md`
+  `## Closed 2026-09-16 (evening)`; the release record is
+  `docs/work/model-dispatch-guard/work.md`. **Adopted from Codex's close:** change the
+  dispatch contract again only for demonstrated behaviour from real dispatches, not for
+  further prose tightening.
 
-- **Deferred from 0.131.0, still unobserved:** whether Switch's renderer returns
-  byte-identical Markdown with a picker attached, and whether a picked
-  "Yes — open direction-setting" opens direction-setting without approving the saved
-  task. The 0.132.0 Switch In capsule exemption rests partly on the second. Record what
-  the next real Switch In shows; don't manufacture a run.
+- **Deferred from 0.131.0 — one half observed 2026-09-16, one half still not.**
+  **Observed, in this sitting's real Switch In:** the arrival rendered, a native picker
+  followed the bubble carrying "Yes — open direction-setting" and "Not now", Anthony
+  picked Yes, and Conductor opened at direction-setting **without** approving the saved
+  task — the saved 0.133.0 build then needed its own approval, which he refused and
+  replaced. That is the behaviour the 0.132.0 Switch In capsule exemption rests on, and
+  it held. **Still not observed:** whether the renderer returns byte-identical Markdown
+  with a picker attached. This sitting rendered twice and compared neither; a byte
+  comparison was never run, so the claim stays open. Don't manufacture a run — check it
+  at the next real arrival.
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario
   tested. Nineteen valid runs plus an eight-run re-test, n=3–4 per arm, one scenario.
-- **Update the installed plugins — both sides now lag the release.** Claude's cache
-  carries 0.132.0 (this session is running it); Codex has 0.129.0. **Neither is running
-  0.133.0**, so the dispatch contract is not yet in force in any live session: Claude
-  picks it up on restart, Codex needs a fresh build plus `codex plugin add`. Anthony
-  named this the second priority after closing the records, 2026-09-16 18:13.
 - **A patch leak in `skills/agent/scripts/tests/test_agent.py` is unresolved.** Its
   `test_native_rpc_matches_response_id_without_accepting_notifications` failed in CI on
   Python 3.12 while green locally on 3.14, because `agent.RPC` was still patched when it
@@ -60,13 +47,6 @@ These lists are not authority to install or run checks during pickup.
   but **which of the nine `patch.object(agent, 'RPC', ...)` sites leaks, and why only in
   that environment, was not diagnosed.** Other tests in the combined run could be
   passing for the wrong reason. Found 2026-09-16 by the CI step added in 0.133.1.
-- **DONE (Anthony's third priority, 18:13): the CI/test-path defect, fixed in 0.133.1.** The suite does not run clean by module name, and CI never runs it.
-  `skills/switch/scripts/tests/test_roll_control.py` does `import roll_control`
-  *above* its own `sys.path.insert`, so the 728-test suite only passes with
-  `skills/switch/scripts` and its `tests/` dir on `PYTHONPATH`. Pre-existing, found
-  2026-09-16 while verifying 0.133.0, deliberately not fixed in it. `.github/workflows/gate.yml`
-  runs only three selftests, so no CI job would have caught it — that is the larger
-  half of this item.
 - **Archify's two Socket alerts were never identified** — recorded as unknown, not
   cleared. Its version is still the dev snapshot `2.17.0-dev.1`.
 - **Palette drift — separate work, Anthony's instruction 2026-09-16 16:48.** Two parts:
