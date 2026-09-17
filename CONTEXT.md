@@ -106,9 +106,9 @@ successor against this file after this save.
   earlier sections of the same file hold the rest of the day (0.131.0–0.133.0) and are
   reachable there; they were dropped from the measured set, not from history.
 
-**Measured** 2026-09-17 10:26, after recording the shipped fix: 33,222 bytes, about
-8,306 tokens estimated at four bytes each — **over the 8,000 target by roughly 306
-tokens, `within_target: false`.** The overage is real and is not being hidden: the set
+**Measured** 2026-09-17 11:18, after recording the shipped fix and correcting the
+palette row: 34,017 bytes, about 8,505 tokens estimated at four bytes each — **over the
+8,000 target by roughly 505 tokens, `within_target: false`.** The overage is real and is not being hidden: the set
 stood at 7,987 before this reconciliation, and recording the shipped result cost more
 than the margin held. Both new entries were already compressed once, with their case
 left in `docs/work/model-dispatch-guard/work.md` rather than copied here. Closing the
@@ -153,7 +153,7 @@ rulings are held because the retained launch sequence resumes under them; they l
 it does.
 
 - **A COUNTERMEASURE IS THE SIZE OF THE DEFECT: A MISSING TOOL ARGUMENT IS FIXED WHERE IT IS WRITTEN, NOT WITH A SUBSYSTEM — Anthony, 2026-09-16 16:48.** "I would not approve that guard design. It turns a missing tool argument into a hook subsystem." The size of the machinery is itself a design claim, and the refused hook would have registered in a shape that parses cleanly and never fires — its tests would have passed by doing nothing. Shaped 0.133.0.
-- **KRUTHO IS ANTHONY'S BRAND, NOT KERD'S — KERD SHIPS TO ANYONE, SO ITS OWN VIEWS USE diagram-design'S NEUTRAL DEFAULT SKIN — Anthony, 2026-09-16 16:11.** "No. krutho is not KERD. this skill is for anyone." Prior use of a palette in a Kerd document is not an established project skin. `scope.html` still carries the drift, recorded as separate work.
+- **KRUTHO IS ANTHONY'S BRAND, NOT KERD'S — KERD SHIPS TO ANYONE, SO ITS OWN VIEWS USE diagram-design'S NEUTRAL DEFAULT SKIN — Anthony, 2026-09-16 16:11.** "No. krutho is not KERD. this skill is for anyone." Prior use of a palette in a Kerd document is not an established project skin. `scope.html`, the last drifting view, was re-skinned at `f8275f8`; only the inconsistent upstream style guide remains, so set the neutral tokens explicitly.
 - **CLAUDE OWNS BUILD AND RELEASE; CODEX IS THE PAIRING PARTNER FOR EXPERT-LEVEL REVIEW AND INVESTIGATION — Anthony, 2026-09-16 14:21.** The reviewer does not touch the tree, and the builder reports a release remote-verified before follow-on work starts. Replaces the 08:13 agreement giving Codex the 0.133.0 implementation, after a shared-tree collision made the two change sets inseparable in Git.
 - **A RENDERED VIEW IS THE DEFAULT WHENEVER A PROPOSAL CARRIES TWO OR MORE CONNECTED PARTS, A BRANCH, AN OWNERSHIP BOUNDARY OR A BEFORE → AFTER CHANGE; diagram-design AND Archify ARE REQUIRED TOOLS — Anthony, 2026-09-15 15:26/15:31/21:37, released in 0.132.0 and behaviourally evidenced 3/3 against 0/3.** The threshold is countable because "substantial" carries no test a model can fail; only a single action or a factual answer stays text, and being easy to describe in words does not make it one.
 - **A CONSEQUENTIAL QUESTION KEEPS ITS ANSWER-READY FACTS IMMEDIATELY ABOVE IT, WITH THE RECOMMENDATION RESTATED THERE EVEN IF IT APPEARS EARLIER; THE BUBBLE NAMES THE CONCRETE ACTION AND TARGET — Anthony, 2026-09-16, released in 0.132.0, 4/4 against 0/4 after tightening from 1/3.** Ordinary Switch In is exempt; that exemption rests partly on a behaviour deferred at 0.131.0 and still unobserved.

@@ -51,13 +51,13 @@ These lists are not authority to install or run checks during pickup.
 
 - **Archify's two Socket alerts were never identified** — recorded as unknown, not
   cleared. Its version is still the dev snapshot `2.17.0-dev.1`.
-- **Palette drift — separate work, Anthony's instruction 2026-09-16 16:48.** Two parts:
-  (a) upstream, `diagram-design`'s installed style guide has `accent` at Krutho blue
-  `#1A6FFF` while `accent-tint` still holds the old tangerine, hit independently by two
-  sessions; (b) in Kerd, `docs/work/visual-communication/scope.html` is skinned in that
-  same Krutho palette. **Krutho is Anthony's brand, not Kerd's, and Kerd ships to
-  anyone** — Kerd's own views use diagram-design's neutral default skin, as
-  `docs/work/model-dispatch-guard/direction.html` now does. Not part of 0.133.0.
+- **Palette drift — the Kerd half is DONE at `f8275f8`, the upstream half is open.**
+  `scope.html` was the last Kerd view carrying the Krutho palette and is now on the
+  neutral default, redrawn at the presentation ramp in the same commit. Still open and
+  not ours: `diagram-design`'s installed style guide has `accent` at Krutho blue
+  `#1A6FFF` while `accent-tint` holds the old tangerine, so Kerd's views must set the
+  neutral tokens explicitly rather than read that guide.
+
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture: a factual Yes, No or Not sure that grants no approval.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
