@@ -146,21 +146,61 @@ one exists — Codex's re-review caught that the first attempt only claimed it.
 
 **Observed in that exchange:** the picker followed the bubble as a separate surface and
 the prose above it was unchanged. That is the mechanical half of the separate-surface
-claim observed once. Still untested: the renderer's byte-identity through
-`where_we_are.py` with a picker attached, and that a picker Yes opens direction-setting
-without approving saved work. Both are to be recorded at the next real Switch In.
+claim observed once. Both of the observations left open here were resolved on
+2026-09-17 - see `## Next`: the authority half is closed by a second observation,
+and the byte-identity half was reworded because, as originally written against the
+renderer, it could not fail.
 
 ## Next
 
-Nothing owed on this release. Two deferred observations are recorded for the first
-real Switch In on 0.131.0, and belong in that sitting's account, not here:
+Nothing owed on this release.
 
-1. whether the renderer returns byte-identical Markdown with a picker attached;
-2. whether a picked "Yes - open direction-setting" opens direction-setting without
-   approving the saved task - the authority half, and the reason the label exists.
+### The two deferred observations, resolved 2026-09-17
 
-Neither is a build. Record what the next pickup actually shows; do not manufacture a
-run to see it.
+Both were carried for the first real Switch In on 0.131.0. One is closed by
+observation; the other was **aimed at the wrong actor** and is reworded here.
+
+**2 — the authority half: CLOSED, observed twice.** A picked
+"Yes - open direction-setting" opens direction-setting without approving the saved
+task. First observed 2026-09-16; observed again at the 2026-09-17 12:23 arrival,
+where the picker carried the labelled option, Anthony picked it, and Conductor
+opened at Shape for direction-setting while the saved observation task stayed
+unapproved in NOW and was not started. The visible label is doing the work it was
+added for. This is the behaviour the 0.132.0 Switch In capsule exemption rests on.
+
+**1 — the byte-identity half: REWORDED, because as written it could not fail.**
+The original wording asked "whether the renderer returns byte-identical Markdown
+with a picker attached". `skills/switch/scripts/where_we_are.py` takes its content
+from `--summary`/`--closing` (file or stdin) and presentation flags, and reads only
+`NO_COLOR` from the environment; across its 931 lines there is no picker argument,
+no picker environment variable and no picker awareness of any kind. A picker cannot
+reach it. There is therefore **no situation in which that check can fail**: a
+future sitting would run it, pass, and learn nothing.
+
+This is the third instance of a class this repository has already named twice —
+0.132.0's seven sentences that handed the model an unfalsifiable judgment, then
+0.133.0's three rules so absolute that no legitimate situation could satisfy them.
+Same defect, opposite end: **a check with no failing situation.** The governing
+rule stands unchanged and catches all three: a rule needs a test it can fail *and*
+a situation it can pass.
+
+**The falsifiable claim it is replaced by, and what the deferral was actually
+protecting:** whether **the assistant** returns the renderer's stdout unchanged
+when it also attaches a picker. That can fail — attaching a picker is exactly the
+moment the bubble is tempting to trim or rephrase — and something adjacent already
+did: the 2026-09-16 21:23 arrival attached no picker at all.
+
+**Evidence from the 2026-09-17 12:23 arrival, tagged tested-not-verified.** The
+summary was rendered once to `--markdown`, sha256
+`71566848bfb79f73419112aa4dab5f7b2a4488830e0bdbc4453aa42cbfba0026`, and that stdout
+was returned as the assistant message with the picker attached. **The limit is
+real and is not to be dropped when this is cited:** the assistant cannot hash its
+own emitted message, so identity here is its attestation, not an independent
+measurement. Closing this properly needs a reading taken outside the session that
+produced it. Until then the claim is tested, not verified.
+
+Neither was a build, and neither became one. Record what a pickup actually shows;
+do not manufacture a run to see it.
 
 The visual-communication release (`docs/work/visual-communication/work.md`) is the
 next one, still at Shape, with Archify's install needing Anthony's approval.
