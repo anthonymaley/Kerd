@@ -88,7 +88,7 @@ successor against this file after this save.
   earlier sections of the same file hold the rest of the day (0.131.0–0.133.0) and are
   reachable there; they were dropped from the measured set, not from history.
 
-**Measured** 2026-09-16 evening: 30,488 bytes, about 7,622 tokens estimated at four
+**Measured** 2026-09-16 evening: 31,945 bytes, about 7,987 tokens estimated at four
 bytes each, within the 8,000 target. `read_args` for the next pickup, the exact
 selection to reuse:
 
@@ -100,8 +100,12 @@ selection to reuse:
 
 An earlier reading of this set came to 10,360 tokens; the position paragraphs for
 0.131.0 and 0.132.0 moved to `docs/backlog-archive.md` and the session-log selection
-narrowed to this evening's section to bring it under target. The standing rulings in
-`## Key Decisions` are the bulk of what remains and were not pruned to hit the number.
+narrowed to this evening's section to bring it under target. It then grew again, on
+purpose: `tools/gates/fidelity.py` refused the first closeout because pruning the
+release row left ten changed files named nowhere a pickup reads, so the log's
+"What the three commits touched" section names them. The standing rulings in
+`## Key Decisions` are the bulk of what remains and were not pruned to hit the number;
+the margin under target is thin, so the next Out should expect to prune them.
 
 The release records are reachable, not required reading: 0.133.0's is
 `docs/work/model-dispatch-guard/work.md` with `direction.html` beside it, and the
