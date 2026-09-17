@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#f5f5f5; --paper-2:#FFFFFF; --ink:#2d3142; --muted:#4f5d75;
+    --paper:#f5f5f5; --paper-2:#ffffff; --ink:#2d3142; --muted:#4f5d75;
     --soft:#7a8399; --rule:rgba(45,49,66,0.12); --rule-solid:#b8bec9;
     --accent:#eb6c36; --accent-tint:rgba(235,108,54,0.08);
   }
@@ -16,28 +16,30 @@
     margin:0; padding:3rem 2rem; background:var(--paper); color:var(--ink);
     font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:1000px; margin:0 auto}
+  .wrap{max-width:1280px; margin:0 auto}
   .eyebrow{
-    font-family:'Geist Mono',monospace; font-size:8px; font-weight:500;
+    font-family:'Geist Mono',monospace; font-size:11px; font-weight:500;
     letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .5rem;
   }
-  h1{font-family:'Instrument Serif',serif; font-size:1.75rem; font-weight:400; margin:0 0 .5rem; line-height:1.2}
-  .sub{color:var(--muted); font-size:.875rem; margin:0 0 2rem; max-width:62ch; line-height:1.55}
+  h1{font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin:0 0 .5rem; line-height:1.15}
+  .sub{color:var(--muted); font-size:1rem; margin:0 0 2rem; max-width:64ch; line-height:1.55}
   .sub strong{color:var(--ink); font-weight:600}
-  svg{width:100%; height:auto; display:block}
-  .cards{display:grid; grid-template-columns:1.1fr 1fr 0.9fr; gap:1rem; margin-top:2.5rem}
-  .card{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.25rem}
+  .scroller{overflow-x:auto}
+  svg{width:100%; min-width:1000px; height:auto; display:block}
+  .cards{display:grid; grid-template-columns:1.1fr 1fr 0.9fr; gap:1.25rem; margin-top:2.5rem}
+  .card{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.5rem}
   .card-header{display:flex; align-items:center; gap:.5rem; margin:.25rem 0 .75rem}
-  .card-dot{width:7px; height:7px; border-radius:50%; flex:none}
+  .card-dot{width:8px; height:8px; border-radius:50%; flex:none}
   .dot-ink{background:var(--ink)} .dot-muted{background:var(--muted)} .dot-accent{background:var(--accent)}
-  .card h3{font-size:.8125rem; font-weight:600; margin:0; letter-spacing:-0.01em}
-  .card ul{margin:0; padding-left:1rem; color:var(--muted); font-size:.75rem; line-height:1.6}
-  .card li{margin-bottom:.35rem}
-  .card p{margin:0; color:var(--muted); font-size:.75rem; line-height:1.6}
+  .card .eyebrow{font-size:11px; margin-bottom:.75rem}
+  .card h3{font-size:1rem; font-weight:600; margin:0; letter-spacing:-0.01em}
+  .card ul{margin:0; padding-left:1rem; color:var(--muted); font-size:.9375rem; line-height:1.65}
+  .card li{margin-bottom:.4rem}
+  .card p{margin:0; color:var(--muted); font-size:.9375rem; line-height:1.65}
   code{font-family:'Geist Mono',monospace; font-size:.9em; color:var(--ink)}
   footer{
     margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--rule);
-    font-family:'Geist Mono',monospace; font-size:8px; letter-spacing:0.14em;
+    font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.14em;
     text-transform:uppercase; color:var(--soft);
   }
   @media (max-width:760px){ body{padding:2rem 1rem} .cards{grid-template-columns:1fr} }
@@ -49,7 +51,8 @@
   <h1>Visual communication by default</h1>
   <p class="sub">When a rendered visual appears, and which tool renders it. <strong>Nothing here is built or authorized.</strong> Both rendering tools are installed and verified.</p>
 
-  <svg viewBox="0 0 960 500" role="img" aria-labelledby="vcscope-title vcscope-desc" xmlns="http://www.w3.org/2000/svg">
+  <div class="scroller">
+  <svg viewBox="0 0 1280 600" role="img" aria-labelledby="vcscope-title vcscope-desc" xmlns="http://www.w3.org/2000/svg">
     <title id="vcscope-title">Visual communication by default — scope</title>
     <desc id="vcscope-desc">Three situations route to two outcomes: an explicit request and a substantial proposal both produce a saved rendered view, while tiny or factual work stays text-only. The rendered view is drawn by either diagram-design for static layouts or Archify for exploration; both are installed and verified.</desc>
 
@@ -68,118 +71,120 @@
     <rect width="100%" height="100%" fill="#f5f5f5"/>
 
     <!-- column headings -->
-    <text x="40" y="56" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.18em">WHAT CAME UP</text>
-    <text x="360" y="56" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.18em">WHAT YOU GET</text>
-    <text x="680" y="56" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.18em">WHAT DRAWS IT</text>
+    <text x="40" y="72" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.18em">WHAT CAME UP</text>
+    <text x="480" y="72" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.18em">WHAT YOU GET</text>
+    <text x="968" y="72" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.18em">WHAT DRAWS IT</text>
 
     <!-- ARROWS FIRST (z-order: behind boxes) -->
     <!-- explicit request -> rendered view -->
-    <path d="M 240 124 H 292 A 8 8 0 0 1 300 132 V 144 A 8 8 0 0 0 308 152 H 352"
+    <path d="M 304 148 H 368 a8,8 0 0,1 8,8 V 188 a8,8 0 0,0 8,8 H 480"
           fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
     <!-- substantial proposal -> rendered view -->
-    <path d="M 240 236 H 292 A 8 8 0 0 0 300 228 V 200 A 8 8 0 0 1 308 192 H 352"
+    <path d="M 304 276 H 368 a8,8 0 0,0 8,-8 V 236 a8,8 0 0,1 8,-8 H 480"
           fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
-    <!-- tiny or factual -> text only -->
-    <path d="M 240 348 H 352" fill="none" stroke="#4f5d75" stroke-width="1"
+    <!-- tiny or factual -> text only (deliberately no visual) -->
+    <path d="M 304 404 H 480" fill="none" stroke="#4f5d75" stroke-width="1"
           stroke-dasharray="5,4" marker-end="url(#arrow)"/>
     <!-- rendered view -> diagram-design -->
-    <path d="M 560 152 H 620 A 8 8 0 0 0 628 144 V 136 A 8 8 0 0 1 636 128 H 672"
+    <path d="M 800 180 H 904 a8,8 0 0,0 8,-8 V 160 a8,8 0 0,1 8,-8 H 968"
           fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
     <!-- rendered view -> archify -->
-    <path d="M 560 192 H 620 A 8 8 0 0 1 628 200 V 256 A 8 8 0 0 0 636 264 H 672"
+    <path d="M 800 244 H 904 a8,8 0 0,1 8,8 V 296 a8,8 0 0,0 8,8 H 968"
           fill="none" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
 
-    <!-- ARROW LABELS (mask + 8px gap above stroke) -->
-    <rect x="242" y="104" width="48" height="12" rx="2" fill="#f5f5f5"/>
-    <text x="266" y="113" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ALWAYS</text>
+    <!-- ARROW LABELS · 12px, masks sized to the text, 8px gap above the stroke -->
+    <rect x="308" y="124" width="72" height="16" rx="2" fill="#f5f5f5"/>
+    <text x="344" y="136" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ALWAYS</text>
 
-    <rect x="244" y="216" width="48" height="12" rx="2" fill="#f5f5f5"/>
-    <text x="268" y="225" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">BY DEFAULT</text>
+    <rect x="312" y="252" width="104" height="16" rx="2" fill="#f5f5f5"/>
+    <text x="364" y="264" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">BY DEFAULT</text>
 
-    <rect x="566" y="132" width="48" height="12" rx="2" fill="#f5f5f5"/>
-    <text x="590" y="141" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">STATIC VIEWS</text>
+    <rect x="808" y="156" width="96" height="16" rx="2" fill="#f5f5f5"/>
+    <text x="812" y="168" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.06em">STATIC VIEWS</text>
 
-    <rect x="566" y="172" width="48" height="12" rx="2" fill="#f5f5f5"/>
-    <text x="590" y="181" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">EXPLORATION</text>
+    <rect x="808" y="220" width="88" height="16" rx="2" fill="#f5f5f5"/>
+    <text x="812" y="232" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.06em">EXPLORATION</text>
 
     <!-- NODE A: explicit request -->
-    <rect x="40" y="88" width="200" height="72" rx="6" fill="#f5f5f5"/>
-    <rect x="40" y="88" width="200" height="72" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
-    <rect x="48" y="94" width="40" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
-    <text x="68" y="103" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">ASKED</text>
-    <text x="140" y="128" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Explicit request</text>
-    <text x="140" y="146" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">"show me" · "diagram?"</text>
+    <rect x="40" y="104" width="264" height="88" rx="6" fill="#f5f5f5"/>
+    <rect x="40" y="104" width="264" height="88" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+    <rect x="52" y="112" width="48" height="16" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
+    <text x="76" y="124" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">ASKED</text>
+    <text x="172" y="152" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Explicit request</text>
+    <text x="172" y="176" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">"show me" · "diagram?"</text>
 
     <!-- NODE B: substantial proposal -->
-    <rect x="40" y="200" width="200" height="72" rx="6" fill="#f5f5f5"/>
-    <rect x="40" y="200" width="200" height="72" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
-    <rect x="48" y="206" width="60" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
-    <text x="78" y="215" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">UNASKED</text>
-    <text x="140" y="240" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Substantial proposal</text>
-    <text x="140" y="258" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">parts · branch · boundary</text>
+    <rect x="40" y="232" width="264" height="88" rx="6" fill="#f5f5f5"/>
+    <rect x="40" y="232" width="264" height="88" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+    <rect x="52" y="240" width="64" height="16" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
+    <text x="84" y="252" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">UNASKED</text>
+    <text x="172" y="276" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Substantial proposal</text>
+    <text x="172" y="300" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">parts · branch · boundary</text>
 
     <!-- NODE C: tiny or factual -->
-    <rect x="40" y="312" width="200" height="72" rx="6" fill="#f5f5f5"/>
-    <rect x="40" y="312" width="200" height="72" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
-    <rect x="48" y="318" width="52" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.20)" stroke-width="0.8"/>
-    <text x="74" y="327" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">IN SCOPE</text>
-    <text x="140" y="352" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Tiny or factual</text>
-    <text x="140" y="370" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">the proportional control</text>
+    <rect x="40" y="360" width="264" height="88" rx="6" fill="#f5f5f5"/>
+    <rect x="40" y="360" width="264" height="88" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+    <rect x="52" y="368" width="64" height="16" rx="2" fill="transparent" stroke="rgba(45,49,66,0.20)" stroke-width="0.8"/>
+    <text x="84" y="380" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">IN SCOPE</text>
+    <text x="172" y="404" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Tiny or factual</text>
+    <text x="172" y="428" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">the proportional control</text>
 
     <!-- NODE D: rendered view (FOCAL) -->
-    <rect x="360" y="120" width="200" height="104" rx="6" fill="#f5f5f5"/>
-    <rect x="360" y="120" width="200" height="104" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-    <rect x="368" y="128" width="64" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.40)" stroke-width="0.8"/>
-    <text x="400" y="137" fill="#eb6c36" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">KERD:VISUALS</text>
-    <text x="460" y="172" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">A saved, rendered view</text>
-    <text x="460" y="192" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">of the solution itself</text>
-    <text x="460" y="208" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">no quota · no offer question</text>
+    <rect x="480" y="148" width="320" height="128" rx="6" fill="#f5f5f5"/>
+    <rect x="480" y="148" width="320" height="128" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+    <rect x="492" y="156" width="88" height="16" rx="2" fill="transparent" stroke="rgba(235,108,54,0.40)" stroke-width="0.8"/>
+    <text x="536" y="168" fill="#eb6c36" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">KERD:VISUALS</text>
+    <text x="640" y="200" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">A saved, rendered view</text>
+    <text x="640" y="224" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">of the solution itself</text>
+    <text x="640" y="248" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">no quota · no offer question</text>
 
     <!-- NODE E: text only -->
-    <rect x="360" y="312" width="200" height="72" rx="6" fill="#f5f5f5"/>
-    <rect x="360" y="312" width="200" height="72" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
-    <text x="460" y="348" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Text only</text>
-    <text x="460" y="366" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">not a failure case</text>
+    <rect x="480" y="360" width="320" height="88" rx="6" fill="#f5f5f5"/>
+    <rect x="480" y="360" width="320" height="88" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+    <text x="640" y="396" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Text only</text>
+    <text x="640" y="420" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">not a failure case</text>
 
     <!-- NODE F: diagram-design -->
-    <rect x="680" y="80" width="224" height="96" rx="6" fill="#f5f5f5"/>
-    <rect x="680" y="80" width="224" height="96" rx="6" fill="#FFFFFF" stroke="#2d3142" stroke-width="1"/>
-    <rect x="688" y="88" width="60" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
-    <text x="718" y="97" fill="#2d3142" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">INSTALLED</text>
-    <text x="792" y="128" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">diagram-design</text>
-    <text x="792" y="148" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">processes · timelines · scope</text>
-    <text x="792" y="164" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">responsibilities · comparisons</text>
+    <rect x="968" y="96" width="264" height="112" rx="6" fill="#f5f5f5"/>
+    <rect x="968" y="96" width="264" height="112" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <rect x="980" y="104" width="72" height="16" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+    <text x="1016" y="116" fill="#2d3142" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">INSTALLED</text>
+    <text x="1100" y="148" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">diagram-design</text>
+    <text x="1100" y="172" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">processes · timelines · scope</text>
+    <text x="1100" y="192" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">responsibilities · comparisons</text>
 
-    <!-- NODE G: archify — THE OPEN DECISION -->
-    <rect x="680" y="216" width="224" height="96" rx="6" fill="#f5f5f5"/>
-    <rect x="680" y="216" width="224" height="96" rx="6" fill="#FFFFFF" stroke="#2d3142" stroke-width="1"/>
-    <rect x="688" y="224" width="60" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
-    <text x="718" y="233" fill="#2d3142" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">INSTALLED</text>
-    <text x="792" y="264" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Archify</text>
-    <text x="792" y="284" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">exploration · focused paths</text>
-    <text x="792" y="300" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">2.17.0-dev.1 · doctor 15/15</text>
+    <!-- NODE G: archify -->
+    <rect x="968" y="248" width="264" height="112" rx="6" fill="#f5f5f5"/>
+    <rect x="968" y="248" width="264" height="112" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <rect x="980" y="256" width="72" height="16" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+    <text x="1016" y="268" fill="#2d3142" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">INSTALLED</text>
+    <text x="1100" y="300" fill="#2d3142" font-size="16" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Archify</text>
+    <text x="1100" y="324" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">exploration · focused paths</text>
+    <text x="1100" y="344" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" text-anchor="middle">2.17.0-dev.1 · doctor 15/15</text>
 
-    <!-- editorial callout on the open decision -->
-    <text x="680" y="336" fill="#4f5d75" font-size="14" font-family="'Instrument Serif',serif" font-style="italic">Installed 2026-09-15. Zero runtime dependencies.</text>
+    <!-- editorial callout -->
+    <text x="968" y="404" fill="#4f5d75" font-size="20" font-family="'Instrument Serif',serif" font-style="italic">Installed 2026-09-15.</text>
+    <text x="968" y="432" fill="#4f5d75" font-size="20" font-family="'Instrument Serif',serif" font-style="italic">Zero runtime dependencies.</text>
 
     <!-- never-this note -->
-    <line x1="360" y1="256" x2="560" y2="256" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
-    <text x="360" y="276" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.08em">NEVER: HAND-ROLLED ASCII IN A</text>
-    <text x="360" y="288" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.08em">CODE FENCE · STARTER PATTERNS ALONE</text>
+    <line x1="480" y1="308" x2="800" y2="308" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
+    <text x="480" y="332" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.08em">NEVER: HAND-ROLLED ASCII IN A</text>
+    <text x="480" y="348" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.08em">CODE FENCE · STARTER PATTERNS ALONE</text>
 
     <!-- LEGEND -->
-    <line x1="40" y1="432" x2="920" y2="432" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
-    <text x="40" y="452" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+    <line x1="40" y1="508" x2="1240" y2="508" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
+    <text x="40" y="532" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
 
-    <rect x="128" y="444" width="16" height="12" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
-    <text x="152" y="453" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace">THE OUTCOME THIS RELEASE EXISTS FOR</text>
+    <rect x="144" y="520" width="20" height="16" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+    <text x="176" y="532" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace">THE OUTCOME THIS RELEASE EXISTS FOR</text>
 
-    <rect x="428" y="444" width="16" height="12" rx="2" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
-    <text x="452" y="453" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace">DELIBERATELY NO VISUAL</text>
+    <rect x="524" y="520" width="20" height="16" rx="2" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="556" y="532" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace">DELIBERATELY NO VISUAL</text>
 
-    <rect x="760" y="444" width="16" height="12" rx="2" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
-    <text x="784" y="453" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace">WHAT TRIGGERS IT</text>
+    <rect x="844" y="520" width="20" height="16" rx="2" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+    <text x="876" y="532" fill="#4f5d75" font-size="12" font-family="'Geist Mono',monospace">WHAT TRIGGERS IT</text>
   </svg>
+  </div>
 
   <div class="cards">
     <div class="card">
