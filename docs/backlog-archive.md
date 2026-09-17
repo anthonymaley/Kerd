@@ -414,3 +414,28 @@ the schema migration SHIPPED.** Kerd at **v0.106.0**; CI green at the tip
   critical path, the binding rules. **Launch: 0 of 5 outcomes.**
 - **v0.105.0 (morning): the Status Report talk format** — status speaks Work
   item · Stage · Issue · Resolution path, one final question.
+
+## Closed 2026-09-17
+
+- **The `agent.RPC` patch leak — DONE**, diagnosed and fixed at `0dda5ba`, CI green on
+  3.12 with 731 tests. Verdict: the cause was `FinalReviewTests.tearDown` restarting a
+  patcher its own `daemon()` had not stopped. That double start is refused from CPython
+  v3.12.8 but silently succeeds below it, re-saving the current MagicMock as the
+  original, so the parent's single `stop()` restored the mock — and CI's ubuntu-24.04
+  runs 3.12.3. 11 of that class's 13 inherited tests triggered it; the three sibling
+  classes were clean. Evidence: reproduced through `tools/run_tests.py` itself with the
+  guard removed; before the fix 692 of 730 tests ran with a mocked `agent.RPC` and 53
+  read it, 9 outside the family that manages the attribute, **no verdict ever changed**;
+  after the fix the same probe reports no leak, 0 exposed, 0 uses. `FixtureIsolationTests`
+  holds the invariant and fails when the old `tearDown` is restored. Codex reviewed
+  twice; its finding — nested `TestResult`s discarded, so the regression could pass over
+  hidden failures — was accepted and fixed. Case and both negative controls:
+  `docs/work/model-dispatch-guard/work.md` and `patch-leak.html`.
+- **The Kerd half of the palette drift — DONE** at `2b4f506` and `f8275f8`.
+  `docs/work/visual-communication/scope.html` was the last Kerd view carrying the Krutho
+  palette; it is now on diagram-design's shipped neutral tokens and was redrawn at the
+  presentation type ramp, which also fixed two arrow-label masks narrower than their
+  text. Verdict per Anthony's 2026-09-16 16:11 ruling: Krutho is his brand, Kerd ships to
+  anyone. Evidence: re-applying the same substitution to a copy of the original produced
+  a byte-identical file, so the re-skin changed no geometry; the redraw was inspected at
+  1400px. **The upstream half stays open** and is still in `TODO.md`.
