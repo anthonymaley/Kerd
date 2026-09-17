@@ -40,19 +40,14 @@ These lists are not authority to install or run checks during pickup.
   at the next real arrival.
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario
   tested. Nineteen valid runs plus an eight-run re-test, n=3–4 per arm, one scenario.
-- **The patch leak in `skills/agent/scripts/tests/test_agent.py` is diagnosed and
-  fixed, uncommitted.** Cause: `FinalReviewTests.tearDown` restarted the patcher its
-  own `daemon()` had not stopped. That double start only leaks on a Python without
-  the `is_started` guard — absent in CPython v3.12.0–v3.12.7, present from v3.12.8 —
-  and CI's `ubuntu-24.04` runs 3.12.3, so it leaked there and never here on 3.14.
-  11 of `FinalReviewTests`' 13 inherited tests triggered it. Before the fix, 692 of
-  730 tests ran with a mocked `agent.RPC` and 53 read it, 9 of them outside the
-  family that manages the attribute; no `conductor` or `switch` test touched it, and
-  no verdict ever changed. Fixed with an explicit suspension flag and the swallowed
-  `RuntimeError` deleted; held by `FixtureIsolationTests` in the same module.
-  Verified: 731 tests green as shipped and under an emulation of CI's Python, where
-  the probe now reports no leak. Record and view:
-  `docs/work/model-dispatch-guard/work.md` and `patch-leak.html`.
+- **The patch leak is fixed and shipped at `0dda5ba`; this row is closed.**
+  `FinalReviewTests.tearDown` restarted a patcher its own `daemon()` had not stopped,
+  which only leaks on a Python without the `is_started` guard — CI's 3.12.3 has none.
+  No verdict ever changed, which is why a green suite hid it. `FixtureIsolationTests`
+  now holds the invariant the way CI behaves; CI ran 731 green on 3.12. Codex cleared
+  it after one accepted finding. Case, evidence and controls:
+  `docs/work/model-dispatch-guard/work.md` and `patch-leak.html`. Move this row to
+  `docs/backlog-archive.md` at the next Switch Out.
 
 - **Archify's two Socket alerts were never identified** — recorded as unknown, not
   cleared. Its version is still the dev snapshot `2.17.0-dev.1`.

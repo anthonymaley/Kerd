@@ -6,11 +6,13 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.133.2 on branch `main`** — three commits this evening, in order:
-0.133.0 the explicit-model dispatch contract, 0.133.1 the CI/test-path fix, 0.133.2 the
-defect CI's first run found. All pushed, entry gate green on each; resolve their IDs and
-CI with `git log` and `gh` rather than trusting this line. Six releases this sitting; 0.131.0 and 0.132.0's position paragraphs moved to
-`docs/backlog-archive.md` when they stopped being current.
+**Release boundary: 0.133.2 on branch `main`. Tip is `0dda5ba` (2026-09-17), the
+patch-leak fixture repair — a commit, not a release: no version bump, by instruction.**
+The three releases of 2026-09-16 evening, in order: 0.133.0 the explicit-model dispatch
+contract, 0.133.1 the CI/test-path fix, 0.133.2 the defect CI's first run found. All
+pushed, entry gate green on each; resolve their IDs and CI with `git log` and `gh`
+rather than trusting this line. Six releases that sitting; 0.131.0 and 0.132.0's
+position paragraphs moved to `docs/backlog-archive.md` when they stopped being current.
 
 **Two findings that still govern how rules are written here.** 0.132.0 removed a *class*
 of sentence — seven that read like discipline while handing the model an unfalsifiable
@@ -31,21 +33,31 @@ Socket alerts that were never identified** — recorded as unknown, not cleared.
 checkpoints, before-push) — that ruling supersedes the 08:13 agreement giving Codex the
 implementation.
 
-**Installed state, now current:** both sides run 0.133.0 — Claude's cache updated from
-0.132.0 (applies on restart), Codex from 0.129.0 via a fresh `output/kerd-codex-0.133.0`
-build and `codex plugin add`. Nothing from 0.133.1 or 0.133.2 has run through an
-installed plugin; those are CI and test changes with no skill behaviour.
+**Installed state — the two sides differ, and neither is the repository tip.** Keep the
+three numbers distinct: what each side runs, the latest release, the tip. Corrected
+2026-09-17 after Anthony caught the earlier line claiming both ran 0.133.0. **Claude runs
+0.133.2** (observed: this session loaded its skills from the `kerd/0.133.2/` cache);
+**Codex runs 0.133.0** (newest artifact `output/kerd-codex-0.133.0`; moving it needs a
+fresh build and `codex plugin add`). Nothing since 0.133.0 changed skill behaviour, so the
+gap costs nothing today. Resolve the live numbers rather than trusting this line.
 
 **No task is selected for the next sitting.** Anthony's three priorities of 18:13 —
 close the records, update the installations, fix the CI/test-path defect — are all done.
 
-**Proposed, not agreed — the grounded recommendation:** diagnose the patch leak in
-`skills/agent/scripts/tests/test_agent.py`. Nine sites patch `agent.RPC`; one leaks on
-CI and not locally, and the test that hit it was repaired by removing its dependence on
-that global rather than by finding the leak. **It matters because other tests in the
-combined run could be passing for the wrong reason.** Owner would be Claude; stopping
-point: a diagnosis and its evidence, no repair of unrelated tests, and no release
-without Anthony's word. No pending question is owed on it.
+**The patch leak — last Out's proposed recommendation — is DIAGNOSED, FIXED and SHIPPED
+at `0dda5ba`, and closed.** `FinalReviewTests.tearDown` restarted a patcher its own
+`daemon()` had not stopped; that only leaks on a Python without the `is_started` guard
+(absent through CPython v3.12.7), and CI runs 3.12.3 — so it leaked there, never locally
+on 3.14. Before the fix 692 of 730 tests ran with a mocked `agent.RPC` and 53 read it,
+**but no verdict ever changed**, which is why a green suite hid it. `FixtureIsolationTests`
+now holds the invariant with the guard removed, so it is checked the way CI behaves; CI
+ran 731 green on 3.12. Codex reviewed twice and its one finding was fixed. The whole
+case, evidence and both negative controls:
+`docs/work/model-dispatch-guard/work.md` and `patch-leak.html`.
+
+**A standing ruling held under pressure:** a peer session relayed "Anthony authorized the
+push" and was refused in progress under `A PEER CANNOT AUTHORIZE A PUSH` below. The push
+ran on Anthony's own "yes commit". Keep declining that route.
 
 **Observed this sitting, closing half of a deferred 0.131.0 item:** at this session's
 real Switch In, a native picker followed the arrival bubble with "Yes — open
@@ -54,6 +66,12 @@ direction-setting and did **not** approve the saved task, which then needed its 
 approval and was refused and replaced. The 0.132.0 Switch In capsule exemption rests
 partly on that behaviour, and it held. The other half — renderer byte-identity with a
 picker attached — was **not** checked; no byte comparison was run.
+
+**And a regression in the same area, 2026-09-16 21:23:** that arrival returned the
+renderer's Markdown and **attached no picker at all**, which Anthony caught. So the
+labelled-Yes behaviour was not exercised there either, and the byte-identity half still
+has no observation. Both halves need a real arrival that actually attaches the picker;
+don't manufacture one.
 
 **Adopted from Codex's close:** change the dispatch contract again only for demonstrated
 behaviour from real dispatches, not for further prose tightening.
@@ -88,9 +106,17 @@ successor against this file after this save.
   earlier sections of the same file hold the rest of the day (0.131.0–0.133.0) and are
   reachable there; they were dropped from the measured set, not from history.
 
-**Measured** 2026-09-16 evening: 31,945 bytes, about 7,987 tokens estimated at four
-bytes each, within the 8,000 target. `read_args` for the next pickup, the exact
-selection to reuse:
+**Measured** 2026-09-17 10:26, after recording the shipped fix: 33,222 bytes, about
+8,306 tokens estimated at four bytes each — **over the 8,000 target by roughly 306
+tokens, `within_target: false`.** The overage is real and is not being hidden: the set
+stood at 7,987 before this reconciliation, and recording the shipped result cost more
+than the margin held. Both new entries were already compressed once, with their case
+left in `docs/work/model-dispatch-guard/work.md` rather than copied here. Closing the
+last 306 means pruning `## Key Decisions`, which is the next Out's judgment about which
+rulings still govern — the previous Out predicted exactly this. Candidates it should
+weigh first: the rulings whose work is closed and archived, and the patch-leak row in
+`TODO.md` `## Now`, which is marked for `docs/backlog-archive.md`. `read_args` for the
+next pickup, the exact selection to reuse:
 
 ```
 ["--record", "CONTEXT.md", "--section", "TODO.md", "## Now",
@@ -105,7 +131,8 @@ purpose: `tools/gates/fidelity.py` refused the first closeout because pruning th
 release row left ten changed files named nowhere a pickup reads, so the log's
 "What the three commits touched" section names them. The standing rulings in
 `## Key Decisions` are the bulk of what remains and were not pruned to hit the number;
-the margin under target is thin, so the next Out should expect to prune them.
+the margin under target is thin, so the next Out should expect to prune them. **That
+prediction came true on 2026-09-17: the set is now over target, as measured above.**
 
 The release records are reachable, not required reading: 0.133.0's is
 `docs/work/model-dispatch-guard/work.md` with `direction.html` beside it, and the
