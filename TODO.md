@@ -6,7 +6,7 @@
 installed state and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **Selected next, proposed not agreed: start the diagnostic pilot** (launch sequence
-step 4, launch outcome 2). Refresh the Kerd plugin to 0.138.0 (this machine's cache
+step 4, launch outcome 2). Refresh the Kerd plugin to 0.138.1 (this machine's cache
 holds 0.136.1), create the separate `agent-request` repository (never inside Kerd),
 and drive its first work item through Conductor with Kerd frozen for the run. The
 output is a findings document; PARTIAL is a valid result. Binding rules and the

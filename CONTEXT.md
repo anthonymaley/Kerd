@@ -23,7 +23,7 @@ partial: the wiring exists and a fixture proves it, but no real session has driv
 it. This session said "launch 2 of 5 done" several times; that was wrong.
 
 **Selected continuation, proposed not agreed: start the diagnostic pilot** (launch
-outcome 2). First refresh the Kerd plugin to 0.138.0 (this machine's cache holds
+outcome 2). First refresh the Kerd plugin to 0.138.1 (this machine's cache holds
 0.136.1), then create the separate `agent-request` repository (never inside Kerd) and
 drive its first work item through Conductor, with Kerd frozen for the run. **Why:**
 it is the first time Kerd works for someone else's project; everything built so far
