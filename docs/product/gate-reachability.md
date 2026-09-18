@@ -44,6 +44,15 @@ plumbing rather than the product. It is a prerequisite, not the milestone.
 repository that is not Kerd, invoke the gate with **no manually supplied path**
 and surface a **real refusal**.
 
+**Reframed 2026-09-18: Conductor, not Drive.** Conductor replaced Drive
+(`docs/decisions.md`, 2026-09-18 13:08). Conductor's rewrite had also stopped it
+calling the checks, so the frame's four invocations no longer exist as written;
+two remain, both in Drive, which is being removed. The value is unchanged: a user
+in their own repository gets a real answer about where their work stands, with no
+path typed. Winning now reads: **Conductor, run from a repository that is not
+Kerd, asks that project which step a piece of work is on, names missing
+groundwork before moving on, and reads nothing of Kerd's own tree.**
+
 **The producer's ceremony ruling, recorded verbatim because it is the first live
 test of the proportionality dial** (2026-09-02):
 
@@ -97,6 +106,37 @@ plausible disposition, per the 2026-08-31 ruling.
 | Risk | Killer? | Impact | Likelihood | Risk evidence | Severity | Treatment | Countermeasure | Treatment evidence | Review trigger |
 |---|---|---|---|---|---|---|---|---|---|
 | Incorrect path or root handling makes a tool operate on the wrong repository — reporting against Kerd's tree while the user believes it is theirs, or the reverse | yes | A gate that lies. The user is told their repo's rung when the tool read Kerd's: a false pass at any rung, or a refusal citing files that are not theirs. **Measured read-only for the four in-scope calls** — `gate.py` contains no write calls and `kit.py`'s only non-selftest write is the seal path (`kit.py:670`), which this item does not wire — so the impact is a false verdict, never data loss. Against this item's declared value it is still the worst outcome available: reachability that lies is worse than reachability absent | Medium-high without the countermeasure. Two distinct roots are live at once — the plugin root locating the tool, the target root locating the data — and conflating them is the single easiest error in the change | Measured 2026-09-02: `gate.py`'s own resolver already walks OUT of a git worktree into the parent repo (`_walk_up_for_git` tests `isdir('.git')`, false when `.git` is a worktree file), and the defect has fired once — a review subagent's call bound to the live tree and reverted in-flight work. Read-only status verified by grep across `gate.py` and `kit.py`, not assumed | fatal | countermeasure - permanent | **Classified fatal on the producer's ruling, 2026-09-02: impact >= declared value, and a gate reading the wrong repository defeats this item's entire declared value.** His reasoning is the transferable half — *"the countermeasure being cheap and permanent affects treatment, not impact classification. Using it to avoid fatal would make the state depend on how inconvenient the parser's consequence is."* The treatment, unchanged and still real: every wired invocation passes `--root` explicitly, ambient resolution is never relied on, and two fixtures run in opposite directions — a foreign-repo call reports the foreign repo's state, and no foreign-target call ever returns a Kerd-rooted answer. **Viability refuses until the policy conflict this exposes is resolved as its own decision** (CONTEXT.md `## Open Questions`, 2026-09-02); it is not reinterpreted here to keep the critical path moving | planned — --root fixtures in both directions, per the 2026-09-02 treatment ruling, built in gate-reachability's loop · tools/gates/kit.py | Fires the moment any *writing* subcommand (`seal`) is wired into a skill invocation — the risk changes class from false report to data change, and this row must be re-qualified before that lands |
-| `${CLAUDE_PLUGIN_ROOT}` may not be reliably available inside skill-invoked shell commands, so the canonical invocation cannot be written as designed | no | The four edits cannot be written as designed. The fallback is a path the user supplies by hand, which is the acceptance criterion inverted — "without manually supplied paths" is the thing being bought | Unknown, and this is the item's one genuine unmeasured question. Proven to resolve in `hooks/hooks.json`; never once tested inside a skill-invoked shell command | Measured 2026-09-02: `${CLAUDE_PLUGIN_ROOT}` appears in skill text **zero** times across all ten skills; its only proven use anywhere in the plugin is `hooks/hooks.json` | fatal | accepted unknown | Tested narrowly before any edit is written, per the producer's nested-spike boundary: measure the variable inside a skill-invoked command, return the finding to this MVP, and do not convert the item into a spike. If it does not resolve, the invocation idiom changes and the four edits follow the measurement |  | Fires at the first step of implementation, before any of the four edits is written. If it has not been answered by then, implementation does not start |
+| `${CLAUDE_PLUGIN_ROOT}` may not be reliably available inside skill-invoked shell commands, so the canonical invocation cannot be written as designed | no | The four edits cannot be written as designed. The fallback is a path the user supplies by hand, which is the acceptance criterion inverted — "without manually supplied paths" is the thing being bought | Answered 2026-09-18. Low, for skill text: the placeholder resolves where it is written in a skill's main instructions. Certain, for a reference file or a shell variable: it does not resolve there | Measured 2026-09-02: `${CLAUDE_PLUGIN_ROOT}` appears in skill text **zero** times across all ten skills; its only proven use anywhere in the plugin is `hooks/hooks.json`; **measured 2026-09-18**, one headless run of a throwaway plugin (`claude -p --plugin-dir`): in `SKILL.md` text it arrived as the install path; in the skill's `references/` file it stayed literal; as a shell variable it was unset. Consistent with the plugins reference: "Skill and agent content: anywhere the placeholder appears"; "They aren't present in the environment of commands Claude runs through the Bash tool" | fatal | countermeasure - permanent | Write the plugin path only in a skill's main instructions (`SKILL.md`), never in a reference file or as a shell variable; the invocation passes the target repository explicitly | planned — a foreign-repo fixture that invokes the check through Conductor's SKILL.md text and resolves · tools/gates/kit.py | Fires if Claude Code changes where plugin placeholders resolve, or if the invocation is moved into a reference file |
 | The four edits land and the skills still degrade silently, because nothing checks that an invocation resolved — a failed command and an absent one look identical in prose | no | A later regression reintroducing the defect would be invisible. The skills would fall back to prose exactly as they do today, and nothing on disk would catch it on any subsequent change | High over time. Nothing checks that a skill's invocation resolved, which is this repo's standing finding that skill text cannot enforce on itself | Measured: today's failure mode IS silence — the bare relative path yields *No such file*, the skill continues in prose, and nothing is recorded | non-fatal | countermeasure - temporary | The foreign-repo fixture is the check: it asserts a real refusal is surfaced, so a regression to prose fails the fixture instead of passing quietly. Temporary because a fixture proves the wiring at build time and not at use time |  | Fires if the fixture is removed or made non-blocking, or when automatic hook/CI enforcement is taken as its own product decision |
 | Fixing the four gate calls while `progress.py` and `fidelity.py` stay Kerd-pinned leaves a consuming repo half-served, with a working route and no board | no | A consuming repo can walk the rungs but cannot see position. Switch-in there recovers the narrative and not the location — the half of the session handoff the standing decision says the three files carry worst | Certain. This is the deliberate scope boundary, not a risk of failure | Measured 2026-09-02: `progress.py` accepts no `--root` (passing one prints usage and exits 2); `fidelity.py:50` pins `ROOT` to the tool's own file path, so inside a plugin cache it audits the cache | non-fatal | accepted | None in this item, deliberately. The deferral is explicit in the producer's scope ruling and is what keeps the prerequisite proportionate |  | Fires when the diagnostic pilot reaches its first session boundary and needs a board, or at the pilot's findings — whichever comes first |
+
+## Scope
+
+The smallest valuable increment, agreed by Anthony 2026-09-18 13:15 ("yes") against
+`docs/work/gate-reachability/scope.html`: **Conductor, in the user's own project,
+knows which step a piece of work is on and does not move past missing groundwork
+silently.**
+
+In scope:
+
+- Conductor asks the user's project where a piece of work stands when it picks the
+  work up, and before it starts a build, reading that project's records and never
+  Kerd's.
+- When groundwork for the next step is missing, Conductor names what is missing and
+  offers to do it. The person can still choose to go ahead; that choice is recorded
+  in the work record, never taken silently. This replaces a flat refusal inside a
+  conversation, by the producer's decision.
+- No path typed: the plugin locates its own checks from Conductor's main
+  instructions (row 2's treatment).
+- A foreign-repo fixture: one pass and one named gap, from a repository that is not
+  Kerd, proving neither reads Kerd's own files (row 1's treatment).
+- Release metadata.
+
+Deliberately excluded:
+
+- Drive: replaced by Conductor; removing the skill is its own later release.
+- `progress.py`, `fidelity.py`, hooks and CI automation (the producer's 2026-09-02
+  scope ruling, unchanged).
+- Small standalone fixes: Conductor keeps them direct, with no step check.
+
+Rigor level: mvp

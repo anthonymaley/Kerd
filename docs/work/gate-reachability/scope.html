@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd gate-reachability — Conductor in your own project</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f5f5f5; --paper-2:#ffffff; --ink:#2d3142; --muted:#4f5d75; --soft:#7a8399;
+    --rule:rgba(45,49,66,0.12); --accent:#eb6c36; --accent-tint:rgba(235,108,54,0.08); }
+  *{box-sizing:border-box}
+  body{margin:0; padding:3rem 2rem; background:var(--paper); color:var(--ink);
+    font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px; margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .5rem}
+  h1{font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin:0 0 .5rem}
+  .sub{color:var(--muted); max-width:72ch; line-height:1.55; margin:0 0 2rem}
+  .sub strong{color:var(--ink)}
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:start}
+  .panel{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.5rem}
+  .panel.after{border-color:var(--accent)}
+  .tag{font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; margin:0 0 1rem}
+  .before .tag{color:var(--soft)} .after .tag{color:var(--accent)}
+  .ask{font-weight:600; margin:0 0 .75rem}
+  .reply{border-left:3px solid var(--rule); padding:.5rem .75rem; color:var(--muted); line-height:1.55; margin:0 0 1rem; font-size:.9375rem}
+  .after .reply{border-left-color:var(--accent); color:var(--ink)}
+  .reply code{font-family:'Geist Mono',monospace; font-size:.8125rem}
+  ul{margin:.25rem 0 0; padding-left:1.1rem; color:var(--muted); line-height:1.65; font-size:.9375rem}
+  .cards{display:grid; grid-template-columns:1.2fr 1fr; gap:1.25rem; margin-top:2rem}
+  .card{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.25rem 1.5rem}
+  .card h3{font-size:1rem; margin:0 0 .5rem}
+  footer{margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--soft)}
+  @media (max-width:860px){ body{padding:2rem 1rem} .cols,.cards{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Kerd · gate-reachability · launch step 2 · scope draft</p>
+  <h1>Conductor, in your own project</h1>
+  <p class="sub">Conductor is where you drive a piece of work (Drive is dropped, 2026-09-18). Today it never checks where the work stands: it guides the conversation, and whether the groundwork for a step exists is left to you. Kerd's step checks exist, but they only run inside Kerd's own repository. Proposed: Conductor, in <strong>your</strong> project, knows which step the work is on and will not move past missing groundwork, with no path to type. <strong>Agreed 2026-09-18 13:15.</strong></p>
+
+  <div class="cols">
+    <div class="panel before">
+      <p class="tag">Today · in your project</p>
+      <p class="ask">"Where is the checkout redesign? Let's start the build."</p>
+      <p class="reply">Conductor · Shape. It picks up from the conversation and the notes, and goes on to the build when you agree.</p>
+      <ul>
+        <li>It never asks the project which step the work has reached.</li>
+        <li>Nothing stops a build starting before its scope or design exists.</li>
+        <li>The checks are on your machine, inside the Kerd plugin; Conductor is told not to use them.</li>
+      </ul>
+    </div>
+    <div class="panel after">
+      <p class="tag">Proposed · in your project</p>
+      <p class="ask">"Where is the checkout redesign? Let's start the build."</p>
+      <p class="reply">The checkout redesign has passed viability; scope is next. The build waits for its Scope section. Shall we write it?</p>
+      <ul>
+        <li>Reads your project's records, never Kerd's.</li>
+        <li>Names the step the work is on and what is missing before the next one.</li>
+        <li>No path typed: the plugin finds its own checks.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>In this step</h3>
+      <ul>
+        <li>Conductor asks your project where a piece of work stands when it picks the work up, and before it starts a build.</li>
+        <li>When groundwork is missing it says what, and offers to do it; you can still choose to go ahead, and that choice is recorded.</li>
+        <li>A test from a repository that is not Kerd: one pass and one refusal, and neither reads Kerd's own files.</li>
+        <li>Release notes.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Not in this step</h3>
+      <ul>
+        <li>Drive: dropped for Conductor. Removing the skill is its own later release.</li>
+        <li>The progress board and the session-fidelity check (your 2026-09-02 ruling), hooks, CI.</li>
+        <li>Small fixes: Conductor keeps them direct, with no step check.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Kerd · docs/work/gate-reachability/scope.html · 2026-09-18 · agreed 13:15</footer>
+</div>
+</body>
+</html>

@@ -98,6 +98,12 @@ unless the diagnostic pilot surfaces it.
 sequence in `## Now` unless the diagnostic pilot surfaces it. Ranked by
 consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalidraw`.*
 
+- **Remove the Drive skill: Conductor replaces it** (ruling 2026-09-18 13:08,
+  `docs/decisions.md`). Its own release: `skills/drive/`, README, both capability
+  lists, cross-references, and the tests that count twelve skills. Anything Drive
+  does that Conductor lacks, such as frame-gate intake, is named before removal
+  rather than lost.
+
 **Ladder work — behind the launch sequence, not blocking it**
 
 - `inline-composer` at handoff — spec unwritten; its intended first real use is
