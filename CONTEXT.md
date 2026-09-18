@@ -105,7 +105,7 @@ its successor against this file after this save.
 The observed position before this save is `e83eb5d`; the boundary commit is this save
 itself on `main`. Ask `git log` for its ID.
 
-**Measured** 2026-09-18 15:5x: about 19,000 bytes, about 4,750 tokens estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup,
+**Measured** 2026-09-18 15:5x: about 20,000 bytes, about 5,000 tokens estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup,
 the exact selection to reuse:
 
 ```
