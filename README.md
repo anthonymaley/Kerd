@@ -40,7 +40,17 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.136.0)
+## What's New (v0.136.1)
+
+### v0.136.1
+
+**The acceptance check now has a test for a citation that points at nothing.**
+risk-state-split's acceptance gate (2026-09-18) found that the design's fifth
+required test was half-covered: a fatal risk whose treatment was still *planned*
+was refused at acceptance, but no test covered a cited proof that does not
+exist. The code already refused it; T68b now holds that behaviour, with a
+negative control. risk-state-split is accepted, ready to release, with the
+product-measurement gap named as an exception.
 
 ### v0.136.0
 

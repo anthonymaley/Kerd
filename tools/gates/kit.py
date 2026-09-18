@@ -3038,6 +3038,16 @@ def _selftest_body():
         assert any("Treatment evidence resolves (verified)" in h for h in cr["have"]), \
             f"T67: expected the verified have row, got {cr['have']}"
 
+        # T68b — fixture 5's other half, found missing at the 2026-09-18
+        # acceptance gate: a citation that resolves to nothing is refused at
+        # acceptance just as a planned one is. Populated is not proven.
+        _sw(p67, fatal_treated.replace(planned_cell, "docs/product/no-such-proof.md"))
+        cr = check_rung(root_t67, slug, "acceptance")
+        assert any("acceptance requires resolving Treatment evidence" in n for n in cr["need"]), \
+            f"T68b: a non-resolving citation at acceptance must refuse, got {cr['need']}"
+        assert not any("Treatment evidence resolves (verified)" in h for h in cr["have"]), \
+            f"T68b: a non-resolving citation must not read as verified, got {cr['have']}"
+
     # T69 — fixture 6 (the design's added case): fatal + temporary with an
     # empty Review trigger refuses with the lapsing-protection string; the
     # same row with its return condition named passes.

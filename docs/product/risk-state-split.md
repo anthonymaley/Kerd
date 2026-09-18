@@ -1,6 +1,6 @@
 ---
 route: new
-stage: framed
+stage: ready-to-release
 concerns:
   - concern: the two-axis vocabulary and what refuses
     viewpoint: matrix
