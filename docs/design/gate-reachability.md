@@ -35,8 +35,9 @@ project's records, never Kerd's, and the user types no path.
 
 A fixture from a repository that is not Kerd: one item with its groundwork
 present (Conductor carries on) and one with a gap (Conductor names it), neither
-reading Kerd's own files. Planned at `tools/gates/kit.py`, as risk rows 1 and 2
-declare.
+reading Kerd's own files. Built at
+`skills/conductor/scripts/tests/test_step_check.py` (the risk rows first
+planned it in `tools/gates/kit.py`; moved beside the skill it tests).
 
 ## Not decided here
 

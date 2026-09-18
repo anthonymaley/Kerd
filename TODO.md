@@ -104,6 +104,13 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
   does that Conductor lacks, such as frame-gate intake, is named before removal
   rather than lost.
 
+- **`tend` and `slainte` name the plugin placeholder literally, and Claude Code
+  fills it in.** Measured 2026-09-18: `${CLAUDE_PLUGIN_ROOT}` in SKILL.md text
+  is replaced by the install path at load. `skills/tend/SKILL.md` :213, :217,
+  :241 and `skills/slainte/SKILL.md` :104 mean the literal placeholder (e.g.
+  "a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path"), so the model likely reads a
+  rewritten instruction. Not yet observed in a real tend run.
+
 **Ladder work — behind the launch sequence, not blocking it**
 
 - `inline-composer` at handoff — spec unwritten; its intended first real use is

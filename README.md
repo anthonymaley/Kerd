@@ -40,7 +40,21 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.136.1)
+## What's New (v0.137.0)
+
+### v0.137.0
+
+**Conductor checks where your work stands, in your own project.** Kerd's step
+checks only ever ran inside Kerd's own repository; in yours, where a piece of
+work stood was whatever you said. Now, when Conductor picks up a work item that
+has a record in your project, and again before it starts a build, it asks your
+project which step the work is on. If groundwork is missing it names it in plain
+words and offers to do it. Going ahead anyway is your call, never refused, and
+it is written into the work record so the next session sees it. Small fixes and
+unrecorded work get no check. It reads your project, never Kerd's: a test run
+from inside Kerd against a separate project proves it, and fails when the
+project is not named explicitly. Drive is being retired in favour of Conductor
+(ruled 2026-09-18); it still ships in this release.
 
 ### v0.136.1
 
@@ -964,6 +978,13 @@ Drive walks one work item from idea to acceptance, across as many sessions as it
 ```
 
 ### conductor (Session Discipline)
+
+**Where your work stands.** For a work item with a record in your project
+(`docs/product/<slug>.md`), Conductor checks its step when it picks the work up
+and before a build: one plain line on the step and what the next one needs, an
+offer to do missing groundwork, and a go-ahead recorded in the work record if
+you choose to skip it, shown again at the next pickup. It names your project explicitly and says so rather than guessing when it
+cannot tell which project it is in.
 
 During delegation, Conductor shows a task/route/model-requested/effort/status
 grid and updates it through actual dispatch, return and checked results. Short
