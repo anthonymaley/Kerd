@@ -352,8 +352,8 @@ OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "l
                   "restore_note")
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
-CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "phase", "this_session", "next",
-                "why", "tree", "warnings", "host")
+CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "phase", "released", "this_session",
+                "next", "why", "tree", "warnings", "host")
 ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
 BORDERS = "\u256d\u2570\u251c\u250c\u2514"
 
@@ -878,7 +878,7 @@ def dashboard_tail(summary, now, width, color, markdown, arrival=False):
 def render_closing(summary, now, width=80, color=True, markdown=False):
     """The end of Switch Out: how far the save reached, what changed, what next.
 
-    A grid (project, save, phase, next), this session's changes in product
+    A grid (project, save, phase, released), this session's changes in product
     terms, the next step with its reason, then one closing line. Save
     mechanics stay in the records; a problem (a save that did not reach the
     remote, memory not ready, work left behind) appears under Attention only
@@ -932,8 +932,10 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         closing = "Keep this session open and record handoff readiness before clearing context."
 
     project = str(get("project") or "Kerd")
+    # The next step lives once, in "Next time" with its reason; the grid's
+    # fourth cell says what this sitting released.
     grid = (("PROJECT", project), ("SAVED", cell), ("PHASE", str(get("phase") or UNRECORDED)),
-            ("NEXT", str(get("next") or UNRECORDED)))
+            ("RELEASED", str(get("released") or "Nothing released")))
     changes = get("this_session")
     if isinstance(changes, str):  # one change written as prose, not a list of letters
         changes = [changes]
@@ -961,9 +963,9 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
             [ink(" " + line, "bold", "cyan", on=color) for line in wrap(project.upper(), width - 1)] + \
             [ink(" " + line, tone, on=color) for line in wrap(badge, width - 1)]
     lines += [ink("\u2501" * width, "cyan", on=color), ""]
-    for label, value in grid:
-        for index, line in enumerate(wrap(value, width - 10)):
-            lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color) + " " + line)
+    for label, value in grid:  # RELEASED is eight wide
+        for index, line in enumerate(wrap(value, width - 11)):
+            lines.append(" " + ink(pad(label if index == 0 else "", 8), "dim", on=color) + " " + line)
     lines += ["", ink(" THIS SESSION", "dim", on=color)]
     for item in changes or ["Nothing recorded."]:
         lines += ["   \u00b7 " + line if index == 0 else "     " + line

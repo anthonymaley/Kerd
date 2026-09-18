@@ -31,7 +31,7 @@ and repository boundaries still apply.
   lean, measured start point with the selected continuation, its approval
   boundary and recorded urgent risks — rulings kept, cases and closed rows moved to
   reachable records, the reading set named — and end on the saved-place box:
-  a project/saved/phase/next grid, what changed this session in product terms,
+  a project/saved/phase/released grid, what changed this session in product terms,
   the next step and why, save problems under attention, and one restart line
   only after a confirmed save. Read
   [pickup and closeout](references/in-out.md).

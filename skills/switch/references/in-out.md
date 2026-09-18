@@ -717,7 +717,7 @@ printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing 
 
 Use the same chat-versus-terminal presentation choice as In above. The box
 mirrors the arrival, in plain product English: a one-row grid (PROJECT, SAVED,
-PHASE, NEXT), **This session** with what changed for the person one line each,
+PHASE, RELEASED), **This session** with what changed for the person one line each,
 **Next time** with the next step and its **Why**, then one closing line. Save
 mechanics (commit, file count, remote, reading set, measurement, log path) stay
 in the records the next Switch In reads, not on the screen. A save problem
@@ -733,7 +733,9 @@ NOT RECORDED, never "nothing committed": unknown is not evidence.
 closeout check, not something a Git push or renderer can prove: `false` or
 omitted adds an attention line, and `false` also names the missing detail or
 recovery action in `next`. `phase` is where the wider work stands, in the
-project's own terms. `this_session` is what changed, in product language, not
+project's own terms. `released` is what this sitting released
+("0.136.0 → 0.138.0"), or `null` for "Nothing released"; the next step appears
+once, in Next time. `this_session` is what changed, in product language, not
 the files touched. `next` is the exact next action the start point names; `why`
 is the reason it comes first. `tree` is what remains in the working tree, in
 words: exactly `clean` when nothing is left; anything else is shown under attention. Files the project
@@ -765,10 +767,11 @@ routing. No session is ended by preparing its handoff.
   "branch": "main",
   "saved": "remote-verified",
   "handoff_ready": true,
-  "phase": "Launch: 2 of 5 done",
+  "phase": "Launch outcomes 0 of 5; sequence steps 1–2 done",
+  "released": "0.136.0 → 0.138.0",
   "this_session": [
-    "The risk-rating change was accepted: launch step 1 done.",
-    "Conductor now checks where your work stands in your own project: launch step 2 done."
+    "The risk-rating change was accepted: launch sequence step 1 done.",
+    "Conductor now checks where your work stands in your own project: step 2 done."
   ],
   "next": "Start the diagnostic pilot.",
   "why": "It is the first real work item driven in someone else's project, and the only way to see Kerd work for a real user.",

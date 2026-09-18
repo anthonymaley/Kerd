@@ -40,7 +40,14 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.138.0)
+## What's New (v0.138.1)
+
+### v0.138.1
+
+**The Switch Out grid says what was released, not the next step twice.** The
+grid's NEXT cell repeated the "Next time" line below it. It now shows what this
+sitting released ("0.136.0 → 0.138.0", or "Nothing released"); the next step
+appears once, with its reason.
 
 ### v0.138.0
 
@@ -1284,7 +1291,7 @@ boundaries or explain why it is needed, without discarding the evidence.
 `scripts/handoff.py` does the Git work: explicit-file saves, safe fast-forward,
 acknowledged local-only paths that are never staged, and a check that the remote
 carries the exact commit. Out ends on the saved-place box: SESSION SAVED, SAVED
-LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, a project/saved/phase/next
+LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, a project/saved/phase/released
 grid, what changed this session in product terms, the next step and why, any save
 problem under Attention, and one restart line: *Exit and restart or /clear and
 /kerd:switch in to pick up from here.* The reading set and its measured size stay

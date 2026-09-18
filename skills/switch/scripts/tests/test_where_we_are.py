@@ -992,7 +992,7 @@ class ClosingBoxTests(unittest.TestCase):
 
     def base(self, **over):
         summary = {"project": "Kerd", "branch": "main", "saved": "remote-verified", "handoff_ready": True,
-                   "phase": "Launch: 2 of 5 done",
+                   "phase": "Launch: 2 of 5 done", "released": "0.136.0 → 0.138.0",
                    "this_session": ["The risk-rating change was accepted.",
                                     "Conductor checks where your work stands in your own project."],
                    "next": "Start the diagnostic pilot.",
@@ -1009,7 +1009,8 @@ class ClosingBoxTests(unittest.TestCase):
             with self.subTest(markdown=markdown):
                 out = flatten(self.render(markdown))
                 self.assertIn("SESSION SAVED", out)
-                for value in ("Pushed to main", "Launch: 2 of 5 done", "Start the diagnostic pilot.",
+                for value in ("Pushed to main", "Launch: 2 of 5 done", "0.136.0 → 0.138.0",
+                              "Start the diagnostic pilot.",
                               "The risk-rating change was accepted.",
                               "Conductor checks where your work stands in your own project.",
                               "It is the first real work item driven in someone else's project."):
@@ -1018,8 +1019,14 @@ class ClosingBoxTests(unittest.TestCase):
 
     def test_the_grid_leads_the_markdown_box(self):
         out = self.render(True)
-        self.assertEqual(out.split("\n")[2], "| PROJECT | SAVED | PHASE | NEXT |")
-        self.assertIn("| Kerd | Pushed to main | Launch: 2 of 5 done | Start the diagnostic pilot. |", out)
+        self.assertEqual(out.split("\n")[2], "| PROJECT | SAVED | PHASE | RELEASED |")
+        self.assertIn("| Kerd | Pushed to main | Launch: 2 of 5 done | 0.136.0 → 0.138.0 |", out)
+
+    def test_the_next_step_appears_once(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                self.assertEqual(self.render(markdown).count("Start the diagnostic pilot."), 1)
+        self.assertIn("| Nothing released |", self.render(True, released=None))
 
     def test_the_closing_line_is_last_and_names_the_restart(self):
         for markdown in (False, True):
@@ -1144,7 +1151,7 @@ class ClosingBoxTests(unittest.TestCase):
         missing = set(view.CLOSING_KEYS) - set(example)
         self.assertFalse(missing, f"example omits keys a caller would have to discover: {missing}")
         out = flatten(view.render_closing(example, NOW, 100, False, markdown=True))
-        for key in ("project", "phase", "next", "why"):
+        for key in ("project", "phase", "released", "next", "why"):
             self.assertIn(flatten(str(example[key])), out, f"{key} is missing or cut short on screen")
         for item in example["this_session"]:
             self.assertIn(flatten(item), out)
