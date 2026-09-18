@@ -475,3 +475,20 @@ fail and a situation it can pass — reached five instances today and has never 
 changing. Two of the five were introduced *inside 0.134.0*, the release that codifies
 the class, one of them hours after its author wrote the record naming it. Every instance
 was caught by an independent reader; none by a static check.
+
+## Closed 2026-09-18
+
+- **The assistant-side byte-identity claim — DROPPED by Anthony, 2026-09-18 10:07.**
+  Verdict: dead. One outside reading was taken first (the 09:58 In's renderer output and
+  the returned message, both 1,991 bytes, identical sha256, read from the host-written
+  transcript), then Anthony ruled the check has no value: "switch in need to tell me what
+  happens next and why, not just put up text from last session byte identical". The
+  picker case is not owed. Evidence: `docs/work/question-pickers/work.md` `## Next`.
+- **0.135.0 released — Switch In says what happens next and why, in plain English.**
+  Verdict: done, commit `7d374ba` on `origin/main`, entry-gate CI success. 738 tests, gate
+  clean, one Claude review (no authority holes; a null-input layout fallback fixed with a
+  negative control). Not yet observed on a real arrival — that stays open in `TODO.md`.
+  Record: `docs/work/switch-in-open-work/work.md`; ruling: `docs/decisions.md` entry 1.
+- **Position paragraphs moved out of `CONTEXT.md`:** the 0.134.0 release boundary, the
+  byte-identity continuation and "Both 0.131.0 deferrals are resolved". Their text is in
+  Git at `7d374ba:CONTEXT.md`.

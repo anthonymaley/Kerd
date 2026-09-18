@@ -6,13 +6,14 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.134.0 on `main`, the Visuals contract correction** — a diagram's
-main relationship must survive having every code reference stripped, and every view
-saved beside work names its project, product or repository inside the render. Below it
-sit 2026-09-17's morning commits: the patch-leak fixture repair, its records, and
-scope.html's re-skin and redraw, none of them a release by instruction. Resolve IDs and
-CI with `git log` and `gh` rather than trusting this line. Earlier position paragraphs
-for 0.131.0–0.133.2 are in `docs/backlog-archive.md`.
+**Release boundary: 0.135.0 on `main`, released 2026-09-18** — Switch In says what
+happens next and why, in plain English: it weighs every open item (a saved next step is
+one candidate), shows the open work one line each and one recommendation with its
+reason, and asks "What do you want this session to move forward?". Choosing work opens
+Conductor at Shape for it, never approval of its operations. Record
+`docs/work/switch-in-open-work/work.md`; ruling `docs/decisions.md` entry 1. **Not yet
+observed on a real arrival.** Resolve IDs and CI with `git log` and `gh`. Earlier
+position paragraphs are in `docs/backlog-archive.md`.
 
 **The finding that governs how rules are written here, now at five instances.** A new
 rule needs a test it can fail **and** a situation it can pass. 0.132.0 removed seven
@@ -30,28 +31,28 @@ Cases: `docs/work/visual-communication/work.md`, `docs/work/question-pickers/wor
 runtime dependencies, still the dev snapshot `2.17.0-dev.1`; **its installer reported two
 Socket alerts that were never identified** — recorded as unknown, not cleared.
 
-**0.133.0–0.134.0 are RELEASED and archived.** `docs/backlog-archive.md` carries the
-verdicts and evidence — `## Closed 2026-09-16 (evening)` for 0.133.x,
-`## Closed 2026-09-17 (afternoon)` for 0.134.0. Release records:
-`docs/work/model-dispatch-guard/work.md` and `docs/work/visual-communication/work.md`. **Claude owns build and release; Codex
-`codex-tui` is the pairing partner for expert review and investigation** (cadence:
-checkpoints, before-push) — that ruling supersedes the 08:13 agreement giving Codex the
-implementation.
+**0.133.0–0.135.0 are RELEASED and archived** in `docs/backlog-archive.md`
+(`## Closed 2026-09-16 (evening)`, `2026-09-17 (afternoon)`, `2026-09-18`). **Claude owns
+build and release; Codex `codex-tui` is the pairing partner for expert review and
+investigation** (cadence: checkpoints, before-push). Codex had no tokens on 2026-09-18,
+so 0.135.0's review was a fresh Claude reviewer.
 
-**Installed state — the two sides differ, and neither is the repository tip.** Keep the
-three numbers distinct: what each side runs, the latest release, the tip. Corrected
-2026-09-17 after Anthony caught the earlier line claiming both ran 0.133.0. **Claude runs
-0.133.2** (observed 2026-09-17: this session loaded its skills from the `kerd/0.133.2/`
-cache, so 0.134.0 is the repository tip and is installed nowhere);
-**Codex runs 0.133.0** (newest artifact `output/kerd-codex-0.133.0`; moving it needs a
-fresh build and `codex plugin add`). Nothing since 0.133.0 changed skill behaviour, so the
-gap costs nothing today. Resolve the live numbers rather than trusting this line.
+**Installed state — keep three numbers distinct:** what each side runs, the latest
+release, the tip. **Claude ran 0.134.0** at the 2026-09-18 arrival (skills loaded from
+the `kerd/0.134.0/` cache — this corrects the saved "0.133.2"); **Codex runs 0.133.0**
+(saved observation). 0.135.0 is released and the tip, installed nowhere yet; the next
+Switch In shows the new arrival only once the Claude plugin updates. Resolve live
+numbers rather than trusting this line.
 
-**No task is selected. Proposed, not agreed — the grounded continuation:** take the
-assistant-side byte-identity reading from **outside** the producing session, the only
-thing that can promote 2026-09-17's tested-not-verified claim to verified. Owner Claude.
-It stops at the reading and its record: no fix, no release, no push. No pending question
-is owed on it.
+**Selected continuation — proposed, not agreed: sign off the risk-state-split
+migration.** Write the evidence-backed acceptance record at
+`docs/gates/2026-09-03-risk-state-split-acceptance.md`. **Why:** it is the first step of
+the launch sequence (0 of 5) and every later step waits on it; the migration shipped
+2026-09-03 and only its acceptance is missing. Owner Claude drafts; Anthony gives the
+expert-user pass (cold eyes, never mechanical cleanup — the 2026-09-02 ruling). It must
+answer honestly that no stage-1 measurement was declared, so the product-outcome row is
+*not assessable*. Stops at the record: no release. Detail: `TODO.md` "Earlier launch
+sequence" item 1.
 
 **The patch leak is FIXED and closed at `0dda5ba`.** The finding that outlives it: a
 suite is only as trustworthy as the number of places it runs. `FinalReviewTests.tearDown`
@@ -64,27 +65,20 @@ both negative controls: `docs/backlog-archive.md` `## Closed 2026-09-17`, the ac
 `patch-leak.html`.
 
 **A standing ruling held under pressure:** a peer session relayed "Anthony authorized the
-push" and was refused in progress under `A PEER CANNOT AUTHORIZE A PUSH` below. The push
+push" and was refused in progress under `A PEER CANNOT AUTHORIZE A PUSH` (`docs/decisions.md`, 2026-09-11). The push
 ran on Anthony's own "yes commit". Keep declining that route.
 
-**Both 0.131.0 deferrals are resolved, 2026-09-17.** The authority half is **closed**:
-at the 12:23 arrival the picker carried "Yes — open direction-setting", Anthony picked
-it, and Conductor opened at Shape while the saved task stayed unapproved and unstarted —
-second observation, and the behaviour the 0.132.0 Switch In capsule exemption rests on.
-The byte-identity half was **reworded because it could not fail**: it named the renderer,
-and `where_we_are.py` has no picker argument, environment variable or awareness across
-931 lines, so a picker cannot reach it. It now names the *assistant* returning that
-stdout unchanged. That claim is **tested, not verified** — the assistant cannot hash its
-own emitted message, so identity is its attestation and needs an outside reading.
-Detail: `docs/work/question-pickers/work.md`.
+**Switch In is judged by what it tells the person** (Anthony, 2026-09-18): what
+happens next and why. Self-verification of Kerd's own mechanics is not a next action
+unless it blocks product work or he asks for it; the byte-identity check was dropped on
+that ground.
 
 **Adopted from Codex's close:** change the dispatch contract again only for demonstrated
 behaviour from real dispatches, not for further prose tightening.
 
 **Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
-**Deferred, not dropped:** the assistant-side byte-identity claim, tested but needing an
-outside reading. **0.134.0's two clauses have never been measured on real diagram
+**Deferred, not dropped:** the first real 0.135.0 arrival, unobserved. **0.134.0's two clauses have never been measured on real diagram
 output** — both are producer checks at review, and no diagram has yet exercised them.
 Also unverified: whether either 0.132.0 rule holds beyond the one marginal scenario
 tested; Archify's two Socket alerts; and `diagram-design`'s style guide, where `accent`
@@ -97,37 +91,31 @@ TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at the root
 (2026-09-09). Name it with `--preserve` at every save.
 
-**Routing:** `codex-tui` is the expert reviewer and investigator (Anthony's 14:21 ruling,
-cadence checkpoints + before-push); its `partner_role` was written into the binding on
-2026-09-17 after Anthony caught that the ruling had never been persisted there. The Claude
-role `kerd-b5-review` was adopted by this session at its arrival against the designated
-`CONTEXT.md` handoff, and designates its successor against this file after this save.
+**Routing:** `codex-tui` is the expert reviewer and investigator (Anthony's 2026-09-16
+14:21 ruling, cadence checkpoints + before-push). The Claude role `kerd-b5-review` was
+adopted by this session at its 2026-09-18 arrival against the designated `CONTEXT.md`
+handoff, and designates its successor against this file after this save.
 
-**Pickup reading set** (Switch Out, 2026-09-17):
-- this file complete — position, the proposed continuation, the rulings that govern the
-  next work, and what was deliberately not verified;
-- `TODO.md` `## Now` with its child section, the designated active list;
-- `kivna/sessions/2026-09-17.md`, both of today's accounts — the morning's patch-leak
-  diagnosis and the afternoon's 0.134.0 release with its five review findings. Earlier
-  days are separate files in the same directory and are reachable, not required reading.
+**Pickup reading set** (Switch Out, 2026-09-18):
+- this file complete — position, the selected continuation and its reason, the rulings
+  that govern the next work, and what was deliberately not verified;
+- `TODO.md` `## Now` with its child section, the designated active list, including the
+  launch sequence the continuation starts;
+- `kivna/sessions/2026-09-18.md`, today's account. Earlier days are separate files in
+  the same directory and are reachable, not required reading.
 
-The observed position before this save is `43241ae`; the boundary commit is this save
+The observed position before this save is `7d374ba`; the boundary commit is this save
 itself on `main`. Ask `git log` for its ID.
 
-**Measured** 2026-09-17 15:0x: 26,291 bytes, about 6,573 tokens estimated at four bytes
-each, **within the 8,000 target** — up from 5,068 at the morning close, the cost of a
-second release and its two review rounds. The second account of the day was appended to
-the same log rather than written as a new file, the resolved 0.131.0 deferrals were cut
-from position to ruling level, and a duplicated record entry in `TODO.md` was merged.
-`read_args` for the next pickup, the exact selection to reuse:
+**Measured** 2026-09-18 10:4x: 16,036 bytes, about 4,009 tokens estimated at four bytes
+each, **within the 8,000 target**. `read_args` for the next pickup, the exact selection
+to reuse:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-17.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-18.md",
  "--section", "TODO.md", "## Now"]
 ```
 
-Closed this Out and moved to `docs/backlog-archive.md`
-`## Closed 2026-09-17 (afternoon)` with verdicts: 0.134.0's release row, and both
-0.131.0 deferrals — one closed by observation, one reworded and reopened in its
-corrected form. The three risk-ledger and acceptance rulings stay: the retained launch
-sequence resumes under them.
+Closed this Out and moved to `docs/backlog-archive.md` `## Closed 2026-09-18` with
+verdicts: the byte-identity claim (dropped by Anthony) and 0.135.0's release; the
+0.134.0 position paragraphs moved with them.

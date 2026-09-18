@@ -2,12 +2,14 @@
 
 ## Now
 
-**Release boundary:** 0.134.0 on `main`, the Visuals contract correction — a diagram's
-main relationship must survive having every code reference stripped, and every view
-saved beside work names its project inside the render. Pushed with the entry gate green;
+**Release boundary:** 0.135.0 on `main` — Switch In says what happens next and why, in
+plain English: open work one line each, one recommendation with its reason, ending on
+"What do you want this session to move forward?". Pushed with the entry gate green;
 resolve IDs with `git log`. Position, installed state and the reading set are in
 `CONTEXT.md` `## Where We Are`.
 Records:
+- `docs/work/switch-in-open-work/work.md` and `before-after.html` (0.135.0: the
+  agreement, the review and its fixes);
 - `docs/work/visual-communication/work.md` and `scope.html` — **both** the 0.134.0
   contract correction (the two clauses, the five bullets dropped as already contracted,
   both review rounds, all five findings) and 0.132.0 (both rules, the three-arm
@@ -23,23 +25,19 @@ Records:
 These lists are not authority to install or run checks during pickup.
 
 - **Released and archived** — 0.133.0 the dispatch contract, 0.133.1 the CI/test-path
-  fix, 0.133.2 the defect CI found on its first run, and **0.134.0 the Visuals contract
-  correction**. Verdicts and evidence are in `docs/backlog-archive.md`
+  fix, 0.133.2 the defect CI found on its first run, 0.134.0 the Visuals contract
+  correction, and **0.135.0 the plain-English Switch In**. Verdicts and evidence are in `docs/backlog-archive.md`
   `## Closed 2026-09-16 (evening)` and `## Closed 2026-09-17 (afternoon)`; the release
   records are `docs/work/model-dispatch-guard/work.md` and
   `docs/work/visual-communication/work.md`. **Adopted from Codex's close:** change the
   dispatch contract again only for demonstrated behaviour from real dispatches, not for
   further prose tightening.
 
-- **Both 0.131.0 deferrals resolved 2026-09-17; one of them is reopened in corrected
-  form.** The authority half is closed — at the 12:23 arrival the picker carried "Yes —
-  open direction-setting", Anthony picked it, and Conductor opened at Shape while the
-  saved task stayed unapproved and unstarted. The byte-identity half **could not fail as
-  written**: it named the renderer, which has no picker input of any kind, so it now
-  names the *assistant* returning that stdout unchanged. **Open in that corrected form:**
-  the claim is tested, not verified, because the assistant cannot hash its own emitted
-  message. Needs a reading taken outside the producing session.
-  → `docs/work/question-pickers/work.md`
+- **Observe the first real 0.135.0 arrival.** Does the recommendation carry a reason a
+  person can check, and does a saved step lose its automatic place? The weighing is
+  model judgment with no mechanical check; an arrival leading with a self-check nobody
+  asked for fails it. Needs the plugin cache at 0.135.0 (Claude loaded 0.134.0 on
+  2026-09-18). → `docs/work/switch-in-open-work/work.md`
 
 - **0.134.0's two clauses have never been measured on real diagram output.** Both the
   expansion test and visible project identity are producer checks at review; no diagram
