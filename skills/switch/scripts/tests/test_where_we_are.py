@@ -973,10 +973,13 @@ class DocumentedExampleTests(unittest.TestCase):
 
 
 class ClosingBoxTests(unittest.TestCase):
-    """Switch Out ends on one box that says how far the save reached.
+    """Switch Out ends on a grid, this session's changes, the next step with
+    its reason, and one closing line.
 
-    The box never claims the session exited or the context was cleared: a save
-    is a Git fact, and the terminal the person is sitting in is still open.
+    Save mechanics stay in the records; a save problem is shown under Attention
+    whenever it is true. The box never claims the session exited or the
+    context was cleared, and never offers /clear before a confirmed save with
+    memory ready.
     """
 
     GUIDE = Path(__file__).resolve().parents[2] / "references" / "in-out.md"
@@ -989,88 +992,150 @@ class ClosingBoxTests(unittest.TestCase):
 
     def base(self, **over):
         summary = {"project": "Kerd", "branch": "main", "saved": "remote-verified", "handoff_ready": True,
-                   "commit": "2e59ab7", "files": 15, "remote": "origin/main",
-                   "local_only": ["kerd-laptop-result.patch"], "tree": "clean",
-                   "closed": "2026-09-12 12:40 EDT",
-                   "next": "Run one real Conductor session on 0.112.0.",
-                   "reading_set": ["CONTEXT.md", "TODO.md ## Now", "kivna/sessions/2026-09-12.md"],
-                   "measured": "23,482 bytes, about 5,871 tokens estimated, within the 8,000 target",
-                   "log": "kivna/sessions/2026-09-12.md"}
+                   "phase": "Launch: 2 of 5 done",
+                   "this_session": ["The risk-rating change was accepted.",
+                                    "Conductor checks where your work stands in your own project."],
+                   "next": "Start the diagnostic pilot.",
+                   "why": "It is the first real work item driven in someone else's project.",
+                   "tree": "clean", "warnings": [], "host": "claude"}
         summary.update(over)
         return summary
 
-    def test_remote_verified_save_shows_the_saved_banner_and_every_field(self):
-        out = view.render_closing(self.base(), NOW, 80, False)
-        flat = flatten(out)
-        self.assertIn("SESSION SAVED", out)
-        for value in ("origin/main", "2e59ab7", "15 files", "kerd-laptop-result.patch", "clean",
-                      "2026-09-12 12:40 EDT", "Run one real Conductor session on 0.112.0.",
-                      "TODO.md ## Now", "23,482 bytes", "kivna/sessions/2026-09-12.md"):
-            self.assertIn(flatten(value), flat, f"{value!r} missing or cut short on screen")
+    def render(self, markdown, **over):
+        return view.render_closing(self.base(**over), NOW, 80, False, markdown=markdown)
 
-    def test_the_three_save_states_are_told_apart_and_never_confused_with_exit(self):
-        for saved, banner, absent in (("remote-verified", "SESSION SAVED", "NOT ON THE REMOTE"),
-                                      ("committed", "SAVED LOCALLY", "SESSION SAVED"),
-                                      ("not-saved", "NOT SAVED", "SESSION SAVED")):
-            with self.subTest(saved=saved):
-                out = view.render_closing(self.base(saved=saved), NOW, 80, False)
-                self.assertIn(banner, out)
-                self.assertNotIn(absent, out)
-                self.assertNotIn("exited", out.lower())
-                self.assertNotIn("cleared", out.lower())
-                self.assertIn("still open", out)
+    def test_a_confirmed_save_shows_the_grid_changes_next_and_why(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                out = flatten(self.render(markdown))
+                self.assertIn("SESSION SAVED", out)
+                for value in ("Pushed to main", "Launch: 2 of 5 done", "Start the diagnostic pilot.",
+                              "The risk-rating change was accepted.",
+                              "Conductor checks where your work stands in your own project.",
+                              "It is the first real work item driven in someone else's project."):
+                    self.assertIn(flatten(value), out)
+                self.assertNotIn("ATTENTION", out)
 
-    def test_the_free_context_hint_follows_only_a_confirmed_save(self):
-        for saved, hint in (("remote-verified", "Free context"), ("committed", "Free context"),
-                            ("not-saved", "resolve the save"), (None, "resolve the save"),
-                            ("something-else", "resolve the save")):
-            with self.subTest(saved=saved):
-                out = view.render_closing(self.base(saved=saved), NOW, 80, False)
-                self.assertIn(hint, out)
-                self.assertIn("still open", out)
-                if hint != "Free context":
-                    self.assertNotIn("/clear", out)
+    def test_the_grid_leads_the_markdown_box(self):
+        out = self.render(True)
+        self.assertEqual(out.split("\n")[2], "| PROJECT | SAVED | PHASE | NEXT |")
+        self.assertIn("| Kerd | Pushed to main | Launch: 2 of 5 done | Start the diagnostic pilot. |", out)
+
+    def test_the_closing_line_is_last_and_names_the_restart(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                out = self.render(markdown).rstrip()
+                self.assertTrue(flatten(out).endswith(
+                    "Exit and restart or /clear and /kerd:switch in to pick up from here."))
+
+    def test_under_codex_the_closing_line_names_no_claude_command(self):
+        for host in ("codex", "Codex", "codex-cli", "something"):
+            with self.subTest(host=host):
+                out = flatten(self.render(True, host=host))
+                self.assertTrue(out.endswith("Exit and restart, then switch in to pick up from here."))
+                self.assertNotIn("/clear", out)
+        for host in ("claude", "Claude", None):
+            with self.subTest(host=host):
+                self.assertIn("/clear", flatten(self.render(True, host=host)))
+
+    def test_a_failed_save_under_codex_still_keeps_the_session_open(self):
+        out = flatten(self.render(True, host="codex", saved="not-saved"))
+        self.assertIn("Keep this session open", out)
+        self.assertNotIn("Exit and restart", out)
+
+    def test_a_dirty_tree_or_a_warning_alone_raises_attention(self):
+        for over in ({"tree": "2 files left, not saved"}, {"warnings": ["Designation failed."]}):
+            for markdown in (False, True):
+                with self.subTest(over=over, markdown=markdown):
+                    out = self.render(markdown, **over)
+                    self.assertIn("ATTENTION", out)
+                    body = out.split("ATTENTION", 1)[1]
+                    self.assertIn(flatten(str(list(over.values())[0]).strip("[]'")), flatten(body))
+        for tree in ("clean", "Clean", "clean."):
+            with self.subTest(tree=tree):
+                self.assertNotIn("ATTENTION", self.render(True, tree=tree))
+
+    def test_a_pushed_save_without_a_branch_does_not_say_not_recorded(self):
+        out = self.render(True, branch=None)
+        self.assertIn("| Pushed |", out)
+
+    def test_save_mechanics_stay_off_the_screen(self):
+        out = self.render(True, commit="2e59ab7", files=15, remote="origin/main",
+                          local_only=["kerd-laptop-result.patch"], measured="23,482 bytes",
+                          reading_set=["CONTEXT.md"], log="kivna/sessions/2026-09-12.md",
+                          closed="2026-09-12 12:40 EDT")
+        for gone in ("2e59ab7", "15 files", "origin/main", "kerd-laptop-result.patch", "23,482",
+                     "READ FIRST", "LOG", "Rendered", "MEMORY", "TREE"):
+            self.assertNotIn(gone, out)
+
+    def test_the_save_states_are_told_apart_and_never_confused_with_exit(self):
+        for saved, banner, cell, absent in (("remote-verified", "SESSION SAVED", "Pushed to main", "NOT SAVED"),
+                                            ("committed", "SAVED LOCALLY", "Committed, not pushed", "SESSION SAVED"),
+                                            ("not-saved", "NOT SAVED", "Not saved", "SESSION SAVED")):
+            for markdown in (False, True):
+                with self.subTest(saved=saved, markdown=markdown):
+                    out = self.render(markdown, saved=saved)
+                    self.assertIn(banner, out)
+                    self.assertIn(cell, out)
+                    self.assertNotIn(absent, out)
+                    self.assertNotIn("exited", out.lower())
+                    self.assertNotIn("cleared", out.lower().replace("before clearing", ""))
+
+    def test_a_save_problem_is_named_under_attention(self):
+        for saved, words in (("committed", "not verified on the remote"),
+                             ("not-saved", "Nothing was committed"),
+                             (None, "save status was not recorded")):
+            for markdown in (False, True):
+                with self.subTest(saved=saved, markdown=markdown):
+                    out = flatten(self.render(markdown, saved=saved))
+                    self.assertIn("ATTENTION", out)
+                    self.assertIn(words, out)
+
+    def test_restart_is_offered_only_after_a_confirmed_save_with_memory_ready(self):
+        for markdown in (False, True):
+            for saved in ("remote-verified", "committed", "not-saved", None, "weird"):
+                for ready in (True, False, None, "true", 1):
+                    with self.subTest(markdown=markdown, saved=saved, ready=ready):
+                        out = flatten(self.render(markdown, saved=saved, handoff_ready=ready))
+                        allowed = saved in ("remote-verified", "committed") and ready is True
+                        self.assertEqual("/clear" in out, allowed)
+                        self.assertEqual("Exit and restart" in out, allowed)
+                        if not allowed:
+                            self.assertIn("Keep this session open", out)
+                        if ready is False:
+                            self.assertIn("Memory for the next session is incomplete", out)
+                        elif ready is not True:
+                            self.assertIn("memory is ready for the next session was not recorded", out)
 
     def test_an_unknown_save_status_is_not_reported_as_nothing_committed(self):
         for summary in ({}, {"saved": "weird"}, self.base(saved=None)):
             with self.subTest(summary=summary):
                 out = view.render_closing(summary, NOW, 80, False)
                 self.assertIn("SAVE STATUS NOT RECORDED", out)
-                self.assertNotIn("nothing committed", out)
+                self.assertNotIn("Nothing was committed", out)
                 self.assertNotIn("NOT SAVED", out)
                 self.assertNotIn("SESSION SAVED", out)
 
-    def test_every_line_including_a_long_log_path_fits_the_width(self):
-        long_log = "docs/work/" + "long-work-name-" * 7 + "/session.md"
-        for width in (78, 100):
-            out = view.render_closing(self.base(log=long_log), NOW, width, False)
-            over = [line for line in out.splitlines() if len(line) > width]
+    def test_a_dirty_tree_and_warnings_are_named_not_hidden(self):
+        out = flatten(self.render(True, tree="2 unassigned changes left, not saved",
+                                  warnings=["Role designation failed; pairing recovery unavailable."]))
+        self.assertIn("2 unassigned changes left, not saved", out)
+        self.assertIn("Role designation failed; pairing recovery unavailable.", out)
+
+    def test_every_line_fits_the_width(self):
+        long_change = "A very long description of what changed " * 5
+        for width in (60, 78, 100):
+            out = view.render_closing(self.base(this_session=[long_change], saved="committed"),
+                                      NOW, width, False)
+            over = [line for line in out.splitlines() if view.columns(line) > width]
             self.assertFalse(over, f"lines wider than {width}: {over}")
-            # A path has no spaces to wrap at, so compare with all whitespace removed.
-            self.assertIn("".join(long_log.split()), "".join(out.split()))
-
-    def test_a_committed_but_unpushed_save_says_so_in_words(self):
-        out = view.render_closing(self.base(saved="committed"), NOW, 80, False)
-        self.assertIn("not verified on the remote", flatten(out))
-
-    def test_confirmed_save_hint_does_not_assume_a_claude_slash_command(self):
-        out = flatten(view.render_closing(self.base(), NOW, 80, False))
-        self.assertIn("start a new conversation in your client", out)
-        self.assertIn("then ask Kerd to switch in", out)
-        self.assertNotIn("/clear", out)
-
-    def test_local_only_leftovers_and_a_dirty_tree_are_named_not_hidden(self):
-        out = view.render_closing(self.base(tree="2 unassigned changes left, not saved",
-                                            local_only=["a.patch", "b/__pycache__/"]), NOW, 80, False)
-        flat = flatten(out)
-        self.assertIn("2 unassigned changes left, not saved", flat)
-        self.assertIn("a.patch", flat); self.assertIn("b/__pycache__/", flat)
+            self.assertIn(flatten(long_change), flatten(out))
 
     def test_missing_fields_degrade_to_not_recorded_rather_than_crashing(self):
-        out = view.render_closing({"saved": "remote-verified"}, NOW, 80, False)
+        out = view.render_closing({"saved": "remote-verified", "handoff_ready": True}, NOW, 80, False)
         self.assertIn(view.UNRECORDED, out)
+        self.assertIn("Nothing recorded.", out)
         self.assertIn("SESSION SAVED", out)
-        self.assertNotIn("files)", out)
 
     def test_the_guide_example_uses_only_keys_the_renderer_reads_and_all_reach_the_screen(self):
         example = self.example()
@@ -1078,10 +1143,10 @@ class ClosingBoxTests(unittest.TestCase):
         self.assertFalse(unknown, f"example carries keys the renderer ignores: {unknown}")
         missing = set(view.CLOSING_KEYS) - set(example)
         self.assertFalse(missing, f"example omits keys a caller would have to discover: {missing}")
-        out = flatten(view.render_closing(example, NOW, 100, False))
-        for key in ("commit", "remote", "tree", "closed", "next", "measured", "log"):
+        out = flatten(view.render_closing(example, NOW, 100, False, markdown=True))
+        for key in ("project", "phase", "next", "why"):
             self.assertIn(flatten(str(example[key])), out, f"{key} is missing or cut short on screen")
-        for item in example["local_only"] + example["reading_set"]:
+        for item in example["this_session"]:
             self.assertIn(flatten(item), out)
 
     def test_the_cli_reads_the_closing_summary_from_stdin(self):
@@ -1312,37 +1377,10 @@ class MarkdownTests(unittest.TestCase):
         self.assertIn("**Read:** TODO.md ## Now\n\nupdated", out)
         self.assertFalse(any(line.endswith(" ") for line in out.splitlines()))
 
-    def test_closing_preserves_details_and_never_clears_after_unknown_or_failed_save(self):
-        fixture = ClosingBoxTests().base()
-        states = {"remote-verified": "SESSION SAVED", "committed": "SAVED LOCALLY",
-                  "not-saved": "NOT SAVED", None: "SAVE STATUS NOT RECORDED",
-                  "weird": "SAVE STATUS NOT RECORDED"}
-        for state, badge in states.items():
-            with self.subTest(state=state):
-                summary = dict(fixture, saved=state, tree="dirty — unrelated work remains")
-                out = view.render_closing(summary, NOW, markdown=True)
-                visible = self.visible(out)
-                self.assertIn(f"**{badge}", out)
-                for key in ("tree", "closed", "next", "measured", "log"):
-                    self.assertIn(summary[key], visible)
-                for value in summary["local_only"] + summary["reading_set"]:
-                    self.assertIn(value, visible)
-                self.assertIn("kept out of Git, not saved", visible)
-                self.assertIn("This session is still open.", visible)
-                confirmed = state in ("remote-verified", "committed")
-                self.assertEqual("Free context:" in visible, confirmed)
-                self.assertEqual("Keep it open and resolve the save" in visible, not confirmed)
-                if state == "committed":
-                    self.assertIn("committed, not verified on the remote", visible)
-                if state == "remote-verified":
-                    for value in ("main", "2e59ab7", "15 files", "origin/main"):
-                        self.assertIn(value, visible)
-                self.assertNotIn("\x1b", out)
-
     def test_cli_supports_markdown_for_both_modes_even_with_color_forced(self):
         import json, subprocess
         for mode, data, expected in (("--summary", self.arrival(), "SWITCH IN COMPLETE"),
-                                      ("--closing", ClosingBoxTests().base(), "**SESSION SAVED")):
+                                      ("--closing", ClosingBoxTests().base(), "**KERD · SESSION SAVED ✓**")):
             result = subprocess.run([sys.executable, str(SCRIPT), mode, "-", "--markdown", "--color"],
                                     input=json.dumps(data), text=True, capture_output=True)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -1392,23 +1430,16 @@ class MemoryReadinessTests(unittest.TestCase):
                             next="Recover the partner's unrecorded verification limits before resuming.")
                         out = flatten(view.render_closing(summary, NOW, color=False, markdown=markdown))
                         allowed = saved in ("remote-verified", "committed") and ready is True
-                        self.assertEqual("Free context:" in out, allowed)
+                        self.assertEqual("Exit and restart" in out, allowed)
                         if not allowed:
-                            self.assertIn("Keep it open", out)
+                            self.assertIn("Keep this session open", out)
                         if saved == "remote-verified":
                             self.assertIn("SESSION SAVED", out)
-                        self.assertIn("MEMORY", out)
                         self.assertIn(summary["next"], out)
-                        if ready is True:
-                            self.assertIn("ready for handoff", out)
-                        elif ready is False:
-                            self.assertIn("incomplete", out)
-                        else:
-                            self.assertIn("handoff readiness not recorded", out)
-                            self.assertNotIn("missing handoff context", out)
-                            if saved in ("committed", "remote-verified"):
-                                self.assertIn("record handoff readiness before clearing", out)
-
+                        if ready is False:
+                            self.assertIn("Memory for the next session is incomplete", out)
+                        elif ready is not True:
+                            self.assertIn("was not recorded", out)
 
 class OmissionContractTests(unittest.TestCase):
     """What the guide promises about absent fields must match what runs."""

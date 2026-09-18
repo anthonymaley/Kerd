@@ -578,8 +578,8 @@ make the handoff neater.
 Before saving, check that the pointer/current record and the log's next-action
 account agree on that scope and stopping point; a fresh reader should not have
 to assemble them from competing lists. Include this selection in the measured
-reading set and carry it into the closing box's existing `next` text. Save why
-it matters to the product, not only what it is: the next In weighs it against
+reading set and carry it into the closing box's `next`, with its reason in
+`why`. Save why it matters to the product, not only what it is: the next In weighs it against
 the other open work and shows only a reason a person can check. Work that only
 proves the project's own mechanics is saved as open work, not as the selection,
 unless it blocks product work or the person chose it. In restores
@@ -709,46 +709,55 @@ push leaves useful local work recoverable; do not call that a cross-device hando
 
 ### Close with the saved-place box
 
-End Out on one box that says how far the save reached, rendered with the same
-packaged renderer:
+End Out on one box, rendered with the same packaged renderer:
 
 ```sh
 printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing - --markdown
 ```
 
-Use the same chat-versus-terminal presentation choice as In above. In chat,
-show the Markdown directly: the emphasized save verdict is the completion
-signal, not a claim that a green theme colour proves a successful push. Out's
-presentation is unchanged by the plain-English In layout.
+Use the same chat-versus-terminal presentation choice as In above. The box
+mirrors the arrival, in plain product English: a one-row grid (PROJECT, SAVED,
+PHASE, NEXT), **This session** with what changed for the person one line each,
+**Next time** with the next step and its **Why**, then one closing line. Save
+mechanics (commit, file count, remote, reading set, measurement, log path) stay
+in the records the next Switch In reads, not on the screen. A save problem
+appears under **ATTENTION**, only when it is true.
 
 `$closing` is filled from the helper's save result and what Out just wrote.
 **Copy the shape from here; do not open the script for the keys.** `saved` is
 one of `remote-verified` (the helper's `saved_to_remote`), `committed` (a local
-commit, push not verified) or `not-saved`; the banner and its words follow it.
-An absent or unrecognised `saved` renders SAVE STATUS NOT RECORDED, never
-"nothing committed": unknown is not evidence. The free-context hint follows
-only a remote-verified or committed save **and** `handoff_ready: true` after
-the coordinated-closeout check. This boolean is the owner's memory-coverage
-assessment, not something a Git push or renderer can prove. False or omitted
-keeps the session open; omitted means readiness unassessed, not context missing.
-False also names the missing detail/recovery action in
-`next`. The MEMORY row distinguishes readiness from the SAVED Git verdict.
-`local_only` is the helper's
-`preserved_local_only`. `tree` is what remains in
-the working tree after the save, in words. `next` is the exact next action the
-start point names, `reading_set` the files and sections it names, `measured`
-the helper's `measure` reading. Use `null` or `[]` for anything Out has nothing
+commit, push not verified) or `not-saved`; the banner, the SAVED cell and any
+attention line follow it. An absent or unrecognised `saved` renders SAVE STATUS
+NOT RECORDED, never "nothing committed": unknown is not evidence.
+`handoff_ready` is the owner's memory-coverage assessment after the coordinated
+closeout check, not something a Git push or renderer can prove: `false` or
+omitted adds an attention line, and `false` also names the missing detail or
+recovery action in `next`. `phase` is where the wider work stands, in the
+project's own terms. `this_session` is what changed, in product language, not
+the files touched. `next` is the exact next action the start point names; `why`
+is the reason it comes first. `tree` is what remains in the working tree, in
+words: exactly `clean` when nothing is left; anything else is shown under attention. Files the project
+keeps out of Git by decision are expected and not shown. `warnings` carries any
+other problem, such as a failed role designation. `host` is `claude` or `codex`:
+it chooses the closing line; only `claude` (or an unrecorded host) gets `/clear`. Use `null` or `[]` for anything Out has nothing
 for; a missing field renders as "not recorded", never as a claim.
+
+The closing line offers a restart only after a remote-verified or committed save
+**and** `handoff_ready: true`: under Claude, "Exit and restart or /clear and
+/kerd:switch in to pick up from here."; under Codex, "Exit and restart, then
+switch in to pick up from here." Otherwise it asks to keep the session open and
+resolve the save or the missing handoff first, because clearing context then
+would lose the very work that is unsaved. It never says the session exited or
+the context was cleared: a save is a Git fact, and restarting is the person's
+action.
 
 After the final save, if this session has an established role and the handoff is
 ready, prepare the role verified by the pre-save check under the
 [succession guide](../../agent/references/session-succession.md) before showing
 the closing box. Do not create a role or transfer another session's role here.
 Failure affects automatic pairing recovery, not the Git save verdict; name it
-in the closing next action. Use the existing `next` text for successful designation
-or not applicable too, keeping the saved next action intact; no new JSON field.
-Do not include private IDs or claim memory completeness from routing. No session is
-ended by preparing its handoff.
+in `warnings`. Do not include private IDs or claim memory completeness from
+routing. No session is ended by preparing its handoff.
 
 ```json
 {
@@ -756,25 +765,20 @@ ended by preparing its handoff.
   "branch": "main",
   "saved": "remote-verified",
   "handoff_ready": true,
-  "commit": "2e59ab7",
-  "files": 15,
-  "remote": "origin/main",
-  "local_only": ["kerd-laptop-result.patch"],
+  "phase": "Launch: 2 of 5 done",
+  "this_session": [
+    "The risk-rating change was accepted: launch step 1 done.",
+    "Conductor now checks where your work stands in your own project: launch step 2 done."
+  ],
+  "next": "Start the diagnostic pilot.",
+  "why": "It is the first real work item driven in someone else's project, and the only way to see Kerd work for a real user.",
   "tree": "clean",
-  "closed": "2026-09-12 12:40 EDT",
-  "next": "Run one real Conductor session on 0.112.0 and confirm a Claude player is a native subagent.",
-  "reading_set": ["CONTEXT.md", "TODO.md ## Now", "kivna/sessions/2026-09-12.md"],
-  "measured": "23,482 bytes, about 5,871 tokens estimated at four bytes each, within the 8,000 target",
-  "log": "kivna/sessions/2026-09-12.md"
+  "warnings": [],
+  "host": "claude"
 }
 ```
 
-The box distinguishes saved locally, committed and remote-verified in words,
-names local-only leftovers and an unclean tree rather than hiding them, and
-ends by saying the session is still open with the free-context hint. It never
-says the session exited or the context was cleared: a save is a Git fact, and
-starting fresh context is a separate action in the person's client. If the renderer cannot
-run, say the same things as plain text.
+If the renderer cannot run, say the same things as plain text.
 
 ## Default verified save when pushing is authorized
 

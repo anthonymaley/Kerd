@@ -40,7 +40,21 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.137.1)
+## What's New (v0.138.0)
+
+### v0.138.0
+
+**The Switch Out screen matches Switch In.** The closing box used to list the
+save's plumbing (commit, file count, remote, tree state, a memory flag, a
+byte-and-token count, a reading list, a log path, a render time) and never said
+what the session achieved. Now it opens with the same kind of grid as the
+arrival (project, how far the save got, phase and next step), lists what
+changed this session in product terms, gives the next step with its reason,
+and ends on one line: *Exit and restart or /clear and /kerd:switch in to pick up
+from here.* The save details stay in the records the next Switch In reads. A
+save that did not reach the remote, memory that is not ready or work left behind
+still shows, under Attention, whenever it is true, and the restart line appears
+only after a confirmed save.
 
 ### v0.137.1
 
@@ -1249,7 +1263,7 @@ names who does what next, its agreed/proposed status, necessary completion steps
 where the scope stops and any pending question. It reconciles an existing current
 account in place, using ordinary prose or headings rather than new required
 fields; the broader TODO remains open. The selected continuation is included in
-the reading set and the closing box's existing next-action text. Before measuring
+the reading set and the closing box's next step, with its reason. Before measuring
 or claiming memory ready, Out checks that known unresolved urgent/imminent risks are
 inside the measured reading set, even when unrelated to the selected action.
 It retains a dated, source-linked risk line in current context or selects the
@@ -1258,7 +1272,7 @@ work stays behind Open work, and saved risk observations are not fresh checks.
 Before editing the handoff, it checks ownership of any existing pairing
 role, reusing an explicit replacement choice already given rather than asking
 again. Out alone does not authorize taking a role. After the final save it reports
-whether successor designation succeeded, was unavailable or was not applicable.
+a failed or unavailable successor designation under Attention.
 The saved account has a lean start point: rulings stay in CONTEXT.md while the
 full case moves to `docs/decisions.md`, closed Backlog rows move to
 `docs/backlog-archive.md` with their reason, the reading set for the next sitting
@@ -1270,16 +1284,18 @@ boundaries or explain why it is needed, without discarding the evidence.
 `scripts/handoff.py` does the Git work: explicit-file saves, safe fast-forward,
 acknowledged local-only paths that are never staged, and a check that the remote
 carries the exact commit. Out ends on the saved-place box: SESSION SAVED, SAVED
-LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, the tree, the local-only
-leftovers, the next action and its reading set, and a reminder that the session
-is still open. The Out owner combines participating sessions' contributions
+LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, a project/saved/phase/next
+grid, what changed this session in product terms, the next step and why, any save
+problem under Attention, and one restart line: *Exit and restart or /clear and
+/kerd:switch in to pick up from here.* The reading set and its measured size stay
+in the start point the next Switch In reads. The Out owner combines participating sessions' contributions
 under the [coordinated-closeout rule](skills/switch/references/in-out.md#one-coordinated-closeout).
 Before drafting that account, the owner collects any missing contributor deltas
 directly, reuses adequate returned results, and shows who is captured or missing.
 The person should not have to chase each agent. Missing necessary material stays
 explicitly incomplete; a late contribution reopens the check before finalizing.
-MEMORY readiness is distinct from the Git save result; only a confirmed save
-with a ready handoff suggests clearing context. Out retains its Markdown-in-chat
+Memory readiness is distinct from the Git save result; only a confirmed save
+with a ready handoff offers the restart line. Out retains its Markdown-in-chat
 / ANSI-in-terminal presentation.
 
 ### visuals (Diagrams)

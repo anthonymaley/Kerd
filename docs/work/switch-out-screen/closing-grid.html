@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd Switch Out — closing, today and proposed</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f5f5f5; --paper-2:#ffffff; --ink:#2d3142; --muted:#4f5d75; --soft:#7a8399;
+    --rule:rgba(45,49,66,0.12); --accent:#eb6c36; }
+  *{box-sizing:border-box}
+  body{margin:0; padding:3rem 2rem; background:var(--paper); color:var(--ink); font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1280px; margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .5rem}
+  h1{font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin:0 0 .5rem}
+  .sub{color:var(--muted); max-width:74ch; line-height:1.55; margin:0 0 2rem}
+  .sub strong{color:var(--ink)}
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:start}
+  .screen{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.25rem 1.5rem; font-size:.875rem; line-height:1.55}
+  .screen.after{border-color:var(--accent)}
+  .tag{font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; margin:0 0 .75rem}
+  .before .tag{color:var(--soft)} .after .tag{color:var(--accent)}
+  .screen p{margin:.45rem 0}
+  .screen ul{margin:.25rem 0 .5rem; padding-left:1.1rem}
+  .screen table{border-collapse:collapse; width:100%; margin:.5rem 0 1rem; font-size:.8125rem}
+  .screen th{font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.12em; text-align:left; color:var(--muted); border-bottom:1px solid var(--rule); padding:.35rem .5rem}
+  .screen td{padding:.45rem .5rem; border-bottom:1px solid var(--rule); vertical-align:top}
+  .mono{font-family:'Geist Mono',monospace; font-size:.75rem; color:var(--soft)}
+  .end{border-top:1px solid var(--rule); padding-top:.6rem; margin-top:.9rem}
+  .note{font-family:'Instrument Serif',serif; font-style:italic; color:var(--muted); font-size:1rem; margin:.75rem 0 0}
+  footer{margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--soft)}
+  @media (max-width:860px){ body{padding:2rem 1rem} .cols{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Kerd · Switch Out · closing screen · agreed</p>
+  <h1>The Switch Out screen: today and proposed</h1>
+  <p class="sub">Today the closing box reports the save's mechanics (commit, files, remote, tree, bytes, a reading list, a log path, a render time) and never says what the session achieved or why the next step matters. Proposed: the same grid as Switch In, what changed this session in product terms, the next step with its reason, and one closing line. Save problems still show, under Attention, only when there is one. <strong>Agreed 2026-09-18 15:37.</strong></p>
+
+  <div class="cols">
+    <div class="screen before">
+      <p class="tag">Today</p>
+      <p><strong>KERD · SESSION SAVED ✓</strong></p>
+      <p><strong>SAVED</strong> · remote-verified: main 2e59ab7 (15 files) → origin/main</p>
+      <p><strong>TREE</strong> · clean</p>
+      <p><strong>MEMORY</strong> · ready for handoff</p>
+      <p><strong>LOCAL</strong> · kept out of Git, not saved: kerd-laptop-result.patch</p>
+      <p><strong>CLOSED</strong> · 2026-09-12 12:40 EDT</p>
+      <p><strong>NEXT</strong><br>Run one real Conductor session on 0.112.0 and confirm a Claude player is a native subagent.</p>
+      <p><strong>READ FIRST</strong></p>
+      <ul><li>CONTEXT.md</li><li>TODO.md ## Now</li><li>kivna/sessions/2026-09-12.md</li></ul>
+      <p><strong>Measured:</strong> 23,482 bytes, about 5,871 tokens estimated at four bytes each, within the 8,000 target</p>
+      <p><strong>LOG</strong> · kivna/sessions/2026-09-12.md</p>
+      <p>This session is still open. Free context: start a new conversation in your client, then ask Kerd to switch in.</p>
+      <p class="mono">Rendered: 2026-09-18 15:36 EDT</p>
+      <p class="note">Eleven labelled parts, all mechanics. Nothing about what the session did.</p>
+    </div>
+
+    <div class="screen after">
+      <p class="tag">Proposed · today's sitting as the example</p>
+      <p><strong>KERD · SESSION SAVED ✓</strong></p>
+      <table>
+        <tr><th>PROJECT</th><th>SAVED</th><th>PHASE</th><th>NEXT</th></tr>
+        <tr><td>Kerd</td><td>Pushed to main</td><td>Launch: 2 of 5 done</td><td>Start the diagnostic pilot</td></tr>
+      </table>
+      <p><strong>This session</strong></p>
+      <ul>
+        <li>The risk-rating change was accepted: launch step 1 done.</li>
+        <li>Conductor now checks where your work stands in your own project: launch step 2 done.</li>
+        <li>The Switch In screen got its grid back and ends on "Start a Conductor session?".</li>
+        <li>Conductor replaces Drive; removing Drive is a later release.</li>
+      </ul>
+      <p><strong>Next time:</strong> start the diagnostic pilot. <strong>Why:</strong> it is the first real work item driven in someone else's project, and the only way to see Kerd work for a real user.</p>
+      <p class="end">Exit and restart or /clear and /kerd:switch in to pick up from here.</p>
+      <p class="note">One grid, what changed, what's next and why, one closing line. A failed push, unsaved files or incomplete memory would appear under Attention, above the closing line.</p>
+    </div>
+  </div>
+
+  <footer>Kerd · docs/work/switch-out-screen/closing-grid.html · 2026-09-18 · agreed 15:37</footer>
+</div>
+</body>
+</html>

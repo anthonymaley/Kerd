@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, saves the next action and approval boundary, and ends on a plain-English box: what changed, the next step and why. Managed Roll continues without normal arrival approval.
 ---
 
 # Switch
@@ -30,8 +30,10 @@ and repository boundaries still apply.
 - **Out:** close this sitting well: record history, tidy active work, leave a
   lean, measured start point with the selected continuation, its approval
   boundary and recorded urgent risks — rulings kept, cases and closed rows moved to
-  reachable records, the reading set named — and end on the saved-place box
-  that says how far the save reached. Read
+  reachable records, the reading set named — and end on the saved-place box:
+  a project/saved/phase/next grid, what changed this session in product terms,
+  the next step and why, save problems under attention, and one restart line
+  only after a confirmed save. Read
   [pickup and closeout](references/in-out.md).
 - **To:** save the exact mid-work position through GitHub, relinquish source
   control and restore at the destination. Not full Out. Read

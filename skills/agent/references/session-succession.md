@@ -64,9 +64,9 @@ alias; when several roles could be transferred, resolve which before writing.
 No existing binding means no compulsory pairing during Out. The command records
 no future ID and does not end a process or stop its jobs. A failed designation
 leaves the saved work intact; disclose that automatic pairing pickup is unavailable.
-Report designation succeeded, unavailable with its reason, or not applicable
-in the closing box's existing `next` text, alongside the intact saved next action
-and separately from Git save and memory readiness. If the
+Report a failed or unavailable designation, with its reason, in the closing
+box's `warnings`, separately from the Git save and memory readiness; success or
+not applicable needs no line. The saved next action stays intact in `next`. If the
 pre-save ownership check was unresolved, do not attempt designation anyway.
 If this session resumes work instead of handing over, revoke the designation
 with `handoff --provider claude --alias ROLE_ALIAS --cancel` before that work.

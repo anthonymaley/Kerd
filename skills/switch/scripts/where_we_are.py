@@ -352,8 +352,8 @@ OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "l
                   "restore_note")
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
-CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "commit", "files", "remote", "local_only",
-                "tree", "closed", "next", "reading_set", "measured", "log")
+CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "phase", "this_session", "next",
+                "why", "tree", "warnings", "host")
 ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
 BORDERS = "\u256d\u2570\u251c\u250c\u2514"
 
@@ -876,88 +876,108 @@ def dashboard_tail(summary, now, width, color, markdown, arrival=False):
 
 
 def render_closing(summary, now, width=80, color=True, markdown=False):
-    """One box at the end of Switch Out saying how far the save reached.
+    """The end of Switch Out: how far the save reached, what changed, what next.
 
-    Three states, told apart in words as well as tone: remote-verified (the
-    helper checked the remote carries the exact commit), committed (local Git
-    only), not saved. Local-only leftovers, the tree, the next action and its
-    reading set are named. The box never claims the session exited or the
-    context was cleared: starting fresh context is a separate client action.
+    A grid (project, save, phase, next), this session's changes in product
+    terms, the next step with its reason, then one closing line. Save
+    mechanics stay in the records; a problem (a save that did not reach the
+    remote, memory not ready, work left behind) appears under Attention only
+    when it is true. The box never claims the session exited or the context
+    was cleared: that is the person's action, named in the closing line only
+    after a confirmed save with memory ready.
     """
     get = summary.get
     saved = get("saved")
+    branch = get("branch")
     if saved == "remote-verified":
-        badge, tone, verdict = "SESSION SAVED \u2713 ", "green", "remote-verified"
+        badge, tone, cell = "SESSION SAVED \u2713", "green", f"Pushed to {branch}" if branch else "Pushed"
     elif saved == "committed":
-        badge, tone, verdict = "SAVED LOCALLY ", "amber", "committed, not verified on the remote"
+        badge, tone, cell = "SAVED LOCALLY", "amber", "Committed, not pushed"
     elif saved == "not-saved":
-        badge, tone, verdict = "NOT SAVED ", "red", "nothing committed"
+        badge, tone, cell = "NOT SAVED", "red", "Not saved"
     else:  # absent or unrecognised: unknown is not evidence that nothing was saved
-        badge, tone, verdict = "SAVE STATUS NOT RECORDED ", "amber", "not recorded"
+        badge, tone, cell = "SAVE STATUS NOT RECORDED", "amber", "Not recorded"
         saved = "unknown"
-    project = get("project") or "KERD"
-    lines = [ink(pad(" " + str(project).upper(), width - columns(badge)), "bold", "cyan", on=color)
-             + ink(badge, tone, on=color),
-             ink("\u2501" * width, "cyan", on=color), ""]
-    if markdown:
-        lines = [f"{code(str(project).upper())} · **{badge.strip()}**", "", "---", ""]
-
-    def row(label, value):
-        if markdown:
-            lines.extend([f"**{label}** · {md(value or UNRECORDED)}", ""])
-            return
-        for index, line in enumerate(wrap(str(value) if value else UNRECORDED, width - 10)):
-            lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color) + " " + line)
-
-    files = get("files") if saved in ("remote-verified", "committed") else None
-    where = " \u2192 ".join(part for part in (
-        ("position " if saved in ("not-saved", "unknown") else "")
-        + f"{get('branch') or UNRECORDED} {get('commit') or UNRECORDED}"
-        + (f" ({files} file{'s' if files != 1 else ''})" if files is not None else ""),
-        get("remote") if saved == "remote-verified" and get("remote") else None) if part)
-    row("SAVED", f"{verdict}: {where}" if saved != "unknown" else "not recorded")
-    row("TREE", get("tree"))
     ready = get("handoff_ready")
-    row("MEMORY", "ready for handoff" if ready is True else
-        "incomplete — see NEXT for the missing context" if ready is False else
-        "handoff readiness not recorded")
-    leftovers = [str(item) for item in (get("local_only") or []) if item]
-    if leftovers:
-        row("LOCAL", "kept out of Git, not saved: " + ", ".join(leftovers))
-    row("CLOSED", get("closed"))
-    lines.append("")
+    attention = []
+    if saved == "committed":
+        attention.append("The save is committed on this machine but not verified on the remote; "
+                         "push before switching devices.")
+    elif saved == "not-saved":
+        attention.append("Nothing was committed: this session's work is only in the working tree.")
+    elif saved == "unknown":
+        attention.append("The save status was not recorded, so it cannot be treated as saved.")
+    if ready is False:
+        attention.append("Memory for the next session is incomplete; the next step names what is missing.")
+    elif ready is not True:
+        attention.append("Whether memory is ready for the next session was not recorded.")
+    tree = get("tree")
+    if tree and str(tree).strip().rstrip(".").lower() != "clean":
+        attention.append(f"Left in the working tree: {tree}")
+    attention += [str(item) for item in (get("warnings") or []) if item]
 
-    lines.append("**NEXT**\n" if markdown else ink(" NEXT", "dim", on=color))
-    lines += ([md(get("next") or UNRECORDED), ""] if markdown else
-              ["   " + line for line in wrap(get("next") or UNRECORDED, width - 3)])
-    reading = [str(item) for item in (get("reading_set") or []) if item]
-    if reading or get("measured"):
-        lines.append("**READ FIRST**\n" if markdown else ink(" READ FIRST", "dim", on=color))
-        for item in reading:
-            lines += ([f"- {md(item)}"] if markdown else
-                      ["   \u25cb " + line if index == 0 else "     " + line
-                       for index, line in enumerate(wrap(item, width - 5))])
-        if get("measured"):
-            lines += (["", f"**Measured:** {md(get('measured'))}"] if markdown else
-                      ["   " + line for line in wrap("measured: " + str(get("measured")), width - 3)])
-    lines.append("")
-    if get("log"):
-        row("LOG", get("log"))
-        lines.append("")
-    lines.append("---\n" if markdown else ink("\u2501" * width, "cyan", on=color))
-    # The free-context hint follows only a confirmed save; after a failed or
-    # unknown save, clearing context would lose the very work that is unsaved.
-    if saved in ("remote-verified", "committed") and ready is True:
-        closing = ("This session is still open. Free context: start a new conversation in your client, "
-                   "then ask Kerd to switch in.")
+    confirmed = saved in ("remote-verified", "committed") and ready is True
+    if confirmed:
+        # Only Claude has /clear; any other or unrecognised host gets the
+        # host-neutral line, and an unrecorded host is taken as Claude.
+        host = str(get("host") or "claude").strip().lower()
+        closing = ("Exit and restart or /clear and /kerd:switch in to pick up from here."
+                   if host == "claude" else
+                   "Exit and restart, then switch in to pick up from here.")
     elif saved not in ("remote-verified", "committed"):
-        closing = "This session is still open. Keep it open and resolve the save before clearing context."
+        closing = "Keep this session open and resolve the save before clearing context."
     elif ready is False:
-        closing = "This session is still open. Keep it open and resolve the missing handoff context before clearing context."
+        closing = "Keep this session open and resolve the missing handoff context before clearing context."
     else:
-        closing = "This session is still open. Keep it open and record handoff readiness before clearing context."
-    lines += ([md(closing), "", f"Rendered: {md(now)}"] if markdown else
-              [ink(" " + line, "dim", on=color) for line in wrap(f"{closing} rendered {now}", width - 1)])
+        closing = "Keep this session open and record handoff readiness before clearing context."
+
+    project = str(get("project") or "Kerd")
+    grid = (("PROJECT", project), ("SAVED", cell), ("PHASE", str(get("phase") or UNRECORDED)),
+            ("NEXT", str(get("next") or UNRECORDED)))
+    changes = get("this_session")
+    if isinstance(changes, str):  # one change written as prose, not a list of letters
+        changes = [changes]
+    changes = [str(item) for item in (changes or []) if item]
+    why = get("why")
+
+    if markdown:
+        lines = [f"**{md(project.upper())} \u00b7 {badge}**", "",
+                 "| " + " | ".join(label for label, _ in grid) + " |",
+                 "| --- | --- | --- | --- |",
+                 "| " + " | ".join(md(value) for _, value in grid) + " |", "",
+                 "**This session**", ""]
+        lines += [f"- {md(item)}" for item in changes] or ["Nothing recorded."]
+        lines.append("")
+        lines.append(f"**Next time:** {md(get('next') or UNRECORDED)}"
+                     + (f" **Why:** {md(why)}" if why and get("next") else ""))
+        lines.append("")
+        if attention:
+            lines += ["**ATTENTION**", ""] + [f"- {md(item)}" for item in attention] + [""]
+        lines.append(md(closing))
+        return "\n".join(lines)
+
+    lines = [ink(pad(" " + project.upper(), width - columns(badge)), "bold", "cyan", on=color)
+             + ink(badge, tone, on=color)] if columns(project) + columns(badge) + 2 <= width else \
+            [ink(" " + line, "bold", "cyan", on=color) for line in wrap(project.upper(), width - 1)] + \
+            [ink(" " + line, tone, on=color) for line in wrap(badge, width - 1)]
+    lines += [ink("\u2501" * width, "cyan", on=color), ""]
+    for label, value in grid:
+        for index, line in enumerate(wrap(value, width - 10)):
+            lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color) + " " + line)
+    lines += ["", ink(" THIS SESSION", "dim", on=color)]
+    for item in changes or ["Nothing recorded."]:
+        lines += ["   \u00b7 " + line if index == 0 else "     " + line
+                  for index, line in enumerate(wrap(item, width - 5))]
+    lines += ["", ink(" NEXT TIME", "dim", on=color)]
+    lines += ["   " + line for line in wrap(get("next") or UNRECORDED, width - 3)]
+    if why and get("next"):
+        lines += ["   " + line for line in wrap("Why: " + str(why), width - 3)]
+    lines.append("")
+    if attention:
+        lines += panel("\u26a0 NEEDS ATTENTION", ["\u00b7 " + item for item in attention],
+                       width, "red", color) + [""]
+    lines.append(ink("\u2501" * width, "cyan", on=color))
+    lines += [ink(" " + line, "bold", on=color) for line in wrap(closing, width - 1)]
     return "\n".join(lines)
 
 
