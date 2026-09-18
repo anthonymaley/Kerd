@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, accepts Switch’s generic “Start a Conductor session?” offer for direction-setting, explicitly selects and authorizes work, or continues established Conductor work. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “What do you want this session to move forward?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor
@@ -56,9 +56,11 @@ owned by Conductor; an old work.md, Agent pairing or unfinished task alone does
 not establish guided ownership. Continuing established work doesn't re-offer it.
 
 There are two valid entries: an explicitly selected and authorized action, and a
-request to use the workflow while deciding what to do. Switch's generic **“Start
-a Conductor session?”** offer maps a plain yes to the latter, never to approval
-of a saved task. Reuse the restored project, work pointer, current decision,
+request to use the workflow while deciding what to do. An answer to Switch
+In's **“What do you want this session to move forward?”** that chooses work, a
+plain yes to its recommendation included, is the latter for that work: enter
+Understand/Shape on it, never approval of its operations. An answer asking for
+guidance without choosing enters direction-setting. Reuse the restored project, work pointer, current decision,
 actual approval and latest exclusions. Do not repeat pickup, intake already
 answered or approval already supplied.
 
@@ -126,9 +128,9 @@ a new chat or a bare “resume” label is not evidence of managed authority or
 exclusive ownership. Do not claim this entry replaces an arbitrary open TUI.
 
 Switch owns [ordinary arrival composition](../switch/references/in-out.md#compose-the-arrival-in-switch)
-without loading this skill. A plain yes to its generic offer enters
-direction-setting, not the saved task; an explicitly selected and authorized task
-can enter work. Use its restored active-work context when the person enters
+without loading this skill. Choosing work in answer to its question enters
+Shape for that work, not its operations; an explicitly selected and authorized
+task can enter work. Use its restored active-work context when the person enters
 Conductor; inspect bounded missing relevant active work yourself, but do not
 recreate the pickup or its dashboard. A managed owner remains owned: ordinary
 direction-setting may inspect that ownership issue, never take over or duplicate
@@ -245,7 +247,7 @@ success criteria. Preserve existing agreement when resolving a missing measure.
 Show a compact interpretation before substantial execution and establish agreement
 to new direction or material choices. Reuse clear instructions and approvals
 already given; don't require a second yes for an unchanged authorized request.
-The Switch In approval line is the one exception, by design.
+The Switch In arrival question is the one exception, by design.
 An unresolved later decision can stay open with a named revisit point while safe
 work proceeds. Stop the affected action if it requires that answer. Delivery can
 finish before a long-term benefit is measurable when that stopping point and its

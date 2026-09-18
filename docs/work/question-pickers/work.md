@@ -199,6 +199,25 @@ own emitted message, so identity here is its attestation, not an independent
 measurement. Closing this properly needs a reading taken outside the session that
 produced it. Until then the claim is tested, not verified.
 
+**First outside reading, 2026-09-18 10:02 EDT — the no-picker case, IDENTICAL.**
+Taken from the host-written session transcript rather than the model's own account.
+(Permission was asked first on a misreading: `orchestration.md:33` forbids mining
+transcripts *to fill the display*, not this check. None was needed.) A
+script compared the 09:58 Switch In's `where_we_are.py --markdown` tool result with
+the next assistant text message: both 1,991 bytes, both sha256
+`edca6ece4c3a4d7a5e85c268b3efbaa4223a7765b3af103ac3607416c70dfcc0`. Limits, kept
+with the reading: **no picker was attached at that arrival**, so the claim as worded
+(unchanged *when it also attaches a picker*) is still unread; the transcript is what
+the host received, not what the client displayed; and the host may normalise
+trailing whitespace in stored tool output, so a trailing-newline difference would
+not show. One observation, not three: the picker case still needs the same reading
+at an arrival that attaches one.
+
+**DROPPED, 2026-09-18 10:07 EDT — Anthony's ruling.** The byte-identity claim has
+no value to him: Switch In's job is to say what happens next and why, not to prove
+its own text reached him unchanged. Not to be carried as a next action again. The
+reading above stays as history; the picker case is not owed.
+
 Neither was a build, and neither became one. Record what a pickup actually shows;
 do not manufacture a run to see it.
 

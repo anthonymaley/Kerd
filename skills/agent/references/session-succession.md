@@ -195,7 +195,7 @@ self-role binding that was not restored to this ID.
 
 Pass the returned `team` to Switch's in-memory summary, optionally shortening role
 wording faithfully for display without editing the binding. Show one compact
-TEAM cell in the status grid: provider (role) + provider (role). IDs and routine notice status stay
+Team line on the arrival: provider (role) + provider (role). IDs and routine notice status stay
 in Agent details, not the welcome dashboard or tracked Markdown. Repeated
 aliases for the same provider/ID are one member. Missing role means undefined,
 not inferred from the native title. Sending cannot make availability verified.

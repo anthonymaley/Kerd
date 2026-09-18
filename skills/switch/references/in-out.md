@@ -97,17 +97,17 @@ there is no reason to load its whole stage history or neighboring backlog work.
 When deeper retrieval is needed, read the complete relevant entry, not a broad
 range of adjacent tasks; a few very long lines can still load pages of material.
 
-Ordinary In ends with restored memory, status and the saved plan on screen,
-stopped at its dashboard decision. It does not load Conductor or its journey
-guide to compose that decision. It does not execute the plan, draft replies, start
+Ordinary In ends with restored memory, the open work and one recommendation on
+screen, stopped at its arrival question. It does not load Conductor or its
+journey guide to compose it. It does not execute the plan, draft replies, start
 reviews, repair files or investigate backlog issues. Keep checks to safe requested
 Git synchronization and resolving facts necessary to restore position; flag other
 uncertainty for the work itself. Do not measure pickup cost inside every pickup;
 assess the session logs afterward unless measurement was requested. A user
 explicitly asking to continue after In can proceed through Conductor without
 another approval. Managed To/Roll remains separate and keeps its agreed
-continuation. When neither a saved next action nor a NOW item exists, say that
-no task is selected rather than manufacturing one. Existing project restrictions
+continuation. When nothing actionable is open, say so rather than
+manufacturing work. Existing project restrictions
 still apply.
 
 Context-cost targets come from the work agreement, not a universal magic number.
@@ -145,45 +145,45 @@ the whole archive. A small input is useful only if its meaning survives.
 
 Switch chooses and presents an orientation from the restored material itself.
 Do not load Conductor, its journey guide or another skill for composition.
-Carry the project, selected work (or none), agreement, restrictions and pending
-decision forward in context; no extra record or repeated pickup reading set.
+Carry the project, open work, agreement, restrictions and pending decisions
+forward in context; no extra record or repeated pickup reading set.
 
-Resolve any saved session scope before writing the fields: action and owner,
-approval status, necessary completion steps, stopping point and pending questions.
-Recognize the [saved selection](#save-the-selected-continuation) in current prose
-as well as named headings. Current user direction takes precedence. If evidence
-shows it stale or completed, explain and label any replacement proposed, not
-newly agreed. Reconcile contradictions using restored evidence and necessary
-detail. Without a saved selection, propose the first actionable item in saved
-priority. If no priority exists, recommend a grounded bounded action and briefly
-say why. No actionable work means no selected task, not an invented one.
+The arrival tells the person, in plain English, where things stand, what work is
+open and what Switch recommends doing next and why. It does not repeat the last
+session's saved next action merely because it was saved.
 
+**Weigh every open item, the saved one included.** Take the designated active
+list (with child sections) and any [saved selection](#save-the-selected-continuation)
+as candidates. For each, ask: does it move the product or the person's work
+forward, and why would it come before the others? Current user direction takes
+precedence; recorded priority, dependency and authority inform the order. A saved
+selection is one candidate with its recorded reasons, not the answer. Work that
+only proves the project's own mechanics (a self-check, a record tidy, evidence
+bookkeeping) does not lead unless it blocks the product work or the person asked
+for it. If evidence shows the saved selection stale or completed, say so plainly.
+
+**Open work** lists the items that move the work, one plain line each, in
+recommended order, with no file names, line numbers or internal labels unless the
+person needs them to recognize the item. Keep a human-owned check or a pending
+decision in the list as what it is; do not dress it as agent work. Items
+omitted from the screen stay open behind the documents link; omission changes
+neither their status nor the saved priority.
+
+**Recommended** names exactly one item and **Why** gives the reason it comes
+first, in one or two sentences a person can check. A recommendation is not
+agreement or permission. Recommend the first actionable item when nothing else
+distinguishes them; if nothing is actionable, say so rather than inventing work.
 For a saved unresolved choice, recommend one grounded route, leaving alternatives
-behind its link. Keep missing facts, product decisions and human-owned checks as
-unresolved context, with their recorded proposed answer where useful; do not ask
-them as the arrival question or select an unrelated unanswered question. An
-unresolved design is not permission to build, and availability is neither a
-result nor agent authority. Preserve per-occasion permission and the established
-target/install scope; a project name supplies a target, not permission to install
-or launch.
+behind its link. An unresolved design is not permission to build; a project name
+supplies a target, not permission to install or launch.
 
-THIS SESSION, NOW and STATE express the saved scope and approval status where
-one exists. Necessary follow-through finishes the chosen action; work behind a
-separate decision stays outside it even if the log says “then”. Never show
-“nothing needed” while requesting an answer. An observation obtained at pickup
-is already observed; only a genuinely needed assessment or recording remains.
-Don't award the person's verdict or repeat a check merely to record it.
-
-This ordinary arrival check-in is deliberate even when a saved approval remains:
-after END, its sole question is **“Start a Conductor session?”**. It does not
+This arrival stops at one question after END: **“What do you want this session
+to move forward?”**, with the recommendation as its proposed answer. It does not
 select work, create a native session, execute project work, launch workers or
-grant permission. A plain yes opens Conductor for scoped direction-setting; only
-an explicit selected/authorized task enters actual work. A current explicit
-request to continue can supply authority without another approval, and verified
-managed To/Roll retains its separate continuation. Private Agent routing
-maintenance below is not work authorization. Compose the dashboard using the
+grant permission. Private Agent routing maintenance below is not work
+authorization. Compose the arrival using the
 [summary rules](#welcome-back-the-screen-summary), return its renderer output
-unchanged and stop; no second journey strip, task list or narration.
+unchanged and stop; no second list, task menu or narration.
 
 ### Restore the existing team
 
@@ -220,78 +220,91 @@ After identity and any required adoption, run Agent's bounded
 for the selected established partners, or the helper's unambiguous private
 pairing default when the restored context names none. The caller does not
 enumerate aliases as recipients; the helper reads private binding metadata and
-selects only an unambiguous partner, never by title or recency. Show a compact TEAM line in
-the status grid: `Claude (role) + Codex (role)`. Use brief faithful role labels,
+selects only an unambiguous partner, never by title or recency. Show a compact Team line
+on the arrival: `Claude (role) + Codex (role)`. Use brief faithful role labels,
 not new assignments; a missing role stays unassigned. IDs and routine notice status
 remain in Agent details, not the dashboard or project records. Surface a routing
-problem in ATTENTION only when it affects the next action. A failed notice does not make restored memory incomplete.
+problem in ATTENTION only when it affects the recommendation. A failed notice does not make restored memory incomplete.
 
-### Enter Conductor after the ordinary offer
+### Enter Conductor from the answer
 
-On the answer to **“Start a Conductor session?”**, resolve the whole message
-against that offer and any explicit selected/authorized task. A plain yes invokes
-`/kerd:conductor` through the host's skill mechanism for direction-setting, not
-for a saved task by implication. Resolve it from this distribution, not another
-cache's file. Pass the restored project, full active-work context, selected
-work/pointer if any, known authority, exclusions and unresolved questions.
+Resolve the whole answer to **“What do you want this session to move forward?”**
+against the open work and any explicit authority it carries. Every answer that
+chooses work goes through Conductor, so a person wanting guidance always has one
+way in:
 
-If the same answer explicitly selects and authorizes a task, invoke Conductor for
-that actual work. For example: “Start the approved alert-design work in this
-project from the restored work record. Design only; no implementation or
-deployment. Enter the work without repeating pickup or intake. Read Kerd's
-orchestration startup and relevant job-split/work-view sections if not already
-loaded, then begin with Conductor · Shape, current model/effort evidence, owner,
-intended design result, stopping boundary and work split. Only then start
-substantive project research.” Include the same entry instruction with the actual
-stage/scope for other jobs; it is not a request to read the whole skill pack or
-announce work already finished. For underway work, say resume.
+- **Chooses work** (“yes”, “the recommendation”, “the migration sign-off”, or new
+  work in their own words): invoke `/kerd:conductor` through the host's skill
+  mechanism at Understand/Shape for that work. Naming or accepting the work
+  selects it; it does not approve its operations. Conductor shows the shape and
+  asks its own scoped approval before builds, installs, pushes or other
+  consequential actions. A plain yes accepts the recommendation as the work to
+  shape, nothing more.
+- **Chooses and authorizes** (“sign off the migration, go ahead”, “design the
+  alert, no deployment”): invoke Conductor for that actual work at its actual
+  stage, carrying the approval and its exclusions. For example: “Start the
+  approved alert-design work in this project from the restored work record.
+  Design only; no implementation or deployment. Enter the work without repeating
+  pickup or intake. Read Kerd's orchestration startup and relevant
+  job-split/work-view sections if not already loaded, then begin with Conductor ·
+  Shape, current model/effort evidence, owner, intended design result, stopping
+  boundary and work split. Only then start substantive project research.” For
+  underway work, say resume.
+- **Asks for guidance without choosing** (“not sure”, “help me decide”): invoke
+  Conductor at Understand/Shape for direction-setting with the full open-work
+  context; it recommends from local context before asking for recorded facts.
+- **Defers** (“not now”) or **reports a fact**: start nothing. A fact or
+  human-check result is usable evidence within existing authority to record it;
+  show what it changes, but it is not a work choice unless the person also makes one.
+- **Chooses ordinary work without Conductor**: do not invoke it or impose its
+  startup assessment; carry the actual task authority and limits into ordinary
+  host work.
 
-Do not ask whether to start Conductor again after the person has accepted the
-ordinary offer. If they exclude the saved action, pass that exclusion and the
-unresolved outcome into Conductor's Understand/Shape entry; do not substitute
-related backlog work. The entry should inspect the restored active work and
-recommend direction from local context before asking the person for facts already
-recorded. A recommendation from saved priority can still need its own scoped
-approval; that question is about the operation, not whether Conductor is open.
-A plain “not now” or factual reply is not a workflow request. A fact or actual
-human-check result is usable evidence within existing authority to record it:
-show what it changes, but do not treat it as acceptance of the Conductor offer or
-authority for new work unless the person also requests that. When native invocation
-is unavailable, read its work-entry section and relevant guide explicitly and
-disclose the fallback. Missing Conductor is a stated limitation, not a silent
-replacement workflow. Availability for a human-owned check is not an agent-work
-approval or its result. If the shown scope includes recording the person's result,
-that follow-through can proceed when the actual report arrives; a new
-correction/build still needs its own authority.
-A deferral starts nothing. A new explicit work request can
-itself supply authority. If the person chooses ordinary work without Conductor,
-do not invoke it or impose its startup assessment; carry actual task authority
-and limits into ordinary host work. Managed To/Roll goes straight to its authorized
-continuation, never through this ordinary-arrival approval step.
+Pass the restored project, full open-work context, the chosen work and pointer,
+known authority, exclusions and unresolved questions. Resolve Conductor from this
+distribution, not another cache's file. Do not ask a second time what to move
+forward, and do not substitute related backlog work for an excluded item. When
+native invocation is unavailable, read Conductor's work-entry section and the
+relevant guide explicitly and disclose the fallback. Missing Conductor is a
+stated limitation, not a silent replacement workflow. Availability for a
+human-owned check is not an agent-work approval or its result. Managed To/Roll
+goes straight to its authorized continuation, never through this arrival question.
 
 ### Welcome back: the screen summary
 
-After restoration, orient before detail. Four short blocks, worded for the project:
+After restoration, orient before detail, in plain English:
 
-- **Now:** a compact view of the selected continuation and its necessary
-  completion steps, not a copy of the project's wider `## Now`. Switch still
-  restores the complete active work picture before composing; the rest stays
-  discoverable behind the documents link.
-- **Last session:** the main achievement or change.
-- **This session:** the next agreed work and why. If none is agreed, say so; a
-  suggestion stays a suggestion. Describe this action's scope, not the next
-  roadmap item: “No build, deploy or push” states a limit without promising
-  that a separate build follows. Name other work only if it affects this action.
-- **Where we are:** position in the wider work, in the project's own stage names,
-  not the stage of the pickup itself.
+- **Where things stand:** one or two sentences on position in the wider work, in
+  the project's own words: what is released or finished, what is underway.
+- **Last session:** the main achievement or change, one sentence.
+- **Open work:** the items that move the work, one line each, in recommended
+  order (see [weighing](#compose-the-arrival-in-switch)).
+- **Recommended** and **Why:** one item and the reason it comes first.
 
 Close with the document links; the task list carries the label **Open work**
 and points at the existing work/status page — HTML where one exists, otherwise
-the Markdown record or task list. Resolve a real
-target; don't invent a page or build one during In. The backlog and audit evidence
-live behind that link. This replaces an exhaustive switch-in report and adds no
-record field. Being short does not suspend the rules above: a contradiction,
-failed synchronization or restriction still appears on screen.
+the Markdown record or task list. Resolve a real target; don't invent a page or
+build one during In. The backlog and audit evidence live behind that link.
+Being short does not suspend the rules above: a contradiction, failed
+synchronization or restriction still appears on screen.
+
+Write each line for a reader who has not opened the source. Keep each item to
+the action and its outcome; move procedures (clicks, restart sequences) and pass
+criteria (expected values or states) to the linked task detail. Keep details
+needed to identify the right target, distinguish scope or avoid an immediate
+safety or permission mistake. Where an item has an established owner who is not
+the agent, say so in the line (“Anthony: check the stats panel on the TV”); the
+renderer displays `**Owner:** action` notation when supplied but neither assigns
+owners nor chooses priorities.
+
+**ATTENTION** covers material limits on the recommendation or on safe
+restoration: failed synchronization, a consequential contradiction, a falsely
+recorded decision. Also retain risks the restored record itself flags as urgent
+or imminent, even outside the recommendation, unless already resolved by
+available evidence. Keep each brief and distinguish the dated saved observation
+from a fresh check; this is not permission to relabel every owed item urgent or
+re-audit them at pickup. Open items that are merely owed belong in Open work,
+not ATTENTION.
 
 An **Insight** is optional: one source-grounded learning, implication or tradeoff
 in its own callout — never compulsory, never a hidden question.
@@ -299,236 +312,128 @@ A log preserves a reported claim; it does not prove someone observed the event.
 Missing logs do not make verification impossible, and reconstructing a log does
 not resolve conflicting claims. Keep the uncertainty visible or omit the Insight.
 
-```text
-★ Insight ─────────────────────────────────────────
-The draft is ready, but its benefit is not measured.
-A first-reader check can test whether the instructions
-actually help someone get started.
-───────────────────────────────────────────────────
-```
-
-A fictional example. Rewrap to width, use ASCII rules where the star renders
-poorly, and omit the callout when there is nothing useful to say.
-
 Render it with the packaged renderer, [scripts/where_we_are.py](../scripts/where_we_are.py),
-resolved relative to this skill so it travels with the package:
-
-Finish composing and checking the summary **before** this call. For each NOW
-item, keep it only if it is the current action or necessary follow-through on
-that action's result. A separately scoped later build does not qualify merely
-because it is tagged “needs approval”; the current proposed action may still
-await its own approval. Move checking procedures to the linked
-task detail; keep only the action/outcome and immediate permission limits here.
-Put dependencies in the action text, not in the owner label.
+resolved relative to this skill so it travels with the package. Finish weighing
+and composing **before** this call:
 
 ```sh
 printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary - --markdown
 ```
 
 The complete stdout from this call **is the final assistant message**. Return
-it unchanged: no paraphrasing, expanded checklist, reworded warning, added intro
-or second question. Rendering is the last step of In, not material for another
-writing pass. If content needs correcting, change the summary and render again;
-use that latest complete output. If the tool output is truncated, retrieve the
-complete result rather than reconstructing missing text. A genuinely unavailable
-renderer uses the disclosed plain-text fallback below, not a claimed renderer result.
-The client may style numbered lists as letters; do not rewrite content to undo
-client styling. This instruction governs the assistant's text, not client pixels.
+it unchanged: no paraphrasing, added intro or second question. Rendering is the
+last step of In, not material for another writing pass. If content needs
+correcting, change the summary and render again; use that latest complete
+output. If the tool output is truncated, retrieve the complete result rather
+than reconstructing missing text. A genuinely unavailable renderer uses the
+disclosed plain-text fallback below, not a claimed renderer result. Use
+`--markdown` in assistant chat; terminal output is the plain-text fallback. The
+client may style numbered lists as letters; do not rewrite content to undo
+client styling.
 
-Use `--markdown` in assistant chat. Start with the explicit completion heading
-and a Markdown grid: PROJECT / PHASE / STATE / TEAM. Then three separated bullets:
-LAST SESSION, THIS SESSION and NOW, with owner-labelled numbered actions nested
-under NOW. Keep each session summary to one high-level sentence. Follow with
-essential ATTENTION, document links, optional Insight, source footer and
-**END OF PICKUP · SESSION READY**. No arrival boxes or fenced tables; let the
-client render the grid. Grid appearance and wrapping depend on that client.
-
-NOW answers who can move the work forward in this sitting, and what they should
-do next. Number the immediate actions in priority order; include necessary
-follow-through after their results, with that dependency explicit. Do not fill
-the list with later projects, future-event checks or evidence bookkeeping.
-“At the next live event” stays behind Open work until that event is available;
-an unrelated build awaiting separate approval does not become NOW just because
-it follows in the roadmap. Keep a consequential blocker or restriction visible
-in ATTENTION, or an actionable step to resolve it in NOW.
-Not shown is not dropped: omitting other open items from this screen changes
-neither the saved priority nor their status. Keep them behind Open work, not
-in ATTENTION merely because they remain owed. ATTENTION covers material limits
-on the selected action or safe restoration: for example failed synchronization,
-a consequential contradiction or a falsely recorded decision. A later question
-can stay off-screen while a false claim that it was answered remains visible.
-Also retain risks the restored record itself flags as urgent or imminent, even
-outside this action, unless already resolved by available evidence. Keep each
-brief and distinguish the dated saved observation from a fresh check; this is
-not permission to relabel every owed item urgent or re-audit them at pickup.
-
-Each item identifies the owner, action and target/outcome. Before rendering,
-remove the **how** (clicks, restart sequences, navigation) and the **pass criteria**
-(expected colours, values or states), even when they fit in one short sentence.
-Point to their existing task/spec or saved account; do not claim a link contains
-steps that were never recorded there. Keep details needed to identify the right
-target, distinguish the scope, or avoid an immediate safety/permission mistake
-in the item or THIS SESSION. Combine related recording
-into one follow-through action; do not silently change saved priority or retire
-work merely to shorten the display. There is no fixed item count to fill.
-Do not relocate the removed procedure or checklist into another dashboard
-section or the final question. An Insight may explain what the check can or
-cannot establish; it is not another home for the test instructions.
-
-Use `**Owner:** action` inside the existing string, for example:
-
-1. `**Anthony:** Check the installed stats panel on either TV against the linked device-pass task.`
-2. `**Claude:** After your report, record the result and identify any correction needed.`
-
-For example, “Quit and reopen the app, open the match, check the bar is green
-and the count is zero” is procedure plus pass criteria, not a tighter version
-of item 1. Keep it behind the task link. THIS SESSION can say “Proposed: your
-device check, then recording the result; no build, deploy or push.” This selects
-the current work without retiring or rescheduling anything in the saved plan.
-
-Only use established owners; otherwise say owner unassigned. This explicit
-notation distinguishes owners from ordinary colon prose. The renderer preserves
-bold labels in chat and strips emphasis in terminal output; it neither assigns
-owners nor chooses priorities. Completed observations belong in LAST SESSION or
-status, not NOW. A displayed recommendation is not permission to execute it.
-
-The single immediate question comes first after END, as a bold speech-bubble
-blockquote: `> 💬 **Start a Conductor session?**`. Ordinary In always supplies
-this question, including when no task is selected or a factual/human question is
-open. Do not add an alternative task, reply menu of other work, or duplicate
-question. Those open items remain context; a plain yes opens direction-setting
-and is not their answer or authority to execute work. The renderer places the
-question; do not append it yourself. Where the host offers one, a native picker may follow that
-rendered output carrying the same offer — labelled “Yes — open
-direction-setting” and “Not now”, never a bare Yes — as a separate
-surface, never replacing or preceding the bubble and never adding another task
-to it. The label is the countermeasure: a picked Yes states what it opens, so it
-cannot read as approval of the saved task, and a host picker with a description
-field says so there too; the host's own free-form route
-takes anything else the person wants to say, so the picker never narrows this
-question. Without picker support, the bubble is answered normally.
+The single question comes first after END, as a bold speech-bubble blockquote:
+`> 💬 **What do you want this session to move forward?**`. Ordinary In always
+supplies this question, including when nothing is actionable. Do not add a reply
+menu or a second question; the open items are its context, the recommendation
+its proposed answer. The renderer places the question; do not append it
+yourself. Where the host offers a native picker, it may follow the rendered
+output carrying the recommendation as one option labelled with the work it
+selects (“Shape: sign off the migration”), and “Not now”, never a bare Yes; the
+host's free-form route takes any other choice. It never replaces or precedes the
+bubble. Without picker support, the bubble is answered normally.
 
 The end line ends restoration, not the session, and starts no work. Partial or
 unknown restoration gets an incomplete or unconfirmed ending instead. Keep
-header values and summaries brief; the renderer wraps rather than truncates.
-Terminal mode uses colour when supported and puts the question after END too;
-`--question-below` remains a compatibility flag. `--color` forces ANSI,
-`--no-color` or `NO_COLOR` disables it. Markdown never emits ANSI. Plain terminal
-output is the fallback when Markdown is unavailable. These are presentation
-choices, not new state, memory reads or permission to continue work.
+values brief; the renderer wraps rather than truncates. `--color` forces ANSI,
+`--no-color` or `NO_COLOR` disables it. Markdown never emits ANSI.
 
 `$summary` is the shape below, filled from what pickup already read. **Copy it
 from here; do not open the script to work out the keys.** The example is one
-coherent sitting: alert design is a possible direction, not approved work, and
-the generic ordinary-In offer is filled. Use `null` or `[]` for anything the work
-has nothing for.
+coherent sitting. Use `null` or `[]` for anything the work has nothing for.
 
 ```json
 {
   "project": "Kerd",
-  "phase": "Design needed — freshness alert",
-  "task": null,
-  "task_reason": null,
-  "state": "Direction-setting available",
-  "state_reason": null,
+  "where": "0.134.0 is released and nothing is being built. The launch sequence has not started: 0 of 5 steps.",
+  "open_work": [
+    "Sign off the risk-state-split migration with real evidence, the first launch step.",
+    "Try the 0.134.0 diagram rules on a real diagram; they have never been exercised.",
+    "Anthony: decide whether the 2026-09-13 \"prove Kerd first\" hold is lifted."
+  ],
+  "recommendation": {
+    "text": "Sign off the risk-state-split migration.",
+    "why": "It is the oldest product commitment, and every later launch step waits on it."
+  },
+  "last_session": "Released 0.134.0, the Visuals contract correction, after two review rounds.",
   "team": [
     {"provider": "claude", "id": "11111111-1111-4111-8111-111111111111", "role": "current session", "self": true, "status": "identity verified"},
-    {"provider": "codex", "id": "22222222-2222-4222-8222-222222222222", "role": "Implementation partner", "status": "submitted-unconfirmed"}
+    {"provider": "codex", "id": "22222222-2222-4222-8222-222222222222", "role": "expert review", "status": "submitted-unconfirmed"}
   ],
-  "now": [
-    "**Claude:** Consider the freshness-alert design in Conductor; no implementation or deployment."
-  ],
-  "last_session": "Diagnosed the pipeline outage. No alert has been built.",
-  "this_session": "The alert design is a possible starting point; a plain yes opens direction-setting, not design work.",
   "question": {
-    "text": "Start a Conductor session?",
+    "text": "What do you want this session to move forward?",
     "proposed": null
   },
   "documents": [
-    ["Open work", "docs/work/model-ready-work/consolidation.md"],
-    ["Design", "docs/work/model-ready-work/design.md"]
+    ["Open work", "TODO.md"],
+    ["Launch plan", "docs/design/launch-plan.md"]
   ],
-  "warnings": ["Publisher health is a saved observation, not rechecked during pickup."],
-  "insight": "A freshness check makes an otherwise silent stop visible.",
+  "warnings": ["The installed version is a saved observation, not rechecked during pickup."],
+  "insight": "The migration shipped two weeks ago; only its acceptance record is missing.",
   "source": "CONTEXT.md, TODO.md, the newest session log",
-  "updated": "2026-09-10 17:34 EDT",
+  "updated": "2026-09-17 14:56 EDT",
   "base": ".",
   "restored": "yes",
   "restore_note": null
 }
 ```
 
-New chat summaries put the task in NOW, leaving `task` null to avoid repeating
-it in the orientation grid. Older inputs retain a task unless a NOW action
-matches it exactly (apart from its explicit owner label). The retained task
-appears as Focus under NOW; any `task_reason` appears there as task context.
-Neither fallback invents an owner or additional numbered action.
-Terminal output retains its existing labelled rows as the plain-text fallback.
-
 `project` is the project already restored, never inferred from the renderer's
-installation path. `documents` are `[label, path]` pairs resolved against `base`; a path that does
-not exist is reported as a warning rather than offered as a link. `task_reason`
-and `state_reason` carry the sentence after an explicit "none". `restored` is
-`"yes"`, `"partial"`, `"no"`, or omitted when no pickup claim is being made;
-`restore_note` says what is missing when it is not `"yes"`.
-
-`question.text` supplies the one ordinary-In question: **“Start a Conductor
-session?”**. New callers leave `proposed` null: put scope in NOW or THIS SESSION.
-For older callers, a nonempty `proposed` still
-renders below NOW as scope/recommendation, preserving paragraphs and complete
-limits rather than silently losing them when YOU disappears. Legacy `reply`
-is tolerated but not displayed; it must not carry necessary facts.
+installation path. `where` is the position sentence; `open_work` a list of plain
+lines (a single string is one item); `recommendation` carries `text` and `why`,
+or `null` when nothing is actionable, which the renderer states. `question.text`
+is the one arrival question; leave `proposed` null, since the recommendation is
+already on screen. `documents` are `[label, path]` pairs resolved against
+`base`; a path that does not exist is reported as a warning rather than offered
+as a link. Supplying `open_work` or `recommendation` selects this layout; the
+renderer's older grid keys (`phase`, `task`, `state`, `now`, `this_session`)
+remain only for record-driven views and older callers, and new arrivals do not
+use them.
 
 `team` uses the Agent arrival result's array; the fictional IDs above illustrate
 its input shape only. A caller may shorten a role's wording faithfully for
 display, without modifying its private binding or assigning new responsibility.
-Do not synthesize TEAM from project history or a legacy bridge's collaborator
-names. Those may be reported as recorded collaboration where relevant, but are
-not a verified Agent binding or evidence an arrival notice was sent.
-The renderer groups identical identities and displays providers and roles only.
-IDs, receipt status, errors and other helper metadata remain available in Agent.
-Use `[]` for no established pairing and `null` for unread/unresolved state.
-A consequential routing problem belongs in `warnings`; routine unconfirmed
-notice delivery is not a blocker or an availability claim. No pairing means no
-notice or setup question.
+Do not synthesize the team from project history or a legacy bridge's
+collaborator names. The renderer groups identical identities and displays
+providers and roles only. Use `[]` for no established pairing and `null` for
+unread/unresolved state. A consequential routing problem belongs in `warnings`;
+routine unconfirmed notice delivery is not a blocker or an availability claim.
 
 `updated` is the selected source's recorded update time, not the current time,
 an estimated close time or a guessed aggregate across files. If no applicable
 source time is known, use `null`. The renderer supplies `rendered` from its clock;
 do not hand-type that footer. Reversed displayed times in the renderer's
 `YYYY-MM-DD HH:MM ZONE` format with identical zone labels produce an attention
-warning, leaving both values intact. Other formats and differing or absent zones
-are not compared; no timezone conversion or clock-cause diagnosis is implied.
+warning, leaving both values intact.
 
-**What the caller should supply, and what the renderer checks — they are not the
-same thing.** Given a correctly shaped JSON object, fields are not required: a
-missing, misspelled or null one degrades quietly, so a typo costs you a blank
-line rather than an error. That tolerance is about *fields*, not about input —
-malformed JSON exits 2 with a message, and a top-level value that is not an
-object (an array, say) exits 1 on an unhandled error. `PROJECT`, `PHASE`, `STATE`, `NOW`, `LAST SESSION` and `THIS SESSION` **always render**, falling back to "not recorded" or a plain sentence
-when they have nothing — they are the frame, and a gap in them is information.
-Compose `now` using the immediate-action guidance above, from the saved plan.
-This changes the display, not the saved list. The backlog is not supplied here.
-TEAM always renders (unknown versus no established pairing stay distinct).
-Only the attention panel, `DOCUMENTS` and the `★` insight line are **omitted
-entirely** when empty. Always supply `source`: it names what the pickup actually
-read, and it is the one field nothing else can stand in for.
+Given a correctly shaped JSON object, fields are not required: a missing or null
+one degrades to a plain “not recorded” line or an explicit “nothing open”
+statement rather than an error. Malformed JSON exits 2 with a message. Where
+things stand, Last session, Open work, Recommended and Team always render; only
+the attention panel, documents and Insight are omitted when empty. Always supply
+`source`: it names what the pickup actually read.
 
 It reads stdin, so nothing is written to disk. Do not re-read files to fill it,
 and do not stop for approval before showing it. Only if rendering fails or the
 renderer is unavailable, disclose that failure and present the restored facts
-and single question as plain text. A successful complete render uses the unchanged
-stdout rule above; this fallback is not permission to restyle or paraphrase it.
+and single question as plain text.
 
-`restored` states whether the necessary context was recovered. Which presentation
-ran is a separate fact: an older Switch producing the long report is not an
-incomplete restore, and belongs in the attention lines if it matters at all.
-Use `yes` when the necessary position, authority and next action were recovered,
-even with a dirty tree, unpushed commits, pending approval or a missing log whose
-necessary content was recovered elsewhere. Those facts may still need attention.
-Use `partial` or `no` only for a material context gap, and name it in `restore_note`.
-Missing session paperwork alone is not a failed restoration. Never turn a
-reconstructed claim into verified evidence merely to make the banner complete.
+`restored` states whether the necessary context was recovered. Use `yes` when
+the necessary position, authority and open work were recovered, even with a dirty
+tree, unpushed commits, pending approval or a missing log whose necessary content
+was recovered elsewhere. Use `partial` or `no` only for a material context gap,
+and name it in `restore_note`. Missing session paperwork alone is not a failed
+restoration. Never turn a reconstructed claim into verified evidence merely to
+make the banner complete.
 
 ## Out
 
@@ -662,7 +567,11 @@ make the handoff neater.
 Before saving, check that the pointer/current record and the log's next-action
 account agree on that scope and stopping point; a fresh reader should not have
 to assemble them from competing lists. Include this selection in the measured
-reading set and carry it into the closing box's existing `next` text. In restores
+reading set and carry it into the closing box's existing `next` text. Save why
+it matters to the product, not only what it is: the next In weighs it against
+the other open work and shows only a reason a person can check. Work that only
+proves the project's own mechanics is saved as open work, not as the selection,
+unless it blocks product work or the person chose it. In restores
 the meaning even when an older handoff has no named fields; it does not declare
 the selection missing merely because it was written as a sentence. New user
 direction can supersede it. Changed evidence can make it stale; Switch
@@ -799,7 +708,7 @@ printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing 
 Use the same chat-versus-terminal presentation choice as In above. In chat,
 show the Markdown directly: the emphasized save verdict is the completion
 signal, not a claim that a green theme colour proves a successful push. Out's
-presentation is unchanged by the compact In layout.
+presentation is unchanged by the plain-English In layout.
 
 `$closing` is filled from the helper's save result and what Out just wrote.
 **Copy the shape from here; do not open the script for the keys.** `saved` is

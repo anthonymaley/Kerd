@@ -340,10 +340,16 @@ def compact(path, text, now, width=80):
 
 # The renderer's input contract, written down so a caller fills the shape from
 # the guide's example instead of reading this module to discover key names.
-SUMMARY_KEYS = ("project", "phase", "task", "task_reason", "state", "state_reason", "team", "now",
+SUMMARY_KEYS = ("project", "where", "open_work", "recommendation",
+                "phase", "task", "task_reason", "state", "state_reason", "team", "now",
                 "last_session", "this_session", "question", "documents",
                 "warnings", "insight", "source", "updated", "base",
                 "restored", "restore_note")
+# The keys the plain-English arrival reads (open_work or recommendation present).
+# The remaining SUMMARY_KEYS serve the record-driven view and older callers.
+OPEN_WORK_KEYS = ("project", "where", "open_work", "recommendation", "last_session", "team",
+                  "question", "documents", "warnings", "insight", "source", "updated", "base",
+                  "restored", "restore_note")
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
 CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "commit", "files", "remote", "local_only",
@@ -613,6 +619,9 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     presentation ran.
     """
     get = summary.get
+    if any(key in summary for key in ("where", "open_work", "recommendation")):
+        return "\n".join(open_work_head(summary, width, color, markdown)
+                         + dashboard_tail(summary, now, width, color, markdown))
     # --question-below remains accepted for older callers; all arrivals now
     # put the question after the end marker.
     question = get("question")
@@ -705,7 +714,81 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
         lines.append(ink(" " + label, "dim", on=color))
         lines += ["   " + line for line in wrap(value or empty, width - 3)]
     lines.append("")
+    return "\n".join(lines + dashboard_tail(summary, now, width, color, markdown))
 
+
+def open_work_head(summary, width, color, markdown):
+    """The plain-English arrival: where things stand, the open work, one
+    recommendation and why. No grid and no copied saved step; the caller has
+    already weighed every open item, the saved one included."""
+    get = summary.get
+    restored = get("restored")
+    status = ("SWITCH IN COMPLETE \u2713" if restored == "yes" else
+              "SWITCH IN INCOMPLETE" if restored in ("partial", "no") else
+              "SWITCH IN STATUS UNKNOWN")
+    project = str(get("project") or UNRECORDED)
+    work = get("open_work")
+    if isinstance(work, str):  # one item written as prose, not a list of letters
+        work = [work]
+    items = [str(item) for item in (work or []) if item]
+    recommendation = get("recommendation") or {}
+    if isinstance(recommendation, str):
+        recommendation = {"text": recommendation}
+    blocks = (("Where things stand", get("where") or get("phase"), "not recorded"),
+              ("Last session", get("last_session"), "no completed job is recorded"))
+    team = team_rows(get("team"))[0][1]
+    if markdown:
+        lines = [f"**{md(project.upper())} \u00b7 {status}**", ""]
+        for label, value, empty in blocks:
+            lines += [f"**{label}:** {md(value or empty)}", ""]
+        lines += ["**Open work**", ""]
+        lines += [f"{index}. {action_text(item, markdown=True)}" for index, item in enumerate(items, 1)]
+        if not items:
+            lines.append("No open work is recorded.")
+        lines.append("")
+        lines += [f"**Recommended:** {md(recommendation.get('text') or 'No recommendation: nothing actionable is open.')}"]
+        if recommendation.get("text") and recommendation.get("why"):
+            lines += ["", f"**Why:** {md(recommendation['why'])}"]
+        lines += ["", f"**Team:** {md(team)}", ""]
+        return lines
+    tone = "green" if restored == "yes" else "amber"
+    name = " " + project.upper()
+    if columns(name) + columns(status) + 2 <= width:
+        lines = [ink(pad(name, width - columns(status) - 1), "bold", "cyan", on=color)
+                 + ink(status + " ", tone, on=color)]
+    else:  # a long name wraps whole and the status takes its own line, never cut
+        lines = [ink(" " + line, "bold", "cyan", on=color) for line in wrap(project.upper(), width - 1)]
+        lines += [ink(" " + line, tone, on=color) for line in wrap(status, width - 1)]
+    lines += [ink("\u2501" * width, "cyan", on=color), ""]
+    for label, value, empty in blocks:
+        lines.append(ink(" " + label.upper(), "dim", on=color))
+        lines += ["   " + line for line in wrap(str(value or empty), width - 3)]
+        lines.append("")
+    lines.append(ink(" OPEN WORK", "dim", on=color))
+    for position, item in enumerate(items, 1):
+        prefix = f"   {position}. "
+        for index, line in enumerate(wrap(action_text(item), width - len(prefix))):
+            lines.append((prefix if index == 0 else " " * len(prefix)) + line)
+    if not items:
+        lines.append("   No open work is recorded.")
+    lines.append("")
+    lines.append(ink(" RECOMMENDED", "dim", on=color))
+    lines += ["   " + line for line in wrap(str(recommendation.get("text")
+              or "No recommendation: nothing actionable is open."), width - 3)]
+    if recommendation.get("text") and recommendation.get("why"):
+        lines += ["   " + line for line in wrap("Why: " + str(recommendation["why"]), width - 3)]
+    lines += ["", ink(" TEAM", "dim", on=color)]
+    lines += ["   " + line for line in wrap(team, width - 3)] + [""]
+    return lines
+
+
+def dashboard_tail(summary, now, width, color, markdown):
+    """Attention, documents, insight, source footer, end marker and the one
+    question: shared by both arrival layouts."""
+    get = summary.get
+    question = get("question")
+    restored = get("restored")
+    lines = []
     warnings = list(get("warnings") or [])
     time_warning = timestamp_warning(get("updated"), now)
     if time_warning:
@@ -767,7 +850,7 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
         lines += [""] + ([f"> 💬 **{md(question['text'])}**"] if markdown else
                           [ink("💬 " + line if index == 0 else "   " + line, "bold", on=color)
                            for index, line in enumerate(wrap(question["text"], width - 3))])
-    return "\n".join(lines)
+    return lines
 
 
 def render_closing(summary, now, width=80, color=True, markdown=False):

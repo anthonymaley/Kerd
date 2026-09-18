@@ -727,7 +727,7 @@ class RecommendationTests(unittest.TestCase):
         out = view.render_dashboard(summary, NOW, markdown=True)
         content = flatten(MarkdownTests.visible(out))
         self.assertIsNone(summary['question']['proposed'])
-        self.assertIn('no implementation or deployment.', content)
+        self.assertIn(flatten(summary['recommendation']['why']), content)
         self.assertNotIn('Scope / recommendation', out)
         self.assertNotIn('reply', summary['question'])
 
@@ -837,101 +837,125 @@ class DocumentedExampleTests(unittest.TestCase):
         return view.render_dashboard(self.example(), NOW, width, False)
 
     def test_the_example_uses_only_keys_the_renderer_reads(self):
-        unknown = set(self.example()) - set(view.SUMMARY_KEYS)
-        self.assertFalse(unknown, f"example carries keys the renderer ignores: {unknown}")
+        unknown = set(self.example()) - set(view.OPEN_WORK_KEYS)
+        self.assertFalse(unknown, f"example carries keys the arrival ignores: {unknown}")
 
     def test_the_example_shows_every_key_so_nothing_needs_looking_up(self):
-        missing = set(view.SUMMARY_KEYS) - set(self.example())
+        missing = set(view.OPEN_WORK_KEYS) - set(self.example())
         self.assertFalse(missing, f"example omits keys a caller would have to discover: {missing}")
 
     def test_every_documented_value_reaches_the_screen_in_full(self):
-        """SUMMARY_KEYS is only a list, and a prefix match hides truncation.
-
-        Wrapping is normalized away and the WHOLE value compared, so a narrative
-        cut short — where the end of the sentence carries the qualification —
-        fails here instead of passing on its first sixty characters.
-        """
-        out = flatten(self.rendered(100))
+        """Wrapping is normalized away and the WHOLE value compared, so a
+        sentence cut short, where the end carries the qualification, fails."""
         example = self.example()
-        checked = 0
-        for key in ("phase", "task", "state", "last_session", "this_session",
-                    "insight", "source", "updated"):
-            value = example.get(key)
-            if not value:
-                continue
-            self.assertIn(flatten(value), out, f"{key} is missing or cut short on screen")
-            checked += 1
-        self.assertGreaterEqual(checked, 7, "too few fields carry a value to test with")
+        for width in (78, 100):
+            with self.subTest(width=width):
+                out = flatten(view.render_dashboard(example, NOW, width, False))
+                values = [example[key] for key in ("where", "last_session", "insight",
+                                                   "source", "updated")]
+                values += [item.replace("**", "") for item in example["open_work"]]
+                values += [example["recommendation"]["text"], example["recommendation"]["why"]]
+                for value in values:
+                    self.assertIn(flatten(value), out, f"{value[:40]!r} is missing or cut short")
 
-    def test_the_complete_question_follows_end_without_you(self):
-        out = self.rendered(100)
-        question = self.example()["question"]
-        before, after = out.split("END OF PICKUP", 1)
-        self.assertIn(question["text"], after)
-        self.assertNotIn(question["text"], before)
-        self.assertIn(self.example()["this_session"], flatten(before))
-        self.assertNotIn("─ YOU", out)
-        self.assertNotIn("Reply:", out)
+    def test_markdown_shows_open_work_and_one_recommendation_with_why(self):
+        example = self.example()
+        out = view.render_dashboard(example, NOW, 100, False, markdown=True)
+        before = out.split("END OF PICKUP", 1)[0]
+        self.assertIn("**Open work**", before)
+        for index, _ in enumerate(example["open_work"], 1):
+            self.assertIn(f"\n{index}. ", before)
+        self.assertEqual(before.count("**Recommended:**"), 1)
+        self.assertEqual(before.count("**Why:**"), 1)
+        self.assertLess(before.index("**Open work**"), before.index("**Recommended:**"))
+        # No grid and no copied saved step.
+        self.assertNotIn("| PROJECT |", out)
+        self.assertNotIn("**NOW**", out)
+        self.assertNotIn("THIS SESSION", out)
+
+    def test_the_complete_question_follows_end_once(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                out = view.render_dashboard(self.example(), NOW, 100, False, markdown=markdown)
+                question = self.example()["question"]["text"]
+                before, after = out.split("END OF PICKUP", 1)
+                self.assertIn(question, after)
+                self.assertNotIn(question, before)
+                self.assertEqual(out.count("💬"), 1)
 
     def test_every_warning_and_document_reaches_the_screen(self):
-        out = self.rendered(100)
+        out = view.render_dashboard(self.example(), NOW, 100, False)
         flat = flatten(out)
         for warning in self.example().get("warnings") or []:
             self.assertIn(flatten(warning), flat, "a warning is missing or cut short")
         for label, path in self.example().get("documents") or []:
             self.assertIn(label, out)
             self.assertIn(path, out)
-        for item in self.example().get("now") or []:
-            self.assertIn(flatten(item.replace("**", "")), flat, "a NOW item is missing or cut short")
-        self.assertTrue(self.example().get("now"), "the example must show the NOW list")
 
-    def test_the_example_does_not_contradict_itself(self):
-        example = self.example()
-        task, this = example.get("task") or "", example.get("this_session") or ""
-        if task and task.lower() not in ("not selected yet", view.UNRECORDED):
-            self.assertNotIn("nothing agreed", this.lower(),
-                             "a selected task and an empty session contradict each other")
+    def test_the_example_asks_what_to_move_not_whether_to_open_conductor(self):
+        question = self.example()["question"]
+        self.assertEqual(question["text"], "What do you want this session to move forward?")
+        self.assertIsNone(question.get("proposed"))
 
-    def test_arrival_decisions_ask_once_without_you(self):
-        # Content fixtures, not a claim that an LLM follows the arrival guide.
-        for case in ("design", "unknown-stage", "continue", "pending", "no-task"):
-            with self.subTest(case=case):
+    def test_nothing_open_says_so_rather_than_inventing_work(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
                 summary = self.example()
-                if case == "unknown-stage":
-                    summary["phase"] = None
-                elif case == "continue":
-                    summary.update(state="Continuing under your explicit request",
-                                   this_session="Design the alert; no deployment.", question=None)
-                elif case == "pending":
-                    summary.update(state="Decision pending", question={
-                        "text": "Which channel should receive the alert?",
-                        "proposed": "Use the existing operations channel; do not create a service.",
-                        "reply": "Use it / Change"})
-                elif case == "no-task":
-                    summary.update(phase=None, task="Not selected yet", now=[],
-                                   state="No saved next action", this_session="No work selected.",
-                                   question=None)
-                out = view.render_dashboard(summary, NOW, 78, False)
-                lines = out.splitlines()
-                box = flatten(out)
-                self.assertNotIn("─ YOU", out)
-                self.assertEqual(sum(line.strip() == "NOW" for line in lines), 1)
-                self.assertNotIn("JOURNEY", out)
-                question = summary["question"]
-                if question:
-                    for value in (question['text'], question['proposed']):
-                        if value:
-                            self.assertIn(flatten(value), box)
-                    self.assertNotIn("Nothing needs you", out)
-                    self.assertEqual(flatten(out).count(flatten(question["text"])), 1)
-                else:
-                    self.assertNotIn("💬", out)
-                    self.assertNotIn("approve?", out)
-                if case == "design":
-                    self.assertIn("a plain yes opens direction-setting, not design work.",
-                                  flatten(out))
-                if case in ("unknown-stage", "no-task"):
-                    self.assertIn(view.UNRECORDED, out)
+                summary.update(open_work=[], recommendation=None)
+                out = view.render_dashboard(summary, NOW, 78, False, markdown=markdown)
+                self.assertIn("No open work is recorded.", out)
+                self.assertIn("No recommendation: nothing actionable is open.", out)
+
+    def test_every_line_fits_the_requested_width(self):
+        for width in (60, 78):
+            with self.subTest(width=width):
+                out = view.render_dashboard(self.example(), NOW, width, False)
+                self.assertTrue(all(view.columns(line) <= width for line in out.splitlines()))
+
+    def test_null_open_work_and_recommendation_keep_the_new_layout(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                summary = self.example()
+                summary.update(open_work=None, recommendation=None)
+                out = view.render_dashboard(summary, NOW, 78, False, markdown=markdown)
+                self.assertIn("No open work is recorded.", out)
+                self.assertNotIn("PROJECT |", out)
+                self.assertNotIn("NOW", out)
+                self.assertNotIn("THIS SESSION", out)
+
+    def test_a_why_without_a_recommendation_is_not_shown(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                summary = self.example()
+                summary["recommendation"] = {"text": None, "why": "orphan reason"}
+                out = view.render_dashboard(summary, NOW, 78, False, markdown=markdown)
+                self.assertIn("No recommendation: nothing actionable is open.", out)
+                self.assertNotIn("orphan reason", out)
+
+    def test_long_team_and_project_name_fit_the_width_without_being_cut(self):
+        summary = self.example()
+        summary["project"] = "A very long project name that cannot share its line"
+        summary["team"] = [{"provider": "claude", "id": str(n), "role": "a long descriptive role " * 2}
+                           for n in range(3)]
+        out = view.render_dashboard(summary, NOW, 60, False)
+        self.assertTrue(all(view.columns(line) <= 60 for line in out.splitlines()))
+        self.assertIn("SWITCH IN COMPLETE", out)
+        self.assertIn("CANNOT SHARE ITS LINE", flatten(out))
+
+    def test_open_work_as_one_string_is_one_item(self):
+        summary = self.example()
+        summary["open_work"] = "Sign off the migration"
+        out = view.render_dashboard(summary, NOW, 78, False)
+        self.assertIn("1. Sign off the migration", out)
+        self.assertNotIn("2. ", out)
+
+    def test_legacy_summary_without_open_work_keeps_the_grid(self):
+        legacy = {"project": "Kerd", "phase": "p", "now": ["**Claude:** do x"],
+                  "question": {"text": "Start a Conductor session?", "proposed": None},
+                  "restored": "yes"}
+        out = view.render_dashboard(legacy, NOW, 100, False, markdown=True)
+        self.assertIn("| PROJECT | PHASE | STATE | TEAM |", out)
+        self.assertIn("**NOW**", out)
 
 
 class ClosingBoxTests(unittest.TestCase):

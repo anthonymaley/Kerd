@@ -75,10 +75,9 @@ class QuestionFormTests(unittest.TestCase):
             "The bubble names the concrete action and target",
             "Tiny or factual questions stay proportionate; they do not need a "
             "ceremonial capsule",
-            "The ordinary Switch In **“Start a Conductor session?”** arrival is "
-            "exempt from the consequential-question capsule",
-            "its complete rendered dashboard is the orientation, and its labelled Yes "
-            "opens direction-setting only",
+            "The ordinary Switch In **“What do you want this session to move forward?”** "
+            "arrival is exempt from the consequential-question capsule",
+            "choosing work opens Shape for it only",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(flat(phrase), prose)
@@ -127,18 +126,17 @@ class QuestionFormTests(unittest.TestCase):
         # Each phrase runs past the permission into the bound that makes it safe:
         # a permission alone would survive being narrowed back to "only if asked".
         self.assertIn("A native picker may still follow the rendered output, carrying "
-                      "that same offer", journey)
+                      "the recommendation labelled with the work it selects", journey)
         self.assertIn("so the renderer's output stays unchanged", journey)
         in_out = flat((SKILLS / "switch" / "references" / "in-out.md").read_text(encoding="utf-8"))
-        self.assertIn("a native picker may follow that rendered output carrying the "
-                      "same offer", in_out)
-        self.assertIn("as a separate surface, never replacing or preceding the bubble "
-                      "and never adding another task to it", in_out)
-        # The countermeasure is the visible label, not the claim that one exists:
-        # a bare "Yes" is what could read as approving the saved task.
+        self.assertIn("it may follow the rendered output carrying the recommendation as "
+                      "one option labelled with the work it selects", in_out)
+        self.assertIn("It never replaces or precedes the bubble.", in_out)
+        # The countermeasure is the visible label naming the work, not a bare
+        # "Yes" that could read as approving the work's operations.
         for text in (journey, in_out):
-            self.assertIn("“Yes — open direction-setting”", text)
-        self.assertIn("never a bare Yes", in_out)
+            self.assertIn("never a bare Yes", text)
+            self.assertIn("(“Shape: sign off the migration”)", text)
 
     def test_bubble_questions_are_never_inside_code_fences(self):
         """A fenced bubble renders as literal Markdown, not a question (e.g. Tend's report)."""

@@ -5,7 +5,7 @@ substantial design research or diagnosis. The work record and actual artifacts
 establish the outcome, success, authority and current activity. Reconcile stale
 status with evidence, preserving prior decisions. If a genuine authorization
 gap remains, ask once; don't repeatedly ask to start already authorized work.
-The Switch In approval line on arrival is the one exception.
+The Switch In arrival question is the one exception.
 Optional limits remain optional. Honor supplied limits and revoked authority.
 Use the existing request's authority for small explicit work; no intake or new
 approval record is required simply to act. Open later decisions stop only their

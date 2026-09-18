@@ -22,7 +22,7 @@ At entry/resume, decisions and stage transitions, show these in reading order:
    question turns on two or more connected parts, a branch, an ownership
    boundary or a before → after change.
 5. What the answer enables and the next action/stage. No extra “continue?”
-   (the Switch In approval line on arrival is the one exception).
+   (the Switch In arrival question is the one exception).
 
 For a fresh opener, keep it light: current stage and “What are you trying to
 achieve?” Rough ideas and optional notes are welcome. Use an already-supplied
@@ -32,8 +32,11 @@ before intent exists. Small explicit work needs only proportionate orientation.
 When Switch has just restored the session, its
 [welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
 is the entry orientation: don't repeat it. Switch composes that decision without
-loading Conductor. Once the person approves the scoped action or explicitly asks
-for Conductor, enter the actual work or direction-setting stage. A workflow
+loading Conductor. When the person
+[answers its question](../../switch/references/in-out.md#enter-conductor-from-the-answer)
+by choosing work, enter Shape for that work without approving its operations;
+an approved scoped action enters its actual stage, and a request for guidance
+enters direction-setting. A workflow
 request can exclude the proposed task; carry that exclusion instead of requiring
 another start confirmation. Continue with the job update or unresolved decision,
 not a second pickup or approval. A managed rolling
@@ -50,26 +53,27 @@ interactive or a terminal supports colour when it does not.
 
 ## Question surface and host adaptation
 
-Switch's Markdown arrival uses the linked welcome-back convention: an explicit
-completion heading and PROJECT / PHASE / STATE / TEAM grid, followed by three
-bullets: LAST SESSION, THIS SESSION and NOW (with owner-labelled numbered actions
-nested beneath NOW), then document links. No arrival boxes. Keep scope
-with the actions or THIS SESSION. For ordinary In, the generic **“Start a
-Conductor session?”** offer is the first content after END OF PICKUP, once as a
-bold speech-bubble blockquote; it is not a pending-task question. Managed Roll
+Switch's Markdown arrival uses the linked welcome-back convention, in plain
+English: an explicit completion heading, Where things stand, Last session, Open
+work one line each, one Recommended item with its Why, a compact Team line, then
+document links. No arrival boxes or status grid. For ordinary In, **“What do you
+want this session to move forward?”** is the first content after END OF PICKUP,
+once as a bold speech-bubble blockquote, with the recommendation as its proposed
+answer; it is not a pending-task approval. Managed Roll
 does not use it. Other renderer callers may omit a question. Do not append
 another report or question. A native picker may still follow the rendered
-output, carrying that same offer — the option is labelled “Yes — open
-direction-setting”, never a bare Yes, with Not now beside it and the host's own
-free-form route — because it is a separate surface rather than appended text, so
-the renderer's output stays unchanged. Where the host's picker carries a
-description as well, say there that it does not approve the saved task. Its Yes opens direction-setting only, never approval of the saved
-task, and Other takes the person's own words.
+output, carrying the recommendation labelled with the work it selects (“Shape:
+sign off the migration”), never a bare Yes, with Not now beside it and the host's
+own free-form route — because it is a separate surface rather than appended text,
+so the renderer's output stays unchanged. Where the host's picker carries a
+description as well, say there that choosing opens Shape for that work and
+approves none of its operations. Other takes the person's own words.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
-The ordinary Switch In **“Start a Conductor session?”** arrival is exempt from
-the consequential-question capsule: its complete rendered dashboard is the
-orientation, and its labelled Yes opens direction-setting only.
+The ordinary Switch In **“What do you want this session to move forward?”**
+arrival is exempt from the consequential-question capsule: its complete rendered
+arrival is the orientation, with the recommendation and its Why above, and
+choosing work opens Shape for it only.
 
 Every other Kerd question, in every skill, including Conductor decisions and
 approvals, uses the same form. Every consequential question must be answer-ready
@@ -338,7 +342,7 @@ Mark a task complete only when its own check or intended contribution is done.
 “All implementation jobs done” must not hide missing proof or required user
 acceptance. A visible final review can remain pending while the build is ready.
 Updating a task is not an approval request and never a reason to end the turn;
-the Switch In approval line on arrival is the one designed stop.
+the Switch In arrival question is the one designed stop.
 
 Show working only after execution begins. Distinguish preparing, running, waiting
 for result, returned, correcting and verified. When a job is quiet, state that it

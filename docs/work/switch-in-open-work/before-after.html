@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd Switch In — what's next, before and after</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f5f5; --paper-2:#ffffff; --ink:#2d3142; --muted:#4f5d75;
+    --soft:#7a8399; --rule:rgba(45,49,66,0.12); --rule-solid:#b8bec9;
+    --accent:#eb6c36; --accent-tint:rgba(235,108,54,0.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; padding:3rem 2rem; background:var(--paper); color:var(--ink);
+    font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1280px; margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace; font-size:11px; font-weight:500;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .5rem}
+  h1{font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin:0 0 .5rem; line-height:1.15}
+  .sub{color:var(--muted); font-size:1rem; margin:0 0 2rem; max-width:68ch; line-height:1.55}
+  .sub strong{color:var(--ink); font-weight:600}
+  .scroller{overflow-x:auto}
+  svg{width:100%; min-width:1000px; height:auto; display:block}
+  .cards{display:grid; grid-template-columns:1.1fr 1fr 0.9fr; gap:1.25rem; margin-top:2.5rem}
+  .card{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.5rem}
+  .card-header{display:flex; align-items:center; gap:.5rem; margin:.25rem 0 .75rem}
+  .card-dot{width:8px; height:8px; border-radius:50%; flex:none}
+  .dot-ink{background:var(--ink)} .dot-muted{background:var(--muted)} .dot-accent{background:var(--accent)}
+  .card .eyebrow{font-size:11px; margin-bottom:.75rem}
+  .card h3{font-size:1rem; font-weight:600; margin:0}
+  .card ul{margin:0; padding-left:1rem; color:var(--muted); font-size:.9375rem; line-height:1.65}
+  .card li{margin-bottom:.4rem}
+  footer{margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--rule);
+    font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--soft)}
+  @media (max-width:760px){ body{padding:2rem 1rem} .cards{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Kerd · Switch In · shape stage</p>
+  <h1>Where "what's next" comes from</h1>
+  <p class="sub">Today the start screen repeats whatever the last session wrote down, and the real open work sits behind a link. Proposed: every open item is weighed, and the screen shows them in plain English with one recommendation and its reason. <strong>Proposed only — nothing built.</strong></p>
+
+  <div class="scroller">
+  <svg viewBox="0 0 1280 600" role="img" aria-labelledby="swin-title swin-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="swin-title">Kerd Switch In — what's next, before and after</title>
+    <desc id="swin-desc">Before: the last session's saved next step is copied straight onto the start screen while open work is only linked. After: Switch In weighs every open item, including the saved step, and the screen lists open work in plain English with one recommendation and why, ending on a question about what to move today.</desc>
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+      </marker>
+      <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+      </marker>
+    </defs>
+
+    <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+    <!-- lane labels -->
+    <text x="40" y="64" fill="#7a8399" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.18em">BEFORE · TODAY</text>
+    <text x="40" y="296" fill="#eb6c36" font-size="12" font-family="'Geist Mono',monospace" letter-spacing="0.18em">AFTER · PROPOSED</text>
+    <line x1="40" y1="256" x2="1240" y2="256" stroke="rgba(45,49,66,0.12)" stroke-width="0.8"/>
+
+    <!-- ===== ARROWS FIRST ===== -->
+    <!-- before: close -> In -->
+    <line x1="280" y1="140" x2="398" y2="140" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <rect x="304" y="112" width="68" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="338" y="121" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">SAVES ONE</text>
+    <!-- before: In -> screen -->
+    <line x1="620" y1="140" x2="738" y2="140" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <rect x="644" y="112" width="68" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="678" y="121" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">COPIES AS-IS</text>
+    <!-- before: open work -> screen, link only -->
+    <line x1="1040" y1="140" x2="982" y2="140" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+    <rect x="988" y="112" width="44" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="1010" y="121" fill="#7a8399" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">LINKED</text>
+
+    <!-- after: open work -> weigh -->
+    <path d="M 280 356 H 324 Q 332 356 332 364 V 380 Q 332 388 340 388 H 398" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <!-- after: saved step -> weigh -->
+    <path d="M 280 484 H 340 Q 348 484 348 476 V 428 Q 348 420 356 420 H 398" fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+    <!-- after: weigh -> screen -->
+    <line x1="640" y1="404" x2="718" y2="404" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+    <!-- after: screen -> question -->
+    <line x1="980" y1="404" x2="1038" y2="404" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+    <!-- ===== BOXES ===== -->
+    <!-- before -->
+    <rect x="80" y="100" width="200" height="80" rx="6" fill="#f5f5f5"/>
+    <rect x="80" y="100" width="200" height="80" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="180" y="136" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Last session closes</text>
+    <text x="180" y="156" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">writes down one next step</text>
+
+    <rect x="400" y="100" width="220" height="80" rx="6" fill="#f5f5f5"/>
+    <rect x="400" y="100" width="220" height="80" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="510" y="136" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Switch In</text>
+    <text x="510" y="156" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">repeats it, no "why"</text>
+
+    <rect x="740" y="92" width="240" height="96" rx="6" fill="#f5f5f5"/>
+    <rect x="740" y="92" width="240" height="96" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="860" y="124" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Start screen</text>
+    <text x="860" y="144" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">status grid</text>
+    <text x="860" y="164" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">NOW = that saved step</text>
+
+    <rect x="1040" y="100" width="200" height="80" rx="6" fill="#f5f5f5"/>
+    <rect x="1040" y="100" width="200" height="80" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+    <text x="1140" y="136" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Open work list</text>
+    <text x="1140" y="156" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">not shown, only linked</text>
+
+    <!-- after -->
+    <rect x="80" y="316" width="200" height="80" rx="6" fill="#f5f5f5"/>
+    <rect x="80" y="316" width="200" height="80" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+    <text x="180" y="352" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Open work list</text>
+    <text x="180" y="372" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">every open item</text>
+
+    <rect x="80" y="444" width="200" height="80" rx="6" fill="#f5f5f5"/>
+    <rect x="80" y="444" width="200" height="80" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="180" y="480" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Last session's step</text>
+    <text x="180" y="500" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">one candidate, not the answer</text>
+
+    <rect x="400" y="356" width="240" height="96" rx="6" fill="#f5f5f5"/>
+    <rect x="400" y="356" width="240" height="96" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+    <text x="520" y="388" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Switch In weighs each</text>
+    <text x="520" y="408" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">does it move the product?</text>
+    <text x="520" y="428" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">why this one first?</text>
+
+    <rect x="720" y="348" width="260" height="112" rx="6" fill="#f5f5f5"/>
+    <rect x="720" y="348" width="260" height="112" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+    <text x="850" y="380" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">Start screen, plain English</text>
+    <text x="850" y="400" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">where things stand</text>
+    <text x="850" y="420" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">open work, one line each</text>
+    <text x="850" y="440" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">one recommendation + why</text>
+
+    <rect x="1040" y="364" width="200" height="80" rx="6" fill="#f5f5f5"/>
+    <rect x="1040" y="364" width="200" height="80" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="1140" y="400" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist',sans-serif" text-anchor="middle">One question</text>
+    <text x="1140" y="420" fill="#4f5d75" font-size="12" font-family="'Geist',sans-serif" text-anchor="middle">what moves today?</text>
+
+    <!-- legend -->
+    <line x1="40" y1="552" x2="1240" y2="552" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+    <text x="40" y="576" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+    <rect x="120" y="566" width="24" height="12" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+    <text x="152" y="576" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">PROPOSED CHANGE</text>
+    <rect x="300" y="566" width="24" height="12" rx="2" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+    <text x="332" y="576" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">PROJECT RECORD</text>
+    <line x1="480" y1="572" x2="512" y2="572" stroke="#4f5d75" stroke-width="1.2" stroke-dasharray="5,4"/>
+    <text x="520" y="576" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">LINK ONLY, NOT SHOWN</text>
+  </svg>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <p class="eyebrow">Changes</p>
+      <div class="card-header"><span class="card-dot dot-accent"></span><h3>What the screen does</h3></div>
+      <ul>
+        <li>Lists the open work that moves Kerd, one plain line each.</li>
+        <li>Recommends one, and says why it comes first.</li>
+        <li>The last session's step is weighed like the rest. It is not repeated just because it was saved.</li>
+        <li>Housekeeping that only proves Kerd's own mechanics doesn't lead.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Stays</p>
+      <div class="card-header"><span class="card-dot dot-ink"></span><h3>What doesn't change</h3></div>
+      <ul>
+        <li>Nothing starts until you answer.</li>
+        <li>A recommendation is not approval.</li>
+        <li>Real warnings (a failed sync, a wrong record) still show.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Proposed, open</p>
+      <div class="card-header"><span class="card-dot dot-muted"></span><h3>The question at the end</h3></div>
+      <ul>
+        <li>Replace "Start a Conductor session?" with "What do you want this session to move forward?"</li>
+        <li>The recommendation is its proposed answer.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Kerd · docs/work/switch-in-open-work · 2026-09-18 · shape, not agreed</footer>
+</div>
+</body>
+</html>
