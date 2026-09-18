@@ -13,10 +13,10 @@ That render is immutable; this file is the living home.
 
 ## The five outcomes
 
-| # | Outcome | What proves it | Status (hand-kept, as of 2026-09-03) |
+| # | Outcome | What proves it | Status (hand-kept, reviewed 2026-09-18) |
 |---|---|---|---|
-| 1 | External execution proven | A throwaway repo routes, passes, audits and **refuses** with no Kerd tree present, driven through the skills rather than by hand | Partial: gate engine externally proven; skill invocation wiring missing |
-| 2 | Diagnostic real-product run | A findings document; **PARTIAL is a valid outcome** | Not started; subject chosen (`agent-request`) |
+| 1 | External execution proven | A throwaway repo routes, passes, audits and **refuses** with no Kerd tree present, driven through the skills rather than by hand | Partial, as of 2026-09-18: the wiring shipped in Conductor (0.137.0, gate-reachability accepted) and a fixture runs it against a separate repository; not yet seen through a real session, and Conductor names the gap instead of refusing, by the producer's choice |
+| 2 | Diagnostic real-product run | A findings document; **PARTIAL is a valid outcome** | Not started; subject chosen (`agent-request`); prerequisites done 2026-09-18 except the cache refresh |
 | 3 | Pilot-derived minimum capability built | Every item traces to a line in the outcome-2 findings | Waiting on outcome 2; deliberately unsized until it returns |
 | 4 | Clean independent pilot passed | Acceptance reached unaided — **the launch criterion** | Not started |
 | 5 | Release completed | Release checks green; known limits documented where a user meets them | Not started |

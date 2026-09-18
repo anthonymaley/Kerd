@@ -2,42 +2,43 @@
 
 ## Now
 
-**Release boundary:** 0.135.0 on `main` — Switch In says what happens next and why, in
-plain English: open work one line each, one recommendation with its reason, ending on
-"What do you want this session to move forward?". Pushed with the entry gate green;
-resolve IDs with `git log`. Position, installed state and the reading set are in
-`CONTEXT.md` `## Where We Are`.
-Records:
-- `docs/work/switch-in-open-work/work.md` and `before-after.html` (0.135.0: the
-  agreement, the review and its fixes);
-- `docs/work/visual-communication/work.md` and `scope.html` — **both** the 0.134.0
-  contract correction (the two clauses, the five bullets dropped as already contracted,
-  both review rounds, all five findings) and 0.132.0 (both rules, the three-arm
-  behavioural method, the two corrected mis-readings);
-- `docs/work/model-dispatch-guard/work.md` and `direction.html` (0.133.0: the refused
-  hook design and why, the dispatch contract, the mixed-model fan-out, four review
-  passes);
-- `docs/work/question-pickers/work.md` (0.131.0);
-- `docs/work/context-awareness/work.md` and `score.md` (0.130.0);
-- `docs/work/effort-sized-players/work.md` (0.128.0);
-- `docs/work/review-and-fit-corrections/work.md` (0.127.0).
+**Release boundary:** 0.138.0 on `main`. Resolve IDs with `git log`. Position,
+installed state and the reading set are in `CONTEXT.md` `## Where We Are`.
+
+**Selected next, proposed not agreed: start the diagnostic pilot** (launch sequence
+step 4, launch outcome 2). Refresh the Kerd plugin to 0.138.0 (this machine's cache
+holds 0.136.1), create the separate `agent-request` repository (never inside Kerd),
+and drive its first work item through Conductor with Kerd frozen for the run. The
+output is a findings document; PARTIAL is a valid result. Binding rules and the
+critical path: `docs/design/launch-plan.md`. Subject framed at
+`~/eolas/vault/kerd/Agent Request Skill Sketch.md`.
+
+Records of this sitting (2026-09-18 afternoon):
+- `docs/work/switch-in-open-work/work.md`, `arrival-grid.html` (0.136.0);
+- `docs/work/risk-state-split-acceptance/work.md` and
+  `docs/gates/2026-09-03-risk-state-split-acceptance.md` (0.136.1);
+- `docs/work/gate-reachability/` (scope, design views) with
+  `docs/design/gate-reachability.md` and
+  `docs/gates/2026-09-18-gate-reachability-acceptance.md` (0.137.0–0.137.1);
+- `docs/work/switch-out-screen/work.md`, `closing-grid.html` (0.138.0).
+Earlier release records: `docs/work/visual-communication/`, `model-dispatch-guard/`,
+`question-pickers/`, `context-awareness/`, `effort-sized-players/`,
+`review-and-fit-corrections/`.
 
 These lists are not authority to install or run checks during pickup.
 
-- **Released and archived** — 0.133.0 the dispatch contract, 0.133.1 the CI/test-path
-  fix, 0.133.2 the defect CI found on its first run, 0.134.0 the Visuals contract
-  correction, and **0.135.0 the plain-English Switch In**. Verdicts and evidence are in `docs/backlog-archive.md`
-  `## Closed 2026-09-16 (evening)` and `## Closed 2026-09-17 (afternoon)`; the release
-  records are `docs/work/model-dispatch-guard/work.md` and
-  `docs/work/visual-communication/work.md`. **Adopted from Codex's close:** change the
-  dispatch contract again only for demonstrated behaviour from real dispatches, not for
-  further prose tightening.
+- **Released and archived**: 0.133.0–0.135.0, and this afternoon 0.136.0–0.138.0.
+  Verdicts in `docs/backlog-archive.md` (`## Closed 2026-09-18` and
+  `## Closed 2026-09-18 (afternoon)`). **Adopted from Codex's close:** change the
+  dispatch contract again only for demonstrated behaviour from real dispatches, not
+  for further prose tightening.
 
-- **Observe the first real 0.135.0 arrival.** Does the recommendation carry a reason a
-  person can check, and does a saved step lose its automatic place? The weighing is
-  model judgment with no mechanical check; an arrival leading with a self-check nobody
-  asked for fails it. Needs the plugin cache at 0.135.0 (Claude loaded 0.134.0 on
-  2026-09-18). → `docs/work/switch-in-open-work/work.md`
+- **Observe 0.136.0's arrival and 0.138.0's closing box in real use.** Is the grid
+  readable, is "where things stand" product language, does "Something else" reach
+  Conductor, does the closing box say what changed? Needs the plugin at 0.138.0.
+- **Observe Conductor's step check in a real session.** Only the command, its output
+  and the instruction text are proven; whether a model checks at pickup and before a
+  build is the pilot's to see.
 
 - **0.134.0's two clauses have never been measured on real diagram output.** Both the
   expansion test and visible project identity are producer checks at review; no diagram
@@ -64,30 +65,20 @@ These lists are not authority to install or run checks during pickup.
 Everything below it sits in Backlog as repository-quality debt and stays there
 unless the diagnostic pilot surfaces it.
 
-1. **`risk-state-split` — the acceptance record.** The migration SHIPPED
-   2026-09-03 as one atomic commit (`e15a0f0`, v0.106.0, CI green at
-   `f098ae5`); the item is at **acceptance**, all 14 pieces landed. What is
-   left is the producer's last gate: an **evidence-backed** acceptance record
-   at `docs/gates/2026-09-03-risk-state-split-acceptance.md` — cold eyes and
-   the expert-user pass, never mechanical cleanup (the 2026-09-02 ruling).
-   Note the measurement question it must answer honestly: this item declared
-   no stage-1 measurement, so the product-outcome row is *not assessable*
-   unless one was declared before the build.
-   → `docs/product/risk-state-split.md` · `docs/plans/2026-09-03-risk-state-split-spec.md`
-2. **`gate-reachability`** — still refusing at **viability, on row 2**, which
-   is the intended outcome. Row 1 parses clean under the new schema. Row 2 is
-   fatal + `accepted unknown` + empty Treatment evidence, so it refuses
-   independently: its narrow `${CLAUDE_PLUGIN_ROOT}` measurement must resolve
-   before the item advances, then scope as the producer already stated.
-   → `docs/product/gate-reachability.md`
+1. **`risk-state-split`: done**, accepted 2026-09-18 11:23 (archived).
+2. **`gate-reachability`: done**, as Conductor's step check, accepted 2026-09-18
+   15:29 (archived).
 3. **The four newly exposed fatal/accepted-family risks — one per owning
    item, never this migration's** (the producer's ruling, 2026-09-03). Each
    was carried as *accepted* while being fatal, which the one-column schema
    could not express; each now refuses visibly until re-treated:
-   `funnel-driver` row 4 · `gate-reachability` row 2 · `gate-visuals` row 1 ·
-   `switch-fidelity` row 4.
-4. **`agent-request` diagnostic pilot** — begins only after item 2 and the
-   cache refresh; its own repository, never inside Kerd; Kerd frozen for the
+   `funnel-driver` row 4 · `gate-visuals` row 1 · `switch-fidelity` row 4.
+   `gate-reachability` row 2 was resolved 2026-09-18 (measured, permanent
+   countermeasure). `funnel-driver` is Drive's item: with Drive dropped for
+   Conductor (2026-09-18), whether it survives is a question for Drive's removal.
+   Not on the pilot's critical path.
+4. **`agent-request` diagnostic pilot: next.** Item 2 is done; the cache
+   refresh comes first; its own repository, never inside Kerd; Kerd frozen for the
    run. Subject framed at `~/eolas/vault/kerd/Agent Request Skill Sketch.md`.
 5. **Pilot findings** — placeholder only; contents deliberately unknown until
    the run.

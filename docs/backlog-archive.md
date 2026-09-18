@@ -492,3 +492,63 @@ was caught by an independent reader; none by a static check.
 - **Position paragraphs moved out of `CONTEXT.md`:** the 0.134.0 release boundary, the
   byte-identity continuation and "Both 0.131.0 deferrals are resolved". Their text is in
   Git at `7d374ba:CONTEXT.md`.
+
+## Closed 2026-09-18 (afternoon)
+
+- **Observe the first real 0.135.0 arrival.** Done 2026-09-18 10:40: the weighing
+  held (product work led, with a reason), and the screen itself failed Anthony's
+  reading on five points, fixed in 0.136.0 (`59cbd49`). Record
+  `docs/work/switch-in-open-work/work.md`.
+- **Launch sequence step 1, risk-state-split's acceptance record.** Done, accepted
+  2026-09-18 11:23 with the measurement exception (`4ba70ca`,
+  `docs/gates/2026-09-03-risk-state-split-acceptance.md`).
+- **Launch sequence step 2, gate-reachability.** Done, reframed from Drive to
+  Conductor, built as 0.137.0 and accepted 2026-09-18 15:29 (`4cbbeda`,
+  `docs/gates/2026-09-18-gate-reachability-acceptance.md`). TODO's "still refusing
+  at viability" was imprecise: it refused at scope.
+
+## Position paragraphs moved out of CONTEXT.md, 2026-09-18 (afternoon)
+
+Superseded by the afternoon sitting (0.136.0–0.138.0, launch sequence steps 1–2 done).
+
+**Release boundary: 0.135.0 on `main`, released 2026-09-18** — Switch In says what
+happens next and why, in plain English: it weighs every open item (a saved next step is
+one candidate), shows the open work one line each and one recommendation with its
+reason, and asks "What do you want this session to move forward?". Choosing work opens
+Conductor at Shape for it, never approval of its operations. Record
+`docs/work/switch-in-open-work/work.md`; ruling `docs/decisions.md` entry 1. **Not yet
+observed on a real arrival.** Resolve IDs and CI with `git log` and `gh`. Earlier
+position paragraphs are in `docs/backlog-archive.md`.
+
+**0.133.0–0.135.0 are RELEASED and archived** in `docs/backlog-archive.md`
+(`## Closed 2026-09-16 (evening)`, `2026-09-17 (afternoon)`, `2026-09-18`). **Claude owns
+build and release; Codex `codex-tui` is the pairing partner for expert review and
+investigation** (cadence: checkpoints, before-push). Codex had no tokens on 2026-09-18,
+so 0.135.0's review was a fresh Claude reviewer.
+
+**Installed state — keep three numbers distinct:** what each side runs, the latest
+release, the tip. **Claude ran 0.134.0** at the 2026-09-18 arrival (skills loaded from
+the `kerd/0.134.0/` cache — this corrects the saved "0.133.2"); **Codex runs 0.133.0**
+(saved observation). 0.135.0 is released and the tip, installed nowhere yet; the next
+Switch In shows the new arrival only once the Claude plugin updates. Resolve live
+numbers rather than trusting this line.
+
+**Selected continuation — proposed, not agreed: sign off the risk-state-split
+migration.** Write the evidence-backed acceptance record at
+`docs/gates/2026-09-03-risk-state-split-acceptance.md`. **Why:** it is the first step of
+the launch sequence (0 of 5) and every later step waits on it; the migration shipped
+2026-09-03 and only its acceptance is missing. Owner Claude drafts; Anthony gives the
+expert-user pass (cold eyes, never mechanical cleanup — the 2026-09-02 ruling). It must
+answer honestly that no stage-1 measurement was declared, so the product-outcome row is
+*not assessable*. Stops at the record: no release. Detail: `TODO.md` "Earlier launch
+sequence" item 1.
+
+**Deferred, not dropped:** the first real 0.135.0 arrival, unobserved. **0.134.0's two clauses have never been measured on real diagram
+output** — both are producer checks at review, and no diagram has yet exercised them.
+Also unverified: whether either 0.132.0 rule holds beyond the one marginal scenario
+tested; Archify's two Socket alerts; and `diagram-design`'s style guide, where `accent`
+is Krutho blue while `accent-tint` still holds the old tangerine (upstream's file, found
+independently by two sessions).
+
+**The launch sequence is retained and untouched**: five outcomes, 0 of 5, detail in
+TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.

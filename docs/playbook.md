@@ -164,6 +164,13 @@ what the board derives) leaves the pushed tip carrying a stale render, and
 for exactly this, fixed by `f098ae5`. The refuser worked; the ordering was
 wrong.
 
+**It recurred 2026-09-18** on `8a72c0f` (0.137.0), fixed by `d770f18`, with this
+entry already written: a recorded trap did not stop a second instance. The render
+marks a piece *landed* only once it is committed, so a render made before the
+commit is stale the moment the commit lands; "render current" before committing
+proves nothing. One release later the order held: `4cbbeda` (work) →
+`7d3d8c3` (render) → one push, green first time.
+
 ### A non-gate-record filename in `docs/gates/` turns the audit red
 
 AU3 (`_audit_au3`) requires every `docs/gates/*.md` filename to match the
