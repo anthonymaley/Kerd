@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.138.0 on `main`. Resolve IDs with `git log`. Position,
+**Release boundary:** 0.138.1 on `main`. Resolve IDs with `git log`. Position,
 installed state and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **Selected next, proposed not agreed: start the diagnostic pilot** (launch sequence

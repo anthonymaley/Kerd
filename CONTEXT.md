@@ -6,12 +6,13 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.138.0 on `main`, 2026-09-18.** The afternoon shipped five
+**Release boundary: 0.138.1 on `main`, 2026-09-18.** The afternoon shipped six
 releases. **0.136.0:** Switch In opens with a PROJECT · PHASE · NEXT · TEAM grid,
 speaks product English and ends on "Start a Conductor session?" with a Yes — <work> /
 Something else picker. **0.136.1:** risk-state-split accepted. **0.137.0–0.137.1:**
 Conductor checks where a work item stands in the user's own project, and
-gate-reachability was accepted. **0.138.0:** the Switch Out box mirrors Switch In.
+gate-reachability was accepted. **0.138.0–0.138.1:** the Switch Out box mirrors Switch In, its grid
+showing what was released rather than repeating the next step.
 None of the three screens or the step check has been seen in real use yet. Records:
 `TODO.md` `## Now`. Resolve IDs and CI with `git log` and `gh`.
 
@@ -102,7 +103,7 @@ its successor against this file after this save.
 - `kivna/sessions/2026-09-18.md`, today's two sittings. Earlier days are reachable, not
   required reading.
 
-The observed position before this save is `e83eb5d`; the boundary commit is this save
+The observed position before this save is the 0.138.1 release commit; the boundary commit is this save
 itself on `main`. Ask `git log` for its ID.
 
 **Measured** 2026-09-18 15:5x: about 20,000 bytes, about 5,000 tokens estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup,
