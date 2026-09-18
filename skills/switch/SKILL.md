@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival: where things stand, open work one line each, one recommendation with why, then asks “What do you want this session to move forward?” after END without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, then saves the next action and approval boundary. Managed Roll continues without normal arrival approval.
 ---
 
 # Switch
@@ -20,9 +20,10 @@ and repository boundaries still apply.
 
 - **In:** restore useful memory, the wider active-work picture and the saved
   plan; weigh every open item, the saved one included, and compose one
-  plain-English arrival without loading Conductor: where things stand, the open
-  work one line each, one recommendation and why, and the one question after the
-  end marker: **“What do you want this session to move forward?”**. A saved next
+  plain-English arrival without loading Conductor: a project/phase/next/team
+  grid, where things stand in product terms, the open work one line each, one
+  recommendation and why, ending on the one question
+  **“Start a Conductor session?”**. A saved next
   step is a candidate, never repeated just because it was saved. Return the renderer's complete
   Markdown as the final message unchanged, then wait; do not rewrite its prose. Read
   [pickup and closeout](references/in-out.md).
@@ -73,20 +74,21 @@ and verified work. Don't claim a file save exited a session, moved a process or
 proved full restoration. No fake activity or progress percentages.
 
 For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
-explicit completion heading, Where things stand, Last session, Open work,
-Recommended with its Why, a compact Team line, attention, a real link to the
-open-work page and an end-of-pickup marker, all in plain English.
-The single question follows as a bold speech-bubble blockquote. A native picker
-carrying the recommendation, labelled with the work it selects, may follow it
-where the host has one.
+explicit completion heading, the PROJECT · PHASE · NEXT · TEAM grid, Where
+things stand, Last session, Open work, Recommended with its Why, attention and a
+real link to the open-work page, all in plain product English. No footer or end
+marker. The single question ends the screen as a bold speech-bubble blockquote.
+Where the host has a native picker it follows with exactly “Yes — <the
+recommended work>” and “Something else”.
 Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 
 Ordinary In restores the current work picture without executing it. Switch owns
 the [arrival decision](references/in-out.md#compose-the-arrival-in-switch): use
 the restored context, not a Conductor invocation or another intake. An answer to
-**“What do you want this session to move forward?”** that chooses work, a plain
-yes included, opens Conductor at Shape for that work; choosing work never
+**“Start a Conductor session?”** that chooses work, a plain yes included, opens
+Conductor at Shape for that work, and “Something else” opens it for
+direction-setting; choosing work never
 approves its operations. An explicitly selected and authorized task, direct
 workflow request or action approval invokes Conductor through the host skill
 mechanism as the guide's

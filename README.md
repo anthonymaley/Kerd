@@ -40,7 +40,21 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.135.0)
+## What's New (v0.136.0)
+
+### v0.136.0
+
+**The Switch In screen gets its grid back, speaks product English and ends on
+*“Start a Conductor session?”*.** The first real 0.135.0 arrival (2026-09-18) was
+a long run of loose text that described the agent ("nothing is being built")
+rather than the product, and it ended on an open question that an answer could
+use to get around Conductor. Now the arrival opens with a one-row grid (project,
+phase, next and team), where PHASE is the recommended item's rung on the ladder.
+"Where things stand" says what the product does and what is left before launch,
+the footer, render time and END OF PICKUP marker are gone, and the screen ends on
+one question, followed where the host has a picker by exactly *Yes — <the
+recommended work>* and *Something else*. Both open Conductor; neither approves
+the work's operations.
 
 ### v0.135.0
 
@@ -996,8 +1010,8 @@ window into a fresh run from its saved place, never by compaction. Either
 chat can be the control surface, but no arbitrary open TUI is replaced. Native
 process loss or uncertain work requires inspection, never a blind second launch.
 
-Switch In restores and recommends without loading Conductor, then always asks
-*“What do you want this session to move forward?”* after END. Choosing work opens
+Switch In restores and recommends without loading Conductor, then always ends on
+*“Start a Conductor session?”*. Choosing work opens
 Conductor at Shape for it; an explicitly selected and authorized task invokes
 actual work. It does not
 silently substitute work or create native sessions, and managed Roll retains its
@@ -1144,17 +1158,18 @@ mid-work exactly where you stopped.
 /kerd:switch out             # save the place
 ```
 
-**In** opens with a plain-English arrival rather than a full report: where things
-stand, what happened last session, the open work one line each, and one
-recommended next step with the reason it comes first. The last session's saved
+**In** opens with a plain-English arrival rather than a full report: a one-row
+grid of project, phase, next and team, then where things stand in product terms,
+what happened last session, the open work one line each, and one recommended next
+step with the reason it comes first. The last session's saved
 next step is weighed with everything else, never repeated just because it was
 saved, and work that only proves Kerd's own mechanics does not lead. A check
-belonging to you is labelled as yours. END OF PICKUP · SESSION READY closes
-restoration, and ordinary In always follows it with *“What do you want this
-session to move forward?”* as a bold speech-bubble blockquote, the recommendation
-being its proposed answer. Choosing work, a plain yes included, opens Conductor at
-Shape for that work; it does not approve builds, installs or pushes. “Not now”
-starts nothing, and a reported fact is recorded as evidence. Managed Roll retains
+belonging to you is labelled as yours. Ordinary In always ends on *“Start a
+Conductor session?”* as a bold speech-bubble blockquote, the recommendation being
+its proposed answer, with a *Yes — <the recommended work>* / *Something else*
+picker where the host has one. Choosing work, a plain yes included, opens
+Conductor at Shape for that work; it does not approve builds, installs or pushes.
+A deferral starts nothing, and a reported fact is recorded as evidence. Managed Roll retains
 its authorized continuation and does not use this question.
 It ends with links and visible paths to the documents the
 work already names; the backlog lives behind the *Open work* link.
@@ -1418,7 +1433,7 @@ python3 tools/design/matrix.py render <file>   # movement-9-style table → .exc
 
 **Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
 
-**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), its designated active list including child sections and explicitly current linked work records, the newest session log and the named reading set, then fills bounded gaps in current decisions, constraints and risks as needed. It does not scan every `work.md`. Open work stays one line per item; items left off the screen remain restored and discoverable behind the link. It weighs every open item and shows them in plain English with one recommendation and why; after END its one ordinary question is *“What do you want this session to move forward?”*. Choosing work opens Conductor at Shape for it, and a later scoped approval starts operations; *“Design the alert, go ahead”* can select and authorize that task in one turn. Human checks and factual questions remain open work unless reported as evidence. Managed Roll keeps its authorized continuation. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
+**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), its designated active list including child sections and explicitly current linked work records, the newest session log and the named reading set, then fills bounded gaps in current decisions, constraints and risks as needed. It does not scan every `work.md`. Open work stays one line per item; items left off the screen remain restored and discoverable behind the link. It opens with a project/phase/next/team grid, weighs every open item and shows them in plain product English with one recommendation and why, and ends on its one ordinary question, *“Start a Conductor session?”*. Choosing work opens Conductor at Shape for it, and a later scoped approval starts operations; *“Design the alert, go ahead”* can select and authorize that task in one turn. Human checks and factual questions remain open work unless reported as evidence. Managed Roll keeps its authorized continuation. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
 
 **On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
 

@@ -75,7 +75,7 @@ class QuestionFormTests(unittest.TestCase):
             "The bubble names the concrete action and target",
             "Tiny or factual questions stay proportionate; they do not need a "
             "ceremonial capsule",
-            "The ordinary Switch In **“What do you want this session to move forward?”** "
+            "The ordinary Switch In **“Start a Conductor session?”** "
             "arrival is exempt from the consequential-question capsule",
             "choosing work opens Shape for it only",
         ):
@@ -125,18 +125,19 @@ class QuestionFormTests(unittest.TestCase):
         journey = flat(JOURNEY.read_text(encoding="utf-8"))
         # Each phrase runs past the permission into the bound that makes it safe:
         # a permission alone would survive being narrowed back to "only if asked".
-        self.assertIn("A native picker may still follow the rendered output, carrying "
-                      "the recommendation labelled with the work it selects", journey)
+        self.assertIn("A native picker may follow the rendered output with exactly two "
+                      "options, “Yes — <the recommended work>” and “Something else”", journey)
         self.assertIn("so the renderer's output stays unchanged", journey)
         in_out = flat((SKILLS / "switch" / "references" / "in-out.md").read_text(encoding="utf-8"))
-        self.assertIn("it may follow the rendered output carrying the recommendation as "
-                      "one option labelled with the work it selects", in_out)
-        self.assertIn("It never replaces or precedes the bubble.", in_out)
-        # The countermeasure is the visible label naming the work, not a bare
-        # "Yes" that could read as approving the work's operations.
+        self.assertIn("follow the rendered output with exactly two options: **“Yes — <the "
+                      "recommended work>”**, naming the work it opens, and **“Something else”**, "
+                      "which opens Conductor to ask what", in_out)
+        self.assertIn("The picker never replaces or precedes the bubble.", in_out)
+        # The Yes names the work it opens, so it cannot read as approving an
+        # unnamed task's operations; Something else still routes through Conductor.
         for text in (journey, in_out):
-            self.assertIn("never a bare Yes", text)
-            self.assertIn("(“Shape: sign off the migration”)", text)
+            self.assertIn("Yes — <the recommended work>", text)
+            self.assertNotIn("Not now", text)
 
     def test_bubble_questions_are_never_inside_code_fences(self):
         """A fenced bubble renders as literal Markdown, not a question (e.g. Tend's report)."""

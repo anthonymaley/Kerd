@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd Switch In — arrival, today and proposed</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f5f5f5; --paper-2:#ffffff; --ink:#2d3142; --muted:#4f5d75; --soft:#7a8399;
+    --rule:rgba(45,49,66,0.12); --accent:#eb6c36; --accent-tint:rgba(235,108,54,0.08); }
+  *{box-sizing:border-box}
+  body{margin:0; padding:3rem 2rem; background:var(--paper); color:var(--ink);
+    font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1280px; margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .5rem}
+  h1{font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin:0 0 .5rem}
+  .sub{color:var(--muted); max-width:72ch; line-height:1.55; margin:0 0 2rem}
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:start}
+  .screen{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.25rem 1.5rem; font-size:.875rem; line-height:1.55}
+  .screen.after{border-color:var(--accent)}
+  .tag{font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; margin:0 0 .75rem}
+  .before .tag{color:var(--soft)} .after .tag{color:var(--accent)}
+  .screen p{margin:.5rem 0}
+  .screen ol{margin:.25rem 0 .5rem; padding-left:1.25rem}
+  .screen table{border-collapse:collapse; width:100%; margin:.5rem 0 1rem; font-size:.8125rem}
+  .screen th{font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.12em; text-align:left; color:var(--muted); border-bottom:1px solid var(--rule); padding:.35rem .5rem}
+  .screen td{padding:.45rem .5rem; border-bottom:1px solid var(--rule); vertical-align:top}
+  .cut{color:var(--soft); text-decoration:line-through}
+  .mono{font-family:'Geist Mono',monospace; font-size:.75rem; color:var(--soft)}
+  .bubble{border-left:3px solid var(--rule); padding-left:.75rem; font-weight:600; margin-top:1rem}
+  .picker{display:flex; gap:.5rem; margin-top:.75rem}
+  .opt{border:1px solid var(--ink); border-radius:4px; padding:.35rem .75rem; font-size:.8125rem}
+  .opt.rec{border-color:var(--accent); background:var(--accent-tint)}
+  .note{font-family:'Instrument Serif',serif; font-style:italic; color:var(--muted); font-size:1rem; margin:.75rem 0 0}
+  footer{margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--soft)}
+  @media (max-width:860px){ body{padding:2rem 1rem} .cols{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Kerd · Switch In · arrival screen · proposed</p>
+  <h1>The Switch In screen: today and proposed</h1>
+  <p class="sub">Today's arrival is a long run of loose text, written in build terms ("nothing is being built"), and it ends on an open question that can skip Conductor. Proposed: the grid comes back, the words describe the product, the footer and end marker go, and the screen ends on one question, <strong>Start a Conductor session?</strong>, with a Yes / Something else picker. <strong>Proposed only. Nothing is changed yet.</strong></p>
+
+  <div class="cols">
+    <div class="screen before">
+      <p class="tag">Today · 0.135.0</p>
+      <p><strong>KERD · SWITCH IN COMPLETE ✓</strong></p>
+      <p><strong>Where things stand:</strong> 0.135.0 is released and nothing is being built. The launch sequence has not started: 0 of 5 steps, and the first one only needs its sign-off written.</p>
+      <p><strong>Last session:</strong> Released 0.135.0, which makes Switch In say what happens next and why, and dropped the byte-identity check.</p>
+      <p><strong>Open work</strong></p>
+      <ol><li>Sign off the risk-state-split migration…</li><li>Anthony: judge this arrival…</li><li>…four more</li></ol>
+      <p><strong>Recommended:</strong> … <strong>Why:</strong> …</p>
+      <p><strong>Team:</strong> Claude (…) + Codex (…)</p>
+      <p><strong>ATTENTION</strong> · <strong>DOCUMENTS</strong> (3 links) · <strong>Read:</strong> …</p>
+      <p class="mono">updated unknown · rendered 2026-09-18 10:40 EDT</p>
+      <p class="mono">━━ END OF PICKUP · SESSION READY ━━</p>
+      <p class="bubble">💬 What do you want this session to move forward?</p>
+      <p class="note">About 40 lines, no grid. An open answer can go around Conductor.</p>
+    </div>
+
+    <div class="screen after">
+      <p class="tag">Proposed</p>
+      <p><strong>KERD · SWITCH IN COMPLETE ✓</strong></p>
+      <table>
+        <tr><th>PROJECT</th><th>WHERE IT IS</th><th>NEXT</th><th>TEAM</th></tr>
+        <tr><td>Kerd</td><td>0.135.0 released · 0 of 5 launch steps done</td><td>Sign off the risk-rating change</td><td>Claude + Codex (review)</td></tr>
+      </table>
+      <p><strong>Where things stand:</strong> Kerd is working and released. Before launch, five steps need doing and none is done yet. The first is signing off the change that rates each risk twice, once for how bad it is and once for how well it's handled. It shipped two weeks ago and only the sign-off is missing.</p>
+      <p><strong>Last session:</strong> The start screen now tells you what to do next and why.</p>
+      <p><strong>Open work</strong></p>
+      <ol><li>Sign off the risk-rating change: the first launch step.</li><li>Anthony: is this start screen right?</li><li>…four more, one line each</li></ol>
+      <p><strong>Recommended:</strong> Sign off the risk-rating change. <strong>Why:</strong> every later launch step waits on it, and only the write-up is missing.</p>
+      <p><strong>Attention:</strong> Codex may still be out of tokens (seen yesterday).</p>
+      <p class="mono">Open work → TODO.md</p>
+      <p class="bubble">💬 Start a Conductor session?</p>
+      <div class="picker"><span class="opt rec">Yes — sign off the risk-rating change</span><span class="opt">Something else</span></div>
+      <p class="note">About 20 lines. Either answer opens Conductor; "Something else" asks what.</p>
+    </div>
+  </div>
+
+  <footer>Kerd · docs/work/switch-in-open-work/arrival-grid.html · 2026-09-18 · proposed, not agreed</footer>
+</div>
+</body>
+</html>

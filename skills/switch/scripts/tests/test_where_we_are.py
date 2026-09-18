@@ -851,8 +851,7 @@ class DocumentedExampleTests(unittest.TestCase):
         for width in (78, 100):
             with self.subTest(width=width):
                 out = flatten(view.render_dashboard(example, NOW, width, False))
-                values = [example[key] for key in ("where", "last_session", "insight",
-                                                   "source", "updated")]
+                values = [example[key] for key in ("where", "phase", "last_session", "insight")]
                 values += [item.replace("**", "") for item in example["open_work"]]
                 values += [example["recommendation"]["text"], example["recommendation"]["why"]]
                 for value in values:
@@ -861,27 +860,29 @@ class DocumentedExampleTests(unittest.TestCase):
     def test_markdown_shows_open_work_and_one_recommendation_with_why(self):
         example = self.example()
         out = view.render_dashboard(example, NOW, 100, False, markdown=True)
-        before = out.split("END OF PICKUP", 1)[0]
+        before = out.split("💬", 1)[0]
         self.assertIn("**Open work**", before)
         for index, _ in enumerate(example["open_work"], 1):
             self.assertIn(f"\n{index}. ", before)
         self.assertEqual(before.count("**Recommended:**"), 1)
         self.assertEqual(before.count("**Why:**"), 1)
         self.assertLess(before.index("**Open work**"), before.index("**Recommended:**"))
-        # No grid and no copied saved step.
-        self.assertNotIn("| PROJECT |", out)
+        # The grid leads, with phase and next; no copied saved step.
+        self.assertTrue(out.split("\n")[2].startswith("| PROJECT | PHASE | NEXT | TEAM |"))
+        self.assertIn(f"| {example['phase']} | {example['recommendation']['text']} |", out)
         self.assertNotIn("**NOW**", out)
         self.assertNotIn("THIS SESSION", out)
 
-    def test_the_complete_question_follows_end_once(self):
+    def test_the_question_ends_the_screen_once_with_no_footer(self):
         for markdown in (False, True):
             with self.subTest(markdown=markdown):
                 out = view.render_dashboard(self.example(), NOW, 100, False, markdown=markdown)
                 question = self.example()["question"]["text"]
-                before, after = out.split("END OF PICKUP", 1)
-                self.assertIn(question, after)
-                self.assertNotIn(question, before)
+                self.assertTrue(out.rstrip().rstrip("*").endswith(question))
+                self.assertEqual(out.count(question), 1)
                 self.assertEqual(out.count("💬"), 1)
+                for gone in ("END OF PICKUP", "rendered", "Read:", "read:"):
+                    self.assertNotIn(gone, out)
 
     def test_every_warning_and_document_reaches_the_screen(self):
         out = view.render_dashboard(self.example(), NOW, 100, False)
@@ -892,9 +893,22 @@ class DocumentedExampleTests(unittest.TestCase):
             self.assertIn(label, out)
             self.assertIn(path, out)
 
-    def test_the_example_asks_what_to_move_not_whether_to_open_conductor(self):
+    def test_an_incomplete_or_unconfirmed_arrival_says_so_without_an_end_marker(self):
+        for restored, heading, note in (("partial", "SWITCH IN INCOMPLETE", "Missing context"),
+                                        (None, "SWITCH IN STATUS UNKNOWN", "Restoration not confirmed.")):
+            for markdown in (False, True):
+                with self.subTest(restored=restored, markdown=markdown):
+                    summary = self.example()
+                    summary.update(restored=restored, restore_note=None)
+                    out = view.render_dashboard(summary, NOW, 78, False, markdown=markdown)
+                    self.assertIn(heading, out)
+                    self.assertIn(note, out)
+                    self.assertNotIn("SWITCH IN COMPLETE", out)
+                    self.assertNotIn("END OF PICKUP", out)
+
+    def test_the_example_asks_to_start_a_conductor_session(self):
         question = self.example()["question"]
-        self.assertEqual(question["text"], "What do you want this session to move forward?")
+        self.assertEqual(question["text"], "Start a Conductor session?")
         self.assertIsNone(question.get("proposed"))
 
     def test_nothing_open_says_so_rather_than_inventing_work(self):
@@ -919,8 +933,8 @@ class DocumentedExampleTests(unittest.TestCase):
                 summary.update(open_work=None, recommendation=None)
                 out = view.render_dashboard(summary, NOW, 78, False, markdown=markdown)
                 self.assertIn("No open work is recorded.", out)
-                self.assertNotIn("PROJECT |", out)
-                self.assertNotIn("NOW", out)
+                self.assertIn("Nothing actionable is open", out)
+                self.assertNotIn("**NOW**", out)
                 self.assertNotIn("THIS SESSION", out)
 
     def test_a_why_without_a_recommendation_is_not_shown(self):

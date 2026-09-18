@@ -54,23 +54,23 @@ interactive or a terminal supports colour when it does not.
 ## Question surface and host adaptation
 
 Switch's Markdown arrival uses the linked welcome-back convention, in plain
-English: an explicit completion heading, Where things stand, Last session, Open
-work one line each, one Recommended item with its Why, a compact Team line, then
-document links. No arrival boxes or status grid. For ordinary In, **“What do you
-want this session to move forward?”** is the first content after END OF PICKUP,
-once as a bold speech-bubble blockquote, with the recommendation as its proposed
+product English: an explicit completion heading, a one-row PROJECT · PHASE ·
+NEXT · TEAM grid, Where things stand, Last session, Open work one line each, one
+Recommended item with its Why, then document links on one line. No footer or end
+marker. For ordinary In, **“Start a Conductor session?”** ends the screen, once
+as a bold speech-bubble blockquote, with the recommendation as its proposed
 answer; it is not a pending-task approval. Managed Roll
 does not use it. Other renderer callers may omit a question. Do not append
-another report or question. A native picker may still follow the rendered
-output, carrying the recommendation labelled with the work it selects (“Shape:
-sign off the migration”), never a bare Yes, with Not now beside it and the host's
-own free-form route — because it is a separate surface rather than appended text,
-so the renderer's output stays unchanged. Where the host's picker carries a
-description as well, say there that choosing opens Shape for that work and
-approves none of its operations. Other takes the person's own words.
+another report or question. A native picker may follow the rendered output with
+exactly two options, “Yes — <the recommended work>” and “Something else”, plus
+the host's own free-form route — because it is a separate surface rather than
+appended text, so the renderer's output stays unchanged. Where the host's picker
+carries a description, say there that Yes opens Shape for that work and
+approves none of its operations, and that Something else opens Conductor for
+direction-setting.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
-The ordinary Switch In **“What do you want this session to move forward?”**
+The ordinary Switch In **“Start a Conductor session?”**
 arrival is exempt from the consequential-question capsule: its complete rendered
 arrival is the orientation, with the recommendation and its Why above, and
 choosing work opens Shape for it only.

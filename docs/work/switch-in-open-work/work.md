@@ -76,10 +76,38 @@ The byte-identity item was dropped the same morning:
   picker wording).
 - `README.md`, `docs/decisions.md`, version 0.135.0.
 
+## 0.136.0: the first real arrival, and what it corrected
+
+**Observed 2026-09-18 10:40**, the first arrival produced by 0.135.0 (the plugin
+cache had updated). The weighing held: the recommendation led with product work and
+a reason, not the saved self-check. Anthony's verdict at 10:48 named five defects:
+
+1. "nothing is being built" was agent state, not product language he could use;
+2. the grid was gone, and the loose text made the page long and hard to scan;
+3. the closing question has to be "Start a Conductor session?", or an answer can
+   skip Conductor;
+4. drop the `updated … · rendered …` footer and the END OF PICKUP marker;
+5. the question can carry a picker: "yes" and "something else".
+
+**Agreed 10:51**, "yes this is it", against `arrival-grid.html` (today beside
+proposed), with one change: the grid's second column is the phase, "design, build,
+loop etc". It was built as the recommended item's rung on the project's ladder
+(frame … acceptance). Stated to him as the default, to push back on if he meant
+Conductor's own stages.
+
+**Built:** the renderer's arrival opens with `PROJECT | PHASE | NEXT | TEAM`, drops
+the Team line (now in the grid), shows documents on one line, and ends on the question
+with no footer or end marker; the older record-driven grid keeps its footer. The guide
+asks for product English and names work by what it changes. The picker is exactly
+"Yes — <the recommended work>" and "Something else"; both open Conductor. `source`
+and `updated` left the arrival's keys. Tests moved to the new layout: the question
+ends the screen, no footer, grid first with phase and next. 738 tests before the
+test edits: 8 failed, all pinning the old screen.
+
 ## Open
 
-- Observe the first real 0.135.0 arrival: does the recommendation carry a reason a
-  person can check, and does the saved step lose its automatic place?
+- Observe the first real 0.136.0 arrival: is the grid readable in chat, is "where
+  things stand" product language, and does "Something else" still reach Conductor?
 - The weighing is model judgment against a stated test ("does it move the product?"),
   with no mechanical check. It can fail: an arrival that leads with a self-check
   nobody asked for fails it.

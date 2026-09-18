@@ -148,8 +148,12 @@ Do not load Conductor, its journey guide or another skill for composition.
 Carry the project, open work, agreement, restrictions and pending decisions
 forward in context; no extra record or repeated pickup reading set.
 
-The arrival tells the person, in plain English, where things stand, what work is
-open and what Switch recommends doing next and why. It does not repeat the last
+The arrival tells the person, in plain product English, where things stand, what
+work is open and what Switch recommends doing next and why. Describe what the
+product does and what is left before its next milestone, never the agent's own
+activity: "nothing is being built" is agent state, not a position a person can
+use. Name work by what it changes for the person (“the risk-rating change”), not
+by its internal slug, unless they need the slug to find it. It does not repeat the last
 session's saved next action merely because it was saved.
 
 **Weigh every open item, the saved one included.** Take the designated active
@@ -177,8 +181,9 @@ For a saved unresolved choice, recommend one grounded route, leaving alternative
 behind its link. An unresolved design is not permission to build; a project name
 supplies a target, not permission to install or launch.
 
-This arrival stops at one question after END: **“What do you want this session
-to move forward?”**, with the recommendation as its proposed answer. It does not
+This arrival stops at one question: **“Start a Conductor session?”**, with the
+recommendation as its proposed answer. Every answer that chooses work goes
+through Conductor; only a deferral or the person's explicit refusal of Conductor leaves it. It does not
 select work, create a native session, execute project work, launch workers or
 grant permission. Private Agent routing maintenance below is not work
 authorization. Compose the arrival using the
@@ -220,21 +225,21 @@ After identity and any required adoption, run Agent's bounded
 for the selected established partners, or the helper's unambiguous private
 pairing default when the restored context names none. The caller does not
 enumerate aliases as recipients; the helper reads private binding metadata and
-selects only an unambiguous partner, never by title or recency. Show a compact Team line
-on the arrival: `Claude (role) + Codex (role)`. Use brief faithful role labels,
+selects only an unambiguous partner, never by title or recency. Show the team
+in the arrival grid's TEAM cell: `Claude (role) + Codex (role)`. Use brief faithful role labels,
 not new assignments; a missing role stays unassigned. IDs and routine notice status
 remain in Agent details, not the dashboard or project records. Surface a routing
 problem in ATTENTION only when it affects the recommendation. A failed notice does not make restored memory incomplete.
 
 ### Enter Conductor from the answer
 
-Resolve the whole answer to **“What do you want this session to move forward?”**
-against the open work and any explicit authority it carries. Every answer that
+Resolve the whole answer to **“Start a Conductor session?”** against the open
+work and any explicit authority it carries. Every answer that
 chooses work goes through Conductor, so a person wanting guidance always has one
 way in:
 
-- **Chooses work** (“yes”, “the recommendation”, “the migration sign-off”, or new
-  work in their own words): invoke `/kerd:conductor` through the host's skill
+- **Chooses work** (“yes”, the recommendation's picker option, “the migration
+  sign-off”, or new work in their own words): invoke `/kerd:conductor` through the host's skill
   mechanism at Understand/Shape for that work. Naming or accepting the work
   selects it; it does not approve its operations. Conductor shows the shape and
   asks its own scoped approval before builds, installs, pushes or other
@@ -250,15 +255,18 @@ way in:
   Shape, current model/effort evidence, owner, intended design result, stopping
   boundary and work split. Only then start substantive project research.” For
   underway work, say resume.
-- **Asks for guidance without choosing** (“not sure”, “help me decide”): invoke
+- **Asks for guidance without choosing** (“Something else” from the picker,
+  “not sure”, “help me decide”): invoke
   Conductor at Understand/Shape for direction-setting with the full open-work
   context; it recommends from local context before asking for recorded facts.
 - **Defers** (“not now”) or **reports a fact**: start nothing. A fact or
   human-check result is usable evidence within existing authority to record it;
   show what it changes, but it is not a work choice unless the person also makes one.
-- **Chooses ordinary work without Conductor**: do not invoke it or impose its
-  startup assessment; carry the actual task authority and limits into ordinary
-  host work.
+- **Explicitly declines Conductor for named work** (“no, just fix the typo”):
+  the person's own refusal, not a route the arrival offers. Carry only the
+  approval the person actually stated for that task, and its limits, into
+  ordinary host work. Never infer it from an answer
+  that simply names work; naming work is **Chooses work** above.
 
 Pass the restored project, full open-work context, the chosen work and pointer,
 known authority, exclusions and unresolved questions. Resolve Conductor from this
@@ -272,16 +280,22 @@ goes straight to its authorized continuation, never through this arrival questio
 
 ### Welcome back: the screen summary
 
-After restoration, orient before detail, in plain English:
+After restoration, orient before detail, in plain English. The arrival opens with
+a one-row grid, then the text:
 
+- **Grid:** PROJECT; PHASE, the recommended work item's rung on the project's
+  ladder (frame, viability, scope, design, handoff, loop, acceptance, or the
+  project's own stage names), `null` when the item has none; NEXT, the
+  recommendation; TEAM, the restored pairing.
 - **Where things stand:** one or two sentences on position in the wider work, in
-  the project's own words: what is released or finished, what is underway.
-- **Last session:** the main achievement or change, one sentence.
+  product terms: what the product does now and what is left before its next
+  milestone. Not the agent's activity.
+- **Last session:** what changed for the person, one sentence.
 - **Open work:** the items that move the work, one line each, in recommended
   order (see [weighing](#compose-the-arrival-in-switch)).
 - **Recommended** and **Why:** one item and the reason it comes first.
 
-Close with the document links; the task list carries the label **Open work**
+Close with the document links, on one line in chat Markdown; the task list carries the label **Open work**
 and points at the existing work/status page — HTML where one exists, otherwise
 the Markdown record or task list. Resolve a real target; don't invent a page or
 build one during In. The backlog and audit evidence live behind that link.
@@ -331,19 +345,24 @@ disclosed plain-text fallback below, not a claimed renderer result. Use
 client may style numbered lists as letters; do not rewrite content to undo
 client styling.
 
-The single question comes first after END, as a bold speech-bubble blockquote:
-`> 💬 **What do you want this session to move forward?**`. Ordinary In always
-supplies this question, including when nothing is actionable. Do not add a reply
-menu or a second question; the open items are its context, the recommendation
-its proposed answer. The renderer places the question; do not append it
-yourself. Where the host offers a native picker, it may follow the rendered
-output carrying the recommendation as one option labelled with the work it
-selects (“Shape: sign off the migration”), and “Not now”, never a bare Yes; the
-host's free-form route takes any other choice. It never replaces or precedes the
-bubble. Without picker support, the bubble is answered normally.
+The screen ends on the single question, as a bold speech-bubble blockquote:
+`> 💬 **Start a Conductor session?**`. Nothing follows it: no footer, render
+time or end marker. Ordinary In always supplies this question, including when
+nothing is actionable. Do not add a second question; the open items are its
+context, the recommendation its proposed answer. The renderer places the
+question; do not append it yourself. Where the host offers a native picker,
+follow the rendered output with exactly two options: **“Yes — <the recommended
+work>”**, naming the work it opens, and **“Something else”**, which opens
+Conductor to ask what; the host's free-form route stays open. Where the picker
+carries a description, Yes's says it opens Conductor at Shape for that work and
+approves none of its operations, so an action-worded recommendation (“Release
+0.137.0”) is never read as approval. The picker never
+replaces or precedes the bubble. Without picker support, the bubble is answered
+normally.
 
-The end line ends restoration, not the session, and starts no work. Partial or
-unknown restoration gets an incomplete or unconfirmed ending instead. Keep
+The question ends restoration, not the session, and starts no work. Partial or
+unknown restoration shows SWITCH IN INCOMPLETE in the heading and its gap in
+ATTENTION. Keep
 values brief; the renderer wraps rather than truncates. `--color` forces ANSI,
 `--no-color` or `NO_COLOR` disables it. Markdown never emits ANSI.
 
@@ -354,14 +373,15 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
 ```json
 {
   "project": "Kerd",
-  "where": "0.134.0 is released and nothing is being built. The launch sequence has not started: 0 of 5 steps.",
+  "phase": "acceptance",
+  "where": "Kerd is released and working. Five steps stand before launch and none is done; the first is signing off the risk-rating change, which shipped two weeks ago.",
   "open_work": [
-    "Sign off the risk-state-split migration with real evidence, the first launch step.",
+    "Sign off the risk-rating change with real evidence, the first launch step.",
     "Try the 0.134.0 diagram rules on a real diagram; they have never been exercised.",
     "Anthony: decide whether the 2026-09-13 \"prove Kerd first\" hold is lifted."
   ],
   "recommendation": {
-    "text": "Sign off the risk-state-split migration.",
+    "text": "Sign off the risk-rating change.",
     "why": "It is the oldest product commitment, and every later launch step waits on it."
   },
   "last_session": "Released 0.134.0, the Visuals contract correction, after two review rounds.",
@@ -370,7 +390,7 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
     {"provider": "codex", "id": "22222222-2222-4222-8222-222222222222", "role": "expert review", "status": "submitted-unconfirmed"}
   ],
   "question": {
-    "text": "What do you want this session to move forward?",
+    "text": "Start a Conductor session?",
     "proposed": null
   },
   "documents": [
@@ -379,8 +399,6 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
   ],
   "warnings": ["The installed version is a saved observation, not rechecked during pickup."],
   "insight": "The migration shipped two weeks ago; only its acceptance record is missing.",
-  "source": "CONTEXT.md, TODO.md, the newest session log",
-  "updated": "2026-09-17 14:56 EDT",
   "base": ".",
   "restored": "yes",
   "restore_note": null
@@ -388,16 +406,17 @@ coherent sitting. Use `null` or `[]` for anything the work has nothing for.
 ```
 
 `project` is the project already restored, never inferred from the renderer's
-installation path. `where` is the position sentence; `open_work` a list of plain
+installation path. `phase` is the recommended item's rung, shown in the grid;
+`where` is the position sentence; `open_work` a list of plain
 lines (a single string is one item); `recommendation` carries `text` and `why`,
 or `null` when nothing is actionable, which the renderer states. `question.text`
 is the one arrival question; leave `proposed` null, since the recommendation is
 already on screen. `documents` are `[label, path]` pairs resolved against
 `base`; a path that does not exist is reported as a warning rather than offered
 as a link. Supplying `open_work` or `recommendation` selects this layout; the
-renderer's older grid keys (`phase`, `task`, `state`, `now`, `this_session`)
-remain only for record-driven views and older callers, and new arrivals do not
-use them.
+renderer's older grid keys (`task`, `state`, `now`, `this_session`, `source`,
+`updated`) remain only for record-driven views and older callers, and new
+arrivals do not use them.
 
 `team` uses the Agent arrival result's array; the fictional IDs above illustrate
 its input shape only. A caller may shorten a role's wording faithfully for
@@ -408,19 +427,11 @@ providers and roles only. Use `[]` for no established pairing and `null` for
 unread/unresolved state. A consequential routing problem belongs in `warnings`;
 routine unconfirmed notice delivery is not a blocker or an availability claim.
 
-`updated` is the selected source's recorded update time, not the current time,
-an estimated close time or a guessed aggregate across files. If no applicable
-source time is known, use `null`. The renderer supplies `rendered` from its clock;
-do not hand-type that footer. Reversed displayed times in the renderer's
-`YYYY-MM-DD HH:MM ZONE` format with identical zone labels produce an attention
-warning, leaving both values intact.
-
 Given a correctly shaped JSON object, fields are not required: a missing or null
 one degrades to a plain “not recorded” line or an explicit “nothing open”
 statement rather than an error. Malformed JSON exits 2 with a message. Where
-things stand, Last session, Open work, Recommended and Team always render; only
-the attention panel, documents and Insight are omitted when empty. Always supply
-`source`: it names what the pickup actually read.
+things stand, Last session, Open work, Recommended and the grid always render; only
+the attention panel, documents and Insight are omitted when empty.
 
 It reads stdin, so nothing is written to disk. Do not re-read files to fill it,
 and do not stop for approval before showing it. Only if rendering fails or the

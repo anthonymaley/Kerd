@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “What do you want this session to move forward?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor
@@ -57,10 +57,10 @@ not establish guided ownership. Continuing established work doesn't re-offer it.
 
 There are two valid entries: an explicitly selected and authorized action, and a
 request to use the workflow while deciding what to do. An answer to Switch
-In's **“What do you want this session to move forward?”** that chooses work, a
-plain yes to its recommendation included, is the latter for that work: enter
+In's **“Start a Conductor session?”** that chooses work, a plain yes to its
+recommendation included, is the latter for that work: enter
 Understand/Shape on it, never approval of its operations. An answer asking for
-guidance without choosing enters direction-setting. Reuse the restored project, work pointer, current decision,
+guidance without choosing, “Something else” included, enters direction-setting. Reuse the restored project, work pointer, current decision,
 actual approval and latest exclusions. Do not repeat pickup, intake already
 answered or approval already supplied.
 

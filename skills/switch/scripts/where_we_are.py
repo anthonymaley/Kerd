@@ -347,9 +347,9 @@ SUMMARY_KEYS = ("project", "where", "open_work", "recommendation",
                 "restored", "restore_note")
 # The keys the plain-English arrival reads (open_work or recommendation present).
 # The remaining SUMMARY_KEYS serve the record-driven view and older callers.
-OPEN_WORK_KEYS = ("project", "where", "open_work", "recommendation", "last_session", "team",
-                  "question", "documents", "warnings", "insight", "source", "updated", "base",
-                  "restored", "restore_note")
+OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "last_session",
+                  "team", "question", "documents", "warnings", "insight", "base", "restored",
+                  "restore_note")
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
 CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "commit", "files", "remote", "local_only",
@@ -621,9 +621,9 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     get = summary.get
     if any(key in summary for key in ("where", "open_work", "recommendation")):
         return "\n".join(open_work_head(summary, width, color, markdown)
-                         + dashboard_tail(summary, now, width, color, markdown))
-    # --question-below remains accepted for older callers; all arrivals now
-    # put the question after the end marker.
+                         + dashboard_tail(summary, now, width, color, markdown, arrival=True))
+    # --question-below remains accepted for older callers; this older grid
+    # puts the question after its end marker, the arrival ends on it.
     question = get("question")
     restored = get("restored")
     if restored == "yes":
@@ -718,9 +718,9 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
 
 
 def open_work_head(summary, width, color, markdown):
-    """The plain-English arrival: where things stand, the open work, one
-    recommendation and why. No grid and no copied saved step; the caller has
-    already weighed every open item, the saved one included."""
+    """The arrival: a grid (project, phase, next, team), then where things
+    stand, the open work, one recommendation and why. No copied saved step;
+    the caller has already weighed every open item, the saved one included."""
     get = summary.get
     restored = get("restored")
     status = ("SWITCH IN COMPLETE \u2713" if restored == "yes" else
@@ -734,11 +734,17 @@ def open_work_head(summary, width, color, markdown):
     recommendation = get("recommendation") or {}
     if isinstance(recommendation, str):
         recommendation = {"text": recommendation}
-    blocks = (("Where things stand", get("where") or get("phase"), "not recorded"),
+    nothing = "No recommendation: nothing actionable is open."
+    blocks = (("Where things stand", get("where"), "not recorded"),
               ("Last session", get("last_session"), "no completed job is recorded"))
-    team = team_rows(get("team"))[0][1]
+    grid = (("PROJECT", project), ("PHASE", str(get("phase") or UNRECORDED)),
+            ("NEXT", str(recommendation.get("text") or "Nothing actionable is open")),
+            ("TEAM", team_rows(get("team"))[0][1]))
     if markdown:
-        lines = [f"**{md(project.upper())} \u00b7 {status}**", ""]
+        lines = [f"**{md(project.upper())} \u00b7 {status}**", "",
+                 "| " + " | ".join(label for label, _ in grid) + " |",
+                 "| --- | --- | --- | --- |",
+                 "| " + " | ".join(md(value) for _, value in grid) + " |", ""]
         for label, value, empty in blocks:
             lines += [f"**{label}:** {md(value or empty)}", ""]
         lines += ["**Open work**", ""]
@@ -746,20 +752,23 @@ def open_work_head(summary, width, color, markdown):
         if not items:
             lines.append("No open work is recorded.")
         lines.append("")
-        lines += [f"**Recommended:** {md(recommendation.get('text') or 'No recommendation: nothing actionable is open.')}"]
+        lines += [f"**Recommended:** {md(recommendation.get('text') or nothing)}"]
         if recommendation.get("text") and recommendation.get("why"):
             lines += ["", f"**Why:** {md(recommendation['why'])}"]
-        lines += ["", f"**Team:** {md(team)}", ""]
-        return lines
+        return lines + [""]
     tone = "green" if restored == "yes" else "amber"
     name = " " + project.upper()
     if columns(name) + columns(status) + 2 <= width:
-        lines = [ink(pad(name, width - columns(status) - 1), "bold", "cyan", on=color)
-                 + ink(status + " ", tone, on=color)]
-    else:  # a long name wraps whole and the status takes its own line, never cut
+        lines = [ink(pad(name, width - columns(status)), "bold", "cyan", on=color)
+                 + ink(status, tone, on=color)]
+    else:
         lines = [ink(" " + line, "bold", "cyan", on=color) for line in wrap(project.upper(), width - 1)]
         lines += [ink(" " + line, tone, on=color) for line in wrap(status, width - 1)]
     lines += [ink("\u2501" * width, "cyan", on=color), ""]
+    for label, value in grid:
+        for index, line in enumerate(wrap(value, width - 10)):
+            lines.append(" " + ink(pad(label if index == 0 else "", 7), "dim", on=color) + " " + line)
+    lines.append("")
     for label, value, empty in blocks:
         lines.append(ink(" " + label.upper(), "dim", on=color))
         lines += ["   " + line for line in wrap(str(value or empty), width - 3)]
@@ -773,30 +782,41 @@ def open_work_head(summary, width, color, markdown):
         lines.append("   No open work is recorded.")
     lines.append("")
     lines.append(ink(" RECOMMENDED", "dim", on=color))
-    lines += ["   " + line for line in wrap(str(recommendation.get("text")
-              or "No recommendation: nothing actionable is open."), width - 3)]
+    lines += ["   " + line for line in wrap(str(recommendation.get("text") or nothing), width - 3)]
     if recommendation.get("text") and recommendation.get("why"):
         lines += ["   " + line for line in wrap("Why: " + str(recommendation["why"]), width - 3)]
-    lines += ["", ink(" TEAM", "dim", on=color)]
-    lines += ["   " + line for line in wrap(team, width - 3)] + [""]
-    return lines
+    return lines + [""]
 
 
-def dashboard_tail(summary, now, width, color, markdown):
-    """Attention, documents, insight, source footer, end marker and the one
-    question: shared by both arrival layouts."""
+def document_href(target, base):
+    """A clickable target: URLs as given, local paths resolved against base."""
+    from urllib.parse import quote
+    if target.startswith(("http://", "https://", "mailto:")):
+        return quote(target, safe="/:#?=&%+@")
+    path, sep, fragment = target.partition("#")
+    href = quote(str((Path(base) / path).resolve()), safe="/")
+    return href + ("#" + quote(fragment, safe="/") if sep else "")
+
+
+def dashboard_tail(summary, now, width, color, markdown, arrival=False):
+    """Attention, documents, insight and the one question, shared by both
+    layouts. The older grid keeps its source footer and end marker; the
+    arrival ends on its question, with documents on one line."""
     get = summary.get
     question = get("question")
     restored = get("restored")
     lines = []
     warnings = list(get("warnings") or [])
-    time_warning = timestamp_warning(get("updated"), now)
+    time_warning = None if arrival else timestamp_warning(get("updated"), now)
     if time_warning:
         warnings.append(time_warning)
     if get("restore_note"):
         warnings.insert(0, str(get("restore_note")))
     elif restored in ("partial", "no"):
         warnings.insert(0, "Missing context: not recorded.")
+    elif arrival and restored != "yes":
+        # The arrival has no end marker, so an unconfirmed pickup says so here.
+        warnings.insert(0, "Restoration not confirmed.")
     base = get("base") or "."
     open_able, broken = resolve_links([tuple(pair) for pair in (get("documents") or [])], base)
     warnings += [f"cannot be opened: {target} ({label})" for label, target in broken]
@@ -804,6 +824,10 @@ def dashboard_tail(summary, now, width, color, markdown):
         lines += (["**ATTENTION**\n"] + [f"- {md(warning)}" for warning in warnings] if markdown else
                   panel("\u26a0 NEEDS ATTENTION", warnings, width, "red", color)) + [""]
 
+    if open_able and arrival and markdown:
+        lines += ["**Documents:** " + " \u00b7 ".join(
+            f"[{md(label)}](<{document_href(target, base)}>)" for label, target in open_able), ""]
+        open_able = []
     if open_able:
         labels = " \u00b7 ".join(label for label, _ in open_able)
         lines.append("**DOCUMENTS**\n" if markdown else (" " + ink(pad("DOCUMENTS", 11), "dim", on=color)
@@ -811,15 +835,7 @@ def dashboard_tail(summary, now, width, color, markdown):
                      else " " + ink("DOCUMENTS", "dim", on=color)))
         for label, target in open_able:
             if markdown:
-                from urllib.parse import quote
-                if target.startswith(("http://", "https://", "mailto:")):
-                    href = quote(target, safe="/:#?=&%+@")
-                else:
-                    path, sep, fragment = target.partition("#")
-                    href = quote(str((Path(base) / path).resolve()), safe="/")
-                    if sep:
-                        href += "#" + quote(fragment, safe="/")
-                lines.append(f"- [{md(label)}](<{href}>) · {code(target)}")
+                lines.append(f"- [{md(label)}](<{document_href(target, base)}>) · {code(target)}")
                 continue
             lines += ["   " + line for line in wrap(f"\u2192 {target}  ({label})", width - 3)]
         lines.append("")
@@ -831,6 +847,12 @@ def dashboard_tail(summary, now, width, color, markdown):
                   for index, line in enumerate(wrap(get("insight"), width - 3))])
         lines.append("")
 
+    if arrival:
+        if question and question.get("text"):
+            lines += ([f"> 💬 **{md(question['text'])}**"] if markdown else
+                      [ink("💬 " + line if index == 0 else "   " + line, "bold", on=color)
+                       for index, line in enumerate(wrap(question["text"], width - 3))])
+        return lines
     lines.append("---\n" if markdown else ink("\u2501" * width, "cyan", on=color))
     stamps = f"updated {get('updated') or 'unknown'} \u00b7 rendered {now}"
     source = get("source") or UNRECORDED
@@ -963,7 +985,7 @@ def main():
     parser.add_argument("--dashboard", action="store_true",
                         help="One composed panel on arrival, for switch-in")
     parser.add_argument("--question-below", action="store_true",
-                        help="Compatibility flag: dashboard questions always follow the end marker")
+                        help="Compatibility flag: questions always come last")
     parser.add_argument("--color", action="store_true",
                         help="Force colour on when output is piped or captured")
     parser.add_argument("--no-color", action="store_true",
