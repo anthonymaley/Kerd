@@ -117,12 +117,30 @@ class StepCheckTextTests(unittest.TestCase):
 class ForeignRepoFixture(unittest.TestCase):
     """The command as written, run from inside Kerd against a project that is not Kerd."""
 
-    def run_check(self, slug, project):
+    def run_check(self, slug, project, cwd=REPO):
         section = SKILL.read_text(encoding="utf-8").split("## Check where the work stands", 1)[1]
         template = re.search(r"^python3 .*gate\.py.*$", section, flags=re.M).group(0)
         command = (template.replace(PLACEHOLDER, str(REPO))
                    .replace("<slug>", slug).replace('"<project root>"', shlex.quote(project)))
-        return subprocess.run(command, shell=True, cwd=REPO, capture_output=True, text=True)
+        # gate.py falls back to $CLAUDE_PROJECT_DIR when --root is absent; clear it
+        # so only the explicit --root can pass these tests.
+        env = {k: v for k, v in os.environ.items() if k != "CLAUDE_PROJECT_DIR"}
+        return subprocess.run(command, shell=True, cwd=cwd, env=env, capture_output=True, text=True)
+
+    def test_the_reverse_direction_answers_from_the_named_root_not_the_current_one(self):
+        """Risk row 1's other half: working inside a user's project with Kerd
+        named as the root, the answer comes from Kerd, never from the project
+        the command happens to run in."""
+        with tempfile.TemporaryDirectory() as tmp:
+            project = os.path.realpath(tmp)
+            foreign_repo(project)
+            ours = self.run_check("risk-state-split", str(REPO), cwd=project)
+            self.assertEqual(ours.returncode, 0, ours.stderr)
+            self.assertIn("enters at: ready-to-release", ours.stdout)
+            theirs = self.run_check("checkout", str(REPO), cwd=project)
+            self.assertEqual(theirs.returncode, 0, theirs.stderr)
+            self.assertIn("enters at: frame", theirs.stdout)
+            self.assertIn("need: docs/product/checkout.md — file exists", theirs.stdout)
 
     def test_one_item_on_the_build_step_and_one_missing_its_scope(self):
         with tempfile.TemporaryDirectory() as tmp:

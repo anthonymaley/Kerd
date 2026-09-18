@@ -40,7 +40,15 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.137.0)
+## What's New (v0.137.1)
+
+### v0.137.1
+
+**The step check is tested in both directions.** 0.137.0 proved that Conductor,
+run from inside Kerd against your project, never answers from Kerd. Now the
+reverse is proved too: run from inside your project with Kerd named, it answers
+from Kerd, never from the folder it happens to be in. Each direction fails when
+the project is not named explicitly.
 
 ### v0.137.0
 
