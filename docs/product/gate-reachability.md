@@ -1,6 +1,6 @@
 ---
 route: new
-stage: framed
+stage: designed
 ---
 
 # Drive and conductor cannot reach the gate machinery outside Kerd
