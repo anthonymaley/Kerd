@@ -12,7 +12,7 @@ README, guides and site you are reading are their first real use.
 
 ![A day with Kerd: sit down and pick up, rehearse, call it ready, perform the concert, put it down](docs/pictures/how-kerd-works.svg)
 
-**Kerd runs inside Claude Code or Codex.** It is a plugin: twelve skills you call
+**Kerd runs inside Claude Code or Codex.** It is a plugin: a set of skills you call
 by name, plus the records they keep on disk so the next sitting, meaning one
 stretch of work from opening the project to putting it down, can read them.
 
@@ -141,9 +141,7 @@ missing: [getting started](docs/guide/getting-started.md).
 | See it: pictures of what you are making, as you go | Visuals | [visuals](docs/guide/visuals.md) |
 | Get a second opinion from another AI session, Claude or Codex | Agent | [agent](docs/guide/agent.md) |
 | Work in quick back-and-forth instead of long reports | Pair | [pair](docs/guide/pair.md) |
-| Stress-test an idea before you spend on it | Interrogate | [interrogate](docs/guide/interrogate.md) |
 | Keep the project tidy and catch what has drifted | Tend, Slainte | [tend and slainte](docs/guide/tend-and-slainte.md) |
-| Find tools you are missing | Lorg | [lorg](docs/guide/lorg.md) |
 | Keep what you learn, and write like a person | Kivna, Skriv | [kivna and skriv](docs/guide/kivna-and-skriv.md) |
 
 Every command, one line each: [reference](docs/guide/reference.md).
@@ -223,7 +221,6 @@ Gaelic-inspired where it adds character:
 - **Switch**: session handoff
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
-- **Lorg**: to seek, track down
 
 ## What's New (v0.139.0)
 

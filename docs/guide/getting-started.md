@@ -365,8 +365,7 @@ Every command in one line each: [reference](reference.md).
 
 The capabilities, one page each: [switch](switch.md), [conductor](conductor.md),
 [visuals](visuals.md), [agent](agent.md), [pair](pair.md),
-[interrogate](interrogate.md), [tend and slainte](tend-and-slainte.md),
-[lorg](lorg.md), [kivna and skriv](kivna-and-skriv.md).
+[tend and slainte](tend-and-slainte.md), [kivna and skriv](kivna-and-skriv.md).
 
 If you want the parts that can refuse from outside the model, the entry gates and
 the CI checks: [checks that can say no](checks-that-can-say-no.md).

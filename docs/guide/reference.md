@@ -82,16 +82,6 @@ A per-repo toggle for rapid, conversational working.
 
 Guide: [pair](pair.md).
 
-## Interrogate
-
-Interviews a plan or idea until every risk is sized, evidenced and treated.
-
-- `/kerd:interrogate` starts from zero: it asks what the idea is.
-- `/kerd:interrogate <plan-ref>` interrogates something that already exists. The
-  reference can be a file path, an idea in a sentence, or a pointer like "current
-  TODO" or "the latest session log".
-
-Guide: [interrogate](interrogate.md).
 
 ## Tend
 
@@ -113,19 +103,6 @@ The release pass, plus health audits you can run any time.
 
 Guide: [tend and slainte](tend-and-slainte.md).
 
-## Lorg
-
-Finds skills and plugins the project would benefit from and is not using.
-
-- `/kerd:lorg` runs Tier 1 only: installed but unused. Fast, cheap, no web.
-- `/kerd:lorg installed` is the same as the default.
-- `/kerd:lorg available` runs Tier 2: marketplace and curated sources.
-- `/kerd:lorg explore` runs Tier 3: GitHub and web search. Opt-in, most
-  expensive.
-- `/kerd:lorg all` runs a full scan across every tier.
-- `/kerd:lorg report` shows the last saved report without rescanning.
-
-Guide: [lorg](lorg.md).
 
 ## Kivna
 
