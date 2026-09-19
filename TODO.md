@@ -2,71 +2,59 @@
 
 ## Now
 
-**Release boundary:** 0.139.0 on `main`. Resolve IDs with `git log`. Position,
-installed state and the reading set are in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.140.0 on `main`. Resolve IDs with `git log`. Position, the
+local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
-**Selected next, proposed not agreed: refresh the plugin to 0.139.0 and rehearse one
-real piece of work with it.** Watch whether Conductor keeps the sketchbook unprompted,
-answers "where are we?" from it, calls Ready, and, if it gets that far, runs a concert
-by batch with the goal check before the loop ends. Anthony picks the work and project.
-Record what is seen in `docs/work/structured-route/work.md`; fixes are a separate go.
+**Selected next, proposed not agreed: remove the four retired skills from the plugin in
+one breaking release** — Drive (ruled 2026-09-18), Lorg, Interrogate and Pair (ruled
+2026-09-19). The published package no longer mentions them; the plugin still ships them.
+Known terrain: Interrogate defines the risk ledger the gates ask for, so its removal
+travels with the ladder and gate cleanup (read from the checks guide, not traced in gate
+code); Pair's hook and Tend's hygiene check for it go too, and its flag is on in Kerd and
+3of3; `test_visual_default.py` asserts at least twelve skill entry points; the capability
+lists in both manifests change. It stops at a reviewed release; nothing else rides along.
 
-**Anthony's call: rewrite the launch plan** (`docs/design/launch-plan.md`) around
-rehearsal and the concert. The `agent-request` pilot subject overlaps `/kerd:agent`
-and was set aside in conversation on 2026-09-18 with no ruling recorded; until he
-rules, the plan stands as written and the diagnostic pilot is not the selected next.
-Subject sketch: `~/eolas/vault/kerd/Agent Request Skill Sketch.md`.
+**Anthony's:** look at the repo page and see that the README's pictures render (nobody
+has seen GitHub render those SVGs). Decide whether the explanatory output style stays on
+for this machine: it asks for Insight blocks and fights 0.140.0's report shape. Rule on
+rewriting the launch plan (`docs/design/launch-plan.md`); it stands as written, 0 of 5.
 
-Records of the 2026-09-18 evening sitting: `docs/work/structured-route/` (0.139.0).
+- **Observe 0.140.0's report shape and the plain "Who" grid in real use.** Wording and a
+  wording test only. Does the first line say what he has now, is the position restated,
+  do five items hold without losing anything?
+- **Rolling without publishing.** Found 2026-09-19: a roll is a Switch Out, which commits
+  and pushes, so a concert cannot roll mid-build without publishing half-built work.
+  0.139.0's wording has no answer. A work branch for the length of a concert is the
+  likely countermeasure; it is a skill change and its own go.
+- **Release notes live in two places.** The README, where the checklist and Slainte audit
+  them, and `CHANGELOG.md`, with no sync check. Each release updates both until a
+  separate, versioned change moves them properly.
+- **The package's unverified claims:** the corrected install and uninstall commands come
+  from the CLI's help (Claude Code 2.1.278), never from a run; the site has not been seen
+  in a real browser; small picture labels fall near 8px at phone width; no real closing
+  box is shown in the getting-started guide.
+- **Reported, not fixed:** `docs/work/model-ready-work/packaging/START.md` is written
+  against 0.113.0; `docs/state-contract.md` still names `kivna/.active-modes`.
+- **Observe Conductor's step check, the composer, managed Conductor and a roll in a real
+  session.** None was exercised on 2026-09-19.
+- **Observe the arrival's "Something else" route** and the closing box over several
+  sittings. The arrival and "Yes" were seen again on 2026-09-18 23:26.
 
-Records of the afternoon sitting (2026-09-18):
-- `docs/work/switch-in-open-work/work.md`, `arrival-grid.html` (0.136.0);
-- `docs/work/risk-state-split-acceptance/work.md` and
-  `docs/gates/2026-09-03-risk-state-split-acceptance.md` (0.136.1);
-- `docs/work/gate-reachability/` (scope, design views) with
-  `docs/design/gate-reachability.md` and
-  `docs/gates/2026-09-18-gate-reachability-acceptance.md` (0.137.0–0.137.1);
-- `docs/work/switch-out-screen/work.md`, `closing-grid.html` (0.138.0).
-Earlier release records: `docs/work/visual-communication/`, `model-dispatch-guard/`,
-`question-pickers/`, `context-awareness/`, `effort-sized-players/`,
-`review-and-fit-corrections/`.
-
-These lists are not authority to install or run checks during pickup.
-
-- **Released and archived**: 0.133.0–0.135.0, and on 2026-09-18 0.136.0–0.139.0.
-  Verdicts in `docs/backlog-archive.md` (`## Closed 2026-09-18` and
-  `## Closed 2026-09-18 (afternoon)`). **Adopted from Codex's close:** change the
-  dispatch contract again only for demonstrated behaviour from real dispatches, not
-  for further prose tightening.
-
-- **Observe 0.139.0's rehearsal and concert in real use** (the selected next above).
-- **Observe 0.136.0's arrival and 0.138.0's closing box in real use.** First showing
-  2026-09-18 evening: the arrival rendered and "y" reached Conductor at Shape; the
-  "Something else" route and readability over several sittings are still unseen. Is the grid
-  readable, is "where things stand" product language, does "Something else" reach
-  Conductor, does the closing box say what changed? Needs the plugin at 0.138.0.
-- **Observe Conductor's step check in a real session.** Only the command, its output
-  and the instruction text are proven; whether a model checks at pickup and before a
-  build is the pilot's to see.
-
-- **0.134.0's two clauses have never been measured on real diagram output.** Both the
-  expansion test and visible project identity are producer checks at review; no diagram
-  has yet exercised either. No gate, hook or schema was added, deliberately.
-- **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario
-  tested. Nineteen valid runs plus an eight-run re-test, n=3–4 per arm, one scenario.
-- **Archify's two Socket alerts were never identified** — recorded as unknown, not
-  cleared. Its version is still the dev snapshot `2.17.0-dev.1`.
-- **Palette drift, upstream only — the Kerd half closed 2026-09-17.**
-  `diagram-design`'s installed style guide has `accent` at Krutho blue `#1A6FFF` while
-  `accent-tint` holds the old tangerine — internally inconsistent, hit independently by
-  two sessions. Kerd's own views must therefore set the neutral tokens explicitly rather
-  than read that guide. Not Kerd's file. Kerd half archived under
-  `docs/backlog-archive.md` `## Closed 2026-09-17`.
-
+- **0.134.0's two clauses have never been measured on real diagram output.**
+- **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario.
+- **Archify's two Socket alerts were never identified** — unknown, not cleared. Its
+  version is still the dev snapshot `2.17.0-dev.1`.
+- **Palette drift, upstream only:** `diagram-design`'s installed style guide has `accent`
+  and `accent-tint` disagreeing; Kerd's own views set the neutral tokens explicitly.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
-  fixture: a factual Yes, No or Not sure that grants no approval.
+  fixture.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
   project. Whether it is lifted is Anthony's call; don't assume it.
+
+Records: 2026-09-19's sketchbook, score and reader findings are local only (see
+`CONTEXT.md`); the committed account is `kivna/sessions/2026-09-19.md`. Earlier release
+records are under `docs/work/` by name. These lists are not authority to install or run
+checks during pickup.
 
 ### Earlier launch sequence — retained pending reconciliation
 
@@ -631,9 +619,6 @@ consequence x value. See `docs/plans/2026-08-03-choose-what-matters-view.excalid
 - AGENTS.md needs its own verdict: gitignored, machine-local, stale Codex-era fork.
 - Regenerate the choose-what-matters view before its next use.
 - PR-event edge in the stale CI step (unexercised; no PR flow).
-- **lorg-cut candidate** — evidence check per the rip discipline before any
-  license. **Interrogate rides the same review** — and note it now has a second
-  caller: requirement qualification is the same shape as risk qualification.
 - **kivna verdict** — same zero-usage smell as the vault; import/export
   confirmed unused.
 - **CI rule for the single-definition law** — nothing machine-enforces

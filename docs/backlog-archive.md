@@ -4,6 +4,23 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+## Closed 2026-09-19
+
+- **Observe 0.139.0's rehearsal and concert in real use — done.** The product package was
+  rehearsed and performed 2026-09-18 23:26 to 2026-09-19: sketchbook kept unprompted,
+  Ready from Conductor's side, three batches, twenty dispatches observed on the requested
+  model and effort, the goal check reopened two failed goals. What was not exercised and
+  what was found (rolling without publishing) moved to `TODO.md` `## Now`. Account:
+  `kivna/sessions/2026-09-19.md`.
+- **lorg-cut candidate, with Interrogate riding the same review — ruled, 2026-09-19.**
+  Anthony cut Lorg, Interrogate and Pair; the evidence check was overtaken by his ruling.
+  Case: `docs/decisions.md`. The plugin removal is the selected next in `TODO.md`. The row
+  as it stood: "lorg-cut candidate — evidence check per the rip discipline before any
+  license. Interrogate rides the same review — and note it now has a second caller:
+  requirement qualification is the same shape as risk qualification."
+- **Refresh the plugin to 0.139.0 — done** before the 2026-09-18 23:26 sitting; that
+  session loaded 0.139.0 from the cache.
+
 ## Position paragraphs moved out of CONTEXT.md, 2026-09-16 (evening)
 
 These were current while 0.131.0 and 0.132.0 were the boundary. Moved here unchanged
