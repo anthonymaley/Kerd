@@ -336,10 +336,6 @@ still carry entries in `.claude/settings.local.json` pointing at a cached plugin
 version that has since been pruned. `/kerd:tend` finds those and removes them;
 nothing replaces them, because the plugin supplies the hooks itself.
 
-**Pair is on but nothing changes.** The partner-mode reminder is re-injected by
-an opt-in `UserPromptSubmit` hook. Without it the toggle still records state, but
-nothing reminds each turn. Tend installs it.
-
 **A diagram cannot be drawn.** Visuals needs diagram-design or Archify. If
 neither can run on your machine it says plainly that the view is not rendered and
 what that costs, instead of drawing something by hand. Installing a missing tool
@@ -364,7 +360,7 @@ only durable thing to cite today.
 Every command in one line each: [reference](reference.md).
 
 The capabilities, one page each: [switch](switch.md), [conductor](conductor.md),
-[visuals](visuals.md), [agent](agent.md), [pair](pair.md),
+[visuals](visuals.md), [agent](agent.md),
 [tend and slainte](tend-and-slainte.md), [kivna and skriv](kivna-and-skriv.md).
 
 If you want the parts that can refuse from outside the model, the entry gates and

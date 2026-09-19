@@ -72,16 +72,6 @@ Connects Claude and Codex sessions so one can contribute to the other's work.
 
 Guide: [agent](agent.md).
 
-## Pair
-
-A per-repo toggle for rapid, conversational working.
-
-- `/kerd:pair on` turns partner mode on for this repo and confirms `[pair: on]`.
-- `/kerd:pair off` turns it off and confirms `[pair: off]`.
-- `/kerd:pair` with no argument reports the current state.
-
-Guide: [pair](pair.md).
-
 
 ## Tend
 

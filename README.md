@@ -140,7 +140,6 @@ missing: [getting started](docs/guide/getting-started.md).
 | Shape a piece of work, agree it, and have it performed | Conductor | [conductor](docs/guide/conductor.md) |
 | See it: pictures of what you are making, as you go | Visuals | [visuals](docs/guide/visuals.md) |
 | Get a second opinion from another AI session, Claude or Codex | Agent | [agent](docs/guide/agent.md) |
-| Work in quick back-and-forth instead of long reports | Pair | [pair](docs/guide/pair.md) |
 | Keep the project tidy and catch what has drifted | Tend, Slainte | [tend and slainte](docs/guide/tend-and-slainte.md) |
 | Keep what you learn, and write like a person | Kivna, Skriv | [kivna and skriv](docs/guide/kivna-and-skriv.md) |
 
