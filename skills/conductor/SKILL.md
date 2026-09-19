@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Work runs as rehearsal (turn by turn, always delivering, no gates) with a sketchbook Conductor keeps and a score written as you go, then, when the person or Conductor calls Ready, as a concert performed by fanned-out players and checked against the agreed goals before it ends. For a work item recorded in the user's project, it checks where the work stands at pickup and before a build, names missing groundwork and offers it, and records a go-ahead anyway. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Work runs as rehearsal (turn by turn, always delivering, no gates) with a sketchbook Conductor keeps and a score written as you go, then, when the person or Conductor calls Ready, as a concert performed by fanned-out players and checked against the agreed goals before it ends. For a work item recorded in the user's project, it checks where the work stands at pickup and before a build, names missing groundwork and offers it, and records a go-ahead anyway. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, give every report of work one shape (what the person has now and where to look first, where the work stands second, at most five items on screen with the rest kept in the sketchbook), plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor
@@ -302,10 +302,15 @@ actual pending question before pausing.
 Read [the journey presentation guide](references/journey.md) before the first
 substantive response. It owns the question layout, working-brief view, progress updates
 and worked examples. Use it throughout the conversation, not only at agreement.
+Every report of work — a return, a batch, a review, the finish — follows the guide's
+[shape of every report](references/journey.md#the-shape-of-every-report): what the
+person has now and where to look at it first, where the work stands second, at most
+five items on screen with the rest in the sketchbook, one thing at a time, and a
+first-line-and-last-line check before sending.
 For multi-step work, use the host's available native task list and update it as
 work progresses, with actual work and model handoffs visible underneath. Follow
 the guide's compact fallback when native task controls are unavailable. For
-delegation, use its task/route/model/effort/status grid and report actual guidance,
+delegation, use its task/who/model/effort/status grid and report actual guidance,
 saved-prompt and dispatch transitions; do not leave these facts until asked.
 
 At a decision, show the current stage, what is settled, what needs the person's

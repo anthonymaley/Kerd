@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.140.0
+
+**Reports you can read at a glance.** Every time Conductor reports work, a job
+returning, a batch finishing, a review coming back or the finish, the message now has
+one shape: the first line says what you have now and where to look at it, the second
+says where the work stands, at most five items are on screen with the rest kept in the
+sketchbook behind a link, a side issue gets one line at the end, and before sending
+Conductor checks that the first and last lines alone tell you what happened and what
+to do next. The grid and the evidence still appear, after those two lines. The shape
+never hides a limit or a failed check. It comes from the first real concert, where the
+owner's verdict on the reports was "thats a lot of text" and "seems chaos", and five of
+its rules are adapted from ayghri's i-have-adhd skill (MIT). Wording and a wording
+test; not yet seen in real use. The delegation grid also drops its routing column: it now says who does each job in plain words (an agent, your Codex partner, this session) beside the model and the effort, because a label like `kerd:effort-high` means nothing to the person reading it and the effort column already says it. The call still carries the model and the effort label.
+
 ## 0.139.0
 
 **Rehearsal, then the concert.** Conductor now names the two ways work happens.

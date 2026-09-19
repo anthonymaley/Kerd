@@ -71,11 +71,15 @@ To start, or to resume saved work:
 /kerd:conductor
 ```
 
+Every report Conductor gives you has one shape: what you have now and where to look
+at it, then where the work stands, then at most five items, with the rest kept in the
+sketchbook.
+
 The protocol underneath: Conductor guides Understand, Shape, Agree, Deliver and
 Complete. Rehearsal is Understand through Agree; the concert is Deliver. Before
 substantial work it shows a short entry line naming the stage, the owner, the
 intended result and where it stops. For delegated work it shows a grid of task,
-route, model, effort and status, with a Fit line giving the reason for each
+who does it, model, effort and status, with a Fit line giving the reason for each
 selection, and it reports the model and effort each job was observed to run with,
 because naming a model in a call is a request rather than a guarantee. After each
 returned edit it reads the actual change set against a baseline taken before

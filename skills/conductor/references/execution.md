@@ -139,7 +139,7 @@ If the needed route is unavailable, continue other useful authorized work and
 disclose what remains blocked. Respect host delegation and permission rules.
 
 Keep the live work view current using [the journey guide](journey.md#delegation-grid-and-preparation-updates):
-show its task/route/model/effort/status grid and the actual guidance, saved-prompt
+show its task/who/model/effort/status grid and the actual guidance, saved-prompt
 and dispatch transitions. Reflect observed launch/return, findings and corrections. The native
 list tracks real jobs; commentary and tool activity remain visible beneath it.
 Show current activity and perform the job. A plan or caller contract being

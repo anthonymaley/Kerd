@@ -180,6 +180,63 @@ insight banner or confirmation of a confirmation.
 
 ## Delivery has a working view too
 
+### The shape of every report
+
+Every message that reports work — a job returning, a batch finishing, a review
+coming back, the finish — has the same shape, top to bottom. The grid, Fit lines,
+`Change read ·` line and evidence this guide asks for still appear; they come after
+the first two lines, never before them.
+
+1. **First line: what the person has now, and where to look at it**, in product
+   words. “The README is rebuilt, 233 lines: open `README.md`.” Not the route, the
+   model or the check that ran. Evidence follows the result; it never leads.
+2. **Second line: where the work stands, in one line.** “Batch 2 of 3, five of
+   seven parts back. Nothing needed from you.” The person cannot hold the position
+   between messages, so every report restates it, from the sketchbook.
+3. **At most five items on screen.** Rank them, group them, and put everything
+   else in the sketchbook with a link. This shapes what is displayed, never what is
+   read, checked or recorded: nothing is dropped, and completeness wins wherever
+   the person asked for the full list.
+4. **One thing at a time.** Finish reporting the thing. A side finding gets one
+   line, once, at the end (“Separately: the install guide names an old version.”)
+   and its detail goes in the sketchbook. A problem that blocks the work or risks
+   harm is not a side finding; it is the first line. It joins that line and does not
+   replace it: “The README is rebuilt, but the push is blocked: CI is red on the
+   version check. Open `README.md`.”
+5. **Before sending, read only the first line and the last line.** From those two
+   alone the person must know what just happened and what to do next, or that
+   nothing is needed. If they would not, rewrite those two lines, not the middle.
+
+A report that fails this, from real use:
+
+```markdown
+| Task | Requested | Observed | Status |
+| --- | --- | --- | --- |
+| B1 · The README | Opus, high | claude-opus-5 at high | Returned and checked |
+Change read · 2 tracked paths changed, 1 text files to read, unexpected: none
+…three paragraphs of findings, two side issues, then what the README now says…
+```
+
+The same return, in shape:
+
+```markdown
+The README is rebuilt, 1,546 lines down to 151, nothing lost: open `README.md`.
+Batch 1 of 3: one of two parts back, the home page still running. Nothing needed.
+
+- The release history moved to the changelog, byte for byte (checked by script).
+- Install, first five minutes, the capability table and examples are in.
+- Release gate clean; hook tests 21 passed.
+
+Change read · 2 tracked paths changed, unexpected: none · ran as requested (Opus, high)
+Separately: the release checklist still says release notes live in the README.
+```
+
+This governs the shape of reports, not their honesty. A limit, a failed check or an
+unverified claim still appears; it takes one of the five places. A question still
+ends the message in the [question form](#question-surface-and-host-adaptation), and
+its capsule still sits directly above it. When the person asks to be walked through
+something, explain it fully under headings; the first two lines still hold.
+
 ### Keep the tasks visible while the work unfolds
 
 For multi-step work, use the host's native task-list or plan controls when they
@@ -218,14 +275,14 @@ step has been assigned.
 
 When a real delivery split includes contributors, show **Preparing delegation ·
 Conductor** and a compact Markdown grid. Use native task controls too when
-available, but do not duplicate their full plan: the grid adds route/model/effort
+available, but do not duplicate their full plan: the grid adds who, model and effort
 visibility. Illustrative rows, not model defaults or jobs to manufacture:
 
-| Task | Route | Model requested | Effort | Status |
+| Task | Who | Model requested | Effort | Status |
 | --- | --- | --- | --- | --- |
-| Check transport mutations | Native subagent `kerd:effort-medium` | Sonnet 5 | medium (requested via definition) | Preparing |
-| Survey API callers | Native subagent `kerd:effort-high` | Opus 5 | high (requested via definition) | Preparing |
-| Review implementation (cadence: before-push) | Established Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
+| Check transport mutations | An agent | Sonnet 5 | medium | Preparing |
+| Survey API callers | An agent | Opus 5 | high | Preparing |
+| Review implementation (cadence: before-push) | Your Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
 
 Fit · Check transport mutations — needs a bounded, command-checkable edit; Sonnet 5
 at medium because the step is fully specified.
@@ -234,11 +291,14 @@ Opus 5 because misclassifying a caller would mislead the design.
 Fit · Review implementation — needs an independent reading by a different model;
 the established Codex partner, scheduled by its recorded review cadence.
 
-Both native-subagent rows above name a concrete model and a concrete
-`kerd:effort-<level>`, because that is what their `Agent` calls will carry; an
+Both agent rows above name a concrete model and a concrete effort level, because
+their `Agent` calls will carry that model and the matching `kerd:effort-<level>`; an
 inherited or unnamed model is not a valid plan for any native Claude dispatch,
 composer, player or reviewer alike ([the dispatch contract](model-jobs.md)). The
-Codex partner row is different: it names that route's own evidence and carries no
+routing label itself stays out of the grid: `kerd:effort-high` means nothing to the
+person, and the Effort column already says it. The Who column says, in plain words,
+who does the work: an agent, your Codex partner, this session. The Codex partner row
+is different: it names that session's own evidence and its call carries no
 `kerd:effort-<level>`.
 
 Name the actual contribution and route; say `kerd:agent` only when that skill
@@ -361,7 +421,9 @@ return to the person.
 
 ### One clear finish
 
-Lead with what the person has now, the evidence and any consequential gap.
+The finish follows [the shape of every report](#the-shape-of-every-report): what the
+person has now and where to look, then where the work stands, then at most five
+items. Lead with what the person has now, the evidence and any consequential gap.
 State where it lives and the actual delivery state. End with either the one
 specific decision needed or “No action needed for this agreed work.” If required
 user review remains, say so; don't mark the whole package complete.

@@ -217,9 +217,9 @@ composer-written) in the same view. Show only real
 assignments; inline composition need not become a separate row. Include a controller
 row even when no worker launches. This illustrative tiny task needs only one row:
 
-| Task | Route | Model requested | Effort | Status |
+| Task | Who | Model requested | Effort | Status |
 | --- | --- | --- | --- | --- |
-| Controller: correct the heading and check the diff | Current session; compose and edit inline | Host-declared model if supplied, otherwise unknown | Live effort unknown unless verified | Ready inline |
+| Controller: correct the heading and check the diff | This session, inline | Host-declared model if supplied, otherwise unknown | Live effort unknown unless verified | Ready inline |
 
 Fit · Controller — needs one exact wording edit and a diff check; the current
 session because the edit is tiny and judgment is minimal.
@@ -238,8 +238,10 @@ retry, before dispatching it. A grid row naming a model without its Fit line is
 incomplete.
 
 **Every native Claude dispatch row names both cells concretely before dispatch**,
-matching the call that will be sent: `model` as Haiku, Sonnet, Opus or Fable, and a
-`kerd:effort-<level>`. This covers composer, player and reviewer alike — anything
+matching the call that will be sent: the model as Haiku, Sonnet, Opus or Fable, and
+the effort as low, medium, high, xhigh or max. The call carries that `model` and the
+matching `kerd:effort-<level>`; the grid shows the plain level and says who does the
+work in plain words, never the routing label. This covers composer, player and reviewer alike — anything
 sent with an `Agent` call. The `model` cell has no exception. The effort cell takes
 the documented fallback when the effort definitions are not loaded in this session:
 a concrete ordinary `subagent_type` with effort shown as “unset and unverified”, and
