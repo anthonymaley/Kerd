@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="gc-title gc-desc">
+  <title id="gc-title">Rehearsal, then the concert</title>
+  <desc id="gc-desc">Work moves through five stages in a row: understand, shape, agree, deliver, complete. The first three are the rehearsal, played turn by turn with you. Deliver is the concert, performed by a team. Underneath both sits the sketchbook, which holds what gets settled as you settle it, and the score, written as you go and then performed. At the end the result is compared with the goals you agreed.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .stage  { font-size: 32px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
+    .span   { font-size: 32px; fill: #4E5D58; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .brace  { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; } .stage { fill: #E5EBE7; }
+      .span { fill: #93A29B; } .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .brace { stroke: #93A29B; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="gc-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- the two ways of working, over the stages they cover -->
+  <text class="span" x="400" y="160" text-anchor="middle">Rehearsal, turn by turn with you.</text>
+  <path class="brace" d="M 60 208 V 192 H 740 V 208" />
+
+  <text class="span" x="880" y="160" text-anchor="middle">The concert.</text>
+  <path class="brace" d="M 780 208 V 192 H 980 V 208" />
+
+  <!-- connectors first -->
+  <line class="line" x1="400" y1="352" x2="400" y2="432" marker-end="url(#gc-arrow)" />
+  <line class="line" x1="400" y1="552" x2="400" y2="592" marker-end="url(#gc-arrow)" />
+  <line class="line" x1="880" y1="592" x2="880" y2="352" marker-end="url(#gc-arrow)" />
+  <text class="sub" x="904" y="520">performed</text>
+  <line class="line" x1="1080" y1="592" x2="1080" y2="352" marker-end="url(#gc-arrow)" />
+  <text class="sub" x="1104" y="520">compared</text>
+
+  <!-- the five stages -->
+  <rect class="box" x="60" y="240" width="200" height="112" />
+  <text class="stage" x="160" y="308" text-anchor="middle">Understand</text>
+
+  <rect class="box" x="300" y="240" width="200" height="112" />
+  <text class="stage" x="400" y="308" text-anchor="middle">Shape</text>
+
+  <rect class="box" x="540" y="240" width="200" height="112" />
+  <text class="stage" x="640" y="308" text-anchor="middle">Agree</text>
+
+  <rect class="box" x="780" y="240" width="200" height="112" />
+  <text class="stage" x="880" y="308" text-anchor="middle">Deliver</text>
+
+  <rect class="box" x="1020" y="240" width="200" height="112" />
+  <text class="stage" x="1120" y="308" text-anchor="middle">Complete</text>
+
+  <!-- what the conversation leaves behind -->
+  <rect class="box-a" x="60" y="432" width="680" height="120" />
+  <text class="h-a"  x="92" y="484">The sketchbook.</text>
+  <line class="hair" x1="92" y1="504" x2="708" y2="504" />
+  <text class="sub"  x="92" y="538">What&#8217;s settled, as you settle it.</text>
+
+  <!-- and what the team performs -->
+  <rect class="box" x="60" y="592" width="1160" height="104" />
+  <text class="h"   x="92" y="640">The score.</text>
+  <text class="sub" x="92" y="676">Written as you go. Performed, then compared with your goals.</text>
+</svg>

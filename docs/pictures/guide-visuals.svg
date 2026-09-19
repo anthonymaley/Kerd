@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="gv-title gv-desc">
+  <title id="gv-title">When a proposal becomes a picture</title>
+  <desc id="gv-desc">On the left, a proposal that carries parts that connect, a branch, a question of who owns what, or a before and after. An arrow marked drawn leads to the right, where the same thing is a saved picture: boxes joined by lines, rendered as a file you can open and agree to. Underneath, what stays as text: a single action, or a plain answer.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .h2     { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
+    .row    { font-size: 36px; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .sub-a  { font-size: 32px; fill: #0B5E4A; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; } .h2 { fill: #E5EBE7; }
+      .row { fill: #E5EBE7; } .sub { fill: #93A29B; } .sub-a { fill: #5CC5A3; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="gv-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- what turns one into the other -->
+  <text class="sub" x="640" y="256" text-anchor="middle">drawn</text>
+  <line class="line" x1="568" y1="288" x2="712" y2="288" marker-end="url(#gv-arrow)" />
+
+  <!-- the proposal, and what makes it qualify -->
+  <rect class="box" x="80" y="88" width="480" height="400" />
+  <text class="h"    x="116" y="152">A proposal.</text>
+  <line class="hair" x1="116" y1="184" x2="524" y2="184" />
+
+  <line class="hair" x1="116" y1="239" x2="144" y2="239" />
+  <text class="row"  x="164" y="250">Parts that connect</text>
+  <line class="hair" x1="116" y1="307" x2="144" y2="307" />
+  <text class="row"  x="164" y="318">A branch</text>
+  <line class="hair" x1="116" y1="375" x2="144" y2="375" />
+  <text class="row"  x="164" y="386">Who owns what</text>
+  <line class="hair" x1="116" y1="443" x2="144" y2="443" />
+  <text class="row"  x="164" y="454">Before and after</text>
+
+  <!-- and what comes back -->
+  <rect class="box-a" x="720" y="88" width="480" height="400" />
+  <text class="h-a"  x="756" y="152">A saved picture.</text>
+  <line class="hair" x1="756" y1="184" x2="1164" y2="184" />
+
+  <line class="line" x1="908" y1="272" x2="1004" y2="272" marker-end="url(#gv-arrow)" />
+  <path class="line" d="M 1088 308 V 324 A 8 8 0 0 1 1080 332 H 968 A 8 8 0 0 0 960 340 V 352"
+        marker-end="url(#gv-arrow)" />
+  <rect class="box" x="756" y="236" width="152" height="72" />
+  <rect class="box" x="1012" y="236" width="152" height="72" />
+  <rect class="box" x="880" y="356" width="152" height="72" />
+
+  <text class="sub-a" x="756" y="470">Open it. Agree to it.</text>
+
+  <!-- and what does not get drawn -->
+  <rect class="box" x="80" y="560" width="1120" height="112" />
+  <text class="h2"  x="116" y="616">What stays text.</text>
+  <text class="sub" x="116" y="652">A single action, or a plain answer.</text>
+</svg>

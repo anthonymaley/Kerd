@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="gs-title gs-desc">
+  <title id="gs-title">From nothing to a saved first sitting</title>
+  <desc id="gs-desc">Four steps, one under the other. First you install it once, inside Claude Code or Codex. Then you open the work and are told where things stand and what is next. Then you do the work, turn by turn, with something delivered as you go. Then you put it down and it is saved, so the next time you sit down you start at step two again.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h     { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a   { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .sub   { font-size: 32px; fill: #4E5D58; }
+    .sub-a { font-size: 32px; fill: #0B5E4A; }
+    .num   { font-size: 32px; fill: #4E5D58; }
+    .box   { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .line  { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head  { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; }
+      .sub { fill: #93A29B; } .sub-a { fill: #5CC5A3; } .num { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="gs-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- connectors first, so the boxes sit over them -->
+  <line class="line" x1="160" y1="200" x2="160" y2="240" marker-end="url(#gs-arrow)" />
+  <line class="line" x1="160" y1="360" x2="160" y2="400" marker-end="url(#gs-arrow)" />
+  <line class="line" x1="160" y1="520" x2="160" y2="560" marker-end="url(#gs-arrow)" />
+
+  <!-- and the loop back, because a sitting ends where the next one starts -->
+  <path class="line" d="M 1000 620 H 1032 A 8 8 0 0 0 1040 612 V 308 A 8 8 0 0 0 1032 300 H 1004"
+        marker-end="url(#gs-arrow)" />
+  <text class="sub" x="1140" y="288" text-anchor="middle">next time,</text>
+  <text class="sub" x="1140" y="324" text-anchor="middle">start here.</text>
+
+  <!-- 1 -->
+  <rect class="box" x="80" y="80" width="920" height="120" />
+  <text class="num" x="120" y="140">1</text>
+  <text class="h"   x="200" y="140">Install it once.</text>
+  <text class="sub" x="200" y="182">In Claude Code, or Codex.</text>
+
+  <!-- 2 -->
+  <rect class="box" x="80" y="240" width="920" height="120" />
+  <text class="num" x="120" y="300">2</text>
+  <text class="h"   x="200" y="300">Open the work.</text>
+  <text class="sub" x="200" y="342">Where things stand, and what&#8217;s next.</text>
+
+  <!-- 3 -->
+  <rect class="box" x="80" y="400" width="920" height="120" />
+  <text class="num" x="120" y="460">3</text>
+  <text class="h"   x="200" y="460">Do the work.</text>
+  <text class="sub" x="200" y="502">Turn by turn, delivering as you go.</text>
+
+  <!-- 4, the one that makes the next time cheap -->
+  <rect class="box-a" x="80" y="560" width="920" height="120" />
+  <text class="num"   x="120" y="620">4</text>
+  <text class="h-a"   x="200" y="620">Put it down.</text>
+  <text class="sub-a" x="200" y="662">Saved, so next time starts here.</text>
+</svg>

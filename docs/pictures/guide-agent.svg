@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="ga-title ga-desc">
+  <title id="ga-title">A second AI, working with you</title>
+  <desc id="ga-desc">Your session on the left, the partner you named on the right: Claude and Codex, either way round. A request goes out and the answer comes back and is read. Underneath the pair sits the arrangement you agree once: the role that partner holds, and when it reviews — at checkpoints, before a push, at the end, or only when you ask. At the bottom, the limit: a partner reads, it cannot approve.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .h2     { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
+    .row    { font-size: 32px; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .band   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; } .h2 { fill: #E5EBE7; }
+      .row { fill: #E5EBE7; } .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .band { stroke: #93A29B; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="ga-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- out, and back -->
+  <text class="sub" x="640" y="112" text-anchor="middle">a request</text>
+  <line class="line" x1="488" y1="140" x2="792" y2="140" marker-end="url(#ga-arrow)" />
+  <line class="line" x1="792" y1="204" x2="488" y2="204" marker-end="url(#ga-arrow)" />
+  <text class="sub" x="640" y="236" text-anchor="middle">the answer back</text>
+
+  <!-- the two ends -->
+  <rect class="box" x="80" y="88" width="400" height="160" />
+  <text class="h"   x="116" y="152">Your session.</text>
+  <text class="sub" x="116" y="200">Claude, or Codex.</text>
+
+  <rect class="box" x="800" y="88" width="400" height="160" />
+  <text class="h"   x="836" y="152">Your partner.</text>
+  <text class="sub" x="836" y="200">Named once, kept.</text>
+
+  <!-- the arrangement underneath -->
+  <line class="band" x1="80" y1="288" x2="1200" y2="288" />
+  <line class="line" x1="340" y1="288" x2="340" y2="316" marker-end="url(#ga-arrow)" />
+  <line class="line" x1="940" y1="288" x2="940" y2="316" marker-end="url(#ga-arrow)" />
+
+  <rect class="box" x="80" y="320" width="520" height="248" />
+  <text class="h2"   x="116" y="376">The role it holds.</text>
+  <line class="hair" x1="116" y1="400" x2="564" y2="400" />
+  <text class="row"  x="116" y="444">a pairing partner</text>
+  <text class="row"  x="116" y="478">an implementation partner</text>
+  <text class="row"  x="116" y="512">an independent reviewer</text>
+  <text class="row"  x="116" y="546">a specialist adviser</text>
+
+  <rect class="box" x="680" y="320" width="520" height="248" />
+  <text class="h2"   x="716" y="376">When it reviews.</text>
+  <line class="hair" x1="716" y1="400" x2="1164" y2="400" />
+  <text class="row"  x="716" y="444">at checkpoints</text>
+  <text class="row"  x="716" y="478">before a push</text>
+  <text class="row"  x="716" y="512">at the end</text>
+  <text class="row"  x="716" y="546">only when you ask</text>
+
+  <!-- the limit -->
+  <rect class="box-a" x="80" y="608" width="1120" height="88" />
+  <text class="h-a" x="116" y="666">A partner reads. It cannot approve.</text>
+</svg>

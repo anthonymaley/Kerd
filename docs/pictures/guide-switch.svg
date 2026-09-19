@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="gsw-title gsw-desc">
+  <title id="gsw-title">The two ends of a sitting</title>
+  <desc id="gsw-desc">When you sit down you get a page: where things stand, what is open, what is next and why, and then one question. You work. When you stop you get a closing box: what changed, the next step and why, and whether it really saved. Between the two sits your saved place, handed back the next time you sit down. Two more moves use the same saved place: carrying your exact position to another machine, and carrying an agreed build on into a fresh window.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h     { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a   { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .h2    { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
+    .row   { font-size: 36px; fill: #0B1512; }
+    .sub   { font-size: 32px; fill: #4E5D58; }
+    .box   { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair  { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .band  { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .line  { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head  { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; } .h2 { fill: #E5EBE7; }
+      .row { fill: #E5EBE7; } .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .band { stroke: #93A29B; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="gsw-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- the working stretch between the two ends -->
+  <text class="sub" x="640" y="196" text-anchor="middle">you work</text>
+  <line class="line" x1="568" y1="228" x2="712" y2="228" marker-end="url(#gsw-arrow)" />
+
+  <!-- what is saved, and what is handed back -->
+  <path class="line" d="M 960 400 V 476 A 8 8 0 0 1 952 484 H 868" marker-end="url(#gsw-arrow)" />
+  <text class="sub" x="984" y="452">saved</text>
+  <path class="line" d="M 420 484 H 328 A 8 8 0 0 1 320 476 V 404" marker-end="url(#gsw-arrow)" />
+  <text class="sub" x="296" y="452" text-anchor="end">handed back</text>
+
+  <!-- you sit down -->
+  <rect class="box" x="80" y="56" width="480" height="344" />
+  <text class="h"    x="116" y="120">You sit down.</text>
+  <line class="hair" x1="116" y1="152" x2="524" y2="152" />
+  <text class="row"  x="116" y="212">Where things stand</text>
+  <line class="hair" x1="116" y1="240" x2="524" y2="240" />
+  <text class="row"  x="116" y="268">What&#8217;s open</text>
+  <line class="hair" x1="116" y1="296" x2="524" y2="296" />
+  <text class="row"  x="116" y="324">What&#8217;s next, and why</text>
+  <line class="hair" x1="116" y1="352" x2="524" y2="352" />
+  <text class="sub"  x="116" y="382">Then one question.</text>
+
+  <!-- you stop -->
+  <rect class="box" x="720" y="56" width="480" height="344" />
+  <text class="h"    x="756" y="120">You stop.</text>
+  <line class="hair" x1="756" y1="152" x2="1164" y2="152" />
+  <text class="row"  x="756" y="212">What changed</text>
+  <line class="hair" x1="756" y1="240" x2="1164" y2="240" />
+  <text class="row"  x="756" y="268">The next step, and why</text>
+  <line class="hair" x1="756" y1="296" x2="1164" y2="296" />
+  <text class="row"  x="756" y="324">Saved, or honestly not</text>
+  <line class="hair" x1="756" y1="352" x2="1164" y2="352" />
+  <text class="sub"  x="756" y="382">It won&#8217;t fake a save.</text>
+
+  <!-- the thing in the middle -->
+  <rect class="box-a" x="420" y="440" width="440" height="88" />
+  <text class="h-a" x="640" y="498" text-anchor="middle">Your saved place.</text>
+
+  <!-- the same place carries two more moves -->
+  <line class="band" x1="80" y1="556" x2="1200" y2="556" />
+  <line class="line" x1="340" y1="556" x2="340" y2="584" marker-end="url(#gsw-arrow)" />
+  <line class="line" x1="940" y1="556" x2="940" y2="584" marker-end="url(#gsw-arrow)" />
+
+  <rect class="box" x="80" y="588" width="520" height="104" />
+  <text class="h2"  x="116" y="634">To another machine.</text>
+  <text class="sub" x="116" y="674">your place, handed over</text>
+
+  <rect class="box" x="680" y="588" width="520" height="104" />
+  <text class="h2"  x="716" y="634">To a fresh window.</text>
+  <text class="sub" x="716" y="674">an agreed build carries on</text>
+</svg>

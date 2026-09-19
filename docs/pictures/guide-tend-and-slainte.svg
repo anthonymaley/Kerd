@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="health-title health-desc">
+  <title id="health-title">Two halves of project health</title>
+  <desc id="health-desc">One project, checked two ways. One pass looks at the structure: the folders and files, the names and layout, stray files and the hooks. The other looks at the words: claims that have drifted from the code, counts gone stale, release notes that no longer match what shipped. Each finding comes with what it found and why, and you choose what gets fixed.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .row    { font-size: 32px; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .rule-a { stroke: #0B5E4A; stroke-width: 3; fill: none; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; }
+      .row { fill: #E5EBE7; } .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .hair { stroke: #223029; }
+      .rule-a { stroke: #5CC5A3; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="health-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- the project, checked two ways -->
+  <rect class="box" x="80" y="40" width="1120" height="88" />
+  <text class="h" x="112" y="96">Your project.</text>
+
+  <line class="line" x1="340" y1="128" x2="340" y2="184" marker-end="url(#health-arrow)" />
+  <line class="line" x1="940" y1="128" x2="940" y2="184" marker-end="url(#health-arrow)" />
+
+  <!-- the shape of it -->
+  <rect class="box" x="80" y="200" width="520" height="320" />
+  <text class="h" x="112" y="264">The structure.</text>
+  <line class="hair" x1="112" y1="296" x2="568" y2="296" />
+  <text class="row" x="112" y="356">folders and files</text>
+  <text class="row" x="112" y="412">names and layout</text>
+  <text class="row" x="112" y="468">stray files and hooks</text>
+
+  <!-- the words in it -->
+  <rect class="box" x="680" y="200" width="520" height="320" />
+  <text class="h" x="712" y="264">The words.</text>
+  <line class="hair" x1="712" y1="296" x2="1168" y2="296" />
+  <text class="row" x="712" y="356">claims that drifted</text>
+  <text class="row" x="712" y="412">counts gone stale</text>
+  <text class="row" x="712" y="468">notes vs what shipped</text>
+
+  <text class="sub" x="80"  y="568">kept in shape</text>
+  <text class="sub" x="712" y="568">kept honest</text>
+
+  <!-- the one thing that ends both -->
+  <line class="rule-a" x1="80" y1="608" x2="1200" y2="608" />
+  <text class="h-a" x="80" y="672">It shows what it found. You choose what to fix.</text>
+</svg>

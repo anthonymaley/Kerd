@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="concert-title concert-desc">
+  <title id="concert-title">The concert</title>
+  <desc id="concert-desc">Once the work is agreed it is written down as a score. Four agents each take one part and work at the same time. Every return is checked against its part of the score, a second AI reads the work too, and the whole result is compared with your goals before it ends.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 44px; font-weight: 600; letter-spacing: -0.024em; fill: #0B1512; }
+    .h2     { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 44px; font-weight: 600; letter-spacing: -0.024em; fill: #0B5E4A; }
+    .name   { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .tiny   { font-size: 28px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h2 { fill: #E5EBE7; } .h-a { fill: #5CC5A3; }
+      .name { fill: #E5EBE7; } .sub { fill: #93A29B; } .tiny { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="concert-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- connectors first, so boxes sit over them -->
+  <line class="line" x1="200" y1="152" x2="200" y2="232" marker-end="url(#concert-arrow)" />
+  <line class="line" x1="392" y1="152" x2="392" y2="232" marker-end="url(#concert-arrow)" />
+  <line class="line" x1="584" y1="152" x2="584" y2="232" marker-end="url(#concert-arrow)" />
+  <line class="line" x1="776" y1="152" x2="776" y2="232" marker-end="url(#concert-arrow)" />
+
+  <line class="line" x1="200" y1="344" x2="200" y2="424" marker-end="url(#concert-arrow)" />
+  <line class="line" x1="392" y1="344" x2="392" y2="424" marker-end="url(#concert-arrow)" />
+  <line class="line" x1="584" y1="344" x2="584" y2="424" marker-end="url(#concert-arrow)" />
+  <line class="line" x1="776" y1="344" x2="776" y2="424" marker-end="url(#concert-arrow)" />
+
+  <line class="line" x1="920" y1="480" x2="856" y2="480" marker-end="url(#concert-arrow)" />
+  <line class="line" x1="488" y1="536" x2="488" y2="608" marker-end="url(#concert-arrow)" />
+
+  <!-- the score -->
+  <rect class="box" x="120" y="48" width="1080" height="104" />
+  <text class="h"   x="152" y="104">The score.</text>
+  <text class="sub" x="152" y="140">The work, agreed and written down.</text>
+
+  <!-- the players -->
+  <rect class="box" x="120" y="232" width="160" height="112" />
+  <text class="name" x="200" y="296" text-anchor="middle">Agent</text>
+  <text class="tiny" x="200" y="328" text-anchor="middle">its part</text>
+
+  <rect class="box" x="312" y="232" width="160" height="112" />
+  <text class="name" x="392" y="296" text-anchor="middle">Agent</text>
+  <text class="tiny" x="392" y="328" text-anchor="middle">its part</text>
+
+  <rect class="box" x="504" y="232" width="160" height="112" />
+  <text class="name" x="584" y="296" text-anchor="middle">Agent</text>
+  <text class="tiny" x="584" y="328" text-anchor="middle">its part</text>
+
+  <rect class="box" x="696" y="232" width="160" height="112" />
+  <text class="name" x="776" y="296" text-anchor="middle">Agent</text>
+  <text class="tiny" x="776" y="328" text-anchor="middle">its part</text>
+
+  <!-- every return checked -->
+  <rect class="box" x="120" y="424" width="736" height="112" />
+  <text class="h2"  x="152" y="484">Every return checked.</text>
+  <text class="sub" x="152" y="520">against its part of the score</text>
+
+  <!-- and read independently -->
+  <rect class="box" x="920" y="424" width="280" height="112" />
+  <text class="sub" x="952" y="472">A second AI</text>
+  <text class="sub" x="952" y="508">reads it too.</text>
+
+  <!-- the one thing that ends it -->
+  <rect class="box-a" x="120" y="608" width="1080" height="88" />
+  <text class="h-a" x="152" y="666">Compared with your goals before it ends.</text>
+</svg>

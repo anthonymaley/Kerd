@@ -1,18 +1,78 @@
 # Kerd
 
-"Ceird" means skill in Gaelic. Respelled.
+Kerd turns working with an AI from a string of chats into a piece of work. It
+remembers where you are, helps you agree what you are making, then performs it
+with a team of agents and checks the result against what you asked for.
 
-![Kerd — the whole system](docs/design/kerd-map.svg)
+**Who it is for:** people already working in Claude Code or Codex, in a project
+folder tracked by Git. If that is not you yet, set those up first; Kerd does not
+replace them. **How new it is:** picking work up and putting it down has been in
+daily use for months. Rehearsal and the concert shipped in 0.139.0, and the
+README, guides and site you are reading are their first real use.
 
-**What is Kerd?** Twelve workflow skills for Claude Code, plus the working method they serve. The skills handle the operational side of working across sessions and machines: when to pull, what to commit, where to put notes, how to audit for drift, and how Claude and Codex contribute through their native sessions. Underneath them, every piece of work climbs the same seven-rung ladder (frame → viability → scope → design → handoff → loop → acceptance), and the repo carries machinery that can actually say no: gates that route work by what exists on disk, audits that turn silence into a named red light, and a progress board derived from disk rather than self-reported.
+![A day with Kerd: sit down and pick up, rehearse, call it ready, perform the concert, put it down](docs/pictures/how-kerd-works.svg)
 
-**Why should you care?** Because AI-assisted work has a silence problem. Things pass as "done" when nothing was in place to ask the question: was the risk sized? was the background read? was security ever even mentioned? A model choosing to comply is not a check. Kerd's answer is refusal from outside the model: CI that goes red at the exact push that broke a promise, with the fix named in the message. The skills keep you fast; the machinery keeps you honest.
+**Kerd runs inside Claude Code or Codex.** It is a plugin: twelve skills you call
+by name, plus the records they keep on disk so the next sitting, meaning one
+stretch of work from opening the project to putting it down, can read them.
+
+The work is whatever those two tools can do inside a project folder: code, a set
+of documents, a research write-up, a website. This README, the guides, the
+pictures and the site in this repo were made with Kerd in one piece of work, and
+most of it is prose and drawings rather than code. What you need is one of the two
+tools, a project folder tracked by Git, because Kerd keeps its records as files in
+that folder and saves them with Git, and ordinary language. Kerd adds no server,
+no inbox and no service of its own.
+
+## Why you would care: three things that go wrong today
+
+### You lose your place
+
+Every new chat starts from nothing, and you re-explain. With Kerd you sit down
+and it tells you where things stand, what is open, and the one thing it would do
+next and why. On this machine or another.
+
+![Picking up where you left off: last sitting's saved place becomes this sitting's arrival](docs/pictures/pick-up-where-you-left-off.svg)
+
+Guide: [Switch](docs/guide/switch.md).
+
+### What you want never gets pinned down
+
+The AI starts building before either of you knows what "done" means. With Kerd
+you rehearse: work it through turn by turn, still delivering as you go, while
+Kerd keeps a sketchbook, a running note of what is settled, one per piece of
+work, and draws pictures you can agree to. Ask "where are we?" at any point and
+it answers from that sketchbook.
+
+![Rehearsal: turn by turn, a sketchbook of what is settled, pictures to agree](docs/pictures/rehearsal.svg)
+
+Guides: [Conductor](docs/guide/conductor.md), [Visuals](docs/guide/visuals.md).
+
+### It's done when your spec and goals are met
+
+Today everything stays turn by turn, and done is whatever the AI says it is. With
+Kerd, once you are ready, the work is written as a score, the plan with one step per
+part, and performed as a concert: many players, each an agent given one step and
+running alongside the others, every return checked, the result compared with your
+goals before it ends. A gap the score cannot answer stops that part and comes
+back to you in the chat for that one point, not to the start. A second AI can
+read the work too: another Claude or Codex session, either a partner you have
+already paired with, which knows the project, or a fresh reviewer started for that
+one job and given the brief and the sources, not the builder's account of what it
+did.
+
+![The concert: a score, players working in parallel, every return checked, the result compared with your goals](docs/pictures/the-concert.svg)
+
+Guides: [Conductor](docs/guide/conductor.md), [Agent](docs/guide/agent.md).
+
+As said at the top, this part is new, so nothing below claims more than the repo
+can show.
 
 ## Install
 
 ```
-claude plugins add-marketplace anthonymaley/Kerd
-claude plugins install kerd
+claude plugin marketplace add anthonymaley/Kerd
+claude plugin install kerd@kerd-marketplace
 ```
 
 **Try a version before adopting it**, without touching your global setup:
@@ -23,6 +83,119 @@ claude --plugin-dir /absolute/path/to/kerd
 
 A same-name local plugin takes precedence for that session only. Closing it
 restores the ordinary setup; nothing is installed or disabled globally.
+
+## Your first five minutes
+
+Open the project folder you want to work in and say:
+
+```
+/kerd:switch in
+```
+
+Kerd reads the project and tells you where things stand in plain English. This is
+the real arrival from the sitting that made this package, on 2026-09-18, cut down
+to fit here:
+
+> **KERD · SWITCH IN COMPLETE ✓**
+>
+> | PROJECT | PHASE | NEXT | TEAM |
+> | --- | --- | --- | --- |
+> | Kerd | released, not yet seen in use | Rehearse one real piece of work with 0.139.0. | Claude (build and release; arrival and closeout checks) + Codex (expert review and investigation) |
+>
+> **Where things stand:** Kerd 0.139.0 is out: Conductor now works as rehearsal
+> … and then a concert performed by fanned-out players and checked against the
+> agreed goals. It is wording only and nobody has used it on real work yet.
+>
+> **Open work**
+>
+> 1. Rehearse one real piece of work with 0.139.0 and record what Conductor
+>    actually does … [the owner] picks the work and the project.
+> 2. Watch the arrival and closing screens over several sittings …
+>
+> **Recommended:** Rehearse one real piece of work with 0.139.0.
+>
+> **Why:** … It is wording a model may or may not follow, and it has no test, so
+> only a real sitting shows which.
+>
+> > 💬 **Start a Conductor session?**
+
+Say yes to the work it recommends, or name something else. Then work. Talk it
+through, change your mind, ship as you go. When you stop:
+
+```
+/kerd:switch out
+```
+
+That saves the place: what changed, what got settled, what comes next and why.
+The following sitting starts from it, here or on another machine.
+
+Step by step, including what each question means and what to do when something is
+missing: [getting started](docs/guide/getting-started.md).
+
+## What Kerd lets you do
+
+| You can | The skill | Guide |
+|---|---|---|
+| Put work down and pick it up exactly where you left it | Switch | [switch](docs/guide/switch.md) |
+| Shape a piece of work, agree it, and have it performed | Conductor | [conductor](docs/guide/conductor.md) |
+| See it: pictures of what you are making, as you go | Visuals | [visuals](docs/guide/visuals.md) |
+| Get a second opinion from another AI session, Claude or Codex | Agent | [agent](docs/guide/agent.md) |
+| Work in quick back-and-forth instead of long reports | Pair | [pair](docs/guide/pair.md) |
+| Stress-test an idea before you spend on it | Interrogate | [interrogate](docs/guide/interrogate.md) |
+| Keep the project tidy and catch what has drifted | Tend, Slainte | [tend and slainte](docs/guide/tend-and-slainte.md) |
+| Find tools you are missing | Lorg | [lorg](docs/guide/lorg.md) |
+| Keep what you learn, and write like a person | Kivna, Skriv | [kivna and skriv](docs/guide/kivna-and-skriv.md) |
+
+Every command, one line each: [reference](docs/guide/reference.md).
+
+Kerd also carries checks that refuse from outside the model: a ladder each work
+item climbs, gates that read what is actually on disk, an audit that sweeps the
+repo, and CI, the checks GitHub runs on a push, going red at the push that broke
+a promise. None of it is needed to use Kerd day to day, and it has its own page:
+[checks that can say no](docs/guide/checks-that-can-say-no.md).
+
+## What it writes, and how to remove it
+
+Kerd keeps four kinds of file in your project. All four are ordinary Markdown:
+open them, read them, edit them, commit them.
+
+| File | What it holds |
+|---|---|
+| `CONTEXT.md` | what is currently true about the project, overwritten each time, never a diary |
+| `TODO.md` | open work only: `## Now` and `## Backlog`, one line each |
+| `kivna/sessions/YYYY-MM-DD.md` | one log per day: what was done, key decisions, commits, what is next |
+| `docs/work/<name>/work.md` | one record per piece of work: the direction, what is settled, what is still open |
+
+Switch Out saves them with Git, and it commits the files it names and nothing
+else. It pushes when you have given it the authority to push; a
+local-only save is a valid choice and needs no push permission or GitHub access.
+
+To remove Kerd:
+
+```
+claude plugin uninstall kerd@kerd-marketplace
+```
+
+The four files stay in your project. They were readable without Kerd the whole
+time.
+
+## What it costs
+
+Rehearsal is an ordinary conversation: one session, one model, the cost of a
+chat. A concert is not. It runs several players at the same time, each its own
+agent, and then a second AI reads the result, so a concert spends more than the
+same work done in one chat. Nobody has measured how much more, and this page is
+not going to guess at a number.
+
+## Examples
+
+Real work, not invented.
+
+- [MusicTUI across sittings](examples/musictui-across-sittings.md). A terminal app carried through many sittings, the place saved and picked up each time.
+- [A reviewed release](examples/a-reviewed-release.md). A Kerd release read by an independent second AI before it shipped.
+- [This package](examples/this-package.md). The README, site and guides you are reading now, from rehearsal to concert.
+
+## Rolling back
 
 **Rollback is a Git reference, never a cached plugin file.** Claude Code garbage-
 collects old versions out of `~/.claude/plugins/cache/`, so a version you can see
@@ -40,7 +213,21 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
+## Naming
+
+Gaelic-inspired where it adds character:
+- **Kerd**: skill (ceird)
+- **Kivna**: memory (cuimhne)
+- **Conductor**: keeps one session in tempo (renamed from *dian*, Gaelic for intense/rigorous)
+- **Skriv**: the act of writing (scríobh)
+- **Switch**: session handoff
+- **Slainte**: health (slàinte)
+- **Tend**: from English "to tend" (care for, maintain)
+- **Lorg**: to seek, track down
+
 ## What's New (v0.139.0)
+
+Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
 
 ### v0.139.0
 
@@ -141,7 +328,7 @@ Not yet observed on a real arrival.
 ### v0.134.0
 
 **A diagram that only a reader of the source can follow is not doing its job.**
-Anthony supplied two versions of one card — implementation-first against product
+The owner supplied two versions of one card — implementation-first against product
 language — and Visuals now carries the difference as contract. Code references sit
 in a subordinate evidence layer; removing them must leave the main relationship
 understandable without the source, and a solution, proposal or correction view must
@@ -986,7 +1173,7 @@ when any of these stops happening, which is why they are written down here.
 
 ### v0.90.0
 
-**The boundary lost its cheap modes, and that is a real loss.** `/switch out light` and `/switch in low` are gone — the argument is told in full under [On cheap boundaries](#how-they-fit-together). The same release put ladder position on both halves of the boundary (the old steps named two progress files that had never existed here, so they silently did nothing while the derived board went unread), made CONTEXT.md append-only between licensed prune events, added a no-silent-truncation rule to "read in full", and gave closure inference its fourth verdict, `dead`, for a row that is undone but whose reason has gone. Switch got shorter while gaining four rules, because deleting the modes deleted every "skip this if light" clause with them.
+**The boundary lost its cheap modes, and that is a real loss.** `/switch out light` and `/switch in low` are gone — the argument is told in full under "On cheap boundaries". The same release put ladder position on both halves of the boundary (the old steps named two progress files that had never existed here, so they silently did nothing while the derived board went unread), made CONTEXT.md append-only between licensed prune events, added a no-silent-truncation rule to "read in full", and gave closure inference its fourth verdict, `dead`, for a row that is undone but whose reason has gone. Switch got shorter while gaining four rules, because deleting the modes deleted every "skip this if light" clause with them.
 
 ### v0.89.0
 
@@ -1009,537 +1196,6 @@ when any of these stops happening, which is why they are written down here.
 **Releases now check their own story.** Before, slainte was a read-only audit you had to remember to run — and nobody did: the mechanical checks moved into CI, and the judgment layer (does the README still describe what shipped? is What's New honest?) ran never. Now the release moment itself triggers it: when a conductor session's work bumps the plugin version, close-out runs tend's drift check and slainte's narrative pass before the boundary. Slainte fixes what drifted — as normal work commits under the verification gate, with skriv auditing any prose it writes — and its report names what it deliberately left alone, so restraint is visible instead of assumed. The hand-kept `.slainte` config file is gone; audit targets derive from the repo. What it means: the doc surface gets one honest pass per release instead of zero, CI keeps the mechanical layer, and `/slainte` still answers on demand.
 
 *Release notes for v0.84.0 and earlier live in git history — `git log --follow README.md`.*
-
-## Skills
-
-### drive (Work Item Umbrella)
-
-Drive walks one work item from idea to acceptance, across as many sessions as it takes, and calls conductor for each sitting's work without changing it. It reads the item's rung from disk (`gate.py route`, never the board renderer), shows `now > X, next Y, after Z`, and at the frame gate runs a question set: you declare the work type from the seeds in `docs/work/question-sets/`, the set is copied into the work record's `## Question set`, you edit it first, and the frame gate holds the item at `frame` until every entry carries an answer. Counted, never judged — the answers are yours. Conductor owns the session; switch owns the session boundary; Drive owns the item.
-
-```
-/drive <slug>        # pick the item up where disk says it is, or start it
-/drive               # list every item and where it sits
-```
-
-### conductor (Session Discipline)
-
-**Rehearsal, then the concert.** Most work is rehearsal: you and the AI playing it
-through turn by turn, always delivering, with no gates or required order.
-Conductor guides and interviews toward what a concert needs and keeps a
-sketchbook of what gets settled, so you can always ask where things stand. When
-either of you calls Ready, the score (written as you go, by Conductor or the
-composer) is performed: agents fan out with their own parts, long builds roll
-through fresh context, and the result is compared with your goals before the work
-is called done. Small work never needs a concert.
-
-**Where your work stands.** For a work item with a record in your project
-(`docs/product/<slug>.md`), Conductor checks its step when it picks the work up
-and before a build: one plain line on the step and what the next one needs, an
-offer to do missing groundwork, and a go-ahead recorded in the work record if
-you choose to skip it, shown again at the next pickup. It names your project explicitly and says so rather than guessing when it
-cannot tell which project it is in.
-
-During delegation, Conductor shows a task/route/model-requested/effort/status
-grid and updates it through actual dispatch, return and checked results. Short
-updates show applicable prompt guidance being checked and how many prompt briefs
-or full requests were saved, distinguishing shareable files from private records.
-Unknown effort stays unknown; a native subagent is not
-mislabelled as a Kerd Agent request. These updates expose real work, not a
-mandatory worker count or a new approval step.
-
-Its startup uses that same grid for the controller and actual Conductor-written
-delegated steps and composer work, including a one-row inline decision when no
-worker is useful. It assesses the task and suitable available pairs before
-retaining or inheriting the current settings; the main model and effort are
-labelled by their evidence, not guessed from defaults. It recommends a change
-when the current pair materially exceeds or misses the work's needs, but
-doesn't change your session settings itself. A **Fit** line under the grid gives
-that reason for the controller and for every composer, player and reviewer it
-selects, and again whenever a model, effort or route changes. Every native Claude
-job it dispatches — composer, player or reviewer — names both halves in the call:
-`model` requests Haiku, Sonnet, Opus or Fable, and a `kerd:effort-<level>` agent sets
-the effort, with the grid naming both concretely before the call goes out. An
-inherited or unnamed model is not a valid plan, because an omitted `model` falls
-through to an environment default or the caller's model — one the call never
-selected. Naming it is a request, not a guarantee: a forced-model host setting or
-an organization allowlist can still substitute another, so the model and effort it
-actually ran with are shown as observed once it returns.
-
-When an established Agent partner exists, Conductor plans its reviews from the
-pairing's recorded review cadence (checkpoints, before push, at the end, or only
-on request) and shows them in the grid; with no cadence recorded it proposes one
-and asks once. A later change repeats the gate it invalidated. After each
-returned edit it reads the actual change set against a baseline taken before
-dispatch, including new, ignored, binary and symlinked files, and shows a
-`Change read` line rather than trusting the player's own checks.
-
-Conductor can be offered for a substantial build, design or workflow request,
-whether new or continuing in an existing repo. When chosen it guides work
-through **Understand → Shape → Agree → Deliver → Complete**. It
-holds the conversation that works out what you actually want, agrees it before
-building, delivers, and gets an independent assessment. Work can be software,
-research, a commercial offer, a process or any other repo-based outcome.
-
-It handles small explicit changes directly rather than dragging them through a full
-intake, and a status or review request does not start one either. Interrupted work
-resumes where it stopped.
-
-For a sustained authorized local build, Conductor can start its
-[managed decision loop](skills/conductor/references/managed-conductor.md) from
-the outset. A local driver carries scoped work, contribution dispositions and
-independent review through fresh contexts; ordinary approval is not repeated at
-rollover. Codex is the pressure-aware coordinator/implementation adapter; worker
-Roll can also watch an unattended Claude run and roll it at 65% of its context
-window into a fresh run from its saved place, never by compaction. Either
-chat can be the control surface, but no arbitrary open TUI is replaced. Native
-process loss or uncertain work requires inspection, never a blind second launch.
-
-Switch In restores and recommends without loading Conductor, then always ends on
-*“Start a Conductor session?”*. Choosing work opens
-Conductor at Shape for it; an explicitly selected and authorized task invokes
-actual work. It does not
-silently substitute work or create native sessions, and managed Roll retains its
-separate continuation.
-
-Every guided task gets assessed for model/effort fit, who writes its steps —
-Conductor, composer or inline — and who performs them before it starts,
-including small tasks and new diagnosis branches.
-A task is a user-visible job with its own result, not each tool call. At startup
-and meaningful changes it shows the stage, owner and boundary and which jobs contributors can
-own. Useful surveys, disjoint edits and checks are delegated when the available
-route and authority permit; retained jobs get a practical reason. Keeping a
-coupled implementation inline doesn't silently keep all its research and checking
-there too. It shows the split, avoids overlapping edits and owns integration
-and assessment. Small coupled work does not need an extra agent; resumed work
-reuses settled assignments.
-
-Conductor uses four responsibilities when a score is useful: the **producer**
-holds intent, priorities and consequential agreement; a bounded **composer**
-writes only the passages it is asked for and returns the score to Conductor,
-never dispatching; **Conductor** chooses who writes each step, writes clear
-steps itself, staffs, dispatches, integrates and judges evidence against them;
-**players** execute complete score steps and return their evidence. These are
-responsibilities, not permanent provider brands. A composer call neither
-approves work nor becomes the controller or independent reviewer.
-
-Conductor chooses one of three routes for each piece of executable work, and
-delegation is the default whenever a job can be briefed and checked and is worth
-its handoff cost. (1) When the outcome, approach, files and checks are already
-settled, Conductor writes complete steps itself and delegates them, fanning out
-independent steps to parallel players. (2) When the specification still needs design or reasoning
-Conductor cannot settle confidently, composition is two-pass: the composer
-first receives intent, boundaries and constraints and names the smallest
-needed reading set; Conductor retrieves exactly that terrain, the relevant
-agreement and available routes, then the composer writes the score beside the
-work record. If composition is unavailable, Conductor records the limit and
-authors a fallback score against the same checks; it does not silently
-substitute a named partner or ask again for unchanged authority. (3) Only
-tiny, tightly coupled or judgment-bound work stays inline, with a stated
-concrete reason.
-
-Each complete score step states its intended result, relevant rationale, exact
-terrain, dependencies, owned boundary, authority, success/evidence and
-verification where appropriate. Only after that body is written does Conductor
-choose to delegate or keep it, based on judgment, transfer, access, consequences
-and review needs as well as mechanical verifiability. The complete step is the
-reusable shareable brief; a send adds only necessary transport facts such as the
-project root, recipient, dependency result, route/tool rights, supported
-requested controls, result destination or private framing. The work record and
-live grid identify those supplements without inventing a duplicate prompt.
-
-If player evidence fails a sound step, Conductor can re-dispatch the same
-semantics with that evidence. A contradiction, impossible premise, missing
-consequential decision or other score defect returns to whoever wrote that
-step — Conductor or the composer — with its affected passage and evidence; it
-is not silently rewritten to pass a check. Whoever wrote the passage repairs
-it while preserving prior requirements, and material outcome, quality, scope
-or authority changes return to the producer. Requested and observed settings,
-preparing/submitted/running/returned/checked states, and
-unresolved repair/attempt state remain distinct. Every assignment consults
-matching model guidance before sending, or discloses the clear-contract fallback.
-See the [startup contract](skills/conductor/references/orchestration.md),
-[working view](skills/conductor/references/journey.md) and
-[work record](skills/conductor/references/work-record.md).
-
-```
-/kerd:conductor              # start, or resume saved work
-```
-
-Supporting detail lives beside the skill: `references/understanding.md` (the
-intake conversation), `references/journey.md` (how a build is laid out),
-`references/execution.md` (delivery and checking), `references/model-jobs.md`
-(which model does which job), `references/work-record.md` (what gets written down).
-
-### agent (Claude/Codex Partners)
-
-Get a contribution from an existing session with context, a fresh independent
-worker, or a new ongoing partner. Kerd handles session IDs, prompt preparation
-using the applicable model guidance, native submission and result retrieval.
-Established project partners are the default; ambiguous targets are shown as
-session choices. A review request does not authorize edits or publication.
-Session choices lead with pairing role, alias and short ID; the saved native
-title is secondary and may describe old work. Known recent exchanges are labelled
-as recorded, not current activity.
-Define the ongoing role when pairing ("Use Codex as reviewer"), then reuse it;
-a one-off job does not change it. Pairing also asks once how that partner
-reviews (`checkpoints`, `before-push`, `end`, or `on-request` alone), carries it
-across session changes, and Conductor reads it with `agent.py partners`. A
-cadence schedules review inside authorized work only; it grants nothing. Roles and IDs stay in private pairing metadata,
-not a tracked roster, and neither roles nor aliases grant permissions.
-After a clear or restart, Agent verifies the host's actual ID rather than guessing
-from the terminal lifetime. A saved role designation or explicit replacement
-selection lets the successor update that private binding; stale expectations
-refuse and old request targets remain intact. See
-[session succession](skills/agent/references/session-succession.md) for the
-supported hosts, handoff checks and limits. Record-based adoption retains a
-private restart receipt: Claude can recover the same role after another loss
-when the saved account and machine match and its predecessor is no longer
-natively listed. Retired IDs cannot automatically reclaim it. This recovers
-routing, not unsaved work; Codex new-ID crash recovery remains unsupported.
-
-```text
-/kerd:agent help
-/kerd:agent show sessions
-/kerd:agent ask Claude to review, RO
-/kerd:agent start a Codex pairing partner
-/kerd:agent anything back from Codex?
-```
-
-These are conversational examples, not fixed subcommands. See the
-[user guide](skills/agent/references/user-guide.md) for everyday use and
-[native-session reference](skills/agent/references/native-sessions.md) for setup.
-Both providers use their existing CLI sign-in. Discovery covers Claude native
-sessions, Codex's shared server, and the Codex sessions you opened in terminals
-(reached by `codex queue`, activity unknown until they answer) — not every
-desktop/IDE session. New partners
-default to read-only; the Claude launcher has file tools, not shell tests or
-nested delegation. Missing dependencies and held messages require disclosed
-setup, never a silent settings change. The separate three-skill trial package
-does not include Agent; this marketplace release does.
-
-### interrogate (Risk Ledger)
-
-Interrogate qualifies the risks of a plan or idea until every one is sized, evidenced, with Severity and Treatment each stated — because a named, unsized risk reads as managed, and that is the failure this skill exists to stop. The interview engine is unchanged: one question per turn, no extrapolation, graduated adversarial lean (gather → probe → stress-test → adversarial), user-veto on stop, deterministic pause/resume from frontmatter session state, and row-by-row recitation before co-sign. The output is the tiered risk ledger: ten columns (Risk / Killer? / Impact / Likelihood / Risk evidence / Severity / Treatment / Countermeasure / Treatment evidence / Review trigger), Severity fatal or non-fatal, Treatment one of four with its evidence carried from `planned — …` to a resolving citation, killer assumption first, always.
-
-Two tiers. Everyday work fills the ledger inside the framing conversation — no skill invocation — directly into the living `## Risk ledger` section of `docs/product/<slug>.md`. A large bet runs the full interrogate session, exhaustive across the viability axes (technical, business, legal, operational), producing a dated session record at `docs/interrogations/YYYY-MM-DD-<slug>.md` whose co-signed ledger is copied into the living section at sign-off. Impact is denominated in the units of the declared value (the `## Value` section of `docs/product/<slug>.md`); fatal severity means impact ≥ that value at any likelihood — set by impact alone, never by multiplying in likelihood. Interrogate does not produce the implementation plan — after sign-off the work moves down the walk to slicing and design with its risks pre-chewed, never re-assessed there.
-
-Design at `docs/design/risk-ledger.md`; the interview engine's original design at `docs/plans/2026-05-02-interrogate-design.md`.
-
-```
-/kerd:interrogate              # zero-path: interview from an idea
-/kerd:interrogate <plan-ref>   # interrogate an existing plan
-```
-
-### switch (Session Handoff)
-
-Switch saves, restores or moves repo-based work between sittings and devices. It
-keeps the work continuous while leaving room in the next context window, handles
-explicitly authorized Git handoffs, and distinguishes closing out from continuing
-mid-work exactly where you stopped.
-
-```
-/kerd:switch in              # pick the work back up
-/kerd:switch out             # save the place
-```
-
-**Out** also adds whatever the sitting settled to Conductor's sketchbook for that
-work, without asking you anything; **In** says what is settled and what is still
-open for each piece of work.
-
-**In** opens with a plain-English arrival rather than a full report: a one-row
-grid of project, phase, next and team, then where things stand in product terms,
-what happened last session, the open work one line each, and one recommended next
-step with the reason it comes first. The last session's saved
-next step is weighed with everything else, never repeated just because it was
-saved, and work that only proves Kerd's own mechanics does not lead. A check
-belonging to you is labelled as yours. Ordinary In always ends on *“Start a
-Conductor session?”* as a bold speech-bubble blockquote, the recommendation being
-its proposed answer, with a *Yes — <the recommended work>* / *Something else*
-picker where the host has one. Choosing work, a plain yes included, opens
-Conductor at Shape for that work; it does not approve builds, installs or pushes.
-A deferral starts nothing, and a reported fact is recorded as evidence. Managed Roll retains
-its authorized continuation and does not use this question.
-It ends with links and visible paths to the documents the
-work already names; the backlog lives behind the *Open work* link.
-`scripts/where_we_are.py` renders it from a summary Switch already holds, so
-nothing extra is read and no status file is written. Switch composes the summary
-without loading Conductor and returns the complete rendered Markdown unchanged.
-Corrections are made in the input and rendered again, not paraphrased after the
-renderer. Switch restores the pointer-designated active list (by convention
-`TODO.md`'s `## Now`, including child sections) and explicitly current linked work
-records, plus relevant current decisions, standing constraints and known risks,
-before composing. It does not scan every `work.md`; a missing or old pointer uses
-bounded lookup. Saved reading arguments are navigation, not permission to omit
-that active work. Missing facts and human checks remain open work, and supplying
-a project name alone does not start an install or launch. Omission from the
-screen does not retire or reorder saved work.
-ATTENTION keeps material restoration limits, false decision claims and recorded
-urgent risks, not the rest of the backlog.
-Existing local Agent bindings restore pairing context, with Agent loaded when a
-contribution is requested. Team is one compact line: Claude (role) + Codex (role).
-Session IDs and notice status stay in Agent details. After restoring routing, In sends the established partners one
-informational identity notice, with no work or reply requested. A repeated In
-with the same sender/recipient IDs does not resend. Notice status is not peer
-availability; a routing problem appears in ATTENTION when it affects the recommendation,
-without making restored memory incomplete.
-No dormant peer is resumed, and private IDs are not saved in project records.
-For its own designated role, In verifies the actual session ID and can replace
-the old binding from Out's prepared handoff or an eligible restart receipt;
-genuine ambiguity needs a selection. Out
-prepares that private handoff only after saving the final account. Old requests
-keep their original session targets. Saved roles
-are not live availability or permission to act. No second report follows. Roll keeps its
-agreed continuation instead of stopping there.
-
-**Out** reads what actually changed, preserves the agreement, decisions, exact next
-action and open questions, and appends an evidence-backed account to the project's
-history. Its [selected continuation](skills/switch/references/in-out.md#save-the-selected-continuation)
-names who does what next, its agreed/proposed status, necessary completion steps,
-where the scope stops and any pending question. It reconciles an existing current
-account in place, using ordinary prose or headings rather than new required
-fields; the broader TODO remains open. The selected continuation is included in
-the reading set and the closing box's next step, with its reason. Before measuring
-or claiming memory ready, Out checks that known unresolved urgent/imminent risks are
-inside the measured reading set, even when unrelated to the selected action.
-It retains a dated, source-linked risk line in current context or selects the
-source section; a link outside the reading set is not coverage. Routine owed
-work stays behind Open work, and saved risk observations are not fresh checks.
-Before editing the handoff, it checks ownership of any existing pairing
-role, reusing an explicit replacement choice already given rather than asking
-again. Out alone does not authorize taking a role. After the final save it reports
-a failed or unavailable successor designation under Attention.
-The saved account has a lean start point: rulings stay in CONTEXT.md while the
-full case moves to `docs/decisions.md`, closed Backlog rows move to
-`docs/backlog-archive.md` with their reason, the reading set for the next sitting
-is named, and `handoff.py measure` records its size against the pickup target.
-The handoff keeps the helper's exact `read_args` alongside that size so In reads
-the measured selection, not a broader paraphrase. A lone heading includes the
-remainder of its file; Out must narrow an oversized selection with real heading
-boundaries or explain why it is needed, without discarding the evidence.
-`scripts/handoff.py` does the Git work: explicit-file saves, safe fast-forward,
-acknowledged local-only paths that are never staged, and a check that the remote
-carries the exact commit. Out ends on the saved-place box: SESSION SAVED, SAVED
-LOCALLY, NOT SAVED or SAVE STATUS NOT RECORDED in words, a project/saved/phase/released
-grid, what changed this session in product terms, the next step and why, any save
-problem under Attention, and one restart line: *Exit and restart or /clear and
-/kerd:switch in to pick up from here.* The reading set and its measured size stay
-in the start point the next Switch In reads. The Out owner combines participating sessions' contributions
-under the [coordinated-closeout rule](skills/switch/references/in-out.md#one-coordinated-closeout).
-Before drafting that account, the owner collects any missing contributor deltas
-directly, reuses adequate returned results, and shows who is captured or missing.
-The person should not have to chase each agent. Missing necessary material stays
-explicitly incomplete; a late contribution reopens the check before finalizing.
-Memory readiness is distinct from the Git save result; only a confirmed save
-with a ready handoff offers the restart line. Out retains its Markdown-in-chat
-/ ANSI-in-terminal presentation.
-
-### visuals (Diagrams)
-
-Visuals makes readable product, process and system diagrams — connected-parts
-views, responsibility flows, scope boundaries, decision paths. It produces an
-actual rendered view, not a document made of text boxes. Since v0.132.0 it is not
-something you have to ask for: an explicit request always gets one, and a proposal
-carrying two or more connected parts, a branch, an ownership boundary or a before →
-after change gets one by default, with no offer question and no quota. Only a single
-action or a factual answer stays text.
-Since v0.134.0 the view is also held to its audience: code references sit in a
-subordinate evidence layer, and removing every one of them must leave the main
-relationship still understandable to someone who has not opened the source. A
-solution, proposal or correction view carries more — stripped, it must still
-show what you can and cannot do today, where the responsibility sits, what
-changes and any material cost or boundary that exists. Content decides which
-applies, not the diagram type: anything depicting or recommending a change takes
-the fuller test, and only a view limited to present facts uses the invariant. A deliberately technical
-deep-dive may use engineering vocabulary, provided its title and summary still
-pass that removal test. Every view saved beside work also names its project,
-product or repository inside the render — a filename, browser tab or surrounding
-message sits outside the picture, and the view travels without them.
-The view is drawn with diagram-design or Archify, which are required — the
-bundled starter patterns alone do not satisfy the rule, and hand-rolled ASCII in a
-code fence is not a visual. A lightweight Kerd adaptation of Cathryn Lavery's
-diagram-design, with no CI, hooks, seals, branding onboarding or approval schema
-required; installing a missing tool still needs your approval.
-
-```
-/kerd:visuals                # draw the thing being discussed
-```
-
-### kivna (Knowledge Management)
-
-Kivna owns the project's knowledge layer, stored in an Obsidian vault at `~/eolas/vault/[project]/`. The vault is a human knowledge base. Every file answers a question someone would actually ask. No symlinks, no append-only logs, no session dumps. Files are living, updated in place.
-
-Save (`/kivna save`) updates the vault's Status.md, updates the Weekly tracker (achievements and risks by week for quick status report generation), and writes updates to other vault files (Architecture Decisions, Playbook, etc.) — each change is shown in the save report, no approval prompt; anything marked "don't save this to vault" during the session stays out. Save is deliberate and on-demand — switch no longer calls it at the session boundary (v0.83.0); a vault is exactly as fresh as its last save. Scaffold (`/kivna scaffold`) creates the vault folder and the spine — MOC, Status.md, and Weekly.md — seeded from a short batched intake interview (≤5 open questions, one round), then suggests what other files might fit the project. Import (`/kivna in`) reads files from `kivna/input/` and integrates relevant knowledge, including structured `.kif.json` imports. Export (`/kivna out`) produces two files: `.kif.toon` (token-efficient for LLM handoff) and `.kif.json` (machine-parseable for cross-project import). Exports are repo-grounded: TODO.md, session logs, playbook, and vault status are read first, with conversation context filling gaps.
-
-The folder structure:
-
-```
-kivna/
-  vault.json   # vault config (points to ~/eolas/vault/[project]/)
-  sessions/    # session logs from switch (committed)
-  input/       # drop files here for import (gitignored)
-  output/      # exports land here (gitignored)
-```
-
-```
-/kivna in                                          # import from inbox (.kif.json, .md, .pdf, etc.)
-/kivna out                                         # export as .kif.toon + .kif.json
-/kivna out --full                                  # export all sections (adds playbook, architecture, memory, mode)
-/kivna save                                        # update vault
-/kivna scaffold                                    # set up Obsidian vault
-```
-
-### slainte (Project Health)
-
-Slainte is the release pass, plus on-demand health audits. Run `/kerd:slainte release` when a version bump or an acceptance record lands — Conductor does not trigger it on its own — and it sweeps the repo's own narrative surfaces — README sections and What's New, the playbook, the state contract, the capability lists, any living design doc the release touched — fixes what is drift, and names in its report what it deliberately left untouched, so restraint is visible instead of assumed. Fixes land as normal work commits under the caller's verification gate, and prose it writes passes skriv's one-shot audit first. The mechanical layer stays CI's (version sync, capability lists, namespaces — R1–R3 and AU1–AU10); slainte owns the judgment layer: skill-count claims, frontmatter drift, marketplace URL, hook template currency, and cross-doc claim verification. There is no config file — targets derive from the repo.
-
-The on-demand area audits (docs, code, site, deps, playbook, release) still run any time, report-only by default. Everything gets a severity grade: high (factually wrong, broken build, security vulnerability), medium (stale but not misleading), low (nitpick).
-
-```
-/slainte docs         # audit docs area
-/slainte playbook     # audit the playbook
-/slainte release      # the release pass's judgment checks, on demand
-/slainte all          # audit everything
-```
-
-### skriv (Writing Voice)
-
-Skriv enforces a human writing voice. It has a kill list of words no one actually uses in conversation (leverage, facilitate, delve, holistic, the whole lot), bans all dashes as punctuation (em, en, and double hyphens) along with five-paragraph essay structure, catches synonym cycling and chatbot residue, and runs a self-audit ("what still sounds machine-made?") before cutting 20%. The goal is prose that reads like a first draft by someone who's been in the room, not something generated.
-
-Three modes. Audit reviews a file and reports violations with line numbers. Fix rewrites the file in place. Session mode applies the rules to everything you write for the rest of the conversation. When session mode is on, skriv shows `[skriv: active]` at the top of responses and `[skriv: off]` when it ends.
-
-```
-/skriv README.md       # audit against the rules
-/skriv fix README.md   # rewrite applying the rules
-/skriv on              # session mode on
-```
-
-### tend (Structural Health)
-
-Tend audits repo infrastructure against current Kerd conventions and fixes what's drifted. Run it on a new repo to set up everything from scratch, or on an existing repo to catch drift after a Kerd update. It checks nine categories: directory structure, required files, vault integration, deprecated patterns, naming consistency, stray/stale files, .gitignore hygiene, skill hygiene, and hook hygiene.
-
-The report shows each category as passing (✓), failing (✗), or warning (⚠). Failing and warning items get a current-vs-proposed table with reasons. After the report, choose to fix all, pick individually, or skip. Tend makes changes but never commits — unlike conductor's work commits, structural convergence has no verification gate behind it, so it stays in the working tree for you to review.
-
-```
-/tend
-```
-
-### lorg (Skill Gap Analysis)
-
-Lorg scans the current project and recommends skills or plugins you should be using but aren't. It works in three tiers, each runnable independently. Tier 1 checks what's already installed but underused (not invoked in the last 30 days). Tier 2 searches the Claude Code marketplace and a curated list of repos you maintain for plugins that fit your project's tech and themes. Tier 3 goes wider: GitHub and web search for trending or new plugins you haven't heard of yet.
-
-The default (`/lorg`) runs Tier 1 only: fast, cheap, no web dependency, most actionable. Use subcommands for wider search. Each tier tracks its own freshness date, and running one tier preserves the others in the report.
-
-The recommendations aren't just based on file types. Lorg reads your README, playbook, TODO, session logs, and vault decisions to extract work themes (fundraising, compliance, content creation, whatever keeps coming up). Results are ranked by relevance (theme match + tech match + recency boost - install friction) so the strongest matches appear first. Weak matches below a threshold are dropped.
-
-The report is saved to `docs/lorg-report.md` (committed) and the Obsidian vault (searchable). Updates are incremental: only scanned tiers get overwritten.
-
-```
-/lorg                # Tier 1 only (installed but unused)
-/lorg installed      # same as default
-/lorg available      # Tier 2 (marketplace + curated sources)
-/lorg explore        # Tier 3 (GitHub + web). Opt-in research.
-/lorg all            # full scan across all tiers
-/lorg report         # show last saved report
-```
-
-### pair (Partner Mode)
-
-Pair toggles how you and Claude work together. Off by default — the full, show-your-reasoning style stays the resting state so you keep learning. Turn it on to move fast: Claude keeps its thinking internal (surfacing it only when it changes your decision, it's stuck, or you ask), asks one clear question at a time — open by default, offering a tight set of 2-4 crisp options only when a menu genuinely clarifies a choice that's yours to make (never a lazy binary or a vague, verbose list) — interrupts early to flag or check in, and works like someone sitting beside you rather than narrating every step. It's per-repo state (`kivna/.pair`), enforced by an opt-in `UserPromptSubmit` hook that re-injects the partner-mode reminder each prompt while on. Pair governs interaction style only — your `CLAUDE.md` thinking discipline applies either way. (Renamed from `focus` in v0.64.0 to avoid colliding with the harness's native focus mode.)
-
-```
-/pair on             # rapid partner mode
-/pair off            # back to full reasoning
-/pair                # show current state
-```
-
-## Hooks
-
-Kerd ships three hooks that provide session boundary awareness and the pair toggle. They **auto-load from the plugin** — the moment the Kerd plugin is enabled, Claude Code registers them from `hooks/hooks.json`. There is no per-repo wiring, and nothing to keep in sync when Kerd updates: the standard plugin-hook mechanism resolves the path at runtime, so it never version-rots. Each hook is silent unless the repo carries Kerd state, so they no-op cleanly in non-Kerd repos.
-
-**SessionStart hook:** On same-machine resume, checks if the local branch is behind remote, reads the last session date from TODO.md, and reports any interrupted mode. Suggests `/kerd:switch in` when there's stale state. Silent on a fresh start.
-
-**Skill completion hook:** When a mode is active and you complete the current step's skill, shows your progress and what's next. Read-only — it never writes `.active-modes`.
-
-**Pair hook (`UserPromptSubmit`):** While pair is on for the repo (`kivna/.pair` = `on`), injects the partner-mode reminder into every prompt. Silent when pair is off or absent. See the pair skill above.
-
-Older repos may still carry manual hook entries in `.claude/settings.local.json` from the pre-0.96.0 wiring mechanism — version-pinned cache paths that break the moment Claude Code garbage-collects that cache version. `/tend` (category 9) detects and removes those; the plugin provides the hooks itself now.
-
-**Statusline segment (`hooks/statusline.sh`):** not a hook — it sits beside them and wires into `statusLine`, never into `hooks`. It prints the wall-clock time as `HH:MM`, and it **composes rather than claims** the slot: hand it an existing statusline command as its single argument and it prints `HH:MM · <that command's output>`, forwarding the context JSON on stdin unchanged. Machine-local and opt-in — `/tend` does not register it.
-
-Free slot — point `statusLine` at the script:
-
-```json
-"statusLine": {
-  "type": "command",
-  "command": "/absolute/path/to/Kerd/hooks/statusline.sh"
-}
-```
-
-Slot already taken — pass the command that is there now as the argument, quoted:
-
-```json
-"statusLine": {
-  "type": "command",
-  "command": "/absolute/path/to/Kerd/hooks/statusline.sh '/absolute/path/to/existing/statusline.sh'"
-}
-```
-
-Both paths must be absolute and already resolved: `${CLAUDE_PLUGIN_ROOT}` does not expand inside a settings file (the v0.29.1 hook-path gotcha).
-
-The three hooks are covered by a bash test harness, `tests/hooks_test.sh` (path resolution under unset/empty `CLAUDE_PROJECT_DIR`, missing-file branches, behind-remote detection, the SessionStart staleness report, the pair toggle's on/off/absent branches, and a check that every script named in `hooks/hooks.json` exists and is executable). Run `bash tests/hooks_test.sh` — it shellcheck-lints the hooks as part of the run.
-
-## Entry gates (tools/gates/)
-
-Entry gates route work by construction. Given a work slug, `tools/gates/gate.py` runs the gate table in series and enters at the lowest rung whose declared inputs all exist on disk — front matter, named sections, a qualified risk ledger, a declared rigor level, a checked-box count. It has no opinion on whether a claim is convincing or a design is sound, only whether the artifact is present; a refusal names exactly what's missing for the next rung, never a vague "not ready."
-
-It's the first check in the system that blocks from outside the model. The repo-wide audit (rules AU1–AU10) runs on every push: dated filenames in `docs/design/`, malformed gate records, broken `## Grounding` references, a `## Scope` without its `Rigor level:` line, and a requirements register drifting from its declared schema — an unknown field, an illegal state, an `Approved` hash diverging from the statement it approved, a link naming an ID that does not exist — all fail the build before a human or a model catches them in review. CI runs nine steps in total — the three gate sweeps, the progress and matrix checks below, the journey stage-schema check (`gen_journey.py check`, which refuses when the step definitions stop matching the stages they render), and the handoff fidelity check (`tools/gates/fidelity.py`), which skips itself unless the push writes a session log.
-
-```
-python3 tools/gates/gate.py route <slug>
-python3 tools/gates/gate.py check <slug> <rung>
-python3 tools/gates/gate.py audit
-```
-
-## Progress board (tools/diagram/)
-
-Position is derived, never asserted. `tools/diagram/progress.py` computes every work item's place on the ladder from git log, gate routes, contract checklists, and gate records, and renders it as a committed trio (Excalidraw + SVG + HTML). CI byte-compares a fresh render against the committed pair at every push — a stale board is a red build with the fix quoted. The same kit draws the design packages reviewed on the live canvas.
-
-```
-python3 tools/diagram/progress.py          # render the board (three files)
-python3 tools/diagram/progress.py stale    # the CI check
-```
-
-## Design matrix (tools/design/)
-
-The evaluation matrix is how options are compared — criteria with declared targets and M/D categories set before any option is scored, options as rows each with a drawn architecture overview, Toyota marks per cell (○ = meets · △ = meets only with a named countermeasure · × = cannot meet), scores citing evidence, and a recomputed OVERALL/RANK. The tool refuses what the format forbids: undeclared criteria, scores without basis, △ without countermeasure + confidence, arithmetic drift, and a dead option (× on a Mandatory criterion) named Preferred. Validation fires wherever a matrix section exists in `docs/design/*.md` — on every push, in CI.
-
-```
-python3 tools/design/matrix.py check <file>    # validate one design doc
-python3 tools/design/matrix.py audit           # sweep docs/design/ — the CI step
-python3 tools/design/matrix.py render <file>   # movement-9-style table → .excalidraw + .svg
-```
-
-## How They Fit Together
-
-**Starting a project:** Create a repo, clone it, run `/tend`. It checks what's missing, shows you the plan, and sets up the full structure with your approval. Run `/lorg` to find plugins that fit your stack. Then `/conductor` and say what you want to make happen.
-
-**Day to day:** You sit down and run `/switch in`. It syncs the branch, reads the project's current-context pointer (CONTEXT.md by convention), its designated active list including child sections and explicitly current linked work records, the newest session log and the named reading set, then fills bounded gaps in current decisions, constraints and risks as needed. It does not scan every `work.md`. Open work stays one line per item; items left off the screen remain restored and discoverable behind the link. It opens with a project/phase/next/team grid, weighs every open item and shows them in plain product English with one recommendation and why, and ends on its one ordinary question, *“Start a Conductor session?”*. Choosing work opens Conductor at Shape for it, and a later scoped approval starts operations; *“Design the alert, go ahead”* can select and authorize that task in one turn. Human checks and factual questions remain open work unless reported as evidence. Managed Roll keeps its authorized continuation. When you're done, `/switch out` writes the session log, tidies the active lists, names the next session's start point and reading set, and commits and pushes the named files. Run `/slainte docs` any time to check nothing drifted, and `/slainte release` after a version bump. The Obsidian vault refreshes only when you ask — `/kivna save`. Next session, same state, on this machine or another. Periodically run `/lorg` to check if new skills have emerged that would help with the project.
-
-**On cheap boundaries — a capability that's gone.** Until v0.90.0 you could run `/switch out light` or `/switch in low` to spend fewer tokens at the boundary. Those modes are removed, and that is a real reduction in what you can ask for, not a tidy-up. They went because each one bought its saving by recording less or reading less, and a boundary that records less is exactly how a fresh session ends up contradicting something you already decided. Cost is handled instead by the read set staying small — the pointer, `## Now`, the newest log and the named reading set — and by Switch Out moving each decision's case to `docs/decisions.md` once it stops governing the next work, so those files don't grow without bound. If a boundary feels expensive, the fix is a leaner start point at the next Out — not a shallower read.
-
-**The layers:** The session boundary is defined once, in switch — sync on switch-in, the named-file save and remote check at switch out — and you call it directly. Conductor owns the sitting: understanding, agreement, delivery and assessment, committing its own work as it verifies. Kivna owns the knowledge vault. Above them sits the ladder: every piece of work is a slug climbing frame → viability → scope → design → handoff → loop → acceptance, with `python3 tools/gates/gate.py route <slug>` reading what is on disk and naming the rung where the work enters, the progress board showing derived position, and CI refusing at every push what a document promised and the tree no longer delivers. Every skill works standalone.
-
-## Naming
-
-Gaelic-inspired where it adds character:
-- **Kerd**: skill (ceird)
-- **Kivna**: memory (cuimhne)
-- **Conductor**: keeps one session in tempo (renamed from *dian*, Gaelic for intense/rigorous)
-- **Skriv**: the act of writing (scríobh)
-- **Switch**: session handoff
-- **Slainte**: health (slàinte)
-- **Tend**: from English "to tend" (care for, maintain)
-- **Lorg**: to seek, track down
 
 ## License
 

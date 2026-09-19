@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="pickup-title pickup-desc">
+  <title id="pickup-title">Picking the work back up</title>
+  <desc id="pickup-desc">Where you stopped last time — what was settled and what was next — is saved and carried across the break of days, a new chat or another machine. When you sit down again you are told where things stand, what is open, and what to do next and why.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 44px; font-weight: 600; letter-spacing: -0.024em; fill: #0B5E4A; }
+    .row    { font-size: 40px; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .break  { stroke: #4E5D58; stroke-width: 2; fill: none; stroke-dasharray: 10 12; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    .mask   { fill: #F7F9F7; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; } .row { fill: #E5EBE7; }
+      .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .break { stroke: #93A29B; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+      .mask { fill: #121B17; }
+    }
+  </style>
+  <defs>
+    <marker id="pickup-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- the break between sittings -->
+  <text class="sub" x="520" y="96" text-anchor="middle">days later, or another machine</text>
+  <line class="break" x1="520" y1="132" x2="520" y2="600" />
+
+  <!-- the carried place -->
+  <line class="line" x1="440" y1="356" x2="720" y2="356" marker-end="url(#pickup-arrow)" />
+  <rect class="mask" x="572" y="314" width="96" height="32" />
+  <text class="sub" x="620" y="340" text-anchor="middle">saved</text>
+
+  <!-- where you stopped -->
+  <rect class="box" x="80" y="232" width="360" height="248" />
+  <text class="h"   x="112" y="300">Where you</text>
+  <text class="h"   x="112" y="344">stopped.</text>
+  <text class="sub" x="112" y="396">what was settled,</text>
+  <text class="sub" x="112" y="432">what was next</text>
+
+  <!-- the arrival -->
+  <rect class="box-a" x="720" y="140" width="480" height="460" />
+  <text class="h-a" x="756" y="216">You sit down.</text>
+  <line class="hair" x1="756" y1="252" x2="1164" y2="252" />
+  <text class="row" x="756" y="316">Where things stand</text>
+  <line class="hair" x1="756" y1="352" x2="1164" y2="352" />
+  <text class="row" x="756" y="416">What&#8217;s open</text>
+  <line class="hair" x1="756" y1="452" x2="1164" y2="452" />
+  <text class="row" x="756" y="516">What to do next,</text>
+  <text class="row" x="756" y="560">and why.</text>
+</svg>

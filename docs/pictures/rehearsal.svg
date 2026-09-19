@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="rehearsal-title rehearsal-desc">
+  <title id="rehearsal-title">Rehearsal</title>
+  <desc id="rehearsal-desc">You and Kerd work a piece of work through turn by turn, in whatever order the conversation takes, and something is delivered every turn. As you go, what gets settled is written into a sketchbook — what you are making, what you have agreed, what is still open — and pictures are drawn for you to agree to.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .lane   { font-size: 32px; fill: #4E5D58; }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .row    { font-size: 36px; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .lane { fill: #93A29B; } .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; }
+      .row { fill: #E5EBE7; } .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="rehearsal-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- the exchange, lane by lane -->
+  <text class="lane" x="80"  y="148">You</text>
+  <text class="lane" x="320" y="148">Kerd</text>
+  <line class="hair" x1="80" y1="168" x2="600" y2="168" />
+
+  <!-- turns, drawn under the boxes -->
+  <path class="line" d="M 180 256 V 316 A 8 8 0 0 0 188 324 H 320" marker-end="url(#rehearsal-arrow)" />
+  <path class="line" d="M 420 352 V 412 A 8 8 0 0 1 412 420 H 280" marker-end="url(#rehearsal-arrow)" />
+  <path class="line" d="M 180 448 V 508 A 8 8 0 0 0 188 516 H 320" marker-end="url(#rehearsal-arrow)" />
+
+  <!-- what gets settled goes to the sketchbook -->
+  <path class="line" d="M 520 324 H 592 A 8 8 0 0 0 600 316 V 288 A 8 8 0 0 1 608 280 H 680" marker-end="url(#rehearsal-arrow)" />
+  <path class="line" d="M 520 516 H 612 A 8 8 0 0 0 620 508 V 408 A 8 8 0 0 1 628 400 H 680" marker-end="url(#rehearsal-arrow)" />
+
+  <rect class="box" x="80" y="200" width="200" height="56" />
+  <line class="hair" x1="100" y1="220" x2="240" y2="220" />
+  <line class="hair" x1="100" y1="238" x2="190" y2="238" />
+
+  <rect class="box" x="320" y="296" width="200" height="56" />
+  <line class="hair" x1="340" y1="316" x2="480" y2="316" />
+  <line class="hair" x1="340" y1="334" x2="430" y2="334" />
+
+  <rect class="box" x="80" y="392" width="200" height="56" />
+  <line class="hair" x1="100" y1="412" x2="240" y2="412" />
+  <line class="hair" x1="100" y1="430" x2="190" y2="430" />
+
+  <rect class="box" x="320" y="488" width="200" height="56" />
+  <line class="hair" x1="340" y1="508" x2="480" y2="508" />
+  <line class="hair" x1="340" y1="526" x2="430" y2="526" />
+
+  <text class="h"   x="80" y="616">Turn by turn.</text>
+  <text class="sub" x="80" y="664">Always delivering.</text>
+
+  <!-- the sketchbook -->
+  <rect class="box-a" x="680" y="140" width="520" height="340" />
+  <text class="h-a" x="716" y="212">The sketchbook.</text>
+  <line class="hair" x1="716" y1="248" x2="1164" y2="248" />
+
+  <line class="hair" x1="716" y1="302" x2="740" y2="302" />
+  <text class="row" x="764" y="312">What we&#8217;re making</text>
+  <line class="hair" x1="716" y1="366" x2="740" y2="366" />
+  <text class="row" x="764" y="376">What we&#8217;ve agreed</text>
+  <line class="hair" x1="716" y1="430" x2="740" y2="430" />
+  <text class="row" x="764" y="440">What&#8217;s still open</text>
+
+  <!-- a picture to agree to -->
+  <rect class="box" x="680" y="520" width="240" height="136" />
+  <line class="hair" x1="712" y1="568" x2="820" y2="568" />
+  <line class="hair" x1="712" y1="604" x2="888" y2="604" />
+  <text class="sub" x="960" y="572">A picture</text>
+  <text class="sub" x="960" y="608">to agree to.</text>
+</svg>

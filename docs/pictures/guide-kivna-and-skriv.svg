@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="kivnaskriv-title kivnaskriv-desc">
+  <title id="kivnaskriv-title">What you learn, and how it reads</title>
+  <desc id="kivnaskriv-desc">Two things a project leaves behind, both meant for a person. What you learn — what changed, what you decided — is written into pages you can open and read, kept current rather than piled up. What you write is checked against the words no one actually says, so a README or a note reads as though a person wrote it.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h-a    { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .word   { font-size: 36px; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .strike { stroke: #4E5D58; stroke-width: 3; fill: none; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h-a { fill: #5CC5A3; } .word { fill: #E5EBE7; }
+      .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .strike { stroke: #93A29B; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="kivnaskriv-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- what you learn -->
+  <text class="h"   x="80" y="140">What you learn.</text>
+  <text class="sub" x="80" y="196">what changed,</text>
+  <text class="sub" x="80" y="236">what you decided</text>
+
+  <line class="line" x1="520" y1="180" x2="620" y2="180" marker-end="url(#kivnaskriv-arrow)" />
+
+  <rect class="box" x="640" y="80" width="160" height="200" />
+  <line class="hair" x1="664" y1="132" x2="752" y2="132" />
+  <line class="hair" x1="664" y1="180" x2="776" y2="180" />
+  <line class="hair" x1="664" y1="212" x2="744" y2="212" />
+  <line class="hair" x1="664" y1="244" x2="768" y2="244" />
+
+  <rect class="box" x="840" y="80" width="160" height="200" />
+  <line class="hair" x1="864" y1="132" x2="936" y2="132" />
+  <line class="hair" x1="864" y1="180" x2="976" y2="180" />
+  <line class="hair" x1="864" y1="212" x2="952" y2="212" />
+  <line class="hair" x1="864" y1="244" x2="968" y2="244" />
+
+  <rect class="box" x="1040" y="80" width="160" height="200" />
+  <line class="hair" x1="1064" y1="132" x2="1160" y2="132" />
+  <line class="hair" x1="1064" y1="180" x2="1176" y2="180" />
+  <line class="hair" x1="1064" y1="212" x2="1144" y2="212" />
+  <line class="hair" x1="1064" y1="244" x2="1168" y2="244" />
+
+  <text class="sub" x="640" y="328">Pages you can open, kept current.</text>
+
+  <!-- what both come out as -->
+  <rect class="box-a" x="80" y="376" width="1120" height="96" />
+  <text class="h-a" x="112" y="436">Both come out in words a person can read.</text>
+
+  <!-- what you write -->
+  <text class="h"   x="80" y="564">What you write.</text>
+  <text class="sub" x="80" y="620">a README, a note,</text>
+  <text class="sub" x="80" y="660">an answer to publish</text>
+
+  <line class="line" x1="520" y1="600" x2="620" y2="600" marker-end="url(#kivnaskriv-arrow)" />
+
+  <rect class="box" x="640" y="520" width="560" height="160" />
+  <text class="sub"  x="676" y="578">Words no one says, gone.</text>
+  <text class="word" x="676" y="644">leverage</text>
+  <line class="strike" x1="672" y1="632" x2="820" y2="632" />
+  <line class="line" x1="852" y1="632" x2="908" y2="632" marker-end="url(#kivnaskriv-arrow)" />
+  <text class="word" x="936" y="644">use</text>
+</svg>

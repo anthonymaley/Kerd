@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720"
+     role="img" aria-labelledby="pieces-title pieces-desc">
+  <title id="pieces-title">How the pieces fit</title>
+  <desc id="pieces-desc">You work inside Claude Code or Codex and ask for one of Kerd's skills: Switch to pick work up and put it down, Conductor to shape it and perform it, Visuals to see what you are making, Agent for a second AI reading along, and five more. Underneath, those skills keep records in your project — a sketchbook of what is settled, a log of every sitting, the decisions you have made — and call other agents: one per part of the work, a reviewer to read it back, and Codex as a second AI.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .h      { font-size: 40px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .h2     { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
+    .h2-a   { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B5E4A; }
+    .name   { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
+    .row    { font-size: 32px; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
+    .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .band   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .head   { fill: #4E5D58; }
+    @media (prefers-color-scheme: dark) {
+      .h { fill: #E5EBE7; } .h2 { fill: #E5EBE7; } .h2-a { fill: #5CC5A3; }
+      .name { fill: #E5EBE7; } .row { fill: #E5EBE7; } .sub { fill: #93A29B; }
+      .box { fill: #121B17; stroke: #223029; }
+      .box-a { fill: #121B17; stroke: #5CC5A3; }
+      .hair { stroke: #223029; }
+      .band { stroke: #93A29B; }
+      .line { stroke: #93A29B; }
+      .head { fill: #93A29B; }
+    }
+  </style>
+  <defs>
+    <marker id="pieces-arrow" viewBox="0 0 16 12" markerWidth="16" markerHeight="12"
+            refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path class="head" d="M0 0 L16 6 L0 12 Z" />
+    </marker>
+  </defs>
+
+  <!-- where you are -->
+  <rect class="box" x="80" y="56" width="1120" height="88" />
+  <text class="h" x="112" y="110">You, in Claude Code or Codex.</text>
+
+  <text class="sub" x="80" y="184">You ask for one of these, or one of five more.</text>
+
+  <!-- the skills you ask for -->
+  <rect class="box" x="80" y="208" width="256" height="136" />
+  <text class="name" x="208" y="260" text-anchor="middle">Switch</text>
+  <text class="sub"  x="208" y="298" text-anchor="middle">pick up,</text>
+  <text class="sub"  x="208" y="330" text-anchor="middle">put down</text>
+
+  <rect class="box" x="368" y="208" width="256" height="136" />
+  <text class="name" x="496" y="260" text-anchor="middle">Conductor</text>
+  <text class="sub"  x="496" y="298" text-anchor="middle">shape it,</text>
+  <text class="sub"  x="496" y="330" text-anchor="middle">perform it</text>
+
+  <rect class="box" x="656" y="208" width="256" height="136" />
+  <text class="name" x="784" y="260" text-anchor="middle">Visuals</text>
+  <text class="sub"  x="784" y="298" text-anchor="middle">see what you</text>
+  <text class="sub"  x="784" y="330" text-anchor="middle">are making</text>
+
+  <rect class="box" x="944" y="208" width="256" height="136" />
+  <text class="name" x="1072" y="260" text-anchor="middle">Agent</text>
+  <text class="sub"  x="1072" y="298" text-anchor="middle">a second AI,</text>
+  <text class="sub"  x="1072" y="330" text-anchor="middle">reading along</text>
+
+  <!-- what they all rest on -->
+  <line class="band" x1="80" y1="400" x2="1200" y2="400" />
+  <line class="line" x1="360" y1="400" x2="360" y2="456" marker-end="url(#pieces-arrow)" />
+  <line class="line" x1="920" y1="400" x2="920" y2="456" marker-end="url(#pieces-arrow)" />
+
+  <!-- what it keeps -->
+  <rect class="box-a" x="80" y="456" width="560" height="200" />
+  <text class="h2-a" x="112" y="508">Records in your project.</text>
+  <line class="hair" x1="112" y1="532" x2="608" y2="532" />
+  <text class="row" x="112" y="572">a sketchbook of what&#8217;s settled</text>
+  <text class="row" x="112" y="606">a log of every sitting</text>
+  <text class="row" x="112" y="640">the decisions you&#8217;ve made</text>
+
+  <!-- who it calls -->
+  <rect class="box" x="680" y="456" width="520" height="200" />
+  <text class="h2" x="712" y="508">Agents it calls.</text>
+  <line class="hair" x1="712" y1="532" x2="1168" y2="532" />
+  <text class="row" x="712" y="572">one per part of the work</text>
+  <text class="row" x="712" y="606">a reviewer to read it back</text>
+  <text class="row" x="712" y="640">Codex, a second AI</text>
+</svg>

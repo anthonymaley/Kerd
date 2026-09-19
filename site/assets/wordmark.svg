@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 279 100" width="279" height="100" role="img" aria-label="Kerd">
+  <title>Kerd</title>
+  <style>
+    .mark { stroke: #0B1512; }
+    @media (prefers-color-scheme: dark) { .mark { stroke: #E5EBE7; } }
+  </style>
+  <!-- Monoline geometric construction: one stroke width, one circle module.
+       The bowl of the e and the bowl of the d are the same circle. -->
+  <g class="mark" fill="none" stroke-width="13" stroke-linecap="butt" stroke-linejoin="round">
+    <!-- K -->
+    <path d="M6.5 0 V100" />
+    <path d="M58 0 L13 58 L60 100" />
+    <!-- e -->
+    <path d="M81.5 64 H140.5" />
+    <path d="M140.5 64 A29.5 29.5 0 1 0 134.2 82.2" />
+    <!-- r -->
+    <path d="M165.5 28 V100" />
+    <path d="M165.5 48 C165.5 35 173 28 190 28" />
+    <!-- d -->
+    <circle cx="242.5" cy="64" r="29.5" />
+    <path d="M272 0 V100" />
+  </g>
+</svg>

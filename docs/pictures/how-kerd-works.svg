@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" width="1600" height="640"
+     role="img" aria-labelledby="how-kerd-works-title how-kerd-works-desc">
+  <title id="how-kerd-works-title">A day with Kerd</title>
+  <desc id="how-kerd-works-desc">A day runs left to right along one line: you pick the work up where you left off, rehearse it turn by turn with Kerd, say you are ready, then it is performed by agents in parallel and checked against your goals, and finally the work is put down and saved for next time. Rehearsing happens together with you; performing and checking happen on its own.</desc>
+  <style>
+    text {
+      font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+                   Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+      font-weight: 400;
+    }
+    .name   { font-size: 44px; font-weight: 600; letter-spacing: -0.02em; fill: #0B1512; }
+    .sub    { font-size: 32px; fill: #4E5D58; }
+    .span   { font-size: 32px; fill: #4E5D58; }
+    .name-a { font-size: 44px; font-weight: 600; letter-spacing: -0.02em; fill: #0B5E4A; }
+    .sub-a  { font-size: 32px; fill: #0B5E4A; }
+    .hair   { stroke: #D5DCD7; stroke-width: 2; fill: none; }
+    .brace  { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .spine  { stroke: #4E5D58; stroke-width: 2; fill: none; }
+    .dot    { fill: #F7F9F7; stroke: #0B1512; stroke-width: 3; }
+    .dot-a  { fill: #0B5E4A; stroke: #0B5E4A; stroke-width: 3; }
+    @media (prefers-color-scheme: dark) {
+      .name   { fill: #E5EBE7; }
+      .sub    { fill: #93A29B; }
+      .span   { fill: #93A29B; }
+      .name-a { fill: #5CC5A3; }
+      .sub-a  { fill: #5CC5A3; }
+      .hair   { stroke: #223029; }
+      .brace  { stroke: #93A29B; }
+      .spine  { stroke: #93A29B; }
+      .dot    { fill: #121B17; stroke: #E5EBE7; }
+      .dot-a  { fill: #5CC5A3; stroke: #5CC5A3; }
+    }
+  </style>
+
+  <!-- the two spans of the day -->
+  <text class="span" x="560" y="220" text-anchor="middle">together, turn by turn</text>
+  <path class="brace" d="M 400 260 V 244 H 720 V 260" />
+
+  <text class="span" x="1040" y="220" text-anchor="middle">performed, then checked</text>
+  <path class="brace" d="M 880 260 V 244 H 1200 V 260" />
+
+  <!-- the day itself -->
+  <line class="spine" x1="120" y1="280" x2="1480" y2="280" />
+
+  <circle class="dot" cx="200" cy="280" r="14" />
+  <circle class="dot" cx="440" cy="280" r="14" />
+  <circle class="dot-a" cx="680" cy="280" r="18" />
+  <circle class="dot" cx="920" cy="280" r="14" />
+  <circle class="dot" cx="1160" cy="280" r="14" />
+  <circle class="dot" cx="1400" cy="280" r="14" />
+
+  <!-- 1 -->
+  <text class="name" x="200" y="356" text-anchor="middle">Pick up</text>
+  <text class="sub"  x="200" y="404" text-anchor="middle">where you</text>
+  <text class="sub"  x="200" y="440" text-anchor="middle">left off</text>
+
+  <!-- 2 -->
+  <text class="name" x="440" y="356" text-anchor="middle">Rehearse</text>
+  <text class="sub"  x="440" y="404" text-anchor="middle">turn by turn,</text>
+  <text class="sub"  x="440" y="440" text-anchor="middle">delivering</text>
+
+  <!-- 3, the one thing you say -->
+  <text class="name-a" x="680" y="356" text-anchor="middle">Ready</text>
+  <text class="sub-a"  x="680" y="404" text-anchor="middle">you say go</text>
+
+  <!-- 4 -->
+  <text class="name" x="920" y="356" text-anchor="middle">Perform</text>
+  <text class="sub"  x="920" y="404" text-anchor="middle">agents in</text>
+  <text class="sub"  x="920" y="440" text-anchor="middle">parallel</text>
+
+  <!-- 5 -->
+  <text class="name" x="1160" y="356" text-anchor="middle">Check</text>
+  <text class="sub"  x="1160" y="404" text-anchor="middle">against</text>
+  <text class="sub"  x="1160" y="440" text-anchor="middle">your goals</text>
+
+  <!-- 6 -->
+  <text class="name" x="1400" y="356" text-anchor="middle">Put down</text>
+  <text class="sub"  x="1400" y="404" text-anchor="middle">saved for</text>
+  <text class="sub"  x="1400" y="440" text-anchor="middle">next time</text>
+</svg>

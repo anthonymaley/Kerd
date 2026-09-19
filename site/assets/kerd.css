@@ -1,0 +1,385 @@
+/* Kerd — design system
+   One hue (spruce), one grid, one type family. See site/DESIGN.md. */
+
+/* ---------------------------------------------------------------- tokens */
+
+:root {
+  color-scheme: light dark;
+
+  /* Colour: one hue at six values. Light is the default. */
+  --paper:      #EDF0EE;
+  --surface:    #F7F9F7;
+  --ink:        #0B1512;
+  --ink-soft:   #4E5D58;
+  --rule:       #D5DCD7;
+  --grid-line:  #DFE5E0;
+  --accent:     #0B5E4A;
+  --focus:      #0B5E4A;
+
+  /* Type: one family, system first. */
+  --face: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue",
+          Inter, system-ui, "Segoe UI", Roboto, sans-serif;
+  --face-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Scale: 17px body, major third up, clamped. */
+  --t-micro: 0.8125rem;
+  --t-small: 0.9375rem;
+  --t-body:  1.0625rem;
+  --t-lead:  clamp(1.1875rem, 1.06rem + 0.5vw, 1.4375rem);
+  --t-3:     clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+  --t-2:     clamp(2.0625rem, 1.55rem + 2.4vw, 3.375rem);
+  --t-1:     clamp(2.5rem, 1.55rem + 4.6vw, 5.25rem);
+
+  /* Space: 4px base. */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
+  --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 144px;
+
+  --gutter: clamp(16px, 2.2vw, 32px);
+  --margin: clamp(20px, 5vw, 72px);
+  --measure: 34rem;
+  --band: clamp(72px, 10vw, 152px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:     #0B1310;
+    --surface:   #121B17;
+    --ink:       #E5EBE7;
+    --ink-soft:  #93A29B;
+    --rule:      #223029;
+    --grid-line: #1B2823;
+    --accent:    #5CC5A3;
+    --focus:     #5CC5A3;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:     #0B1310;
+  --surface:   #121B17;
+  --ink:       #E5EBE7;
+  --ink-soft:  #93A29B;
+  --rule:      #223029;
+  --grid-line: #1B2823;
+  --accent:    #5CC5A3;
+  --focus:     #5CC5A3;
+}
+
+/* ----------------------------------------------------------------- reset */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--face);
+  font-size: var(--t-body);
+  line-height: 1.62;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+h1, h2, h3 { margin: 0; font-weight: 600; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+a {
+  color: inherit;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: from-font;
+}
+a:hover { text-decoration-color: currentColor; }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+::selection { background: var(--accent); color: var(--paper); }
+
+/* ------------------------------------------------------------------ grid */
+
+.wrap {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+/* The one structural rule of the page: the statement sits in columns 1–5,
+   what proves it sits in 7–12. It never alternates. */
+.col-say  { grid-column: 1 / span 5; }
+.col-show { grid-column: 7 / span 6; }
+.col-wide { grid-column: 1 / span 9; }
+.col-full { grid-column: 1 / span 12; }
+
+.band { padding-block: var(--band); }
+.band + .band { border-top: 1px solid var(--rule); }
+
+/* ------------------------------------------------------------------ type */
+
+.display {
+  font-size: var(--t-1);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.statement {
+  font-size: var(--t-2);
+  line-height: 1.08;
+  letter-spacing: -0.026em;
+  text-wrap: balance;
+}
+
+.title {
+  font-size: var(--t-3);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  font-size: var(--t-lead);
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  max-width: 30rem;
+}
+
+.prose { max-width: var(--measure); }
+.prose + .prose { margin-top: var(--s5); }
+
+.soft { color: var(--ink-soft); }
+.small { font-size: var(--t-small); }
+.micro { font-size: var(--t-micro); letter-spacing: 0.005em; }
+
+/* ---------------------------------------------------------------- header */
+
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.masthead__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3) var(--s5);
+  padding-block: var(--s5);
+}
+
+.wordmark { display: block; color: var(--ink); }
+.wordmark svg { width: 92px; height: auto; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--s4), 2.4vw, var(--s6));
+  font-size: var(--t-small);
+}
+.nav a { text-decoration: none; color: var(--ink-soft); }
+.nav a:hover { color: var(--ink); }
+
+/* ------------------------------------------------------------------ hero */
+
+.hero { padding-block: clamp(56px, 8vw, 116px) clamp(56px, 8vw, 112px); }
+
+.hero .display { grid-column: 1 / span 10; }
+
+/* The hairline breaks at the page's own seam: where the saying column ends
+   and the showing column begins. Work put down, and picked up again. */
+.hero__rule {
+  margin-block: clamp(36px, 4.4vw, 60px) clamp(26px, 3.2vw, 42px);
+  height: 1px;
+  background: var(--rule);
+}
+.hero__rule--a { grid-column: 1 / span 5; }
+.hero__rule--b { grid-column: 7 / span 6; }
+
+.hero__lead  { grid-column: 1 / span 6; }
+.hero__aside { grid-column: 8 / span 5; align-self: end; }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s5);
+  margin-top: var(--s6);
+}
+
+.button {
+  display: inline-block;
+  padding: 13px 26px 14px;
+  background: var(--accent);
+  color: var(--paper);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  border-radius: 999px;
+}
+.button:hover { background: var(--ink); }
+
+.link-plain { font-size: var(--t-small); }
+
+/* ---------------------------------------------------------------- frames */
+
+figure { margin: 0; }
+
+.frame {
+  --pic: none;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule);
+  background-color: var(--surface);
+  background-image:
+    var(--pic),
+    repeating-linear-gradient(to right, var(--grid-line) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(to bottom, var(--grid-line) 0 1px, transparent 1px 40px);
+  background-size: contain, auto, auto;
+  background-position: center, -1px -1px, -1px -1px;
+  background-repeat: no-repeat, repeat, repeat;
+}
+
+/* A picture that exists is an <img> inside the frame, so it has alt text and its
+   path resolves against the page. A relative url() carried in --pic resolves
+   against this stylesheet in Chrome, which is why --pic is only for the empty state. */
+.frame > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* The day-long picture is a band, not a block. */
+.frame--wide { aspect-ratio: 2.5 / 1; }
+
+.caption {
+  margin-top: var(--s3);
+  font-size: var(--t-small);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 30rem;
+}
+
+/* ---------------------------------------------------------------- pieces */
+
+.piece { row-gap: var(--s5); align-items: start; }
+.piece__say { grid-column: 1 / span 5; }
+.piece__show { grid-column: 7 / span 6; }
+.piece__body { margin-top: var(--s5); }
+.piece__skill {
+  margin-top: var(--s5);
+  font-size: var(--t-small);
+  color: var(--accent);
+}
+
+/* ----------------------------------------------------------------- table */
+
+.statement + .prose { margin-top: var(--s5); }
+
+.does { grid-column: 1 / span 12; margin-top: var(--s7); }
+.day { grid-column: 1 / span 12; margin-top: var(--s7); }
+.more { grid-column: 1 / span 12; margin-top: var(--s5); font-size: var(--t-small); }
+
+.does__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 13rem;
+  column-gap: var(--gutter);
+  align-items: baseline;
+  padding-block: var(--s4);
+  border-top: 1px solid var(--rule);
+}
+.does__row:last-child { border-bottom: 1px solid var(--rule); }
+.does__row b { font-weight: 400; }
+.does__row span {
+  color: var(--ink-soft);
+  font-size: var(--t-small);
+}
+
+/* --------------------------------------------------------------- install */
+
+.steps { grid-column: 7 / span 6; }
+.step + .step { margin-top: var(--s7); }
+.step p { max-width: 28rem; }
+.step p + p, .step pre + p { margin-top: var(--s4); }
+
+pre {
+  margin: var(--s4) 0 0;
+  padding: var(--s4) var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  overflow-x: auto;
+  font-family: var(--face-mono);
+  font-size: var(--t-small);
+  line-height: 1.7;
+  color: var(--ink);
+}
+code { font-family: var(--face-mono); font-size: 0.94em; }
+
+/* ---------------------------------------------------------------- footer */
+
+.colophon {
+  border-top: 1px solid var(--rule);
+  padding-block: var(--s8) var(--s9);
+}
+.colophon__say { grid-column: 1 / span 5; }
+.colophon__nav { grid-column: 7 / span 6; }
+.colophon__nav li + li { margin-top: var(--s3); }
+.colophon__nav a { text-decoration: none; }
+.colophon__nav a:hover { text-decoration: underline; }
+.colophon p + p { margin-top: var(--s4); }
+
+/* ------------------------------------------------------------ narrow */
+
+@media (max-width: 900px) {
+  :root { --band: clamp(56px, 11vw, 96px); }
+
+  .hero .display,
+  .hero__rule--a,
+  .hero__lead,
+  .hero__aside,
+  .col-say, .col-show, .col-wide,
+  .piece__say, .piece__show,
+  .steps,
+  .colophon__say, .colophon__nav { grid-column: 1 / span 12; }
+
+  .hero__rule--b { display: none; }
+  .frame--wide { aspect-ratio: 16 / 10; }
+  .hero__aside { margin-top: var(--s6); }
+  .steps { margin-top: var(--s6); }
+  .piece__show { margin-top: var(--s3); }
+  .colophon__nav { margin-top: var(--s7); }
+  .lead, .prose, .caption, .step p { max-width: 36rem; }
+}
+
+@media (max-width: 560px) {
+  .does__row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s1);
+  }
+  .nav { gap: var(--s3); font-size: var(--t-micro); }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .wordmark svg { width: 70px; }
+  .masthead__inner { padding-block: var(--s4); }
+  .display { letter-spacing: -0.03em; }
+  .actions { gap: var(--s4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
