@@ -173,6 +173,10 @@ decision in the list as what it is; do not dress it as agent work. Items
 omitted from the screen stay open behind the documents link; omission changes
 neither their status nor the saved priority.
 
+Where the restored material says where an open item stands, its line says so in
+plain words: what is settled and what is still open (“the season picker: goals
+and design settled, constraints still open”). Do not grade it or add a meter.
+
 **Recommended** names exactly one item and **Why** gives the reason it comes
 first, in one or two sentences a person can check. A recommendation is not
 agreement or permission. Recommend the first actionable item when nothing else
@@ -547,6 +551,19 @@ reason. Keep independent sub-findings and migration-sensitive work open. Archive
 historical detail with reachable links; age alone doesn't retire a decision,
 dependency or risk. For an initial legacy reorganization, keep a recoverable
 original. Do not rewrite dated history or maintain duplicate living plans.
+
+### Add to Conductor's sketchbook
+
+Conductor owns one sketchbook per piece of work, its existing work record, and
+keeps it as the work goes. Out makes sure nothing the sitting settled is missing
+from it, whether or not Conductor ran: for each piece of work the sitting moved
+forward, the Out owner adds what the sitting settled and the record is missing.
+Reuse any existing record for that work. Where substantial work has none, the Out
+owner starts one at `docs/work/<slug>/work.md` from Conductor's
+[writing aid](../../conductor/references/work-record.md); a small fix needs none.
+Add only what the sitting actually settled: the person's words as theirs,
+proposals as proposals, nothing invented. Ask the person nothing to fill it, and
+add no step to their closeout. Link it from the active list.
 
 ### Save the selected continuation
 

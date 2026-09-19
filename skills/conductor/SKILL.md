@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. For a work item recorded in the user's project, it checks where the work stands at pickup and before a build, names missing groundwork and offers it, and records a go-ahead anyway. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Work runs as rehearsal (turn by turn, always delivering, no gates) with a sketchbook Conductor keeps and a score written as you go, then, when the person or Conductor calls Ready, as a concert performed by fanned-out players and checked against the agreed goals before it ends. For a work item recorded in the user's project, it checks where the work stands at pickup and before a build, names missing groundwork and offers it, and records a go-ahead anyway. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor
@@ -224,6 +224,65 @@ creating `docs/work/<slug>/work.md` when it has none, never in the `docs/product
 the check reads: the step skipped, what was missing and the person's words. Then continue. At pickup, show
 any go-ahead already recorded for the item. A check that cannot run is reported
 as not checked, never as passed.
+
+## Rehearsal, then the concert
+
+Always be delivering. **Rehearsal** is incremental work: you and the person
+playing it through turn by turn, in whatever order the conversation takes, and
+shipping as you go. The **concert** is implementation to a score and a goal:
+the work is agreed, written down, and performed without turn-by-turn input.
+Rehearsal has no gates, ladder or required sequence. In the journey's words,
+rehearsal is Understand through Agree and the concert is Deliver.
+Small or coupled work is simply delivered in rehearsal; it never needs a concert.
+
+In rehearsal, Conductor guides, interviews and prompts, so that the two of you
+come to hold what a concert needs: the idea and why it matters, whether it can
+work and is worth doing, the goals, the constraints, and the design. Let the AI
+do the work and the person react; ask only what moves one of those forward.
+
+**Keep a sketchbook.** Conductor owns one sketchbook per piece of work: its existing
+[work record](references/work-record.md), under a musical name. Write what gets settled as it is settled, and read it back before
+answering where things stand, prompting Ready or briefing anyone. The person
+never fills in a form. Switch Out may add what a sitting settled, but the
+sketchbook stays Conductor's. When asked where things stand, answer from it in a
+line or two of plain English: what is settled and what is still open.
+
+**The score is written as you go.** Call the
+[composer](references/orchestration.md#choose-who-writes-the-steps) at any time:
+to draft part of the score during rehearsal, or to rework a complex passage until
+it is sound. It returns the passage; reviewing built work stays with a reviewer.
+Where the steps are already clear, Conductor writes them itself.
+
+**Ready** can come from either side. Say “I think we're ready” when the
+sketchbook and score would let players perform without stopping to ask the person,
+or name the one or two things still needed: “we need the constraints on X
+before this is ready.” When the person says they are ready, say honestly what is
+still open; going ahead anyway is their call, recorded in the sketchbook. Ready is
+a judgment spoken in conversation, never a checklist shown to the person. At
+Ready, show the rendered view of what will be built with a short plain-English
+summary, and ask for the go only where it has not already been given.
+
+In the **concert**, fan out every independent part of the score to its own
+player, as many as the score allows, each at a fitted model and effort. When a
+batch returns, check each player's claim against its part of the score: Conductor
+is not the independent reviewer, but it never takes a return on trust. Write the
+results into the sketchbook, then look at the room left in this context: carry on
+with the next batch, or roll at the batch boundary (Switch Out, a fresh session,
+Switch In) and start the next batch from the sketchbook and score under the same
+agreement. A build that must run unattended can use
+[managed Conductor](references/managed-conductor.md) instead, which currently
+runs one player at a time. The goals and
+checks set in rehearsal and written into the score decide when it is over: before
+leaving the loop, compare the result with them and show the person that
+comparison. Work is not done because the steps ran out. A gap the score cannot
+answer stops that passage and comes back to the person in the chat for that one
+point, not to the start.
+
+Agents and rendered views work the same in both: use agents whenever they help,
+and show a view whenever agreement or alignment is needed.
+In the concert, the views also show what has been built and how far the
+performance has come. Everything shown to the person, views included, is plain
+product English.
 
 ## Understand and shape together
 

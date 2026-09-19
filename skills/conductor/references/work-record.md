@@ -14,6 +14,10 @@ clearly undecided. An incomplete draft is useful; invented certainty is not.
 <Who this is for, the desired change and deliverables.>
 View: <relative link, when created; proposed until agreed>
 
+## Worth it and design
+<Whether it can work and is worth doing, and what sets it apart. How the solution
+will work, with its view. Leave out what is not settled yet; never invent it.>
+
 ## Success and proof
 <Desired benefit, observable results, what is good enough and how an independent
 reviewer can assess it. Distinguish agreed criteria from proposals and unresolved

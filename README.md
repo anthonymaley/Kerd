@@ -40,7 +40,22 @@ only durable reference today. If you want `v0.107.0` to be tag-addressable, the 
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
 
-## What's New (v0.138.1)
+## What's New (v0.139.0)
+
+### v0.139.0
+
+**Rehearsal, then the concert.** Conductor now names the two ways work happens.
+Rehearsal is what you already do: turn by turn, in any order, shipping as you go,
+with no gates or sequence. Along the way Conductor keeps a **sketchbook** for the
+work (the idea and why, whether it is worth doing, goals, constraints, design) and
+answers "where are we?" from it. The score is written as you go, and the composer
+can be called at any time. **Ready** can come from you or from Conductor ("I think
+we're ready", or "we need this first"). The **concert** is implementation to the
+score: as many agents as the score allows, each with its own part, context windows
+rolling, and the result compared with your goals before the loop ends. Agents and
+pictures work the same in both. Switch Out adds anything a sitting settled to the
+sketchbook without asking you anything, and Switch In says what is settled and
+what is still open for each piece of work. Not yet seen in real use.
 
 ### v0.138.1
 
@@ -1008,6 +1023,15 @@ Drive walks one work item from idea to acceptance, across as many sessions as it
 
 ### conductor (Session Discipline)
 
+**Rehearsal, then the concert.** Most work is rehearsal: you and the AI playing it
+through turn by turn, always delivering, with no gates or required order.
+Conductor guides and interviews toward what a concert needs and keeps a
+sketchbook of what gets settled, so you can always ask where things stand. When
+either of you calls Ready, the score (written as you go, by Conductor or the
+composer) is performed: agents fan out with their own parts, long builds roll
+through fresh context, and the result is compared with your goals before the work
+is called done. Small work never needs a concert.
+
 **Where your work stands.** For a work item with a record in your project
 (`docs/product/<slug>.md`), Conductor checks its step when it picks the work up
 and before a build: one plain line on the step and what the next one needs, an
@@ -1217,6 +1241,10 @@ mid-work exactly where you stopped.
 /kerd:switch in              # pick the work back up
 /kerd:switch out             # save the place
 ```
+
+**Out** also adds whatever the sitting settled to Conductor's sketchbook for that
+work, without asking you anything; **In** says what is settled and what is still
+open for each piece of work.
 
 **In** opens with a plain-English arrival rather than a full report: a one-row
 grid of project, phase, next and team, then where things stand in product terms,
