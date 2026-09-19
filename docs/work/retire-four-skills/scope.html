@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd — retiring four skills (proposed)</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f5f5f5; --paper-2:#ffffff; --ink:#2d3142; --muted:#4f5d75; --soft:#7a8399;
+    --rule:rgba(45,49,66,0.12); --accent:#eb6c36; --accent-tint:rgba(235,108,54,0.08); }
+  *{box-sizing:border-box}
+  body{margin:0; padding:3rem 2rem; background:var(--paper); color:var(--ink);
+    font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px; margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .5rem}
+  h1{font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin:0 0 .5rem}
+  .sub{color:var(--muted); max-width:72ch; line-height:1.55; margin:0 0 2rem}
+  .sub strong{color:var(--ink)}
+  .diagram{overflow-x:auto}
+  .diagram svg{display:block; width:100%; min-width:760px; height:auto}
+  ul{margin:.25rem 0 0; padding-left:1.1rem; color:var(--muted); line-height:1.65; font-size:.9375rem}
+  .cards{display:grid; grid-template-columns:1.1fr 1fr .9fr; gap:1.25rem; margin-top:2rem}
+  .card{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.25rem 1.5rem}
+  .card h3{font-size:1rem; margin:0 0 .5rem}
+  .card code{font-family:'Geist Mono',monospace; font-size:.8125rem}
+  footer{margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--soft)}
+  @media (max-width:860px){ body{padding:2rem 1rem} .cards{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Kerd · retire four skills · Conductor · Shape · proposed, not agreed</p>
+  <h1>Install what the front page says</h1>
+  <p class="sub">Kerd's public page shows eight skills. Installing the plugin gives you twelve: Drive, Lorg, Interrogate and Pair were ruled out on 2026-09-18 and 2026-09-19 and are still shipped. <strong>Proposed:</strong> one release takes the four out, with Pair's session hook, and leaves the checks, the ladder and the risk-ledger format exactly as they are.</p>
+
+  <div class="diagram">
+  <svg viewBox="0 0 1120 576" role="img" aria-labelledby="retire-four-title retire-four-desc" xmlns="http://www.w3.org/2000/svg">
+    <title id="retire-four-title">Kerd: retiring four skills, before and after (proposed)</title>
+    <desc id="retire-four-desc">Today the Kerd plugin installs twelve skills, eight shown on its public page and four it no longer mentions. After one proposed release it installs the same eight; the checks, the ladder, the risk-ledger format, recorded work and dated history stay untouched. Claude builds, Codex reviews before the push, and the work stops at a reviewed release.</desc>
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+      <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+      <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+    </defs>
+    <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+    <!-- connectors first -->
+    <line x1="480" y1="168" x2="636" y2="168" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+    <rect x="520" y="140" width="80" height="16" rx="2" fill="#f5f5f5"/>
+    <text x="560" y="152" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">ONE RELEASE</text>
+
+    <line x1="272" y1="468" x2="436" y2="468" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+    <rect x="316" y="440" width="76" height="16" rx="2" fill="#f5f5f5"/>
+    <text x="354" y="452" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">BEFORE PUSH</text>
+    <line x1="680" y1="468" x2="844" y2="468" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+    <rect x="728" y="440" width="68" height="16" rx="2" fill="#f5f5f5"/>
+    <text x="762" y="452" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">WHEN CLEAR</text>
+
+    <!-- TODAY container -->
+    <rect x="32" y="32" width="448" height="272" rx="8" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+    <text x="48" y="56" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">KERD INSTALLS TODAY · TWELVE SKILLS</text>
+
+    <rect x="48" y="72" width="200" height="216" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="64" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">On the public page</text>
+    <g fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">
+      <text x="64" y="124">Switch</text><text x="64" y="144">Conductor</text><text x="64" y="164">Visuals</text><text x="64" y="184">Agent</text>
+      <text x="64" y="204">Tend</text><text x="64" y="224">Slainte</text><text x="64" y="244">Kivna</text><text x="64" y="264">Skriv</text>
+    </g>
+
+    <rect x="264" y="72" width="200" height="216" rx="6" fill="#f5f5f5"/>
+    <rect x="264" y="72" width="200" height="216" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="280" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">No longer mentioned</text>
+    <g fill="#2d3142" font-size="12" font-family="'Geist', sans-serif">
+      <text x="280" y="124">Drive</text><text x="280" y="144">Lorg</text><text x="280" y="164">Interrogate</text><text x="280" y="184">Pair</text>
+    </g>
+    <text x="280" y="224" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Ruled out, still shipped.</text>
+    <text x="280" y="244" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Pair also adds a line to</text>
+    <text x="280" y="264" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">every session where it is on.</text>
+
+    <!-- AFTER container -->
+    <rect x="640" y="32" width="448" height="272" rx="8" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+    <text x="656" y="56" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">AFTER THE RELEASE · EIGHT SKILLS · PROPOSED</text>
+
+    <rect x="656" y="72" width="200" height="216" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="672" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">What you install</text>
+    <g fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">
+      <text x="672" y="124">Switch</text><text x="672" y="144">Conductor</text><text x="672" y="164">Visuals</text><text x="672" y="184">Agent</text>
+      <text x="672" y="204">Tend</text><text x="672" y="224">Slainte</text><text x="672" y="244">Kivna</text><text x="672" y="264">Skriv</text>
+    </g>
+
+    <rect x="872" y="72" width="200" height="216" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+    <text x="888" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Brought into line</text>
+    <g fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">
+      <text x="888" y="124">What Kerd says it does,</text>
+      <text x="888" y="144">in both listings</text>
+      <text x="888" y="172">The skill count the tests</text>
+      <text x="888" y="192">expect</text>
+      <text x="888" y="220">Tend's check for Pair</text>
+      <text x="888" y="248">Living guides that still</text>
+      <text x="888" y="268">point at the four</text>
+    </g>
+
+    <!-- STAYS band -->
+    <rect x="32" y="336" width="1056" height="72" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="48" y="360" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">STAYS EXACTLY AS IT IS</text>
+    <g fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">
+      <text x="48" y="388">The checks and the ladder</text>
+      <text x="320" y="388">The risk-ledger format</text>
+      <text x="576" y="388">Recorded work items</text>
+      <text x="832" y="388">Dated history and past releases</text>
+    </g>
+
+    <!-- FLOW -->
+    <rect x="32" y="440" width="240" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="152" y="464" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Claude builds the removal</text>
+    <text x="152" y="484" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif" text-anchor="middle">all tests green</text>
+
+    <rect x="440" y="440" width="240" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="560" y="464" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Codex reviews the whole change</text>
+    <text x="560" y="484" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif" text-anchor="middle">reads only, touches nothing</text>
+
+    <rect x="848" y="440" width="240" height="56" rx="6" fill="#f5f5f5"/>
+    <rect x="848" y="440" width="240" height="56" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+    <text x="968" y="464" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Reviewed release</text>
+    <text x="968" y="484" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif" text-anchor="middle">the work stops here</text>
+
+    <!-- LEGEND -->
+    <line x1="32" y1="528" x2="1088" y2="528" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+    <text x="32" y="552" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND</text>
+    <rect x="112" y="540" width="16" height="16" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+    <text x="136" y="552" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">kept</text>
+    <rect x="200" y="540" width="16" height="16" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="224" y="552" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">leaving (proposed)</text>
+    <rect x="372" y="540" width="16" height="16" rx="2" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+    <text x="396" y="552" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">corrected to match</text>
+    <rect x="544" y="540" width="16" height="16" rx="2" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="568" y="552" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">untouched</text>
+    <rect x="660" y="540" width="16" height="16" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+    <text x="684" y="552" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">where it stops</text>
+  </svg>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>What changes for someone installing Kerd</h3>
+      <ul>
+        <li>They get the eight skills the page describes and nothing else.</li>
+        <li><code>/kerd:drive</code>, <code>/kerd:lorg</code>, <code>/kerd:interrogate</code> and <code>/kerd:pair</code> stop existing. That is the breaking part.</li>
+        <li>Pair's sentence is no longer added to sessions where it was switched on (Kerd and 3of3 today).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Found on 2026-09-19, and it shrinks the job</h3>
+      <ul>
+        <li>The ruling tied Interrogate's removal to a ladder and gate cleanup, from reading a guide, not the code.</li>
+        <li>Traced once: the checks define the risk-ledger format themselves, and nothing in the check tools, hooks, tests or CI names Interrogate.</li>
+        <li>So Interrogate can leave without touching the checks. One search, not yet confirmed by a test run with the skill gone.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Not in this release</h3>
+      <ul>
+        <li>Any change to the ladder, the checks or the ledger.</li>
+        <li>The old drawings that still name retired skills.</li>
+        <li>The launch-plan rewrite, the install-command test, rolling without publishing.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>Kerd · docs/work/retire-four-skills/scope.html · proposed view, no agreement recorded</footer>
+</div>
+</body>
+</html>

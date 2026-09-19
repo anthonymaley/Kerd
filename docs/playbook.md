@@ -45,7 +45,7 @@ The plugin manifest (`.claude-plugin/plugin.json`) declares the plugin name, ver
 
 **Directory layout:**
 ```
-skills/           # SKILL.md per skill — twelve skills, one folder each
+skills/           # SKILL.md per skill — eight skills, one folder each
 hooks/            # hooks.json + shell scripts, auto-loaded from the plugin (v0.96.0); never wired per repo
 hooks/statusline.sh # the clock segment — not a hook; wired via statusLine by hand, never by tend
 tests/            # hooks_test.sh
@@ -70,25 +70,20 @@ kivna/.active-modes # ephemeral mode/skill state (gitignored)
 
 This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is opt-in and never on the session path (v0.83.0) — a human knowledge base of living files updated in place, not append-only dumps, and not a machine sync layer. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions) only when you run `/kerd:kivna save`. The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
 
-**Twelve skills, each with a single responsibility, plus four hooks (three auto-loaded from `hooks/hooks.json`, plus the statusline):**
-- **drive**: the work-item umbrella (owns one item across frame → viability → scope → design → work handoff → loop → acceptance; frame-gate question set; calls conductor, never changes it — v0.104.0)
+**Eight skills, each with a single responsibility, plus three hooks (two auto-loaded from `hooks/hooks.json`, plus the statusline). Drive, Lorg, Interrogate and Pair were removed at v0.141.0:**
 - **conductor**: session discipline (understand/shape/agree/deliver/complete, v0.107.0)
-- **interrogate**: risk qualification (tiered risk ledger; exhaustive co-signed interview at the large-bet tier)
-- **lorg**: skill gap analysis (tiered subcommands: installed, available, explore, all, report)
 - **switch**: the boundary's single definition (pull on arrive is switch-in's; the Switch Out flow makes the session-state commit, run explicitly — conductor stopped invoking it at v0.107.0, by decision). Not the only committer — conductor commits its own work per verified task.
 - **kivna**: knowledge management (Obsidian vault: living Status.md, domain knowledge files, import/export)
 - **slainte**: the release close-out pass (run explicitly at version bumps and acceptance-record landings — it has no automatic caller since v0.107.0; fixes doc drift under the gate) + on-demand health audits
 - **skriv**: human writing voice enforcement (audit, fix, session mode, self-audit pass)
 - **tend**: structural health check and convergence
-- **pair**: partner-mode toggle (per-repo rapid conversational style, default off)
 - **agent**: native Claude/Codex session collaboration (a contribution from a chosen session, ongoing partner roles and review cadence asked once, role succession across verified session-ID changes — v0.109.0)
 - **visuals**: rendered product and system views (connected parts, responsibility flows, scope boundaries, decision paths — an actual rendered diagram, never a document made of text boxes — v0.108.0)
 
-**Four opt-in hooks** (registered via `/kerd:tend`, stored in `.claude/settings.local.json`):
+**Three opt-in hooks** (registered via `/kerd:tend`, stored in `.claude/settings.local.json`):
 - **Stop**: reminds about uncommitted changes and active modes on session end
 - **SessionStart**: surfaces stale state (remote drift, last session date, interrupted mode) on same-machine resume
 - **PostToolUse (Skill)**: shows mode progress when the current step's skill completes (read-only)
-- **UserPromptSubmit**: injects partner-mode reminder each prompt while pair is on (read-only)
 
 ## Integrations
 

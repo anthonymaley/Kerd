@@ -93,8 +93,8 @@ with the cache version.
 
 ### Hooks must NOT be wired by hand — anywhere
 
-Since v0.96.0 the plugin's own `hooks/hooks.json` registers all three hooks
-(`session-start.sh`, `pair.sh`, `skill-complete.sh`) automatically when the
+Since v0.96.0 the plugin's own `hooks/hooks.json` registers both hooks
+(`session-start.sh`, `skill-complete.sh`) automatically when the
 plugin is enabled. **A repo or a user-global settings file that also wires them
 double-fires every hook.** The dev-repo exception was dropped deliberately —
 no repo wires manually, including Kerd itself.
@@ -122,7 +122,6 @@ outside the repo, so a fresh clone has none of it.
 
 | State | Where | Consequence of losing it | Recovery |
 |---|---|---|---|
-| **pair mode** | `kivna/.pair` in each repo — gitignored | Partner mode silently off; sessions revert to working alone and dumping | `/kerd:pair on` per repo. CONTEXT.md `## Active Mode` records which repos should have it |
 | **conductor mode marker** | `kivna/.active-modes` — gitignored | An open conductor session cannot resume; its `execute` stamp (the sitting's open time) is gone | CONTEXT.md `## Active Mode` snapshot, written by switch-out for exactly this case |
 | **`~/.claude/settings.json`** | user-global | Enabled plugins, permissions, model and effort defaults | Not in any repo. Back it up before a move, or re-enable plugins by hand |
 | **`AGENTS.md`** | gitignored, per repo | Stale Codex-era fork; needs its own verdict | Not worth restoring |
@@ -159,14 +158,13 @@ In order. Each step's verify is the command beside it.
 7. **Enable the Kerd plugin in Claude Code** → `enabledPlugins["kerd@kerd-marketplace"]` is `true` and the cache directory exists.
 8. **Strip any hand-wired Kerd hooks** from `~/.claude/settings.json` and every `.claude/settings.local.json` → the grep in §3 prints nothing.
 9. **Start a fresh session** → the banner shows `📋 Last session: <date>`, proving auto-load fired.
-10. **Restore per-repo pair state** from CONTEXT.md `## Active Mode` → `/kerd:pair on` where it belongs.
-11. **Run the smoke tests** → all three green:
+10. **Run the smoke tests** → all three green:
     ```bash
     python3 tools/gates/gate.py selftest      # root resolution: 7 · selftest: 49
-    bash tests/hooks_test.sh                  # Passed: 21  Failed: 0
+    bash tests/hooks_test.sh                  # Passed: 16  Failed: 0
     python3 tools/diagram/progress.py stale   # "render current"
     ```
-12. **`/kerd:switch in`** → the boundary reads CONTEXT.md, TODO.md and the newest session log.
+11. **`/kerd:switch in`** → the boundary reads CONTEXT.md, TODO.md and the newest session log.
 
 ---
 

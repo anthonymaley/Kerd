@@ -145,4 +145,3 @@ how much is research.
 - docs/decisions.md — the standing decisions that are the second legal citation source
 - docs/product/hooks-autoload.md — a live item sitting at viability, and its ledger is a representative test case
 - docs/product/standards-grounding.md — the spike shape this frame follows, and the source of "a spike that ships is not a spike"
-- skills/drive/SKILL.md — where a question set is consumed at intake, and the text recording that six rungs have none

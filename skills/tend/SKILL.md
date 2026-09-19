@@ -210,7 +210,7 @@ Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs
 
 #### Category 9: Hook hygiene
 
-**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — `${CLAUDE_PLUGIN_ROOT}` expands correctly there. **No per-repo wiring is needed, and none should be added.** Each hook is silent unless the repo carries Kerd state (`kivna/.pair`, `kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
+**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — `${CLAUDE_PLUGIN_ROOT}` expands correctly there. **No per-repo wiring is needed, and none should be added.** Each hook is silent unless the repo carries Kerd state (`kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
 
 The only job left for tend is **migration**: find and remove *stale manual hook entries* left in `.claude/settings.local.json` by the old (pre-0.96.0) wiring mechanism. Those entries either point at a garbage-collected cache version (dead — Claude Code prunes old versions, see the playbook GC gotcha) or duplicate a hook the plugin now auto-loads (double-fire). Both are fixed by deletion.
 
@@ -234,8 +234,8 @@ If stale entries are found:
   Fix: remove the Kerd hook entries from .claude/settings.local.json
        (leave any non-Kerd hooks and other settings untouched).
   Verify: after removal, the hooks still fire (auto-loaded) — a new
-       session in this repo shows partner-mode injection when
-       kivna/.pair is on.
+       session in this repo prints the last-session line from
+       session-start.sh.
 ```
 
 When fixing, read `.claude/settings.local.json`, remove only the Kerd hook entries (matched by the cache path, a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path, or — in the Kerd source repo — a local `.../Kerd/hooks/` path), and preserve every non-Kerd hook, permission, and other setting. Do not add replacement entries — the plugin provides them.

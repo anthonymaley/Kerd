@@ -1,6 +1,6 @@
 # Kerd
 
-Claude Code plugin: twelve workflow skills for driving a work item from idea to acceptance, session discipline, risk qualification, session and machine handoff, knowledge management, project audits, human writing voice, structural health, skill discovery, visual agreement, conversational pair mode, and native Claude/Codex session collaboration.
+Claude Code plugin: eight workflow skills for session discipline, session and machine handoff, knowledge management, project audits, human writing voice, structural health, visual agreement, and native Claude/Codex session collaboration.
 
 ## Commit Rules
 
@@ -56,7 +56,7 @@ docs/decisions.md # the full case for every standing decision; CONTEXT.md keeps 
 docs/backlog-archive.md # Backlog rows closed at Switch Out, with verdict, evidence and date
 CONTEXT.md        # current state, overwritten each session
 TODO.md           # open work (## Now + ## Backlog)
-hooks/            # session hooks (statusline, pair toggle, session-start/stop, skill-complete)
+hooks/            # session hooks (statusline, session-start/stop, skill-complete)
 tests/            # hooks_test.sh
 kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs from switch (committed)

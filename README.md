@@ -221,9 +221,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.140.0)
+## What's New (v0.141.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.141.0
+
+**Kerd installs what its front page describes.** The plugin shipped twelve skills while
+the README, the website and the guides described eight. Drive, Lorg, Interrogate and Pair
+are removed, and `/kerd:drive`, `/kerd:lorg`, `/kerd:interrogate` and `/kerd:pair` no
+longer exist. That is a breaking change for anyone who used them. Conductor already does
+Drive's job of carrying a piece of work across sittings, and its rehearsal covers whether
+the work can succeed and is worth doing, which is what Interrogate asked. Pair's session hook goes
+with it: no line is added to your prompts, and a `kivna/.pair` file left in a project
+is now inert and safe to delete. The eight that remain are Switch, Conductor, Visuals,
+Agent, Tend, Slainte, Kivna and Skriv. The checks, the ladder and the risk-ledger format
+are unchanged in this release.
 
 ### v0.140.0
 

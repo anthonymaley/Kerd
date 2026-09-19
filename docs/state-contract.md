@@ -43,7 +43,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 ## TODO.md
 
 **Owner:** the Switch Out flow, run explicitly (writes wrap-up, runs closure inference)
-**Readers:** switch (in), lorg (work signals), kivna out (backlog export)
+**Readers:** switch (in), kivna out (backlog export)
 **Committed:** yes
 
 ### Format
@@ -97,7 +97,7 @@ skriv: active
 ## kivna/sessions/YYYY-MM-DD.md
 
 **Owner:** the Switch Out flow (creates on out, run explicitly)
-**Readers:** switch (in), lorg (work signals), kivna out (decisions export)
+**Readers:** switch (in), kivna out (decisions export)
 **Committed:** yes
 
 ### Format
@@ -130,7 +130,7 @@ skriv: active
 ## Vault Status.md
 
 **Owner:** kivna save
-**Readers:** the human (Obsidian), lorg (work signals), kivna out (status export) — **not switch, not conductor** (write-only from the session flow's perspective since v0.60.0)
+**Readers:** the human (Obsidian), kivna out (status export) — **not switch, not conductor** (write-only from the session flow's perspective since v0.60.0)
 **Committed:** no (lives in vault at `~/eolas/vault/[project]/`)
 
 ### Format
@@ -173,18 +173,6 @@ Two files per export:
 - Import only reads `.kif.json`. TOON is for LLM consumption only.
 - Exports are repo-grounded: artifacts first, conversation fills gaps.
 
-## docs/lorg-report.md
-
-**Owner:** lorg
-**Readers:** lorg (report display, and each scan to preserve unscanned tier sections)
-**Committed:** yes
-
-### Rules
-
-- Overwritten each scan. Not append-only.
-- Duplicate copy written to vault (`[Name] Lorg Report.md`).
-- Includes `Last scanned: YYYY-MM-DD` date line.
-
 ## docs/decisions.md
 
 **Owner:** the Switch Out flow (moves each decision's full entry here; marks superseded entries)
@@ -203,17 +191,16 @@ Append-only. Nothing here is edited after it lands.
 
 ## Cross-Skill Interaction Summary
 
-| File | conductor | switch | skriv | kivna | slainte | tend | lorg | hooks |
-|------|------|--------|-------|-------|---------|------|------|-------|
-| CONTEXT.md | W/R | W/R | - | - | - | R | - | - |
-| TODO.md | W/R | W/R | - | W/R | R | R | R | - |
-| .active-modes | W/R | W/R | W | R | - | - | - | R |
-| sessions/ | - | W/R | - | W/R | - | - | R | R |
-| vault Status | - | - | - | W/R | R | - | R | - |
-| KIF exports | - | - | - | W | - | - | - | - |
-| lorg-report | - | - | - | - | - | - | W/R | - |
-| docs/decisions.md | R | W/R | - | - | R | - | - | - |
-| docs/backlog-archive.md | - | W | - | - | R | - | - | - |
+| File | conductor | switch | skriv | kivna | slainte | tend | hooks |
+|------|------|--------|-------|-------|---------|------|-------|
+| CONTEXT.md | W/R | W/R | - | - | - | R | - |
+| TODO.md | W/R | W/R | - | W/R | R | R | - |
+| .active-modes | W/R | W/R | W | R | - | - | R |
+| sessions/ | - | W/R | - | W/R | - | - | R |
+| vault Status | - | - | - | W/R | R | - | - |
+| KIF exports | - | - | - | W | - | - | - |
+| docs/decisions.md | R | W/R | - | - | R | - | - |
+| docs/backlog-archive.md | - | W | - | - | R | - | - |
 
 W = writes, R = reads, - = no interaction
 
@@ -229,12 +216,11 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Session log creation | **switch** | Conductor records decisions in TODO.md, not session logs |
 | Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills don't write `## Now`; kivna import may merge approved KIF items into `## Backlog` |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
-| Vault writes | **kivna** (save, on demand — v0.83.0) | No skill calls kivna save automatically; lorg's report copy is the one automatic exception |
+| Vault writes | **kivna** (save, on demand — v0.83.0) | No skill calls kivna save automatically |
 | Conductor state (.active-modes conductor line) | **conductor** | Other skills read conductor state but never write the conductor line |
 | Skriv state (.active-modes skriv line) | **skriv** | Same rule — each skill owns only its own line |
 | Structural audit and fix | **tend** | Tend keeps structure; slainte fixes *content* drift under the caller's gate |
 | Content audit and fix | **slainte** — triggered by conductor at releases and feature closes, on demand otherwise | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |
-| Skill/plugin recommendations | **lorg** | Lorg recommends, never auto-installs |
 
 ### Conflict resolution
 

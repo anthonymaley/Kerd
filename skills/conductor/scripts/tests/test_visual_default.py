@@ -51,7 +51,7 @@ BANNED = (
 class VisualDefaultTests(unittest.TestCase):
     def test_every_skill_entry_point_carries_the_showing_rule_and_link(self):
         entries = sorted(SKILLS.glob("*/SKILL.md"))
-        self.assertGreaterEqual(len(entries), 12)
+        self.assertGreaterEqual(len(entries), 8)
         for path in entries:
             with self.subTest(skill=path.parent.name):
                 text = path.read_text(encoding="utf-8")

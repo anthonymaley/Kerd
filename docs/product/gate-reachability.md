@@ -93,7 +93,6 @@ plausible disposition, per the 2026-08-31 ruling.
 
 ## Grounding
 
-- skills/drive/SKILL.md — the two gate invocations at lines 39 and 76, both bare relative paths; the frame-gate question set is the one rung that already asks something.
 - skills/conductor/SKILL.md — the two gate invocations at lines 90 and 150, the pre-flight inventory being where a foreign repo first meets the gates; and line 165, which declares the design and work-handoff stages unowned.
 - tools/gates/gate.py — the `--root` resolver whose CLI half shipped 2026-08-14 and which this item proves works against a foreign repo; also `_walk_up_for_git`, the site of the worktree escape defect this item's killer risk generalises.
 - hooks/hooks.json — the only place in the plugin where `${CLAUDE_PLUGIN_ROOT}` is proven to resolve at runtime, and therefore the precedent the invocation idiom is built on.

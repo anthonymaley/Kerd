@@ -7,7 +7,7 @@ can pick the work up, on this machine or another one. A **sitting** is one
 stretch of work, from picking it up to putting it down. Kerd's whole job is to
 make the next sitting start where the last one stopped.
 
-There are twelve skills. You do not have to learn them. This page uses three:
+There are eight skills. You do not have to learn them. This page uses three:
 tend, switch and conductor.
 
 This page goes from nothing to a first saved sitting. It continues from the

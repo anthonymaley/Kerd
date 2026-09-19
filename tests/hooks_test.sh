@@ -1,7 +1,7 @@
 #!/bin/bash
 # Kerd hooks test harness
 #
-# Exercises the session hooks (session-start.sh, skill-complete.sh, pair.sh)
+# Exercises the session hooks (session-start.sh, skill-complete.sh)
 # against the failure classes that have actually bitten us:
 #
 #   - Path resolution: the hook must degrade SILENTLY (exit 0, no stderr) when
@@ -340,65 +340,11 @@ test_shellcheck_clean() {
     return 0
   fi
   local out
-  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/skill-complete.sh" "$HOOKS/pair.sh" 2>&1)
+  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/skill-complete.sh" 2>&1)
   if [ -n "$out" ]; then
     fail "shellcheck reported issues:"$'\n'"$out"
     return
   fi
-  pass
-}
-
-# --- pair mode (UserPromptSubmit) --------------------------------------------
-
-test_pair_unset_projectdir_is_silent() {
-  TNAME="pair:unset CLAUDE_PROJECT_DIR exits silently"
-  run_hook UNSET pair.sh
-  assert_exit 0 "$RC" || return
-  assert_empty "$OUT" stdout || return
-  assert_empty "$ERR" stderr || return
-  pass
-}
-
-test_pair_empty_projectdir_is_silent() {
-  TNAME="pair:empty CLAUDE_PROJECT_DIR exits silently"
-  run_hook "" pair.sh
-  assert_exit 0 "$RC" || return
-  assert_empty "$OUT" stdout || return
-  assert_empty "$ERR" stderr || return
-  pass
-}
-
-test_pair_no_flag_file_silent() {
-  TNAME="pair:no kivna/.pair -> silent"
-  local d; d=$(make_kerd_repo)
-  run_hook "$d" pair.sh
-  rm -rf "$d"
-  assert_exit 0 "$RC" || return
-  assert_empty "$OUT" stdout || return
-  pass
-}
-
-test_pair_off_silent() {
-  TNAME="pair:flag = off -> silent"
-  local d; d=$(make_kerd_repo)
-  echo "off" > "$d/kivna/.pair"
-  run_hook "$d" pair.sh
-  rm -rf "$d"
-  assert_exit 0 "$RC" || return
-  assert_empty "$OUT" stdout || return
-  pass
-}
-
-test_pair_on_injects_partner_mode() {
-  TNAME="pair:flag = on -> injects partner-mode reminder"
-  local d; d=$(make_kerd_repo)
-  echo "on" > "$d/kivna/.pair"
-  run_hook "$d" pair.sh
-  rm -rf "$d"
-  assert_exit 0 "$RC" || return
-  assert_contains "$OUT" "Partner mode" || return
-  assert_contains "$OUT" "ask ONE question" || return
-  assert_contains "$OUT" "multiple choice only when it clarifies" || return
   pass
 }
 
