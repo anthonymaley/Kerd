@@ -2,18 +2,24 @@
 
 ## Now
 
-**Release boundary:** 0.138.1 on `main`. Resolve IDs with `git log`. Position,
+**Release boundary:** 0.139.0 on `main`. Resolve IDs with `git log`. Position,
 installed state and the reading set are in `CONTEXT.md` `## Where We Are`.
 
-**Selected next, proposed not agreed: start the diagnostic pilot** (launch sequence
-step 4, launch outcome 2). Refresh the Kerd plugin to 0.138.1 (this machine's cache
-holds 0.136.1), create the separate `agent-request` repository (never inside Kerd),
-and drive its first work item through Conductor with Kerd frozen for the run. The
-output is a findings document; PARTIAL is a valid result. Binding rules and the
-critical path: `docs/design/launch-plan.md`. Subject framed at
-`~/eolas/vault/kerd/Agent Request Skill Sketch.md`.
+**Selected next, proposed not agreed: refresh the plugin to 0.139.0 and rehearse one
+real piece of work with it.** Watch whether Conductor keeps the sketchbook unprompted,
+answers "where are we?" from it, calls Ready, and, if it gets that far, runs a concert
+by batch with the goal check before the loop ends. Anthony picks the work and project.
+Record what is seen in `docs/work/structured-route/work.md`; fixes are a separate go.
 
-Records of this sitting (2026-09-18 afternoon):
+**Anthony's call: rewrite the launch plan** (`docs/design/launch-plan.md`) around
+rehearsal and the concert. The `agent-request` pilot subject overlaps `/kerd:agent`
+and was set aside in conversation on 2026-09-18 with no ruling recorded; until he
+rules, the plan stands as written and the diagnostic pilot is not the selected next.
+Subject sketch: `~/eolas/vault/kerd/Agent Request Skill Sketch.md`.
+
+Records of the 2026-09-18 evening sitting: `docs/work/structured-route/` (0.139.0).
+
+Records of the afternoon sitting (2026-09-18):
 - `docs/work/switch-in-open-work/work.md`, `arrival-grid.html` (0.136.0);
 - `docs/work/risk-state-split-acceptance/work.md` and
   `docs/gates/2026-09-03-risk-state-split-acceptance.md` (0.136.1);
@@ -27,13 +33,16 @@ Earlier release records: `docs/work/visual-communication/`, `model-dispatch-guar
 
 These lists are not authority to install or run checks during pickup.
 
-- **Released and archived**: 0.133.0–0.135.0, and this afternoon 0.136.0–0.138.0.
+- **Released and archived**: 0.133.0–0.135.0, and on 2026-09-18 0.136.0–0.139.0.
   Verdicts in `docs/backlog-archive.md` (`## Closed 2026-09-18` and
   `## Closed 2026-09-18 (afternoon)`). **Adopted from Codex's close:** change the
   dispatch contract again only for demonstrated behaviour from real dispatches, not
   for further prose tightening.
 
-- **Observe 0.136.0's arrival and 0.138.0's closing box in real use.** Is the grid
+- **Observe 0.139.0's rehearsal and concert in real use** (the selected next above).
+- **Observe 0.136.0's arrival and 0.138.0's closing box in real use.** First showing
+  2026-09-18 evening: the arrival rendered and "y" reached Conductor at Shape; the
+  "Something else" route and readability over several sittings are still unseen. Is the grid
   readable, is "where things stand" product language, does "Something else" reach
   Conductor, does the closing box say what changed? Needs the plugin at 0.138.0.
 - **Observe Conductor's step check in a real session.** Only the command, its output

@@ -86,9 +86,10 @@ is the simple high level process we need." Build not yet requested or approved.
   limit applies only to the unattended managed driver. Draft reworded to match.
 
 ## Now
-Stage: Shape
-Current activity: draft revised to the 22:56 rulings; uncommitted.
-Pending question: see the session; not yet answered at this save.
-Next action: on Anthony's go, draft the smallest Conductor change (rehearsal notes +
-the Ready moment that hands to the composer). Codex `codex-tui` reviews at the
-checkpoint and before push.
+Stage: Complete for 0.139.0 (released to `main` 2026-09-18, CI green); the behaviour is unobserved.
+Current activity: none.
+Open issues: no test exists for the behaviour; whether a live chat can read its own
+context usage is unknown; the launch plan is not yet rewritten around this.
+Pending question: none.
+Next action: Anthony picks one real piece of work; refresh the plugin to 0.139.0 (his
+go) and rehearse it, recording here what Conductor actually does.

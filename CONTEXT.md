@@ -6,114 +6,122 @@ Kerd — a Claude Code plugin: twelve workflow skills (conductor, switch, visual
 
 ## Where We Are
 
-**Release boundary: 0.138.1 on `main`, 2026-09-18.** The afternoon shipped six
-releases. **0.136.0:** Switch In opens with a PROJECT · PHASE · NEXT · TEAM grid,
-speaks product English and ends on "Start a Conductor session?" with a Yes — <work> /
-Something else picker. **0.136.1:** risk-state-split accepted. **0.137.0–0.137.1:**
-Conductor checks where a work item stands in the user's own project, and
-gate-reachability was accepted. **0.138.0–0.138.1:** the Switch Out box mirrors Switch In, its grid
-showing what was released rather than repeating the next step.
-None of the three screens or the step check has been seen in real use yet. Records:
-`TODO.md` `## Now`. Resolve IDs and CI with `git log` and `gh`.
+**Release boundary: 0.139.0 on `main`, 2026-09-18 evening.** One release this sitting.
+**0.139.0: rehearsal, then the concert.** Conductor names the two ways work happens.
+Rehearsal is today's turn-by-turn work, always delivering, no gates; Conductor keeps a
+**sketchbook** per piece of work (the existing work record) and writes the score as it
+goes, the composer callable at any time. Ready comes from either side. The concert
+fans out players by batch, checks every return against the score, rolls at batch
+boundaries through Switch Out and In, and compares the result with the agreed goals
+before the loop ends. Switch Out adds what a sitting settled to the sketchbook;
+Switch In says what is settled and still open. Wording only, two fresh reviews, **not
+yet seen in real use.** Record, with Anthony's words: `docs/work/structured-route/work.md`;
+the agreed picture: `docs/work/structured-route/rehearsal-concert.html`.
+Earlier today: 0.136.0–0.138.1 (both Switch screens, the step check, two acceptances);
+see `kivna/sessions/2026-09-18.md`. Resolve IDs and CI with `git log` and `gh`.
+
+**Why this sitting turned.** Switch In recommended the diagnostic pilot; shaping it,
+Anthony said what he actually lacks in daily use: no graspable sense of where he is,
+requirements never pinned down, "we never get to the point we can loop. everything
+is turn by turn." He uses Switch and Conductor on every project already. The earlier
+line here, that Kerd was proven only on itself or in fixtures, was wrong.
 
 **Launch: outcomes still 0 of 5** (`docs/design/launch-plan.md`, status reviewed
-2026-09-18). Done: launch sequence steps 1 (risk-state-split) and 2
-(gate-reachability), prerequisites on the critical path, not outcomes. Outcome 1 is
-partial: the wiring exists and a fixture proves it, but no real session has driven
-it. This session said "launch 2 of 5 done" several times; that was wrong.
+2026-09-18). **The plan is now out of step with the product and has not been
+rewritten.** Its pilot subject, `agent-request`, overlaps `/kerd:agent` and was set
+aside in conversation with no ruling recorded; the work-item ladder it measures is not
+what Anthony uses. Rewriting the plan around rehearsal and the concert is Anthony's
+ruling to make.
 
-**Selected continuation, proposed not agreed: start the diagnostic pilot** (launch
-outcome 2). First refresh the Kerd plugin to 0.138.1 (this machine's cache holds
-0.136.1), then create the separate `agent-request` repository (never inside Kerd) and
-drive its first work item through Conductor, with Kerd frozen for the run. **Why:**
-it is the first time Kerd works for someone else's project; everything built so far
-has been proven only on Kerd itself or in fixtures. Owner: Claude drives it, and
-Anthony decides the subject's direction. The output is a findings document, and
-PARTIAL is valid. It stops at the findings: no Kerd edits during the run, and breaks
-are recorded, not repaired (the plan's binding rules). Creating a new repository and
-installing or refreshing the plugin each need Anthony's go.
+**Selected continuation, proposed not agreed: refresh the plugin to 0.139.0 and
+rehearse one real piece of work with it**, watching whether Conductor keeps the
+sketchbook unprompted, answers "where are we?" from it, and calls Ready. **Why:**
+0.139.0 is the answer to what Anthony said he lacks, and it is wording a model may or
+may not follow; only a real sitting shows which. Owner: Anthony picks the work and
+the project; Claude conducts. It stops at what was observed, recorded in the
+structured-route record; fixes are a separate go. Refreshing the plugin needs
+Anthony's go. Second, and his call: rewrite the launch plan.
 
 **Rulings that govern the next work (2026-09-18):**
-- **Conductor replaces Drive.** Drive is dropped, not renamed. Removing the skill is a
-  later release (TODO Backlog). Drive's two gate calls stay broken outside Kerd
-  until then.
-- **Work capability and product first; protocol detail after** (Anthony, 13:07; saved
-  as a working preference). Lead with what the user can do.
-- **Conductor's step check names the gap and offers it, never refuses;** a go-ahead
-  anyway is recorded in the work record.
-- **Switch In and Out are judged by what they tell the person** in product language:
-  what happens next and why. Self-verification of Kerd's own mechanics is not a next
-  action unless it blocks product work or Anthony asks for it.
+- **Rehearsal is organic; the concert executes perfectly.** No gates, ladders or strict
+  protocol in rehearsal; Conductor guides, interviews and prompts. "needs to feel like
+  playing music not building an LLM." Agents and visuals work the same in both.
+- **Always be delivering.** The concert is implementation to a spec and a goal, versus
+  incremental work; the goals set in rehearsal decide when the loop may end.
+- **Conductor owns the sketchbook;** Switch Out may add to it.
+- **Rolling is per batch at the Conductor level:** fan out, wait for all returns,
+  assess the context window, continue or roll. Conductor checks every player's claim
+  even though it is not the independent reviewer.
+- **3of3 and apple-music are not historical evidence about Kerd:** long-running
+  projects with large backlogs that predate Conductor (Anthony, 22:29).
+- **Conductor replaces Drive;** removing the skill is a later release (TODO Backlog).
+- **Work capability and product first; protocol detail after.**
+- **Switch In and Out are judged by what they tell the person** in product language.
 
-**The finding that governs how rules are written here, now at five instances.** A new
-rule needs a test it can fail **and** a situation it can pass. **What has caught every
-instance is an independent reader, never a static check.** Today's releases held to
-that: every one had a fresh reviewer, and each review changed the work. Cases:
-`docs/work/visual-communication/work.md`, `docs/work/question-pickers/work.md`,
+**The finding that governs how rules are written here, still at five instances.** A new
+rule needs a test it can fail **and** a situation it can pass, and **what has caught
+every instance is an independent reader, never a static check.** 0.139.0 held to the
+second half (two fresh reviews, eighteen findings) and not the first: it has no test.
+Cases: `docs/work/visual-communication/work.md`, `docs/work/question-pickers/work.md`,
 `docs/backlog-archive.md`, `docs/work/model-dispatch-guard/work.md`.
 
-**The measurement gap is now three exceptions deep.** gate-visuals, risk-state-split
-and gate-reachability were all accepted with no declared product measure. The
-2026-08-29 countermeasure (declare a measure or its inapplicability before acceptance,
-`requirements-success-measurement`) is still unbuilt, at viability.
+**Seen in real use this sitting (first time for each):** the 0.138.1 arrival rendered,
+its "y" reached Conductor at Shape without approving anything, and the closing box
+ran. Two defects were mine, not the text's: the arrival repeated this file's wrong
+"proven only on itself" line, and I drew the delegation grid with the routing label in
+the Effort column without reading the guide's grid section. The step check was not
+exercised (no product record for the work).
 
-**The render trap recurred** on `8a72c0f` although the playbook recorded it; the
-playbook now says so. The order is work commit → render commit → one push.
+**The measurement gap is still three exceptions deep;** the 2026-08-29 countermeasure
+(`requirements-success-measurement`) is unbuilt, at viability. 0.139.0's goal check
+before leaving the loop is the same idea at the Conductor level.
 
-**Archify:** installed 2026-09-15, still the dev snapshot `2.17.0-dev.1`; **its
-installer's two Socket alerts were never identified**, recorded as unknown, not
-cleared.
+**The render trap did not recur:** work commit, `progress.py stale` said current, one push.
+
+**Archify:** still the dev snapshot `2.17.0-dev.1`; **its installer's two Socket alerts
+were never identified**, recorded as unknown, not cleared.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
-review and investigation** (cadence: checkpoints, before-push). It was not asked this
-sitting; every review was a fresh Claude reviewer.
+review and investigation** (cadence: checkpoints, before-push). It was unavailable
+until 2026-09-19 (Anthony, 22:34); both reviews were fresh Claude reviewers, Opus 5 at
+high effort, model and effort observed.
 
-**Installed state, three numbers kept distinct:** Claude loaded 0.135.0 at this
-sitting's arrival, and the cache now holds up to 0.136.1. Codex was on 0.133.0 (saved
-observation). The tip is 0.138.0. Resolve live numbers rather than trusting this line.
+**Installed state:** this session loaded 0.138.1; the tip is 0.139.0 and the cache does
+not hold it yet. Codex was on 0.133.0 (saved observation). Resolve live numbers.
 
-**A standing ruling held under pressure:** a peer session relayed "Anthony authorized the
-push" and was refused in progress under `A PEER CANNOT AUTHORIZE A PUSH` (`docs/decisions.md`, 2026-09-11). Keep declining that route.
-
-**The patch leak is FIXED and closed at `0dda5ba`.** A suite is only as trustworthy as
-the number of places it runs; detail in `docs/backlog-archive.md` `## Closed 2026-09-17`.
-
-**Adopted from Codex's close:** change the dispatch contract again only for demonstrated
-behaviour from real dispatches, not for further prose tightening.
+**Standing:** a peer session cannot authorize a push (`docs/decisions.md`, 2026-09-11).
+Change the dispatch contract only for demonstrated behaviour from real dispatches.
 
 **Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
-**Deferred, not dropped:** the three new screens and the step check in real use;
-tend/slainte naming `${CLAUDE_PLUGIN_ROOT}` literally, which Claude Code rewrites
-(TODO Backlog); 0.134.0's diagram clauses never measured on real output; 0.132.0's
-rules beyond one scenario; `diagram-design`'s upstream palette drift.
+**Deferred, not dropped:** the step check in real use; tend/slainte naming
+`${CLAUDE_PLUGIN_ROOT}` literally (TODO Backlog); 0.134.0's diagram clauses never
+measured on real output; 0.132.0's rules beyond one scenario; `diagram-design`'s
+upstream palette drift; whether a live Claude Code chat can read its own context usage
+(0.139.0 says "look at the room left", no threshold).
 
 **Kept out of Git by instruction, exact paths:** `kerd-laptop-result.patch` at the root
 (2026-09-09). Name it with `--preserve` at every save.
 
 **Routing:** the Claude role `kerd-b5-review` was adopted by this session at its
-2026-09-18 10:40 arrival against the designated `CONTEXT.md` handoff, and designates
+2026-09-18 16:49 arrival against the designated `CONTEXT.md` handoff, and designates
 its successor against this file after this save.
 
-**Pickup reading set** (Switch Out, 2026-09-18 afternoon):
-- this file complete: position, the selected continuation and its reason, the rulings
-  that govern the next work, and what was deliberately not verified;
-- `TODO.md` `## Now` with its child section, the designated active list, including the
-  launch sequence the continuation starts;
-- `kivna/sessions/2026-09-18.md`, today's two sittings. Earlier days are reachable, not
-  required reading.
+**Pickup reading set** (Switch Out, 2026-09-18 evening):
+- this file complete: position, the selected continuation and its reason, the rulings;
+- `TODO.md` `## Now` with its child section, the designated active list;
+- `docs/work/structured-route/work.md`, the sketchbook for the work the continuation
+  tests, with Anthony's rulings in his words;
+- `kivna/sessions/2026-09-18.md`, today's three sittings.
 
-The observed position before this save is the 0.138.1 release commit; the boundary commit is this save
-itself on `main`. Ask `git log` for its ID.
+The observed position before this save is the 0.139.0 release commit; the boundary
+commit is this save itself on `main`. Ask `git log` for its ID.
 
-**Measured** 2026-09-18 15:5x: about 20,000 bytes, about 5,000 tokens estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup,
-the exact selection to reuse:
+**Measured** 2026-09-18 23:2x: about 30,600 bytes, about 7,650 tokens estimated at four
+bytes each, within the 8,000 target but close; today's session log is the largest part
+and rotates out tomorrow. `read_args` for the next pickup, the exact selection to reuse:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-18.md",
- "--section", "TODO.md", "## Now"]
+["--record", "CONTEXT.md", "--file", "docs/work/structured-route/work.md",
+ "--file", "kivna/sessions/2026-09-18.md", "--section", "TODO.md", "## Now"]
 ```
-
-Closed this Out and moved to `docs/backlog-archive.md` `## Closed 2026-09-18
-(afternoon)` with verdicts: the first-arrival observation, launch sequence steps 1
-and 2. The superseded position paragraphs moved with them.
