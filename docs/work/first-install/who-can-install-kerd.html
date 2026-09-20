@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd's front door: who can install it</title>
+<style>
+  :root {
+    --paper: #F7F9F7;
+    --card: #FFFFFF;
+    --ink: #0B1512;
+    --ink-soft: #223029;
+    --muted: #4E5D58;
+    --sage: #93A29B;
+    --rule: #D5DCD7;
+    --tint: #E5EBE7;
+    --deep: #0B5E4A;
+    --clay: #B34A2B;
+    --clay-bg: #FBF2EF;
+    --deep-bg: #ECF7F2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 32px 56px;
+    background: var(--paper); color: var(--ink);
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1560px; margin: 0 auto; }
+  .identity {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--sage); margin: 0 0 10px;
+  }
+  h1 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -.012em;
+  }
+  .standfirst {
+    font-size: 17px; line-height: 1.5; color: var(--muted);
+    max-width: 78ch; margin: 0 0 34px;
+  }
+  .standfirst b { color: var(--ink); font-weight: 600; }
+
+  .panels { display: flex; flex-wrap: wrap; gap: 28px; align-items: stretch; }
+  .panel {
+    flex: 1 1 560px; min-width: 0;
+    background: var(--card); border: 1px solid var(--rule); border-radius: 12px;
+    padding: 24px 24px 22px;
+  }
+  .kicker {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--sage); margin: 0 0 4px;
+  }
+  .panel h2 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    font-size: 21px; margin: 0 0 3px; letter-spacing: -.008em;
+  }
+  .panel p.sub { font-size: 14px; color: var(--muted); margin: 0 0 20px; line-height: 1.45; }
+  .proposed h2 { color: var(--deep); }
+
+  /* ---- the matrix: reflows to stacked rows on narrow screens ---- */
+  .matrix { display: grid; grid-template-columns: 158px 1fr 1fr; gap: 12px 14px; }
+  .corner { }
+  .colhead { padding: 0 2px 2px; }
+  .colhead .t { font-size: 13px; font-weight: 600; color: var(--ink); display: block; }
+  .colhead .s { font-size: 12px; color: var(--sage); display: block; margin-top: 2px; }
+  .colhead.changed .t { color: var(--deep); }
+  .colhead.changed .s { color: var(--deep); }
+
+  .rowhead { padding-top: 12px; }
+  .rowhead .who { font-size: 14px; font-weight: 600; color: var(--ink); display: block; }
+  .rowhead .q  { font-size: 12.5px; color: var(--muted); display: block; margin-top: 3px; }
+  .rowhead .n  { font-size: 12.5px; color: var(--sage); display: block; margin-top: 3px; }
+  .rowhead .n.good { color: var(--deep); }
+
+  .cell {
+    border: 1.2px solid var(--sage); border-radius: 8px; background: var(--paper);
+    padding: 12px 14px 13px;
+  }
+  .cell .steplabel { display: none; }
+  .cell .verdict { display: flex; align-items: baseline; gap: 9px; }
+  .cell .mark { font-size: 18px; line-height: 1; color: var(--deep); }
+  .cell .word { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .cell .d { font-size: 12.5px; color: var(--muted); display: block; margin-top: 7px; line-height: 1.4; }
+  .cell .d.faint { color: var(--sage); margin-top: 3px; }
+
+  .cell.fail { border-color: var(--clay); border-width: 2px; background: var(--clay-bg); }
+  .cell.fail .mark, .cell.fail .word, .cell.fail .d { color: var(--clay); }
+  .cell.fail .word { font-weight: 700; }
+  .cell.win  { border-color: var(--deep); border-width: 2px; background: var(--deep-bg); }
+  .cell.win .mark, .cell.win .word, .cell.win .d { color: var(--deep); }
+  .cell.win .word { font-weight: 700; }
+
+  .divider { grid-column: 1 / -1; height: 1px; background: var(--tint); margin: 4px 0; }
+  .why {
+    grid-column: 2 / -1; border: 1px solid var(--tint); border-radius: 8px;
+    background: var(--card); padding: 13px 15px; margin-top: 4px;
+  }
+  .why .t { font-size: 12.5px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 6px; }
+  .why .b { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+  /* ---- the change ---- */
+  .change {
+    margin-top: 30px; background: var(--tint); border: 1px solid var(--rule);
+    border-radius: 12px; padding: 22px 24px;
+  }
+  .change h3 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px; margin: 0 0 14px;
+  }
+  .change-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .says {
+    flex: 1 1 340px; min-width: 0; background: var(--card);
+    border: 1px solid var(--rule); border-radius: 9px; padding: 13px 15px;
+    font-size: 14.5px; line-height: 1.45; color: var(--ink-soft);
+  }
+  .says .lbl {
+    display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 5px;
+  }
+  .says.after { border-color: var(--deep); border-width: 1.5px; }
+  .arrow { font-size: 22px; color: var(--sage); flex: 0 0 auto; }
+
+  .evidence {
+    margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--rule);
+    font-size: 13px; line-height: 1.65; color: var(--muted);
+  }
+  .evidence b { color: var(--ink-soft); font-weight: 600; }
+  .evidence code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
+    background: var(--tint); padding: 1px 5px; border-radius: 4px; color: var(--ink-soft);
+    word-break: break-word;
+  }
+  .note { margin-top: 12px; font-size: 13px; color: var(--sage); }
+
+  @media (max-width: 760px) {
+    body { padding: 28px 16px 40px; }
+    h1 { font-size: 26px; }
+    .standfirst { font-size: 16px; }
+    .panel { padding: 20px 18px; }
+    .matrix { grid-template-columns: 1fr; gap: 10px; }
+    .colhead { display: none; }
+    .rowhead {
+      padding-top: 14px; border-top: 1px solid var(--tint); margin-top: 6px;
+    }
+    .matrix > .rowhead:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+    .cell .steplabel {
+      display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 7px;
+    }
+    .cell.fail .steplabel { color: var(--clay); }
+    .cell.win .steplabel { color: var(--deep); }
+    .divider { display: none; }
+    .why { grid-column: 1 / -1; }
+    .arrow { width: 100%; text-align: center; transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="identity">Kerd · the install test</p>
+  <h1>Kerd's front door: who can install it</h1>
+  <p class="standfirst">
+    The README gives a newcomer two commands. The first works for everybody. The second
+    only works if you have <b>already set up a GitHub key</b> on your machine. Anyone who
+    has not is refused and gets nothing — and setting one up is not part of the
+    instructions.
+    <b>One line changes that:</b> publish the ordinary public web address for the project
+    instead of the private one. Tested: it installs with no key and no setup.
+  </p>
+
+  <div class="panels">
+
+    <!-- ============================ TODAY ============================ -->
+    <section class="panel" aria-labelledby="today-h">
+      <p class="kicker">Today · as published in 0.142.0</p>
+      <h2 id="today-h">Only people with a key can get in</h2>
+      <p class="sub">Tested by running both commands twice: once with a key available,
+      once with SSH refused.</p>
+
+      <div class="matrix">
+        <div class="corner"></div>
+        <div class="colhead">
+          <span class="t">Step 1 · Add the marketplace</span>
+          <span class="s">“where does this plugin live?”</span>
+        </div>
+        <div class="colhead">
+          <span class="t">Step 2 · Install the plugin</span>
+          <span class="s">“fetch it and switch it on”</span>
+        </div>
+
+        <div class="rowhead">
+          <span class="who">With a GitHub key</span>
+          <span class="q">already set up on the machine</span>
+          <span class="n">you, and developers who use one</span>
+        </div>
+        <div class="cell">
+          <span class="steplabel">Step 1 · Add the marketplace</span>
+          <span class="verdict"><span class="mark">✓</span><span class="word">Added</span></span>
+          <span class="d">connects with the key</span>
+          <span class="d faint">it tests for one first</span>
+        </div>
+        <div class="cell">
+          <span class="steplabel">Step 2 · Install the plugin</span>
+          <span class="verdict"><span class="mark">✓</span><span class="word">Installed</span></span>
+          <span class="d">all eight skills arrive</span>
+          <span class="d faint">version 0.142.0</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="rowhead">
+          <span class="who">Without a GitHub key</span>
+          <span class="q">never set one up, or not on this machine</span>
+          <span class="n">most people trying Kerd</span>
+        </div>
+        <div class="cell">
+          <span class="steplabel">Step 1 · Add the marketplace</span>
+          <span class="verdict"><span class="mark">✓</span><span class="word">Added</span></span>
+          <span class="d">connects the open way</span>
+          <span class="d faint">falls back by itself</span>
+        </div>
+        <div class="cell fail">
+          <span class="steplabel">Step 2 · Install the plugin</span>
+          <span class="verdict"><span class="mark">✗</span><span class="word">Refused</span></span>
+          <span class="d">nothing is installed</span>
+          <span class="d">none of the eight skills</span>
+        </div>
+
+        <div class="why">
+          <span class="t">Why the two steps differ</span>
+          <span class="b">
+            Step 1 checks whether you have a key and takes the open route if not.
+            Step 2 never checks. It uses the private address Kerd publishes about itself.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= WITH THE FIX ========================= -->
+    <section class="panel proposed" aria-labelledby="fixed-h">
+      <p class="kicker">Applied in the working tree · tested, not published</p>
+      <h2 id="fixed-h">Everyone can get in</h2>
+      <p class="sub">One line in the plugin's own manifest, tested both ways. Nothing about
+      the skills changes.</p>
+
+      <div class="matrix">
+        <div class="corner"></div>
+        <div class="colhead">
+          <span class="t">Step 1 · Add the marketplace</span>
+          <span class="s">unchanged</span>
+        </div>
+        <div class="colhead changed">
+          <span class="t">Step 2 · Install the plugin</span>
+          <span class="s">now given an open address</span>
+        </div>
+
+        <div class="rowhead">
+          <span class="who">With a GitHub key</span>
+          <span class="q">already set up on the machine</span>
+          <span class="n">nothing changes</span>
+        </div>
+        <div class="cell">
+          <span class="steplabel">Step 1 · Add the marketplace</span>
+          <span class="verdict"><span class="mark">✓</span><span class="word">Added</span></span>
+          <span class="d">connects with the key</span>
+        </div>
+        <div class="cell">
+          <span class="steplabel">Step 2 · Install the plugin</span>
+          <span class="verdict"><span class="mark">✓</span><span class="word">Installed</span></span>
+          <span class="d">works, key or not</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="rowhead">
+          <span class="who">Without a GitHub key</span>
+          <span class="q">never set one up, or not on this machine</span>
+          <span class="n good">this is what changes</span>
+        </div>
+        <div class="cell">
+          <span class="steplabel">Step 1 · Add the marketplace</span>
+          <span class="verdict"><span class="mark">✓</span><span class="word">Added</span></span>
+          <span class="d">connects the open way</span>
+        </div>
+        <div class="cell win">
+          <span class="steplabel">Step 2 · Install the plugin</span>
+          <span class="verdict"><span class="mark">✓</span><span class="word">Installed</span></span>
+          <span class="d">all eight skills arrive</span>
+          <span class="d">the open route, no key</span>
+        </div>
+
+        <div class="why">
+          <span class="t">What makes it work</span>
+          <span class="b">
+            Installing always uses whatever address the plugin publishes, exactly as
+            written, with no checking. Given a public address it needs no key from anyone.
+            Run and confirmed both ways.
+          </span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== the change itself ===================== -->
+  <div class="change">
+    <h3>The change, in words</h3>
+    <div class="change-row">
+      <div class="says">
+        <span class="lbl">Kerd says about itself today</span>
+        Fetch me from <b>this private address</b> — the kind that only works if you have a
+        key registered with GitHub.
+      </div>
+      <div class="arrow">→</div>
+      <div class="says after">
+        <span class="lbl">Kerd would say instead</span>
+        Fetch me from <b>this open web address</b> — the ordinary public link anybody can
+        follow, with or without a key.
+      </div>
+    </div>
+  </div>
+
+  <div class="evidence">
+    <b>Evidence.</b> Both commands run twice in throwaway profiles, and the machine's own
+    setup verified structurally unchanged afterwards. With a key: installed
+    <code>0.142.0</code> from commit <code>ac4d4db</code>, exactly the eight skills the
+    README names, none of the four retired ones. Without a key: step 1 reported
+    <code>SSH not configured, cloning via HTTPS</code> and succeeded; step 2 failed with
+    <code>git@github.com: Permission denied (publickey)</code> and wrote no install record.
+    The repository itself is public and answers anonymously over HTTPS — the closed door is
+    the address in <code>.claude-plugin/marketplace.json</code>, not the repository.
+    <div class="note">
+      <b style="color:#223029">The fix is tested, not assumed.</b> With the public address and
+      no key: installed, all eight skills. With a key: unchanged, also all eight.
+      <b style="color:#223029">One obvious repair was tried first and rejected:</b> naming the
+      GitHub project the way the first command names it looks like the tidy fix, and it
+      still failed — installing reaches for the private address anyway unless an
+      environment variable is set, and no newcomer sets one. Only the explicit public
+      address works on its own.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

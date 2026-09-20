@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.142.1
+
+**Anyone can install it.** The address Kerd published for itself reached the project over
+SSH only, so anyone who has not set up a GitHub key on their machine was refused. Adding
+the marketplace worked for everybody, because that step checks whether you have a key and
+takes the open route when you do not. Installing never checked. It used the published
+address exactly as written, was refused, and left nothing behind: no plugin, and none of
+the eight skills. The address is now the ordinary public link to the project, tested on a
+machine with no key and on one with a key, both installing all eight skills. No skill
+behaviour changed. It was found by running the published commands from scratch for the
+first time.
+
 ## 0.142.0
 
 **One way to keep work honest.** Kerd carried two: the sketchbook, score and goal check
