@@ -28,7 +28,7 @@ Every change to a skill (new skill, modified behavior, renamed command, changed 
 
 5. **Namespace references**: all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:conductor`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
 
-CI enforces the mechanical subset of this checklist on every push: `python3 tools/gates/gate.py release` refuses version drift (item 1), capability-list drift (item 3), and bare slash references (item 5).
+CI enforces the mechanical subset of this checklist on every push: `python3 tools/release_check.py` refuses version drift (item 1), capability-list drift (item 3), and bare slash references (item 5).
 
 ## Version Strategy
 
@@ -42,14 +42,14 @@ Use semver: `MAJOR.MINOR.PATCH`
 ```
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
 agents/           # kerd:effort-<level> subagent definitions: effort for delegated native Claude jobs
-tools/gates/      # entry-gate ladder + release/audit/fidelity checks (gate.py, kit.py, fidelity.py)
-tools/diagram/    # progress board and journey renders
-tools/design/     # the evaluation-matrix checker
-docs/product/     # the funnel board — one <slug>.md per work item, written at the frame stage
+tools/release_check.py # standalone release rules check (version drift, capability-list drift, bare slash references)
+tools/run_tests.py # runs every skill's scripts/tests/ wording tests
+docs/product/     # the funnel board from the retired ladder — unpoliced history, one <slug>.md per work item
 docs/work/question-sets/ # seed question sets, one <work-type>.md, copied into a work record at intake
-docs/design/      # living design docs (undated filenames — CI-enforced)
-docs/gates/       # dated gate records, immutable
-docs/plans/       # dated contract specs and generated progress renders
+docs/design/      # living design docs (undated filenames)
+docs/gates/       # dated gate records from the retired ladder — unpoliced history
+docs/plans/       # dated contract specs and progress renders from the retired ladder — unpoliced history
+docs/requirements/ # requirement records from the retired ladder — unpoliced history
 docs/playbook.md  # living project guide, updated by conductor close-out
 docs/state-contract.md # who owns and reads CONTEXT.md, TODO.md, kivna/sessions/
 docs/decisions.md # the full case for every standing decision; CONTEXT.md keeps only governing rulings
@@ -61,7 +61,7 @@ tests/            # hooks_test.sh
 kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs from switch (committed)
 .claude-plugin/   # plugin.json and marketplace.json
-.github/workflows/gate.yml # the entry-gate workflow
+.github/workflows/gate.yml # CI: skill unit tests, hook tests, release rules
 ```
 
 ## Conventions

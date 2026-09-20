@@ -7,25 +7,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Skill unit tests (17 modules; CI ran none of these before 2026-09-16)
+      - name: Skill unit tests
         run: python3 tools/run_tests.py
       - name: Hook tests
         run: bash tests/hooks_test.sh
-      - name: Gate selftest
-        run: python3 tools/gates/gate.py selftest
-      - name: Repo audit
-        run: python3 tools/gates/gate.py audit
       - name: Release rules
-        run: python3 tools/gates/gate.py release
-      - name: Progress selftest
-        run: python3 tools/diagram/progress.py selftest
-      - name: Matrix selftest
-        run: python3 tools/design/matrix.py selftest
-      - name: Matrix audit
-        run: python3 tools/design/matrix.py audit
-      - name: Journey stage schema (funnel-steps.md still defines every rendered stage)
-        run: python3 tools/diagram/gen_journey.py check
-      - name: Progress render current
-        run: python3 tools/diagram/progress.py stale
-      - name: Handoff fidelity (artifacts produced are reachable from the read set)
-        run: python3 tools/gates/fidelity.py
+        run: python3 tools/release_check.py

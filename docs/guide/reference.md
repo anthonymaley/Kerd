@@ -126,7 +126,6 @@ Guide: [kivna and skriv](kivna-and-skriv.md).
 
 ## Not on this page
 
-The ladder, the entry gates, the progress board, the design matrix and the CI
-checks are commands too, but they belong to the layer that refuses from outside
-the model rather than to a skill you call day to day. They have their own page:
-[checks that can say no](checks-that-can-say-no.md).
+`python3 tools/release_check.py` is a command too, but it belongs to the release
+rules check that runs in CI rather than to a skill you call day to day. It
+catches version drift and a mismatched capability list on every push.

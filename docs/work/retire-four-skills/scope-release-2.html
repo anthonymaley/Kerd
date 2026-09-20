@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd — retiring the ladder and the risk ledger (proposed)</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f5f5f5; --paper-2:#ffffff; --ink:#2d3142; --muted:#4f5d75; --soft:#7a8399;
+    --rule:rgba(45,49,66,0.12); --accent:#eb6c36; --accent-tint:rgba(235,108,54,0.08); }
+  *{box-sizing:border-box}
+  body{margin:0; padding:3rem 2rem; background:var(--paper); color:var(--ink);
+    font-family:'Geist',system-ui,sans-serif; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px; margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 .5rem}
+  h1{font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin:0 0 .5rem}
+  .sub{color:var(--muted); max-width:72ch; line-height:1.55; margin:0 0 2rem}
+  .sub strong{color:var(--ink)}
+  .diagram{overflow-x:auto}
+  .diagram svg{display:block; width:100%; min-width:760px; height:auto}
+  ul{margin:.25rem 0 0; padding-left:1.1rem; color:var(--muted); line-height:1.65; font-size:.9375rem}
+  .cards{display:grid; grid-template-columns:1.1fr 1fr .9fr; gap:1.25rem; margin-top:2rem}
+  .card{background:var(--paper-2); border:1px solid var(--rule); border-radius:6px; padding:1.25rem 1.5rem}
+  .card h3{font-size:1rem; margin:0 0 .5rem}
+  .card code{font-family:'Geist Mono',monospace; font-size:.8125rem}
+  footer{margin-top:2.5rem; padding-top:1rem; border-top:1px solid var(--rule); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--soft)}
+  @media (max-width:860px){ body{padding:2rem 1rem} .cards{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Kerd · retire the ladder and ledger · Conductor · Shape · proposed, not agreed</p>
+  <h1>One way to keep work honest</h1>
+  <p class="sub">Anthony's ruling, 2026-09-19: nobody wants a machine that refuses their work, and this level of risk ledger is not needed. What is wanted is the sketchbook that becomes a spec, a score to check the build against, and risks kept in view. <strong>Proposed:</strong> one release removes the ladder's machinery and its public promises, gives Conductor a plain place for risks, and leaves the old records where they are as history.</p>
+  <div class="diagram"><svg viewBox="0 0 1120 600" role="img" aria-labelledby="retire-ladder-title retire-ladder-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="retire-ladder-title">Kerd: retiring the ladder and the risk ledger, before and after (proposed)</title>
+<desc id="retire-ladder-desc">Today Kerd carries two ways to keep work honest: the sketchbook, score and goal check that people use, and a ladder of machine checks with a risk ledger that nobody uses. After the proposed release only the first remains, with a plain place for risks to keep in view; the release rules check and the tests stay, and dated history is left where it is.</desc>
+<defs><marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker><marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker><marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker></defs>
+<rect width="100%" height="100%" fill="#f5f5f5"/>
+<line x1="480" y1="196" x2="636" y2="196" stroke="#eb6c36" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+<rect x="520" y="168" width="80" height="16" rx="2" fill="#f5f5f5"/><text x="560" y="180" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">ONE RELEASE</text>
+<rect x="32" y="32" width="448" height="328" rx="8" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+<text x="48" y="56" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">KERD TODAY · TWO WAYS TO KEEP WORK HONEST</text>
+<rect x="48" y="72" width="200" height="272" rx="6" fill="#f5f5f5"/><rect x="48" y="72" width="200" height="272" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/><text x="64" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">What you use</text><text x="64" y="120" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Sketchbook</text><text x="64" y="140" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Score</text><text x="64" y="160" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Goal check at the end</text><text x="64" y="180" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Independent review</text><text x="64" y="200" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif"></text><text x="64" y="220" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">No place yet for risks</text><text x="64" y="240" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">to keep in view</text>
+<rect x="264" y="72" width="200" height="272" rx="6" fill="#f5f5f5"/><rect x="264" y="72" width="200" height="272" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1" stroke-dasharray="4,4"/><text x="280" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">What nobody uses</text><text x="280" y="120" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">The ladder of seven steps</text><text x="280" y="140" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Checks that refuse</text><text x="280" y="160" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">The tiered risk ledger</text><text x="280" y="180" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Conductor's step check</text><text x="280" y="200" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">The requirements register</text><text x="280" y="220" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">The design matrix</text><text x="280" y="240" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">The progress board</text><text x="280" y="260" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Nine CI steps policing it</text><text x="280" y="280" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">A public guide and picture</text>
+<rect x="640" y="32" width="448" height="328" rx="8" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+<text x="656" y="56" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">AFTER THE RELEASE · ONE WAY · PROPOSED</text>
+<rect x="656" y="72" width="200" height="272" rx="6" fill="#f5f5f5"/><rect x="656" y="72" width="200" height="272" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/><text x="672" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">What you use</text><text x="672" y="120" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Sketchbook</text><text x="672" y="140" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Score</text><text x="672" y="160" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Goal check at the end</text><text x="672" y="180" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Independent review</text>
+<rect x="872" y="72" width="200" height="120" rx="6" fill="#f5f5f5"/><rect x="872" y="72" width="200" height="120" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/><text x="888" y="96" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">New: risks in view</text><text x="888" y="120" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">A short list in the</text><text x="888" y="140" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">sketchbook, read back</text><text x="888" y="160" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">before Ready</text>
+<rect x="872" y="208" width="200" height="136" rx="6" fill="#f5f5f5"/><rect x="872" y="208" width="200" height="136" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/><text x="888" y="232" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Kept from the tools</text><text x="888" y="256" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">The release rules check,</text><text x="888" y="276" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">moved to its own small file</text><text x="888" y="296" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">Skill tests and hook tests</text>
+<rect x="32" y="392" width="1056" height="72" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.30)" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="48" y="416" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEFT WHERE IT IS, AS HISTORY</text>
+<g fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif"><text x="48" y="444">26 recorded work items</text><text x="320" y="444">28 gate records</text><text x="576" y="444">Dated plans and designs</text><text x="832" y="444">Decisions and past releases</text></g>
+<line x1="272" y1="524" x2="436" y2="524" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="316" y="496" width="76" height="16" rx="2" fill="#f5f5f5"/><text x="354" y="508" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">BEFORE PUSH</text>
+<line x1="680" y1="524" x2="844" y2="524" stroke="#4f5d75" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="728" y="496" width="68" height="16" rx="2" fill="#f5f5f5"/><text x="762" y="508" fill="#7a8399" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">WHEN CLEAR</text>
+<rect x="32" y="496" width="240" height="56" rx="6" fill="#f5f5f5"/><rect x="32" y="496" width="240" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/><text x="48" y="520" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Claude builds, with players</text><text x="48" y="544" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">tests and release check green</text>
+<rect x="440" y="496" width="240" height="56" rx="6" fill="#f5f5f5"/><rect x="440" y="496" width="240" height="56" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/><text x="456" y="520" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Codex reviews the whole change</text><text x="456" y="544" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">reads only, touches nothing</text>
+<rect x="848" y="496" width="240" height="56" rx="6" fill="#f5f5f5"/><rect x="848" y="496" width="240" height="56" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/><text x="864" y="520" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif">Reviewed release 0.142.0</text><text x="864" y="544" fill="#4f5d75" font-size="12" font-family="'Geist', sans-serif">the work stops here</text>
+</svg></div>
+  <div class="cards">
+    <div class="card"><h3>What changes for someone using Kerd</h3><ul>
+      <li>Conductor stops asking a project which step a work item is on. That check shipped on 2026-09-18 and goes.</li>
+      <li>The sketchbook gains a short list of risks to keep in view, read back before Ready.</li>
+      <li>The "Checks that can say no" guide, its picture and its line on the website go.</li></ul></div>
+    <div class="card"><h3>What changes inside Kerd</h3><ul>
+      <li>About 8,700 lines of check, register and matrix tools go, with the progress board and old diagram generators.</li>
+      <li>CI drops from eleven steps to three: skill tests, hook tests, release rules.</li>
+      <li>The release rules check is lifted out into its own small file first, so every push stays protected.</li></ul></div>
+    <div class="card"><h3>Not in this release</h3><ul>
+      <li>Moving or deleting the old records. They stay, unpoliced.</li>
+      <li>Closing the Backlog rows that were ladder debt. That is a tidy at the next session close.</li>
+      <li>Rewriting the launch plan.</li></ul></div>
+  </div>
+  <footer>Kerd · docs/work/retire-four-skills/scope-release-2.html · proposed view, no agreement recorded</footer>
+</div>
+</body>
+</html>

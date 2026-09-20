@@ -25,7 +25,7 @@ done
 
 | Tool | Why Kerd needs it | Verified on the 2026-08-27 move |
 |---|---|---|
-| `python3` | Every gate, render and check is Python: `tools/gates/`, `tools/diagram/`, `tools/design/`. Stdlib only — **no pip install, no venv, no PyYAML.** | 3.14.6 |
+| `python3` | The release check and the skill test runner are both Python: `tools/release_check.py`, `tools/run_tests.py`. Stdlib only — **no pip install, no venv, no PyYAML.** | 3.14.6 |
 | `git` | Switch owns `git pull` and the session-state commit; the progress board derives position from `git log`. | 2.50.1 (Apple Git) |
 | `gh` | CI status and any PR flow — the gate records' `CI green headSha-verified` claim reads the Actions API. Not needed for the switch boundary itself. | 2.97.0, authenticated after `gh auth login` |
 | Google Chrome | Renders sealed design views to PNG headlessly (`docs/playbook.md` → *Rendering a diagram needs no Playwright*). **Must be launched once by hand first**: verify with `xattr -l "/Applications/Google Chrome.app" \| grep -c quarantine` → `0`. | 2026-08-28: quarantined and never launched; every headless call, `--version` included, hung on the Gatekeeper prompt |
@@ -160,9 +160,9 @@ In order. Each step's verify is the command beside it.
 9. **Start a fresh session** → the banner shows `📋 Last session: <date>`, proving auto-load fired.
 10. **Run the smoke tests** → all three green:
     ```bash
-    python3 tools/gates/gate.py selftest      # root resolution: 7 · selftest: 49
+    python3 tools/release_check.py            # release: clean
     bash tests/hooks_test.sh                  # Passed: 16  Failed: 0
-    python3 tools/diagram/progress.py stale   # "render current"
+    python3 tools/run_tests.py                # full skill test suite
     ```
 11. **`/kerd:switch in`** → the boundary reads CONTEXT.md, TODO.md and the newest session log.
 
@@ -179,9 +179,6 @@ In order. Each step's verify is the command beside it.
 - **A green `git pull` is not proof the remote is reachable.** On an already-current
   tree it can return `Already up to date.` from local state. `ssh -T git@github.com`
   is the real test.
-- **`progress.py` has no `check` subcommand** — it is `stale`. And running the
-  renderer bare *rewrites the committed trio*, dirtying the tree; `stale` is the
-  read-only form.
 - **`hostname` is the only thing in the session log that records which machine
   ran the session.** It is written into the log header at switch-out, so a
   machine move is visible in the record only if you read that line.

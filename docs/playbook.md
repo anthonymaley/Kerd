@@ -10,7 +10,7 @@ Markdown, JSON, and stdlib Python 3. No third-party dependencies, no build step,
 - **Markdown**: all skill definitions, docs, session logs, and the playbook itself
 - **JSON**: plugin.json and marketplace.json in `.claude-plugin/`
 - **Git**: version control and the distribution mechanism (plugins install from the git repo)
-- **Python 3** (stdlib only, nothing to install): the entry gates (`tools/gates/`), the progress board and diagram generators (`tools/diagram/`), and the design-matrix checker (`tools/design/`) — every CI step is a `python3 tools/…` invocation
+- **Python 3** (stdlib only, nothing to install): the skill test runner (`tools/run_tests.py`) and the release rules check (`tools/release_check.py`) — every CI step is a `python3 tools/…` invocation
 
 There is no package.json, no node_modules, no compiled output. The plugin is consumed directly by Claude Code from the repo.
 
@@ -49,13 +49,13 @@ skills/           # SKILL.md per skill — eight skills, one folder each
 hooks/            # hooks.json + shell scripts, auto-loaded from the plugin (v0.96.0); never wired per repo
 hooks/statusline.sh # the clock segment — not a hook; wired via statusLine by hand, never by tend
 tests/            # hooks_test.sh
-tools/gates/      # entry-gate router and refusers (gate.py, kit.py, fidelity.py)
-tools/diagram/    # progress board, journey pages, and diagram generators
-tools/design/     # the evaluation-matrix checker
-docs/product/     # the funnel board — one <slug>.md per work item, written at the frame stage
-docs/design/      # living design docs (undated filenames — CI-enforced)
-docs/gates/       # dated gate records, immutable
-docs/plans/       # dated contract specs and generated progress renders
+tools/release_check.py # standalone release rules check (version drift, capability-list drift, bare slash references)
+tools/run_tests.py # runs every skill's scripts/tests/ wording tests
+docs/product/     # the funnel board from the retired ladder — unpoliced history
+docs/design/      # living design docs (undated filenames)
+docs/gates/       # dated gate records from the retired ladder — unpoliced history
+docs/plans/       # dated contract specs and progress renders from the retired ladder — unpoliced history
+docs/requirements/ # requirement records from the retired ladder — unpoliced history
 docs/playbook.md  # this file
 docs/state-contract.md # shared state ownership and format rules
 docs/vault-spec.md # what belongs in the Obsidian vault
@@ -65,7 +65,7 @@ kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs written by switch
 kivna/.active-modes # ephemeral mode/skill state (gitignored)
 .claude-plugin/   # plugin.json + marketplace.json
-.github/workflows/gate.yml # the entry-gate workflow
+.github/workflows/gate.yml # CI: skill unit tests, hook tests, release rules
 ```
 
 This project keeps an optional Obsidian vault at `~/eolas/vault/kerd/`. It is opt-in and never on the session path (v0.83.0) — a human knowledge base of living files updated in place, not append-only dumps, and not a machine sync layer. Kivna reads and writes vault files (`Kerd Status.md`, plus optional domain files like Architecture Decisions) only when you run `/kerd:kivna save`. The vault spec at `docs/vault-spec.md` defines what belongs. The vault config is at `kivna/vault.json`. See `/kerd:kivna` for details.
@@ -106,7 +106,7 @@ Kerd is distributed as a Claude Code marketplace plugin.
 3. Commit and push to `main`
 4. Users get the update on next `claude plugins install kerd`
 
-CI is an eight-step entry-gate workflow (`.github/workflows/gate.yml`) running on every push — selftests, repo audit, release rules, progress-render currency, and session handoff fidelity. It refuses the push rather than producing anything: still no build artifacts and no environment variables.
+CI (`.github/workflows/gate.yml`) runs on every push: skill unit tests, hook tests, and the release rules check. It refuses the push rather than producing anything: still no build artifacts and no environment variables.
 
 ## Gotchas
 
@@ -629,8 +629,6 @@ fact is how that happens, so there is now one home.
 
 - **What is true now** — `CONTEXT.md` (state, overwritten each session).
 - **What is still to do** — `TODO.md` (`## Now` and `## Backlog`).
-- **Where each work item sits on the ladder** — `python3 tools/diagram/progress.py`,
-  derived from disk and CI-refused if stale.
 
 What stays below is **history**, which is a different kind of fact and does not
 go stale — it only stops.

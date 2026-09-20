@@ -1,6 +1,6 @@
 ---
 name: slainte
-description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when conductor's close-out fires the release close-out pass at a version bump or an acceptance-record landing. The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
+description: "Use when the user says 'slainte', 'audit', 'health check', 'check staleness', or needs to audit project health across docs, code, site, or dependencies — or when conductor's close-out fires the release close-out pass at a version bump. The pass fixes drift under the caller's verification gate and reports what it deliberately left; on-demand area audits report-only unless the caller asks for fixes."
 ---
 
 # Slainte (Project Health)
@@ -21,9 +21,9 @@ Targets derive from the repo — there is no config file. The narrative surface 
 
 ## The release pass
 
-**Two triggers, either alone: the version-field diff — CI's release definition, reused (a work commit that changes the three `"version"` fields IS a release, rule R1's set) — or an acceptance-record landing (a new `docs/gates/*-acceptance.md` in the session's work commits: a feature accepted as ready for release).** The release definition stays single; the completion moment fires the same pass. **The pass has no automatic caller as of v0.107.0** — conductor's close-out invoked it until Conductor was replaced, and the new one calls no other skill. Run `/kerd:slainte release` yourself when either trigger condition is met; the same judgment checks apply.
+**One trigger: the version-field diff — CI's release definition, reused (a work commit that changes the three `"version"` fields IS a release, rule R1's set).** **The pass has no automatic caller as of v0.107.0** — conductor's close-out invoked it until Conductor was replaced, and the new one calls no other skill. Run `/kerd:slainte release` yourself when the trigger condition is met; the same judgment checks apply.
 
-**Charter: CI owns the mechanical layer (release rules R1–R3, audit rules AU1–8)** — version sync, capability-list sync, namespace prefixes, dated design filenames, gate-record shape, grounding references, rigor lines, the requirements register's schema and links. The pass never re-checks any of those; anything newly machine-checkable belongs in CI (file a Backlog row), not here. The pass owns what no machine rule covers: the `release` area checks below, swept across the derived narrative surface.
+**Charter: CI owns the mechanical layer (release rules R1–R3)** — version sync, capability-list sync, namespace prefixes. The pass never re-checks any of those; anything newly machine-checkable belongs in CI (file a Backlog row), not here. The pass owns what no machine rule covers: the `release` area checks below, swept across the derived narrative surface.
 
 **Fix discipline: fixes are work commits, and restraint is reported.** The pass edits what is drift, under the caller's verification gate — diff read in full, blast radius reviewed, staged by name — and any prose it writes passes `/kerd:skriv`'s one-shot audit before landing. Anything judged deliberate-not-drift is named in the report as left untouched, with the reason. Visible restraint is the countermeasure for an audit with hands: never fix silently, never leave silently.
 

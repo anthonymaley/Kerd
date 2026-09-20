@@ -363,7 +363,7 @@ The capabilities, one page each: [switch](switch.md), [conductor](conductor.md),
 [visuals](visuals.md), [agent](agent.md),
 [tend and slainte](tend-and-slainte.md), [kivna and skriv](kivna-and-skriv.md).
 
-If you want the parts that can refuse from outside the model, the entry gates and
-the CI checks: [checks that can say no](checks-that-can-say-no.md).
+The release rules check that runs in CI, `python3 tools/release_check.py`,
+catches version drift and a mismatched capability list on every push.
 
 ![Getting started with Kerd](../pictures/guide-getting-started.svg)

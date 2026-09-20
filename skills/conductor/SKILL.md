@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Work runs as rehearsal (turn by turn, always delivering, no gates) with a sketchbook Conductor keeps and a score written as you go, then, when the person or Conductor calls Ready, as a concert performed by fanned-out players and checked against the agreed goals before it ends. For a work item recorded in the user's project, it checks where the work stands at pickup and before a build, names missing groundwork and offers it, and records a go-ahead anyway. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, give every report of work one shape (what the person has now and where to look first, where the work stands second, at most five items on screen with the rest kept in the sketchbook), plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
+description: Offer Conductor for substantial builds, designs or workflow work, new or existing; enter when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work. Work runs as rehearsal (turn by turn, always delivering, no gates) with a sketchbook Conductor keeps and a score written as you go, then, when the person or Conductor calls Ready, as a concert performed by fanned-out players and checked against the agreed goals before it ends. Delegate executable work by default when it can be briefed, checked and is worth handing off: Conductor writes clear steps itself and fans them out, calls a bounded composer only when the score needs design or reasoning, and keeps tiny or coupled work inline; show a Fit line for every selected model job, name an explicit model and a kerd:effort-<level> agent in every native Claude Agent call it sends, composer, player or reviewer alike — an inherited or unnamed model is not a valid plan — then report the observed model and effort, give every report of work one shape (what the person has now and where to look first, where the work stands second, at most five items on screen with the rest kept in the sketchbook), plan independent review from an established partner's recorded cadence (or offer once), and read each returned change set against its baseline. Small standalone fixes and status requests stay direct. Ordinary Switch In composes its own arrival. Managed Roll keeps existing authority.
 ---
 
 # Conductor
@@ -24,9 +24,8 @@ does not become build authorization because this skill was updated.
 
 Use the current project for work, not the directory containing this skill.
 Resolve supporting files relative to this SKILL.md. On entry, name the project
-briefly. Do not invoke Drive, gate tools or old session machinery to run this
-skill; the single exception is the
-[step check](#check-where-the-work-stands), which only reads the gate tool. Do not change hooks, CI, global instructions, existing session markers or
+briefly. Do not invoke old gate or session machinery to run this skill. Do not
+change hooks, CI, global instructions, existing session markers or
 dated history.
 Supporting job tools, and installing a required diagram tool that is missing on
 this host, follow the scoped approval rules in their guides; approval to use this
@@ -187,44 +186,6 @@ to earn the right to ask the first question.
   ask which work to continue. If the record is missing or contradictory, name
   that small gap; don't manufacture the lost decision.
 
-## Check where the work stands
-
-When the work is a work item with a record in the current project,
-`docs/product/<slug>.md`, ask the project where it stands at two moments: on
-picking it up, and when a build on it first starts (not again on a managed Roll
-continuation). The slug is the `docs/product/` file stem that the work record,
-pointer or person names; if the work cannot be tied to exactly one such file,
-say so and do not check. Small standalone fixes and work with no such record
-get no check and no reminder.
-
-Identify the project first: `git rev-parse --show-toplevel` from the current
-directory. If that fails, say the project could not be identified and do not
-check; never fall back to Kerd's own tree or guess a root. Then run:
-
-```sh
-python3 "${CLAUDE_PLUGIN_ROOT}/tools/gates/gate.py" route <slug> --root "<project root>"
-```
-
-Claude Code fills in the plugin's path in this file only; it stays literal in a
-reference file and is not a shell variable, so the command lives here. The
-command only reads.
-
-The steps run frame → viability → scope → design → handoff → loop (the build)
-→ acceptance → ready-to-release. `enters at:` is the step the work is on; the
-`need:` lines under `missing for` are what the next step still needs. A spike
-item enters at frame with nothing missing. Say in one plain line which step the
-work is on and what the next step needs, by the item's plain name, not its slug;
-translate the `need:` lines, don't paste them. When a build starts, the work
-must enter at `loop` or later: if it does not, name what is missing and offer to
-do that groundwork now.
-
-Going ahead anyway is the person's call, never refused. Write one dated line
-under `## Decisions and changes` in the work record already tied to this item,
-creating `docs/work/<slug>/work.md` when it has none, never in the `docs/product/` record
-the check reads: the step skipped, what was missing and the person's words. Then continue. At pickup, show
-any go-ahead already recorded for the item. A check that cannot run is reported
-as not checked, never as passed.
-
 ## Rehearsal, then the concert
 
 Always be delivering. **Rehearsal** is incremental work: you and the person
@@ -237,8 +198,9 @@ Small or coupled work is simply delivered in rehearsal; it never needs a concert
 
 In rehearsal, Conductor guides, interviews and prompts, so that the two of you
 come to hold what a concert needs: the idea and why it matters, whether it can
-work and is worth doing, the goals, the constraints, and the design. Let the AI
-do the work and the person react; ask only what moves one of those forward.
+work and is worth doing, the goals, the constraints, the design, and the risks
+worth keeping in view. Let the AI do the work and the person react; ask only
+what moves one of those forward.
 
 **Keep a sketchbook.** Conductor owns one sketchbook per piece of work: its existing
 [work record](references/work-record.md), under a musical name. Write what gets settled as it is settled, and read it back before
@@ -246,6 +208,13 @@ answering where things stand, prompting Ready or briefing anyone. The person
 never fills in a form. Switch Out may add what a sitting settled, but the
 sketchbook stays Conductor's. When asked where things stand, answer from it in a
 line or two of plain English: what is settled and what is still open.
+
+**Keep the risks in view.** When the person or the work names something that
+could sink the work or hurt later, write it in the sketchbook's short risks
+list: the risk in one plain sentence, and what is being done about it or that
+it is accepted as it stands. No sizing, columns or tiers. Read the list back
+before saying Ready and before the goal check, and say which risks are still
+open. An empty list is fine; never invent risks to fill it.
 
 **The score is written as you go.** Call the
 [composer](references/orchestration.md#choose-who-writes-the-steps) at any time:

@@ -145,11 +145,12 @@ missing: [getting started](docs/guide/getting-started.md).
 
 Every command, one line each: [reference](docs/guide/reference.md).
 
-Kerd also carries checks that refuse from outside the model: a ladder each work
-item climbs, gates that read what is actually on disk, an audit that sweeps the
-repo, and CI, the checks GitHub runs on a push, going red at the push that broke
-a promise. None of it is needed to use Kerd day to day, and it has its own page:
-[checks that can say no](docs/guide/checks-that-can-say-no.md).
+Kerd also runs a small release rules check in CI, the checks GitHub runs on a
+push: it catches version drift and a mismatched capability list between the
+plugin manifests on every push. What keeps the work itself honest is
+the sketchbook that becomes a spec, the score the build is checked against, the
+goal check at the end, and an independent reviewer, not a machine that refuses
+your work.
 
 ## What it writes, and how to remove it
 
@@ -221,9 +222,28 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.141.0)
+## What's New (v0.142.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.142.0
+
+**One way to keep work honest.** Kerd carried two: the sketchbook, score and goal check
+that people use, and a ladder of machine checks with a tiered risk ledger that nobody
+did. The second is retired. Gone are the check tools and the ladder, Conductor's step
+check (added in 0.137.0), the requirements register tools, the design matrix, the
+progress board, the old diagram generators, the handoff fidelity check, and the
+"Checks that can say no" guide with its picture. In their place Conductor keeps a short
+list of risks in view: when you or the work names something that could sink it or hurt
+later, it goes in the sketchbook in one plain sentence with what is being done about it,
+and Conductor reads the list back before it says Ready and before the goal check. No
+sizing, no columns, and it never invents a risk to fill the list. The release rules
+check that protects every push (version numbers in step, the two capability lists
+identical, slash commands carrying the `kerd:` prefix) now lives in its own small file,
+`tools/release_check.py`, and CI runs three steps: skill tests, hook tests and that
+check. The old work items, gate records, plans and designs stay where they were, as
+history that nothing polices. The risks rule is wording and a wording test; not yet
+seen in real use.
 
 ### v0.141.0
 

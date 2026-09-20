@@ -5,7 +5,7 @@ View: [scope.html](scope.html) (proposed, drawn 2026-09-19 with diagram-design).
 
 ## Where this stands
 
-**Release 1 built, reviewed and released as 0.141.0 on 2026-09-19. Release 2 (the ladder and ledger) not yet shaped.** It began at Shape that evening, proposed. Anthony chose this work at Switch
+**Both releases done on 2026-09-19: 0.141.0 removed the four skills, 0.142.0 retired the ladder and the risk ledger.** It began at Shape that evening, proposed. Anthony chose this work at Switch
 In (the picker's "Yes — remove the four retired skills"); that chose the work and approved none of
 its operations.
 
@@ -117,6 +117,67 @@ locally. Not checked by anyone: a fresh install of 0.141.0.
 test; `docs/lorg-report.md`, now without an owner; the old diagram generators;
 `docs/requirements/` mentions; a plain place in Conductor for risks to keep in view.
 
+## Release 2, Shape, 2026-09-19 21:51
+
+Anthony asked to do release 2. View: [scope-release-2.html](scope-release-2.html),
+proposed. Terrain, traced by search: the ladder tools are called only by CI, Conductor's
+step check and its test; the release rules check lives inside `tools/gates/kit.py`
+(`release_audit` and its helpers) and must be lifted out before the tools go; the site
+(`site/docs.html`), the checks guide and its picture, the README, `CLAUDE.md`, playbook,
+machine-setup, Slainte and one example name the ladder; `docs/pictures` is not generated
+by `tools/diagram`; the test runner covers skills only; Conductor has no place for risks
+today.
+
+Proposed by Conductor, awaiting Anthony: remove the machinery (`tools/gates`,
+`tools/reqview`, `tools/design`, `tools/diagram`, the handoff fidelity check), Conductor's
+step check, eight CI steps and the public promises; keep the release rules check in its
+own file, the skill tests and hook tests; add a short "risks to keep in view" list to the
+sketchbook; leave every old record in place as history; version 0.142.0; same flow, built
+with players, Codex review before push, stops at a reviewed release.
+
+## Agreement for release 2, 2026-09-19 21:53
+
+Asked "Shall I build release 2 in that shape and push 0.142.0 once Codex's review is
+clear?", Anthony: yes. Score: [score-release-2.md](score-release-2.md), every step written
+by Conductor. Concert batch 1: P1–P4 to native players in parallel, disjoint files; K1 kept.
+Change-read baseline taken before dispatch: the 0.141.0 commit plus uncommitted edits under
+this folder only.
+
+## Concert, release 2, 2026-09-19 21:55–22:2x
+
+Batch 1, four native players in parallel on disjoint files, every one observed on the
+model and effort requested (P1 Sonnet medium, P2 Opus high, P3 Sonnet high, P4 Sonnet
+medium); no dispatch without a named model. Each return was read against the baseline.
+- P1: `tools/release_check.py`, standalone. Conductor re-ran it: clean tree, selftest,
+  a version drift and a capability drift each refused with exit 1. By Conductor's score it
+  does not port the old tool's refusal to run outside a project.
+- P2: step check removed from Conductor, the risks rule added as scored, `work-record.md`
+  gains `## Risks to keep in view`, `test_risks_in_view.py` added, `test_step_check.py` gone.
+- P3: checks guide and picture deleted, site row removed, README and three guides reworded.
+  Conductor corrected one player phrase in three places ("before a push goes out"; the
+  check runs on a push).
+- P4: `CLAUDE.md`, playbook, machine setup, Slainte. Slainte no longer claims CI audits gate
+  records or treats an acceptance record as a release trigger.
+K1 (Conductor): four tool folders and `docs/lorg-report.md` deleted, CI cut to three steps,
+capability lists and versions, release notes.
+
+Goal check against the score: (1) no living instruction needs a removed tool; (2) release
+check refuses version and capability drift, shown; (3) 757 unit and 16 hook tests green,
+CI after push; (4) Conductor carries the risks rule and no step check; (5) no link to a
+deleted file; (6) no change under the history paths. All met before review.
+
+Review, Codex (before-push): clear to push, no findings; it compared the old and new
+release functions and found their syntax trees identical. It did not run the suite, CI, a
+fresh install, or the risks rule in a real sitting.
+
+## Risks to keep in view
+
+- The risks rule is wording and a wording test; whether Conductor actually reads the list
+  back before Ready is unobserved. Watch it in the next real piece of work. Named 2026-09-19.
+- `TODO.md` and `CONTEXT.md` still describe the ladder as live (launch sequence, most of the
+  Backlog). Reconcile at the next session close, with verdicts. Named 2026-09-19.
+- Nobody has done a fresh install of 0.141.0 or 0.142.0. Named 2026-09-19.
+
 ## Pending question
 
-None for release 1. Release 2 starts at Shape.
+None.

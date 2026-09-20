@@ -18,6 +18,11 @@ View: <relative link, when created; proposed until agreed>
 <Whether it can work and is worth doing, and what sets it apart. How the solution
 will work, with its view. Leave out what is not settled yet; never invent it.>
 
+## Risks to keep in view
+<One line per risk: the risk in a plain sentence, what is being done about it or
+"accepted", and the date it was named. Leave the section empty when nothing has
+been named; never invent a risk to fill it.>
+
 ## Success and proof
 <Desired benefit, observable results, what is good enough and how an independent
 reviewer can assess it. Distinguish agreed criteria from proposals and unresolved
@@ -83,6 +88,13 @@ Record relevant delivery facts (local, committed, pushed, merged, deployed) and
 remaining gaps separately from the agreed completion state. Retire completed
 backlog entries within scope, preserving still-open clauses and evidence links.
 A native task list is a display, not the only home of a pending decision.
+
+The risks section keeps risks in view; it is not a ledger and it gates nothing.
+Write a line when the person or the work names something that could sink the work
+or hurt later, with what is being done about it or that it is accepted as it
+stands, and the date it was named. No sizing, columns or tiers. Read the list
+back before Ready and before the goal check, and say which risks are still open.
+An empty list is fine.
 
 Use the optional score-and-delivery lines only when a score helps this work; they
 are not a second tracker or required schema. Keep the score link and its current

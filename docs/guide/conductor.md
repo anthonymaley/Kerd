@@ -86,13 +86,6 @@ returned edit it reads the actual change set against a baseline taken before
 dispatch. Where you have an established review partner, it plans that partner's
 reviews from the cadence recorded with the pairing. See [Agent](agent.md).
 
-For a work item that has a record in your project, Conductor also asks the project
-where that item stands, when it picks the work up and before a build starts: one
-line on the step the work is on and what the next step needs, an offer to do the
-missing groundwork, and a recorded go-ahead if you skip it. That check is the one
-place Conductor touches the ladder, and the ladder has its own page:
-[checks that can say no](checks-that-can-say-no.md).
-
 ## A short exchange
 
 Conductor's questions all take one form: the options, the recommendation and the

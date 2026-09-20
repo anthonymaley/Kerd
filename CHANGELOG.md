@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.142.0
+
+**One way to keep work honest.** Kerd carried two: the sketchbook, score and goal check
+that people use, and a ladder of machine checks with a tiered risk ledger that nobody
+did. The second is retired. Gone are the check tools and the ladder, Conductor's step
+check (added in 0.137.0), the requirements register tools, the design matrix, the
+progress board, the old diagram generators, the handoff fidelity check, and the
+"Checks that can say no" guide with its picture. In their place Conductor keeps a short
+list of risks in view: when you or the work names something that could sink it or hurt
+later, it goes in the sketchbook in one plain sentence with what is being done about it,
+and Conductor reads the list back before it says Ready and before the goal check. No
+sizing, no columns, and it never invents a risk to fill the list. The release rules
+check that protects every push (version numbers in step, the two capability lists
+identical, slash commands carrying the `kerd:` prefix) now lives in its own small file,
+`tools/release_check.py`, and CI runs three steps: skill tests, hook tests and that
+check. The old work items, gate records, plans and designs stay where they were, as
+history that nothing polices. The risks rule is wording and a wording test; not yet
+seen in real use.
+
 ## 0.141.0
 
 **Kerd installs what its front page describes.** The plugin shipped twelve skills while
