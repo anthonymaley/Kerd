@@ -2,24 +2,32 @@
 
 ## Now
 
-**Release boundary:** 0.142.0 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.142.1 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
-**Selected next, proposed not agreed: install Kerd 0.142.0 from scratch, following the
-README's own commands, and fix what breaks.** Three releases on 2026-09-19 changed what
-installs (the package's corrected commands, four skills removed, the ladder removed) and
-nobody has ever run those commands: they come from the CLI's help text. It is the first
-thing a newcomer does. Claude runs it in a throwaway Claude Code profile or a second
-machine account and reports; installing anything on Anthony's own profile needs his go.
-It stops at a report and any plain fixes, reviewed by Codex before push.
+**Selected next, proposed not agreed: check the rest of the front page the way the install
+was checked.** The install commands were the first front-page claim anyone actually ran,
+and they were broken. Two claims on the same page are still unrun: the website has never
+been opened in a real browser, and the `claude --plugin-dir` trial route has never been
+used. That second one is already known to be overstated — it writes a `pluginUsage` row to
+`~/.claude.json`, so "nothing is installed or disabled globally" is true of plugins and
+marketplaces but not of every trace. Claude runs both in throwaway profiles and reports;
+any fix is reviewed by Codex before push. Same boundary as the install test: nothing
+touches Anthony's own profile without his word.
 
-**Anthony's:** look at the repo page and see that the README's pictures render (nobody
-has seen GitHub render those SVGs). Decide whether the explanatory output style stays on
-for this machine: it asks for Insight blocks and fights 0.140.0's report shape. Rule on the
+**Anthony's:** look at the repo page and see that the README's pictures render (nobody has
+seen GitHub render those SVGs). Decide whether the explanatory output style stays on for
+this machine: it asks for Insight blocks and fights 0.140.0's report shape. Rule on the
 launch plan (`docs/design/launch-plan.md`): it was written around the ladder, its steps 3
 to 5 were a ladder pilot, and the ladder is retired, so as written it no longer describes
 a route to launch.
 
+- **The report shape strains when a report carries a result and a correction together.**
+  Seen 2026-09-20, the first real use of 0.140.0's shape: it held for about a dozen
+  reports, but a message that must deliver a result *and* retract a claim wants more than
+  five items. Wording question, not yet a change.
+- **`--plugin-dir` is not footprint-free, and the README says it is.** It writes a
+  `pluginUsage` row to `~/.claude.json`. Folded into the selected next, above.
 - **Show the model and effort where a running job is listed.** Asked 2026-09-19 22:09 with
   a screenshot Claude could not open (it was on the laptop): the job list shows
   `kerd:effort-high` rather than the model and effort. Kerd's status line does not draw that
@@ -27,29 +35,21 @@ a route to launch.
   effort agents are model-free. What Kerd controls is the short per-job description each
   dispatch sends; leading it with the pair ("Opus · high — …") is a wording change to the
   dispatch contract. First confirm which string the bar shows. Its own go.
-- **Observe the risks rule in real use.** 0.142.0: Conductor keeps a short list of risks in
-  the sketchbook and reads it back before Ready and before the goal check. Wording and a
-  wording test only. Does it write a risk down unprompted, and does it read the list back?
-- **Observe 0.140.0's report shape and the plain "Who" grid in real use.** Still unseen:
-  the 2026-09-19 evening session ran Conductor from the 0.139.0 cache, not 0.140.0. Does
-  the first line say what he has now, is the position restated, do five items hold?
 - **Rolling without publishing.** Found 2026-09-19: a roll is a Switch Out, which commits
-  and pushes, so a concert cannot roll mid-build without publishing half-built work. The
-  evening's two releases avoided it by keeping each build uncommitted until reviewed. A work
+  and pushes, so a concert cannot roll mid-build without publishing half-built work. A work
   branch for the length of a concert is the likely countermeasure; its own go.
 - **Release notes live in two places.** The README, which Slainte audits, and
   `CHANGELOG.md`, with no sync check. Each release updates both until a separate change
   moves them properly.
-- **The package's unverified claims:** the site has not been seen in a real browser; small
-  picture labels fall near 8px at phone width; no real closing box is shown in the
-  getting-started guide. (The install commands are the selected next, above.)
+- **Small picture labels fall near 8px at phone width** in the published pictures. Folded
+  into the site check in the selected next, above.
 - **Reported, not fixed:** `docs/work/model-ready-work/packaging/START.md` is written
   against 0.113.0; `docs/state-contract.md` still names `kivna/.active-modes`;
   `docs/machine-setup.md` still greps for `kivna/.pair`, harmless now that Pair is gone.
 - **Observe the composer, managed Conductor and a roll in a real session.** None has been
-  exercised. Fan-out to players has now run twice (twenty dispatches, then four).
+  exercised. Fan-out has now run three times (twenty dispatches, then four, then two).
 - **Observe the arrival's "Something else" route** and the closing box over several
-  sittings. The arrival and "Yes" were seen again on 2026-09-19 18:12.
+  sittings. The arrival and "Yes" were seen again on 2026-09-19 22:16.
 
 - **0.134.0's two clauses have never been measured on real diagram output.**
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario.
@@ -62,9 +62,11 @@ a route to launch.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
   project. Whether it is lifted is Anthony's call; don't assume it.
 
-Records: the evening's sketchbook, views, score and review briefs are committed at
-`docs/work/retire-four-skills/`. 2026-09-19 daytime's product-package notes are local only
-(see `CONTEXT.md`). These lists are not authority to install or run checks during pickup.
+Records: the install test's sketchbook and its view are committed at
+`docs/work/first-install/`; the evening-before's are at `docs/work/retire-four-skills/`.
+2026-09-19 daytime's product-package notes are local only (see `CONTEXT.md`). Rows closed
+on 2026-09-20 are in `docs/backlog-archive.md`. These lists are not authority to install or
+run checks during pickup.
 
 ## Backlog
 

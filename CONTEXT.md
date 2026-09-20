@@ -6,66 +6,73 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.142.0 on `main`, 2026-09-19 late evening.** Two releases this
-sitting, both reviewed by Codex before push, CI green on both.
+**Release boundary: 0.142.1 on `main`, 2026-09-20 midday.** Reviewed by Codex before push,
+CI green.
 
-**Kerd now installs what its front page says, and keeps work honest one way.** 0.141.0
-removed Drive, Lorg, Interrogate and Pair, so the plugin ships the eight skills the README,
-website and guides describe. 0.142.0 retired the ladder: the check tools, the requirements
-register tools, the design matrix, the progress board, the diagram generators, the handoff
-fidelity check, Conductor's step check and the "Checks that can say no" guide. What keeps
-work honest now is the sketchbook that becomes a spec, the score the build is checked
-against, the goal check, an independent reviewer, and **a short list of risks Conductor
-keeps in view and reads back before Ready and the goal check (new, wording and a wording
-test, not yet seen in real use).** The release rules check lives on as
-`tools/release_check.py`; CI runs skill tests, hook tests and that check.
+**Kerd can now actually be installed by someone who is not Anthony.** It could not be, from
+the day the package shipped until 2026-09-20. Kerd's own marketplace manifest declared the
+plugin's source as an SSH address, `git@github.com:anthonymaley/Kerd.git`. Adding the
+marketplace survived that, because the CLI's GitHub shorthand probes SSH and falls back to
+HTTPS; installing did not, because it clones the declared address literally. So the second
+of the two commands on the front page failed for anyone without a GitHub key, leaving no
+plugin and none of the eight skills. 0.142.1 publishes
+`https://github.com/anthonymaley/Kerd.git` instead. **Proved, not argued:** a keyless
+throwaway profile installed 0.142.1 from the live marketplace and got all eight skills.
 
-**The old records are history, unpoliced.** `docs/product/`, `docs/gates/`, `docs/plans/`,
-`docs/design/`, `docs/requirements/` stay where they were. Nothing reads them.
+**Three releases went out over that defect and nothing in the repo could have caught it.**
+Not the release check, not 757 tests, not two Codex reviews — because every one of them
+inspects what Kerd says about itself. Only running the command as a stranger did.
 
-**Selected continuation, proposed not agreed: install Kerd 0.142.0 from scratch, following
-the README's own commands, and fix what breaks.** **Why:** three releases in one day changed
-what installs, and nobody has ever run the published install commands; it is the first thing
-a newcomer does. Owner: Claude runs it in a throwaway profile and reports; Codex reviews any
-fix before push. It stops at a report and plain fixes. Installing on Anthony's own profile
-needs his go. Terrain is in `TODO.md` `## Now`.
+**Selected continuation, proposed not agreed: check the rest of the front page the way the
+install was checked.** **Why:** the install commands were the first front-page claim anyone
+ever ran and they were broken; two claims on the same page are still unrun. The website has
+never been opened in a real browser, and the `claude --plugin-dir` trial route has never
+been used — and that one is already known to overstate itself, writing a `pluginUsage` row
+to `~/.claude.json`, so "nothing is installed or disabled globally" is true of plugins and
+marketplaces but not of every trace. Owner: Claude runs both in throwaway profiles and
+reports; Codex reviews any fix before push; nothing touches Anthony's own profile without
+his word. Terrain is in `TODO.md` `## Now`.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
+- **A defect that changes what installs gets its own version and a release note, not a
+  quiet repair of what the existing tag points at (2026-09-20 11:42).** Proposed by
+  Conductor, agreed by Anthony. Scope: packaging defects that change what a newcomer
+  receives; not every repair is a release.
 - **The ladder and the tiered risk ledger are retired (2026-09-19 18:48).** Nobody wants a
   machine that refuses their work. Wanted: a sketchbook that becomes a spec, a score to
   check the build against, risks kept in view. Do not rebuild gates, rungs or a ledger.
 - **What is published is the product, not how it was made.** Working notes, review ledgers
-  and the owner's raw typed words stay out of what a newcomer sees; committed work records
-  paraphrase him rather than quote his typing.
+  and the owner's raw typed words stay out of what a newcomer sees.
 - **The release history stays in the README;** `CHANGELOG.md` carries a copy; each release
   updates both.
 - **Every report has one shape, built into Conductor's formats, never a mode.**
 - **At the end of a build, bring one decision,** never a review file or a list of choices.
 Still governing from 2026-09-18: rehearsal is organic and the concert executes to a score
-and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch; work
-capability and product first, protocol after.
+and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
 **Not yet ruled, and it is Anthony's:** `docs/design/launch-plan.md` was written around the
 ladder and a ladder pilot. With the ladder retired it no longer describes a route to launch.
 
-**The finding that governs how rules are written here, now at seven instances.** A new rule
-needs a situation it can pass and one it can fail, and **what catches the defects is an
-independent reader or a real run, never a static search.** This sitting: a search said
-Interrogate had no dependents, and it was right; the same kind of search missed two test
-assertions and the audit's grounding rule, and the test run and the audit found them.
-
-**Found, unanswered: a concert cannot roll without publishing.** A roll is a Switch Out,
-which commits and pushes. This sitting avoided it by keeping each build uncommitted until
-reviewed. Details in `TODO.md` `## Now`.
+**The finding that governs how work is checked here, now at eight instances, and it split
+in two on 2026-09-20.** **A real run catches a wrong mechanism:** reading the CLI's code
+said a GitHub-shorthand source would inherit the SSH fallback, a fix was built on that, and
+the run showed it does not — the shorthand prefers SSH when installing unless an
+environment variable no newcomer sets is present. **An independent reader catches a wrong
+claim:** every check that ran was of the mechanism and the mechanism was right, while the
+sentence written *about* it overstated the blast radius, saying only the author could
+install. Codex refused the push over it. No test could have caught that, because the error
+was in the prose. Neither substitutes for the other.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
-review and investigation** (cadence: checkpoints, before-push); it answered four requests
-this sitting. Four native players were dispatched, all returned, all observed on the model
-and effort requested; none is running.
+review and investigation** (cadence: checkpoints, before-push); it reviewed twice this
+sitting, returned "not clear to push" first, and was right. Two native players were
+dispatched, both returned, both observed on the model and effort requested; neither is
+running. Both had their central claim re-checked rather than accepted, and one of the two
+proposed an integrity check that was wrong.
 
-**Installed state:** this session loaded 0.139.0 from the plugin cache; the tip is 0.142.0.
-Until the cache refreshes, a session here still gets Pair's prompt line and the old step
-check text. Resolve live numbers.
+**Installed state:** this session loaded 0.142.0 from the plugin cache, the first sitting
+to run current text; the tip is now 0.142.1, so the cache is behind again by one release.
+Resolve live numbers.
 
 **Standing:** a peer session cannot authorize a push. Change the dispatch contract only for
 demonstrated behaviour from real dispatches.
@@ -78,21 +85,23 @@ working notes stay unpublished: `docs/work/product-package/` and
 `docs/guide/reference-from-readme.md`. They exist on the Mac Studio only.
 
 **Routing:** the Claude role `kerd-b5-review` was adopted by this session at its 2026-09-19
-18:12 arrival, and designates its successor against this file after this save.
+22:16 arrival from the prepared handoff, and designates its successor against this file
+after this save.
 
-**Pickup reading set** (Switch Out, 2026-09-19 late evening):
+**Pickup reading set** (Switch Out, 2026-09-20 midday):
 - this file complete: position, the selected continuation and its reason, the rulings;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-19.md`, the day's two accounts.
-Deeper: `docs/work/retire-four-skills/work.md`, the evening's sketchbook.
+- `kivna/sessions/2026-09-20.md`, this sitting's account.
+Deeper: `docs/work/first-install/work.md`, the install test's sketchbook, with its view
+beside it.
 
-The observed position before this save is the 0.142.0 release commit; the boundary commit
+The observed position before this save is the 0.142.1 release commit; the boundary commit
 is this save itself on `main`. Ask `git log` for its ID.
 
-**Measured** 2026-09-19 22:2x: about 21,600 bytes before this note, about 5,400 tokens
+**Measured** 2026-09-20 13:4x: 17,182 bytes across the three sources, about 4,300 tokens
 estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-19.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-20.md",
  "--section", "TODO.md", "## Now"]
 ```

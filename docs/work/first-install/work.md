@@ -266,6 +266,58 @@ test would have caught, because every test I ran was of the mechanism, not of th
 wrote about it. An independent reader caught it.
 
 
+### F6 — published, and proved from the outside (2026-09-20)
+
+0.142.1 is on `main` as `db97b78` and CI passed. The published fix was then tested the
+only way that settles it: a throwaway profile with SSH refused ran the README's two
+commands against the **live** marketplace.
+
+```
+✔ Successfully added marketplace: kerd-marketplace
+✔ Successfully installed plugin: kerd@kerd-marketplace
+```
+
+It installed version `0.142.1` from commit `db97b78` with all eight skills — agent,
+conductor, kivna, skriv, slainte, switch, tend, visuals — and none of the four retired
+ones. GitHub now serves `https://github.com/anthonymaley/Kerd.git` as the plugin source.
+Anthony's own profile was verified unchanged against the entry baseline for the third
+time, and every throwaway profile was deleted.
+
+The gap declared before the push — that the fix had only been proved against a local copy
+of the manifest — is closed.
+
+## Goal check
+
+Read against the success criteria proposed at Shape:
+
+- **The two published commands complete and deliver the eight skills the README names,
+  with none of the four retired ones.** Met, and met against the live marketplace rather
+  than a local stand-in.
+- **Anthony's real profile provably unchanged.** Met, by structural comparison at three
+  points, digest identical each time.
+- **Every failure reported with its exact command and output.** Met; the failures are
+  quoted verbatim in F1, F3 and F4.
+- **Anything fixed is re-tested by running the commands again, not by reading the
+  change.** Met twice over: once locally before the push, once live after it. The first
+  candidate fix was rejected precisely because this rule was followed rather than assumed.
+- **Not done, and out of scope by agreement:** the README's second route,
+  `claude --plugin-dir`, was assessed but never exercised. R2 found it is not footprint
+  free — it writes a `pluginUsage` row to `~/.claude.json` — so the README's claim that
+  "nothing is installed or disabled globally" is true about plugins and marketplaces but
+  not about every trace. That is an untested claim on the front page and belongs in
+  `TODO.md`, not in this work.
+
+## Risks, read back at the close
+
+- Install writing into Anthony's real profile — **closed**, verified unchanged three times.
+- The marketplace unreachable for a stranger — **closed**, was true, fixed and proved live.
+- The fix needing a release rather than an edit — **resolved**, shipped as 0.142.1 on his
+  decision.
+- The fix proved only against a local manifest — **closed** by the live install in F6.
+
+Nothing open.
+
+
 ## Success and proof
 
 Proposed, not yet agreed with Anthony:
@@ -299,9 +351,12 @@ is a separate decision that goes back to Anthony.
 
 ## Agreement
 
-Awaiting response. Anthony chose this work with a plain "yes" to Switch In's
-recommendation on 2026-09-19 at 22:18. That selected the work; it approved none of
-its operations. No approval to install has been given or asked for yet.
+Agreed and complete. Anthony chose this work with a plain "yes" to Switch In's
+recommendation on 2026-09-19 at 22:18, which selected it without approving any
+operation. He then approved each consequential step separately, in this order: the
+install test in a throwaway profile, applying and proving the fix, preparing 0.142.1 with
+a release note and sending it to Codex, and the push. The boundary he set at the start
+held throughout: nothing was installed into his own profile.
 
 ## Decisions and changes
 
@@ -317,11 +372,8 @@ its operations. No approval to install has been given or asked for yet.
 
 ## Now
 
-Stage: Shape
-Current activity: 0.142.1 is prepared in the working tree — the fix, three version
-fields, and the release note in README and CHANGELOG. Codex reviewed it, found two
-overstatements in the note, and those are corrected (F5). The corrected set is back with
-Codex for its second read. Nothing is committed.
+Stage: Complete
+Current activity: none. The work is finished and published.
 Analysis so far: `claude plugin` exists on this machine (CLI 2.1.278) with `install`
 and `marketplace` subcommands, so the published commands are not fiction. The real
 profile's plugin state lives in `~/.claude/plugins/installed_plugins.json`,
@@ -329,17 +381,15 @@ profile's plugin state lives in `~/.claude/plugins/installed_plugins.json`,
 two JSON files plus listings of the two directories is in this session's scratchpad.
 Current understanding: the work is a from-scratch install test with a hard boundary
 around Anthony's own profile. Nothing about the outcome is known yet.
-Open issues: how the fix ships — bare edit or 0.142.1 with a release note — which is
-Anthony's. Then Codex's read before any push. Settled along the way: `plugin install`
-needs no Anthropic credentials, and the GitHub shorthand does not inherit the SSH
-fallback on the install path.
-Pending question: whether the fix ships as a bare edit or as 0.142.1 with a release
-note. To be asked once this is reported. The two previous questions — run the install
-test, then apply and prove the fix — were both answered yes, at 23:10 and 23:30.
+Open issues: none in this work. Left for TODO.md: the `claude --plugin-dir` trial route
+is unexercised and the README overstates it as leaving no trace.
+Pending question: none. Four were asked and all four answered yes: run the install test
+(2026-09-19 23:10), apply and prove the fix (23:30), prepare 0.142.1 and send it to Codex
+(2026-09-20 11:42), and push it (12:15).
 Decision context: the go decides whether anything is written on this machine; it is
 bounded to a throwaway profile and excludes his own.
-Next action: read Codex's second verdict, then put the push to Anthony. Owner:
-Conductor. A peer session cannot authorize the push.
+Next action: none. TODO.md still lists this install test as the selected next and should
+be updated when the sitting is saved.
 
 ## Score and delivery
 

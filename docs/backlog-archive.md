@@ -4,6 +4,25 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+## Closed 2026-09-20: the install commands were run for the first time
+
+**"The package's unverified claims: the install commands" — done.** The two commands the
+README prints were run from scratch on 2026-09-20 in throwaway profiles, with a GitHub key
+available and with SSH refused. The second command failed for the keyless case: Kerd's
+manifest published an SSH source. Fixed and released as 0.142.1, then proved by a keyless
+install against the live marketplace, which returned all eight skills at 0.142.1. Evidence:
+`docs/work/first-install/work.md`, `kivna/sessions/2026-09-20.md`, commit `db97b78`.
+
+**"Observe 0.140.0's report shape and the plain Who grid in real use" — done, first
+sighting.** The 2026-09-19/20 sitting ran on the 0.142.0 cache rather than 0.139.0, so the
+shape was live for about a dozen reports and held. One strain recorded: a report carrying a
+result and a correction together wants more than five items. Kept open as a wording
+question in `TODO.md`, not as an unobserved item.
+
+**"Observe the risks rule in real use" — done, first sighting.** Three risks were written
+into the sketchbook unprompted at Shape, each with what was being done about it, and read
+back at the close with each disposition. Nothing invented to fill the list.
+
 ## Closed 2026-09-19, evening: the ladder retired
 
 Anthony ruled on 2026-09-19 18:48 that nobody wants a machine that refuses their work and that
