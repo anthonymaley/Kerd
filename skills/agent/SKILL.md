@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, or “start a reviewer”. Keeps the chosen session and native queue; never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, and never substitutes a fresh reviewer for a named partner.
 ---
 
 # Agent
@@ -104,6 +104,12 @@ not shell subcommands. For execution, use the workflow below.
    are different facts. Resolve guidance at Conductor's
    [references/guidance/](../conductor/references/guidance/README.md), which
    ships with the plugin. Do not re-survey model choices every turn.
+   **To show a partner an image** (a screenshot, mockup or diagram), put the
+   file's absolute path in the request text and ask the partner to open and look
+   at it. Do not try to attach it: `codex queue` refuses image attachments. A
+   fresh worker that can take an attachment is a different contributor, not the
+   partner, so use one only when the person chooses it. Evidence and limits are
+   in [native sessions](references/native-sessions.md#images).
 5. Read [native sessions](references/native-sessions.md) for the selected route
    and its commands. Handle setup within existing authority; ask before installing
    dependencies or changing account/settings scope. Never request secrets in chat.

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.143.0
+
+**Your partner can see what you are looking at.** Asked to show some mockups to a Codex
+partner, Kerd had no way to do it, so Claude sent them to a brand-new Codex that knew
+nothing about the project, and said so. The partner never saw them. Codex's message route
+refuses image attachments outright, but a partner told where the file is opens it with its
+own viewer: tested on a file in its own folder and on one elsewhere on disk, and it read
+both back correctly. Agent now sends the path. A fresh Codex that takes the picture
+directly is still there, but only when you ask for one. Reported by a Kerd user. Not yet
+tried with a Claude partner.
+
 ## 0.142.1
 
 **Anyone can install it.** The address Kerd published for itself reached the project over

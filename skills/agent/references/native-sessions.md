@@ -200,6 +200,28 @@ directory's `kerd-agent/`, not in the worktree or public Git history. The existi
 worker runner retains its own `cross-llm/` records. Only selected, sanitized
 evidence belongs in the work record. No bindings travel between machines.
 
+## Images
+
+A partner is shown an image by path, not by attachment. The request text names the
+file's absolute path and asks the partner to open it; the partner looks with its own
+viewer, and answers as the partner that already knows the project.
+
+Observed on 2026-09-21 with codex-cli 0.154.0, on a throwaway Codex terminal session
+reached through the same `codex queue` route as `ask`:
+
+- `codex queue … -i FILE` exits with `codex queue does not support image attachments`.
+  The `-i, --image` in its help is inherited from the top-level command.
+- A text request naming an absolute path was answered correctly: the session ran its
+  image viewer and read back content it could only know by seeing it.
+- The same held for a file outside the session's working directory, the usual case for
+  a person's screenshots.
+
+Limits: one Codex model, two synthetic images, the default sandbox. A sandbox that
+forbids reading outside the workspace would block the path; say so rather than
+substituting. A **Claude** partner receiving an image path has not been tested.
+`codex exec -i` starts a fresh worker with no project context: it can take the
+attachment, but it is not the partner, and the person chooses it.
+
 ## Setup and compatibility
 
 Both providers use their existing CLI sign-in. Do not inspect credentials.

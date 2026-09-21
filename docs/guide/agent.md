@@ -15,6 +15,12 @@ a standing arrangement, a partner with a role and a review rhythm, instead of
 asking for a review each time. And when a job is bounded enough to hand to a
 fresh worker that needs no context at all.
 
+It can show your partner a picture, too: a screenshot, a mockup, a diagram. Say
+"show Codex this" and Agent sends the file's location, and your partner opens it
+with its own viewer. Codex's message route cannot carry the picture itself, so it
+is sent by where the file is, never attached. Tested with a Codex partner; not yet
+with a Claude one.
+
 ## How it goes
 
 You ask in words:
