@@ -4,6 +4,32 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+## Closed 2026-09-21: the rest of the front page was checked, and the site went live
+
+**"Check the rest of the front page the way the install was checked" — done.** A cold
+reader classified 55 claims on README lines 1–224, the site was opened in a real browser at
+two widths, and the trial route and a pinned-rollback install were run in a throwaway
+profile. Four claims were wrong. The worst: the rollback section pinned to `716a099`,
+whose manifest carries the SSH address 0.142.1 removed, and no environment variable
+rescues it. Corrected in `1f8e8f5` after three Codex rounds, two of which blocked
+overstatements in the rollback paragraph. Evidence: `docs/work/front-page-claims/work.md`.
+
+**"`--plugin-dir` is not footprint-free, and the README says it is" — done.** Measured: a
+session through it writes a `pluginUsage` row even when it does nothing, and `plugin list`
+shows the installed copy still enabled beside the local one. The README, site and
+getting-started guide all corrected in `1f8e8f5`.
+
+**"Small picture labels fall near 8px at phone width" — closed as the wrong question.**
+Measured at 390px: every label in every picture under 12px, worst 6.96px, worse than the row
+said. But Anthony ruled on 2026-09-21 that Kerd's readers are on desktops and laptops, and at
+1440px every label clears 12px. What remains, a laptop window narrower than 1440, is a new
+narrower row in `TODO.md`.
+
+**"Palette drift, upstream only" — obsolete.** The drift was in diagram-design's installed
+Krutho working copy (a dark-mode accent still orange). That copy was replaced on 2026-09-21
+by the `kerd` profile in both installed versions; the drifted copy is backed up at
+`~/.diagram-design/profiles/krutho.md.bak-working-copy-2026-09-21`.
+
 ## Closed 2026-09-20: the install commands were run for the first time
 
 **"The package's unverified claims: the install commands" — done.** The two commands the

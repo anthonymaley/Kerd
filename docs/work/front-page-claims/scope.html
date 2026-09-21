@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerd's front page: what is proved and what nobody has run</title>
+<style>
+  :root {
+    --paper: #F7F9F7;
+    --card: #FFFFFF;
+    --ink: #0B1512;
+    --ink-soft: #223029;
+    --muted: #4E5D58;
+    --sage: #93A29B;
+    --rule: #D5DCD7;
+    --tint: #E5EBE7;
+    --deep: #0B5E4A;
+    --clay: #B34A2B;
+    --clay-bg: #FBF2EF;
+    --deep-bg: #ECF7F2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 32px 56px;
+    background: var(--paper); color: var(--ink);
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+  .identity {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--sage); margin: 0 0 10px;
+  }
+  h1 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -.012em;
+  }
+  .standfirst {
+    font-size: 17px; line-height: 1.5; color: var(--muted);
+    max-width: 78ch; margin: 0 0 34px;
+  }
+  .standfirst b { color: var(--ink); font-weight: 600; }
+
+  /* ---- the outer containment: the front page itself ---- */
+  .page {
+    border: 1.5px solid var(--rule); border-radius: 14px;
+    background: var(--card); padding: 22px 22px 24px;
+  }
+  .page > .kicker {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--sage); margin: 0 0 3px;
+  }
+  .page > h2 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    font-size: 20px; margin: 0 0 20px; letter-spacing: -.008em;
+  }
+
+  .regions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+
+  .region {
+    border: 1.2px solid var(--sage); border-radius: 10px; background: var(--paper);
+    padding: 16px 17px 17px; min-width: 0;
+  }
+  .region h3 {
+    font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px; margin: 0 0 4px; letter-spacing: -.004em;
+  }
+  .region p.what { font-size: 13.5px; color: var(--muted); margin: 0 0 13px; line-height: 1.45; }
+  .region p.ev { font-size: 13px; color: var(--muted); margin: 11px 0 0; line-height: 1.5; }
+  .region p.ev b { color: var(--ink-soft); font-weight: 600; }
+
+  .region.proved { border-color: var(--deep); border-width: 2px; background: var(--deep-bg); }
+  .region.running { border-color: var(--ink-soft); border-width: 1.6px; }
+
+  /* status chip: shape + word + colour, never colour alone */
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    border: 1.4px solid var(--sage); color: var(--muted);
+    padding: 5px 11px 5px 9px; border-radius: 999px; background: var(--card);
+  }
+  .chip .mk { font-size: 14px; line-height: 1; }
+  .chip.ok   { border-color: var(--deep); color: var(--deep); }
+  .chip.bad  { border-color: var(--clay); color: var(--clay); background: var(--clay-bg); border-width: 2px; }
+  .chip.open { border-style: dashed; }
+  .chip.now  { border-color: var(--ink-soft); color: var(--ink-soft); }
+
+  /* the split region: two sub-claims side by side */
+  .subs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+  .sub {
+    border: 1px solid var(--rule); border-radius: 8px; background: var(--card);
+    padding: 12px 13px 13px; min-width: 0;
+  }
+  .sub.wrong { border-color: var(--clay); border-width: 1.6px; background: var(--clay-bg); }
+  .sub .says {
+    display: block; font-size: 13px; line-height: 1.45; color: var(--ink-soft);
+    margin: 0 0 9px;
+  }
+  .sub .says i { color: var(--muted); font-style: normal; }
+  .sub .why { display: block; font-size: 12.5px; color: var(--muted); margin-top: 9px; line-height: 1.45; }
+  .sub.wrong .why { color: var(--clay); }
+
+  /* the authority boundary wrapping the trial route */
+  .gated {
+    grid-column: 1 / -1;
+    border: 2px dashed var(--clay); border-radius: 12px;
+    padding: 13px 13px 14px; background: var(--clay-bg);
+  }
+  .gated > .boundary {
+    display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--clay); font-weight: 700; margin: 0 0 11px;
+  }
+  .gated .region { background: var(--card); border-color: var(--rule); }
+
+  /* what sits outside the page */
+  .outside {
+    margin-top: 16px; border: 1.5px dashed var(--rule); border-radius: 12px;
+    background: transparent; padding: 15px 18px;
+  }
+  .outside .lbl {
+    display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 5px;
+  }
+  .outside .b { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
+
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
+    background: var(--tint); padding: 1px 5px; border-radius: 4px; color: var(--ink-soft);
+    word-break: break-word;
+  }
+  .sub.wrong code { background: #F3E2DC; color: var(--clay); }
+
+  .legend {
+    margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center;
+  }
+  .legend .lbl {
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--sage);
+  }
+  .legend .it { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
+  .legend .sw { width: 15px; height: 15px; border-radius: 4px; border: 1.6px solid var(--sage); flex: 0 0 auto; }
+  .legend .sw.ok { border-color: var(--deep); background: var(--deep-bg); }
+  .legend .sw.open { border-style: dashed; }
+  .legend .sw.bad { border-color: var(--clay); background: var(--clay-bg); }
+  .legend .sw.now { border-color: var(--ink-soft); }
+  .legend .sw.out { border-style: dashed; border-color: var(--rule); }
+
+  .colophon {
+    margin-top: 22px; font-size: 12.5px; color: var(--sage); line-height: 1.6;
+  }
+
+  @media (max-width: 860px) {
+    body { padding: 28px 16px 40px; }
+    h1 { font-size: 26px; }
+    .standfirst { font-size: 16px; }
+    .page { padding: 18px 15px 20px; }
+    .regions { grid-template-columns: 1fr; gap: 13px; }
+    .subs { grid-template-columns: 1fr; }
+    .region { padding: 14px 14px 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="identity">Kerd · the front page</p>
+  <h1>What a newcomer meets, and what nobody has ever checked</h1>
+  <p class="standfirst">
+    Everything below sits on the page a stranger reads before deciding whether to use Kerd.
+    <b>One part of it has been proved by a real run.</b> Two checks have now come back and
+    both found the page wrong: on a phone every label in every drawing is illegible, and the
+    rollback instructions send a reader back into the exact install failure that was fixed
+    this morning. <b>The trial route still has not been run at all</b> — checking it needs
+    permission, because it writes to a config file.
+  </p>
+
+  <section class="page" aria-labelledby="page-h">
+    <p class="kicker">Inside the boundary · README lines 1–224 and the four site pages</p>
+    <h2 id="page-h">Kerd's front page — what a newcomer meets</h2>
+
+    <div class="regions">
+
+      <article class="region proved">
+        <span class="chip ok"><span class="mk" aria-hidden="true">✓</span>Proved</span>
+        <h3 style="margin-top:11px">The two install commands</h3>
+        <p class="what">Add the marketplace, then install the plugin.</p>
+        <p class="ev"><b>How it was settled:</b> on 2026-09-20 a throwaway profile with no
+        GitHub key installed 0.142.1 from the live marketplace and received all eight skills.
+        A real run, not an inspection — which is the only reason it was caught: the previous
+        address failed for every newcomer and three releases shipped over it.</p>
+      </article>
+
+      <article class="region">
+        <span class="chip bad"><span class="mk" aria-hidden="true">✕</span>Measured · fails on a phone</span>
+        <h3 style="margin-top:11px">The site, and the pictures</h3>
+        <p class="what">Four pages and twelve drawings, opened in a real browser for the first
+        time on 2026-09-20.</p>
+        <p class="ev"><b>The pages themselves hold up:</b> nothing overflows, no dead links, no
+        console errors, at desktop and phone width alike. <b>The drawings do not.</b> On a
+        390px phone every label in every picture falls under 12px; the smallest, on the
+        opening drawing, renders at <b>6.96px</b>. The standing suspicion said "near 8px" and
+        was understating it. Still not established: whether the site is published anywhere a
+        stranger could reach — the repository builds no site, it only stores one.</p>
+      </article>
+
+      <div class="gated">
+        <span class="boundary">Needs Anthony's go · throwaway profile only</span>
+        <article class="region">
+          <h3>The trial route</h3>
+          <p class="what">The page offers <code>claude --plugin-dir</code> as a way to try a
+          version without committing to it. It has never been run. What it promises splits
+          in two:</p>
+          <div class="subs">
+            <div class="sub wrong">
+              <span class="chip bad"><span class="mk" aria-hidden="true">✕</span>Known wrong</span>
+              <span class="says" style="margin-top:10px">“Nothing is installed or
+              disabled globally.”</span>
+              <span class="why">True of plugins and marketplaces. Not true of every trace: the
+              command writes a usage row into the reader's own <code>~/.claude.json</code>.
+              A wrong sentence, not a broken mechanism — no test in the repository could
+              find it.</span>
+            </div>
+            <div class="sub">
+              <span class="chip open"><span class="mk" aria-hidden="true">○</span>Never run</span>
+              <span class="says" style="margin-top:10px">“A same-name local plugin takes
+              precedence for that session only.”</span>
+              <span class="why">Plausible and unverified. Settling it means running the
+              command and watching which version actually answers — the half of this work
+              that touches machine state.</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <article class="region running" style="grid-column: 1 / -1">
+        <span class="chip bad"><span class="mk" aria-hidden="true">✕</span>Read · three more wrong</span>
+        <h3 style="margin-top:11px">Everything else the page claims</h3>
+        <p class="what">Fifty-five falsifiable claims. Around twenty-five have never been run.
+        Three are wrong, and one of them is the same defect that was just fixed.</p>
+        <div class="subs">
+          <div class="sub wrong">
+            <span class="says">Roll back by pinning to <code>716a099</code>.</span>
+            <span class="why">That commit's manifest still declares the SSH address 0.142.1
+            was released to remove. The fix is three sections above; this sends the reader
+            straight back into it.</span>
+          </div>
+          <div class="sub wrong">
+            <span class="says">"Kerd keeps four kinds of file… all four are ordinary
+            Markdown."</span>
+            <span class="why">Not in this repository. There is tracked JSON, rendered HTML
+            and SVG, hidden state, and a vault outside the project entirely. The section
+            whose job is disclosure is the one that understates.</span>
+          </div>
+        </div>
+        <p class="ev"><b>And the guarantee over all of it</b> — "nothing below claims more
+        than the repo can show" — is falsified by its own page, three times.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="outside">
+    <span class="lbl">Outside this work</span>
+    <span class="b">The release history below line 225, and the design of the site as opposed
+    to the truth of it. The goal is not a better front page. It is a front page that does not
+    say anything untrue.</span>
+  </div>
+
+  <div class="legend">
+    <span class="lbl">Legend</span>
+    <span class="it"><span class="sw ok"></span>Proved by a real run</span>
+    <span class="it"><span class="sw open"></span>Never run — dashed edge</span>
+    <span class="it"><span class="sw bad"></span>Already known wrong</span>
+    <span class="it"><span class="sw now"></span>Being checked right now</span>
+    <span class="it"><span class="sw out"></span>Outside this work</span>
+  </div>
+
+  <p class="colophon">
+    Kerd · docs/work/front-page-claims · drawn 2026-09-20, updated when both checks
+    returned. Status shown by word and edge as well as colour. Checked at 390px and 1440px.
+  </p>
+
+</div>
+</body>
+</html>

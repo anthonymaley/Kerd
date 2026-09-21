@@ -2,32 +2,41 @@
 
 ## Now
 
-**Release boundary:** 0.142.1 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.143.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
-**Selected next, proposed not agreed: check the rest of the front page the way the install
-was checked.** The install commands were the first front-page claim anyone actually ran,
-and they were broken. Two claims on the same page are still unrun: the website has never
-been opened in a real browser, and the `claude --plugin-dir` trial route has never been
-used. That second one is already known to be overstated — it writes a `pluginUsage` row to
-`~/.claude.json`, so "nothing is installed or disabled globally" is true of plugins and
-marketplaces but not of every trace. Claude runs both in throwaway profiles and reports;
-any fix is reviewed by Codex before push. Same boundary as the install test: nothing
-touches Anthony's own profile without his word.
+**Selected next, proposed not agreed: fix the six places where the live site and the README
+contradict each other.** **Why:** the site went live on 2026-09-21 at
+https://kerd-six.vercel.app/, so these are now contradictions a real reader lands on, and
+the reading pass already scoped them (`docs/work/front-page-claims/work.md`, F4): a second
+AI "can" read the work vs. "reads the work independently"; Agent and Visuals described on
+`site/capabilities.html` with Conductor's text; Claude *or* Codex vs. *and*; two diagnoses
+of the third problem; a Codex install route the README front page never gives. Re-check
+each against the live pages first (the trial-route correction changed the site since the
+list was made), settle which wording matches what Kerd actually does, correct both copies,
+Codex reviews before push. Prose only, so no version bump unless an install changes
+(2026-09-21 ruling). The push is Anthony's.
 
-**Anthony's:** look at the repo page and see that the README's pictures render (nobody has
-seen GitHub render those SVGs). Decide whether the explanatory output style stays on for
-this machine: it asks for Insight blocks and fights 0.140.0's report shape. Rule on the
-launch plan (`docs/design/launch-plan.md`): it was written around the ladder, its steps 3
-to 5 were a ladder pilot, and the ladder is retired, so as written it no longer describes
-a route to launch.
+**Anthony's:** rule on the launch plan (`docs/design/launch-plan.md`), written around the
+retired ladder, so as written it no longer describes a route to launch. Decide whether the
+explanatory output style stays on for this machine; it asks for Insight blocks and pulls
+against the report shape. Look at the repo page to see GitHub render the README's pictures:
+the live site renders all ten in Chromium (checked 2026-09-21), GitHub's README rendering is
+still unseen. The GitHub repo has no homepage set, so the site is not linked from the repo
+page. Whether the 2026-09-13 "prove Kerd first" hold is lifted. Leftovers from the
+2026-09-21 image test, both harmless and left because they are his: an idle Codex session in
+tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` in
+`~/.codex/config.toml`.
 
 - **The report shape strains when a report carries a result and a correction together.**
-  Seen 2026-09-20, the first real use of 0.140.0's shape: it held for about a dozen
-  reports, but a message that must deliver a result *and* retract a claim wants more than
-  five items. Wording question, not yet a change.
-- **`--plugin-dir` is not footprint-free, and the README says it is.** It writes a
-  `pluginUsage` row to `~/.claude.json`. Folded into the selected next, above.
+  Seen 2026-09-20 and again several times on 2026-09-21: a message that must deliver a
+  result *and* retract a claim wants more than five items. Wording question, not yet a
+  change.
+- **A Claude partner receiving an image path is untested.** 0.143.0's image-by-path rule was
+  proved on a Codex terminal session only (`docs/work/partner-images/work.md`).
+- **Pictures at a laptop width.** At 1440px every label clears 12px, but `the-concert.svg`'s
+  smallest labels sit at 12.04px; a narrower laptop window is unmeasured. The audience is
+  desktop and laptop, not phone (2026-09-21 ruling).
 - **Show the model and effort where a running job is listed.** Asked 2026-09-19 22:09 with
   a screenshot Claude could not open (it was on the laptop): the job list shows
   `kerd:effort-high` rather than the model and effort. Kerd's status line does not draw that
@@ -41,34 +50,48 @@ a route to launch.
 - **Release notes live in two places.** The README, which Slainte audits, and
   `CHANGELOG.md`, with no sync check. Each release updates both until a separate change
   moves them properly.
-- **Small picture labels fall near 8px at phone width** in the published pictures. Folded
-  into the site check in the selected next, above.
 - **Reported, not fixed:** `docs/work/model-ready-work/packaging/START.md` is written
   against 0.113.0; `docs/state-contract.md` still names `kivna/.active-modes`;
   `docs/machine-setup.md` still greps for `kivna/.pair`, harmless now that Pair is gone.
 - **Observe the composer, managed Conductor and a roll in a real session.** None has been
-  exercised. Fan-out has now run three times (twenty dispatches, then four, then two).
+  exercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
+  two plus one).
 - **Observe the arrival's "Something else" route** and the closing box over several
-  sittings. The arrival and "Yes" were seen again on 2026-09-19 22:16.
+  sittings. The arrival and "Yes" were seen again on 2026-09-20 14:35.
 
 - **0.134.0's two clauses have never been measured on real diagram output.**
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario.
 - **Archify's two Socket alerts were never identified**: unknown, not cleared. Its
   version is still the dev snapshot `2.17.0-dev.1`.
-- **Palette drift, upstream only:** `diagram-design`'s installed style guide has `accent`
-  and `accent-tint` disagreeing; Kerd's own views set the neutral tokens explicitly.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
   project. Whether it is lifted is Anthony's call; don't assume it.
 
-Records: the install test's sketchbook and its view are committed at
-`docs/work/first-install/`; the evening-before's are at `docs/work/retire-four-skills/`.
-2026-09-19 daytime's product-package notes are local only (see `CONTEXT.md`). Rows closed
-on 2026-09-20 are in `docs/backlog-archive.md`. These lists are not authority to install or
+Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
+front-page check, the site going live) and `docs/work/partner-images/` (0.143.0). Rows closed
+on 2026-09-21 are in `docs/backlog-archive.md`. The diagram theme is this machine's setup,
+not Kerd work: recorded in `docs/decisions.md`. These lists are not authority to install or
 run checks during pickup.
 
 ## Backlog
+
+- **Which session is waiting on you** (parked 2026-09-21 by Anthony's agreement; not
+  started). From a `weefish-c8` research drop prompted by herdr.dev: surface which agent
+  is working, idle or blocked on a human. Anthony is not leaving tmux; only the signal is
+  wanted. Checked here: the harness's `ListAgents` already gives busy/idle and the tmux
+  pane for every **Claude** session, but lists **no Codex sessions**, so for Codex even
+  "working" needs another source. Pane-scraping a Codex TUI worked on 2026-09-21 but broke
+  twice (a missed match pattern; an Enter that raced the paste). **Verified 2026-09-21**
+  against code.claude.com/docs/en/hooks-guide (reported by `weefish-c8`, then read here):
+  `Notification` fires "when Claude is waiting for input or permission"; matcher
+  `permission_prompt` after about 6s, `idle_prompt` about 60s after Claude finished;
+  every event carries `session_id`. So the Claude half is a documented hook-driven state
+  machine. Caveats: `agent_needs_input`/`agent_completed` fire only while agent view is
+  open; `permission_prompt` is timed differently under Agent-SDK hosts. Codex has no
+  hooks, so pane-scraping stays its only path — the hard half. Kerd's own 💬 question ending every turn is a native
+  "waiting on you" signal. Needs its own Shape; it carries a hook, so weigh it against
+  the rule that a countermeasure matches the defect's size.
 
 *Repository-quality debt that survived the ladder's retirement. Forty-three rows that were
 debt against the ladder, the ledger, the register or their tools were closed as dead on

@@ -12,6 +12,10 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. THE KERD LOOK (`site/DESIGN.md`) IS THE ONLY DIAGRAM THEME ON THIS MACHINE; KRUTHO IS RETIRED — Anthony, 2026-09-21 13:13–14:25; supersedes in part ruling 3 of 2026-09-16 (its "neutral default skin" clause). Machine setup, not shipped in `kerd:visuals`.
+1. KERD'S READERS ARE ON DESKTOPS AND LAPTOPS, NOT PHONES — Anthony, 2026-09-21 10:55
+1. A CORRECTION TO WHAT THE PAGE SAYS SHIPS WITHOUT A VERSION BUMP WHEN THE INSTALLED PLUGIN IS BYTE-IDENTICAL — proposed by Conductor, agreed by Anthony, 2026-09-21 10:27; bounds the 2026-09-20 release ruling
+1. KERD'S SITE IS PUBLISHED ON VERCEL FROM THE REPOSITORY ROOT — Anthony, 2026-09-21 10:57–11:06
 1. A DEFECT THAT CHANGES WHAT INSTALLS GETS ITS OWN VERSION AND A RELEASE NOTE, NOT A QUIET REPAIR OF WHAT THE EXISTING TAG POINTS AT — proposed by Conductor, agreed by Anthony, 2026-09-20 11:42; released in 0.142.1
 1. THE LADDER OF MACHINE CHECKS AND THE TIERED RISK LEDGER ARE RETIRED; WHAT IS WANTED IS A SKETCHBOOK THAT BECOMES A SPEC, A SCORE TO CHECK THE BUILD AGAINST, AND RISKS KEPT IN VIEW — Anthony, 2026-09-19 18:48; released in 0.142.0. Supersedes the 2026-09-19 11:06 clause that Interrogate's removal travels with a ladder and gate cleanup.
 1. LORG, INTERROGATE AND PAIR ARE CUT; THEY LEAVE THE PUBLISHED PACKAGE NOW AND THE PLUGIN IN A LATER BREAKING RELEASE WITH DRIVE; INTERROGATE'S REMOVAL TRAVELS WITH THE LADDER AND GATE CLEANUP — Anthony, 2026-09-19 11:06–11:14
@@ -22,7 +26,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
 1. REHEARSAL, THEN THE CONCERT: TURN-BY-TURN WORK IS THE DRESS REHEARSAL AND STAYS ORGANIC, WITH NO GATES OR LADDERS; WHEN READY THE WORK IS PERFORMED TO A SCORE AND A GOAL; CONDUCTOR OWNS A SKETCHBOOK PER PIECE OF WORK; ROLLING IS PER BATCH; THE GOALS DECIDE WHEN THE LOOP ENDS — Anthony, 2026-09-18 22:16–23:15
 1. SWITCH IN SAYS WHAT HAPPENS NEXT AND WHY: A PLAIN-ENGLISH LIST OF OPEN WORK AND ONE RECOMMENDATION, ENDING ON "WHAT DO YOU WANT THIS SESSION TO MOVE FORWARD?"; A SAVED NEXT STEP IS A CANDIDATE, NEVER REPEATED BECAUSE IT WAS SAVED — Anthony, 2026-09-18 10:07–10:11; supersedes in part the 2026-09-14 "Start a Conductor session?" ruling; 0.135.0
 2. A COUNTERMEASURE IS THE SIZE OF THE DEFECT: A MISSING TOOL ARGUMENT IS FIXED WHERE IT IS WRITTEN, NOT WITH A SUBSYSTEM — Anthony, 2026-09-16 16:48, "I would not approve that guard design. It turns a missing tool argument into a hook subsystem"; shaped 0.133.0
-3. KRUTHO IS ANTHONY'S BRAND, NOT KERD'S — KERD SHIPS TO ANYONE, SO ITS OWN VIEWS USE diagram-design'S NEUTRAL DEFAULT SKIN — Anthony, 2026-09-16 16:11, "No. krutho is not KERD. this skill is for anyone"
+3. KRUTHO IS ANTHONY'S BRAND, NOT KERD'S — KERD SHIPS TO ANYONE, SO ITS OWN VIEWS USE diagram-design'S NEUTRAL DEFAULT SKIN — Anthony, 2026-09-16 16:11, "No. krutho is not KERD. this skill is for anyone" — **Superseded in part 2026-09-21:** the neutral-default-skin clause is replaced by the Kerd look ruling; "Krutho is not Kerd" stands.
 4. CLAUDE OWNS BUILD AND RELEASE; CODEX IS THE PAIRING PARTNER FOR EXPERT-LEVEL REVIEW AND INVESTIGATION — Anthony, 2026-09-16 14:21
 5. A CONSEQUENTIAL QUESTION KEEPS ITS ANSWER-READY FACTS IMMEDIATELY ABOVE IT; THE BUBBLE NAMES THE CONCRETE ACTION AND TARGET — Anthony, 2026-09-16, “can we model this into the next release” and “or we can add to 132 and go”; included in 0.132.0
 6. A RENDERED VIEW IS THE DEFAULT WHENEVER A PROPOSAL CARRIES TWO OR MORE CONNECTED PARTS, A BRANCH, AN OWNERSHIP BOUNDARY OR A BEFORE → AFTER CHANGE, NOT SOMETHING OFFERED; diagram-design AND Archify ARE REQUIRED TOOLS, NOT OPTIONS — Anthony, 2026-09-15 15:26/15:31/21:37, released in 0.132.0
@@ -214,6 +218,51 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **The Kerd look is the only diagram theme on this machine; Krutho is retired — Anthony,
+  2026-09-21.** Shown a `work-anthony` diagram drawn in Krutho blue and Spline Sans and asked
+  whether the theme was right, Claude first answered from the saved `krutho` profile. Anthony:
+  *"no, we removed it - we only need the new theme"*, then *"i think its the default. the one
+  we literally spent time making sure is readable etc"*, which is the Kerd look in
+  `site/DESIGN.md`. He answered "y" to making it the diagram tool's default. Found on the way:
+  the earlier retirement had never reached the tool. diagram-design 2.6.6 still carried
+  Krutho as its working style guide and 2.6.7 the stock orange default, and sessions started
+  at different times read different versions, so neither look was the one he meant. Built:
+  a `kerd` profile at `~/.diagram-design/profiles/kerd.md` from `DESIGN.md` (seven tokens,
+  system face, square corners, sentence case, 13px floor, one accent), loaded into both
+  versions, with the pristine default saved as `default.md` and the drifted Krutho copy
+  backed up. Proved by a fresh session drawing cold three times. The first run exposed
+  2.6.7, the second the tool's hardcoded white node fill, and the third used only the
+  token values. **Supersedes in part** the 2026-09-16 ruling that Kerd's own views use
+  diagram-design's neutral default skin; its reason, that Krutho is not Kerd and Kerd ships
+  to anyone, stands. That is why the Kerd look lives in this machine's tool and not in
+  `kerd:visuals`. Limit: a diagram-design update ships a fresh style guide and silently
+  reverts it; the fix is to copy `kerd.md` over the new version's style guide.
+
+- **Kerd's readers are on desktops and laptops, not phones — Anthony, 2026-09-21 10:55.** A
+  browser check measured every picture label under 12px at 390px (worst 6.96px) and Conductor
+  recommended fixing the pictures first. His correction: *"phone is not the target though, i
+  think people who use this do it on desktops/laptops"*. At 1440px every label clears 12px,
+  so the phone finding does not describe the audience. Measure published pages and pictures
+  at desktop and laptop widths first; a narrower laptop window is the realistic edge case
+  (`the-concert.svg`'s smallest labels sit at 12.04px at 1440).
+
+- **A correction to what the page says ships without a version bump when the installed
+  plugin is byte-identical — proposed by Conductor, agreed by Anthony, 2026-09-21 10:27.**
+  Four front-page claims were corrected (`1f8e8f5`) with no version change. The 2026-09-20
+  ruling covers defects that change what a newcomer *receives*; these changed what the page
+  *says*, and nothing a plugin install fetched was different. The same held for the Vercel
+  config and the README's site link. A change to skill text is still a release: 0.143.0 the
+  same day.
+
+- **Kerd's site is published on Vercel from the repository root — Anthony, 2026-09-21.** The
+  site had never been published: `has_pages: false`, no homepage, so the README's "the site
+  you are reading" was false. Anthony proposed Vercel. The root is deployed rather than
+  `site/` because every page loads its pictures from `../docs/pictures/`; `vercel.json`
+  redirects `/`, `/site` and `/site/` to `/site/index.html`, which avoids depending on
+  Vercel's trailing-slash default. Live at https://kerd-six.vercel.app/ and checked in a
+  real browser: all ten pictures load, every nav link answers. Anthony owns the Vercel
+  project; the repository owns `vercel.json`.
 
 - **A defect that changes what installs gets its own version and a release note, not a quiet
   repair of what the existing tag points at.** Proposed by Conductor and agreed by Anthony on

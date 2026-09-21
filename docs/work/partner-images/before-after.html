@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showing a Codex partner an image</title>
+<style>
+  :root {
+    --paper: #F7F9F7; --card: #FFFFFF; --ink: #0B1512; --ink-soft: #223029;
+    --muted: #4E5D58; --sage: #93A29B; --rule: #D5DCD7; --tint: #E5EBE7;
+    --deep: #0B5E4A; --clay: #B34A2B; --clay-bg: #FBF2EF; --deep-bg: #ECF7F2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0E1512; --card: #141D19; --ink: #E5EBE7; --ink-soft: #C9D3CE;
+      --muted: #93A29B; --sage: #6F7F78; --rule: #26332D; --tint: #1B2621;
+      --deep: #5CC5A3; --clay: #E07A5A; --clay-bg: #2A1A15; --deep-bg: #12281F;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 40px 32px 56px; background: var(--paper); color: var(--ink);
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .identity { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--sage); margin: 0 0 10px; }
+  h1 { font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; font-size: 32px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -.012em; }
+  .standfirst { font-size: 17px; line-height: 1.5; color: var(--muted); max-width: 76ch; margin: 0 0 32px; }
+  .standfirst b { color: var(--ink); font-weight: 600; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .panel { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 22px 22px 24px; min-width: 0; }
+  .panel.before { border-color: var(--clay); }
+  .panel.after { border-color: var(--deep); border-width: 2px; }
+  .kicker { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 4px; font-weight: 700; }
+  .before .kicker { color: var(--clay); } .after .kicker { color: var(--deep); }
+  h2 { font-size: 20px; margin: 0 0 18px; letter-spacing: -.006em; }
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .node { border: 1.2px solid var(--sage); border-radius: 9px; padding: 12px 14px; background: var(--paper); }
+  .node .n { display: block; font-size: 15px; font-weight: 600; }
+  .node .d { display: block; font-size: 13.5px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+  .node.bad { border-color: var(--clay); background: var(--clay-bg); border-width: 2px; }
+  .node.bad .n, .node.bad .d { color: var(--clay); }
+  .node.good { border-color: var(--deep); background: var(--deep-bg); border-width: 2px; }
+  .node.good .n { color: var(--deep); }
+  .link { display: flex; align-items: center; gap: 10px; padding: 6px 0 6px 18px; font-size: 13px; color: var(--muted); }
+  .link::before { content: "↓"; font-size: 18px; color: var(--sage); }
+  .link.x::before { content: "✕"; color: var(--clay); font-weight: 700; }
+  .link.x { color: var(--clay); }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; background: var(--tint); padding: 1px 5px; border-radius: 4px; word-break: break-word; }
+  .proof { margin-top: 28px; border-top: 1px solid var(--rule); padding-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .fact .t { display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--sage); margin-bottom: 5px; }
+  .fact .b { font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
+  .fact.no .b { color: var(--clay); } .fact.yes .b { color: var(--deep); }
+  .limit { margin-top: 22px; font-size: 13.5px; color: var(--muted); line-height: 1.55; max-width: 90ch; }
+  @media (max-width: 860px) {
+    body { padding: 28px 16px 40px; } h1 { font-size: 26px; }
+    .cols, .proof { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="identity">Kerd · Agent · reported by a user, 2026-09-21</p>
+  <h1>Showing your Codex partner a picture</h1>
+  <p class="standfirst">
+    A user asked Claude to show some mockups to their Codex partner. Kerd had no way to
+    do it, so Claude sent them to <b>a brand-new Codex with no knowledge of the project</b>,
+    and said so. The partner never saw them. Tested today: the partner <b>can</b> see an
+    image if it is told where the file is.
+  </p>
+
+  <div class="cols">
+    <section class="panel before" aria-labelledby="b-h">
+      <p class="kicker">✕ Today</p>
+      <h2 id="b-h">The pictures go to a stranger</h2>
+      <div class="flow">
+        <div class="node"><span class="n">You: "show these to Codex"</span>
+          <span class="d">Your partner already knows the project.</span></div>
+        <div class="link x">Kerd's message route cannot attach a picture</div>
+        <div class="node"><span class="n">Claude improvises</span>
+          <span class="d">Nothing in Kerd says what to do, so it starts a fresh Codex and
+          hands it the pictures directly.</span></div>
+        <div class="link">a new session, not your partner</div>
+        <div class="node bad"><span class="n">A Codex that has never seen your project</span>
+          <span class="d">Judges the mockups without the context you paired a partner
+          for. Your partner is never asked.</span></div>
+      </div>
+    </section>
+
+    <section class="panel after" aria-labelledby="a-h">
+      <p class="kicker">✓ Proposed</p>
+      <h2 id="a-h">Your partner opens them itself</h2>
+      <div class="flow">
+        <div class="node"><span class="n">You: "show these to Codex"</span>
+          <span class="d">Same request.</span></div>
+        <div class="link">Claude sends where the files are, in plain text</div>
+        <div class="node"><span class="n">The usual message route</span>
+          <span class="d">No new tool, no change to how Kerd sends. Only the words change:
+          "the image is at <code>/path/mockup.png</code>, open it."</span></div>
+        <div class="link">your partner looks with its own viewer</div>
+        <div class="node good"><span class="n">Your partner, with the project in mind</span>
+          <span class="d">Sees the picture and answers as the partner you chose. A fresh
+          Codex remains available, but only when you ask for one.</span></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="proof">
+    <div class="fact no"><span class="t">Attaching the file</span>
+      <span class="b">Refused by Codex itself: "<code>codex queue</code> does not support
+      image attachments".</span></div>
+    <div class="fact yes"><span class="t">Sending the path</span>
+      <span class="b">Partner opened it and read "OKAPI 73; a red circle" — text it could
+      only know by seeing it.</span></div>
+    <div class="fact yes"><span class="t">A file elsewhere on disk</span>
+      <span class="b">Also worked: "HERON 58; a blue square", from outside the partner's
+      own folder.</span></div>
+  </div>
+
+  <p class="limit">Tested on one Codex model, codex-cli 0.154.0, with two synthetic images
+  and the default sandbox. Whether a <b>Claude</b> partner can do the same has not been
+  tested. Kerd · docs/work/partner-images.</p>
+</div>
+</body>
+</html>
