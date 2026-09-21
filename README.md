@@ -8,7 +8,7 @@ with a team of agents and checks the result against what you asked for.
 folder tracked by Git. If that is not you yet, set those up first; Kerd does not
 replace them. **How new it is:** picking work up and putting it down has been in
 daily use for months. Rehearsal and the concert shipped in 0.139.0, and the
-README, guides and site you are reading are their first real use.
+README, guides and [live site](https://kerd-six.vercel.app/) are their first real use.
 
 ![A day with Kerd: sit down and pick up, rehearse, call it ready, perform the concert, put it down](docs/pictures/how-kerd-works.svg)
 
