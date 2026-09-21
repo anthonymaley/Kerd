@@ -153,11 +153,12 @@ claude plugin install kerd@kerd-marketplace</code></pre>
       </div>
 
       <div class="step">
-        <p>Try a version before adopting it, without touching your global setup.</p>
+        <p>Try a version before adopting it, without installing it.</p>
 <pre><code>claude --plugin-dir /absolute/path/to/kerd</code></pre>
-        <p class="small soft">A same-name local plugin takes
-          precedence for that session only. Closing it restores the ordinary setup; nothing is
-          installed or disabled globally.</p>
+        <p class="small soft">The local copy loads alongside whatever you already have, as a
+          session-only plugin, and closing the session ends that. Nothing is installed and
+          nothing is disabled, but it is not trace-free: starting a session this way records
+          one line of usage in your <code>~/.claude.json</code>.</p>
       </div>
 
       <div class="step">

@@ -65,8 +65,9 @@ did.
 
 Guides: [Conductor](docs/guide/conductor.md), [Agent](docs/guide/agent.md).
 
-As said at the top, this part is new, so nothing below claims more than the repo
-can show.
+As said at the top, this part is new. Everything below is marked for what it is:
+where a claim has been proved by running it, this page says so, and where it has
+not, it says that too.
 
 ## Install
 
@@ -75,14 +76,19 @@ claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace
 ```
 
-**Try a version before adopting it**, without touching your global setup:
+**Try a version before adopting it**, without installing it:
 
 ```
 claude --plugin-dir /absolute/path/to/kerd
 ```
 
-A same-name local plugin takes precedence for that session only. Closing it
-restores the ordinary setup; nothing is installed or disabled globally.
+The local copy loads alongside whatever you already have, as a session-only
+plugin: `claude plugin list` shows both, the installed one still enabled and the
+local one loaded beside it. Closing the session ends that. Nothing is installed
+and nothing is disabled, but it is not trace-free: starting a session this way
+records one line of usage in your `~/.claude.json`. Tested in a throwaway
+profile on 2026-09-20. Which copy's skill text a running session prefers has not
+been tested.
 
 ## Your first five minutes
 
@@ -154,8 +160,8 @@ your work.
 
 ## What it writes, and how to remove it
 
-Kerd keeps four kinds of file in your project. All four are ordinary Markdown:
-open them, read them, edit them, commit them.
+Four kinds of file carry the work, and all four are ordinary Markdown: open
+them, read them, edit them, commit them.
 
 | File | What it holds |
 |---|---|
@@ -163,6 +169,12 @@ open them, read them, edit them, commit them.
 | `TODO.md` | open work only: `## Now` and `## Backlog`, one line each |
 | `kivna/sessions/YYYY-MM-DD.md` | one log per day: what was done, key decisions, commits, what is next |
 | `docs/work/<name>/work.md` | one record per piece of work: the direction, what is settled, what is still open |
+
+Those four are not everything Kerd writes. Drawings are saved as HTML and SVG
+beside the work record. If you opt into the Obsidian vault, `kivna/vault.json`
+is committed JSON and the vault itself lives outside your project. And some
+working state is meant to stay out of Git, under `.agents/` and parts of
+`kivna/`, so it belongs in your `.gitignore`.
 
 Switch Out saves them with Git, and it commits the files it names and nothing
 else. It pushes when you have given it the authority to push; a
@@ -204,7 +216,22 @@ repos before v0.96.0. Roll back by pinning the marketplace to a tagged commit:
 |---|---|
 | The last commit before Conductor/Switch were replaced | `716a099` on `origin/main` |
 | Undo the release, keep the history | `git revert <release commit>` |
-| Pin a consumer repo to the old behaviour | marketplace `source.url` at `716a099` |
+
+**Read this before pinning to an old commit.** From `bc0d78e` on 2026-02-27
+until the fix in 0.142.1 on 2026-09-20, this project's marketplace manifest
+named itself by its SSH address, and `claude plugin install` clones that address
+literally. `716a099` is inside that range. Pinned anywhere in it, the install
+fails with `Permission denied (publickey)` for anyone who has not set up a
+GitHub key, and no environment variable changes that: the address is explicit,
+so there is no shorthand for the CLI to re-resolve. Tested in a throwaway
+profile on 2026-09-20.
+
+Two ways round it, neither run against an old commit: take a checkout of the
+version you want and point `--plugin-dir` at it — loading a local checkout that
+way was observed working on 2026-09-20, with a current one — or edit the `url`
+in that commit's `.claude-plugin/marketplace.json` to the `https://` form before
+installing, which is the operation the 0.142.1 fix itself was proved with on
+2026-09-19, against a fixed manifest rather than an old one.
 
 This repo carries **no tags** — `git tag` returns nothing — so a commit SHA is the
 only durable reference today. If you want `v0.107.0` to be tag-addressable, the tag

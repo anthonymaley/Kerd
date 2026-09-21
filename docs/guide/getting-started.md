@@ -39,8 +39,13 @@ one session:
 claude --plugin-dir /absolute/path/to/kerd
 ```
 
-A same-name local plugin wins for that session only. Close it and your ordinary
-setup is back. Nothing is installed or disabled globally. The README's
+The local copy loads alongside whatever you already have, as a session-only
+plugin: `claude plugin list` shows both, the installed one still enabled and the
+local one loaded beside it. Close the session and that ends. Nothing is
+installed and nothing is disabled, but it is not trace-free: starting a session
+this way records one line of usage in your `~/.claude.json`. Tested in a
+throwaway profile on 2026-09-20; which copy's skill text a running session
+prefers has not been tested. The README's
 [Install](../../README.md#install) section is the source for all three of these.
 
 ### Check that it worked
