@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Six contradictions, settled</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--paper:#F7F9F7;--paper2:#EDF0EE;--ink:#0B1512;--muted:#4E5D58;--rule:#D5DCD7;--accent:#0B5E4A;
+    --sans:-apple-system,"SF Pro Display","SF Pro Text","Helvetica Neue",Inter,system-ui,"Segoe UI",Roboto,sans-serif}
+  @media (prefers-color-scheme: dark){:root{--paper:#121B17;--paper2:#0B1310;--ink:#E5EBE7;--muted:#93A29B;--rule:#223029;--accent:#5CC5A3}}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);padding:3rem 2rem;display:flex;justify-content:center}
+  .frame{max-width:1200px;width:100%}
+  .eyebrow{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:.5rem}
+  h1{font-size:32px;font-weight:600;line-height:1.2;margin-bottom:1.5rem}
+  svg{width:100%;min-width:1100px;display:block}
+  svg .bg{fill:var(--paper)}
+  svg .n{fill:var(--paper);stroke:var(--ink);stroke-width:1}
+  svg .f{fill:var(--paper);stroke:var(--accent);stroke-width:1.5}
+  svg .arr{stroke:var(--muted);stroke-width:1}
+  svg .mk{fill:var(--muted)}
+  svg text{font-family:var(--sans)}
+  svg .eb{font-size:13px;font-weight:600;fill:var(--muted)}
+  svg .nm{font-size:16px;font-weight:600;fill:var(--ink)}
+  svg .bd{font-size:15px;font-weight:400;fill:var(--ink)}
+  svg .pn{font-size:16px;font-weight:600;fill:var(--ink)}
+  svg .sf{font-size:14px;font-weight:400;fill:var(--muted)}
+  .note{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--rule);font-size:15px;color:var(--muted);max-width:72ch;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="frame">
+  <p class="eyebrow">Before and after · Kerd front page</p>
+  <h1>Six places the site and README disagree, and which way each is settled.</h1>
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="six-contradictions-title six-contradictions-desc">
+    <title id="six-contradictions-title">Six site and README contradictions, settled</title>
+    <desc id="six-contradictions-desc">Six passages where Kerd's live site and README say different things, each shown beside the one wording proposed for both and the copy that would change.</desc>
+    <defs><marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="mk" points="0 0, 8 3, 0 6"/></marker></defs>
+    <rect class="bg" width="100%" height="100%"/>
+      <text class="eb" x="40" y="52">What a reader meets now</text>
+      <text class="eb" x="720" y="52">Proposed, not agreed</text>
+      <line class="arr" x1="604" y1="130" x2="712" y2="130" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="250" x2="712" y2="250" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="370" x2="712" y2="370" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="490" x2="712" y2="490" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="610" x2="712" y2="610" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="730" x2="712" y2="730" marker-end="url(#ar)"/>
+      <rect class="n" x="40" y="80" width="560" height="100"/>
+      <text class="nm" x="56" y="108">A second AI</text>
+      <text class="bd" x="56" y="136">Site: “A second AI reads the work independently.”</text>
+      <text class="bd" x="56" y="160">README: “A second AI can read the work too.”</text>
+      <rect class="f" x="720" y="80" width="440" height="100"/>
+      <text class="pn" x="736" y="108">A second AI can read the work too.</text>
+      <text class="sf" x="736" y="164">Both site pages change.</text>
+      <rect class="n" x="40" y="200" width="560" height="100"/>
+      <text class="nm" x="56" y="228">The third problem</text>
+      <text class="bd" x="56" y="256">Site: “…and nobody checks the whole of it.”</text>
+      <text class="bd" x="56" y="280">README: “…and done is whatever the AI says it is.”</text>
+      <rect class="n" x="720" y="200" width="440" height="100"/>
+      <text class="pn" x="736" y="228">Done is whatever the AI says it is.</text>
+      <text class="sf" x="736" y="284">The site’s front page changes.</text>
+      <rect class="n" x="40" y="320" width="560" height="100"/>
+      <text class="nm" x="56" y="348">Who Agent works with</text>
+      <text class="bd" x="56" y="376">Docs page: “Claude and Codex together.”</text>
+      <text class="bd" x="56" y="400">README and other pages: “Claude or Codex.”</text>
+      <rect class="n" x="720" y="320" width="440" height="100"/>
+      <text class="pn" x="736" y="348">Claude or Codex: Agent pairs Claude</text>
+      <text class="pn" x="736" y="370">with Claude as well as with Codex.</text>
+      <text class="sf" x="736" y="404">The docs page changes.</text>
+      <rect class="n" x="40" y="440" width="560" height="100"/>
+      <text class="nm" x="56" y="468">Agent’s card</text>
+      <text class="bd" x="56" y="496">Site: Agent is described with Conductor’s concert text.</text>
+      <text class="bd" x="56" y="520">README: a second opinion from another AI session.</text>
+      <rect class="n" x="720" y="440" width="440" height="100"/>
+      <text class="pn" x="736" y="468">Agent asks another AI session and brings</text>
+      <text class="pn" x="736" y="490">the answer back, from the partner you paired with.</text>
+      <text class="sf" x="736" y="524">The capabilities page changes.</text>
+      <rect class="n" x="40" y="560" width="560" height="100"/>
+      <text class="nm" x="56" y="588">Visuals’ card</text>
+      <text class="bd" x="56" y="616">Site: Visuals is described with Conductor’s sketchbook text.</text>
+      <text class="bd" x="56" y="640">README: pictures of what you are making, as you go.</text>
+      <rect class="n" x="720" y="560" width="440" height="100"/>
+      <text class="pn" x="736" y="588">Visuals draws how the parts connect,</text>
+      <text class="pn" x="736" y="610">as a saved picture that arrives by default.</text>
+      <text class="sf" x="736" y="644">The capabilities page changes.</text>
+      <rect class="n" x="40" y="680" width="560" height="100"/>
+      <text class="nm" x="56" y="708">Installing in Codex</text>
+      <text class="bd" x="56" y="736">Site: Codex takes a different route, see getting started.</text>
+      <text class="bd" x="56" y="760">README: gives the Claude Code commands only.</text>
+      <rect class="n" x="720" y="680" width="440" height="100"/>
+      <text class="pn" x="736" y="708">One line pointing Codex readers to its route:</text>
+      <text class="pn" x="736" y="730">a four-skill core built from a source checkout.</text>
+      <text class="sf" x="736" y="764">The README changes.</text>
+  </svg>
+  <p class="note">Each wording follows what Kerd actually does, not whichever copy reads better. Two further questions are kept out of this change: the Codex install guide says “the other eight skills” are left out, when it is four; and “Kerd runs inside Claude Code or Codex” reads as full Codex support, while Codex gets a four-skill core built by hand.</p>
+</div>
+</body>
+</html>

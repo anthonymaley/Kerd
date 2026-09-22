@@ -76,6 +76,10 @@ claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace
 ```
 
+**In Codex, Kerd takes a different route:** a core of four skills that you build
+from a source checkout. See
+[getting started](docs/guide/getting-started.md#install-in-codex).
+
 **Try a version before adopting it**, without installing it:
 
 ```

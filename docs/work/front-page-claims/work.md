@@ -348,3 +348,55 @@ pushed as `77d084e`, CI green.
 [live site](https://kerd-six.vercel.app/) are their first real use." Codex cleared the
 first version and suggested dropping "you are reading", since a reader on GitHub is not
 on the site; taken, re-read, clear.
+
+## Follow-on: the six site/README contradictions (2026-09-21 evening)
+
+**Chosen** at Switch In ("y" to the recommendation), 19:11. That selects the work; it
+approves no edit or push. Owner Claude, inline; Codex `codex-tui` reviews before push; the
+push is Anthony's. Prose only, so no version bump (2026-09-21 ruling).
+
+**Re-checked live first.** `site/index.html` and `site/capabilities.html` fetched from
+https://kerd-six.vercel.app/ are byte-identical to the repo, so the repo copy is what a
+reader sees. All six still stand.
+
+**Proposed wording, not agreed.** Settled against what Kerd does, not against whichever copy
+reads better:
+
+1. *Second AI.* Site (`index.html`, `capabilities.html`) says "A second AI reads the work
+   independently"; README says "can". Kerd plans review from a partner's recorded cadence,
+   and `on-request` means no automatic review, so "can" is the true one. Site → "A second
+   AI can read the work too."
+2. *The third problem.* Site: "nobody checks the whole of it"; README: "done is whatever the
+   AI says it is". The heading is about when work is done, so the README's diagnosis fits.
+   Site → README's sentence.
+3. *Claude or Codex.* `docs.html` says "Claude and Codex together"; README, index and
+   capabilities say "Claude or Codex". Agent pairs Claude with Claude as well as with Codex
+   (this repo's own bindings do), so "or" is true. `docs.html` → "Claude or Codex".
+4. *Agent's card.* `capabilities.html` describes Agent with Conductor's concert paragraph.
+   → Agent's own job, from `docs/guide/agent.md`: it gets a contribution from another AI
+   session and brings the answer back, and keeps track of which session is which, so "ask
+   Codex to review this" reaches the partner you paired with.
+5. *Visuals' card.* `capabilities.html` describes Visuals with Conductor's sketchbook
+   sentence. → Visuals' own job, from `docs/guide/visuals.md`: it draws how the parts
+   connect, who owns what and what changes, as a saved picture you can open, and a picture
+   arrives by default when a proposal has connected parts.
+6. *Codex install.* The site's Install gives a Codex route (getting started, `#install-in-codex`);
+   the README's Install never does. README → one line after the commands: Codex takes a
+   different route, a four-skill core built from a source checkout, see getting started.
+
+**Found, kept out of this change:** `docs/guide/getting-started.md:85` says "the other eight
+skills" are left out of the Codex core; Kerd has eight skills in all, so it is four. And
+"Kerd runs inside Claude Code or Codex" (README and every site page) reads as full support,
+while Codex gets a four-skill core built by hand. Both are wording questions for Anthony.
+
+**Agreed** by Anthony ("y", 19:18) and applied to `README.md`, `site/index.html`,
+`site/capabilities.html` and `site/docs.html`, as proposed. Picture:
+`six-contradictions.html` / `.png` beside this record.
+
+**Checked:** none of the old phrasings remain in the README or site; `release_check.py`
+clean; 760 tests pass. Codex (`codex-tui`), before-push, first read: "Clear to push", no
+sentence claiming more than the repo supports, no remaining site/README contradiction.
+**Not yet proved:** the live site shows the new wording; that follows the push and
+Vercel's redeploy.
+
+**Pending:** Anthony's go to commit and push to `main`.
