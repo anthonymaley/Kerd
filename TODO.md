@@ -5,17 +5,14 @@
 **Release boundary:** 0.143.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
-**Selected next, proposed not agreed: draft a launch plan for the Kerd that exists now, for
-Anthony to rule on.** **Why:** the front page, site and README are consistent and live, and
-say only what a run has shown, so a reader is ready for Kerd; what is missing is a route to a
-launch. `docs/design/launch-plan.md` was written around the retired ladder and a ladder pilot
-and no longer describes one. Claude drafts through Conductor, from Shape: what launching
-means now (who first, what they install, what they do in their first sitting, how anyone will
-know it worked), built on rehearsal and the concert, not gates. Stops at a draft for
-Anthony's ruling; nothing published, no release. The six site/README contradictions this
-list carried are done (`8ff2196`, 2026-09-21 evening; closed in `docs/backlog-archive.md`).
+**The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
+sketchbook `docs/work/launch-plan/work.md`. Kerd is ready to launch when someone other than
+Anthony carries real work in their own repository to its agreed result, unaided. **Next on
+the route, step 1:** Anthony takes one real piece of work on a project that isn't Kerd
+through Kerd, over at least two sittings. Which project is his to name.
 
-**Anthony's:** rule on the launch plan once drafted. Decide whether the
+**Anthony's:** name the project for step 1; whether the 2026-09-13 hold is lifted (rows 3
+and 5 of its list are unclosed); who the invited few are; where and when to announce. Decide whether the
 explanatory output style stays on for this machine; it asks for Insight blocks and pulls
 against the report shape. Look at the repo page to see GitHub render the README's pictures:
 the live site renders all ten in Chromium (checked 2026-09-21), GitHub's README rendering is

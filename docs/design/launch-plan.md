@@ -1,54 +1,86 @@
-# Launch plan — five outcomes and the path to a real user
+# Launch plan: from Anthony's own work to people who come back
 
-**The definition of done (Tony, 2026-09-02):** Kerd is done when a real user
-drives a real work item, in their own repository, frame to acceptance, unaided.
-Progress is reported against **five outcomes**, never as a percentage —
-`91.6%` and `1 of 7` are retired from launch reporting. Full rationale in
-CONTEXT.md `## Key Decisions` (2026-09-02).
+**Status: accepted by Anthony, 2026-09-22 09:38 ("go"), as drafted by Claude the same
+morning.** Still open and his: the 2026-09-13 hold, who the invited few are, and where and
+when the open launch is announced. Its sketchbook and route picture
+(`docs/work/launch-plan/`) are working notes, kept on the Mac Studio, not in Git.
 
-**The dated record:** `docs/plans/2026-09-02-launch-plan.html` — the decision's
-visual, drafted 2026-09-02, recovered into the repo 2026-09-03 from the private
-artifact (`https://claude.ai/code/artifact/e26d07b8-437d-4db7-a427-186e614bcf49`).
-That render is immutable; this file is the living home.
+This replaces the 2026-09-02 plan of five outcomes and a ladder pilot, retired with the
+ladder on 2026-09-19. That plan's dated render, `docs/plans/2026-09-02-launch-plan.html`,
+stays as it was.
 
-## The five outcomes
+## What launched means
 
-| # | Outcome | What proves it | Status (hand-kept, reviewed 2026-09-18) |
-|---|---|---|---|
-| 1 | External execution proven | A throwaway repo routes, passes, audits and **refuses** with no Kerd tree present, driven through the skills rather than by hand | Partial, as of 2026-09-18: the wiring shipped in Conductor (0.137.0, gate-reachability accepted) and a fixture runs it against a separate repository; not yet seen through a real session, and Conductor names the gap instead of refusing, by the producer's choice |
-| 2 | Diagnostic real-product run | A findings document; **PARTIAL is a valid outcome** | Not started; subject chosen (`agent-request`); prerequisites done 2026-09-18 except the cache refresh |
-| 3 | Pilot-derived minimum capability built | Every item traces to a line in the outcome-2 findings | Waiting on outcome 2; deliberately unsized until it returns |
-| 4 | Clean independent pilot passed | Acceptance reached unaided — **the launch criterion** | Not started |
-| 5 | Release completed | Release checks green; known limits documented where a user meets them | Not started |
+**Kerd is ready to launch when someone other than Anthony carries a real piece of work, in
+their own repository, to its agreed result, unaided.** Anthony, 2026-09-02; reworded
+without the ladder and confirmed 2026-09-22.
 
-**Launch: 0 of 5.**
+"Agreed result" means the goals that person set with Conductor in rehearsal, not a rung.
+"Unaided" means Anthony doesn't step in during the sitting. What they tell him afterwards
+is evidence, not help.
 
-## The critical path
+## The route
 
-1. Complete `risk-state-split` — the ledger vocabulary migration
-   (viability and scope keyed 2026-09-03; design → build → release remain).
-2. Re-qualify and complete `gate-reachability` — the four skill invocations
-   and foreign-repo fixtures; scope already stated by the producer.
-3. Release and refresh the plugin cache.
-4. Create the separate `agent-request` repository — never inside Kerd.
-5. Run the diagnostic pilot without editing Kerd.
-6. Build only what the pilot proves necessary (outcome 3).
-7. Run the clean independent pilot (outcome 4 — the criterion).
-8. Release when that pilot reaches acceptance without undocumented manual work.
+1. **Prove it at home.** Anthony takes one real piece of work on a project that isn't Kerd
+   through Kerd, over at least two sittings: Switch In, rehearsal with Conductor, a concert
+   if the work calls for one, Switch Out. Proposed as a general proof of use, not as
+   meeting the 2026-09-13 hold. That hold ("prove Kerd works as it should before any
+   consumer pickup", `docs/decisions.md` #28) clears only when rows 1 to 5 of that day's
+   shared verification list carry evidence of their fixes working, and this run is not
+   mapped to those rows. Rows 1, 2 and 4 were observed on 2026-09-13, closed 2026-09-14
+   (`docs/backlog-archive.md`). Rows 3 and 5 are not recorded as closed: each has partial
+   observations from 2026-09-13 (`kivna/sessions/2026-09-13.md`), and their remaining gaps
+   were not re-checked for this draft. Whether the hold is lifted is Anthony's call.
+2. **Invite a few.** Three to five people Anthony picks, from the audience agreed on
+   2026-09-18: developers, product people, anyone using AI to make something that matters.
+   Proposed: at least one should not be a developer, because the front page promises them too.
+3. **Install.** Claude Code, then the two commands in the README's Install section. Keyless
+   install was proven on 2026-09-20. They start from `docs/guide/getting-started.md`.
+4. **First sitting.** Their own real work, not a demo task. They start with Switch In and
+   work through Conductor's rehearsal. They end with Switch Out. Anthony isn't in the room.
+5. **Come back.** A second sitting, on a later day, picks up where they left off.
+6. **Open launch.** Announce publicly only once the invited round shows Kerd working.
+   Where and when is Anthony's call.
 
-## Binding rules
+## How anyone will know it worked
 
-- **The pilot may not begin before the machinery is reachable** — otherwise it
-  measures plumbing rather than product.
-- **Kerd is frozen during any pilot run** — breaks are recorded, never
-  repaired mid-run, or the instrument becomes a demo.
-- **The first pilot is an instrument, not evidence.** It may fail, it may need
-  manual intervention, and its output is a findings list. Only the clean pilot
-  is the criterion.
-- **Outcome 3 stays unsized until outcome 2 returns** — sizing it from
-  inspection is how the project previously reached "92% complete" without
-  meeting a user.
+Each invited person is one observation. For each one, record:
 
-**Declared limit:** the Status column is hand-kept — no machine derives it.
-It is updated at each outcome transition, and its "as of" date says how stale
-it may be.
+- **Their own repository:** was the work in a repository they own or work in, not one
+  set up for them?
+- **Unaided:** did Anthony stay out of the sitting? Anything he did is written down.
+- **Finished:** did the work reach the goals they set in rehearsal? Yes, partly or no, with
+  the goals in their words.
+- **Came back:** did they start a second sitting without being asked?
+- **What broke:** everything that stopped or confused them, written down as they report it.
+  Nothing gets patched while their round is running, so the round measures Kerd as released.
+
+The first person's round is an instrument, not a verdict. It's expected to find breaks.
+Fixes are released as ordinary Kerd versions between people, never during a round.
+
+**Ready for the open launch** when at least one invited person meets the definition
+above, and every break the invited round found is either fixed in a release or written
+where a new user will meet it. That second condition is the 2026-09-02 plan's "known limits
+documented where a user meets them", kept.
+
+## What this rests on, and what it doesn't
+
+- **Exists today:** install from the marketplace; the site (https://kerd-six.vercel.app/)
+  and README, checked against what Kerd does (2026-09-21); Switch In and Out, and
+  Conductor's rehearsal, all seen in Anthony's own sittings.
+- **Never exercised in a real session:** the composer, managed Conductor and a roll. A
+  first user's work may not need them. If it does, that sitting is their first observation.
+- **Known to strain:** a concert can't roll mid-build without publishing half-built work
+  (open in `TODO.md`). An invited user with a large build could hit it.
+- **Codex:** the plan is Claude Code first, matching the front page. The four-skill Codex
+  core has been built but never used in a Codex conversation, so it isn't part of this
+  launch.
+
+## Anthony's rulings
+
+- ~~This plan~~: accepted 2026-09-22.
+- Whether the 2026-09-13 hold is lifted, and on what evidence (rows 3 and 5 still open).
+- Who the invited few are.
+- Where and when the open launch is announced.
+
+**Declared limit:** this file is kept by hand. Nothing derives its status.
