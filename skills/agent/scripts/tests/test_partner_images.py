@@ -49,7 +49,8 @@ class PartnerImageTests(unittest.TestCase):
         self.assertIn("## Images", NATIVE.read_text(encoding="utf-8"))
         for phrase in (
             "codex queue does not support image attachments",
-            "A **Claude** partner receiving an image path has not been tested",
+            "A Claude session was tested the same way on 2026-09-22",
+            "Not yet tested on Claude: an established partner rather than a fresh worker",
             "it is not the partner, and the person chooses it",
         ):
             with self.subTest(phrase=phrase):
