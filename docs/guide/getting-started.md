@@ -82,7 +82,7 @@ the Codex work was being done.
 What that guide establishes:
 
 The Codex package is a **core of four skills**: Conductor, Switch, Visuals and
-Agent. The other eight skills and all Claude hooks are deliberately left out and
+Agent. The other four skills (Tend, Slainte, Kivna and Skriv) and all Claude hooks are deliberately left out and
 are not claimed to work in Codex. Do not replace a full Claude install with it by
 accident.
 

@@ -400,3 +400,11 @@ sentence claiming more than the repo supports, no remaining site/README contradi
 Vercel's redeploy.
 
 **Pending:** Anthony's go to commit and push to `main`.
+
+**Pushed** as `8ff2196` on Anthony's "yes"; CI green; the three live pages are byte-identical
+to the repo after Vercel's redeploy (checked 2026-09-21 evening).
+
+**Codex guide count corrected** on Anthony's "y": `docs/guide/getting-started.md` now says
+"the other four skills (Tend, Slainte, Kivna and Skriv)", matching `build.py`'s four-skill
+`SKILLS`. Codex cleared it first read; release check clean. Push pending Anthony's go.
+Still open for Anthony: whether "Kerd runs inside Claude Code or Codex" overstates Codex.
