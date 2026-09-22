@@ -254,9 +254,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.144.0)
+## What's New (v0.144.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.144.1
+
+**The pictures stay readable on a laptop.** Kerd's own rule is that a label never renders
+below 13px at the width it is read, and the site broke it: beside its text a picture is half
+the page, so on a 13-inch window its smallest labels fell to 12.6px, and one label in the
+concert picture was under the floor even on a large screen. The site now stacks below
+1200px, giving each picture the full width and its labels 26px, and the concert picture's
+smallest type went up a step. Also corrects three records: the state contract described the
+`.active-modes` file as shared mode state when Skriv is now its only writer, the Kivna
+export list named it as an export, and the machine-setup check looked for a pairing file
+that went with the retired Pair skill, and the playbook still described the retired
+conductor marker as live.
 
 ### v0.144.0
 

@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.144.0 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.144.1 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -29,9 +29,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   change.
 - **A Claude partner receiving an image path is untested.** 0.143.0's image-by-path rule was
   proved on a Codex terminal session only (`docs/work/partner-images/work.md`).
-- **Pictures at a laptop width.** At 1440px every label clears 12px, but `the-concert.svg`'s
-  smallest labels sit at 12.04px; a narrower laptop window is unmeasured. The audience is
-  desktop and laptop, not phone (2026-09-21 ruling).
+- **Pictures at a laptop width: fixed in 0.144.1.** Measured 2026-09-22 at 1440, 1280 and
+  1152: the site now stacks below 1200px (labels 26px), 1201-1280 stays two-column at 14px,
+  and the concert picture's smallest type went 28px to 32px. Phone widths stay unmeasured.
 - **Show the model and effort where a running job is listed.** Asked 2026-09-19 22:09 with
   a screenshot Claude could not open (it was on the laptop): the job list shows
   `kerd:effort-high` rather than the model and effort. Kerd's status line does not draw that
@@ -46,8 +46,8 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   `CHANGELOG.md`, with no sync check. Each release updates both until a separate change
   moves them properly.
 - **Reported, not fixed:** `docs/work/model-ready-work/packaging/START.md` is written
-  against 0.113.0; `docs/state-contract.md` still names `kivna/.active-modes`;
-  `docs/machine-setup.md` still greps for `kivna/.pair`, harmless now that Pair is gone.
+  against 0.113.0. The state contract and machine-setup references were fixed in 0.144.1;
+  `docs/playbook.md` still describes the modes file as live in several places.
 - **Observe the composer, managed Conductor and a roll in a real session.** None has been
   exercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
   two plus one).

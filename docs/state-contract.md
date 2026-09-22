@@ -29,7 +29,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 ## Where We Are        — current working state, short, overwritten
 ## Key Decisions       — rulings only (bold sentence + date) for decisions that govern the next work; the full case lives in docs/decisions.md
 ## Open Questions      — genuinely unresolved; removed when answered
-## Active Mode         — conductor snapshot for cross-machine handoff
+## Active Mode         — legacy: the conductor snapshot of the retired modes system; nothing writes it
 ```
 
 ### Rules
@@ -38,7 +38,7 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 - Overwritten in place; superseded decisions and answered questions are pruned. Git history archives every version — pruning loses nothing.
 - **Rulings stay, cases move (Switch Out, from v0.111.0).** `## Key Decisions` holds a ruling only while it governs the next work or a constraint the next sitting must honour; every full entry lives in `docs/decisions.md`, newest first with a ruling index, superseded entries marked rather than deleted. Out names the pickup reading set in `## Where We Are` and records the helper's `measure` reading beside it.
 - Bare headers, omit-if-empty (same anti-padding discipline as session logs).
-- `## Active Mode` replaces the old TODO.md `### Context` mode snapshot for cross-machine handoff.
+- `## Active Mode` carried the retired modes system's snapshot across machines. Nothing has written it since v0.75.0; a section found there is history.
 
 ## TODO.md
 
@@ -71,28 +71,18 @@ Formats: `YYYY-MM-DD HH:MM TZ` for a full stamp (marker lines, gate-record `**Cl
 
 ## kivna/.active-modes
 
-**Owner:** each skill owns its own line(s)
-**Readers:** switch (in), SessionStart hook, PostToolUse hook
-**Committed:** no (gitignored, ephemeral)
-
-### Format
-
-```
-# One line per skill: <skill>: <state>
-conductor: execute @ 2026-08-06 15:17 EDT
-skriv: active
-```
+**Owner:** Skriv, for its own `skriv:` line, and nothing else. The modes system that
+gave this file its name was cut in v0.75.0, so there is no `conductor:` line or `mode:`
+block any more and nothing writes one.
+**Readers:** `hooks/session-start.sh` and `hooks/skill-complete.sh` still grep `^mode:`,
+which no current skill writes; a file carrying one is leftover state from before v0.75.0.
+**Committed:** no (gitignored, ephemeral).
 
 ### Rules
 
-- Each skill writes only its own line(s). Never touch another skill's entries.
-- Removing a line means the skill is inactive. Don't write `skill: off`.
-- Hooks read this file but never write to it.
-- Conductor's line carries an `@ YYYY-MM-DD HH:MM TZ` stamp (the same-turn rule above). The two hook readers grep by prefix (`^mode:` in `session-start.sh` and `skill-complete.sh`), so the conductor line's stamp suffix is inert to them. No hook echoes the conductor line any more — `hooks/stop.sh` did, and it was cut in v0.96.0 — so the stamp reaches the human only through switch, which reads the line whole and carries it into CONTEXT.md `## Active Mode`.
-- PostToolUse hook receives a full envelope on stdin (confirmed 2026-04-04):
-  `{session_id, cwd, hook_event_name, tool_name, tool_input: {skill, args}, tool_response: {success, commandName}, tool_use_id}`
-  The hook checks `tool_response.success` before reporting progress and extracts `tool_input.skill` via sed.
-- Switch out snapshots `.active-modes` state to CONTEXT.md `## Active Mode` before committing (cross-machine handoff); switch in restores that snapshot back into `.active-modes` when the file is absent or empty, with the user's assent. The restore rehydrates a whole file — it never edits a line that is already there.
+- Skriv adds `skriv: active` when session mode turns on and removes the line when it
+  turns off, deleting the file if that was its only entry.
+- No skill touches another skill's line, and hooks never write to this file.
 
 ## kivna/sessions/YYYY-MM-DD.md
 
@@ -195,7 +185,6 @@ Append-only. Nothing here is edited after it lands.
 |------|------|--------|-------|-------|---------|------|-------|
 | CONTEXT.md | W/R | W/R | - | - | - | R | - |
 | TODO.md | W/R | W/R | - | W/R | R | R | - |
-| .active-modes | W/R | W/R | W | R | - | - | R |
 | sessions/ | - | W/R | - | W/R | - | - | R |
 | vault Status | - | - | - | W/R | R | - | - |
 | KIF exports | - | - | - | W | - | - | - |
@@ -217,8 +206,6 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills don't write `## Now`; kivna import may merge approved KIF items into `## Backlog` |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
 | Vault writes | **kivna** (save, on demand — v0.83.0) | No skill calls kivna save automatically |
-| Conductor state (.active-modes conductor line) | **conductor** | Other skills read conductor state but never write the conductor line |
-| Skriv state (.active-modes skriv line) | **skriv** | Same rule — each skill owns only its own line |
 | Structural audit and fix | **tend** | Tend keeps structure; slainte fixes *content* drift under the caller's gate |
 | Content audit and fix | **slainte** — triggered by conductor at releases and feature closes, on demand otherwise | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |
 

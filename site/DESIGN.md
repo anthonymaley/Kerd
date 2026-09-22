@@ -80,7 +80,9 @@ One rule governs every section, and it never flips:
 `.col-say` / `.piece__say` is columns 1–5. `.col-show` / `.piece__show` is 7–12.
 Column 6 is the seam, and it stays empty. Alternating left and right down a page is
 the thing that makes a page feel like a template; holding still is what makes it feel
-made. Under 900px everything becomes one column in source order.
+made. Under 1200px everything becomes one column in source order. That threshold is set by
+the 13px floor, not by taste: beside its text a picture gets half the page, and below
+about 1200px that is too narrow for its labels to clear the floor.
 
 Vertical rhythm: `.band` sections, `padding-block: clamp(72px, 10vw, 152px)`, with a
 single hairline between consecutive bands. Spacing steps are `--s1`…`--s10`

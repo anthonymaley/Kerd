@@ -13,7 +13,7 @@
     .h-a    { font-size: 44px; font-weight: 600; letter-spacing: -0.024em; fill: #0B5E4A; }
     .name   { font-size: 36px; font-weight: 600; letter-spacing: -0.018em; fill: #0B1512; }
     .sub    { font-size: 32px; fill: #4E5D58; }
-    .tiny   { font-size: 28px; fill: #4E5D58; }
+    .tiny   { font-size: 32px; fill: #4E5D58; }
     .box    { fill: #F7F9F7; stroke: #D5DCD7; stroke-width: 2; }
     .box-a  { fill: #F7F9F7; stroke: #0B5E4A; stroke-width: 3; }
     .line   { stroke: #4E5D58; stroke-width: 2; fill: none; }

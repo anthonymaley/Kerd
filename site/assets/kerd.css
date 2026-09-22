@@ -346,7 +346,7 @@ code { font-family: var(--face-mono); font-size: 0.94em; }
 
 /* ------------------------------------------------------------ narrow */
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   :root { --band: clamp(56px, 11vw, 96px); }
 
   .hero .display,
@@ -364,7 +364,7 @@ code { font-family: var(--face-mono); font-size: 0.94em; }
   .steps { margin-top: var(--s6); }
   .piece__show { margin-top: var(--s3); }
   .colophon__nav { margin-top: var(--s7); }
-  .lead, .prose, .caption, .step p { max-width: 36rem; }
+  .lead, .prose, .caption, .step p, .piece__body { max-width: 36rem; }
 }
 
 @media (max-width: 560px) {

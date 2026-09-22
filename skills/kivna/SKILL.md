@@ -38,7 +38,6 @@ Every kivna command starts here. Resolve the vault location before doing anythin
 
 - `kivna/vault.json` vault config (committed to git)
 - `kivna/sessions/` session logs written by switch (committed)
-- `kivna/.active-modes` ephemeral mode state (not committed)
 - `kivna/input/` drop files here for import (gitignored, transit folder)
 - `kivna/output/` exports land here (gitignored, transit folder)
 
@@ -172,7 +171,6 @@ Gather context from repo artifacts in this order. Only use conversation context 
 4. Vault `[Name] Status.md` — where the project stands
 5. Vault architecture/decision files — (--full only)
 6. `~/.claude/projects/*/memory/project_*.md` — project memory entries (--full only)
-7. `kivna/.active-modes` — active mode state (--full only)
 8. Current conversation — fill any remaining gaps (what happened this session that isn't yet in artifacts)
 
 #### Sections
@@ -186,7 +184,6 @@ Gather context from repo artifacts in this order. Only use conversation context 
 | `playbook` | no | yes | docs/playbook.md (tech stack, setup, architecture) |
 | `architecture` | no | yes | vault architecture decisions file |
 | `memory` | no | yes | project-type memory entries |
-| `mode` | no | yes | kivna/.active-modes |
 
 #### Write the TOON export
 

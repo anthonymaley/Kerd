@@ -101,7 +101,7 @@ no repo wires manually, including Kerd itself.
 
 ```bash
 # must print nothing:
-grep -l 'kivna/.pair\|kerd' ~/.claude/settings.json .claude/settings.local.json 2>/dev/null
+grep -l kerd ~/.claude/settings.json .claude/settings.local.json 2>/dev/null
 for d in ~/development/product/*/; do grep -l kerd "$d.claude/settings.local.json" 2>/dev/null; done
 ```
 
@@ -122,7 +122,7 @@ outside the repo, so a fresh clone has none of it.
 
 | State | Where | Consequence of losing it | Recovery |
 |---|---|---|---|
-| **conductor mode marker** | `kivna/.active-modes` — gitignored | An open conductor session cannot resume; its `execute` stamp (the sitting's open time) is gone | CONTEXT.md `## Active Mode` snapshot, written by switch-out for exactly this case |
+| **Skriv's session mode** | `kivna/.active-modes` — gitignored | Skriv's session mode is off again on the new machine | Turn it back on with `/kerd:skriv on`; nothing else is lost |
 | **`~/.claude/settings.json`** | user-global | Enabled plugins, permissions, model and effort defaults | Not in any repo. Back it up before a move, or re-enable plugins by hand |
 | **`AGENTS.md`** | gitignored, per repo | Stale Codex-era fork; needs its own verdict | Not worth restoring |
 | **the vault** | `~/eolas` → `~/development/home/eolas` | `/kerd:kivna save` has nowhere to write | Clone `eolas` and recreate the symlink (below) |
