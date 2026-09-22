@@ -216,9 +216,16 @@ reached through the same `codex queue` route as `ask`:
 - The same held for a file outside the session's working directory, the usual case for
   a person's screenshots.
 
-Limits: one Codex model, two synthetic images, the default sandbox. A sandbox that
-forbids reading outside the workspace would block the path; say so rather than
-substituting. A **Claude** partner receiving an image path has not been tested.
+A Claude session was tested the same way on 2026-09-22: a fresh read-only worker on
+Sonnet 5, given one absolute path to a PNG in this project, opened it and answered three
+questions whose answers are only in the picture — a box's two lines, a caption under a
+rule, and the number of boxes in a row — all correct. So the path route holds for both
+providers. Not yet tested on Claude: an established partner rather than a fresh worker,
+and a file outside the project.
+
+Limits: one Codex model and one Claude model, three synthetic images, the default
+sandbox. A sandbox that forbids reading outside the workspace would block the path; say
+so rather than substituting.
 `codex exec -i` starts a fresh worker with no project context: it can take the
 attachment, but it is not the partner, and the person chooses it.
 

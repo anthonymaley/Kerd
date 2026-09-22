@@ -254,9 +254,18 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.145.0)
+## What's New (v0.145.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.145.1
+
+**The picture-by-path route now has evidence on both providers.** 0.143.0 taught Kerd to
+show a partner an image by naming its path, but that had only been seen on a Codex
+session. A Claude session was given one absolute path and answered three questions whose
+answers exist only in the picture: correct on all three. Documentation only, and the
+remaining gaps are named where the route is described — on Claude it has been seen with a
+fresh worker, not an established partner, and not yet with a file outside the project.
 
 ### v0.145.0
 
