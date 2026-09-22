@@ -12,9 +12,10 @@ README, guides and [live site](https://kerd-six.vercel.app/) are their first rea
 
 ![A day with Kerd: sit down and pick up, rehearse, call it ready, perform the concert, put it down](docs/pictures/how-kerd-works.svg)
 
-**Kerd runs inside Claude Code or Codex.** It is a plugin: a set of skills you call
-by name, plus the records they keep on disk so the next sitting, meaning one
-stretch of work from opening the project to putting it down, can read them.
+**Kerd runs inside Claude Code, and a four-skill core can be built for Codex.** It
+is a plugin: a set of skills you call by name, plus the records they keep on disk so
+the next sitting, meaning one stretch of work from opening the project to putting it
+down, can read them.
 
 The work is whatever those two tools can do inside a project folder: code, a set
 of documents, a research write-up, a website. This README, the guides, the

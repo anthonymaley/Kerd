@@ -408,3 +408,13 @@ to the repo after Vercel's redeploy (checked 2026-09-21 evening).
 "the other four skills (Tend, Slainte, Kivna and Skriv)", matching `build.py`'s four-skill
 `SKILLS`. Codex cleared it first read; release check clean. Push pending Anthony's go.
 Still open for Anthony: whether "Kerd runs inside Claude Code or Codex" overstates Codex.
+
+**Pushed** the count fix as `2816c9c`, CI green.
+
+**The host line**, on Anthony's "y" to naming the Codex core: "Kerd runs inside Claude Code or
+Codex" becomes "Kerd runs inside Claude Code, and a four-skill core can be built for Codex"
+in the README and on every site page. The agreed draft said the core "runs in Codex"; that was
+withdrawn before review, because `docs/work/codex-plugin/work.md` records the 0.113.0 core
+built and installed but no Codex conversation through it. Audience and prerequisite lines
+("people already working in Claude Code or Codex", "one of the two hosts") left as they are.
+Codex cleared it first read; release check clean. Push pending Anthony's go.
