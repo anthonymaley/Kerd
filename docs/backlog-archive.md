@@ -4,6 +4,16 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+## Closed 2026-09-21 (evening): the site and README tell one story
+
+**"Fix the six places where the live site and the README contradict each other" — done.**
+Re-checked against the live pages first, then settled against what Kerd does, both copies
+corrected, Codex clear on first read, pushed as `8ff2196` on Anthony's "yes"; the live pages
+were checked byte-identical to the repo afterwards. Two further wordings found on the way were
+fixed the same evening: the Codex guide's skill count (`2816c9c`) and the host line (`927d46d`).
+Evidence: `docs/work/front-page-claims/work.md`, section "Follow-on: the six site/README
+contradictions".
+
 ## Closed 2026-09-21: the rest of the front page was checked, and the site went live
 
 **"Check the rest of the front page the way the install was checked" — done.** A cold

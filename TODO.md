@@ -5,20 +5,17 @@
 **Release boundary:** 0.143.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
-**Selected next, proposed not agreed: fix the six places where the live site and the README
-contradict each other.** **Why:** the site went live on 2026-09-21 at
-https://kerd-six.vercel.app/, so these are now contradictions a real reader lands on, and
-the reading pass already scoped them (`docs/work/front-page-claims/work.md`, F4): a second
-AI "can" read the work vs. "reads the work independently"; Agent and Visuals described on
-`site/capabilities.html` with Conductor's text; Claude *or* Codex vs. *and*; two diagnoses
-of the third problem; a Codex install route the README front page never gives. Re-check
-each against the live pages first (the trial-route correction changed the site since the
-list was made), settle which wording matches what Kerd actually does, correct both copies,
-Codex reviews before push. Prose only, so no version bump unless an install changes
-(2026-09-21 ruling). The push is Anthony's.
+**Selected next, proposed not agreed: draft a launch plan for the Kerd that exists now, for
+Anthony to rule on.** **Why:** the front page, site and README are consistent and live, and
+say only what a run has shown, so a reader is ready for Kerd; what is missing is a route to a
+launch. `docs/design/launch-plan.md` was written around the retired ladder and a ladder pilot
+and no longer describes one. Claude drafts through Conductor, from Shape: what launching
+means now (who first, what they install, what they do in their first sitting, how anyone will
+know it worked), built on rehearsal and the concert, not gates. Stops at a draft for
+Anthony's ruling; nothing published, no release. The six site/README contradictions this
+list carried are done (`8ff2196`, 2026-09-21 evening; closed in `docs/backlog-archive.md`).
 
-**Anthony's:** rule on the launch plan (`docs/design/launch-plan.md`), written around the
-retired ladder, so as written it no longer describes a route to launch. Decide whether the
+**Anthony's:** rule on the launch plan once drafted. Decide whether the
 explanatory output style stays on for this machine; it asks for Insight blocks and pulls
 against the report shape. Look at the repo page to see GitHub render the README's pictures:
 the live site renders all ten in Chromium (checked 2026-09-21), GitHub's README rendering is
@@ -69,7 +66,10 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   project. Whether it is lifted is Anthony's call; don't assume it.
 
 Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
-front-page check, the site going live) and `docs/work/partner-images/` (0.143.0). Rows closed
+front-page check, the site going live, and the evening's six contradictions and host line) and
+`docs/work/partner-images/` (0.143.0). The Jev trial is closed as not worth a place now;
+`docs/work/jev-trial/work.md` keeps the results, the untested hook idea and three other-project
+candidates. Rows closed
 on 2026-09-21 are in `docs/backlog-archive.md`. The diagram theme is this machine's setup,
 not Kerd work: recorded in `docs/decisions.md`. These lists are not authority to install or
 run checks during pickup.

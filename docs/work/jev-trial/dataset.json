@@ -1,0 +1,393 @@
+{
+ "source": "Claim-reading pass of README.md lines 1-224 (2026-09-20), labels by that reader; row 19 corrected. Overstatement set: sentences Codex blocked or Claude withdrew, with their corrected versions (labels by this session).",
+ "claims": [
+  {
+   "id": 1,
+   "claim": "\"It remembers where you are, helps you agree what you are making, then performs it with a team of agents and checks the result against what you asked for.\" (L3–5)",
+   "label": "UNRUN",
+   "evidence": "Read one concert's own dispatch record end-to-end against its score — `docs/work/product-package/score.md` vs `concert-plan.html` — for an independent third party; today the only account is the conducting session's own `examples/this-package.md`."
+  },
+  {
+   "id": 2,
+   "claim": "\"Who it is for: people already working in Claude Code or Codex, in a project folder tracked by Git.\" + \"Kerd does not replace them.\" (L7–9)",
+   "label": "UNPROVABLE",
+   "evidence": "\"Does not replace\" is a scoping assertion with no test; it becomes falsifiable only if restated as a mechanism (\"Kerd adds no command that Claude Code already provides\")."
+  },
+  {
+   "id": 3,
+   "claim": "\"picking work up and putting it down has been in daily use for months\" (L9–10)",
+   "label": "UNPROVABLE",
+   "evidence": "\"Daily\" is undefined. The repo shows the switch skill added 2026-02-27 (`4dfd3eb`) and 59 session logs ever added under `kivna/sessions/` — 59 logs across ~206 days is not a literal daily cadence, but session logs only exist for sittings that ran Switch Out, so the repo cannot settle it either way."
+  },
+  {
+   "id": 4,
+   "claim": "\"Rehearsal and the concert shipped in 0.139.0\" (L10)",
+   "label": "PROVED",
+   "evidence": "`CHANGELOG.md:61–74` (\"## 0.139.0 — Rehearsal, then the concert\") and commit `3f2c0c4` \"Kerd 0.139.0: rehearsal, then the concert\", 2026-09-18 23:18."
+  },
+  {
+   "id": 5,
+   "claim": "\"the README, guides and site you are reading are their first real use\" (L10–11)",
+   "label": "UNRUN",
+   "evidence": "Only the conducting session says so (`kivna/sessions/2026-09-19.md` line 1: \"the first real rehearsal and concert\"). A third party reading the 0.139.0→0.140.0 transcript would settle it."
+  },
+  {
+   "id": 6,
+   "claim": "Picture `docs/pictures/how-kerd-works.svg` exists and renders (L13)",
+   "label": "PROVED",
+   "evidence": "`ls docs/pictures/` lists it; the browser-render half is the other agent's job."
+  },
+  {
+   "id": 7,
+   "claim": "\"Kerd runs inside Claude Code or Codex. It is a plugin.\" (L15–17)",
+   "label": "UNRUN",
+   "evidence": "Claude Code half is settled (`.claude-plugin/plugin.json`, `name: kerd`, 8 skills under `skills/`). The Codex half has no install route anywhere in L1–224; follow `docs/guide/getting-started.md:70` \"## Install in Codex\" on a machine with Codex and see whether the eight skills are reachable."
+  },
+  {
+   "id": 8,
+   "claim": "\"What you need is … a project folder tracked by Git, because Kerd keeps its records as files in that folder and saves them with Git\" (L22–24)",
+   "label": "UNRUN",
+   "evidence": "Run `/kerd:switch out` in a directory that is not a Git repo and observe whether it refuses cleanly or errors."
+  },
+  {
+   "id": 9,
+   "claim": "\"This README, the guides, the pictures and the site in this repo were made with Kerd in one piece of work\" (L20–22)",
+   "label": "PROVED",
+   "evidence": "`docs/work/product-package/` carries that piece of work's `score.md`, `work.md`, `concert-plan.html` and `real-arrival.md`, and `kivna/sessions/2026-09-19.md` narrates the three batches. Caveat worth recording: `git status` shows `?? docs/work/product-package/` — the whole record is **untracked**, so a cloner sees none of it."
+  },
+  {
+   "id": 10,
+   "claim": "\"most of it is prose and drawings rather than code\" (L22)",
+   "label": "UNRUN",
+   "evidence": "`git show --stat 537e6e0 d617c35 b10bdce` summed by path prefix (`docs/`, `site/`, `examples/`, `README.md` vs `skills/`, `tools/`, `hooks/`) would settle it; I did not sum it."
+  },
+  {
+   "id": 11,
+   "claim": "\"Kerd adds no server, no inbox and no service of its own.\" (L24–25)",
+   "label": "UNRUN",
+   "evidence": "`skills/agent/SKILL.md:128` asserts the same thing (\"No human copy/paste relay, Kerd inbox, watcher or service\"), but `.gitignore` describes `.agents/` as \"session marker, **replies**, review archive\". Listing `.agents/` after a paired sitting and deciding whether a replies directory is an inbox is the observation."
+  },
+  {
+   "id": 12,
+   "claim": "\"With Kerd you sit down and it tells you where things stand, what is open, and the one thing it would do next and why.\" (L31–33)",
+   "label": "PROVED",
+   "evidence": "`docs/work/product-package/real-arrival.md` is a verbatim arrival with all four parts. One observation, from an untracked file."
+  },
+  {
+   "id": 13,
+   "claim": "\"On this machine or another.\" (L33)",
+   "label": "UNRUN",
+   "evidence": "Run `/kerd:switch out` on one machine and `/kerd:switch in` on a second; nothing in the repo records a cross-machine restore of the current version."
+  },
+  {
+   "id": 14,
+   "claim": "Rehearsal: \"Kerd keeps a sketchbook… Ask 'where are we?' at any point and it answers from that sketchbook.\" (L41–45)",
+   "label": "UNRUN",
+   "evidence": "`skills/conductor/SKILL.md:205–213` is wording with no test; 0.139.0's own note says \"Not yet seen in real use\" (`CHANGELOG.md:74`). Ask \"where are we?\" mid-rehearsal and compare the answer with `docs/work/<slug>/work.md`."
+  },
+  {
+   "id": 15,
+   "claim": "The concert: \"many players, each an agent given one step and running alongside the others, every return checked, the result compared with your goals before it ends\" (L54–58)",
+   "label": "UNRUN",
+   "evidence": "Only `examples/this-package.md` (a self-report) attests it. An observer reading the dispatch log against `score.md` would settle it."
+  },
+  {
+   "id": 16,
+   "claim": "\"A gap the score cannot answer stops that part and comes back to you in the chat for that one point, not to the start.\" (L58–59)",
+   "label": "UNRUN",
+   "evidence": "Run a concert with a deliberately under-specified step and see whether the run stops at that part or restarts."
+  },
+  {
+   "id": 17,
+   "claim": "\"A second AI can read the work too: another Claude or Codex session … a partner you have already paired with … or a fresh reviewer … given the brief and the sources, not the builder's account\" (L59–62)",
+   "label": "UNRUN",
+   "evidence": "`examples/a-reviewed-release.md` documents the paired-partner half (Codex on 0.134.0); the fresh-reviewer half, and specifically \"the sources, not the builder's account\", needs one reviewer brief inspected for what it actually enclosed."
+  },
+  {
+   "id": 18,
+   "claim": "\"nothing below claims more than the repo can show.\" (L68–69)",
+   "label": "KNOWN-WRONG",
+   "evidence": "Rows 20, 26 and 31 below each claim more than the repo shows — the `--plugin-dir` \"nothing is installed\" clause is already established false, and the rollback pin at `716a099` points at a marketplace manifest the project itself proved uninstallable (`git show 716a099:.claude-plugin/marketplace.json` → `\"url\": \"git@github.com:anthonymaley/Kerd.git\"`)."
+  },
+  {
+   "id": 19,
+   "claim": "The two install commands install Kerd (L73–76)",
+   "label": "PROVED",
+   "evidence": "Run both from a throwaway `CLAUDE_CONFIG_DIR` against **github.com**. `db97b78`'s message says \"Tested in throwaway profiles both ways\", but `docs/work/first-install/work.md` records the open risk in its own words: \"the fix was proved against a local marketplace serving the fixed manifest, not against GitHub serving it… the first install after a push is the check.\" That push was `db97b78` today; no post-push run is recorded.",
+   "exclude_from_evidence_condition": true,
+   "label_note": "Reader said UNRUN; rejected on re-check (front-page-claims F5), proved by the live keyless install of 2026-09-20. Its evidence note predates that proof, so it is excluded where the note is the state."
+  },
+  {
+   "id": 20,
+   "claim": "\"Try a version before adopting it, **without touching your global setup**\" (L78)",
+   "label": "KNOWN-WRONG",
+   "evidence": "Same defect as row 21: the invocation writes a `pluginUsage` row into `~/.claude.json`."
+  },
+  {
+   "id": 21,
+   "claim": "\"A same-name local plugin takes precedence for that session only.\" (L84)",
+   "label": "UNRUN",
+   "evidence": "Already established as never run. Install kerd globally, then start `claude --plugin-dir /path/to/a/modified/kerd` and check which copy's skill text answers."
+  },
+  {
+   "id": 22,
+   "claim": "\"Closing it restores the ordinary setup; nothing is installed or disabled globally.\" (L84–85)",
+   "label": "KNOWN-WRONG",
+   "evidence": "Already established: the invocation writes a `pluginUsage` row into the user's own `~/.claude.json`. True of plugins and marketplaces, not of every trace."
+  },
+  {
+   "id": 23,
+   "claim": "\"`/kerd:switch in`\" is a real command (L92)",
+   "label": "PROVED",
+   "evidence": "`skills/switch/SKILL.md` frontmatter `name: switch`; the plugin is `kerd` (`.claude-plugin/plugin.json`), so the namespaced form is `/kerd:switch`."
+  },
+  {
+   "id": 24,
+   "claim": "\"This is the real arrival from the sitting that made this package, on 2026-09-18, cut down to fit here\" (L96–98, block L99–120)",
+   "label": "PROVED",
+   "evidence": "`docs/work/product-package/real-arrival.md:1–3` — \"The actual output of `/kerd:switch in` in the Kerd repository on 2026-09-18 23:26\"; the grid row, \"Where things stand\", \"Recommended\", \"Why\" and the bubble all match byte-for-byte. Two things to record: the file is untracked, and the README's numbered item \"2\" is the source's item **3** — the source's real item 2 (\"Anthony: rule on rewriting the launch plan\") is dropped and the list silently renumbered, which \"cut down to fit here\" discloses only loosely."
+  },
+  {
+   "id": 25,
+   "claim": "\"`/kerd:switch out` … saves the place: what changed, what got settled, what comes next and why.\" (L126–129)",
+   "label": "PROVED",
+   "evidence": "`kivna/sessions/2026-09-19.md` and `2026-09-20.md` are that output, and `skills/switch/scripts/handoff.py:80–110` is the mechanism."
+  },
+  {
+   "id": 26,
+   "claim": "\"The following sitting starts from it, here or on another machine.\" (L130)",
+   "label": "UNRUN",
+   "evidence": "Same as row 13: a two-machine In/Out round trip."
+  },
+  {
+   "id": 27,
+   "claim": "The six capability rows map to real skills and real guides (L137–144)",
+   "label": "PROVED",
+   "evidence": "`ls skills/` → agent, conductor, kivna, skriv, slainte, switch, tend, visuals (8 skills, 6 rows). `ls docs/guide/` → switch.md, conductor.md, visuals.md, agent.md, tend-and-slainte.md, kivna-and-skriv.md all present."
+  },
+  {
+   "id": 28,
+   "claim": "\"Every command, one line each: [reference]\" (L146)",
+   "label": "PROVED",
+   "evidence": "`docs/guide/reference.md` has `## Switch/Conductor/Visuals/Agent/Tend/Slainte/Kivna/Skriv` plus `## Not on this page` — all eight skills covered."
+  },
+  {
+   "id": 29,
+   "claim": "\"a small release rules check in CI … catches version drift and a mismatched capability list between the plugin manifests on every push\" (L148–151)",
+   "label": "PROVED",
+   "evidence": "`.github/workflows/gate.yml` runs `python3 tools/release_check.py` `on: [push, pull_request]`. I ran it: `release: clean`. I ran `selftest`: `selftest: 3 ok`, whose cases (`tools/release_check.py:320–351`) are \"clean tree passes\", \"version drift refuses\", \"capability drift refuses\"."
+  },
+  {
+   "id": 30,
+   "claim": "\"What keeps the work itself honest is the sketchbook…, the score…, the goal check at the end, and an independent reviewer, not a machine that refuses your work.\" (L151–153)",
+   "label": "UNPROVABLE",
+   "evidence": "A value claim about what \"keeps work honest\". Falsifiable only if restated as a rate — e.g. \"defects caught by the goal check vs. by CI over N releases\"."
+  },
+  {
+   "id": 31,
+   "claim": "\"Kerd keeps four kinds of file in your project. **All four are ordinary Markdown**.\" (L157–158)",
+   "label": "KNOWN-WRONG",
+   "evidence": "Understated on both halves, in this repo, made by Kerd: `skills/kivna/SKILL.md:39` names `kivna/vault.json` as \"vault config (**committed to git**)\" — a fifth kind, and JSON; Visuals and Conductor write rendered HTML into the project (`docs/work/product-package/concert-plan.html`, `package-map.html`, `docs/work/first-install/who-can-install-kerd.html`) and SVG (`docs/pictures/*.svg`); `docs/work/<slug>/` also carries `score.md`, `story.md`, `reader-findings.md`; and `.gitignore` shows Kerd writing `.agents/`, `kivna/.pair`, `kivna/.active-modes`, `kivna/input/`, `kivna/output/`. Kivna also writes outside the project entirely, into `~/eolas/vault` (`kivna/vault.json`)."
+  },
+  {
+   "id": 32,
+   "claim": "The four table rows describe real files (L162–166)",
+   "label": "PROVED",
+   "evidence": "`CONTEXT.md`, `TODO.md` (`## Now` + `## Backlog`), `kivna/sessions/2026-09-20.md`, `docs/work/first-install/work.md` all present with the described shape."
+  },
+  {
+   "id": 33,
+   "claim": "\"Switch Out … commits the files it names and nothing else.\" (L168–169)",
+   "label": "PROVED",
+   "evidence": "`skills/switch/scripts/handoff.py:80–98`: `publish()` refuses when `local_changes(root) - set(paths) - set(keep)` is non-empty, refuses a pre-staged index, then `git add -- *paths`. Tests: `test_explicit_files_are_committed_and_remote_save_is_verified`, `test_unassigned_tracked_and_untracked_work_block_without_staging`, `test_existing_index_is_preserved` in `skills/switch/scripts/tests/test_handoff.py`."
+  },
+  {
+   "id": 34,
+   "claim": "\"It pushes when you have given it the authority to push; a local-only save is a valid choice and needs no push permission or GitHub access.\" (L169)",
+   "label": "PROVED",
+   "evidence": "`handoff.py:106–110` pushes only under `--push` and verifies the remote ref; `skills/switch/references/in-out.md:745` defines `committed` (local commit, push not verified) as a first-class outcome. `test_failed_push_keeps_local_commit_and_remote_unchanged` covers the failure path."
+  },
+  {
+   "id": 35,
+   "claim": "\"To remove Kerd: `claude plugin uninstall kerd@kerd-marketplace`\" (L171–174)",
+   "label": "UNRUN",
+   "evidence": "Run it in a throwaway profile. The project's own guide is more careful than the README: `docs/guide/getting-started.md:310` says this is \"the command the CLI's own help describes… **it has not been run against this page**.\""
+  },
+  {
+   "id": 36,
+   "claim": "\"The four files stay in your project\" after uninstall (L177)",
+   "label": "UNRUN",
+   "evidence": "Same run as row 35, then `ls` the project."
+  },
+  {
+   "id": 37,
+   "claim": "\"They were readable without Kerd the whole time.\" (L177–178)",
+   "label": "PROVED",
+   "evidence": "They are plain Markdown tracked in git; `cat CONTEXT.md` needs nothing installed."
+  },
+  {
+   "id": 38,
+   "claim": "\"Rehearsal is an ordinary conversation: one session, one model, the cost of a chat.\" (L182–183)",
+   "label": "UNRUN",
+   "evidence": "Compare the token/cost total of one rehearsal sitting against an unassisted chat of the same length in the usage transcripts."
+  },
+  {
+   "id": 39,
+   "claim": "\"a concert spends more than the same work done in one chat\" (L183–186)",
+   "label": "UNRUN",
+   "evidence": "Same measurement across one concert; note the comparison is against a counterfactual that has to be constructed, not observed."
+  },
+  {
+   "id": 40,
+   "claim": "\"Nobody has measured how much more\" (L186)",
+   "label": "PROVED",
+   "evidence": "Absence: no cost or token measurement for a concert exists anywhere in the repo (`grep -rni \"tokens spent\\|cost of a concert\\|measured the cost\"` returns only an unrelated `docs/requirements/register-v2.md` citation)."
+  },
+  {
+   "id": 41,
+   "claim": "\"Examples. Real work, not invented.\" (L190)",
+   "label": "UNRUN",
+   "evidence": "The three files exist (`examples/`). Realness rests on `docs/work/product-package/QUOTES-FOR-REVIEW.md`, the quote-by-quote ledger — which is **untracked**, so a cloner cannot check a single quotation against its source line. Committing it, or re-checking the quotes against `kivna/sessions/`, would settle it."
+  },
+  {
+   "id": 42,
+   "claim": "The three example links resolve (L192–194)",
+   "label": "PROVED",
+   "evidence": "`examples/musictui-across-sittings.md`, `a-reviewed-release.md`, `this-package.md` all present."
+  },
+  {
+   "id": 43,
+   "claim": "\"Rollback is a Git reference, never a cached plugin file.\" (L198)",
+   "label": "UNPROVABLE",
+   "evidence": "An instruction, not a proposition. It becomes falsifiable as \"pinning the marketplace to a SHA restores that version's behaviour\" — which is row 47."
+  },
+  {
+   "id": 44,
+   "claim": "\"Claude Code garbage-collects old versions out of `~/.claude/plugins/cache/`\" (L198–200)",
+   "label": "UNRUN",
+   "evidence": "Platform behavior; the honest check is the Claude Code plugin docs, and it is out of bounds here (inspecting the cache is forbidden by this brief). No repo artifact settles it."
+  },
+  {
+   "id": 45,
+   "claim": "\"that is what silently killed hooks across eleven repos before v0.96.0\" (L200–201)",
+   "label": "UNRUN",
+   "evidence": "The only support is the project's own prose, repeated in three places from one source: `CHANGELOG.md:981`, `README.md:1207`, `docs/product/hooks-autoload.md:11`. The eleven repos' `settings.local.json` history would settle it."
+  },
+  {
+   "id": 46,
+   "claim": "\"`716a099` on `origin/main` = the last commit before Conductor/Switch were replaced\" (L205)",
+   "label": "PROVED",
+   "evidence": "`git branch -a --contains 716a099` → `main`, `remotes/origin/main`. `716a099` is 2026-09-09 23:46; the next commit, `21e6779` \"Eleven skills: the candidate becomes Kerd\", rewrites `skills/conductor/SKILL.md` (596 lines changed) and `skills/switch/SKILL.md` (461)."
+  },
+  {
+   "id": 47,
+   "claim": "\"Pin a consumer repo to the old behaviour → marketplace `source.url` at `716a099`\" (L207)",
+   "label": "KNOWN-WRONG",
+   "evidence": "`git show 716a099:.claude-plugin/marketplace.json` declares `\"url\": \"git@github.com:anthonymaley/Kerd.git\"` — the SSH source that `db97b78` proved `claude plugin install` cannot clone without a GitHub key. Following this row hands a newcomer the exact failure 0.142.1 was released to fix."
+  },
+  {
+   "id": 48,
+   "claim": "\"Undo the release, keep the history → `git revert <release commit>`\" (L206)",
+   "label": "UNPROVABLE",
+   "evidence": "No release commit is named and no version is scoped, so there is nothing to test. Naming one commit would make it falsifiable."
+  },
+  {
+   "id": 49,
+   "claim": "\"This repo carries no tags — `git tag` returns nothing\" (L209–210)",
+   "label": "PROVED",
+   "evidence": "`git tag \\| wc -l` → 0."
+  },
+  {
+   "id": 50,
+   "claim": "\"a commit SHA is the only durable reference today\" (L210–211)",
+   "label": "PROVED",
+   "evidence": "Follows from row 49 on this clone; a remote-tag check would need the network, which is out of bounds."
+  },
+  {
+   "id": 51,
+   "claim": "\"If you want `v0.107.0` to be tag-addressable, the tag has to be created and pushed as part of publishing\" (L210–211)",
+   "label": "UNPROVABLE",
+   "evidence": "Conditional about a future action. Also stale on its face: the shipped version is 0.142.1 (`.claude-plugin/plugin.json`), 36 minor releases past the example."
+  },
+  {
+   "id": 52,
+   "claim": "\"Confirm what a reference points at with `git show --stat <ref>`\" (L212)",
+   "label": "PROVED",
+   "evidence": "Ran it: `git show --stat 716a099` returns that commit's file list."
+  },
+  {
+   "id": 53,
+   "claim": "\"Conductor … renamed from *dian*\" (L219)",
+   "label": "PROVED",
+   "evidence": "`08535c7` \"feat: add dian skill\"; `cb961e7` \"refactor(conductor)!: rename dian → conductor across live files (v0.59.0)\"."
+  },
+  {
+   "id": 54,
+   "claim": "The Gaelic glosses: ceird = skill, cuimhne = memory, scríobh = the act of writing, slàinte = health, *dian* = intense/rigorous (L217–222)",
+   "label": "UNRUN",
+   "evidence": "A dictionary check per word; no repo artifact bears on it, and the network is out of bounds here. Note the set mixes Irish spellings (`scríobh`, `cuimhne`) with a Scottish Gaelic one (`slàinte`) while the section calls all of them \"Gaelic\"."
+  },
+  {
+   "id": 55,
+   "claim": "\"Switch: session handoff\" / \"Tend: from English 'to tend'\" (L221, L223)",
+   "label": "UNPROVABLE",
+   "evidence": "Statements about naming intent, not about behavior."
+  }
+ ],
+ "overstatements": [
+  {
+   "id": "O1",
+   "overclaims": true,
+   "sentence": "Every commit before 0.142.1 carries the SSH manifest and cannot be installed without a GitHub key.",
+   "evidence": "History of the marketplace manifest's source url: the manifest was created at commit 34d212d with an HTTPS url. The SSH address git@github.com:anthonymaley/Kerd.git entered at commit bc0d78e. Release 0.142.1 changed it back to HTTPS. Installing clones the declared url literally, so an SSH url fails for a reader with no GitHub key."
+  },
+  {
+   "id": "O2",
+   "overclaims": true,
+   "sentence": "Commits before bc0d78e are unaffected.",
+   "evidence": "History of the marketplace manifest's source url: the manifest was created at commit 34d212d with an HTTPS url. The SSH address entered at commit bc0d78e. Exactly one commit predates 34d212d, and it has no marketplace manifest at all, so it cannot be installed from a marketplace."
+  },
+  {
+   "id": "O3",
+   "overclaims": false,
+   "sentence": "Commits from bc0d78e up to, but not including, 0.142.1 carry the SSH manifest and cannot be installed without a GitHub key.",
+   "evidence": "History of the marketplace manifest's source url: the manifest was created at commit 34d212d with an HTTPS url. The SSH address git@github.com:anthonymaley/Kerd.git entered at commit bc0d78e. Release 0.142.1 changed it back to HTTPS. Installing clones the declared url literally, so an SSH url fails for a reader with no GitHub key."
+  },
+  {
+   "id": "O4",
+   "overclaims": true,
+   "sentence": "A second AI reads the work independently.",
+   "evidence": "Kerd's orchestrator plans reviews by a second AI from the partner's recorded review cadence: checkpoints, before-push, end, or on-request. On-request means no automatic partner review. With no established partner, review is planned from other available routes."
+  },
+  {
+   "id": "O5",
+   "overclaims": false,
+   "sentence": "A second AI can read the work too.",
+   "evidence": "Kerd's orchestrator plans reviews by a second AI from the partner's recorded review cadence: checkpoints, before-push, end, or on-request. On-request means no automatic partner review. With no established partner, review is planned from other available routes."
+  },
+  {
+   "id": "O6",
+   "overclaims": true,
+   "sentence": "A four-skill core of Kerd runs in Codex.",
+   "evidence": "The work record shows a four-skill Codex package (Conductor, Switch, Visuals, Agent) built from a source checkout at version 0.113.0, registered as a local Codex marketplace and installed, with the installed files matching the build. It states that fresh-session skill discovery and an actual Codex conversation through Conductor and Visuals are not established, and no such session was run."
+  },
+  {
+   "id": "O7",
+   "overclaims": false,
+   "sentence": "A four-skill core of Kerd can be built for Codex.",
+   "evidence": "The work record shows a four-skill Codex package (Conductor, Switch, Visuals, Agent) built from a source checkout at version 0.113.0, registered as a local Codex marketplace and installed, with the installed files matching the build. It states that fresh-session skill discovery and an actual Codex conversation through Conductor and Visuals are not established, and no such session was run."
+  },
+  {
+   "id": "O8",
+   "overclaims": true,
+   "sentence": "Closing the session restores the ordinary setup; nothing is installed or disabled globally, and nothing touches your global setup.",
+   "evidence": "Measured in an isolated profile before and after: a session started with claude --plugin-dir, which reached only the login prompt and did no work, added a pluginUsage entry with usageCount 1 to the user's ~/.claude.json. No plugin was installed and none was disabled."
+  },
+  {
+   "id": "O9",
+   "overclaims": false,
+   "sentence": "Nothing is installed and nothing is disabled, but starting a session this way records one line of usage in your ~/.claude.json.",
+   "evidence": "Measured in an isolated profile before and after: a session started with claude --plugin-dir, which reached only the login prompt and did no work, added a pluginUsage entry with usageCount 1 to the user's ~/.claude.json. No plugin was installed and none was disabled."
+  }
+ ]
+}

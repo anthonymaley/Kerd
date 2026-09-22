@@ -1,0 +1,2046 @@
+[
+ {
+  "id": 1,
+  "row": "`inline-composer` at handoff \u2014 spec unwritten; its intended",
+  "group": "Ladder",
+  "truth": "open",
+  "evidence": "`gate.py route inline-composer` \u2192 `enters at: handoff`, missing for loop: `docs/plans/*-inline-composer-spec.md`; `gate-reachability` still `enters at: viability`",
+  "ms": 329,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.98,
+     "probabilities": {
+      "unsure": 0.0,
+      "done": 0.0,
+      "dead": 0.01,
+      "open": 0.99
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 484,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 2,
+  "row": "`hooks-autoload` at viability \u2014 the sibling legacy closure",
+  "group": "Ladder",
+  "truth": "open",
+  "evidence": "`gate.py route hooks-autoload` \u2192 `enters at: viability`; scope blocked on row 1 Treatment evidence empty",
+  "ms": 316,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.27,
+     "probabilities": {
+      "done": 0.01,
+      "open": 0.45,
+      "unsure": 0.41,
+      "dead": 0.13
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 460,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 3,
+  "row": "`funnel-driver` + `progress-html` at acceptance, 0 Pieces each",
+  "group": "Ladder",
+  "truth": "open",
+  "evidence": "`progress-html` \u2192 `enters at: acceptance` (owes the record); **premise stale** \u2014 `funnel-driver` now \u2192 `enters at: viability` (FATAL row 4 + empty Treatment evidence), not acceptance",
+  "ms": 272,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.81,
+     "probabilities": {
+      "open": 0.1,
+      "done": 0.0,
+      "dead": 0.86,
+      "unsure": 0.04
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 492,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 4,
+  "row": "`requirements-traceability` and `shared-memory` at design \u2014 blocked",
+  "group": "Ladder",
+  "truth": "open",
+  "evidence": "**premise stale** \u2014 both now \u2192 `enters at: viability` (Treatment evidence empty: 1 row / 3 rows), not design",
+  "ms": 334,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.58,
+     "probabilities": {
+      "dead": 0.68,
+      "done": 0.01,
+      "open": 0.2,
+      "unsure": 0.11
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 468,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 5,
+  "row": "A FATAL row is told to file into \"What we ruled out\"",
+  "group": "Ladder",
+  "truth": "open",
+  "evidence": "Still live verbatim at `CONTEXT.md:78` `## Open Questions`",
+  "ms": 274,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.34,
+     "probabilities": {
+      "dead": 0.5,
+      "done": 0.07,
+      "unsure": 0.02,
+      "open": 0.41
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 453,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 6,
+  "row": "**Agent's four disclosed-not-built limits** (Fable foundation review",
+  "group": "High",
+  "truth": "open",
+  "evidence": "All four still stated as limits at `skills/agent/references/native-sessions.md:129-142`; no correction in `skills/agent/scripts/agent.py`",
+  "ms": 274,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.89,
+     "probabilities": {
+      "done": 0.05,
+      "open": 0.92,
+      "dead": 0.02,
+      "unsure": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 474,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 7,
+  "row": "**A derived question set needs source-bound invalidation plus**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`docs/product/question-set-staleness.md` exists (framed, `85b8683`); `gate.py route` \u2192 `enters at: viability`, `scope need 13`",
+  "ms": 285,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.53,
+     "probabilities": {
+      "done": 0.13,
+      "dead": 0.01,
+      "unsure": 0.21,
+      "open": 0.65
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 478,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 8,
+  "row": "**`Impact` and `Likelihood` are risk-ledger columns that nothing**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`tools/gates/kit.py:63` declares both in `LEDGER_COLUMNS`; `parse_ledger` (`kit.py:534-560`) checks only Risk evidence / Severity / Treatment / Countermeasure / Review trigger / Treatment evidence",
+  "ms": 306,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.79,
+     "probabilities": {
+      "unsure": 0.01,
+      "dead": 0.05,
+      "open": 0.84,
+      "done": 0.1
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 494,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 9,
+  "row": "**THIS ROW IS NOW THE PILOT FOR `requirements-success-measurement`**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "No stage-vs-route AU rule (`_audit_au1`\u2026`_audit_au10`, `kit.py:1109-1580`). Re-measured today: `hooks-autoload` `scoped` vs derived viability; `model-effort-advisory` `scoped` vs derived design; **`funnel-driver` `designed` vs derived viability** \u2014 a 3-rung overclaim, worse than the recorded 1",
+  "ms": 344,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.89,
+     "probabilities": {
+      "dead": 0.06,
+      "done": 0.0,
+      "open": 0.93,
+      "unsure": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 542,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 10,
+  "row": "**Drive invented a risk-state value rather than refusing**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "Schema half confirmed answered \u2014 `kit.py:541,547` refuse empty cells with *\"named, not yet qualified; qualify at viability\"*. Drive's half unbuilt: `grep -n \"cannot fill\\|refuse to write\" skills/drive/SKILL.md` empty",
+  "ms": 267,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.67,
+     "probabilities": {
+      "unsure": 0.05,
+      "open": 0.75,
+      "dead": 0.12,
+      "done": 0.08
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 494,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 11,
+  "row": "**The composer emits hard-coded absolute repository paths, and**",
+  "group": "High",
+  "truth": "dead",
+  "evidence": "Composer removed at 0.107.0 \u2014 `grep -rni composer skills/` empty (`21e6779`). Artifact half verified fixed: 0 `/Users/anthonymaley`, 21 `rev-parse --show-toplevel` in `docs/plans/2026-09-01-requirements-success-measurement-spec.md`",
+  "ms": 323,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.58,
+     "probabilities": {
+      "open": 0.16,
+      "dead": 0.6799999999999999,
+      "unsure": 0.05,
+      "done": 0.11
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 516,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 12,
+  "row": "**`grep -c` in a fail-fast verify chain fails exactly**",
+  "group": "High",
+  "truth": "dead",
+  "evidence": "Same removal (`21e6779`). Artifact half fixed: spec `:1052` uses `test \u2026 -eq 0`; the clause itself sits in the spec body at `:121`",
+  "ms": 296,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.33,
+     "probabilities": {
+      "dead": 0.5,
+      "unsure": 0.07,
+      "open": 0.4,
+      "done": 0.03
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 481,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 13,
+  "row": "**A spec writes the CONSEQUENCE of an open question as settled**",
+  "group": "High",
+  "truth": "dead",
+  "evidence": "Same removal (`21e6779`). Artifact half fixed by `528ca88`; cross-step invalidation now marked at spec `:182` and `:1139`",
+  "ms": 356,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.12,
+     "probabilities": {
+      "unsure": 0.08,
+      "dead": 0.34,
+      "open": 0.24,
+      "done": 0.34
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 481,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 14,
+  "row": "**Waiver and legacy-closure records are named exactly like GO**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`docs/gates/waivers/2026-09-02-switch-fidelity-design.md` and `docs/gates/closures/2026-09-02-model-effort-advisory-design.md` unrenamed; `GATE_RECORD_RE` (`kit.py:124`) unchanged; `tests/` holds only `hooks_test.sh` \u2014 no refusal test",
+  "ms": 295,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.94,
+     "probabilities": {
+      "unsure": 0.0,
+      "dead": 0.01,
+      "done": 0.03,
+      "open": 0.96
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 523,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 15,
+  "row": "**The three composer-brief clauses need a DURABLE home in**",
+  "group": "High",
+  "truth": "dead",
+  "evidence": "Its named home is gone: `skills/conductor/SKILL.md:226-249` \"Calling the composer\" no longer exists (that range is now \"Record agreement and carry the work forward\"); `grep -rni composer skills/` empty. Intent survives \u2014 successor surface is `skills/conductor/references/execution.md:45-50`",
+  "ms": 295,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.33,
+     "probabilities": {
+      "unsure": 0.01,
+      "dead": 0.44,
+      "done": 0.05,
+      "open": 0.5
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 515,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 16,
+  "row": "**The suspect-link stamp has no slot in the requirement format**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "Mechanism described at `docs/requirements/catalog.md:208-216`; `docs/requirements/register.md` carries no stamped link and no reverse edge",
+  "ms": 288,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.79,
+     "probabilities": {
+      "unsure": 0.01,
+      "done": 0.07,
+      "dead": 0.08,
+      "open": 0.84
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 469,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 17,
+  "row": "**An observed result binds to its METHOD by bare reference**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "No `Method-SHA256` anywhere in the tree; row's own producer boundary bars it from that slice",
+  "ms": 307,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.74,
+     "probabilities": {
+      "unsure": 0.02,
+      "open": 0.17,
+      "done": 0.0,
+      "dead": 0.8
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 455,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 18,
+  "row": "**A visual of where the whole process build-out stands**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`python3 tools/diagram/progress.py` still prints `!! 1 text/text overlap(s)` (now at 5284,250; row records 4594,250); no artifact answers reading (b)",
+  "ms": 264,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.92,
+     "probabilities": {
+      "open": 0.94,
+      "dead": 0.01,
+      "done": 0.04,
+      "unsure": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 487,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 19,
+  "row": "**Rule 9 has two implementations and nothing tests them**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`tools/reqview/fingerprint.py` and `tools/reqview/reqview.py` both present; `tests/` holds only `hooks_test.sh`",
+  "ms": 296,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.98,
+     "probabilities": {
+      "open": 0.99,
+      "done": 0.01,
+      "unsure": 0.0,
+      "dead": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 466,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 20,
+  "row": "**`tools/diagram/gen_kerd_map.py:107` says `audit AU1-AU8` \u2014 stale**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`gen_kerd_map.py:107` `audit AU1-AU8` and `:110` `CI - eight steps`; `kit.py:1619` runs AU1\u2013AU10 and `.github/workflows/gate.yml` has 9 steps",
+  "ms": 280,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.65,
+     "probabilities": {
+      "open": 0.73,
+      "dead": 0.09,
+      "done": 0.16,
+      "unsure": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 511,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 21,
+  "row": "**A fold has no closing check, and three enumerated sweeps**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "No fold check in `gate.py` or the AU set; only `kit.py:3063` T45 rung-name purity assertion, which the row already excludes",
+  "ms": 277,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.41,
+     "probabilities": {
+      "unsure": 0.01,
+      "open": 0.56,
+      "dead": 0.36,
+      "done": 0.07
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 471,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 22,
+  "row": "**A work item can reach acceptance having declared no measurable**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "No stage-1/\"Named answers\" check anywhere in `tools/gates/kit.py`; the named likely home `requirements-success-measurement` is still at viability",
+  "ms": 278,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.95,
+     "probabilities": {
+      "open": 0.96,
+      "done": 0.0,
+      "unsure": 0.01,
+      "dead": 0.03
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 466,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 23,
+  "row": "**`fidelity.py`'s range and its reader set disagree**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`tools/gates/fidelity.py:81` `newest_log()` and `:103` `--diff-filter=A` both unchanged",
+  "ms": 281,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.36,
+     "probabilities": {
+      "done": 0.04,
+      "open": 0.53,
+      "dead": 0.18,
+      "unsure": 0.25
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 467,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 24,
+  "row": "~~**THREE sealed views are factually stale.**~~ **CLOSED 2026-08-29.**",
+  "group": "High",
+  "truth": "done",
+  "evidence": "`71391f8` exists; `docs/product/gate-visuals.md:8` `fp:c4f3e8949191` and `:12` `fp:d210312a9bec` are the resealed values the row names",
+  "ms": 274,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "done",
+     "confidence": 0.57,
+     "probabilities": {
+      "dead": 0.18,
+      "open": 0.11,
+      "done": 0.68,
+      "unsure": 0.03
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 515,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 25,
+  "row": "**`docs/design/diagram-types-by-rung.md` is still organised by**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`### BUILD` `:134`, `### GOAL` `:139`, `### LOOP` `:148` \u2014 the fold never happened",
+  "ms": 260,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.85,
+     "probabilities": {
+      "unsure": 0.01,
+      "done": 0.09,
+      "open": 0.89,
+      "dead": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 473,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 26,
+  "row": "**Two diagram generators still name the `build` rung.**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`tools/diagram/gen_flow_build.py` still present; `gen_functions.py:54` and `:646` both `(\"BUILD\", [`",
+  "ms": 271,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.87,
+     "probabilities": {
+      "unsure": 0.01,
+      "open": 0.9,
+      "done": 0.07,
+      "dead": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 466,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 27,
+  "row": "**The `design` gate can check nothing \u2014 and as of 2026-08-25**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`kit.py:896-898` states it verbatim in its own comment: *\"a work item declaring no concerns passes design vacuously\"*",
+  "ms": 306,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "done",
+     "confidence": 0.16,
+     "probabilities": {
+      "dead": 0.36,
+      "unsure": 0.05,
+      "open": 0.22,
+      "done": 0.37
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 480,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 28,
+  "row": "**`## Release condition` will collide with the release-planning**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "The release-planning artifact still does not exist; `## Release condition` live at `docs/design/rung-vocabulary.md:40`",
+  "ms": 291,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.81,
+     "probabilities": {
+      "done": 0.02,
+      "dead": 0.12,
+      "unsure": 0.01,
+      "open": 0.85
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 466,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 29,
+  "row": "**`## Grounding` cannot cite an external source.** Found 2026-08-23",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`_audit_au5` (`kit.py:1241-1272`) resolves each ref by `glob.glob` against disk; no URL branch, no in-line symbol resolution",
+  "ms": 333,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.37,
+     "probabilities": {
+      "open": 0.52,
+      "done": 0.34,
+      "unsure": 0.02,
+      "dead": 0.12
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 487,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 30,
+  "row": "**Diagram-and-prose-together: flip the default in the skills.**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`view: n/a \u2014 <reason>` refusal exists in `kit.py`/`tools/gates/README.md:453`; `grep -rn \"view: n/a\" skills/` empty \u2014 no skill default flipped",
+  "ms": 332,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.95,
+     "probabilities": {
+      "open": 0.96,
+      "unsure": 0.0,
+      "done": 0.01,
+      "dead": 0.03
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 485,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 31,
+  "row": "**Standards grounding \u2014 second pass.** The spike",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`docs/design/standards-grounding-findings.md` last touched at `33e2753`; 82079-1 / 25040 / 24748 still listed surfaced-not-read",
+  "ms": 278,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.69,
+     "probabilities": {
+      "unsure": 0.04,
+      "dead": 0.03,
+      "done": 0.17,
+      "open": 0.76
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 484,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 32,
+  "row": "**The conductor marker cannot carry a sitting's open time**",
+  "group": "High",
+  "truth": "dead",
+  "evidence": "The marker was removed at 0.107.0 (`21e6779`): `grep -rn \"conductor:\" skills/conductor/SKILL.md` and `grep -rn \"active-modes\" skills/switch/SKILL.md` both empty; `docs/state-contract.md:11` records the removal",
+  "ms": 349,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.98,
+     "probabilities": {
+      "unsure": 0.0,
+      "open": 0.01,
+      "dead": 0.98,
+      "done": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 508,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 33,
+  "row": "~~**Verify hooks auto-load fires on this machine.**~~ **CLOSED**",
+  "group": "High",
+  "truth": "done",
+  "evidence": "`hooks/hooks.json` present; `hooks/session-start.sh` builds the string; row's three observations stand. *Sub-finding still open:* `docs/product/hooks-autoload.md`'s ledger and acceptance test are uncorrected, and the item still enters at viability",
+  "ms": 263,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.49,
+     "probabilities": {
+      "unsure": 0.02,
+      "dead": 0.01,
+      "open": 0.61,
+      "done": 0.36
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 495,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 34,
+  "row": "**`gate.py --root` \u2014 the CLI half shipped 2026-08-14**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`grep -rn -- \"--root\" skills/ hooks/` returns nothing \u2014 no consumer calls it",
+  "ms": 267,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.47,
+     "probabilities": {
+      "unsure": 0.1,
+      "open": 0.16,
+      "dead": 0.6,
+      "done": 0.14
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 463,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 35,
+  "row": "**Hookify \u2014 promoted to a dependency.** `OPS-001`",
+  "group": "High",
+  "truth": "open",
+  "evidence": "hookify installed at `~/.claude/plugins`; zero references in Kerd outside TODO and session logs; `OPS-001` live at `docs/requirements/register.md:486`",
+  "ms": 303,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.55,
+     "probabilities": {
+      "dead": 0.66,
+      "open": 0.1,
+      "unsure": 0.02,
+      "done": 0.22
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 481,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 36,
+  "row": "**Requirement archaeology over CONTEXT.md's 74 standing decisions.**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "Never run. Corpus moved and grew: 158 entries now in `docs/decisions.md` (0.111.0 rulings/cases split), not CONTEXT.md",
+  "ms": 282,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.92,
+     "probabilities": {
+      "done": 0.02,
+      "open": 0.04,
+      "unsure": 0.0,
+      "dead": 0.94
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 477,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 37,
+  "row": "**The release-planning artifact.** Gained two inputs today",
+  "group": "High",
+  "truth": "open",
+  "evidence": "No such artifact under `docs/`",
+  "ms": 290,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.78,
+     "probabilities": {
+      "done": 0.0,
+      "open": 0.83,
+      "dead": 0.05,
+      "unsure": 0.12
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 442,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 38,
+  "row": "**Frame switch-fidelity slice 2 \u2014 capture human input.**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "Gaps 10/11/12 still described at `docs/product/switch-fidelity.md:209-223`; no slice-2 frame; design rung waived 2026-09-02",
+  "ms": 332,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.59,
+     "probabilities": {
+      "unsure": 0.01,
+      "open": 0.28,
+      "done": 0.01,
+      "dead": 0.7
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 487,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 39,
+  "row": "**The fidelity check** (accepted unknown; review trigger already",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`tools/gates/fidelity.py` proves file reachability only, as the row states",
+  "ms": 284,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.47,
+     "probabilities": {
+      "dead": 0.18,
+      "open": 0.6,
+      "unsure": 0.08,
+      "done": 0.14
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 453,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 40,
+  "row": "**boundary-cycle, in-half** \u2014 the reset ritual's automation.",
+  "group": "High",
+  "truth": "open",
+  "evidence": "No product or design doc; still named as a backlog item at `docs/product/conductor-boundary.md:72`",
+  "ms": 328,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.63,
+     "probabilities": {
+      "done": 0.05,
+      "open": 0.73,
+      "dead": 0.04,
+      "unsure": 0.18
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 460,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 41,
+  "row": "**Plugin cache repin debt.** Reopened by v0.95.0",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`TODO.md ## Now` still carries \"Confirm the plugin cache picks up 0.111.0 on an ordinary startup\"",
+  "ms": 270,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.85,
+     "probabilities": {
+      "dead": 0.03,
+      "open": 0.88,
+      "done": 0.04,
+      "unsure": 0.05
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 468,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 42,
+  "row": "**Machine-local state has an inventory but no refuser**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`docs/machine-setup.md` present; `skills/tend/SKILL.md` still has 9 categories, none running its greps",
+  "ms": 281,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.91,
+     "probabilities": {
+      "dead": 0.01,
+      "unsure": 0.03,
+      "open": 0.93,
+      "done": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 462,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 43,
+  "row": "**Stashes and local-equals-remote are unchecked at the boundary.**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`skills/switch/SKILL.md` (94 lines) has no fetch/push/containment check \u2014 `grep -n \"push\\|remote\\|fetch\\|contains\"` hits only `:55`; `~/eolas/vault/kerd/bin/boundary-check` still outside the repo",
+  "ms": 277,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.98,
+     "probabilities": {
+      "open": 0.99,
+      "dead": 0.0,
+      "unsure": 0.01,
+      "done": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 505,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 44,
+  "row": "**The playbook's `## Current Status` duplicates CONTEXT.md.**",
+  "group": "High",
+  "truth": "open",
+  "evidence": "`docs/playbook.md:618` `## Current Status` still present",
+  "ms": 270,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.87,
+     "probabilities": {
+      "unsure": 0.01,
+      "done": 0.06,
+      "dead": 0.03,
+      "open": 0.9
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 453,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 45,
+  "row": "**Out-of-repo artifacts have no home** \u2014 PRs, URLs, decks",
+  "group": "High",
+  "truth": "open",
+  "evidence": "No mechanism anywhere; nothing has changed",
+  "ms": 284,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.99,
+     "probabilities": {
+      "done": 0.0,
+      "unsure": 0.0,
+      "dead": 0.0,
+      "open": 1.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 444,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 46,
+  "row": "**Stop-hook over-prescription**: distinguish work-dirty from",
+  "group": "High",
+  "truth": "dead",
+  "evidence": "`hooks/stop.sh` deleted at v0.96.0 \u2014 `2146925` \"Ship hooks via plugin auto-load; cut stop.sh\"; `hooks/` now holds pair, session-start, skill-complete, statusline only",
+  "ms": 277,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.85,
+     "probabilities": {
+      "open": 0.02,
+      "dead": 0.88,
+      "done": 0.09,
+      "unsure": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 491,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 47,
+  "row": "**A `## Risk ledger` section parses PROSE as rows**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`kit.py:529-533` still enumerates every non-empty body line as a row",
+  "ms": 273,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.86,
+     "probabilities": {
+      "open": 0.89,
+      "done": 0.07,
+      "unsure": 0.01,
+      "dead": 0.03
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 457,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 48,
+  "row": "**`CONTEXT.md`'s 2026-08-25 bullet labels both risk checks one rung**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "The bullet moved to `docs/decisions.md:287` (0.111.0 case migration) with the wording *\"viability requires killer risks named \u2026 scope requires every row qualified\"* unchanged",
+  "ms": 268,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.35,
+     "probabilities": {
+      "dead": 0.51,
+      "open": 0.07,
+      "unsure": 0.02,
+      "done": 0.4
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 493,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 49,
+  "row": "**README's `## What's New (vX)` header is a second home**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`README.md:43` `## What's New (v0.111.0)` sits above `### v0.111.0` at `:45` \u2014 the two homes persist",
+  "ms": 278,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "done",
+     "confidence": 0.7,
+     "probabilities": {
+      "done": 0.77,
+      "unsure": 0.04,
+      "open": 0.15,
+      "dead": 0.04
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 484,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 50,
+  "row": "**Five citation/count slips in the `gate-visuals` acceptance record**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`docs/gates/2026-08-30-gate-visuals-acceptance.md:253-254` (`:111`/`:253` drift) and `:356` (`fp:2c5fd12e53c6`) unchanged",
+  "ms": 279,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.54,
+     "probabilities": {
+      "done": 0.14,
+      "unsure": 0.15,
+      "open": 0.65,
+      "dead": 0.06
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 507,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 51,
+  "row": "**`docs/playbook.md:391`'s cold-eyes trap names the wrong tool**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "Line moved to `docs/playbook.md:529`, text unchanged; `tools/design/matrix.py` still references `kit.ROOT` 10 times",
+  "ms": 315,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.62,
+     "probabilities": {
+      "unsure": 0.02,
+      "open": 0.72,
+      "done": 0.06,
+      "dead": 0.2
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 477,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 52,
+  "row": "**`gate.py`'s root resolver walks OUT of a git worktree**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`tools/gates/gate.py:106` still `os.path.isdir(os.path.join(cur, \".git\"))` \u2014 a worktree's `.git` file still fails the test",
+  "ms": 279,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.95,
+     "probabilities": {
+      "dead": 0.01,
+      "unsure": 0.0,
+      "open": 0.96,
+      "done": 0.03
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 475,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 53,
+  "row": "**`docs/design/kerd-map.svg` still draws NINE skills**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`gen_kerd_map.py:35` \"THE NINE SKILLS\"; `skills/` now holds **twelve** dirs, so the drift widened by three",
+  "ms": 292,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.97,
+     "probabilities": {
+      "done": 0.01,
+      "dead": 0.01,
+      "unsure": 0.0,
+      "open": 0.98
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 472,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 54,
+  "row": "**skriv bans em dashes; the README's What's New voice uses them**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`skills/skriv/SKILL.md:54` bans em dashes; README's v0.111.0 entry uses them \u2014 no ruling recorded",
+  "ms": 257,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.88,
+     "probabilities": {
+      "unsure": 0.05,
+      "done": 0.04,
+      "dead": 0.01,
+      "open": 0.9
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 473,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 55,
+  "row": "**The refusal surface does not travel with the plugin \u2014 the return**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "Interlocked with row 34, which is confirmed unbuilt (`--root` uncalled by any skill or hook)",
+  "ms": 257,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.46,
+     "probabilities": {
+      "dead": 0.35,
+      "done": 0.0,
+      "open": 0.6,
+      "unsure": 0.05
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 462,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 56,
+  "row": "**`docs/vault-spec.md` contradicts itself** (found by tend",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`:39` \"the one append-style file in the vault\" vs `:78`/`:88` decisions files \"Updated when new decisions are made\" \u2014 unresolved",
+  "ms": 308,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.97,
+     "probabilities": {
+      "unsure": 0.02,
+      "open": 0.98,
+      "dead": 0.0,
+      "done": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 474,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 57,
+  "row": "**Three vault-spec violations, all kivna's to fix**",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`~/eolas/vault/kerd/Kerd.md:72` still `[[eloas/Eloas\\|Eloas]]`; `discover-sources.json` still in the vault folder. *Sub-finding done:* `2026-08-02-product-to-build.excalidraw` is no longer in the vault folder",
+  "ms": 287,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.91,
+     "probabilities": {
+      "dead": 0.04,
+      "done": 0.01,
+      "open": 0.93,
+      "unsure": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 508,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 58,
+  "row": "**Revisit the journey view when more data exists** (parked",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "Parked with a return condition; no evidence it fired",
+  "ms": 293,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.44,
+     "probabilities": {
+      "open": 0.59,
+      "dead": 0.2,
+      "unsure": 0.21,
+      "done": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 446,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 59,
+  "row": "Clean krutho-strategy's stray `sessions-of-record/`.",
+  "group": "Medium",
+  "truth": "done",
+  "evidence": "`find /Users/anthonymaley/development/work/krutho-strategy -maxdepth 4 -name \"sessions-of-record*\"` returns nothing; the directory is gone",
+  "ms": 286,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.92,
+     "probabilities": {
+      "open": 0.0,
+      "done": 0.05,
+      "unsure": 0.01,
+      "dead": 0.94
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 470,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 60,
+  "row": "AGENTS.md needs its own verdict: gitignored, machine-local",
+  "group": "Medium",
+  "truth": "unsure",
+  "evidence": "No `AGENTS.md` in this tree, but `.gitignore:7` lists it, so its absence here is expected and proves nothing about the other machine",
+  "ms": 291,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "unsure",
+     "confidence": 0.21,
+     "probabilities": {
+      "dead": 0.33,
+      "unsure": 0.41,
+      "open": 0.13,
+      "done": 0.13
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 468,
+    "output_tokens": 48
+   }
+  }
+ },
+ {
+  "id": 61,
+  "row": "Regenerate the choose-what-matters view before its next use.",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`docs/plans/2026-08-03-choose-what-matters-view.excalidraw` is still the Backlog preamble's cited ranking artifact and is unregenerated",
+  "ms": 283,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.99,
+     "probabilities": {
+      "dead": 0.0,
+      "open": 1.0,
+      "unsure": 0.0,
+      "done": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 483,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 62,
+  "row": "Hook version staleness check in `/kerd:tend`.",
+  "group": "Medium",
+  "truth": "dead",
+  "evidence": "Its reason is gone: `skills/tend/SKILL.md:207` \u2014 *\"it never version-rots, because there is no cached version path to go stale\"* (v0.96.0, `2146925`); row 41 records the same narrowing",
+  "ms": 312,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.99,
+     "probabilities": {
+      "unsure": 0.0,
+      "done": 0.0,
+      "dead": 1.0,
+      "open": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 497,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 63,
+  "row": "PR-event edge in the stale CI step (unexercised; no PR flow).",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`.github/workflows/gate.yml:2` `on: [push, pull_request]`; still no PR flow to exercise it",
+  "ms": 263,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.79,
+     "probabilities": {
+      "open": 0.84,
+      "done": 0.06,
+      "unsure": 0.04,
+      "dead": 0.06
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 465,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 64,
+  "row": "Guard switch-in step 3 smoke test against context bloat.",
+  "group": "Medium",
+  "truth": "dead",
+  "evidence": "Switch was replaced at 0.107.0 (`21e6779`); `skills/switch/SKILL.md` is 94 lines with four prose sections, no numbered steps; `grep -rn \"smoke\" skills/switch/` empty",
+  "ms": 290,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.92,
+     "probabilities": {
+      "open": 0.05,
+      "unsure": 0.01,
+      "dead": 0.94,
+      "done": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 493,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 65,
+  "row": "**lorg-cut candidate** \u2014 evidence check per the rip discipline",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`skills/lorg` and `skills/interrogate` both still shipped; no evidence check on record",
+  "ms": 280,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.86,
+     "probabilities": {
+      "dead": 0.08,
+      "unsure": 0.01,
+      "open": 0.9,
+      "done": 0.01
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 456,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 66,
+  "row": "**kivna verdict** \u2014 same zero-usage smell as the vault",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`skills/kivna` still shipped; no ruling in `docs/decisions.md`",
+  "ms": 281,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.88,
+     "probabilities": {
+      "dead": 0.06,
+      "open": 0.9,
+      "done": 0.02,
+      "unsure": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 456,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 67,
+  "row": "**CI rule for the single-definition law** \u2014 nothing machine-enforces",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "None of gate.yml's 9 steps checks it. Narrowed, not dead: conductor stopped invoking Switch Out at 0.107.0 (`docs/playbook.md:78`), so the specific re-description it names is less likely",
+  "ms": 341,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.63,
+     "probabilities": {
+      "done": 0.0,
+      "open": 0.72,
+      "unsure": 0.08,
+      "dead": 0.2
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 488,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 68,
+  "row": "Derive the rigor refusal messages from `RIGOR_LEVELS` via join.",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "`kit.py:378` still hard-codes `\"(legal: spike, mvp, production-v1)\"` beside `RIGOR_LEVELS` at `:90`",
+  "ms": 271,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.99,
+     "probabilities": {
+      "dead": 0.0,
+      "done": 0.0,
+      "open": 1.0,
+      "unsure": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 478,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 69,
+  "row": "Gate records can only say GO: a refused gate has no dated home.",
+  "group": "Medium",
+  "truth": "open",
+  "evidence": "Restated as live at `docs/playbook.md:190`; `docs/gates/` has `waivers/` and `closures/` but still no refusal home",
+  "ms": 271,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.72,
+     "probabilities": {
+      "done": 0.16,
+      "dead": 0.05,
+      "unsure": 0.01,
+      "open": 0.78
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 473,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 70,
+  "row": "`CHANGELOG.md` stale at 0.14.0 while the repo is at 0.95.0",
+  "group": "Low",
+  "truth": "open",
+  "evidence": "`CHANGELOG.md:3` `## 0.14.0`; repo at 0.111.0; `CLAUDE.md`'s release checklist still omits it (the gap widened by 16 releases)",
+  "ms": 275,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.96,
+     "probabilities": {
+      "done": 0.0,
+      "open": 0.97,
+      "unsure": 0.01,
+      "dead": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 500,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 71,
+  "row": "Stale `Kerd.md` MOC version field (says 0.31.0).",
+  "group": "Low",
+  "truth": "open",
+  "evidence": "`~/eolas/vault/kerd/Kerd.md:6` `**Version:** 0.31.0`",
+  "ms": 299,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.54,
+     "probabilities": {
+      "open": 0.65,
+      "done": 0.16,
+      "unsure": 0.17,
+      "dead": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 468,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 72,
+  "row": "Consider promoting the refined question-formation rule from the pair",
+  "group": "Low",
+  "truth": "unsure",
+  "evidence": "`~/.claude/CLAUDE.md:70` has a \"Question-formation gate\", but it bans multiple-choice outright while `hooks/pair.sh:16` permits it \u2014 a global rule exists and *contradicts* the hook rather than being it promoted",
+  "ms": 285,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "dead",
+     "confidence": 0.47,
+     "probabilities": {
+      "unsure": 0.01,
+      "open": 0.37,
+      "dead": 0.6,
+      "done": 0.02
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 491,
+    "output_tokens": 47
+   }
+  }
+ },
+ {
+  "id": 73,
+  "row": "skriv voice profile wiring \u2014 needs non-founder-genre samples.",
+  "group": "Blocked",
+  "truth": "open",
+  "evidence": "`grep -rn \"voice profile\" skills/skriv/` empty; the return condition (non-founder-genre samples) has not fired",
+  "ms": 290,
+  "response": {
+   "model": "jev-1.13.0",
+   "answers": {
+    "verdict": {
+     "type": "choice",
+     "choice": "open",
+     "confidence": 0.96,
+     "probabilities": {
+      "open": 0.98,
+      "dead": 0.01,
+      "unsure": 0.01,
+      "done": 0.0
+     }
+    }
+   },
+   "usage": {
+    "input_tokens": 463,
+    "output_tokens": 47
+   }
+  }
+ }
+]

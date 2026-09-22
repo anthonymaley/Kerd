@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jev viability tests</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--paper:#F7F9F7;--paper2:#EDF0EE;--ink:#0B1512;--muted:#4E5D58;--rule:#D5DCD7;--accent:#0B5E4A;
+    --sans:-apple-system,"SF Pro Display","SF Pro Text","Helvetica Neue",Inter,system-ui,"Segoe UI",Roboto,sans-serif}
+  @media (prefers-color-scheme: dark){:root{--paper:#121B17;--paper2:#0B1310;--ink:#E5EBE7;--muted:#93A29B;--rule:#223029;--accent:#5CC5A3}}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);padding:3rem 2rem;display:flex;justify-content:center}
+  .frame{max-width:1200px;width:100%}
+  .eyebrow{font-size:13px;font-weight:600;color:var(--muted);margin-bottom:.5rem}
+  h1{font-size:32px;font-weight:600;line-height:1.2;margin-bottom:1.5rem}
+  svg{width:100%;min-width:1100px;display:block}
+  svg .bg{fill:var(--paper)}
+  svg .n{fill:var(--paper);stroke:var(--ink);stroke-width:1}
+  svg .f{fill:var(--paper);stroke:var(--accent);stroke-width:1.5}
+  svg .arr{stroke:var(--muted);stroke-width:1}
+  svg .mk{fill:var(--muted)}
+  svg text{font-family:var(--sans)}
+  svg .eb{font-size:13px;font-weight:600;fill:var(--muted)}
+  svg .nm{font-size:16px;font-weight:600;fill:var(--ink)}
+  svg .bd{font-size:15px;font-weight:400;fill:var(--ink)}
+  svg .pn{font-size:16px;font-weight:600;fill:var(--ink)}
+  svg .sf{font-size:14px;font-weight:400;fill:var(--muted)}
+  .note{margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--rule);font-size:15px;color:var(--muted);max-width:72ch;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="frame">
+  <p class="eyebrow">Test plan · Jev in Kerd</p>
+  <h1>Four tests, one per use case, each with its pass line set before it runs.</h1>
+  <svg viewBox="0 0 1200 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="jev-tests-title jev-tests-desc">
+    <title id="jev-tests-title">Four Jev viability tests</title>
+    <desc id="jev-tests-desc">Four tests of whether Jev is viable in Kerd, each showing the data it runs on, its pass line, and whether the data exists yet.</desc>
+    <defs><marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon class="mk" points="0 0, 8 3, 0 6"/></marker></defs>
+    <rect class="bg" width="100%" height="100%"/>
+      <text class="eb" x="40" y="52">What it is tested on</text>
+      <text class="eb" x="720" y="52">What would count as viable</text>
+      <line class="arr" x1="604" y1="130" x2="712" y2="130" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="250" x2="712" y2="250" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="370" x2="712" y2="370" marker-end="url(#ar)"/>
+      <line class="arr" x1="604" y1="490" x2="712" y2="490" marker-end="url(#ar)"/>
+      <rect class="n" x="40" y="80" width="560" height="100"/>
+      <text class="nm" x="56" y="108">1 · Backlog triage</text>
+      <text class="bd" x="56" y="136">73 rows already judged done, dead, open or unsure,</text>
+      <text class="bd" x="56" y="160">each with its evidence (2026-09-12 closure review).</text>
+      <rect class="f" x="720" y="80" width="440" height="100"/>
+      <text class="pn" x="736" y="108">Pass: at confidence 0.7 or more, 9 in 10 agree,</text>
+      <text class="pn" x="736" y="130">at least half decided, no open row closed.</text>
+      <text class="sf" x="736" y="164">Ready now: data on disk.</text>
+      <rect class="n" x="40" y="200" width="560" height="100"/>
+      <text class="nm" x="56" y="228">2 · Checking concert returns</text>
+      <text class="bd" x="56" y="256">Real player returns with their score steps, plus copies</text>
+      <text class="bd" x="56" y="280">with planted faults (a false “tests pass”, a skipped step).</text>
+      <rect class="n" x="720" y="200" width="440" height="100"/>
+      <text class="pn" x="736" y="228">Pass: catches 9 in 10 planted faults,</text>
+      <text class="pn" x="736" y="250">flags no more than 1 in 5 clean returns.</text>
+      <text class="sf" x="736" y="284">Needs building: faults planted by hand.</text>
+      <rect class="n" x="40" y="320" width="560" height="100"/>
+      <text class="nm" x="56" y="348">3 · Checks inside a hook</text>
+      <text class="bd" x="56" y="376">A real hook calling Jev on this machine, and prose</text>
+      <text class="bd" x="56" y="400">before and after a voice rewrite, from Git history.</text>
+      <rect class="n" x="720" y="320" width="440" height="100"/>
+      <text class="pn" x="736" y="348">Pass: 95% of calls under one second, and the</text>
+      <text class="pn" x="736" y="370">rewritten version scores better 8 times in 10.</text>
+      <text class="sf" x="736" y="404">Needs building: before-and-after pairs.</text>
+      <rect class="n" x="40" y="440" width="560" height="100"/>
+      <text class="nm" x="56" y="468">4 · Screening before Codex</text>
+      <text class="bd" x="56" y="496">170 past Codex review requests with their replies;</text>
+      <text class="bd" x="56" y="520">each reply marked as blocked or cleared.</text>
+      <rect class="n" x="720" y="440" width="440" height="100"/>
+      <text class="pn" x="736" y="468">Pass: flags most blocked reviews while</text>
+      <text class="pn" x="736" y="490">clearing at least half the cleared ones.</text>
+      <text class="sf" x="736" y="524">Ready now; expected to fail.</text>
+  </svg>
+  <p class="note">Pass lines are fixed before any test runs, so a result cannot move them. Every label comes from an earlier Opus or Codex judgment, not from Anthony, so a pass means Jev agrees with those judges, not that it is right.</p>
+</div>
+</body>
+</html>
