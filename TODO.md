@@ -48,9 +48,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   every push) refuses a version whose note differs between `README.md` and `CHANGELOG.md`,
   or a version in the README and not the changelog; older entries the README trimmed are
   allowed. Each release still updates both by hand.
-- **Reported, not fixed:** `docs/work/model-ready-work/packaging/START.md` is written
-  against 0.113.0. The state contract and machine-setup references were fixed in 0.144.1;
-  `docs/playbook.md` still describes the modes file as live in several places.
+- **The stale-reference row is closed (2026-09-22).** The Codex core guide no longer
+  pins 0.113.0 in its example paths and now says eight skills with four excluded by name;
+  the state contract, machine-setup and playbook were corrected in 0.144.1.
 - **Observe the composer, managed Conductor and a roll in a real session.** None has been
   exercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
   two plus one).

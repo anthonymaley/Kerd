@@ -5,9 +5,9 @@ Four skills from one maintained source: **Conductor** guides the work,
 and **Agent** connects Claude and Codex. No Kerd CI or custom hook is required
 in a consumer project. The generated version comes from the source release.
 
-The full Claude marketplace plugin still contains twelve skills. This core
-artifact contains four: the other eight legacy skills and all Claude hooks are
-deliberately excluded, not claimed compatible with Codex. Don't replace the full
+The full Claude marketplace plugin contains eight skills. This core artifact
+contains four: the other four (Tend, Slainte, Kivna, Skriv) and all Claude hooks
+are deliberately excluded, not claimed compatible with Codex. Don't replace the full
 Claude install with this smaller package unless that is what you intend.
 
 ## Build from the source checkout
@@ -15,7 +15,7 @@ Claude install with this smaller package unless that is what you intend.
 Run in the Kerd source repository. The destination must not already exist:
 
 ```sh
-python3 docs/work/model-ready-work/packaging/build.py output/kerd-codex-0.113.0 --codex-marketplace
+python3 docs/work/model-ready-work/packaging/build.py output/kerd-codex-<version> --codex-marketplace
 ```
 
 This creates a catalog root with `.agents/plugins/marketplace.json` and
@@ -24,7 +24,7 @@ trees, their references/scripts/tests, this guide and the license. It does not
 register a marketplace, install a plugin, change settings, launch models or
 contact a provider. Build output is disposable; edit the source, not the copy.
 Never point Codex at the full source `skills/` directory as a substitute: that
-would expose the unverified legacy skills too.
+would expose the four unverified skills too.
 
 ## Install in Codex
 
@@ -32,7 +32,7 @@ After approving user-level installation, use the actual absolute path to the
 generated **catalog root**, not its `plugins/kerd` subdirectory:
 
 ```sh
-codex plugin marketplace add /absolute/path/to/kerd-codex-0.113.0
+codex plugin marketplace add /absolute/path/to/kerd-codex-<version>
 codex plugin list --marketplace kerd-core --available --json
 codex plugin add kerd@kerd-core
 ```
