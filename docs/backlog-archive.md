@@ -4,6 +4,40 @@ Backlog rows closed at Switch Out, each with its verdict, the evidence and the d
 position paragraphs moved out of `CONTEXT.md` when they stopped being current. Nothing here
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
+
+## Closed 2026-09-22
+
+**Verdict: done — each fixed and released this day, with its evidence in
+`kivna/sessions/2026-09-22.md` and the release notes.**
+
+- **The site tells the musical story now (2026-09-22).** The hero names the shape, a new
+  band defines rehearsal and the concert before the pieces use them, the capabilities
+  intro defines them for a reader arriving from the nav, and the README opening matches.
+  Docs and examples were left alone: their few mentions explain themselves. Sketchbook:
+  `docs/work/site-musical/work.md`.
+
+- **The image-by-path route now has Claude evidence too (2026-09-22).** A fresh read-only
+  Claude worker on Sonnet 5 read a PNG from its absolute path and answered three
+  picture-only questions correctly. Still untested on Claude: an established partner
+  rather than a fresh worker, and a file outside the project.
+
+- **Pictures at a laptop width: fixed in 0.144.1.** Measured 2026-09-22 at 1440, 1280 and
+  1152: the site now stacks below 1200px (labels 26px), 1201-1280 stays two-column at 14px,
+  and the concert picture's smallest type went 28px to 32px. Phone widths stay unmeasured.
+
+- **Release notes live in two places, now with a check.** `tools/release_check.py` (CI,
+  every push) refuses a version whose note differs between `README.md` and `CHANGELOG.md`,
+  or a version in the README and not the changelog; older entries the README trimmed are
+  allowed. Each release still updates both by hand.
+
+- **The stale-reference row is closed (2026-09-22).** The Codex core guide no longer
+  pins 0.113.0 in its example paths and now says eight skills with four excluded by name;
+  the state contract, machine-setup and playbook were corrected in 0.144.1.
+
+Evidence: 0.144.1 (pictures, measured at 1440/1280/1152), 0.145.1 (Claude read a PNG from
+its path), `f652a52` (CI refuses a release note that reads two ways), `4a89ee1` (the Codex
+core guide), `ec5df1a` and `4e5d4bc` (the site's musical story).
+
 ## Closed 2026-09-21 (evening): the site and README tell one story
 
 **"Fix the six places where the live site and the README contradict each other" — done.**

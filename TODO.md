@@ -23,21 +23,16 @@ repo's GitHub description now matches the site's line (set 2026-09-22 on Anthony
 tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` in
 `~/.codex/config.toml`.
 
-- **The site does not tell the musical story** (Anthony, 2026-09-22 17:31): "i dont see
-  any of the strong musical narrative in the website - we could really use that to convey
-  Kerd". Rehearsal, the sketchbook, Ready, the score, the concert, players — the language
-  the product is built on — barely appears on the pages. Its own Shape.
+
+- **A session should never sit idle with nothing asked** — shipped in 0.146.0, needs real
+  sittings to show whether it holds. Sketchbooks: `docs/work/no-idle-sessions/work.md`,
+  and the superseded monitor framing in `docs/work/waiting-on-you/work.md`.
 - **The report shape and the finish: changed in 0.145.0, watch them in use.** A
   correction of Kerd's own earlier claim now rides in the opening lines and never
   competes for the five items; a finish names the next item instead of ending on "no
   action needed". Both came from repeated real instances, four of them on 2026-09-22.
-- **The image-by-path route now has Claude evidence too (2026-09-22).** A fresh read-only
-  Claude worker on Sonnet 5 read a PNG from its absolute path and answered three
-  picture-only questions correctly. Still untested on Claude: an established partner
-  rather than a fresh worker, and a file outside the project.
-- **Pictures at a laptop width: fixed in 0.144.1.** Measured 2026-09-22 at 1440, 1280 and
-  1152: the site now stacks below 1200px (labels 26px), 1201-1280 stays two-column at 14px,
-  and the concert picture's smallest type went 28px to 32px. Phone widths stay unmeasured.
+
+
 - **Show the model and effort where a running job is listed.** Asked 2026-09-19 22:09 with
   a screenshot Claude could not open (it was on the laptop): the job list shows
   `kerd:effort-high` rather than the model and effort. Kerd's status line does not draw that
@@ -48,13 +43,8 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
   concert now performs on `concert/<work>`, and the merge back is the person's go
   (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
-- **Release notes live in two places, now with a check.** `tools/release_check.py` (CI,
-  every push) refuses a version whose note differs between `README.md` and `CHANGELOG.md`,
-  or a version in the README and not the changelog; older entries the README trimmed are
-  allowed. Each release still updates both by hand.
-- **The stale-reference row is closed (2026-09-22).** The Codex core guide no longer
-  pins 0.113.0 in its example paths and now says eight skills with four excluded by name;
-  the state contract, machine-setup and playbook were corrected in 0.144.1.
+
+
 - **Observe the composer, managed Conductor and a roll in a real session.** None has been
   exercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
   two plus one).

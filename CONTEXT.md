@@ -6,27 +6,41 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.143.0 on `main`, 2026-09-21 afternoon.** Nothing released since; the
-2026-09-21 evening sitting shipped prose only, under the no-bump ruling below.
+**Release boundary: 0.146.0 on `main`, 2026-09-22 evening.** Six releases this day:
+0.144.0 (a concert performs on its own branch), 0.144.1 (the pictures stay readable on a
+laptop), 0.145.0 (a correction leads a report; a finish names the next item), 0.145.1 (the
+picture-by-path route has Claude evidence), 0.146.0 (a turn never ends idle), plus the
+launch plan, a CI check on the release history, the Codex core guide and the site's
+musical story.
 
-**Kerd's front page, site and README now tell one story, and each says only what a run has
-shown.** Anyone can install it (proved 2026-09-20); the front page's claims were checked and
-four corrected (2026-09-21); on the evening of 2026-09-21 the six places where the live site
-and the README contradicted each other were settled against what Kerd does, and the host line
-now reads "Kerd runs inside Claude Code, and a four-skill core can be built for Codex", because
-no Codex conversation through that core is on record. The site is live at
-https://kerd-six.vercel.app/, checked byte-identical to the repo after each change.
+**Kerd has a launch plan, accepted.** `docs/design/launch-plan.md`. Kerd is ready to
+launch when someone other than Anthony carries a real piece of work, in their own
+repository, to its agreed result, unaided — his 2026-09-02 definition, reworded without
+the ladder and confirmed 2026-09-22. The route: prove it at home (3of3's iCloud sync,
+kept light), invite three to five people he picks, they install and carry their own work
+through a first sitting and a second, then the open launch. Each invited person is
+recorded against five checks: own repository, unaided, finished to their goals, came back
+unasked, what broke.
 
-**Jev was tried and is not worth a place in Kerd now** (`docs/work/jev-trial/work.md`). It
-grades written evidence fast and cheaply, but Kerd's cost is in finding the evidence. Three
-graded runs; backlog triage and review screening failed their pass lines.
+**Two teams already use Kerd** (Anthony, 2026-09-22 17:11): the SAM product team and the
+Aubel.app team. The record backs Aubel — a user's 378 kb `TODO.md` there drove v0.41.0 in
+June. What nobody has asked them: which version they run, whether they finished work
+unaided, and what broke. A note asking exactly that is drafted and approved, for Anthony
+to send: `docs/work/launch-plan/team-note.md`. Their answers may show the launch
+definition is already met.
 
-**Selected continuation, proposed not agreed: draft a launch plan for the Kerd that exists
-now, for Anthony to rule on.** **Why:** the product and its front page are ready for a reader;
-what stands between Kerd and a launch is a plan that describes a route to one, and
-`docs/design/launch-plan.md` was written around the retired ladder and a ladder pilot, so as
-written it no longer does. Owner: Claude drafts through Conductor, starting at Shape; the
-ruling is Anthony's; stops at a draft, nothing published. The detail is in `TODO.md` `## Now`.
+**The site now tells the musical story.** Rehearsal and the concert are named in the hero,
+defined in their own band before the pieces use them, and defined again on the
+capabilities page for a reader arriving from the nav. The README opening matches. Live and
+byte-identical, checked after each push.
+
+**What today's releases changed about how Kerd behaves:** a concert runs on
+`concert/<work>` and merges back only on the person's go; a report that retracts an
+earlier claim leads with it rather than burying it; a finish names the next item instead
+of ending on "no action needed"; and a turn ends either carrying on or stopped on a
+question answerable cold — never idle with nothing asked, in rehearsal as much as in the
+concert. All are wording rules: whether they hold shows in the next sittings, not in
+tests.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
 - **Kerd's readers are on desktops and laptops, not phones (2026-09-21).** Measure pages and
@@ -48,23 +62,37 @@ ruling is Anthony's; stops at a draft, nothing published. The detail is in `TODO
   updates both.
 - **Every report has one shape**, built into Conductor's formats. **At the end of a build,
   bring one decision.**
+- **Keep moving; never sit idle (2026-09-22).** A session either carries on towards the
+  goal, or stops on a reason he can engage with when he gets back. He should never have to
+  ask what is going on or what is next. Built into Conductor in 0.146.0, and it covers
+  rehearsal's own tasks, not only the concert.
+- **A launch plan exists and is accepted (2026-09-22).** `docs/design/launch-plan.md` is
+  the route; its open decisions are named there and are his.
 Still governing from 2026-09-18: rehearsal is organic and the concert executes to a score and
 a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
-**Not yet ruled, and it is Anthony's:** the launch plan (the selected continuation drafts
-toward that ruling; it does not make it).
+**Not yet ruled, and it is Anthony's:** whether the 2026-09-13 hold is lifted (rows 3 and
+5 of that day's verification list are unclosed), who the invited few are, where and when
+the open launch is announced, and whether the explanatory output style stays on for this
+machine.
 
-**The finding that governs how work is checked here held again.** An independent reader
-catches a wrong claim, and a re-read against the record catches one before it ships: the
-evening's host-line draft said the Codex core "runs", and the record showed it had only been
-built and installed. Codex cleared all four evening changes on first read.
+**The finding that governs how work is checked here held again, hard.** Codex blocked four
+pushes today, each time correctly: it caught a report that read Anthony's "go" as
+authorizing a push he had not approved; a claim that nothing writes `.active-modes` when
+Skriv still does; a history check that would have accepted a truncated release note, and
+then the same check fooled by a `#` comment inside a fenced block; and site copy claiming a
+concert never comes back to ask. Claude's own misses today: a trimmed test output that hid
+a failure and turned CI red, and two JSON files truncated by opening them for writing
+before reading.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert review
-and investigation** (cadence: checkpoints, before-push); four reads on 2026-09-21 evening. No
-job is running.
+and investigation** (cadence: checkpoints, before-push); eleven reads on 2026-09-22, four of
+them blocking. No job is running.
 
-**Installed state:** the 2026-09-21 evening session ran 0.143.0 from the plugin cache, which
-is the tip. Resolve live numbers.
+**Installed state:** this sitting ran 0.143.0 from the plugin cache throughout, while the
+tip moved to 0.146.0. None of today's rules were in force in the session that wrote them;
+the cache updates only on `claude plugin update kerd@kerd-marketplace` and a restart.
+Resolve live numbers.
 
 **Standing:** a peer session cannot authorize a push. Change the dispatch contract only for
 demonstrated behaviour from real dispatches. `.env` at the repo root holds Anthony's TypeSafe
@@ -77,23 +105,39 @@ key and is git-ignored (2026-09-22); never print or commit it.
 notes stay unpublished: every file inside `docs/work/product-package/` (the helper takes
 files, not folders) and `docs/guide/reference-from-readme.md`; from 2026-09-22,
 `docs/work/jev-trial/review_results.json`, which carries role text from the local-only
-review archive. They exist on the Mac Studio only.
+review archive; and from 2026-09-22 the sitting's own sketchbooks, every file inside
+`docs/work/launch-plan/`, `docs/work/roll-on-branch/`, `docs/work/waiting-on-you/`,
+`docs/work/no-idle-sessions/` and `docs/work/site-musical/`. They exist on the Mac Studio
+only.
 
-**Routing:** the Claude role `kerd-b5-review` is held by the 2026-09-21 evening session,
-adopted at its 18:23 arrival, and designates its successor against this file after this save.
+**Routing:** the Claude role `kerd-b5-review` was adopted by this sitting at its 08:13
+arrival, against the 2026-09-22 designation and unchanged `CONTEXT.md` bytes; the recovery
+receipt retires the previous ID. It designates its successor at the next Out.
 
-**Pickup reading set** (Switch Out, 2026-09-22 just after midnight):
-- this file complete: position, the selected continuation and its reason, the rulings;
+**Selected continuation, proposed not agreed: watch the four rules shipped today in a real
+sitting, and start the first Conductor build on its own branch.** **Why:** five releases
+today changed how Kerd behaves — the concert branch, corrections leading a report, a finish
+naming the next item, and a turn never ending idle — and not one has been seen in force,
+because this sitting ran the 0.143.0 cache while writing them. Owner: Claude, in ordinary
+work; nothing to install but `claude plugin update kerd@kerd-marketplace` and a restart,
+which is Anthony's to run. **Anthony's own next steps, which no session can do for him:**
+send the drafted note to the SAM and Aubel.app teams
+(`docs/work/launch-plan/team-note.md`), and take 3of3's iCloud sync through Kerd as the
+launch plan's step 1.
+
+**Pickup reading set** (Switch Out, 2026-09-22 evening):
+- this file complete: position, the accepted launch plan, the rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-22.md`, the evening sitting's account.
-Deeper: `docs/design/launch-plan.md` (the plan the next work redrafts),
-`docs/work/front-page-claims/work.md` and `docs/work/jev-trial/work.md`.
+- `kivna/sessions/2026-09-22.md`, both of the day's accounts.
+Deeper: `docs/design/launch-plan.md` (the route and its open decisions), and the
+local-only sketchbooks `docs/work/launch-plan/`, `docs/work/no-idle-sessions/work.md` and
+`docs/work/site-musical/work.md`.
 
-The observed position before this save is `9b763c2` (`.env` ignored); the boundary commit is
-this save itself on `main`. Ask `git log` for its ID.
+The observed position before this save is `4e5d4bc` (the capabilities page); the boundary
+commit is this save itself on `main`. Ask `git log` for its ID.
 
-**Measured** 2026-09-22 00:2x: about 16,400 bytes across the three sources, about 4,100
-tokens estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup:
+**Measured** 2026-09-22 evening: 23,923 bytes across the three sources, about 5,981 tokens
+estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-22.md",

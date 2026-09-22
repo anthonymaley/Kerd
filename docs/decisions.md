@@ -12,6 +12,8 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. A SESSION KEEPS MOVING TOWARDS THE GOAL OR STOPS ON A REASON HE CAN ENGAGE WITH; HE SHOULD NEVER HAVE TO ASK WHAT IS GOING ON OR WHAT IS NEXT — Anthony, 2026-09-22 17:27 and 17:30; released in 0.146.0
+1. KERD HAS A LAUNCH PLAN, AND LAUNCH MEANS SOMEONE OTHER THAN ANTHONY CARRIES REAL WORK IN THEIR OWN REPOSITORY TO ITS AGREED RESULT, UNAIDED — Anthony, 2026-09-22 09:38, confirming his 2026-09-02 definition without the ladder
 1. THE KERD LOOK (`site/DESIGN.md`) IS THE ONLY DIAGRAM THEME ON THIS MACHINE; KRUTHO IS RETIRED — Anthony, 2026-09-21 13:13–14:25; supersedes in part ruling 3 of 2026-09-16 (its "neutral default skin" clause). Machine setup, not shipped in `kerd:visuals`.
 1. KERD'S READERS ARE ON DESKTOPS AND LAPTOPS, NOT PHONES — Anthony, 2026-09-21 10:55
 1. A CORRECTION TO WHAT THE PAGE SAYS SHIPS WITHOUT A VERSION BUMP WHEN THE INSTALLED PLUGIN IS BYTE-IDENTICAL — proposed by Conductor, agreed by Anthony, 2026-09-21 10:27; bounds the 2026-09-20 release ruling
@@ -218,6 +220,46 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **A session keeps moving towards the goal, or stops on a reason he can engage with —
+  Anthony, 2026-09-22 17:27 and 17:30.** He had eight Claude sessions open, every one
+  reading `idle`, and the shape Kerd had proposed was a monitor to label them. His words:
+  idle sessions cost him time; he would rather a session "kept moving towards the goal /
+  loop if spec is clear or waiting for a reason that i can engage in when i get back - no
+  idle, then i need to ask whats goinging on or whats next. i feel we should never have to
+  ask that". That reframed the defect: not that he cannot see which session waits, but
+  that a turn can end with neither work continuing nor a question asked — labelling those
+  sessions would not remove them. Asked whether it applied only after approval, he
+  answered: "the goal of the composer and sketchbook is to get to a point we can build
+  uninterrupted, with approval. but even in the other path we have tasks to get to that
+  stage that should keep rolling or indeed stop to get information or direction from
+  me/user". So it covers rehearsal's own tasks — research, drafts, checks, the score — not
+  only the concert. Released in 0.146.0 as a rule in Conductor's journey guide and its
+  rehearsal paragraph: a turn ends carrying on, where the goal is clear and the authority
+  already covers the next step, or stopped on one question answerable cold; running out of
+  steps, or the end of a document, stage or report, is not a reason to stop. The guard
+  against the obvious failure is unchanged: a clear goal never means assumed permission,
+  and consequential actions still need their own approval. No hook, watcher or daemon was
+  built; the earlier monitor shape is kept as the superseded record in
+  `docs/work/waiting-on-you/work.md`.
+
+- **Kerd has a launch plan, and launch means someone other than Anthony carries real work
+  in their own repository to its agreed result, unaided — Anthony, 2026-09-22 09:38.** The
+  plan written on 2026-09-02 was built around the retired ladder: five outcomes, a ladder
+  pilot, a critical path through work that no longer exists. Redrafted for the Kerd that
+  exists now and accepted the same morning. The definition is his own from 2026-09-02,
+  reworded without the ladder. The route: prove it at home on a project that isn't Kerd
+  (3of3's iCloud sync, kept light, and Kerd's own sittings count too), invite three to five
+  people he picks, they install from the marketplace and carry their own work through a
+  first sitting and a second, then the open launch. Each person is recorded against five
+  checks: own repository, unaided, finished to the goals they set, came back unasked, what
+  broke. Codex blocked the first draft twice: the record was missing the "own repository"
+  and "unaided" checks that the definition itself demands, and the draft claimed the home
+  run satisfied the 2026-09-13 hold when that hold clears only on rows 1 to 5 of its
+  verification list. Both corrected; whether the hold is lifted stays his. Later that day he
+  said two teams already use Kerd — SAM and Aubel.app — which may mean the definition is
+  already met; a note asking them the five questions is drafted and approved, unsent.
+  Plan: `docs/design/launch-plan.md`.
 
 - **The Kerd look is the only diagram theme on this machine; Krutho is retired — Anthony,
   2026-09-21.** Shown a `work-anthony` diagram drawn in Krutho blue and Spline Sans and asked
