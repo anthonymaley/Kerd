@@ -18,3 +18,6 @@ output/
 # Local Claude/Codex collaboration state: session marker, replies, review
 # archive, script symlink. Machine-local; never committed.
 .agents/
+
+# Local secrets, never committed
+.env
