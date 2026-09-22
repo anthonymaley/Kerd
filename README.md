@@ -254,9 +254,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.144.1)
+## What's New (v0.145.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.145.0
+
+**A report that takes something back says so first, and a finish says what comes next.**
+Two things Kerd's report shape got wrong, both seen repeatedly in real sittings. A message
+that had to deliver a result *and* retract an earlier claim was over its five-item budget
+before it started, so the retraction drifted to the end or went missing; a correction of
+your own earlier claim now travels in the opening lines beside the result and never
+competes for those five places. And the finish rule let a report end on "no action needed"
+while open work was waiting, so the sitting stalled until the person asked what was next;
+a finish now names the next item and its reason, then either carries on where the
+authority already covers it or ends on the one question that starts it.
 
 ### v0.144.1
 

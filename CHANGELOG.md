@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.145.0
+
+**A report that takes something back says so first, and a finish says what comes next.**
+Two things Kerd's report shape got wrong, both seen repeatedly in real sittings. A message
+that had to deliver a result *and* retract an earlier claim was over its five-item budget
+before it started, so the retraction drifted to the end or went missing; a correction of
+your own earlier claim now travels in the opening lines beside the result and never
+competes for those five places. And the finish rule let a report end on "no action needed"
+while open work was waiting, so the sitting stalled until the person asked what was next;
+a finish now names the next item and its reason, then either carries on where the
+authority already covers it or ends on the one question that starts it.
+
 ## 0.144.1
 
 **The pictures stay readable on a laptop.** Kerd's own rule is that a label never renders

@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.144.1 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.145.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -23,10 +23,10 @@ repo's GitHub description now matches the site's line (set 2026-09-22 on Anthony
 tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` in
 `~/.codex/config.toml`.
 
-- **The report shape strains when a report carries a result and a correction together.**
-  Seen 2026-09-20 and again several times on 2026-09-21: a message that must deliver a
-  result *and* retract a claim wants more than five items. Wording question, not yet a
-  change.
+- **The report shape and the finish: changed in 0.145.0, watch them in use.** A
+  correction of Kerd's own earlier claim now rides in the opening lines and never
+  competes for the five items; a finish names the next item instead of ending on "no
+  action needed". Both came from repeated real instances, four of them on 2026-09-22.
 - **A Claude partner receiving an image path is untested.** 0.143.0's image-by-path rule was
   proved on a Codex terminal session only (`docs/work/partner-images/work.md`).
 - **Pictures at a laptop width: fixed in 0.144.1.** Measured 2026-09-22 at 1440, 1280 and

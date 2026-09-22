@@ -1,6 +1,8 @@
 """Guards the shape of Conductor's reports: result first, position second, five items.
 
-Conductor's presentation guide states the five rules a report of work follows, shows
+A correction of Conductor's own earlier claim is part of the result, not a sixth item.
+
+Conductor's presentation guide states the six rules a report of work follows, shows
 one report from real use that fails them and the same report in shape, and keeps the
 two guards that stop the shape costing anything: the display cap never limits what is
 read, checked or recorded, and a limit or failed check still appears. SKILL.md points
@@ -34,13 +36,14 @@ class ReportShapeTests(unittest.TestCase):
         self.assertLess(start, end)
         return flat(self.journey[start:end])
 
-    def test_the_section_states_all_five_rules(self):
+    def test_the_section_states_all_six_rules(self):
         section = self.section()
         for rule in (
             "First line: what the person has now, and where to look at it",
             "Second line: where the work stands, in one line.",
             "At most five items on screen.",
             "One thing at a time.",
+            "A correction of your own earlier claim never competes for those five.",
             "Before sending, read only the first line and the last line.",
         ):
             with self.subTest(rule=rule):

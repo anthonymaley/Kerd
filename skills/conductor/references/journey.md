@@ -203,7 +203,15 @@ the first two lines, never before them.
    harm is not a side finding; it is the first line. It joins that line and does not
    replace it: “The README is rebuilt, but the push is blocked: CI is red on the
    version check. Open `README.md`.”
-5. **Before sending, read only the first line and the last line.** From those two
+5. **A correction of your own earlier claim never competes for those five.** When a
+   report must also take back something you told the person, the retraction travels in
+   the first two lines beside the result — what they have now, then what you told them
+   that was wrong, what is true, and what it changes — and the five places stay for the
+   work. It is not a side finding, it does not wait until the end, and it is never
+   dropped because the message is full. Say it plainly, in your own voice, once: "I told
+   you the plan was pushed; it was committed only." A message that must deliver a result
+   and retract a claim is not over budget; the retraction is part of the result.
+6. **Before sending, read only the first line and the last line.** From those two
    alone the person must know what just happened and what to do next, or that
    nothing is needed. If they would not, rewrite those two lines, not the middle.
 
@@ -424,9 +432,17 @@ return to the person.
 The finish follows [the shape of every report](#the-shape-of-every-report): what the
 person has now and where to look, then where the work stands, then at most five
 items. Lead with what the person has now, the evidence and any consequential gap.
-State where it lives and the actual delivery state. End with either the one
-specific decision needed or “No action needed for this agreed work.” If required
+State where it lives and the actual delivery state. If required
 user review remains, say so; don't mark the whole package complete.
+
+**A finish names what comes next.** Finishing a piece of work is not finishing the
+sitting. Weigh the open work the same way Switch In does, say which item comes next and
+why in one line, and then either carry straight on where the authority already covers it
+or end on the one question that starts it. “No action needed” is the whole ending only
+when the open list is genuinely empty; it is never a way to hand the choice back
+silently. Do not wait to be asked “what's next?”. When the person has said to keep
+moving, prefer starting the next item and reporting from inside it over asking whether
+to start.
 Avoid a report of internal instruction-following, repeated setup disclosures
 or an insight banner merely because a tool ran. Link deeper evidence instead.
 
