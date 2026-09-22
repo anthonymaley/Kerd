@@ -254,9 +254,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.143.0)
+## What's New (v0.144.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.144.0
+
+**A long build no longer publishes half-built work when it moves to a fresh session.**
+A concert, Conductor's build to an agreed score, rolls to a fresh session between batches
+when its context runs low, and that roll is a Switch Out, which commits and pushes. So the
+first half of a build could land on `main` before the second half existed. A concert now
+performs on its own branch, `concert/<work>`, started at the go you already give it. Every
+save and roll lands there, and after the goal check Conductor asks you one thing: merge
+it back. Nothing reaches `main` without your go. Rehearsal and small work stay where they
+are. Switch needed no new machinery: its save already works on whichever branch is
+checked out. Not yet seen in a real concert.
 
 ### v0.143.0
 

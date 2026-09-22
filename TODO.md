@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.143.0 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.144.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -16,10 +16,9 @@ in `product/3of3`, not from Kerd.
 **Anthony's:** whether the 2026-09-13 hold is lifted (rows 3
 and 5 of its list are unclosed); who the invited few are; where and when to announce. Decide whether the
 explanatory output style stays on for this machine; it asks for Insight blocks and pulls
-against the report shape. Look at the repo page to see GitHub render the README's pictures:
-the live site renders all ten in Chromium (checked 2026-09-21), GitHub's README rendering is
-still unseen. The GitHub repo has no homepage set, so the site is not linked from the repo
-page. Whether the 2026-09-13 "prove Kerd first" hold is lifted. Leftovers from the
+against the report shape. GitHub's README rendering, checked 2026-09-22: all four pictures
+load and the smallest label shows at 16.8px; the repo homepage already links the site. The
+repo's GitHub description now matches the site's line (set 2026-09-22 on Anthony's "sure"). Leftovers from the
 2026-09-21 image test, both harmless and left because they are his: an idle Codex session in
 tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` in
 `~/.codex/config.toml`.
@@ -40,9 +39,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   effort agents are model-free. What Kerd controls is the short per-job description each
   dispatch sends; leading it with the pair ("Opus · high — …") is a wording change to the
   dispatch contract. First confirm which string the bar shows. Its own go.
-- **Rolling without publishing.** Found 2026-09-19: a roll is a Switch Out, which commits
-  and pushes, so a concert cannot roll mid-build without publishing half-built work. A work
-  branch for the length of a concert is the likely countermeasure; its own go.
+- **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
+  concert now performs on `concert/<work>`, and the merge back is the person's go
+  (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
 - **Release notes live in two places.** The README, which Slainte audits, and
   `CHANGELOG.md`, with no sync check. Each release updates both until a separate change
   moves them properly.

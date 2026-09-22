@@ -52,6 +52,10 @@ effort fitted to its part. When a batch of players returns, Conductor checks eac
 one's claim against its part of the score. It is not the independent reviewer,
 but it never takes a return on trust.
 
+**Its own branch.** A concert performs on a branch of its own, `concert/<work>`,
+started at your go. Every save and roll lands there, so `main` does not hold
+half-built work while the concert runs. Rehearsal and small work stay where they are.
+
 **Batches and rolling.** Results go into the sketchbook, then Conductor looks at
 how much room is left in the context window. It either carries on with the next
 batch or rolls at the batch boundary: Switch Out, a fresh session, Switch In, and
@@ -60,8 +64,9 @@ which is not re-made.
 
 **The goal check** ends it. The goals and checks you set during rehearsal, written
 into the score, decide when the work is over. Before the loop closes, Conductor
-compares the result with them and shows you that comparison. Work is not done
-because the steps ran out. If a gap appears that the score cannot answer, that one
+compares the result with them and shows you that comparison, then asks you one
+thing: merge the concert branch back. Nothing reaches `main` without your go. Work is
+not done because the steps ran out. If a gap appears that the score cannot answer, that one
 passage stops and comes back to you in the chat, for that one point, not back to
 the beginning.
 

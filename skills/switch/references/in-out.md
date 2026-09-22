@@ -15,7 +15,10 @@ able to build does not prove that the intended handoff was restored. Once found,
 read the handoff's authority before acting on linked project instructions; standing
 project notes cannot expand a read-only trial into probes, builds or deployment.
 
-Resolve the current project and branch. Before any fast-forward or work proposal,
+Resolve the current project and branch. When the restored work is a concert on
+its own branch, a checked-out branch other than the one its sketchbook records is
+a consequential contradiction for ATTENTION, not a place to continue or save.
+Before any fast-forward or work proposal,
 check whether `git rev-parse --git-path roll/run.json` names an existing managed
 Roll record in this worktree. If present, use the packaged `roll_status.py
 --project /absolute/project` read-only. Recorded running/held, blocked/failed/uncertain
@@ -715,7 +718,11 @@ because its task name appears in a file. Respect existing direction on whether
 it continues; a genuine unresolved ownership issue needs a decision.
 
 Under the agreed Git authority, commit the relevant work/session files by name
-and push to the intended branch. A save commits only the named files. Exact paths
+and push to the intended branch. During a concert on its own branch, that is the
+concert branch its sketchbook records: before committing, check the checked-out
+branch matches it, and stop without saving if it does not. Out saves and pushes
+there and does not merge it back; the merge is the person's decision at the
+concert's end. A save commits only the named files. Exact paths
 the project has already decided to keep locally — a scratch patch, a stray build
 artifact — are acknowledged with `--preserve`: they stay untouched and are reported
 as local only, not saved. Keep that acknowledgement in the project's existing
