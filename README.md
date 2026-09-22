@@ -254,9 +254,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.145.1)
+## What's New (v0.146.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.146.0
+
+**Kerd keeps going, or says what it is waiting for.** A turn could end in a third way
+besides working and asking: idle, with nothing asked, because the steps ran out or a
+document ended. Coming back to a session like that, you have to ask what is going on. A
+turn now ends carrying on — the goal is clear and the authority already covers the next
+step, so it takes it — or stopped on one question you can answer cold, saying what is
+blocked, what it is waiting for and what follows each answer. This holds in rehearsal as
+much as in the concert: research, drafts, checks and the score are worked through without
+pausing between them for permission to continue. Reported after it cost time across two
+projects in one day.
 
 ### v0.145.1
 

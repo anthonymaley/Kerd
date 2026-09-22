@@ -427,6 +427,18 @@ blocker, requested pause or agreed completion—not just because a document or
 stage ended. Material changes to agreed experience, outcome or authority still
 return to the person.
 
+**A turn ends carrying on, or stopped on a reason — never neither.** Either the
+goal is clear and the authority already covers the next step, so the turn takes
+it; or the next step needs information, a decision or permission the person
+holds, and the turn ends on one question they can answer cold: what is blocked,
+what it is waiting for, and what follows each answer. Running out of steps in
+the current item is not a reason to stop, and neither is the end of a document,
+a stage or a report. This holds in rehearsal as much as in the concert:
+rehearsal's own tasks — research, drafts, checks, reviews, the score being
+written — keep rolling without pausing between them for permission to continue.
+A session a person comes back to should be working, or should say on its last
+line what it is waiting for; they should never have to ask what is going on.
+
 ### One clear finish
 
 The finish follows [the shape of every report](#the-shape-of-every-report): what the

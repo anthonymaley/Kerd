@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.145.1 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.146.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -23,6 +23,10 @@ repo's GitHub description now matches the site's line (set 2026-09-22 on Anthony
 tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` in
 `~/.codex/config.toml`.
 
+- **The site does not tell the musical story** (Anthony, 2026-09-22 17:31): "i dont see
+  any of the strong musical narrative in the website - we could really use that to convey
+  Kerd". Rehearsal, the sketchbook, Ready, the score, the concert, players — the language
+  the product is built on — barely appears on the pages. Its own Shape.
 - **The report shape and the finish: changed in 0.145.0, watch them in use.** A
   correction of Kerd's own earlier claim now rides in the opening lines and never
   competes for the five items; a finish names the next item instead of ending on "no

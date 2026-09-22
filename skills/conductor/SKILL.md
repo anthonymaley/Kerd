@@ -193,7 +193,12 @@ playing it through turn by turn, in whatever order the conversation takes, and
 shipping as you go. The **concert** is implementation to a score and a goal:
 the work is agreed, written down, and performed without turn-by-turn input.
 Rehearsal has no gates, ladder or required sequence. In the journey's words,
-rehearsal is Understand through Agree and the concert is Deliver.
+rehearsal is Understand through Agree and the concert is Deliver. Rehearsal's own
+tasks still run to completion: research, drafts, checks and the score are worked
+through without stopping between them, and a rehearsal turn stops only to get
+information or direction the person holds — never merely because a turn ended.
+Neither phase leaves a session idle with nothing asked; see
+[a turn ends carrying on, or stopped on a reason](references/journey.md#delivery-has-a-working-view-too).
 Small or coupled work is simply delivered in rehearsal; it never needs a concert.
 
 In rehearsal, Conductor guides, interviews and prompts, so that the two of you
