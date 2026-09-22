@@ -1,8 +1,18 @@
 # Kerd
 
-Kerd turns working with an AI from a string of chats into a piece of work. It
-remembers where you are, helps you agree what you are making, then performs it
-with a team of agents and checks the result against what you asked for.
+Kerd turns working with an AI from a string of chats into a piece of work. You
+rehearse the work together until you both know what done means. Then Kerd writes
+the score, and a team of agents performs it — with your goals checked before it
+ends.
+
+**Rehearsal, then the concert.** Two words carry the whole of Kerd. *Rehearsal*
+is the part you are in: working it through turn by turn, in any order, shipping
+as you go, while Kerd keeps a sketchbook of what is settled. *The concert* is
+what happens once you say you are ready: the work is written down as a score,
+and a team of agents performs it — no turn-by-turn questions, because the asking
+already happened. It comes back to you only if something the score cannot answer
+turns up. You decide when rehearsal ends, and nothing is performed that
+you have not agreed.
 
 **Who it is for:** people already working in Claude Code or Codex, in a project
 folder tracked by Git. If that is not you yet, set those up first; Kerd does not
