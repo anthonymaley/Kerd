@@ -253,15 +253,95 @@ def _release_namespace(root):
     return problems
 
 
+# ── R4: the release history says the same thing in both files ───────────
+
+_README_ENTRY = re.compile(r"\n### v(\d+\.\d+\.\d+)\n")
+_CHANGELOG_ENTRY = re.compile(r"\n## (\d+\.\d+\.\d+)\n")
+
+
+def _history_entries(text, pattern, level):
+    """Map version -> its note text, from one file's release history.
+
+    `level` is the heading depth of an entry (3 for README's `### v1.2.3`,
+    2 for CHANGELOG's `## 1.2.3`). A note ends at the next entry or at the
+    first heading of that depth or shallower — that is what stops README's
+    `## License` from being read as part of its last note. The scan skips
+    fenced code blocks, so a `# comment` inside one is not a heading.
+    """
+    parts = pattern.split("\n" + text)
+    entries = {}
+    for i in range(1, len(parts), 2):
+        entries[parts[i]] = _note_before_next_heading(parts[i + 1], level)
+    return entries
+
+
+def _note_before_next_heading(body, level):
+    """Take the lines of `body` up to the first heading at `level` or
+    shallower, ignoring headings inside ``` or ~~~ fenced blocks."""
+    kept = []
+    fence = None
+    for line in body.split("\n"):
+        stripped = line.lstrip()
+        if fence is None:
+            if stripped.startswith("```") or stripped.startswith("~~~"):
+                fence = stripped[:3]
+            else:
+                hashes = len(line) - len(line.lstrip("#"))
+                if 1 <= hashes <= level and line[hashes:hashes + 1] == " ":
+                    break
+        elif stripped.startswith(fence):
+            fence = None
+        kept.append(line)
+    return "\n".join(kept).strip()
+
+
+def _release_history(root):
+    """R4 — every version in both README.md and CHANGELOG.md carries the
+    same note. CHANGELOG may hold older entries the README has trimmed;
+    that is the decided shape, not drift. Either file missing skips the
+    check. Notes compare exactly; each entry stops at the next heading that
+    is not an entry, so a trailing section is not read as part of a note."""
+    problems = []
+    readme_path = os.path.join(root, "README.md")
+    changelog_path = os.path.join(root, "CHANGELOG.md")
+    if not (os.path.exists(readme_path) and os.path.exists(changelog_path)):
+        return problems
+    try:
+        readme = _history_entries(_read(readme_path), _README_ENTRY, 3)
+        changelog = _history_entries(_read(changelog_path), _CHANGELOG_ENTRY, 2)
+    except OSError as exc:
+        return [f"release history — unreadable: {exc}"]
+    missing = sorted(set(readme) - set(changelog))
+    for version in missing:
+        problems.append(
+            f"release history — {version} is in README.md but not CHANGELOG.md"
+        )
+    for version in sorted(set(readme) & set(changelog)):
+        if readme[version] != changelog[version]:
+            problems.append(
+                f"release history — {version} reads differently in README.md and CHANGELOG.md"
+            )
+    return problems
+
+
+def _version_key(version):
+    return tuple(int(part) for part in version.split("."))
+
+
+def _read(path):
+    with open(path, encoding="utf-8") as handle:
+        return handle.read()
+
 def release_audit(root):
-    """Release-rules sweep (R1–R3). Empty list = clean. R1/R2 skip
+    """Release-rules sweep (R1–R4). Empty list = clean. R1/R2 skip
     vacuously when neither plugin file exists; R3 runs regardless (it
-    depends only on the tree)."""
+    depends only on the tree); R4 skips unless both history files exist."""
     plugin, marketplace, problems = _release_files(root)
     if plugin or marketplace or problems:
         problems.extend(_release_versions(plugin, marketplace))
         problems.extend(_release_capability(plugin, marketplace))
     problems.extend(_release_namespace(root))
+    problems.extend(_release_history(root))
     return problems
 
 
@@ -319,6 +399,89 @@ def _selftest_cases():
         )
         problems = release_audit(root)
         cases.append(("clean tree passes", problems == [], problems))
+
+    # Case R4a — a note that differs between the two histories refuses.
+    with tempfile.TemporaryDirectory() as root:
+        _sw(
+            os.path.join(root, "README.md"),
+            "# P\n\n## What's New (v1.1.0)\n\n### v1.1.0\n\nThe new thing.\n\n"
+            "### v1.0.0\n\nThe first thing.\n",
+        )
+        _sw(
+            os.path.join(root, "CHANGELOG.md"),
+            "# Changelog\n\n## 1.1.0\n\nThe new thing, worded differently.\n\n"
+            "## 1.0.0\n\nThe first thing.\n",
+        )
+        problems = _release_history(root)
+        cases.append((
+            "a note that differs between the histories refuses",
+            problems == ["release history — 1.1.0 reads differently in README.md and CHANGELOG.md"],
+            problems,
+        ))
+
+    # Case R4b — an older entry the README trimmed is the decided shape, and
+    # a trailing section after a file's last entry is not part of its note.
+    with tempfile.TemporaryDirectory() as root:
+        _sw(
+            os.path.join(root, "README.md"),
+            "# P\n\n### v1.1.0\n\nThe new thing.\n\n### v1.0.0\n\nThe first thing.\n\n"
+            "## License\n\nMIT\n",
+        )
+        _sw(
+            os.path.join(root, "CHANGELOG.md"),
+            "# Changelog\n\n## 1.1.0\n\nThe new thing.\n\n## 1.0.0\n\nThe first thing.\n\n"
+            "## 0.9.0\n\nOlder, trimmed from the README.\n",
+        )
+        problems = _release_history(root)
+        cases.append(("a trimmed older entry passes", problems == [], problems))
+
+    # Case R4c — a truncated final note refuses (the trailing-section cut
+    # must not become a prefix exemption).
+    with tempfile.TemporaryDirectory() as root:
+        _sw(
+            os.path.join(root, "README.md"),
+            "# P\n\n### v1.0.0\n\nThe first\n\n## License\n\nMIT\n",
+        )
+        _sw(
+            os.path.join(root, "CHANGELOG.md"),
+            "# Changelog\n\n## 1.0.0\n\nThe first thing.\n",
+        )
+        problems = _release_history(root)
+        cases.append((
+            "a truncated final note refuses",
+            problems == ["release history — 1.0.0 reads differently in README.md and CHANGELOG.md"],
+            problems,
+        ))
+
+    # Case R4d — a `#` comment inside a fenced block is not a heading, so a
+    # difference after it is still caught.
+    with tempfile.TemporaryDirectory() as root:
+        fenced = "Install it:\n\n```sh\n# comment\nclaude plugin install kerd\n```\n\n"
+        _sw(
+            os.path.join(root, "README.md"),
+            "# P\n\n### v1.0.0\n\n" + fenced + "Then restart.\n",
+        )
+        _sw(
+            os.path.join(root, "CHANGELOG.md"),
+            "# Changelog\n\n## 1.0.0\n\n" + fenced + "Then do something else.\n",
+        )
+        problems = _release_history(root)
+        cases.append((
+            "a difference after a fenced # comment refuses",
+            problems == ["release history — 1.0.0 reads differently in README.md and CHANGELOG.md"],
+            problems,
+        ))
+
+    # Case R4e — a version in the README but not the changelog refuses.
+    with tempfile.TemporaryDirectory() as root:
+        _sw(os.path.join(root, "README.md"), "# P\n\n### v2.0.0\n\nNew.\n")
+        _sw(os.path.join(root, "CHANGELOG.md"), "# Changelog\n\n## 1.0.0\n\nOld.\n")
+        problems = _release_history(root)
+        cases.append((
+            "a README-only version refuses",
+            problems == ["release history — 2.0.0 is in README.md but not CHANGELOG.md"],
+            problems,
+        ))
 
     # Case 2 — version drift refuses.
     with tempfile.TemporaryDirectory() as root:

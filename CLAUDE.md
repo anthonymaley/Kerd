@@ -28,7 +28,7 @@ Every change to a skill (new skill, modified behavior, renamed command, changed 
 
 5. **Namespace references**: all slash-command references in docs and skills must use the `kerd:` prefix (e.g., `/kerd:tend`, `/kerd:conductor`). The only exception is within README.md examples showing shorthand usage, which may omit the prefix for readability.
 
-CI enforces the mechanical subset of this checklist on every push: `python3 tools/release_check.py` refuses version drift (item 1), capability-list drift (item 3), and bare slash references (item 5).
+CI enforces the mechanical subset of this checklist on every push: `python3 tools/release_check.py` refuses version drift (item 1), capability-list drift (item 3), bare slash references (item 5), and a release note that reads differently in `README.md` and `CHANGELOG.md`. The changelog may keep older entries the README has trimmed; that is the decided shape, not drift.
 
 ## Version Strategy
 

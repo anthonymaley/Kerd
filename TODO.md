@@ -44,9 +44,10 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
   concert now performs on `concert/<work>`, and the merge back is the person's go
   (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
-- **Release notes live in two places.** The README, which Slainte audits, and
-  `CHANGELOG.md`, with no sync check. Each release updates both until a separate change
-  moves them properly.
+- **Release notes live in two places, now with a check.** `tools/release_check.py` (CI,
+  every push) refuses a version whose note differs between `README.md` and `CHANGELOG.md`,
+  or a version in the README and not the changelog; older entries the README trimmed are
+  allowed. Each release still updates both by hand.
 - **Reported, not fixed:** `docs/work/model-ready-work/packaging/START.md` is written
   against 0.113.0. The state contract and machine-setup references were fixed in 0.144.1;
   `docs/playbook.md` still describes the modes file as live in several places.
