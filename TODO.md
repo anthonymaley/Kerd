@@ -9,9 +9,11 @@ local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 sketchbook `docs/work/launch-plan/work.md`. Kerd is ready to launch when someone other than
 Anthony carries real work in their own repository to its agreed result, unaided. **Next on
 the route, step 1:** Anthony takes one real piece of work on a project that isn't Kerd
-through Kerd, over at least two sittings. Which project is his to name.
+through Kerd, over at least two sittings: **3of3, proving its iCloud sync** (Anthony,
+2026-09-22 10:41). Kept light; Kerd's own sittings count as proof of use too. Runs in a session
+in `product/3of3`, not from Kerd.
 
-**Anthony's:** name the project for step 1; whether the 2026-09-13 hold is lifted (rows 3
+**Anthony's:** whether the 2026-09-13 hold is lifted (rows 3
 and 5 of its list are unclosed); who the invited few are; where and when to announce. Decide whether the
 explanatory output style stays on for this machine; it asks for Insight blocks and pulls
 against the report shape. Look at the repo page to see GitHub render the README's pictures:

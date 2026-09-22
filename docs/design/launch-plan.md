@@ -1,6 +1,6 @@
 # Launch plan: from Anthony's own work to people who come back
 
-**Status: accepted by Anthony, 2026-09-22 09:38 ("go"), as drafted by Claude the same
+**Status: accepted by Anthony, 2026-09-22 09:38, as drafted by Claude the same
 morning.** Still open and his: the 2026-09-13 hold, who the invited few are, and where and
 when the open launch is announced. Its sketchbook and route picture
 (`docs/work/launch-plan/`) are working notes, kept on the Mac Studio, not in Git.
@@ -23,7 +23,9 @@ is evidence, not help.
 
 1. **Prove it at home.** Anthony takes one real piece of work on a project that isn't Kerd
    through Kerd, over at least two sittings: Switch In, rehearsal with Conductor, a concert
-   if the work calls for one, Switch Out. Proposed as a general proof of use, not as
+   if the work calls for one, Switch Out. Kept light by Anthony's choice (2026-09-22): Kerd's own
+   sittings count as proof of use alongside it. The project is 3of3, proving its iCloud
+   sync. A general proof of use, not
    meeting the 2026-09-13 hold. That hold ("prove Kerd works as it should before any
    consumer pickup", `docs/decisions.md` #28) clears only when rows 1 to 5 of that day's
    shared verification list carry evidence of their fixes working, and this run is not
