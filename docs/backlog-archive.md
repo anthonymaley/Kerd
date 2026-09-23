@@ -9,6 +9,11 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 **Verdict: done — fixed and released this day; evidence in `kivna/sessions/2026-09-23.md`.**
 
+- **See the new job names in the running-job list (0.147.0 watch item).** Seen: on
+  2026-09-23 17:28, with 0.149.0 installed, Anthony's running-job list read
+  `kerd:sonnet-high` for a dispatched read-only job ("it shows kerd:sonnet-high").
+  Sketchbook: `docs/work/job-label/work.md`.
+
 - **Show the model and effort where a running job is listed (asked 2026-09-19).** The list
   shows only the agent name, so the fix was the name itself: `kerd:<model>-<effort>` and
   plain `kerd:haiku`, released in 0.147.0. The row's own plan, leading each dispatch

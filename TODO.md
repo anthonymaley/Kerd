@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.149.0 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.149.1 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -12,6 +12,10 @@ under way, in 3of3's own session** (Anthony, 2026-09-23: "that project is alread
 and is switched in"): its next item is the TV-to-TV iCloud sync proof, his hands on the
 televisions. Kerd hands nothing over; after each sitting there, one line of evidence goes
 into `docs/work/launch-plan/work.md`, which already holds step 1's evidence so far.
+
+**The team note is going out** (Anthony, 2026-09-23 17:05, "y" to sending it now; not yet
+confirmed sent). Each team's reply goes into its lines under "The team note goes out" in
+`docs/work/launch-plan/work.md`, one per field of the plan's per-person record.
 
 **Anthony's:** whether the 2026-09-13 hold is lifted (rows 3
 and 5 of its list are unclosed); who the invited few are; where and when to announce. Decide whether the
@@ -33,9 +37,6 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   action needed". Both came from repeated real instances, four of them on 2026-09-22.
 
 
-- **See the new job names in the running-job list (0.147.0).** Needs
-  `claude plugin update kerd@kerd-marketplace` and a new session; the first dispatch there
-  should read `kerd:sonnet-high` or similar. Record: `docs/work/job-label/work.md`.
 - **Watch the unanswered-review rule (0.149.0)** the first time a partner doesn't answer:
   a fresh reviewer recommended on his yes, never a waiver. Record:
   `docs/work/partner-closed/work.md`.
@@ -59,7 +60,13 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture.
 - The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
-  project. Whether it is lifted is Anthony's call; don't assume it.
+  project. Whether it is lifted is Anthony's call; don't assume it. **Rows 3 and 5 checked
+  2026-09-23 17:29, both still open** (`docs/work/launch-plan/work.md`, "The 2026-09-13
+  hold"). Row 3 is being observed now: the 2026-09-23 evening Out collected Codex's account
+  through the contribution checkpoint; the next fresh Switch In must recover both accounts
+  without either old conversation. Row 5 needs a fresh Codex session loading a current
+  build; Codex reported its installed Kerd as 0.133.0 on 2026-09-23 17:31 (read-only,
+  reported not verified).
 
 Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
 front-page check, the site going live, and the evening's six contradictions and host line) and
