@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.149.1
+
+**The getting-started guide catches up with the concert.** The first page a new user
+reads described the concert without saying it runs on a branch of its own, so someone
+finishing their first concert would find their work missing from `main` and be asked
+for a merge the page never mentioned. It now says so: the concert performs on
+`concert/<work>`, and nothing reaches `main` without your go. The same page also named
+0.139.0 as the current release; that sentence now names no current version, so it
+cannot go stale again. Guide wording only; no skill changed.
+
 ## 0.149.0
 
 **A review your partner doesn't answer gets a fresh reader, not a waiver.** When the Codex

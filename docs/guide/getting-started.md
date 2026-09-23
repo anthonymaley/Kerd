@@ -106,9 +106,9 @@ codex plugin add kerd@kerd-core
 The path is the catalog root, not its `plugins/kerd` subdirectory. If `kerd-core`
 already points somewhere else, sort that out first rather than overwriting it.
 
-Three honest limits. `0.113.0` in those paths is the version the guide was
-written against; the current release is 0.139.0, so the directory name is an
-example and not a version to copy. There is no published git marketplace for
+Three honest limits. `0.113.0` in those paths is only an example, the version
+this section was first written against; use the version you actually built, not
+this number. There is no published git marketplace for
 Codex, only this local catalog you build and keep, so Claude updates do not
 update Codex and each new release means a fresh catalog directory. And
 `/kerd:switch` and its siblings are Claude Code commands, not a promise of the
@@ -255,8 +255,10 @@ honestly what is still open; going ahead anyway is your call, and it gets
 recorded. At Ready you are shown a rendered view of what will be built with a
 short summary, and asked for the go where you have not already given it. After
 that the work is performed as a **concert**: the agreed plan is written down as a
-score, handed to several agents at once, and each return is checked. The result is
-compared with the goals you agreed before it is called done.
+score, handed to several agents at once, and each return is checked. It runs on a
+branch of its own, `concert/<work>`, so `main` never holds half-built work. The result
+is compared with the goals you agreed before it is called done, and then you are asked
+one thing: merge that branch back. Nothing reaches `main` without your go.
 
 Small work never needs any of that. It just gets delivered.
 
