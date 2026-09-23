@@ -5,6 +5,16 @@ position paragraphs moved out of `CONTEXT.md` when they stopped being current. N
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
 
+## Closed 2026-09-23
+
+**Verdict: done — fixed and released this day; evidence in `kivna/sessions/2026-09-23.md`.**
+
+- **Show the model and effort where a running job is listed (asked 2026-09-19).** The list
+  shows only the agent name, so the fix was the name itself: `kerd:<model>-<effort>` and
+  plain `kerd:haiku`, released in 0.147.0. The row's own plan, leading each dispatch
+  description with the pair, was checked and would not have shown. The new names are not
+  yet seen in the list; that is carried as a watch item.
+
 ## Closed 2026-09-22
 
 **Verdict: done — each fixed and released this day, with its evidence in

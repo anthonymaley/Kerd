@@ -12,6 +12,8 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. A REVIEW THE PARTNER LEAVES UNANSWERED GETS A FRESH ONE-OFF REVIEWER ON THE PERSON'S YES, NEVER A RECOMMENDED WAIVER — Anthony, 2026-09-23 16:28; released in 0.149.0
+1. KERD'S DISPATCH AGENTS ARE NAMED FOR THE MODEL AND THE EFFORT (`kerd:<model>-<effort>`, plain `kerd:haiku`), BECAUSE THE AGENT NAME IS THE ONLY TEXT KERD CONTROLS IN THE RUNNING-JOB LIST — Anthony, 2026-09-23 09:02; released in 0.147.0; bounds the 2026-09-16 countermeasure ruling
 1. A SESSION KEEPS MOVING TOWARDS THE GOAL OR STOPS ON A REASON HE CAN ENGAGE WITH; HE SHOULD NEVER HAVE TO ASK WHAT IS GOING ON OR WHAT IS NEXT — Anthony, 2026-09-22 17:27 and 17:30; released in 0.146.0
 1. KERD HAS A LAUNCH PLAN, AND LAUNCH MEANS SOMEONE OTHER THAN ANTHONY CARRIES REAL WORK IN THEIR OWN REPOSITORY TO ITS AGREED RESULT, UNAIDED — Anthony, 2026-09-22 09:38, confirming his 2026-09-02 definition without the ladder
 1. THE KERD LOOK (`site/DESIGN.md`) IS THE ONLY DIAGRAM THEME ON THIS MACHINE; KRUTHO IS RETIRED — Anthony, 2026-09-21 13:13–14:25; supersedes in part ruling 3 of 2026-09-16 (its "neutral default skin" clause). Machine setup, not shipped in `kerd:visuals`.
@@ -220,6 +222,33 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **A review the partner leaves unanswered gets a fresh one-off reviewer on the person's
+  yes, never a recommended waiver — Anthony, 2026-09-23 16:28, "y"; released in 0.149.0.**
+  From 3of3, 2026-09-19: the paired Codex session was closed during a before-push review;
+  the session explained, would not substitute, then recommended pushing unreviewed as low
+  risk. Three pushes went out on that waiver, and Codex, reached on 2026-09-20, found a
+  defect already running on both televisions. Now, after ten minutes with no reply,
+  Conductor says so and recommends a fresh read-only reviewer (same provider, else a fresh
+  Claude on a different model), started only on the person's yes, and holds the push for
+  it. The partner's queued request stays open and keeps its role. A waiver is only ever
+  the person's own recorded choice. "Never substitute" stands: the fresh reader is offered
+  and agreed, not silent. Codex before-push: not blocking. Record:
+  `docs/work/partner-closed/work.md` (local only).
+
+- **Kerd's dispatch agents are named for the model and the effort — Anthony, 2026-09-23
+  08:58 "can we not fix that?", 09:00 "why stop before the push?", 09:02 "y"; released in
+  0.147.0.** Claude Code's running-job list shows the agent's name and a live activity
+  line; the description Kerd sends never appears there (four jobs in one session, checked
+  against their calls). So the old plan, leading each description with the model and
+  effort, could not work. Fifteen `kerd:<sonnet|opus|fable>-<effort>` agents set both; Haiku
+  4.5 takes no effort (Anthropic models overview), so its agent is plain `kerd:haiku`. The
+  call still names the same model. The five `kerd:effort-<level>` agents stay for older
+  sessions. This bounds the 2026-09-16 ruling that refused a model×effort matrix: that was
+  the wrong countermeasure for a missing model argument; this is the only place Kerd can
+  write a label the person can read. Codex blocked twice (the Haiku exception, missing
+  first from the contract and then from six live passages), then cleared. Record:
+  `docs/work/job-label/work.md` (local only).
 
 - **A session keeps moving towards the goal, or stops on a reason he can engage with —
   Anthony, 2026-09-22 17:27 and 17:30.** He had eight Claude sessions open, every one

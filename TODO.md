@@ -2,16 +2,16 @@
 
 ## Now
 
-**Release boundary:** 0.146.0 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.149.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
 sketchbook `docs/work/launch-plan/work.md`. Kerd is ready to launch when someone other than
-Anthony carries real work in their own repository to its agreed result, unaided. **Next on
-the route, step 1:** Anthony takes one real piece of work on a project that isn't Kerd
-through Kerd, over at least two sittings: **3of3, proving its iCloud sync** (Anthony,
-2026-09-22 10:41). Kept light; Kerd's own sittings count as proof of use too. Runs in a session
-in `product/3of3`, not from Kerd.
+Anthony carries real work in their own repository to its agreed result, unaided. **Step 1 is
+under way, in 3of3's own session** (Anthony, 2026-09-23: "that project is already using kerd
+and is switched in"): its next item is the TV-to-TV iCloud sync proof, his hands on the
+televisions. Kerd hands nothing over; after each sitting there, one line of evidence goes
+into `docs/work/launch-plan/work.md`, which already holds step 1's evidence so far.
 
 **Anthony's:** whether the 2026-09-13 hold is lifted (rows 3
 and 5 of its list are unclosed); who the invited few are; where and when to announce. Decide whether the
@@ -33,13 +33,14 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   action needed". Both came from repeated real instances, four of them on 2026-09-22.
 
 
-- **Show the model and effort where a running job is listed.** Asked 2026-09-19 22:09 with
-  a screenshot Claude could not open (it was on the laptop): the job list shows
-  `kerd:effort-high` rather than the model and effort. Kerd's status line does not draw that
-  label; Claude Code prints the agent's type name, which cannot carry a model because the
-  effort agents are model-free. What Kerd controls is the short per-job description each
-  dispatch sends; leading it with the pair ("Opus · high — …") is a wording change to the
-  dispatch contract. First confirm which string the bar shows. Its own go.
+- **See the new job names in the running-job list (0.147.0).** Needs
+  `claude plugin update kerd@kerd-marketplace` and a new session; the first dispatch there
+  should read `kerd:sonnet-high` or similar. Record: `docs/work/job-label/work.md`.
+- **Watch the unanswered-review rule (0.149.0)** the first time a partner doesn't answer:
+  a fresh reviewer recommended on his yes, never a waiver. Record:
+  `docs/work/partner-closed/work.md`.
+- **The Opus 5.5 and GPT-6 profiles (0.148.0) are untested;** every clause is pending
+  until a real brief uses them.
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
   concert now performs on `concert/<work>`, and the merge back is the person's go
   (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
