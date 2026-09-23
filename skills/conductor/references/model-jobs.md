@@ -39,23 +39,29 @@ applied. Set it through the route's own control:
 
 | Route | How effort is set | What to show |
 | --- | --- | --- |
-| Claude native subagent, Kerd's effort agents installed | `subagent_type: kerd:effort-<low\|medium\|high\|xhigh\|max>` plus the per-call `model` | requested via definition; observed with `job_evidence.py` |
+| Claude native subagent, Kerd's model-and-effort agents installed | `subagent_type: kerd:<sonnet\|opus\|fable>-<low\|medium\|high\|xhigh\|max>`, or `kerd:haiku`, which takes no effort, plus the same per-call `model` | requested via definition; observed with `job_evidence.py` |
+| Claude native subagent, a session from 0.146.0 or earlier | `subagent_type: kerd:effort-<level>` plus the per-call `model` | requested via definition; observed with `job_evidence.py` |
 | Claude native subagent, no effort agents | the ordinary native route; the call still names `model` | effort unset and unverified; requested model still shown |
 | Fresh Codex worker or native Codex subagent | that route's supported model and effort controls | requested; observed where the route reports it |
 | Established Codex partner or TUI | not retunable by a queued contribution; the session keeps its own pair | configured, observed or unknown |
 | Managed Conductor | its existing explicit pair | as that route records it |
 
-The `kerd:effort-*` agents set only effort; the call still passes `model`. Their
-descriptions ask Claude to use them only when Kerd selects one. That is routing
+The `kerd:<model>-<effort>` agents set both, so the running-job list names both, and
+`kerd:haiku` sets the model only; the
+call still passes the same `model`. The older `kerd:effort-*` agents set only effort.
+Their descriptions ask Claude to use them only when Kerd selects one. That is routing
 guidance, not a host prohibition.
 
 **The dispatch contract: every `Agent` call names both keys, concretely.** This
 covers every native Claude job this session sends — composer, player or reviewer.
-`model` requests the model and `subagent_type` sets the effort:
+`model` requests the model, and `subagent_type` names the Kerd agent for that model
+and, where the model supports it, the effort: `kerd:<model>-<effort>`, or plain
+`kerd:haiku` for Haiku, which takes no effort setting. The running-job list shows
+that name:
 
 ```
 Agent(
-  subagent_type: "kerd:effort-high",
+  subagent_type: "kerd:sonnet-high",
   model: "sonnet",
   ...
 )
@@ -76,8 +82,13 @@ unavailable:
   omitting it. One host state removes the *route* instead of the requirement: while
   `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` is `1` a caller cannot pass a model at all, so
   a native Claude dispatch is not a compliant Kerd route in that state — see below.
-- **`subagent_type` names a `kerd:effort-<level>` whenever those definitions are
-  loaded.** When they are not — a session opened before they were installed cannot
+- **`subagent_type` names the matching Kerd agent whenever those definitions are
+  loaded**, with the same model as `model`: `kerd:<model>-<effort>` for a model that
+  supports effort (`kerd:sonnet-high` goes with `model: "sonnet"`, never with `opus`),
+  and `kerd:haiku` for Haiku, whose effort is then shown as not supported rather
+  than unset. A session opened on 0.146.0 or earlier
+  has only the older effort-only `kerd:effort-<level>` agents; use the matching one
+  there. When neither is loaded — a session opened before they were installed cannot
   load them — the call still names a concrete ordinary `subagent_type`, effort is
   shown as *unset and unverified*, and the disclosure says why. That is the
   documented fallback, not a waiver: the `model` half is untouched by it.
@@ -87,7 +98,9 @@ some simple rule. [The documented resolution order](https://code.claude.com/docs
 is: the per-invocation `model`; then the definition's `model` frontmatter, where
 `inherit` selects the main conversation's model; then `CLAUDE_CODE_SUBAGENT_MODEL`
 when it is set to an alias or ID; then the main conversation's model. Kerd's effort
-definitions are deliberately model-free, so an omitted `model` lands on the
+definitions set the model their name carries, so there an omitted `model` lands on
+that model — still not a choice the call shows. The older `kerd:effort-<level>`
+definitions are model-free, so there an omitted `model` lands on the
 environment variable when it is set and on the caller's model when it is not —
 either way, on a model **not selected explicitly by the call**, which the call
 cannot show. It may coincide with the one the plan wanted; nothing records that it
@@ -149,7 +162,7 @@ A Claude session loads agent definitions when it starts, so a session opened bef
 they were installed cannot load them: say so rather than claim a reload, and take
 the fallback above. Codex models are not added as Claude agent files. A Codex or
 established-partner route names that route's own model and effort evidence instead;
-it cannot carry a `kerd:effort-<level>` and is not expected to.
+it cannot carry a Kerd routing agent and is not expected to.
 
 Effective effort can still differ from the request. `CLAUDE_CODE_EFFORT_LEVEL`
 overrides definitions, `maxEffortLevel` and organization caps still apply, and an

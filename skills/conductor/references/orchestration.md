@@ -240,7 +240,8 @@ incomplete.
 **Every native Claude dispatch row names both cells concretely before dispatch**,
 matching the call that will be sent: the model as Haiku, Sonnet, Opus or Fable, and
 the effort as low, medium, high, xhigh or max. The call carries that `model` and the
-matching `kerd:effort-<level>`; the grid shows the plain level and says who does the
+matching `kerd:<model>-<effort>` agent (`kerd:sonnet-high`), or plain `kerd:haiku`,
+whose effort cell reads not supported; the grid shows the plain level and says who does the
 work in plain words, never the routing label. This covers composer, player and reviewer alike — anything
 sent with an `Agent` call. The `model` cell has no exception. The effort cell takes
 the documented fallback when the effort definitions are not loaded in this session:
@@ -250,7 +251,7 @@ the reason disclosed. “Per definition”, “inherited”, “the controller's
 [the dispatch contract](model-jobs.md), which also gives the documented resolution
 order an omitted `model` actually follows. A Codex or established-partner row names
 that route's own model and effort evidence instead, labelled configured, requested,
-observed or unknown; it cannot carry a `kerd:effort-<level>` and is not expected to.
+observed or unknown; it cannot carry a Kerd routing agent and is not expected to.
 
 Exactly one row per grid is the controller row: the row whose work this session
 performs itself, with no `Agent` call. It reports its own host-declared or unknown

@@ -109,7 +109,7 @@ class DispatchContractTests(unittest.TestCase):
 
     def test_model_jobs_states_the_call_shape_and_refuses_omission(self):
         text = self.MODEL_JOBS.read_text(encoding="utf-8")
-        self.assertIn('subagent_type: "kerd:effort-high"', text,
+        self.assertIn('subagent_type: "kerd:sonnet-high"', text,
                       "model-jobs.md must show the actual call shape, not describe it")
         self.assertIn('model: "sonnet"', text,
                       "model-jobs.md must show an explicit model in the call shape")
@@ -191,6 +191,68 @@ class DispatchContractTests(unittest.TestCase):
         self.assertIn("with no `Agent` call", text,
                       "orchestration.md must anchor the controller exemption on the absence of "
                       "a dispatch, not on the row's label")
+
+
+MODELS = ("sonnet", "opus", "fable")
+
+
+class ModelEffortAgentDefinitionTests(unittest.TestCase):
+    """The `kerd:<model>-<effort>` agents exist so the running-job list, which shows
+    only the agent's name, names both the model and the effort."""
+
+    def test_every_model_and_effort_pair_has_one_definition(self):
+        found = sorted(p.stem for p in AGENTS_DIR.glob("*.md") if not p.stem.startswith("effort-"))
+        expected = sorted([f"{model}-{level}" for model in MODELS for level in LEVELS] + ["haiku"])
+        self.assertEqual(found, expected)
+
+    def test_each_definition_sets_the_model_and_effort_its_name_carries(self):
+        for model in MODELS:
+            for level in LEVELS:
+                path = AGENTS_DIR / f"{model}-{level}.md"
+                with self.subTest(agent=path.stem):
+                    fields, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+                    self.assertEqual(fields.get("name"), path.stem)
+                    self.assertEqual(fields.get("model"), model,
+                                     f"{path}: the model must be the one the name shows")
+                    self.assertEqual(fields.get("effort"), level,
+                                     f"{path}: the effort must be the one the name shows")
+                    description = fields.get("description", "")
+                    self.assertTrue(description.startswith(
+                        "Internal Kerd routing agent for "), f"{path}: description prefix")
+                    self.assertIn(f"explicitly selects kerd:{path.stem}", description)
+                    self.assertIn(f"still names the model ({model})", description,
+                                  f"{path}: the call still names the same model")
+                    for key in FORBIDDEN_KEYS:
+                        if key != "model":
+                            self.assertNotIn(key, fields, f"{path}: must not set {key!r}")
+                    self.assertNotIn(": ", description,
+                                     f"{path}: an unquoted ': ' breaks the YAML frontmatter")
+                    self.assertIn("Follow the brief", body)
+
+    def test_every_live_mention_of_the_model_agents_carries_the_haiku_exception(self):
+        """Haiku takes no effort, so guidance naming `kerd:<model>-<effort>` must also
+        name plain `kerd:haiku` in the same passage, or it tells Conductor to send a
+        Haiku job an effort label that lies."""
+        for rel in ("skills/conductor/SKILL.md", "skills/conductor/references/execution.md",
+                    "skills/conductor/references/guidance/model-choice.md",
+                    "skills/conductor/references/orchestration.md",
+                    "skills/conductor/references/journey.md",
+                    "skills/conductor/references/model-jobs.md",
+                    "skills/agent/references/native-sessions.md"):
+            text = normalize((REPO_ROOT / rel).read_text(encoding="utf-8"))
+            with self.subTest(doc=rel):
+                self.assertIn("<model>-<effort>", text)
+                self.assertIn("kerd:haiku", text, f"{rel}: names the model agents without the Haiku exception")
+
+    def test_haiku_names_no_effort_because_it_takes_none(self):
+        path = AGENTS_DIR / "haiku.md"
+        fields, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+        self.assertEqual(fields.get("name"), "haiku")
+        self.assertEqual(fields.get("model"), "haiku")
+        self.assertNotIn("effort", fields, "Haiku takes no effort setting, so the name must not claim one")
+        self.assertIn("explicitly selects kerd:haiku", fields.get("description", ""))
+        self.assertNotIn(": ", fields.get("description", ""))
+        self.assertIn("Follow the brief", body)
 
 
 if __name__ == "__main__":

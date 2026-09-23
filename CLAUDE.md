@@ -41,7 +41,7 @@ Use semver: `MAJOR.MINOR.PATCH`
 
 ```
 skills/           # skill definitions (each skill in its own folder with SKILL.md)
-agents/           # kerd:effort-<level> subagent definitions: effort for delegated native Claude jobs
+agents/           # kerd:<model>-<effort> subagent definitions: model and effort for delegated native Claude jobs (older kerd:effort-<level> kept for sessions that predate them)
 tools/release_check.py # standalone release rules check (version drift, capability-list drift, bare slash references)
 tools/run_tests.py # runs every skill's scripts/tests/ wording tests
 docs/product/     # the funnel board from the retired ladder — unpoliced history, one <slug>.md per work item

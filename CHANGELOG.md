@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.147.0
+
+**The running-job list now names the model as well as the effort, where the model has one.** Claude Code's list of
+running jobs shows each job's agent name beside a live activity line, and Kerd's agents
+were named for the effort alone, so every row read `kerd:effort-high` whatever model it
+ran on. The description Kerd sends with each job never appears there, so writing the model
+into it would not have helped. Kerd now ships agents named for both, `kerd:sonnet-low` to `kerd:fable-max`, and
+each sets the model and effort its name carries; Haiku takes no effort setting, so its
+agent is plain `kerd:haiku`.
+Conductor and Agent pick the one that matches the call's model, and the call still names
+that model. The five `kerd:effort-<level>` agents stay for sessions that started before
+this release. `/tasks` also shows each job's model, and its effort where the model supports one. The finding comes from one session
+with four jobs; the new names have not yet been seen in the list.
+
 ## 0.146.0
 
 **Kerd keeps going, or says what it is waiting for.** A turn could end in a third way

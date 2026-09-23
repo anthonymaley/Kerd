@@ -300,14 +300,14 @@ Fit · Review implementation — needs an independent reading by a different mod
 the established Codex partner, scheduled by its recorded review cadence.
 
 Both agent rows above name a concrete model and a concrete effort level, because
-their `Agent` calls will carry that model and the matching `kerd:effort-<level>`; an
+their `Agent` calls will carry that model and the matching `kerd:<model>-<effort>` (plain `kerd:haiku` for Haiku, which takes no effort); an
 inherited or unnamed model is not a valid plan for any native Claude dispatch,
 composer, player or reviewer alike ([the dispatch contract](model-jobs.md)). The
-routing label itself stays out of the grid: `kerd:effort-high` means nothing to the
-person, and the Effort column already says it. The Who column says, in plain words,
+routing label itself stays out of the grid: `kerd:sonnet-high` adds nothing the
+Model and Effort columns do not already say. The Who column says, in plain words,
 who does the work: an agent, your Codex partner, this session. The Codex partner row
 is different: it names that session's own evidence and its call carries no
-`kerd:effort-<level>`.
+Kerd routing agent.
 
 Name the actual contribution and route; say `kerd:agent` only when that skill
 handles it, not for a native subagent tool call. Keep requested settings distinct

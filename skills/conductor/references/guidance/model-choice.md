@@ -67,7 +67,7 @@ effort sweep. A passed job is evidence for that job, not certification of a clas
    supported setting or disclose the native default; never copy effort labels
    between providers as though equal. Apply the level through the route's control
    in the [route table](../model-jobs.md#prepare-work-the-chosen-model-can-do-well):
-   for a native Claude job that is `kerd:effort-<level>`, then confirm what ran
+   for a native Claude job that is the matching `kerd:<model>-<effort>`, or plain `kerd:haiku`, whose effort is not supported, then confirm what ran
    with `job_evidence.py`. Load only applicable prompt guidance and
    keep the same outcome, proof and boundaries whatever the model.
 5. **Explain briefly, run, learn.** Record the chosen model/route, requested

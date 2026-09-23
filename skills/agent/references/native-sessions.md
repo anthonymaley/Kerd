@@ -88,8 +88,8 @@ For a new session, supply its first real contribution rather than a paid greetin
 
 Use `--model` and `--effort` from the chosen available model's guidance, or omit
 them deliberately to use native defaults. These launch flags set a new persistent
-partner's own session. They are separate from Conductor's `kerd:effort-<level>`
-agents, which set effort for native subagent jobs inside a session. `--write` allows file edits within
+partner's own session. They are separate from Conductor's `kerd:<model>-<effort>`
+agents (plain `kerd:haiku` for Haiku), which set model and, where supported, effort for native subagent jobs inside a session. `--write` allows file edits within
 the existing agreement; a prompt's per-file scope is not a sandbox allowlist.
 Claude's launcher enables Read/Glob/Grep (and Edit/Write with `--write`), not shell
 tests. Codex starts read-only or workspace-write, with no automatic permission
