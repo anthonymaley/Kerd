@@ -105,6 +105,10 @@ release. Those stay yours.
 
 It will not substitute a fresh reviewer for the partner you named. If your
 established partner is unavailable, you are told before alternatives are offered.
+If it leaves a review unanswered for ten minutes, Kerd tells you and recommends a
+fresh one-off reviewer, which starts only if you say yes; the push waits for it, and
+your partner's request stays queued. Skipping the review is your call; Kerd never
+recommends it.
 
 It will not kill an occupied terminal, resume "latest", fork a session without
 saying so, or wake an offline session to make a delivery look successful. Your

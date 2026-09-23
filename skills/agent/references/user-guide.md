@@ -109,7 +109,10 @@ visible. No session census or setup question is added to an unpaired project.
 
 **Existing partner:** use when its earlier conversation matters. Kerd finds
 matching local sessions and asks which one only if the choice is ambiguous.
-It does not silently send a fresh reviewer instead.
+It does not silently send a fresh reviewer instead. If the partner has not
+answered a review after ten minutes, Kerd tells you and recommends a fresh one-off
+reviewer, which starts only if you say yes; your partner's request stays queued.
+Skipping the review is your call, and Kerd never recommends it.
 
 **Fresh worker:** use for one bounded contribution, such as an independent
 review. It starts without the partner's previous conversation; Kerd supplies

@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, and never substitutes a fresh reviewer for a named partner.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, and never substitutes a fresh reviewer for a named partner; when that partner leaves a review unanswered, recommends a fresh one-off reviewer on the person's yes, never a waiver.
 ---
 
 # Agent
@@ -49,6 +49,9 @@ not shell subcommands. For execution, use the workflow below.
    Offer starting a new session as a separate choice, not a silent fallback.
    An explicit fresh/new request goes directly to that route. If an established
    partner is unavailable, explain before offering alternatives; never substitute.
+   When a review request to that partner goes unanswered, Conductor's
+   [unanswered-review rule](../conductor/references/orchestration.md) recommends
+   a fresh one-off reviewer, started only on the person's yes, not a waiver.
    An empty list does not prove no saved conversation or other-app session exists.
    A recent exchange already in context may supply **Last exchange (recorded):
    contribution, result, date**. Keep that separate from present activity; don't

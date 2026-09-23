@@ -207,6 +207,19 @@ every gate that review satisfied: repeat that gate before its protected effect,
 unless another coincident gate necessarily runs first and reviews the current
 tree and evidence.
 
+**When the partner does not answer a review in time.** Ten minutes after a
+checkpoint or before-push request with no reply, say so, with how long it has
+waited; a queued request is not a reply. Then recommend one route: a fresh one-off
+reviewer through Agent, read only, on the same provider as the partner, or a fresh
+Claude reviewer on a different model when that provider cannot start. Start it
+only on the person's yes, and hold the gate's protected effect (the push, the
+release) until it clears. The partner's queued request stays open and its later
+findings still count; the fresh reviewer does not take over the partner's role or
+binding. Never recommend waiving the review: an unreviewed push is the person's own
+choice, recorded as a waiver in the sketchbook, never Conductor's proposal, however
+small the change looks. On 3of3, three pushes waived this way carried a defect
+the partner found on its return.
+
 ## One visible startup view
 
 Before substantive execution, show the actual stage, intended result, owner and

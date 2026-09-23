@@ -264,9 +264,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.148.0)
+## What's New (v0.149.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.149.0
+
+**A review your partner doesn't answer gets a fresh reader, not a waiver.** When the Codex
+partner a project reviews with was closed, Kerd explained that, would not swap in
+another reviewer without asking, and then recommended pushing without the review as low
+risk. On 3of3, three pushes went out that way, and the partner found a defect already
+running on both televisions when it came back. Now, after ten minutes with no answer,
+Kerd says so and recommends a fresh one-off reviewer, read only, which starts only on
+your yes; the push waits for it. Your partner's request stays queued and its findings
+still count. Skipping the review is still your call, and Kerd no longer recommends it.
+Wording only; not yet seen in a real sitting.
 
 ### v0.148.0
 
