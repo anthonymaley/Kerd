@@ -1,6 +1,6 @@
 # Choose the model for the work
 
-Selection guide v2026-09-08. Read when assigning a new kind of job or reconsidering
+Selection guide v2026-09-23. Read when assigning a new kind of job or reconsidering
 a choice; reuse a still-applicable choice for the same work. This is Conductor's
 input, not a questionnaire for the user or an automatic scoring service.
 
@@ -14,23 +14,30 @@ No cross-provider ranking or statistically established winner exists in this pac
 
 ### Working shortlist, not an exhaustive model catalogue
 
-Official descriptions below were checked on 2026-09-08. They suggest candidates
+Official descriptions below were checked on 2026-09-23. They suggest candidates
 to consider, not exclusive jobs or automatic assignments. Availability in an API
 catalogue is not proof of access through this user's CLI/account. Other models,
 including an explicitly requested older model, can be considered on the same basis.
 
 | Model | Provider-described fit | Local prompt guidance | Evidence qualification |
 | --- | --- | --- | --- |
-| GPT-6 Astra · `gpt-6-astra` | Difficult reasoning, coding and end-to-end work | No model-specific profile in this pack; disclose the clear outcome-contract fallback | No matched selection comparison recorded here |
-| GPT-5.6 Sol · `gpt-5.6-sol` | Complex professional work | [GPT-5.6](openai/gpt-5-6.md) | Bounded managed-work evidence; not a general ranking |
-| GPT-5.6 Terra · `gpt-5.6-terra` | Balance of capability and cost | [GPT-5.6](openai/gpt-5-6.md) | Bounded source-based review; requested identity/effort, not observed Codex identity |
-| GPT-5.6 Luna · `gpt-5.6-luna` | Cost-sensitive, high-volume work | [GPT-5.6](openai/gpt-5-6.md) | No matched selection comparison recorded here; price is not eligibility |
-| Claude Fable 5.1 · `claude-fable-5-1` | Demanding reasoning and sustained agentic work | [Fable 5.1](anthropic/fable-5-1.md) | Do not credit the earlier Fable 5 drafting trial to 5.1 |
-| Claude Opus 5 · `claude-opus-5` | Complex coding and enterprise work | [Opus 5](anthropic/opus-5.md) | Bounded independent-review evidence; not a general ranking |
-| Claude Sonnet 5 · `claude-sonnet-5` | Everyday coding, analysis, content and tool use | [Sonnet 5](anthropic/sonnet-5.md), explicitly partial | No matched selection comparison recorded here |
-| Claude Haiku 4.5 | Low-latency, high-volume work | No specific profile here; verify exact available ID and supported controls | No matched selection comparison recorded here; not a default cheap worker |
+| GPT-6 Astra · `gpt-6-astra` | Most capable model for complex work across code, apps and research | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here |
+| GPT-6 Sol · `gpt-6-sol` | Complex coding and agentic workflows, with stronger factual reliability | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; the GPT-5.6 Sol evidence below is not credited to it |
+| GPT-6 Luna · `gpt-6-luna` | Most efficient, for focused high-volume work | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; price is not eligibility |
+| Claude Opus 5.5 · `claude-opus-5-5` | Long-running agentic coding and knowledge work; Anthropic's default starting point | [Opus 5.5](anthropic/opus-5-5.md) | No matched selection comparison recorded here; the Opus 5 review evidence is not credited to it |
+| Claude Fable 5.1 · `claude-fable-5-1` | Demanding reasoning and long-horizon agentic work, after Opus 5.5 still falls short at xhigh or max | [Fable 5.1](anthropic/fable-5-1.md) | Do not credit the earlier Fable 5 drafting trial to 5.1 |
+| Claude Sonnet 5 · `claude-sonnet-5` | The best combination of speed and intelligence | [Sonnet 5](anthropic/sonnet-5.md), explicitly partial | No matched selection comparison recorded here |
+| Claude Haiku 4.5 · `claude-haiku-4-5` | The fastest model with near-frontier intelligence; takes no effort setting | No specific profile here | No matched selection comparison recorded here; not a default cheap worker |
 
-The four OpenAI descriptions come from the [official model catalogue](https://developers.openai.com/api/docs/models).
+**Older:** Claude Opus 5 (`claude-opus-5`, [profile](anthropic/opus-5.md)),
+which Anthropic now lists as a legacy model, still available. **Previous OpenAI
+line:** GPT-5.6 Sol, Terra and Luna ([profile](openai/gpt-5-6.md)) are no longer in the
+API catalogue's general-model list (2026-09-23), while the Codex models page says they
+remain available during the GPT-6 rollout. GPT-6 has no Terra tier. Use either when a person asks for it
+or a run is being reproduced; their evidence below stays theirs.
+
+The three OpenAI descriptions come from the [official model catalogue](https://developers.openai.com/api/docs/models),
+except Sol's "stronger factual reliability", which is from the [Codex models page](https://learn.chatgpt.com/docs/models).
 The four Claude descriptions come from [Anthropic's selection guide](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model).
 These descriptions do not establish that one provider is better at writing or
 coding than the other. Broad text/image capability does not establish audio,
@@ -62,8 +69,8 @@ effort sweep. A passed job is evidence for that job, not certification of a clas
    point, state the uncertainty and assess its first useful result. Missing
    historical evaluation is not a universal ban on trying a model.
 4. **Choose supported effort, then prepare the prompt.** Use task evidence and
-   current model/route guidance. For Opus 5 and Fable 5.1, high is the documented
-   starting point, not a proved optimum. For other models, use an evidenced
+   current model/route guidance. Opus 5.5 defaults to medium and Fable 5.1 to
+   high; the documented default is a starting point, not a proved optimum. For other models, use an evidenced
    supported setting or disclose the native default; never copy effort labels
    between providers as though equal. Apply the level through the route's control
    in the [route table](../model-jobs.md#prepare-work-the-chosen-model-can-do-well):

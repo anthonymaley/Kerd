@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.148.0
+
+**Kerd's model guide now knows the current models.** The guide Conductor uses to choose and
+brief a model was last checked on 8 September. Since then Anthropic made Claude Opus 5.5
+its default starting point, with a medium default effort and thinking that cannot be
+turned off, and moved Opus 5 to its legacy list; OpenAI's newest line is GPT-6 Astra,
+Sol and Luna, with no Terra tier. The shortlist is rechecked against both
+providers' pages as of 23 September, with new briefing profiles for Opus 5.5 and GPT-6
+written from their official guides. Opus 5 and GPT-5.6 keep their profiles for runs that
+ask for them. GPT-5.6 has left the API catalogue's general-model list, while Codex
+says it stays available during the rollout. Nothing has run on the new profiles yet, so every clause in them is untested.
+
 ## 0.147.0
 
 **The running-job list now names the model as well as the effort, where the model has one.** Claude Code's list of

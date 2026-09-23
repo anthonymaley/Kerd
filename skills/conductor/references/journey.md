@@ -220,7 +220,7 @@ A report that fails this, from real use:
 ```markdown
 | Task | Requested | Observed | Status |
 | --- | --- | --- | --- |
-| B1 · The README | Opus, high | claude-opus-5 at high | Returned and checked |
+| B1 · The README | Opus, high | claude-opus-5-5 at high | Returned and checked |
 Change read · 2 tracked paths changed, 1 text files to read, unexpected: none
 …three paragraphs of findings, two side issues, then what the README now says…
 ```
@@ -289,13 +289,13 @@ visibility. Illustrative rows, not model defaults or jobs to manufacture:
 | Task | Who | Model requested | Effort | Status |
 | --- | --- | --- | --- | --- |
 | Check transport mutations | An agent | Sonnet 5 | medium | Preparing |
-| Survey API callers | An agent | Opus 5 | high | Preparing |
+| Survey API callers | An agent | Opus 5.5 | high | Preparing |
 | Review implementation (cadence: before-push) | Your Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
 
 Fit · Check transport mutations — needs a bounded, command-checkable edit; Sonnet 5
 at medium because the step is fully specified.
 Fit · Survey API callers — needs judgment across call sites that differ in intent;
-Opus 5 because misclassifying a caller would mislead the design.
+Opus 5.5 at high, above its medium default, because misclassifying a caller would mislead the design.
 Fit · Review implementation — needs an independent reading by a different model;
 the established Codex partner, scheduled by its recorded review cadence.
 
