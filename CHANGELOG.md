@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.153.1
+
+**A turn that waits on a job, or answers a partner, still tells you where things stand.**
+On 2026-09-24 Anthony had to ask "what's happening" ten times across four sessions. Most of
+those turns ended waiting on a job with only "nothing is needed from you", or after answering
+Codex with nothing said to him, or on a suggestion instead of a question. Conductor's rule
+now names both missing endings: a wait names the job, how the session resumes and when,
+or says the return time is unknown and when it next checks; and in an interactive session a
+turn that took in a partner's contribution ends with a line to the person. Agent carries the partner
+half. Wording only; whether sessions follow it shows in real use.
+
 ## 0.153.0
 
 **Claude now sees its own context token count.** A new Kerd hook reads the session's

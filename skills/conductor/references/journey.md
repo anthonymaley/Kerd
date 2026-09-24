@@ -439,6 +439,23 @@ written — keep rolling without pausing between them for permission to continue
 A session a person comes back to should be working, or should say on its last
 line what it is waiting for; they should never have to ask what is going on.
 
+Two endings are easy to miss. **Waiting on a job** (a worker, a review, a long
+command): keep retrieving it within the turn while that is practical. When the
+turn does end, the last line names the job, says how the session resumes — the
+host wakes it when the job returns, or the person says so, or the next check is
+at a named time — and when it should be back, or “return time unknown” with that
+next check; it never invents an estimate. A bare “nothing is needed from you” or
+a status tick without the job and how it resumes is not that line. Claim an
+automatic wake-up only where the route provides one. **Answering a partner's
+contribution** (a review, findings, a reply from Codex or another session) in an
+interactive session still ends with a line to the person: what the partner said,
+what it changes, and the next step or question. Informational arrival notices
+stay unanswered, and unattended workers keep their own result contract. Never
+end a turn on a suggestion (“a Switch Out now would do both”) or on “say so when
+you're back”; those are questions left unasked. The quiet endings remain what
+they were: Switch Out's closing box, a pause the person asked for, agreed
+completion, and a finish with nothing left open.
+
 ### One clear finish
 
 The finish follows [the shape of every report](#the-shape-of-every-report): what the

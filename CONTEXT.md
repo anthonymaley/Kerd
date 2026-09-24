@@ -6,14 +6,17 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.153.0 on `main`.** The 2026-09-24 afternoon sitting (15:08–16:18)
+**Release boundary: 0.153.1 on `main`.** 0.153.1 (after the Switch Out, 16:27–17:14): Conductor's
+turn-ending rule names a named wait on a job and a line to the person after a partner's
+contribution, from ten "what's happening" prompts on 2026-09-24; a turn-end gate went into his
+global `~/.claude/CLAUDE.md` too. He declined a Stop hook ("hooks kept breaking"). The 2026-09-24 afternoon sitting (15:08–16:18)
 released 0.153.0: a Kerd hook tells Claude its context token count at every prompt and during
 long turns, read from the session's transcript. The day sitting released 0.151.1 and 0.152.0;
 the morning, 0.151.0.
 
-**Claude Code runs 0.153.0** (`claude plugin update`, 16:07), in force from its next session;
-the hook has not yet delivered live. **Codex stays on 0.152.0,** correctly: its four skills did
-not change. Hand check before release: hook 170,532 tokens, his status line "83%" free (15:34).
+**Claude Code runs 0.153.1** (`claude plugin update`, 17:1x), in force from its next session;
+the context hook has not yet delivered live. **Codex is on 0.152.0 and needs 0.153.1** (Conductor
+and Agent changed): its install waits for Anthony's go in its window. Hand check before release: hook 170,532 tokens, his status line "83%" free (15:34).
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and

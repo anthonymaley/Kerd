@@ -129,6 +129,10 @@ not shell subcommands. For execution, use the workflow below.
 7. Read and assess the returned answer. Record the useful findings and disposition
    beside the work; keep private native IDs, prompts and raw transport records
    local. A returned review is not a passed outcome. Continue authorized work.
+   In an interactive session, a turn that took in a partner's contribution still
+   ends with a line to the person: what it said, what it changes, and the next
+   step or one question. Arrival notices stay unanswered; unattended workers keep
+   their own result contract.
    When contributing to another session's Switch Out, return the missing account
    to its established owner; do not also rewrite shared handoff files. Follow
    [coordinated closeout](../switch/references/in-out.md#one-coordinated-closeout).
