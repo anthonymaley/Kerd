@@ -1,6 +1,6 @@
 # Choose the model for the work
 
-Selection guide v2026-09-23. Read when assigning a new kind of job or reconsidering
+Selection guide v2026-09-24. Read when assigning a new kind of job or reconsidering
 a choice; reuse a still-applicable choice for the same work. This is Conductor's
 input, not a questionnaire for the user or an automatic scoring service.
 
@@ -50,6 +50,39 @@ In the latter, historical `model/high` shorthand records the requested pair unle
 separate runtime evidence establishes more. None of these is a matched tier or
 effort sweep. A passed job is evidence for that job, not certification of a class.
 
+## Who delivers and who reviews
+
+By default, Conductor delivers with its own host's native workers and the other
+provider reviews: in Claude Code, Claude players with a Codex reviewer; in Codex,
+the reverse. That arrangement is working, and mixed-provider builds are not a goal.
+
+A cross-provider implementation worker is an exception, used only when the person
+explicitly asks for it or approves Conductor's proposal of it, with a concrete
+reason: work stalled on the native route, relevant evidence of a better fit for this
+task, or the person's own reason (spare capacity on the other provider, for example).
+Name the reason in the Fit line. Where no comparative evidence backs it, call the
+exception a reasonable trial, not a claim that one model is better. Conductor may
+propose an exception; it never assigns one on its own reading. The other provider reviewing
+is the default; the existing rules for an established partner, its review cadence
+and the fresh-reviewer fallback are unchanged.
+
+### Task fit: what each kind of evidence supports
+
+Profiles suggest candidates; results earn preferences. Keep the three kinds apart:
+
+- **A vendor suggestion** (the provider's description, the profiles here) makes a
+  model a candidate for a kind of task. It supports no preference.
+- **Successful local use** (a recorded job on similar work that met its agreed
+  outcome) supports trying that model again for similar work. One success is not
+  a preference over models that were never tried on it.
+- **Comparative evidence** (the same brief, inputs and checks run on more than one
+  model, with the results recorded) is the only kind that supports preferring one
+  model over another for that kind of task, and only as far as the comparison went.
+
+Broad labels such as "coding" or "writing" are not task fits and never become fixed
+provider assignments. Describe the task by its outcome, the judgment it needs and
+the tools it requires, then ask which kind of evidence speaks to that.
+
 ## Make the choice
 
 1. **Understand this contribution.** Identify the outcome, kind of judgment,
@@ -61,9 +94,9 @@ effort sweep. A passed job is evidence for that job, not certification of a clas
    obligation without a separate authorized test step. Rendering/vision must
    actually be available for visual assessment. A bigger model cannot fix this.
 3. **Prefer relevant evidence over reputation.** Consider suitable candidates
-   across permitted providers using the same success bar. Do not favor the
-   controller's own provider, its inherited settings, highest price, newest name
-   or a familiar role label. Retain or inherit the current pair only after that
+   on the delivery route [above](#who-delivers-and-who-reviews), and across both
+   providers for review or an agreed exception, using the same success bar. Do not
+   favor inherited settings, highest price, newest name or a familiar role label. Retain or inherit the current pair only after that
    assessment, with a task-based reason.
    With no comparable evidence, choose a defensible capability-first starting
    point, state the uncertainty and assess its first useful result. Missing
@@ -108,7 +141,9 @@ Effort differences and testing advice:
 | Review a draft guide against supplied notes | Consider appropriate analysis-capable models from either provider. Terra has one relevant bounded example here; that supports consideration, not superiority over Sonnet or Opus. Use a different suitable reviewer from the builder. |
 | Implement a change and run its tests | Choose a route with authorized editing and shell/testing. Claude's file-only bridge can contribute implementation, but cannot claim the test result; name who runs it. |
 | Judge a diagram's readability | Require actual rendered-image access. A text-only reply about SVG source cannot establish visual quality, regardless of model tier. |
-| Draft a novel executive recommendation | Consider strong reasoning/source-synthesis candidates from either provider. Novel work may have no close local baseline; disclose that and independently check claims, options and decision consequences. |
+| Draft a novel executive recommendation | Consider strong reasoning/source-synthesis candidates on the native delivery route, or from the other provider as an agreed exception. Novel work may have no close local baseline; disclose that and independently check claims, options and decision consequences. |
+| The person says “use Codex for this build, it has capacity” (Conductor in Claude Code) | An explicitly requested exception with the person's reason. Name it in the Fit line as a trial unless comparative evidence exists; the review still goes to a different suitable model. |
+| A native player has stalled twice on the same step | Propose a cross-provider worker for that step with the stall as the reason, and wait for the person's yes; do not switch on Conductor's own reading. |
 | User says “ask Claude” | Use a suitable available Claude route. If unavailable, ask about the alternative; do not silently substitute Codex to keep moving. |
 
 User-facing example: “I'll use an independent source-based review for this draft.
@@ -125,10 +160,14 @@ when the job depends on them. Record catalogue/profile version and source date
 in the choice note so past decisions remain understandable after guidance changes.
 Preserve a prior version when changing a claim used in a recorded run.
 
-Keep result evidence beside the work: task/checks, requested and observed model
-details separately, prompt/profile, route/tool access, actual outcome, corrections,
-human interventions, elapsed time and available usage. Unknown readings stay
-unknown. Link useful evidence here rather than copying full results into a database.
+Judge a result first by whether it met the agreed outcome; then by rework, human
+intervention, elapsed time and usage. Record the actual model,
+effort and tool access beside it (requested and observed kept separate), with the
+task, checks and prompt/profile, so an observation is not credited to the wrong
+thing. Unknown readings stay unknown. Keep the observation in the work's own
+record and link the useful ones where the next model choice will find them (for
+Kerd's own development, [task evidence](task-evidence.md)); no new routing
+framework, provider quota, leaderboard or database.
 
 When a comparison is worthwhile and authorized, hold the brief, inputs, authority
 and success checks stable; allow each model an appropriate prompt and supported

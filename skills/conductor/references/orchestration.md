@@ -74,8 +74,9 @@ route:
 1. **Conductor writes the steps and delegates them** when the outcome, approach,
    files and checks are already settled by the agreement and terrain Conductor
    holds. Write each step in the complete form below, then assign it. Fan out
-   independent steps to parallel players, choosing a suitable available pair for
-   each and preferring lower cost where task evidence supports it against the
+   independent steps to parallel players on the host's native route (another
+   provider only as the [agreed exception](guidance/model-choice.md#who-delivers-and-who-reviews)),
+   choosing a suitable available pair for each and preferring lower cost where task evidence supports it against the
    complete step and its evidence bar. A composer call here adds cost without
    adding judgment.
 2. **The composer writes the score** when the specification still needs design

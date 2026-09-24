@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.151.0
+
+**Codex builds only when you say so.** Conductor now builds with its own host's workers
+and the other provider reviews, and a Codex builder
+under a Claude conductor (or the reverse) is an exception you ask for or approve, with a
+reason such as stalled work, evidence of a better fit, or spare capacity on the other
+provider. Without a comparison behind it, the Fit line calls it a trial. The guide also
+separates what a provider suggests, what worked here before and what a real comparison
+showed, since only the last supports preferring one model, and it judges a result by the
+agreed outcome first, then rework, intervention, time and usage.
+
 ## 0.150.0
 
 **The arrival names the Kerd version that drew it.** A Switch In screen said where the

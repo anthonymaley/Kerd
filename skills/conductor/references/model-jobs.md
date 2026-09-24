@@ -253,7 +253,9 @@ reasoning effort. Keep requested and observed effort distinct. A subagent's retu
 retrieved from a transcript. Prefer a different suitable model for independent
 assessment, as for any route. Use the bundled runner below only when the job
 needs what this host's subagents lack: another provider, resumability by native ID, a CLI sandbox,
-or a life beyond this session.
+or a life beyond this session. Another provider for implementation is the
+[agreed exception](guidance/model-choice.md#who-delivers-and-who-reviews), not a
+routine choice: the person asked for it or approved it, with a concrete reason.
 
 Claude Code's native subagents are not a way for a Codex host to run Claude.
 Use Agent for a named/existing Claude partner from Codex; a deliberately fresh
