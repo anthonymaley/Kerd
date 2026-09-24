@@ -52,7 +52,7 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   once by hand before release (170,532 tokens vs "83%" free, 2026-09-24 15:34). First live delivery
   17:39: a fresh headless session got the line on its second prompt (35,110 tokens). Silent at
   a session's first prompt by design (no reply to count yet); the README's "every prompt" should
-  say so at the next release.
+  say so at the next release. Fixed in 0.153.2.
 - **The homepage redesign: dropped, to revisit** (Anthony, 2026-09-24 12:56). Three Codex
   passes and his reactions: `docs/work/homepage-redesign/work.md` (local).
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
@@ -60,8 +60,10 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
 
 
-- **Observe the composer, managed Conductor and a roll in a real session.** None has been
-  exercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
+- **Observe the composer, managed Conductor and a roll in a real session.** A first real
+  Claude worker Roll ran on 2026-09-24 (0.153.2's wording: one run, `review`); a
+  context-triggered handover to a second run is still unseen and needs a job that outgrows a
+  window. The composer and managed Conductor are still unexercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
   two plus one).
 - **Observe the arrival's "Something else" route** and the closing box over several
   sittings. The arrival and "Yes" were seen again on 2026-09-20 14:35.

@@ -1,5 +1,5 @@
 {
-  "description": "Kerd session hooks, auto-loaded when the plugin is enabled: surface stale state on session start and show mode progress after skill completion (both silent unless the repo carries Kerd state), and tell the session how many tokens its context holds, in every project (every prompt, and during long turns at most every five minutes or 50,000 tokens).",
+  "description": "Kerd session hooks, auto-loaded when the plugin is enabled: surface stale state on session start and show mode progress after skill completion (both silent unless the repo carries Kerd state), and tell the session how many tokens its context holds, in every project (each prompt once a reply exists to count, and during long turns at most every five minutes or 50,000 tokens).",
   "hooks": {
     "SessionStart": [
       {

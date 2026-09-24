@@ -5,7 +5,9 @@
 # formula Claude Code's status line uses for context usage. It reports a
 # token count only: these hook inputs carry no window size, so no capacity or
 # percentage is claimed.
-#   $1 = prompt : every prompt, plain-text stdout (added to context).
+#   $1 = prompt : each prompt once an earlier main-conversation reply has
+#                 usage to count, plain-text stdout (added to context);
+#                 silent before the first reply of a fresh conversation.
 #   $1 = tool   : after tool calls, at most every 5 minutes or 50,000 tokens,
 #                 as PostToolUse additionalContext; the transcript is read at
 #                 most once a minute.

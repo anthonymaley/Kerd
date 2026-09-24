@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.153.2
+
+**The context reading's description matches what it does.** The hook reports once an
+earlier reply exists to count, so it is silent before the first reply of a fresh conversation;
+a resumed conversation can report on its first prompt. Seen live on 2026-09-24 in one fresh
+session: nothing on the first prompt, the line on the second. The hook, its registration and
+the 0.153.0 note said "every prompt" and now say that. Written by Kerd's first
+real Claude Roll run, which finished in one run; a context-triggered handover to a second run
+has still not been seen.
+
 ## 0.153.1
 
 **A turn that waits on a job, or answers a partner, still tells you where things stand.**
@@ -15,7 +25,8 @@ half. Wording only; whether sessions follow it shows in real use.
 
 **Claude now sees its own context token count.** A new Kerd hook reads the session's
 own log and tells Claude how many tokens its last request carried, using the same formula as
-the status line's context figure: at every prompt, and during a long turn after tool calls,
+the status line's context figure: at each prompt once an earlier reply exists to count
+(so silent before the first reply of a fresh conversation), and during a long turn after tool calls,
 at most every five minutes or every 50,000 tokens. It counts the last main-conversation reply
 and skips subagents. It reports a token count only, not a percentage or the window size,
 since these hook inputs carry neither. It runs in every project and stays silent when it
