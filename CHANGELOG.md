@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.152.0
+
+**Conductor's Opus 5.5 guidance, checked against Anthropic's guide.** Kerd now
+recommends Opus 5.5 for the session that conducts, at medium effort by default, and
+never changes that session itself. The Opus 5.5 profile gets a new dated version, with
+the old one archived. Two clauses now match the provider's wording: trying other effort
+levels is encouraged, and visual scaffolding is re-tested rather than dropped. The
+max_tokens advice is marked as API-only, since Claude Code agents don't set it. Three
+pending clauses come from the same guide: handling a premature stop in an unattended
+run, a time budget for fan-out, and exploring before acting on a loose brief. Two
+clauses carry a first observation each, one paired run: medium and high both found all
+five planted bugs in a review, and a generic "avoid an AI look" frontend brief produced
+four of the five patterns the guide names.
+
 ## 0.151.1
 
 **Tend and Slainte describe the plugin-root placeholder instead of spelling it out.**

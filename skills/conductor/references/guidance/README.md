@@ -11,6 +11,9 @@ Current model-specific files live directly under the provider folder. Files in
 `archive/` preserve prior run guidance; don't load them for new work unless
 reproducing that run. The GPT-5.6 profile's 2026-09-05 revision removes the older
 “cheapest eligible tier” rule to match the user's quality-first model selection.
+The Opus 5.5 profile's 2026-09-24 revision (prior version in `anthropic/archive/`)
+loosens two clauses to match the provider's wording, scopes max_tokens to API
+routes, and adds three pending clauses from the same guide.
 No model default, pricing, native permission or account setting changed.
 
 ## What is stored

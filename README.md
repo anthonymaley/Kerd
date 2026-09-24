@@ -264,9 +264,23 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.151.1)
+## What's New (v0.152.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.152.0
+
+**Conductor's Opus 5.5 guidance, checked against Anthropic's guide.** Kerd now
+recommends Opus 5.5 for the session that conducts, at medium effort by default, and
+never changes that session itself. The Opus 5.5 profile gets a new dated version, with
+the old one archived. Two clauses now match the provider's wording: trying other effort
+levels is encouraged, and visual scaffolding is re-tested rather than dropped. The
+max_tokens advice is marked as API-only, since Claude Code agents don't set it. Three
+pending clauses come from the same guide: handling a premature stop in an unattended
+run, a time budget for fan-out, and exploring before acting on a loose brief. Two
+clauses carry a first observation each, one paired run: medium and high both found all
+five planted bugs in a review, and a generic "avoid an AI look" frontend brief produced
+four of the five patterns the guide names.
 
 ### v0.151.1
 

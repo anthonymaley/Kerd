@@ -29,6 +29,12 @@ including an explicitly requested older model, can be considered on the same bas
 | Claude Sonnet 5 · `claude-sonnet-5` | The best combination of speed and intelligence | [Sonnet 5](anthropic/sonnet-5.md), explicitly partial | No matched selection comparison recorded here |
 | Claude Haiku 4.5 · `claude-haiku-4-5` | The fastest model with near-frontier intelligence; takes no effort setting | No specific profile here | No matched selection comparison recorded here; not a default cheap worker |
 
+**The conducting session:** Kerd recommends Opus 5.5 for the session that
+conducts, at medium effort by default, for its efficiency on long agentic work
+(the person's direction, 2026-09-24). This is advice for the person's own session
+setup: Conductor never changes the current session's model or effort itself, and
+it reports that session's active effort as unverified unless read from the session.
+
 **Older:** Claude Opus 5 (`claude-opus-5`, [profile](anthropic/opus-5.md)),
 which Anthropic now lists as a legacy model, still available. **Previous OpenAI
 line:** GPT-5.6 Sol, Terra and Luna ([profile](openai/gpt-5-6.md)) are no longer in the
