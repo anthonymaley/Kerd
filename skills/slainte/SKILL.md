@@ -101,7 +101,7 @@ CI owns the mechanical checks that used to open this list (version sync, descrip
    - `docs/playbook.md` "Working" list matches actual skill set and feature claims. Flag stale claims as medium.
    - `docs/state-contract.md` ownership table matches actual skill behavior. For each W (write) entry, verify the skill actually writes to that file. For each `-` (no interaction), verify the skill doesn't reference that file. Flag contradictions as high.
    - Vault Status.md version matches plugin.json version. Mismatch is informational only (v0.83.0: the vault is opt-in and refreshed solely by deliberate `/kerd:kivna save` — staleness of any depth is expected, never a finding).
-5. **Hook auto-load currency**: verify `hooks/hooks.json` exists, is valid JSON, and every `${CLAUDE_PLUGIN_ROOT}/hooks/*.sh` it references exists in `hooks/`. Flag a missing script as high — the harness auto-loads this file on enable, so a wrong path silently kills the hook. Verify the retired `hooks/hooks.template.json` is absent (its presence means the v0.96.0 auto-load migration is incomplete); flag as medium if found.
+5. **Hook auto-load currency**: verify `hooks/hooks.json` exists, is valid JSON, and every hook script it references (a `/hooks/*.sh` path under the plugin-root variable, `$` followed by `{CLAUDE_PLUGIN_ROOT}`) exists in `hooks/`. Flag a missing script as high — the harness auto-loads this file on enable, so a wrong path silently kills the hook. Verify the retired `hooks/hooks.template.json` is absent (its presence means the v0.96.0 auto-load migration is incomplete); flag as medium if found.
 
 #### all
 

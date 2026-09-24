@@ -210,11 +210,11 @@ Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs
 
 #### Category 9: Hook hygiene
 
-**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — `${CLAUDE_PLUGIN_ROOT}` expands correctly there. **No per-repo wiring is needed, and none should be added.** Each hook is silent unless the repo carries Kerd state (`kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
+**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — the plugin-root variable (`CLAUDE_PLUGIN_ROOT`) expands correctly there. **No per-repo wiring is needed, and none should be added.** Each hook is silent unless the repo carries Kerd state (`kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
 
 The only job left for tend is **migration**: find and remove *stale manual hook entries* left in `.claude/settings.local.json` by the old (pre-0.96.0) wiring mechanism. Those entries either point at a garbage-collected cache version (dead — Claude Code prunes old versions, see the playbook GC gotcha) or duplicate a hook the plugin now auto-loads (double-fire). Both are fixed by deletion.
 
-Check `.claude/settings.local.json` for hook `command` strings that reference the Kerd plugin cache (`cache/kerd-marketplace/.../hooks/`) or a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path (the latter never expands in settings and was always inert). Any such entry is stale.
+Check `.claude/settings.local.json` for hook `command` strings that reference the Kerd plugin cache (`cache/kerd-marketplace/.../hooks/`) or a `/hooks/` path that starts with the plugin-root variable written out unexpanded (`$` followed by `{CLAUDE_PLUGIN_ROOT}`; that form never expands in settings and was always inert). Any such entry is stale.
 
 If stale entries are found:
 
@@ -238,7 +238,7 @@ If stale entries are found:
        session-start.sh.
 ```
 
-When fixing, read `.claude/settings.local.json`, remove only the Kerd hook entries (matched by the cache path, a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path, or — in the Kerd source repo — a local `.../Kerd/hooks/` path), and preserve every non-Kerd hook, permission, and other setting. Do not add replacement entries — the plugin provides them.
+When fixing, read `.claude/settings.local.json`, remove only the Kerd hook entries (matched by the cache path, a `/hooks/` path starting with the unexpanded plugin-root variable (`$` followed by `{CLAUDE_PLUGIN_ROOT}`), or — in the Kerd source repo — a local `.../Kerd/hooks/` path), and preserve every non-Kerd hook, permission, and other setting. Do not add replacement entries — the plugin provides them.
 
 Auto-load covers the Kerd source repo too, so it needs no local hook wiring either: a repo that kept local entries *and* got the plugin's auto-loaded hooks would fire each hook twice. Hook changes under development are validated by `tests/hooks_test.sh` (which runs the local scripts directly), not by live session behaviour, so nothing is lost by letting live sessions use the cached version.
 

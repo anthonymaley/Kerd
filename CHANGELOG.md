@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.151.1
+
+**Tend and Slainte describe the plugin-root placeholder instead of spelling it out.**
+Claude Code replaces that placeholder with the install path when it loads a plugin skill,
+and nothing keeps it literal, so where Tend's stale-hook check and Slainte's hook check
+meant the unexpanded text, the model read an install path instead. The four lines now
+describe the form they look for, and a test keeps those two skills from spelling it out
+again. The substitution was observed; Tend actually missing a stale entry was not. Tend
+and Slainte are not in the Codex package, so Codex is unaffected.
+
 ## 0.151.0
 
 **Codex builds only when you say so.** Conductor now builds with its own host's workers
