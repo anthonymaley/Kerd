@@ -107,6 +107,18 @@ and `docs/work/opus-55/` (2026-09-24 day). They exist on the Mac Studio only.
 **Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 15:08 arrival
 against the saved designation; it designates its successor at this Out.
 
+**In progress, uncommitted (18:5x):** 0.153.3 is in the working tree: the Roll guide names the
+saved-place keys and how to retire a finished worker record (edits by a Claude Roll worker),
+a new test `skills/switch/scripts/tests/test_roll_guide_keys.py`, version bump and note. **Codex
+blocked it:** hand retirement must hold `owner.lock` (acquire it, re-read the record and its
+place's `pending_jobs`, rename while holding it), and the test's "cannot drift" claim is too
+strong. Fix both, re-check, then release on Anthony's go. Two finished Roll records were
+retired by hand today without the lock, in `.git/roll/retired-2026-09-24-*.json`.
+
+**This session was rolled by itself (18:5x):** Anthony asked for a rolling switch that hands
+this session to a fresh one on its own; Claude typed `/clear` and `/kerd:switch in` into its
+own tmux pane. If this arrival shows it worked, that is the first observation.
+
 **First, at the next arrival:** look for the context-reading line at the first prompt; its
 absence means the hook isn't loading, which comes before anything else.
 
