@@ -5,6 +5,16 @@ position paragraphs moved out of `CONTEXT.md` when they stopped being current. N
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
 
+## Closed 2026-09-24 (morning)
+
+**Verdict: done — seen in real use; evidence in `kivna/sessions/2026-09-24.md` ("Morning sitting").**
+
+- **Watch 0.150.0's heading in the first real arrival after each install.** Claude Code: this
+  sitting's Switch In heading read "KERD · SWITCH IN COMPLETE ✓ · Kerd 0.150.0" (08:2x).
+  Codex: after Codex was brought to 0.150.0 (`codex plugin list --marketplace kerd-core`
+  read 0.150.0 at 08:48), Anthony reported the fresh Codex arrival "its working"; Claude did
+  not see that line itself. The Codex pickup trial it came from passed 2026-09-23 (Seinn).
+
 ## Closed 2026-09-23 (night)
 
 **Verdict: done — the hold is lifted; evidence in `kivna/sessions/2026-09-23.md` ("Night sitting").**

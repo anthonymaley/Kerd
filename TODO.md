@@ -2,19 +2,21 @@
 
 ## Now
 
-**Release boundary:** 0.150.0 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.151.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
 sketchbook `docs/work/launch-plan/work.md`. Kerd is ready to launch when someone other than
 Anthony carries real work in their own repository to its agreed result, unaided. **Step 1 is
 under way, in 3of3's own session** (Anthony, 2026-09-23: "that project is already using kerd
-and is switched in"): its next item is the TV-to-TV iCloud sync proof, his hands on the
+and is switched in"): its next item is the TV-to-TV iCloud sync proof (Anthony is doing it on 2026-09-24,
+in 3of3's own session), his hands on the
 televisions. Kerd hands nothing over; after each sitting there, one line of evidence goes
 into `docs/work/launch-plan/work.md`, which already holds step 1's evidence so far.
 
 **The team note is going out** (Anthony, 2026-09-23 17:05, "y" to sending it now; not yet
-confirmed sent). Each team's reply goes into its lines under "The team note goes out" in
+confirmed sent). **Parked:** "delay any sam and auble work for now" (Anthony, 2026-09-24
+08:55); don't ask about it until he picks it up. Each team's reply goes into its lines under "The team note goes out" in
 `docs/work/launch-plan/work.md`, one per field of the plan's per-person record.
 
 **The 2026-09-13 hold is lifted** (Anthony, 2026-09-23 18:19; `docs/decisions.md`), so
@@ -60,10 +62,12 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   version is still the dev snapshot `2.17.0-dev.1`.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture.
-- **The Codex pickup in a work project passed** (Seinn, 2026-09-23 22:13; sketchbook
-  `docs/work/codex-pickup/work.md`, local). Both findings shipped: 0.149.2 (the
-  walkthrough's Codex wording) and 0.150.0 (the arrival names its Kerd version). Watch
-  0.150.0's heading in the first real arrival after each install is updated.
+- **Watch the first cross-provider build exception (0.151.0).** Conductor builds with its
+  own host's workers; a Codex builder under Claude (or the reverse) is an exception the
+  person asks for or approves, called a trial without a comparison. Not yet seen: the
+  first request and its Fit line. Sketchbook `docs/work/codex-players/work.md` (local).
+- **Codex runs 0.150.0; bring it to the next release** when one lands (its package
+  carries Conductor, so 0.151.0's rule is not in Codex yet).
 
 Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
 front-page check, the site going live, and the evening's six contradictions and host line) and

@@ -12,6 +12,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. CONDUCTOR BUILDS WITH ITS OWN HOST'S WORKERS AND THE OTHER PROVIDER REVIEWS; A CROSS-PROVIDER IMPLEMENTATION WORKER IS AN EXCEPTION THE PERSON ASKS FOR OR APPROVES, WITH A CONCRETE REASON, CALLED A TRIAL WITHOUT COMPARATIVE EVIDENCE; NO ROUTING FRAMEWORK OR PROVIDER QUOTAS — Anthony, 2026-09-24 09:10, "lets do"; released in 0.151.0
 1. THE 2026-09-13 "PROVE KERD FIRST" HOLD IS LIFTED: ROWS 1 TO 5 OF ITS VERIFICATION LIST EACH CARRY AN OBSERVATION; LAUNCH STEP 2 AND THE DEFERRED CODEX PICKUP ARE NO LONGER BLOCKED — Anthony, 2026-09-23 18:19, "y"; supersedes ruling 28
 1. A REVIEW THE PARTNER LEAVES UNANSWERED GETS A FRESH ONE-OFF REVIEWER ON THE PERSON'S YES, NEVER A RECOMMENDED WAIVER — Anthony, 2026-09-23 16:28; released in 0.149.0
 1. KERD'S DISPATCH AGENTS ARE NAMED FOR THE MODEL AND THE EFFORT (`kerd:<model>-<effort>`, plain `kerd:haiku`), BECAUSE THE AGENT NAME IS THE ONLY TEXT KERD CONTROLS IN THE RUNNING-JOB LIST — Anthony, 2026-09-23 09:02; released in 0.147.0; bounds the 2026-09-16 countermeasure ruling
@@ -223,6 +224,24 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **Conductor builds with its own host's workers and the other provider reviews; a
+  cross-provider implementation worker is an exception — Anthony, 2026-09-24 09:10, "lets
+  do".** Anthony observed (08:48) "i've never seen conductor assign a codex agane to a job"
+  and first asked for a per-provider availability setting kept through Agent, because token
+  capacity varies ("right now i have 89% free capacity on codex … last week i burned
+  codex"). Claude drew a four-value setting (prefer / on / review only / off). Anthony then
+  chose the narrower direction he pasted instead: keep the native-delivery default, which is
+  working ("mixed-provider builds are not a goal"); use a cross-provider implementation worker
+  only as an explicitly requested or approved exception with a concrete reason (stalled work,
+  evidence of a better fit); keep vendor suggestion, successful local use and comparative
+  evidence apart ("profiles suggest candidates; results earn preferences"); judge by the
+  agreed outcome, then rework, human intervention, elapsed time and usage, with the actual
+  model, effort and tool access; no new routing framework, provider quotas, leaderboard or
+  routine duplicate runs. Spare capacity is a person's reason for an exception, not a stored
+  setting. Released in 0.151.0 (`skills/conductor/references/guidance/model-choice.md`,
+  "Who delivers and who reviews"); Codex's review removed an unproven causal claim from the
+  release note. Sketchbook: `docs/work/codex-players/work.md` (local).
 
 - **The 2026-09-13 "prove Kerd first" hold is lifted — Anthony, 2026-09-23 18:19, "y";
   supersedes the 2026-09-13 10:41 ruling.** The hold cleared on rows 1 to 5 of that day's
