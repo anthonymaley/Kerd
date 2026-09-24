@@ -6,15 +6,14 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.152.0 on `main`.** The 2026-09-24 day sitting (09:36–15:0x) released
-0.151.1 (Tend and Slainte describe the plugin-root placeholder instead of spelling it out, so
-Claude Code no longer rewrites it) and 0.152.0 (Conductor's Opus 5.5 guidance, checked against
-Anthropic's guide). The morning sitting released 0.151.0.
+**Release boundary: 0.153.0 on `main`.** The 2026-09-24 afternoon sitting (15:08–16:18)
+released 0.153.0: a Kerd hook tells Claude its context token count at every prompt and during
+long turns, read from the session's transcript. The day sitting released 0.151.1 and 0.152.0;
+the morning, 0.151.0.
 
-**Both hosts run 0.152.0:** Claude Code (`claude plugin list`, 14:01) and Codex
-(`codex plugin list --marketplace kerd-core`, 14:05, read back by Claude), each in force from
-its next session. The next arrival's heading names the version it loaded; resolve other live
-numbers.
+**Claude Code runs 0.153.0** (`claude plugin update`, 16:07), in force from its next session;
+the hook has not yet delivered live. **Codex stays on 0.152.0,** correctly: its four skills did
+not change. Hand check before release: hook 170,532 tokens, his status line "83%" free (15:34).
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
@@ -43,6 +42,8 @@ raise it until he does.
 he picks, is open. He parked choosing them (2026-09-23 21:13: "skip lets skip that").
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
+- **Claude sees its own context token count, in every session; when to Switch Out stays his
+  call (2026-09-24, 0.153.0).** Partly supersedes the 2026-09-15 context-pressure ruling.
 - **Conductor runs on Opus 5.5, at medium by default, set up from Anthropic's guidance
   (2026-09-24, 0.152.0);** Kerd advises the session setup, never changes the session itself.
 - **The explanatory and learning output styles are off on this machine (2026-09-24).**
@@ -99,8 +100,11 @@ and every file inside `docs/work/launch-plan/`, `docs/work/roll-on-branch/`,
 `docs/work/codex-players/` (2026-09-24); and every file inside `docs/work/homepage-redesign/`
 and `docs/work/opus-55/` (2026-09-24 day). They exist on the Mac Studio only.
 
-**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 09:36 arrival
+**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 15:08 arrival
 against the saved designation; it designates its successor at this Out.
+
+**First, at the next arrival:** look for the context-reading line at the first prompt; its
+absence means the hook isn't loading, which comes before anything else.
 
 **Selected continuation, agreed (Anthony, 2026-09-24 09:29 and 09:49): after Anthony's
 TV-to-TV iCloud sync sitting in 3of3, Claude reads 3of3's records (read-only; no question
@@ -108,22 +112,21 @@ needed) and adds one line of step 1 evidence to `docs/work/launch-plan/work.md`.
 Anthony runs the sitting in 3of3's own session and says when it is done. **Stops at** the
 evidence line; no writes in 3of3, no device actions. **Why:** step 1 is the only launch step
 under way, and this proof is its next item. If the sitting hasn't happened, the arrival says so
-and weighs the other open work. The context-window item became 0.153.0's context-reading hook
-(Anthony, 15:27–15:28; built, not yet released). Parked: step 2, the
+and weighs the other open work. The context-window item shipped as 0.153.0's context-reading hook. Parked: step 2, the
 announcement, SAM and Aubel.app, the homepage.
 
-**Pickup reading set** (Switch Out, 2026-09-24 15:0x):
+**Pickup reading set** (Switch Out, 2026-09-24 16:18):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-24.md`, today's three sittings.
+- `kivna/sessions/2026-09-24.md`, today's four sittings.
 Deeper: `docs/decisions.md` (the two new rulings' cases); `docs/design/launch-plan.md`; local
 sketchbooks `docs/work/launch-plan/work.md`, `docs/work/opus-55/work.md`,
 `docs/work/homepage-redesign/work.md`, `docs/work/codex-pickup/work.md`.
 
-The observed position before this save is the 0.152.0 release on `main`; the boundary
+The observed position before this save is the 0.153.0 release on `main`; the boundary
 commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-24 15:0x: about 25,500 bytes across the three sources, about 6,400 tokens
+**Measured** 2026-09-24 16:18: 28,317 bytes across the three sources, about 7,080 tokens
 estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup:
 
 ```

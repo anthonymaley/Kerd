@@ -45,6 +45,10 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   carry one paired observation each, three new clauses are pending (unattended premature stop,
   fan-out time budget, explore before acting). Watch the first real brief that uses them.
   Sketchbook `docs/work/opus-55/work.md` (local). The GPT-6 profile (0.148.0) is untested.
+- **Watch the context reading (0.153.0) in its first live session:** a `Context: N tokens in
+  the last request` line at each prompt and during long turns, matching the status line. Seen
+  once by hand before release (170,532 tokens vs "83%" free, 2026-09-24 15:34); never delivered
+  by the installed hook yet.
 - **The homepage redesign: dropped, to revisit** (Anthony, 2026-09-24 12:56). Three Codex
   passes and his reactions: `docs/work/homepage-redesign/work.md` (local).
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
