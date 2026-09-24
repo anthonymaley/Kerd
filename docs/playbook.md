@@ -124,7 +124,9 @@ two columns — `len()` is also wrong there, in the opposite direction.
 pathspec and fails with *"did not match any files"*. Bash would split it; zsh
 does not, and this repo's sessions run zsh. Use an array: `FILES=(a.md b.md)`
 then `"${FILES[@]}"`. Measured 2026-09-09 staging a scoped boundary — it failed
-safe (nothing staged), but the same shape in a loop would not.
+safe (nothing staged), but the same shape in a loop would not. Recurred 2026-09-24: a
+`--preserve` list built in `$P` reached `handoff.py` as one argument
+("unrecognized arguments"); the array form fixed it.
 
 ### `str.replace()` without asserting the match silently does nothing
 
@@ -501,6 +503,27 @@ that it was understood.
 
 Naming `docs/design/gate-visuals/` in TODO left all four files inside it
 unreachable. Name each artifact.
+
+### Roll's saved place counts failures under `failures`
+
+The first real Claude Roll (2026-09-24) was refused before any worker ran:
+"Failure counts must be nonnegative integers by measure", because the place
+used `failure_counts`. The guide's prose says "failure counts"; the helper's
+`check_state` wants the key `failures` (a dict of name → non-negative int).
+Read `check_state` in `skills/switch/scripts/roll.py` before writing a place
+by hand.
+
+### A directory name starting with `-` is read as an option
+
+`find -Users-…` and `ls -Users-…/*.jsonl` failed or silently returned nothing
+when scanning `~/.claude/projects` (2026-09-24). Prefix `./`.
+
+### `pytest` is not installed here, so `pytest … || fallback` never reaches the fallback
+
+The failure went to a `| tail` whose exit was 0, so the "fails on the old
+wording" check did not run (2026-09-24). Run tests with `python3 -m
+unittest`, the way `tools/run_tests.py` does, and check the exit of the
+command itself.
 
 
 - **A `## Risk ledger` section must be table-only** (2026-08-07): the parser in `tools/gates/kit.py` treats every non-blank line in the section as a data row, so a closing paragraph comes back as "rows 5-9: expected 8 columns, found 1". Same family as the v0.83.1 fence-awareness fix — a structural parser cannot tell commentary from content. Put prose in its own section after the table.
