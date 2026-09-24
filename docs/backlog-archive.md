@@ -5,6 +5,21 @@ position paragraphs moved out of `CONTEXT.md` when they stopped being current. N
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
 
+## Closed 2026-09-24 (day)
+
+**Verdict: done — fixed in 0.151.1 and seen once in a real run; evidence in
+`kivna/sessions/2026-09-24.md` ("Day sitting").** The four lines now describe the unexpanded
+form instead of spelling it out; a test scoped to Tend and Slainte guards them. A headless
+0.151.1 Tend in a scratch repo flagged a literal-placeholder settings entry and kept an
+unrelated hook (12:58). One observation.
+
+- **`tend` and `slainte` name the plugin placeholder literally, and Claude Code
+  fills it in.** Measured 2026-09-18: `${CLAUDE_PLUGIN_ROOT}` in SKILL.md text
+  is replaced by the install path at load. `skills/tend/SKILL.md` :213, :217,
+  :241 and `skills/slainte/SKILL.md` :104 mean the literal placeholder (e.g.
+  "a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path"), so the model likely reads a
+  rewritten instruction. Not yet observed in a real tend run.
+
 ## Closed 2026-09-24 (morning)
 
 **Verdict: done — seen in real use; evidence in `kivna/sessions/2026-09-24.md` ("Morning sitting").**

@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.151.0 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.152.0 on `main`; both hosts run it. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -10,8 +10,8 @@ sketchbook `docs/work/launch-plan/work.md`. Kerd is ready to launch when someone
 Anthony carries real work in their own repository to its agreed result, unaided. **Step 1 is
 under way, in 3of3's own session** (Anthony, 2026-09-23: "that project is already using kerd
 and is switched in"): its next item is the TV-to-TV iCloud sync proof (Anthony is doing it on 2026-09-24,
-in 3of3's own session), his hands on the
-televisions. Kerd hands nothing over; after each sitting there, one line of evidence goes
+in 3of3's own session, and will say here when it is done), his hands on the
+televisions. Not in 3of3's records as of 2026-09-24 14:58. Kerd hands nothing over; after each sitting there, one line of evidence goes
 into `docs/work/launch-plan/work.md`, which already holds step 1's evidence so far.
 
 **The team note is going out** (Anthony, 2026-09-23 17:05, "y" to sending it now; not yet
@@ -21,9 +21,7 @@ confirmed sent). **Parked:** "delay any sam and auble work for now" (Anthony, 20
 
 **The 2026-09-13 hold is lifted** (Anthony, 2026-09-23 18:19; `docs/decisions.md`), so
 launch step 2 is open. **Anthony's:** who the three to five invited are (asked 18:20,
-parked 21:13: "skip lets skip that"); where and when to announce. Decide whether the
-explanatory output style stays on for this machine; it asks for Insight blocks and pulls
-against the report shape. GitHub's README rendering, checked 2026-09-22: all four pictures
+parked 21:13: "skip lets skip that"); where and when to announce. GitHub's README rendering, checked 2026-09-22: all four pictures
 load and the smallest label shows at 16.8px; the repo homepage already links the site. The
 repo's GitHub description now matches the site's line (set 2026-09-22 on Anthony's "sure"). Leftovers from the
 2026-09-21 image test, both harmless and left because they are his: an idle Codex session in
@@ -43,8 +41,17 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - **Watch the unanswered-review rule (0.149.0)** the first time a partner doesn't answer:
   a fresh reviewer recommended on his yes, never a waiver. Record:
   `docs/work/partner-closed/work.md`.
-- **The Opus 5.5 and GPT-6 profiles (0.148.0) are untested;** every clause is pending
-  until a real brief uses them.
+- **The Opus 5.5 profile was revised in 0.152.0 against Anthropic's guide;** two clauses
+  carry one paired observation each, three new clauses are pending (unattended premature stop,
+  fan-out time budget, explore before acting). Watch the first real brief that uses them.
+  Sketchbook `docs/work/opus-55/work.md` (local). The GPT-6 profile (0.148.0) is untested.
+- **Decide how a context-window reading reaches the command line** (Anthony asked
+  2026-09-24). No Claude Code CLI reads a running session's context (checked 2026-09-24);
+  the status line receives `context_window.used_percentage` and friends on stdin. This
+  machine's status line is Scorched Earth's wrapper, not Kerd's segment, so which one writes
+  the reading is his choice.
+- **The homepage redesign: dropped, to revisit** (Anthony, 2026-09-24 12:56). Three Codex
+  passes and his reactions: `docs/work/homepage-redesign/work.md` (local).
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
   concert now performs on `concert/<work>`, and the merge back is the person's go
   (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
@@ -66,8 +73,10 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   own host's workers; a Codex builder under Claude (or the reverse) is an exception the
   person asks for or approves, called a trial without a comparison. Not yet seen: the
   first request and its Fit line. Sketchbook `docs/work/codex-players/work.md` (local).
-- **Codex runs 0.150.0; bring it to the next release** when one lands (its package
-  carries Conductor, so 0.151.0's rule is not in Codex yet).
+  Codex building the homepage on 2026-09-24 was Anthony giving it the work directly, not a
+  Conductor dispatch.
+- **Bring Codex along with each release** that changes its four-skill package (Conductor,
+  Switch, Visuals, Agent); Codex builds and installs only on Anthony's go in its window.
 
 Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
 front-page check, the site going live, and the evening's six contradictions and host line) and
@@ -100,13 +109,6 @@ run checks during pickup.
 *Repository-quality debt that survived the ladder's retirement. Forty-three rows that were
 debt against the ladder, the ledger, the register or their tools were closed as dead on
 2026-09-19; they are in `docs/backlog-archive.md` with the verdict.*
-
-- **`tend` and `slainte` name the plugin placeholder literally, and Claude Code
-  fills it in.** Measured 2026-09-18: `${CLAUDE_PLUGIN_ROOT}` in SKILL.md text
-  is replaced by the install path at load. `skills/tend/SKILL.md` :213, :217,
-  :241 and `skills/slainte/SKILL.md` :104 mean the literal placeholder (e.g.
-  "a bare `${CLAUDE_PLUGIN_ROOT}/hooks/` path"), so the model likely reads a
-  rewritten instruction. Not yet observed in a real tend run.
 
 - **Agent's four disclosed-not-built limits** (Fable foundation review,
   2026-09-11; stated in `native-sessions.md`): a native log rewritten in place

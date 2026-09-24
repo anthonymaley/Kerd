@@ -12,6 +12,8 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. CONDUCTOR RUNS ON OPUS 5.5, AT MEDIUM EFFORT BY DEFAULT, AND IS SET UP FROM ANTHROPIC'S OWN GUIDANCE FOR IT; KERD ADVISES THE SESSION SETUP BUT NEVER CHANGES THE SESSION ITSELF — Anthony, 2026-09-24 13:01; released in 0.152.0
+1. THE EXPLANATORY AND LEARNING OUTPUT STYLES ARE OFF ON THIS MACHINE — Anthony, 2026-09-24 10:37, "y". Machine setup, not Kerd.
 1. CONDUCTOR BUILDS WITH ITS OWN HOST'S WORKERS AND THE OTHER PROVIDER REVIEWS; A CROSS-PROVIDER IMPLEMENTATION WORKER IS AN EXCEPTION THE PERSON ASKS FOR OR APPROVES, WITH A CONCRETE REASON, CALLED A TRIAL WITHOUT COMPARATIVE EVIDENCE; NO ROUTING FRAMEWORK OR PROVIDER QUOTAS — Anthony, 2026-09-24 09:10, "lets do"; released in 0.151.0
 1. THE 2026-09-13 "PROVE KERD FIRST" HOLD IS LIFTED: ROWS 1 TO 5 OF ITS VERIFICATION LIST EACH CARRY AN OBSERVATION; LAUNCH STEP 2 AND THE DEFERRED CODEX PICKUP ARE NO LONGER BLOCKED — Anthony, 2026-09-23 18:19, "y"; supersedes ruling 28
 1. A REVIEW THE PARTNER LEAVES UNANSWERED GETS A FRESH ONE-OFF REVIEWER ON THE PERSON'S YES, NEVER A RECOMMENDED WAIVER — Anthony, 2026-09-23 16:28; released in 0.149.0
@@ -225,6 +227,24 @@ ruling so history is searchable by subject; find the entry by its opening words.
 193. TODO is forward-only
 ## Entries, newest first
 
+- **Conductor runs on Opus 5.5, at medium by default, set up from Anthropic's guidance —
+  Anthony, 2026-09-24 13:01.** During the Opus 5.5 deep dive he wrote: "we should leverage 5.5
+  as conductor as its more efficient but make sure we are getting the best out it based on
+  guidance." Claude read the provider's Opus 5.5 prompting guide, effort page, model overview
+  and Claude Code's model-config in full; ran one paired trial each on effort (a five-bug
+  review: medium and high both 5/5, medium about a quarter fewer tokens) and on frontend
+  briefs (a generic "avoid an AI look" produced four of the five named patterns). Codex's
+  checkpoint (four findings) stopped a proposed continuation cap for Roll workers without an
+  observed Kerd failure and loosened two clauses to the provider's wording. Anthony: "good to
+  go otherwise" (13:11). 0.152.0: new dated profile, the conducting-session advice under the
+  model table, three pending clauses. Kerd never changes the session's model or effort itself,
+  and it reports the active effort as unverified unless read. Sketchbook `docs/work/opus-55/`
+  (local).
+- **The explanatory and learning output styles are off on this machine — Anthony, 2026-09-24
+  10:37.** They asked for Insight blocks and code handed to him to write, against Kerd's
+  report shape; Claude had been following the report shape and silently dropping the Insight
+  blocks, and said so. Both plugins were disabled at user scope (`explanatory-output-style` and
+  `learning-output-style`, claude-plugins-official), from the next session.
 - **Conductor builds with its own host's workers and the other provider reviews; a
   cross-provider implementation worker is an exception — Anthony, 2026-09-24 09:10, "lets
   do".** Anthony observed (08:48) "i've never seen conductor assign a codex agane to a job"

@@ -6,51 +6,57 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.151.0 on `main`.** The 2026-09-24 morning sitting (08:24–09:3x)
-brought Codex to 0.150.0 and released 0.151.0: Conductor builds with its own host's workers
-and the other provider reviews; a cross-provider builder is an exception the person asks for
-or approves. The 2026-09-23 late sitting released 0.149.2 and 0.150.0.
+**Release boundary: 0.152.0 on `main`.** The 2026-09-24 day sitting (09:36–15:0x) released
+0.151.1 (Tend and Slainte describe the plugin-root placeholder instead of spelling it out, so
+Claude Code no longer rewrites it) and 0.152.0 (Conductor's Opus 5.5 guidance, checked against
+Anthropic's guide). The morning sitting released 0.151.0.
 
-**Both hosts name the Kerd version on arrival:** Claude Code's heading read "Kerd 0.150.0"
-this morning; Codex was brought to 0.150.0 (read back 08:48) and Anthony reported its fresh
-arrival working. Sketchbook `docs/work/codex-pickup/work.md` (local).
+**Both hosts run 0.152.0:** Claude Code (`claude plugin list`, 14:01) and Codex
+(`codex plugin list --marketplace kerd-core`, 14:05, read back by Claude), each in force from
+its next session. The next arrival's heading names the version it loaded; resolve other live
+numbers.
 
-**The new job names are seen in real use:** with 0.149.0 installed, Anthony's running-job
-list read `kerd:sonnet-high` (2026-09-23 17:28). Closed.
+**Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
+scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
+changed nothing. One observation, not verified.
 
 **Kerd has an accepted launch plan** (`docs/design/launch-plan.md`). Ready to launch when
 someone other than Anthony carries a real piece of work, in their own repository, to its
-agreed result, unaided. **Step 1 is under way in 3of3's own session**, which has used Kerd
-since August; its next item is the TV-to-TV iCloud sync proof, his hands on the televisions,
-**which Anthony said he is doing today (2026-09-24 09:29, "y").** Kerd hands nothing over. Step 1's evidence so far (read
-2026-09-23 from 3of3's records) is in the local sketchbook `docs/work/launch-plan/work.md`:
-Codex review caught four real defects there; the one failure that reached real devices was
-a waived review while his Codex session was closed, which 0.149.0 answers.
+agreed result, unaided. **Step 1 is under way in 3of3's own session**; its next item is the
+TV-to-TV iCloud sync proof, his hands on the televisions. Anthony said he is doing it today
+(09:29) and will say here when it is done (09:49). At 14:58, 3of3 had no commits today and
+uncommitted work in its player and Jellyfin code; no sign of the sync proof. Kerd hands
+nothing over. Evidence so far: local sketchbook `docs/work/launch-plan/work.md`.
 
-**Two teams already use Kerd** (Anthony, 2026-09-22): SAM and Aubel.app. The note asking
-which version they run, whether they finished work unaided and what broke
-(`docs/work/launch-plan/team-note.md`) is going out: Anthony said "y" to sending it now
-(2026-09-23 17:05); not yet confirmed sent. Replies go into the per-team lines in
-`docs/work/launch-plan/work.md`. **Parked (Anthony, 2026-09-24 08:55): "delay any sam and
-auble work for now";** don't raise it until he does.
+**The homepage redesign was tried and dropped (Anthony, 12:56: "nah dont like it - lets drop
+it"; "will revisit").** Codex built three passes on his direct ask; his reactions and the
+dropped pass are in the local sketchbook `docs/work/homepage-redesign/work.md`. `site/` is
+unchanged. When revisited, start from what would make it feel serious rather than AI-made to
+him, not from another pick of direction.
 
-**The 2026-09-13 hold is lifted (Anthony, 2026-09-23 18:19),** so launch step 2, inviting
-three to five people he picks, is open. He was asked who (18:20) and parked it (21:13:
-"skip lets skip that").
+**Two teams already use Kerd** (Anthony, 2026-09-22): SAM and Aubel.app. The team note
+(`docs/work/launch-plan/team-note.md`) had his "y" to send (2026-09-23 17:05); not confirmed
+sent. **Parked (Anthony, 2026-09-24 08:55): "delay any sam and auble work for now";** don't
+raise it until he does.
+
+**The 2026-09-13 hold is lifted (2026-09-23),** so launch step 2, inviting three to five people
+he picks, is open. He parked choosing them (2026-09-23 21:13: "skip lets skip that").
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
+- **Conductor runs on Opus 5.5, at medium by default, set up from Anthropic's guidance
+  (2026-09-24, 0.152.0);** Kerd advises the session setup, never changes the session itself.
+- **The explanatory and learning output styles are off on this machine (2026-09-24).**
 - **Conductor builds with its own host's workers and the other provider reviews; a
   cross-provider builder is an exception the person asks for or approves, with a reason,
-  called a trial without a comparison (2026-09-24, 0.151.0).** No routing framework or
-  provider quotas; spare capacity is a reason he gives, not a stored setting.
+  called a trial without a comparison (2026-09-24, 0.151.0).** Codex building the homepage
+  on Anthony's direct ask was his change of ownership, not a Conductor dispatch.
 - **The 2026-09-13 "prove Kerd first" hold is lifted (2026-09-23);** lifting it invites
   nobody and announces nothing.
 - **A review the partner leaves unanswered gets a fresh one-off reviewer on his yes, never
   a recommended waiver (2026-09-23).**
-- **Dispatch agents are named for the model and the effort (2026-09-23);** the call still
-  names the same model. Bounds the 2026-09-16 countermeasure ruling.
-- **Read-only reads of his own projects need no question first (2026-09-23,** "you can read
-  anytime"). Writes, builds, installs, pushes and device actions still need their go.
+- **Dispatch agents are named for the model and the effort (2026-09-23).**
+- **Read-only reads of his own projects need no question first (2026-09-23).** Writes,
+  builds, installs, pushes and device actions still need their go.
 - **Keep moving; never sit idle (2026-09-22).** Carry on towards the goal, or stop on a
   reason he can engage with.
 - **A launch plan exists and is accepted (2026-09-22);** its open decisions are his.
@@ -66,26 +72,21 @@ three to five people he picks, is open. He was asked who (18:20) and parked it (
 Still governing from 2026-09-18: rehearsal is organic and the concert executes to a score
 and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
-**Not yet ruled, and it is Anthony's:** who the invited few are, where and when to
-announce, and whether the explanatory output
-style stays on for this machine.
+**Not yet ruled, and it is Anthony's:** who the invited few are, where and when to announce,
+what would make the homepage feel serious to him, and how a context-window reading should
+reach the command line (see the continuation).
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
-review and investigation** (cadence: checkpoints, before-push); on 2026-09-24 it built and
-installed Kerd 0.150.0 for Codex on Anthony's direct go in its window, and reviewed 0.151.0
-(four findings, fixed; then clear). Its install report went to Anthony's window, not to
-Claude; Claude verified the install by read-back. A relayed "y" is not
-enough for Codex to do a user-level install; the go must be his, in its window. No job is
-running.
-
-**Installed state:** Claude Code's install is 0.151.0 (`claude plugin list`, 2026-09-24
-09:29), in force from the next session; this sitting ran 0.150.0. **Codex runs 0.150.0**
-(`codex plugin list --marketplace kerd-core`, 2026-09-24 08:48); bring it along with the
-next release. The next arrival's heading names the version
-it loaded; resolve other live numbers.
+review and investigation** (cadence: checkpoints, before-push). Today it built and installed
+0.151.0 and 0.152.0 for Codex on Anthony's direct go in its window, reviewed 0.151.1 (clear)
+and 0.152.0 (checkpoint: four findings; before-push: two minor; all applied), and built the
+homepage passes. A relayed "y" is not enough for Codex to install or build; the go must be
+his, in its window. No job is running.
 
 **Standing:** a peer session cannot authorize a push. `.env` at the repo root holds
-Anthony's TypeSafe key and is git-ignored; never print or commit it.
+Anthony's TypeSafe key and is git-ignored; never print or commit it, and never serve the
+repository root over the network (a preview briefly did on 2026-09-24 11:21; its log shows no
+request for `.env`; previews now serve `site/` only).
 
 **Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
@@ -95,36 +96,38 @@ Anthony's TypeSafe key and is git-ignored; never print or commit it.
 and every file inside `docs/work/launch-plan/`, `docs/work/roll-on-branch/`,
 `docs/work/waiting-on-you/`, `docs/work/no-idle-sessions/` and `docs/work/site-musical/`
 (2026-09-22); every file inside `docs/work/job-label/` and `docs/work/partner-closed/`
-(2026-09-23); every file inside `docs/work/codex-pickup/` (2026-09-23 late); and every file inside
-`docs/work/codex-players/` (2026-09-24). They exist on the Mac Studio only.
+(2026-09-23); every file inside `docs/work/codex-pickup/` (2026-09-23 late); every file inside
+`docs/work/codex-players/` (2026-09-24); and every file inside `docs/work/homepage-redesign/`
+and `docs/work/opus-55/` (2026-09-24 day). They exist on the Mac Studio only.
 
-**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 08:24 arrival
+**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 09:36 arrival
 against the saved designation; it designates its successor at this Out.
 
-**Selected continuation, agreed (Anthony, 2026-09-24 09:29): after Anthony's TV-to-TV
-iCloud sync sitting in 3of3, Claude reads 3of3's records (read-only; no question needed)
-and adds one line of step 1 evidence to `docs/work/launch-plan/work.md`.** Owner: Anthony
-runs the sitting in 3of3's own session; Kerd hands nothing over. **Stops at** the evidence
-line; no writes in 3of3, no device actions. **Why:** step 1 is the only launch step under
-way, and this proof is its next item. If the sitting hasn't happened, the arrival says so
-and weighs the other open work. Then launch step 2, still parked: Anthony names three to
-five people (ask again only if he picks it up). His too: the announcement and the output
-style. SAM and Aubel.app are parked.
+**Selected continuation, agreed (Anthony, 2026-09-24 09:29 and 09:49): after Anthony's
+TV-to-TV iCloud sync sitting in 3of3, Claude reads 3of3's records (read-only; no question
+needed) and adds one line of step 1 evidence to `docs/work/launch-plan/work.md`.** Owner:
+Anthony runs the sitting in 3of3's own session and says when it is done. **Stops at** the
+evidence line; no writes in 3of3, no device actions. **Why:** step 1 is the only launch step
+under way, and this proof is its next item. If the sitting hasn't happened, the arrival says so
+and weighs the other open work. **Proposed after it, not agreed:** decide how a context-window
+reading reaches the command line. Claude Code has no CLI for it (checked 2026-09-24); the
+status line gets `context_window` JSON on stdin, but this machine's status line is Scorched
+Earth's wrapper, not Kerd's segment, so the design choice is his. Parked: step 2, the
+announcement, SAM and Aubel.app, the homepage.
 
-**Pickup reading set** (Switch Out, 2026-09-24 09:3x):
+**Pickup reading set** (Switch Out, 2026-09-24 15:0x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-24.md`, the late and morning sittings.
-Deeper: `kivna/sessions/2026-09-23.md` (the day's three earlier sittings);
-`docs/design/launch-plan.md`; local sketchbooks `docs/work/launch-plan/work.md`,
-`docs/work/codex-players/work.md`, `docs/work/codex-pickup/work.md`.
+- `kivna/sessions/2026-09-24.md`, today's three sittings.
+Deeper: `docs/decisions.md` (the two new rulings' cases); `docs/design/launch-plan.md`; local
+sketchbooks `docs/work/launch-plan/work.md`, `docs/work/opus-55/work.md`,
+`docs/work/homepage-redesign/work.md`, `docs/work/codex-pickup/work.md`.
 
-The observed position before this save is the 0.151.0 release on `main`; the boundary
+The observed position before this save is the 0.152.0 release on `main`; the boundary
 commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-24 09:3x: about 19,900 bytes across the three sources, about 5,000
-tokens estimated at four bytes each, within the 8,000 target. `read_args` for the next
-pickup:
+**Measured** 2026-09-24 15:0x: about 25,500 bytes across the three sources, about 6,400 tokens
+estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-24.md",
