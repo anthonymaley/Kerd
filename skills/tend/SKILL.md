@@ -210,7 +210,7 @@ Scan all `skills/*/SKILL.md` files and key docs (`CLAUDE.md`, `README.md`, `docs
 
 #### Category 9: Hook hygiene
 
-**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — the plugin-root variable (`CLAUDE_PLUGIN_ROOT`) expands correctly there. **No per-repo wiring is needed, and none should be added.** Each hook is silent unless the repo carries Kerd state (`kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
+**Kerd hooks auto-load from the plugin (v0.96.0+).** They live in the plugin's own `hooks/hooks.json` and the harness registers them whenever the Kerd plugin is enabled — the plugin-root variable (`CLAUDE_PLUGIN_ROOT`) expands correctly there. **No per-repo wiring is needed, and none should be added.** The session-start and skill-complete hooks are silent unless the repo carries Kerd state (`kivna/.active-modes`, a `kivna/` dir), so they no-op cleanly everywhere else; the context-reading hook (v0.153.0) runs in every project by design, telling the session its token count. This is the standard plugin-hook mechanism; it never version-rots, because there is no cached version path to go stale.
 
 The only job left for tend is **migration**: find and remove *stale manual hook entries* left in `.claude/settings.local.json` by the old (pre-0.96.0) wiring mechanism. Those entries either point at a garbage-collected cache version (dead — Claude Code prunes old versions, see the playbook GC gotcha) or duplicate a hook the plugin now auto-loads (double-fire). Both are fixed by deletion.
 

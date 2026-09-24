@@ -56,7 +56,7 @@ docs/decisions.md # the full case for every standing decision; CONTEXT.md keeps 
 docs/backlog-archive.md # Backlog rows closed at Switch Out, with verdict, evidence and date
 CONTEXT.md        # current state, overwritten each session
 TODO.md           # open work (## Now + ## Backlog)
-hooks/            # session hooks (statusline, session-start/stop, skill-complete)
+hooks/            # session hooks (statusline, session-start, skill-complete, context-reading)
 tests/            # hooks_test.sh
 kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs from switch (committed)

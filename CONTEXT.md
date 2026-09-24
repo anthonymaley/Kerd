@@ -73,8 +73,7 @@ Still governing from 2026-09-18: rehearsal is organic and the concert executes t
 and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
 **Not yet ruled, and it is Anthony's:** who the invited few are, where and when to announce,
-what would make the homepage feel serious to him, and how a context-window reading should
-reach the command line (see the continuation).
+and what would make the homepage feel serious to him.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
 review and investigation** (cadence: checkpoints, before-push). Today it built and installed
@@ -109,10 +108,8 @@ needed) and adds one line of step 1 evidence to `docs/work/launch-plan/work.md`.
 Anthony runs the sitting in 3of3's own session and says when it is done. **Stops at** the
 evidence line; no writes in 3of3, no device actions. **Why:** step 1 is the only launch step
 under way, and this proof is its next item. If the sitting hasn't happened, the arrival says so
-and weighs the other open work. **Proposed after it, not agreed:** decide how a context-window
-reading reaches the command line. Claude Code has no CLI for it (checked 2026-09-24); the
-status line gets `context_window` JSON on stdin, but this machine's status line is Scorched
-Earth's wrapper, not Kerd's segment, so the design choice is his. Parked: step 2, the
+and weighs the other open work. The context-window item became 0.153.0's context-reading hook
+(Anthony, 15:27–15:28; built, not yet released). Parked: step 2, the
 announcement, SAM and Aubel.app, the homepage.
 
 **Pickup reading set** (Switch Out, 2026-09-24 15:0x):

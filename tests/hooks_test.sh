@@ -1,7 +1,7 @@
 #!/bin/bash
 # Kerd hooks test harness
 #
-# Exercises the session hooks (session-start.sh, skill-complete.sh)
+# Exercises the session hooks (session-start.sh, skill-complete.sh, context-reading.sh)
 # against the failure classes that have actually bitten us:
 #
 #   - Path resolution: the hook must degrade SILENTLY (exit 0, no stderr) when
@@ -340,11 +340,77 @@ test_shellcheck_clean() {
     return 0
   fi
   local out
-  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/skill-complete.sh" 2>&1)
+  out=$(shellcheck "$HOOKS/session-start.sh" "$HOOKS/skill-complete.sh" "$HOOKS/context-reading.sh" 2>&1)
   if [ -n "$out" ]; then
     fail "shellcheck reported issues:"$'\n'"$out"
     return
   fi
+  pass
+}
+
+# --- context reading ----------------------------------------------------------
+
+make_transcript() {  # echoes a transcript path whose last main reply used 120,500 tokens
+  local f; f=$(mktemp)
+  cat >"$f" <<'JSONL'
+{"type":"assistant","message":{"usage":{"input_tokens":5,"cache_read_input_tokens":90000,"cache_creation_input_tokens":500}}}
+{"type":"user","message":{"content":"hi"}}
+{"type":"assistant","message":{"usage":{"input_tokens":10,"cache_read_input_tokens":120000,"cache_creation_input_tokens":490}}}
+{"type":"assistant","isSidechain":true,"message":{"usage":{"input_tokens":1,"cache_read_input_tokens":999999}}}
+JSONL
+  echo "$f"
+}
+
+test_context_reading_prompt_reports_last_main_reply() {
+  TNAME="context-reading: prompt prints the last main reply's tokens"
+  local t tmp; t=$(make_transcript); tmp=$(mktemp -d)
+  OUT=$(printf '{"session_id":"s1","transcript_path":"%s"}' "$t" | TMPDIR="$tmp" bash "$HOOKS/context-reading.sh" prompt 2>/dev/null); RC=$?
+  rm -rf "$t" "$tmp"
+  assert_exit 0 "$RC" || return
+  assert_contains "$OUT" "Context: 120,500 tokens in the last request" || return
+  pass
+}
+
+test_context_reading_tool_throttles_then_reports() {
+  TNAME="context-reading: tool call throttled after a fresh reading, JSON otherwise"
+  local t tmp in; t=$(make_transcript); tmp=$(mktemp -d)
+  in=$(printf '{"session_id":"s2","transcript_path":"%s"}' "$t")
+  OUT=$(printf '%s' "$in" | TMPDIR="$tmp" bash "$HOOKS/context-reading.sh" tool 2>/dev/null)
+  assert_contains "$OUT" '"additionalContext": "Context: 120,500 tokens' || { rm -rf "$t" "$tmp"; return; }
+  OUT=$(printf '%s' "$in" | TMPDIR="$tmp" bash "$HOOKS/context-reading.sh" tool 2>/dev/null)
+  rm -rf "$t" "$tmp"
+  assert_empty "$OUT" "second tool reading within five minutes" || return
+  pass
+}
+
+test_context_reading_silent_on_bad_input() {
+  TNAME="context-reading: garbage, missing transcript or subagent -> silent"
+  local o1 o2 o3
+  o1=$(printf 'garbage' | bash "$HOOKS/context-reading.sh" prompt 2>&1)
+  o2=$(printf '{"session_id":"s","transcript_path":"/nonexistent"}' | bash "$HOOKS/context-reading.sh" prompt 2>&1)
+  o3=$(printf '{"session_id":"s","agent_id":"a","transcript_path":"/etc/hosts"}' | bash "$HOOKS/context-reading.sh" prompt 2>&1)
+  assert_empty "$o1$o2$o3" "output" || return
+  pass
+}
+
+test_context_reading_unwritable_state_stays_silent() {
+  TNAME="context-reading: tool call with no throttle memory -> silent, never repeats"
+  local t bad o1 o2; t=$(make_transcript); bad=$(mktemp)   # a file, so the state dir can't be made
+  o1=$(printf '{"session_id":"s3","transcript_path":"%s"}' "$t" | TMPDIR="$bad" bash "$HOOKS/context-reading.sh" tool 2>&1)
+  o2=$(printf '{"session_id":"s3","transcript_path":"%s"}' "$t" | TMPDIR="$bad" bash "$HOOKS/context-reading.sh" tool 2>&1)
+  rm -f "$t" "$bad"
+  assert_empty "$o1$o2" "output" || return
+  pass
+}
+
+test_context_reading_large_event_still_reads() {
+  TNAME="context-reading: a 3 MB tool event still produces the reading"
+  local t tmp big; t=$(make_transcript); tmp=$(mktemp -d)
+  big=$(head -c 3000000 /dev/zero | tr '\0' 'x')
+  OUT=$(printf '{"session_id":"s4","transcript_path":"%s","tool_response":"%s"}' "$t" "$big" \
+        | TMPDIR="$tmp" bash "$HOOKS/context-reading.sh" prompt 2>/dev/null)
+  rm -rf "$t" "$tmp"
+  assert_contains "$OUT" "Context: 120,500 tokens" || return
   pass
 }
 

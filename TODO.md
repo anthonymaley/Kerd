@@ -45,11 +45,6 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   carry one paired observation each, three new clauses are pending (unattended premature stop,
   fan-out time budget, explore before acting). Watch the first real brief that uses them.
   Sketchbook `docs/work/opus-55/work.md` (local). The GPT-6 profile (0.148.0) is untested.
-- **Decide how a context-window reading reaches the command line** (Anthony asked
-  2026-09-24). No Claude Code CLI reads a running session's context (checked 2026-09-24);
-  the status line receives `context_window.used_percentage` and friends on stdin. This
-  machine's status line is Scorched Earth's wrapper, not Kerd's segment, so which one writes
-  the reading is his choice.
 - **The homepage redesign: dropped, to revisit** (Anthony, 2026-09-24 12:56). Three Codex
   passes and his reactions: `docs/work/homepage-redesign/work.md` (local).
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A

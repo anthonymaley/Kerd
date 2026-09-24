@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.153.0
+
+**Claude now sees its own context token count.** A new Kerd hook reads the session's
+own log and tells Claude how many tokens its last request carried, using the same formula as
+the status line's context figure: at every prompt, and during a long turn after tool calls,
+at most every five minutes or every 50,000 tokens. It counts the last main-conversation reply
+and skips subagents. It reports a token count only, not a percentage or the window size,
+since these hook inputs carry neither. It runs in every project and stays silent when it
+can't read a count. Deciding when to Switch Out in an interactive session is still yours.
+
 ## 0.152.0
 
 **Conductor's Opus 5.5 guidance, checked against Anthropic's guide.** Kerd now

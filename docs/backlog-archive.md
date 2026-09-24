@@ -5,6 +5,20 @@ position paragraphs moved out of `CONTEXT.md` when they stopped being current. N
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
 
+## Closed 2026-09-24 (afternoon)
+
+**Verdict: done — built as the context-reading hook in 0.153.0 (Anthony, 15:27 "on request is
+pointless, it needs to read it periodically so you know what the window is"; 15:28 "yes").** At
+15:25 it was first closed as answered under the 2026-09-15 ruling; he then asked why Claude
+couldn't see the figure, and the hook reads the session's own transcript instead of the status
+line. Ruling in `docs/decisions.md`.
+
+- **Decide how a context-window reading reaches the command line** (Anthony asked
+  2026-09-24). No Claude Code CLI reads a running session's context (checked 2026-09-24);
+  the status line receives `context_window.used_percentage` and friends on stdin. This
+  machine's status line is Scorched Earth's wrapper, not Kerd's segment, so which one writes
+  the reading is his choice.
+
 ## Closed 2026-09-24 (day)
 
 **Verdict: done — fixed in 0.151.1 and seen once in a real run; evidence in
