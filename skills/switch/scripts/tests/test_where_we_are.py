@@ -1254,7 +1254,7 @@ class MarkdownTests(unittest.TestCase):
         self.assertNotIn(summary["question"]["reply"], you)
         self.assertNotIn(summary["question"]["text"], you)
         self.assertEqual(visible.count(summary["question"]["text"]), 1)
-        self.assertIn("**KERD · SWITCH IN COMPLETE ✓**", out)
+        self.assertIn("**KERD · SWITCH IN COMPLETE ✓ · Kerd " + view.kerd_version() + "**", out)
         self.assertIn("- **LAST SESSION**\n\n  ", out)
         self.assertIn("> **★ Insight**", out)
         self.assertNotIn("\x1b", out)
@@ -1465,3 +1465,59 @@ class OmissionContractTests(unittest.TestCase):
         out = view.render_dashboard({}, NOW, 78, False)
         for omitted in ("⚠", "DOCUMENTS", "★"):
             self.assertNotIn(omitted, out)
+
+
+class KerdVersionTests(unittest.TestCase):
+    """The arrival names the Kerd build that drew it, read from the package's
+    own manifest, so nobody has to guess which build a pickup came from."""
+
+    ARRIVAL = {"project": "Seinn", "restored": "yes", "where": "Plays video.",
+               "open_work": ["Decide the endorsement model."],
+               "recommendation": {"text": "Shape the endorsement model.", "why": "It blocks release."}}
+
+    def package(self, directory, manifests):
+        import shutil
+        scripts = Path(directory) / "skills" / "switch" / "scripts"
+        scripts.mkdir(parents=True)
+        shutil.copy(SCRIPT, scripts / "where_we_are.py")
+        for name, text in manifests.items():
+            (Path(directory) / name).mkdir()
+            (Path(directory) / name / "plugin.json").write_text(text, encoding="utf-8")
+        spec = importlib.util.spec_from_file_location("where_we_are_packaged", scripts / "where_we_are.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_the_arrival_names_the_version_its_package_declares(self):
+        import tempfile
+        for manifest in (".claude-plugin", ".codex-plugin"):
+            with tempfile.TemporaryDirectory() as directory:
+                module = self.package(directory, {manifest: '{"name": "kerd", "version": "9.8.7"}'})
+                out = module.render_dashboard(self.ARRIVAL, NOW, markdown=True)
+                self.assertIn("**SEINN · SWITCH IN COMPLETE ✓ · Kerd 9.8.7**", out)
+                self.assertIn("Kerd 9.8.7", module.render_dashboard(self.ARRIVAL, NOW, 80, False))
+
+    def test_an_unreadable_version_is_said_not_guessed(self):
+        import tempfile
+        for manifests in ({}, {".claude-plugin": "not json"}, {".claude-plugin": '{"version": ""}'}):
+            with tempfile.TemporaryDirectory() as directory:
+                out = self.package(directory, manifests).render_dashboard(self.ARRIVAL, NOW, markdown=True)
+                self.assertIn("SWITCH IN COMPLETE ✓ · Kerd version not read", out)
+
+    def test_the_older_grid_names_the_version_too(self):
+        import tempfile
+        older = {"project": "Seinn", "restored": "yes", "task": "Check the view", "state": "Ready"}
+        with tempfile.TemporaryDirectory() as directory:
+            module = self.package(directory, {".claude-plugin": '{"version": "9.8.7"}'})
+            self.assertIn("**KERD · SWITCH IN COMPLETE ✓ · Kerd 9.8.7**",
+                          module.render_dashboard(older, NOW, markdown=True))
+            self.assertIn("KERD · Kerd 9.8.7", module.render_dashboard(older, NOW, 80, False))
+        with tempfile.TemporaryDirectory() as directory:
+            module = self.package(directory, {})
+            self.assertIn("Kerd version not read", module.render_dashboard(older, NOW, markdown=True))
+            self.assertIn("Kerd version not read", module.render_dashboard(older, NOW, 80, False))
+
+    def test_this_checkout_reports_its_own_release(self):
+        import json
+        declared = json.loads((SCRIPT.parents[3] / ".claude-plugin" / "plugin.json").read_text())["version"]
+        self.assertEqual(view.kerd_version(), declared)

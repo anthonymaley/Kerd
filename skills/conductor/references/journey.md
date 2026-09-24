@@ -54,7 +54,7 @@ interactive or a terminal supports colour when it does not.
 ## Question surface and host adaptation
 
 Switch's Markdown arrival uses the linked welcome-back convention, in plain
-product English: an explicit completion heading, a one-row PROJECT · PHASE ·
+product English: an explicit completion heading naming the Kerd version, a one-row PROJECT · PHASE ·
 NEXT · TEAM grid, Where things stand, Last session, Open work one line each, one
 Recommended item with its Why, then document links on one line. No footer or end
 marker. For ordinary In, **“Start a Conductor session?”** ends the screen, once

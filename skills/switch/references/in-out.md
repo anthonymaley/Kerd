@@ -288,7 +288,12 @@ goes straight to its authorized continuation, never through this arrival questio
 ### Welcome back: the screen summary
 
 After restoration, orient before detail, in plain English. The arrival opens with
-a one-row grid, then the text:
+its heading, then a one-row grid, then the text:
+
+- **Heading:** the project, the completion state, and the Kerd version the
+  renderer read from its own package manifest (for example `Kerd 0.150.0`), or “Kerd version
+  not read” when none is readable. The caller supplies nothing for it; it names
+  the build that drew the screen, never one remembered from a record.
 
 - **Grid:** PROJECT; PHASE, the recommended work item's rung on the project's
   ladder (frame, viability, scope, design, handoff, loop, acceptance, or the

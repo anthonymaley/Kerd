@@ -189,7 +189,9 @@ In the repo you want to work in:
 In Codex, type `Switch in.` instead.
 
 Kerd restores what the project already knows and shows you an arrival screen in
-plain English. It opens with a one-row grid: PROJECT, PHASE (where the
+plain English. Its heading says whether the restore is complete and which Kerd
+version drew the screen, read from the installed package itself. Then a one-row
+grid: PROJECT, PHASE (where the
 recommended work sits), NEXT (the recommendation) and TEAM (any Claude or Codex
 partner it restored). Under it, in this order: where things stand in product
 terms, what changed last session, the open work one line each, and one

@@ -626,19 +626,22 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     # puts the question after its end marker, the arrival ends on it.
     question = get("question")
     restored = get("restored")
+    version = kerd_version()
+    loaded = f"Kerd {version}" if version else "Kerd version not read"
     if restored == "yes":
         badge, tone = "SESSION RESTORED \u2713 ", "green"
     elif restored in ("partial", "no"):
         badge, tone = "PICKUP INCOMPLETE ", "amber"
     else:
         badge, tone = "", None
-    lines = [ink(pad(" KERD", width - columns(badge)), "bold", "cyan", on=color)
+    lines = [ink(pad(" KERD \u00b7 " + loaded, width - columns(badge)), "bold", "cyan", on=color)
              + ink(badge, tone, on=color and tone is not None),
              ink("\u2501" * width, "cyan", on=color), ""]
     if markdown:
         status = ("SWITCH IN COMPLETE ✓" if restored == "yes" else
                   "SWITCH IN INCOMPLETE" if restored in ("partial", "no") else
                   "SWITCH IN STATUS UNKNOWN")
+        status += " \u00b7 " + loaded
         state = str(get("state") or UNRECORDED)
         if get("state_reason"):
             state += " — " + str(get("state_reason"))
@@ -717,6 +720,21 @@ def render_dashboard(summary, now, width=80, color=True, question_below=False, m
     return "\n".join(lines + dashboard_tail(summary, now, width, color, markdown))
 
 
+def kerd_version():
+    """The Kerd version this renderer was loaded from, read from the package's
+    own manifest beside it, so an arrival names the build that drew it rather
+    than one remembered from a record. None when no manifest can be read."""
+    root = Path(__file__).resolve().parents[3]
+    for manifest in (".claude-plugin/plugin.json", ".codex-plugin/plugin.json"):
+        try:
+            version = json.loads((root / manifest).read_text(encoding="utf-8")).get("version")
+        except (OSError, ValueError, AttributeError):
+            continue
+        if isinstance(version, str) and version.strip():
+            return version.strip()
+    return None
+
+
 def open_work_head(summary, width, color, markdown):
     """The arrival: a grid (project, phase, next, team), then where things
     stand, the open work, one recommendation and why. No copied saved step;
@@ -726,6 +744,8 @@ def open_work_head(summary, width, color, markdown):
     status = ("SWITCH IN COMPLETE \u2713" if restored == "yes" else
               "SWITCH IN INCOMPLETE" if restored in ("partial", "no") else
               "SWITCH IN STATUS UNKNOWN")
+    version = kerd_version()
+    status += f" \u00b7 Kerd {version}" if version else " \u00b7 Kerd version not read"
     project = str(get("project") or UNRECORDED)
     work = get("open_work")
     if isinstance(work, str):  # one item written as prose, not a list of letters

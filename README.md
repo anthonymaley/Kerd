@@ -264,9 +264,20 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.149.2)
+## What's New (v0.150.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.150.0
+
+**The arrival names the Kerd version that drew it.** A Switch In screen said where the
+work stood but not which Kerd produced it, so the only way to know was to find the
+version in a file path the session happened to read, as in Codex's pickup of Seinn on
+2026-09-23, or to trust a version remembered from a record, which went wrong on
+2026-09-13. The heading now reads, for example, "SEINN · SWITCH IN COMPLETE ✓ · Kerd
+0.150.0". The renderer reads it from the installed package's own manifest, in Claude
+Code and in Codex alike, and says "Kerd version not read" rather than guessing when it
+cannot.
 
 ### v0.149.2
 

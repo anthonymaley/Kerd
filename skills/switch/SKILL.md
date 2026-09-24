@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, adds what the sitting settled to Conductor's sketchbook for each piece of work, saves the next action and approval boundary, and ends on a plain-English box: what changed, the next step and why. Managed Roll continues without normal arrival approval.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival headed by the Kerd version it loaded: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, adds what the sitting settled to Conductor's sketchbook for each piece of work, saves the next action and approval boundary, and ends on a plain-English box: what changed, the next step and why. Managed Roll continues without normal arrival approval.
 ---
 
 # Switch
@@ -76,7 +76,7 @@ and verified work. Don't claim a file save exited a session, moved a process or
 proved full restoration. No fake activity or progress percentages.
 
 For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
-explicit completion heading, the PROJECT · PHASE · NEXT · TEAM grid, Where
+explicit completion heading naming the Kerd version it loaded, the PROJECT · PHASE · NEXT · TEAM grid, Where
 things stand, Last session, Open work, Recommended with its Why, attention and a
 real link to the open-work page, all in plain product English. No footer or end
 marker. The single question ends the screen as a bold speech-bubble blockquote.
