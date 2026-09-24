@@ -5,6 +5,16 @@ position paragraphs moved out of `CONTEXT.md` when they stopped being current. N
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
 
+## Closed 2026-09-23 (night)
+
+**Verdict: done — the hold is lifted; evidence in `kivna/sessions/2026-09-23.md` ("Night sitting").**
+
+- **The 2026-09-13 10:41 hold ("prove Kerd first").** Rows 3 and 5 of its verification list,
+  open since 2026-09-13, closed this day: row 3 at 17:40 (a fresh Switch In recovered both
+  accounts from the records alone), row 5 at 18:19 (Codex on 0.149.1, a fresh Codex session
+  reported loading it). Anthony lifted the hold at 18:19 ("y"). The ruling is in
+  `docs/decisions.md`; the deferred Codex pickup stays open in `TODO.md` as its own row.
+
 ## Closed 2026-09-23
 
 **Verdict: done — fixed and released this day; evidence in `kivna/sessions/2026-09-23.md`.**

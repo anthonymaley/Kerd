@@ -17,8 +17,9 @@ into `docs/work/launch-plan/work.md`, which already holds step 1's evidence so f
 confirmed sent). Each team's reply goes into its lines under "The team note goes out" in
 `docs/work/launch-plan/work.md`, one per field of the plan's per-person record.
 
-**Anthony's:** whether the 2026-09-13 hold is lifted (rows 3
-and 5 of its list are unclosed); who the invited few are; where and when to announce. Decide whether the
+**The 2026-09-13 hold is lifted** (Anthony, 2026-09-23 18:19; `docs/decisions.md`), so
+launch step 2 is open. **Anthony's:** who the three to five invited are (asked 18:20,
+parked 21:13: "skip lets skip that"); where and when to announce. Decide whether the
 explanatory output style stays on for this machine; it asks for Insight blocks and pulls
 against the report shape. GitHub's README rendering, checked 2026-09-22: all four pictures
 load and the smallest label shows at 16.8px; the repo homepage already links the site. The
@@ -59,14 +60,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   version is still the dev snapshot `2.17.0-dev.1`.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture.
-- The 2026-09-13 10:41 hold ("prove Kerd first") deferred a Codex pickup in a work
-  project. Whether it is lifted is Anthony's call; don't assume it. **Rows 3 and 5 checked
-  2026-09-23 17:29, both still open** (`docs/work/launch-plan/work.md`, "The 2026-09-13
-  hold"). Row 3 is being observed now: the 2026-09-23 evening Out collected Codex's account
-  through the contribution checkpoint; the next fresh Switch In must recover both accounts
-  without either old conversation. Row 5 needs a fresh Codex session loading a current
-  build; Codex reported its installed Kerd as 0.133.0 on 2026-09-23 17:31 (read-only,
-  reported not verified).
+- **The Codex pickup in a work project, deferred by the 2026-09-13 hold, is unblocked**
+  (hold lifted 2026-09-23 18:19). Codex runs Kerd 0.149.1 (read back 2026-09-23 18:16).
+  Which project and when is Anthony's.
 
 Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
 front-page check, the site going live, and the evening's six contradictions and host line) and
