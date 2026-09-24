@@ -126,11 +126,18 @@ Do these in order. Everything after step 3 is what an ordinary day looks like;
 step 3 is the one you do once per project.
 
 1. Install Kerd in your host.
-2. Confirm it is there with `claude plugin list`.
+2. Confirm it is there with `claude plugin list`, or in Codex
+   `codex plugin list --marketplace kerd-core`.
 3. Run `/kerd:tend` in the root of the git repo, to set the project up.
 4. Run `/kerd:switch in` to open the sitting.
 5. Do the work, with Conductor.
 6. Run `/kerd:switch out` to put it down.
+
+In Codex the slash commands are not there: Codex 0.156.1 rejected `/switch` and
+`/kerd` as unrecognized. Say it in words instead. Step 4 is "Switch in.", step 6
+is "Switch out.", and step 5 is "Use Kerd Conductor to help me …". Tend is not in
+the Codex package, so step 3 needs Claude Code; without it, the first arrival in
+Codex is the honestly empty one described below.
 
 Skipping step 3 is the mistake worth avoiding. The first `/kerd:switch in` in a
 repo that has never used Kerd has nothing to restore, and it says so rather than
@@ -178,6 +185,8 @@ In the repo you want to work in:
 ```
 /kerd:switch in
 ```
+
+In Codex, type `Switch in.` instead.
 
 Kerd restores what the project already knows and shows you an arrival screen in
 plain English. It opens with a one-row grid: PROJECT, PHASE (where the
@@ -267,6 +276,8 @@ Small work never needs any of that. It just gets delivered.
 ```
 /kerd:switch out
 ```
+
+In Codex, type `Switch out.` instead.
 
 Out reads what actually changed, writes the session's account, adds what the
 sitting settled to the sketchbook, and saves the place: the next action, where

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.149.2
+
+**The getting-started walkthrough says what to type in Codex.** A fresh Codex session
+picked up a real project well on 2026-09-23, but only after the first two tries,
+`/switch` and `/kerd`, were rejected: the walkthrough gave Claude Code's slash commands
+and nothing else. Each step now says what a Codex user types instead ("Switch in.",
+"Switch out."), how to check the install there, and that setting a project up with Tend
+needs Claude Code, since Tend is not in the Codex package. Guide wording only; no skill
+changed.
+
 ## 0.149.1
 
 **The getting-started guide catches up with the concert.** The first page a new user

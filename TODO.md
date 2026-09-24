@@ -60,9 +60,10 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   version is still the dev snapshot `2.17.0-dev.1`.
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture.
-- **The Codex pickup in a work project, deferred by the 2026-09-13 hold, is unblocked**
-  (hold lifted 2026-09-23 18:19). Codex runs Kerd 0.149.1 (read back 2026-09-23 18:16).
-  Which project and when is Anthony's.
+- **The Codex pickup in a work project passed** (Seinn, 2026-09-23 22:13; sketchbook
+  `docs/work/codex-pickup/work.md`, local). Left from it: the arrival does not name the
+  Kerd version, and the getting-started walkthrough gives only `/kerd:` commands, which
+  Codex rejects.
 
 Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
 front-page check, the site going live, and the evening's six contradictions and host line) and
