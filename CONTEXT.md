@@ -6,10 +6,15 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.149.1 on `main`, unchanged.** The 2026-09-23 night sitting released
-nothing; it closed the last two rows of the 2026-09-13 hold and Anthony lifted it. Earlier
-that day: 0.147.0 (job list names the model), 0.148.0 (model guide), 0.149.0 (an unanswered
-review gets a fresh reader, not a waiver), 0.149.1 (getting-started guide and the concert).
+**Release boundary: 0.150.0 on `main`.** The 2026-09-23 late sitting (to 2026-09-24
+08:10) released 0.149.2 (the getting-started walkthrough says what to type in Codex) and
+0.150.0 (the Switch In heading names the Kerd version that drew it). Earlier on 09-23:
+0.147.0, 0.148.0, 0.149.0, 0.149.1.
+
+**The Codex pickup in a work project passed (2026-09-23 22:13, Seinn):** a fresh Codex
+session on 0.149.1 restored Seinn's place, caught a stale claim, wrote nothing and stopped
+at its question. Both its findings shipped as 0.149.2 and 0.150.0. Sketchbook
+`docs/work/codex-pickup/work.md` (local).
 
 **The new job names are seen in real use:** with 0.149.0 installed, Anthony's running-job
 list read `kerd:sonnet-high` (2026-09-23 17:28). Closed.
@@ -31,7 +36,7 @@ which version they run, whether they finished work unaided and what broke
 
 **The 2026-09-13 hold is lifted (Anthony, 2026-09-23 18:19),** so launch step 2, inviting
 three to five people he picks, is open. He was asked who (18:20) and parked it (21:13:
-"skip lets skip that"). The Codex pickup in a work project the hold deferred is unblocked.
+"skip lets skip that").
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
 - **The 2026-09-13 "prove Kerd first" hold is lifted (2026-09-23);** lifting it invites
@@ -58,19 +63,20 @@ Still governing from 2026-09-18: rehearsal is organic and the concert executes t
 and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
 **Not yet ruled, and it is Anthony's:** who the invited few are, where and when to
-announce, which work project gets the Codex pickup, and whether the explanatory output
+announce, and whether the explanatory output
 style stays on for this machine.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
-review and investigation** (cadence: checkpoints, before-push); this sitting it built and
-installed Kerd 0.149.1 for Codex on Anthony's direct go in its window. A relayed "y" is not
+review and investigation** (cadence: checkpoints, before-push); on 2026-09-23 it built and
+installed Kerd 0.149.1 for Codex on Anthony's direct go in its window, and reviewed
+0.149.2 and 0.150.0 (one blocking finding, fixed). A relayed "y" is not
 enough for Codex to do a user-level install; the go must be his, in its window. No job is
 running.
 
-**Installed state:** Claude ran 0.149.0 from the plugin cache this sitting; the tip is
-0.149.1 (guide wording only), in force after `claude plugin update kerd@kerd-marketplace`
-and a new session. **Codex runs 0.149.1** (`codex plugin list`, read by Claude 2026-09-23
-18:16; a fresh Codex session reported loading it). Resolve live numbers.
+**Installed state:** Claude Code's install is 0.150.0 (`claude plugin list`, 2026-09-24
+08:02), in force from the next session; this sitting ran 0.149.1. **Codex runs 0.149.1**
+(`codex plugin list`, read 2026-09-23 21:52). The next arrival's heading names the version
+it loaded; resolve other live numbers.
 
 **Standing:** a peer session cannot authorize a push. `.env` at the repo root holds
 Anthony's TypeSafe key and is git-ignored; never print or commit it.
@@ -82,38 +88,39 @@ Anthony's TypeSafe key and is git-ignored; never print or commit it.
 `docs/guide/reference-from-readme.md` (2026-09-19); `docs/work/jev-trial/review_results.json`
 and every file inside `docs/work/launch-plan/`, `docs/work/roll-on-branch/`,
 `docs/work/waiting-on-you/`, `docs/work/no-idle-sessions/` and `docs/work/site-musical/`
-(2026-09-22); and every file inside `docs/work/job-label/` and `docs/work/partner-closed/`
-(2026-09-23). They exist on the Mac Studio only.
+(2026-09-22); every file inside `docs/work/job-label/` and `docs/work/partner-closed/`
+(2026-09-23); and every file inside `docs/work/codex-pickup/` (2026-09-23 late). They exist on the Mac Studio only.
 
-**Routing:** the Claude role `kerd-b5-review` was adopted by this sitting at its
-2026-09-23 17:36 arrival against the saved designation; it designates its successor at
-this Out.
+**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-23 21:36 arrival
+against the saved designation; it designates its successor at this Out.
 
-**Selected continuation, proposed (not agreed): launch step 2, inviting a few.** Owner:
-Anthony names three to five people (the plan proposes at least one non-developer); then
-Claude drafts one invitation each, pointing to `docs/guide/getting-started.md` and asking
-them to bring their own real work. **Stops at** the drafts: sending is his. **Pending
-question:** who they are (parked 2026-09-23 21:13; ask again only if he picks it up).
-**Why:** it is the next step to launch, and the only one now unblocked on Kerd's side.
-Alongside, his: the TV proof in 3of3 (step 1), confirming the team note to SAM and
-Aubel.app went and passing on replies, the announcement, the Codex pickup's project.
+**Selected continuation, proposed (not agreed): bring Codex to Kerd 0.150.0.** Owner:
+Anthony gives the go in Codex's own window (a relayed "y" is not enough for a user-level
+install); Codex builds `output/kerd-codex-0.150.0` and reinstalls only `kerd-core`; Claude
+reads back `codex plugin list` and, in a fresh Codex session, the arrival heading's
+version. **Stops at** that read-back; no project work. **Why:** both hosts then show which
+Kerd drew an arrival before anyone is invited, so a report from an invitee names its
+build. Alongside, the first Claude arrival on 0.150.0 is its own check: its heading should
+read "Kerd 0.150.0". Then launch step 2, still parked: Anthony names three to five people
+(asked 2026-09-23 18:20, parked 21:13; ask again only if he picks it up). His too: the TV
+proof in 3of3, confirming the team note to SAM and Aubel.app went, the announcement.
 
-**Pickup reading set** (Switch Out, 2026-09-23 night):
+**Pickup reading set** (Switch Out, 2026-09-24 morning):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-23.md`, the day's three sittings (the night one last).
-Deeper: `docs/design/launch-plan.md`; local sketchbooks `docs/work/launch-plan/work.md`,
-`docs/work/job-label/work.md`, `docs/work/partner-closed/work.md`.
+- `kivna/sessions/2026-09-24.md`, the late sitting.
+Deeper: `kivna/sessions/2026-09-23.md` (the day's three earlier sittings);
+`docs/design/launch-plan.md`; local sketchbooks `docs/work/codex-pickup/work.md`,
+`docs/work/launch-plan/work.md`.
 
+The observed position before this save is the 0.150.0 release on `main`; the boundary
+commit is this save itself. Ask `git log` for its ID.
 
-The observed position before this save is `5222815` (the evening close, 0.149.1); the boundary commit is this
-save itself on `main`. Ask `git log` for its ID.
-
-**Measured** 2026-09-23 night: about 21,300 bytes across the three sources, about 5,300
+**Measured** 2026-09-24 08:1x: about 16,100 bytes across the three sources, about 4,000
 tokens estimated at four bytes each, within the 8,000 target. `read_args` for the next
 pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-23.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-24.md",
  "--section", "TODO.md", "## Now"]
 ```

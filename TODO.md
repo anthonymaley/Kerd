@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.149.1 on `main`. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.150.0 on `main`. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -61,9 +61,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
   fixture.
 - **The Codex pickup in a work project passed** (Seinn, 2026-09-23 22:13; sketchbook
-  `docs/work/codex-pickup/work.md`, local). Left from it: the arrival does not name the
-  Kerd version, and the getting-started walkthrough gives only `/kerd:` commands, which
-  Codex rejects.
+  `docs/work/codex-pickup/work.md`, local). Both findings shipped: 0.149.2 (the
+  walkthrough's Codex wording) and 0.150.0 (the arrival names its Kerd version). Watch
+  0.150.0's heading in the first real arrival after each install is updated.
 
 Records: the 2026-09-20/21 sitting's sketchbooks are at `docs/work/front-page-claims/` (the
 front-page check, the site going live, and the evening's six contradictions and host line) and
