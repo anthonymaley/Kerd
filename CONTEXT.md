@@ -15,8 +15,8 @@ long turns, read from the session's transcript. The day sitting released 0.151.1
 the morning, 0.151.0.
 
 **Claude Code runs 0.153.1** (`claude plugin update`, 17:1x), in force from its next session;
-the context hook has not yet delivered live. **Codex is on 0.152.0 and needs 0.153.1** (Conductor
-and Agent changed): its install waits for Anthony's go in its window. Hand check before release: hook 170,532 tokens, his status line "83%" free (15:34).
+the context hook has not yet delivered live. **Codex runs 0.153.1** (`codex plugin list --marketplace kerd-core`,
+17:29, read back by Claude) after Anthony's go in its window. Hand check before release: hook 170,532 tokens, his status line "83%" free (15:34).
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and

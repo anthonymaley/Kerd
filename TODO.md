@@ -32,7 +32,7 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - **A session should never sit idle with nothing asked** — shipped in 0.146.0; on 2026-09-24 it
   did not hold (ten status prompts across four sessions). 0.153.1 names the two missing endings
   and his global CLAUDE.md now carries a turn-end gate; watch whether he still has to ask.
-  **Bring Codex to 0.153.1** on his go in its window. Sketchbooks: `docs/work/no-idle-sessions/work.md`,
+  Both hosts run 0.153.1 (Codex read back 17:29). Sketchbooks: `docs/work/no-idle-sessions/work.md`,
   and the superseded monitor framing in `docs/work/waiting-on-you/work.md`.
 - **The report shape and the finish: changed in 0.145.0, watch them in use.** A
   correction of Kerd's own earlier claim now rides in the opening lines and never
