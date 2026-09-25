@@ -37,11 +37,10 @@ changed nothing. One observation, not verified.
 
 **Kerd has an accepted launch plan** (`docs/design/launch-plan.md`). Ready to launch when
 someone other than Anthony carries a real piece of work, in their own repository, to its
-agreed result, unaided. **Step 1 is under way in 3of3's own session**; its next item is the
-TV-to-TV iCloud sync proof, his hands on the televisions. Anthony said he is doing it today
-(09:29) and will say here when it is done (09:49). At 14:58, 3of3 had no commits today and
-uncommitted work in its player and Jellyfin code; no sign of the sync proof. Kerd hands
-nothing over. Evidence so far: local sketchbook `docs/work/launch-plan/work.md`.
+agreed result, unaided. **Step 1: 3of3 is using Kerd in its own sessions; Kerd evidence is
+read from those sittings when Anthony asks for it.** 3of3's work (its iCloud sync, its devices)
+is 3of3's, never Kerd's open work or next step (Anthony, 2026-09-25 10:49: "we are mixing work";
+he had said the same 2026-09-23). Evidence so far: local sketchbook `docs/work/launch-plan/work.md`.
 
 **The homepage redesign was tried and dropped (Anthony, 12:56: "nah dont like it - lets drop
 it"; "will revisit").** Codex built three passes on his direct ask; his reactions and the
@@ -54,8 +53,8 @@ him, not from another pick of direction.
 sent. **Parked (Anthony, 2026-09-24 08:55): "delay any sam and auble work for now";** don't
 raise it until he does.
 
-**The 2026-09-13 hold is lifted (2026-09-23),** so launch step 2, inviting three to five people
-he picks, is open. He parked choosing them (2026-09-23 21:13: "skip lets skip that").
+**Launch step 2, inviting three to five people, is dropped (Anthony, 2026-09-25 11:16: "i dont.
+drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
 - **Conductor rolls its own Claude chat in tmux, never the person (2026-09-24/25, 0.154.0–1):**
@@ -93,8 +92,8 @@ he picks, is open. He parked choosing them (2026-09-23 21:13: "skip lets skip th
 Still governing from 2026-09-18: rehearsal is organic and the concert executes to a score
 and a goal; always be delivering; Conductor owns the sketchbook; rolling is per batch.
 
-**Not yet ruled, and it is Anthony's:** who the invited few are, where and when to announce,
-and what would make the homepage feel serious to him.
+**Not yet ruled, and it is Anthony's:** where and when to announce, and what would make the
+homepage feel serious to him.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
 review and investigation** (cadence: checkpoints, before-push). This sitting it reviewed the
@@ -126,15 +125,9 @@ Studio only.
 **Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-25 08:5x arrival
 against the saved designation; it designates its successor at this Out.
 
-**Selected continuation, agreed (Anthony, 2026-09-24 09:29 and 09:49): after Anthony's
-TV-to-TV iCloud sync sitting in 3of3, Claude reads 3of3's records (read-only; no question
-needed) and adds one line of step 1 evidence to `docs/work/launch-plan/work.md`.** Owner:
-Anthony runs the sitting in 3of3's own session and says when it is done. **Stops at** the
-evidence line; no writes in 3of3, no device actions. **Why:** step 1 is the only launch step
-under way, and this proof is its next item. As of 2026-09-25 09:42, 3of3's TODO still lists
-it owed and it has no commits since 08:09 (saved observation). If the sitting hasn't happened, the arrival says so and weighs the other
-open work. Parked: step 2, the
-announcement, SAM and Aubel.app, the homepage.
+**Selected continuation: none saved.** The 3of3 sync evidence line was withdrawn as Kerd's
+next step (Anthony, 2026-09-25 10:49). Dropped: step 2 (11:16). Parked: the announcement, SAM and Aubel.app,
+the homepage.
 
 **Pickup reading set** (Switch Out, 2026-09-25 10:3x):
 - this file complete: position, rulings, the continuation, the roll trial;

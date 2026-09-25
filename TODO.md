@@ -7,12 +7,10 @@ local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
 sketchbook `docs/work/launch-plan/work.md`. Kerd is ready to launch when someone other than
-Anthony carries real work in their own repository to its agreed result, unaided. **Step 1 is
-under way, in 3of3's own session** (Anthony, 2026-09-23: "that project is already using kerd
-and is switched in"): its next item is the TV-to-TV iCloud sync proof (Anthony is doing it on 2026-09-24,
-in 3of3's own session, and will say here when it is done), his hands on the
-televisions. Not in 3of3's records as of 2026-09-24 14:58. Kerd hands nothing over; after each sitting there, one line of evidence goes
-into `docs/work/launch-plan/work.md`, which already holds step 1's evidence so far.
+Anthony carries real work in their own repository to its agreed result, unaided. **Step 1: 3of3
+is using Kerd in its own sessions; Kerd evidence is read from those sittings when Anthony asks for
+it.** 3of3's own work is not Kerd's open work (Anthony, 2026-09-25 10:49: "we are mixing work").
+Evidence so far: `docs/work/launch-plan/work.md`.
 
 **The team note is going out** (Anthony, 2026-09-23 17:05, "y" to sending it now; not yet
 confirmed sent). **Parked:** "delay any sam and auble work for now" (Anthony, 2026-09-24
@@ -20,8 +18,8 @@ confirmed sent). **Parked:** "delay any sam and auble work for now" (Anthony, 20
 `docs/work/launch-plan/work.md`, one per field of the plan's per-person record.
 
 **The 2026-09-13 hold is lifted** (Anthony, 2026-09-23 18:19; `docs/decisions.md`), so
-launch step 2 is open. **Anthony's:** who the three to five invited are (asked 18:20,
-parked 21:13: "skip lets skip that"); where and when to announce. GitHub's README rendering, checked 2026-09-22: all four pictures
+**launch step 2 (inviting three to five people) is dropped** (Anthony, 2026-09-25 11:16: "i dont.
+drop this"; don't raise it again). **Anthony's:** where and when to announce. GitHub's README rendering, checked 2026-09-22: all four pictures
 load and the smallest label shows at 16.8px; the repo homepage already links the site. The
 repo's GitHub description now matches the site's line (set 2026-09-22 on Anthony's "sure"). Leftovers from the
 2026-09-21 image test, both harmless and left because they are his: an idle Codex session in
