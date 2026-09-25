@@ -124,9 +124,12 @@ unavailable readings.
 [Git helper](scripts/handoff.py) supplies explicit-file save, safe fast-forward
 pickup, optional assembly of caller-selected current records, and a `measure`
 of the reading set's size against the pickup target (bytes exact, tokens
-estimated; never blocking), and the `boundary` check Out must pass before its ✓
-(fetch now, HEAD on a remote branch, clean tree; stashes counted, not refused). It does not
-choose what is done, select relevant memory, grant authority or control sessions.
+estimated; never blocking; refuses a file Git does not track, as `prepare`
+does), and the `boundary` check Out must pass before its ✓
+(fetch now, HEAD on a remote branch, clean tree; stashes counted, not refused).
+When a project keeps a private notes repo (`kivna/vault.json`'s `work_notes`),
+Out saves and pushes it the same way and the boundary check covers both repos.
+It does not choose what is done, select relevant memory, grant authority or control sessions.
 [Roll helper](scripts/roll.py) manages fresh CLI runs through the existing model
 connection. It does not take over arbitrary already-open interactive sessions.
 Read the relevant guide before running either. Unknown outcomes stop automatic

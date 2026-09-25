@@ -25,11 +25,11 @@ Codex) too complex, and chose instead: the Studio status line
 `keep working` (under 200k and under 60% used), yellow `switch at a break` (200k+ or 60%+), red
 `switch now` (80%+); he rolls by hand at a break. Kerd's automatic chat roll stays at 50%. The
 test, his ask: track Switch Out across sittings to see whether the numbers and the benefit hold.
-`docs/work/rolling-session/measure.py` (local) prints per-sitting calls, start, peak, average
+`notes:rolling-session/measure.py` prints per-sitting calls, start, peak, average
 tokens re-sent per call and the size at Switch Out; baseline since 2026-09-21: averages 116k to
 286k per call, peaks up to 459k, Outs at 133k to 433k. This sitting (2026-09-25 08:49 to 10:3x)
 is the first rolled at the mark (~207k). Estimate, not proof: rolling near 200k should keep the
-average near 190k; the model and both checks are in `docs/work/rolling-session/threshold.md`.
+average near 190k; the model and both checks are in `notes:rolling-session/threshold.md`.
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
@@ -40,16 +40,16 @@ someone other than Anthony carries a real piece of work, in their own repository
 agreed result, unaided. **Step 1: 3of3 is using Kerd in its own sessions; Kerd evidence is
 read from those sittings when Anthony asks for it.** 3of3's work (its iCloud sync, its devices)
 is 3of3's, never Kerd's open work or next step (Anthony, 2026-09-25 10:49: "we are mixing work";
-he had said the same 2026-09-23). Evidence so far: local sketchbook `docs/work/launch-plan/work.md`.
+he had said the same 2026-09-23). Evidence so far: local sketchbook `notes:launch-plan/work.md`.
 
 **The homepage redesign was tried and dropped (Anthony, 12:56: "nah dont like it - lets drop
 it"; "will revisit").** Codex built three passes on his direct ask; his reactions and the
-dropped pass are in the local sketchbook `docs/work/homepage-redesign/work.md`. `site/` is
+dropped pass are in the local sketchbook `notes:homepage-redesign/work.md`. `site/` is
 unchanged. When revisited, start from what would make it feel serious rather than AI-made to
 him, not from another pick of direction.
 
 **Two teams already use Kerd** (Anthony, 2026-09-22): SAM and Aubel.app. The team note
-(`docs/work/launch-plan/team-note.md`) had his "y" to send (2026-09-23 17:05); not confirmed
+(`notes:launch-plan/team-note.md`) had his "y" to send (2026-09-23 17:05); not confirmed
 sent. **Parked (Anthony, 2026-09-24 08:55): "delay any sam and auble work for now";** don't
 raise it until he does.
 
@@ -111,18 +111,15 @@ request for `.env`; previews now serve `site/` only).
 **Urgent or imminent risks:** none recorded in Kerd's active records at this Out.
 
 **Kept out of Git by instruction, exact paths; name each with `--preserve` at every save:**
-`kerd-laptop-result.patch` (2026-09-09); every file inside `docs/work/product-package/` and
-`docs/guide/reference-from-readme.md` (2026-09-19); `docs/work/jev-trial/review_results.json`
-and every file inside `docs/work/launch-plan/`, `docs/work/roll-on-branch/`,
-`docs/work/waiting-on-you/`, `docs/work/no-idle-sessions/` and `docs/work/site-musical/`
-(2026-09-22); every file inside `docs/work/job-label/` and `docs/work/partner-closed/`
-(2026-09-23); every file inside `docs/work/codex-pickup/` (2026-09-23 late); every file inside
-`docs/work/codex-players/` (2026-09-24); and every file inside `docs/work/homepage-redesign/`
-and `docs/work/opus-55/` (2026-09-24 day); every file inside `docs/work/context-reading/`,
-`docs/work/rolling-session/` and `docs/work/roll-trial/` (2026-09-25); every file inside
-`docs/work/backlog-sweep/` and `docs/work/unattended-sweep/` (2026-09-25 16:21: committed and
-pushed by mistake in 0.155.0/0.156.0, untracked the same day; the old commits still hold them).
-They exist on the Mac Studio only.
+`kerd-laptop-result.patch` (2026-09-09); `docs/guide/reference-from-readme.md` (2026-09-19);
+`docs/work/jev-trial/review_results.json` (2026-09-22). They exist on the Mac Studio only.
+
+**Working notes live in the private vault** (0.157.0, 2026-09-25): `kivna/vault.json` sets
+`"work_notes": "vault"`, so sketchbooks are `notes:<work>/work.md` under
+`~/eolas/vault/kerd/work/` (private repo `anthonymaley/eolas`). The 18 folders that were
+local-only here moved there on 2026-09-25 (vault commit `b64d50a`). `notes:backlog-sweep/` and
+`notes:unattended-sweep/` were pushed to this public repo by mistake in 0.155.0/0.156.0 and
+untracked the same day; the old commits still hold them.
 
 **Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-25 08:5x arrival
 against the saved designation; it designates its successor at this Out.
@@ -137,9 +134,9 @@ the homepage.
 - `kivna/sessions/2026-09-25.md`, both of today's sittings (releases to 08:5x; then Codex,
   audits, tests and the roll trial to 10:3x).
 Deeper: `docs/decisions.md` (the chat-roll case); `docs/design/launch-plan.md`; local
-sketchbooks `docs/work/rolling-session/threshold.md` (the roll trial, cost model, both checks),
-`docs/work/rolling-session/work.md` (the chat roll), `docs/work/launch-plan/work.md`.
-At the next In, run `python3 docs/work/rolling-session/measure.py --since 2026-09-25` to add the
+sketchbooks `notes:rolling-session/threshold.md` (the roll trial, cost model, both checks),
+`notes:rolling-session/work.md` (the chat roll), `notes:launch-plan/work.md`.
+At the next In, run `python3 ~/eolas/vault/kerd/work/rolling-session/measure.py --since 2026-09-25` to add the
 sitting that just ended to the trial's evidence.
 
 The observed position before this save is 0.154.1 on `main`; the boundary commit is this save

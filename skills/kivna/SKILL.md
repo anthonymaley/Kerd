@@ -19,7 +19,7 @@ Single owner of the project's knowledge layer. The vault is a human knowledge ba
 
 Every kivna command starts here. Resolve the vault location before doing anything else.
 
-1. **Check `kivna/vault.json`.** If it exists, read `vault`, `folder`, and `name`. Expand `~` to the user's home directory.
+1. **Check `kivna/vault.json`.** If it exists, read `vault`, `folder`, and `name`. Expand `~` to the user's home directory. If it also sets `"work_notes": "vault"`, the project keeps its working notes private: the notes root is `<vault>/<folder>/work` (a private git repo, separate from this project's), and Conductor writes each piece of work's sketchbook there instead of `docs/work/`. Kivna does not create or maintain this folder; it only recognizes the key.
 
 2. **Convention fallback.** If no `vault.json`, check for `~/eolas/vault/`:
    - If `~/eolas/vault/` exists, use it as the vault root.
@@ -40,6 +40,12 @@ Every kivna command starts here. Resolve the vault location before doing anythin
 - `kivna/sessions/` session logs written by switch (committed)
 - `kivna/input/` drop files here for import (gitignored, transit folder)
 - `kivna/output/` exports land here (gitignored, transit folder)
+
+With `work_notes` set, the vault also holds `<folder>/work/`: the home of this
+project's private working notes (sketchbooks, diagrams, evidence, drafts), one
+`<work>/work.md` per piece of work. Conductor writes it; Switch Out saves and
+pushes it, alongside the project, at the session boundary. See
+`docs/vault-spec.md` and `docs/state-contract.md`.
 
 ## Commands
 

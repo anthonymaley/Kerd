@@ -49,10 +49,71 @@ def relative_file(root, value):
     return str(relative)
 
 
-def local_changes(root):
-    changed = set(filter(None, git(root, "diff", "--name-only", "-z").split("\0")))
-    changed.update(filter(None, git(root, "ls-files", "--others", "--exclude-standard", "-z").split("\0")))
+def local_changes(root, *scope):
+    """Changed and untracked paths, repo-relative; `scope` narrows to pathspecs under the repo root."""
+    spec = ["--", *scope] if scope else []
+    changed = set(filter(None, git(root, "diff", "--name-only", "-z", *spec).split("\0")))
+    changed.update(filter(None, git(root, "ls-files", "--others", "--exclude-standard", "-z", *spec)
+                          .split("\0")))
     return changed
+
+
+NOTES_PREFIX = "notes:"
+
+
+def notes_location(root):
+    """(notes root, notes repo) when the project keeps work notes in the vault, else None.
+
+    `"work_notes": "vault"` in kivna/vault.json puts the notes root at
+    <vault>/<folder>/work. Absent file or key: no notes root. A set key whose
+    root is missing or outside a Git repo is an error naming the path, never a
+    silent fall back to the project.
+    """
+    config = root / "kivna" / "vault.json"
+    if not config.is_file():
+        return None
+    try:
+        settings = json.loads(config.read_text(encoding="utf-8"))
+    except ValueError as exc:
+        raise HandoffError(f"Cannot read {config}: {exc}")
+    if not isinstance(settings, dict) or "work_notes" not in settings:
+        return None
+    if settings["work_notes"] != "vault":
+        raise HandoffError(f"Unrecognised work_notes value in {config}: {settings['work_notes']!r}; "
+                           "the only setting is \"vault\"")
+    vault, folder = settings.get("vault"), settings.get("folder")
+    if not isinstance(vault, str) or not vault or not isinstance(folder, str) or not folder:
+        raise HandoffError(f"{config} sets work_notes but lacks a vault path or folder")
+    notes = root / Path(os.path.expanduser(vault)) / folder / "work"
+    if not notes.is_dir():
+        raise HandoffError(f"Notes root does not exist: {notes}")
+    notes = notes.resolve()
+    try:
+        repo = root_for(notes)
+    except HandoffError:
+        raise HandoffError(f"Notes root is not in a Git repo: {notes}")
+    return notes, repo
+
+
+def resolve_source(root, value, location=None):
+    """(value as named, directory, relative path, location) for a project or notes: source."""
+    if not value.startswith(NOTES_PREFIX):
+        relative = relative_file(root, value)
+        return relative, root, relative, location
+    location = location or notes_location(root)
+    if location is None:
+        raise HandoffError("A notes: source needs a notes root; set \"work_notes\": \"vault\" "
+                           "in kivna/vault.json: " + value)
+    relative = relative_file(location[0], value[len(NOTES_PREFIX):])
+    return NOTES_PREFIX + relative, location[0], relative, location
+
+
+def require_tracked(base, relative, where):
+    """The same tracked rule for every reading-set source, project or notes."""
+    try:
+        git(base, "ls-files", "--error-unmatch", "--", ":(literal)" + relative)
+    except HandoffError:
+        raise HandoffError(f"Not tracked in {where}: {relative}")
 
 
 def acknowledged(root, paths):
@@ -116,15 +177,12 @@ def publish(root, branch, files, message, push=False, verify_commit=None, preser
 FETCH_TIMEOUT = 60  # seconds; a fetch that hangs on a prompt or dead network counts as failed
 
 
-def boundary(root, preserve=()):
-    """Prove the end of a sitting: is HEAD on a remote, checked by a fetch just now?
+def repo_checks(root, keep=(), scope=()):
+    """The boundary checks for one repo: fetch, HEAD on a remote ref, nothing unsaved.
 
-    Refuses when the fetch fails (cached remote refs are not verification), when
-    no remote ref contains HEAD (the work exists only on this machine), or when
-    the tree carries changes other than the exact preserved paths. Stashes are
-    counted as information, never a refusal. Nothing is pushed, staged or moved.
+    Fetch and remote containment are repo-wide; `scope` (pathspecs) narrows only
+    the unsaved-changes check, so a shared vault's other folders cannot refuse.
     """
-    keep = acknowledged(root, preserve)
     failures = []
     try:
         fetch = subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "--all", "--prune"], text=True,
@@ -141,19 +199,50 @@ def boundary(root, preserve=()):
                   if ref and not ref.endswith("/HEAD")]
     if not containing:
         failures.append("No remote branch contains this commit; the work exists only on this machine.")
-    left = sorted((local_changes(root) | set(filter(None, git(root, "diff", "--cached", "--name-only", "-z")
-                                                     .split("\0")))) - set(keep))
+    spec = ["--", *scope] if scope else []
+    left = sorted((local_changes(root, *scope)
+                   | set(filter(None, git(root, "diff", "--cached", "--name-only", "-z", *spec).split("\0"))))
+                  - set(keep))
     if left:
         failures.append(f"The working tree is not clean: {len(left)} unsaved "
                         + ("path" if len(left) == 1 else "paths") + ".")
     stashes = len([line for line in git(root, "stash", "list").splitlines() if line])
     branch = subprocess.run(["git", "-C", str(root), "symbolic-ref", "--quiet", "--short", "HEAD"],
                             text=True, capture_output=True).stdout.strip() or None
-    result = {"status": "boundary_refused" if failures else "boundary_ok", "branch": branch,
-              "commit": commit, "fetched": fetched, "remote_refs_containing_head": containing,
-              "unsaved_paths": left, "stashes": stashes, "preserved_local_only": keep,
-              "failures": failures,
-              "note": "Stashes are information, not a refusal; preserved paths are local only"}
+    return {"branch": branch, "commit": commit, "fetched": fetched, "remote_refs_containing_head": containing,
+            "unsaved_paths": left, "stashes": stashes, "failures": failures}
+
+
+def boundary(root, preserve=()):
+    """Prove the end of a sitting: is HEAD on a remote, checked by a fetch just now?
+
+    Refuses when the fetch fails (cached remote refs are not verification), when
+    no remote ref contains HEAD (the work exists only on this machine), or when
+    the tree carries changes other than the exact preserved paths. Stashes are
+    counted as information, never a refusal. Nothing is pushed, staged or moved.
+    When the project keeps work notes in the vault, the notes repo gets the same
+    checks and its failures join the list, each prefixed with the notes repo.
+    Its unsaved-changes check covers the notes root only; fetch and remote
+    containment stay repo-wide.
+    """
+    keep = acknowledged(root, preserve)
+    location = notes_location(root)
+    checked = repo_checks(root, keep)
+    failures = checked.pop("failures")
+    notes = None
+    if location:
+        notes_root, notes_repo = location
+        scope = ":(literal)" + str(notes_root.relative_to(notes_repo))
+        notes = {"root": str(notes_root), "repo": str(notes_repo),
+                 **repo_checks(notes_repo, scope=[scope] if scope != ":(literal)." else [])}
+        failures += [f"Notes repo {notes_repo}: {item}" for item in notes["failures"]]
+    result = {"status": "boundary_refused" if failures else "boundary_ok", "branch": checked["branch"],
+              "commit": checked["commit"], "fetched": checked["fetched"],
+              "remote_refs_containing_head": checked["remote_refs_containing_head"],
+              "unsaved_paths": checked["unsaved_paths"], "stashes": checked["stashes"],
+              "preserved_local_only": keep, "failures": failures,
+              "note": "Stashes are information, not a refusal; preserved paths are local only",
+              "notes": notes}
     return result
 
 
@@ -210,7 +299,10 @@ def pickup(root, branch, record, sync=False, expected_commit=None, preserve=()):
     commit = git(root, "rev-parse", "HEAD")
     if expected_commit is not None and commit != expected_commit:
         raise HandoffError("Local revision differs from the saved handoff; no record loaded")
-    path = root / relative_file(root, record)
+    named, base, relative, location = resolve_source(root, record)
+    if location:  # a sketchbook in the notes root must be saved there, as prepare requires of sources
+        require_tracked(base, relative, f"the notes repo {location[1]}")
+    path = base / relative
     if not path.is_file():
         raise HandoffError("Saved handoff record is missing")
     content = source_text(path)
@@ -268,20 +360,37 @@ def named_section(content, heading):
 
 def reading_picks(root, record, files, sections):
     picks = [(record, None)] + [(value, None) for value in files] + [tuple(pair) for pair in sections]
-    picks = [(relative_file(root, value), heading.rstrip() if heading is not None else None)
-             for value, heading in picks]
-    if len(set(picks)) != len(picks):
+    location = None
+    normalized = []
+    for value, heading in picks:
+        value, _, _, location = resolve_source(root, value, location)
+        normalized.append((value, heading.rstrip() if heading is not None else None))
+    if len(set(normalized)) != len(normalized):
         raise HandoffError("Supply each source once; a repeated file or section would be counted twice")
-    return picks
+    return normalized, location
 
 
-def selected_source(root, path, heading):
+def source_base(root, location, path):
+    """Where a pick lives: (directory, relative path, what its tracked check names)."""
+    if path.startswith(NOTES_PREFIX):
+        return location[0], path[len(NOTES_PREFIX):], f"the notes repo {location[1]}"
+    return root, path, "the project"
+
+
+def tracked_source(root, location, path, heading):
     """Measurement and preparation resolve the same bytes, never a prose excerpt."""
+    base, relative, where = source_base(root, location, path)
+    require_tracked(base, relative, where)
+    return selected_source(base, relative, heading, label=path)
+
+
+def selected_source(root, path, heading, label=None):
     text = source_text(root / path)
     content = text if heading is None else named_section(text, heading)
+    label = label or path
     if not content.strip():
-        raise HandoffError("Selected source is empty: " + path)
-    return {"file": path,
+        raise HandoffError("Selected source is empty: " + label)
+    return {"file": label,
             "selection": "complete file" if heading is None else heading + " (including child sections)",
             "content": content,
             "reaches_eof": text.endswith(content)}
@@ -291,10 +400,8 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
     """Assemble caller-selected raw sources; never choose or summarise memory."""
     loaded = pickup(root, branch, record, sync, expected_commit, preserve)
     keep = loaded["preserved_local_only"]
-    sources = []
-    for path, heading in reading_picks(root, record, files, sections):
-        git(root, "ls-files", "--error-unmatch", "--", ":(literal)" + path)
-        sources.append(selected_source(root, path, heading))
+    picks, location = reading_picks(root, record, files, sections)
+    sources = [tracked_source(root, location, path, heading) for path, heading in picks]
     # A concurrent edit must not silently acquire the earlier clean/commit claim.
     require_branch(root, branch)
     if (git(root, "diff", "--cached", "--name-only") or (local_changes(root) - set(keep))
@@ -315,31 +422,45 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
 TARGET_TOKENS = 8000  # the Switch trial's pickup allowance, from the In guide
 
 
-def measure(root, record, files=(), sections=(), target=TARGET_TOKENS):
+def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=()):
     """Size the pickup reading set as it stands in the working tree.
 
     Bytes are counted exactly; tokens are estimated at four bytes each, which
     is a proxy and is labelled as one. An over-target set is information for
     the person closing the sitting, not a refusal: the result never blocks.
+    Sources must be tracked, as `prepare` requires. Each carry phrase is looked
+    up as an exact substring of the selected bytes; a miss is reported, never
+    a refusal.
     """
     if not isinstance(target, int) or target <= 0:
         raise ValueError("Target must be a positive integer number of tokens")
-    sources, total, read_args = [], 0, []
-    for index, (path, heading) in enumerate(reading_picks(root, record, files, sections)):
-        source = selected_source(root, path, heading)
+    if any(not phrase for phrase in carry):
+        raise HandoffError("A carry phrase must not be empty")
+    picks, location = reading_picks(root, record, files, sections)
+    sources, total, read_args, contents = [], 0, [], []
+    for index, (path, heading) in enumerate(picks):
+        source = tracked_source(root, location, path, heading)
         content = source.pop("content")
+        contents.append(content)
         size = len(content.encode("utf-8"))
         total += size
         source.update(bytes=size, approx_tokens=-(-size // 4))
         sources.append(source)
         read_args += (["--record", path] if index == 0 else
                       ["--file", path] if heading is None else ["--section", path, heading])
+    carried = []
+    for phrase in dict.fromkeys(carry):
+        found = [{"file": source["file"], "selection": source["selection"]}
+                 for source, content in zip(sources, contents) if phrase in content]
+        carried.append({"phrase": phrase, "found_in": found,
+                        "result": "in the reading set" if found else "not in the reading set"})
     estimate = -(-total // 4)
     return {"status": "measured", "sources": sources, "read_args": read_args, "total_bytes": total,
             "approx_tokens": estimate, "target_tokens": target,
             "within_target": estimate <= target,
             "method": "bytes counted exactly per selection, including any whole-file/section or nested-section overlap; "
-                      "tokens estimated at four bytes each, not a tokenizer reading"}
+                      "tokens estimated at four bytes each, not a tokenizer reading",
+            "carry": carried}
 
 
 def main():
@@ -375,6 +496,8 @@ def main():
     size.add_argument("--section", nargs=2, action="append", default=[], metavar=("FILE", "HEADING"))
     size.add_argument("--target", type=int, default=TARGET_TOKENS,
                       help="Token allowance to compare against (default: the trial's %(default)s)")
+    size.add_argument("--carry", action="append", default=[], metavar="PHRASE",
+                      help="Exact phrase the pickup must carry; reports which source holds it, never blocks")
     check = sub.add_parser("boundary", help="Fetch, then refuse unless a remote ref contains HEAD and the tree is clean")
     check.add_argument("--preserve", action="append", default=[],
                        help="Exact untracked path this project keeps locally; not counted as unsaved")
@@ -386,7 +509,7 @@ def main():
             print(json.dumps(result, indent=2))
             return 1 if result["failures"] else 0
         if args.action == "measure":
-            result = measure(root, args.record, args.file, args.section, args.target)
+            result = measure(root, args.record, args.file, args.section, args.target, args.carry)
         elif args.action == "save":
             result = publish(root, args.branch, args.file, args.message, args.push, preserve=args.preserve)
         elif args.action == "prepare":

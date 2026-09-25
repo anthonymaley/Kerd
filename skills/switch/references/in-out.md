@@ -78,7 +78,8 @@ because that collision is a real decision. Unnamed changes still stop a pickup.
 
 The start point names a **pickup reading set** — the exact files and complete
 sections Out chose for this next action and wider active-work orientation (see
-"Leave a lean start point" below).
+"Leave a lean start point" below). A reading-set entry written `notes:<path>`
+is read from the notes root (`kivna/vault.json`'s `work_notes`), not the repo.
 When the handoff includes the helper's `read_args`, use those exact file/heading
 selections, not a broader paraphrase. They are arguments to `prepare` (with the
 current project and branch supplied), or the boundaries for reading normally.
@@ -571,6 +572,9 @@ forward, the Out owner adds what the sitting settled and the record is missing.
 Reuse any existing record for that work. Where substantial work has none, the Out
 owner starts one at `docs/work/<slug>/work.md` from Conductor's
 [writing aid](../../conductor/references/work-record.md); a small fix needs none.
+When `kivna/vault.json` sets `work_notes`, start it instead at
+`<notes root>/<slug>/work.md` in the private vault repo and point to it as
+`notes:<slug>/work.md`.
 Add only what the sitting actually settled: the person's words as theirs,
 proposals as proposals, nothing invented. Ask the person nothing to fill it, and
 add no step to their closeout. Link it from the active list.
@@ -683,6 +687,15 @@ order, each leaving a reachable link behind:
    an estimate; the target is the trial's 8,000 unless the work agreement sets
    another (`--target`). Over target is information: prune further under the
    rules above, or record why the set must stay larger. It never blocks a save.
+   `measure` refuses a file Git does not track, the same check `prepare` already
+   makes.
+
+   Name the few findings that must survive this sitting, three to five, one
+   line each, and pass them on the same call as `--carry "<phrase>"` (repeat the
+   flag per phrase). A phrase `measure` reports as not in the reading set is
+   fixed by writing it into CONTEXT.md or TODO.md, or by adding its source to
+   the set, then measuring again. This never blocks the save and asks the
+   person nothing.
 
    Save the returned `read_args` array beside that measurement in the existing
    start point. It is the exact selection to reuse at In, not another manifest.
@@ -725,7 +738,10 @@ because its task name appears in a file. Respect existing direction on whether
 it continues; a genuine unresolved ownership issue needs a decision.
 
 Under the agreed Git authority, commit the relevant work/session files by name
-and push to the intended branch. During a concert on its own branch, that is the
+and push to the intended branch. When `kivna/vault.json` sets `work_notes`,
+save and push the private notes repo the same way, by the same named-file save,
+alongside the project; the sketchbook it holds is part of this sitting's saved
+place, not a separate closeout. During a concert on its own branch, that is the
 concert branch its sketchbook records: before committing, check the checked-out
 branch matches it, and stop without saving if it does not. Out saves and pushes
 there and does not merge it back; the merge is the person's decision at the
@@ -748,6 +764,8 @@ says nothing about whether any remote has the commits. Its `stashes` count is
 information, not a refusal: when it is nonzero, say so in `warnings`
 ("2 stashes on this machine, not saved"). Run it on every repo the sitting
 committed to; a local-only Out is allowed, and its box says so instead of ✓.
+With `work_notes` set, this includes the notes repo: the boundary check now
+covers both, and the box shows both as saved only when each passes.
 
 ### Close with the saved-place box
 

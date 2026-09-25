@@ -219,6 +219,11 @@ answering where things stand, prompting Ready or briefing anyone. The person
 never fills in a form. Switch Out may add what a sitting settled, but the
 sketchbook stays Conductor's. When asked where things stand, answer from it in a
 line or two of plain English: what is settled and what is still open.
+When `kivna/vault.json` carries `"work_notes": "vault"`, write the sketchbook
+(and its diagrams, evidence and drafts) to `<notes root>/<work>/work.md` instead
+of the repo, so a public project's working notes stay in the private vault repo;
+point to it as `notes:<work>/work.md`. Without that key, the sketchbook stays at
+`docs/work/<work>/work.md` and is committed with the project as today.
 
 **Keep the risks in view.** When the person or the work names something that
 could sink the work or hurt later, write it in the sketchbook's short risks
@@ -401,8 +406,10 @@ easy to describe in words is not thereby a single action.
 ## Record agreement and carry the work forward
 
 Keep one readable record per work package, normally
-`docs/work/<short-work-name>/work.md`; use a suitable existing location instead
-when the project already has one. Read [the writing aid](references/work-record.md)
+`docs/work/<short-work-name>/work.md`, or `notes:<short-work-name>/work.md` in
+the private vault repo when `kivna/vault.json` sets `work_notes`; use a suitable
+existing location instead when the project already has one. Read
+[the writing aid](references/work-record.md)
 when first saving work. It is not a required schema or a condition for permission.
 Keep diagrams and any necessary supporting detail with this record.
 

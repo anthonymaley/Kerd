@@ -145,6 +145,30 @@ which no current skill writes; a file carrying one is leftover state from before
 - Neither switch nor conductor writes or triggers a vault write. The vault is opt-in per project; absence is legitimate.
 - Never read at switch-in: it contains nothing CONTEXT.md + the latest session log don't. It exists for the human Obsidian reader.
 
+## Vault `work/<work>/work.md` (private working notes)
+
+**Owner:** conductor (writes the sketchbook, its diagrams, evidence and drafts)
+**Readers:** conductor, switch (in/out) — same as `docs/work/<work>/work.md`, its default home
+**Committed:** yes, but in the private notes repo, not the project's
+
+### Format
+
+Same as [the work record](../skills/conductor/references/work-record.md); the
+only change is where it lives.
+
+### Rules
+
+- Opt-in per project: only when `kivna/vault.json` sets `"work_notes": "vault"`.
+  Without that key, the sketchbook stays at `docs/work/<work>/work.md` and is
+  committed with the project, unchanged from before this section existed.
+- Notes root: `<vault>/<folder>/work`, a private git repo of its own. Kivna
+  recognizes the key; it does not create or maintain this folder.
+- Records point at a moved sketchbook as `notes:<work>/work.md`. Switch In
+  reads a `notes:<path>` reading-set entry from the notes root.
+- Switch Out saves and pushes the notes repo the same way it saves the
+  project, at the same session boundary; the `boundary` check covers both
+  repos. This is not a second closeout — one sitting, two repos saved.
+
 ## kivna/output/ (KIF exports)
 
 **Owner:** kivna out
@@ -187,6 +211,7 @@ Append-only. Nothing here is edited after it lands.
 | TODO.md | W/R | W/R | - | W/R | R | R | - |
 | sessions/ | - | W/R | - | W/R | - | - | R |
 | vault Status | - | - | - | W/R | R | - | - |
+| vault work/ | W/R | W/R | - | - | - | - | - |
 | KIF exports | - | - | - | W | - | - | - |
 | docs/decisions.md | R | W/R | - | - | R | - | - |
 | docs/backlog-archive.md | - | W | - | - | R | - | - |
@@ -206,6 +231,8 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills don't write `## Now`; kivna import may merge approved KIF items into `## Backlog` |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
 | Vault writes | **kivna** (save, on demand — v0.83.0) | No skill calls kivna save automatically |
+| Vault `work/` writes | **conductor** (the sketchbook, opt-in via `work_notes`) | Kivna does not write it; it only recognizes the key |
+| Vault `work/` save + push | **the Switch Out flow**, alongside the project | No other skill commits or pushes the notes repo |
 | Structural audit and fix | **tend** | Tend keeps structure; slainte fixes *content* drift under the caller's gate |
 | Content audit and fix | **slainte** — triggered by conductor at releases and feature closes, on demand otherwise | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |
 

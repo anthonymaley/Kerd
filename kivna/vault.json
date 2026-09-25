@@ -1,5 +1,6 @@
 {
   "vault": "~/eolas/vault",
   "folder": "kerd",
-  "name": "Kerd"
+  "name": "Kerd",
+  "work_notes": "vault"
 }

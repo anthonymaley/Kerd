@@ -177,6 +177,57 @@ class ChatRollTests(unittest.TestCase):
         self.progress(1)
         self.assertEqual(self.save(now=T0 + 10 + tmux_roll.CHAIN_WINDOW + 1)["chain"], 1)
 
+    # notes: sketchbook ----------------------------------------------------------------------------
+    def vault_notes(self):
+        """A vault notes repo holding the sketchbook, and the project's vault.json naming it."""
+        vault = self.root.parent / (self.root.name + "-vault")
+        self.addCleanup(subprocess.run, ["rm", "-rf", str(vault)])
+        work = vault / "proj" / "work"
+        work.mkdir(parents=True)
+        for args in (["init", "-q", "-b", "main"], ["config", "user.email", "t@t"], ["config", "user.name", "t"]):
+            subprocess.run(["git", *args], cwd=vault, check=True)
+        (work / "sketch.md").write_text("next: build step 2\n")
+        (work / "other.md").write_text("notes\n")
+        subprocess.run(["git", "add", "."], cwd=vault, check=True)
+        subprocess.run(["git", "commit", "-qm", "notes"], cwd=vault, check=True)
+        (self.root / "kivna").mkdir()
+        (self.root / "kivna" / "vault.json").write_text(json.dumps(
+            {"vault": str(vault), "folder": "proj", "work_notes": "vault"}))
+        subprocess.run(["git", "add", "."], cwd=self.root, check=True)
+        subprocess.run(["git", "commit", "-qm", "vault settings"], cwd=self.root, check=True)
+        self.record = "notes:sketch.md"
+        return vault
+
+    def test_notes_sketchbook_rolls_and_is_checked_by_its_bytes(self):
+        vault = self.vault_notes()
+        data = self.save()
+        self.assertEqual(data["handoff_record"], "notes:sketch.md")
+        self.assertEqual(data["notes_head"], subprocess.run(["git", "rev-parse", "HEAD"], cwd=vault,
+                                                            capture_output=True, text=True).stdout.strip())
+        self.exited()
+        (vault / "proj" / "work" / "sketch.md").write_text("edited\n")
+        self.refused("sketchbook changed")
+
+    def test_notes_sketchbook_claims_on_the_project_commit(self):
+        self.vault_notes()
+        self.save()
+        self.exited()
+        self.assertEqual(self.claim()["handoff_record"], "notes:sketch.md")
+
+    def test_notes_sketchbook_without_a_notes_root_refuses(self):
+        self.record = "notes:sketch.md"
+        with self.assertRaisesRegex(roll.RollError, "notes: sketchbook needs"):
+            self.save()
+
+    def test_a_notes_only_commit_counts_as_progress(self):
+        vault = self.vault_notes()
+        self.roll_once(T0)
+        with self.assertRaisesRegex(roll.RollError, "No progress"):
+            self.save(now=T0 + 60)
+        (vault / "proj" / "work" / "other.md").write_text("more notes\n")
+        subprocess.run(["git", "commit", "-qam", "notes progress"], cwd=vault, check=True)
+        self.assertEqual(self.save(now=T0 + 60)["chain"], 2)
+
     # relaunch -------------------------------------------------------------------------------------
     def test_relaunch_restarts_only_recorded_pane_with_same_model_and_no_typing(self):
         self.save()

@@ -183,7 +183,7 @@ them, read them, edit them, commit them.
 | `CONTEXT.md` | what is currently true about the project, overwritten each time, never a diary |
 | `TODO.md` | open work only: `## Now` and `## Backlog`, one line each |
 | `kivna/sessions/YYYY-MM-DD.md` | one log per day: what was done, key decisions, commits, what is next |
-| `docs/work/<name>/work.md` | one record per piece of work: the direction, what is settled, what is still open |
+| `docs/work/<name>/work.md` | one record per piece of work: the direction, what is settled, what is still open (kept in your private vault instead when `kivna/vault.json` sets `"work_notes": "vault"`) |
 
 Those four are not everything Kerd writes. Drawings are saved as HTML and SVG
 beside the work record. If you opt into the Obsidian vault, `kivna/vault.json`
@@ -264,9 +264,26 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.156.0)
+## What's New (v0.157.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.157.0
+
+**A public repo's working notes can stay private and still be saved.** Set
+`"work_notes": "vault"` in `kivna/vault.json` and Conductor keeps each work's sketchbook in your
+Obsidian vault (`<vault>/<folder>/work/`, its own private git repo) instead of `docs/work/`.
+Records point to it as `notes:<work>/work.md`. Switch Out saves both repos, and its remote check
+covers both (the vault check looks only at the project's own notes folder). Switch In and the chat
+roll read the sketchbook from the vault. Projects without the setting keep committing `docs/work/`
+as before. Kerd's own notes moved there on 2026-09-25.
+
+**Switch Out checks that its key findings reach the next pickup.** It names the three to five
+findings that must survive and passes them to `measure --carry`, which reports, for each, the file
+in the next pickup's reading set that holds it, or "not in the reading set". A miss is written
+into CONTEXT.md or TODO.md before the save. It never blocks and asks you nothing. Its first run
+found a real finding left only in a local sketchbook. `measure` now refuses a file git does not
+track, as the pickup already did.
 
 ### v0.156.0
 

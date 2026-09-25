@@ -6,16 +6,16 @@
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
-sketchbook `docs/work/launch-plan/work.md`. Kerd is ready to launch when someone other than
+sketchbook `notes:launch-plan/work.md`. Kerd is ready to launch when someone other than
 Anthony carries real work in their own repository to its agreed result, unaided. **Step 1: 3of3
 is using Kerd in its own sessions; Kerd evidence is read from those sittings when Anthony asks for
 it.** 3of3's own work is not Kerd's open work (Anthony, 2026-09-25 10:49: "we are mixing work").
-Evidence so far: `docs/work/launch-plan/work.md`.
+Evidence so far: `notes:launch-plan/work.md`.
 
 **The team note is going out** (Anthony, 2026-09-23 17:05, "y" to sending it now; not yet
 confirmed sent). **Parked:** "delay any sam and auble work for now" (Anthony, 2026-09-24
 08:55); don't ask about it until he picks it up. Each team's reply goes into its lines under "The team note goes out" in
-`docs/work/launch-plan/work.md`, one per field of the plan's per-person record.
+`notes:launch-plan/work.md`, one per field of the plan's per-person record.
 
 **The 2026-09-13 hold is lifted** (Anthony, 2026-09-23 18:19; `docs/decisions.md`), so
 **launch step 2 (inviting three to five people) is dropped** (Anthony, 2026-09-25 11:16: "i dont.
@@ -30,8 +30,8 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - **A session should never sit idle with nothing asked** — shipped in 0.146.0; on 2026-09-24 it
   did not hold (ten status prompts across four sessions). 0.153.1 names the two missing endings
   and his global CLAUDE.md now carries a turn-end gate; watch whether he still has to ask.
-  Both hosts run 0.153.1 (Codex read back 17:29). Sketchbooks: `docs/work/no-idle-sessions/work.md`,
-  and the superseded monitor framing in `docs/work/waiting-on-you/work.md`.
+  Both hosts run 0.153.1 (Codex read back 17:29). Sketchbooks: `notes:no-idle-sessions/work.md`,
+  and the superseded monitor framing in `notes:waiting-on-you/work.md`.
 - **The report shape and the finish: changed in 0.145.0, watch them in use.** A
   correction of Kerd's own earlier claim now rides in the opening lines and never
   competes for the five items; a finish names the next item instead of ending on "no
@@ -40,11 +40,11 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 
 - **Watch the unanswered-review rule (0.149.0)** the first time a partner doesn't answer:
   a fresh reviewer recommended on his yes, never a waiver. Record:
-  `docs/work/partner-closed/work.md`.
+  `notes:partner-closed/work.md`.
 - **The Opus 5.5 profile was revised in 0.152.0 against Anthropic's guide;** two clauses
   carry one paired observation each, three new clauses are pending (unattended premature stop,
   fan-out time budget, explore before acting). Watch the first real brief that uses them.
-  Sketchbook `docs/work/opus-55/work.md` (local). The GPT-6 profile (0.148.0) is untested.
+  Sketchbook `notes:opus-55/work.md`. The GPT-6 profile (0.148.0) is untested.
 - **Watch the context reading (0.153.0) in its first live session:** a `Context: N tokens in
   the last request` line at each prompt and during long turns, matching the status line. Seen
   once by hand before release (170,532 tokens vs "83%" free, 2026-09-24 15:34). First live delivery
@@ -54,7 +54,7 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   interactive session on 2026-09-25 (0.154.1):** the line arrived at every prompt from the second
   (91,889 at 08:58 up to 115,948 at 09:42) and after tool calls mid-turn. One session, not verified.
 - **The homepage redesign: dropped, to revisit** (Anthony, 2026-09-24 12:56). Three Codex
-  passes and his reactions: `docs/work/homepage-redesign/work.md` (local).
+  passes and his reactions: `notes:homepage-redesign/work.md`.
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
   concert now performs on `concert/<work>`, and the merge back is the person's go
   (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
@@ -64,7 +64,7 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   2026-09-25 (pane restarted, same model/effort/mode, next step done); a concert rolling itself at
   50% is unseen, and so is a roll from a process shown as capital `Claude` (unit-tested). The
   three-in-a-row limit counts every roll in a checkout within six hours; see whether it bites.
-  Sketchbook `docs/work/rolling-session/work.md` (local).
+  Sketchbook `notes:rolling-session/work.md`.
 - **Observe the composer and managed Conductor in a real session.** Worker Roll's
   context-triggered handover to a second run is still unseen (the trigger fired twice; each job
   finished first). The composer and managed Conductor are still unexercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
@@ -106,7 +106,7 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - **Watch the first cross-provider build exception (0.151.0).** Conductor builds with its
   own host's workers; a Codex builder under Claude (or the reverse) is an exception the
   person asks for or approves, called a trial without a comparison. Not yet seen: the
-  first request and its Fit line. Sketchbook `docs/work/codex-players/work.md` (local).
+  first request and its Fit line. Sketchbook `notes:codex-players/work.md`.
   Codex building the homepage on 2026-09-24 was Anthony giving it the work directly, not a
   Conductor dispatch.
 - **Roll at ~200k by hand, then compare (Anthony, 2026-09-25 10:26).** The Studio status line
@@ -114,7 +114,12 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   200k or 60% used, red switch now from 80%); he rolls by hand at a break. After a few
   sittings, compare average tokens re-sent per call, rolled vs not, and decide whether Kerd's
   chat roll moves from 50% to 200k. The built alternative was dropped as too complex. Sketchbook
-  `docs/work/rolling-session/threshold.md` (local).
+  `notes:rolling-session/threshold.md`.
+  **Carried from that sketchbook (2026-09-25):** the no-progress check never catches thrash,
+  because every save rewrites the sketchbook (`tmux_roll.py:344`), and the three-rolls-in-6h cap
+  stops real progress: on 2026-09-25 two trial rolls plus one real roll blocked this chat from
+  rolling for six hours during an unattended build. Proposed there: a thrash guard (refuse a roll
+  unless context grew since the pickup) in place of the count cap.
 - **Bring Codex along with each release** that changes its four-skill package (Conductor,
   Switch, Visuals, Agent); Codex builds and installs only on Anthony's go in its window.
 

@@ -10,7 +10,9 @@ cancel    Withdraw the note; refused once the restart has begun.
 
 Nothing is typed into a running Claude. The note is relaunch state, never committed:
 $(git rev-parse --git-path roll)/chat.json. The handoff record (the work's sketchbook) is the
-project-local file; a roll grants no approval beyond the one it copies from there. Claude only:
+project-local file, or `notes:<path>` under the vault notes root when kivna/vault.json sets
+"work_notes": "vault"; branch and commit checks stay on the project repo, the sketchbook check is
+its bytes, and the notes repo HEAD counts as progress. A roll grants no approval beyond the one it copies from there. Claude only:
 a session started with launch options other than --model/--effort, or with Claude or Anthropic
 environment settings the tmux server does not share, is not rolled automatically.
 """
@@ -29,6 +31,7 @@ import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import roll  # noqa: E402
+import handoff  # noqa: E402
 
 MAX_AGE = 30 * 60        # a note older than this is stale
 CHAIN_WINDOW = 6 * 3600  # rolls closer together than this count as consecutive
@@ -280,6 +283,26 @@ class Chat:
             self.write(data)
             return data
 
+    def notes(self):
+        """(notes root, notes repo) when the project keeps work notes in the vault, else None."""
+        try:
+            return handoff.notes_location(self.project)
+        except handoff.HandoffError as exc:
+            raise roll.RollError(str(exc))
+
+    def record_path(self, value):
+        """The sketchbook file: project-relative, or notes:<path> under the notes root."""
+        if not value.startswith(handoff.NOTES_PREFIX):
+            return roll.project_file(self.project, value)
+        location = self.notes()
+        if location is None:
+            raise roll.RollError("A notes: sketchbook needs \"work_notes\": \"vault\" in kivna/vault.json")
+        return roll.project_file(location[0], value[len(handoff.NOTES_PREFIX):])
+
+    def notes_head(self):
+        location = self.notes()
+        return git(location[1], "rev-parse", "HEAD") if location else None
+
     def checkpoint_problem(self, data, now):
         """Why the saved place no longer matches the checkout; None when it does."""
         if now - data.get("created_at", 0) > MAX_AGE:
@@ -291,7 +314,7 @@ class Chat:
         if data.get("head") != git(self.project, "rev-parse", "HEAD"):
             return "The commit changed since the roll was saved"
         try:
-            if sha256(roll.project_file(self.project, data["handoff_record"])) != data.get("handoff_sha256"):
+            if sha256(self.record_path(data["handoff_record"])) != data.get("handoff_sha256"):
                 return "The sketchbook changed since the roll was saved"
         except (roll.RollError, OSError, KeyError):
             return "The sketchbook named in the roll is missing"
@@ -303,7 +326,7 @@ class Chat:
         """claude is the source session's process identity {pid, start}; required everywhere."""
         env = os.environ if env is None else env
         now = time.time() if now is None else now
-        record = roll.project_file(self.project, handoff_record)
+        record = self.record_path(handoff_record)
         for label, value in (("next action", next_action), ("approval boundary", approval), ("model", model)):
             if not value or not value.strip():
                 raise roll.RollError(f"A roll needs its {label}")
@@ -337,11 +360,12 @@ class Chat:
                 raise roll.RollError("A managed Roll record exists here; the chat roll does not take it over")
             if self.marker.exists():
                 raise roll.RollError("A roll note already exists; inspect or cancel it")
-            head, digest = git(self.project, "rev-parse", "HEAD"), sha256(record)
+            head, digest, notes_head = git(self.project, "rev-parse", "HEAD"), sha256(record), self.notes_head()
             last = self.read(self.last)
             chain = 1
             if last and now - last.get("at", 0) < CHAIN_WINDOW:
-                if last.get("head") == head and last.get("record_sha256") == digest:
+                if (last.get("head") == head and last.get("record_sha256") == digest
+                        and last.get("notes_head") == notes_head):
                     raise roll.RollError("No progress since the last roll (same commit, same sketchbook); not rolling again")
                 chain = last.get("chain", 0) + 1
                 if chain > MAX_CHAIN:
@@ -350,6 +374,7 @@ class Chat:
                 "roll_id": uuid.uuid4().hex,
                 "project": str(self.project), "branch": git(self.project, "branch", "--show-current"),
                 "head": head, "handoff_record": handoff_record, "handoff_sha256": digest,
+                "notes_head": notes_head,
                 "next_action": next_action.strip(), "approval_boundary": approval.strip(),
                 "from_session": session, "claude": claude,
                 "pane": env.get("TMUX_PANE") if in_tmux else None,
@@ -449,6 +474,7 @@ class Chat:
             data.update(state="claimed", claimed_by=session, claimed_at=now)
             target.write_text(json.dumps(data, indent=2))
             self.last.write_text(json.dumps({"head": data["head"], "record_sha256": data["handoff_sha256"],
+                                             "notes_head": data.get("notes_head"),
                                              "chain": data["chain"], "at": now}))
         return data
 
@@ -500,7 +526,7 @@ def build_parser():
     parser.add_argument("--project", required=True)
     sub = parser.add_subparsers(dest="command", required=True)
     out = sub.add_parser("out")
-    out.add_argument("--handoff-record", required=True, help="Project-relative sketchbook, written last")
+    out.add_argument("--handoff-record", required=True, help="Sketchbook, written last: project-relative, or notes:<path> under the notes root")
     out.add_argument("--next-action", required=True)
     out.add_argument("--approval", required=True, help="The approval boundary, verbatim from the sketchbook")
     out.add_argument("--model", required=True, help="This session's model ID, e.g. claude-opus-5-5[1m]")
