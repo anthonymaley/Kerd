@@ -119,8 +119,10 @@ and every file inside `docs/work/launch-plan/`, `docs/work/roll-on-branch/`,
 (2026-09-23); every file inside `docs/work/codex-pickup/` (2026-09-23 late); every file inside
 `docs/work/codex-players/` (2026-09-24); and every file inside `docs/work/homepage-redesign/`
 and `docs/work/opus-55/` (2026-09-24 day); every file inside `docs/work/context-reading/`,
-`docs/work/rolling-session/` and `docs/work/roll-trial/` (2026-09-25). They exist on the Mac
-Studio only.
+`docs/work/rolling-session/` and `docs/work/roll-trial/` (2026-09-25); every file inside
+`docs/work/backlog-sweep/` and `docs/work/unattended-sweep/` (2026-09-25 16:21: committed and
+pushed by mistake in 0.155.0/0.156.0, untracked the same day; the old commits still hold them).
+They exist on the Mac Studio only.
 
 **Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-25 08:5x arrival
 against the saved designation; it designates its successor at this Out.
