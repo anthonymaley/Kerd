@@ -172,3 +172,24 @@ limits paragraph or R5.
 switched away). Studio tmux 3.7c: bell-action any, monitor-bell on, visual-bell off, one control-mode
 client. So tmux is not dropping it; the likely gap is on the laptop's iTerm2 side (unverified).
 D2/D3 not done: Anthony's settings unchanged. Goal "a bell on a laptop tab" unmet.
+**13:08 D1 correction: bell PASSED.** Anthony: "the bell appeared on the tab ... where i typed the
+command". (The earlier "no bell" was about the chat tab; my instructions were unclear.) The only
+tmux client is the laptop's iTerm2 over SSH (Tailscale), so the bell crossed to the laptop.
+**D2/D3 done** (backups `*.bak-bell`): `~/.claude/settings.json` `"preferredNotifChannel":
+"terminal_bell"` (key and value found in claude 2.1.282); `~/.codex/config.toml` `[tui]`
+`notifications = ["agent-turn-complete", "approval-requested"]`, `notification_method = "bel"`
+(found in codex 0.156.1). Both files parse. Unverified: a bell from Claude or Codex itself; new
+sessions pick the setting up. Codex re-review of e1a02c6 sent.
+**13:10 Codex re-review: clear.** Final run: 891 tests OK, hooks all green, release_check clean.
+
+## Goal check (13:10)
+- Tests and release_check green: **met** (891 OK, hooks green, release clean, my run).
+- Zero em dashes on reader-facing pages: **met**, except quoted UI labels and code spans in the
+  release history, kept on purpose.
+- Agent's limits paragraph matches the code: **met** (Codex read it against the code).
+- Codex review clear: **met** (two rounds; three findings fixed).
+- A bell on a laptop tab: **met** (D1); Claude/Codex settings applied, a bell from them unobserved.
+- Also done: live pointer-file read by a Claude partner and by Codex.
+Risks: voice pass checked per part (one cross-player overwrite caught and repaired); `.git/`
+file reading proven live. Open: none blocking.
+**Pending decision:** merge concert/backlog-sweep into main and push (0.155.0).
