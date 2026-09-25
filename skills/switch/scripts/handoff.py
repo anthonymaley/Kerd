@@ -489,7 +489,11 @@ def tracked_source(root, location, path, heading, require=True):
     if not require:
         source["tracked"] = tracked
         if not tracked:
-            source["warning"] = f"Not tracked in {where}; will not be readable at pickup until saved"
+            if where == "the project":
+                later = "and pickup reads it only as a record named with --preserve"
+            else:
+                later = "and so does pickup"
+            source["warning"] = f"Not tracked in {where}; prepare refuses it until saved, {later}"
     return source
 
 

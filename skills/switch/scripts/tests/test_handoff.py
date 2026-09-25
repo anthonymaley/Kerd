@@ -728,7 +728,8 @@ class HandoffTests(unittest.TestCase):
         measured = handoff.measure(self.dest, "notes:draft.md", ["notes:plan.md"])
         self.assertEqual([s["tracked"] for s in measured["sources"]], [False, True])
         self.assertEqual(len(measured["warnings"]), 1)
-        self.assertIn("will not be readable at pickup until saved", measured["warnings"][0])
+        self.assertIn("prepare refuses it until saved", measured["warnings"][0])
+        self.assertIn("and so does pickup", measured["warnings"][0])
         # At pickup an unsaved sketchbook is refused, before any of it is read.
         with self.assertRaisesRegex(handoff.HandoffError, "Unsaved changes inside the notes root"):
             handoff.prepare(self.dest, self.branch, "record.md", ["notes:draft.md"])
@@ -744,7 +745,7 @@ class HandoffTests(unittest.TestCase):
                 measured = handoff.measure(self.dest, "record.md", files, sections)
                 self.assertFalse(measured["sources"][1]["tracked"])
                 self.assertEqual(measured["warnings"], [
-                    "loose.md: Not tracked in the project; will not be readable at pickup until saved"])
+                    "loose.md: Not tracked in the project; prepare refuses it until saved, and pickup reads it only as a record named with --preserve"])
                 self.assertEqual(measured["status"], "measured")
         self.git(self.dest, "add", "loose.md")
         self.git(self.dest, "commit", "-q", "-m", "tracked now")
