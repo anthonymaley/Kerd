@@ -44,10 +44,12 @@ now = int(time.time())
 # unthrottled; a failure only means the roll refuses.
 if hook.get("permission_mode"):
     try:
+        import tempfile
         os.makedirs(state_dir, exist_ok=True)
-        with open(state + ".mode.tmp", "w") as f:
+        fd, tmp = tempfile.mkstemp(dir=state_dir, prefix=".mode-")   # one per hook: they can run at once
+        with os.fdopen(fd, "w") as f:
             json.dump({"mode": hook["permission_mode"], "at": time.time()}, f)
-        os.replace(state + ".mode.tmp", state + ".mode")
+        os.replace(tmp, state + ".mode")
     except Exception:
         pass
 reported_at, reported_tokens, scanned_at = 0, 0, 0

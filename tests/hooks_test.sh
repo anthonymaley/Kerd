@@ -398,6 +398,22 @@ test_context_reading_records_permission_mode_even_when_throttled() {
   pass
 }
 
+test_context_reading_mode_survives_overlapping_hooks() {
+  TNAME="context-reading: overlapping tool hooks leave one whole mode file"
+  local t tmp i m; t=$(make_transcript); tmp=$(mktemp -d)
+  for i in 1 2 3 4 5 6 7 8; do
+    printf '{"session_id":"s10","transcript_path":"%s","permission_mode":"plan"}' "$t" \
+      | TMPDIR="$tmp" bash "$HOOKS/context-reading.sh" tool >/dev/null 2>&1 &
+  done
+  wait
+  m=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['mode'])" "$tmp/kerd-context/s10.mode" 2>&1)
+  local left; left=$(find "$tmp/kerd-context" -name '.mode-*' | wc -l | tr -d ' ')
+  rm -rf "$t" "$tmp"
+  assert_contains "$m" "plan" || return
+  assert_contains "$left" "0" || return
+  pass
+}
+
 test_context_reading_silent_on_bad_input() {
   TNAME="context-reading: garbage, missing transcript or subagent -> silent"
   local o1 o2 o3
