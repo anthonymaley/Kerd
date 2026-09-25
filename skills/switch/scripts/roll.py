@@ -288,6 +288,8 @@ class Roller:
                                     or not callable(getattr(self.bridge, "release_held", None))):
             raise RollError("Live control requires the held-source Codex adapter")
         with self.transport.exclusive(self.local / "owner.lock"):
+            if (self.local / "chat.json").exists():
+                raise RollError("A chat roll is waiting to be picked up here; claim or cancel it first")
             prior = self.transport.read(self.ledger)
             if prior and prior.get("kind") == "conductor":
                 raise RollError("Managed Conductor owns this record; worker Roll cannot resume it")

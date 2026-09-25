@@ -132,9 +132,54 @@ reading a Roll ledger: recorded running/held state is not current ownership or
 proof the source is gone. Inspect a known managed run read-only and preserve
 its owner; do not start a competing controller or worker in that checkout.
 
-This covers **managed worker** succession. It does not implement automatic
-replacement of the outer Conductor chat when that chat's context runs low;
-that missing controller lifecycle remains distinct from this tested worker loop.
+This covers **managed worker** succession. The outer Conductor chat rolls
+itself only through the tmux route below; outside tmux it saves and asks the
+person to start the fresh session.
+
+### Roll the Conductor chat (tmux)
+
+Conductor, never the person, rolls its own chat. It rolls only at a batch
+boundary or after a delivery job returns, and only when this session owns
+nothing outstanding: no unreturned agent, background shell, monitor, partner
+request or question to the person. Unknown counts as outstanding. The trigger is
+the context reading passing **50% of the host-declared window** of the running
+model; with no declared window, it does not roll and says so once.
+
+1. **Rolling Out.** Write the sketchbook's position and exact next action, last,
+   and run Agent's `handoff --record <sketchbook>` if a Claude role is bound. Then:
+
+   ```sh
+   python3 "$switch_scripts/tmux_roll.py" --project "$project" out \
+     --handoff-record docs/work/<work>/work.md --next-action "<exact next action>" \
+     --approval "<approval boundary, verbatim from the sketchbook>" \
+     --model "<this session's model ID>" --threshold-tokens <number>
+   ```
+
+   Under `roll/owner.lock` it refuses when a managed Roll record or another chat
+   roll exists, when nothing changed since the last roll (same commit, same
+   sketchbook), or after three rolls in a row. It writes the marker
+   `roll/chat.json` and reads it back.
+2. **Relaunch.** Inside tmux, the command hands a job to the tmux server, which
+   outlives this Claude. Five seconds later it checks that the recorded pane still
+   runs the recorded Claude, then restarts that pane with `respawn-pane -k` into
+   `claude --model <same> -- "/kerd:switch roll in"`. Nothing is typed into Claude.
+   Pass no shell variables in the command: Claude's permission check stops
+   `$TMUX_PANE` even when tmux is allowed (trial, 2026-09-24).
+   Outside tmux it prints that one line; the person closes the old session and
+   runs it.
+3. **Rolling In.** `/kerd:switch roll in` runs
+   `tmux_roll.py --project "$project" in --model "<this session's model ID>"`.
+   It claims the marker for this session, or refuses when the marker is missing,
+   claimed, older than 30 minutes, for another branch or commit, the sketchbook
+   changed, the model differs, or the old session is not confirmed gone. A refusal
+   stops and says why; it never becomes ordinary In. On a claim, adopt the Claude
+   role, read the sketchbook and score, show the `Rolled:` line and continue the
+   next action under the unchanged approval, with no arrival screen or question.
+
+`/kerd:switch roll --cancel` (`tmux_roll.py … cancel`) withdraws an unclaimed
+roll before the relaunch fires. If the relaunch refuses or times out, the old
+session, if alive, runs `handoff --cancel` on its next turn and carries on.
+While a chat roll waits, worker Roll and managed Conductor refuse to start.
 
 ### Run the existing managed loop
 
@@ -230,8 +275,9 @@ compaction prevention. Record what the actual run showed. Current usage includes
 host input; it does not alone prove Switch-added input meets the pickup budget.
 
 For a managed Claude build, use `--target claude --context-aware`. This is for
-unattended worker Roll only; an interactive session still Switches Out when the
-person decides. The helper starts one fresh `claude -p` stream-json process per
+unattended worker Roll only; an interactive Conductor chat rolls through
+[the tmux chat roll](#roll-the-conductor-chat-tmux), and any other interactive
+session still Switches Out when the person decides. The helper starts one fresh `claude -p` stream-json process per
 run, with the same file tools and permission flags as the Claude CLI route, and
 never resumes a session. It sends a fixed bootstrap turn first: the `init` that
 follows must show this project, `dontAsk` and exactly the requested tools, and
@@ -290,6 +336,6 @@ checkpoint failed. A clean provider exit is not acceptance of its answer.
 The first proof used explicit piece boundaries. A later managed Codex proof
 completed one actual pressure-triggered fresh-worker transition and independent
 artifact review. That does not guarantee no compaction inside a large operation.
-Starting a managed loop from an arbitrary already-open interactive session and
-automatically replacing that host remain unimplemented. Do not quietly redefine
+Starting a managed loop from an arbitrary already-open interactive session remains
+unimplemented; replacing the host is implemented only for a Conductor chat in tmux. Do not quietly redefine
 the agreed experience to fit this partial mechanism. Keep those measures open.

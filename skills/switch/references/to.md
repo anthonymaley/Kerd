@@ -20,7 +20,10 @@ Use answers already recorded; ask one focused question only if the route is uncl
 A running marker, process ID, tmux environment variable or saved transport record
 alone is not a live controller handle. Do not start a new worker and call its exit
 the exit of the person's original session. Don't kill a pane, send exit keystrokes
-to a guessed target or introduce a background service to bridge this gap.
+to a guessed target or introduce a background service to bridge this gap. The one
+exception is [the Conductor chat roll](to-roll.md#roll-the-conductor-chat-tmux),
+which restarts only its own recorded pane after checking it still runs the recorded
+Claude, and never types into it.
 For the managed route, use the already-owning controller through its available
 connection; a separate invocation cannot reconstruct its live Python object.
 If no such connection is available, report that specific limitation, not success.

@@ -119,13 +119,17 @@ For sustained authorized local work requiring automatic context continuation,
 enter [managed Conductor](references/managed-conductor.md) from the outset.
 The chat stays the control surface while managed decision sessions own delivery
 and review; do not wait until this chat is full and promise a TUI replacement.
-Use only its supported provider, permission and lifecycle scope.
+Use only its supported provider, permission and lifecycle scope. A Conductor chat
+in tmux rolls itself between batches through the
+[chat roll](../switch/references/to-roll.md#roll-the-conductor-chat-tmux); that
+is the one TUI replacement, and it does not make an unattended build.
 
 A verified managed rolling continuation enters delivery from its saved place
 and unchanged agreement without the normal arrival question. Follow the
 [Roll boundary](../switch/references/to-roll.md#roll-fresh-window-same-authorized-build);
 a new chat or a bare “resume” label is not evidence of managed authority or
-exclusive ownership. Do not claim this entry replaces an arbitrary open TUI.
+exclusive ownership. Do not claim this entry replaces an arbitrary open TUI; a
+claimed chat roll (`/kerd:switch roll in`) continues its own saved next action.
 
 Switch owns [ordinary arrival composition](../switch/references/in-out.md#compose-the-arrival-in-switch)
 without loading this skill. Choosing work in answer to its question enters
@@ -251,9 +255,12 @@ player, as many as the score allows, each at a fitted model and effort. When a
 batch returns, check each player's claim against its part of the score: Conductor
 is not the independent reviewer, but it never takes a return on trust. Write the
 results into the sketchbook, then look at the room left in this context: carry on
-with the next batch, or roll at the batch boundary (Switch Out, a fresh session,
-Switch In) and start the next batch from the sketchbook and score under the same
-agreement. A build that must run unattended can use
+with the next batch, or, past 50% of the declared window with nothing outstanding,
+roll at the batch boundary yourself with `/kerd:switch roll` (the
+[chat roll](../switch/references/to-roll.md#roll-the-conductor-chat-tmux): save,
+restart this tmux pane, pick up) and start the next batch from the sketchbook and
+score under the same agreement. Never ask the person to roll; outside tmux, show
+the one line the roll prints. Three rolls in a row without progress stop for them. A build that must run unattended can use
 [managed Conductor](references/managed-conductor.md) instead, which currently
 runs one player at a time. The goals and
 checks set in rehearsal and written into the score decide when it is over: before

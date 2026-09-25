@@ -126,6 +126,13 @@ class RollLifecycleTests(unittest.TestCase):
                     self.roller.run()
         self.assertEqual(self.bridge.calls, [])
 
+    def test_waiting_chat_roll_prevents_launch(self):
+        self.roller.local.mkdir(parents=True, exist_ok=True)
+        (self.roller.local / "chat.json").write_text("{}")
+        with self.assertRaisesRegex(roll.RollError, "chat roll is waiting"):
+            self.roller.run()
+        self.assertEqual(self.bridge.calls, [])
+
     def test_live_provider_group_blocks_handoff(self):
         self.killpg.side_effect = None
         self.bridge.outcome = lambda n: self.result(self.state(status="review"), n)

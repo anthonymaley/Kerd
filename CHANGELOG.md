@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.154.0
+
+**Conductor rolls its own chat.** When a Conductor chat running in tmux passes half its
+context window between batches, with nothing outstanding, it saves its place and tmux restarts
+its pane into a fresh `claude` on the same model, which picks up the saved next step under the
+same approval. Nobody types, and nothing is typed into Claude: the old session is ended by
+restarting its pane, after a check that the pane still runs that session. The fresh session
+loads the installed Kerd, which `/clear` did not. A new `tmux_roll.py` keeps a roll note beside
+Roll's records under the same lock; the new session claims it only when the commit, branch,
+sketchbook and model match and the old session is gone, and otherwise stops and says why.
+Three rolls in a row, or a roll with no progress since the last, stop for you; `roll --cancel`
+withdraws one. Outside tmux it saves and shows one line to run. Worker Roll and managed
+Conductor refuse to start while a chat roll waits. From a trial in a private tmux server:
+Claude's permission check stops a relaunch command that passes `$TMUX_PANE`, so the roll passes
+none. A roll of a real Conductor build has not run yet.
+
 ## 0.153.3
 
 **The Roll guide names the saved-place keys and how to retire a finished run.** Two gaps

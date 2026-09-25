@@ -107,6 +107,12 @@ class ManagedConductorTests(unittest.TestCase):
         self.assertEqual(len(self.bridge.closed), 9)
         self.assertEqual([c["writable"] for c in self.bridge.calls], [False, True, False, False, False, True, False, False, False])
 
+    def test_waiting_chat_roll_prevents_launch(self):
+        self.driver.local.mkdir(parents=True, exist_ok=True)
+        (self.driver.local / "chat.json").write_text("{}")
+        with self.assertRaisesRegex(managed.roll.RollError, "chat roll is waiting"):
+            self.driver.run()
+
     def test_checkpoint_starts_fresh_decision_with_saved_memory(self):
         self.bridge.outputs = [self.decision("checkpoint", place=self.place(memory="Keep a discovered constraint")),
                                self.decision("blocked", place=self.place(status="blocked", memory="Keep a discovered constraint"))]

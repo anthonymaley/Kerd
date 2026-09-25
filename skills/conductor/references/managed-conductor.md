@@ -155,7 +155,8 @@ selected continuation. Do not close as complete while the driver still owns jobs
 
 - First pressure-aware coordinator and implementation adapter: **Codex only**.
   Either Claude or Codex may be the control chat. Claude can review, but this is
-  not pressure-aware Claude coordination or automatic replacement of its TUI.
+  not pressure-aware Claude coordination. A Conductor chat in tmux can replace
+  itself between batches (the Switch chat roll); that is not this managed loop.
   Worker Roll (`roll.py --target claude --context-aware`) does have an observed
   Claude route; it is not yet wired into this managed decision loop.
 - Reviews use a bounded fresh CLI turn, not pressure-aware Roll. Claude's review

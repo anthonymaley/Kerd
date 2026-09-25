@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival headed by the Kerd version it loaded: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, adds what the sitting settled to Conductor's sketchbook for each piece of work, saves the next action and approval boundary, and ends on a plain-English box: what changed, the next step and why. Managed Roll continues without normal arrival approval.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival headed by the Kerd version it loaded: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, adds what the sitting settled to Conductor's sketchbook for each piece of work, saves the next action and approval boundary, and ends on a plain-English box: what changed, the next step and why. Managed Roll continues without normal arrival approval; a Conductor chat in tmux rolls itself into a fresh session (`/kerd:switch roll`) and picks up its saved next step.
 ---
 
 # Switch
@@ -43,6 +43,10 @@ and repository boundaries still apply.
   [managed handoff and Roll](references/to-roll.md). For the continuing decision
   and review loop as well as workers, use sibling Conductor's
   [managed controller](../conductor/references/managed-conductor.md).
+  Conductor rolls its own chat with `/kerd:switch roll`: save, restart its tmux
+  pane into a fresh `claude`, and `/kerd:switch roll in` picks up the saved next
+  step; outside tmux it saves and shows one line to run. `roll --cancel` withdraws
+  an unclaimed roll. Read [the chat roll](references/to-roll.md#roll-the-conductor-chat-tmux).
 
 Honor the named action. Don't infer In/Out from a dirty tree, or perform a boundary
 when the person asks only about its design/status. Ask only when the requested

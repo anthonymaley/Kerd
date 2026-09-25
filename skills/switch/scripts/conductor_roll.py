@@ -226,6 +226,8 @@ class ManagedConductor:
             raise roll.RollError("Timeout must be positive and finite")
         self.timeout = timeout
         with self.transport.exclusive(self.local / "owner.lock"):
+            if (self.local / "chat.json").exists():
+                raise roll.RollError("A chat roll is waiting to be picked up here; claim or cancel it first")
             prior = self.transport.read(self.ledger)
             identity = dict(kind="conductor", agreement=str(self.agreement.relative_to(self.root)),
                             place=str(self.place.relative_to(self.root)), config=self.config)

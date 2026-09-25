@@ -49,6 +49,10 @@ Two more actions exist for cases the first two do not cover. **To** saves the
 exact mid-work position through GitHub, hands source control over, and restores
 it at the other machine; it is not a full Out. **Roll** carries an authorized
 build into a fresh context window without a new interview or a second go-ahead.
+You never run it yourself: when a Conductor chat in tmux passes half its context
+between batches, it saves its place and tmux restarts its pane into a fresh
+`claude`, which picks up the next step. Outside tmux it saves and shows you the
+one line to run.
 
 Underneath, In restores the project pointer, the active list (`TODO.md`'s
 `## Now` by convention, child sections included), the work records that list

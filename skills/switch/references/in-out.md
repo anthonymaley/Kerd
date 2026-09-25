@@ -34,7 +34,9 @@ delivery from a stale TODO. Review means independent assessment is next, not
 acceptance or permission for another implementation; reconcile that saved place
 before proposing its assessment. Private Agent identity/succession/arrival may
 still follow their existing authority, but do not transfer managed-run ownership.
-With no record, add no discovery or setup step. Do not infer completion merely
+With no record, add no discovery or setup step. An unclaimed chat roll marker
+(`roll/chat.json`) is shown in ATTENTION and never acted on by ordinary In; only
+`/kerd:switch roll in` claims it. Do not infer completion merely
 because the worker stopped; a reconciled finished run need not stay a warning.
 
 For a typed managed-Conductor record, paused continuation uses

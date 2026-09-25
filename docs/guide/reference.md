@@ -22,7 +22,9 @@ Saves, restores and moves repo-based work between sittings and devices.
 - **To** is a named action, not a slash command: save the exact mid-work position
   through GitHub, release source control, restore at the other device.
 - **Roll** is a named action too: carry an authorised Conductor build into a
-  fresh context window without a new interview or go-ahead.
+  fresh context window without a new interview or go-ahead. Conductor runs
+  `/kerd:switch roll` on its own chat in tmux; `/kerd:switch roll in` is what the
+  fresh session runs, and `/kerd:switch roll --cancel` withdraws an unclaimed roll.
 - `python3 /path/to/switch/scripts/roll_status.py --project /path/to/project`
   prints a read-only view of a managed run: recorded state, next action and
   finished workers, without private session IDs.
