@@ -78,7 +78,7 @@ def exclusive(path):
             fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError:
             raise Busy("This named session already has an active request") from None
-        yield
+        yield fd
     finally:
         os.close(fd)
 
@@ -304,7 +304,7 @@ class Bridge:
             if saved is not None and saved != spec:
                 raise ValueError("Request ID already belongs to a different job")
             return self.status(request_id)
-        with shutdown_signals(), exclusive(session_path.with_suffix(".lock")):
+        with shutdown_signals(), exclusive(session_path.with_suffix(".lock")) as lock_fd:
             self.ensure_resolved(session)
             existing = read(session_path)
             if existing and (existing["target"] != target or existing["project"] != str(self.root)):
@@ -425,6 +425,13 @@ class Bridge:
                 fd = os.open(request_dir / filename, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
                 with os.fdopen(fd, "w") as stream:
                     stream.write(content)
+            if background_child:
+                # os._exit() below skips the with-block's cleanup, so the fork-inherited
+                # session lock would otherwise only be released by the kernel during process
+                # teardown, after this result is already visible to callers polling status().
+                # Release it explicitly first so "completed" never appears while still locked.
+                # Unlock rather than close: the with-block's own close still owns the fd.
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
             save(request_dir / "result.json", record)
             if background_child:
                 os._exit(0 if record["status"] == "completed" else 1)

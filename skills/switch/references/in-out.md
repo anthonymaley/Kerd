@@ -738,6 +738,17 @@ and it never deletes or stashes. New or unacknowledged work still needs resoluti
 not blanket staging. Show locally saved vs committed vs remotely verified. A failed
 push leaves useful local work recoverable; do not call that a cross-device handoff.
 
+Then prove the boundary, after the last commit and before the box, with the same
+helper: `python3 "$SKILL_DIR/scripts/handoff.py" --project <project> boundary`,
+repeating `--preserve <path>` for each acknowledged local path. It fetches now
+and exits 1 when the fetch fails (cached refs are not verification), when no
+remote branch contains HEAD, or when the tree holds anything unsaved beyond the
+preserved paths. `git status` and `git log -1` do not prove this: a clean tree
+says nothing about whether any remote has the commits. Its `stashes` count is
+information, not a refusal: when it is nonzero, say so in `warnings`
+("2 stashes on this machine, not saved"). Run it on every repo the sitting
+committed to; a local-only Out is allowed, and its box says so instead of ✓.
+
 ### Close with the saved-place box
 
 End Out on one box, rendered with the same packaged renderer:
@@ -760,6 +771,10 @@ one of `remote-verified` (the helper's `saved_to_remote`), `committed` (a local
 commit, push not verified) or `not-saved`; the banner, the SAVED cell and any
 attention line follow it. An absent or unrecognised `saved` renders SAVE STATUS
 NOT RECORDED, never "nothing committed": unknown is not evidence.
+`boundary` is the boundary check's verdict: exactly `passed` when it exited 0,
+otherwise its `failures` list copied as written. Only `passed` earns the ✓ and
+the restart line; failures appear under attention, and an absent value reads as
+not recorded, never as passed.
 `handoff_ready` is the owner's memory-coverage assessment after the coordinated
 closeout check, not something a Git push or renderer can prove: `false` or
 omitted adds an attention line, and `false` also names the missing detail or
@@ -775,8 +790,8 @@ other problem, such as a failed role designation. `host` is `claude` or `codex`:
 it chooses the closing line; only `claude` (or an unrecorded host) gets `/clear`. Use `null` or `[]` for anything Out has nothing
 for; a missing field renders as "not recorded", never as a claim.
 
-The closing line offers a restart only after a remote-verified or committed save
-**and** `handoff_ready: true`: under Claude, "Exit and restart or /clear and
+The closing line offers a restart only after a remote-verified or committed save,
+`handoff_ready: true` **and** `boundary: "passed"`: under Claude, "Exit and restart or /clear and
 /kerd:switch in to pick up from here."; under Codex, "Exit and restart, then
 switch in to pick up from here." Otherwise it asks to keep the session open and
 resolve the save or the missing handoff first, because clearing context then
@@ -798,6 +813,7 @@ routing. No session is ended by preparing its handoff.
   "branch": "main",
   "saved": "remote-verified",
   "handoff_ready": true,
+  "boundary": "passed",
   "phase": "Launch outcomes 0 of 5; sequence steps 1–2 done",
   "released": "0.136.0 → 0.138.0",
   "this_session": [
@@ -838,6 +854,8 @@ python3 /path/to/switch/scripts/handoff.py --project /path/to/project pickup \
   --branch trial-branch --record CONTEXT.md --sync
 python3 /path/to/switch/scripts/handoff.py --project /path/to/project prepare \
   --branch trial-branch --record CONTEXT.md --section TODO.md '## Now'
+python3 /path/to/switch/scripts/handoff.py --project /path/to/project boundary \
+  --preserve scratch.patch
 ```
 
 List actual changed files, including any archive files; the helper refuses unassigned

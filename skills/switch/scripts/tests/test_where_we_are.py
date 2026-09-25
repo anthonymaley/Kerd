@@ -992,7 +992,7 @@ class ClosingBoxTests(unittest.TestCase):
 
     def base(self, **over):
         summary = {"project": "Kerd", "branch": "main", "saved": "remote-verified", "handoff_ready": True,
-                   "phase": "Launch: 2 of 5 done", "released": "0.136.0 → 0.138.0",
+                   "boundary": "passed", "phase": "Launch: 2 of 5 done", "released": "0.136.0 → 0.138.0",
                    "this_session": ["The risk-rating change was accepted.",
                                     "Conductor checks where your work stands in your own project."],
                    "next": "Start the diagnostic pilot.",
@@ -1113,6 +1113,30 @@ class ClosingBoxTests(unittest.TestCase):
                             self.assertIn("Memory for the next session is incomplete", out)
                         elif ready is not True:
                             self.assertIn("memory is ready for the next session was not recorded", out)
+
+    def test_the_tick_and_restart_wait_for_a_passed_boundary_check(self):
+        failure = "No remote branch contains this commit; the work exists only on this machine."
+        for boundary, words in ((None, "boundary check was not recorded"),
+                                ("weird", "Boundary check failed: weird"),
+                                ([failure], failure), (failure, failure)):
+            for markdown in (False, True):
+                with self.subTest(boundary=boundary, markdown=markdown):
+                    out = flatten(self.render(markdown, boundary=boundary))
+                    self.assertNotIn("\u2713", out)
+                    self.assertNotIn("Exit and restart", out)
+                    self.assertIn("Keep this session open and resolve the boundary check", out)
+                    self.assertIn("ATTENTION", out)
+                    if markdown:  # the terminal panel wraps long lines inside its border
+                        self.assertIn(flatten(words), out.split("ATTENTION", 1)[1])
+        summary = self.base()
+        del summary["boundary"]
+        self.assertNotIn("Exit and restart", view.render_closing(summary, NOW, 80, False))
+        self.assertIn("SESSION SAVED \u2713", self.render(True))
+
+    def test_a_stash_count_in_warnings_does_not_withhold_the_restart(self):
+        out = flatten(self.render(True, warnings=["2 stashes on this machine, not saved."]))
+        self.assertIn("2 stashes on this machine", out)
+        self.assertIn("Exit and restart", out)
 
     def test_an_unknown_save_status_is_not_reported_as_nothing_committed(self):
         for summary in ({}, {"saved": "weird"}, self.base(saved=None)):

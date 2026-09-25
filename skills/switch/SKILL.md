@@ -124,7 +124,8 @@ unavailable readings.
 [Git helper](scripts/handoff.py) supplies explicit-file save, safe fast-forward
 pickup, optional assembly of caller-selected current records, and a `measure`
 of the reading set's size against the pickup target (bytes exact, tokens
-estimated; never blocking). It does not
+estimated; never blocking), and the `boundary` check Out must pass before its ✓
+(fetch now, HEAD on a remote branch, clean tree; stashes counted, not refused). It does not
 choose what is done, select relevant memory, grant authority or control sessions.
 [Roll helper](scripts/roll.py) manages fresh CLI runs through the existing model
 connection. It does not take over arbitrary already-open interactive sessions.

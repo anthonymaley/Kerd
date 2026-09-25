@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -109,6 +110,50 @@ def publish(root, branch, files, message, push=False, verify_commit=None, preser
         if not remote or remote.split()[0] != commit:
             raise HandoffError("Push could not be verified at the remote branch; do not release source")
         result["status"] = "saved_to_remote"
+    return result
+
+
+FETCH_TIMEOUT = 60  # seconds; a fetch that hangs on a prompt or dead network counts as failed
+
+
+def boundary(root, preserve=()):
+    """Prove the end of a sitting: is HEAD on a remote, checked by a fetch just now?
+
+    Refuses when the fetch fails (cached remote refs are not verification), when
+    no remote ref contains HEAD (the work exists only on this machine), or when
+    the tree carries changes other than the exact preserved paths. Stashes are
+    counted as information, never a refusal. Nothing is pushed, staged or moved.
+    """
+    keep = acknowledged(root, preserve)
+    failures = []
+    try:
+        fetch = subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "--all"], text=True,
+                               capture_output=True, timeout=FETCH_TIMEOUT,
+                               env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
+        fetched = fetch.returncode == 0 and bool(git(root, "remote"))
+    except subprocess.TimeoutExpired:
+        fetched = False
+    if not fetched:
+        failures.append("The fetch failed, so the remote state is unknown; cached refs are not verification.")
+    commit = git(root, "rev-parse", "HEAD")
+    containing = [ref for ref in git(root, "for-each-ref", "--contains", "HEAD", "--format=%(refname:short)",
+                                     "refs/remotes").splitlines()
+                  if ref and not ref.endswith("/HEAD")]
+    if not containing:
+        failures.append("No remote branch contains this commit; the work exists only on this machine.")
+    left = sorted((local_changes(root) | set(filter(None, git(root, "diff", "--cached", "--name-only", "-z")
+                                                     .split("\0")))) - set(keep))
+    if left:
+        failures.append(f"The working tree is not clean: {len(left)} unsaved "
+                        + ("path" if len(left) == 1 else "paths") + ".")
+    stashes = len([line for line in git(root, "stash", "list").splitlines() if line])
+    branch = subprocess.run(["git", "-C", str(root), "symbolic-ref", "--quiet", "--short", "HEAD"],
+                            text=True, capture_output=True).stdout.strip() or None
+    result = {"status": "boundary_refused" if failures else "boundary_ok", "branch": branch,
+              "commit": commit, "fetched": fetched, "remote_refs_containing_head": containing,
+              "unsaved_paths": left, "stashes": stashes, "preserved_local_only": keep,
+              "failures": failures,
+              "note": "Stashes are information, not a refusal; preserved paths are local only"}
     return result
 
 
@@ -330,9 +375,16 @@ def main():
     size.add_argument("--section", nargs=2, action="append", default=[], metavar=("FILE", "HEADING"))
     size.add_argument("--target", type=int, default=TARGET_TOKENS,
                       help="Token allowance to compare against (default: the trial's %(default)s)")
+    check = sub.add_parser("boundary", help="Fetch, then refuse unless a remote ref contains HEAD and the tree is clean")
+    check.add_argument("--preserve", action="append", default=[],
+                       help="Exact untracked path this project keeps locally; not counted as unsaved")
     args = parser.parse_args()
     try:
         root = root_for(args.project)
+        if args.action == "boundary":
+            result = boundary(root, args.preserve)
+            print(json.dumps(result, indent=2))
+            return 1 if result["failures"] else 0
         if args.action == "measure":
             result = measure(root, args.record, args.file, args.section, args.target)
         elif args.action == "save":

@@ -352,8 +352,8 @@ OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "l
                   "restore_note")
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
-CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "phase", "released", "this_session",
-                "next", "why", "tree", "warnings", "host")
+CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "boundary", "phase", "released",
+                "this_session", "next", "why", "tree", "warnings", "host")
 ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
 BORDERS = "\u256d\u2570\u251c\u250c\u2514"
 
@@ -919,6 +919,12 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         badge, tone, cell = "SAVE STATUS NOT RECORDED", "amber", "Not recorded"
         saved = "unknown"
     ready = get("handoff_ready")
+    # `boundary` is handoff.py boundary's verdict: exactly "passed" on exit 0,
+    # otherwise its failures. Anything else, absent included, withholds the ✓
+    # and the restart: a save that no fetch has shown on a remote is not proven.
+    proven = get("boundary") == "passed"
+    if not proven:
+        badge, tone = badge.replace(" \u2713", ""), ("amber" if tone == "green" else tone)
     attention = []
     if saved == "committed":
         attention.append("The save is committed on this machine but not verified on the remote; "
@@ -934,9 +940,16 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     tree = get("tree")
     if tree and str(tree).strip().rstrip(".").lower() != "clean":
         attention.append(f"Left in the working tree: {tree}")
+    if not proven:
+        failed = get("boundary")
+        if isinstance(failed, str):
+            failed = [failed]
+        failed = [str(item) for item in (failed or []) if item]
+        attention += ([f"Boundary check failed: {item}" for item in failed] if failed else
+                      ["The boundary check was not recorded, so the save is not proven on a remote."])
     attention += [str(item) for item in (get("warnings") or []) if item]
 
-    confirmed = saved in ("remote-verified", "committed") and ready is True
+    confirmed = saved in ("remote-verified", "committed") and ready is True and proven
     if confirmed:
         # Only Claude has /clear; any other or unrecognised host gets the
         # host-neutral line, and an unrecorded host is taken as Claude.
@@ -946,6 +959,8 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
                    "Exit and restart, then switch in to pick up from here.")
     elif saved not in ("remote-verified", "committed"):
         closing = "Keep this session open and resolve the save before clearing context."
+    elif not proven:
+        closing = "Keep this session open and resolve the boundary check before clearing context."
     elif ready is False:
         closing = "Keep this session open and resolve the missing handoff context before clearing context."
     else:

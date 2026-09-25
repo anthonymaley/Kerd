@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -563,6 +564,69 @@ class HandoffTests(unittest.TestCase):
             with self.assertRaisesRegex(handoff.HandoffError, "Project changed"):
                 handoff.prepare(self.dest, self.branch, "record.md", sections=[("tasks.md", "## Now")])
         self.assertEqual(self.git(self.dest, "status", "--porcelain"), "")
+
+
+    def boundary_cli(self, *extra):
+        result = subprocess.run([sys.executable, str(SCRIPT), "--project", str(self.source), "boundary", *extra],
+                                capture_output=True, text=True)
+        return result.returncode, json.loads(result.stdout) if result.stdout else result.stderr
+
+    def test_boundary_passes_when_pushed_and_clean(self):
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 0, result)
+        self.assertEqual(result["status"], "boundary_ok")
+        self.assertTrue(result["fetched"])
+        self.assertIn(f"origin/{self.branch}", result["remote_refs_containing_head"])
+        self.assertEqual(result["failures"], [])
+
+    def test_boundary_refuses_an_unpushed_commit_on_a_clean_tree(self):
+        (self.source / "result.txt").write_text("local only\n")
+        self.commit(self.source, "unpushed")
+        self.assertEqual(self.git(self.source, "status", "--porcelain"), "")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1)
+        self.assertEqual(result["remote_refs_containing_head"], [])
+        self.assertTrue(any("only on this machine" in item for item in result["failures"]))
+
+    def test_boundary_refuses_a_dirty_tree_and_staged_work(self):
+        for change in ("tracked", "untracked", "staged"):
+            with self.subTest(change=change):
+                target = self.source / ("new.txt" if change == "untracked" else "result.txt")
+                target.write_text(change + "\n")
+                if change == "staged":
+                    self.git(self.source, "add", "result.txt")
+                code, result = self.boundary_cli()
+                self.assertEqual(code, 1)
+                self.assertEqual(result["unsaved_paths"], [target.name])
+                self.assertTrue(any("not clean" in item for item in result["failures"]))
+                self.git(self.source, "reset", "-q", "--hard")
+                self.git(self.source, "clean", "-qfd")
+
+    def test_boundary_refuses_when_the_fetch_fails_even_if_cached_refs_contain_head(self):
+        self.git(self.source, "remote", "set-url", "origin", str(self.folder / "missing.git"))
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1)
+        self.assertFalse(result["fetched"])
+        self.assertIn(f"origin/{self.branch}", result["remote_refs_containing_head"])
+        self.assertTrue(any("fetch failed" in item for item in result["failures"]))
+
+    def test_boundary_with_no_remote_is_refused(self):
+        self.git(self.source, "remote", "remove", "origin")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1)
+        self.assertFalse(result["fetched"])
+
+    def test_boundary_leaves_preserved_paths_out_and_counts_stashes_without_refusing(self):
+        (self.source / "result.txt").write_text("stashed\n")
+        self.git(self.source, "stash", "-q")
+        (self.source / "scratch.patch").write_text("kept locally\n")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1, "an unacknowledged local file is unsaved work")
+        code, result = self.boundary_cli("--preserve", "scratch.patch")
+        self.assertEqual(code, 0, result)
+        self.assertEqual(result["stashes"], 1)
+        self.assertEqual(result["preserved_local_only"], ["scratch.patch"])
+        self.assertEqual((self.source / "scratch.patch").read_text(), "kept locally\n")
 
 
 class SectionTests(unittest.TestCase):
