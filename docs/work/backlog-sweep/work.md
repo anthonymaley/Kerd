@@ -193,3 +193,6 @@ sessions pick the setting up. Codex re-review of e1a02c6 sent.
 Risks: voice pass checked per part (one cross-player overwrite caught and repaired); `.git/`
 file reading proven live. Open: none blocking.
 **Pending decision:** merge concert/backlog-sweep into main and push (0.155.0).
+**13:16 merged and pushed** (Anthony: "y"): main fast-forwarded to 89b8cff, pushed; CI run on 89b8cff: see next line.
+**13:17 CI on 89b8cff failed:** 1 error, test_ask.py test_background_returns_and_retains_session_lock_and_result (ask.Busy). Not touched by this concert. Race: status reads completed before the worker drops the session lock. Failed job rerun to test the flake hypothesis.
+**13:18 CI rerun passed** (attempt 2, success): flake confirmed by rerun; logged as a Backlog row in TODO.md. Concert complete.

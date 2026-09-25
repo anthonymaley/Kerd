@@ -129,6 +129,13 @@ run checks during pickup.
 
 ## Backlog
 
+- **Flaky Conductor background-job test** (found 2026-09-25, CI on 89b8cff).
+  `test_ask.py` `test_background_returns_and_retains_session_lock_and_result` failed once
+  with `ask.Busy`, then passed on rerun and twice locally. The test starts a new job as soon as
+  status reads `completed`, before the worker has released the session lock. Fix the test to
+  wait for the lock (or the worker exit), or have `ask.py` release the lock before it writes
+  `completed`; decide which after reading `ask.py` around lines 300-310.
+
 - **Which session is waiting on you** (parked 2026-09-21 by Anthony's agreement; not
   started). From a `weefish-c8` research drop prompted by herdr.dev: surface which agent
   is working, idle or blocked on a human. Anthony is not leaving tmux; only the signal is
