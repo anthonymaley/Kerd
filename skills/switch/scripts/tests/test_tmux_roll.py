@@ -362,11 +362,12 @@ class ChatRollTests(unittest.TestCase):
                 self.assertTrue(self.chat.marker.exists())
 
     def test_usual_launches_on_this_machine_are_rollable(self):
-        for command in ("Claude --dangerously-skip-permissions", "Claude --resume", "claude --resume abc-123",
-                        "Claude --continue", "claude -c --model sonnet", "claude -r --add-dir /x"):
+        for command in ("Claude --dangerously-skip-permissions", "Claude --dangerously-skip-permissions --model sonnet"):
             with self.subTest(command=command):
-                expected = "--add-dir" if "--add-dir" in command else None
-                self.assertEqual(tmux_roll.launch_restriction(command), expected)
+                self.assertIsNone(tmux_roll.launch_restriction(command))
+        for command in ("Claude --resume", "claude --resume abc-123", "Claude --continue", "claude -c", "claude -r x"):
+            with self.subTest(command=command):
+                self.assertIsNotNone(tmux_roll.launch_restriction(command))
         commands = {300: "zsh", 150: "Claude --dangerously-skip-permissions"}
         self.assertEqual(tmux_roll.find_claude(300, {300: 150, 150: 1}.get, commands.get), 150)
 

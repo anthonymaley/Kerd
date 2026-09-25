@@ -161,8 +161,8 @@ model; with no declared window, it does not roll and says so once.
    sketchbook), when three rolls in a row have already happened, or when a restart
    could not reproduce this session: launch options other than `--model`,
    `--effort`, `--permission-mode` and `--dangerously-skip-permissions` (the mode
-   is carried either way; `--resume` and `--continue` are dropped on purpose, as a
-   roll starts fresh); Claude or Anthropic environment settings
+   is carried either way), so a resumed session (`--resume`, `--continue`), which
+   can bring back a custom agent's tool limits, rolls by hand; Claude or Anthropic environment settings
    (such as `CLAUDE_CONFIG_DIR`) that differ in either direction from what tmux
    would give the pane; or no permission-mode reading from Kerd's context hook,
    which records the mode the host reports on every tool call (roll by hand then).

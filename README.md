@@ -272,10 +272,11 @@ Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELO
 
 **The chat roll works for sessions started the usual way.** Claude Code can show itself to
 the system as `Claude` rather than `claude`, and sessions are often started with
-`--dangerously-skip-permissions` or `--resume`; 0.154.0 refused to roll any of those. The roll
-now matches the name in any case, carries `--dangerously-skip-permissions` as the permission
-mode it is (the restart uses the mode Claude Code reports), and drops `--resume` and
-`--continue`, since a roll starts a fresh session on purpose. The first real roll, from a session
+`--dangerously-skip-permissions`; 0.154.0 refused to roll either. The roll
+now matches the name in any case and carries `--dangerously-skip-permissions` as the permission
+mode it is (the restart uses the mode Claude Code reports). A resumed session still rolls by
+hand: `--resume` can bring back a custom agent's tool limits, which a fresh start would drop.
+The first real roll, from a session
 started as plain `claude`, worked on 2026-09-25: the pane restarted on the same model, effort
 and mode, and the new session picked up its saved next step.
 

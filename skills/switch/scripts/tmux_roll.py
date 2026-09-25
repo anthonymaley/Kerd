@@ -140,8 +140,9 @@ def find_claude(begin, parent=parent_of, command=command_of, depth=10):
 def launch_restriction(command):
     """The first launch option a restart would drop; None if none. Carried: --model, --effort,
     --permission-mode, and --dangerously-skip-permissions (the relaunch restarts in the mode the
-    host reports). Dropped on purpose: --resume/-r and --continue/-c, since a roll starts fresh.
-    Claude Code may show itself as `Claude`. `ps` loses argument boundaries, so every word is
+    host reports). --resume and --continue refuse: a resumed session can bring back a custom
+    agent and its tool limits, which a fresh start would drop. Claude Code may show itself as
+    `Claude`. `ps` loses argument boundaries, so every word is
     scanned, `--` included: a prompt word that looks like an option refuses too, which only
     means rolling by hand."""
     words = command.split()
@@ -151,8 +152,7 @@ def launch_restriction(command):
     rest = words[at + 1:]
     carried = {"--model": MODEL_ID.match, "--effort": EFFORTS.__contains__,
                "--permission-mode": MODES.__contains__}
-    fresh_start = {"--dangerously-skip-permissions", "--continue", "-c"}
-    optional_value = {"--resume", "-r"}
+    fresh_start = {"--dangerously-skip-permissions"}
     i = 0
     while i < len(rest):
         word = rest[i]
@@ -160,8 +160,6 @@ def launch_restriction(command):
         nxt = rest[i + 1] if i + 1 < len(rest) else ""
         if word in fresh_start or word == "--":
             i += 1
-        elif name in optional_value:
-            i += 1 if inline or not nxt or nxt.startswith("-") else 2
         elif name in carried:
             value = inline or nxt
             if not value or value.startswith("-") or not carried[name](value):
