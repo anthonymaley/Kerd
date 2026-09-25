@@ -155,3 +155,20 @@ and whether the receiver accepts the new `from` shape.
 labels, correct). **Defect:** B5 restored README lines 1-266 to HEAD, wiping B1's six fixes;
 Conductor reapplied them from B1's diff (my check: 0 dashes in top matter, release_check clean).
 Lesson: two players on one file must not verify against HEAD.
+**13:02 batch 2.** Full suite 891 OK, hooks 23/0 (my run). Live check: a Claude partner (Haiku,
+`--bg`) read `.git/kerd-agent/requests/<id>.prompt` and replied with the token held only in the file
+(request 2db68aa2; file 0600, folder 0700); partner stopped. Workers use stdin, not argv, so the
+pointer does not apply there. 0.155.0 prepared (versions, README/CHANGELOG note, release_check
+clean) and committed as adeb726 on the concert branch, not pushed. Codex before-push review sent
+to codex-tui through the new pointer path (request 528e9182); waiting.
+**Next action:** read the Codex review; fix findings; then the goal check and the merge decision.
+**13:06 Codex review returned** (read through the pointer file: live Codex check passes). Two
+blockers, one should-fix, all fixed by Conductor: v0.87.0 nested parenthesis; two quoted UI labels
+("Yes — open direction-setting", “Starting on X — approve?”) restored in README and CHANGELOG;
+release note narrowed (sender name only when the session reports an id; quoted labels keep dashes).
+release_check clean. Codex found no blocker in the socket check, log tail, pointer ordering,
+limits paragraph or R5.
+**13:06 D1 bell test: no bell** on the laptop (new Studio tab via Cmd+T, `sleep 8; printf '\a'`,
+switched away). Studio tmux 3.7c: bell-action any, monitor-bell on, visual-bell off, one control-mode
+client. So tmux is not dropping it; the likely gap is on the laptop's iTerm2 side (unverified).
+D2/D3 not done: Anthony's settings unchanged. Goal "a bell on a laptop tab" unmet.

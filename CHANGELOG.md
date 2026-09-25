@@ -8,11 +8,13 @@ to a private file under `.git/kerd-agent/requests/` (owner-only), and the comman
 where to find it. A live Claude partner read the file and replied on 2026-09-25. Agent also now
 checks that the process holding a Claude session's socket is that session before sending,
 notices a reply log rewritten in place even at the same size, and gives each controller its own
-sender name, so one busy session no longer throttles another. What is left open is written down
+sender name when that session reports its id, so sessions
+stop sharing one throttle by default; a controller without an id still uses the shared name. What is left open is written down
 in the Agent guide's limits paragraph.
 
 **The words people read, in one voice.** The README, the guides and the site had their em dashes
-taken out, and the release history lost its dashes without being rewritten. A new release check
+taken out, and the release history lost its dashes without being rewritten (quoted labels keep
+theirs). A new release check
 refuses a README whose What's New header names a different version from the plugin. The vault
 spec and Kivna now agree on which vault file keeps dated sections.
 
@@ -545,7 +547,7 @@ shortcuts and defers to the host's own free-form route rather than adding an "Ot
 entry where the host supplies one: Claude Code's picker does. A stock Correct / Change
 menu stays banned, precisely because it carries none of the question's own options.
 Switch In's "Start a Conductor session?" can now be answered from a picker whose
-options are labelled "Yes, open direction-setting" and "Not now", never a bare
+options are labelled "Yes — open direction-setting" and "Not now", never a bare
 Yes, so a picked answer states what it opens and cannot read as approving the
 saved task.
 Agent is the first skill to use it: a missing partner role follows the bubble with a
@@ -1078,7 +1080,7 @@ restore your place and stop dead, leaving you to ask for the work yourself
 (correct on authority, but it lost the focus): nothing on screen said what the
 sitting was for. In now shows the dashboard, then opens Conductor on the restored
 place (journey strip, brief, task list) and ends on exactly one line:
-*“Starting on X, approve?”*, where X is the saved next action. One proposal,
+*“Starting on X — approve?”*, where X is the saved next action. One proposal,
 never two options, never an “or”. Your approval starts the work; the line is a
 deliberate check-in on arrival, so an already-authorized plan waits for the same
 line. `switch to` and Roll keep their agreed continuation untouched. **What it
@@ -1281,7 +1283,7 @@ when any of these stops happening, which is why they are written down here.
 
 ## 0.87.0
 
-**Trim is gone.** The token-cleanup skill's jobs all dissolved into machinery that runs anyway: completed specs are dated immutable records the gates and the progress board read in place (moving them to an archive would turn CI red by construction (the handoff and loop rungs require them where they are); switch's closure inference cleans TODO with evidence at every boundary; doc-drift pruning belongs to the release pass. What you lose, named: `/trim` no longer answers, and nothing archives docs to `docs/archive/` anymore, deliberately, because nothing should. Kerd is nine skills now. Dead solutions stay dead; the return condition is a cleanup need the boundary, the gates, and the release pass cannot answer.
+**Trim is gone.** The token-cleanup skill's jobs all dissolved into machinery that runs anyway: completed specs are dated immutable records the gates and the progress board read in place (moving them to an archive would turn CI red by construction, since the handoff and loop rungs require them where they are); switch's closure inference cleans TODO with evidence at every boundary; doc-drift pruning belongs to the release pass. What you lose, named: `/trim` no longer answers, and nothing archives docs to `docs/archive/` anymore, deliberately, because nothing should. Kerd is nine skills now. Dead solutions stay dead; the return condition is a cleanup need the boundary, the gates, and the release pass cannot answer.
 
 ## 0.86.0
 
