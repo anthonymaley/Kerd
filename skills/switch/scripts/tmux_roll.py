@@ -16,6 +16,7 @@ environment settings the tmux server does not share, is not rolled automatically
 """
 import argparse
 from datetime import datetime
+import re
 import hashlib
 import json
 import os
@@ -32,6 +33,9 @@ import roll  # noqa: E402
 MAX_AGE = 30 * 60        # a note older than this is stale
 CHAIN_WINDOW = 6 * 3600  # rolls closer together than this count as consecutive
 MAX_CHAIN = 3
+EFFORTS = {"low", "medium", "high", "xhigh", "max"}
+MODES = {"default", "acceptEdits", "plan", "bypassPermissions", "dontAsk", "auto"}
+MODEL_ID = re.compile(r"^[A-Za-z0-9._:\[\]-]+$")
 # Set by Claude Code for its own children, not by the person; a restart sets them afresh.
 PER_PROCESS = {"CLAUDECODE", "CLAUDE_PID", "CLAUDE_EFFORT", "CLAUDE_PROJECT_DIR", "CLAUDE_PLUGIN_ROOT",
                "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_EXECPATH", "CLAUDE_CODE_SESSION_ID",
@@ -142,30 +146,79 @@ def launch_restriction(command):
     if at is None:
         return "not a claude command"
     rest = iter(words[at + 1:])
+    carried = {"--model": MODEL_ID.match, "--effort": EFFORTS.__contains__,
+               "--permission-mode": MODES.__contains__}
     for word in rest:
-        if word in {"--model", "--effort"}:
-            next(rest, None)
-        elif word == "--" or word.startswith(("--model=", "--effort=")):
-            continue
-        elif word.startswith("-"):
+        name, _, inline = word.partition("=")
+        if name in carried:
+            value = inline or next(rest, "")
+            if not value or value.startswith("-") or not carried[name](value):
+                return word
+        elif word != "--" and word.startswith("-"):
             return word
     return None
 
 
-def env_restriction(session_env, tmux_env):
-    """Claude or Anthropic settings in this session that the tmux server's environment does not
-    carry identically; the restarted pane would lose them. Names only, never values."""
-    return sorted(k for k, v in session_env.items()
-                  if (k.startswith(("CLAUDE", "ANTHROPIC")) and k not in PER_PROCESS
-                      and tmux_env.get(k) != v))
+def relevant(env):
+    return {k: v for k, v in env.items() if k.startswith(("CLAUDE", "ANTHROPIC")) and k not in PER_PROCESS}
 
 
-def tmux_global_env(socket, run=subprocess.run):
-    done = run(["tmux", "-S", socket, "show-environment", "-g"], capture_output=True, text=True)
-    if done.returncode != 0:
+def env_restriction(session_env, target_env):
+    """Claude or Anthropic settings that differ, in either direction, between this session and
+    the environment the restarted pane would get. Names only, never values."""
+    mine, theirs = relevant(session_env), relevant(target_env)
+    return sorted(k for k in set(mine) | set(theirs) if mine.get(k) != theirs.get(k))
+
+
+def env_digest(env):
+    return hashlib.sha256(json.dumps(sorted(relevant(env).items())).encode()).hexdigest()
+
+
+def target_env(socket, pane, run=subprocess.run):
+    """The environment tmux gives a respawned pane: global, then the pane's session over it
+    (including removals). None if either cannot be read."""
+    tmux = ["tmux", "-S", socket]
+    name = run([*tmux, "display", "-p", "-t", pane, "#{session_name}"], capture_output=True, text=True)
+    glob = run([*tmux, "show-environment", "-g"], capture_output=True, text=True)
+    if name.returncode != 0 or glob.returncode != 0 or not name.stdout.strip():
         return None
-    pairs = (line.split("=", 1) for line in done.stdout.splitlines() if "=" in line and not line.startswith("-"))
-    return {k: v for k, v in pairs}
+    local = run([*tmux, "show-environment", "-t", name.stdout.strip()], capture_output=True, text=True)
+    if local.returncode != 0:
+        return None
+    env = {}
+    for text in (glob.stdout, local.stdout):
+        for line in text.splitlines():
+            if line.startswith("-"):
+                env.pop(line[1:], None)
+            elif "=" in line:
+                k, v = line.split("=", 1)
+                env[k] = v
+    return env
+
+
+def permission_mode(session, env=None):
+    """The permission mode recorded on this session's last prompt, or None if it cannot be read."""
+    env = os.environ if env is None else env
+    base = Path(env.get("CLAUDE_CONFIG_DIR") or Path.home() / ".claude") / "projects"
+    found = sorted(base.glob(f"*/{session}.jsonl")) if session else []
+    if len(found) != 1:
+        return None
+    mode = None
+    with found[0].open(encoding="utf-8", errors="replace") as lines:
+        for line in lines:
+            if '"permissionMode"' in line:
+                match = re.search(r'"permissionMode":"([A-Za-z]+)"', line)
+                mode = match.group(1) if match else mode
+    return mode if mode in MODES else None
+
+
+def fresh_command(data):
+    """The one command both routes start: same model, effort and permission mode."""
+    parts = ["claude", "--model", shlex.quote(data["model"])]
+    if data.get("effort"):
+        parts += ["--effort", shlex.quote(data["effort"])]
+    parts += ["--permission-mode", shlex.quote(data["permission_mode"]), "--", shlex.quote("/kerd:switch roll in")]
+    return " ".join(parts)
 
 
 def descends_from(pid, ancestor, parent=parent_of, depth=10):
@@ -228,7 +281,7 @@ class Chat:
 
     # --- out ---------------------------------------------------------------------------------
     def out(self, handoff_record, next_action, approval, model, threshold_tokens, claude,
-            claude_command, session=None, env=None, now=None, tmux_env=None):
+            claude_command, session=None, env=None, now=None, tmux_env=None, mode=None):
         """claude is the source session's process identity {pid, start}; required everywhere."""
         env = os.environ if env is None else env
         now = time.time() if now is None else now
@@ -239,16 +292,23 @@ class Chat:
         session = session or env.get("CLAUDE_CODE_SESSION_ID")
         if not session:
             raise roll.RollError("This session's ID is not available; not rolling")
+        if not MODEL_ID.match(model or ""):
+            raise roll.RollError(f"Unrecognised model ID {model!r}")
         if not claude:
             raise roll.RollError("Could not identify this session's Claude process; not rolling")
         restriction = launch_restriction(claude_command or "")
         if restriction:
             raise roll.RollError(f"This session was started with {restriction}, which a restart would drop; "
                                  "roll by hand (Switch Out, then a fresh session)")
+        if mode not in MODES:
+            raise roll.RollError("Could not read this session's permission mode; roll by hand")
+        effort = env.get("CLAUDE_EFFORT") or None
+        if effort is not None and effort not in EFFORTS:
+            raise roll.RollError(f"Unrecognised effort {effort!r}; roll by hand")
         in_tmux = bool(env.get("TMUX") and env.get("TMUX_PANE"))
         if in_tmux:
             if tmux_env is None:
-                raise roll.RollError("Could not read the tmux server's environment; not restarting blind")
+                raise roll.RollError("Could not read the environment tmux would give the pane; not restarting blind")
             names = env_restriction(env, tmux_env)
             if names:
                 raise roll.RollError(f"This session has {', '.join(names)} set, which the restarted pane "
@@ -275,7 +335,8 @@ class Chat:
                 "from_session": session, "claude": claude,
                 "pane": env.get("TMUX_PANE") if in_tmux else None,
                 "tmux_socket": env["TMUX"].split(",")[0] if in_tmux else None,
-                "model": model.strip(), "effort": env.get("CLAUDE_EFFORT") or None,
+                "model": model.strip(), "effort": effort, "permission_mode": mode,
+                "env_digest": env_digest(env),
                 "threshold_tokens": threshold_tokens, "chain": chain,
                 "created_at": now, "state": "saved", "relaunch": "pending" if in_tmux else "manual",
             }
@@ -305,6 +366,10 @@ class Chat:
                     problem = "the pane is not on the recorded tmux server"
                 elif not descends_from(data["claude"]["pid"], int(words[1]), parent):
                     problem = "the pane no longer runs the recorded Claude"
+                else:
+                    target = target_env(data["tmux_socket"], data["pane"], run)
+                    if target is None or env_digest(target) != data.get("env_digest"):
+                        problem = "the environment tmux would give the pane no longer matches"
             if problem:
                 data["relaunch"] = f"refused: {problem}"
                 self.write(data)
@@ -312,9 +377,7 @@ class Chat:
             data["relaunch"] = "respawning"   # the point of no return: cancel now reports too late
             self.write(data)
         shell = shell or os.environ.get("SHELL") or "/bin/zsh"
-        effort = f"--effort {shlex.quote(data['effort'])} " if data.get("effort") else ""
-        fresh = (f"claude --model {shlex.quote(data['model'])} {effort}-- {shlex.quote('/kerd:switch roll in')}; "
-                 f"exec {shlex.quote(shell)} -l")
+        fresh = f"{fresh_command(data)}; exec {shlex.quote(shell)} -l"
         done = run([*tmux, "respawn-pane", "-k", "-t", data["pane"], "-c", data["project"], fresh],
                    capture_output=True, text=True)
         if done.returncode != 0:
@@ -432,12 +495,15 @@ def main(argv=None):
             env_pid = os.environ.get("CLAUDE_PID", "")
             pid = int(env_pid) if env_pid.isdigit() else find_claude(os.getppid())
             socket = os.environ.get("TMUX", "").split(",")[0]
+            pane = os.environ.get("TMUX_PANE")
+            session = os.environ.get("CLAUDE_CODE_SESSION_ID")
             data = chat.out(args.handoff_record, args.next_action, args.approval, args.model,
                             args.threshold_tokens, identity(pid), command_of(pid) if pid else "",
-                            tmux_env=tmux_global_env(socket) if socket else None)
+                            tmux_env=target_env(socket, pane) if socket and pane else None,
+                            mode=permission_mode(session))
             if data["relaunch"] == "manual":
                 print("Saved. This terminal is not tmux, so it cannot restart itself. Close this session, then run:")
-                print(f"  claude --model {shlex.quote(data['model'])} -- \"/kerd:switch roll in\"")
+                print(f"  {fresh_command(data)}")
                 return 0
             started = start_relaunch(chat.project, data)
             if started.returncode != 0:

@@ -159,24 +159,28 @@ model; with no declared window, it does not roll and says so once.
    Under `roll/owner.lock` it refuses when a managed Roll record or another chat
    roll exists, when nothing changed since the last roll (same commit, same
    sketchbook), when three rolls in a row have already happened, or when a restart
-   could not reproduce this session: launch options other than `--model` and
-   `--effort`, or Claude or Anthropic environment settings (such as
-   `CLAUDE_CONFIG_DIR`) the tmux server does not carry identically (roll by hand
-   then). It records this session's ID, its effort, and its Claude process by PID
-   and start time, writes the note `roll/chat.json` with its own
+   could not reproduce this session: launch options other than `--model`,
+   `--effort` and `--permission-mode`; Claude or Anthropic environment settings
+   (such as `CLAUDE_CONFIG_DIR`) that differ in either direction from what tmux
+   would give the pane; or a permission mode it cannot read from this session's
+   transcript (roll by hand then). It records this session's ID, effort,
+   permission mode as of its last prompt, and its Claude process by PID and start
+   time, writes the note `roll/chat.json` with its own
    roll ID, and reads it back.
 2. **Relaunch.** Inside tmux, the command hands a job to the tmux server, which
    outlives this Claude. Five seconds later, under the lock, it re-checks this
    roll's ID, the commit, branch and sketchbook, and that the recorded pane still
-   runs the recorded Claude (same PID and start time); then it marks the note
+   runs the recorded Claude (same PID and start time) and that tmux would still
+   give the pane the same Claude settings; then it marks the note
    `respawning`, the point after which a cancel is too late, and restarts that pane
-   with `respawn-pane -k` into `claude --model <same> --effort <same> -- "/kerd:switch roll in"`.
+   with `respawn-pane -k` into
+   `claude --model <same> --effort <same> --permission-mode <same> -- "/kerd:switch roll in"`.
    Nothing is typed into Claude. A process that cannot be read counts as unknown,
    never as gone.
    Pass no shell variables in the command: Claude's permission check stops
    `$TMUX_PANE` even when tmux is allowed (trial, 2026-09-24).
-   Outside tmux it prints that one line; the person closes the old session and
-   runs it.
+   Outside tmux it prints that same command; the person closes the old session
+   and runs it.
 3. **Rolling In.** `/kerd:switch roll in` runs
    `tmux_roll.py --project "$project" in --model "<this session's model ID>"`.
    It claims the marker for this session, or refuses when the marker is missing,

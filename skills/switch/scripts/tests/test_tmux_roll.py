@@ -59,10 +59,10 @@ class ChatRollTests(unittest.TestCase):
     def parent(self, pid):
         return self.parents.get(pid)
 
-    def save(self, env=ENV, now=T0, claude=CLAUDE, command="claude --model x", tmux_env=None, **kw):
+    def save(self, env=ENV, now=T0, claude=CLAUDE, command="claude --model x", tmux_env=None, mode="plan", **kw):
         return self.chat.out(self.record, "build step 2", "Build on concert/x; no push", MODEL, 500_000,
                              claude, command, env=env, now=now,
-                             tmux_env={} if tmux_env is None else tmux_env, **kw)
+                             tmux_env={} if tmux_env is None else tmux_env, mode=mode, **kw)
 
     def exited(self):
         self.chat.update(json.loads(self.chat.marker.read_text())["roll_id"], relaunch="exited")
@@ -106,7 +106,7 @@ class ChatRollTests(unittest.TestCase):
             self.save(env={"TMUX": ENV["TMUX"], "TMUX_PANE": "%4"})
 
     def test_out_refuses_session_started_with_other_launch_options(self):
-        for command in ("claude --permission-mode plan", "/usr/local/bin/claude --model x --add-dir /y",
+        for command in ("claude --dangerously-skip-permissions", "/usr/local/bin/claude --model x --add-dir /y",
                         "node /opt/claude --allowedTools=Read"):
             with self.subTest(command=command):
                 with self.assertRaisesRegex(roll.RollError, "restart would drop"):
@@ -172,12 +172,12 @@ class ChatRollTests(unittest.TestCase):
         tmux = FakeTmux()
         self.assertEqual(self.relaunch(tmux), "exited")
         verbs = [c[3] for c in tmux.calls]
-        self.assertEqual(verbs, ["display", "respawn-pane"])
+        self.assertEqual(verbs, ["display", "display", "show-environment", "show-environment", "respawn-pane"])
         self.assertNotIn("send-keys", [w for c in tmux.calls for w in c])
-        respawn = tmux.calls[1]
+        respawn = tmux.calls[-1]
         self.assertEqual(respawn[:4], ["tmux", "-S", "/tmp/tmux-501/default", "respawn-pane"])
         self.assertEqual(respawn[respawn.index("-t") + 1], "%4")
-        self.assertIn("claude --model 'claude-opus-5-5[1m]' -- '/kerd:switch roll in'", respawn[-1])
+        self.assertIn("claude --model 'claude-opus-5-5[1m]' --permission-mode plan -- '/kerd:switch roll in'", respawn[-1])
         self.assertEqual(json.loads(self.chat.marker.read_text())["relaunch"], "exited")
 
     def test_relaunch_refuses_missing_pane(self):
@@ -348,9 +348,59 @@ class ChatRollTests(unittest.TestCase):
                 self.assertTrue(self.chat.marker.exists())
 
     def test_prompt_dashes_cannot_hide_a_launch_option(self):
-        self.assertEqual(tmux_roll.launch_restriction('claude Explain -- usage --permission-mode plan'),
-                         "--permission-mode")
+        self.assertEqual(tmux_roll.launch_restriction('claude Explain -- usage --add-dir /x'), "--add-dir")
+        self.assertEqual(tmux_roll.launch_restriction("claude explain --model --add-dir /x"), "--model")
+        self.assertEqual(tmux_roll.launch_restriction("claude --effort --add-dir"), "--effort")
+        self.assertEqual(tmux_roll.launch_restriction("claude --effort huge"), "--effort")
+        self.assertEqual(tmux_roll.launch_restriction("claude --permission-mode=sneaky"), "--permission-mode=sneaky")
+        self.assertIsNone(tmux_roll.launch_restriction("claude --permission-mode plan --model=x"))
         self.assertIsNone(tmux_roll.launch_restriction("claude --model m --effort high -- /kerd:switch roll in"))
+
+    def test_env_differences_refuse_in_both_directions(self):
+        self.assertEqual(tmux_roll.env_restriction({}, {"CLAUDE_CONFIG_DIR": "/other"}), ["CLAUDE_CONFIG_DIR"])
+        self.assertEqual(tmux_roll.env_restriction({"ANTHROPIC_BASE_URL": "a"}, {}), ["ANTHROPIC_BASE_URL"])
+        self.assertEqual(tmux_roll.env_restriction({"CLAUDE_PID": "1", "PATH": "x"}, {"CLAUDE_EFFORT": "low"}), [])
+
+    def test_target_env_applies_session_over_global_with_removals(self):
+        out = {"display": "work\n", "-g": "CLAUDE_CONFIG_DIR=/g\nANTHROPIC_X=1\n", "-t": "-ANTHROPIC_X\nCLAUDE_CONFIG_DIR=/s\n"}
+        def run(argv, **kw):
+            key = "display" if "display" in argv else ("-g" if "-g" in argv else "-t")
+            return Result(0, out[key])
+        self.assertEqual(tmux_roll.target_env("/sock", "%4", run), {"CLAUDE_CONFIG_DIR": "/s"})
+        self.assertIsNone(tmux_roll.target_env("/sock", "%4", lambda a, **k: Result(1, "")))
+
+    def test_relaunch_refuses_when_target_env_changed_since_save(self):
+        self.save()
+        class Drifted(FakeTmux):
+            def __call__(self, argv, **kw):
+                if "show-environment" in argv and "-g" in argv:
+                    self.calls.append(argv)
+                    return Result(0, "CLAUDE_CONFIG_DIR=/elsewhere\n")
+                return super().__call__(argv, **kw)
+        tmux = Drifted()
+        self.assertEqual(self.relaunch(tmux), "refused")
+        self.assertNotIn("respawn-pane", [w for c in tmux.calls for w in c])
+
+    def test_out_refuses_unknown_permission_mode(self):
+        for mode in (None, "yolo"):
+            with self.subTest(mode=mode):
+                with self.assertRaisesRegex(roll.RollError, "permission mode"):
+                    self.save(mode=mode)
+
+    def test_permission_mode_reads_last_prompt_in_this_sessions_transcript(self):
+        home = self.root / "cfg"
+        (home / "projects/p").mkdir(parents=True)
+        (home / "projects/p/sid.jsonl").write_text(
+            '{"type":"user","permissionMode":"default"}\n{"type":"assistant"}\n{"type":"user","permissionMode":"plan"}\n')
+        env = {"CLAUDE_CONFIG_DIR": str(home)}
+        self.assertEqual(tmux_roll.permission_mode("sid", env), "plan")
+        self.assertIsNone(tmux_roll.permission_mode("other", env))
+        self.assertIsNone(tmux_roll.permission_mode(None, env))
+
+    def test_manual_line_is_the_same_command_with_effort_and_mode(self):
+        data = self.save(env={"CLAUDE_CODE_SESSION_ID": "s", "CLAUDE_EFFORT": "high"}, mode="acceptEdits")
+        self.assertEqual(tmux_roll.fresh_command(data),
+                         "claude --model 'claude-opus-5-5[1m]' --effort high --permission-mode acceptEdits -- '/kerd:switch roll in'")
 
     def test_session_env_the_tmux_server_lacks_refuses(self):
         env = {**ENV, "CLAUDE_CONFIG_DIR": "/Users/x/.claude-work", "CLAUDE_EFFORT": "high", "CLAUDE_PID": "500"}
@@ -359,8 +409,9 @@ class ChatRollTests(unittest.TestCase):
         self.assertEqual(self.save(env=env, tmux_env={"CLAUDE_CONFIG_DIR": "/Users/x/.claude-work"})["effort"], "high")
 
     def test_unreadable_tmux_environment_refuses(self):
-        with self.assertRaisesRegex(roll.RollError, "tmux server's environment"):
-            self.chat.out(self.record, "n", "a", MODEL, 1, CLAUDE, "claude", env=ENV, now=T0, tmux_env=None)
+        with self.assertRaisesRegex(roll.RollError, "environment tmux would give the pane"):
+            self.chat.out(self.record, "n", "a", MODEL, 1, CLAUDE, "claude", env=ENV, now=T0, tmux_env=None,
+                          mode="default")
 
     def test_relaunch_carries_effort(self):
         env = {**ENV, "CLAUDE_EFFORT": "high"}
