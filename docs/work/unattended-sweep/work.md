@@ -78,3 +78,25 @@ Evidence runs use a clean 0.155.0 worktree at `/private/tmp/claude-501/-Users-an
   description and/or body wording in agent SKILL.md / orchestration.md; wording tests.
 **Next action:** check returns, then 0.156.0 release notes and versions, Codex review of the branch,
 fixes, goal check, stop for Anthony.
+- B2a/B2b returned 15:29; my run: 904 tests OK, release_check clean. B2b chose Conductor's trigger
+  description (the cause: no skill loaded in 3 of 4 push-first runs); unverified live.
+- 0.156.0 prepared and committed as 1db3a3d (versions, README/CHANGELOG note). Codex review of
+  f88fb11..1db3a3d sent 15:3x (request 74632500); waiting.
+- 15:36 Codex review: 1 blocker (boundary passed on a stale ref of a deleted remote branch; test
+  reproduced it), 2 should-fix (Opus sample count; note overclaimed "nothing left unsaved"). All
+  fixed in 93e483d (fetch --prune + regression test); 905 OK, release_check clean. Confirmation
+  requested (b767286e).
+- 15:40 Codex confirmation: clear.
+
+## Goal check (15:41)
+- Fixes: flaky test fixed in ask.py (**met**); Switch Out boundary check (**met**, Codex-reviewed);
+  playbook pointer (**already done before this build**; row closes).
+- Evidence: five watched rules run with fresh sessions, 3+ runs each (**met**: E1 12 sessions,
+  E2 8, E3 6+, E4 11, E5 16). Defects found and fixed: report second line, finish names the next
+  item, push-first review trigger, Opus 5.5 readings.
+- Drafts for Anthony: three proposals in `drafts/` (**met**), each ending on one question.
+- Codex essentials only: one branch review plus one short confirmation (**met**).
+- 0.156.0 prepared, 905 tests OK, release_check clean; stopped before merge/push (**met**).
+Unverified: the new Conductor trigger loading on "just push it" in a live session; the boundary
+box mid-concert (it will show the unpushed branch under attention, by design).
+**Pending decision:** merge concert/unattended-sweep into main and push 0.156.0.
