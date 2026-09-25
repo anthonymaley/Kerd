@@ -12,7 +12,7 @@ Nothing is typed into a running Claude. The note is relaunch state, never commit
 $(git rev-parse --git-path roll)/chat.json. The handoff record (the work's sketchbook) is the
 project-local file, or `notes:<path>` under the vault notes root when kivna/vault.json sets
 "work_notes": "vault"; branch and commit checks stay on the project repo, the sketchbook check is
-its bytes, and the notes repo HEAD counts as progress. A roll grants no approval beyond the one it copies from there. Claude only:
+its bytes, and a new commit of the notes root's tree counts as progress. A roll grants no approval beyond the one it copies from there. Claude only:
 a session started with launch options other than --model/--effort, or with Claude or Anthropic
 environment settings the tmux server does not share, is not rolled automatically.
 """
@@ -299,9 +299,16 @@ class Chat:
             raise roll.RollError("A notes: sketchbook needs \"work_notes\": \"vault\" in kivna/vault.json")
         return roll.project_file(location[0], value[len(handoff.NOTES_PREFIX):])
 
-    def notes_head(self):
+    def notes_tree(self):
+        """The committed tree of this project's notes root only: another project's vault commit is not progress."""
         location = self.notes()
-        return git(location[1], "rev-parse", "HEAD") if location else None
+        if not location:
+            return None
+        relative = location[0].relative_to(location[1]).as_posix()
+        spec = "HEAD^{tree}" if relative == "." else f"HEAD:{relative}"
+        found = subprocess.run(["git", "rev-parse", "--verify", "--quiet", spec], cwd=location[1],
+                               capture_output=True, text=True)
+        return found.stdout.strip() or None   # nothing committed there yet
 
     def checkpoint_problem(self, data, now):
         """Why the saved place no longer matches the checkout; None when it does."""
@@ -360,12 +367,12 @@ class Chat:
                 raise roll.RollError("A managed Roll record exists here; the chat roll does not take it over")
             if self.marker.exists():
                 raise roll.RollError("A roll note already exists; inspect or cancel it")
-            head, digest, notes_head = git(self.project, "rev-parse", "HEAD"), sha256(record), self.notes_head()
+            head, digest, notes_tree = git(self.project, "rev-parse", "HEAD"), sha256(record), self.notes_tree()
             last = self.read(self.last)
             chain = 1
             if last and now - last.get("at", 0) < CHAIN_WINDOW:
                 if (last.get("head") == head and last.get("record_sha256") == digest
-                        and last.get("notes_head") == notes_head):
+                        and last.get("notes_tree") == notes_tree):
                     raise roll.RollError("No progress since the last roll (same commit, same sketchbook); not rolling again")
                 chain = last.get("chain", 0) + 1
                 if chain > MAX_CHAIN:
@@ -374,7 +381,7 @@ class Chat:
                 "roll_id": uuid.uuid4().hex,
                 "project": str(self.project), "branch": git(self.project, "branch", "--show-current"),
                 "head": head, "handoff_record": handoff_record, "handoff_sha256": digest,
-                "notes_head": notes_head,
+                "notes_tree": notes_tree,
                 "next_action": next_action.strip(), "approval_boundary": approval.strip(),
                 "from_session": session, "claude": claude,
                 "pane": env.get("TMUX_PANE") if in_tmux else None,
@@ -474,7 +481,7 @@ class Chat:
             data.update(state="claimed", claimed_by=session, claimed_at=now)
             target.write_text(json.dumps(data, indent=2))
             self.last.write_text(json.dumps({"head": data["head"], "record_sha256": data["handoff_sha256"],
-                                             "notes_head": data.get("notes_head"),
+                                             "notes_tree": data.get("notes_tree"),
                                              "chain": data["chain"], "at": now}))
         return data
 

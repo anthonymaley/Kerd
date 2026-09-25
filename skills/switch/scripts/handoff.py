@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import stat
 import subprocess
 import sys
 
@@ -67,7 +68,9 @@ def notes_location(root):
     `"work_notes": "vault"` in kivna/vault.json puts the notes root at
     <vault>/<folder>/work. Absent file or key: no notes root. A set key whose
     root is missing or outside a Git repo is an error naming the path, never a
-    silent fall back to the project.
+    silent fall back to the project. The folder is a plain relative name, no
+    part of <folder>/work may be a symlink, the resolved root must stay under
+    the resolved vault, and the notes repo cannot be the project's own repo.
     """
     config = root / "kivna" / "vault.json"
     if not config.is_file():
@@ -84,15 +87,84 @@ def notes_location(root):
     vault, folder = settings.get("vault"), settings.get("folder")
     if not isinstance(vault, str) or not vault or not isinstance(folder, str) or not folder:
         raise HandoffError(f"{config} sets work_notes but lacks a vault path or folder")
-    notes = root / Path(os.path.expanduser(vault)) / folder / "work"
+    parts = Path(folder).parts
+    if (Path(folder).is_absolute() or not parts or any(part in {".", "..", ".git"} for part in parts)
+            or "\\" in folder):
+        raise HandoffError(f"The vault folder in {config} must be a plain relative name: {folder!r}")
+    base = root / Path(os.path.expanduser(vault))
+    notes = base
+    for part in (*parts, "work"):
+        notes = notes / part
+        if notes.is_symlink():
+            raise HandoffError(f"The notes root cannot pass through a symlink: {notes}")
     if not notes.is_dir():
         raise HandoffError(f"Notes root does not exist: {notes}")
     notes = notes.resolve()
+    if not notes.is_relative_to(base.resolve()):
+        raise HandoffError(f"Notes root escapes the vault: {notes}")
     try:
         repo = root_for(notes)
     except HandoffError:
         raise HandoffError(f"Notes root is not in a Git repo: {notes}")
+    if repo == Path(root).resolve():
+        raise HandoffError(f"The notes root is inside the project's own repo, so its notes would be public: {notes}")
     return notes, repo
+
+
+def notes_scope(location):
+    """Pathspecs that confine a notes-repo check to the notes root."""
+    relative = str(location[0].relative_to(location[1]))
+    return [] if relative == "." else [":(literal)" + relative]
+
+
+def notes_unsaved(location):
+    scope = notes_scope(location)
+    spec = ["--", *scope] if scope else []
+    staged = filter(None, git(location[1], "diff", "--cached", "--name-only", "-z", *spec).split("\0"))
+    return sorted(local_changes(location[1], *scope) | set(staged))
+
+
+def full_commit(value, label):
+    if value is not None and (not isinstance(value, str)
+                              or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", value)):
+        raise HandoffError(f"The {label} must be a full Git commit ID, not a branch or abbreviated name")
+
+
+def ready_notes(location, sync=False, expected=None):
+    """Bring the notes repo to a state a pickup may read; never reset, merge, stash or rebase.
+
+    Unsaved changes inside the notes root refuse. With sync, the notes branch is
+    fetched and fast-forwarded only; ahead or diverged history refuses. A saved
+    notes commit, when given, must then be contained in the notes repo HEAD.
+    """
+    notes_root, repo = location
+    if notes_unsaved(location):
+        raise HandoffError(f"Unsaved changes inside the notes root {notes_root}; "
+                           "no pull, stash, reset or merge performed")
+    if sync:
+        branch = subprocess.run(["git", "-C", str(repo), "symbolic-ref", "--quiet", "--short", "HEAD"],
+                                text=True, capture_output=True).stdout.strip()
+        if not branch:
+            raise HandoffError(f"The notes repo {repo} is not on a branch; nothing fetched or moved")
+        git(repo, "fetch", "origin", f"refs/heads/{branch}")
+        local, remote = git(repo, "rev-parse", "HEAD"), git(repo, "rev-parse", "FETCH_HEAD")
+        if git(repo, "merge-base", local, remote) != local:
+            raise HandoffError(f"The notes repo {repo} is ahead of or diverged from its remote; "
+                               "resolve it before pickup")
+        git(repo, "merge", "--ff-only", remote)
+    head = git(repo, "rev-parse", "HEAD")
+    if expected is not None:
+        probe = subprocess.run(["git", "-C", str(repo), "merge-base", "--is-ancestor", expected, head],
+                               text=True, capture_output=True)
+        if probe.returncode:
+            raise HandoffError(f"The notes repo {repo} does not contain the saved notes commit {expected}"
+                               + ("" if sync else "; pick up with --sync to fetch it"))
+    return head
+
+
+def notes_unchanged(location, head):
+    if git(location[1], "rev-parse", "HEAD") != head or notes_unsaved(location):
+        raise HandoffError("Notes changed while reading the pickup; no pickup returned")
 
 
 def resolve_source(root, value, location=None):
@@ -232,9 +304,8 @@ def boundary(root, preserve=()):
     notes = None
     if location:
         notes_root, notes_repo = location
-        scope = ":(literal)" + str(notes_root.relative_to(notes_repo))
         notes = {"root": str(notes_root), "repo": str(notes_repo),
-                 **repo_checks(notes_repo, scope=[scope] if scope != ":(literal)." else [])}
+                 **repo_checks(notes_repo, scope=notes_scope(location))}
         failures += [f"Notes repo {notes_repo}: {item}" for item in notes["failures"]]
     result = {"status": "boundary_refused" if failures else "boundary_ok", "branch": checked["branch"],
               "commit": checked["commit"], "fetched": checked["fetched"],
@@ -242,7 +313,7 @@ def boundary(root, preserve=()):
               "unsaved_paths": checked["unsaved_paths"], "stashes": checked["stashes"],
               "preserved_local_only": keep, "failures": failures,
               "note": "Stashes are information, not a refusal; preserved paths are local only",
-              "notes": notes}
+              "notes": notes, "notes_commit": notes["commit"] if notes else None}
     return result
 
 
@@ -272,10 +343,10 @@ def overtaken_revisions(root, content, head):
     return found
 
 
-def pickup(root, branch, record, sync=False, expected_commit=None, preserve=()):
-    if expected_commit is not None and (not isinstance(expected_commit, str)
-            or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", expected_commit)):
-        raise HandoffError("The saved revision must be a full Git commit ID, not a branch or abbreviated name")
+def pickup(root, branch, record, sync=False, expected_commit=None, preserve=(), notes_commit=None,
+           notes_needed=False):
+    full_commit(expected_commit, "saved revision")
+    full_commit(notes_commit, "saved notes commit")
     require_branch(root, branch)
     keep = acknowledged(root, preserve)
     if git(root, "diff", "--cached", "--name-only") or (local_changes(root) - set(keep)):
@@ -299,8 +370,15 @@ def pickup(root, branch, record, sync=False, expected_commit=None, preserve=()):
     commit = git(root, "rev-parse", "HEAD")
     if expected_commit is not None and commit != expected_commit:
         raise HandoffError("Local revision differs from the saved handoff; no record loaded")
-    named, base, relative, location = resolve_source(root, record)
-    if location:  # a sketchbook in the notes root must be saved there, as prepare requires of sources
+    location = None
+    if record.startswith(NOTES_PREFIX) or notes_needed or notes_commit is not None:
+        location = notes_location(root)
+        if location is None:
+            raise HandoffError("A notes: source needs a notes root; set \"work_notes\": \"vault\" "
+                               "in kivna/vault.json")
+    notes_head = ready_notes(location, sync, notes_commit) if location else None
+    named, base, relative, location = resolve_source(root, record, location)
+    if record.startswith(NOTES_PREFIX):  # a sketchbook in the notes root must be saved there
         require_tracked(base, relative, f"the notes repo {location[1]}")
     path = base / relative
     if not path.is_file():
@@ -313,7 +391,9 @@ def pickup(root, branch, record, sync=False, expected_commit=None, preserve=()):
         if (git(root, "rev-parse", "HEAD") != commit or git(root, "diff", "--cached", "--name-only")
                 or (local_changes(root) - set(keep))):
             raise HandoffError("Project changed while reading the saved handoff; no pickup returned")
-    result = {"status": "record_loaded", "branch": branch, "commit": commit,
+    if notes_head:
+        notes_unchanged(location, notes_head)
+    result = {"status": "record_loaded", "branch": branch, "commit": commit, "notes_commit": notes_head,
               "record": record, "bytes": len(content.encode()), "content": content,
               "overtaken_revisions": overtaken_revisions(root, content, commit),
               "preserved_local_only": keep,
@@ -377,11 +457,26 @@ def source_base(root, location, path):
     return root, path, "the project"
 
 
-def tracked_source(root, location, path, heading):
-    """Measurement and preparation resolve the same bytes, never a prose excerpt."""
+def tracked_source(root, location, path, heading, require=True):
+    """Measurement and preparation resolve the same bytes, never a prose excerpt.
+
+    Preparation requires the source tracked; measurement reports it instead,
+    because Switch Out measures a sketchbook it has written but not yet saved.
+    """
     base, relative, where = source_base(root, location, path)
-    require_tracked(base, relative, where)
-    return selected_source(base, relative, heading, label=path)
+    try:
+        require_tracked(base, relative, where)
+        tracked = True
+    except HandoffError:
+        if require:
+            raise
+        tracked = False
+    source = selected_source(base, relative, heading, label=path)
+    if not require:
+        source["tracked"] = tracked
+        if not tracked:
+            source["warning"] = f"Not tracked in {where}; will not be readable at pickup until saved"
+    return source
 
 
 def selected_source(root, path, heading, label=None):
@@ -396,18 +491,23 @@ def selected_source(root, path, heading, label=None):
             "reaches_eof": text.endswith(content)}
 
 
-def prepare(root, branch, record, files=(), sections=(), sync=False, expected_commit=None, preserve=()):
+def prepare(root, branch, record, files=(), sections=(), sync=False, expected_commit=None, preserve=(),
+            notes_commit=None):
     """Assemble caller-selected raw sources; never choose or summarise memory."""
-    loaded = pickup(root, branch, record, sync, expected_commit, preserve)
+    needed = any(value.startswith(NOTES_PREFIX) for value in [*files, *(pair[0] for pair in sections)])
+    loaded = pickup(root, branch, record, sync, expected_commit, preserve, notes_commit, needed)
     keep = loaded["preserved_local_only"]
     picks, location = reading_picks(root, record, files, sections)
     sources = [tracked_source(root, location, path, heading) for path, heading in picks]
+    if loaded["notes_commit"]:
+        notes_unchanged(location, loaded["notes_commit"])
     # A concurrent edit must not silently acquire the earlier clean/commit claim.
     require_branch(root, branch)
     if (git(root, "diff", "--cached", "--name-only") or (local_changes(root) - set(keep))
             or git(root, "rev-parse", "HEAD") != loaded["commit"]):
         raise HandoffError("Project changed while preparing pickup; no packet returned")
     packet = {"status": "pickup_prepared", "branch": branch, "commit": loaded["commit"],
+              "notes_commit": loaded["notes_commit"],
               "clean_at_check": True, "synchronized": sync, "sources": sources,
               "preserved_local_only": keep,
               "overtaken_revisions": loaded["overtaken_revisions"],
@@ -419,6 +519,45 @@ def prepare(root, branch, record, files=(), sections=(), sync=False, expected_co
     return packet
 
 
+def private_problem(info):
+    if stat.S_ISLNK(info.st_mode):
+        return "it is a symbolic link"
+    if not stat.S_ISREG(info.st_mode):
+        return "it is not a regular file"
+    if info.st_uid != os.getuid():
+        return "it is not owned by the current user"
+    if info.st_mode & 0o077:
+        return "it is readable or writable by group or other users; use mode 0600"
+    return None
+
+
+def carry_phrases(value, stdin=None):
+    """Phrases from an owner-only file, or stdin for "-": one per line, blank lines skipped.
+
+    Phrases may be private notes, so they never travel in argv, where the
+    process list would show them.
+    """
+    if value == "-":
+        text = (stdin or sys.stdin).read()
+    else:
+        try:
+            linked = os.lstat(value)
+        except OSError as exc:
+            raise HandoffError(f"Cannot read the carry file {value}: {exc.strerror}")
+        problem = private_problem(linked)
+        if problem:
+            raise HandoffError(f"Refused the carry file {value}: {problem}")
+        fd = os.open(value, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0))
+        opened = os.fstat(fd)
+        problem = private_problem(opened)
+        if problem or (opened.st_dev, opened.st_ino) != (linked.st_dev, linked.st_ino):
+            os.close(fd)
+            raise HandoffError(f"Refused the carry file {value}: {problem or 'it changed while being opened'}")
+        with os.fdopen(fd, encoding="utf-8", newline="") as stream:
+            text = stream.read()
+    return [line for line in (raw.rstrip("\r\n") for raw in text.splitlines(keepends=True)) if line.strip()]
+
+
 TARGET_TOKENS = 8000  # the Switch trial's pickup allowance, from the In guide
 
 
@@ -428,9 +567,10 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=())
     Bytes are counted exactly; tokens are estimated at four bytes each, which
     is a proxy and is labelled as one. An over-target set is information for
     the person closing the sitting, not a refusal: the result never blocks.
-    Sources must be tracked, as `prepare` requires. Each carry phrase is looked
-    up as an exact substring of the selected bytes; a miss is reported, never
-    a refusal.
+    An untracked source is measured and reported (`tracked: false` with a
+    warning), never refused; `prepare` still refuses it. Each carry phrase is
+    looked up as an exact substring of the selected bytes; a miss is reported,
+    never a refusal.
     """
     if not isinstance(target, int) or target <= 0:
         raise ValueError("Target must be a positive integer number of tokens")
@@ -439,7 +579,7 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=())
     picks, location = reading_picks(root, record, files, sections)
     sources, total, read_args, contents = [], 0, [], []
     for index, (path, heading) in enumerate(picks):
-        source = tracked_source(root, location, path, heading)
+        source = tracked_source(root, location, path, heading, require=False)
         content = source.pop("content")
         contents.append(content)
         size = len(content.encode("utf-8"))
@@ -460,7 +600,8 @@ def measure(root, record, files=(), sections=(), target=TARGET_TOKENS, carry=())
             "within_target": estimate <= target,
             "method": "bytes counted exactly per selection, including any whole-file/section or nested-section overlap; "
                       "tokens estimated at four bytes each, not a tokenizer reading",
-            "carry": carried}
+            "carry": carried,
+            "warnings": [f"{source['file']}: {source['warning']}" for source in sources if "warning" in source]}
 
 
 def main():
@@ -479,6 +620,8 @@ def main():
     load.add_argument("--record", required=True)
     load.add_argument("--sync", action="store_true")
     load.add_argument("--commit", help="Exact saved revision for a named handoff; omit for ordinary latest-state In")
+    load.add_argument("--notes-commit", help="Notes repo commit recorded at Out (boundary notes_commit); "
+                                             "the notes repo must contain it")
     load.add_argument("--preserve", action="append", default=[],
                       help="Exact untracked path to keep; a collision in the incoming revision stops the pickup")
     packet = sub.add_parser("prepare", help="Gather caller-selected sources for a fresh reader")
@@ -488,16 +631,21 @@ def main():
     packet.add_argument("--section", nargs=2, action="append", default=[], metavar=("FILE", "HEADING"))
     packet.add_argument("--sync", action="store_true")
     packet.add_argument("--commit", help="Exact saved revision; checked before updating the checkout")
+    packet.add_argument("--notes-commit", help="Notes repo commit recorded at Out (boundary notes_commit); "
+                                               "the notes repo must contain it")
     packet.add_argument("--preserve", action="append", default=[],
                         help="Exact untracked path to keep; a collision in the incoming revision stops the pickup")
-    size = sub.add_parser("measure", help="Size the pickup reading set in the working tree; never blocks")
+    # No abbreviation: a retired `--carry PHRASE` must not be taken as `--carry-file` and put a phrase in argv.
+    size = sub.add_parser("measure", help="Size the pickup reading set in the working tree; never blocks",
+                          allow_abbrev=False)
     size.add_argument("--record", required=True)
     size.add_argument("--file", action="append", default=[])
     size.add_argument("--section", nargs=2, action="append", default=[], metavar=("FILE", "HEADING"))
     size.add_argument("--target", type=int, default=TARGET_TOKENS,
                       help="Token allowance to compare against (default: the trial's %(default)s)")
-    size.add_argument("--carry", action="append", default=[], metavar="PHRASE",
-                      help="Exact phrase the pickup must carry; reports which source holds it, never blocks")
+    size.add_argument("--carry-file", action="append", default=[], metavar="PATH",
+                      help="Owner-only (0600) file of exact phrases the pickup must carry, one per line, "
+                           "or - for stdin; reports which source holds each, never blocks")
     check = sub.add_parser("boundary", help="Fetch, then refuse unless a remote ref contains HEAD and the tree is clean")
     check.add_argument("--preserve", action="append", default=[],
                        help="Exact untracked path this project keeps locally; not counted as unsaved")
@@ -509,14 +657,16 @@ def main():
             print(json.dumps(result, indent=2))
             return 1 if result["failures"] else 0
         if args.action == "measure":
-            result = measure(root, args.record, args.file, args.section, args.target, args.carry)
+            carry = [phrase for value in args.carry_file for phrase in carry_phrases(value)]
+            result = measure(root, args.record, args.file, args.section, args.target, carry)
         elif args.action == "save":
             result = publish(root, args.branch, args.file, args.message, args.push, preserve=args.preserve)
         elif args.action == "prepare":
             result = prepare(root, args.branch, args.record, args.file, args.section, args.sync,
-                             args.commit, args.preserve)
+                             args.commit, args.preserve, args.notes_commit)
         else:
-            result = pickup(root, args.branch, args.record, args.sync, args.commit, args.preserve)
+            result = pickup(root, args.branch, args.record, args.sync, args.commit, args.preserve,
+                            args.notes_commit)
         print(json.dumps(result, indent=2))
         return 0
     except (HandoffError, OSError, ValueError) as exc:

@@ -202,7 +202,7 @@ class ChatRollTests(unittest.TestCase):
         vault = self.vault_notes()
         data = self.save()
         self.assertEqual(data["handoff_record"], "notes:sketch.md")
-        self.assertEqual(data["notes_head"], subprocess.run(["git", "rev-parse", "HEAD"], cwd=vault,
+        self.assertEqual(data["notes_tree"], subprocess.run(["git", "rev-parse", "HEAD:proj/work"], cwd=vault,
                                                             capture_output=True, text=True).stdout.strip())
         self.exited()
         (vault / "proj" / "work" / "sketch.md").write_text("edited\n")
@@ -219,9 +219,14 @@ class ChatRollTests(unittest.TestCase):
         with self.assertRaisesRegex(roll.RollError, "notes: sketchbook needs"):
             self.save()
 
-    def test_a_notes_only_commit_counts_as_progress(self):
+    def test_a_notes_root_commit_is_progress_and_another_projects_vault_commit_is_not(self):
         vault = self.vault_notes()
         self.roll_once(T0)
+        with self.assertRaisesRegex(roll.RollError, "No progress"):
+            self.save(now=T0 + 60)
+        (vault / "elsewhere.md").write_text("another project's note\n")
+        subprocess.run(["git", "add", "."], cwd=vault, check=True)
+        subprocess.run(["git", "commit", "-qm", "another project"], cwd=vault, check=True)
         with self.assertRaisesRegex(roll.RollError, "No progress"):
             self.save(now=T0 + 60)
         (vault / "proj" / "work" / "other.md").write_text("more notes\n")

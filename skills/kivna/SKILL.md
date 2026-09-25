@@ -19,7 +19,7 @@ Single owner of the project's knowledge layer. The vault is a human knowledge ba
 
 Every kivna command starts here. Resolve the vault location before doing anything else.
 
-1. **Check `kivna/vault.json`.** If it exists, read `vault`, `folder`, and `name`. Expand `~` to the user's home directory. If it also sets `"work_notes": "vault"`, the project keeps its working notes private: the notes root is `<vault>/<folder>/work` (a private git repo, separate from this project's), and Conductor writes each piece of work's sketchbook there instead of `docs/work/`. Kivna does not create or maintain this folder; it only recognizes the key.
+1. **Check `kivna/vault.json`.** If it exists, read `vault`, `folder`, and `name`. Expand `~` to the user's home directory. If it also sets `"work_notes": "vault"`, the project keeps its working notes private: the notes root is `<vault>/<folder>/work`, the `work/` folder inside the vault's existing private git repo (shared with the rest of the vault's content, not a repo of its own, and separate from this project's repo), and Conductor writes each piece of work's sketchbook there instead of `docs/work/`. Kivna does not create or maintain this folder; it only recognizes the key.
 
 2. **Convention fallback.** If no `vault.json`, check for `~/eolas/vault/`:
    - If `~/eolas/vault/` exists, use it as the vault root.

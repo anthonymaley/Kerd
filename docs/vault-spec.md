@@ -17,15 +17,16 @@ A Kerd project has two homes, and they hold different things:
 
 A project whose repo is public can still keep its working notes private. When
 `kivna/vault.json` sets `"work_notes": "vault"`, the notes root moves to
-`<vault>/<folder>/work` (for Kerd, `~/eolas/vault/kerd/work`), a private git
-repo of its own, separate from both this project's repo and the vault's own
-git history. Without that key, sketchbooks stay at `docs/work/<work>/` and are
-committed with the project as today.
+`<vault>/<folder>/work` (for Kerd, `~/eolas/vault/kerd/work`) — the `work/`
+folder inside the vault's existing private git repo, sharing its history with
+the rest of the vault's content, not a repo of its own. Without that key,
+sketchbooks stay at `docs/work/<work>/` and are committed with the project as
+today.
 
 Conductor writes each piece of work's sketchbook (and its diagrams, evidence,
 drafts) to `<notes root>/<work>/work.md` when the key is set; a record that
 points at one uses the form `notes:<work>/work.md`. Switch Out saves and
-pushes the notes repo alongside the project at the session boundary. This
+pushes the vault repo alongside the project at the session boundary. This
 folder is working state, not vault knowledge: it follows `docs/work/`'s rules,
 not the spine/slot conventions below, and is not part of the Quality Test.
 

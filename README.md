@@ -272,18 +272,20 @@ Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELO
 
 **A public repo's working notes can stay private and still be saved.** Set
 `"work_notes": "vault"` in `kivna/vault.json` and Conductor keeps each work's sketchbook in your
-Obsidian vault (`<vault>/<folder>/work/`, its own private git repo) instead of `docs/work/`.
+Obsidian vault (`<vault>/<folder>/work/`, the `work/` folder inside your vault's existing private
+git repo) instead of `docs/work/`.
 Records point to it as `notes:<work>/work.md`. Switch Out saves both repos, and its remote check
 covers both (the vault check looks only at the project's own notes folder). Switch In and the chat
 roll read the sketchbook from the vault. Projects without the setting keep committing `docs/work/`
 as before. Kerd's own notes moved there on 2026-09-25.
 
 **Switch Out checks that its key findings reach the next pickup.** It names the three to five
-findings that must survive and passes them to `measure --carry`, which reports, for each, the file
+findings that must survive and passes them to `measure --carry-file` (a file, never a bare
+argument), which reports, for each, the file
 in the next pickup's reading set that holds it, or "not in the reading set". A miss is written
 into CONTEXT.md or TODO.md before the save. It never blocks and asks you nothing. Its first run
-found a real finding left only in a local sketchbook. `measure` now refuses a file git does not
-track, as the pickup already did.
+found a real finding left only in a local sketchbook. `measure` now warns when a source is not
+tracked, since the pickup cannot read it.
 
 ### v0.156.0
 

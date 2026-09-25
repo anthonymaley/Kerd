@@ -80,6 +80,11 @@ The start point names a **pickup reading set** — the exact files and complete
 sections Out chose for this next action and wider active-work orientation (see
 "Leave a lean start point" below). A reading-set entry written `notes:<path>`
 is read from the notes root (`kivna/vault.json`'s `work_notes`), not the repo.
+Reading one also fetches the vault repo that holds it: refuse to read unsaved
+vault notes, or a vault missing the commit Out recorded, rather than showing a
+stale or partial sketchbook.
+Pass that commit to `prepare` or `pickup` as `--notes-commit <sha>` (with `--sync` to
+fetch it and fast-forward only).
 When the handoff includes the helper's `read_args`, use those exact file/heading
 selections, not a broader paraphrase. They are arguments to `prepare` (with the
 current project and branch supplied), or the boundaries for reading normally.
@@ -687,15 +692,17 @@ order, each leaving a reachable link behind:
    an estimate; the target is the trial's 8,000 unless the work agreement sets
    another (`--target`). Over target is information: prune further under the
    rules above, or record why the set must stay larger. It never blocks a save.
-   `measure` refuses a file Git does not track, the same check `prepare` already
-   makes.
+   `measure` now warns when a source is not tracked, since the pickup cannot
+   read it; `prepare` and pickup itself still refuse one.
 
    Name the few findings that must survive this sitting, three to five, one
-   line each, and pass them on the same call as `--carry "<phrase>"` (repeat the
-   flag per phrase). A phrase `measure` reports as not in the reading set is
-   fixed by writing it into CONTEXT.md or TODO.md, or by adding its source to
-   the set, then measuring again. This never blocks the save and asks the
-   person nothing.
+   line each, and pass them on the same call as `--carry-file <path>`, a file
+   with one phrase per line that only its owner can read, or `--carry-file -`
+   to pipe them on stdin. Never pass a phrase as a bare argument: argv is
+   visible to other local accounts on the machine. A phrase `measure` reports
+   as not in the reading set is fixed by writing it into CONTEXT.md or TODO.md,
+   or by adding its source to the set, then measuring again. This never blocks
+   the save and asks the person nothing.
 
    Save the returned `read_args` array beside that measurement in the existing
    start point. It is the exact selection to reuse at In, not another manifest.
@@ -739,7 +746,7 @@ it continues; a genuine unresolved ownership issue needs a decision.
 
 Under the agreed Git authority, commit the relevant work/session files by name
 and push to the intended branch. When `kivna/vault.json` sets `work_notes`,
-save and push the private notes repo the same way, by the same named-file save,
+save and push the vault repo the same way, by the same named-file save,
 alongside the project; the sketchbook it holds is part of this sitting's saved
 place, not a separate closeout. During a concert on its own branch, that is the
 concert branch its sketchbook records: before committing, check the checked-out
@@ -764,8 +771,10 @@ says nothing about whether any remote has the commits. Its `stashes` count is
 information, not a refusal: when it is nonzero, say so in `warnings`
 ("2 stashes on this machine, not saved"). Run it on every repo the sitting
 committed to; a local-only Out is allowed, and its box says so instead of ✓.
-With `work_notes` set, this includes the notes repo: the boundary check now
+With `work_notes` set, this includes the vault repo: the boundary check now
 covers both, and the box shows both as saved only when each passes.
+Its output carries `notes_commit`: write that full commit into the start point beside the
+pickup reading set ("Notes commit: <sha>"), so the next In can pass it as `--notes-commit`.
 
 ### Close with the saved-place box
 

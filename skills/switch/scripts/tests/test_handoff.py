@@ -357,7 +357,6 @@ class HandoffTests(unittest.TestCase):
 
     def test_measure_sizes_each_source_and_compares_to_the_target(self):
         (self.dest / "tasks.md").write_text("# Tasks\n## Now\n" + "x" * 30 + "\n## Backlog\nlong\n")
-        self.git(self.dest, "add", "tasks.md")
         result = handoff.measure(self.dest, "record.md", ["result.txt"], [("tasks.md", "## Now")])
         self.assertEqual(result["status"], "measured")
         self.assertEqual([s["file"] for s in result["sources"]], ["record.md", "result.txt", "tasks.md"])
@@ -369,7 +368,6 @@ class HandoffTests(unittest.TestCase):
 
     def test_measure_over_target_is_information_not_a_refusal(self):
         (self.dest / "big.md").write_text("y" * 4000 + "\n")
-        self.git(self.dest, "add", "big.md")
         result = handoff.measure(self.dest, "record.md", ["big.md"], target=500)
         self.assertEqual(result["status"], "measured")
         self.assertFalse(result["within_target"])
@@ -419,7 +417,6 @@ class HandoffTests(unittest.TestCase):
 
     def test_measure_refuses_normalized_file_and_heading_aliases(self):
         (self.dest / "tasks.md").write_text("## Now\nCurrent\n## Later\nLater\n")
-        self.git(self.dest, "add", "tasks.md")
         with self.assertRaises(handoff.HandoffError):
             handoff.measure(self.dest, "record.md", ["./record.md"])
         with self.assertRaises(handoff.HandoffError):
@@ -431,7 +428,6 @@ class HandoffTests(unittest.TestCase):
 
     def test_measure_file_section_overlap_is_disclosed_not_refused(self):
         (self.dest / "tasks.md").write_text("## Now\nCurrent\n")
-        self.git(self.dest, "add", "tasks.md")
         result = handoff.measure(self.dest, "record.md", ["tasks.md"], [("tasks.md", "## Now")])
         self.assertIn("overlap", result["method"])
         self.assertEqual(result["total_bytes"], sum(s["bytes"] for s in result["sources"]))
@@ -452,7 +448,6 @@ class HandoffTests(unittest.TestCase):
 
     def test_measure_reads_the_working_tree_and_refuses_an_empty_section(self):
         (self.dest / "tasks.md").write_text("## Now\n\n## Later\nbody\n")  # uncommitted on purpose
-        self.git(self.dest, "add", "tasks.md")  # tracked, as measure requires, but not committed
         with self.assertRaises(handoff.HandoffError):
             handoff.measure(self.dest, "record.md", [], [("tasks.md", "## Now")])
         with self.assertRaises(ValueError):
@@ -726,32 +721,134 @@ class HandoffTests(unittest.TestCase):
         self.assertEqual([s["file"] for s in sources], ["notes:plan.md", "record.md"])
         self.assertEqual(measured["total_bytes"], sum(len(s["content"].encode("utf-8")) for s in sources))
 
-    def test_untracked_notes_file_is_refused_by_measure_and_prepare(self):
+    def test_untracked_notes_file_is_measured_with_a_warning_but_refused_at_pickup(self):
         vault = self.notes()
-        (vault / "proj" / "work" / "draft.md").write_text("never saved\n")
-        with self.assertRaisesRegex(handoff.HandoffError, "Not tracked in the notes repo .*: draft.md"):
-            handoff.measure(self.dest, "record.md", ["notes:draft.md"])
-        with self.assertRaisesRegex(handoff.HandoffError, "Not tracked in the notes repo"):
+        work = vault / "proj" / "work"
+        (work / "draft.md").write_text("never saved\n")
+        measured = handoff.measure(self.dest, "notes:draft.md", ["notes:plan.md"])
+        self.assertEqual([s["tracked"] for s in measured["sources"]], [False, True])
+        self.assertEqual(len(measured["warnings"]), 1)
+        self.assertIn("will not be readable at pickup until saved", measured["warnings"][0])
+        # At pickup an unsaved sketchbook is refused, before any of it is read.
+        with self.assertRaisesRegex(handoff.HandoffError, "Unsaved changes inside the notes root"):
             handoff.prepare(self.dest, self.branch, "record.md", ["notes:draft.md"])
-        for call in (lambda: handoff.pickup(self.dest, self.branch, "notes:draft.md"),
-                     lambda: handoff.measure(self.dest, "notes:draft.md")):
-            with self.assertRaisesRegex(handoff.HandoffError, "Not tracked in the notes repo"):
-                call()
+        with self.assertRaisesRegex(handoff.HandoffError, "Unsaved changes inside the notes root"):
+            handoff.pickup(self.dest, self.branch, "notes:draft.md")
+        with self.assertRaisesRegex(handoff.HandoffError, "Not tracked in the notes repo"):
+            handoff.tracked_source(self.dest, handoff.notes_location(self.dest), "notes:draft.md", None)
 
-    def test_measure_refuses_an_untracked_project_file_as_prepare_does(self):
+    def test_measure_reports_an_untracked_project_file_that_prepare_refuses(self):
         (self.dest / "loose.md").write_text("## Now\nnot saved\n")
         for files, sections in ((["loose.md"], []), ([], [("loose.md", "## Now")])):
             with self.subTest(files=files, sections=sections):
-                with self.assertRaisesRegex(handoff.HandoffError, "Not tracked in the project: loose.md"):
-                    handoff.measure(self.dest, "record.md", files, sections)
+                measured = handoff.measure(self.dest, "record.md", files, sections)
+                self.assertFalse(measured["sources"][1]["tracked"])
+                self.assertEqual(measured["warnings"], [
+                    "loose.md: Not tracked in the project; will not be readable at pickup until saved"])
+                self.assertEqual(measured["status"], "measured")
+        self.git(self.dest, "add", "loose.md")
+        self.git(self.dest, "commit", "-q", "-m", "tracked now")
+        (self.dest / "later.md").write_text("new\n")
+        with self.assertRaises(handoff.HandoffError):
+            handoff.prepare(self.dest, self.branch, "record.md", ["later.md"])
+
+    def test_notes_pickup_refuses_dirty_notes_and_a_missing_saved_notes_commit(self):
+        vault = self.notes()
+        self.git(self.dest, "push", "-q", "origin", self.branch)
+        work = vault / "proj" / "work"
+        (work / "plan.md").write_text("uncommitted vault edit\n")
+        with self.assertRaisesRegex(handoff.HandoffError, "Unsaved changes inside the notes root"):
+            handoff.pickup(self.dest, self.branch, "notes:plan.md")
+        self.git(vault, "checkout", "-q", "--", "proj/work/plan.md")
+        (vault / "another-project").mkdir()
+        (vault / "another-project" / "x.md").write_text("elsewhere in the vault\n")
+        saved = self.git(vault, "rev-parse", "HEAD")
+        self.assertEqual(handoff.pickup(self.dest, self.branch, "notes:plan.md", notes_commit=saved)["notes_commit"],
+                         saved)
+        # Another machine saves newer notes; this one is behind.
+        other = self.folder / "vault-other"
+        self.git(self.folder, "clone", "-q", "--branch", "main", str(self.notes_remote), str(other))
+        self.configure(other)
+        (other / "proj" / "work" / "plan.md").write_text("# Plan\n## Now\nNewer sketch.\n")
+        newer = self.commit(other, "newer notes")
+        self.git(other, "push", "-q", "origin", "main")
+        with self.assertRaisesRegex(handoff.HandoffError, "does not contain the saved notes commit"):
+            handoff.pickup(self.dest, self.branch, "notes:plan.md", notes_commit=newer)
+        self.assertEqual(self.git(vault, "rev-parse", "HEAD"), saved, "no fetch or move without sync")
+        loaded = handoff.pickup(self.dest, self.branch, "notes:plan.md", sync=True, notes_commit=newer)
+        self.assertEqual((loaded["notes_commit"], loaded["content"]), (newer, "# Plan\n## Now\nNewer sketch.\n"))
+        result = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), "prepare",
+                                 "--branch", self.branch, "--record", "record.md",
+                                 "--section", "notes:plan.md", "## Now", "--notes-commit", newer],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["notes_commit"], newer)
+
+    def test_notes_pickup_sync_refuses_local_notes_ahead_of_the_remote(self):
+        vault = self.notes()
+        self.git(self.dest, "push", "-q", "origin", self.branch)
+        (vault / "proj" / "work" / "plan.md").write_text("# Plan\n## Now\nlocal only\n")
+        self.commit(vault, "unpushed notes")
+        before = self.git(vault, "rev-parse", "HEAD")
+        with self.assertRaisesRegex(handoff.HandoffError, "ahead of or diverged"):
+            handoff.pickup(self.dest, self.branch, "notes:plan.md", sync=True)
+        self.assertEqual(self.git(vault, "rev-parse", "HEAD"), before)
+        with self.assertRaisesRegex(handoff.HandoffError, "full Git commit ID"):
+            handoff.pickup(self.dest, self.branch, "notes:plan.md", notes_commit="main")
+
+    def test_notes_root_hardening_refuses_unsafe_folders_symlinks_and_the_project_repo(self):
+        vault = self.notes()
+        config = self.dest / "kivna" / "vault.json"
+        settings = json.loads(config.read_text())
+        for folder in ("/abs", "../proj", "proj/../proj", "", ".git"):
+            with self.subTest(folder=folder):
+                config.write_text(json.dumps({**settings, "folder": folder}))
+                with self.assertRaises(handoff.HandoffError):
+                    handoff.notes_location(self.dest)
+        (vault / "real").mkdir()
+        (vault / "real" / "work").mkdir()
+        (vault / "linked").symlink_to(vault / "real")
+        (vault / "plain").mkdir()
+        (vault / "plain" / "work").symlink_to(vault / "real" / "work")
+        for folder in ("linked", "plain"):
+            with self.subTest(folder=folder):
+                config.write_text(json.dumps({**settings, "folder": folder}))
+                with self.assertRaisesRegex(handoff.HandoffError, "symlink"):
+                    handoff.notes_location(self.dest)
+        (self.dest / "inside" / "work").mkdir(parents=True)
+        config.write_text(json.dumps({**settings, "vault": str(self.dest), "folder": "inside"}))
+        with self.assertRaisesRegex(handoff.HandoffError, "project's own repo"):
+            handoff.notes_location(self.dest)
+        config.write_text(json.dumps(settings))
+        self.assertIsNotNone(handoff.notes_location(self.dest))
+
+    def carry_file(self, text, mode=0o600):
+        path = self.folder / "carry.txt"
+        path.write_text(text)
+        path.chmod(mode)
+        return path
+
+    def test_carry_file_must_be_owner_only_and_argv_phrases_are_gone(self):
+        self.assertEqual(handoff.carry_phrases(str(self.carry_file("one\r\n\n two \n"))), ["one", " two "])
+        with self.assertRaisesRegex(handoff.HandoffError, "0600"):
+            handoff.carry_phrases(str(self.carry_file("one\n", 0o644)))
+        link = self.folder / "carry-link.txt"
+        link.symlink_to(self.carry_file("one\n"))
+        with self.assertRaisesRegex(handoff.HandoffError, "symbolic link"):
+            handoff.carry_phrases(str(link))
+        old = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), "measure",
+                              "--record", "record.md", "--carry", "a private phrase"],
+                             capture_output=True, text=True)
+        self.assertEqual(old.returncode, 2)
+        self.assertIn("unrecognized arguments", old.stderr)
 
     def test_carry_reports_the_holding_source_or_a_miss_without_blocking(self):
         self.notes()
+        phrases = self.carry_file("Ship the private notes\nArchive only\n")
         result = subprocess.run(["python3", str(SCRIPT), "--project", str(self.dest), "measure",
                                  "--record", "record.md", "--section", "notes:plan.md", "## Now",
-                                 "--carry", "Ship the private notes", "--carry", "Archive only",
-                                 "--carry", "original bounded task"],
-                                capture_output=True, text=True)
+                                 "--carry-file", str(phrases), "--carry-file", "-"],
+                                input="original bounded task\n", capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         carry = {item["phrase"]: item for item in json.loads(result.stdout)["carry"]}
         self.assertEqual(carry["Ship the private notes"]["found_in"],
@@ -767,6 +864,7 @@ class HandoffTests(unittest.TestCase):
         code, result = self.boundary_cli()
         self.assertEqual(code, 0, result)
         self.assertEqual(result["notes"]["repo"], str(vault.resolve()))
+        self.assertEqual(result["notes_commit"], self.git(vault, "rev-parse", "HEAD"))
         (vault / "proj" / "work" / "plan.md").write_text("changed\n")
         self.commit(vault, "unpushed notes")
         code, result = self.boundary_cli()
@@ -776,6 +874,7 @@ class HandoffTests(unittest.TestCase):
         self.assertTrue(any(item.startswith(f"Notes repo {vault.resolve()}: ") and "only on this machine" in item
                             for item in result["failures"]), result["failures"])
         self.assertIsNone(handoff.boundary(self.dest)["notes"])
+        self.assertIsNone(handoff.boundary(self.dest)["notes_commit"])
 
     def test_boundary_counts_unsaved_notes_only_inside_the_notes_root(self):
         vault = self.notes(root=self.source)
