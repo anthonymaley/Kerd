@@ -131,31 +131,46 @@ def find_claude(begin, parent=parent_of, command=command_of, depth=10):
         if not pid or pid <= 1:
             return None
         words = command(pid).split()
-        if words and any(Path(w).name == "claude" for w in words[:2]):
+        if words and any(Path(w).name.lower() == "claude" for w in words[:2]):
             return pid
         pid = parent(pid)
     return None
 
 
 def launch_restriction(command):
-    """The first launch option other than --model/--effort, which a restart would drop; None
-    if none. `ps` loses argument boundaries, so every word is scanned, `--` included: a prompt
-    word that looks like an option refuses too, which only means rolling by hand."""
+    """The first launch option a restart would drop; None if none. Carried: --model, --effort,
+    --permission-mode, and --dangerously-skip-permissions (the relaunch restarts in the mode the
+    host reports). Dropped on purpose: --resume/-r and --continue/-c, since a roll starts fresh.
+    Claude Code may show itself as `Claude`. `ps` loses argument boundaries, so every word is
+    scanned, `--` included: a prompt word that looks like an option refuses too, which only
+    means rolling by hand."""
     words = command.split()
-    at = next((i for i, w in enumerate(words[:2]) if Path(w).name == "claude"), None)
+    at = next((i for i, w in enumerate(words[:2]) if Path(w).name.lower() == "claude"), None)
     if at is None:
         return "not a claude command"
-    rest = iter(words[at + 1:])
+    rest = words[at + 1:]
     carried = {"--model": MODEL_ID.match, "--effort": EFFORTS.__contains__,
                "--permission-mode": MODES.__contains__}
-    for word in rest:
+    fresh_start = {"--dangerously-skip-permissions", "--continue", "-c"}
+    optional_value = {"--resume", "-r"}
+    i = 0
+    while i < len(rest):
+        word = rest[i]
         name, _, inline = word.partition("=")
-        if name in carried:
-            value = inline or next(rest, "")
+        nxt = rest[i + 1] if i + 1 < len(rest) else ""
+        if word in fresh_start or word == "--":
+            i += 1
+        elif name in optional_value:
+            i += 1 if inline or not nxt or nxt.startswith("-") else 2
+        elif name in carried:
+            value = inline or nxt
             if not value or value.startswith("-") or not carried[name](value):
                 return word
-        elif word != "--" and word.startswith("-"):
+            i += 1 if inline else 2
+        elif word.startswith("-"):
             return word
+        else:
+            i += 1
     return None
 
 

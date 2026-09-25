@@ -117,7 +117,7 @@ class ChatRollTests(unittest.TestCase):
             self.save(env={"TMUX": ENV["TMUX"], "TMUX_PANE": "%4"})
 
     def test_out_refuses_session_started_with_other_launch_options(self):
-        for command in ("claude --dangerously-skip-permissions", "/usr/local/bin/claude --model x --add-dir /y",
+        for command in ("claude --mcp-config x.json", "/usr/local/bin/claude --model x --add-dir /y",
                         "node /opt/claude --allowedTools=Read"):
             with self.subTest(command=command):
                 with self.assertRaisesRegex(roll.RollError, "restart would drop"):
@@ -360,6 +360,15 @@ class ChatRollTests(unittest.TestCase):
                 with self.assertRaisesRegex(roll.RollError, "still in progress"):
                     self.claim()
                 self.assertTrue(self.chat.marker.exists())
+
+    def test_usual_launches_on_this_machine_are_rollable(self):
+        for command in ("Claude --dangerously-skip-permissions", "Claude --resume", "claude --resume abc-123",
+                        "Claude --continue", "claude -c --model sonnet", "claude -r --add-dir /x"):
+            with self.subTest(command=command):
+                expected = "--add-dir" if "--add-dir" in command else None
+                self.assertEqual(tmux_roll.launch_restriction(command), expected)
+        commands = {300: "zsh", 150: "Claude --dangerously-skip-permissions"}
+        self.assertEqual(tmux_roll.find_claude(300, {300: 150, 150: 1}.get, commands.get), 150)
 
     def test_prompt_dashes_cannot_hide_a_launch_option(self):
         self.assertEqual(tmux_roll.launch_restriction('claude Explain -- usage --add-dir /x'), "--add-dir")
