@@ -14,10 +14,22 @@ works for sessions started `Claude --dangerously-skip-permissions`). Two real ro
 and permission mode and the new session did its saved next step. Before that, 2026-09-24:
 0.153.0 to 0.153.2 (the context hook and its wording), 0.152.0, 0.151.x.
 
-**Claude Code runs 0.154.1** (`claude plugin update`, 08:4x), in force from each new session;
-this session still ran 0.152.0 (a `/clear` roll keeps the old build). **Codex runs 0.153.1**
-(read back 2026-09-24 17:29); 0.153.3 to 0.154.1 changed Switch and Conductor text in its
-package, so it needs an update on Anthony's go in its window. The chat roll itself is Claude-only.
+**Both hosts run 0.154.1:** Claude Code (`claude plugin update`, 2026-09-25 08:4x) and Codex
+(built and installed by `codex-tui` on Anthony's go in its window, read back by Claude
+2026-09-25 09:41). The chat roll itself is Claude-only.
+
+**Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
+the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
+Codex) too complex, and chose instead: the Studio status line
+(`~/.claude/statusline-command.sh`, not Kerd) shows tokens used and a coloured state, green
+`keep working` (under 200k and under 60% used), yellow `switch at a break` (200k+ or 60%+), red
+`switch now` (80%+); he rolls by hand at a break. Kerd's automatic chat roll stays at 50%. The
+test, his ask: track Switch Out across sittings to see whether the numbers and the benefit hold.
+`docs/work/rolling-session/measure.py` (local) prints per-sitting calls, start, peak, average
+tokens re-sent per call and the size at Switch Out; baseline since 2026-09-21: averages 116k to
+286k per call, peaks up to 459k, Outs at 133k to 433k. This sitting (2026-09-25 08:49 to 10:3x)
+is the first rolled at the mark (~207k). Estimate, not proof: rolling near 200k should keep the
+average near 190k; the model and both checks are in `docs/work/rolling-session/threshold.md`.
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
@@ -111,7 +123,7 @@ and `docs/work/opus-55/` (2026-09-24 day); every file inside `docs/work/context-
 `docs/work/rolling-session/` and `docs/work/roll-trial/` (2026-09-25). They exist on the Mac
 Studio only.
 
-**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 21:0x arrival
+**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-25 08:5x arrival
 against the saved designation; it designates its successor at this Out.
 
 **Selected continuation, agreed (Anthony, 2026-09-24 09:29 and 09:49): after Anthony's
@@ -119,23 +131,26 @@ TV-to-TV iCloud sync sitting in 3of3, Claude reads 3of3's records (read-only; no
 needed) and adds one line of step 1 evidence to `docs/work/launch-plan/work.md`.** Owner:
 Anthony runs the sitting in 3of3's own session and says when it is done. **Stops at** the
 evidence line; no writes in 3of3, no device actions. **Why:** step 1 is the only launch step
-under way, and this proof is its next item. As of 2026-09-24 21:0x, 3of3's records did not show
-it (saved observation). If the sitting hasn't happened, the arrival says so and weighs the other
+under way, and this proof is its next item. As of 2026-09-25 09:42, 3of3's TODO still lists
+it owed and it has no commits since 08:09 (saved observation). If the sitting hasn't happened, the arrival says so and weighs the other
 open work. Parked: step 2, the
 announcement, SAM and Aubel.app, the homepage.
 
-**Pickup reading set** (Switch Out, 2026-09-25 08:5x):
-- this file complete: position, rulings, the continuation;
+**Pickup reading set** (Switch Out, 2026-09-25 10:3x):
+- this file complete: position, rulings, the continuation, the roll trial;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-25.md`, the sitting that released 0.153.3 to 0.154.1.
+- `kivna/sessions/2026-09-25.md`, both of today's sittings (releases to 08:5x; then Codex,
+  audits, tests and the roll trial to 10:3x).
 Deeper: `docs/decisions.md` (the chat-roll case); `docs/design/launch-plan.md`; local
-sketchbooks `docs/work/rolling-session/work.md` (the chat roll, reviews, trials),
-`docs/work/launch-plan/work.md`.
+sketchbooks `docs/work/rolling-session/threshold.md` (the roll trial, cost model, both checks),
+`docs/work/rolling-session/work.md` (the chat roll), `docs/work/launch-plan/work.md`.
+At the next In, run `python3 docs/work/rolling-session/measure.py --since 2026-09-25` to add the
+sitting that just ended to the trial's evidence.
 
 The observed position before this save is 0.154.1 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-25 08:5x: 20,681 bytes across the three sources, about 5,171 tokens
+**Measured** 2026-09-25 10:3x: 28,626 bytes across the three sources, about 7,157 tokens
 estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup:
 
 ```

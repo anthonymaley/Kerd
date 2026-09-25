@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.154.1 on `main`; Claude Code runs it, Codex runs 0.153.1. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.154.1 on `main`; both hosts run it (Codex read back 2026-09-25 09:41). Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -52,8 +52,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   once by hand before release (170,532 tokens vs "83%" free, 2026-09-24 15:34). First live delivery
   17:39: a fresh headless session got the line on its second prompt (35,110 tokens). Silent at
   a session's first prompt by design (no reply to count yet); wording fixed in 0.153.2. Since
-  0.154.0 it also records the host's permission mode for the chat roll. Not yet seen in an
-  interactive session running 0.153.0 or later.
+  0.154.0 it also records the host's permission mode for the chat roll. **First seen in an
+  interactive session on 2026-09-25 (0.154.1):** the line arrived at every prompt from the second
+  (91,889 at 08:58 up to 115,948 at 09:42) and after tool calls mid-turn. One session, not verified.
 - **The homepage redesign: dropped, to revisit** (Anthony, 2026-09-24 12:56). Three Codex
   passes and his reactions: `docs/work/homepage-redesign/work.md` (local).
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
@@ -66,8 +67,6 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   50% is unseen, and so is a roll from a process shown as capital `Claude` (unit-tested). The
   three-in-a-row limit counts every roll in a checkout within six hours; see whether it bites.
   Sketchbook `docs/work/rolling-session/work.md` (local).
-- **Bring Codex to 0.154.1** on Anthony's go in its window: Switch and Conductor text changed
-  (0.153.3–0.154.1); the chat roll itself is Claude-only.
 - **Observe the composer and managed Conductor in a real session.** Worker Roll's
   context-triggered handover to a second run is still unseen (the trigger fired twice; each job
   finished first). The composer and managed Conductor are still unexercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
@@ -75,18 +74,49 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
 - **Observe the arrival's "Something else" route** and the closing box over several
   sittings. The arrival and "Yes" were seen again on 2026-09-20 14:35.
 
-- **0.134.0's two clauses have never been measured on real diagram output.**
+- **0.134.0's two clauses, first measured 2026-09-25 on the 16 work diagrams saved since
+  2026-09-20** (text read from each render): 15 of 16 name their project inside the picture;
+  `codex-players/availability.html` names only Agent and Conductor. Code references are light
+  and subordinate everywhere: 0 in 12 diagrams, 1 to 3 labels in four, all in captions or
+  evidence lines. Not measured: whether proposal and correction views show what works today,
+  what doesn't, who owns the gap, what changes and its cost; that needs a reading, not a count.
 - **Unverified for 0.132.0:** whether either rule holds beyond the one marginal scenario.
-- **Archify's two Socket alerts were never identified**: unknown, not cleared. Its
-  version is still the dev snapshot `2.17.0-dev.1`.
-- Run the behavioural scenario in `docs/work/codex-plugin/work.md` with a model, not a
-  fixture.
+- **Archify's two Socket alerts, identified 2026-09-25 09:4x** (skills.sh Socket audit, dated
+  2026-09-23; the 2026-09-15 installer's alerts are presumed the same two, not proven): (1) LOW
+  "anomaly", `bin/visual-check.mjs` runs headless Chrome, `--no-sandbox` only as root or with
+  `ARCHIFY_CHROME_NO_SANDBOX=1`; here uid 501, variable unset, so the sandbox stays on. (2) HIGH
+  "malware", `test/fixtures/fail-migration-cleanup.mjs`: a test fixture that fakes one EPERM
+  on cleanup, loaded only by `test/workflow-migration.test.mjs`; read in full, a fault injection,
+  not malware. Neither runs when drawing diagrams. Still a dev snapshot `2.17.0-dev.1`.
+- **The `codex-plugin` behavioural scenario, first run with a model 2026-09-25 09:4x** (one fresh
+  headless Opus Switch In on a scratch shop repo whose notes say a preview was seen, whose
+  checklist says not, with a log reconstructed from memory and an unapproved design): it put the
+  contradiction in ATTENTION, called the reconstructed log not evidence, kept the design
+  unapproved, recommended the independent approved fix, asked only "Start a Conductor
+  session?" and changed nothing. Reply half, same session, answered "not sure - I think I
+  glanced at the preview but I can't say I really reviewed it": it opened Conductor at
+  Understand (right for "not sure"), kept the design unapproved, started no work and asked one
+  question. **But it settled the doubt:** it wrote "the preview has not been reviewed" into
+  the record and called the "owner saw the preview" note wrong, though glancing fits that note;
+  the scenario says Not sure leaves it unresolved. My reply mixed "not sure" with a fact, so
+  one ambiguous run. **Clean rerun 09:59** (fresh session, fresh copy, reply just "not sure"):
+  same arrival; Conductor opened at Understand, changed no file, left the preview's status as the
+  records have it, approved nothing, asked one question. So the earlier write followed the fact I
+  added, which the rules allow recording. Two runs pass on "not sure"; not verified, no wording
+  change indicated.
+  The scenario's "one factual question" is superseded by the arrival's single question.
 - **Watch the first cross-provider build exception (0.151.0).** Conductor builds with its
   own host's workers; a Codex builder under Claude (or the reverse) is an exception the
   person asks for or approves, called a trial without a comparison. Not yet seen: the
   first request and its Fit line. Sketchbook `docs/work/codex-players/work.md` (local).
   Codex building the homepage on 2026-09-24 was Anthony giving it the work directly, not a
   Conductor dispatch.
+- **Roll at ~200k by hand, then compare (Anthony, 2026-09-25 10:26).** The Studio status line
+  now shows tokens used and a coloured state (green keep working, yellow switch at a break from
+  200k or 60% used, red switch now from 80%); he rolls by hand at a break. After a few
+  sittings, compare average tokens re-sent per call, rolled vs not, and decide whether Kerd's
+  chat roll moves from 50% to 200k. The built alternative was dropped as too complex. Sketchbook
+  `docs/work/rolling-session/threshold.md` (local).
 - **Bring Codex along with each release** that changes its four-skill package (Conductor,
   Switch, Visuals, Agent); Codex builds and installs only on Anthony's go in its window.
 
