@@ -784,6 +784,31 @@ class HandoffTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)["notes_commit"], newer)
 
+    def test_saved_notes_commit_pins_the_notes_root_not_the_whole_vault(self):
+        vault = self.notes()
+        self.git(self.dest, "push", "-q", "origin", self.branch)
+        saved = self.git(vault, "rev-parse", "HEAD")
+        other = self.folder / "vault-other"
+        self.git(self.folder, "clone", "-q", "--branch", "main", str(self.notes_remote), str(other))
+        self.configure(other)
+        (other / "another-project").mkdir()
+        (other / "another-project" / "note.md").write_text("elsewhere in the vault\n")
+        elsewhere = self.commit(other, "another project's note")
+        self.git(other, "push", "-q", "origin", "main")
+        loaded = handoff.pickup(self.dest, self.branch, "notes:plan.md", sync=True, notes_commit=saved)
+        self.assertEqual(loaded["notes_commit"], elsewhere)
+        (other / "proj" / "work" / "plan.md").write_text("# Plan\n## Now\nChanged after that Out.\n")
+        changed = self.commit(other, "later sketchbook change")
+        self.git(other, "push", "-q", "origin", "main")
+        with self.assertRaisesRegex(handoff.HandoffError,
+                                    f"notes changed after this Out \\(recorded {saved}, now {changed}\\)"):
+            handoff.pickup(self.dest, self.branch, "notes:plan.md", sync=True, notes_commit=saved)
+        with self.assertRaisesRegex(handoff.HandoffError, "notes changed after this Out"):
+            handoff.prepare(self.dest, self.branch, "record.md", sections=[("notes:plan.md", "## Now")],
+                            notes_commit=saved)
+        self.assertEqual(handoff.pickup(self.dest, self.branch, "notes:plan.md", notes_commit=changed)["content"],
+                         "# Plan\n## Now\nChanged after that Out.\n")
+
     def test_notes_pickup_sync_refuses_local_notes_ahead_of_the_remote(self):
         vault = self.notes()
         self.git(self.dest, "push", "-q", "origin", self.branch)

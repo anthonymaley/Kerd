@@ -692,8 +692,10 @@ order, each leaving a reachable link behind:
    an estimate; the target is the trial's 8,000 unless the work agreement sets
    another (`--target`). Over target is information: prune further under the
    rules above, or record why the set must stay larger. It never blocks a save.
-   `measure` now warns when a source is not tracked, since the pickup cannot
-   read it; `prepare` and pickup itself still refuse one.
+   `measure` now warns when a source is not tracked: `prepare` refuses an
+   untracked source and a `notes:` source must be tracked in the vault, while
+   pickup can still read a project record the project deliberately keeps out
+   of Git, named with `--preserve`.
 
    Name the few findings that must survive this sitting, three to five, one
    line each, and pass them on the same call as `--carry-file <path>`, a file

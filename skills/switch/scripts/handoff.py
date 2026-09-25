@@ -117,6 +117,15 @@ def notes_scope(location):
     return [] if relative == "." else [":(literal)" + relative]
 
 
+def notes_tree(location, revision="HEAD"):
+    """The committed tree of the notes root at a revision; None when nothing is committed there."""
+    relative = location[0].relative_to(location[1]).as_posix()
+    spec = f"{revision}^{{tree}}" if relative == "." else f"{revision}:{relative}"
+    found = subprocess.run(["git", "-C", str(location[1]), "rev-parse", "--verify", "--quiet", spec],
+                           text=True, capture_output=True)
+    return found.stdout.strip() or None
+
+
 def notes_unsaved(location):
     scope = notes_scope(location)
     spec = ["--", *scope] if scope else []
@@ -135,7 +144,9 @@ def ready_notes(location, sync=False, expected=None):
 
     Unsaved changes inside the notes root refuse. With sync, the notes branch is
     fetched and fast-forwarded only; ahead or diverged history refuses. A saved
-    notes commit, when given, must then be contained in the notes repo HEAD.
+    notes commit, when given, is a pin: the notes repo HEAD must contain it and
+    the notes root's tree must be the same at both, so a later change to these
+    notes refuses while a later commit elsewhere in the vault does not.
     """
     notes_root, repo = location
     if notes_unsaved(location):
@@ -159,6 +170,9 @@ def ready_notes(location, sync=False, expected=None):
         if probe.returncode:
             raise HandoffError(f"The notes repo {repo} does not contain the saved notes commit {expected}"
                                + ("" if sync else "; pick up with --sync to fetch it"))
+        if notes_tree(location, expected) != notes_tree(location, head):
+            raise HandoffError(f"The vault's notes changed after this Out (recorded {expected}, now {head}); "
+                               "pick up the newer Out or pass its commit")
     return head
 
 

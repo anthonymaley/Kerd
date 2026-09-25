@@ -302,13 +302,7 @@ class Chat:
     def notes_tree(self):
         """The committed tree of this project's notes root only: another project's vault commit is not progress."""
         location = self.notes()
-        if not location:
-            return None
-        relative = location[0].relative_to(location[1]).as_posix()
-        spec = "HEAD^{tree}" if relative == "." else f"HEAD:{relative}"
-        found = subprocess.run(["git", "rev-parse", "--verify", "--quiet", spec], cwd=location[1],
-                               capture_output=True, text=True)
-        return found.stdout.strip() or None   # nothing committed there yet
+        return handoff.notes_tree(location) if location else None   # None: nothing committed there yet
 
     def checkpoint_problem(self, data, now):
         """Why the saved place no longer matches the checkout; None when it does."""

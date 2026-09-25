@@ -32,10 +32,14 @@ class PrivateNotesWordingTests(unittest.TestCase):
              "Reading one also fetches the vault repo that holds it: refuse to read unsaved "
              "vault notes, or a vault missing the commit Out recorded, rather than showing a "
              "stale or partial sketchbook."),
-            # Out: measure warns rather than refuses an untracked source; prepare/pickup still do.
+            # Out: measure warns rather than refuses an untracked source; prepare refuses one,
+            # a notes: source must be tracked, and only a --preserve'd project record is
+            # still readable by pickup (the 2026-09-09 ruling).
             ("skills/switch/references/in-out.md",
-             "`measure` now warns when a source is not tracked, since the pickup cannot "
-             "read it; `prepare` and pickup itself still refuse one."),
+             "`measure` now warns when a source is not tracked: `prepare` refuses an "
+             "untracked source and a `notes:` source must be tracked in the vault, while "
+             "pickup can still read a project record the project deliberately keeps out "
+             "of Git, named with `--preserve`."),
             # Out: --carry-file phrases, never a bare argument (argv is visible locally).
             ("skills/switch/references/in-out.md",
              "Name the few findings that must survive this sitting, three to five, one "
@@ -66,8 +70,9 @@ class PrivateNotesWordingTests(unittest.TestCase):
             # SKILL.md: the git helper's two capabilities, stated once at the top.
             ("skills/switch/SKILL.md",
              "warns rather than refuses a file Git does not "
-             "track, since the pickup cannot read it — `prepare` and pickup itself still "
-             "refuse one"),
+             "track — `prepare` refuses an untracked source and a `notes:` source must be "
+             "tracked in the vault, while pickup can still read a project record the project "
+             "deliberately keeps out of Git, named with `--preserve`"),
             ("skills/switch/SKILL.md",
              "When a project keeps its working notes in the vault (`kivna/vault.json`'s "
              "`work_notes`), Out saves and pushes that vault repo the same way and the "
@@ -125,7 +130,9 @@ class PrivateNotesWordingTests(unittest.TestCase):
              "argument)"),
             ("README.md",
              "`measure` now warns when a source is not "
-             "tracked, since the pickup cannot read it."),
+             "tracked: `prepare` refuses one and a `notes:` source must be tracked in the "
+             "vault, while pickup can still read a project record deliberately kept out of "
+             "Git with `--preserve`."),
             ("CHANGELOG.md",
              "the `work/` folder inside your vault's existing private "
              "git repo) instead of `docs/work/`."),
@@ -134,7 +141,9 @@ class PrivateNotesWordingTests(unittest.TestCase):
              "argument)"),
             ("CHANGELOG.md",
              "`measure` now warns when a source is not "
-             "tracked, since the pickup cannot read it."),
+             "tracked: `prepare` refuses one and a `notes:` source must be tracked in the "
+             "vault, while pickup can still read a project record deliberately kept out of "
+             "Git with `--preserve`."),
         ):
             with self.subTest(rel=rel, fragment=fragment[:50]):
                 self.assertIn(" ".join(fragment.split()), read(rel))

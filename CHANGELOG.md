@@ -17,7 +17,8 @@ argument), which reports, for each, the file
 in the next pickup's reading set that holds it, or "not in the reading set". A miss is written
 into CONTEXT.md or TODO.md before the save. It never blocks and asks you nothing. Its first run
 found a real finding left only in a local sketchbook. `measure` now warns when a source is not
-tracked, since the pickup cannot read it.
+tracked: `prepare` refuses one and a `notes:` source must be tracked in the vault, while pickup
+can still read a project record deliberately kept out of Git with `--preserve`.
 
 ## 0.156.0
 
