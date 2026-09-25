@@ -46,7 +46,7 @@ class Opus55ProfileTests(unittest.TestCase):
         Two runs per variant, short runs only: every clause stays pending."""
         for sentence in (
             "If the job started a background command or subagent that is still running, wait for it and read its output before recording the job done.",
-            "Observed 2026-09-25 (4 pairs, two runs per variant, stated budget only, no run past about 3 minutes): 2.2 to 2.6 times faster with the same recall on planted bugs.",
+            "Observed 2026-09-25 (two scenarios, two runs per variant in each, stated budget only, no run past about 3 minutes): 2.2 to 2.6 times faster with the same recall on planted bugs.",
             "The lead did less verification and chose lower-effort foreground subagents. It did not fan out wider.",
             "check quality and which effort the lead chose for its subagents",
             "draws on several sources outside the files it will change (other repos, docs, tickets, mail) that the brief does not all name",

@@ -127,7 +127,7 @@ def boundary(root, preserve=()):
     keep = acknowledged(root, preserve)
     failures = []
     try:
-        fetch = subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "--all"], text=True,
+        fetch = subprocess.run(["git", "-C", str(root), "fetch", "--quiet", "--all", "--prune"], text=True,
                                capture_output=True, timeout=FETCH_TIMEOUT,
                                env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
         fetched = fetch.returncode == 0 and bool(git(root, "remote"))

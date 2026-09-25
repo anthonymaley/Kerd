@@ -272,7 +272,7 @@ Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELO
 
 **Switch Out checks the save reached the remote.** Its saved box shows the ✓ and the restart
 line only after a new check, `handoff.py boundary`, fetches and finds this commit on a remote
-branch with nothing left unsaved. A failed fetch, a commit no remote holds, or unsaved work shows
+branch with no unacknowledged changes in the working tree. A failed fetch, a commit no remote holds, or unsaved work shows
 under attention instead. Stashes are counted, never refused. Mid-concert, before its branch is
 pushed, the box now says so.
 

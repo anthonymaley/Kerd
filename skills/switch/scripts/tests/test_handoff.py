@@ -579,6 +579,16 @@ class HandoffTests(unittest.TestCase):
         self.assertIn(f"origin/{self.branch}", result["remote_refs_containing_head"])
         self.assertEqual(result["failures"], [])
 
+    def test_boundary_refuses_a_commit_held_only_by_a_deleted_remote_branch(self):
+        self.git(self.source, "switch", "-q", "-c", "side")
+        (self.source / "result.txt").write_text("side work\n")
+        self.commit(self.source, "side")
+        self.git(self.source, "push", "-q", "origin", "side")
+        self.git(self.folder, "--git-dir", str(self.remote), "branch", "-q", "-D", "side")
+        code, result = self.boundary_cli()
+        self.assertEqual(code, 1, result)
+        self.assertEqual(result["remote_refs_containing_head"], [])
+
     def test_boundary_refuses_an_unpushed_commit_on_a_clean_tree(self):
         (self.source / "result.txt").write_text("local only\n")
         self.commit(self.source, "unpushed")
