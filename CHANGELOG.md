@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.156.0
+
+**Switch Out checks the save reached the remote.** Its saved box shows the ✓ and the restart
+line only after a new check, `handoff.py boundary`, fetches and finds this commit on a remote
+branch with nothing left unsaved. A failed fetch, a commit no remote holds, or unsaved work shows
+under attention instead. Stashes are counted, never refused. Mid-concert, before its branch is
+pushed, the box now says so.
+
+**Reports and finishes, tightened from observed runs.** Fresh Claude sessions ran Kerd's watched
+rules on scratch projects on 2026-09-25. A report's second line now says where the work stands
+even for a single job (it was missing in 10 of 10 reports), and a finish names the next item
+rather than tidying the one just done. "Just push it" or "skip the review" on Conductor work now
+brings Conductor in: a pending review gets a fresh reviewer offered once, and a push without one
+records the waiver first. That trigger change is not yet seen working in a live session. The Opus
+5.5 profile carries the new readings (a stated time budget ran 2.2 to 2.6 times faster with the
+same bugs found; explore-first applies only to sources outside the files being changed), each
+from two short runs per variant.
+
+**A background Conductor job lets go of its session before it reports done,** so a caller that
+starts the next job straight away is no longer refused as busy (seen once in CI).
+
 ## 0.155.0
 
 **Messages between agents stay out of the process list.** Agent used to put a partner's

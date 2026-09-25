@@ -69,3 +69,12 @@ Evidence runs use a clean 0.155.0 worktree at `/private/tmp/claude-501/-Users-an
   remote branch, unsaved work outside --preserve; stashes counted only); the Out box's ✓ and
   restart line now need `boundary: "passed"`. 8 tests; suite 899 OK. Note for Anthony: Switch Out in
   the middle of a concert (branch not pushed by design) will now show the boundary failure.
+- E5 returned 15:25 (16 sessions, ~$11.74): premature stop 0/4 early (clause holds but made no difference); time budget 2.2-2.6x faster, same bugs found, less verification (earns place); explore-first no gain (4/4 read first either way); unbudgeted leads ended turns while subagents ran. Proposals in evidence/opus-55-clauses.md.
+
+### Batch 2 (15:27)
+- B2a (kerd:opus-high): journey.md report second line and finish-names-next wording (E2 proposals
+  1-2); Opus 5.5 profile proposals 1-3 (E5); wording tests.
+- B2b (kerd:opus-high): unanswered review when the person asks to push first (E3): trigger
+  description and/or body wording in agent SKILL.md / orchestration.md; wording tests.
+**Next action:** check returns, then 0.156.0 release notes and versions, Codex review of the branch,
+fixes, goal check, stop for Anthony.

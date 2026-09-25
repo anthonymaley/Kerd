@@ -218,8 +218,11 @@ release) until it clears. The partner's queued request stays open and its later
 findings still count; the fresh reviewer does not take over the partner's role or
 binding. Never recommend waiving the review: an unreviewed push is the person's own
 choice, recorded as a waiver in the sketchbook, never Conductor's proposal, however
-small the change looks. On 3of3, three pushes waived this way carried a defect
-the partner found on its return.
+small the change looks. "Just push it" or "skip the review" while that review is
+outstanding is not a silent push: for "just push it", recommend the fresh reviewer
+once before pushing; if the person still wants the push, or said to skip the
+review, record the waiver in the sketchbook, then push. On 3of3, three pushes
+waived this way carried a defect the partner found on its return.
 
 ## One visible startup view
 

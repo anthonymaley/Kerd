@@ -39,7 +39,22 @@ class Opus55ProfileTests(unittest.TestCase):
             self.assertIn("evaluation: pending", block, clause)
         self.assertIn("never an interactive or human-in-the-loop session", self.profile)
         self.assertIn("Kerd builds none of this until a Kerd route shows the failure", self.profile)
-        self.assertIn("Untested adaptation.", self.profile)
+        self.assertNotIn("Untested adaptation.", self.profile)
+
+    def test_2026_09_25_evidence_is_recorded_as_short_paired_runs(self):
+        """Wording from docs/work/unattended-sweep/evidence/opus-55-clauses.md, proposals 1-4.
+        Two runs per variant, short runs only: every clause stays pending."""
+        for sentence in (
+            "If the job started a background command or subagent that is still running, wait for it and read its output before recording the job done.",
+            "Observed 2026-09-25 (4 pairs, two runs per variant, stated budget only, no run past about 3 minutes): 2.2 to 2.6 times faster with the same recall on planted bugs.",
+            "The lead did less verification and chose lower-effort foreground subagents. It did not fan out wider.",
+            "check quality and which effort the lead chose for its subagents",
+            "draws on several sources outside the files it will change (other repos, docs, tickets, mail) that the brief does not all name",
+            "0 of 4 runs stopped early, with or without the standing instruction; long unattended runs, where the provider says early stops appear, were not tried.",
+            "both runs without the sentence read the unnamed sources before their first edit, as did both runs with it, so its effect there was not shown.",
+        ):
+            with self.subTest(sentence=sentence[:50]):
+                self.assertIn(sentence, self.profile)
 
     def test_conducting_session_advice_never_changes_the_session(self):
         guide = read(GUIDANCE / "model-choice.md")

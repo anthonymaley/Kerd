@@ -192,7 +192,9 @@ the first two lines, never before them.
    model or the check that ran. Evidence follows the result; it never leads.
 2. **Second line: where the work stands, in one line.** “Batch 2 of 3, five of
    seven parts back. Nothing needed from you.” The person cannot hold the position
-   between messages, so every report restates it, from the sketchbook.
+   between messages, so every report restates it, from the sketchbook. A single job
+   restates it too: “Done and committed locally, not pushed; next: the output
+   options.” Evidence and the where-to-look are not this line.
 3. **At most five items on screen.** Rank them, group them, and put everything
    else in the sketchbook with a link. This shapes what is displayed, never what is
    read, checked or recorded: nothing is dropped, and completeness wins wherever
@@ -467,7 +469,8 @@ user review remains, say so; don't mark the whole package complete.
 **A finish names what comes next.** Finishing a piece of work is not finishing the
 sitting. Weigh the open work the same way Switch In does, say which item comes next and
 why in one line, and then either carry straight on where the authority already covers it
-or end on the one question that starts it. “No action needed” is the whole ending only
+or end on the one question that starts it. Tidying the record of the item just finished
+is not the next item. “No action needed” is the whole ending only
 when the open list is genuinely empty; it is never a way to hand the choice back
 silently. Do not wait to be asked “what's next?”. When the person has said to keep
 moving, prefer starting the next item and reporting from inside it over asking whether

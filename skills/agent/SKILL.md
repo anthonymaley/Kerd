@@ -52,6 +52,9 @@ not shell subcommands. For execution, use the workflow below.
    When a review request to that partner goes unanswered, Conductor's
    [unanswered-review rule](../conductor/references/orchestration.md) recommends
    a fresh one-off reviewer, started only on the person's yes, not a waiver.
+   "Just push it" with that review outstanding still gets that recommendation once
+   before the push; if the person still wants the push, or said to skip the review,
+   record the waiver in the sketchbook, then push. Never push silently.
    An empty list does not prove no saved conversation or other-app session exists.
    A recent exchange already in context may supply **Last exchange (recorded):
    contribution, result, date**. Keep that separate from present activity; don't

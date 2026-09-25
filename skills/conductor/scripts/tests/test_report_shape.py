@@ -49,6 +49,23 @@ class ReportShapeTests(unittest.TestCase):
             with self.subTest(rule=rule):
                 self.assertIn(rule, section)
 
+    def test_a_single_job_restates_where_it_stands(self):
+        """The second line was missing in 10 of 10 runs (unattended-sweep evidence, report-shape.md)."""
+        section = self.section()
+        self.assertIn(
+            "A single job restates it too: \u201cDone and committed locally, not pushed; "
+            "next: the output options.\u201d Evidence and the where-to-look are not this line.",
+            section,
+        )
+
+    def test_tidying_the_finished_item_is_not_the_next_item(self):
+        """Two of two finishes offered to tidy the finished item (report-shape.md, proposal 2)."""
+        finish = flat(self.journey[self.journey.index("### One clear finish"):])
+        self.assertIn(
+            "Tidying the record of the item just finished is not the next item.",
+            finish.split("Avoid a report of internal instruction-following", 1)[0],
+        )
+
     def test_the_section_comes_before_the_delivery_formats_it_governs(self):
         shape = self.journey.index("### The shape of every report")
         for later in (
