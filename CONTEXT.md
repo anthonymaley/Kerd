@@ -115,6 +115,11 @@ place's `pending_jobs`, rename while holding it), and the test's "cannot drift" 
 strong. Fix both, re-check, then release on Anthony's go. Two finished Roll records were
 retired by hand today without the lock, in `.git/roll/retired-2026-09-24-*.json`.
 
+**Robust rolling, researched (21:0x):** Anthropic's own long-running pattern (harness loop
+outside the model, fresh sessions from progress files and git, small coordinator with
+subagents returning references) and a proposal for Kerd are in the local sketchbook
+`docs/work/rolling-session/work.md`. Its one open question is Anthony's. Read it first.
+
 **This session was rolled by itself (18:5x):** Anthony asked for a rolling switch that hands
 this session to a fresh one on its own; Claude typed `/clear` and `/kerd:switch in` into its
 own tmux pane. If this arrival shows it worked, that is the first observation.
