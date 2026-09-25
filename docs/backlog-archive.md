@@ -5,6 +5,162 @@ position paragraphs moved out of `CONTEXT.md` when they stopped being current. N
 is edited after it lands. Started 2026-09-11 at the first run of the lean-start step (v0.111.0).
 
 
+
+## Closed 2026-09-25 (evening Switch Out)
+
+**Verdict: done: fixed in 0.156.0 (`ask.py` releases the session lock before `completed` is visible; 20/20 loop, CI green).**
+
+- **Flaky Conductor background-job test** (found 2026-09-25, CI on 89b8cff).
+  `test_ask.py` `test_background_returns_and_retains_session_lock_and_result` failed once
+  with `ask.Busy`, then passed on rerun and twice locally. The test starts a new job as soon as
+  status reads `completed`, before the worker has released the session lock. Fix the test to
+  wait for the lock (or the worker exit), or have `ask.py` release the lock before it writes
+  `completed`; decide which after reading `ask.py` around lines 300-310.
+
+**Verdict: done: native bells, no Kerd code (bell seen on the laptop tab 2026-09-25 13:08; Claude `preferredNotifChannel: terminal_bell` and Codex `[tui]` bell applied on his go).**
+
+- **Which session is waiting on you** (parked 2026-09-21 by Anthony's agreement; not
+  started). From a `weefish-c8` research drop prompted by herdr.dev: surface which agent
+  is working, idle or blocked on a human. Anthony is not leaving tmux; only the signal is
+  wanted. Checked here: the harness's `ListAgents` already gives busy/idle and the tmux
+  pane for every **Claude** session, but lists **no Codex sessions**, so for Codex even
+  "working" needs another source. Pane-scraping a Codex TUI worked on 2026-09-21 but broke
+  twice (a missed match pattern; an Enter that raced the paste). **Verified 2026-09-21**
+  against code.claude.com/docs/en/hooks-guide (reported by `weefish-c8`, then read here):
+  `Notification` fires "when Claude is waiting for input or permission"; matcher
+  `permission_prompt` after about 6s, `idle_prompt` about 60s after Claude finished;
+  every event carries `session_id`. So the Claude half is a documented hook-driven state
+  machine. Caveats: `agent_needs_input`/`agent_completed` fire only while agent view is
+  open; `permission_prompt` is timed differently under Agent-SDK hosts. Codex has no
+  hooks, so pane-scraping stays its only path — the hard half. Kerd's own 💬 question ending every turn is a native
+  "waiting on you" signal. Needs its own Shape; it carries a hook, so weigh it against
+  the rule that a countermeasure matches the defect's size.
+
+*Repository-quality debt that survived the ladder's retirement. Forty-three rows that were
+debt against the ladder, the ledger, the register or their tools were closed as dead on
+2026-09-19; they are in `docs/backlog-archive.md` with the verdict.*
+
+**Verdict: done: all four built in 0.155.0 (pointer file, socket peer pid, 64-byte log tail, per-controller sender); residual limits in `native-sessions.md`.**
+
+- **Agent's four disclosed-not-built limits** (Fable foundation review,
+  2026-09-11; stated in `native-sessions.md`): a native log rewritten in place
+  with its inode preserved passes the replacement guard; the Claude socket's
+  peer process is not verified where the native client verifies it; a new
+  partner's first contribution and every `codex queue` message travel in argv,
+  readable by other local accounts; every Kerd controller sends as
+  `kerd-agent`, so a per-sender throttle is shared. Each has a smallest
+  correction on record; none is built.
+
+**Verdict: done: 0.157.0 `measure --carry-file` checks named findings against the next pickup's reading set; first live run found a stranded finding.**
+
+- **The fidelity check** (accepted unknown; review trigger already fired).
+  Nothing verifies a pickup restored what the close recorded. It proves *file*
+  reachability, never *finding* reachability.
+
+**Verdict: dead: Backlog sweep default (2026-09-25 11:27), not pushed back.**
+
+- **boundary-cycle, in-half** — the reset ritual's automation. Killer
+  feasibility question first, verified against harness docs at frame.
+
+**Verdict: dead: Backlog sweep default (2026-09-25 11:27); installs are now a named step per release.**
+
+- **Plugin cache repin debt.** Reopened by v0.95.0: the cache was current at
+  0.94.0 this afternoon and the repo has since shipped. Structural — the only
+  session running current cache text is one where nothing shipped. (Narrowed by
+  v0.96.0: this is now about stale *skill text* only — hooks no longer rot with
+  the cache version, they auto-load and resolve `${CLAUDE_PLUGIN_ROOT}` at runtime.)
+
+**Verdict: done: 0.156.0 `handoff.py boundary` (fetch, HEAD on a remote branch, clean tree; stashes counted); 0.157.0 covers the vault too.**
+
+- **Stashes and local-equals-remote are unchecked at the boundary.** Evidence
+  arrived 2026-09-06, handed off by the apple-music session (`apple-music-78`,
+  approved at that session's plan gate — reported, not verified here): on
+  2026-09-02 its Switch Out banner passed three times over 53 commits that no
+  remote had reached. The mechanism is in Kerd's own text —
+  `skills/switch/SKILL.md:246-261` proves the boundary with `git status` +
+  `git log -1`: `Tree: clean` tests uncommitted work, `Pushed:` is a claim
+  about a command's output, and the log header's `**Tracking:**` line is
+  model-written. A *failed* push already stops (`:261`); an unverified one does
+  not, and nothing fetches or checks containment on the way out —
+  `hooks/session-start.sh:21` checks only the inbound direction (remote ahead
+  of local). A working countermeasure exists outside the repo, verified
+  read-only: `~/eolas/vault/kerd/bin/boundary-check` (v3, 2026-09-02) fetches,
+  then exits 1 on a failed fetch, a HEAD no remote ref contains, or a dirty
+  tree, on every repo passed to it, with no success bypass
+  (`BOUNDARY_LOCAL_REASON` prints as an unverified operator assertion; the exit
+  stays 1). apple-music's CLAUDE.md carries the override ("Switch-out is not
+  complete until BOTH repos pass the mechanical gate"). The ask as handed off:
+  Switch Out runs it on every repo the boundary owns and refuses the ✓ banner
+  while it fails. **Decision owed to the producer:** fold it into switch step 7
+  as a required evidence line, promote the script into `tools/` or a hook, or
+  frame it as its own item. Same class as `check_stage_schema()`/AU10 — a
+  prose rule that did not grip, replaced by a check that refuses.
+  **Narrowed 2026-09-11:** Agent's `handoff.py save` verifies the remote carries the
+  exact commit, but Switch Out itself still does not — `(done? — confirm)` is not
+  warranted; the row stays open.
+
+**Verdict: done earlier: the section was already a pointer to CONTEXT.md and TODO.md (checked 2026-09-25).**
+
+- **The playbook's `## Current Status` duplicates CONTEXT.md.** Its stale
+  content was fixed this session (v0.90.0 → v0.95.0, three hooks → four); the
+  duplication itself remains. Kill it or make it a pointer.
+
+**Verdict: done: 0.155.0 release check R5 refuses a header version that differs from plugin.json.**
+
+- **README's `## What's New (vX)` header is a second home for a fact the entries
+  below already carry** (fixed forward 2026-08-30 by the release pass, v0.99.0 ->
+  v0.104.0, having drifted five releases). The playbook records this exact class
+  in its own `## Current Status` section — *"Two homes for one fact is how that
+  happens, so there is now one home"* — and then the README does it one file
+  over. Structural fix is to drop the version from the header entirely so the
+  newest `### vX.Y.Z` entry is the only home; not done here because changing a
+  convention at a close-out pass is the wrong moment for it.
+
+**Verdict: done: ruled for skriv (2026-09-25 11:27); 0.155.0 took em dashes out of every reader page, quoted labels kept.**
+
+- **skriv bans em dashes; the README's What's New voice uses them and always
+  has.** Measured 2026-08-25: the v0.98.0 entry runs 0.019 em dashes per word
+  and the new v0.99.0 entry matches it exactly. Writing the next entry to
+  skriv's rule would make it the only one in the file in a different voice.
+  The rule and the house surface genuinely disagree; needs a ruling, not a
+  silent split.
+
+**Verdict: done: 0.155.0 wording (Weekly is the one file with dated sections; Decisions is one running document).**
+
+- **`docs/vault-spec.md` contradicts itself** (found by tend this session): line
+  39 says Weekly is "the one append-style file in the vault", line 88 describes
+  the decisions file as accumulating entries. `Kerd Architecture Decisions.md`
+  (6 dated sections) and `Kerd Skill Lessons.md` (5) sit in the gap. Not drift —
+  a genuine unresolved rule.
+
+**Verdict: done: vault commit 862e298 fixed the link and removed the dead discover-sources link; the excalidraw file was not addressed.**
+
+- **Three vault-spec violations, all kivna's to fix** (tend detects, kivna
+  writes — v0.83.0). `Kerd.md` MOC has one broken wikilink: the actual link is
+  `[[eloas/Eloas]]`, double-typo'd (this row previously recorded it as
+  `[[eloas/Eolas]]`; corrected 2026-08-25) — 16 of 17 resolve. And two files in
+  the vault folder are not self-identifying: `discover-sources.json` and
+  `2026-08-02-product-to-build.excalidraw`. The spine itself is complete
+  (`Kerd.md`, `Kerd Status.md`, `Kerd Weekly.md`).
+
+**Verdict: dead: Backlog sweep default (2026-09-25 11:27).**
+
+- AGENTS.md needs its own verdict: gitignored, machine-local, stale Codex-era fork.
+
+**Verdict: done: "kivna is kerd" (Anthony, 2026-09-25 11:27); Kivna stays.**
+
+- **kivna verdict** — same zero-usage smell as the vault; import/export
+  confirmed unused.
+
+**Verdict: dead: dropped from the 0.155.0 score as too fuzzy; Conductor links rather than restates, and Sláinte keeps it.**
+
+- **CI rule for the single-definition law** — nothing machine-enforces
+  "conductor never re-describes a Switch Out step".
+
+**Verdict: done: vault commit 862e298 dropped the stale version line.**
+
+- Stale `Kerd.md` MOC version field (says 0.31.0).
+
 ## Closed 2026-09-24 (afternoon)
 
 **Verdict: done — built as the context-reading hook in 0.153.0 (Anthony, 15:27 "on request is

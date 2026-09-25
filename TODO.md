@@ -2,8 +2,15 @@
 
 ## Now
 
-**Release boundary:** 0.154.1 on `main`; both hosts run it (Codex read back 2026-09-25 09:41). Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.157.0 on `main`; both hosts run it (Codex read back 2026-09-25 19:53). Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
+
+- **Watch the private vault notes (0.157.0) in real use:** the first Switch In that reads a
+  `notes:` sketchbook pinned by `--notes-commit`, and a pickup on a second machine. Unseen.
+- **Watch the push-first trigger (0.156.0):** "just push it" / "skip the review" on Conductor
+  work should now load Conductor; evidence (4 runs) showed it did not before; unseen live.
+- **Watch the report's second line and the finish (0.156.0):** "where the work stands" was missing
+  in 10 of 10 evidence reports before the change. Evidence: `notes:unattended-sweep/evidence/`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
 sketchbook `notes:launch-plan/work.md`. Kerd is ready to launch when someone other than
@@ -134,56 +141,6 @@ run checks during pickup.
 
 ## Backlog
 
-- **Flaky Conductor background-job test** (found 2026-09-25, CI on 89b8cff).
-  `test_ask.py` `test_background_returns_and_retains_session_lock_and_result` failed once
-  with `ask.Busy`, then passed on rerun and twice locally. The test starts a new job as soon as
-  status reads `completed`, before the worker has released the session lock. Fix the test to
-  wait for the lock (or the worker exit), or have `ask.py` release the lock before it writes
-  `completed`; decide which after reading `ask.py` around lines 300-310.
-
-- **Which session is waiting on you** (parked 2026-09-21 by Anthony's agreement; not
-  started). From a `weefish-c8` research drop prompted by herdr.dev: surface which agent
-  is working, idle or blocked on a human. Anthony is not leaving tmux; only the signal is
-  wanted. Checked here: the harness's `ListAgents` already gives busy/idle and the tmux
-  pane for every **Claude** session, but lists **no Codex sessions**, so for Codex even
-  "working" needs another source. Pane-scraping a Codex TUI worked on 2026-09-21 but broke
-  twice (a missed match pattern; an Enter that raced the paste). **Verified 2026-09-21**
-  against code.claude.com/docs/en/hooks-guide (reported by `weefish-c8`, then read here):
-  `Notification` fires "when Claude is waiting for input or permission"; matcher
-  `permission_prompt` after about 6s, `idle_prompt` about 60s after Claude finished;
-  every event carries `session_id`. So the Claude half is a documented hook-driven state
-  machine. Caveats: `agent_needs_input`/`agent_completed` fire only while agent view is
-  open; `permission_prompt` is timed differently under Agent-SDK hosts. Codex has no
-  hooks, so pane-scraping stays its only path — the hard half. Kerd's own 💬 question ending every turn is a native
-  "waiting on you" signal. Needs its own Shape; it carries a hook, so weigh it against
-  the rule that a countermeasure matches the defect's size.
-
-*Repository-quality debt that survived the ladder's retirement. Forty-three rows that were
-debt against the ladder, the ledger, the register or their tools were closed as dead on
-2026-09-19; they are in `docs/backlog-archive.md` with the verdict.*
-
-- **Agent's four disclosed-not-built limits** (Fable foundation review,
-  2026-09-11; stated in `native-sessions.md`): a native log rewritten in place
-  with its inode preserved passes the replacement guard; the Claude socket's
-  peer process is not verified where the native client verifies it; a new
-  partner's first contribution and every `codex queue` message travel in argv,
-  readable by other local accounts; every Kerd controller sends as
-  `kerd-agent`, so a per-sender throttle is shared. Each has a smallest
-  correction on record; none is built.
-
-- **The fidelity check** (accepted unknown; review trigger already fired).
-  Nothing verifies a pickup restored what the close recorded. It proves *file*
-  reachability, never *finding* reachability.
-
-- **boundary-cycle, in-half** — the reset ritual's automation. Killer
-  feasibility question first, verified against harness docs at frame.
-
-- **Plugin cache repin debt.** Reopened by v0.95.0: the cache was current at
-  0.94.0 this afternoon and the repo has since shipped. Structural — the only
-  session running current cache text is one where nothing shipped. (Narrowed by
-  v0.96.0: this is now about stale *skill text* only — hooks no longer rot with
-  the cache version, they auto-load and resolve `${CLAUDE_PLUGIN_ROOT}` at runtime.)
-
 - **Machine-local state has an inventory but no refuser** (filed 2026-08-27 at
   the Mac Studio move). `docs/machine-setup.md` §4 lists what git cannot carry —
   `kivna/.pair`, `kivna/.active-modes`, `~/.claude/settings.json`, the `~/eolas`
@@ -196,78 +153,13 @@ debt against the ladder, the ledger, the register or their tools were closed as 
   convergence and already had its Category 9 rewritten to *remove* stale wiring
   rather than add it. Open question before any build — does this belong to tend
   at all, or is a machine's config outside every repo's business?
-
-- **Stashes and local-equals-remote are unchecked at the boundary.** Evidence
-  arrived 2026-09-06, handed off by the apple-music session (`apple-music-78`,
-  approved at that session's plan gate — reported, not verified here): on
-  2026-09-02 its Switch Out banner passed three times over 53 commits that no
-  remote had reached. The mechanism is in Kerd's own text —
-  `skills/switch/SKILL.md:246-261` proves the boundary with `git status` +
-  `git log -1`: `Tree: clean` tests uncommitted work, `Pushed:` is a claim
-  about a command's output, and the log header's `**Tracking:**` line is
-  model-written. A *failed* push already stops (`:261`); an unverified one does
-  not, and nothing fetches or checks containment on the way out —
-  `hooks/session-start.sh:21` checks only the inbound direction (remote ahead
-  of local). A working countermeasure exists outside the repo, verified
-  read-only: `~/eolas/vault/kerd/bin/boundary-check` (v3, 2026-09-02) fetches,
-  then exits 1 on a failed fetch, a HEAD no remote ref contains, or a dirty
-  tree, on every repo passed to it, with no success bypass
-  (`BOUNDARY_LOCAL_REASON` prints as an unverified operator assertion; the exit
-  stays 1). apple-music's CLAUDE.md carries the override ("Switch-out is not
-  complete until BOTH repos pass the mechanical gate"). The ask as handed off:
-  Switch Out runs it on every repo the boundary owns and refuses the ✓ banner
-  while it fails. **Decision owed to the producer:** fold it into switch step 7
-  as a required evidence line, promote the script into `tools/` or a hook, or
-  frame it as its own item. Same class as `check_stage_schema()`/AU10 — a
-  prose rule that did not grip, replaced by a check that refuses.
-  **Narrowed 2026-09-11:** Agent's `handoff.py save` verifies the remote carries the
-  exact commit, but Switch Out itself still does not — `(done? — confirm)` is not
-  warranted; the row stays open.
-
-- **The playbook's `## Current Status` duplicates CONTEXT.md.** Its stale
-  content was fixed this session (v0.90.0 → v0.95.0, three hooks → four); the
-  duplication itself remains. Kill it or make it a pointer.
+  **Draft awaiting Anthony (2026-09-25):** `notes:unattended-sweep/drafts/machine-local-settings.md`
+  (today's greps clean; recommends a small `tools/machine_check.py`, not a Tend category; asks
+  whether the duplicate hook came with the Studio move).
 
 - **Out-of-repo artifacts have no home** — PRs, URLs, decks, external docs.
-
-- **README's `## What's New (vX)` header is a second home for a fact the entries
-  below already carry** (fixed forward 2026-08-30 by the release pass, v0.99.0 ->
-  v0.104.0, having drifted five releases). The playbook records this exact class
-  in its own `## Current Status` section — *"Two homes for one fact is how that
-  happens, so there is now one home"* — and then the README does it one file
-  over. Structural fix is to drop the version from the header entirely so the
-  newest `### vX.Y.Z` entry is the only home; not done here because changing a
-  convention at a close-out pass is the wrong moment for it.
-
-- **skriv bans em dashes; the README's What's New voice uses them and always
-  has.** Measured 2026-08-25: the v0.98.0 entry runs 0.019 em dashes per word
-  and the new v0.99.0 entry matches it exactly. Writing the next entry to
-  skriv's rule would make it the only one in the file in a different voice.
-  The rule and the house surface genuinely disagree; needs a ruling, not a
-  silent split.
-
-- **`docs/vault-spec.md` contradicts itself** (found by tend this session): line
-  39 says Weekly is "the one append-style file in the vault", line 88 describes
-  the decisions file as accumulating entries. `Kerd Architecture Decisions.md`
-  (6 dated sections) and `Kerd Skill Lessons.md` (5) sit in the gap. Not drift —
-  a genuine unresolved rule.
-
-- **Three vault-spec violations, all kivna's to fix** (tend detects, kivna
-  writes — v0.83.0). `Kerd.md` MOC has one broken wikilink: the actual link is
-  `[[eloas/Eloas]]`, double-typo'd (this row previously recorded it as
-  `[[eloas/Eolas]]`; corrected 2026-08-25) — 16 of 17 resolve. And two files in
-  the vault folder are not self-identifying: `discover-sources.json` and
-  `2026-08-02-product-to-build.excalidraw`. The spine itself is complete
-  (`Kerd.md`, `Kerd Status.md`, `Kerd Weekly.md`).
-
-- AGENTS.md needs its own verdict: gitignored, machine-local, stale Codex-era fork.
-
-- **kivna verdict** — same zero-usage smell as the vault; import/export
-  confirmed unused.
-
-- **CI rule for the single-definition law** — nothing machine-enforces
-  "conductor never re-describes a Switch Out step".
-
-- Stale `Kerd.md` MOC version field (says 0.31.0).
+  **Draft awaiting Anthony (2026-09-25):** `notes:unattended-sweep/drafts/out-of-repo-artifacts.md`
+  recommends a `## Outside the repo` section in CONTEXT.md; its question (private claude.ai links in
+  a public repo) may now be answered by the private vault notes.
 
 - skriv voice profile wiring — needs non-founder-genre samples.
