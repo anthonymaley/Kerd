@@ -138,7 +138,8 @@ person to start the fresh session.
 
 ### Roll the Conductor chat (tmux)
 
-Conductor, never the person, rolls its own chat. It rolls only at a batch
+Conductor, never the person, rolls its own chat. This is for a **Claude**
+Conductor chat only; a Codex chat keeps the managed route. It rolls only at a batch
 boundary or after a delivery job returns, and only when this session owns
 nothing outstanding: no unreturned agent, background shell, monitor, partner
 request or question to the person. Unknown counts as outstanding. The trigger is
@@ -157,12 +158,18 @@ model; with no declared window, it does not roll and says so once.
 
    Under `roll/owner.lock` it refuses when a managed Roll record or another chat
    roll exists, when nothing changed since the last roll (same commit, same
-   sketchbook), or after three rolls in a row. It writes the marker
-   `roll/chat.json` and reads it back.
+   sketchbook), when three rolls in a row have already happened, or when this
+   session was started with launch options other than `--model`, which a restart
+   would drop (roll by hand then). It records this session's ID and its Claude
+   process by PID and start time, writes the note `roll/chat.json` with its own
+   roll ID, and reads it back.
 2. **Relaunch.** Inside tmux, the command hands a job to the tmux server, which
-   outlives this Claude. Five seconds later it checks that the recorded pane still
-   runs the recorded Claude, then restarts that pane with `respawn-pane -k` into
-   `claude --model <same> -- "/kerd:switch roll in"`. Nothing is typed into Claude.
+   outlives this Claude. Five seconds later, under the lock, it re-checks this
+   roll's ID, the commit, branch and sketchbook, and that the recorded pane still
+   runs the recorded Claude (same PID and start time); then it marks the note
+   `respawning`, the point after which a cancel is too late, and restarts that pane
+   with `respawn-pane -k` into `claude --model <same> -- "/kerd:switch roll in"`.
+   Nothing is typed into Claude.
    Pass no shell variables in the command: Claude's permission check stops
    `$TMUX_PANE` even when tmux is allowed (trial, 2026-09-24).
    Outside tmux it prints that one line; the person closes the old session and
@@ -171,14 +178,17 @@ model; with no declared window, it does not roll and says so once.
    `tmux_roll.py --project "$project" in --model "<this session's model ID>"`.
    It claims the marker for this session, or refuses when the marker is missing,
    claimed, older than 30 minutes, for another branch or commit, the sketchbook
-   changed, the model differs, or the old session is not confirmed gone. A refusal
+   changed, the model differs, this session has no ID, or the old session is not
+   shown to be gone (unknown counts as not gone). A refusal
    stops and says why; it never becomes ordinary In. On a claim, adopt the Claude
    role, read the sketchbook and score, show the `Rolled:` line and continue the
    next action under the unchanged approval, with no arrival screen or question.
 
 `/kerd:switch roll --cancel` (`tmux_roll.py … cancel`) withdraws an unclaimed
-roll before the relaunch fires. If the relaunch refuses or times out, the old
-session, if alive, runs `handoff --cancel` on its next turn and carries on.
+roll before the restart begins, and says “too late” after. Every abandoned roll
+(an `out` refusal, a cancel, a relaunch refusal or timeout) revokes the prepared
+role designation with Agent's `handoff --cancel` before the old session does any
+more work.
 While a chat roll waits, worker Roll and managed Conductor refuse to start.
 
 ### Run the existing managed loop

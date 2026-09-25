@@ -2,6 +2,7 @@
 never types into Claude, and picks up only when every check holds."""
 import fcntl
 import json
+import shlex
 import os
 from pathlib import Path
 import subprocess
@@ -16,6 +17,7 @@ import tmux_roll  # noqa: E402
 MODEL = "claude-opus-5-5[1m]"
 ENV = {"TMUX": "/tmp/tmux-501/default,4013,0", "TMUX_PANE": "%4", "CLAUDE_CODE_SESSION_ID": "old-sid"}
 T0 = 1_790_000_000.0
+CLAUDE = {"pid": 500, "start": "Thu Sep 24 21:00:00 2026"}
 
 
 class Result:
@@ -57,13 +59,27 @@ class ChatRollTests(unittest.TestCase):
     def parent(self, pid):
         return self.parents.get(pid)
 
-    def save(self, env=ENV, now=T0, **kw):
+    def save(self, env=ENV, now=T0, claude=CLAUDE, command="claude --model x", **kw):
         return self.chat.out(self.record, "build step 2", "Build on concert/x; no push", MODEL, 500_000,
-                             env=env, now=now, claude_pid=kw.pop("claude_pid", 500), **kw)
+                             claude, command, env=env, now=now, **kw)
 
-    def relaunch(self, tmux, alive=lambda pid: False):
-        return self.chat.relaunch(delay=0, run=tmux, alive=alive, parent=self.parent,
-                                  sleep=lambda s: None, shell="/bin/zsh")
+    def exited(self):
+        self.chat.update(json.loads(self.chat.marker.read_text())["roll_id"], relaunch="exited")
+
+    def relaunch(self, tmux, alive=True, gone_after=True, roll_id=None, now=T0 + 5):
+        """alive: the recorded Claude runs at the check; gone_after: it is gone once the pane restarts."""
+        state = {"restarted": False}
+        def start(pid):
+            if state["restarted"] and gone_after:
+                return ""
+            return CLAUDE["start"] if alive else ""
+        def run(argv, **kw):
+            if "respawn-pane" in argv:
+                state["restarted"] = True
+            return tmux(argv, **kw)
+        roll_id = roll_id or json.loads(self.chat.marker.read_text())["roll_id"]
+        return self.chat.relaunch(roll_id, delay=0, run=run, start=start, parent=self.parent,
+                                  sleep=lambda s: None, shell="/bin/zsh", now=now)
 
     # out ------------------------------------------------------------------------------------------
     def test_out_writes_marker_with_verbatim_approval(self):
@@ -74,13 +90,33 @@ class ChatRollTests(unittest.TestCase):
         self.assertEqual((data["pane"], data["tmux_socket"], data["relaunch"]), ("%4", "/tmp/tmux-501/default", "pending"))
 
     def test_out_outside_tmux_is_manual_and_needs_no_pane(self):
-        data = self.save(env={"CLAUDE_CODE_SESSION_ID": "s"}, claude_pid=None)
+        data = self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
         self.assertEqual((data["relaunch"], data["pane"]), ("manual", None))
 
-    def test_out_refuses_in_tmux_without_finding_claude(self):
-        with self.assertRaisesRegex(roll.RollError, "Claude process"):
-            self.save(claude_pid=None)
+    def test_out_refuses_without_identifying_claude_in_or_out_of_tmux(self):
+        for env in (ENV, {"CLAUDE_CODE_SESSION_ID": "s"}):
+            with self.subTest(tmux="TMUX" in env):
+                with self.assertRaisesRegex(roll.RollError, "Claude process"):
+                    self.save(env=env, claude=None)
         self.assertFalse(self.chat.marker.exists())
+
+    def test_out_refuses_without_session_id(self):
+        with self.assertRaisesRegex(roll.RollError, "session's ID"):
+            self.save(env={"TMUX": ENV["TMUX"], "TMUX_PANE": "%4"})
+
+    def test_out_refuses_session_started_with_other_launch_options(self):
+        for command in ("claude --permission-mode plan", "/usr/local/bin/claude --model x --add-dir /y",
+                        "node /opt/claude --allowedTools=Read"):
+            with self.subTest(command=command):
+                with self.assertRaisesRegex(roll.RollError, "restart would drop"):
+                    self.save(command=command)
+        self.assertFalse(self.chat.marker.exists())
+
+    def test_launch_restriction_allows_model_and_a_prompt(self):
+        for command in ("claude", "claude --model claude-opus-5-5[1m]", "claude --model=x",
+                        "claude --model x -- /kerd:switch roll in", "claude fix the typo"):
+            with self.subTest(command=command):
+                self.assertIsNone(tmux_roll.launch_restriction(command))
 
     def test_out_refuses_when_managed_roll_record_exists(self):
         (self.chat.local / "run.json").write_text('{"status": "review"}')
@@ -104,8 +140,8 @@ class ChatRollTests(unittest.TestCase):
     # loop guard -----------------------------------------------------------------------------------
     def roll_once(self, now):
         self.save(now=now)
-        self.chat.set_marker(relaunch="exited")
-        return self.chat.claim("new", MODEL, now=now + 10, alive=lambda p: False, sleep=lambda s: None)
+        self.exited()
+        return self.chat.claim("new", MODEL, now=now + 10, start=lambda p: "", sleep=lambda s: None)
 
     def progress(self, n):
         (self.root / self.record).write_text(f"step {n}\n")
@@ -120,7 +156,7 @@ class ChatRollTests(unittest.TestCase):
             self.progress(n)
             self.assertEqual(self.roll_once(T0 + n * 100)["chain"], n + 1)
         self.progress(9)
-        with self.assertRaisesRegex(roll.RollError, "3 rolls in a row"):
+        with self.assertRaisesRegex(roll.RollError, "3 rolls in a row already"):
             self.save(now=T0 + 400)
 
     def test_chain_resets_after_a_quiet_window(self):
@@ -156,16 +192,58 @@ class ChatRollTests(unittest.TestCase):
         self.assertIn("no longer runs", json.loads(self.chat.marker.read_text())["relaunch"])
 
     def test_relaunch_does_nothing_after_cancel(self):
-        self.save()
+        roll_id = self.save()["roll_id"]
         self.chat.cancel(now=T0 + 1)
         tmux = FakeTmux()
-        self.assertEqual(self.relaunch(tmux), "withdrawn")
+        self.assertEqual(self.relaunch(tmux, roll_id=roll_id), "withdrawn")
         self.assertEqual(tmux.calls, [])
         self.assertTrue(list(self.chat.local.glob("chat-roll-cancelled-*.json")))
 
     def test_relaunch_reports_old_pid_still_alive(self):
         self.save()
-        self.assertEqual(self.relaunch(FakeTmux(), alive=lambda p: True), "pid-alive")
+        self.assertEqual(self.relaunch(FakeTmux(), gone_after=False), "pid-alive")
+
+    def test_relaunch_refuses_when_recorded_claude_already_gone_or_pid_reused(self):
+        self.save()
+        tmux = FakeTmux()
+        self.assertEqual(self.relaunch(tmux, alive=False), "refused")
+        self.assertEqual(tmux.calls, [])
+
+    def test_relaunch_rechecks_checkpoint_before_restarting(self):
+        self.save()
+        (self.root / self.record).write_text("edited after the save\n")
+        tmux = FakeTmux()
+        self.assertEqual(self.relaunch(tmux), "refused")
+        self.assertEqual(tmux.calls, [])
+        self.assertIn("sketchbook changed", json.loads(self.chat.marker.read_text())["relaunch"])
+
+    def test_relaunch_ignores_another_rolls_id(self):
+        self.save()
+        tmux = FakeTmux()
+        self.assertEqual(self.relaunch(tmux, roll_id="not-this-roll"), "withdrawn")
+        self.assertEqual(tmux.calls, [])
+
+    def test_cancel_after_restart_began_is_too_late(self):
+        self.save()
+        roll_id = json.loads(self.chat.marker.read_text())["roll_id"]
+        seen = {}
+        def tmux(argv, **kw):
+            if "respawn-pane" in argv:
+                with self.assertRaisesRegex(roll.RollError, "Too late"):
+                    self.chat.cancel(now=T0 + 6)
+                seen["tried"] = True
+            return FakeTmux()(argv, **kw)
+        self.assertEqual(self.relaunch(tmux, roll_id=roll_id), "exited")
+        self.assertTrue(seen["tried"])
+
+    def test_old_relaunch_cannot_update_a_newer_roll(self):
+        self.save()
+        old = json.loads(self.chat.marker.read_text())["roll_id"]
+        self.chat.cancel(now=T0 + 1)
+        self.progress(2)
+        self.save(now=T0 + 2)
+        self.assertIsNone(self.chat.update(old, relaunch="exited"))
+        self.assertEqual(json.loads(self.chat.marker.read_text())["relaunch"], "pending")
 
     def test_start_relaunch_hands_job_to_tmux_without_shell_variables(self):
         data = self.save()
@@ -175,13 +253,19 @@ class ChatRollTests(unittest.TestCase):
         self.assertEqual(argv[:5], ["tmux", "-S", "/tmp/tmux-501/default", "run-shell", "-b"])
         self.assertNotIn("$", argv[-1])
 
+    def test_relaunch_command_parses_with_the_real_parser(self):
+        words = shlex.split(tmux_roll.relaunch_command(self.root, "abc123"))
+        args = tmux_roll.build_parser().parse_args(words[2:])
+        self.assertEqual((args.command, args.project, args.roll_id), ("relaunch", str(self.root), "abc123"))
+
     # in -------------------------------------------------------------------------------------------
-    def claim(self, model=MODEL, now=T0 + 10, alive=lambda p: False):
-        return self.chat.claim("new-sid", model, now=now, alive=alive, sleep=lambda s: None, wait=0)
+    def claim(self, model=MODEL, now=T0 + 10, alive=False, session="new-sid"):
+        start = (lambda p: CLAUDE["start"]) if alive else (lambda p: "")
+        return self.chat.claim(session, model, now=now, start=start, sleep=lambda s: None, wait=0)
 
     def test_claim_after_exit_succeeds_once(self):
         self.save()
-        self.chat.set_marker(relaunch="exited")
+        self.exited()
         data = self.claim()
         self.assertEqual((data["next_action"], data["claimed_by"]), ("build step 2", "new-sid"))
         self.assertFalse(self.chat.marker.exists())
@@ -201,33 +285,47 @@ class ChatRollTests(unittest.TestCase):
 
     def test_claim_refuses_stale_marker(self):
         self.save()
-        self.chat.set_marker(relaunch="exited")
+        self.exited()
         self.refused("older than 30 minutes", now=T0 + tmux_roll.MAX_AGE + 1)
 
     def test_claim_refuses_moved_head(self):
         self.save()
-        self.chat.set_marker(relaunch="exited")
+        self.exited()
         subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "moved"], cwd=self.root, check=True)
         self.refused("commit changed")
 
     def test_claim_refuses_edited_sketchbook(self):
         self.save()
-        self.chat.set_marker(relaunch="exited")
+        self.exited()
         (self.root / self.record).write_text("edited\n")
         self.refused("sketchbook changed")
 
     def test_claim_refuses_other_model(self):
         self.save()
-        self.chat.set_marker(relaunch="exited")
+        self.exited()
         self.refused("runs claude-sonnet-5", model="claude-sonnet-5")
 
     def test_manual_claim_refuses_while_old_session_alive(self):
-        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"}, claude_pid=4242)
-        self.refused("still running", alive=lambda p: True)
+        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
+        self.refused("still running", alive=True)
+
+    def test_manual_claim_refuses_unidentified_predecessor(self):
+        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
+        data = json.loads(self.chat.marker.read_text())
+        data["claude"] = {"pid": 500, "start": ""}
+        self.chat.marker.write_text(json.dumps(data))
+        self.refused("cannot be shown to be closed")
+
+    def test_claim_needs_this_sessions_id(self):
+        self.save()
+        self.exited()
+        with self.assertRaisesRegex(roll.RollError, "session's ID"):
+            self.claim(session=None)
+        self.assertTrue(self.chat.marker.exists())
 
     def test_manual_claim_succeeds_once_old_session_gone(self):
-        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"}, claude_pid=4242)
-        self.assertEqual(self.claim(alive=lambda p: False)["state"], "claimed")
+        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
+        self.assertEqual(self.claim(alive=False)["state"], "claimed")
 
     # helpers --------------------------------------------------------------------------------------
     def test_find_claude_walks_up_to_the_cli(self):

@@ -120,7 +120,7 @@ enter [managed Conductor](references/managed-conductor.md) from the outset.
 The chat stays the control surface while managed decision sessions own delivery
 and review; do not wait until this chat is full and promise a TUI replacement.
 Use only its supported provider, permission and lifecycle scope. A Conductor chat
-in tmux rolls itself between batches through the
+in tmux, on Claude, rolls itself between batches through the
 [chat roll](../switch/references/to-roll.md#roll-the-conductor-chat-tmux); that
 is the one TUI replacement, and it does not make an unattended build.
 
@@ -260,7 +260,8 @@ roll at the batch boundary yourself with `/kerd:switch roll` (the
 [chat roll](../switch/references/to-roll.md#roll-the-conductor-chat-tmux): save,
 restart this tmux pane, pick up) and start the next batch from the sketchbook and
 score under the same agreement. Never ask the person to roll; outside tmux, show
-the one line the roll prints. Three rolls in a row without progress stop for them. A build that must run unattended can use
+the one line the roll prints. A roll with no progress since the last (same commit,
+same sketchbook) is refused, and a fourth roll in a row stops for the person. A build that must run unattended can use
 [managed Conductor](references/managed-conductor.md) instead, which currently
 runs one player at a time. The goals and
 checks set in rehearsal and written into the score decide when it is over: before
