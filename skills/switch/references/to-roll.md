@@ -158,18 +158,21 @@ model; with no declared window, it does not roll and says so once.
 
    Under `roll/owner.lock` it refuses when a managed Roll record or another chat
    roll exists, when nothing changed since the last roll (same commit, same
-   sketchbook), when three rolls in a row have already happened, or when this
-   session was started with launch options other than `--model`, which a restart
-   would drop (roll by hand then). It records this session's ID and its Claude
-   process by PID and start time, writes the note `roll/chat.json` with its own
+   sketchbook), when three rolls in a row have already happened, or when a restart
+   could not reproduce this session: launch options other than `--model` and
+   `--effort`, or Claude or Anthropic environment settings (such as
+   `CLAUDE_CONFIG_DIR`) the tmux server does not carry identically (roll by hand
+   then). It records this session's ID, its effort, and its Claude process by PID
+   and start time, writes the note `roll/chat.json` with its own
    roll ID, and reads it back.
 2. **Relaunch.** Inside tmux, the command hands a job to the tmux server, which
    outlives this Claude. Five seconds later, under the lock, it re-checks this
    roll's ID, the commit, branch and sketchbook, and that the recorded pane still
    runs the recorded Claude (same PID and start time); then it marks the note
    `respawning`, the point after which a cancel is too late, and restarts that pane
-   with `respawn-pane -k` into `claude --model <same> -- "/kerd:switch roll in"`.
-   Nothing is typed into Claude.
+   with `respawn-pane -k` into `claude --model <same> --effort <same> -- "/kerd:switch roll in"`.
+   Nothing is typed into Claude. A process that cannot be read counts as unknown,
+   never as gone.
    Pass no shell variables in the command: Claude's permission check stops
    `$TMUX_PANE` even when tmux is allowed (trial, 2026-09-24).
    Outside tmux it prints that one line; the person closes the old session and
@@ -179,7 +182,8 @@ model; with no declared window, it does not roll and says so once.
    It claims the marker for this session, or refuses when the marker is missing,
    claimed, older than 30 minutes, for another branch or commit, the sketchbook
    changed, the model differs, this session has no ID, or the old session is not
-   shown to be gone (unknown counts as not gone). A refusal
+   shown to be gone (unknown counts as not gone). While the restart is still in
+   progress the note is left alone. A refusal
    stops and says why; it never becomes ordinary In. On a claim, adopt the Claude
    role, read the sketchbook and score, show the `Rolled:` line and continue the
    next action under the unchanged approval, with no arrival screen or question.

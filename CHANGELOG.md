@@ -11,8 +11,9 @@ loads the installed Kerd, which `/clear` did not. A new `tmux_roll.py` keeps a r
 Roll's records under the same lock; the new session claims it only when the commit, branch,
 sketchbook and model match and the old session is gone, and otherwise stops and says why.
 A fourth roll in a row, or a roll with no progress since the last, stops for you; `roll --cancel`
-withdraws one until the restart begins. It is for Claude only, and a session started with
-launch options other than `--model` is not rolled, since a restart would drop them. Outside
+withdraws one until the restart begins. It is for Claude only, and it carries the model and
+effort; a session started with other launch options, or with Claude settings in its environment
+that tmux would not carry, is not rolled, since a restart would drop them. Outside
 tmux it saves and shows one line to run, and the pickup waits until the old session is gone. Worker Roll and managed
 Conductor refuse to start while a chat roll waits. From a trial in a private tmux server:
 Claude's permission check stops a relaunch command that passes `$TMUX_PANE`, so the roll passes

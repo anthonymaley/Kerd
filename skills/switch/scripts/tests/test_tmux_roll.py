@@ -59,9 +59,10 @@ class ChatRollTests(unittest.TestCase):
     def parent(self, pid):
         return self.parents.get(pid)
 
-    def save(self, env=ENV, now=T0, claude=CLAUDE, command="claude --model x", **kw):
+    def save(self, env=ENV, now=T0, claude=CLAUDE, command="claude --model x", tmux_env=None, **kw):
         return self.chat.out(self.record, "build step 2", "Build on concert/x; no push", MODEL, 500_000,
-                             claude, command, env=env, now=now, **kw)
+                             claude, command, env=env, now=now,
+                             tmux_env={} if tmux_env is None else tmux_env, **kw)
 
     def exited(self):
         self.chat.update(json.loads(self.chat.marker.read_text())["roll_id"], relaunch="exited")
@@ -69,17 +70,17 @@ class ChatRollTests(unittest.TestCase):
     def relaunch(self, tmux, alive=True, gone_after=True, roll_id=None, now=T0 + 5):
         """alive: the recorded Claude runs at the check; gone_after: it is gone once the pane restarts."""
         state = {"restarted": False}
+        def present(pid):
+            return not ((state["restarted"] and gone_after) or not alive)
         def start(pid):
-            if state["restarted"] and gone_after:
-                return ""
-            return CLAUDE["start"] if alive else ""
+            return CLAUDE["start"]
         def run(argv, **kw):
             if "respawn-pane" in argv:
                 state["restarted"] = True
             return tmux(argv, **kw)
         roll_id = roll_id or json.loads(self.chat.marker.read_text())["roll_id"]
         return self.chat.relaunch(roll_id, delay=0, run=run, start=start, parent=self.parent,
-                                  sleep=lambda s: None, shell="/bin/zsh", now=now)
+                                  sleep=lambda s: None, shell="/bin/zsh", now=now, present=present)
 
     # out ------------------------------------------------------------------------------------------
     def test_out_writes_marker_with_verbatim_approval(self):
@@ -141,7 +142,8 @@ class ChatRollTests(unittest.TestCase):
     def roll_once(self, now):
         self.save(now=now)
         self.exited()
-        return self.chat.claim("new", MODEL, now=now + 10, start=lambda p: "", sleep=lambda s: None)
+        return self.chat.claim("new", MODEL, now=now + 10, start=lambda p: None, present=lambda p: False,
+                               sleep=lambda s: None)
 
     def progress(self, n):
         (self.root / self.record).write_text(f"step {n}\n")
@@ -259,9 +261,11 @@ class ChatRollTests(unittest.TestCase):
         self.assertEqual((args.command, args.project, args.roll_id), ("relaunch", str(self.root), "abc123"))
 
     # in -------------------------------------------------------------------------------------------
-    def claim(self, model=MODEL, now=T0 + 10, alive=False, session="new-sid"):
-        start = (lambda p: CLAUDE["start"]) if alive else (lambda p: "")
-        return self.chat.claim(session, model, now=now, start=start, sleep=lambda s: None, wait=0)
+    def claim(self, model=MODEL, now=T0 + 10, alive=False, session="new-sid", present=None, start=None):
+        present = present or (lambda p: alive)
+        start = start or (lambda p: CLAUDE["start"])
+        return self.chat.claim(session, model, now=now, start=start, present=present,
+                               sleep=lambda s: None, wait=0)
 
     def test_claim_after_exit_succeeds_once(self):
         self.save()
@@ -281,6 +285,7 @@ class ChatRollTests(unittest.TestCase):
 
     def test_claim_refuses_unconfirmed_exit(self):
         self.save()
+        self.chat.update(json.loads(self.chat.marker.read_text())["roll_id"], relaunch="pid-alive")
         self.refused("did not confirm")
 
     def test_claim_refuses_stale_marker(self):
@@ -308,6 +313,61 @@ class ChatRollTests(unittest.TestCase):
     def test_manual_claim_refuses_while_old_session_alive(self):
         self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
         self.refused("still running", alive=True)
+
+    def test_unreadable_process_is_unknown_not_gone(self):
+        self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
+        self.refused("cannot be shown to be closed", present=lambda p: True, start=lambda p: None)
+
+    def test_process_state_is_three_valued(self):
+        self.assertEqual(tmux_roll.process_state(CLAUDE, lambda p: CLAUDE["start"], lambda p: True), "alive")
+        self.assertEqual(tmux_roll.process_state(CLAUDE, lambda p: "Fri Sep 25 01:00:00 2026", lambda p: True), "gone")
+        self.assertEqual(tmux_roll.process_state(CLAUDE, lambda p: None, lambda p: False), "gone")
+        self.assertEqual(tmux_roll.process_state(CLAUDE, lambda p: None, lambda p: True), "unknown")
+        self.assertEqual(tmux_roll.process_state(CLAUDE, lambda p: None, lambda p: None), "unknown")
+        self.assertEqual(tmux_roll.process_state(None), "unknown")
+
+    def test_relaunch_reports_unknown_exit_as_unknown(self):
+        self.save()
+        roll_id = json.loads(self.chat.marker.read_text())["roll_id"]
+        calls = {"n": 0}
+        def start(pid):
+            calls["n"] += 1
+            return CLAUDE["start"] if calls["n"] == 1 else None
+        result = self.chat.relaunch(roll_id, delay=0, run=FakeTmux(), start=start, parent=self.parent,
+                                    sleep=lambda s: None, shell="/bin/zsh", now=T0 + 5, present=lambda p: True)
+        self.assertEqual(result, "exit-unknown")
+        self.refused("did not confirm")
+
+    def test_claim_leaves_a_restart_in_progress_alone(self):
+        self.save()
+        for state in ("pending", "respawning"):
+            with self.subTest(state=state):
+                self.chat.update(json.loads(self.chat.marker.read_text())["roll_id"], relaunch=state)
+                with self.assertRaisesRegex(roll.RollError, "still in progress"):
+                    self.claim()
+                self.assertTrue(self.chat.marker.exists())
+
+    def test_prompt_dashes_cannot_hide_a_launch_option(self):
+        self.assertEqual(tmux_roll.launch_restriction('claude Explain -- usage --permission-mode plan'),
+                         "--permission-mode")
+        self.assertIsNone(tmux_roll.launch_restriction("claude --model m --effort high -- /kerd:switch roll in"))
+
+    def test_session_env_the_tmux_server_lacks_refuses(self):
+        env = {**ENV, "CLAUDE_CONFIG_DIR": "/Users/x/.claude-work", "CLAUDE_EFFORT": "high", "CLAUDE_PID": "500"}
+        with self.assertRaisesRegex(roll.RollError, "CLAUDE_CONFIG_DIR"):
+            self.save(env=env)
+        self.assertEqual(self.save(env=env, tmux_env={"CLAUDE_CONFIG_DIR": "/Users/x/.claude-work"})["effort"], "high")
+
+    def test_unreadable_tmux_environment_refuses(self):
+        with self.assertRaisesRegex(roll.RollError, "tmux server's environment"):
+            self.chat.out(self.record, "n", "a", MODEL, 1, CLAUDE, "claude", env=ENV, now=T0, tmux_env=None)
+
+    def test_relaunch_carries_effort(self):
+        env = {**ENV, "CLAUDE_EFFORT": "high"}
+        self.save(env=env)
+        tmux = FakeTmux()
+        self.relaunch(tmux)
+        self.assertIn("--effort high --", [c for c in tmux.calls if "respawn-pane" in c][0][-1])
 
     def test_manual_claim_refuses_unidentified_predecessor(self):
         self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})

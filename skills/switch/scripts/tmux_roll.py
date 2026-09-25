@@ -11,7 +11,8 @@ cancel    Withdraw the note; refused once the restart has begun.
 Nothing is typed into a running Claude. The note is relaunch state, never committed:
 $(git rev-parse --git-path roll)/chat.json. The handoff record (the work's sketchbook) is the
 project-local file; a roll grants no approval beyond the one it copies from there. Claude only:
-a session started with launch options other than --model is not rolled automatically.
+a session started with launch options other than --model/--effort, or with Claude or Anthropic
+environment settings the tmux server does not share, is not rolled automatically.
 """
 import argparse
 from datetime import datetime
@@ -31,6 +32,11 @@ import roll  # noqa: E402
 MAX_AGE = 30 * 60        # a note older than this is stale
 CHAIN_WINDOW = 6 * 3600  # rolls closer together than this count as consecutive
 MAX_CHAIN = 3
+# Set by Claude Code for its own children, not by the person; a restart sets them afresh.
+PER_PROCESS = {"CLAUDECODE", "CLAUDE_PID", "CLAUDE_EFFORT", "CLAUDE_PROJECT_DIR", "CLAUDE_PLUGIN_ROOT",
+               "CLAUDE_CODE_ENTRYPOINT", "CLAUDE_CODE_EXECPATH", "CLAUDE_CODE_SESSION_ID",
+               "CLAUDE_CODE_CHILD_SESSION", "CLAUDE_CODE_SESSION_ATTENDED", "CLAUDE_CODE_SSE_PORT",
+               "CLAUDE_CODE_MESSAGING_SOCKET", "CLAUDE_CODE_MESSAGING_TOKEN"}
 PACKAGE = Path(__file__).resolve().parents[3]
 
 
@@ -65,6 +71,19 @@ def ps(field, pid):
     return subprocess.run(["ps", "-o", f"{field}=", "-p", str(pid)], capture_output=True, text=True).stdout.strip()
 
 
+def exists(pid):
+    """True, False, or None when it cannot be told."""
+    try:
+        os.kill(int(pid), 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    except (ValueError, TypeError, OSError):
+        return None
+    return True
+
+
 def parent_of(pid):
     out = ps("ppid", pid)
     return int(out) if out.isdigit() else None
@@ -75,18 +94,30 @@ def command_of(pid):
 
 
 def start_of(pid):
-    """Process start time; with the PID it identifies a process across PID reuse. '' if gone."""
-    return ps("lstart", pid)
+    """Process start time, or None when it cannot be read; with the PID it identifies a
+    process across PID reuse."""
+    done = subprocess.run(["ps", "-o", "lstart=", "-p", str(pid)], capture_output=True, text=True)
+    return done.stdout.strip() if done.returncode == 0 and done.stdout.strip() else None
 
 
 def identity(pid, start=start_of):
-    begun = start(pid) if pid else ""
+    begun = start(pid) if pid else None
     return {"pid": pid, "start": begun} if begun else None
 
 
-def same_process_alive(ident, start=start_of):
-    """True only while the exact recorded process runs; a reused PID is not it."""
-    return bool(ident and ident.get("start") and start(ident["pid"]) == ident["start"])
+def process_state(ident, start=start_of, present=exists):
+    """'alive' (the exact recorded process), 'gone' (absent, or its PID reused), or 'unknown'."""
+    if not ident or not ident.get("start"):
+        return "unknown"
+    there = present(ident["pid"])
+    if there is False:
+        return "gone"
+    if there is None:
+        return "unknown"
+    begun = start(ident["pid"])
+    if begun is None:
+        return "unknown"
+    return "alive" if begun == ident["start"] else "gone"
 
 
 def find_claude(begin, parent=parent_of, command=command_of, depth=10):
@@ -103,22 +134,38 @@ def find_claude(begin, parent=parent_of, command=command_of, depth=10):
 
 
 def launch_restriction(command):
-    """The first launch option other than --model, which a restart would drop; None if none."""
+    """The first launch option other than --model/--effort, which a restart would drop; None
+    if none. `ps` loses argument boundaries, so every word is scanned, `--` included: a prompt
+    word that looks like an option refuses too, which only means rolling by hand."""
     words = command.split()
     at = next((i for i, w in enumerate(words[:2]) if Path(w).name == "claude"), None)
     if at is None:
         return "not a claude command"
     rest = iter(words[at + 1:])
     for word in rest:
-        if word == "--":
-            return None
-        if word == "--model":
+        if word in {"--model", "--effort"}:
             next(rest, None)
-        elif word.startswith("--model="):
+        elif word == "--" or word.startswith(("--model=", "--effort=")):
             continue
         elif word.startswith("-"):
             return word
     return None
+
+
+def env_restriction(session_env, tmux_env):
+    """Claude or Anthropic settings in this session that the tmux server's environment does not
+    carry identically; the restarted pane would lose them. Names only, never values."""
+    return sorted(k for k, v in session_env.items()
+                  if (k.startswith(("CLAUDE", "ANTHROPIC")) and k not in PER_PROCESS
+                      and tmux_env.get(k) != v))
+
+
+def tmux_global_env(socket, run=subprocess.run):
+    done = run(["tmux", "-S", socket, "show-environment", "-g"], capture_output=True, text=True)
+    if done.returncode != 0:
+        return None
+    pairs = (line.split("=", 1) for line in done.stdout.splitlines() if "=" in line and not line.startswith("-"))
+    return {k: v for k, v in pairs}
 
 
 def descends_from(pid, ancestor, parent=parent_of, depth=10):
@@ -181,7 +228,7 @@ class Chat:
 
     # --- out ---------------------------------------------------------------------------------
     def out(self, handoff_record, next_action, approval, model, threshold_tokens, claude,
-            claude_command, session=None, env=None, now=None):
+            claude_command, session=None, env=None, now=None, tmux_env=None):
         """claude is the source session's process identity {pid, start}; required everywhere."""
         env = os.environ if env is None else env
         now = time.time() if now is None else now
@@ -198,6 +245,14 @@ class Chat:
         if restriction:
             raise roll.RollError(f"This session was started with {restriction}, which a restart would drop; "
                                  "roll by hand (Switch Out, then a fresh session)")
+        in_tmux = bool(env.get("TMUX") and env.get("TMUX_PANE"))
+        if in_tmux:
+            if tmux_env is None:
+                raise roll.RollError("Could not read the tmux server's environment; not restarting blind")
+            names = env_restriction(env, tmux_env)
+            if names:
+                raise roll.RollError(f"This session has {', '.join(names)} set, which the restarted pane "
+                                     "would not carry; roll by hand (Switch Out, then a fresh session)")
         with self.locked():
             if (self.local / "run.json").exists():
                 raise roll.RollError("A managed Roll record exists here; the chat roll does not take it over")
@@ -212,7 +267,6 @@ class Chat:
                 chain = last.get("chain", 0) + 1
                 if chain > MAX_CHAIN:
                     raise roll.RollError(f"{MAX_CHAIN} rolls in a row already; stopping for the person")
-            in_tmux = bool(env.get("TMUX") and env.get("TMUX_PANE"))
             data = {
                 "roll_id": uuid.uuid4().hex,
                 "project": str(self.project), "branch": git(self.project, "branch", "--show-current"),
@@ -221,7 +275,8 @@ class Chat:
                 "from_session": session, "claude": claude,
                 "pane": env.get("TMUX_PANE") if in_tmux else None,
                 "tmux_socket": env["TMUX"].split(",")[0] if in_tmux else None,
-                "model": model.strip(), "threshold_tokens": threshold_tokens, "chain": chain,
+                "model": model.strip(), "effort": env.get("CLAUDE_EFFORT") or None,
+                "threshold_tokens": threshold_tokens, "chain": chain,
                 "created_at": now, "state": "saved", "relaunch": "pending" if in_tmux else "manual",
             }
             self.write(data)
@@ -229,7 +284,7 @@ class Chat:
 
     # --- relaunch (runs under the tmux server) ------------------------------------------------
     def relaunch(self, roll_id, delay=5.0, run=subprocess.run, start=start_of, parent=parent_of,
-                 sleep=time.sleep, shell=None, now=None):
+                 sleep=time.sleep, shell=None, now=None, present=exists):
         sleep(delay)
         with self.locked():
             data = self.read(self.marker)
@@ -237,8 +292,10 @@ class Chat:
                     or data.get("relaunch") != "pending"):
                 return "withdrawn"
             problem = self.checkpoint_problem(data, time.time() if now is None else now)
-            if not problem and not same_process_alive(data["claude"], start):
-                problem = "the recorded Claude is no longer running"
+            if not problem:
+                state = process_state(data["claude"], start, present)
+                if state != "alive":
+                    problem = f"the recorded Claude is {state}, not running"
             if not problem:
                 tmux = ["tmux", "-S", data["tmux_socket"]]
                 probe = run([*tmux, "display", "-p", "-t", data["pane"], "#{pane_id} #{pane_pid}"],
@@ -255,23 +312,27 @@ class Chat:
             data["relaunch"] = "respawning"   # the point of no return: cancel now reports too late
             self.write(data)
         shell = shell or os.environ.get("SHELL") or "/bin/zsh"
-        fresh = (f"claude --model {shlex.quote(data['model'])} -- {shlex.quote('/kerd:switch roll in')}; "
+        effort = f"--effort {shlex.quote(data['effort'])} " if data.get("effort") else ""
+        fresh = (f"claude --model {shlex.quote(data['model'])} {effort}-- {shlex.quote('/kerd:switch roll in')}; "
                  f"exec {shlex.quote(shell)} -l")
         done = run([*tmux, "respawn-pane", "-k", "-t", data["pane"], "-c", data["project"], fresh],
                    capture_output=True, text=True)
         if done.returncode != 0:
             self.update(roll_id, relaunch="refused: respawn-pane failed")
             return "refused"
+        state = "unknown"
         for _ in range(20):
-            if not same_process_alive(data["claude"], start):
+            state = process_state(data["claude"], start, present)
+            if state == "gone":
                 self.update(roll_id, relaunch="exited")
                 return "exited"
             sleep(0.5)
-        self.update(roll_id, relaunch="pid-alive")
-        return "pid-alive"
+        outcome = "pid-alive" if state == "alive" else "exit-unknown"
+        self.update(roll_id, relaunch=outcome)
+        return outcome
 
     # --- in -------------------------------------------------------------------------------------
-    def claim(self, session, model, now=None, start=start_of, sleep=time.sleep, wait=15.0):
+    def claim(self, session, model, now=None, start=start_of, sleep=time.sleep, wait=15.0, present=exists):
         if not session:
             raise roll.RollError("This session's ID is not available; cannot claim the roll")
         data = self.read(self.marker)
@@ -284,8 +345,10 @@ class Chat:
             data = self.read(self.marker)
             if data is None:
                 raise roll.RollError("No roll to pick up: the note is missing or already claimed")
+            if data.get("relaunch") in {"pending", "respawning"}:
+                raise roll.RollError("The restart is still in progress; the note stays until it resolves")
             now = time.time() if now is None else now
-            reason = self.refusal(data, model, now, start)
+            reason = self.refusal(data, model, now, start, present)
             if reason:
                 data.update(state="refused", refusal=reason)
                 (self.local / f"chat-roll-refused-{stamp(now)}.json").write_text(json.dumps(data, indent=2))
@@ -300,7 +363,7 @@ class Chat:
                                              "chain": data["chain"], "at": now}))
         return data
 
-    def refusal(self, data, model, now, start):
+    def refusal(self, data, model, now, start, present):
         problem = self.checkpoint_problem(data, now)
         if problem:
             return problem
@@ -308,10 +371,11 @@ class Chat:
             return f"This session runs {model}, the roll was saved on {data.get('model')}"
         state = data.get("relaunch")
         if state == "manual":
-            if not data.get("claude") or not data["claude"].get("start"):
-                return "The roll does not identify the previous session, so it cannot be shown to be closed"
-            if same_process_alive(data["claude"], start):
+            state = process_state(data.get("claude"), start, present)
+            if state == "alive":
                 return "The previous Claude session is still running; close it first"
+            if state != "gone":
+                return "The previous session cannot be shown to be closed"
         elif state != "exited":
             return f"The relaunch did not confirm the old session ended ({state})"
         return None
@@ -322,7 +386,7 @@ class Chat:
             data = self.read(self.marker)
             if data is None:
                 raise roll.RollError("No unclaimed roll to cancel")
-            if data.get("relaunch") in {"respawning", "exited", "pid-alive"}:
+            if data.get("relaunch") in {"respawning", "exited", "pid-alive", "exit-unknown"}:
                 raise roll.RollError("Too late to cancel: the pane restart has already begun")
             data.update(state="cancelled")
             (self.local / f"chat-roll-cancelled-{stamp(now)}.json").write_text(json.dumps(data, indent=2))
@@ -365,9 +429,12 @@ def main(argv=None):
     try:
         chat = Chat(args.project)
         if args.command == "out":
-            pid = find_claude(os.getppid())
+            env_pid = os.environ.get("CLAUDE_PID", "")
+            pid = int(env_pid) if env_pid.isdigit() else find_claude(os.getppid())
+            socket = os.environ.get("TMUX", "").split(",")[0]
             data = chat.out(args.handoff_record, args.next_action, args.approval, args.model,
-                            args.threshold_tokens, identity(pid), command_of(pid) if pid else "")
+                            args.threshold_tokens, identity(pid), command_of(pid) if pid else "",
+                            tmux_env=tmux_global_env(socket) if socket else None)
             if data["relaunch"] == "manual":
                 print("Saved. This terminal is not tmux, so it cannot restart itself. Close this session, then run:")
                 print(f"  claude --model {shlex.quote(data['model'])} -- \"/kerd:switch roll in\"")
