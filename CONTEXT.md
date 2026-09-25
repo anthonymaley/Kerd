@@ -6,18 +6,18 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.153.2 on `main`** (18:30; the context hook's wording, written by Kerd's first
-real Claude Roll run: one run, `review`, no handover seen). Before it, 0.153.1 (after the Switch Out, 16:27–17:14): Conductor's
-turn-ending rule names a named wait on a job and a line to the person after a partner's
-contribution, from ten "what's happening" prompts on 2026-09-24; a turn-end gate went into his
-global `~/.claude/CLAUDE.md` too. He declined a Stop hook ("hooks kept breaking"). The 2026-09-24 afternoon sitting (15:08–16:18)
-released 0.153.0: a Kerd hook tells Claude its context token count at every prompt and during
-long turns, read from the session's transcript. The day sitting released 0.151.1 and 0.152.0;
-the morning, 0.151.0.
+**Release boundary: 0.154.1 on `main`** (2026-09-25 08:4x). The sitting of 2026-09-24 21:00 to
+2026-09-25 08:46 released 0.153.3 (finished Roll records retire under the owner lock, with
+`roll_retire.py`), 0.154.0 (Conductor rolls its own Claude chat in tmux) and 0.154.1 (that roll
+works for sessions started `Claude --dangerously-skip-permissions`). Two real rolls worked
+(08:04 plain `claude`; 08:44 with the skip flag): the pane restarted on the same model, effort
+and permission mode and the new session did its saved next step. Before that, 2026-09-24:
+0.153.0 to 0.153.2 (the context hook and its wording), 0.152.0, 0.151.x.
 
-**Claude Code runs 0.153.2** (`claude plugin update`, 18:3x), in force from its next session;
-the context hook has not yet delivered live. **Codex runs 0.153.1** (`codex plugin list --marketplace kerd-core`,
-17:29, read back by Claude) after Anthony's go in its window. Hand check before release: hook 170,532 tokens, his status line "83%" free (15:34).
+**Claude Code runs 0.154.1** (`claude plugin update`, 08:4x), in force from each new session;
+this session still ran 0.152.0 (a `/clear` roll keeps the old build). **Codex runs 0.153.1**
+(read back 2026-09-24 17:29); 0.153.3 to 0.154.1 changed Switch and Conductor text in its
+package, so it needs an update on Anthony's go in its window. The chat roll itself is Claude-only.
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
@@ -46,6 +46,10 @@ raise it until he does.
 he picks, is open. He parked choosing them (2026-09-23 21:13: "skip lets skip that").
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
+- **Conductor rolls its own Claude chat in tmux, never the person (2026-09-24/25, 0.154.0–1):**
+  past 50% of the declared window at a safe boundary it saves, tmux restarts its pane into a
+  fresh `claude` on the same model, effort and permission mode, and `/kerd:switch roll in`
+  picks up. Nothing is typed into Claude; no Stop hook; outside tmux, one line to run.
 - **Claude sees its own context token count, in every session; when to Switch Out stays his
   call (2026-09-24, 0.153.0).** Partly supersedes the 2026-09-15 context-pressure ruling.
 - **Conductor runs on Opus 5.5, at medium by default, set up from Anthropic's guidance
@@ -81,10 +85,11 @@ and a goal; always be delivering; Conductor owns the sketchbook; rolling is per 
 and what would make the homepage feel serious to him.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
-review and investigation** (cadence: checkpoints, before-push). Today it built and installed
-0.151.0 and 0.152.0 for Codex on Anthony's direct go in its window, reviewed 0.151.1 (clear)
-and 0.152.0 (checkpoint: four findings; before-push: two minor; all applied), and built the
-homepage passes. A relayed "y" is not enough for Codex to install or build; the go must be
+review and investigation** (cadence: checkpoints, before-push). This sitting it reviewed the
+chat-roll spec and the build over five rounds plus 0.154.1 twice (every finding fixed; last:
+clear). A Claude session in the Codex window ran terminal probes on Anthony's ask (tmux and
+iTerm2, synthetic); two empty iTerm2 test windows it opened may still be on the Studio's display.
+A relayed "y" is not enough for Codex to install or build; the go must be
 his, in its window. No job is running.
 
 **Standing:** a peer session cannot authorize a push. `.env` at the repo root holds
@@ -102,55 +107,38 @@ and every file inside `docs/work/launch-plan/`, `docs/work/roll-on-branch/`,
 (2026-09-22); every file inside `docs/work/job-label/` and `docs/work/partner-closed/`
 (2026-09-23); every file inside `docs/work/codex-pickup/` (2026-09-23 late); every file inside
 `docs/work/codex-players/` (2026-09-24); and every file inside `docs/work/homepage-redesign/`
-and `docs/work/opus-55/` (2026-09-24 day). They exist on the Mac Studio only.
+and `docs/work/opus-55/` (2026-09-24 day); every file inside `docs/work/context-reading/`,
+`docs/work/rolling-session/` and `docs/work/roll-trial/` (2026-09-25). They exist on the Mac
+Studio only.
 
-**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 15:08 arrival
+**Routing:** the Claude role `kerd-b5-review` was adopted at the 2026-09-24 21:0x arrival
 against the saved designation; it designates its successor at this Out.
-
-**In progress, uncommitted (18:5x):** 0.153.3 is in the working tree: the Roll guide names the
-saved-place keys and how to retire a finished worker record (edits by a Claude Roll worker),
-a new test `skills/switch/scripts/tests/test_roll_guide_keys.py`, version bump and note. **Codex
-blocked it:** hand retirement must hold `owner.lock` (acquire it, re-read the record and its
-place's `pending_jobs`, rename while holding it), and the test's "cannot drift" claim is too
-strong. Fix both, re-check, then release on Anthony's go. Two finished Roll records were
-retired by hand today without the lock, in `.git/roll/retired-2026-09-24-*.json`.
-
-**Robust rolling, researched (21:0x):** Anthropic's own long-running pattern (harness loop
-outside the model, fresh sessions from progress files and git, small coordinator with
-subagents returning references) and a proposal for Kerd are in the local sketchbook
-`docs/work/rolling-session/work.md`. Its one open question is Anthony's. Read it first.
-
-**This session was rolled by itself (18:5x):** Anthony asked for a rolling switch that hands
-this session to a fresh one on its own; Claude typed `/clear` and `/kerd:switch in` into its
-own tmux pane. If this arrival shows it worked, that is the first observation.
-
-**First, at the next arrival:** look for the context-reading line at the first prompt; its
-absence means the hook isn't loading, which comes before anything else.
 
 **Selected continuation, agreed (Anthony, 2026-09-24 09:29 and 09:49): after Anthony's
 TV-to-TV iCloud sync sitting in 3of3, Claude reads 3of3's records (read-only; no question
 needed) and adds one line of step 1 evidence to `docs/work/launch-plan/work.md`.** Owner:
 Anthony runs the sitting in 3of3's own session and says when it is done. **Stops at** the
 evidence line; no writes in 3of3, no device actions. **Why:** step 1 is the only launch step
-under way, and this proof is its next item. If the sitting hasn't happened, the arrival says so
-and weighs the other open work. The context-window item shipped as 0.153.0's context-reading hook. Parked: step 2, the
+under way, and this proof is its next item. As of 2026-09-24 21:0x, 3of3's records did not show
+it (saved observation). If the sitting hasn't happened, the arrival says so and weighs the other
+open work. Parked: step 2, the
 announcement, SAM and Aubel.app, the homepage.
 
-**Pickup reading set** (Switch Out, 2026-09-24 16:18):
+**Pickup reading set** (Switch Out, 2026-09-25 08:5x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-24.md`, today's four sittings.
-Deeper: `docs/decisions.md` (the two new rulings' cases); `docs/design/launch-plan.md`; local
-sketchbooks `docs/work/launch-plan/work.md`, `docs/work/opus-55/work.md`,
-`docs/work/homepage-redesign/work.md`, `docs/work/codex-pickup/work.md`.
+- `kivna/sessions/2026-09-25.md`, the sitting that released 0.153.3 to 0.154.1.
+Deeper: `docs/decisions.md` (the chat-roll case); `docs/design/launch-plan.md`; local
+sketchbooks `docs/work/rolling-session/work.md` (the chat roll, reviews, trials),
+`docs/work/launch-plan/work.md`.
 
-The observed position before this save is the 0.153.0 release on `main`; the boundary
-commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is 0.154.1 on `main`; the boundary commit is this save
+itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-24 16:18: 28,317 bytes across the three sources, about 7,080 tokens
+**Measured** 2026-09-25 08:5x: 20,681 bytes across the three sources, about 5,171 tokens
 estimated at four bytes each, within the 8,000 target. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-24.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-25.md",
  "--section", "TODO.md", "## Now"]
 ```

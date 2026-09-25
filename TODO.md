@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.152.0 on `main`; both hosts run it. Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.154.1 on `main`; Claude Code runs it, Codex runs 0.153.1. Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
 **The launch plan is accepted** (Anthony, 2026-09-22 09:38): `docs/design/launch-plan.md`,
@@ -51,8 +51,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   the last request` line at each prompt and during long turns, matching the status line. Seen
   once by hand before release (170,532 tokens vs "83%" free, 2026-09-24 15:34). First live delivery
   17:39: a fresh headless session got the line on its second prompt (35,110 tokens). Silent at
-  a session's first prompt by design (no reply to count yet); the README's "every prompt" should
-  say so at the next release. Fixed in 0.153.2.
+  a session's first prompt by design (no reply to count yet); wording fixed in 0.153.2. Since
+  0.154.0 it also records the host's permission mode for the chat roll. Not yet seen in an
+  interactive session running 0.153.0 or later.
 - **The homepage redesign: dropped, to revisit** (Anthony, 2026-09-24 12:56). Three Codex
   passes and his reactions: `docs/work/homepage-redesign/work.md` (local).
 - **Rolling without publishing: built in 0.144.0, not yet seen in a real concert.** A
@@ -60,10 +61,16 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   (Anthony agreed the design 2026-09-22 11:53). Watch the first real concert that rolls.
 
 
-- **Observe the composer, managed Conductor and a roll in a real session.** A first real
-  Claude worker Roll ran on 2026-09-24 (0.153.2's wording: one run, `review`); a
-  context-triggered handover to a second run is still unseen and needs a job that outgrows a
-  window. The composer and managed Conductor are still unexercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
+- **Watch the chat roll (0.154.0–0.154.1) in a real Conductor build.** Two test rolls worked on
+  2026-09-25 (pane restarted, same model/effort/mode, next step done); a concert rolling itself at
+  50% is unseen, and so is a roll from a process shown as capital `Claude` (unit-tested). The
+  three-in-a-row limit counts every roll in a checkout within six hours; see whether it bites.
+  Sketchbook `docs/work/rolling-session/work.md` (local).
+- **Bring Codex to 0.154.1** on Anthony's go in its window: Switch and Conductor text changed
+  (0.153.3–0.154.1); the chat roll itself is Claude-only.
+- **Observe the composer and managed Conductor in a real session.** Worker Roll's
+  context-triggered handover to a second run is still unseen (the trigger fired twice; each job
+  finished first). The composer and managed Conductor are still unexercised. Fan-out has now run four times (twenty dispatches, then four, then two, then
   two plus one).
 - **Observe the arrival's "Something else" route** and the closing box over several
   sittings. The arrival and "Yes" were seen again on 2026-09-20 14:35.

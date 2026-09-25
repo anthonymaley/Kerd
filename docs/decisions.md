@@ -12,6 +12,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. CONDUCTOR ROLLS ITS OWN CLAUDE CHAT: AT A SAFE BOUNDARY PAST 50% OF THE DECLARED WINDOW IT SAVES ITS PLACE AND TMUX RESTARTS ITS PANE INTO A FRESH `claude` ON THE SAME MODEL, EFFORT AND PERMISSION MODE; NEVER THE PERSON, TMUX ONLY (ONE LINE TO RUN ELSEWHERE), NOTHING TYPED INTO CLAUDE, NO STOP HOOK — Anthony, 2026-09-24 21:24–22:13 and 2026-09-25 08:02; released in 0.154.0 and 0.154.1
 1. CLAUDE SEES ITS OWN CONTEXT READING, AUTOMATICALLY, IN EVERY SESSION: A KERD HOOK REPORTS TOKENS IN USE AT EVERY PROMPT AND PERIODICALLY DURING LONG TURNS; WHEN TO SWITCH OUT STAYS THE PERSON'S CALL — Anthony, 2026-09-24 15:27 and 15:28; released in 0.153.0. Supersedes the "no status-line bridge, no interactive notice" part of the 2026-09-15 context-pressure ruling.
 1. CONDUCTOR RUNS ON OPUS 5.5, AT MEDIUM EFFORT BY DEFAULT, AND IS SET UP FROM ANTHROPIC'S OWN GUIDANCE FOR IT; KERD ADVISES THE SESSION SETUP BUT NEVER CHANGES THE SESSION ITSELF — Anthony, 2026-09-24 13:01; released in 0.152.0
 1. THE EXPLANATORY AND LEARNING OUTPUT STYLES ARE OFF ON THIS MACHINE — Anthony, 2026-09-24 10:37, "y". Machine setup, not Kerd.
@@ -227,6 +228,23 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **Conductor rolls its own Claude chat in tmux, never the person; the old session is ended by
+  restarting its pane, never typed into — Anthony, 2026-09-24 21:18–22:13 and 2026-09-25 08:02;
+  released in 0.154.0 and 0.154.1.** The case: this session had rolled itself by typing `/clear`
+  and `/kerd:switch in` into its own tmux pane; it worked but kept Kerd 0.152.0 loaded. Claude
+  proposed a managed-loop harness; Anthony: "wow you made a switch out and back in again really
+  complex, work of art. why can't we just 1. detect context window after job 2. if <50% ... 3.
+  switch out 4. invoke local script that injects /exit, claude, switch in" (slashes on "switch" dropped for the release check). Then: "careful with
+  tmux though because that is unique to me", "i would never run this, only conductor", "lets make
+  the spec for tmux and get claude to review", and "yes" (22:13) to ending the old session by
+  restarting its pane rather than typing `/exit` or adding a Stop hook (both reviewers had blocked
+  typed keys: a permission dialog could take the Enter). A Claude reviewer and Codex reviewed the
+  spec; Codex reviewed the build five times. A real roll worked on 2026-09-25 08:04 and again from
+  a `--dangerously-skip-permissions` launch at 08:44. Limits kept: Claude only; a resumed session
+  or one with other launch options or differing Claude environment rolls by hand; the permission
+  mode is the host's own reading via the context hook. iTerm2 without tmux is deferred (one probe,
+  Codex-window session). Sketchbook: `docs/work/rolling-session/work.md` (local).
 
 - **Claude sees its own context reading, automatically, in every session; when to Switch Out
   stays the person's call — Anthony, 2026-09-24 15:27 and 15:28; released in 0.153.0.** The
