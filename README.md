@@ -264,9 +264,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.153.2)
+## What's New (v0.153.3)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.153.3
+
+**The Roll guide names the saved-place keys and how to retire a finished run.** Two gaps
+tripped Kerd's first real Claude Roll runs on 2026-09-24: the guide said "failure counts" where
+the helper wants the key `failures`, and nothing said how to clear a finished run before new
+work, so the helper refused the next one. The guide now lists the exact keys (a test checks
+them against the helper) and says how to retire a finished `review` or `blocked` record: a new
+`roll_retire.py` holds the owner lock, re-checks the record and its pending jobs, and moves it to
+a dated `retired-…json`, never deletes it; a running, uncertain or failed one still goes through
+recovery. The guide edits were made by a Claude Roll worker; Codex's review added the lock. Across three
+real runs the context checkpoint fired mid-run twice, but each job was small enough that the
+worker finished before it could stop, so a hand-over to a second fresh run is still unseen.
 
 ### v0.153.2
 

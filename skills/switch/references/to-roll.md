@@ -160,9 +160,10 @@ cannot support it. Child survival after a host tool timeout is unverified here:
 inspect the retained run instead of assuming it stopped or launching a duplicate.
 
 The current managed-run interface has an agreed-work Markdown file and a compact
-saved-place JSON file. The latter carries status (continue/review/blocked),
-next_action, memory, cumulative evidence paths, failure counts and pending jobs.
-This narrow executable interface is not a new schema requirement for all projects.
+saved-place JSON file. The latter carries `status` (continue/review/blocked),
+`next_action`, `memory`, `evidence` (a list of cumulative evidence paths),
+`failures` (a map of failure-count name to non-negative integer) and
+`pending_jobs` (a list). This narrow executable interface is not a new schema requirement for all projects.
 Prepare it from the actual agreed work; never seed it with example approvals.
 
 ```sh
@@ -189,6 +190,15 @@ Feed supported findings back through the same agreement and preserved counters.
 A `blocked` or uncertain outcome needs actual diagnosis before any retry; don't
 delete the helper's private Git metadata to bypass it. One managed Roll currently
 owns a repo at a time; do not run competing builds in that same checkout.
+
+A finished worker Roll record — `review` or `blocked`, no pending job, owner
+lock free — is retired before a different agreement runs in the same checkout:
+inspect it with `roll_status.py`, reconcile its result, then run
+`python3 "$switch_scripts/roll_retire.py" --project "$project"`. It holds the
+owner lock, re-reads the record and its saved place's `pending_jobs`, and moves
+`run.json` to a dated `retired-…json` beside it. Never delete it, never move it
+by hand, and never retire a `running`, `uncertain` or `failed` record — those go
+through recovery.
 
 ## Observed context routes: Codex and Claude
 

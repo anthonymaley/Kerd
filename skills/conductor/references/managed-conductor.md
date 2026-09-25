@@ -127,7 +127,9 @@ the fresh coordinator re-derives that next job from the saved place and receipts
 Unknown/running/uncertain records must be inspected, never deleted to force a
 retry. Completed or blocked runs also require explicit inspection and retirement
 of their retained record before a new agreement/run. There is no automatic
-crash-recovery or record-retirement command in this first version. Retain receipts,
+crash-recovery or record-retirement command in this first version; for a
+finished worker Roll record, see the retirement paragraph in
+`skills/switch/references/to-roll.md`. Retain receipts,
 verify no owned job remains, and reconcile the saved place; never replay an
 uncertain request under a fresh ID. Legacy worker Roll refuses this controller's
 record, and this controller refuses a legacy worker record.
