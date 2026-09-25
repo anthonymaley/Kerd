@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Standalone release-rules check: version sync across the three manifest
-locations, capability-list identity between the two manifests, and the
-`kerd:` slash-command namespace rule.
+locations, capability-list identity between the two manifests, the
+`kerd:` slash-command namespace rule, release-history parity between
+README.md and CHANGELOG.md, and README's "What's New" header version.
 
     python3 tools/release_check.py [--root PATH] [--json]
     python3 tools/release_check.py selftest
@@ -324,6 +325,41 @@ def _release_history(root):
     return problems
 
 
+# ── R5: README's "What's New" header matches plugin.json's version ──────
+
+_WHATS_NEW_HEADER = re.compile(r"^## What's New \(v(\d+\.\d+\.\d+)\)\s*$", re.MULTILINE)
+
+
+def _release_whats_new(root, plugin):
+    """R5 — the README `## What's New (vX.Y.Z)` header version must equal
+    plugin.json's version. plugin is None (no plugin.json, or its version
+    is missing/invalid — already reported by R1) or README.md missing skip
+    the check. No header present skips too — README not carrying a What's
+    New section is not this rule's concern."""
+    problems = []
+    if plugin is None:
+        return problems
+    plugin_version = plugin.get("version")
+    if not isinstance(plugin_version, str):
+        return problems
+
+    readme_path = os.path.join(root, "README.md")
+    if not os.path.isfile(readme_path):
+        return problems
+
+    match = _WHATS_NEW_HEADER.search(_read(readme_path))
+    if match is None:
+        return problems
+
+    header_version = match.group(1)
+    if header_version != plugin_version:
+        problems.append(
+            "README.md — \"What's New\" header is v{} but plugin.json version is "
+            "'{}' (must match)".format(header_version, plugin_version)
+        )
+    return problems
+
+
 def _version_key(version):
     return tuple(int(part) for part in version.split("."))
 
@@ -333,15 +369,17 @@ def _read(path):
         return handle.read()
 
 def release_audit(root):
-    """Release-rules sweep (R1–R4). Empty list = clean. R1/R2 skip
+    """Release-rules sweep (R1–R5). Empty list = clean. R1/R2 skip
     vacuously when neither plugin file exists; R3 runs regardless (it
-    depends only on the tree); R4 skips unless both history files exist."""
+    depends only on the tree); R4 skips unless both history files exist;
+    R5 skips unless plugin.json and README.md both exist."""
     plugin, marketplace, problems = _release_files(root)
     if plugin or marketplace or problems:
         problems.extend(_release_versions(plugin, marketplace))
         problems.extend(_release_capability(plugin, marketplace))
     problems.extend(_release_namespace(root))
     problems.extend(_release_history(root))
+    problems.extend(_release_whats_new(root, plugin))
     return problems
 
 
@@ -482,6 +520,21 @@ def _selftest_cases():
             problems == ["release history — 2.0.0 is in README.md but not CHANGELOG.md"],
             problems,
         ))
+
+    # Case R5 — a README "What's New" header that disagrees with
+    # plugin.json's version refuses.
+    with tempfile.TemporaryDirectory() as root:
+        _sw(
+            os.path.join(root, ".claude-plugin", "plugin.json"),
+            '{"name": "kerd", "version": "1.0.0", "description": "caps A"}',
+        )
+        _sw(
+            os.path.join(root, "README.md"),
+            "# P\n\n## What's New (v0.9.0)\n\nThe old thing.\n",
+        )
+        problems = release_audit(root)
+        ok = any("\"What's New\" header" in p for p in problems)
+        cases.append(("a What's New header behind plugin.json's version refuses", ok, problems))
 
     # Case 2 — version drift refuses.
     with tempfile.TemporaryDirectory() as root:

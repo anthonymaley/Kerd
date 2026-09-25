@@ -312,7 +312,7 @@ Scaffold creates the **spine** (MOC + Status + Weekly) and nothing else, seeded 
 
 - The vault spec at `docs/vault-spec.md` defines what belongs in the vault and what doesn't. Kivna implements the mechanics; the spec defines the philosophy.
 - Status.md is overwritten, not appended to. Save reports what changed but does not ask for approval (v0.60.0); do-not-save markers are the privacy control. Scaffold still gets approval — it creates files from an interview, save just reflects the session.
-- Weekly.md is the one append-style vault file. Each week's section is updated in place during the week, and new weeks are prepended. Old weeks stay for history.
+- Weekly.md is the one file with dated, append-only sections. Each week's section is updated in place during the week, and new weeks are prepended. Old weeks stay for history. (Decisions, when it exists, also grows rather than being overwritten, but as one running document, not dated sections.)
 - Vault files use self-identifying names (`[Project] Status.md`, not `Status.md`). This prevents collisions in Obsidian's quick switcher across vaults.
 - No symlinks to repo files. The vault contains knowledge written in human form, not mirrors of machine-readable repo files.
 - `kivna/input/` and `kivna/output/` should be in `.gitignore`. They're transit folders, not project content.

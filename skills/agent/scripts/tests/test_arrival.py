@@ -294,7 +294,12 @@ class ArrivalTests(unittest.TestCase):
              patch.object(agent, 'read_json', side_effect=read), \
              patch.object(agent, 'owned', side_effect=owned), \
              patch.object(agent.socket, 'socket') as socket:
-            socket.return_value.__enter__.return_value.sendall.side_effect = OSError('write failed')
+            channel = socket.return_value.__enter__.return_value
+            # The fixture's listener is the chosen session (pid 42), as the
+            # native peer check reads it on this platform.
+            channel.getsockopt.return_value = (agent.struct.pack('i', 42) if sys.platform == 'darwin'
+                                               else agent.struct.pack('3i', 42, 0, 0))
+            channel.sendall.side_effect = OSError('write failed')
             result = self.arrive('review')
         self.assertEqual(result['team'][1]['status'], 'delivery-uncertain')
         # A different identity creates a new receipt; wrong metadata fails before

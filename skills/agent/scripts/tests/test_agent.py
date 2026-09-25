@@ -1787,3 +1787,138 @@ class FixtureIsolationTests(unittest.TestCase):
             agent.RPC = REAL_RPC
 
         self.assertEqual(offenders, [], '; '.join(offenders))
+
+
+class AgentSecurityTests(QueueTests):
+    """Prompts stay out of argv, the socket peer is the chosen session, an
+    in-place log rewrite is caught, and each controller sends under its own name."""
+
+    def assert_private_pointer(self, message, request, job):
+        path = self.app.state / 'requests' / (request + '.prompt')
+        self.assertNotIn(job, message, 'the prompt must not travel in process arguments')
+        self.assertIn(str(path), message)
+        self.assertIn(job, path.read_text())
+        self.assertIn(agent.markers(request)[0], path.read_text())
+        self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+        self.assertEqual(path.parent.stat().st_mode & 0o777, 0o700)
+        self.assertEqual(list(path.parent.glob('*.tmp')), [], 'written by rename, no temp left')
+
+    def test_claude_partner_launch_carries_only_a_pointer(self):
+        prompt = self.root / 'prompt.md'
+        prompt.write_text('Secret bounded job text')
+        sid = str(uuid.uuid4())
+        rows = [[], [{'id': sid, 'provider': 'claude', 'pid': 321, 'cwd': str(self.root)}]]
+        with patch.object(agent, 'claude_sessions', side_effect=rows), \
+                patch.object(agent, 'command', return_value='backgrounded · ' + sid[:8]) as launch, \
+                patch.object(self.app, 'status', return_value={'status': 'submitted-unconfirmed'}):
+            result = self.app.start('claude', 'partner', 'partner', prompt, 'Reviewer')
+        args = launch.call_args.args[0]
+        request = result['partner']['request_id']
+        self.assertFalse(any('Secret bounded job text' in a for a in args))
+        self.assert_private_pointer(args[args.index('{"crossSessionInbound":"accept"}') + 1],
+                                    request, 'Secret bounded job text')
+
+    def test_log_rewritten_in_place_at_equal_size_is_caught(self):
+        self.append('earlier history ' * 8)
+        self.ask()
+        original = self.log.read_bytes()
+        inode = self.log.stat().st_ino
+        with self.log.open('r+b') as stream:  # same inode, same size, different bytes
+            stream.write(original.replace(b'earlier', b'REWRITE'))
+        self.answer('From a rewritten log')
+        self.assertEqual(self.log.stat().st_ino, inode)
+        record = self.app.status(self.rid)
+        self.assertEqual(record['status'], 'observation-unavailable')
+        self.assertIn('rewritten', record['error'])
+
+    def test_unchanged_history_with_a_tail_still_reads_the_reply(self):
+        self.append('earlier history ' * 8)
+        self.ask()
+        self.assertEqual(len(bytes.fromhex(agent.read_json(
+            self.app.state / 'requests' / (self.rid + '.json'))['tail'])), 64)
+        self.answer('Kept')
+        self.assertEqual(self.app.status(self.rid)['reply'], 'Kept')
+
+    def test_sender_is_per_controller_with_a_shared_fallback(self):
+        controller = str(uuid.uuid4())
+        with patch.dict(os.environ, {'CLAUDE_CODE_SESSION_ID': controller}, clear=True):
+            frame = json.loads(agent.claude_frame(self.sid, self.rid, 'x'))
+        self.assertEqual(frame['from'], 'kerd-agent:' + controller[:8])
+        with patch.dict(os.environ, {'CODEX_THREAD_ID': controller}, clear=True):
+            self.assertEqual(agent.sender_label(), 'kerd-agent:' + controller[:8])
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertEqual(json.loads(agent.claude_frame(self.sid, self.rid, 'x'))['from'], 'kerd-agent')
+
+
+class SocketPeerTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.home = Path(self.tmp.name).resolve()
+        (self.home / 'sessions').mkdir()
+        self.endpoint = self.home / 'peer.sock'
+        self.sid, self.rid = str(uuid.uuid4()), str(uuid.uuid4())
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def metadata(self, pid):
+        agent.atomic_json(self.home / 'sessions' / (str(pid) + '.json'), {
+            'sessionId': self.sid, 'pid': pid, 'cwd': str(self.home),
+            'messagingSocketPath': str(self.endpoint)})
+
+    def test_a_listener_that_is_not_the_session_process_receives_nothing(self):
+        other = os.getppid()  # the metadata names another process; this one listens
+        self.metadata(other)
+        received = []
+        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as server:
+            server.bind(str(self.endpoint))
+            server.listen(1)
+            server.settimeout(3)
+            def read():
+                client, _ = server.accept()
+                with client:
+                    received.append(client.makefile('rb').read())
+            thread = threading.Thread(target=read)
+            thread.start()
+            with patch.object(agent, 'claude_home', return_value=self.home):
+                with self.assertRaisesRegex(agent.Unavailable, 'not the chosen session'):
+                    agent.send_claude(self.home, {'id': self.sid, 'pid': other}, self.rid, 'Bounded')
+            thread.join(timeout=4)
+        self.assertEqual(received, [b''])
+
+    def test_an_unreadable_or_unsupported_peer_is_refused_before_writing(self):
+        pid = os.getpid()
+        self.metadata(pid)
+        self.endpoint.touch()
+        actual_owned = agent.owned
+        def owned(path, kind):
+            return None if kind is agent.stat.S_ISSOCK else actual_owned(path, kind)
+        for case in ('oserror', 'platform'):
+            with patch.object(agent, 'claude_home', return_value=self.home), \
+                 patch.object(agent, 'owned', side_effect=owned), \
+                 patch.object(agent.socket, 'socket') as factory:
+                channel = factory.return_value.__enter__.return_value
+                if case == 'oserror':
+                    channel.getsockopt.side_effect = OSError('unsupported')
+                    context = patch.object(agent, 'peer_pid', wraps=agent.peer_pid)
+                else:
+                    context = patch.object(agent.sys, 'platform', 'plan9')
+                with context, self.assertRaises(agent.Unavailable):
+                    agent.send_claude(self.home, {'id': self.sid, 'pid': pid}, self.rid, 'Bounded')
+                channel.sendall.assert_not_called()
+
+
+class CodexQueuePointerTests(TuiRouteTests):
+    def test_codex_queue_message_is_a_pointer_to_a_private_file(self):
+        with patch.object(agent, 'command', side_effect=self.fake_command):
+            self.app.ask('codex', self.sid, 'Secret review job', 'Reviewer', self.rid)
+        args = [a for a in self.calls if a[:1] == ['codex']][0]
+        message = args[args.index('--message') + 1]
+        AgentSecurityTests.assert_private_pointer(self, message, self.rid, 'Secret review job')
+
+    def test_a_failed_pointer_write_sends_nothing(self):
+        with patch.object(agent, 'command', side_effect=self.fake_command), \
+             patch.object(agent, 'private_text', side_effect=OSError(28, 'No space left')):
+            record = self.app.ask('codex', self.sid, 'Secret review job', 'Reviewer', self.rid)
+        self.assertEqual([a for a in self.calls if a[:1] == ['codex']], [])
+        self.assertIn('error', record)

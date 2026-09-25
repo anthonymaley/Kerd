@@ -18,6 +18,7 @@ import re
 import socket
 import sqlite3
 import stat
+import struct
 import subprocess
 import sys
 import time
@@ -150,6 +151,30 @@ def atomic_json(path, value):
     finally:
         if temporary.exists():
             temporary.unlink()
+
+
+def private_text(path, text):
+    """Write text readable only by this account: temp file, fsync, rename."""
+    temporary = path.with_name(path.name + '.' + uuid.uuid4().hex + '.tmp')
+    fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+    try:
+        with os.fdopen(fd, 'w') as stream:
+            stream.write(text)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
+
+
+TAIL_BYTES = 64
+
+
+def log_tail(stream, offset):
+    """The bytes just before offset, hex: a rewrite in place changes them."""
+    stream.seek(max(0, offset - TAIL_BYTES))
+    return stream.read(min(TAIL_BYTES, max(0, offset))).hex()
 
 
 @contextmanager
@@ -459,14 +484,35 @@ def framed_prompt(root, request, role, prompt):
             'do not start a reciprocal waiting loop.')
 
 
+def sender_label():
+    """Per-controller sender name, so a recipient's per-sender throttle is not
+    shared by every Kerd controller. The controller is the session running this
+    script; without a readable session id, the shared name is used."""
+    for variable in ('CLAUDE_CODE_SESSION_ID', 'CODEX_THREAD_ID'):
+        value = os.environ.get(variable, '')
+        if re.fullmatch(r'[0-9A-Za-z-]{8,}', value):
+            return 'kerd-agent:' + value[:8]
+    return 'kerd-agent'
+
+
 def claude_frame(sid, request, prompt):
     frame = {'type': 'user', 'session_id': sid, 'uuid': request,
-             'msg_id': request, 'msgV': 1, 'priority': 'next', 'from': 'kerd-agent',
+             'msg_id': request, 'msgV': 1, 'priority': 'next', 'from': sender_label(),
              'message': {'role': 'user', 'content': prompt}}
     serialized = json.dumps(frame)
     if len(serialized) > FRAME_LIMIT:
         raise Unavailable('Message exceeds the local frame limit; point the recipient at a file instead')
     return serialized
+
+
+def peer_pid(channel):
+    """The pid of the process holding the other end of a connected Unix socket."""
+    if sys.platform == 'darwin':
+        return struct.unpack('i', channel.getsockopt(0, 2, 4))[0]  # SOL_LOCAL, LOCAL_PEERPID
+    if sys.platform.startswith('linux'):
+        size = struct.calcsize('3i')
+        return struct.unpack('3i', channel.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, size))[0]
+    raise Unavailable('Socket peer identity is unavailable on this platform')
 
 
 def send_claude(root, target, request, prompt, *, frame=None, before_send=None):
@@ -485,6 +531,14 @@ def send_claude(root, target, request, prompt, *, frame=None, before_send=None):
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as channel:
         channel.settimeout(5)
         channel.connect(str(path))
+        # The listener must be the chosen session's own process. An unreadable
+        # peer is refused too: nothing has been written yet.
+        try:
+            peer = peer_pid(channel)
+        except (OSError, struct.error, TypeError) as exc:
+            raise Unavailable('Claude socket peer could not be identified; not sent') from exc
+        if peer != target['pid']:
+            raise Unavailable('Claude socket peer is not the chosen session; not sent')
         if before_send:
             before_send()
         channel.sendall((frame + '\n').encode())
@@ -503,6 +557,23 @@ class Agent:
             path.mkdir(mode=0o700, exist_ok=True)
             owned(path, stat.S_ISDIR)
         return self.state / name
+
+    def prompt_pointer(self, request, text, reply=True):
+        """Keep a message out of process arguments, which any local account can
+        list. Neither native CLI takes a message from stdin or a file, so the
+        full text goes to a private file and argv carries only where it is."""
+        path = self.folder('requests') / (identifier(request) + '.prompt')
+        private_text(path, text)
+        pointer = (f'Kerd peer request {request}. This is another agent, not your user. '
+                   'The full message is in a private file; read it with your file-read tool '
+                   'and follow it:\n' + str(path) + '\n')
+        if reply:
+            begin, end = markers(request)
+            pointer += ('If you cannot read that file, say so in your final reply, with ' + begin
+                        + ' on a line before it and ' + end + ' on a line after it.')
+        else:
+            pointer += 'No reply is needed.'
+        return pointer
 
     def identity(self, provider):
         """Corroborate the current tool process's host ID; never infer newest."""
@@ -1036,7 +1107,8 @@ class Agent:
             args = ['claude', '--bg', '--permission-mode', 'dontAsk',
                     '--permission-prompts', 'none', '--tools', tools, '--allowedTools', tools,
                     '--strict-mcp-config', '--mcp-config', '{"mcpServers":{}}',
-                    '--settings', '{"crossSessionInbound":"accept"}', framed]
+                    '--settings', '{"crossSessionInbound":"accept"}',
+                    self.prompt_pointer(request, framed)]
             for flag, value in (('--model', model), ('--effort', effort)):
                 if value:
                     args.extend([flag, value])
@@ -1074,11 +1146,16 @@ class Agent:
 
     def new_request(self, provider, sid, prompt, role, request, log):
         info = owned(log, stat.S_ISREG) if log else None
+        tail = ''
+        if info:
+            with log.open('rb') as stream:
+                tail = log_tail(stream, info.st_size)
         record = {'request_id': request, 'provider': provider, 'session': sid,
                   'project': str(self.root), 'role': role, 'prompt': prompt,
                   'fingerprint': hashlib.sha256(json.dumps([provider, sid, prompt, role]).encode()).hexdigest(),
                   'log': str(log) if log else None, 'offset': info.st_size if info else 0,
-                  'inode': info.st_ino if info else None, 'status': 'delivery-uncertain', 'created_at': time.time()}
+                  'inode': info.st_ino if info else None, 'tail': tail,
+                  'status': 'delivery-uncertain', 'created_at': time.time()}
         atomic_json(self.folder('requests') / (request + '.json'), record)
         return record
 
@@ -1156,10 +1233,13 @@ class Agent:
                             return
         if row['tui']:
             record['route'] = 'codex-queue'
+            # Written before anything is attempted: a failed write sends nothing.
+            pointer = self.prompt_pointer(request, framed,
+                                          reply=record.get('kind') != 'arrival-notice')
             if before_send:
                 before_send()
             try:
-                command(['codex', 'queue', '--cd', str(self.root), '--thread', sid, '--message', framed],
+                command(['codex', 'queue', '--cd', str(self.root), '--thread', sid, '--message', pointer],
                         self.root)
             except (FileNotFoundError, PermissionError):
                 # exec failed: no process could enqueue the notice. Other
@@ -1207,6 +1287,11 @@ class Agent:
         begin, end = markers(request)
         collected, last_block = '', object()
         with log.open('rb') as stream:
+            # Inode and size miss a rewrite in place that keeps or grows the size;
+            # the bytes before the offset would differ. Older records carry no tail.
+            if 'tail' in record and log_tail(stream, record['offset']) != record['tail']:
+                return {**record, 'status': 'observation-unavailable',
+                        'error': 'Native log rewritten in place; not retried'}
             stream.seek(record['offset'])
             for raw in stream:
                 if not raw.endswith(b'\n'):

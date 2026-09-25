@@ -36,7 +36,7 @@ Entry point. Links to every other file with a one-line description. Under 40 lin
 Living summary: where we are, what's working, what's open, what's next. Two screens max. Overwritten each session, not appended to.
 
 **Weekly:** `{{Project Name}} Weekly.md`
-Rolling tracker of achievements and risks by week. Each week gets a section (anchored to Monday's date) with achievements (what shipped, what was decided) and risks (with `[open]` or `[mitigated]` markers). Weeks in reverse chronological order. Updated by Kivna save, not overwritten. This is the one append-style file in the vault — it exists because status reports need history, and Status.md (which captures only current state) can't provide that. Created up front with its header/structure ready for the first weekly entry, so the spine is uniform across projects.
+Rolling tracker of achievements and risks by week. Each week gets a section (anchored to Monday's date) with achievements (what shipped, what was decided) and risks (with `[open]` or `[mitigated]` markers). Weeks in reverse chronological order. Updated by Kivna save, not overwritten. This is the one file with dated, append-only sections — it exists because status reports need history, and Status.md (which captures only current state) can't provide that. (Decisions, when it exists, also grows rather than being overwritten, but as one running document, not dated sections.) Created up front with its header/structure ready for the first weekly entry, so the spine is uniform across projects.
 
 ### Rule: scaffold the spine, never the content
 

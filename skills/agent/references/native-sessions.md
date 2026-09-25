@@ -184,16 +184,27 @@ Limits stated rather than glossed. On the Claude socket route, a message larger
 than the native sender's documented same-machine cap (1,000,000 serialized
 characters) is refused before a request JSON or socket attempt; a local lock
 file may remain. Point the recipient at a file instead. This cap does not
-describe the Codex CLI or a new partner's CLI launch. Every
-Kerd controller sends as `from: kerd-agent`, so a per-sender throttle on the
-recipient's side is shared across them, and a held, expired or throttled
-message is indistinguishable from a slow reply: all remain submitted-unconfirmed.
-The Claude socket target is checked for owner and type only; the native client
-additionally verifies the peer process, and Kerd does not, so a same-user write
-to session metadata could redirect a send. A native log rewritten in place with
-its inode preserved would pass the replacement guard; neither provider is known
-to do this. A new partner's first contribution, like a `codex queue` message,
-travels in process arguments visible to other local accounts.
+describe the Codex CLI or a new partner's CLI launch. Each controller sends as
+`from: kerd-agent:<first 8 characters of its session id>`, read from
+`CLAUDE_CODE_SESSION_ID` or `CODEX_THREAD_ID`; a controller with neither falls
+back to the shared `kerd-agent`, and every such controller shares one per-sender
+throttle on the recipient's side. A held, expired or throttled message is
+indistinguishable from a slow reply: all remain submitted-unconfirmed.
+The Claude socket path is checked for owner and type, and after connecting Kerd
+reads the listener's pid (`LOCAL_PEERPID` on macOS, `SO_PEERCRED` on Linux) and
+sends nothing unless it equals the session pid in the metadata; an unreadable
+peer or another platform is refused. That pid comes from the same session
+metadata, so a same-user process that rewrites the metadata and listens on its
+own socket under its own pid would still pass. A native log is treated as
+replaced when its inode changes, it shrinks, or the 64 bytes before the
+submission offset differ; a rewrite in place that keeps those 64 bytes would
+still pass, and requests saved before this check carry no tail and are checked
+by inode and size alone. A new Claude partner's first contribution and a `codex queue`
+message are written to `requests/<id>.prompt` (mode 0600, directory 0700, written
+by rename); process arguments carry only a pointer that names that file and the
+request id, so the path, not the prompt, is visible to other local accounts.
+The recipient must be able to read that file: a partner that cannot does not
+see the prompt, and is asked to say so between the reply markers.
 
 Private aliases, request prompts and returned text live under the current Git
 directory's `kerd-agent/`, not in the worktree or public Git history. The existing

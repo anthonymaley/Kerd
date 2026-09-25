@@ -2,14 +2,14 @@
 
 Kerd turns working with an AI from a string of chats into a piece of work. You
 rehearse the work together until you both know what done means. Then Kerd writes
-the score, and a team of agents performs it — with your goals checked before it
+the score, and a team of agents performs it, with your goals checked before it
 ends.
 
 **Rehearsal, then the concert.** Two words carry the whole of Kerd. *Rehearsal*
 is the part you are in: working it through turn by turn, in any order, shipping
 as you go, while Kerd keeps a sketchbook of what is settled. *The concert* is
 what happens once you say you are ready: the work is written down as a score,
-and a team of agents performs it — no turn-by-turn questions, because the asking
+and a team of agents performs it: no turn-by-turn questions, because the asking
 already happened. It comes back to you only if something the score cannot answer
 turns up. You decide when rehearsal ends, and nothing is performed that
 you have not agreed.
@@ -224,7 +224,7 @@ Real work, not invented.
 
 **Rollback is a Git reference, never a cached plugin file.** Claude Code garbage-
 collects old versions out of `~/.claude/plugins/cache/`, so a version you can see
-there today may be gone tomorrow — that is what silently killed hooks across eleven
+there today may be gone tomorrow. That is what silently killed hooks across eleven
 repos before v0.96.0. Roll back by pinning the marketplace to a tagged commit:
 
 | Want | Reference |
@@ -242,13 +242,13 @@ so there is no shorthand for the CLI to re-resolve. Tested in a throwaway
 profile on 2026-09-20.
 
 Two ways round it, neither run against an old commit: take a checkout of the
-version you want and point `--plugin-dir` at it — loading a local checkout that
-way was observed working on 2026-09-20, with a current one — or edit the `url`
+version you want and point `--plugin-dir` at it (loading a local checkout that
+way was observed working on 2026-09-20, with a current one), or edit the `url`
 in that commit's `.claude-plugin/marketplace.json` to the `https://` form before
 installing, which is the operation the 0.142.1 fix itself was proved with on
 2026-09-19, against a fixed manifest rather than an old one.
 
-This repo carries **no tags** — `git tag` returns nothing — so a commit SHA is the
+This repo carries **no tags** (`git tag` returns nothing), so a commit SHA is the
 only durable reference today. If you want `v0.107.0` to be tag-addressable, the tag
 has to be created and pushed as part of publishing; until then, cite the SHA.
 Confirm what a reference points at with `git show --stat <ref>` before relying on it.
@@ -264,9 +264,25 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.154.1)
+## What's New (v0.155.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.155.0
+
+**Messages between agents stay out of the process list.** Agent used to put a partner's
+whole message in the command it ran, where any local account can list it. The message now goes
+to a private file under `.git/kerd-agent/requests/` (owner-only), and the command carries only
+where to find it. A live Claude partner read the file and replied on 2026-09-25. Agent also now
+checks that the process holding a Claude session's socket is that session before sending,
+notices a reply log rewritten in place even at the same size, and gives each controller its own
+sender name, so one busy session no longer throttles another. What is left open is written down
+in the Agent guide's limits paragraph.
+
+**The words people read, in one voice.** The README, the guides and the site had their em dashes
+taken out, and the release history lost its dashes without being rewritten. A new release check
+refuses a README whose What's New header names a different version from the plugin. The vault
+spec and Kivna now agree on which vault file keeps dated sections.
 
 ### v0.154.1
 
@@ -455,8 +471,8 @@ with four jobs; the new names have not yet been seen in the list.
 **Kerd keeps going, or says what it is waiting for.** A turn could end in a third way
 besides working and asking: idle, with nothing asked, because the steps ran out or a
 document ended. Coming back to a session like that, you have to ask what is going on. A
-turn now ends carrying on — the goal is clear and the authority already covers the next
-step, so it takes it — or stopped on one question you can answer cold, saying what is
+turn now ends carrying on (the goal is clear and the authority already covers the next
+step, so it takes it) or stopped on one question you can answer cold, saying what is
 blocked, what it is waiting for and what follows each answer. This holds in rehearsal as
 much as in the concert: research, drafts, checks and the score are worked through without
 pausing between them for permission to continue. Reported after it cost time across two
@@ -468,7 +484,7 @@ projects in one day.
 show a partner an image by naming its path, but that had only been seen on a Codex
 session. A Claude session was given one absolute path and answered three questions whose
 answers exist only in the picture: correct on all three. Documentation only, and the
-remaining gaps are named where the route is described — on Claude it has been seen with a
+remaining gaps are named where the route is described: on Claude it has been seen with a
 fresh worker, not an established partner, and not yet with a file outside the project.
 
 ### v0.145.0
@@ -655,7 +671,7 @@ use to get around Conductor. Now the arrival opens with a one-row grid (project,
 phase, next and team), where PHASE is the recommended item's rung on the ladder.
 "Where things stand" says what the product does and what is left before launch,
 the footer, render time and END OF PICKUP marker are gone, and the screen ends on
-one question, followed where the host has a picker by exactly *Yes — <the
+one question, followed where the host has a picker by exactly *Yes, <the
 recommended work>* and *Something else*. Both open Conductor; neither approves
 the work's operations.
 
@@ -667,8 +683,8 @@ status grid, with the real open work behind a link. On 2026-09-18 that put an
 internal self-check at the top of the screen with no reason it mattered. Now In
 weighs every open item, the saved one included, and shows where things stand,
 the open work one line each, one recommendation with its reason, then asks
-*“What do you want this session to move forward?”*. Choosing work — a plain yes to
-the recommendation included — opens Conductor at Shape for it; it never approves
+*“What do you want this session to move forward?”*. Choosing work, a plain yes to
+the recommendation included, opens Conductor at Shape for it; it never approves
 that work's operations. Work that only proves Kerd's own mechanics no longer
 leads. The status grid remains only for record-driven views and older callers.
 Not yet observed on a real arrival.
@@ -676,37 +692,37 @@ Not yet observed on a real arrival.
 ### v0.134.0
 
 **A diagram that only a reader of the source can follow is not doing its job.**
-The owner supplied two versions of one card — implementation-first against product
-language — and Visuals now carries the difference as contract. Code references sit
+The owner supplied two versions of one card (implementation-first against product
+language), and Visuals now carries the difference as contract. Code references sit
 in a subordinate evidence layer; removing them must leave the main relationship
 understandable without the source, and a solution, proposal or correction view must
 still show what works today, what does not, who owns the gap, what changes and any
 material cost or boundary that exists. Every view saved beside work also names its
 project, product or repository inside the render,
 because a filename, browser tab or surrounding message does not travel with the
-picture. Both are **producer checks at review, not automated proof** — no gate, hook
+picture. Both are **producer checks at review, not automated proof**: no gate, hook
 or schema was added, and nothing here has been measured on real diagram output.
 
 Five of the seven clauses originally proposed were dropped as already contracted, and
-three more were reworded because they could not fail, or could not pass — the defect
+three more were reworded because they could not fail, or could not pass: the defect
 class 0.132.0 and 0.133.0 each shipped once. A before-push review caught a fourth
 instance in the first draft of this very release.
 
 ### v0.133.2
 
 **0.133.1 said CI runs the tests; CI was red, so it didn't.** Its first real run found a
-test that depended on `agent.RPC` being unpatched global state — many tests in that
+test that depended on `agent.RPC` being unpatched global state: many tests in that
 module patch it, and a leaked patch turns `agent.RPC.__new__(agent.RPC)` into
 `Mock.__new__(<instance>)`, which raises `TypeError` rather than failing as a test. The
 test now captures the real class at import time, so it exercises the genuine call loop
-regardless. **Which test leaks the patch is unresolved and recorded as such** — the
+regardless. **Which test leaks the patch is unresolved and recorded as such**: the
 dependence is removed, the leak is not diagnosed. Green locally on 3.14 the whole time,
 which is exactly why the suite needed to run somewhere else.
 
 ### v0.133.1
 
 **The test suite now runs in CI, and runs at all by module name.** 730 tests across 17
-modules existed and CI ran none of them — `.github/workflows/gate.yml` ran three
+modules existed and CI ran none of them: `.github/workflows/gate.yml` ran three
 selftests. It now runs `tools/run_tests.py` and the hook tests too. The suite also
 could not be invoked by dotted module name: `skills/switch/scripts/tests/test_roll_control.py`
 imported its siblings *above* its own `sys.path` inserts, so it only worked when the
@@ -717,7 +733,7 @@ deliberately left out of it; no skill behaviour changes.
 
 **A delegated job now says which model it runs on, in the call.** Kerd's five
 `kerd:effort-<level>` agents set effort and carry no model, and the guidance said
-the call "still passes `model`" — a note, not a requirement. So every job dispatched
+the call "still passes `model`", a note, not a requirement. So every job dispatched
 in the 0.132.0 sitting omitted it and fell through to the caller's Opus:
 `requested_model` null with `claude-opus-5` observed six times, and one survey run
 elsewhere burning roughly 860K Opus tokens on mechanical slices. The contract is now
@@ -726,10 +742,10 @@ stated where the dispatch happens: `model` requests Haiku, Sonnet, Opus or Fable
 "per definition" or "inherited" is invalid for any of them. `job_evidence.py`
 still reports what actually ran, afterward.
 
-Evidenced by one real mixed-model fan-out — three jobs in a single dispatch at
-`haiku`/low, `sonnet`/medium and `opus`/high — observed as
+Evidenced by one real mixed-model fan-out: three jobs in a single dispatch at
+`haiku`/low, `sonnet`/medium and `opus`/high, observed as
 `claude-haiku-4-5-20251001`, `claude-sonnet-5` and `claude-opus-5` respectively. With `CLAUDE_CODE_SUBAGENT_MODEL` unset, as it was here, the same three calls without
-an explicit `model` would have resolved to the controller's Opus — the pattern the 0.132.0
+an explicit `model` would have resolved to the controller's Opus: the pattern the 0.132.0
 sitting produced six times.
 One honest gap the run exposed: the Haiku job returned no effort records at all, so
 its requested effort stays unverifiable rather than confirmed.
@@ -740,23 +756,23 @@ a missing tool argument, and a subsystem is not the countermeasure for it.
 ### v0.132.0
 
 **A proposal now arrives as a picture, not a wall of text.** Kerd's skills had a
-standing instruction to draw — and a discretionary one ("consider whether seeing the
+standing instruction to draw, and a discretionary one ("consider whether seeing the
 relationship would help"), plus an explicit licence to "use a small inline sketch". So
 models hand-rolled ASCII in code fences and called it a diagram. Both holes are closed.
 Every skill entry point now carries a **Showing the person** line beside its Asking the
 person line: when someone asks to see something, and whenever a proposal carries two
 or more connected parts, a branch, an ownership boundary or a before → after change,
-the answer carries a saved, rendered view. The threshold is countable on purpose —
+the answer carries a saved, rendered view. The threshold is countable on purpose:
 "substantial" was the first draft, and a model can call a multi-part proposal small
 because it is easy to describe in words. There is no "shall I draw one?"
-offer and no quota — tiny or factual work staying text is the proportional control, not
+offer and no quota: tiny or factual work staying text is the proportional control, not
 a failure. The view is drawn with **diagram-design or Archify, which are now required
 rather than merely allowed**: hand-rolled ASCII in a code fence is not a visual, and
 the bundled starter patterns alone do not satisfy the rule. Archify is installed and
 verified for this release; diagram-design keeps the static default, Archify takes
 exploration and before/after comparison. A guard test covers the rule across all twelve
 entry points, the linked section, the required-tool wording and a ban on offer phrases,
-mutation-checked — including cases that must *pass*: a mid-sentence rewrap, and prose
+mutation-checked, including cases that must *pass*: a mid-sentence rewrap, and prose
 that forbids the offer while discussing how the two tools relate.
 
 **A decision now stays attached to the question that asks for it.** Immediately
@@ -771,8 +787,8 @@ explicit exception: its complete rendered dashboard is already the orientation,
 and its fixed, labelled Yes opens direction-setting only.
 
 **What the tests show, and what they don't.** The visual rule is demonstrated. On a
-deliberately marginal case — two components and one branch, comfortably answerable in
-prose — three of three runs carrying the rule rendered a view and none of three without
+deliberately marginal case (two components and one branch, comfortably answerable in
+prose), three of three runs carrying the rule rendered a view and none of three without
 it did; it also declined to fire on a one-line factual question (0/3) and worked from
 entry points other than Conductor (2/2). Nineteen valid runs across three arms that
 isolate each rule. The capsule rule was **tightened and re-tested**: its first wording produced one
@@ -780,13 +796,13 @@ clean capsule in three, because models gave their recommendation early and left 
 above the question carrying only the deciding consideration. It now requires the
 recommendation to be *restated* there. Re-tested against the same scenario: **4/4 clean
 capsules against 0/4** for the wording without it. A
-static guard proves a rule is *written*, never that it is *followed* — which is exactly
+static guard proves a rule is *written*, never that it is *followed*, which is exactly
 how the discretionary wording this release removes survived so long.
 
 ### v0.131.0
 
 **A picker may now follow the question, and Agent offers the roles it knows.**
-v0.129.0 unified every Kerd question into one speech-bubble line — and also banned
+v0.129.0 unified every Kerd question into one speech-bubble line, and also banned
 native pickers outright, which was never asked for. That ban is withdrawn. The bubble
 is still the question and is still the last prose line, but where the host offers one,
 a native single- or multi-select picker may follow it carrying that question's own
@@ -794,16 +810,16 @@ options, approvals included. The picker always leaves a free-form answer open, n
 narrows a question meant to stay open, and never broadens what an approval authorizes;
 where there is no picker, the bubble is answered in words exactly as before. It names
 shortcuts and defers to the host's own free-form route rather than adding an "Other"
-entry where the host supplies one — Claude Code's picker does. A stock Correct / Change
+entry where the host supplies one: Claude Code's picker does. A stock Correct / Change
 menu stays banned, precisely because it carries none of the question's own options.
 Switch In's "Start a Conductor session?" can now be answered from a picker whose
-options are labelled "Yes — open direction-setting" and "Not now" — never a bare
+options are labelled "Yes, open direction-setting" and "Not now", never a bare
 Yes, so a picked answer states what it opens and cannot read as approving the
 saved task.
 Agent is the first skill to use it: a missing partner role follows the bubble with a
 single-choice picker naming Pairing partner, Implementation partner, Independent
 reviewer and Specialist adviser, and a missing review cadence gets a multi-select over
-the four cadence values — a recorded role or cadence is still never re-asked, and those
+the four cadence values: a recorded role or cadence is still never re-asked, and those
 four roles are shortcuts, never the permitted set, which `--partner-role` enforces by
 taking any wording at all. The guard test that enforced the ban now enforces its
 replacement, mutation-checked in eight places.
@@ -812,7 +828,7 @@ replacement, mutation-checked in eight places.
 leaving the prose above it unchanged. Two things were not: that Switch's renderer
 returns byte-identical Markdown with a picker attached, and that a picker Yes opens
 direction-setting without approving saved work. The second is an authority question,
-not a presentation one — a misread Yes could start work that was only meant to be
+not a presentation one: a misread Yes could start work that was only meant to be
 discussed. Both are deferred to the first real Switch In on 0.131.0 and recorded there.
 
 ### v0.130.0
@@ -910,7 +926,7 @@ project-wide hold, and managed Roll keeps its exact non-interactive authority.
 **The composer writes the score; players execute complete steps.** Non-trivial
 work with useful bounded player jobs uses four distinct responsibilities:
 producer, bounded top-capability composer, Conductor and players. Composition is
-two-pass—first the smallest named terrain, then a cold-readable score beside the
+two-pass: first the smallest named terrain, then a cold-readable score beside the
 work record. Only complete steps receive keep/delegate assignments. A well-factored
 score is biased toward delegation without quotas, while tiny or judgment-bound
 work stays inline for a concrete reason. Model and effort are selected for the
@@ -924,7 +940,7 @@ bulk deletions, renames and pattern edits always get the full diff, including
 inline Conductor edits. A sound step can be re-dispatched without semantic change;
 a known score defect returns immediately to the composer, and three failed player
 attempts are a ceiling rather than proof of cause. Managed runs use their existing
-`blocked` boundary and verified stop before score repair—no nested composer action
+`blocked` boundary and verified stop before score repair: no nested composer action
 or mutable live agreement was added.
 
 The integrated source was compared with v0.105.0 using the same six synthetic
@@ -1246,7 +1262,7 @@ session running the installed version.
 ### v0.112.0
 
 **One arrival, one decision.** Switch In now loads Conductor before rendering
-the dashboard, and the YOU box carries the arrival decision — *“Starting on X —
+the dashboard, and the YOU box carries the arrival decision: *“Starting on X,
 approve?”* with the scope of X. The 0.110.0 two-step arrival gave two answers
 to “am I needed”: a dashboard saying nothing was needed, then Conductor asking
 for approval underneath. A fresh pickup on another project showed the cost. The
@@ -1285,7 +1301,7 @@ the spec and both reviews are under `docs/work/release-111-followup/` and
 the whole pointer file: on Kerd itself `## Key Decisions` had grown to 210 KB,
 97 percent of CONTEXT.md, and a 2026-09-01 measurement had already shown that
 pruning old entries was aimed at the wrong variable, while naming the untried
-option — keep the ruling in the loaded file, move the case out. Out now does
+option: keep the ruling in the loaded file, move the case out. Out now does
 exactly that, in four moves: rulings stay in CONTEXT.md only while they govern
 the next work, with the full case in a living `docs/decisions.md` indexed by
 ruling; Backlog rows the closure review judges done or dead move to
@@ -1304,7 +1320,7 @@ release; the measured reading is in CONTEXT.md.
 
 **The shipped skills stop calling themselves a candidate.** Conductor, Switch
 and Visuals still carried "development candidate" headers and told the model not
-to invoke installed Conductor — the very skill Switch In loads. A Fable review of
+to invoke installed Conductor, the very skill Switch In loads. A Fable review of
 the four 0.107–0.110 skills found that and fourteen more; the report is at
 `docs/work/model-ready-work/trials/2026-09-11-fable-skill-review.md`. Fixed in
 this release: the candidate wording; the In approval line's precedence (saved
@@ -1312,7 +1328,7 @@ next action, then first NOW item, then "no task selected"); its stated reason,
 now a deliberate check-in on arrival rather than an authority claim that
 contradicted "don't require a second yes"; the In rule living in one place
 (Conductor's SKILL.md) with the other three copies pointing at it; Conductor's
-model-guidance links, which pointed at a directory that shipped nowhere — the
+model-guidance links, which pointed at a directory that shipped nowhere. The
 guidance now lives under `skills/conductor/references/guidance/` and ships; a
 `docs/work/SESSION.md` pointer Switch never writes; the closing link's three
 names, now one (*Open work*); and this README's "How They Fit Together", which
@@ -1321,16 +1337,16 @@ tests: a `now` written as one string rendered a bullet per letter; `agent.py
 status` on an unknown request left an empty lock file in the store; a section
 heading with trailing spaces failed the handoff helper with a misleading
 message. **Named as a loss:** the Slainte claim below is corrected rather than
-built — Conductor has no close-out hook, so the release pass runs on demand.
+built. Conductor has no close-out hook, so the release pass runs on demand.
 
 ### v0.110.0
 
 **Switch In opens a Conductor session and stops on one line.** 0.108.0 had In
-restore your place and stop dead, leaving you to ask for the work yourself —
-correct on authority, but it lost the focus: nothing on screen said what the
+restore your place and stop dead, leaving you to ask for the work yourself
+(correct on authority, but it lost the focus): nothing on screen said what the
 sitting was for. In now shows the dashboard, then opens Conductor on the restored
-place — journey strip, brief, task list — and ends on exactly one line:
-*“Starting on X — approve?”*, where X is the saved next action. One proposal,
+place (journey strip, brief, task list) and ends on exactly one line:
+*“Starting on X, approve?”*, where X is the saved next action. One proposal,
 never two options, never an “or”. Your approval starts the work; the line is a
 deliberate check-in on arrival, so an already-authorized plan waits for the same
 line. `switch to` and Roll keep their agreed continuation untouched. **What it
@@ -1346,7 +1362,7 @@ copy-ready example and its value-binding tests carry the new `now` list.
 ### v0.109.0
 
 **Agent can now reach the Codex session in your terminal.** 0.108.0 talked to
-Codex only through the app-server daemon — and on a machine where every Codex
+Codex only through the app-server daemon, and on a machine where every Codex
 is a TUI, that meant it could reach none of them. Agent now discovers the
 sessions you opened from Codex's own store, pairs one under a local name, sends
 through `codex queue --thread`, and reads the answer back out of that session's
@@ -1354,20 +1370,20 @@ native transcript by request markers. No daemon, no reply file, no mailbox.
 Proven live on an earlier state of the tree: a request to a running TUI came
 back `reply-received` in twenty seconds; the Claude route was re-proven after
 every fix, the Codex route is owed a re-run when Codex has tokens. **What it means:** "ask Codex" works against the Codex you are actually
-using, through the one command that ships with Kerd, on any machine — no vault
+using, through the one command that ships with Kerd, on any machine: no vault
 script, no symlink, nothing a consumer repo has to know about.
 
 **Five corrections from Codex's review of the design, all shipped; one more
 from a guard test after Codex ran out of tokens mid-review; eight from an
 Opus 5 review of the finished build; eight more from a Fable 5.1 review of the
 0.108.0 foundation beneath it; and eight from Fable's final pass over the whole
-diff — including a blocker in the fix for Opus's blocker.** The guard test caught an uncertain
-daemon send falling through to a second enqueue on the CLI route — the exact
+diff, including a blocker in the fix for Opus's blocker.** The guard test caught an uncertain
+daemon send falling through to a second enqueue on the CLI route: the exact
 hazard Codex had named. The Opus review caught a deleted refusal: a thread a
 daemon reports offline was being handed to `codex queue`, which may be able to
-start a session — restored, so the CLI route serves only threads no daemon can
+start a session. Restored, so the CLI route serves only threads no daemon can
 see. Among the rest: a marker quoted in Codex's *commentary* stream was being
-archived as a final reply — only `final_answer` (and unphased older events)
+archived as a final reply: only `final_answer` (and unphased older events)
 count now. From the Fable rounds, four changes you will notice: a reply's
 markers must now sit on their own lines (an inline mention of both markers
 parsed as a reply of one word); a message above about a million characters
@@ -1376,10 +1392,10 @@ id and waits fifteen seconds instead of five; and no error names a private
 path or repeats your prompt. **Conductor's players are subagents again.** The
 rework routed every delegated job through a fresh CLI session; the Conductor
 it replaced spun players up as native subagents at a sized model and effort,
-and that is the better default — the work stays in the session and returns
+and that is the better default: the work stays in the session and returns
 to the caller. Restored for Claude players; the CLI runner remains for Codex,
 resumable, sandboxed and persistent jobs. A regression fixed, not a feature. Discovery lists only threads a person opened, not the subagents they
-spawned. And an uncertain enqueue — a timeout mid-send — is retained as
+spawned. And an uncertain enqueue (a timeout mid-send) is retained as
 `delivery-uncertain` and never followed by a second send on another route.
 **Stated, not glossed:** a thread in the store is a *selectable* conversation,
 not proof anyone is at the keyboard; it is labelled `saved thread — activity
@@ -1400,12 +1416,12 @@ may hold inbound requests for approval; pairing does not grant native trust.
 
 **Switch In restores your place and stops there.** It was telling itself to
 continue an active build in the same turn, which contradicted the welcome-back
-summary it had just shown you — so a pickup could start executing work before you
+summary it had just shown you, so a pickup could start executing work before you
 had read where things stood. In now ends with memory, status and the saved plan
 on screen. **What it means:** arriving is arriving. Ask to continue and it hands
 over to Conductor without a second approval; `switch to` and Roll keep their
 agreed continuation untouched. **Named as a loss:** a pickup no longer resumes an
-authorized build by itself — if you relied on In carrying straight on, that is now
+authorized build by itself: if you relied on In carrying straight on, that is now
 one sentence from you.
 
 In also loads Conductor for orientation only, using the already-restored place;
@@ -1429,8 +1445,8 @@ should supply from what the renderer actually checks.
 Conductor now guides **Understand → Shape → Agree → Deliver → Complete** instead of
 orient → plan → execute → close, holds a real conversation about what you want
 before building, and handles a small explicit change without dragging it through a
-full intake. Switch In opens with a welcome-back dashboard — phase, task, state,
-last session, this session, and a box that says whether you are needed — instead of
+full intake. Switch In opens with a welcome-back dashboard (phase, task, state,
+last session, this session, and a box that says whether you are needed) instead of
 an exhaustive report of every backlog row. Switch Out gains explicit-file saves,
 acknowledged local-only paths that are never staged, and a remote check that the
 branch carries the exact commit. Visuals draws the direction so it can be agreed at
@@ -1438,7 +1454,7 @@ a glance. **What it means:** the everyday surface is the conversation and the
 dashboard; the ladder, gates and board are still there, still derived from disk,
 and still run by `drive` and the tools.
 
-**Named as losses — four automatic triggers are gone by decision, not oversight.**
+**Named as losses: four automatic triggers are gone by decision, not oversight.**
 The new Conductor and Switch call no other skill, and restoring the triggers was
 considered and declined: Switch Out stays explicit, and release checks belong to
 the release task rather than firing on ordinary completion. (1) Conductor's close-out no
@@ -1446,104 +1462,104 @@ longer invokes the release close-out pass, so `/kerd:slainte release` is yours t
 run at a version bump or an acceptance record. (2) Conductor's close-out no longer
 runs the session boundary; `/kerd:switch out` is standalone again, as it was before
 v0.84.0. (3) Switch Out no longer self-migrates legacy `## Current Session` /
-`### Context` shapes in TODO.md — `/kerd:tend` still detects them, but the healing
+`### Context` shapes in TODO.md; `/kerd:tend` still detects them, but the healing
 step is gone. (4) Conductor no longer writes the `conductor: <phase> @ <time>`
 marker into `kivna/.active-modes`, which the same-turn time rule names as one of
-its legal time sources and which the SessionStart hook reads — read the clock
+its legal time sources and which the SessionStart hook reads: read the clock
 instead. Nothing goes red
 when any of these stops happening, which is why they are written down here.
 
 ### v0.106.0
 
-**A risk's severity and its treatment are two facts, not one field.** The ledger's one `State` column mixed how bad with what we are doing about it, so a risk that was genuinely fatal and genuinely treated could not be stated truthfully — whichever value the cell carried lied about the other fact. Now a row carries `Severity` (fatal / non-fatal) and `Treatment` (the four), `Evidence` renames to `Risk evidence`, and a new `Treatment evidence` column holds what proves the treatment: the honest `planned — <what will exist> · <expected location>` declaration before the proof can exist, a resolving citation once it does. A fatal risk advances from viability on a planned treatment; acceptance is where the citation must resolve. All 21 work records migrated in the same commit as the checker and its fixtures — no committed tree ever held mixed schemas — and every severity the old vocabulary never recorded was keyed by hand in a review worksheet committed with the migration, so a reviewed value stays distinguishable from a stated one. **What it means:** a fatal, treated risk no longer forces the ledger to lie, and a treatment is never called proven merely because its field is populated. **The limit, stated:** the machine verifies that a citation resolves; the producer decides whether it supports the treatment.
+**A risk's severity and its treatment are two facts, not one field.** The ledger's one `State` column mixed how bad with what we are doing about it, so a risk that was genuinely fatal and genuinely treated could not be stated truthfully: whichever value the cell carried lied about the other fact. Now a row carries `Severity` (fatal / non-fatal) and `Treatment` (the four), `Evidence` renames to `Risk evidence`, and a new `Treatment evidence` column holds what proves the treatment: the honest `planned — <what will exist> · <expected location>` declaration before the proof can exist, a resolving citation once it does. A fatal risk advances from viability on a planned treatment; acceptance is where the citation must resolve. All 21 work records migrated in the same commit as the checker and its fixtures (no committed tree ever held mixed schemas), and every severity the old vocabulary never recorded was keyed by hand in a review worksheet committed with the migration, so a reviewed value stays distinguishable from a stated one. **What it means:** a fatal, treated risk no longer forces the ledger to lie, and a treatment is never called proven merely because its field is populated. **The limit, stated:** the machine verifies that a citation resolves; the producer decides whether it supports the treatment.
 
 ### v0.105.0
 
-**Status has a template.** Session status — the switch-in summary, conductor's orient, a task report — now follows one format from the talk-format library: **Work item · Stage · Issue · Resolution path**, in plain language that works without the repository open, and the message ends on exactly one question — never a compound "X, or Y?". Born from a real correction: a status spoken in repo shorthand ("scope refused on the FATAL row") was unreadable to its own reader, and the same facts restated in this shape worked first time. **What it means:** you can act on a status message without the codebase open, and every status ends with one clear ask instead of a menu bolted onto a question. The format is canonical in `docs/design/talk-formats.md`; conductor and switch both point at it.
+**Status has a template.** Session status (the switch-in summary, conductor's orient, a task report) now follows one format from the talk-format library: **Work item · Stage · Issue · Resolution path**, in plain language that works without the repository open, and the message ends on exactly one question: never a compound "X, or Y?". Born from a real correction: a status spoken in repo shorthand ("scope refused on the FATAL row") was unreadable to its own reader, and the same facts restated in this shape worked first time. **What it means:** you can act on a status message without the codebase open, and every status ends with one clear ask instead of a menu bolted onto a question. The format is canonical in `docs/design/talk-formats.md`; conductor and switch both point at it.
 
 ### v0.104.0
 
-**The funnel has a driver.** `/kerd:drive <slug>` is a new skill that owns one work item across the whole ladder — frame → viability → scope → design → work handoff → loop → acceptance — over as many sessions as it takes, and hands each sitting's work to `/kerd:conductor` without changing a line of it. At the frame gate it asks a short question set: you declare the work type (never guessed), the set is copied from a seed into the work record, you edit it before anything is asked, and the frame gate counts answered against declared until every entry has an answer — the item stays at `frame` until then. One list drives what is asked, what counts as finished, and the `now > frame, next viability, after scope` line you see. **What it means:** an idea can enter the funnel by being asked six questions rather than by someone remembering the sections, and nothing already on the board moves — the check applies only to a record that carries the section. **The limit, stated:** the gate counts presence, never quality; it cannot tell whether an answer is true, and it cannot tell whether Drive or a hand wrote the section. One seed exists (`software-change`); the other gates' sets are following slices.
+**The funnel has a driver.** `/kerd:drive <slug>` is a new skill that owns one work item across the whole ladder (frame → viability → scope → design → work handoff → loop → acceptance) over as many sessions as it takes, and hands each sitting's work to `/kerd:conductor` without changing a line of it. At the frame gate it asks a short question set: you declare the work type (never guessed), the set is copied from a seed into the work record, you edit it before anything is asked, and the frame gate counts answered against declared until every entry has an answer: the item stays at `frame` until then. One list drives what is asked, what counts as finished, and the `now > frame, next viability, after scope` line you see. **What it means:** an idea can enter the funnel by being asked six questions rather than by someone remembering the sections, and nothing already on the board moves: the check applies only to a record that carries the section. **The limit, stated:** the gate counts presence, never quality; it cannot tell whether an answer is true, and it cannot tell whether Drive or a hand wrote the section. One seed exists (`software-change`); the other gates' sets are following slices.
 
 ### v0.103.0
 
-**The router told newcomers to satisfy `handoff` by producing a `contract`.** When work stops at the handoff rung, the gate names what it still needs — and it named it "contract spec", a phrase built from a rung name that was retired three days earlier. It is the first place the ladder speaks to someone who wasn't in the room, and it spoke in a word the ladder no longer uses. The line now describes the artifact instead of naming it: *work specification with Pieces and a Verify for every step*. **What it means:** the gate tells you what to make rather than what to call it, so you can act on the sentence without being taught the vocabulary first. **Deliberately unchanged:** the artifact is still the contract, and conductor and the handoff flow still say so — that is where the delegation relationship is explained and where the word earns its keep. Only the first-reader line moved.
+**The router told newcomers to satisfy `handoff` by producing a `contract`.** When work stops at the handoff rung, the gate names what it still needs, and it named it "contract spec", a phrase built from a rung name that was retired three days earlier. It is the first place the ladder speaks to someone who wasn't in the room, and it spoke in a word the ladder no longer uses. The line now describes the artifact instead of naming it: *work specification with Pieces and a Verify for every step*. **What it means:** the gate tells you what to make rather than what to call it, so you can act on the sentence without being taught the vocabulary first. **Deliberately unchanged:** the artifact is still the contract, and conductor and the handoff flow still say so: that is where the delegation relationship is explained and where the word earns its keep. Only the first-reader line moved.
 
 ### v0.102.0
 
-**Completing v0.101.0: a record can be well-formed and still claim the opposite of its own filename.** AU10 started requiring a legal `route` and `stage` on every gate record. But `stage: designed` is perfectly legal — and on a file named `*-acceptance.md`, which exists to say the producer accepted the work, it says the reverse. The router took it anyway. Now a record whose name asserts acceptance must carry the terminal stage: `ready-to-release`, or `done` through the read-only alias that keeps the seven immutable legacy records working. Other suffixes are untouched, so a design record saying `stage: designed` is still exactly right. **What it means:** the name of a gate record and the stage inside it can no longer disagree — the filename is a claim, and the front matter now has to back it. **The limit, stated:** this checks that the two agree, never that either is true.
+**Completing v0.101.0: a record can be well-formed and still claim the opposite of its own filename.** AU10 started requiring a legal `route` and `stage` on every gate record. But `stage: designed` is perfectly legal, and on a file named `*-acceptance.md`, which exists to say the producer accepted the work, it says the reverse. The router took it anyway. Now a record whose name asserts acceptance must carry the terminal stage: `ready-to-release`, or `done` through the read-only alias that keeps the seven immutable legacy records working. Other suffixes are untouched, so a design record saying `stage: designed` is still exactly right. **What it means:** the name of a gate record and the stage inside it can no longer disagree: the filename is a claim, and the front matter now has to back it. **The limit, stated:** this checks that the two agree, never that either is true.
 
 ### v0.101.0
 
-**A gate record could be invalid and still move a work item to the finish line.** The audit pinned gate-record *filenames*, and validated front matter only on files that already had some — so a record with a perfectly good name and no front matter at all fell through the gap between the two checks. That gap was load-bearing rather than cosmetic: the `ready-to-release` terminal is derived by reading the acceptance record, so an invalid file could report a work item finished while the audit stayed green. Now every `docs/gates/` record must carry a legal `route` and `stage` — AU10 refuses the ones that don't, and the terminal will not qualify a record that fails it. The retired `-goal.md` name reads under the same contract, not a weaker one. **What it means:** a gate record either meets the shape the gates README has always described, or it doesn't count — the contract was written down long before anything enforced it. **The limit, stated:** this checks the record's shape, never that its Release condition is true.
+**A gate record could be invalid and still move a work item to the finish line.** The audit pinned gate-record *filenames*, and validated front matter only on files that already had some, so a record with a perfectly good name and no front matter at all fell through the gap between the two checks. That gap was load-bearing rather than cosmetic: the `ready-to-release` terminal is derived by reading the acceptance record, so an invalid file could report a work item finished while the audit stayed green. Now every `docs/gates/` record must carry a legal `route` and `stage`: AU10 refuses the ones that don't, and the terminal will not qualify a record that fails it. The retired `-goal.md` name reads under the same contract, not a weaker one. **What it means:** a gate record either meets the shape the gates README has always described, or it doesn't count: the contract was written down long before anything enforced it. **The limit, stated:** this checks the record's shape, never that its Release condition is true.
 
 ### v0.100.0
 
-**A journey page could tell you a stage had no steps while the steps sat four lines away — and every gate stayed green.** The journey pages read their step definitions out of one file and look them up by the stage's display name. Rename a stage on one side and the lookup quietly misses: the page prints "Rungs not defined for this stage yet" over work that is fully written down. That is exactly what happened when the ladder folded to seven rungs — three stages were renamed, the definitions file kept the old headings, and every journey page shipped two false panels. Regenerating the pages could never have caught it, because regenerating only proves the pages match the source; it cannot notice that the source stopped matching the code. Now a check refuses the mismatch in both directions — a stage with no definition, and a definition matching no stage — and it runs in CI on every push. **What it means:** when you rename a stage, the build stops and tells you which headings to move, instead of publishing pages that quietly claim the work was never defined. **The limit, stated:** it checks that every stage *has* steps defined, never that the steps are the right ones.
+**A journey page could tell you a stage had no steps while the steps sat four lines away, and every gate stayed green.** The journey pages read their step definitions out of one file and look them up by the stage's display name. Rename a stage on one side and the lookup quietly misses: the page prints "Rungs not defined for this stage yet" over work that is fully written down. That is exactly what happened when the ladder folded to seven rungs: three stages were renamed, the definitions file kept the old headings, and every journey page shipped two false panels. Regenerating the pages could never have caught it, because regenerating only proves the pages match the source; it cannot notice that the source stopped matching the code. Now a check refuses the mismatch in both directions: a stage with no definition, and a definition matching no stage, and it runs in CI on every push. **What it means:** when you rename a stage, the build stops and tells you which headings to move, instead of publishing pages that quietly claim the work was never defined. **The limit, stated:** it checks that every stage *has* steps defined, never that the steps are the right ones.
 
-**Eleven places said the ladder still had eight rungs.** The seven-rung fold swept its enumerated list of sites perfectly and missed their neighbours — a stale count in the playbook, a retired `build` and `goal` inside a diagram generator, conductor still teaching that the frame must carry a fully qualified risk ledger when that check moved a rung down to scope, the README claiming `stage: done` was gone when it is still a readable alias, and the gates README telling you the router picks the *lowest* passing rung when its own code and its own line 63 both say *deepest*. All corrected. **What it means:** the documents describing the seven-rung ladder now agree with the machine that implements it, and with each other.
+**Eleven places said the ladder still had eight rungs.** The seven-rung fold swept its enumerated list of sites perfectly and missed their neighbours: a stale count in the playbook, a retired `build` and `goal` inside a diagram generator, conductor still teaching that the frame must carry a fully qualified risk ledger when that check moved a rung down to scope, the README claiming `stage: done` was gone when it is still a readable alias, and the gates README telling you the router picks the *lowest* passing rung when its own code and its own line 63 both say *deepest*. All corrected. **What it means:** the documents describing the seven-rung ladder now agree with the machine that implements it, and with each other.
 
 ### v0.99.0
 
-**The ladder is seven rungs now, and the two that disappeared were always doing one job.** Work used to climb `frame → viability → slice → design → contract → build → goal → loop`. Eight gates, but `build` and `goal` split a single stretch of work between them — build the thing, check the boxes, go round again — and the human-sounding name sat on the machine test. Now they fold into **`loop`**, a container checked only at its two edges: you enter with a spec whose every step carries a `Verify:`, you leave with zero unchecked pieces. What used to be called `loop` becomes **`acceptance`**, the producer's last gate. `slice` is renamed **`scope`**, `contract` is renamed **`handoff`**. **What it means:** the rung names say what happens at them. Build, verify and adjust are execution mechanics, not checkpoints to report through, so the router stopped pretending they were — and because the checks themselves never moved, every work item's reported position changed label, not substance.
+**The ladder is seven rungs now, and the two that disappeared were always doing one job.** Work used to climb `frame → viability → slice → design → contract → build → goal → loop`. Eight gates, but `build` and `goal` split a single stretch of work between them (build the thing, check the boxes, go round again), and the human-sounding name sat on the machine test. Now they fold into **`loop`**, a container checked only at its two edges: you enter with a spec whose every step carries a `Verify:`, you leave with zero unchecked pieces. What used to be called `loop` becomes **`acceptance`**, the producer's last gate. `slice` is renamed **`scope`**, `contract` is renamed **`handoff`**. **What it means:** the rung names say what happens at them. Build, verify and adjust are execution mechanics, not checkpoints to report through, so the router stopped pretending they were, and because the checks themselves never moved, every work item's reported position changed label, not substance.
 
-**Scope is where you lock in what you're building, and the gates were holding the wrong things.** The scope gate used to check your risk ledger while the *design* gate checked what you had committed to build — so the machine asked "what could kill this" where "what are we building" belonged, and asked for the commitment one rung late. Now `## Release slice` is renamed **`## Scope`** and is checked at the scope gate, with the rigor level travelling with it; design checks only that every declared concern has a sealed drawing. Viability gains its first real check too: your risk ledger must **name** a killer risk — presence only, no sizing, no evidence, because you cannot qualify the risks of a thing you have not defined yet. **What it means:** risk is read twice at two depths — named cheaply at viability, fully qualified at scope — and the rung called scope is finally the one where scope is agreed.
+**Scope is where you lock in what you're building, and the gates were holding the wrong things.** The scope gate used to check your risk ledger while the *design* gate checked what you had committed to build, so the machine asked "what could kill this" where "what are we building" belonged, and asked for the commitment one rung late. Now `## Release slice` is renamed **`## Scope`** and is checked at the scope gate, with the rigor level travelling with it; design checks only that every declared concern has a sealed drawing. Viability gains its first real check too: your risk ledger must **name** a killer risk: presence only, no sizing, no evidence, because you cannot qualify the risks of a thing you have not defined yet. **What it means:** risk is read twice at two depths: named cheaply at viability, fully qualified at scope, and the rung called scope is finally the one where scope is agreed.
 
-**A retired name reads old records forever; it never writes a new one.** `slice`, `contract`, `build` and `goal` stay legal in every parser so the seven existing `-goal.md` gate records keep working, and no file on disk was renamed or rewritten. But every *trigger* moved the same day: conductor, slainte and switch now fire their completion behaviour on `docs/gates/*-acceptance.md`, because a trigger still watching a retired name is a second live name wearing an alias costume — it would have gone quiet with every drawing and gate record still looking correct. **Named as a loss:** you can no longer declare a work item finished. `stage: done` is retired — still readable on records that already carry it, never written as current — and the terminal is `ready-to-release`, which is *derived* — the machine reports it only when an acceptance record is actually on disk, and refuses the claim when it is not. Typing that you are done was a real thing you could do yesterday, and it is now something you have to produce evidence for. **The limit, stated:** the filename check validates shape, not intent — a freshly written `-goal.md` would still pass it. The machine holds the read side; the write discipline lives in `tools/gates/README.md` and the skills.
+**A retired name reads old records forever; it never writes a new one.** `slice`, `contract`, `build` and `goal` stay legal in every parser so the seven existing `-goal.md` gate records keep working, and no file on disk was renamed or rewritten. But every *trigger* moved the same day: conductor, slainte and switch now fire their completion behaviour on `docs/gates/*-acceptance.md`, because a trigger still watching a retired name is a second live name wearing an alias costume: it would have gone quiet with every drawing and gate record still looking correct. **Named as a loss:** you can no longer declare a work item finished. `stage: done` is retired (still readable on records that already carry it, never written as current), and the terminal is `ready-to-release`, which is *derived*: the machine reports it only when an acceptance record is actually on disk, and refuses the claim when it is not. Typing that you are done was a real thing you could do yesterday, and it is now something you have to produce evidence for. **The limit, stated:** the filename check validates shape, not intent: a freshly written `-goal.md` would still pass it. The machine holds the read side; the write discipline lives in `tools/gates/README.md` and the skills.
 
 ### v0.98.0
 
-**Conductor now advises the session down, not just up — and effort joins the model in every sizing call.** Before, the model advisory only pushed one way: it could tell an underpowered session to move up to Opus, but a session opened at Fable on high effort for routine work sailed through unremarked — and silence approves the burn. Now conductor sizes the *pair*, model and reasoning effort together: it states what it believes the session is running (and why that belief can be stale — a mid-session `/model` switch is invisible to it), has you confirm the actual pair in the same breath as the existing gate, and names the downgrade explicitly when you're overpowered — "conducting this needs Opus medium; difficulty is bought per-call." The composer call now carries its own sized effort too, the same two levers player steps always had: tier buys capability, effort buys deliberation. **What it means:** the four-role cost model finally closes — nobody idles at premium rates between the calls that need them, and the expensive tiers are bought back per-call at exactly the effort the work earns. **The limit, stated:** no harness surface exposes the session's current model or effort to a skill, so this is stated belief plus your one-word confirmation, never detection — if that surface ever appears, detection replaces asking (the return condition is in the frame's risk ledger).
+**Conductor now advises the session down, not just up, and effort joins the model in every sizing call.** Before, the model advisory only pushed one way: it could tell an underpowered session to move up to Opus, but a session opened at Fable on high effort for routine work sailed through unremarked, and silence approves the burn. Now conductor sizes the *pair*, model and reasoning effort together: it states what it believes the session is running (and why that belief can be stale: a mid-session `/model` switch is invisible to it), has you confirm the actual pair in the same breath as the existing gate, and names the downgrade explicitly when you're overpowered: "conducting this needs Opus medium; difficulty is bought per-call." The composer call now carries its own sized effort too, the same two levers player steps always had: tier buys capability, effort buys deliberation. **What it means:** the four-role cost model finally closes: nobody idles at premium rates between the calls that need them, and the expensive tiers are bought back per-call at exactly the effort the work earns. **The limit, stated:** no harness surface exposes the session's current model or effort to a skill, so this is stated belief plus your one-word confirmation, never detection: if that surface ever appears, detection replaces asking (the return condition is in the frame's risk ledger).
 
-**The requirements register's rules now have a refuser.** Since v0.95.0 the register (`docs/requirements/`) has declared its own law — "an unknown field is a hard error", "the audit REFUSES" when an approved statement is edited — and nothing enforced any of it: the rules were prose, exactly the gap the register itself exists to close. Now two audit rules (AU7, AU8) ride the same CI sweep as every other refusal, at no new CI step: an illegal ID or state, an unknown field, a missing Source, an `Approved` hash that no longer matches the statement it approved, a `superseded` block that never names its replacement, or a link pointing at a requirement that does not exist all turn the push red, with the exact block and defect named. Two of the catalog's rules are deliberately *reports*, not refusals, matching its own words: a link whose stamp has gone stale ("flagged for re-look") and a requirement with no parent in the trace — those print as findings and never block. Nothing is hardcoded: the legal category set comes from each project's own `categories.md`, so a consuming project's taxonomy is its own. **What it means:** editing a keyed requirement's words now gets caught by the machine, not by the producer's memory. **The limit, stated:** the hash proves the words haven't changed since approval; it cannot prove they were the right words — only reading it back can.
+**The requirements register's rules now have a refuser.** Since v0.95.0 the register (`docs/requirements/`) has declared its own law ("an unknown field is a hard error", "the audit REFUSES" when an approved statement is edited), and nothing enforced any of it: the rules were prose, exactly the gap the register itself exists to close. Now two audit rules (AU7, AU8) ride the same CI sweep as every other refusal, at no new CI step: an illegal ID or state, an unknown field, a missing Source, an `Approved` hash that no longer matches the statement it approved, a `superseded` block that never names its replacement, or a link pointing at a requirement that does not exist all turn the push red, with the exact block and defect named. Two of the catalog's rules are deliberately *reports*, not refusals, matching its own words: a link whose stamp has gone stale ("flagged for re-look") and a requirement with no parent in the trace: those print as findings and never block. Nothing is hardcoded: the legal category set comes from each project's own `categories.md`, so a consuming project's taxonomy is its own. **What it means:** editing a keyed requirement's words now gets caught by the machine, not by the producer's memory. **The limit, stated:** the hash proves the words haven't changed since approval; it cannot prove they were the right words: only reading it back can.
 
-**Kerd's hooks now ship the standard way, so updating Kerd never breaks them again.** The old mechanism wired each repo's hooks by pasting an absolute path to a specific plugin-cache version into `settings.local.json` — and Claude Code garbage-collects old cache versions, so the moment your installed version was pruned, every hook in every repo pointing at it went silently dead, including repos you never touched. That is what happened: eleven repos with broken hooks and a `/switch out` reminder that named a command that no longer exists. The fix is the mechanism plugins are *supposed* to use — `hooks/hooks.json` in the plugin, which Claude Code auto-registers the instant the plugin is enabled and resolves at runtime, so there is no version-pinned path anywhere to rot. You wire nothing; updating Kerd changes nothing to keep in sync. **What it means:** enable Kerd and its hooks work, everywhere, forever. `/kerd:tend` now *removes* leftover manual wiring instead of adding it. **Named as a loss:** the Stop hook is gone — it was the only thing that nudged "you have uncommitted changes, run switch" at turn-end, but it fired after every response (not once when you left), its reminder pointed at a dead command, and its mode half was already covered by the statusline. The uncommitted-work safety net is the thing you're giving up; the switch discipline itself is unchanged.
+**Kerd's hooks now ship the standard way, so updating Kerd never breaks them again.** The old mechanism wired each repo's hooks by pasting an absolute path to a specific plugin-cache version into `settings.local.json`, and Claude Code garbage-collects old cache versions, so the moment your installed version was pruned, every hook in every repo pointing at it went silently dead, including repos you never touched. That is what happened: eleven repos with broken hooks and a `/switch out` reminder that named a command that no longer exists. The fix is the mechanism plugins are *supposed* to use: `hooks/hooks.json` in the plugin, which Claude Code auto-registers the instant the plugin is enabled and resolves at runtime, so there is no version-pinned path anywhere to rot. You wire nothing; updating Kerd changes nothing to keep in sync. **What it means:** enable Kerd and its hooks work, everywhere, forever. `/kerd:tend` now *removes* leftover manual wiring instead of adding it. **Named as a loss:** the Stop hook is gone: it was the only thing that nudged "you have uncommitted changes, run switch" at turn-end, but it fired after every response (not once when you left), its reminder pointed at a dead command, and its mode half was already covered by the statusline. The uncommitted-work safety net is the thing you're giving up; the switch discipline itself is unchanged.
 
 ### v0.95.0
 
-**The release pass ran on four releases at once, and what it found was a counting problem.** v0.93.0 added an eighth CI step and never swept the places that said there were seven — the README, the system map's rendered box, two design docs, and the state file. That is the exact failure this repo made a standing rule against: a change to system-wide behaviour owes a cross-cutting grep before it ships. The pass fixed all of them, and where a doc only meant "this feature adds no step", the absolute number is gone rather than corrected — a count in prose rots on someone else's release. It also mirrored five gotchas that never reached the playbook, corrected eight ownership cells in `docs/state-contract.md` against what the skills actually do (kivna's import writes TODO and the session log; conductor does not read session logs at orient), and gave `tend` its missing fourth hook: a repo wired with three of four passed hook hygiene, because the check enumerated a list that stopped being complete. **What it means:** the narrative surface now describes the repo that exists. **What this is not:** a check — nothing in CI reads the playbook or the README, so the next count to rot will rot silently too.
+**The release pass ran on four releases at once, and what it found was a counting problem.** v0.93.0 added an eighth CI step and never swept the places that said there were seven: the README, the system map's rendered box, two design docs, and the state file. That is the exact failure this repo made a standing rule against: a change to system-wide behaviour owes a cross-cutting grep before it ships. The pass fixed all of them, and where a doc only meant "this feature adds no step", the absolute number is gone rather than corrected, a count in prose rots on someone else's release. It also mirrored five gotchas that never reached the playbook, corrected eight ownership cells in `docs/state-contract.md` against what the skills actually do (kivna's import writes TODO and the session log; conductor does not read session logs at orient), and gave `tend` its missing fourth hook: a repo wired with three of four passed hook hygiene, because the check enumerated a list that stopped being complete. **What it means:** the narrative surface now describes the repo that exists. **What this is not:** a check: nothing in CI reads the playbook or the README, so the next count to rot will rot silently too.
 
 ### v0.94.0
 
-**New work now gets a frame the machine can see, instead of a line in TODO.** Kerd could route work through eight funnel stages, check every one, and render the board — and no skill had ever written the artifact that puts work *on* that board. Framing was de-skilled at v0.73.0 and moved to "the frame flow", a flow with no owner. The cost was not hypothetical: the decision to give the funnel a driver was taken in full, specced, and sat unbuilt for three days, not because anyone forgot but because it never entered through a frame, so no gate demanded anything of it and no render showed it missing. Now, when a repo routes work through entry gates, conductor asks the gates whether the work is tracked and — if it is not — the framing conversation produces the frame artifact itself: the value in your own words and in units, the grounding, a risk ledger where every risk is sized and in exactly one state, and the smallest valuable slice with its exclusions named. Your key belongs at that gate; the value statement is yours and the model's job is to write it down accurately, not author it. Where no gates exist, nothing changes. **Named as still unowned:** the design and handoff stages — nothing writes a design doc, a GO record, or a Scope section yet. Conductor sheds one piece at a time, which is its own spec's rule, not caution.
+**New work now gets a frame the machine can see, instead of a line in TODO.** Kerd could route work through eight funnel stages, check every one, and render the board, and no skill had ever written the artifact that puts work *on* that board. Framing was de-skilled at v0.73.0 and moved to "the frame flow", a flow with no owner. The cost was not hypothetical: the decision to give the funnel a driver was taken in full, specced, and sat unbuilt for three days, not because anyone forgot but because it never entered through a frame, so no gate demanded anything of it and no render showed it missing. Now, when a repo routes work through entry gates, conductor asks the gates whether the work is tracked and, if it is not, the framing conversation produces the frame artifact itself: the value in your own words and in units, the grounding, a risk ledger where every risk is sized and in exactly one state, and the smallest valuable slice with its exclusions named. Your key belongs at that gate; the value statement is yours and the model's job is to write it down accurately, not author it. Where no gates exist, nothing changes. **Named as still unowned:** the design and handoff stages: nothing writes a design doc, a GO record, or a Scope section yet. Conductor sheds one piece at a time, which is its own spec's rule, not caution.
 
 ### v0.93.0
 
-**The boundary now checks that it recorded what the session produced.** Switch out has always written the handoff and never verified it — the work item that fixed the boundary said so plainly, and shipped unverified because of it. On 2026-08-07 that cost something real: a session with 23 unrecorded commits could not safely be closed, because nothing could say whether closing it would lose them. Now `tools/gates/fidelity.py` compares every file the session changed against what `CONTEXT.md`, `TODO.md` and the session log actually name, and refuses at the boundary when something was produced that nothing a pickup reads points at. Its first honest run caught seven, including two tools built that day that the next session would never have found. It runs in CI on every push and skips itself unless the commit writes a session log, so it bites at the boundary and stays quiet during normal work. **What it cannot do, named:** it proves *reachability*, never *comprehension* — a path mentioned in a sentence passes even if the sentence misdescribes it. The same declared limit as grounding-was-read, and claiming more would be a green tick over a model choosing to comply.
+**The boundary now checks that it recorded what the session produced.** Switch out has always written the handoff and never verified it: the work item that fixed the boundary said so plainly, and shipped unverified because of it. On 2026-08-07 that cost something real: a session with 23 unrecorded commits could not safely be closed, because nothing could say whether closing it would lose them. Now `tools/gates/fidelity.py` compares every file the session changed against what `CONTEXT.md`, `TODO.md` and the session log actually name, and refuses at the boundary when something was produced that nothing a pickup reads points at. Its first honest run caught seven, including two tools built that day that the next session would never have found. It runs in CI on every push and skips itself unless the commit writes a session log, so it bites at the boundary and stays quiet during normal work. **What it cannot do, named:** it proves *reachability*, never *comprehension*: a path mentioned in a sentence passes even if the sentence misdescribes it. The same declared limit as grounding-was-read, and claiming more would be a green tick over a model choosing to comply.
 
 ### v0.92.0
 
-**The four roles are renamed, because the old names inverted under reading.** You were the *composer* and the spec-writing agent was the *orchestrator*. In practice that swapped: asked to describe the model, the person who chose those names used "composer" for the spec-writer and "orchestrator" for the driver, in one sentence. Now the names say what the words already mean — **you are the producer** (the idea or the input, and the approvals that keep it the show you wanted to make), the **composer** is the top-tier model called as a subagent to write the score, the **conductor** is the session model directing the performance, and **players** are subagents spun up per step at a sized model and effort. Nothing about the architecture changed: the composer was always Fable, the conductor always Opus, the players always sized — only the labels were wrong. What it means: the model tiers are now stated in the roles table rather than buried in prose, and instructions that tell one role to call another can be written without inheriting a name that reads backwards.
+**The four roles are renamed, because the old names inverted under reading.** You were the *composer* and the spec-writing agent was the *orchestrator*. In practice that swapped: asked to describe the model, the person who chose those names used "composer" for the spec-writer and "orchestrator" for the driver, in one sentence. Now the names say what the words already mean: **you are the producer** (the idea or the input, and the approvals that keep it the show you wanted to make), the **composer** is the top-tier model called as a subagent to write the score, the **conductor** is the session model directing the performance, and **players** are subagents spun up per step at a sized model and effort. Nothing about the architecture changed: the composer was always Fable, the conductor always Opus, the players always sized: only the labels were wrong. What it means: the model tiers are now stated in the roles table rather than buried in prose, and instructions that tell one role to call another can be written without inheriting a name that reads backwards.
 
 ### v0.91.0
 
-**Conductor asks the machine before it asks you, and its commits name what they landed.** Two things a decision from 2026-08-04 had already called for and nothing had built. Before, conductor opened every session by asking you for anything the work might need — including things already sitting on disk, which the entry gates have been able to report since v0.69.0. Now the pre-flight inventory runs `gate.py route` first where a repo has gates, reads what it says, and asks you only for what no file can answer: credentials, hardware state, fixtures. Where no gates exist the behaviour is unchanged. Separately, a work commit running against a contract with numbered pieces now carries a `Piece: <slug>/<n>` trailer — a checked box is a claim, a commit trailer is a fact, and it is the one progress signal that cannot be falsified by ticking a box. What this is *not*, named: the driver. Conductor still does not know which work item it is on or which stage that item is at — that is framed at `docs/product/funnel-driver.md` and deliberately not built here, because conductor is the only working instance of half this system's functions and it sheds one piece at a time.
+**Conductor asks the machine before it asks you, and its commits name what they landed.** Two things a decision from 2026-08-04 had already called for and nothing had built. Before, conductor opened every session by asking you for anything the work might need, including things already sitting on disk, which the entry gates have been able to report since v0.69.0. Now the pre-flight inventory runs `gate.py route` first where a repo has gates, reads what it says, and asks you only for what no file can answer: credentials, hardware state, fixtures. Where no gates exist the behaviour is unchanged. Separately, a work commit running against a contract with numbered pieces now carries a `Piece: <slug>/<n>` trailer: a checked box is a claim, a commit trailer is a fact, and it is the one progress signal that cannot be falsified by ticking a box. What this is *not*, named: the driver. Conductor still does not know which work item it is on or which stage that item is at: that is framed at `docs/product/funnel-driver.md` and deliberately not built here, because conductor is the only working instance of half this system's functions and it sheds one piece at a time.
 
 ### v0.90.0
 
-**The boundary lost its cheap modes, and that is a real loss.** `/switch out light` and `/switch in low` are gone — the argument is told in full under "On cheap boundaries". The same release put ladder position on both halves of the boundary (the old steps named two progress files that had never existed here, so they silently did nothing while the derived board went unread), made CONTEXT.md append-only between licensed prune events, added a no-silent-truncation rule to "read in full", and gave closure inference its fourth verdict, `dead`, for a row that is undone but whose reason has gone. Switch got shorter while gaining four rules, because deleting the modes deleted every "skip this if light" clause with them.
+**The boundary lost its cheap modes, and that is a real loss.** `/switch out light` and `/switch in low` are gone: the argument is told in full under "On cheap boundaries". The same release put ladder position on both halves of the boundary (the old steps named two progress files that had never existed here, so they silently did nothing while the derived board went unread), made CONTEXT.md append-only between licensed prune events, added a no-silent-truncation rule to "read in full", and gave closure inference its fourth verdict, `dead`, for a row that is undone but whose reason has gone. Switch got shorter while gaining four rules, because deleting the modes deleted every "skip this if light" clause with them.
 
 ### v0.89.0
 
-**The session's clock stays honest between phases.** Before, conductor was told once — in a section near the top of its own skill — to write its phase marker to disk. A session that drifted past that one instruction left the marker sitting at an early phase, and close-out then read a stamp that no longer matched reality; on this feature's own first live use the model went one worse and invented a stamp that had never been written. Now the write instruction sits at every phase transition, where the write actually has to happen, and close-out states the consequence plainly: if the marker is not at `execute`, no open time exists, so the session log records a close time alone rather than a plausible-looking range. Gate records gained their missing write-side instruction too — the `**Clock:**` line is now owed by the skill that writes records, not merely documented by the standard that defines it. What it means: the times in your session logs and the durations derived from your gate records come from stamps that were actually taken. What this is *not*, named: a check. `kivna/.active-modes` is gitignored, so no CI step and no hook can refuse a stale marker — this is discipline moved to where it gets used, and its honest test is whether the next session's log carries a real range.
+**The session's clock stays honest between phases.** Before, conductor was told once (in a section near the top of its own skill) to write its phase marker to disk. A session that drifted past that one instruction left the marker sitting at an early phase, and close-out then read a stamp that no longer matched reality; on this feature's own first live use the model went one worse and invented a stamp that had never been written. Now the write instruction sits at every phase transition, where the write actually has to happen, and close-out states the consequence plainly: if the marker is not at `execute`, no open time exists, so the session log records a close time alone rather than a plausible-looking range. Gate records gained their missing write-side instruction too: the `**Clock:**` line is now owed by the skill that writes records, not merely documented by the standard that defines it. What it means: the times in your session logs and the durations derived from your gate records come from stamps that were actually taken. What this is *not*, named: a check. `kivna/.active-modes` is gitignored, so no CI step and no hook can refuse a stale marker: this is discipline moved to where it gets used, and its honest test is whether the next session's log carries a real range.
 
 ### v0.88.0
 
-**The machine consults a clock, and effort becomes data.** Before, nothing in a session knew what time it was: session logs got headings like "late-evening sitting" written at midday, and how long a task actually took was unrecoverable. Now the clock is captured where artifacts are already written — the conductor's phase marker carries a real stamp (`conductor: execute @ 2026-08-06 15:17 EDT`), which is the task's start; the work commit's git timestamp is its end; session-log headings and the switch-out banner carry real times; and new gate records can carry an optional `**Clock:**` line, so how long a rung took becomes derivable. One rule governs all of it, defined once: a time is written only when a machine produced it in the same turn — a `date` run, or a machine-written record read that turn. A remembered or estimated time is never written. There is also an opt-in statusline segment (`hooks/statusline.sh`) that shows you the time, and **composes** rather than claims the slot — hand it your existing statusline command and it prints both. What you don't get yet, named: estimates. This slice captures honest actuals; using them to predict how long the next task will take is the next slice.
+**The machine consults a clock, and effort becomes data.** Before, nothing in a session knew what time it was: session logs got headings like "late-evening sitting" written at midday, and how long a task actually took was unrecoverable. Now the clock is captured where artifacts are already written: the conductor's phase marker carries a real stamp (`conductor: execute @ 2026-08-06 15:17 EDT`), which is the task's start; the work commit's git timestamp is its end; session-log headings and the switch-out banner carry real times; and new gate records can carry an optional `**Clock:**` line, so how long a rung took becomes derivable. One rule governs all of it, defined once: a time is written only when a machine produced it in the same turn: a `date` run, or a machine-written record read that turn. A remembered or estimated time is never written. There is also an opt-in statusline segment (`hooks/statusline.sh`) that shows you the time, and **composes** rather than claims the slot: hand it your existing statusline command and it prints both. What you don't get yet, named: estimates. This slice captures honest actuals; using them to predict how long the next task will take is the next slice.
 
 ### v0.87.0
 
-**Trim is gone.** The token-cleanup skill's jobs all dissolved into machinery that runs anyway: completed specs are dated immutable records the gates and the progress board read in place (moving them to an archive would turn CI red by construction — the handoff and loop rungs require them where they are); switch's closure inference cleans TODO with evidence at every boundary; doc-drift pruning belongs to the release pass. What you lose, named: `/trim` no longer answers, and nothing archives docs to `docs/archive/` anymore — deliberately, because nothing should. Kerd is nine skills now. Dead solutions stay dead; the return condition is a cleanup need the boundary, the gates, and the release pass cannot answer.
+**Trim is gone.** The token-cleanup skill's jobs all dissolved into machinery that runs anyway: completed specs are dated immutable records the gates and the progress board read in place (moving them to an archive would turn CI red by construction (the handoff and loop rungs require them where they are); switch's closure inference cleans TODO with evidence at every boundary; doc-drift pruning belongs to the release pass. What you lose, named: `/trim` no longer answers, and nothing archives docs to `docs/archive/` anymore, deliberately, because nothing should. Kerd is nine skills now. Dead solutions stay dead; the return condition is a cleanup need the boundary, the gates, and the release pass cannot answer.
 
 ### v0.86.0
 
-**The release pass now fires when a feature closes, not only when a version ships.** Before, close-out ran the doc-surface pass only if the session's work bumped the plugin version — so the session that lands a feature's acceptance record (its formal "closed as complete" moment, usually a doc-only diff with no bump) got no pass, exactly when the narrative surfaces most need checking. Now either moment fires it: a version bump, or an acceptance record landing. One definition of "release" stays (the version-field diff, CI's R1); the completion clause is a second firing moment, not a second release heuristic. What it means: no feature closes without its story being checked.
+**The release pass now fires when a feature closes, not only when a version ships.** Before, close-out ran the doc-surface pass only if the session's work bumped the plugin version, so the session that lands a feature's acceptance record (its formal "closed as complete" moment, usually a doc-only diff with no bump) got no pass, exactly when the narrative surfaces most need checking. Now either moment fires it: a version bump, or an acceptance record landing. One definition of "release" stays (the version-field diff, CI's R1); the completion clause is a second firing moment, not a second release heuristic. What it means: no feature closes without its story being checked.
 
 ### v0.85.0
 
-**Releases now check their own story.** Before, slainte was a read-only audit you had to remember to run — and nobody did: the mechanical checks moved into CI, and the judgment layer (does the README still describe what shipped? is What's New honest?) ran never. Now the release moment itself triggers it: when a conductor session's work bumps the plugin version, close-out runs tend's drift check and slainte's narrative pass before the boundary. Slainte fixes what drifted — as normal work commits under the verification gate, with skriv auditing any prose it writes — and its report names what it deliberately left alone, so restraint is visible instead of assumed. The hand-kept `.slainte` config file is gone; audit targets derive from the repo. What it means: the doc surface gets one honest pass per release instead of zero, CI keeps the mechanical layer, and `/slainte` still answers on demand.
+**Releases now check their own story.** Before, slainte was a read-only audit you had to remember to run, and nobody did: the mechanical checks moved into CI, and the judgment layer (does the README still describe what shipped? is What's New honest?) ran never. Now the release moment itself triggers it: when a conductor session's work bumps the plugin version, close-out runs tend's drift check and slainte's narrative pass before the boundary. Slainte fixes what drifted: as normal work commits under the verification gate, with skriv auditing any prose it writes, and its report names what it deliberately left alone, so restraint is visible instead of assumed. The hand-kept `.slainte` config file is gone; audit targets derive from the repo. What it means: the doc surface gets one honest pass per release instead of zero, CI keeps the mechanical layer, and `/slainte` still answers on demand.
 
-*Release notes for v0.84.0 and earlier live in git history — `git log --follow README.md`.*
+*Release notes for v0.84.0 and earlier live in git history: `git log --follow README.md`.*
 
 ## License
 
