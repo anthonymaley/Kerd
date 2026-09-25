@@ -183,7 +183,8 @@ def target_env(socket, pane, run=subprocess.run):
     if name.returncode != 0 or glob.returncode != 0 or not name.stdout.strip():
         return None
     local = run([*tmux, "show-environment", "-t", name.stdout.strip()], capture_output=True, text=True)
-    if local.returncode != 0:
+    hidden = run([*tmux, "show-environment", "-h", "-t", name.stdout.strip()], capture_output=True, text=True)
+    if local.returncode != 0 or hidden.returncode != 0:
         return None
     env = {}
     for text in (glob.stdout, local.stdout):
@@ -193,23 +194,27 @@ def target_env(socket, pane, run=subprocess.run):
             elif "=" in line:
                 k, v = line.split("=", 1)
                 env[k] = v
+    for line in hidden.stdout.splitlines():   # a hidden session entry overrides and is not exported
+        env.pop(line.lstrip("-").split("=", 1)[0], None)
     return env
 
 
-def permission_mode(session, env=None):
-    """The permission mode recorded on this session's last prompt, or None if it cannot be read."""
+def mode_file(session, env=None):
+    """Where Kerd's context hook records the host's permission mode on every tool event."""
     env = os.environ if env is None else env
-    base = Path(env.get("CLAUDE_CONFIG_DIR") or Path.home() / ".claude") / "projects"
-    found = sorted(base.glob(f"*/{session}.jsonl")) if session else []
-    if len(found) != 1:
+    safe = "".join(c for c in (session or "") if c.isalnum() or c == "-")
+    return str(Path(env.get("TMPDIR") or "/tmp") / "kerd-context" / f"{safe}.mode") if safe else None
+
+
+def mode_reading(path):
+    """{mode, at} from the hook's file, or None if missing, unreadable or not a known mode."""
+    try:
+        data = json.loads(Path(path).read_text())
+    except (OSError, ValueError, TypeError):
         return None
-    mode = None
-    with found[0].open(encoding="utf-8", errors="replace") as lines:
-        for line in lines:
-            if '"permissionMode"' in line:
-                match = re.search(r'"permissionMode":"([A-Za-z]+)"', line)
-                mode = match.group(1) if match else mode
-    return mode if mode in MODES else None
+    if not isinstance(data, dict) or data.get("mode") not in MODES or not isinstance(data.get("at"), (int, float)):
+        return None
+    return data
 
 
 def fresh_command(data):
@@ -281,7 +286,7 @@ class Chat:
 
     # --- out ---------------------------------------------------------------------------------
     def out(self, handoff_record, next_action, approval, model, threshold_tokens, claude,
-            claude_command, session=None, env=None, now=None, tmux_env=None, mode=None):
+            claude_command, session=None, env=None, now=None, tmux_env=None, reading=None):
         """claude is the source session's process identity {pid, start}; required everywhere."""
         env = os.environ if env is None else env
         now = time.time() if now is None else now
@@ -300,8 +305,9 @@ class Chat:
         if restriction:
             raise roll.RollError(f"This session was started with {restriction}, which a restart would drop; "
                                  "roll by hand (Switch Out, then a fresh session)")
-        if mode not in MODES:
-            raise roll.RollError("Could not read this session's permission mode; roll by hand")
+        reading = mode_reading(mode_file(session, env)) if reading is None else reading
+        if not reading:
+            raise roll.RollError("No permission-mode reading from Kerd's context hook for this session; roll by hand")
         effort = env.get("CLAUDE_EFFORT") or None
         if effort is not None and effort not in EFFORTS:
             raise roll.RollError(f"Unrecognised effort {effort!r}; roll by hand")
@@ -335,7 +341,8 @@ class Chat:
                 "from_session": session, "claude": claude,
                 "pane": env.get("TMUX_PANE") if in_tmux else None,
                 "tmux_socket": env["TMUX"].split(",")[0] if in_tmux else None,
-                "model": model.strip(), "effort": effort, "permission_mode": mode,
+                "model": model.strip(), "effort": effort, "permission_mode": reading["mode"],
+                "mode_file": mode_file(session, env),
                 "env_digest": env_digest(env),
                 "threshold_tokens": threshold_tokens, "chain": chain,
                 "created_at": now, "state": "saved", "relaunch": "pending" if in_tmux else "manual",
@@ -370,6 +377,12 @@ class Chat:
                     target = target_env(data["tmux_socket"], data["pane"], run)
                     if target is None or env_digest(target) != data.get("env_digest"):
                         problem = "the environment tmux would give the pane no longer matches"
+            if not problem:
+                fresh = mode_reading(data.get("mode_file")) if data.get("mode_file") else None
+                if not fresh or fresh["at"] <= data["created_at"]:
+                    problem = "no permission-mode reading since the roll began"
+                else:
+                    data["permission_mode"] = fresh["mode"]   # the mode in force when it rolled
             if problem:
                 data["relaunch"] = f"refused: {problem}"
                 self.write(data)
@@ -496,11 +509,9 @@ def main(argv=None):
             pid = int(env_pid) if env_pid.isdigit() else find_claude(os.getppid())
             socket = os.environ.get("TMUX", "").split(",")[0]
             pane = os.environ.get("TMUX_PANE")
-            session = os.environ.get("CLAUDE_CODE_SESSION_ID")
             data = chat.out(args.handoff_record, args.next_action, args.approval, args.model,
                             args.threshold_tokens, identity(pid), command_of(pid) if pid else "",
-                            tmux_env=target_env(socket, pane) if socket and pane else None,
-                            mode=permission_mode(session))
+                            tmux_env=target_env(socket, pane) if socket and pane else None)
             if data["relaunch"] == "manual":
                 print("Saved. This terminal is not tmux, so it cannot restart itself. Close this session, then run:")
                 print(f"  {fresh_command(data)}")

@@ -383,6 +383,21 @@ test_context_reading_tool_throttles_then_reports() {
   pass
 }
 
+test_context_reading_records_permission_mode_even_when_throttled() {
+  TNAME="context-reading: every tool event records the host's permission mode for the chat roll"
+  local t tmp in m1 m2; t=$(make_transcript); tmp=$(mktemp -d)
+  in=$(printf '{"session_id":"s9","transcript_path":"%s","permission_mode":"acceptEdits"}' "$t")
+  printf '%s' "$in" | TMPDIR="$tmp" bash "$HOOKS/context-reading.sh" tool >/dev/null 2>&1
+  m1=$(cat "$tmp/kerd-context/s9.mode" 2>/dev/null)
+  in=$(printf '{"session_id":"s9","transcript_path":"%s","permission_mode":"plan"}' "$t")
+  printf '%s' "$in" | TMPDIR="$tmp" bash "$HOOKS/context-reading.sh" tool >/dev/null 2>&1
+  m2=$(cat "$tmp/kerd-context/s9.mode" 2>/dev/null)
+  rm -rf "$t" "$tmp"
+  assert_contains "$m1" '"mode": "acceptEdits"' || return
+  assert_contains "$m2" '"mode": "plan"' || return
+  pass
+}
+
 test_context_reading_silent_on_bad_input() {
   TNAME="context-reading: garbage, missing transcript or subagent -> silent"
   local o1 o2 o3

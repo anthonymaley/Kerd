@@ -12,7 +12,8 @@
 #                 as PostToolUse additionalContext; the transcript is read at
 #                 most once a minute.
 # Read-only on the transcript. Writes one small throttle file per session
-# under $TMPDIR; if it cannot, it stays silent rather than repeat itself.
+# under $TMPDIR; if it cannot, it stays silent rather than repeat itself. Also
+# records the event's permission mode beside it (<session>.mode) for the chat roll.
 # Silent on any failure: a hook must go quiet, never crash.
 set -uo pipefail
 
@@ -38,6 +39,17 @@ if not path or not sid or not os.path.isfile(path):
 state_dir = os.path.join(os.environ.get("TMPDIR") or "/tmp", "kerd-context")
 state = os.path.join(state_dir, "".join(c for c in sid if c.isalnum() or c == "-"))
 now = int(time.time())
+# The current permission mode, as the host reports it on this event, for Switch's chat roll:
+# it restarts the session with the mode in force when it rolled. Written on every event,
+# unthrottled; a failure only means the roll refuses.
+if hook.get("permission_mode"):
+    try:
+        os.makedirs(state_dir, exist_ok=True)
+        with open(state + ".mode.tmp", "w") as f:
+            json.dump({"mode": hook["permission_mode"], "at": time.time()}, f)
+        os.replace(state + ".mode.tmp", state + ".mode")
+    except Exception:
+        pass
 reported_at, reported_tokens, scanned_at = 0, 0, 0
 try:
     fields = [int(x) for x in open(state).read().split()[:3]]

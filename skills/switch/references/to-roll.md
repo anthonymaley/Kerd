@@ -162,16 +162,18 @@ model; with no declared window, it does not roll and says so once.
    could not reproduce this session: launch options other than `--model`,
    `--effort` and `--permission-mode`; Claude or Anthropic environment settings
    (such as `CLAUDE_CONFIG_DIR`) that differ in either direction from what tmux
-   would give the pane; or a permission mode it cannot read from this session's
-   transcript (roll by hand then). It records this session's ID, effort,
-   permission mode as of its last prompt, and its Claude process by PID and start
+   would give the pane; or no permission-mode reading from Kerd's context hook,
+   which records the mode the host reports on every tool call (roll by hand then).
+   It records this session's ID, effort, and its Claude process by PID and start
    time, writes the note `roll/chat.json` with its own
    roll ID, and reads it back.
 2. **Relaunch.** Inside tmux, the command hands a job to the tmux server, which
    outlives this Claude. Five seconds later, under the lock, it re-checks this
    roll's ID, the commit, branch and sketchbook, and that the recorded pane still
    runs the recorded Claude (same PID and start time) and that tmux would still
-   give the pane the same Claude settings; then it marks the note
+   give the pane the same Claude settings, and takes the permission mode from a
+   hook reading made after the roll began, so a mode changed mid-turn is the one
+   carried; with no such reading it refuses. Then it marks the note
    `respawning`, the point after which a cancel is too late, and restarts that pane
    with `respawn-pane -k` into
    `claude --model <same> --effort <same> --permission-mode <same> -- "/kerd:switch roll in"`.
