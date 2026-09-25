@@ -63,6 +63,28 @@ class RetireTests(unittest.TestCase):
             roll_retire.retire(self.root, today=DAY)
         self.assertTrue((self.local / "run.json").exists())
 
+    def test_missing_or_malformed_evidence_refuses(self):
+        cases = [({"place": None}, None), ({"place": ""}, None),
+                 ({}, {}), ({}, {"pending_jobs": None}), ({}, {"pending_jobs": False}), ({}, [])]
+        for fields, place in cases:
+            with self.subTest(fields=fields, place=place):
+                if place is not None:
+                    (self.root / "place.json").write_text(json.dumps(place))
+                data = {"status": "review", "place": "place.json", **fields}
+                if "place" in fields and fields["place"] is None:
+                    del data["place"]
+                (self.local / "run.json").write_text(json.dumps(data))
+                with self.assertRaises((roll.RollError, ValueError)):
+                    roll_retire.retire(self.root, today=DAY)
+                self.assertTrue((self.local / "run.json").exists())
+                (self.root / "place.json").write_text(json.dumps({"pending_jobs": []}))
+
+    def test_missing_place_file_refuses(self):
+        self.record(place="gone.json")
+        with self.assertRaises((roll.RollError, OSError)):
+            roll_retire.retire(self.root, today=DAY)
+        self.assertTrue((self.local / "run.json").exists())
+
     def test_held_owner_lock_refuses(self):
         self.record()
         fd = os.open(self.local / "owner.lock", os.O_CREAT | os.O_RDWR, 0o600)

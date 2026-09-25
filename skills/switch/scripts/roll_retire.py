@@ -40,10 +40,13 @@ def retire(project, label="worker", today=None):
             if record.get("status") not in {"review", "blocked"}:
                 raise roll.RollError(f"Record is {record.get('status')!r}; only review or blocked retire, others go through recovery")
             place = record.get("place")
-            if place:
-                state = json.loads(roll.project_file(project, place).read_text())
-                if state.get("pending_jobs"):
-                    raise roll.RollError("Saved place still lists pending jobs; reconcile them first")
+            if not isinstance(place, str) or not place.strip():
+                raise roll.RollError("Record names no saved place; cannot show that no job is pending")
+            state = json.loads(roll.project_file(project, place).read_text())
+            if not isinstance(state, dict) or not isinstance(state.get("pending_jobs"), list):
+                raise roll.RollError("Saved place has no pending_jobs list; cannot show that no job is pending")
+            if state["pending_jobs"]:
+                raise roll.RollError("Saved place still lists pending jobs; reconcile them first")
             stamp = (today or date.today()).isoformat()
             safe = "".join(c for c in label if c.isalnum() or c == "-") or "worker"
             target = local / f"retired-{stamp}-{safe}-run.json"
