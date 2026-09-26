@@ -276,7 +276,10 @@ subject, kind and status: `KERD: Invoice export · proposal from notes.md · not
 elsewhere in the picture no longer counts; the pre-show render check looks for it, and the bundled
 starter diagram models it. Anthony caught the gap on a test render (2026-09-26 09:08): "doesnt
 mention the project anywhere that generated it". On 0.160.0, three Conductor proposal views in a
-repo called Acme Billing put the name lower-case in the eyebrow, never leading. [RESULT]
+repo called Acme Billing put the name lower-case in the eyebrow, never leading. Tested on the same scenario with fresh Opus sessions: an
+early wording led with the project in 4 of 6 runs; the misses kept diagram-design's own type
+eyebrow or wrote a dot instead of the colon, so the rule now says to replace a template's eyebrow
+with the project line. On the final wording, **5 of 5** runs opened with `ACME BILLING: …`.
 
 **Proposal diagrams already show who owns the gap and what it costs; the rule stays as it is.** A
 reading of 11 recent proposal views found the owner named in none and the cost in one, so this batch
@@ -291,7 +294,9 @@ gives the scripted `claude -p` route.
 is dashed, and the change the view is about has a solid, heavier accent border on plain paper (the Kerd
 look allows no tinted fill). Anthony, on a test render where the proposed steps and the focal change were both dashed
 boxes told apart only by colour (09:17): "can we use color vs dashed lines, they look the same?".
-Two states may no longer differ by one cue alone.
+Two states may no longer differ by one cue alone, and a
+result that exists only once the change ships counts as proposed, so it is dashed; an early draft
+that left that out was clean in 1 of 3 runs, the final wording in **5 of 5**.
 
 ### v0.160.0
 
