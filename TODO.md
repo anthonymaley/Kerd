@@ -146,6 +146,9 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   **Trial so far (2026-09-25, `measure.py`):** kept near the mark, avg re-sent per call 145k and
   133k; ran past it, 221k (the 0.155–0.157 sitting, peak 378k, not rolled by hand) and 247k.
   Two against two, not verified; rolling by hand did not hold in a busy sitting.
+  **Reading 2 (2026-09-26, seven sittings):** near the mark 133k to 163k, past it 221k to 270k; subagents
+  (not counted by `measure.py`) carried 36% to 63% of input in fan-out sittings. No hand roll judged for
+  loss yet; the decision waits on one. Detail: `notes:rolling-session/threshold.md`.
 - **Bring Codex along with each release** that changes its four-skill package (Conductor,
   Switch, Visuals, Agent); Codex builds and installs only on Anthony's go in its window.
 

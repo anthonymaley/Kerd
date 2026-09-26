@@ -29,6 +29,11 @@ tokens re-sent per call and the size at Switch Out; baseline since 2026-09-21: a
 286k per call, peaks up to 459k, Outs at 133k to 433k. This sitting (2026-09-25 08:49 to 10:3x)
 is the first rolled at the mark (~207k). Estimate, not proof: rolling near 200k should keep the
 average near 190k; the model and both checks are in `notes:rolling-session/threshold.md`.
+**Reading 2 (2026-09-26 13:4x, seven sittings):** near or under the mark 133k to 163k per call, past
+it 221k to 270k; the sittings that ran past were busy release or overnight runs, never rolled by hand.
+`measure.py` counts only the main thread; subagents carried 36% to 63% of input in fan-out sittings.
+No hand roll has yet been judged for loss (Anthony, 15:48: "mostly subagent heavy sessions latley"),
+so **the 200k-vs-50% decision stays open until one real hand roll is judged.**
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
@@ -137,31 +142,31 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (proposed, not yet agreed; 2026-09-26 11:2x):** once apple-music or
+**Selected continuation (proposed, not yet agreed; 2026-09-26 16:2x, first due 2026-09-27):** once apple-music or
 work-anthony has run Kerd ≥0.162.0 for a day of real work, re-grade the items real use has not yet
 exercised: the diagram heading and states (0.161.0), the two 0.162.0 rules, the push-first trigger and
 the chat roll, read-only with the saved brief `notes:real-use-evidence/reader-brief.md`; fix what fails
 on a concert branch, Fable review, release. Stops before: anything written in those projects, any
-finding about their own work, the Codex install. Why: those changes rest on tests alone, and real use
+finding about their own work. Why: those changes rest on tests alone, and real use
 is what the launch plan waits on. Vault notes
 and the outside-the-repo list cannot be graded there (neither sets `work_notes`); only Kerd exercises
 them. Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped:
 launch step 2.
 
-**Pickup reading set** (update 2026-09-26 11:2x):
+**Pickup reading set** (update 2026-09-26 16:2x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list (the watch items, with real-use grades);
-- `kivna/sessions/2026-09-26.md`, the sitting that just ended;
+- `kivna/sessions/2026-09-26.md`, today's sittings (the last: Codex to 0.162.0, trial reading 2);
 - `notes:real-use-evidence/work.md`, the grades and the proposed re-grade;
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `notes:visuals-owner-cost/work.md`; `notes:question-shape/work.md`.
 
-**Notes commit:** `3060032108738f013b70bf7184915424975dcdd4` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `a37cd3406d7c6936d09dbad25e8093f0b69a18de` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
 The observed position before this save is 0.162.0 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-26 11:3x: 36,997 bytes, about 9,250 tokens (estimate), 1,250 over the 8,000 target; kept because today's session log carries three sittings and each is the newest account of its release (0.159.0 to 0.162.0); the per-reader evidence moved to `notes:real-use-evidence/evidence.md`. `read_args` for the next pickup:
+**Measured** 2026-09-26 16:3x: 38,865 bytes, about 9,717 tokens (estimate), 1,717 over the 8,000 target; kept because today's session log carries four sittings, each the newest account of its release or install (0.159.0 to 0.162.0, Codex to 0.162.0). `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-26.md",
