@@ -70,38 +70,66 @@ approves none of its operations, and that Something else opens Conductor for
 direction-setting.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
-The ordinary Switch In **“Start a Conductor session?”**
-arrival is exempt from the consequential-question capsule: its complete rendered
-arrival is the orientation, with the recommendation and its Why above, and
-choosing work opens Shape for it only.
+The ordinary Switch In **“Start a Conductor session?”** arrival is exempt from
+the decision block: its complete rendered arrival is the orientation, with the
+recommendation and its Why above, and choosing work opens Shape for it only.
 
 Every other Kerd question, in every skill, including Conductor decisions and
-approvals, uses the same form. Every consequential question must be answer-ready
-from the compact capsule immediately above its bubble: include the recommended
-concrete action, what it decides or changes, any material cost or risk, and the
-stopping or authority boundary that applies. The capsule is self-contained —
-restate the recommendation there even when it already appears earlier in the
-message. The repetition costs less than making the reader search for it, and a
-capsule that carries only the deciding consideration while the recommendation
-sits paragraphs above has failed the rule. Never substitute a pointer such as
-“the steps above”, “as described” or “per the earlier list”. Nothing unrelated
-intervenes between that capsule and the bubble: keep account, Insight, history,
-follow-on work and document lists earlier or behind links. The bubble names the concrete action and
-target, rather than relying on a pronoun or abstract label. Each skill's entry
-point links here: one speech-bubble line, `> 💬 **The question?**`, rendered as a
-quote bar, 💬 and the bold question. It is the last prose line of the message. Put
-the compact capsule above it as ordinary Markdown (a short labelled list, or a
-small grid or text box when layout genuinely helps), never inside the bubble. The
-bubble holds only the one question. Tiny or factual questions stay proportionate;
-they do not need a ceremonial capsule. A bold heading or a plain sentence is not
-the question form; a routine update carries no bubble.
+approvals, uses the same form. A consequential question — one whose answer
+commits work, spends real effort or money, releases or deletes something, or
+reverses a ruling — is put as a **decision block** immediately above its bubble,
+in this order, as a short labelled list:
 
-Recommend one next action and ask one direct question. Do not add a routine
-Correct / Change menu or append an alternative such as “or would you rather do
-something else?” The person can push back. A picker does not change this: it
+- **Problem:** what is wrong or wanted, in one or two plain sentences.
+- **Facts:** what we know, including how we know the problem is real and how
+  strong that evidence is (measured, seen once, reported, assumed). Weak evidence
+  is said plainly, and then measuring first is usually the recommendation.
+- **Known options:** the routes worth weighing, briefly, or “needs study” with
+  who would study it (a composer, a reviewer, the partner). Options are facts
+  about the terrain, not choices handed over.
+- **Recommendation:** the one route, as a concrete action and target.
+- **Why:** the reason it beats the other options.
+- **Cost:** rework, tokens, time or effort it takes.
+- **What we lose:** what this choice gives up or closes off.
+- **Input:** who else has checked it and what they said, or “nobody yet”.
+
+The block is self-contained — restate the recommendation there even when it
+already appears earlier in the message; the repetition costs less than making the
+reader search for it. Never substitute a pointer such as “the steps above”, “as
+described” or “per the earlier list”. A label with nothing true to say is left
+out rather than filled; Problem, Recommendation, Why, Cost and What we lose are
+always present. Nothing unrelated intervenes between that block and the bubble:
+keep account, Insight, history, follow-on work and document lists earlier or
+behind links.
+
+**The bubble never loads the answer.** It holds one of two questions: **“Do you
+agree?”**, asking the person to approve the recommendation the block states, or
+one genuine question whose answer the recommendation depends on (“If we raise
+the wait to 60 seconds, will the experience suffer as I suggest?”). It never
+restates the proposal as its own yes/no (“Review, commit, push and install
+0.158.1?”, “Show the last copy and refresh in the background?”): that shape
+hides the decision's size behind a short question and reads as a trick to get a
+yes. A question that bundles several operations is a proposal restated; list the
+operations in the Recommendation instead. The bubble is one speech-bubble line,
+`> 💬 **The question?**`, rendered as a quote bar, 💬 and the bold question. Each
+skill's entry point links here. It is the last prose line of the message; the
+block sits above it as ordinary Markdown, never inside it, and the bubble holds
+only the one question.
+
+Small questions stay small. A factual question the person can answer cold (“Where
+is your vault?”), or a tiny step that is easily undone, takes one line of context
+and the question; it does not need a ceremonial block. When in doubt whether a
+question is consequential, ask whether a wrong yes would cost rework or reverse
+something the person decided: if so, it gets the block. A bold heading or a plain
+sentence is not the question form; a routine update carries no bubble.
+
+Recommend one route and ask one question. Listing known options in the block is
+not a menu: the Recommendation and the bubble still carry exactly one proposal,
+and no “or would you rather …?” is appended. Do not add a routine Correct /
+Change menu. The person can push back. A picker does not change this: it
 carries the question's own options, never a stock Correct / Change pair. Keep
-action steps and scope spaced above the bubble; numbered steps are not
-numbered answer choices. A missing fact still needs its actual question, not
+action steps and scope spaced above the bubble; numbered steps are not numbered
+answer choices. A missing fact still needs its actual question, not
 confirmation of a guess.
 
 Choices, including a genuine pick-several choice such as Agent's review cadence at
@@ -121,17 +149,22 @@ the `💬` line as plain text and name that limitation once.
 The example below uses fictional facts, not answers to inherit into another task.
 
 ```markdown
-JOURNEY  [NOW: Understand] → Shape → Agree → Deliver → Complete
+JOURNEY  [NOW: Shape] → Agree → Deliver → Complete
 
-**What we're building:** an offering and pitch package from the existing material.
-Settled: preserve originals; no customer commitments or live publication.
+- **Problem:** the pitch package has no delivery basis, so a buyer asking “how
+  would this run?” gets no answer.
+- **Facts:** two of the three sample buyers asked exactly that (their notes, read
+  today); the existing material covers the offer and price only.
+- **Known options:** add a delivery guide to the package; answer delivery live in
+  each meeting; leave delivery out of scope.
+- **Recommendation:** add a short delivery guide to the package.
+- **Why:** the question already came up twice, and a written answer keeps every
+  meeting consistent.
+- **Cost:** about a day of drafting from the existing notes.
+- **What we lose:** the package grows from two documents to three.
+- **Input:** nobody yet.
 
-**Proposed scope:** an offering, delivery guide and pitch package.
-- Outside this work: live operations, publishing and customer commitments.
-- Recommendation: include the guide, so the pitch has a delivery basis.
-- Your answer lets me finish the direction and propose its checks.
-
-> 💬 **Is this the right package boundary?**
+> 💬 **Do you agree?**
 ```
 
 ## Visuals belong throughout
@@ -244,7 +277,7 @@ Separately: the release checklist still says release notes live in the README.
 This governs the shape of reports, not their honesty. A limit, a failed check or an
 unverified claim still appears; it takes one of the five places. A question still
 ends the message in the [question form](#question-surface-and-host-adaptation), and
-its capsule still sits directly above it. When the person asks to be walked through
+its decision block still sits directly above it when the question is consequential. When the person asks to be walked through
 something, explain it fully under headings; the first two lines still hold.
 
 ### Keep the tasks visible while the work unfolds

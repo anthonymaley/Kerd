@@ -14,15 +14,14 @@ SKILLS = REPO / "skills"
 JOURNEY = SKILLS / "conductor" / "references" / "journey.md"
 ANCHOR = "question-surface-and-host-adaptation"
 QUESTION_CONTEXT_RULE = (
-    "**Keeping the decision with the question:** immediately before a consequential "
-    "bubble, put a self-contained capsule — the recommended concrete action, what it "
-    "decides or changes, material cost or risk, and the stopping or authority boundary — "
-    "so the bubble can be answered from that block alone, without reading upward. "
-    "Restate the recommendation there even when it already appears earlier; the "
-    "repetition costs less than the reader's search. Never point upward with "
-    "\u201cthe steps above\u201d or \u201cas described\u201d. Nothing unrelated comes between the capsule "
-    "and the bubble; name the concrete action and target in the bubble; tiny or factual "
-    "questions stay proportionate — see [the question form]({link})."
+    "**Putting a decision to the person:** a consequential question — its answer commits work, "
+    "spends real effort, releases or deletes something, or reverses a ruling — comes after a "
+    "decision block: Problem, Facts (with how we know the problem is real and how strong that "
+    "evidence is), Known options (or \u201cneeds study\u201d), Recommendation, Why, Cost, What we "
+    "lose, Input (who else checked it, or nobody yet). Its bubble is \u201cDo you agree?\u201d or one "
+    "genuine question the recommendation depends on, never the proposal restated as its own "
+    "yes/no or several operations bundled into one question. A factual question or a small, "
+    "easily undone step stays one line — see [the question form]({link})."
 )
 
 
@@ -63,24 +62,38 @@ class QuestionFormTests(unittest.TestCase):
                 )
                 self.assertEqual(text.count(expected), 1)
 
-    def test_the_linked_section_states_the_answer_ready_capsule_bounds(self):
+    def test_the_linked_section_states_the_decision_block(self):
         """Static wording guard; it does not prove a model follows the form."""
         prose = flat(JOURNEY.read_text(encoding="utf-8"))
         for phrase in (
-            "Every consequential question must be answer-ready from the compact "
-            "capsule immediately above its bubble",
-            "recommended concrete action, what it decides or changes, any material "
-            "cost or risk, and the stopping or authority boundary",
-            "Nothing unrelated intervenes between that capsule and the bubble",
-            "The bubble names the concrete action and target",
-            "Tiny or factual questions stay proportionate; they do not need a "
-            "ceremonial capsule",
-            "The ordinary Switch In **“Start a Conductor session?”** "
-            "arrival is exempt from the consequential-question capsule",
+            "is put as a **decision block** immediately above its bubble",
+            "including how we know the problem is real and how strong that evidence is",
+            "Options are facts about the terrain, not choices handed over.",
+            "Problem, Recommendation, Why, Cost and What we lose are always present",
+            "Nothing unrelated intervenes between that block and the bubble",
+            "**The bubble never loads the answer.**",
+            "It never restates the proposal as its own yes/no",
+            "A question that bundles several operations is a proposal restated",
+            "it does not need a ceremonial block",
+            "the Recommendation and the bubble still carry exactly one proposal",
+            "The ordinary Switch In **“Start a Conductor session?”** arrival is exempt from "
+            "the decision block",
             "choosing work opens Shape for it only",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(flat(phrase), prose)
+
+    def test_the_old_capsule_rule_does_not_return(self):
+        """The capsule let the bubble restate the proposal as its own yes/no."""
+        for path in sorted(SKILLS.rglob("*.md")):
+            if "archive" in path.parts:
+                continue
+            text = flat(path.read_text(encoding="utf-8"))
+            for legacy in ("Keeping the decision with the question",
+                           "name the concrete action and target in the bubble",
+                           "The bubble names the concrete action and target"):
+                with self.subTest(file=str(path.relative_to(REPO)), legacy=legacy):
+                    self.assertNotIn(flat(legacy), text)
 
     def test_the_linked_section_exists_and_shows_the_form(self):
         text = JOURNEY.read_text(encoding="utf-8")
