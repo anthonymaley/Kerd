@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.161.1
+
+**A flaky test stops failing the release gate.** `test_change_read.py` failed once in CI on
+2026-09-26 when its temporary folder was deleted while Git's background clean-up was still writing
+inside it ("Directory not empty: 'pack'"); a re-run passed. The test's Git environment now turns off
+automatic clean-up and maintenance (`gc.auto`, `gc.autoDetach`, `maintenance.auto`) for every repo
+it creates. Tests only; no skill behaviour changes.
+
 ## 0.161.0
 
 **Every diagram now opens with its project's name.** A Kerd render's first line of text, whatever the

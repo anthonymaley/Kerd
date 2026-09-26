@@ -264,9 +264,17 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.161.0)
+## What's New (v0.161.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.161.1
+
+**A flaky test stops failing the release gate.** `test_change_read.py` failed once in CI on
+2026-09-26 when its temporary folder was deleted while Git's background clean-up was still writing
+inside it ("Directory not empty: 'pack'"); a re-run passed. The test's Git environment now turns off
+automatic clean-up and maintenance (`gc.auto`, `gc.autoDetach`, `maintenance.auto`) for every repo
+it creates. Tests only; no skill behaviour changes.
 
 ### v0.161.0
 

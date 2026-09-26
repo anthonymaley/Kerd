@@ -9,9 +9,6 @@ needs 0.161.0 (Visuals changed; his go in its window). Position is in `CONTEXT.m
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
   a project without a `.diagram-design` marker then draws in orange.
 - **Bring Codex to 0.161.0:** its window, his go; read back the installed version.
-- **Flaky test:** `test_change_read.py` `test_commit_and_revert_of_owned_file_is_still_committed`
-  failed once in CI on 2026-09-26 (temp dir cleanup raced Git's `pack` writes: "Directory not empty");
-  passed on re-run; unchanged since 0.127.0.
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).

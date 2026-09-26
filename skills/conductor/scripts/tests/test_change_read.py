@@ -15,7 +15,17 @@ spec.loader.exec_module(change_read)
 
 ISOLATED_GIT = {"GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_NOSYSTEM": "1",
                 "GIT_AUTHOR_NAME": "Test", "GIT_AUTHOR_EMAIL": "test@example.invalid",
-                "GIT_COMMITTER_NAME": "Test", "GIT_COMMITTER_EMAIL": "test@example.invalid"}
+                "GIT_COMMITTER_NAME": "Test", "GIT_COMMITTER_EMAIL": "test@example.invalid",
+                # Disable background gc/maintenance in every repo these tests create: a detached
+                # `git gc --auto` (or `git maintenance run --auto`) can still be writing into
+                # .git/objects/pack after a commit returns, racing the tempdir cleanup that follows
+                # (CI 2026-09-26: shutil.rmtree hit "Directory not empty: 'pack'"). Env-based config
+                # overrides (git >= 2.31) apply to every git invocation these tests make, including
+                # ones change_read.py itself spawns.
+                "GIT_CONFIG_COUNT": "3",
+                "GIT_CONFIG_KEY_0": "gc.auto", "GIT_CONFIG_VALUE_0": "0",
+                "GIT_CONFIG_KEY_1": "gc.autoDetach", "GIT_CONFIG_VALUE_1": "false",
+                "GIT_CONFIG_KEY_2": "maintenance.auto", "GIT_CONFIG_VALUE_2": "false"}
 
 
 class ChangeReadTests(unittest.TestCase):
