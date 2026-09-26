@@ -270,8 +270,10 @@ def render(path, text, now, width=80):
     lines.append("")
 
     if question:
-        lines += box("YOU DECIDE", [question, "", "Proposed: " + (proposed or UNRECORDED),
-                                    "", "Reply: " + (reply or "Correct / Change")], width) + [""]
+        box_lines = [question, "", "Proposed: " + (proposed or UNRECORDED)]
+        if reply:
+            box_lines += ["", "Reply: " + reply]
+        lines += box("YOU DECIDE", box_lines, width) + [""]
     elif agreement and agreement.strip():
         lines += wrap("YOU: no decision is recorded as pending. The standing agreement "
                       "is in the record's Agreement section.", width) + [""]
@@ -954,7 +956,8 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         # Only Claude has /clear; any other or unrecognised host gets the
         # host-neutral line, and an unrecorded host is taken as Claude.
         host = str(get("host") or "claude").strip().lower()
-        closing = ("Exit and restart or /clear and /kerd:switch in to pick up from here."
+        closing = ("Exit (with Agent view on, Ctrl-C in the session list) and restart, "
+                   "or /clear and /kerd:switch in to pick up from here."
                    if host == "claude" else
                    "Exit and restart, then switch in to pick up from here.")
     elif saved not in ("remote-verified", "committed"):

@@ -290,8 +290,8 @@ It ends on a closing box that starts with the save state in words: SESSION SAVED
 SAVED LOCALLY, NOT SAVED, or SAVE STATUS NOT RECORDED. Then a project, saved,
 phase and released grid, what changed this session in product terms, the next
 step and why, and any save problem under Attention. Only after a confirmed save
-does it offer the restart line: "Exit and restart or /clear and `/kerd:switch in`
-to pick up from here."
+does it offer the restart line: "Exit (with Agent view on, Ctrl-C in the session
+list) and restart, or /clear and `/kerd:switch in` to pick up from here."
 
 Read that first word before you close anything.
 

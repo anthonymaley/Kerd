@@ -837,9 +837,10 @@ it chooses the closing line; only `claude` (or an unrecorded host) gets `/clear`
 for; a missing field renders as "not recorded", never as a claim.
 
 The closing line offers a restart only after a remote-verified or committed save,
-`handoff_ready: true` **and** `boundary: "passed"`: under Claude, "Exit and restart or /clear and
-/kerd:switch in to pick up from here."; under Codex, "Exit and restart, then
-switch in to pick up from here." Otherwise it asks to keep the session open and
+`handoff_ready: true` **and** `boundary: "passed"`: under Claude, "Exit (with Agent view on,
+Ctrl-C in the session list) and restart, or /clear and /kerd:switch in to pick up
+from here."; under Codex, "Exit and restart, then switch in to pick up from here."
+Otherwise it asks to keep the session open and
 resolve the save or the missing handoff first, because clearing context then
 would lose the very work that is unsaved. It never says the session exited or
 the context was cleared: a save is a Git fact, and restarting is the person's

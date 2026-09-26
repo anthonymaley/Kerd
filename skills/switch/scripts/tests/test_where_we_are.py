@@ -14,6 +14,9 @@ SPEC.loader.exec_module(view)
 
 NOW = "2026-09-09 12:26 EDT"
 
+CLAUDE_RESTART_LINE = ("Exit (with Agent view on, Ctrl-C in the session list) and restart, "
+                       "or /clear and /kerd:switch in to pick up from here.")
+
 FULL = """# Work: a small view
 
 ## Jobs
@@ -105,15 +108,28 @@ class ViewTests(unittest.TestCase):
     def test_a_real_pending_question_is_fully_bounded_with_answer_and_reply(self):
         text = ("# Work: x\n\n## Now\nStage: Agree\n"
                 "Pending question: Is the source rule right?\n"
-                "Proposed answer: read the explicit headings\n")
+                "Proposed answer: read the explicit headings\n"
+                "Reply with: Yes, that is right\n")
         out = render(text)
         box = [line for line in out.splitlines() if line.startswith(("┌", "│", "├", "└"))]
         self.assertTrue(box)
         self.assertEqual({display_columns(line) for line in box}, {80})
         joined = "\n".join(box)
         for expected in ("YOU DECIDE", "Is the source rule right?",
-                         "Proposed: read the explicit headings", "Reply: Correct / Change"):
+                         "Proposed: read the explicit headings", "Reply: Yes, that is right"):
             self.assertIn(expected, joined)
+
+    def test_no_recorded_reply_omits_the_reply_line_with_no_stock_fallback(self):
+        text = ("# Work: x\n\n## Now\nStage: Agree\n"
+                "Pending question: Is the source rule right?\n"
+                "Proposed answer: read the explicit headings\n")
+        out = render(text)
+        box = [line for line in out.splitlines() if line.startswith(("┌", "│", "├", "└"))]
+        self.assertTrue(box)
+        joined = "\n".join(box)
+        self.assertIn("Proposed: read the explicit headings", joined)
+        self.assertNotIn("Reply:", joined)
+        self.assertNotIn("Correct / Change", out)
 
     def test_a_question_without_a_proposed_answer_says_so_inside_the_box(self):
         out = render("# Work: x\n\n## Now\nStage: Agree\nPending question: Which way?\n")
@@ -1032,8 +1048,7 @@ class ClosingBoxTests(unittest.TestCase):
         for markdown in (False, True):
             with self.subTest(markdown=markdown):
                 out = self.render(markdown).rstrip()
-                self.assertTrue(flatten(out).endswith(
-                    "Exit and restart or /clear and /kerd:switch in to pick up from here."))
+                self.assertTrue(flatten(out).endswith(CLAUDE_RESTART_LINE))
 
     def test_under_codex_the_closing_line_names_no_claude_command(self):
         for host in ("codex", "Codex", "codex-cli", "something"):
@@ -1106,7 +1121,7 @@ class ClosingBoxTests(unittest.TestCase):
                         out = flatten(self.render(markdown, saved=saved, handoff_ready=ready))
                         allowed = saved in ("remote-verified", "committed") and ready is True
                         self.assertEqual("/clear" in out, allowed)
-                        self.assertEqual("Exit and restart" in out, allowed)
+                        self.assertEqual(CLAUDE_RESTART_LINE in out, allowed)
                         if not allowed:
                             self.assertIn("Keep this session open", out)
                         if ready is False:
@@ -1123,20 +1138,20 @@ class ClosingBoxTests(unittest.TestCase):
                 with self.subTest(boundary=boundary, markdown=markdown):
                     out = flatten(self.render(markdown, boundary=boundary))
                     self.assertNotIn("\u2713", out)
-                    self.assertNotIn("Exit and restart", out)
+                    self.assertNotIn(CLAUDE_RESTART_LINE, out)
                     self.assertIn("Keep this session open and resolve the boundary check", out)
                     self.assertIn("ATTENTION", out)
                     if markdown:  # the terminal panel wraps long lines inside its border
                         self.assertIn(flatten(words), out.split("ATTENTION", 1)[1])
         summary = self.base()
         del summary["boundary"]
-        self.assertNotIn("Exit and restart", view.render_closing(summary, NOW, 80, False))
+        self.assertNotIn(CLAUDE_RESTART_LINE, view.render_closing(summary, NOW, 80, False))
         self.assertIn("SESSION SAVED \u2713", self.render(True))
 
     def test_a_stash_count_in_warnings_does_not_withhold_the_restart(self):
         out = flatten(self.render(True, warnings=["2 stashes on this machine, not saved."]))
         self.assertIn("2 stashes on this machine", out)
-        self.assertIn("Exit and restart", out)
+        self.assertIn(CLAUDE_RESTART_LINE, out)
 
     def test_an_unknown_save_status_is_not_reported_as_nothing_committed(self):
         for summary in ({}, {"saved": "weird"}, self.base(saved=None)):
@@ -1461,7 +1476,7 @@ class MemoryReadinessTests(unittest.TestCase):
                             next="Recover the partner's unrecorded verification limits before resuming.")
                         out = flatten(view.render_closing(summary, NOW, color=False, markdown=markdown))
                         allowed = saved in ("remote-verified", "committed") and ready is True
-                        self.assertEqual("Exit and restart" in out, allowed)
+                        self.assertEqual(CLAUDE_RESTART_LINE in out, allowed)
                         if not allowed:
                             self.assertIn("Keep this session open", out)
                         if saved == "remote-verified":
