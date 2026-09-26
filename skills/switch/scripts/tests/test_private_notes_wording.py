@@ -115,7 +115,8 @@ class PrivateNotesWordingTests(unittest.TestCase):
             ("docs/state-contract.md",
              "| vault work/ | W/R | W/R | - | - | - | - | - |"),
             ("docs/state-contract.md",
-             "| Vault `work/` writes | **conductor** (the sketchbook, opt-in via `work_notes`) "
+             "| Vault `work/` writes | **conductor** (`<work>/work.md`, the sketchbook, opt-in via `work_notes`); "
+             "**switch** (out) for `outside-the-repo.md` "
              "| Kivna does not write it; it only recognizes the key |"),
             ("docs/state-contract.md",
              "| Vault `work/` save + push | **the Switch Out flow**, alongside the project "

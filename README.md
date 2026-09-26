@@ -183,7 +183,7 @@ them, read them, edit them, commit them.
 | `CONTEXT.md` | what is currently true about the project, overwritten each time, never a diary |
 | `TODO.md` | open work only: `## Now` and `## Backlog`, one line each |
 | `kivna/sessions/YYYY-MM-DD.md` | one log per day: what was done, key decisions, commits, what is next |
-| `docs/work/<name>/work.md` | one record per piece of work: the direction, what is settled, what is still open (kept in your private vault instead when `kivna/vault.json` sets `"work_notes": "vault"`) |
+| `docs/work/<name>/work.md` | one record per piece of work: the direction, what is settled, what is still open (kept in your private vault instead when `kivna/vault.json` sets `"work_notes": "vault"`, along with `outside-the-repo.md`, the list of live links outside the repository) |
 
 Those four are not everything Kerd writes. Drawings are saved as HTML and SVG
 beside the work record. If you opt into the Obsidian vault, `kivna/vault.json`
@@ -264,9 +264,19 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.157.0)
+## What's New (v0.158.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.158.0
+
+**Links outside the repo stop sinking.** With `"work_notes": "vault"` set, Switch Out keeps one
+private list, `notes:outside-the-repo.md`: each live thing the work leans on outside the
+repository (a claude.ai artifact, a message awaiting a reply, an open pull request), one line with
+what it is, its link, who owns it and what it is waiting on. Out adds new ones, drops what is
+saved, merged, answered or no longer needed, and names the list in the pickup reading set, so
+every Switch In sees it. It lives in the vault because such links can be private while the repo is
+public. Before this, a link survived one sitting in a session log and then sank.
 
 ### v0.157.0
 

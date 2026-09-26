@@ -584,6 +584,21 @@ Add only what the sitting actually settled: the person's words as theirs,
 proposals as proposals, nothing invented. Ask the person nothing to fill it, and
 add no step to their closeout. Link it from the active list.
 
+### Keep the outside-the-repo list
+
+When `kivna/vault.json` sets `work_notes`, Out keeps one private list at
+`notes:outside-the-repo.md`, the notes root's `outside-the-repo.md`: the live
+things the work leans on that sit outside the repository, such as a claude.ai
+artifact, a message awaiting a reply or an open pull request. One line each: what
+it is, its link, who owns it and what it is waiting on. A thing earns a line when
+someone will open it again or something waits on it; a link used once stays in
+the session log. A line leaves when its thing is saved in the repo, merged,
+answered or no longer needed. Out adds what this sitting created or still waits
+on and prunes what closed, asking the person nothing. Past about eight lines, the
+pruning is not gripping: say so rather than let it become a link dump. It stays
+in the vault because such links can be private while the repo is public. Always
+name it in the pickup reading set; without `work_notes`, Out keeps no such list.
+
 ### Save the selected continuation
 
 Update the next session's lean start point with what is true and what to do next.
@@ -671,7 +686,8 @@ order, each leaving a reachable link behind:
    sections, in the pointer's current-state section, with why each matters.
    The default set is the pointer, its designated complete active list (including
    child sections), explicitly current linked work records, and the newest session
-   log; add source sections for governing current decisions, standing constraints
+   log, plus `notes:outside-the-repo.md` when `work_notes` is set; add source
+   sections for governing current decisions, standing constraints
    or known risks when they are not already covered. Before measuring or claiming
    memory ready, compare those active records used for this closeout with the
    actual selected text, including unresolved urgent/imminent flags in their

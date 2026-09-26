@@ -122,11 +122,19 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   sittings, compare average tokens re-sent per call, rolled vs not, and decide whether Kerd's
   chat roll moves from 50% to 200k. The built alternative was dropped as too complex. Sketchbook
   `notes:rolling-session/threshold.md`.
-  **Carried from that sketchbook (2026-09-25):** the no-progress check never catches thrash,
-  because every save rewrites the sketchbook (`tmux_roll.py:344`), and the three-rolls-in-6h cap
-  stops real progress: on 2026-09-25 two trial rolls plus one real roll blocked this chat from
-  rolling for six hours during an unattended build. Proposed there: a thrash guard (refuse a roll
-  unless context grew since the pickup) in place of the count cap.
+  **Latent, parked (Anthony, 2026-09-25 20:08):** the no-progress check never fires, because
+  every save rewrites the sketchbook (`tmux_roll.py:368`), so only the three-in-6h count stops a
+  loop. No roll has ever been refused: on 2026-09-25 the cap *would* have refused one before
+  ~18:51, but the ~1M window never needed it. The thrash guard was dropped at 10:26 as too
+  complex; revisit only if a real roll is refused or the 200k trial decides the trigger.
+  **Trial so far (2026-09-25, `measure.py`):** kept near the mark, avg re-sent per call 145k and
+  133k; ran past it, 221k (the 0.155–0.157 sitting, peak 378k, not rolled by hand) and 247k.
+  Two against two, not verified; rolling by hand did not hold in a busy sitting.
+- **Switch Out's "Exit and restart" line meets Claude Code's Agent view** (seen 2026-09-25 20:29):
+  with Agent view on (research preview since 2.1.140), `/exit` detaches into a list of background
+  sessions instead of the shell, and Enter there attaches the tab to another project. Anthony keeps it on and
+  exits with Ctrl-C there (20:54; a brief `disableAgentView` was reverted). Kerd's finished Agent workers also stay listed
+  there. Consider wording the closing line for both cases; not yet changed.
 - **Bring Codex along with each release** that changes its four-skill package (Conductor,
   Switch, Visuals, Agent); Codex builds and installs only on Anthony's go in its window.
 

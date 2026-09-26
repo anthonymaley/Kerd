@@ -29,7 +29,8 @@ and repository boundaries still apply.
   [pickup and closeout](references/in-out.md).
 - **Out:** close this sitting well: record history, tidy active work, leave a
   lean, measured start point with the selected continuation, its approval
-  boundary and recorded urgent risks — rulings kept, cases and closed rows moved to
+  boundary, recorded urgent risks and, with vault notes, the private list of
+  live links outside the repo — rulings kept, cases and closed rows moved to
   reachable records, the reading set named — and end on the saved-place box:
   a project/saved/phase/released grid, what changed this session in product terms,
   the next step and why, save problems under attention, and one restart line

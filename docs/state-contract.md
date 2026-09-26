@@ -147,7 +147,7 @@ which no current skill writes; a file carrying one is leftover state from before
 
 ## Vault `work/<work>/work.md` (private working notes)
 
-**Owner:** conductor (writes the sketchbook, its diagrams, evidence and drafts)
+**Owner:** conductor (writes the sketchbook, its diagrams, evidence and drafts); `outside-the-repo.md` at the notes root is owned by Switch Out (below)
 **Readers:** conductor, switch (in/out) — same as `docs/work/<work>/work.md`, its default home
 **Committed:** yes, but in the vault's own git repo (shared with other vault content), not the project's
 
@@ -170,6 +170,11 @@ only change is where it lives.
 - Switch Out saves and pushes the vault repo the same way it saves the
   project, at the same session boundary; the `boundary` check covers both
   repos. This is not a second closeout — one sitting, two repos saved.
+- Live things outside the repository (a claude.ai artifact, a message awaiting
+  a reply, an open pull request) are listed in `notes:outside-the-repo.md`, one
+  line each: what, link, owner, waiting on. Switch Out owns it: adds what the
+  sitting created or still waits on, prunes what closed, and names it in the
+  pickup reading set. It is private because such links can be.
 
 ## kivna/output/ (KIF exports)
 
@@ -233,7 +238,7 @@ Which skill owns which responsibility. If two skills could do something, only on
 | Session plan (TODO.md `## Now`) | **conductor** (plan), **switch** (wrap-up) | Other skills don't write `## Now`; kivna import may merge approved KIF items into `## Backlog` |
 | Standing state (CONTEXT.md) | **switch** (out), **conductor** (decisions during execute) | Other skills read but don't write |
 | Vault writes | **kivna** (save, on demand — v0.83.0) | No skill calls kivna save automatically |
-| Vault `work/` writes | **conductor** (the sketchbook, opt-in via `work_notes`) | Kivna does not write it; it only recognizes the key |
+| Vault `work/` writes | **conductor** (`<work>/work.md`, the sketchbook, opt-in via `work_notes`); **switch** (out) for `outside-the-repo.md` | Kivna does not write it; it only recognizes the key |
 | Vault `work/` save + push | **the Switch Out flow**, alongside the project | No other skill commits or pushes the vault repo |
 | Structural audit and fix | **tend** | Tend keeps structure; slainte fixes *content* drift under the caller's gate |
 | Content audit and fix | **slainte** — triggered by conductor at releases and feature closes, on demand otherwise | No other skill edits docs to fix content drift; slainte's own fixes land only under the caller's verification gate, restraint reported |

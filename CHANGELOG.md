@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.158.0
+
+**Links outside the repo stop sinking.** With `"work_notes": "vault"` set, Switch Out keeps one
+private list, `notes:outside-the-repo.md`: each live thing the work leans on outside the
+repository (a claude.ai artifact, a message awaiting a reply, an open pull request), one line with
+what it is, its link, who owns it and what it is waiting on. Out adds new ones, drops what is
+saved, merged, answered or no longer needed, and names the list in the pickup reading set, so
+every Switch In sees it. It lives in the vault because such links can be private while the repo is
+public. Before this, a link survived one sitting in a session log and then sank.
+
 ## 0.157.0
 
 **A public repo's working notes can stay private and still be saved.** Set
