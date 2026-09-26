@@ -21,3 +21,6 @@ output/
 
 # Local secrets, never committed
 .env
+
+# Eval run output (claude plugin eval), machine-local
+evals/results/

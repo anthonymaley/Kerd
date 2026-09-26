@@ -33,6 +33,20 @@ Three files, always in sync:
 
 Semver: PATCH for bug fixes, MINOR for new skills or behavior changes, MAJOR for breaking changes.
 
+## Behaviour evals
+
+Wording tests (`python3 tools/run_tests.py`) prove a rule is written, not that a model follows it.
+`evals/` holds behaviour cases for Claude Code's `claude plugin eval`, each run with Kerd and
+without it. Run the question-shape case from the repo root:
+
+```sh
+claude plugin eval . --case 'question-shape*' --model opus -j 3 --scaffold
+```
+
+`--scaffold` is required: it creates the case's `notes.md`, and without it the case has nothing to
+read. It runs the case's own `scaffold.sh` as you. Results go to `evals/results/`, which is ignored.
+A run costs about a dollar and takes about a minute.
+
 ## Review process
 
 1. Open a PR against `main`

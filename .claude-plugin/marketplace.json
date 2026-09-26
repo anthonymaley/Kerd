@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Kerd: opinionated workflow skills for Claude Code",
-    "version": "0.159.0"
+    "version": "0.160.0"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
         "url": "https://github.com/anthonymaley/Kerd.git"
       },
       "description": "Opinionated workflow toolkit: rehearsing work turn by turn into a sketchbook and score then performing it as a concert checked against its goals, risks kept in view in the sketchbook, bounded score composition, per-step delegation and managed Codex context continuation, a Conductor chat that rolls itself into a fresh session in tmux, session discipline, session and machine handoff, knowledge management, project audits, human writing voice, structural health, visual agreement, and native Claude/Codex session collaboration with role and review-cadence continuity, and effort-sized native players dispatched with an explicit model",
-      "version": "0.159.0",
+      "version": "0.160.0",
       "strict": true
     }
   ]

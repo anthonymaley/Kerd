@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.160.0
+
+**Kerd's question shape now has a behaviour check, not only a wording check.** `evals/question-shape/`
+is a case for Claude Code's `claude plugin eval`: a repo whose notes hold one slow timing taken under
+load, a two-day fix idea and a ruling the fix would reverse. Thirteen graders check the eight decision
+labels, the final bubble, that the Facts call the evidence weak, and that no file changed. First
+full run (2026-09-26, Opus, three runs per arm): **1.00 with Kerd, 0.26 without**. Run it with
+`claude plugin eval . --case 'question-shape*' --model opus -j 3 --scaffold`; `--scaffold` is needed,
+or the case has no notes to read (two early runs scored low for exactly that reason).
+
+**Switch Out's restart line works with Agent view.** With Claude Code's Agent view on, `/exit`
+opens the list of background sessions instead of returning to the shell, so the old "Exit and
+restart" line left you in the wrong place. The line now reads: "Exit (with Agent view on, Ctrl-C in
+the session list) and restart, or /clear and /kerd:switch in to pick up from here." It still appears
+only after a confirmed save.
+
+**The record viewer stops offering a stock "Correct / Change" reply.** When a record holds a pending
+question with no recorded reply, Switch's single-record view now leaves the reply line out rather
+than filling it with the menu Kerd's question rule forbids.
+
+**The guide's Conductor example uses the decision block.** `docs/guide/conductor.md` now shows the same
+worked example as Conductor's own rules: the eight labels and a bubble ending "— approve?".
+
 ## 0.159.0
 
 **Kerd stops asking loaded questions.** A consequential question (one whose answer commits
