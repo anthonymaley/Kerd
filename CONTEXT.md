@@ -153,7 +153,7 @@ the homepage, the thrash guard (latent). Dropped: launch step 2.
 Deeper: `docs/decisions.md`; `docs/backlog-archive.md`; `notes:question-shape/work.md` (the question
 change, its defaults and evidence); `notes:rolling-session/threshold.md` (the roll trial).
 
-**Notes commit:** `ccd5e2a4819869128f5fee044856514dba7d86b1` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `c2a00e616b1b85f8c45a7673730b28c8896f37ca` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
 The observed position before this save is 0.160.0 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
