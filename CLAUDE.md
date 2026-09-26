@@ -58,6 +58,7 @@ CONTEXT.md        # current state, overwritten each session
 TODO.md           # open work (## Now + ## Backlog)
 hooks/            # session hooks (statusline, session-start, skill-complete, context-reading)
 tests/            # hooks_test.sh
+evals/            # behaviour cases for `claude plugin eval` (run with --scaffold; results/ ignored)
 kivna/vault.json  # Obsidian vault config
 kivna/sessions/   # session logs from switch (committed)
 .claude-plugin/   # plugin.json and marketplace.json
