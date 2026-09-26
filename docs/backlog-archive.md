@@ -6,6 +6,36 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-09-25 (night Switch Out)
+
+**Verdict: done: 0.158.0 and 0.158.1, on Anthony's "y" to each draft (20:10, 21:03).** Out-of-repo
+links now live in the private `notes:outside-the-repo.md`, kept by Switch Out and read at every
+Switch In. The machine check is `tools/machine_check.py` (reads hooks as JSON; three Codex rounds,
+clear at 22:0x); `docs/machine-setup.md` calls it. `kivna/.pair` is flagged as a leftover for
+Anthony to delete.
+
+- **Machine-local state has an inventory but no refuser** (filed 2026-08-27 at
+  the Mac Studio move). `docs/machine-setup.md` §4 lists what git cannot carry —
+  `kivna/.pair`, `kivna/.active-modes`, `~/.claude/settings.json`, the `~/eolas`
+  symlink — and §3 greps for hand-wired hook duplicates that must print nothing.
+  Both are prose a person runs, so nothing refuses a machine that drifts. **The
+  drift that actually bit was the silent kind:** a duplicate pair hook fires
+  correctly and looks like the feature working while injecting text that
+  contradicts the live version. Candidate shape, not chosen: a `/kerd:tend`
+  category that runs the doc's greps, since tend already owns structural
+  convergence and already had its Category 9 rewritten to *remove* stale wiring
+  rather than add it. Open question before any build — does this belong to tend
+  at all, or is a machine's config outside every repo's business?
+  **Draft awaiting Anthony (2026-09-25):** `notes:unattended-sweep/drafts/machine-local-settings.md`
+  (today's greps clean; recommends a small `tools/machine_check.py`, not a Tend category; asks
+  whether the duplicate hook came with the Studio move).
+
+- **Out-of-repo artifacts have no home** — PRs, URLs, decks, external docs.
+  **Draft awaiting Anthony (2026-09-25):** `notes:unattended-sweep/drafts/out-of-repo-artifacts.md`
+  recommends a `## Outside the repo` section in CONTEXT.md; its question (private claude.ai links in
+  a public repo) may now be answered by the private vault notes.
+
+
 ## Closed 2026-09-25 (evening Switch Out)
 
 **Verdict: done: fixed in 0.156.0 (`ask.py` releases the session lock before `completed` is visible; 20/20 loop, CI green).**

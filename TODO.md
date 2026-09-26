@@ -2,9 +2,12 @@
 
 ## Now
 
-**Release boundary:** 0.157.0 on `main`; both hosts run it (Codex read back 2026-09-25 19:53). Resolve IDs with `git log`. Position, the
+**Release boundary:** 0.158.1 on `main`; Claude Code runs it (read back 2026-09-25 22:0x); Codex
+stays on 0.157.0 (its package did not change). Resolve IDs with `git log`. Position, the
 local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
 
+- **Watch the outside-the-repo list (0.158.0):** the first Switch Out that adds or prunes a line in
+  `notes:outside-the-repo.md`, and a Switch In that reads it. Seeded with two lines; unseen live.
 - **Watch the private vault notes (0.157.0) in real use:** the first Switch In that reads a
   `notes:` sketchbook pinned by `--notes-commit`, and a pickup on a second machine. Unseen.
 - **Watch the push-first trigger (0.156.0):** "just push it" / "skip the review" on Conductor
@@ -173,26 +176,5 @@ not Kerd work: recorded in `docs/decisions.md`. These lists are not authority to
 run checks during pickup.
 
 ## Backlog
-
-- **Machine-local state has an inventory but no refuser** (filed 2026-08-27 at
-  the Mac Studio move). `docs/machine-setup.md` §4 lists what git cannot carry —
-  `kivna/.pair`, `kivna/.active-modes`, `~/.claude/settings.json`, the `~/eolas`
-  symlink — and §3 greps for hand-wired hook duplicates that must print nothing.
-  Both are prose a person runs, so nothing refuses a machine that drifts. **The
-  drift that actually bit was the silent kind:** a duplicate pair hook fires
-  correctly and looks like the feature working while injecting text that
-  contradicts the live version. Candidate shape, not chosen: a `/kerd:tend`
-  category that runs the doc's greps, since tend already owns structural
-  convergence and already had its Category 9 rewritten to *remove* stale wiring
-  rather than add it. Open question before any build — does this belong to tend
-  at all, or is a machine's config outside every repo's business?
-  **Draft awaiting Anthony (2026-09-25):** `notes:unattended-sweep/drafts/machine-local-settings.md`
-  (today's greps clean; recommends a small `tools/machine_check.py`, not a Tend category; asks
-  whether the duplicate hook came with the Studio move).
-
-- **Out-of-repo artifacts have no home** — PRs, URLs, decks, external docs.
-  **Draft awaiting Anthony (2026-09-25):** `notes:unattended-sweep/drafts/out-of-repo-artifacts.md`
-  recommends a `## Outside the repo` section in CONTEXT.md; its question (private claude.ai links in
-  a public repo) may now be answered by the private vault notes.
 
 - skriv voice profile wiring — needs non-founder-genre samples.

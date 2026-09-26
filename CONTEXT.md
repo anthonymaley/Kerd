@@ -6,17 +6,13 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.157.0 on `main`** (2026-09-25 17:35). The sitting of 2026-09-25 10:4x to
-19:5x (one chat, rolled once at 12:51) released 0.155.0 (Agent messages off the process list,
-socket peer and log checks, em dashes out of reader pages, release check R5), 0.156.0 (Switch
-Out's remote check, the flaky test fixed, wording fixed from 50+ fresh-session evidence runs)
-and 0.157.0 (a public repo's working notes live in the private vault; Switch Out carries its key
-findings). Account: `kivna/sessions/2026-09-25.md`, third sitting. Earlier today: 0.153.3 to
-0.154.1 (the chat roll).
+**Release boundary: 0.158.1 on `main`** (2026-09-25 22:0x). The fourth sitting (19:59 to 22:1x)
+released 0.158.0 (Switch Out keeps the private `notes:outside-the-repo.md`, read at every Switch In)
+and 0.158.1 (`tools/machine_check.py` replaces the setup guide's broken grep). Earlier today:
+0.153.3 to 0.157.0. Account: `kivna/sessions/2026-09-25.md`, fourth sitting.
 
-**Both hosts run 0.157.0:** Claude Code (plugin list, 2026-09-25 19:50) and Codex (installed by
-`codex-tui` on Anthony's go in its window, read back by Claude 19:53). Laptop bells are on for
-both (Claude `preferredNotifChannel: terminal_bell`, Codex `[tui]` bell; backups `*.bak-bell`).
+**Claude Code runs 0.158.1** (plugin list, 2026-09-25 22:0x). **Codex stays on 0.157.0**: its
+four-skill package did not change. Laptop bells are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -57,6 +53,11 @@ raise it until he does.
 drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
+- **A question never loads its answer (Anthony, 2026-09-25 21:47 to 21:58):** "a block with the
+  facts ... then a recommendation and then an approve OR a question you need clarified, NOT a
+  loaded question ... feel like we are tricking the user into answering." His template: Problem,
+  facts, known options, recommendation, why, cost, what we lose, input, then "Do you agree?" or one
+  real question. Use it now; Kerd's own wording is the next work (`notes:question-shape/work.md`).
 - **A public repo's working notes live in the private vault, saved like any record** (Anthony,
   2026-09-25 16:18 to 16:26: "we should for every project no? or we need a folder that is not
   public somehow"; "yes"). Kerd sets `work_notes: "vault"`; sketchbooks are `notes:<work>/`.
@@ -125,36 +126,41 @@ local-only here moved there on 2026-09-25 (vault commit `b64d50a`). `notes:backl
 `notes:unattended-sweep/` were pushed to this public repo by mistake in 0.155.0/0.156.0 and
 untracked the same day; the old commits still hold them.
 
-**Routing:** this chat rolled in at 12:51 (chain 3) and did not re-adopt `kerd-b5-review` by
-name; no role designation is saved at this Out.
+**Routing:** no role designation saved. `codex-tui` did not take a queued review at 20:14
+(unconfirmed); fresh one-off Codex reviewers were used on his yes. The old `kerd-b5-review` binding
+still carries a pre-12:51 handoff; not adopted.
 
-**Selected continuation (proposed, awaiting Anthony):** his answers to the two drafts, first
-out-of-repo links (`notes:unattended-sweep/drafts/out-of-repo-artifacts.md`: where live links and
-things awaiting replies are kept; the private vault may now answer its public-repo question),
-then machine settings (`notes:unattended-sweep/drafts/machine-local-settings.md`). Each ends on
-one question; answering starts nothing. Parked: the announcement, SAM and Aubel.app, the
-homepage. Dropped: launch step 2.
+**Claude Code's Agent view stays on (Anthony, 20:54):** `/exit` detaches into the background-session
+list; he quits there with Ctrl-C. Switch Out's "Exit and restart" line does not mention it (TODO).
 
-**Pickup reading set** (Switch Out, 2026-09-25 19:5x):
+**Selected continuation (proposed, awaiting Anthony):** shape the question change from his template
+in `notes:question-shape/work.md`: where it lands (the shared question form and every SKILL.md
+header), when the full template applies versus a small factual question, and whether the "one
+proposal, never or" memory narrows now that his template lists options. Rehearsal first; nothing
+built. Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent).
+Dropped: launch step 2.
+
+**Pickup reading set** (Switch Out, 2026-09-25 22:1x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-25.md`, all three of today's sittings.
-Deeper: `notes:private-notes/work.md` (0.157.0), `notes:unattended-sweep/` (evidence and drafts),
-`notes:backlog-sweep/work.md` (0.155.0); `docs/decisions.md`; `docs/backlog-archive.md` (16 rows
-closed this Out). At the next In, run `python3 ~/eolas/vault/kerd/work/rolling-session/measure.py
---since 2026-09-25` to add today's sittings to the roll trial's evidence.
+- `kivna/sessions/2026-09-25.md`, all four of today's sittings;
+- `notes:question-shape/work.md`, the selected work's sketchbook;
+- `notes:outside-the-repo.md`, live links outside the repo.
+Deeper: `docs/decisions.md`; `docs/backlog-archive.md`; `notes:rolling-session/threshold.md` (the
+roll trial and its numbers).
 
-**Notes commit:** `a8081f24d1793453a310fb1ebc0778168549e927` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `f7c0f7e37729a1ea33c6b1fcb426aa402bfde37b` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.157.0 on `main`; the boundary commit is this save
+The observed position before this save is 0.158.1 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-25 19:5x: 33,382 bytes across the three sources, about 8,346 tokens
-estimated at four bytes each, 346 over the 8,000 target: today's log holds three sittings, and
+**Measured** 2026-09-25 22:1x: 42,344 bytes across the five sources, about 10,586 tokens
+estimated at four bytes each, 2,586 over the 8,000 target: today's log holds four sittings, and
 tomorrow's In reads a new log. Five carried findings checked with `measure --carry-file`, all in
-the reading set. `read_args` for the next pickup:
+the reading set (the release line written as "0.158.1 on `main`"). `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-25.md",
+ "--file", "notes:question-shape/work.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
