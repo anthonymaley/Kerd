@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.162.0
+
+**Two rules tightened from reading a week of real use.** Kerd's recent changes were graded against
+real sittings in two other projects (read-only). Most held: questions came after their decision block,
+reports opened on what the person has, and 65 of 65 turn endings in one project closed on a question
+or a named wait. Two gaps showed. A turn ended on a correctly named wait while other approved work
+could have run, and the person had to ask why nothing else was moving; a session now starts every
+independent job its approval covers before it waits, and a named wait is the ending only when nothing
+else can move. And a question allowed without a decision block was worded as a two-way pick ("X, or
+Y?"); a genuine question is now open, and where two routes are known Kerd recommends one and asks for
+approval. The diagram rules (0.161.0), the push-first trigger, the chat roll and the vault notes were
+not exercised in those sittings, so they stay on watch.
+
 ## 0.161.1
 
 **A flaky test stops failing the release gate.** `test_change_read.py` failed once in CI on

@@ -128,7 +128,11 @@ sentence is not the question form; a routine update carries no bubble.
 
 Recommend one route and ask one question. Listing known options in the block is
 not a menu: the Recommendation and the bubble still carry exactly one proposal,
-and no “or would you rather …?” is appended. Do not add a routine Correct /
+and no “or would you rather …?” is appended. The same holds for a genuine
+question: it is open, never a two-way pick. “Keep the export as a CSV, or should
+it become a full report?” hands the person a menu. Where two routes are known,
+recommend one in the block and ask for approval; where the answer is truly
+theirs, ask what it is (“What does the export need to show?”). Do not add a routine Correct /
 Change menu. The person can push back. A picker does not change this: it
 carries the question's own options, never a stock Correct / Change pair. Keep
 action steps and scope spaced above the bubble; numbered steps are not numbered
@@ -481,8 +485,10 @@ A session a person comes back to should be working, or should say on its last
 line what it is waiting for; they should never have to ask what is going on.
 
 Two endings are easy to miss. **Waiting on a job** (a worker, a review, a long
-command): keep retrieving it within the turn while that is practical. When the
-turn does end, the last line names the job, says how the session resumes — the
+command): first start every other job the current authority already covers and
+that does not depend on it, rather than sitting behind one watcher; then keep
+retrieving it within the turn while that is practical. A named wait is the
+right ending only when nothing else authorized can move. When the turn does end, the last line names the job, says how the session resumes — the
 host wakes it when the job returns, or the person says so, or the next check is
 at a named time — and when it should be back, or “return time unknown” with that
 next check; it never invents an estimate. A bare “nothing is needed from you” or

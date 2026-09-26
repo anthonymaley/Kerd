@@ -202,7 +202,8 @@ tasks still run to completion: research, drafts, checks and the score are worked
 through without stopping between them, and a rehearsal turn stops only to get
 information or direction the person holds — never merely because a turn ended.
 Neither phase leaves a session idle with nothing asked: a turn waiting on a job
-names the job and how and when it resumes, and a turn that took in a partner's
+first starts every other job its authority already covers, then names the job
+and how and when it resumes, and a turn that took in a partner's
 contribution still ends with a line to the person; see
 [a turn ends carrying on, or stopped on a reason](references/journey.md#delivery-has-a-working-view-too).
 Small or coupled work is simply delivered in rehearsal; it never needs a concert.
