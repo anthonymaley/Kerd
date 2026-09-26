@@ -56,8 +56,8 @@ drop this").** Don't raise it or recommend it again unless he does.
 - **A question never loads its answer (Anthony, 2026-09-25 21:47 to 21:58):** "a block with the
   facts ... then a recommendation and then an approve OR a question you need clarified, NOT a
   loaded question ... feel like we are tricking the user into answering." His template: Problem,
-  facts, known options, recommendation, why, cost, what we lose, input, then "Do you agree?" or one
-  real question. Use it now; Kerd's own wording is the next work (`notes:question-shape/work.md`).
+  facts, known options, recommendation, why, cost, what we lose, input, then the Recommendation sentence
+  ending "— approve?" (his words, 22:50) or one real question. Use it now; Kerd's own wording is the next work (`notes:question-shape/work.md`).
 - **A public repo's working notes live in the private vault, saved like any record** (Anthony,
   2026-09-25 16:18 to 16:26: "we should for every project no? or we need a folder that is not
   public somehow"; "yes"). Kerd sets `work_notes: "vault"`; sketchbooks are `notes:<work>/`.
