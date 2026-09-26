@@ -93,23 +93,30 @@ reviews from the cadence recorded with the pairing. See [Agent](agent.md).
 
 ## A short exchange
 
-Conductor's questions all take one form: the options, the recommendation and the
-consequences sit above, and the question itself is the last line, in a speech
-bubble. This is the worked example from Conductor's own presentation guide. Its
-facts are fictional, chosen to show the layout.
+Conductor's questions all take one form. A consequential one comes after a decision block:
+Problem, Facts (with how strong the evidence is), Known options, Recommendation, Why, Cost, What
+we lose and Input. The question is the last line, in a speech bubble: the Recommendation ending
+"— approve?", or one genuine question the recommendation depends on. A factual question or a
+small, easily undone step stays one line. This is the worked example from Conductor's own
+presentation guide. Its facts are fictional, chosen to show the layout.
 
 ```markdown
-JOURNEY  [NOW: Understand] → Shape → Agree → Deliver → Complete
+JOURNEY  [NOW: Shape] → Agree → Deliver → Complete
 
-**What we're building:** an offering and pitch package from the existing material.
-Settled: preserve originals; no customer commitments or live publication.
+- **Problem:** the pitch package has no delivery basis, so a buyer asking “how
+  would this run?” gets no answer.
+- **Facts:** two of the three sample buyers asked exactly that (their notes, read
+  today); the existing material covers the offer and price only.
+- **Known options:** add a delivery guide to the package; answer delivery live in
+  each meeting; leave delivery out of scope.
+- **Recommendation:** add a short delivery guide to the package.
+- **Why:** the question already came up twice, and a written answer keeps every
+  meeting consistent.
+- **Cost:** about a day of drafting from the existing notes.
+- **What we lose:** the package grows from two documents to three.
+- **Input:** nobody yet.
 
-**Proposed scope:** an offering, delivery guide and pitch package.
-- Outside this work: live operations, publishing and customer commitments.
-- Recommendation: include the guide, so the pitch has a delivery basis.
-- Your answer lets me finish the direction and propose its checks.
-
-> 💬 **Is this the right package boundary?**
+> 💬 **Add a short delivery guide to the package — approve?**
 ```
 
 One question, one recommended answer, no menu of alternatives. A clear yes settles
