@@ -264,9 +264,18 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.158.0)
+## What's New (v0.158.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.158.1
+
+**The machine check reports only real problems.** `python3 tools/machine_check.py` replaces
+`docs/machine-setup.md`'s `grep -l kerd`, which flagged the enabled-plugin line as a hand-wired
+hook on every healthy machine. It reads the `hooks` key of your global and every project's settings as JSON (command and
+prompt hooks), checks the plugin is enabled at this repo's version with its install directory
+present and that the vault resolves, and notes leftover
+`kivna/.pair`. It only reads; run it after a machine move.
 
 ### v0.158.0
 

@@ -93,17 +93,21 @@ with the cache version.
 
 ### Hooks must NOT be wired by hand — anywhere
 
-Since v0.96.0 the plugin's own `hooks/hooks.json` registers both hooks
-(`session-start.sh`, `skill-complete.sh`) automatically when the
+Since v0.96.0 the plugin's own `hooks/hooks.json` registers its hooks
+(`session-start.sh`, `skill-complete.sh`, `context-reading.sh`) automatically when the
 plugin is enabled. **A repo or a user-global settings file that also wires them
 double-fires every hook.** The dev-repo exception was dropped deliberately —
 no repo wires manually, including Kerd itself.
 
 ```bash
-# must print nothing:
-grep -l kerd ~/.claude/settings.json .claude/settings.local.json 2>/dev/null
-for d in ~/development/product/*/; do grep -l kerd "$d.claude/settings.local.json" 2>/dev/null; done
+python3 tools/machine_check.py     # machine: clean
 ```
+
+It reads each settings file's `hooks` key as JSON, so the enabled-plugin line
+(`"kerd@kerd-marketplace": true`) no longer reads as a hook, which the old
+`grep -l kerd` did on every healthy machine. It also checks the plugin is
+enabled at this repo's version and that `~/eolas/vault` resolves, and notes
+leftover files nothing reads (`kivna/.pair`, unread since 0.141.0). It only reads.
 
 Proof the auto-load actually fired: a fresh session prints
 `📋 Last session: <date>` — a string built only by `hooks/session-start.sh`.
@@ -155,13 +159,13 @@ In order. Each step's verify is the command beside it.
 4. **Clone the repos** into `~/development/product/` (and `~/development/home/` for `eolas`) → `git status -sb` in each shows a tracking branch.
 5. **Create the vault symlink** → `ls -d ~/eolas/vault` resolves.
 6. **Install `gh` and authenticate** → `gh auth status` shows a logged-in host.
-7. **Enable the Kerd plugin in Claude Code** → `enabledPlugins["kerd@kerd-marketplace"]` is `true` and the cache directory exists.
-8. **Strip any hand-wired Kerd hooks** from `~/.claude/settings.json` and every `.claude/settings.local.json` → the grep in §3 prints nothing.
+7. **Enable the Kerd plugin in Claude Code** → `python3 tools/machine_check.py` reports no plugin failure.
+8. **Strip any hand-wired Kerd hooks** from `~/.claude/settings.json` and every project `.claude/settings.json` and `.claude/settings.local.json` → `python3 tools/machine_check.py` prints `machine: clean`.
 9. **Start a fresh session** → the banner shows `📋 Last session: <date>`, proving auto-load fired.
 10. **Run the smoke tests** → all three green:
     ```bash
     python3 tools/release_check.py            # release: clean
-    bash tests/hooks_test.sh                  # Passed: 16  Failed: 0
+    bash tests/hooks_test.sh                  # All green.
     python3 tools/run_tests.py                # full skill test suite
     ```
 11. **`/kerd:switch in`** → the boundary reads CONTEXT.md, TODO.md and the newest session log.

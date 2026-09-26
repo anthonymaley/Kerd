@@ -135,6 +135,31 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   sessions instead of the shell, and Enter there attaches the tab to another project. Anthony keeps it on and
   exits with Ctrl-C there (20:54; a brief `disableAgentView` was reverted). Kerd's finished Agent workers also stay listed
   there. Consider wording the closing line for both cases; not yet changed.
+- **Big questions hide big work** (Anthony, 2026-09-25 21:37, from an apple-music session: "we are
+  hiding huge complexity behind large questions"). Its bubble asked whether "kept copies of big
+  playlists" should be the next work, starting with a Codex design review, with no capsule for it
+  (the text above was about the stall fix). The capsule rule exists and was not followed; why is
+  unknown (session's Kerd version, or one-question pressure compressing scope). Claude's own
+  "Review, commit, push and install 0.158.1?" bundled four operations the same night.
+  **Second example, same session earlier (21:1x):** the capsule was complete, yet it asked
+  "show the last copy and refresh in the background?" when the real decision was reversing the
+  always-read-fresh ruling and a big build, on slow timings all taken under heavy load (the same
+  playlist read in ~3 s on 09-23). Anthony caught it: "sounds like im making a complex change
+  based on your simple question". Pattern: symptom to countermeasure, skipping whether the problem
+  is real. Proposed (untested): for a build or ruling reversal, the capsule states the evidence
+  the problem exists and its quality; weak evidence makes the question "measure first?".
+  **Anthony's shape (21:47), after Claude did it again here:** "we need a block with the facts
+  then like we kind of do then a recommendation and then an approve OR a question you need
+  clarified, NOT a loaded question like we are doing, feel lie we are tricking the user into
+  answering." Also: "these questions are impossible to answer like this, feel loaded and under
+  explained"; "even if i read the text block the questions throw me". So: Facts, then
+  Recommendation, then either a plain Approve? of that recommendation or one genuine
+  clarifying question; never a question that restates the proposal as its own yes/no.
+  **His template (21:57), to build from:** Problem · Additional facts · Known options (A, B, C,
+  or "need to study": composer/Codex) · My recommendation · Why · The cost (rework, tokens,
+  effort) · What we lose with this choice · Input (Codex agrees, composer agrees) · then one
+  bubble: "Do you agree?" or a real question ("if we raise the wait to 60 s, will the experience
+  suffer as I suggest?").
 - **Bring Codex along with each release** that changes its four-skill package (Conductor,
   Switch, Visuals, Agent); Codex builds and installs only on Anthony's go in its window.
 

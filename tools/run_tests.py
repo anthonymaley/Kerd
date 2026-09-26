@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run every skill's unit tests, so CI runs them too.
 
-Discovery is by path, not a maintained list: any `skills/*/scripts/tests/test_*.py`
+Discovery is by path, not a maintained list: any `skills/*/scripts/tests/test_*.py` or `tools/tests/test_*.py`
 is collected and run as a dotted module from the repository root. A new test file is
 picked up by existing it.
 
@@ -20,13 +20,13 @@ import sys
 import unittest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-TEST_GLOB = "skills/*/scripts/tests/test_*.py"
+TEST_GLOBS = ("skills/*/scripts/tests/test_*.py", "tools/tests/test_*.py")
 
 
 def module_names(root=REPO_ROOT):
     """Dotted module names for every discovered test file, sorted for a stable order."""
     names = []
-    for path in sorted(root.glob(TEST_GLOB)):
+    for path in sorted(p for pattern in TEST_GLOBS for p in root.glob(pattern)):
         relative = path.relative_to(root).with_suffix("")
         names.append(".".join(relative.parts))
     return names
@@ -38,7 +38,7 @@ def main(argv=None):
 
     names = module_names()
     if not names:
-        print(f"refused: no test files matched {TEST_GLOB} under {REPO_ROOT}",
+        print(f"refused: no test files matched {TEST_GLOBS} under {REPO_ROOT}",
               file=sys.stderr)
         return 2
 

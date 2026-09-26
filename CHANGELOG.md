@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.158.1
+
+**The machine check reports only real problems.** `python3 tools/machine_check.py` replaces
+`docs/machine-setup.md`'s `grep -l kerd`, which flagged the enabled-plugin line as a hand-wired
+hook on every healthy machine. It reads the `hooks` key of your global and every project's settings as JSON (command and
+prompt hooks), checks the plugin is enabled at this repo's version with its install directory
+present and that the vault resolves, and notes leftover
+`kivna/.pair`. It only reads; run it after a machine move.
+
 ## 0.158.0
 
 **Links outside the repo stop sinking.** With `"work_notes": "vault"` set, Switch Out keeps one
