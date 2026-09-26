@@ -142,7 +142,7 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (proposed, not yet agreed; 2026-09-26 16:2x, first due 2026-09-27):** once apple-music or
+**Selected continuation (APPROVED by Anthony 2026-09-26 16:38, "y"; run on 2026-09-27; plan view `notes:real-use-evidence/regrade-plan.html`):** three read-only Sonnet-high readers (work-anthony; apple-music once restarted onto 0.162.0, still on 0.160.0 at 16:33, restart is Anthony's; Kerd's own sittings for vault notes/outside list); fixes on `concert/real-use-regrade`, Fable review, merge, push, install for Claude Code; Codex gets an update request only, installs on his go in its window. Original wording: once apple-music or
 work-anthony has run Kerd ≥0.162.0 for a day of real work, re-grade the items real use has not yet
 exercised: the diagram heading and states (0.161.0), the two 0.162.0 rules, the push-first trigger and
 the chat roll, read-only with the saved brief `notes:real-use-evidence/reader-brief.md`; fix what fails
