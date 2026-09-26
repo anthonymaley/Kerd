@@ -6,16 +6,16 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.161.1 on `main`** (2026-09-26 10:2x; CI green). 0.161.1 turns off Git's
-background clean-up in the change-read test repos after one CI flake (cause likely, not proven). This sitting (2026-09-25 22:09 to 2026-09-26 09:4x) released 0.159.0 (the question shape),
-0.160.0 (question-shape eval, Agent-view restart line) and 0.161.0 (every diagram's first line leads
-with its project, `KERD: …`; states differ in more than one way: today solid, proposed dashed, the
-change a heavier solid accent border; owner and cost were measured fine, rule unchanged). Account:
-`kivna/sessions/2026-09-26.md`.
+**Release boundary: 0.162.0 on `main`** (2026-09-26 11:1x; CI green). 0.162.0 came from grading
+Kerd's watch items against a week of real sittings in apple-music and work-anthony (read-only): a
+session starts every independent approved job before it waits, and a question without a decision
+block is open, never "X, or Y?". Grades: `notes:real-use-evidence/work.md`. Earlier today: 0.159.0
+(question shape), 0.160.0 (its eval), 0.161.0 (diagram heading `KERD: …` and three distinct states),
+0.161.1 (test flake). Account: `kivna/sessions/2026-09-26.md`.
 
-**Claude Code runs 0.161.1** (updated 10:2x; applies on restart). **Codex runs 0.160.0** (updated on
-Anthony's go 09:03); its Visuals changed in 0.161.0, so it needs one more update, his go in its window.
-Laptop bells are on for both (backups `*.bak-bell`).
+**Claude Code runs 0.162.0** (updated 11:1x; applies on restart). **Codex runs 0.160.0**; an update
+request to 0.162.0 is queued in its window (11:23, submitted-unconfirmed); it installs only on
+Anthony's go there. Laptop bells are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -137,30 +137,31 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (approved, Anthony 2026-09-26 10:31: "i'd do that but use apple-music or
-work-anthony - much more active"):** in a fresh session, grade Kerd's eight watch items against real
-use by reading the last week of Kerd-using sittings in apple-music and work-anthony (both), read-only;
-record in `notes:real-use-evidence/work.md`; fix what fails on a concert branch, Fable review,
-release on the standing go. Stops before: anything written in those projects, any finding or
-proposal about their own work, the Codex install (his go in its window). Why: eight watch items rest on
-test evidence only; real use is what the launch plan waits on. Answered 09:54: his other projects use
-the Kerd look too (they do by default; reload the profile after a diagram-design update). Parked: the
-announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2.
+**Selected continuation (proposed, not yet agreed; 2026-09-26 11:2x):** once apple-music or
+work-anthony has run Kerd ≥0.162.0 for a day of real work, re-grade the items real use has not yet
+exercised: the diagram heading and states (0.161.0), the two 0.162.0 rules, the push-first trigger and
+the chat roll, read-only with the saved brief `notes:real-use-evidence/reader-brief.md`; fix what fails
+on a concert branch, Fable review, release. Stops before: anything written in those projects, any
+finding about their own work, the Codex install. Why: those changes rest on tests alone, and real use
+is what the launch plan waits on. Before then, Anthony: give Codex the go in its window. Vault notes
+and the outside-the-repo list cannot be graded there (neither sets `work_notes`); only Kerd exercises
+them. Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped:
+launch step 2.
 
-**Pickup reading set** (update 2026-09-26 10:3x):
+**Pickup reading set** (update 2026-09-26 11:2x):
 - this file complete: position, rulings, the continuation;
-- `TODO.md` `## Now`, the designated active list (the eight watch items);
+- `TODO.md` `## Now`, the designated active list (the watch items, with real-use grades);
 - `kivna/sessions/2026-09-26.md`, the sitting that just ended;
-- `notes:real-use-evidence/work.md`, the selected work's sketchbook;
+- `notes:real-use-evidence/work.md`, the grades and the proposed re-grade;
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `notes:visuals-owner-cost/work.md`; `notes:question-shape/work.md`.
 
-**Notes commit:** `8adff4739f74935b29d0ee8c0aef885d35045cdf` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `3060032108738f013b70bf7184915424975dcdd4` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.160.0 on `main`; the boundary commit is this save
+The observed position before this save is 0.162.0 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-26 10:3x: 32,449 bytes, about 8,113 tokens (estimate), 113 over the 8,000 target. `read_args` for the next pickup:
+**Measured** 2026-09-26 11:3x: 36,997 bytes, about 9,250 tokens (estimate), 1,250 over the 8,000 target; kept because today's session log carries three sittings and each is the newest account of its release (0.159.0 to 0.162.0); the per-reader evidence moved to `notes:real-use-evidence/evidence.md`. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-26.md",
