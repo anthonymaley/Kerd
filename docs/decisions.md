@@ -383,7 +383,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
   Plan: `docs/design/launch-plan.md`.
 
 - **The Kerd look is the only diagram theme on this machine; Krutho is retired — Anthony,
-  2026-09-21.** Shown a `work-anthony` diagram drawn in Krutho blue and Spline Sans and asked
+  2026-09-21.** **Confirmed 2026-09-26 09:54:** asked whether diagrams in his other projects, like 3of3, also use the Kerd look, he said "yes". They do by default (no project marker → the installed Kerd working copy); headless test runs that could not read the plugin folder fell back to the orange default. Shown a `work-anthony` diagram drawn in Krutho blue and Spline Sans and asked
   whether the theme was right, Claude first answered from the saved `krutho` profile. Anthony:
   *"no, we removed it - we only need the new theme"*, then *"i think its the default. the one
   we literally spent time making sure is readable etc"*, which is the Kerd look in
