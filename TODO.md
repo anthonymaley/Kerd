@@ -2,13 +2,16 @@
 
 ## Now
 
-**Release boundary:** 0.161.0 on `main`; Claude Code runs it (applies on restart); Codex on 0.160.0,
-needs 0.161.0 (Visuals changed; his go in its window). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.161.1 on `main`; Claude Code runs it (applies on restart); Codex on 0.160.0,
+needs 0.161.x (Visuals changed; his go in its window). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
   a project without a `.diagram-design` marker then draws in orange.
 - **Bring Codex to 0.161.0:** its window, his go; read back the installed version.
+- **Watch for a repeat of the change-read CI flake** (fixed in 0.161.1, cause not proven). Fable listed
+  other tests with the same temp-repo pattern: `test_tmux_roll.py`, `test_roll_status.py`,
+  `test_handoff.py`, `tests/hooks_test.sh`; extend the fix there only if one flakes.
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).

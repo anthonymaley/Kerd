@@ -6,14 +6,14 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.161.0 on `main`** (2026-09-26 09:4x; CI green after one re-run of a flaky
-test). This sitting (2026-09-25 22:09 to 2026-09-26 09:4x) released 0.159.0 (the question shape),
+**Release boundary: 0.161.1 on `main`** (2026-09-26 10:2x; CI green). 0.161.1 turns off Git's
+background clean-up in the change-read test repos after one CI flake (cause likely, not proven). This sitting (2026-09-25 22:09 to 2026-09-26 09:4x) released 0.159.0 (the question shape),
 0.160.0 (question-shape eval, Agent-view restart line) and 0.161.0 (every diagram's first line leads
 with its project, `KERD: …`; states differ in more than one way: today solid, proposed dashed, the
 change a heavier solid accent border; owner and cost were measured fine, rule unchanged). Account:
 `kivna/sessions/2026-09-26.md`.
 
-**Claude Code runs 0.161.0** (updated 09:4x; applies on restart). **Codex runs 0.160.0** (updated on
+**Claude Code runs 0.161.1** (updated 10:2x; applies on restart). **Codex runs 0.160.0** (updated on
 Anthony's go 09:03); its Visuals changed in 0.161.0, so it needs one more update, his go in its window.
 Laptop bells are on for both (backups `*.bak-bell`).
 
