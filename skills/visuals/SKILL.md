@@ -73,15 +73,19 @@ notes.md · not built`). A name elsewhere in the picture does not satisfy this; 
 reader must see whose it is before anything else. A filename, browser
 tab, surrounding message or filesystem path sits outside the picture and does
 not satisfy this, because the view travels without them; where more than one
-name could apply, the repository name is the floor. Do not rely on colour alone. Reflow or split a wide
+name could apply, the repository name is the floor. Do not rely on colour alone. Give
+each state its own look that differs in more than one way: what exists today in a
+solid outline, what is proposed in a dashed outline, and the change the view is
+about filled with a light accent tint and a solid accent border. Two states that
+differ only by colour, or only by dash, read as the same thing at a glance. Reflow or split a wide
 diagram for narrow screens instead of shrinking its text into illegibility.
 
 Render and inspect the actual output at the intended viewing size. If it is
 likely to be opened on a phone, check that too. Use an available browser or
 image-capable preview; do not require a specific test framework. If inspection
 is unavailable, disclose that limitation instead of claiming visual validation.
-Check meaning as well as layout: the project leading the top heading, source
-facts, arrow direction, ownership and the visible distinction between proposed
+Check meaning as well as layout: the project leading the top heading, states
+that look different at a glance, source facts, arrow direction, ownership and the visible distinction between proposed
 and delivered work.
 
 ## Help the decision; do not invent another gate

@@ -45,5 +45,18 @@ class ProjectHeadingTests(unittest.TestCase):
         self.assertIn("leads the render's top heading, in capitals with a colon", prose)
 
 
+    def test_states_differ_in_more_than_one_way(self):
+        """Anthony, 2026-09-26 09:17: grey dashed and green dashed "look the same"."""
+        prose = flat(SKILL.read_text(encoding="utf-8"))
+        for phrase in (
+            "what exists today in a solid outline, what is proposed in a dashed outline, and the "
+            "change the view is about filled with a light accent tint and a solid accent border",
+            "Two states that differ only by colour, or only by dash, read as the same thing at a glance",
+            "states that look different at a glance",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(flat(phrase), prose)
+
+
 if __name__ == "__main__":
     unittest.main()

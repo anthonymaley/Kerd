@@ -264,9 +264,34 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.160.0)
+## What's New (v0.161.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.161.0
+
+**Every diagram now opens with its project's name.** A Kerd render's first line of text, whatever the
+tool calls it (eyebrow, kicker or title), starts with the project in capitals and a colon, then the
+subject, kind and status: `KERD: Invoice export · proposal from notes.md · not built`. A name
+elsewhere in the picture no longer counts; the pre-show render check looks for it, and the bundled
+starter diagram models it. Anthony caught the gap on a test render (2026-09-26 09:08): "doesnt
+mention the project anywhere that generated it". On 0.160.0, three Conductor proposal views in a
+repo called Acme Billing put the name lower-case in the eyebrow, never leading. [RESULT]
+
+**Proposal diagrams already show who owns the gap and what it costs; the rule stays as it is.** A
+reading of 11 recent proposal views found the owner named in none and the cost in one, so this batch
+measured before changing anything. Fresh Opus sessions on 0.160.0 named the owner and the cost in 6
+of 6 diagrams, whether the notes stated them or only implied them (the owner in the lanes, the cost
+as a short cue with the full statement in a caption). A drafted rule change was not applied. The
+scenarios are in `evals/visuals-owner-cost/`; `claude plugin eval` cannot run them, because its
+sandbox loads only the plugin under test and Visuals needs diagram-design or Archify, so the README
+gives the scripted `claude -p` route.
+
+**A diagram's states no longer look alike.** What exists today is a solid outline, what is proposed
+is dashed, and the change the view is about is filled with a light accent tint and a solid accent
+border. Anthony, on a test render where the proposed steps and the focal change were both dashed
+boxes told apart only by colour (09:17): "can we use color vs dashed lines, they look the same?".
+Two states may no longer differ by one cue alone.
 
 ### v0.160.0
 
