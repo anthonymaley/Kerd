@@ -52,6 +52,10 @@ a bank of examples; tailor it to the actual work.
 | Dependencies and unknowns | A material unresolved fact needs the person. “Are we waiting on anything I can't check here?” | The dependent action. | Investigate within authority, propose options or retain a named revisit point. |
 | Completion and handoff | Recipient, readiness or final approval is unresolved. “I'll prepare an editable draft for your review, without distributing it. Do you agree?” | Completion or external handoff. | Propose from agreed scope; don't repeat outcome/success or assume publication. |
 
+The quoted lines show only the recommendation's gist; when the answer commits to
+work or crosses an authority boundary, it arrives as the
+[question form's](journey.md#question-surface-and-host-adaptation) decision block.
+
 Ask one focused question where useful. Related information can be settled in one
 natural answer; don't split it just to fill the areas. Priority is a follow-up
 for a real conflict: “To meet Friday, I recommend the guide first. Is the optional

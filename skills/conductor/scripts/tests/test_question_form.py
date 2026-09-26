@@ -14,7 +14,7 @@ SKILLS = REPO / "skills"
 JOURNEY = SKILLS / "conductor" / "references" / "journey.md"
 ANCHOR = "question-surface-and-host-adaptation"
 QUESTION_CONTEXT_RULE = (
-    "**Putting a decision to the person:** a consequential question — its answer commits work, "
+    "**Putting a decision to the person:** a consequential question — its answer commits to work, "
     "spends real effort, releases or deletes something, or reverses a ruling — comes after a "
     "decision block: Problem, Facts (with how we know the problem is real and how strong that "
     "evidence is), Known options (or \u201cneeds study\u201d), Recommendation, Why, Cost, What we "
@@ -39,6 +39,7 @@ LEGACY = (
     "no native picker or multi-select control replaces the bubble",
     "Fix all? [",
     "> Where is your Obsidian vault?",
+    "💬 **Fix all of these?**",
 )
 
 
@@ -79,9 +80,16 @@ class QuestionFormTests(unittest.TestCase):
             "The ordinary Switch In **“Start a Conductor session?”** arrival is exempt from "
             "the decision block",
             "choosing work opens Shape for it only",
+            "holds one of two questions: **“Do you agree?”**",
+            "After “Do you agree?” the picker carries only “Yes — <the recommendation>” and "
+            "the host's free-form route, never the Known options",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(flat(phrase), prose)
+        labels = ["**Problem:**", "**Facts:**", "**Known options:**", "**Recommendation:**",
+                  "**Why:**", "**Cost:**", "**What we lose:**", "**Input:**"]
+        positions = [prose.index(label) for label in labels]
+        self.assertEqual(positions, sorted(positions), "labels must keep the template's order")
 
     def test_the_old_capsule_rule_does_not_return(self):
         """The capsule let the bubble restate the proposal as its own yes/no."""

@@ -76,7 +76,7 @@ recommendation and its Why above, and choosing work opens Shape for it only.
 
 Every other Kerd question, in every skill, including Conductor decisions and
 approvals, uses the same form. A consequential question — one whose answer
-commits work, spends real effort or money, releases or deletes something, or
+commits to work (starts a build, a concert or a change), spends real effort, releases or deletes something, or
 reverses a ruling — is put as a **decision block** immediately above its bubble,
 in this order, as a short labelled list:
 
@@ -136,7 +136,10 @@ Choices, including a genuine pick-several choice such as Agent's review cadence 
 pairing, are listed above the bubble with the recommendation. The bubble is always
 the last prose line and holds the single question. Where the host offers one, a
 native single- or multi-select picker may follow it so the person can answer
-faster, including for an approval. The picker represents that same question: it
+faster, including for an approval. After “Do you agree?” the picker carries only
+“Yes — <the recommendation>” and the host's free-form route, never the Known
+options, which are facts rather than a menu; after a genuine question it carries
+that question's own answers. The picker represents that same question: it
 carries the options already shown, always leaves a free-form answer open, never
 narrows a question meant to stay open, and never broadens what an approval
 authorizes. Keep it to a few genuinely distinct options, and do not add an
