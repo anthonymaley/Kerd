@@ -2,13 +2,11 @@
 
 ## Now
 
-**Release boundary:** 0.162.0 on `main`; Claude Code runs it (applies on restart); Codex on 0.160.0,
-update to 0.162.0 queued in its window (his go). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.162.0 on `main`; Claude Code runs it (applies on restart); Codex runs it too (read back 2026-09-26 12:4x). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
   a project without a `.diagram-design` marker then draws in orange.
-- **Bring Codex to 0.162.0:** request queued 11:23 in its window; his go there; read back the installed version.
 - **Watch for a repeat of the change-read CI flake** (fixed in 0.161.1, cause not proven). Fable listed
   other tests with the same temp-repo pattern: `test_tmux_roll.py`, `test_roll_status.py`,
   `test_handoff.py`, `tests/hooks_test.sh`; extend the fix there only if one flakes.

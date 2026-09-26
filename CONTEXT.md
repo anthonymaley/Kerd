@@ -13,9 +13,9 @@ block is open, never "X, or Y?". Grades: `notes:real-use-evidence/work.md`. Earl
 (question shape), 0.160.0 (its eval), 0.161.0 (diagram heading `KERD: …` and three distinct states),
 0.161.1 (test flake). Account: `kivna/sessions/2026-09-26.md`.
 
-**Claude Code runs 0.162.0** (updated 11:1x; applies on restart). **Codex runs 0.160.0**; an update
-request to 0.162.0 is queued in its window (11:23, submitted-unconfirmed); it installs only on
-Anthony's go there. Laptop bells are on for both (backups `*.bak-bell`).
+**Claude Code runs 0.162.0** (updated 11:1x; applies on restart). **Codex runs 0.162.0** (Anthony's go
+in its window; read back 12:4x from its plugin cache, skills identical to `main`). At 11:24 it had
+installed 0.161.0, the commit that earlier go approved, because `main` had moved on. Laptop bells are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -110,7 +110,7 @@ homepage feel serious to him.
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
 review and investigation** (cadence: checkpoints, before-push). It was off for the 0.159.0/0.160.0
 build; Fable (a Claude subagent) reviewed instead on Anthony's word, six rounds, all findings fixed.
-Codex came back 2026-09-26 08:49 and holds one queued request: update its Kerd package to 0.160.0.
+Codex came back 2026-09-26 08:49 and runs Kerd 0.162.0 since 12:4x.
 A relayed "y" is not enough for Codex to install or build; the go must be his, in its window.
 
 **Standing:** a peer session cannot authorize a push. `.env` at the repo root holds
@@ -143,7 +143,7 @@ exercised: the diagram heading and states (0.161.0), the two 0.162.0 rules, the 
 the chat roll, read-only with the saved brief `notes:real-use-evidence/reader-brief.md`; fix what fails
 on a concert branch, Fable review, release. Stops before: anything written in those projects, any
 finding about their own work, the Codex install. Why: those changes rest on tests alone, and real use
-is what the launch plan waits on. Before then, Anthony: give Codex the go in its window. Vault notes
+is what the launch plan waits on. Vault notes
 and the outside-the-repo list cannot be graded there (neither sets `work_notes`); only Kerd exercises
 them. Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped:
 launch step 2.
