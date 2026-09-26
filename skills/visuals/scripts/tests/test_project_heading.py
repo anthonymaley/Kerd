@@ -40,6 +40,10 @@ class ProjectHeadingTests(unittest.TestCase):
         """The starter is copied; it must model the heading, so it has no exemption."""
         starter = (SKILL.parent / "assets" / "review-flow.html").read_text(encoding="utf-8")
         self.assertIn('<p class="eyebrow">KERD: ', starter)
+        # It models all three states: today solid, proposed dashed, the change solid accent.
+        self.assertIn(".today{stroke-dasharray:none}", starter)
+        self.assertIn('class="node today"', starter)
+        self.assertIn('class="node focus"', starter)
         self.assertNotIn("sole exception", flat(SKILL.read_text(encoding="utf-8")))
 
     def test_the_guide_says_the_same(self):
