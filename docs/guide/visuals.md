@@ -53,8 +53,8 @@ project, product or repository leads the render's top heading, in capitals with 
 (`KERD: Invoice export · proposal from notes.md · not built`), because a
 filename, a browser tab and the surrounding message all sit outside the picture,
 and the picture travels without them. Each state looks different in more than one way: what exists
-today in a solid outline, what is proposed dashed, and the change the view is about filled
-with a light accent tint.
+today in a solid outline, what is proposed dashed, and the change the view is about on plain
+paper with a solid, heavier accent border.
 
 ## A short exchange
 

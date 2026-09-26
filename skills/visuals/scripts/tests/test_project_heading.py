@@ -50,7 +50,7 @@ class ProjectHeadingTests(unittest.TestCase):
         prose = flat(SKILL.read_text(encoding="utf-8"))
         for phrase in (
             "what exists today in a solid outline, what is proposed in a dashed outline, and the "
-            "change the view is about filled with a light accent tint and a solid accent border",
+            "change the view is about on plain paper with a solid accent border, heavier than the rest",
             "Two states that differ only by colour, or only by dash, read as the same thing at a glance",
             "states that look different at a glance",
         ):

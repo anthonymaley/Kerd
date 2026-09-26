@@ -20,8 +20,8 @@ sandbox loads only the plugin under test and Visuals needs diagram-design or Arc
 gives the scripted `claude -p` route.
 
 **A diagram's states no longer look alike.** What exists today is a solid outline, what is proposed
-is dashed, and the change the view is about is filled with a light accent tint and a solid accent
-border. Anthony, on a test render where the proposed steps and the focal change were both dashed
+is dashed, and the change the view is about has a solid, heavier accent border on plain paper (the Kerd
+look allows no tinted fill). Anthony, on a test render where the proposed steps and the focal change were both dashed
 boxes told apart only by colour (09:17): "can we use color vs dashed lines, they look the same?".
 Two states may no longer differ by one cue alone.
 

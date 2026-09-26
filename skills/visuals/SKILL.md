@@ -76,7 +76,8 @@ not satisfy this, because the view travels without them; where more than one
 name could apply, the repository name is the floor. Do not rely on colour alone. Give
 each state its own look that differs in more than one way: what exists today in a
 solid outline, what is proposed in a dashed outline, and the change the view is
-about filled with a light accent tint and a solid accent border. Two states that
+about on plain paper with a solid accent border, heavier than the rest (no tinted
+fill; the Kerd look marks the focal item by its stroke alone). Two states that
 differ only by colour, or only by dash, read as the same thing at a glance. Reflow or split a wide
 diagram for narrow screens instead of shrinking its text into illegibility.
 
