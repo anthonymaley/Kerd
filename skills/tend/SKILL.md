@@ -303,11 +303,14 @@ Format the report as a visual table. Show passing categories as one-liners. Show
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-After the report, outside its code block, list the options and ask the question:
+After the report, outside its code block, put the decision as the
+[question form](../conductor/references/journey.md#question-surface-and-host-adaptation)
+sets it: the report is the Problem and Facts; Known options are fix all, pick
+individually or skip; give the Recommendation (usually fix all) with its Why, the
+Cost (files touched), What we lose (any local variation the fix overwrites) and
+Input, then ask:
 
-Options: fix all · pick individually · skip
-
-> 💬 **Fix all of these?**
+> 💬 **Do you agree?**
 
 ### 5. Fix flow
 

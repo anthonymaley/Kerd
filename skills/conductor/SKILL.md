@@ -397,8 +397,9 @@ ask the person to open the artifact; don't claim they saw or approved it.
 
 For a substantial package, alongside the view give a short direction summary: intended outcome, success
 and proof, boundaries/authority, resource limits or unresolved choices, and
-what happens next. Ask for a concrete next action when agreement is needed,
-such as “Shall I prepare that draft?”, naming what remains unresolved. Do not
+what happens next. Where agreement is needed, close with the question form's
+bubble — never a next action restated as its own yes/no — naming what remains
+unresolved above it. Do not
 repeat settled agreement or add a seal or blanket approval of hidden detail.
 Only a single action or a factual answer goes without the view; work that is
 easy to describe in words is not thereby a single action.

@@ -264,9 +264,24 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.158.1)
+## What's New (v0.159.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.159.0
+
+**Kerd stops asking loaded questions.** A consequential question (one whose answer commits
+work, spends real effort, releases or deletes something, or reverses a ruling) now comes after a
+decision block, in order: **Problem**, **Facts** (including how we know the problem is real and
+how strong that evidence is), **Known options** (or "needs study"), **Recommendation**, **Why**,
+**Cost**, **What we lose** and **Input** (who else checked it, or nobody yet). The bubble then asks
+either **"Do you agree?"** or one genuine question the recommendation depends on. It never restates
+the proposal as its own yes/no ("Review, commit, push and install 0.158.1?"), which hid a big decision behind
+a short question and read as a trick to get a yes. Listing known options is not a menu: the
+recommendation and the bubble still carry one proposal. A factual question or a small, easily
+undone step stays one line, and Switch In's "Start a Conductor session?" is unchanged. This
+replaces 0.131.0's capsule, which carried the recommendation but never asked whether the problem
+was real. The shape is Anthony's own template, set 2026-09-25.
 
 ### v0.158.1
 
