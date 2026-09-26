@@ -285,7 +285,7 @@ was real. The shape is Anthony's own template, set 2026-09-25. **Tested:** on on
 would reverse), six fresh headless Opus sessions at medium effort. The three on the new wording each
 gave all eight labels, called the evidence weak and asked "Do you agree?". The three on 0.158.1 gave
 at most one label, and two ended on a loaded "Can you time a few catalogue syncs … and send me the
-numbers?". All six recommended measuring first. Three runs per arm is directional, not a rate; the
+numbers?" (the other near-identical). All six recommended measuring first. Three runs per arm is directional, not a rate; the
 six final messages are kept in the private working notes.
 
 ### v0.158.1
