@@ -6,15 +6,16 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.160.0 on `main`** (2026-09-26 08:4x). The sitting 2026-09-25 22:09 to
-2026-09-26 08:5x released 0.159.0 (Kerd stops asking loaded questions: the decision block and the
-Recommendation "— approve?" bubble, from Anthony's template) and 0.160.0 (the `evals/question-shape/`
-behaviour check, 1.00 with Kerd vs 0.23 without; Switch Out's restart line fits Agent view; the
-record viewer drops its stock "Correct / Change" reply). Account: `kivna/sessions/2026-09-26.md`.
+**Release boundary: 0.161.0 on `main`** (2026-09-26 09:4x; CI green after one re-run of a flaky
+test). This sitting (2026-09-25 22:09 to 2026-09-26 09:4x) released 0.159.0 (the question shape),
+0.160.0 (question-shape eval, Agent-view restart line) and 0.161.0 (every diagram's first line leads
+with its project, `KERD: …`; states differ in more than one way: today solid, proposed dashed, the
+change a heavier solid accent border; owner and cost were measured fine, rule unchanged). Account:
+`kivna/sessions/2026-09-26.md`.
 
-**Claude Code runs 0.160.0** (updated 2026-09-26 08:4x; applies on restart). **Codex is on 0.157.0**
-and its package changed in 0.159.0 and 0.160.0: asked 08:49 to update (queued in its window; the go
-must be Anthony's there). Laptop bells are on for both (backups `*.bak-bell`).
+**Claude Code runs 0.161.0** (updated 09:4x; applies on restart). **Codex runs 0.160.0** (updated on
+Anthony's go 09:03); its Visuals changed in 0.161.0, so it needs one more update, his go in its window.
+Laptop bells are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -136,21 +137,18 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (approved, Anthony 2026-09-26 08:49: "yes lets do the switch out and visuals
-batch"):** in a fresh session, the visuals batch: build a `claude plugin eval` case for proposal
-diagrams, measure the 0.160.0 wording, tighten the Visuals owner-and-cost rule, re-measure, Fable
-review, release on the standing go (merge, push, Claude Code install). Stops before: the Codex
-install (his go in its window) and any change beyond the Visuals proposal-view rule. Why it matters:
-proposal diagrams are how Kerd gets agreement, and none of the 11 recent ones names who owns the gap
-(cost in 1). Sketchbook `notes:visuals-owner-cost/work.md`; evidence `notes:visuals-0134-reading.md`.
-Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2.
+**Selected continuation (proposed, awaiting Anthony):** none approved beyond what shipped. Open
+question for him: diagrams drawn in a repo that is not Kerd came out in diagram-design's default
+orange, though his 2026-09-21 ruling makes the Kerd look the only theme on this machine; whether
+other repos should also draw in the Kerd look is his to say (`notes:visuals-owner-cost/work.md`).
+Then: bring Codex to 0.161.0 (his go in its window). Parked: the announcement, SAM and Aubel.app,
+the homepage, the thrash guard (latent). Dropped: launch step 2.
 
 **Pickup reading set** (Switch Out, 2026-09-26 08:5x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
 - `kivna/sessions/2026-09-26.md`, the sitting that just ended;
-- `notes:visuals-owner-cost/work.md`, the selected work's sketchbook;
-- `notes:visuals-0134-reading.md`, its evidence;
+- `notes:visuals-owner-cost/work.md`, the visuals batch and the open theme question;
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `docs/backlog-archive.md`; `notes:question-shape/work.md` (the question
 change, its defaults and evidence); `notes:rolling-session/threshold.md` (the roll trial).
@@ -160,13 +158,11 @@ change, its defaults and evidence); `notes:rolling-session/threshold.md` (the ro
 The observed position before this save is 0.160.0 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-26 08:5x: 39,170 bytes across the six sources, about 9,793 tokens estimated at
-four bytes each, 1,793 over the 8,000 target: the evidence file (`notes:visuals-0134-reading.md`) is
-in the set because the selected work starts from it. Five carried findings checked with
-`measure --carry-file`, all in the reading set. `read_args` for the next pickup:
+**Measured:** not re-measured at this update (09:4x); the 08:5x reading was 9,793 tokens with the
+evidence file, now dropped from the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-26.md",
- "--file", "notes:visuals-owner-cost/work.md", "--file", "notes:visuals-0134-reading.md",
- "--file", "notes:outside-the-repo.md", "--section", "TODO.md", "## Now"]
+ "--file", "notes:visuals-owner-cost/work.md", "--file", "notes:outside-the-repo.md",
+ "--section", "TODO.md", "## Now"]
 ```

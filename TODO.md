@@ -2,17 +2,19 @@
 
 ## Now
 
-**Release boundary:** 0.160.0 on `main`; Claude Code runs it (updated 2026-09-26 08:4x, applies on
-restart); Codex still on 0.157.0, asked 08:49 to update to 0.160.0 (queued; needs Anthony's go in its
-window). Resolve IDs with `git log`. Position and the reading set are in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.161.0 on `main`; Claude Code runs it (applies on restart); Codex on 0.160.0,
+needs 0.161.0 (Visuals changed; his go in its window). Position is in `CONTEXT.md` `## Where We Are`.
 
-- **Next, approved (2026-09-26 08:49): the visuals batch** — proposal views name who owns the gap and
-  what it costs (owner 0/11, cost 1/11 in the reading). Measure with an eval, tighten, re-measure,
-  Fable, release on the standing go. Sketchbook `notes:visuals-owner-cost/work.md`.
-- **Watch the question shape (0.159.0) in real use:** consequential questions arrive as the block and
-  end on the Recommendation "— approve?"; small ones stay one line. The eval
-  (`evals/question-shape/`, run per `CONTRIBUTING.md`) is the repeatable check.
-- **Bring Codex to 0.160.0:** its window, his go; read back the installed version.
+- **Anthony's question: should repos other than Kerd draw in the Kerd look?** In the 0.161.0 tests
+  (repo "Acme Billing") diagram-design chose its default orange style, though the installed profile
+  is Kerd and the 2026-09-21 ruling says the Kerd look is the only theme here.
+- **Bring Codex to 0.161.0:** its window, his go; read back the installed version.
+- **Flaky test:** `test_change_read.py` `test_commit_and_revert_of_owned_file_is_still_committed`
+  failed once in CI on 2026-09-26 (temp dir cleanup raced Git's `pack` writes: "Directory not empty");
+  passed on re-run; unchanged since 0.127.0.
+- **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
+  Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
+  (scripted `claude -p`, README there).
 
 - **Watch the outside-the-repo list (0.158.0):** the first Switch Out that adds or prunes a line in
   `notes:outside-the-repo.md`, and a Switch In that reads it. Seeded with two lines; unseen live.
