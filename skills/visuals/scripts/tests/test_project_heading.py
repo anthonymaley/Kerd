@@ -25,6 +25,8 @@ class ProjectHeadingTests(unittest.TestCase):
             "the name in capitals and a colon",
             "`KERD: Invoice export · proposal from notes.md · not built`",
             "A name elsewhere in the picture does not satisfy this",
+            "Where a template supplies an eyebrow naming the diagram type or status, replace it with "
+            "this line; a colon, not a dot, follows the name",
             "the project leading the top heading",
         ):
             with self.subTest(phrase=phrase):
@@ -53,6 +55,8 @@ class ProjectHeadingTests(unittest.TestCase):
             "change the view is about on plain paper with a solid accent border, heavier than the rest",
             "Two states that differ only by colour, or only by dash, read as the same thing at a glance",
             "states that look different at a glance",
+            "Every box takes its state, including a result that exists only once the change ships: "
+            "that result is proposed, so it is dashed",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(flat(phrase), prose)

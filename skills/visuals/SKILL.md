@@ -70,7 +70,9 @@ render itself, as the first words of the top heading — the first line of text 
 the render, whatever the tool calls it (eyebrow, kicker, title): the name in capitals and a
 colon, then the subject, kind and status (`KERD: Invoice export · proposal from
 notes.md · not built`). A name elsewhere in the picture does not satisfy this; the
-reader must see whose it is before anything else. A filename, browser
+reader must see whose it is before anything else. Where a template supplies an
+eyebrow naming the diagram type or status, replace it with this line; a colon,
+not a dot, follows the name. A filename, browser
 tab, surrounding message or filesystem path sits outside the picture and does
 not satisfy this, because the view travels without them; where more than one
 name could apply, the repository name is the floor. Do not rely on colour alone. Give
@@ -78,7 +80,9 @@ each state its own look that differs in more than one way: what exists today in 
 solid outline, what is proposed in a dashed outline, and the change the view is
 about on plain paper with a solid accent border, heavier than the rest (no tinted
 fill; the Kerd look marks the focal item by its stroke alone). Two states that
-differ only by colour, or only by dash, read as the same thing at a glance. Reflow or split a wide
+differ only by colour, or only by dash, read as the same thing at a glance. Every box
+takes its state, including a result that exists only once the change ships: that
+result is proposed, so it is dashed. Reflow or split a wide
 diagram for narrow screens instead of shrinking its text into illegibility.
 
 Render and inspect the actual output at the intended viewing size. If it is
