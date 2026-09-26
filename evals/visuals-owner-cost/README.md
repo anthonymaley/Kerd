@@ -26,8 +26,14 @@ claude -p "/kerd:visuals Draw the proposal view for fixing the invoice export, f
   --output-format stream-json --verbose \
   --permission-mode acceptEdits \
   --allowedTools "Read Write Edit Glob Grep Skill Bash" \
-  --add-dir <scratch run dir>
+  --add-dir <scratch run dir> \
+  --add-dir ~/.claude/plugins/cache/diagram-design
 ```
+
+The second `--add-dir` matters: without it the session cannot read diagram-design's installed
+`style-guide.md` (the Kerd profile on this machine) and draws in the default orange. Every 0.161.0
+measurement ran without it ("drawing ... with the default tokens, since the style files are also
+blocked"), so those renders show the rules, not the Kerd look.
 
 run from inside each scratch run dir, with the user's normal plugin set loaded
 (kerd 0.160.0 + diagram-design 2.6.6 confirmed present in every run's `init`

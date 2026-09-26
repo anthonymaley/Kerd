@@ -137,12 +137,13 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (proposed, awaiting Anthony):** none approved beyond what shipped. Open
-question for him: diagrams drawn in a repo that is not Kerd came out in diagram-design's default
-orange, though his 2026-09-21 ruling makes the Kerd look the only theme on this machine; whether
-other repos should also draw in the Kerd look is his to say (`notes:visuals-owner-cost/work.md`).
-Then: bring Codex to 0.161.0 (his go in its window). Parked: the announcement, SAM and Aubel.app,
-the homepage, the thrash guard (latent). Dropped: launch step 2.
+**Selected continuation (proposed):** bring Codex to 0.161.0 (his go in its window). Answered
+09:54: diagrams in his other projects also use the Kerd look ("yes"). They already do: without a
+project `.diagram-design` marker, diagram-design reads its installed `style-guide.md`, which is the
+Kerd profile; the orange test renders came from the harness blocking reads of the plugin folder
+(fixed in `evals/visuals-owner-cost/README.md`). Known risk: a diagram-design update replaces the
+installed copy with the default; reload the Kerd profile after one (`/diagram-design:profile`).
+Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2.
 
 **Pickup reading set** (Switch Out, 2026-09-26 08:5x):
 - this file complete: position, rulings, the continuation;

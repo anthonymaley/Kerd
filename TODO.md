@@ -5,9 +5,9 @@
 **Release boundary:** 0.161.0 on `main`; Claude Code runs it (applies on restart); Codex on 0.160.0,
 needs 0.161.0 (Visuals changed; his go in its window). Position is in `CONTEXT.md` `## Where We Are`.
 
-- **Anthony's question: should repos other than Kerd draw in the Kerd look?** In the 0.161.0 tests
-  (repo "Acme Billing") diagram-design chose its default orange style, though the installed profile
-  is Kerd and the 2026-09-21 ruling says the Kerd look is the only theme here.
+- **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
+  projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
+  a project without a `.diagram-design` marker then draws in orange.
 - **Bring Codex to 0.161.0:** its window, his go; read back the installed version.
 - **Flaky test:** `test_change_read.py` `test_commit_and_revert_of_owned_file_is_still_committed`
   failed once in CI on 2026-09-26 (temp dir cleanup raced Git's `pack` writes: "Directory not empty");
