@@ -18,9 +18,10 @@ QUESTION_CONTEXT_RULE = (
     "spends real effort, releases or deletes something, or reverses a ruling — comes after a "
     "decision block: Problem, Facts (with how we know the problem is real and how strong that "
     "evidence is), Known options (or \u201cneeds study\u201d), Recommendation, Why, Cost, What we "
-    "lose, Input (who else checked it, or nobody yet). Its bubble is \u201cDo you agree?\u201d or one "
-    "genuine question the recommendation depends on, never the proposal restated as its own "
-    "yes/no or several operations bundled into one question. A factual question or a small, "
+    "lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence "
+    "ending \u201c— approve?\u201d, every operation included, or one genuine question the "
+    "recommendation depends on; never a smaller or softer question than the real decision, and "
+    "never without the block. A factual question or a small, "
     "easily undone step stays one line — see [the question form]({link})."
 )
 
@@ -73,15 +74,15 @@ class QuestionFormTests(unittest.TestCase):
             "Problem, Recommendation, Why, Cost and What we lose are always present",
             "Nothing unrelated intervenes between that block and the bubble",
             "**The bubble never loads the answer.**",
-            "It never restates the proposal as its own yes/no",
-            "A question that bundles several operations is a proposal restated",
+            "it never asks something smaller or softer than the real decision",
+            "it never appears without the block above it",
             "it does not need a ceremonial block",
             "the Recommendation and the bubble still carry exactly one proposal",
             "The ordinary Switch In **“Start a Conductor session?”** arrival is exempt from "
             "the decision block",
             "choosing work opens Shape for it only",
-            "holds one of two questions: **“Do you agree?”**",
-            "After “Do you agree?” the picker carries only “Yes — <the recommendation>” and "
+            "block's Recommendation sentence ending **“— approve?”**",
+            "After an approval bubble the picker carries only “Approve” and "
             "the host's free-form route, never the Known options",
         ):
             with self.subTest(phrase=phrase):

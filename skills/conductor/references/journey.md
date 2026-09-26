@@ -102,15 +102,18 @@ always present. Nothing unrelated intervenes between that block and the bubble:
 keep account, Insight, history, follow-on work and document lists earlier or
 behind links.
 
-**The bubble never loads the answer.** It holds one of two questions: **“Do you
-agree?”**, asking the person to approve the recommendation the block states, or
-one genuine question whose answer the recommendation depends on (“If we raise
-the wait to 60 seconds, will the experience suffer as I suggest?”). It never
-restates the proposal as its own yes/no (“Review, commit, push and install
-0.158.1?”, “Show the last copy and refresh in the background?”): that shape
-hides the decision's size behind a short question and reads as a trick to get a
-yes. A question that bundles several operations is a proposal restated; list the
-operations in the Recommendation instead. The bubble is one speech-bubble line,
+**The bubble never loads the answer.** It holds one of two questions: the
+block's Recommendation sentence ending **“— approve?”** (“Merge the concert
+branch into main, push, and install 0.159.0 — approve?”), or one genuine
+question whose answer the recommendation depends on (“If we raise the wait to
+60 seconds, will the experience suffer as I suggest?”). The approval bubble
+repeats the Recommendation as the block states it, every operation included; it
+never asks something smaller or softer than the real decision, and it never
+appears without the block above it. That is what made the old questions loaded:
+“Review, commit, push and install 0.158.1?” with no problem, facts, cost or loss
+above it, and “Show the last copy and refresh in the background?” when the real
+decision was reversing a ruling and a two-day build. Both hid the decision's
+size behind a short question and read as a trick to get a yes. The bubble is one speech-bubble line,
 `> 💬 **The question?**`, rendered as a quote bar, 💬 and the bold question. Each
 skill's entry point links here. It is the last prose line of the message; the
 block sits above it as ordinary Markdown, never inside it, and the bubble holds
@@ -136,8 +139,8 @@ Choices, including a genuine pick-several choice such as Agent's review cadence 
 pairing, are listed above the bubble with the recommendation. The bubble is always
 the last prose line and holds the single question. Where the host offers one, a
 native single- or multi-select picker may follow it so the person can answer
-faster, including for an approval. After “Do you agree?” the picker carries only
-“Yes — <the recommendation>” and the host's free-form route, never the Known
+faster, including for an approval. After an approval bubble the picker carries only
+“Approve” and the host's free-form route, never the Known
 options, which are facts rather than a menu; after a genuine question it carries
 that question's own answers. The picker represents that same question: it
 carries the options already shown for that question, always leaves a free-form answer open, never
@@ -167,7 +170,7 @@ JOURNEY  [NOW: Shape] → Agree → Deliver → Complete
 - **What we lose:** the package grows from two documents to three.
 - **Input:** nobody yet.
 
-> 💬 **Do you agree?**
+> 💬 **Add a short delivery guide to the package — approve?**
 ```
 
 ## Visuals belong throughout

@@ -620,8 +620,9 @@ work, retain a grounded recommendation as proposed or a genuine unresolved choic
 Out does not need a ceremonial approval just to save that uncertainty.
 
 For example: “Pending approval: Claude builds main, installs it on Master,
-verifies and records the installation; stop before playback. Question: Do you
-agree?” is one scope. A later playback check can remain
+verifies and records the installation; stop before playback. Question: build
+main, install it on Master, verify and record it, stopping before playback —
+approve?” is one scope. A later playback check can remain
 in the wider plan without becoming part of that approval. If no action is
 selected and none can be grounded, say so. Never change a user's priority to
 make the handoff neater.

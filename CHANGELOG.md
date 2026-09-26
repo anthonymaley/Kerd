@@ -6,14 +6,15 @@
 work, spends real effort, releases or deletes something, or reverses a ruling) now comes after a
 decision block, in order: **Problem**, **Facts** (including how we know the problem is real and
 how strong that evidence is), **Known options** (or "needs study"), **Recommendation**, **Why**,
-**Cost**, **What we lose** and **Input** (who else checked it, or nobody yet). The bubble then asks
-either **"Do you agree?"** or one genuine question the recommendation depends on. It never restates
-the proposal as its own yes/no ("Review, commit, push and install 0.158.1?"), which hid a big decision behind
-a short question and read as a trick to get a yes. Listing known options is not a menu: the
+**Cost**, **What we lose** and **Input** (who else checked it, or nobody yet). The bubble then
+repeats the Recommendation sentence ending **"— approve?"**, every operation included, or asks one
+genuine question the recommendation depends on. It never asks something smaller or softer than the
+real decision and never appears without the block: "Review, commit, push and install 0.158.1?" with
+nothing above it hid a big decision behind a short question and read as a trick to get a yes. Listing known options is not a menu: the
 recommendation and the bubble still carry one proposal. A factual question or a small, easily
 undone step stays one line, and Switch In's "Start a Conductor session?" is unchanged. This
 replaces 0.132.0's capsule, which carried the recommendation but never asked whether the problem
-was real. The shape is Anthony's own template, set 2026-09-25. **Tested:** on one scenario (a slow sync with one timing taken under load, and a ruling the fix
+was real. The shape is Anthony's own template, set 2026-09-25, with the approval bubble in his words ("Recommendation sentence…, approve?"). **Tested:** on one scenario (a slow sync with one timing taken under load, and a ruling the fix
 would reverse), six fresh headless Opus sessions at medium effort. The three on the new wording each
 gave all eight labels, called the evidence weak and asked "Do you agree?". The three on 0.158.1 gave
 at most one label, and two ended on a loaded "Can you time a few catalogue syncs … and send me the
