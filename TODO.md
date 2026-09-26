@@ -14,7 +14,8 @@
   question shape, report shape, context line, idle endings and the unanswered-review rule hold; two gaps
   fixed in 0.162.0 (wait only when nothing else can move; a genuine question is open). Not yet exercised
   in real use: the diagram heading and states, the 0.162.0 rules, the push-first trigger, the chat roll.
-  Re-grade with `notes:real-use-evidence/reader-brief.md` once a project runs ≥0.162.0 for a day.
+  Re-grade approved for 2026-09-27 (Anthony 16:38), scope in `CONTEXT.md`'s continuation; apple-music
+  needs a restart onto 0.162.0 first (his).
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).

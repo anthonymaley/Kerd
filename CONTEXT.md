@@ -142,31 +142,35 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (APPROVED by Anthony 2026-09-26 16:38, "y"; run on 2026-09-27; plan view `notes:real-use-evidence/regrade-plan.html`):** three read-only Sonnet-high readers (work-anthony; apple-music once restarted onto 0.162.0, still on 0.160.0 at 16:33, restart is Anthony's; Kerd's own sittings for vault notes/outside list); fixes on `concert/real-use-regrade`, Fable review, merge, push, install for Claude Code; Codex gets an update request only, installs on his go in its window. Original wording: once apple-music or
-work-anthony has run Kerd ≥0.162.0 for a day of real work, re-grade the items real use has not yet
-exercised: the diagram heading and states (0.161.0), the two 0.162.0 rules, the push-first trigger and
-the chat roll, read-only with the saved brief `notes:real-use-evidence/reader-brief.md`; fix what fails
-on a concert branch, Fable review, release. Stops before: anything written in those projects, any
-finding about their own work. Why: those changes rest on tests alone, and real use
-is what the launch plan waits on. Vault notes
-and the outside-the-repo list cannot be graded there (neither sets `work_notes`); only Kerd exercises
-them. Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped:
-launch step 2.
+**Selected continuation (APPROVED, Anthony 2026-09-26 16:38 "y"; run on 2026-09-27):** Claude sends three
+read-only Sonnet-high readers with the saved brief `notes:real-use-evidence/reader-brief.md` (work-anthony;
+apple-music once it runs 0.162.0; Kerd's own sittings, the only place vault notes and the outside list fire)
+to grade the six changes real use has not exercised: the diagram heading and states (0.161.0), the open
+question and start-jobs-before-waiting rules (0.162.0), the push-first trigger, the chat roll, vault notes /
+outside list. Failures: fix on `concert/real-use-regrade`, Fable review, merge, push, install for Claude
+Code; Codex gets an update request only and installs on his go in its window. Stops before: anything
+written in those projects, any finding about their own work. Plan view:
+`notes:real-use-evidence/regrade-plan.html`. Why: those changes rest on tests alone, and real use is what
+the launch plan waits on. **Anthony's, before it:** restart the apple-music session onto 0.162.0 (at 16:33
+it was still one sitting from 09:18 on 0.160.0; work-anthony had ~4h on 0.162.0). If apple-music has not
+restarted, grade what the other two readers can and mark apple-music not gradable. Parked: the
+announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2. Backlog:
+one row, Skriv voice-profile wiring, blocked on his non-founder writing samples.
 
-**Pickup reading set** (update 2026-09-26 16:2x):
+**Pickup reading set** (update 2026-09-26 16:5x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list (the watch items, with real-use grades);
-- `kivna/sessions/2026-09-26.md`, today's sittings (the last: Codex to 0.162.0, trial reading 2);
-- `notes:real-use-evidence/work.md`, the grades and the proposed re-grade;
+- `kivna/sessions/2026-09-26.md`, today's sittings (the last: the re-grade shaped and approved);
+- `notes:real-use-evidence/work.md`, the grades and the approved re-grade plan;
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `notes:visuals-owner-cost/work.md`; `notes:question-shape/work.md`.
 
-**Notes commit:** `a37cd3406d7c6936d09dbad25e8093f0b69a18de` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `4a0d4360e7f36b6599cf2d18b694f2954370a549` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
 The observed position before this save is 0.162.0 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-26 16:3x: 38,865 bytes, about 9,717 tokens (estimate), 1,717 over the 8,000 target; kept because today's session log carries four sittings, each the newest account of its release or install (0.159.0 to 0.162.0, Codex to 0.162.0). `read_args` for the next pickup:
+**Measured** 2026-09-26 16:5x: 41,567 bytes, about 10,392 tokens (estimate), 2,392 over the 8,000 target; kept because today's session log carries five sittings, each the newest account of its release, install or approval, and `## Now` holds the watch items the approved re-grade grades. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-26.md",
