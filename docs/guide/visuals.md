@@ -49,7 +49,8 @@ static layouts such as processes, timelines, responsibilities, scope and
 comparisons, or Archify where exploration or comparing changes earns it. Those are
 tendencies rather than a hard split, and a piece of work can use both. The starter
 patterns bundled with the skill help choose the view; they do not draw it. The
-project, product or repository is named inside the render itself, because a
+project, product or repository leads the render's top heading, in capitals with a colon
+(`KERD: Invoice export · proposal from notes.md · not built`), because a
 filename, a browser tab and the surrounding message all sit outside the picture,
 and the picture travels without them.
 

@@ -66,7 +66,10 @@ Use clear grouping, restrained emphasis and readable labels. Prefer simple
 horizontal/vertical connections with clear endpoints; route around unrelated
 nodes. Avoid line/label collisions. Make the title and SVG description explain
 the actual subject, and name the project, product or repository inside the
-render itself — in the title or a small identity label. A filename, browser
+render itself, as the first words of the top heading: the name in capitals and a
+colon, then the subject, kind and status (`KERD: Invoice export · proposal from
+notes.md · not built`). A name elsewhere in the picture does not satisfy this; the
+reader must see whose it is before anything else. A filename, browser
 tab, surrounding message or filesystem path sits outside the picture and does
 not satisfy this, because the view travels without them; where more than one
 name could apply, the repository name is the floor. The untouched bundled
@@ -77,8 +80,9 @@ Render and inspect the actual output at the intended viewing size. If it is
 likely to be opened on a phone, check that too. Use an available browser or
 image-capable preview; do not require a specific test framework. If inspection
 is unavailable, disclose that limitation instead of claiming visual validation.
-Check meaning as well as layout: source facts, arrow direction, ownership and
-the visible distinction between proposed and delivered work.
+Check meaning as well as layout: the project leading the top heading, source
+facts, arrow direction, ownership and the visible distinction between proposed
+and delivered work.
 
 ## Help the decision; do not invent another gate
 
