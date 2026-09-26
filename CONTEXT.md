@@ -137,33 +137,33 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (proposed):** bring Codex to 0.161.0 (his go in its window). Answered
-09:54: diagrams in his other projects also use the Kerd look ("yes"). They already do: without a
-project `.diagram-design` marker, diagram-design reads its installed `style-guide.md`, which is the
-Kerd profile; the orange test renders came from the harness blocking reads of the plugin folder
-(fixed in `evals/visuals-owner-cost/README.md`). Known risk: a diagram-design update replaces the
-installed copy with the default; reload the Kerd profile after one (`/diagram-design:profile`).
-Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2.
+**Selected continuation (approved, Anthony 2026-09-26 10:31: "i'd do that but use apple-music or
+work-anthony - much more active"):** in a fresh session, grade Kerd's eight watch items against real
+use by reading the last week of Kerd-using sittings in apple-music and work-anthony (both), read-only;
+record in `notes:real-use-evidence/work.md`; fix what fails on a concert branch, Fable review,
+release on the standing go. Stops before: anything written in those projects, any finding or
+proposal about their own work, the Codex install (his go in its window). Why: eight watch items rest on
+test evidence only; real use is what the launch plan waits on. Answered 09:54: his other projects use
+the Kerd look too (they do by default; reload the profile after a diagram-design update). Parked: the
+announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2.
 
-**Pickup reading set** (Switch Out, 2026-09-26 08:5x):
+**Pickup reading set** (update 2026-09-26 10:3x):
 - this file complete: position, rulings, the continuation;
-- `TODO.md` `## Now`, the designated active list;
+- `TODO.md` `## Now`, the designated active list (the eight watch items);
 - `kivna/sessions/2026-09-26.md`, the sitting that just ended;
-- `notes:visuals-owner-cost/work.md`, the visuals batch and the open theme question;
+- `notes:real-use-evidence/work.md`, the selected work's sketchbook;
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `docs/backlog-archive.md`; `notes:question-shape/work.md` (the question
-change, its defaults and evidence); `notes:rolling-session/threshold.md` (the roll trial).
+Deeper: `docs/decisions.md`; `notes:visuals-owner-cost/work.md`; `notes:question-shape/work.md`.
 
-**Notes commit:** `c2a00e616b1b85f8c45a7673730b28c8896f37ca` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `8adff4739f74935b29d0ee8c0aef885d35045cdf` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
 The observed position before this save is 0.160.0 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured:** not re-measured at this update (09:4x); the 08:5x reading was 9,793 tokens with the
-evidence file, now dropped from the set. `read_args` for the next pickup:
+**Measured** 2026-09-26 10:3x: 32,449 bytes, about 8,113 tokens (estimate), 113 over the 8,000 target. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-26.md",
- "--file", "notes:visuals-owner-cost/work.md", "--file", "notes:outside-the-repo.md",
+ "--file", "notes:real-use-evidence/work.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
