@@ -2,9 +2,17 @@
 
 ## Now
 
-**Release boundary:** 0.158.1 on `main`; Claude Code runs it (read back 2026-09-25 22:0x); Codex
-stays on 0.157.0 (its package did not change). Resolve IDs with `git log`. Position, the
-local-only paths and the reading set are in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.160.0 on `main`; Claude Code runs it (updated 2026-09-26 08:4x, applies on
+restart); Codex still on 0.157.0, asked 08:49 to update to 0.160.0 (queued; needs Anthony's go in its
+window). Resolve IDs with `git log`. Position and the reading set are in `CONTEXT.md` `## Where We Are`.
+
+- **Next, approved (2026-09-26 08:49): the visuals batch** — proposal views name who owns the gap and
+  what it costs (owner 0/11, cost 1/11 in the reading). Measure with an eval, tighten, re-measure,
+  Fable, release on the standing go. Sketchbook `notes:visuals-owner-cost/work.md`.
+- **Watch the question shape (0.159.0) in real use:** consequential questions arrive as the block and
+  end on the Recommendation "— approve?"; small ones stay one line. The eval
+  (`evals/question-shape/`, run per `CONTRIBUTING.md`) is the repeatable check.
+- **Bring Codex to 0.160.0:** its window, his go; read back the installed version.
 
 - **Watch the outside-the-repo list (0.158.0):** the first Switch Out that adds or prunes a line in
   `notes:outside-the-repo.md`, and a Switch In that reads it. Seeded with two lines; unseen live.
@@ -133,36 +141,6 @@ tmux `codexprobe`, and a trust entry for `/private/tmp/codex-img-probe.kykwaJ` i
   **Trial so far (2026-09-25, `measure.py`):** kept near the mark, avg re-sent per call 145k and
   133k; ran past it, 221k (the 0.155–0.157 sitting, peak 378k, not rolled by hand) and 247k.
   Two against two, not verified; rolling by hand did not hold in a busy sitting.
-- **Switch Out's "Exit and restart" line meets Claude Code's Agent view** (seen 2026-09-25 20:29):
-  with Agent view on (research preview since 2.1.140), `/exit` detaches into a list of background
-  sessions instead of the shell, and Enter there attaches the tab to another project. Anthony keeps it on and
-  exits with Ctrl-C there (20:54; a brief `disableAgentView` was reverted). Kerd's finished Agent workers also stay listed
-  there. Consider wording the closing line for both cases; not yet changed.
-- **Big questions hide big work** (Anthony, 2026-09-25 21:37, from an apple-music session: "we are
-  hiding huge complexity behind large questions"). Its bubble asked whether "kept copies of big
-  playlists" should be the next work, starting with a Codex design review, with no capsule for it
-  (the text above was about the stall fix). The capsule rule exists and was not followed; why is
-  unknown (session's Kerd version, or one-question pressure compressing scope). Claude's own
-  "Review, commit, push and install 0.158.1?" bundled four operations the same night.
-  **Second example, same session earlier (21:1x):** the capsule was complete, yet it asked
-  "show the last copy and refresh in the background?" when the real decision was reversing the
-  always-read-fresh ruling and a big build, on slow timings all taken under heavy load (the same
-  playlist read in ~3 s on 09-23). Anthony caught it: "sounds like im making a complex change
-  based on your simple question". Pattern: symptom to countermeasure, skipping whether the problem
-  is real. Proposed (untested): for a build or ruling reversal, the capsule states the evidence
-  the problem exists and its quality; weak evidence makes the question "measure first?".
-  **Anthony's shape (21:47), after Claude did it again here:** "we need a block with the facts
-  then like we kind of do then a recommendation and then an approve OR a question you need
-  clarified, NOT a loaded question like we are doing, feel lie we are tricking the user into
-  answering." Also: "these questions are impossible to answer like this, feel loaded and under
-  explained"; "even if i read the text block the questions throw me". So: Facts, then
-  Recommendation, then either a plain Approve? of that recommendation or one genuine
-  clarifying question; never a question that restates the proposal as its own yes/no.
-  **His template (21:57), to build from:** Problem · Additional facts · Known options (A, B, C,
-  or "need to study": composer/Codex) · My recommendation · Why · The cost (rework, tokens,
-  effort) · What we lose with this choice · Input (Codex agrees, composer agrees) · then one
-  bubble: "Do you agree?" or a real question ("if we raise the wait to 60 s, will the experience
-  suffer as I suggest?").
 - **Bring Codex along with each release** that changes its four-skill package (Conductor,
   Switch, Visuals, Agent); Codex builds and installs only on Anthony's go in its window.
 

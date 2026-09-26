@@ -6,6 +6,16 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-09-26 (morning Switch Out)
+
+**Verdict: done: 0.159.0, Anthony's go 23:01.** "Big questions hide big work" (TODO, filed 2026-09-25
+21:37, with his template at 21:57): the question shape is rebuilt from his template across every
+skill; ruling and evidence in `docs/decisions.md` ("A question never loads its answer").
+
+**Verdict: done: 0.160.0, on the standing go.** "Switch Out's Exit and restart line meets Claude Code's
+Agent view" (seen 2026-09-25 20:29): the Claude closing line now reads "Exit (with Agent view on,
+Ctrl-C in the session list) and restart, or /clear and /kerd:switch in to pick up from here." Fable clear.
+
 ## Closed 2026-09-25 (night Switch Out)
 
 **Verdict: done: 0.158.0 and 0.158.1, on Anthony's "y" to each draft (20:10, 21:03).** Out-of-repo

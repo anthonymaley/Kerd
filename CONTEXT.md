@@ -6,13 +6,15 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.158.1 on `main`** (2026-09-25 22:0x). The fourth sitting (19:59 to 22:1x)
-released 0.158.0 (Switch Out keeps the private `notes:outside-the-repo.md`, read at every Switch In)
-and 0.158.1 (`tools/machine_check.py` replaces the setup guide's broken grep). Earlier today:
-0.153.3 to 0.157.0. Account: `kivna/sessions/2026-09-25.md`, fourth sitting.
+**Release boundary: 0.160.0 on `main`** (2026-09-26 08:4x). The sitting 2026-09-25 22:09 to
+2026-09-26 08:5x released 0.159.0 (Kerd stops asking loaded questions: the decision block and the
+Recommendation "— approve?" bubble, from Anthony's template) and 0.160.0 (the `evals/question-shape/`
+behaviour check, 1.00 with Kerd vs 0.23 without; Switch Out's restart line fits Agent view; the
+record viewer drops its stock "Correct / Change" reply). Account: `kivna/sessions/2026-09-26.md`.
 
-**Claude Code runs 0.158.1** (plugin list, 2026-09-25 22:0x). **Codex stays on 0.157.0**: its
-four-skill package did not change. Laptop bells are on for both (backups `*.bak-bell`).
+**Claude Code runs 0.160.0** (updated 2026-09-26 08:4x; applies on restart). **Codex is on 0.157.0**
+and its package changed in 0.159.0 and 0.160.0: asked 08:49 to update (queued in its window; the go
+must be Anthony's there). Laptop bells are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -53,11 +55,15 @@ raise it until he does.
 drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
-- **A question never loads its answer (Anthony, 2026-09-25 21:47 to 21:58):** "a block with the
-  facts ... then a recommendation and then an approve OR a question you need clarified, NOT a
-  loaded question ... feel like we are tricking the user into answering." His template: Problem,
-  facts, known options, recommendation, why, cost, what we lose, input, then the Recommendation sentence
-  ending "— approve?" (his words, 22:50) or one real question. Use it now; Kerd's own wording is the next work (`notes:question-shape/work.md`).
+- **Batch the work; fewer approvals (Anthony, 2026-09-25 23:01; 2026-09-26 08:17, 08:49):** under a
+  grant like "we have tokens to use, lets build with subagents in fan out where we can unattended and
+  get fable to review", take several tasks per approval, dispatch independent work instead of
+  waiting on one job, release on the standing go, and come back only for his decisions.
+- **A question never loads its answer (Anthony, 2026-09-25 21:47 to 22:50; released 0.159.0):** a
+  consequential question comes after a decision block (Problem, Facts with evidence strength, Known
+  options, Recommendation, Why, Cost, What we lose, Input) and ends on the Recommendation sentence
+  ending "— approve?" (his words, 22:50), every operation included, or one genuine question. Small
+  or factual questions stay one line; Switch In's arrival question is exempt.
 - **A public repo's working notes live in the private vault, saved like any record** (Anthony,
   2026-09-25 16:18 to 16:26: "we should for every project no? or we need a folder that is not
   public somehow"; "yes"). Kerd sets `work_notes: "vault"`; sketchbooks are `notes:<work>/`.
@@ -101,12 +107,10 @@ and a goal; always be delivering; Conductor owns the sketchbook; rolling is per 
 homepage feel serious to him.
 
 **Team:** Claude owns build and release. **Codex `codex-tui` is the partner for expert
-review and investigation** (cadence: checkpoints, before-push). This sitting it reviewed the
-chat-roll spec and the build over five rounds plus 0.154.1 twice (every finding fixed; last:
-clear). A Claude session in the Codex window ran terminal probes on Anthony's ask (tmux and
-iTerm2, synthetic); two empty iTerm2 test windows it opened may still be on the Studio's display.
-A relayed "y" is not enough for Codex to install or build; the go must be
-his, in its window. No job is running.
+review and investigation** (cadence: checkpoints, before-push). It was off for the 0.159.0/0.160.0
+build; Fable (a Claude subagent) reviewed instead on Anthony's word, six rounds, all findings fixed.
+Codex came back 2026-09-26 08:49 and holds one queued request: update its Kerd package to 0.160.0.
+A relayed "y" is not enough for Codex to install or build; the go must be his, in its window.
 
 **Standing:** a peer session cannot authorize a push. `.env` at the repo root holds
 Anthony's TypeSafe key and is git-ignored; never print or commit it, and never serve the
@@ -126,41 +130,43 @@ local-only here moved there on 2026-09-25 (vault commit `b64d50a`). `notes:backl
 `notes:unattended-sweep/` were pushed to this public repo by mistake in 0.155.0/0.156.0 and
 untracked the same day; the old commits still hold them.
 
-**Routing:** no role designation saved. `codex-tui` did not take a queued review at 20:14
-(unconfirmed); fresh one-off Codex reviewers were used on his yes. The old `kerd-b5-review` binding
-still carries a pre-12:51 handoff; not adopted.
+**Routing:** no role designation saved. The old `kerd-b5-review` binding still carries a pre-12:51
+handoff from 2026-09-25; not adopted.
 
-**Claude Code's Agent view stays on (Anthony, 20:54):** `/exit` detaches into the background-session
-list; he quits there with Ctrl-C. Switch Out's "Exit and restart" line does not mention it (TODO).
+**Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
+background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (proposed, awaiting Anthony):** shape the question change from his template
-in `notes:question-shape/work.md`: where it lands (the shared question form and every SKILL.md
-header), when the full template applies versus a small factual question, and whether the "one
-proposal, never or" memory narrows now that his template lists options. Rehearsal first; nothing
-built. Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent).
-Dropped: launch step 2.
+**Selected continuation (approved, Anthony 2026-09-26 08:49: "yes lets do the switch out and visuals
+batch"):** in a fresh session, the visuals batch: build a `claude plugin eval` case for proposal
+diagrams, measure the 0.160.0 wording, tighten the Visuals owner-and-cost rule, re-measure, Fable
+review, release on the standing go (merge, push, Claude Code install). Stops before: the Codex
+install (his go in its window) and any change beyond the Visuals proposal-view rule. Why it matters:
+proposal diagrams are how Kerd gets agreement, and none of the 11 recent ones names who owns the gap
+(cost in 1). Sketchbook `notes:visuals-owner-cost/work.md`; evidence `notes:visuals-0134-reading.md`.
+Parked: the announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2.
 
-**Pickup reading set** (Switch Out, 2026-09-25 22:1x):
+**Pickup reading set** (Switch Out, 2026-09-26 08:5x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-25.md`, all four of today's sittings;
-- `notes:question-shape/work.md`, the selected work's sketchbook;
+- `kivna/sessions/2026-09-26.md`, the sitting that just ended;
+- `notes:visuals-owner-cost/work.md`, the selected work's sketchbook;
+- `notes:visuals-0134-reading.md`, its evidence;
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `docs/backlog-archive.md`; `notes:rolling-session/threshold.md` (the
-roll trial and its numbers).
+Deeper: `docs/decisions.md`; `docs/backlog-archive.md`; `notes:question-shape/work.md` (the question
+change, its defaults and evidence); `notes:rolling-session/threshold.md` (the roll trial).
 
-**Notes commit:** `f7c0f7e37729a1ea33c6b1fcb426aa402bfde37b` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `ccd5e2a4819869128f5fee044856514dba7d86b1` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.158.1 on `main`; the boundary commit is this save
+The observed position before this save is 0.160.0 on `main`; the boundary commit is this save
 itself. Ask `git log` for its ID.
 
-**Measured** 2026-09-25 22:1x: 42,344 bytes across the five sources, about 10,586 tokens
-estimated at four bytes each, 2,586 over the 8,000 target: today's log holds four sittings, and
-tomorrow's In reads a new log. Five carried findings checked with `measure --carry-file`, all in
-the reading set (the release line written as "0.158.1 on `main`"). `read_args` for the next pickup:
+**Measured** 2026-09-26 08:5x: 39,170 bytes across the six sources, about 9,793 tokens estimated at
+four bytes each, 1,793 over the 8,000 target: the evidence file (`notes:visuals-0134-reading.md`) is
+in the set because the selected work starts from it. Five carried findings checked with
+`measure --carry-file`, all in the reading set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-25.md",
- "--file", "notes:question-shape/work.md", "--file", "notes:outside-the-repo.md",
- "--section", "TODO.md", "## Now"]
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-26.md",
+ "--file", "notes:visuals-owner-cost/work.md", "--file", "notes:visuals-0134-reading.md",
+ "--file", "notes:outside-the-repo.md", "--section", "TODO.md", "## Now"]
 ```
