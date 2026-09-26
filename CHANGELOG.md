@@ -15,11 +15,14 @@ recommendation and the bubble still carry one proposal. A factual question or a 
 undone step stays one line, and Switch In's "Start a Conductor session?" is unchanged. This
 replaces 0.132.0's capsule, which carried the recommendation but never asked whether the problem
 was real. The shape is Anthony's own template, set 2026-09-25, with the approval bubble in his words ("Recommendation sentence…, approve?"). **Tested:** on one scenario (a slow sync with one timing taken under load, and a ruling the fix
-would reverse), six fresh headless Opus sessions at medium effort. The three on the new wording each
-gave all eight labels, called the evidence weak and asked "Do you agree?". The three on 0.158.1 gave
-at most one label, and two ended on a loaded "Can you time a few catalogue syncs … and send me the
-numbers?" (the other near-identical). All six recommended measuring first. Three runs per arm is directional, not a rate; the
-six final messages are kept in the private working notes.
+would reverse), fresh headless Opus sessions at medium effort. Three on this release's final wording
+each gave all eight labels, called the evidence weak and ended on their Recommendation with
+"— approve?", every step carried over ("Hold off on the local copy and time about five normal syncs
+(no backup running) before deciding anything — approve?"). Three on an earlier draft that asked "Do
+you agree?" gave the same block. Three on 0.158.1 gave at most one label, and two ended on a loaded
+"Can you time a few catalogue syncs … and send me the numbers?" (the other near-identical). All nine
+recommended measuring first. Three runs per arm is directional, not a rate; the final messages are
+kept in the private working notes.
 
 ## 0.158.1
 
