@@ -40,11 +40,12 @@ Wording tests (`python3 tools/run_tests.py`) prove a rule is written, not that a
 without it. Run the question-shape case from the repo root:
 
 ```sh
-claude plugin eval . --case 'question-shape*' --model opus -j 3 --scaffold
+claude plugin eval . --case 'question-shape*' --model opus -j 3 --scaffold --allow-tools Edit Write
 ```
 
 `--scaffold` is required: it creates the case's `notes.md`, and without it the case has nothing to
-read. It runs the case's own `scaffold.sh` as you. Results go to `evals/results/`, which is ignored.
+read. It runs the case's own `scaffold.sh` as you. `--allow-tools Edit Write` gives the session
+those tools, so the two no-change graders can actually catch a write. Results go to `evals/results/`, which is ignored.
 A run costs about a dollar and takes about a minute.
 
 ## Review process
