@@ -3,8 +3,9 @@
 ## 0.161.1
 
 **A flaky test stops failing the release gate.** `test_change_read.py` failed once in CI on
-2026-09-26 when its temporary folder was deleted while Git's background clean-up was still writing
-inside it ("Directory not empty: 'pack'"); a re-run passed. The test's Git environment now turns off
+2026-09-26: its temporary folder could not be deleted ("Directory not empty: 'pack'"), most likely
+because Git's background clean-up was still writing inside it; a re-run passed. The cause is not
+proven (a repo this small should rarely trigger that clean-up), so watch for a repeat. The test's Git environment now turns off
 automatic clean-up and maintenance (`gc.auto`, `gc.autoDetach`, `maintenance.auto`) for every repo
 it creates. Tests only; no skill behaviour changes.
 
