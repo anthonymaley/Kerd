@@ -282,10 +282,11 @@ recommendation and the bubble still carry one proposal. A factual question or a 
 undone step stays one line, and Switch In's "Start a Conductor session?" is unchanged. This
 replaces 0.132.0's capsule, which carried the recommendation but never asked whether the problem
 was real. The shape is Anthony's own template, set 2026-09-25. **Tested:** on one scenario (a slow sync with one timing taken under load, and a ruling the fix
-would reverse), three fresh sessions on the new wording each gave the full eight-part block, called
-the evidence weak and asked "Do you agree?"; three on 0.158.1 gave no labelled block, and two ended
-on a loaded "Can you time the syncs and send me the numbers?". All six recommended measuring first.
-Three runs per arm: directional, not a rate.
+would reverse), six fresh headless Opus sessions at medium effort. The three on the new wording each
+gave all eight labels, called the evidence weak and asked "Do you agree?". The three on 0.158.1 gave
+at most one label, and two ended on a loaded "Can you time a few catalogue syncs … and send me the
+numbers?". All six recommended measuring first. Three runs per arm is directional, not a rate; the
+six final messages are kept in the private working notes.
 
 ### v0.158.1
 

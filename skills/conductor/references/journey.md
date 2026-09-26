@@ -140,7 +140,7 @@ faster, including for an approval. After “Do you agree?” the picker carries 
 “Yes — <the recommendation>” and the host's free-form route, never the Known
 options, which are facts rather than a menu; after a genuine question it carries
 that question's own answers. The picker represents that same question: it
-carries the options already shown, always leaves a free-form answer open, never
+carries the options already shown for that question, always leaves a free-form answer open, never
 narrows a question meant to stay open, and never broadens what an approval
 authorizes. Keep it to a few genuinely distinct options, and do not add an
 “Other” entry where the host supplies that route itself. It never replaces or

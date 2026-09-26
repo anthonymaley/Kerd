@@ -41,9 +41,11 @@ Tend's report reads like this, a passing category shown plain and a failing one 
   └──────────────────┴───────────────┴─────────────────────────────┘
 ```
 
-Then, outside the table:
+Then, outside the table, the decision: the report is the problem and the facts, the options are
+fix all, pick individually or skip, and Tend gives its recommendation (usually fix all) with
+why, the cost, what the fix would overwrite, and who else checked it. Then:
 
-> 💬 **Fix all of these?**
+> 💬 **Do you agree?**
 
 Slainte's findings carry the same discipline about evidence. A real line from its own format: `medium | CLAUDE.md § Tests | Test count says 145, actual is 148 | find . -name "*.test.*" | wc -l → 148; CLAUDE.md line 67 says 145`.
 

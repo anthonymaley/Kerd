@@ -156,11 +156,10 @@ conventions across nine categories (directories, required files, vault
 integration, deprecated patterns, naming, stray and stale files, `.gitignore`,
 skill hygiene, hook hygiene) and shows a report where each category is passing,
 warning or failing, with a current-versus-proposed table and a reason for
-anything that is not passing. Then it asks:
+anything that is not passing. Then it recommends a route (usually fix all; the others are
+pick individually or skip) with why, the cost and what the fix would overwrite, and asks:
 
-> 💬 **Fix all of these?**
-
-Your options are fix all, pick individually, or skip. On a brand new repo with no
+> 💬 **Do you agree?** On a brand new repo with no
 README, CLAUDE.md or `docs/`, it asks once for a project name and a one-line
 description, then creates the structure from templates. On an existing repo it
 only reports what is missing and leaves the writing to you.

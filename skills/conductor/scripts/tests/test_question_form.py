@@ -177,7 +177,9 @@ class QuestionFormTests(unittest.TestCase):
                         self.fail("speech-bubble question inside a non-markdown code fence")
 
     def test_legacy_question_forms_do_not_return(self):
-        for path in sorted(SKILLS.rglob("*.md")):
+        """Skills and the user guide both: the guide shows people the questions they will see."""
+        guide = sorted((REPO / "docs" / "guide").glob("*.md"))
+        for path in sorted(SKILLS.rglob("*.md")) + guide:
             if "archive" in path.parts:
                 continue
             text = flat(path.read_text(encoding="utf-8"))
