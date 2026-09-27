@@ -1443,7 +1443,7 @@ def main():
         def concise(value):
             if isinstance(value, dict):
                 return {k: concise(v) for k, v in value.items()
-                        if k not in ('prompt', 'fingerprint', 'log', 'offset', 'inode')}
+                        if k not in ('prompt', 'fingerprint', 'log', 'offset', 'inode', 'tail')}
             if isinstance(value, list):
                 return [concise(v) for v in value]
             return value

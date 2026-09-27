@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.163.1
+
+**Agent stops printing a slice of the partner's session log, and the first same-brief model trial is on
+record.** Request output could expose up to 64 bytes of the partner's own session log, the sample Agent keeps
+to spot a log rewritten in place; that sample now stays in Agent's private record, with a test that fails
+without the fix. The trial behind it gave one real design brief (Agent's security fixes of 0.155.0),
+unchanged and on the code as it stood then, to Opus 5.5 at xhigh, Fable 5.1 at high and a fresh Codex. Two
+blind graders, Codex and Sonnet 5, put Opus first; Sonnet put Fable a slight second and Codex third. Opus and
+Fable both named the log leak, which Codex's score and the 0.155.0 release missed. One brief, so one reading,
+not a ranking; it fits the model guide's order and gives no case yet where Fable was needed after Opus.
+
 ## 0.163.0
 
 **Kerd briefs each model from its current guide, and findings stop getting filtered away.** A read of

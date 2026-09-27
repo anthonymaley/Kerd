@@ -836,6 +836,23 @@ class PartnersReaderTests(unittest.TestCase):
         self.assertEqual(len(list((self.app.state / 'requests').glob('*.json'))), 1)
 
 
+    def test_printed_result_omits_native_log_bytes(self):
+        # A request record keeps a sample of the partner's native log to detect
+        # rewrites; that sample is private evidence, never controller output.
+        import contextlib, io
+        record = {'request_id': 'r1', 'status': 'reply-received', 'log': '/private/log',
+                  'offset': 10, 'inode': 7, 'tail': '6c6f672062797465', 'prompt': 'secret'}
+        out = io.StringIO()
+        argv = ['agent.py', '--project', str(self.app.root), 'status', 'r1']
+        with patch.object(sys, 'argv', argv), \
+             patch.object(agent.Agent, 'status', return_value=record), \
+             contextlib.redirect_stdout(out):
+            code = agent.main()
+        self.assertEqual(code, 0)
+        self.assertEqual(json.loads(out.getvalue()), {'request_id': 'r1', 'status': 'reply-received'})
+        self.assertNotIn('6c6f672062797465', out.getvalue())
+
+
 class QueueTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

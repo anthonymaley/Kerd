@@ -31,8 +31,8 @@ Agent calls in the maintainer's private session transcripts for 2026-09-20 to
 2026-09-27: 359 native Claude dispatches in Kerd's own
 development and two other projects using Kerd. Outcomes are readers' judgments of
 what followed each return; the requested model was checked against the observed
-one on about 16 jobs, all matching. No job ran the same brief on two models, so
-none of this ranks one model above another.
+one on about 16 jobs, all matching. Until the matched trial below, no job ran the
+same brief on two models, so none of this ranks one model above another.
 
 | Work observed | Useful evidence | Limit |
 | --- | --- | --- |
@@ -44,3 +44,31 @@ none of this ranks one model above another.
 
 The prompt profiles' clauses remain `evaluation: pending`: briefs followed the
 profiles' structure, but no job compared a brief with and without a clause.
+
+## Matched composer trial, 2026-09-27
+
+One real composer brief (the 2026-09-25 Agent security passage, 2,055 characters)
+was replayed unchanged, apart from the repository path, to Opus 5.5 at xhigh and
+Fable 5.1 at high on a checkout frozen at the commit the brief first ran on. Both
+pairs were observed as requested. Codex (GPT-6 Astra) graded the two scores blind
+against six checks fixed before dispatch, including what Kerd actually shipped.
+
+| Composer | Cost | Blind grade | Main difference |
+| --- | --- | --- | --- |
+| Opus 5.5 (xhigh) | 113k tokens, 36 tool uses, 5 min | Stronger, clearly: 5 of 6 met, 1 partly | Caught the brief's false premise, covered every affected route, kept older records working; 34 words over the limit |
+| Fable 5.1 (high) | 108k tokens, 14 tool uses, 5 min | 2 met, 3 partly, 1 missed | Left the false premise uncorrected, left one message route in argv, widened a partner's file access; within the word limit |
+
+A third arm followed: a fresh Codex session (GPT-6 Astra, xhigh requested, model
+unreported) composed from the same brief (760k input tokens, 686k cached; 5 min).
+A fresh Sonnet 5 (high) reviewer then graded all three blind under new labels:
+Opus first, Fable a slight second, Codex a clear third. Codex's passage caught the
+false premise and invented nothing, but was the shallowest and missed a real gap
+the other two named. Both graders put Opus above Fable; the two graders disagreed
+on details (the Sonnet grader marked Opus down on the premise check for citing a
+source outside the brief's search paths). A Claude grader ranking the Codex score
+last may carry provider bias; untested.
+
+One brief, two graders, security design against real code: a single reading, not
+a ranking. It is consistent with the model guide's order (Opus first for scores),
+and gives no case yet where Fable 5.1 was needed after Opus fell short.
+
