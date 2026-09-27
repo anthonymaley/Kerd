@@ -6,16 +6,17 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.162.0 on `main`** (2026-09-26 11:1x; CI green). 0.162.0 came from grading
-Kerd's watch items against a week of real sittings in apple-music and work-anthony (read-only): a
-session starts every independent approved job before it waits, and a question without a decision
-block is open, never "X, or Y?". Grades: `notes:real-use-evidence/work.md`. Earlier today: 0.159.0
-(question shape), 0.160.0 (its eval), 0.161.0 (diagram heading `KERD: …` and three distinct states),
-0.161.1 (test flake). Account: `kivna/sessions/2026-09-26.md`.
+**Release boundary: 0.162.1 on `main`** (2026-09-27 09:1x; CI green). 0.162.1 came from the approved
+real-use re-grade of 0.162.0 (work-anthony and Kerd; apple-music still on 0.160.0, not gradable): the
+diagram heading and states, start-jobs-before-waiting and the outside list held; one either-or question
+slipped in a session that never read the question guide, so the open-question rule now sits in every
+skill's one-line preamble; a Switch In skipped both `notes:` entries, so Switch now assembles the reading
+set with `prepare` + `--notes-commit`, or reads it by hand with every `notes:` entry. Fable reviewed.
+Grades: `notes:real-use-evidence/work.md`. Account: `kivna/sessions/2026-09-27.md`.
 
-**Claude Code runs 0.162.0** (updated 11:1x; applies on restart). **Codex runs 0.162.0** (Anthony's go
-in its window; read back 12:4x from its plugin cache, skills identical to `main`). At 11:24 it had
-installed 0.161.0, the commit that earlier go approved, because `main` had moved on. Laptop bells are on for both (backups `*.bak-bell`).
+**Claude Code runs 0.162.1** (updated 09:1x; applies on restart). **Codex runs 0.162.1** (Anthony's go in
+its window; read back 10:08 from its plugin cache, four skills identical to `main`). Laptop bells are on
+for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -34,6 +35,8 @@ it 221k to 270k; the sittings that ran past were busy release or overnight runs,
 `measure.py` counts only the main thread; subagents carried 36% to 63% of input in fan-out sittings.
 No hand roll has yet been judged for loss (Anthony, 15:48: "mostly subagent heavy sessions latley"),
 so **the 200k-vs-50% decision stays open until one real hand roll is judged.**
+**First hand roll, partial (2026-09-27):** the 2026-09-26 16:49 Out → 2026-09-27 In; asked whether anything
+had to be re-explained, Anthony 12:31: "not yet". One partial observation, not his judgment; still open.
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
@@ -142,38 +145,32 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (APPROVED, Anthony 2026-09-26 16:38 "y"; run on 2026-09-27):** Claude sends three
-read-only Sonnet-high readers with the saved brief `notes:real-use-evidence/reader-brief.md` (work-anthony;
-apple-music once it runs 0.162.0; Kerd's own sittings, the only place vault notes and the outside list fire)
-to grade the six changes real use has not exercised: the diagram heading and states (0.161.0), the open
-question and start-jobs-before-waiting rules (0.162.0), the push-first trigger, the chat roll, vault notes /
-outside list. Failures: fix on `concert/real-use-regrade`, Fable review, merge, push, install for Claude
-Code; Codex gets an update request only and installs on his go in its window. Stops before: anything
-written in those projects, any finding about their own work. Plan view:
-`notes:real-use-evidence/regrade-plan.html`. Why: those changes rest on tests alone, and real use is what
-the launch plan waits on. **Anthony's, before it:** restart the apple-music session onto 0.162.0 (at 16:33
-it was still one sitting from 09:18 on 0.160.0; work-anthony had ~4h on 0.162.0). If apple-music has not
-restarted, grade what the other two readers can and mark apple-music not gradable. Parked: the
-announcement, SAM and Aubel.app, the homepage, the thrash guard (latent). Dropped: launch step 2. Backlog:
-one row, Skriv voice-profile wiring, blocked on his non-founder writing samples.
+**Selected continuation (proposed, not approved):** re-grade apple-music once it runs ≥0.162.0 for a day,
+with the saved brief `notes:real-use-evidence/reader-brief.md`, one read-only Sonnet-high reader; failures
+fixed on a concert branch, Fable review, release on Anthony's go. Why: apple-music is the most active
+outside project and the only one not yet graded on 0.162.x. **Anthony's, before it:** restart apple-music
+(at 2026-09-27 08:56 its live sitting still ran 0.160.0). Also open, his: the hand-roll judgment for the
+200k decision. Still on watch, unseen in real use: push-first trigger, chat roll. Parked: the
+announcement, SAM and Aubel.app, the homepage, the thrash guard. Dropped: launch step 2. Backlog: one row,
+Skriv voice-profile wiring, blocked on his writing samples.
 
-**Pickup reading set** (update 2026-09-26 16:5x):
+**Pickup reading set** (update 2026-09-27 13:0x):
 - this file complete: position, rulings, the continuation;
-- `TODO.md` `## Now`, the designated active list (the watch items, with real-use grades);
-- `kivna/sessions/2026-09-26.md`, today's sittings (the last: the re-grade shaped and approved);
-- `notes:real-use-evidence/work.md`, the grades and the approved re-grade plan;
+- `TODO.md` `## Now`, the designated active list;
+- `kivna/sessions/2026-09-27.md`, today's sitting (the re-grade and 0.162.1);
+- `notes:real-use-evidence/work.md`, the grades and the re-grade record;
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:visuals-owner-cost/work.md`; `notes:question-shape/work.md`.
+Deeper: `docs/decisions.md`; `notes:rolling-session/threshold.md`; `kivna/sessions/2026-09-26.md`.
 
-**Notes commit:** `4a0d4360e7f36b6599cf2d18b694f2954370a549` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `77ccad7810c84f2dcb1e2d435137f3497a80744f` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.162.0 on `main`; the boundary commit is this save
-itself. Ask `git log` for its ID.
+The observed position before this save is 0.162.1 on `main`; the boundary commit is this save itself.
+Ask `git log` for its ID.
 
-**Measured** 2026-09-26 16:5x: 41,567 bytes, about 10,392 tokens (estimate), 2,392 over the 8,000 target; kept because today's session log carries five sittings, each the newest account of its release, install or approval, and `## Now` holds the watch items the approved re-grade grades. `read_args` for the next pickup:
+**Measured** 2026-09-27 13:0x: 36,915 bytes, about 9,229 tokens (estimate), 1,229 over the 8,000 target; kept because `## Now` (12.9 KB) holds the watch items the apple-music re-grade grades, and the sketchbook holds the grades. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-26.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-27.md",
  "--file", "notes:real-use-evidence/work.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```

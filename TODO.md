@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.162.0 on `main`; Claude Code runs it (applies on restart); Codex runs it too (read back 2026-09-26 12:4x). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.162.1 on `main`; Claude Code runs it (applies on restart); Codex runs it too (read back 2026-09-27 10:08). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
@@ -10,12 +10,11 @@
 - **Watch for a repeat of the change-read CI flake** (fixed in 0.161.1, cause not proven). Fable listed
   other tests with the same temp-repo pattern: `test_tmux_roll.py`, `test_roll_status.py`,
   `test_handoff.py`, `tests/hooks_test.sh`; extend the fix there only if one flakes.
-- **Real-use grades, 2026-09-26** (apple-music and work-anthony, last week; `notes:real-use-evidence/work.md`):
-  question shape, report shape, context line, idle endings and the unanswered-review rule hold; two gaps
-  fixed in 0.162.0 (wait only when nothing else can move; a genuine question is open). Not yet exercised
-  in real use: the diagram heading and states, the 0.162.0 rules, the push-first trigger, the chat roll.
-  Re-grade approved for 2026-09-27 (Anthony 16:38), scope in `CONTEXT.md`'s continuation; apple-music
-  needs a restart onto 0.162.0 first (his).
+- **Real-use grades** (`notes:real-use-evidence/work.md`): 2026-09-26 on 0.160.x and 2026-09-27 re-grade on
+  0.162.0 (work-anthony, Kerd). Held: question shape, report shape, context line, idle endings, unanswered
+  review, diagram heading and states (2 diagrams), start jobs before waiting (8 waits), outside list. Fixed
+  in 0.162.1: an either-or question; a Switch In skipping `notes:` entries. **Next: apple-music, once it runs
+  ≥0.162.0** (Anthony restarts it). Unseen in real use: push-first trigger, chat roll.
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).
