@@ -18,8 +18,8 @@ profile:
 # Claude Sonnet 5 profile
 
 Local interpretation for pilot use, from a full read of Anthropic's Sonnet 5
-prompting guide on 2026-09-27. It carries every behaviour in that guide that
-changes what a Kerd brief should say to a delegated Sonnet job (reader,
+prompting guide on 2026-09-27. It aims to carry every behaviour in that guide
+that changes what a Kerd brief should say to a delegated Sonnet job (reader,
 reviewer, player or composer). Every clause is pending until a real brief
 uses it and its result is assessed.
 
@@ -34,7 +34,7 @@ tool versions and screenshot resolutions.
 ```yaml
 - id: effort-default-high-strict-low
   applies_when: choosing effort for any claude-sonnet-5 job
-  guidance: Default effort is high; use xhigh for the hardest coding and agentic jobs, and keep low for short, tightly scoped work. Sonnet 5 keeps strictly to the level it is given, so at low and medium it does only what was asked and can under-think a moderately complex job; when a result shows shallow reasoning, rerun at high or xhigh instead of adding "think harder" wording to the brief. Don't carry effort names over from Sonnet 4.6 (Sonnet 5 at medium is roughly 4.6 at high).
+  guidance: Default effort is high; use xhigh for the hardest coding and agentic jobs, max only where maximum capability is worth unbounded spend, and keep low for short, tightly scoped work. Sonnet 5 keeps strictly to the level it is given, so at low and medium it does only what was asked and can under-think a moderately complex job; when a result shows shallow reasoning, rerun at high or xhigh instead of adding "think harder" wording to the brief. Don't carry effort names over from Sonnet 4.6 (Sonnet 5 at medium is roughly 4.6 at high).
   basis: provider-guidance
   source: official_sources[0]
   evaluation: pending

@@ -26,7 +26,9 @@ new job evidence belongs in that consumer's work record, not in this catalogue.
 
 ## Delegated jobs, 2026-09-20 to 2026-09-27
 
-Summary prepared 2026-09-27 from 359 native Claude dispatches in Kerd's own
+Summary prepared 2026-09-27 as a manual tally, by three read-only readers, of the
+Agent calls in the maintainer's private session transcripts for 2026-09-20 to
+2026-09-27: 359 native Claude dispatches in Kerd's own
 development and two other projects using Kerd. Outcomes are readers' judgments of
 what followed each return; the requested model was checked against the observed
 one on about 16 jobs, all matching. No job ran the same brief on two models, so
@@ -37,7 +39,7 @@ none of this ranks one model above another.
 | Fable 5.1 (high) reviewing releases, standing in for the other-provider reviewer | Found real, applied problems in each of 15 reviews in one project; none reversed | Only as stand-in; no same-diff comparison with the Codex reviewer |
 | Opus 5.5 (high, xhigh) composing scores and design checks | Caught real reasoning errors in designs; usually needed one fix round before use | Five jobs ended on an account session limit, not a quality signal |
 | Fable 5.1 (high) composing design drafts | Usually needed a fix round; one built on rulings the brief failed to supersede | Different work from the Opus scores above; not comparable |
-| Opus 5.5 and Sonnet 5 players | Most returns accepted as-is; failures traced to gaps in the brief | Twice a player disclosed skipping test-first and was accepted without comment, now a finding by rule |
+| Opus 5.5 and Sonnet 5 players | Most returns accepted as-is; several failed returns followed gaps Conductor identified in its own brief | Twice a player disclosed skipping test-first and was accepted without comment, now a finding by rule |
 | Sonnet 5 (high, medium) readers and wording passes | Accurate and scoped; honest "nothing to fix" results | One false "not present" claim and one sweep that missed what a later review found |
 
 The prompt profiles' clauses remain `evaluation: pending`: briefs followed the

@@ -29,7 +29,7 @@ delegated Fable 5.1 or Mythos 5.1 job.
   review_trigger: matched effort sweep or source change
 - id: low-effort-against-smaller-models
   applies_when: choosing a model for routine or cost-sensitive work where a smaller model at higher effort is the default candidate
-  guidance: Put fable-5-1 at low (and medium) into the comparison rather than ruling it out on cost; the provider reports medium roughly matches Fable 5 at lower cost and low often beats Opus and Sonnet on cost per task. Adopt it for a job type only from Kerd's own comparison.
+  guidance: Put fable-5-1 at low (and medium) into the comparison rather than ruling it out on cost; the provider reports medium roughly matches Fable 5 at lower cost and low is often competitive with Opus and Sonnet on cost per task while scoring higher. Adopt it for a job type only from Kerd's own comparison.
   basis: provider-guidance
   source: official_sources[0]
   evaluation: pending
@@ -42,8 +42,8 @@ delegated Fable 5.1 or Mythos 5.1 job.
   evaluation: pending
   review_trigger: premature-stop comparison or source change
 - id: scope-is-the-deliverable
-  applies_when: an autonomous job has several parts, or may hit an open question or a blocked part partway
-  guidance: Tell the job the brief sets the scope and it must not quietly narrow, widen or swap it. On a question, it does every part that does not depend on the answer and states the assumption it made; on a blocked part, it finishes all the others and names exactly what it left out and why.
+  applies_when: an autonomous job has several parts, or may hit an open question or a blocked part
+  guidance: Tell the job the brief sets the scope and it must not quietly narrow, widen or swap it. On a question, it does every part that does not depend on the answer and states the assumption it made, unless a wrong guess would be unsafe or make the work useless, in which case it finishes the independent parts and stops for the answer; on a blocked part, it finishes all the others and names exactly what it left out and why.
   basis: provider-guidance
   source: official_sources[0]
   evaluation: pending
@@ -147,8 +147,8 @@ delegated Fable 5.1 or Mythos 5.1 job.
   evaluation: pending
   review_trigger: first dense-visual fable-5-1 job, or source change
 - id: append-only-history
-  applies_when: the harness replays thinking blocks or relies on prompt caching
-  guidance: Keep conversation history append-only and record compaction as a new state rather than editing earlier turns.
+  applies_when: API or custom-harness routes that replay thinking blocks or rely on prompt caching; it does not change a native Kerd player brief, where Claude Code owns the stored conversation
+  guidance: Keep conversation history append-only and record compaction as a new state rather than editing earlier turns. The guide's client-side compaction preserve-list is left out for the same reason.
   basis: provider-guidance
   source: official_sources[0]
   evaluation: pending

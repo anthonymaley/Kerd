@@ -199,9 +199,10 @@ independent assessment as an explicit gap, not a self-awarded pass.
 
 Ask any job that reports findings (a review, sweep, audit or evidence reading)
 for coverage: every issue it finds, with its confidence and severity, including
-uncertain and minor ones; Conductor filters afterwards. A brief that says “only
-report high-severity issues”, “be conservative” or “don't nitpick” makes some
-models, Sonnet 5 among them, drop real findings below that bar. Where a single
+uncertain and minor ones; Conductor filters afterwards. Anthropic documents why
+for Sonnet 5 code review: a brief that says “only report high-severity issues”,
+“be conservative” or “don't nitpick” makes it drop real findings below that bar.
+Kerd applies the same rule to every findings job. Where a single
 pass must self-filter, name the concrete bar (“anything that could cause wrong
 behaviour, a failing test or a misleading result; omit pure style”).
 
@@ -237,8 +238,11 @@ that was already dirty. So:
 A Player's own report counts as evidence too. When it says it departed from its
 step (built before the tests the step required, skipped a named check, changed
 an interface, widened scope), that departure is a finding answered before the
-return is accepted: re-dispatch to the step as written, or record why the result
-still meets the step's outcome and checks. A disclosed departure accepted without
+return is accepted. A departure from a required sequence, boundary, authority
+condition or proof obligation is re-dispatched to the step as written, or
+returned to the step's author or the Producer; later passing checks do not
+satisfy a step that required tests first. Only a departure from advisory
+guidance may be accepted with a recorded reason. A disclosed departure accepted without
 a word is an unread finding, however good the result looks.
 
 Bulk deletions, renames, pattern-driven edits, new files, binaries, symlinks and

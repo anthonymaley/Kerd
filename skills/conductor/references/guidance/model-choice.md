@@ -14,7 +14,8 @@ No cross-provider ranking or statistically established winner exists in this pac
 
 ### Working shortlist, not an exhaustive model catalogue
 
-Official descriptions below were checked on 2026-09-23. They suggest candidates
+Official descriptions below were checked on 2026-09-23 and again on 2026-09-27
+(unchanged). They suggest candidates
 to consider, not exclusive jobs or automatic assignments. Availability in an API
 catalogue is not proof of access through this user's CLI/account. Other models,
 including an explicitly requested older model, can be considered on the same basis.

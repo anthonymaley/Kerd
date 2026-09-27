@@ -96,7 +96,7 @@ still hold unchanged.
   review_trigger: first loosely specified multi-source opus-5-5 job, or source change
 - id: safeguard-refusal-not-a-bug
   applies_when: a delegated claude-opus-5-5 job's result reports a decline or refusal instead of doing the work
-  guidance: Treat a decline as a boundary to escalate, not a bug to route around — 5.5 runs safety classifiers for biology, cybersecurity dual-use activity, and reasoning extraction (asking it to reproduce its internal reasoning verbatim in the reply), though ordinary vulnerability review of Kerd's own code is explicitly allowed. Don't reword the same brief to get past a decline; surface it for a person to decide, and if a brief ever wants the model's rationale, ask for it in its own words rather than a verbatim reasoning dump, since a reasoning-extraction decline gets no automatic fallback retry the way other categories do.
+  guidance: Treat a decline as a boundary to escalate, not a bug to route around — 5.5 runs safety classifiers for biology, cybersecurity dual-use activity, and reasoning extraction (asking it to reproduce its internal reasoning verbatim in the reply), though ordinary vulnerability review of Kerd's own code is explicitly allowed. (Kerd policy, not the guide: don't reword the same brief to get past a decline; surface it for a person to decide.) If a brief ever wants the model's rationale, ask for it in its own words rather than a verbatim reasoning dump, since a reasoning-extraction decline gets no automatic fallback retry the way other categories do.
   basis: provider-guidance
   source: official_sources[0]
   evaluation: pending
