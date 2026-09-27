@@ -6,17 +6,17 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.162.1 on `main`** (2026-09-27 09:1x; CI green). 0.162.1 came from the approved
-real-use re-grade of 0.162.0 (work-anthony and Kerd; apple-music still on 0.160.0, not gradable): the
-diagram heading and states, start-jobs-before-waiting and the outside list held; one either-or question
-slipped in a session that never read the question guide, so the open-question rule now sits in every
-skill's one-line preamble; a Switch In skipped both `notes:` entries, so Switch now assembles the reading
-set with `prepare` + `--notes-commit`, or reads it by hand with every `notes:` entry. Fable reviewed.
-Grades: `notes:real-use-evidence/work.md`. Account: `kivna/sessions/2026-09-27.md`.
+**Release boundary: 0.163.0 on `main`** (2026-09-27 14:3x; CI green). 0.163.0 came from a model-fit audit
+(Anthony 13:20; go 14:11): Kerd's model choices match Anthropic and OpenAI today (Opus 5.5 composes first,
+Fable 5.1 when Opus at xhigh/max falls short; the other provider reviews, Fable the evidenced stand-in), but the
+prompt profiles were incomplete. Now: Fable 5.1 profile 19 clauses, Sonnet 5 11, Opus 5.5 +2 and a Kerd invariant,
+a Haiku note; findings jobs report every issue with confidence (Sonnet 5 drops findings under "only high-severity");
+a player's departure from a required part of its step is re-dispatched, not accepted on a later passing test.
+No clause is scored and no job has run one brief on two models. Codex reviewed (two rounds, all applied).
+Sketchbook `notes:model-fit/work.md`. Account: `kivna/sessions/2026-09-27.md`.
 
-**Claude Code runs 0.162.1** (updated 09:1x; applies on restart). **Codex runs 0.162.1** (Anthony's go in
-its window; read back 10:08 from its plugin cache, four skills identical to `main`). Laptop bells are on
-for both (backups `*.bak-bell`).
+**Claude Code runs 0.163.0** (updated 14:3x; applies on restart). **Codex runs 0.162.1**; 0.163.0 changes
+Conductor, so it installs on Anthony's go in its window. Laptop bells are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -36,7 +36,11 @@ it 221k to 270k; the sittings that ran past were busy release or overnight runs,
 No hand roll has yet been judged for loss (Anthony, 15:48: "mostly subagent heavy sessions latley"),
 so **the 200k-vs-50% decision stays open until one real hand roll is judged.**
 **First hand roll, partial (2026-09-27):** the 2026-09-26 16:49 Out → 2026-09-27 In; asked whether anything
-had to be re-explained, Anthony 12:31: "not yet". One partial observation, not his judgment; still open.
+had to be re-explained, Anthony 12:31: "not yet". Second hand roll 13:0x Out → 13:12 In: restored without
+re-asking (Claude's side; he was not asked). **The 200k plan is parked (Anthony 13:20: "lets keep that plan but
+park for now. i want more data first."):** roll at 200k or 50% of the window, whichever first, wording only
+(the 50% trigger is 500k at a 1M window, above every measured peak, so it never fires); view and plan in
+`notes:rolling-session/threshold.md`. Don't build it until he asks.
 
 **Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
 scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
@@ -145,32 +149,35 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (proposed, not approved):** re-grade apple-music once it runs ≥0.162.0 for a day,
-with the saved brief `notes:real-use-evidence/reader-brief.md`, one read-only Sonnet-high reader; failures
-fixed on a concert branch, Fable review, release on Anthony's go. Why: apple-music is the most active
-outside project and the only one not yet graded on 0.162.x. **Anthony's, before it:** restart apple-music
-(at 2026-09-27 08:56 its live sitting still ran 0.160.0). Also open, his: the hand-roll judgment for the
-200k decision. Still on watch, unseen in real use: push-first trigger, chat roll. Parked: the
-announcement, SAM and Aubel.app, the homepage, the thrash guard. Dropped: launch step 2. Backlog: one row,
-Skriv voice-profile wiring, blocked on his writing samples.
+**Selected continuation (agreed as next, not approved to run; Anthony 14:46 "y" to saving it):** the matched
+composer trial: one real score brief sent unchanged to Opus 5.5 at xhigh and Fable 5.1 at high, the two scores
+reviewed blind by a different model against the brief's checks, the result recorded in `notes:model-fit/work.md`
+and `task-evidence.md`. Why: it is the only evidence that can answer whether Opus beats Fable for some scores;
+today's record compares different work. Start at Shape: pick the brief with Anthony, put the go as a decision
+block. **Due alongside it:** re-grade apple-music from ~2026-09-28 13:00 (it restarted onto 0.162.1 at ~13:1x
+2026-09-27, the agreed day of use), brief `notes:real-use-evidence/reader-brief.md`. **Anthony's:** Codex
+install of 0.163.0; the hand-roll judgment. Still on watch, unseen in real use: push-first trigger, chat roll,
+and now the findings-coverage and departure rules. Parked: the 200k roll plan, the announcement, SAM and
+Aubel.app, the homepage, the thrash guard. Dropped: launch step 2. Backlog: one row, Skriv voice-profile wiring,
+blocked on his writing samples.
 
-**Pickup reading set** (update 2026-09-27 13:0x):
+**Pickup reading set** (update 2026-09-27 14:4x):
 - this file complete: position, rulings, the continuation;
 - `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-27.md`, today's sitting (the re-grade and 0.162.1);
-- `notes:real-use-evidence/work.md`, the grades and the re-grade record;
+- `kivna/sessions/2026-09-27.md`, today's sittings (0.162.1, 0.163.0);
+- `notes:model-fit/work.md`, the audit, the release and the composer trial's starting facts;
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:rolling-session/threshold.md`; `kivna/sessions/2026-09-26.md`.
+Deeper: `docs/decisions.md`; `notes:real-use-evidence/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `77ccad7810c84f2dcb1e2d435137f3497a80744f` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `4592a483707c5f2a18d1916f983761647820e649` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.162.1 on `main`; the boundary commit is this save itself.
+The observed position before this save is 0.163.0 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-09-27 13:0x: 36,915 bytes, about 9,229 tokens (estimate), 1,229 over the 8,000 target; kept because `## Now` (12.9 KB) holds the watch items the apple-music re-grade grades, and the sketchbook holds the grades. `read_args` for the next pickup:
+**Measured** 2026-09-27 14:4x: 38,805 bytes, about 9,702 tokens (estimate), 1,702 over the 8,000 target; kept because `## Now` (12.9 KB) holds the watch items the apple-music re-grade grades and today's log carries both sittings; the model-fit sketchbook holds the composer trial's starting facts. All five carried findings are in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-27.md",
- "--file", "notes:real-use-evidence/work.md", "--file", "notes:outside-the-repo.md",
+ "--file", "notes:model-fit/work.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
