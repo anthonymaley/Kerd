@@ -197,6 +197,14 @@ review question—not a request to endorse the builder's account. Prefer a
 different suitable model where available. Preserve unavailable or incomplete
 independent assessment as an explicit gap, not a self-awarded pass.
 
+Ask any job that reports findings (a review, sweep, audit or evidence reading)
+for coverage: every issue it finds, with its confidence and severity, including
+uncertain and minor ones; Conductor filters afterwards. A brief that says “only
+report high-severity issues”, “be conservative” or “don't nitpick” makes some
+models, Sonnet 5 among them, drop real findings below that bar. Where a single
+pass must self-filter, name the concrete bar (“anything that could cause wrong
+behaviour, a failing test or a misleading result; omit pure style”).
+
 For every returned Player edit, Conductor reads the actual change set and checks
 every changed path and hunk against the score step's owned boundaries before
 relying on its verification output. A plain `git diff` is not that change set: it
@@ -225,6 +233,13 @@ that was already dirty. So:
    `outside` or `committed`, and any HEAD change (even an empty or reverted
    commit), as a finding until reconciled. Only the summary and findings go into
    shared records, never the baseline itself. The helper finds the change set; it does not read it for you.
+
+A Player's own report counts as evidence too. When it says it departed from its
+step (built before the tests the step required, skipped a named check, changed
+an interface, widened scope), that departure is a finding answered before the
+return is accepted: re-dispatch to the step as written, or record why the result
+still meets the step's outcome and checks. A disclosed departure accepted without
+a word is an unread finding, however good the result looks.
 
 Bulk deletions, renames, pattern-driven edits, new files, binaries, symlinks and
 ignored-path changes, whether returned by a Player or made inline by Conductor,

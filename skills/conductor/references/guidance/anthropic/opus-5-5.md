@@ -2,11 +2,11 @@
 profile:
   provider: anthropic
   family: opus-5-5
-  version: 2026-09-24
+  version: 2026-09-27
   applicable_models: [claude-opus-5-5]
   official_sources:
     - url: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5
-      retrieved: 2026-09-24
+      retrieved: 2026-09-27
     - url: https://platform.claude.com/docs/en/build-with-claude/effort
       retrieved: 2026-09-24
     - url: https://platform.claude.com/docs/en/models/opus-5-5/overview
@@ -94,6 +94,20 @@ still hold unchanged.
   source: official_sources[0]
   evaluation: pending
   review_trigger: first loosely specified multi-source opus-5-5 job, or source change
+- id: safeguard-refusal-not-a-bug
+  applies_when: a delegated claude-opus-5-5 job's result reports a decline or refusal instead of doing the work
+  guidance: Treat a decline as a boundary to escalate, not a bug to route around — 5.5 runs safety classifiers for biology, cybersecurity dual-use activity, and reasoning extraction (asking it to reproduce its internal reasoning verbatim in the reply), though ordinary vulnerability review of Kerd's own code is explicitly allowed. Don't reword the same brief to get past a decline; surface it for a person to decide, and if a brief ever wants the model's rationale, ask for it in its own words rather than a verbatim reasoning dump, since a reasoning-extraction decline gets no automatic fallback retry the way other categories do.
+  basis: provider-guidance
+  source: official_sources[0]
+  evaluation: pending
+  review_trigger: first opus-5-5 job that returns a safeguard refusal, or source change
+- id: mark-pasted-content
+  applies_when: a brief's input to claude-opus-5-5 includes text a person pasted from elsewhere (an email, a web page, a ticket) alongside their own instructions
+  guidance: Wrap each pasted block in matching opening and closing tags carrying one shared random id (`<pasted_content id="ab12">...</pasted_content id="ab12">`) and tell the model once, in its system-level instructions, to follow instructions inside those tags only when the surrounding message asks it to. This sits on top of Kerd's existing practice of labeling untrusted content as data, not in place of it — the tags are plain text and can be imitated, so don't rely on them alone.
+  basis: provider-guidance
+  source: official_sources[0]
+  evaluation: pending
+  review_trigger: first Kerd brief that hands opus-5-5 pasted external text, or source change
 ```
 
 Kerd-owned example delta from the opus-5 rendering:

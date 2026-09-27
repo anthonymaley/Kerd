@@ -26,8 +26,10 @@ including an explicitly requested older model, can be considered on the same bas
 | GPT-6 Luna · `gpt-6-luna` | Most efficient, for focused high-volume work | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; price is not eligibility |
 | Claude Opus 5.5 · `claude-opus-5-5` | Long-running agentic coding and knowledge work; Anthropic's default starting point | [Opus 5.5](anthropic/opus-5-5.md) | No matched selection comparison recorded here; the Opus 5 review evidence is not credited to it |
 | Claude Fable 5.1 · `claude-fable-5-1` | Demanding reasoning and long-horizon agentic work, after Opus 5.5 still falls short at xhigh or max | [Fable 5.1](anthropic/fable-5-1.md) | Do not credit the earlier Fable 5 drafting trial to 5.1 |
-| Claude Sonnet 5 · `claude-sonnet-5` | The best combination of speed and intelligence | [Sonnet 5](anthropic/sonnet-5.md), explicitly partial | No matched selection comparison recorded here |
+| Claude Sonnet 5 · `claude-sonnet-5` | The best combination of speed and intelligence | [Sonnet 5](anthropic/sonnet-5.md) | No matched selection comparison recorded here |
 | Claude Haiku 4.5 · `claude-haiku-4-5` | The fastest model with near-frontier intelligence; takes no effort setting | No specific profile here | No matched selection comparison recorded here; not a default cheap worker |
+
+Haiku 4.5 works differently from the other three Claude models: it uses extended (manual, budgeted) thinking rather than adaptive thinking, does not support the effort parameter, and has a 200K-token context window and 64K max output against the others' 1M and 128K, so Kerd routes it as plain `kerd:haiku` with no effort level ([Anthropic models overview](https://platform.claude.com/docs/en/models/overview), retrieved 2026-09-27).
 
 **The conducting session:** Kerd recommends Opus 5.5 for the session that
 conducts, at medium effort by default, for its efficiency on long agentic work

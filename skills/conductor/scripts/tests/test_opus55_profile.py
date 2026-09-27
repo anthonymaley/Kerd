@@ -18,7 +18,7 @@ class Opus55ProfileTests(unittest.TestCase):
         self.profile = read(GUIDANCE / "anthropic/opus-5-5.md")
 
     def test_new_version_supersedes_the_archived_one(self):
-        self.assertIn("version: 2026-09-24", self.profile)
+        self.assertIn("version: 2026-09-27", self.profile)
         self.assertIn("supersedes: opus-5-5@2026-09", self.profile)
         archived = read(GUIDANCE / "anthropic/archive/opus-5-5-2026-09.md")
         self.assertIn("version: 2026-09 ", archived)

@@ -264,9 +264,26 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.162.1)
+## What's New (v0.163.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.163.0
+
+**Kerd briefs each model from its current guide, and findings stop getting filtered away.** A read of
+359 delegated jobs over the past week, and of Anthropic's and OpenAI's guides as they stand today, found
+Kerd's model choices still match the vendors: Opus 5.5 composes first and Fable 5.1 comes in when Opus
+at its highest effort falls short; the other provider reviews, with Fable standing in (15 of 15 stand-in
+reviews found real problems). What had fallen behind were the prompt profiles: Fable 5.1's carried 5 of
+the guide's behaviours, Sonnet 5's 2. Both now carry every behaviour that changes a brief (Fable 19
+clauses, Sonnet 11), Opus 5.5 gains two (tagging pasted text as data, safeguard refusals), and a note
+says how Haiku 4.5 differs. Any job that reports findings (a review, sweep, audit or evidence reading) is
+now asked for every issue with its confidence and severity, because a "report only high-severity issues"
+brief makes Sonnet 5 drop real findings below the bar; Conductor filters afterwards. And a player that
+says it departed from its step (built before the tests it was told to write first, for instance) gets
+an answer before its work is accepted; twice last week that went by without a word. The week's job
+evidence is recorded beside the profiles. No clause has yet been scored against results, and no job has
+run the same brief on two models; a matched composer trial is next.
 
 ### v0.162.1
 

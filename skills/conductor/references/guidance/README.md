@@ -14,6 +14,10 @@ reproducing that run. The GPT-5.6 profile's 2026-09-05 revision removes the olde
 The Opus 5.5 profile's 2026-09-24 revision (prior version in `anthropic/archive/`)
 loosens two clauses to match the provider's wording, scopes max_tokens to API
 routes, and adds three pending clauses from the same guide.
+The 2026-09-27 revisions fill the Fable 5.1 and Sonnet 5 profiles from full reads of
+their current guides (prior versions in `anthropic/archive/`) and add two clauses to
+Opus 5.5; the Opus clauses are additions only, so its archived 2026-09 version stays
+the one it supersedes.
 No model default, pricing, native permission or account setting changed.
 
 ## What is stored
