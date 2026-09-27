@@ -53,6 +53,7 @@ class QuestionFormTests(unittest.TestCase):
                 text = path.read_text(encoding="utf-8")
                 self.assertIn("**Asking the person:**", text)
                 self.assertIn("`> 💬 **The question?**`", text)
+                self.assertIn("a genuine question is open (\u201cWhat should it show?\u201d), never \u201cX, or Y?\u201d", text)
                 self.assertIn("journey.md#" + ANCHOR, text)
                 relative_journey = (
                     "references/journey.md"
@@ -68,6 +69,7 @@ class QuestionFormTests(unittest.TestCase):
         """Static wording guard; it does not prove a model follows the form."""
         prose = flat(JOURNEY.read_text(encoding="utf-8"))
         for phrase in (
+            "it is open, never a two-way pick",
             "is put as a **decision block** immediately above its bubble",
             "including how we know the problem is real and how strong that evidence is",
             "Options are facts about the terrain, not choices handed over.",

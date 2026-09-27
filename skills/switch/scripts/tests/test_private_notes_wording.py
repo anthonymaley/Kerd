@@ -23,6 +23,11 @@ def read(rel):
 class PrivateNotesWordingTests(unittest.TestCase):
     def test_each_file_carries_its_fragment(self):
         for rel, fragment in (
+            # In: prepare by default; by hand otherwise, notes: entries never skipped (0.162.1).
+            ("skills/switch/SKILL.md",
+             "Where `prepare` cannot run, or the caller already supplied the records, read the "
+             "same set by hand, every `notes:` entry from the notes root included; an entry is "
+             "never skipped because it lives outside the repo."),
             # In: a notes: entry is read from the notes root, not the repo.
             ("skills/switch/references/in-out.md",
              "A reading-set entry written `notes:<path>` "

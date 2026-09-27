@@ -5,7 +5,7 @@ description: Save, restore or move repo-based work between sittings and devices,
 
 # Switch
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
@@ -114,8 +114,14 @@ than asking the person to select an established teammate again.
 Keep pickup selective and explicit: fully read the chosen current working set
 and the complete active task list, including child sections, then relevant
 current decisions, constraints and risks. Saved `read_args` are navigation, not
-permission to omit other active work. Retrieve a bounded complete relevant entry
-when a gap affects orientation or a recommendation; do not sweep the archive.
+permission to omit other active work. Assemble the reading set with the helper's
+`prepare` on those saved `read_args`, passing the saved notes commit as
+`--notes-commit` when the start point records one (`--sync` when this vault may
+be behind it). Where `prepare` cannot run, or the caller already supplied the
+records, read the same set by hand, every `notes:` entry from the notes root
+included; an entry is never skipped because it lives outside the repo. Retrieve
+a bounded complete relevant entry when a gap affects orientation or a
+recommendation; do not sweep the archive.
 Don't silently truncate records or claim that small output means low input.
 Measure instructions, memory and tool output when testing context cost; disclose
 unavailable readings.

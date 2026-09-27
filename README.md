@@ -264,9 +264,23 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.162.0)
+## What's New (v0.162.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.162.1
+
+**Two rules now sit where a session actually reads them, from the first real-use re-grade.** Each
+0.162.0 sitting since release (four in one project, four in Kerd's own; apple-music had not yet restarted on it) was read back. The diagram
+heading and states held in both saved diagrams; a session started its other approved jobs before
+waiting (8 waits, none idle); four of five genuine questions were open. The fifth, asked in a session that
+had loaded Conductor but not its question guide, was a two-way pick ("did it pick up, or did you have
+to re-explain?"). So the one-line question rule at the top of every skill now says it too: a genuine
+question is open, never "X, or Y?". And a Switch In read its saved start point by hand and skipped
+the two private vault notes in it; Switch now says to assemble the start point with the helper's
+`prepare` and the saved notes commit, which reads every `notes:` entry and refuses a vault that is behind the saved commit;
+where `prepare` cannot run, the same set is read by hand, notes included. The
+push-first trigger and the chat roll still did not come up in real use; they stay on watch.
 
 ### v0.162.0
 
