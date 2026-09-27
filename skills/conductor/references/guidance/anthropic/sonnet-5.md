@@ -34,7 +34,7 @@ tool versions and screenshot resolutions.
 ```yaml
 - id: effort-default-high-strict-low
   applies_when: choosing effort for any claude-sonnet-5 job
-  guidance: Default effort is high; use xhigh for the hardest coding and agentic jobs, max only where maximum capability is worth unbounded spend, and keep low for short, tightly scoped work. Sonnet 5 keeps strictly to the level it is given, so at low and medium it does only what was asked and can under-think a moderately complex job; when a result shows shallow reasoning, rerun at high or xhigh instead of adding "think harder" wording to the brief. Don't carry effort names over from Sonnet 4.6 (Sonnet 5 at medium is roughly 4.6 at high).
+  guidance: Default effort is high; use xhigh for the hardest coding and agentic jobs, max only where maximum capability is worth the highest token use, and keep low for short, tightly scoped work. Sonnet 5 keeps strictly to the level it is given, so at low and medium it does only what was asked and can under-think a moderately complex job; when a result shows shallow reasoning, rerun at high or xhigh instead of adding "think harder" wording to the brief. Don't carry effort names over from Sonnet 4.6 (Sonnet 5 at medium is roughly 4.6 at high).
   basis: provider-guidance
   source: official_sources[0]
   evaluation: pending
