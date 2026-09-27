@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.163.0 on `main`; Claude Code runs it (applies on restart); Codex runs 0.162.1 (0.163.0 on Anthony's go in its window). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.163.1 on `main`; Claude Code runs it (applies on restart); Codex runs 0.162.1 (0.163.1 on Anthony's go in its window). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
@@ -15,10 +15,10 @@
   review, diagram heading and states (2 diagrams), start jobs before waiting (8 waits), outside list. Fixed
   in 0.162.1: an either-or question; a Switch In skipping `notes:` entries. **Next: apple-music from ~2026-09-28
   13:00** (it restarted onto 0.162.1 at ~13:1x on 09-27). Unseen in real use: push-first trigger, chat roll.
-- **Model fit (0.163.0, `notes:model-fit/work.md`): run the matched composer trial next** (agreed as next,
-  not approved to run): one score brief to Opus 5.5 xhigh and Fable 5.1 high, blind review. All profile clauses
-  stay `evaluation: pending`. Watch in real use: findings jobs reporting with confidence, and a player's
-  disclosed departure from a required step being sent back.
+- **Model fit (`notes:model-fit/work.md`): matched composer trial done 2026-09-27, released as 0.163.1.** One
+  brief, Opus 5.5 xhigh first under two blind graders (Fable 5.1 high second; a fresh Codex third). One reading, not
+  a ranking; a second brief would firm it up (not scheduled). All profile clauses stay `evaluation: pending`. Watch
+  in real use: findings jobs reporting with confidence, a player's disclosed departure being sent back.
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).
