@@ -264,9 +264,15 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.163.1)
+## What's New (v0.163.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.163.2
+
+**The model trial's record states only what was observed.** Its third arm now reads "GPT-6 Astra at xhigh
+requested; model and effort unreported", so a requested setting is never presented as the model that ran, and
+the file loses a stray blank line. Codex's own review of 0.163.1 raised both after the push.
 
 ### v0.163.1
 

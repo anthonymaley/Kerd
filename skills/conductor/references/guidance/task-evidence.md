@@ -58,8 +58,8 @@ against six checks fixed before dispatch, including what Kerd actually shipped.
 | Opus 5.5 (xhigh) | 113k tokens, 36 tool uses, 5 min | Stronger, clearly: 5 of 6 met, 1 partly | Caught the brief's false premise, covered every affected route, kept older records working; 34 words over the limit |
 | Fable 5.1 (high) | 108k tokens, 14 tool uses, 5 min | 2 met, 3 partly, 1 missed | Left the false premise uncorrected, left one message route in argv, widened a partner's file access; within the word limit |
 
-A third arm followed: a fresh Codex session (GPT-6 Astra, xhigh requested, model
-unreported) composed from the same brief (760k input tokens, 686k cached; 5 min).
+A third arm followed: a fresh Codex session (GPT-6 Astra at xhigh requested; model
+and effort unreported) composed from the same brief (760k input tokens, 686k cached; 5 min).
 A fresh Sonnet 5 (high) reviewer then graded all three blind under new labels:
 Opus first, Fable a slight second, Codex a clear third. Codex's passage caught the
 false premise and invented nothing, but was the shallowest and missed a real gap
@@ -71,4 +71,3 @@ last may carry provider bias; untested.
 One brief, two graders, security design against real code: a single reading, not
 a ranking. It is consistent with the model guide's order (Opus first for scores),
 and gives no case yet where Fable 5.1 was needed after Opus fell short.
-

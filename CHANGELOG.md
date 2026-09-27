@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.163.2
+
+**The model trial's record states only what was observed.** Its third arm now reads "GPT-6 Astra at xhigh
+requested; model and effort unreported", so a requested setting is never presented as the model that ran, and
+the file loses a stray blank line. Codex's own review of 0.163.1 raised both after the push.
+
 ## 0.163.1
 
 **Agent stops printing a slice of the partner's session log, and the first same-brief model trial is on
