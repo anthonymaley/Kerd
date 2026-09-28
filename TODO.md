@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.164.0 on `main` (a declined Switch Out is not re-asked as filler); Claude Code runs it (applies on restart); Codex runs 0.163.2 (installed 2026-09-27 20:5x on Anthony's go in its window; skills match `main`). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.164.1 on `main` (the chat roll accepts a sketchbook folder linked into the vault); Claude Code runs it (applies on restart); Codex runs 0.164.0 (0.164.1 on Anthony's go in its window). **Releases are paused** (Anthony, 2026-09-28 15:00): see `CONTEXT.md`. Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
@@ -169,3 +169,6 @@ run checks during pickup.
 ## Backlog
 
 - skriv voice profile wiring — needs non-founder-genre samples.
+- A named wait missed a partner's reply once (apple-music, 2026-09-28 11:14 to 11:30, Kerd 0.163.2): the session
+  said it was waiting on Codex's review, the reply landed, the watcher missed it, and Anthony had to ask "waiting?".
+  1 of ~69 named waits in the 2026-09-28 re-grade (`notes:real-use-evidence/work.md`). Needs study before any fix.

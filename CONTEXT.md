@@ -17,10 +17,10 @@ Sketchbook `notes:model-fit/work.md`. Anthony on the "Opus first, Fable when Opu
 that a real rule? dont remember setting that" — it is guide text from Anthropic's guidance (0.148.0), not his ruling.
 0.163.0 (earlier today) filled the model profiles; account `kivna/sessions/2026-09-27.md`.
 
-**Codex runs 0.163.2** (installed 2026-09-27 20:5x); **Claude Code runs 0.163.3** (21:2x, the second model trial's evidence; applies on restart; Codex install of 0.163.3 is Anthony's go in its window). 0.163.2 fixed codex-tui's late 0.163.1 review finding (the trial
-record named a model it also called unreported); codex-tui re-checked it "Ready to push". Codex installed on
-Anthony's go in its window; Claude checked its cache: Conductor, Switch, Visuals and Agent match `main`. Laptop
-bells are on for both (backups `*.bak-bell`). Sketchbook `notes:codex-update/work.md`.
+**Claude Code runs 0.164.1** (2026-09-28 16:xx; applies on restart). **Codex runs 0.164.0** (installed
+2026-09-28 08:5x on Anthony's go in its window, skills checked identical to `main`); 0.164.1 changes only Switch's
+roll script, which Codex does not run, so its install waits for his go. Laptop bells are on for both
+(backups `*.bak-bell`). Sketchbook `notes:codex-update/work.md`.
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -72,6 +72,10 @@ raise it until he does.
 drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
+- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00: "i would like stabalize releases for a while and
+  use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
+  defect the 2026-09-28 apple-music re-grade found. While it holds: grades, findings and ideas go to the Backlog, not
+  into releases; any fix found comes back to him for the release decision; he lifts the pause.
 - **Batch the work; fewer approvals (Anthony, 2026-09-25 23:01; 2026-09-26 08:17, 08:49):** under a
   grant like "we have tokens to use, lets build with subagents in fan out where we can unattended and
   get fable to review", take several tasks per approval, dispatch independent work instead of

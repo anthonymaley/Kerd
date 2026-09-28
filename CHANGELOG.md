@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.164.1
+
+**The chat roll works with a sketchbook folder linked into the vault.** A project that keeps its plans in the
+vault through a folder link (apple-music's `docs/plans`) had its roll refused as "outside the project", because the
+check followed the link first. The name must still sit inside the project and outside Git metadata, and the link
+may lead only into the project or the project's own vault folder, never into Git metadata; tests cover both. Releases now pause so Kerd can be used for a while.
+
 ## 0.164.0
 
 **A declined Switch Out stays declined for a while.** After you say no, Kerd does not ask again at the end

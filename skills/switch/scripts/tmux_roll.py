@@ -290,10 +290,25 @@ class Chat:
         except handoff.HandoffError as exc:
             raise roll.RollError(str(exc))
 
+    def vault_folder(self):
+        """The project's own folder in the vault (kivna/vault.json vault + folder), resolved, or None."""
+        try:
+            settings = json.loads((self.project / "kivna" / "vault.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return None
+        vault, folder = (settings.get("vault"), settings.get("folder")) if isinstance(settings, dict) else (None, None)
+        if not isinstance(vault, str) or not vault or not isinstance(folder, str) or not folder:
+            return None
+        parts = Path(folder).parts
+        if (Path(folder).is_absolute() or not parts or any(part in {".", "..", ".git"} for part in parts)
+                or "\\" in folder):
+            return None
+        return (self.project / Path(os.path.expanduser(vault)) / folder).resolve()
+
     def record_path(self, value):
         """The sketchbook file: project-relative, or notes:<path> under the notes root."""
         if not value.startswith(handoff.NOTES_PREFIX):
-            return roll.project_file(self.project, value)
+            return roll.linked_project_file(self.project, value, self.vault_folder())
         location = self.notes()
         if location is None:
             raise roll.RollError("A notes: sketchbook needs \"work_notes\": \"vault\" in kivna/vault.json")

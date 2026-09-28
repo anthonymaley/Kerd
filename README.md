@@ -264,9 +264,16 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.164.0)
+## What's New (v0.164.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.164.1
+
+**The chat roll works with a sketchbook folder linked into the vault.** A project that keeps its plans in the
+vault through a folder link (apple-music's `docs/plans`) had its roll refused as "outside the project", because the
+check followed the link first. The name must still sit inside the project and outside Git metadata, and the link
+may lead only into the project or the project's own vault folder, never into Git metadata; tests cover both. Releases now pause so Kerd can be used for a while.
 
 ### v0.164.0
 

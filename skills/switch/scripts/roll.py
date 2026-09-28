@@ -33,6 +33,28 @@ def project_file(root, value):
     return path
 
 
+def linked_project_file(root, value, vault_folder=None):
+    """A work file named inside the project that may reach its content through a link the project
+    keeps on purpose (a sketchbook folder linked into the vault). The name must stay inside the
+    project and outside Git metadata; the target must land in the project or in the project's own
+    vault folder (kivna/vault.json), never in any Git metadata."""
+    refused = RollError("Work files must stay inside the project, outside Git metadata")
+    named = Path(os.path.normpath(root / value))
+    if named == root or not named.is_relative_to(root) or ".git" in named.relative_to(root).parts:
+        raise refused
+    path = named.resolve()
+    for base in (root, vault_folder):
+        if base is not None and path != base and path.is_relative_to(base):
+            if ".git" in path.relative_to(base).parts:
+                raise refused
+            break
+    else:
+        raise refused
+    if not path.is_file():
+        raise RollError(f"Missing work file: {value}")
+    return path
+
+
 def check_state(state, root, previous=None):
     if not isinstance(state, dict):
         raise RollError("Saved place must be a JSON object")

@@ -101,6 +101,49 @@ class ChatRollTests(unittest.TestCase):
         self.assertEqual(data["approval_boundary"], "Build on concert/x; no push")
         self.assertEqual((data["pane"], data["tmux_socket"], data["relaunch"]), ("%4", "/tmp/tmux-501/default", "pending"))
 
+    def link_vault(self):
+        """A vault beside the project, named in kivna/vault.json, with a git repo of its own."""
+        vault = tempfile.TemporaryDirectory()
+        self.addCleanup(vault.cleanup)
+        base = Path(vault.name).resolve()
+        (base / ".git").mkdir()
+        (base / "proj/repo/plans").mkdir(parents=True)
+        (base / "proj/repo/plans/work.md").write_text("next: build step 2\n")
+        (self.root / "kivna").mkdir(exist_ok=True)
+        (self.root / "kivna/vault.json").write_text(json.dumps({"vault": str(base), "folder": "proj"}))
+        return base
+
+    def test_out_accepts_a_sketchbook_folder_linked_into_the_vault(self):
+        # Real use, 2026-09-28 (apple-music): docs/plans is a link into the vault, and the
+        # roll refused its sketchbook as outside the project.
+        base = self.link_vault()
+        (self.root / "docs/plans").symlink_to(base / "proj/repo/plans")
+        self.record = "docs/plans/work.md"
+        self.assertEqual(self.save()["handoff_record"], "docs/plans/work.md")
+
+    def test_vault_folder_follows_the_notes_plain_name_rule(self):
+        (self.root / "kivna").mkdir(exist_ok=True)
+        for folder in ("..", "a/../b", ".git", "/abs", "a\\b"):
+            with self.subTest(folder=folder):
+                (self.root / "kivna/vault.json").write_text(json.dumps({"vault": "/tmp", "folder": folder}))
+                self.assertIsNone(self.chat.vault_folder())
+
+    def test_out_still_refuses_a_record_named_outside_or_reaching_elsewhere(self):
+        base = self.link_vault()
+        other = tempfile.TemporaryDirectory()
+        self.addCleanup(other.cleanup)
+        (Path(other.name) / "work.md").write_text("x\n")
+        (base / ".git/config").write_text("x\n")
+        (self.root / "docs/git-link").symlink_to(self.root / ".git")
+        (self.root / "docs/elsewhere").symlink_to(other.name)
+        (self.root / "docs/vault-git").symlink_to(base / ".git")
+        for value in ("../elsewhere/work.md", ".git/config", "docs/git-link/config",
+                      "docs/elsewhere/work.md", "docs/vault-git/config"):
+            with self.subTest(value=value):
+                self.record = value
+                with self.assertRaisesRegex(roll.RollError, "inside the project, outside Git metadata"):
+                    self.save()
+
     def test_out_outside_tmux_is_manual_and_needs_no_pane(self):
         data = self.save(env={"CLAUDE_CODE_SESSION_ID": "s"})
         self.assertEqual((data["relaunch"], data["pane"]), ("manual", None))
