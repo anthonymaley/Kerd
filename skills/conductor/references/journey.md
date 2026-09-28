@@ -499,7 +499,12 @@ interactive session still ends with a line to the person: what the partner said,
 what it changes, and the next step or question. Informational arrival notices
 stay unanswered, and unattended workers keep their own result contract. Never
 end a turn on a suggestion (“a Switch Out now would do both”) or on “say so when
-you're back”; those are questions left unasked. The quiet endings remain what
+you're back”; those are questions left unasked. A declined Switch Out is not
+asked again as filler: after the person says no, it comes back only once the next
+piece of work they chose is finished or about 100k more tokens have been spent
+(where the host shows the count), whichever comes first, or sooner only when the
+context window is close to full; then once, and never on the answer to a follow-up
+question. The quiet endings remain what
 they were: Switch Out's closing box, a pause the person asked for, agreed
 completion, and a finish with nothing left open.
 
@@ -514,7 +519,9 @@ user review remains, say so; don't mark the whole package complete.
 **A finish names what comes next.** Finishing a piece of work is not finishing the
 sitting. Weigh the open work the same way Switch In does, say which item comes next and
 why in one line, and then either carry straight on where the authority already covers it
-or end on the one question that starts it. Tidying the record of the item just finished
+or end on the one question that starts it. When the next item cannot start yet (it
+is scheduled for later or waits on someone else), the ending names it and when it can
+start; a declined Switch Out is not asked again to fill that ending. Tidying the record of the item just finished
 is not the next item. “No action needed” is the whole ending only
 when the open list is genuinely empty; it is never a way to hand the choice back
 silently. Do not wait to be asked “what's next?”. When the person has said to keep

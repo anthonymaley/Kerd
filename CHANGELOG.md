@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.164.0
+
+**A declined Switch Out stays declined for a while.** After you say no, Kerd does not ask again at the end
+of every turn: it comes back once the next piece of work you chose is finished or about 100k more tokens have been
+spent, whichever comes first (sooner only when the context window is nearly full), and never on the answer to a
+follow-up question. When the next item can't start yet, the finish names it and when it can start instead.
+
 ## 0.163.3
 
 **The model trial has a second reading.** A second real design brief, of a different kind (a hook and

@@ -39,6 +39,16 @@ class TurnEndingTests(unittest.TestCase):
         self.assertIn("The same holds for a genuine question: it is open, never a two-way pick", text)
         self.assertIn("Where two routes are known, recommend one in the block and ask for approval", text)
 
+    def test_declined_switch_out_is_not_repeated(self):
+        # Real use, 2026-09-27: after "no" to Switch Out, it was asked again on the
+        # person's follow-up "results?"; his terms (22:30): defer until the next piece of
+        # work is done or another ~100k tokens are spent, not every mini turn.
+        text = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
+        self.assertIn("A declined Switch Out is not asked again as filler", text)
+        self.assertIn("it comes back only once the next piece of work they chose is finished or about 100k more tokens have been spent", text)
+        self.assertIn("never on the answer to a follow-up question", text)
+        self.assertIn("When the next item cannot start yet (it is scheduled for later or waits on someone else), the ending names it and when it can start", text)
+
     def test_skill_entries_carry_the_endings(self):
         conductor = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))
         self.assertIn("a turn waiting on a job first starts every other job its authority already covers, then names the job and how and when it resumes", conductor)
