@@ -71,3 +71,15 @@ last may carry provider bias; untested.
 One brief, two graders, security design against real code: a single reading, not
 a ranking. It is consistent with the model guide's order (Opus first for scores),
 and gives no case yet where Fable 5.1 was needed after Opus fell short.
+
+**Second matched brief (2026-09-27).** A different kind of design, a hook and terminal passage ("which session
+is waiting on you", the sibling brief from the same 2026-09-25 dispatch minute), replayed unchanged apart from the
+repository path, on the same frozen checkout, to Opus 5.5 at xhigh requested (135k tokens, 44 tool uses, 8 min)
+and Fable 5.1 at high requested (94k, 11, 3.5 min); the observed model was not recorded natively. A fresh Sonnet 5
+(high) graded blind against six checks fixed before dispatch: Opus stronger, clearly. Opus verified two material
+facts Fable got wrong: the laptop attaches in iTerm2's tmux control mode, so tmux's status bar never reaches the
+screen, and Codex now has hooks. Fable assumed the status bar was visible, repeated the stale "Codex has no
+hooks", and set a live tmux option despite a read-only brief. Opus ran 34% over the word limit. Neither matched
+what shipped (native bells, config only): both proposed a Kerd hook first, and the live config already held the
+answer, a confound for both. The first brief had two outside graders, the second one: still not a ranking, but
+the same order twice, and still no case where Fable was needed after Opus.

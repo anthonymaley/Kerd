@@ -17,11 +17,10 @@ Sketchbook `notes:model-fit/work.md`. Anthony on the "Opus first, Fable when Opu
 that a real rule? dont remember setting that" — it is guide text from Anthropic's guidance (0.148.0), not his ruling.
 0.163.0 (earlier today) filled the model profiles; account `kivna/sessions/2026-09-27.md`.
 
-**Claude Code runs 0.163.1** (updated 18:3x; applies on restart). **Codex runs 0.162.1**; 0.163.x changes
-Conductor and Agent, so it installs on Anthony's go in its window. Laptop bells are on for both (backups `*.bak-bell`).
-**codex-tui left the 0.163.1 before-push review unanswered** (sent 18:01, still submitted-unconfirmed 18:31); a
-fresh Codex reviewer on Anthony's "y" passed it. The queued request stays open; retrieve with Agent `status
-bd45c0f4-4507-4845-8a30-fedb7ecd3bb2`; its findings still count if it answers.
+**Codex runs 0.163.2** (installed 2026-09-27 20:5x); **Claude Code runs 0.163.3** (21:2x, the second model trial's evidence; applies on restart; Codex install of 0.163.3 is Anthony's go in its window). 0.163.2 fixed codex-tui's late 0.163.1 review finding (the trial
+record named a model it also called unreported); codex-tui re-checked it "Ready to push". Codex installed on
+Anthony's go in its window; Claude checked its cache: Conductor, Switch, Visuals and Agent match `main`. Laptop
+bells are on for both (backups `*.bak-bell`). Sketchbook `notes:codex-update/work.md`.
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and

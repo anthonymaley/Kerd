@@ -264,9 +264,16 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.163.2)
+## What's New (v0.163.3)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.163.3
+
+**The model trial has a second reading.** A second real design brief, of a different kind (a hook and
+terminal passage), went unchanged apart from the repository path to jobs requesting Opus 5.5 and Fable 5.1 and was graded blind:
+Opus clearly stronger again, verifying two material facts that Fable got wrong. Recorded in the task evidence with its
+confounds. `CONTEXT.md` and `TODO.md` now record that Codex runs 0.163.2.
 
 ### v0.163.2
 

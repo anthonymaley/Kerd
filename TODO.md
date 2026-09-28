@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.163.1 on `main`; Claude Code runs it (applies on restart); Codex runs 0.162.1 (0.163.1 on Anthony's go in its window). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.163.3 on `main` (second model trial evidence); Claude Code runs it (applies on restart); Codex runs 0.163.2 (installed 2026-09-27 20:5x on Anthony's go in its window; skills match `main`). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;

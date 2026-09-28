@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.163.3
+
+**The model trial has a second reading.** A second real design brief, of a different kind (a hook and
+terminal passage), went unchanged apart from the repository path to jobs requesting Opus 5.5 and Fable 5.1 and was graded blind:
+Opus clearly stronger again, verifying two material facts that Fable got wrong. Recorded in the task evidence with its
+confounds. `CONTEXT.md` and `TODO.md` now record that Codex runs 0.163.2.
+
 ## 0.163.2
 
 **The model trial's record states only what was observed.** Its third arm now reads "GPT-6 Astra at xhigh
