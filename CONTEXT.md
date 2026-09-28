@@ -6,21 +6,17 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.163.1 on `main`** (2026-09-27 18:3x; CI green). 0.163.1 came from the matched composer
-trial (Anthony 16:39 "lets do the trial"; 17:57 "y" to the release): one real brief (the 2026-09-25 Agent security
-composer passage) replayed unchanged on a checkout frozen at 0bbb4f3 to Opus 5.5 xhigh, Fable 5.1 high and (on
-his 16:50 ask) a fresh Codex. Blind grades: Codex (two-way) Opus first, clearly; Sonnet 5 (three-way) Opus first,
-Fable a slight second, Codex a clear third. One brief, one reading, not a ranking. The trial also found a live leak
-shipped in 0.155.0: Agent's printed output carried up to 64 bytes of the partner's session log (`tail`); 0.163.1
-strips it, with a test. Evidence: `task-evidence.md` "Matched composer trial"; `model-choice.md` Opus row links it.
-Sketchbook `notes:model-fit/work.md`. Anthony on the "Opus first, Fable when Opus falls short" line (16:39): "is
-that a real rule? dont remember setting that" — it is guide text from Anthropic's guidance (0.148.0), not his ruling.
-0.163.0 (earlier today) filled the model profiles; account `kivna/sessions/2026-09-27.md`.
+**Release boundary: 0.164.1 on `main`; releases are paused** (Anthony 2026-09-28 15:00; ruling below). Since
+0.163.1: 0.163.2 fixed codex-tui's late review finding; 0.163.3 recorded a second matched composer trial (a hook and
+terminal design brief; blind Sonnet 5 grade: Opus 5.5 clearly stronger than Fable 5.1 again; packet
+`notes:model-fit/trial2/`); 0.164.0 stops re-asking a declined Switch Out as filler; 0.164.1 lets the chat roll accept
+a sketchbook folder linked into the project's own vault folder (apple-music's `docs/plans`), the one defect the
+2026-09-28 apple-music re-grade found. Account: `kivna/sessions/2026-09-28.md`; grades in
+`notes:real-use-evidence/work.md`.
 
-**Claude Code runs 0.164.1** (2026-09-28 16:xx; applies on restart). **Codex runs 0.164.0** (installed
-2026-09-28 08:5x on Anthony's go in its window, skills checked identical to `main`); 0.164.1 changes only Switch's
-roll script, which Codex does not run, so its install waits for his go. Laptop bells are on for both
-(backups `*.bak-bell`). Sketchbook `notes:codex-update/work.md`.
+**Claude Code runs 0.164.1** (updated 2026-09-28 16:5x; applies on restart). **Codex runs 0.164.0** (installed 08:5x
+on Anthony's go in its window, skills checked identical to `main`); 0.164.1 changes only the chat roll, which Codex
+does not run, so no install is owed. Laptop bells are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -157,37 +153,30 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation (proposed, not approved to run):** re-grade apple-music's real use of Kerd from
-~2026-09-28 13:00 (it restarted onto 0.162.1 at ~13:1x 2026-09-27, the agreed day of use), read-only, brief
-`notes:real-use-evidence/reader-brief.md`; grades into `notes:real-use-evidence/work.md`. Why: it is the next real-use
-evidence on the rules shipped since 0.160, including the question and report shapes, from a project other than Kerd.
-Stops at the grades; any fix is a separate go. **Anthony's:** Codex install of 0.163.1; the hand-roll judgment (this
-sitting was rolled at ~227k). Still on watch, unseen in real use: push-first trigger, chat roll, findings-coverage
-and departure rules. Model fit: one matched trial done; a second brief would firm it up (not scheduled). Parked: the
-200k roll plan, the announcement, SAM and Aubel.app, the homepage, the thrash guard. Dropped: launch step 2. Backlog:
-one row, Skriv voice-profile wiring, blocked on his writing samples.
+**Selected continuation: none; releases are paused while Anthony uses Kerd** (2026-09-28 15:00). Nothing is
+queued. When he brings a finding, it goes to the Backlog; a fix comes back to him for the release decision. Still
+on watch, unseen in real use: push-first trigger, the unanswered-review rule, vault notes in another project, and
+the chat roll completing a restart. Open for study (Backlog): one named wait that missed a landed Codex reply.
+Parked: the 200k roll plan (three hand rolls, none with reported loss), the announcement, SAM and Aubel.app, the
+homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-09-27 18:5x):
-- this file complete: position, rulings, the continuation;
-- `TODO.md` `## Now`, the designated active list;
-- `kivna/sessions/2026-09-27.md`, today's three sittings (0.162.1, 0.163.0, 0.163.1);
-- `notes:real-use-evidence/reader-brief.md`, the brief for the apple-music re-grade;
+**Pickup reading set** (update 2026-09-28 17:0x):
+- this file complete: position, rulings (the release pause first), no selected continuation;
+- `TODO.md` `## Now`, the designated active list, and `## Backlog` (it follows `## Now`, so the section runs to EOF);
+- `kivna/sessions/2026-09-28.md`, the sitting that ends here;
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:model-fit/work.md` (the trial, closed); `notes:real-use-evidence/work.md`;
+Deeper: `docs/decisions.md`; `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
 `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `4b3382064ef14dcacef228022c65e40455082144` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `d3a3a1b3ddcc9d506a1eca26cfa1be2fa9fae7ca` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.163.1 on `main`; the boundary commit is this save itself.
+The observed position before this save is 0.164.1 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-09-27 18:5x: 38,818 bytes, about 9,705 tokens (estimate), 1,705 over the 8,000 target; kept
-because `## Now` (13.5 KB) holds the watch items the apple-music re-grade grades, and the reader brief is the next
-action's input. The model-fit sketchbook left the set (trial closed). All five carried findings are in the set.
-`read_args` for the next pickup:
+**Measured** 2026-09-28 17:0x: 30,942 bytes, about 7,736 tokens (estimate), within the 8,000 target. All five carried
+findings are in the set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-27.md",
- "--file", "notes:real-use-evidence/reader-brief.md", "--file", "notes:outside-the-repo.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-28.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```

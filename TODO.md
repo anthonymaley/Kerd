@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.164.1 on `main` (the chat roll accepts a sketchbook folder linked into the vault); Claude Code runs it (applies on restart); Codex runs 0.164.0 (0.164.1 on Anthony's go in its window). **Releases are paused** (Anthony, 2026-09-28 15:00): see `CONTEXT.md`. Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.164.1 on `main`; **releases are paused** (Anthony 2026-09-28 15:00): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code runs 0.164.1, Codex 0.164.0 (0.164.1 changes only the chat roll, which Codex does not run). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
@@ -10,15 +10,14 @@
 - **Watch for a repeat of the change-read CI flake** (fixed in 0.161.1, cause not proven). Fable listed
   other tests with the same temp-repo pattern: `test_tmux_roll.py`, `test_roll_status.py`,
   `test_handoff.py`, `tests/hooks_test.sh`; extend the fix there only if one flakes.
-- **Real-use grades** (`notes:real-use-evidence/work.md`): 2026-09-26 on 0.160.x and 2026-09-27 re-grade on
-  0.162.0 (work-anthony, Kerd). Held: question shape, report shape, context line, idle endings, unanswered
-  review, diagram heading and states (2 diagrams), start jobs before waiting (8 waits), outside list. Fixed
-  in 0.162.1: an either-or question; a Switch In skipping `notes:` entries. **Next: apple-music from ~2026-09-28
-  13:00** (it restarted onto 0.162.1 at ~13:1x on 09-27). Unseen in real use: push-first trigger, chat roll.
-- **Model fit (`notes:model-fit/work.md`): matched composer trial done 2026-09-27, released as 0.163.1.** One
-  brief, Opus 5.5 xhigh first under two blind graders (Fable 5.1 high second; a fresh Codex third). One reading, not
-  a ranking; a second brief would firm it up (not scheduled). All profile clauses stay `evaluation: pending`. Watch
-  in real use: findings jobs reporting with confidence, a player's disclosed departure being sent back.
+- **Real-use grades** (`notes:real-use-evidence/work.md`): 2026-09-26 on 0.160.x, 2026-09-27 on 0.162.0 (work-anthony,
+  Kerd), 2026-09-28 on 0.162.1/0.163.2 (apple-music). apple-music: question shape and diagram heading mixed (slips
+  against existing rules), report shape and context line hold, named waits 68 of 69; the chat roll's vault-link
+  refusal fixed in 0.164.1. Noted, no rule change (Anthony 09:43, "fine as is"): a parked question re-asked while he
+  opened new questions (3 times). Unseen in real use: push-first trigger, chat roll completing a restart.
+- **Model fit (`notes:model-fit/work.md`): two matched composer trials, 2026-09-27** (a security brief and a hook and
+  terminal brief). Opus 5.5 xhigh first both times under blind grading; no case yet where Fable 5.1 was needed after
+  Opus. Two briefs, not a ranking. All profile clauses stay `evaluation: pending`.
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).
