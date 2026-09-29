@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.165.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, released on his go 2026-09-29 09:37): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code runs 0.165.0 (on restart), Codex 0.164.0: **installing 0.165.0 in Codex is owed, on his go in its window** (its package carries Agent and Conductor). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.166.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, and 0.166.0, the Sonnet 5.5 guidance, released on his asks 2026-09-29): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code runs 0.166.0 (on restart), Codex 0.164.0: **installing 0.166.0 in Codex is owed, on his go in its window** (its package carries Agent and Conductor). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
@@ -18,6 +18,9 @@
 - **Model fit (`notes:model-fit/work.md`): two matched composer trials, 2026-09-27** (a security brief and a hook and
   terminal brief). Opus 5.5 xhigh first both times under blind grading; no case yet where Fable 5.1 was needed after
   Opus. Two briefs, not a ranking. All profile clauses stay `evaluation: pending`.
+- **Watch the Sonnet 5.5 profile (0.166.0) in real use** (`notes:sonnet-55/work.md`): 24 clauses pending. First
+  check: a Sonnet grader at medium vs high on one grading job. Also watch whether the two new Sonnet agent lines
+  (stop when done and checked; no own review rounds or subagents) hold.
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).

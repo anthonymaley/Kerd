@@ -6,45 +6,29 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.165.0 on `main`; releases stay paused apart from that one fix** (pause: Anthony 2026-09-28
-15:00; 0.165.0 on his "no its good, i told them, lets just implement it", 2026-09-29 09:37). 0.165.0: Agent and
-Conductor now say that a Codex they start can't reach the network from its commands by default (a review's never; an
-editing job's only with `[sandbox_workspace_write] network_access = true`; Codex's own web search still works) and
-offer the person's own open `codex` session, found by discovery with no ID to copy; managed Codex Roll says it is
-always offline. From user feedback Anthony relayed ("anytime i ask it to do anything"); measured live; codex-tui five
-rounds, CLEAR. Account: `kivna/sessions/2026-09-29.md`; grades in `notes:real-use-evidence/work.md`.
+**Release boundary: 0.166.0 on `main`; releases stay paused apart from two fixes he asked for** (pause: Anthony
+2026-09-28 15:00; 0.165.0 on his "lets just implement it", 2026-09-29 09:37; 0.166.0 on his "y", 11:58). **0.166.0:**
+Claude Code's `sonnet` alias moved to Sonnet 5.5 on the Anthropic API (2026-09-28) and Kerd's Sonnet readers already
+ran it (18 of 18 calls observed); new profile `anthropic/sonnet-5-5.md` (24 pending clauses: recalibrated effort,
+medium default in Claude Code; early check-ins, unrequested files, self-started review rounds, done without a check),
+a model-table row and per-provider alias note, and two lines in the five Sonnet agents (stop when done and checked; no
+own review rounds or subagents unless asked). codex-tui two rounds, CLEAR. Sketchbook `notes:sonnet-55/work.md`.
 
-**Claude Code runs 0.165.0** (updated 2026-09-29 10:1x; applies on restart). **Codex runs 0.164.0**; its package
-carries Agent and Conductor, so **installing 0.165.0 in Codex is owed, on Anthony's go in its window.** Laptop bells
+**0.165.0:** Agent and Conductor say a Codex they start can't reach the network from its commands by default and offer
+the person's own open `codex` session (Backlog row has the tests). Account: `kivna/sessions/2026-09-29.md`.
+
+**Claude Code runs 0.166.0** (updated 2026-09-29 12:2x; applies on restart). **Codex runs 0.164.0**; its package
+carries Agent and Conductor, so **installing 0.166.0 in Codex is owed, on Anthony's go in its window.** Laptop bells
 are on for both (backups `*.bak-bell`).
 
-**Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
-the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
-Codex) too complex, and chose instead: the Studio status line
-(`~/.claude/statusline-command.sh`, not Kerd) shows tokens used and a coloured state, green
-`keep working` (under 200k and under 60% used), yellow `switch at a break` (200k+ or 60%+), red
-`switch now` (80%+); he rolls by hand at a break. Kerd's automatic chat roll stays at 50%. The
-test, his ask: track Switch Out across sittings to see whether the numbers and the benefit hold.
-`notes:rolling-session/measure.py` prints per-sitting calls, start, peak, average
-tokens re-sent per call and the size at Switch Out; baseline since 2026-09-21: averages 116k to
-286k per call, peaks up to 459k, Outs at 133k to 433k. This sitting (2026-09-25 08:49 to 10:3x)
-is the first rolled at the mark (~207k). Estimate, not proof: rolling near 200k should keep the
-average near 190k; the model and both checks are in `notes:rolling-session/threshold.md`.
-**Reading 2 (2026-09-26 13:4x, seven sittings):** near or under the mark 133k to 163k per call, past
-it 221k to 270k; the sittings that ran past were busy release or overnight runs, never rolled by hand.
-`measure.py` counts only the main thread; subagents carried 36% to 63% of input in fan-out sittings.
-No hand roll has yet been judged for loss (Anthony, 15:48: "mostly subagent heavy sessions latley"),
-so **the 200k-vs-50% decision stays open until one real hand roll is judged.**
-**First hand roll, partial (2026-09-27):** the 2026-09-26 16:49 Out → 2026-09-27 In; asked whether anything
-had to be re-explained, Anthony 12:31: "not yet". Second hand roll 13:0x Out → 13:12 In: restored without
-re-asking (Claude's side; he was not asked). **The 200k plan is parked (Anthony 13:20: "lets keep that plan but
-park for now. i want more data first."):** roll at 200k or 50% of the window, whichever first, wording only
-(the 50% trigger is 500k at a 1M window, above every measured peak, so it never fires); view and plan in
-`notes:rolling-session/threshold.md`. Don't build it until he asks.
+**Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25); the 200k plan is parked (2026-09-27 13:20:
+"lets keep that plan but park for now. i want more data first.").** The Studio status line (`~/.claude/statusline-command.sh`,
+not Kerd) shows green `keep working`, yellow `switch at a break` (200k+ or 60%+), red `switch now` (80%+); he rolls by
+hand at a break; Kerd's automatic chat roll stays at 50%. Three hand rolls judged, none with loss reported (2026-09-28
+20:53 "n"). Don't build the plan until he asks. Readings, model and history: `notes:rolling-session/threshold.md`,
+`notes:rolling-session/measure.py`.
 
-**Tend's stale-hook check works in one real run** (0.151.1, 12:58): a headless Tend in a
-scratch repo flagged a settings entry with the literal placeholder, kept an unrelated hook and
-changed nothing. One observation, not verified.
+**Tend's stale-hook check worked once** (0.151.1, one headless run; not verified).
 
 **Kerd has an accepted launch plan** (`docs/design/launch-plan.md`). Ready to launch when
 someone other than Anthony carries a real piece of work, in their own repository, to its
@@ -68,8 +52,8 @@ raise it until he does.
 drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
-- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0 through it on 2026-09-29
-  09:37, one fix, the pause otherwise holds: "i would like stabalize releases for a while and
+- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0 and 0.166.0 through it on
+  2026-09-29 (09:37, 11:58), each on his own ask, the pause otherwise holds: "i would like stabalize releases for a while and
   use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
   defect the 2026-09-28 apple-music re-grade found. While it holds: grades, findings and ideas go to the Backlog, not
   into releases; any fix found comes back to him for the release decision; he lifts the pause.
@@ -154,8 +138,10 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: Codex installs 0.165.0, on Anthony's go in its window** (so the
-Codex side offers the same network notice; install, then read back its skills against `main`). Releases stay paused;
+**Selected continuation: none selected; proposed: Codex installs 0.166.0, on Anthony's go in its window** (so the
+Codex side carries the network notice and the Sonnet 5.5 guidance; install, then read back its skills against `main`).
+Also proposed, open: the first real check of the Sonnet 5.5 profile, a Sonnet grader at medium vs high on one grading
+job (the profile suggests medium for bounded readers; Kerd ran readers at high). Releases stay paused;
 findings go to the Backlog and a fix comes back to him. Re-graded 2026-09-29 across nine real sittings: push-first,
 unanswered-review and chat-roll restart still unseen in real use; vault notes in another project not gradable (no
 other project sets `work_notes`). New Backlog rows: the chat roll can't fire without a host-declared context window
@@ -163,8 +149,8 @@ other project sets `work_notes`). New Backlog rows: the chat roll can't fire wit
 Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the homepage, the thrash
 guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-09-29 11:4x):
-- this file complete: position, rulings (the release pause first), the proposed Codex install;
+**Pickup reading set** (update 2026-09-29 12:3x):
+- this file complete: position, rulings (the release pause first), the proposed Codex install of 0.166.0;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are
   carried in this file);
 - `kivna/sessions/2026-09-29.md`, this sitting;
@@ -172,12 +158,12 @@ guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked
 Deeper: `docs/decisions.md`; `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
 `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `1465939eb7db989137c14e60720395c7d5e714da` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `ff8f41dc1bde32617cbaed21278b6e9c190f1d37` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.165.0 on `main`; the boundary commit is this save itself.
+The observed position before this save is 0.166.0 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-09-29 11:4x: 31,364 bytes, about 7,841 tokens (estimate), within the 8,000 target. All four carried
+**Measured** 2026-09-29 12:3x: 31,937 bytes, about 7,985 tokens (estimate), within the 8,000 target. All five carried
 findings are in the set. `read_args` for the next pickup:
 
 ```
