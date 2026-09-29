@@ -244,6 +244,12 @@ Claude route has file tools, not shell or nested delegation. If a job requires
 tools that route lacks, arrange a supported controller step; don't pretend tests
 ran. No --max-runs or --timeout is required. Honor supplied optional limits, and
 do not reset them or failed-correction counts when the context changes.
+A Codex Roll run starts with native approval prompts disabled and web search off,
+and is always offline: it refuses a thread whose effective sandbox grants network,
+so `[sandbox_workspace_write] network_access = true` in the person's Codex config,
+which gives Agent's editing jobs' commands network access, stops a Roll run instead. Say so when
+proposing a Codex Roll for work that needs current docs, packages or downloads,
+rather than letting the run fail on them.
 
 Each run completes a useful bounded piece, saves and verifies its working place,
 and starts a genuinely fresh session—not resume/latest. Existing owner locks,

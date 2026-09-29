@@ -179,3 +179,31 @@ run checks during pickup.
   four `.tmp` replies from 2026-09-25 that were never renamed. Possible fixes for Anthony's release decision: a near-miss
   match on the ID, or a shorter marker. Detail in the evidence note.
   **Anthony 2026-09-28 23:09, "y": kept in the Backlog, unfixed, until the reply-ID miss is seen in Kerd Agent itself.**
+- **A Codex that Kerd starts has no internet (user feedback relayed by Anthony 2026-09-29 09:22 to 09:25: "spins up
+  codex in a sandbox with no internet access", "anytime i ask it to do anything").** Checked in code: every Codex Kerd
+  starts is `read-only`, or `workspace-write` for an editing job, with approval "never" and no network setting
+  (`agent.py:1088` new partner, `conductor/scripts/ask.py:267` worker or reviewer, `switch/scripts/codex_roll.py:330`
+  managed Roll, which also turns web search off). Codex keeps network off in those sandboxes unless the config turns it on
+  (openai/codex `codex-network.md`). Messages into the person's own open Codex session carry no sandbox override
+  (`agent.py:1230`), so the person's settings apply there. Stated rule: `conductor/references/model-jobs.md:298`
+  (read-only jobs perform no network operations). Cost: a Codex job can't check docs, fetch packages or run tests that
+  download. **Tested 2026-09-29 09:3x** (scratch repo, `ask.py run --target codex`, codex-cli 0.159.0, `curl
+  https://example.com`): editing job without the setting "Could not resolve host"; with `[sandbox_workspace_write]
+  network_access = true` in `~/.codex/config.toml`, HTTP 200; read-only job with the setting still "Could not resolve
+  host". Config restored after. So the config line fixes editing jobs only; reviews stay offline. **Web search, tested
+  09:58:** a read-only `ask.py` Codex job used Codex's own web search and returned requests 2.34.2 from PyPI, so the
+  limit is shell-command network, not lookups (codex-tui round 3 caught the conflation). **Built as 0.165.0 on
+  Anthony's "lets just implement it" (09:37).** **Anthony's proposed countermeasure (09:29):** when Kerd would start a Codex, ask what Codex's
+  role is and advise the person to run `codex` in a new terminal and share its session ID, so Kerd pairs with their own
+  session and their settings apply. **Proposed fix (Anthony "yes" 09:34 to record it; not built):** in Agent's choice of
+  existing session / new persistent partner / fresh worker (`skills/agent/SKILL.md:64`), say that a Codex Kerd starts is
+  offline, e.g. "A Codex I start is offline: read-only, no internet. For internet, open `codex` in a new terminal in this
+  folder and I'll find it." No ID sharing needed: `agent.py sessions` already discovers open Codex sessions from the
+  local session store (checked 09:3x: found `codex-tui` and one other in Kerd). Its "partial discovery" when the
+  optional `websockets` dependency is missing (seen on the Studio 09:3x) belongs in the same advice. Fix is Anthony's
+  release decision.
+- **The chat roll can't fire without a declared context window (alapah a15a217f, Kerd 0.164.0, 2026-09-29 03:30Z).**
+  The session called `/kerd:switch roll` after a merge, then did not roll: "no host-declared context window for this
+  model" (model ID `claude-opus-5-5`, no `[1m]`). The context-reading hook gives tokens only (`hooks/context-reading.sh:6`),
+  so on this setup the 50% trigger can never fire; the refusal was written only to the sketchbook, not said to the
+  person as `to-roll.md:147` asks. One sitting and a code reading; how the 2026-09-25 test rolls got their window not checked.

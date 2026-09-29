@@ -298,6 +298,13 @@ allowlist. The prompt's narrower file boundary is an instruction, not a sandbox.
 Do not expand a worker's tools or nest another controller just to evade that.
 Read-only Codex jobs may use inspection commands to read relevant files; they
 must not run tests/builds that write, install or perform network operations.
+A Codex job started here runs with native approval prompts disabled, and its
+shell commands cannot reach the network by default: a review's never do, and an
+editing job's do only when the person's effective Codex config sets
+`[sandbox_workspace_write] network_access = true`. Codex's own web search is a
+separate tool that follows the effective Codex configuration. Say so in the Fit
+line of every fresh Codex job, and when the job needs downloads, offer the person's own open
+`codex` session through [Agent](../../agent/SKILL.md) instead.
 Do not paste a whole repository into a prompt to compensate for a needless ban
 on reading it. Include only useful selected material and resolvable source paths.
 

@@ -124,6 +124,24 @@ conversation you can address again by a local name, with its previous context.
 A partner is not automatically a visible terminal window. Kerd can provide
 the supported native route for opening it; it will not take over an occupied one.
 
+**A Codex Kerd starts can't reach the network from its commands by default.** A fresh
+worker or new partner on Codex runs non-interactively with native approval prompts
+disabled: read-only for a review, or with edits inside the project for an editing
+job. Its shell commands can't reach the network by default, so it can't install
+packages or run tests that need downloads. Codex's own web search is separate
+and follows your Codex configuration; in a check on 2026-09-29 a read-only job
+used it to look up a package version. For a Codex whose commands can reach the
+network, open `codex` in a new terminal in this project folder and ask Kerd to
+use it; Kerd finds the session itself, with no ID to copy, and your own settings
+and approvals apply. To let Kerd's own editing jobs' commands reach the network,
+add this to `~/.codex/config.toml`; a review's commands never do, and a managed Codex Roll
+refuses to run whenever the setting gives it effective network access:
+
+```toml
+[sandbox_workspace_write]
+network_access = true
+```
+
 ## A typical exchange
 
 You: “Ask Codex to review this change against the agreed design. No edits.”

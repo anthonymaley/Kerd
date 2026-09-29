@@ -1,6 +1,6 @@
 ---
 name: agent
-description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, and never substitutes a fresh reviewer for a named partner; when that partner leaves a review unanswered, recommends a fresh one-off reviewer on the person's yes, never a waiver.
+description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, says a Codex it starts can't reach the network from its commands by default (reviews never) and offers the person's own open `codex` session instead, and never substitutes a fresh reviewer for a named partner; when that partner leaves a review unanswered, recommends a fresh one-off reviewer on the person's yes, never a waiver.
 ---
 
 # Agent
@@ -64,6 +64,19 @@ not shell subcommands. For execution, use the workflow below.
 3. Choose deliberately: **existing partner**, **new persistent partner**, or
    **fresh bounded worker**. Do not silently replace one with another. A fresh
    independent review and a contextual pairing conversation serve different jobs.
+   A Codex that Kerd starts, new partner or fresh worker, runs with native approval
+   prompts disabled, and its shell commands cannot reach the network by default:
+   read-only for a review, workspace-write for an editing job. It can't install
+   packages or run tests that need downloads; Codex's own web search is a
+   separate tool that follows the effective Codex configuration. Say so when
+   offering either route, and offer the person's own session instead: open `codex` in a new terminal in this project folder and
+   Agent finds it by discovery, with no ID to copy; their own settings and
+   approvals then apply. An editing job's commands reach the network only when
+   the person's effective Codex config sets `[sandbox_workspace_write]
+   network_access = true`; a review's commands never do. When discovery reports Codex as partial for the missing optional
+   `websockets` dependency, say so with its setup in the
+   [user guide](references/user-guide.md#first-use-what-you-need-to-do); a partial
+   list is not proof that no Codex session is open.
    Define the partner's ongoing role during Agent setup, using the person's
    stated responsibility (for example implementation partner or reviewer).
    Reuse a recorded role; ask briefly if a needed role is unclear, not on every

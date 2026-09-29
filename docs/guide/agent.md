@@ -49,6 +49,19 @@ ongoing partner, or a fresh bounded worker. One is never silently swapped for
 another, because an independent read by a fresh worker and a conversation with a
 partner who knows the work are different jobs.
 
+A Codex that Kerd starts, fresh worker or new partner, runs with native approval
+prompts disabled, and its shell commands can't reach the network by default:
+read-only for a review, edits inside the project for an editing job. It can't
+install packages or run tests that need downloads. Codex's own web search is
+separate and follows your Codex configuration.
+Kerd says so when it offers those routes. For a Codex whose commands can reach
+the network, open `codex` in a new terminal in the project folder and ask Kerd to
+use it: Kerd finds the session itself, with no ID to copy, and your own settings
+apply. Setting `[sandbox_workspace_write] network_access = true` in
+`~/.codex/config.toml` lets Kerd's own editing jobs' commands reach the network; a
+review's commands never do, and a managed Codex Roll refuses to run whenever the
+setting gives it effective network access.
+
 When you set up an ongoing partner, you are asked once for two things and then
 never again: the role that partner holds, in your own words, and how it reviews.
 Four role shortcuts are offered, pairing partner, implementation partner,

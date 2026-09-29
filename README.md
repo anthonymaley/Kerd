@@ -264,9 +264,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.164.1)
+## What's New (v0.165.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.165.0
+
+**Kerd now tells you that a Codex it starts can't reach the network from its commands by default.** A Codex worker or
+partner that Agent or Conductor starts runs read-only for a review, or with edits inside the project, and its shell
+commands can't reach the network by default, so it can't install packages or run tests that need downloads; a user
+reported "no internet access" "anytime i ask it to do anything". Agent and Conductor now say so when they offer those
+routes and offer your own session instead: open `codex` in a new terminal in the project folder and Kerd finds it,
+with no ID to copy. Checked the same day: an editing job's `curl` reached the internet only with
+`[sandbox_workspace_write] network_access = true` in `~/.codex/config.toml`, a review's never did, and a review
+could still use Codex's own web search, which follows your Codex settings. The guides explain both, and managed
+Codex Roll, which turns web search off and refuses to run whenever that setting gives it network access, now says
+so when it is proposed. Wording only; the Codex jobs themselves are unchanged. Releases stay paused otherwise.
 
 ### v0.164.1
 
