@@ -264,9 +264,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.165.0)
+## What's New (v0.166.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.166.0
+
+**Kerd's Sonnet jobs now get instructions written for Sonnet 5.5.** Claude Code's `sonnet` now points to Sonnet
+5.5 on Anthropic's API (since 2026-09-28), and Kerd's Sonnet readers were already running on it (18 of 18 calls
+observed) with instructions tuned for Sonnet 5. A new Sonnet 5.5 profile, from a full read of Anthropic's guide,
+carries its recalibrated effort levels (Claude Code runs it at medium by default) and its new habits: checking in
+early at low effort, adding files nobody asked for, starting its own review rounds at xhigh or max, and calling work
+done without a real check at low. The five Sonnet agents now stop when the work is done and checked and start no
+review rounds or subagents of their own unless asked. The model table gains a Sonnet 5.5 row and says which Sonnet
+each provider actually serves. The Sonnet 5 profile stays for Sonnet 5. Every new clause is unproven until a real
+job uses it.
 
 ### v0.165.0
 

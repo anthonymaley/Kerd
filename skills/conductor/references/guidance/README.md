@@ -18,6 +18,9 @@ The 2026-09-27 revisions fill the Fable 5.1 and Sonnet 5 profiles from full read
 their current guides (prior versions in `anthropic/archive/`) and add two clauses to
 Opus 5.5; the Opus clauses are additions only, so its archived 2026-09 version stays
 the one it supersedes.
+The 2026-09-29 addition is a new Sonnet 5.5 profile (`anthropic/sonnet-5-5.md`), from a
+full read of its prompting guide, beside the unchanged Sonnet 5 profile, because Claude
+Code's `sonnet` alias moved to Sonnet 5.5 on 2026-09-28.
 No model default, pricing, native permission or account setting changed.
 
 ## What is stored

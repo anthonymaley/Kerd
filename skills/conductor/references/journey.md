@@ -333,19 +333,23 @@ visibility. Illustrative rows, not model defaults or jobs to manufacture:
 
 | Task | Who | Model requested | Effort | Status |
 | --- | --- | --- | --- | --- |
-| Check transport mutations | An agent | Sonnet 5 | medium | Preparing |
+| Check transport mutations | An agent | Sonnet (5.5 on the Anthropic API) | medium | Preparing |
 | Survey API callers | An agent | Opus 5.5 | high | Preparing |
 | Review implementation (cadence: before-push) | Your Codex partner | Existing session; model unverified | Unverified | Waiting for implementation |
 
-Fit · Check transport mutations — needs a bounded, command-checkable edit; Sonnet 5
+Fit · Check transport mutations — needs a bounded, command-checkable edit; Sonnet
 at medium because the step is fully specified.
 Fit · Survey API callers — needs judgment across call sites that differ in intent;
 Opus 5.5 at high, above its medium default, because misclassifying a caller would mislead the design.
 Fit · Review implementation — needs an independent reading by a different model;
 the established Codex partner, scheduled by its recorded review cadence.
 
-Both agent rows above name a concrete model and a concrete effort level, because
-their `Agent` calls will carry that model and the matching `kerd:<model>-<effort>` (plain `kerd:haiku` for Haiku, which takes no effort); an
+Both agent rows above name a concrete model family and a concrete effort level, because
+their `Agent` calls will carry that model and the matching `kerd:<model>-<effort>` (plain `kerd:haiku` for Haiku, which takes no effort); a
+family alias such as `sonnet` resolves by provider (Sonnet 5.5 on the Anthropic API,
+an older Sonnet elsewhere, or the main conversation's own Sonnet when it runs one),
+so the grid says where it resolves when known and the report names the observed
+model from `job_evidence.py`, never the alias. An
 inherited or unnamed model is not a valid plan for any native Claude dispatch,
 composer, player or reviewer alike ([the dispatch contract](model-jobs.md)). The
 routing label itself stays out of the grid: `kerd:sonnet-high` adds nothing the

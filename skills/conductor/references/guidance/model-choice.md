@@ -15,7 +15,7 @@ No cross-provider ranking or statistically established winner exists in this pac
 ### Working shortlist, not an exhaustive model catalogue
 
 Official descriptions below were checked on 2026-09-23 and again on 2026-09-27
-(unchanged). They suggest candidates
+(unchanged); the Sonnet 5.5 row was added on 2026-09-29. They suggest candidates
 to consider, not exclusive jobs or automatic assignments. Availability in an API
 catalogue is not proof of access through this user's CLI/account. Other models,
 including an explicitly requested older model, can be considered on the same basis.
@@ -27,10 +27,13 @@ including an explicitly requested older model, can be considered on the same bas
 | GPT-6 Luna · `gpt-6-luna` | Most efficient, for focused high-volume work | [GPT-6](openai/gpt-6.md) | No matched selection comparison recorded here; price is not eligibility |
 | Claude Opus 5.5 · `claude-opus-5-5` | Long-running agentic coding and knowledge work; Anthropic's default starting point | [Opus 5.5](anthropic/opus-5-5.md) | One matched composer trial (2026-09-27, one brief, blind-graded first over Fable 5.1 and Codex; see [task evidence](task-evidence.md#matched-composer-trial-2026-09-27)); the Opus 5 review evidence is not credited to it |
 | Claude Fable 5.1 · `claude-fable-5-1` | Demanding reasoning and long-horizon agentic work, after Opus 5.5 still falls short at xhigh or max | [Fable 5.1](anthropic/fable-5-1.md) | Do not credit the earlier Fable 5 drafting trial to 5.1 |
-| Claude Sonnet 5 · `claude-sonnet-5` | The best combination of speed and intelligence | [Sonnet 5](anthropic/sonnet-5.md) | No matched selection comparison recorded here |
+| Claude Sonnet 5.5 · `claude-sonnet-5-5` | A faster, lower-cost complement to Opus 5.5; Opus 5.5 stays clearly stronger at complex, open-ended work | [Sonnet 5.5](anthropic/sonnet-5-5.md) | No matched selection comparison recorded here; Kerd's Sonnet readers ran on it from 2026-09-29 (observed), with no quality comparison |
+| Claude Sonnet 5 · `claude-sonnet-5` | The previous Sonnet; `sonnet` no longer points to it on the Anthropic API | [Sonnet 5](anthropic/sonnet-5.md) | No matched selection comparison recorded here; do not credit Sonnet 5.5 results to it, or its results to 5.5 |
 | Claude Haiku 4.5 · `claude-haiku-4-5` | The fastest model with near-frontier intelligence; takes no effort setting | No specific profile here | No matched selection comparison recorded here; not a default cheap worker |
 
-Haiku 4.5 works differently from the other three Claude models: it uses extended (manual, budgeted) thinking rather than adaptive thinking, does not support the effort parameter, and has a 200K-token context window and 64K max output against the others' 1M and 128K, so Kerd routes it as plain `kerd:haiku` with no effort level ([Anthropic models overview](https://platform.claude.com/docs/en/models/overview), retrieved 2026-09-27).
+**Which Sonnet `sonnet` runs** ([Claude Code model configuration](https://code.claude.com/docs/en/model-config) and [subagents](https://code.claude.com/docs/en/sub-agents), retrieved 2026-09-29): Kerd's `kerd:sonnet-<effort>` agents ask for the `sonnet` alias. On the Anthropic API that is Sonnet 5.5 since Claude Code 2.1.284 (2026-09-28); on Claude Platform on AWS it is Sonnet 4.6, and on Bedrock, Google Cloud and Foundry Sonnet 4.5. When the main conversation itself runs a Sonnet, a subagent asking for `sonnet` gets that exact model. So report the observed model from `job_evidence.py`, never the alias, and read the profile for the model that actually ran. Sonnet 5.5's effort levels are recalibrated against Sonnet 5, and Claude Code runs it at medium by default while the API defaults to high; its [profile](anthropic/sonnet-5-5.md) says how to choose.
+
+Haiku 4.5 works differently from the other Claude models: it uses extended (manual, budgeted) thinking rather than adaptive thinking, does not support the effort parameter, and has a 200K-token context window and 64K max output against the others' 1M and 128K, so Kerd routes it as plain `kerd:haiku` with no effort level ([Anthropic models overview](https://platform.claude.com/docs/en/models/overview), retrieved 2026-09-27).
 
 **The conducting session:** Kerd recommends Opus 5.5 for the session that
 conducts, at medium effort by default, for its efficiency on long agentic work
@@ -47,7 +50,7 @@ or a run is being reproduced; their evidence below stays theirs.
 
 The three OpenAI descriptions come from the [official model catalogue](https://developers.openai.com/api/docs/models),
 except Sol's "stronger factual reliability", which is from the [Codex models page](https://learn.chatgpt.com/docs/models).
-The four Claude descriptions come from [Anthropic's selection guide](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model).
+The five Claude descriptions come from [Anthropic's selection guide](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model).
 These descriptions do not establish that one provider is better at writing or
 coding than the other. Broad text/image capability does not establish audio,
 video, live browsing or native document editing in a particular job route.
