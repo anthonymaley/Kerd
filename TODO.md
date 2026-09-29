@@ -170,4 +170,12 @@ run checks during pickup.
 - skriv voice profile wiring — needs non-founder-genre samples.
 - A named wait missed a partner's reply once (apple-music, 2026-09-28 11:14 to 11:30, Kerd 0.163.2): the session
   said it was waiting on Codex's review, the reply landed, the watcher missed it, and Anthony had to ask "waiting?".
-  1 of ~69 named waits in the 2026-09-28 re-grade (`notes:real-use-evidence/work.md`). Needs study before any fix.
+  1 of ~69 named waits in the 2026-09-28 re-grade (`notes:real-use-evidence/work.md`). **Studied 2026-09-28 19:5x,
+  cause found:** Codex mistyped the reply's ID when it renamed its file (asked `3a9c94da-441c-44d4-a9c9-cf05b49f7e59`,
+  wrote `3a9c94da-441c-44a9-c9cf05b49f7e59.md` at 11:17:10), so the waiter, still correctly polling the asked path,
+  never matched. The session's wait was honest; the reply went to the wrong name. The bridge was apple-music's own
+  `ask-codex` (v7, in its vault), not Kerd Agent. Kerd Agent has the same kind of risk, not yet seen: a reply counts
+  only if the partner types the full 36-character `<kerd-reply-ID>` marker back exactly (`agent.py:467`). Also found:
+  four `.tmp` replies from 2026-09-25 that were never renamed. Possible fixes for Anthony's release decision: a near-miss
+  match on the ID, or a shorter marker. Detail in the evidence note.
+  **Anthony 2026-09-28 23:09, "y": kept in the Backlog, unfixed, until the reply-ID miss is seen in Kerd Agent itself.**

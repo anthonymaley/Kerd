@@ -156,24 +156,26 @@ background-session list; he quits there with Ctrl-C. Switch Out's restart line s
 **Selected continuation: none; releases are paused while Anthony uses Kerd** (2026-09-28 15:00). Nothing is
 queued. When he brings a finding, it goes to the Backlog; a fix comes back to him for the release decision. Still
 on watch, unseen in real use: push-first trigger, the unanswered-review rule, vault notes in another project, and
-the chat roll completing a restart. Open for study (Backlog): one named wait that missed a landed Codex reply.
+the chat roll completing a restart. Studied 2026-09-28 evening: the missed named wait was a mistyped reply ID in apple-music's own bridge; the same risk in
+Kerd Agent stays in the Backlog unfixed until seen (Anthony 23:09).
 Parked: the 200k roll plan (three hand rolls, none with reported loss), the announcement, SAM and Aubel.app, the
 homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-09-28 17:0x):
+**Pickup reading set** (update 2026-09-28 23:3x):
 - this file complete: position, rulings (the release pause first), no selected continuation;
-- `TODO.md` `## Now`, the designated active list, and `## Backlog` (it follows `## Now`, so the section runs to EOF);
-- `kivna/sessions/2026-09-28.md`, the sitting that ends here;
+- `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its two rows are
+  carried in this file);
+- `kivna/sessions/2026-09-28.md`, the two sittings of 2026-09-28;
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
 `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `d3a3a1b3ddcc9d506a1eca26cfa1be2fa9fae7ca` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `d59c26fa8a1a4e3f944eb4865ef8ea4692c78bdb` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
 The observed position before this save is 0.164.1 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-09-28 17:0x: 30,942 bytes, about 7,736 tokens (estimate), within the 8,000 target. All five carried
+**Measured** 2026-09-28 23:3x: 31,903 bytes, about 7,976 tokens (estimate), within the 8,000 target. All three carried
 findings are in the set. `read_args` for the next pickup:
 
 ```
