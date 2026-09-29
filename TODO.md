@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.164.1 on `main`; **releases are paused** (Anthony 2026-09-28 15:00): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code runs 0.164.1, Codex 0.164.0 (0.164.1 changes only the chat roll, which Codex does not run). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.165.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, released on his go 2026-09-29 09:37): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code runs 0.165.0 (on restart), Codex 0.164.0: **installing 0.165.0 in Codex is owed, on his go in its window** (its package carries Agent and Conductor). Position is in `CONTEXT.md` `## Where We Are`.
 
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;

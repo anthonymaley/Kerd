@@ -6,17 +6,17 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.164.1 on `main`; releases are paused** (Anthony 2026-09-28 15:00; ruling below). Since
-0.163.1: 0.163.2 fixed codex-tui's late review finding; 0.163.3 recorded a second matched composer trial (a hook and
-terminal design brief; blind Sonnet 5 grade: Opus 5.5 clearly stronger than Fable 5.1 again; packet
-`notes:model-fit/trial2/`); 0.164.0 stops re-asking a declined Switch Out as filler; 0.164.1 lets the chat roll accept
-a sketchbook folder linked into the project's own vault folder (apple-music's `docs/plans`), the one defect the
-2026-09-28 apple-music re-grade found. Account: `kivna/sessions/2026-09-28.md`; grades in
-`notes:real-use-evidence/work.md`.
+**Release boundary: 0.165.0 on `main`; releases stay paused apart from that one fix** (pause: Anthony 2026-09-28
+15:00; 0.165.0 on his "no its good, i told them, lets just implement it", 2026-09-29 09:37). 0.165.0: Agent and
+Conductor now say that a Codex they start can't reach the network from its commands by default (a review's never; an
+editing job's only with `[sandbox_workspace_write] network_access = true`; Codex's own web search still works) and
+offer the person's own open `codex` session, found by discovery with no ID to copy; managed Codex Roll says it is
+always offline. From user feedback Anthony relayed ("anytime i ask it to do anything"); measured live; codex-tui five
+rounds, CLEAR. Account: `kivna/sessions/2026-09-29.md`; grades in `notes:real-use-evidence/work.md`.
 
-**Claude Code runs 0.164.1** (updated 2026-09-28 16:5x; applies on restart). **Codex runs 0.164.0** (installed 08:5x
-on Anthony's go in its window, skills checked identical to `main`); 0.164.1 changes only the chat roll, which Codex
-does not run, so no install is owed. Laptop bells are on for both (backups `*.bak-bell`).
+**Claude Code runs 0.165.0** (updated 2026-09-29 10:1x; applies on restart). **Codex runs 0.164.0**; its package
+carries Agent and Conductor, so **installing 0.165.0 in Codex is owed, on Anthony's go in its window.** Laptop bells
+are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25 10:26 to 10:30).** He found
 the built alternative (a 200k trigger, a thrash guard and a backstop, checked by a composer and
@@ -68,7 +68,8 @@ raise it until he does.
 drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
-- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00: "i would like stabalize releases for a while and
+- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0 through it on 2026-09-29
+  09:37, one fix, the pause otherwise holds: "i would like stabalize releases for a while and
   use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
   defect the 2026-09-28 apple-music re-grade found. While it holds: grades, findings and ideas go to the Backlog, not
   into releases; any fix found comes back to him for the release decision; he lifts the pause.
@@ -153,32 +154,33 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none; releases are paused while Anthony uses Kerd** (2026-09-28 15:00). Nothing is
-queued. When he brings a finding, it goes to the Backlog; a fix comes back to him for the release decision. Still
-on watch, unseen in real use: push-first trigger, the unanswered-review rule, vault notes in another project, and
-the chat roll completing a restart. Studied 2026-09-28 evening: the missed named wait was a mistyped reply ID in apple-music's own bridge; the same risk in
-Kerd Agent stays in the Backlog unfixed until seen (Anthony 23:09).
-Parked: the 200k roll plan (three hand rolls, none with reported loss), the announcement, SAM and Aubel.app, the
-homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
+**Selected continuation: none selected; proposed: Codex installs 0.165.0, on Anthony's go in its window** (so the
+Codex side offers the same network notice; install, then read back its skills against `main`). Releases stay paused;
+findings go to the Backlog and a fix comes back to him. Re-graded 2026-09-29 across nine real sittings: push-first,
+unanswered-review and chat-roll restart still unseen in real use; vault notes in another project not gradable (no
+other project sets `work_notes`). New Backlog rows: the chat roll can't fire without a host-declared context window
+(alapah, one sitting + code); the Codex network row, now built as 0.165.0. Still Backlog, unfixed until seen: the
+Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the homepage, the thrash
+guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-09-28 23:3x):
-- this file complete: position, rulings (the release pause first), no selected continuation;
-- `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its two rows are
+**Pickup reading set** (update 2026-09-29 11:4x):
+- this file complete: position, rulings (the release pause first), the proposed Codex install;
+- `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are
   carried in this file);
-- `kivna/sessions/2026-09-28.md`, the two sittings of 2026-09-28;
+- `kivna/sessions/2026-09-29.md`, this sitting;
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
 `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `d59c26fa8a1a4e3f944eb4865ef8ea4692c78bdb` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `1465939eb7db989137c14e60720395c7d5e714da` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.164.1 on `main`; the boundary commit is this save itself.
+The observed position before this save is 0.165.0 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-09-28 23:3x: 31,903 bytes, about 7,976 tokens (estimate), within the 8,000 target. All three carried
+**Measured** 2026-09-29 11:4x: 31,364 bytes, about 7,841 tokens (estimate), within the 8,000 target. All four carried
 findings are in the set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-28.md", "--file", "notes:outside-the-repo.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-29.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
