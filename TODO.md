@@ -8,7 +8,9 @@
   guard private-repo fix live 16:5x after seven codex-tui rounds). Never seen live: the red alerts, the cache card, Codex rows
   on real data, and the guard letting a new work folder through in a private repo. The "vault sentence on a non-vault block"
   slip noted 16:5x does not reproduce (live code gates it; 258/258 with a new test in the working copy, 17:4x). Sketchbook
-  `notes:overtone/work.md`.
+  `notes:overtone/work.md`. **Found live 2026-10-03 17:5x:** the guard stopped a by-name commit of
+  `vault/kerd/work/overtone/work.md` in the vault repo itself, saying it "could not confirm" `anthonymaley/eolas` is private,
+  while `gh repo view` answered PRIVATE in 0.3 s. Not yet diagnosed; its question timed out unanswered.
 - **Watch 0.167.0 in real use:** the first Switch Out that shows "Switch In will offer". The first arrival with more than two
   picker choices was seen 2026-10-03 17:3x (three choices; Anthony picked "Yes").
 - **Watch the Sonnet 5.5 profile (0.166.0) in real use** (`notes:sonnet-55/work.md`): 24 clauses pending. First check

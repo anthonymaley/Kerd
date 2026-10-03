@@ -104,8 +104,9 @@ drop this").** Don't raise it or recommend it again unless he does.
   past 50% of the declared window at a safe boundary it saves, tmux restarts its pane into a
   fresh `claude` on the same model, effort and permission mode, and `/kerd:switch roll in`
   picks up. Nothing is typed into Claude; no Stop hook; outside tmux, one line to run.
-- **Past ~200k tokens at a break with the work finished, Claude runs Switch Out itself, without asking (Anthony 2026-10-03
-  17:08, "y"; after "why are you asking for permission").** Narrows the next ruling.
+- **When the agreed work is finished with nothing outstanding for Claude, Claude runs Switch Out itself, at any token count; never
+  ask "Run Switch Out now?" (Anthony 2026-10-03 17:08 "y" past 200k; widened 17:49: "i thought you where going to do the switch
+  outs?").** Narrows the next ruling.
 - **Claude sees its own context token count, in every session; when to Switch Out stays his
   call (2026-09-24, 0.153.0; narrowed 2026-10-03, above).** Partly supersedes the 2026-09-15 context-pressure ruling.
 - **Conductor runs on Opus 5.5, at medium by default, set up from Anthropic's guidance
@@ -170,36 +171,32 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: give each old "watch" row in `TODO.md` `## Now` a verdict and move closed ones
-to `docs/backlog-archive.md`** (why: rows from 0.144 to 0.156 cost every pickup ~1.5k tokens over the 8,000 target and bury what is
-live; carried from four Outs). Also proposed: fix the guard's block message, which keeps the vault-notes sentence for a non-vault
-reason (why: it tells other projects to put notes in Kerd's vault; mod lives outside the repo, so no release); Anthony restarts
-codex-tui (`codex resume`) so it reads 0.167.0 (why: installed on disk, not yet loaded). Done this sitting: the first Sonnet 5.5
-check (medium matched high on one grading job; `notes:sonnet-55/work.md`) and the guard private-repo fix.
-Releases stay paused; findings go to the Backlog and a fix comes back to him. Idea 6
-(one-button Switch Out) is not agreed to build. Unseen in real use: push-first, unanswered-review, chat-roll restart. Still
-Backlog, unfixed until seen: the Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the
-homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
+**Selected continuation: none selected; proposed: Anthony restarts the codex-tui window (`codex resume`) so it loads 0.167.0**
+(why: installed on disk 14:03, not yet loaded; the review partner otherwise reviews against older Kerd wording). Also proposed:
+Anthony decides whether Sonnet readers move to medium (why: the 2026-10-03 check found medium matched high at ~7% fewer tokens;
+it is a release, so his call under the pause); watch the overtone band's alerts and cache card in real use (why: never seen
+live). Done this sitting (17:3x to 17:5x): the guard's "vault sentence on a non-vault block" slip does not reproduce (live code
+already gates it; new test in the mod working copy, 258/258; `notes:overtone/work.md`); `TODO.md` `## Now` pruned from 33
+entries to 8 on his "y" (closed rows verbatim in `docs/backlog-archive.md`). **Parked (Anthony 17:48, "just leave for now"):**
+a Switch Out/In button from the overtone band (idea 6; no context menu exists in the mods API; fill-then-Enter is the feasible
+shape); don't raise it until he does. Releases stay paused; findings go to the Backlog and a fix comes back to him. Unseen in real
+use, Backlog and parked items: see `TODO.md` `## Now` and the rulings above.
 
-**Pickup reading set** (update 2026-10-03 17:1x):
-- this file complete: position, rulings (the release pause first, then Switch Out at a break), the overtone and Codex positions;
-- `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are
-  carried in this file);
-- `kivna/sessions/2026-10-03.md`, newest log (three sittings: the guard and band, the status-line retirement and Codex 0.167.0,
-  the Sonnet 5.5 effort check and the guard private-repo fix);
+**Pickup reading set** (update 2026-10-03 17:5x):
+- this file complete: position, rulings (the release pause first, then Switch Out when work is finished), the overtone and Codex positions;
+- `TODO.md` `## Now`, the designated active list, pruned to 8 entries this sitting (`## Backlog` is a separate section outside the set);
+- `kivna/sessions/2026-10-03.md`, newest log (four sittings);
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:overtone/work.md` (guard review rounds and accepted limits); `notes:sonnet-55/work.md`
-(effort check result); `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
+Deeper: `docs/decisions.md`; `docs/backlog-archive.md` (the pruned rows, verbatim); `notes:overtone/work.md`; `notes:sonnet-55/work.md`;
+`notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `44cceea28723e48264967bf3d5abaf593b5b1de5` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo
-root is `~/development/home/eolas` (notes under `vault/`).
+**Notes commit:** `8b6a8e7543c3a8833c4706835b63b55c782b15cb` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+`~/development/home/eolas` (notes under `vault/`).
 
-The observed position before this save is 0.167.0 on `main` (e8feed5); the boundary commit is this save itself.
-Ask `git log` for its ID.
+The observed position before this save is `main` at the prune commit; the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-03 17:1x: 42,152 bytes, about 10,538 tokens (estimate), **2,538 over the 8,000 target**, kept: today's log
-holds three sittings, and the old "watch" rows in `TODO.md` `## Now` are the prune proposed as the next step. All five carried
-findings are in the set. `read_args` for the next pickup:
+**Measured** 2026-10-03 17:5x: 32,011 bytes, about 8,003 tokens (estimate), at the 8,000 target (was 10,538 before the prune). All five
+carried findings are in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-03.md", "--file", "notes:outside-the-repo.md",
