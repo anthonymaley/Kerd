@@ -4,9 +4,10 @@
 
 **Release boundary:** 0.167.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, and 0.166.0, the Sonnet 5.5 guidance, released on his asks 2026-09-29; 0.167.0, the Switch In/Out options, on his "y" 2026-10-02 23:13): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code and Codex both have 0.167.0 installed (Codex 2026-10-03 14:03, built and installed by Claude on his "y"); the open codex-tui window loads it after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`.
 
-- **Watch `overtone` 0.4.3 in real use** (checked by Anthony 2026-10-03: collapsed "thats better", expanded "good"; old status
-  line retired and `~/.cache/overtone` deleted on his "y", 13:39). Never seen live: the red alerts, the cache card, Codex rows on
-  real data. Sketchbook `notes:overtone/work.md`.
+- **Watch `overtone` in real use** (band 0.4.3 checked by Anthony 2026-10-03: collapsed "thats better", expanded "good";
+  guard private-repo fix live 16:5x after seven codex-tui rounds, "Safe to copy live"). Never seen live: the red alerts, the cache
+  card, Codex rows on real data, and the guard letting a new work folder through in a private repo. Small slip found live: the
+  block message keeps the vault-notes sentence for a non-vault reason. Sketchbook `notes:overtone/work.md`.
 - **Watch 0.167.0 in real use:** the first Switch Out that shows "Switch In will offer" and the first arrival with more than two
   picker choices.
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
@@ -23,9 +24,10 @@
 - **Model fit (`notes:model-fit/work.md`): two matched composer trials, 2026-09-27** (a security brief and a hook and
   terminal brief). Opus 5.5 xhigh first both times under blind grading; no case yet where Fable 5.1 was needed after
   Opus. Two briefs, not a ranking. All profile clauses stay `evaluation: pending`.
-- **Watch the Sonnet 5.5 profile (0.166.0) in real use** (`notes:sonnet-55/work.md`): 24 clauses pending. First
-  check: a Sonnet grader at medium vs high on one grading job. Also watch whether the two new Sonnet agent lines
-  (stop when done and checked; no own review rounds or subagents) hold.
+- **Watch the Sonnet 5.5 profile (0.166.0) in real use** (`notes:sonnet-55/work.md`): 24 clauses pending. First check done
+  2026-10-03: on the apple-music grading job, Sonnet 5.5 at medium matched high (6 of 6 known slips each, ~7% fewer tokens); one
+  run each, not a verdict. Proposed Backlog: readers at medium (small saving; Anthony's release call). Still to see: whether the
+  two Sonnet agent lines (stop when done and checked; no own review rounds or subagents) hold.
 - **Watch the question shape (0.159.0) and the diagram heading and states (0.161.0) in real use.**
   Repeatable checks: `evals/question-shape/` (per `CONTRIBUTING.md`) and `evals/visuals-owner-cost/`
   (scripted `claude -p`, README there).
@@ -175,6 +177,10 @@ run checks during pickup.
 
 ## Backlog
 
+- Sonnet readers at medium instead of high (2026-10-03 effort check: medium matched high on one grading job, ~7% fewer
+  tokens, one run each; `notes:sonnet-55/work.md`). Kerd change, so Anthony's release call; small saving.
+- The 2026-09-28 apple-music question-shape grade undercounted: the 2026-10-03 re-run found more consequential asks without a
+  block on 0.162.1/0.163.2 (three confirmed). Old versions; recheck on a current-version sitting before any rule change.
 - skriv voice profile wiring — needs non-founder-genre samples.
 - A named wait missed a partner's reply once (apple-music, 2026-09-28 11:14 to 11:30, Kerd 0.163.2): the session
   said it was waiting on Codex's review, the reply landed, the watcher missed it, and Anthony had to ask "waiting?".

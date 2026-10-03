@@ -22,8 +22,11 @@ usage band that replaces his status line: one line (context tokens and switch st
 it lands at reset, cache hit always (green 80%+, amber, red); red alerts only when the cache goes cold, a worker runs on another model than asked, or a partner review
 waits), expanding on click or `ctrl+x b` to a Workers card (asked vs seen, Codex review rows) then Context, 5-hour and Weekly,
 and a Cache card only when it fires, saying what to do. Claude gets the same figures on every prompt (`usage:` context
-line); nothing is written to disk. The guard (asks before a private path is staged, committed or pushed toward a public repo)
-had codex-tui's round-two blockers fixed and cleared (0.2.1, 10:52). codex-tui cleared 0.4.0 in its fourth round (its wording note fixed in 0.4.1; 0.4.1 itself not reviewed). Not yet seen live: the red alerts, the cache card, Codex rows on real data.
+line); nothing is written to disk. The guard (asks before a private path is staged, committed or pushed toward a public repo) got its private-repo fix live
+2026-10-03 16:5x on Anthony's "y": a repo is public only when GitHub says so (`gh`, private answers re-checked after 5 min), the
+notes-folder rule only where `kivna/vault.json` sets vault notes, every push-path read fails closed, live remote state checked
+before a push (offline: guarded pushes ask). codex-tui seven rounds, "Safe to copy live"; 257/257 against live; backup
+`~/.claude/mods-work/overtone-live-pre-0.4.4`. Accepted limits are in `notes:overtone/work.md`. codex-tui cleared 0.4.0 in its fourth round (its wording note fixed in 0.4.1; 0.4.1 itself not reviewed). Not yet seen live: the red alerts, the cache card, Codex rows on real data.
 Claude Code draws its own `[-]` at the right of a mod's first line; clicking it hides the band for that session, and
 `claude --resume` brings it back (seen once, 12:55). His old status line was retired on his "y" (13:39): scorched-earth's wrapper
 stays (its setup re-adds `statusLine` at every session start), its saved inner command was emptied so only the burn light shows,
@@ -101,8 +104,10 @@ drop this").** Don't raise it or recommend it again unless he does.
   past 50% of the declared window at a safe boundary it saves, tmux restarts its pane into a
   fresh `claude` on the same model, effort and permission mode, and `/kerd:switch roll in`
   picks up. Nothing is typed into Claude; no Stop hook; outside tmux, one line to run.
+- **Past ~200k tokens at a break with the work finished, Claude runs Switch Out itself, without asking (Anthony 2026-10-03
+  17:08, "y"; after "why are you asking for permission").** Narrows the next ruling.
 - **Claude sees its own context token count, in every session; when to Switch Out stays his
-  call (2026-09-24, 0.153.0).** Partly supersedes the 2026-09-15 context-pressure ruling.
+  call (2026-09-24, 0.153.0; narrowed 2026-10-03, above).** Partly supersedes the 2026-09-15 context-pressure ruling.
 - **Conductor runs on Opus 5.5, at medium by default, set up from Anthropic's guidance
   (2026-09-24, 0.152.0);** Kerd advises the session setup, never changes the session itself.
 - **The explanatory and learning output styles are off on this machine (2026-09-24).**
@@ -165,36 +170,36 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: the first real check of the Sonnet 5.5 guidance** (a Sonnet grader at medium vs
-high on one grading job; why: 0.166.0 shipped 24 untested clauses that steer every Sonnet worker Kerd dispatches, and nothing has
-checked one; it spends usage, so after the weekly reset, 2026-10-03 18:00). Also proposed: Anthony restarts codex-tui (`codex resume`)
-and it reads back 0.167.0 (why: the install is on disk but no Codex session has loaded it); give each old "watch" row in `TODO.md`
-`## Now` a verdict and move closed ones to `docs/backlog-archive.md` (why: the active list carries rows from 0.144 to 0.156 that
-every pickup pays for; carried from three Outs).
+**Selected continuation: none selected; proposed: give each old "watch" row in `TODO.md` `## Now` a verdict and move closed ones
+to `docs/backlog-archive.md`** (why: rows from 0.144 to 0.156 cost every pickup ~1.5k tokens over the 8,000 target and bury what is
+live; carried from four Outs). Also proposed: fix the guard's block message, which keeps the vault-notes sentence for a non-vault
+reason (why: it tells other projects to put notes in Kerd's vault; mod lives outside the repo, so no release); Anthony restarts
+codex-tui (`codex resume`) so it reads 0.167.0 (why: installed on disk, not yet loaded). Done this sitting: the first Sonnet 5.5
+check (medium matched high on one grading job; `notes:sonnet-55/work.md`) and the guard private-repo fix.
 Releases stay paused; findings go to the Backlog and a fix comes back to him. Idea 6
 (one-button Switch Out) is not agreed to build. Unseen in real use: push-first, unanswered-review, chat-roll restart. Still
 Backlog, unfixed until seen: the Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the
 homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-10-03 14:1x):
-- this file complete: position, rulings (the release pause first), the overtone and Codex positions;
+**Pickup reading set** (update 2026-10-03 17:1x):
+- this file complete: position, rulings (the release pause first, then Switch Out at a break), the overtone and Codex positions;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are
   carried in this file);
-- `kivna/sessions/2026-10-03.md`, newest log (the guard, the band 0.2.1 to 0.4.3, the status-line retirement, Codex 0.167.0);
+- `kivna/sessions/2026-10-03.md`, newest log (three sittings: the guard and band, the status-line retirement and Codex 0.167.0,
+  the Sonnet 5.5 effort check and the guard private-repo fix);
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:overtone/work.md` (+ `ui-brief.md`, `ui-direction.png`, `evidence/`); `notes:sonnet-55/work.md`;
-`notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
+Deeper: `docs/decisions.md`; `notes:overtone/work.md` (guard review rounds and accepted limits); `notes:sonnet-55/work.md`
+(effort check result); `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `c91391c9616f59be22d9cbd1ebac5d67afa16771` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo
-root is `~/development/home/eolas` (notes under `vault/`); its apple-music changes are another project's and were left unsaved.
+**Notes commit:** `44cceea28723e48264967bf3d5abaf593b5b1de5` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo
+root is `~/development/home/eolas` (notes under `vault/`).
 
-The observed position before this save is 0.167.0 on `main` (3b31662); the boundary commit is this save itself.
+The observed position before this save is 0.167.0 on `main` (e8feed5); the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-10-03 14:1x: 38,367 bytes, about 9,592 tokens (estimate), **1,592 over the 8,000 target**, kept: today's log
-holds two sittings that the next pickup needs, and this file carries the band, Codex and status-line positions. The old "watch"
-rows in `TODO.md` `## Now` are the prune left to do (proposed as open work, not done this sitting). All four carried findings are
-in the set. `read_args` for the next pickup:
+**Measured** 2026-10-03 17:1x: 42,152 bytes, about 10,538 tokens (estimate), **2,538 over the 8,000 target**, kept: today's log
+holds three sittings, and the old "watch" rows in `TODO.md` `## Now` are the prune proposed as the next step. All five carried
+findings are in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-03.md", "--file", "notes:outside-the-repo.md",
