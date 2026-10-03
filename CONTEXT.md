@@ -6,8 +6,8 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.166.0 on `main`; releases stay paused apart from two fixes he asked for** (pause: Anthony
-2026-09-28 15:00; 0.165.0 on his "lets just implement it", 2026-09-29 09:37; 0.166.0 on his "y", 11:58). **0.166.0:**
+**Release boundary: 0.167.0 on `main`; releases stay paused apart from three he asked for** (pause: Anthony
+2026-09-28 15:00; 0.165.0 on his "lets just implement it", 2026-09-29 09:37; 0.166.0 on his "y", 11:58; 0.167.0 on his "y", 2026-10-02 23:13). **0.167.0:** Switch Out's closing box adds "Switch In will offer" (the recommended step plus up to two other open items, each with its reason, marked proposed), and Switch In's picker grows from exactly two choices to up to four with free text always open; a plain yes still means the recommendation and approves no operations; the bubble is unchanged. codex-tui reviewed the diff: consistent; its one finding (Switch description over 1,024 characters) fixed, now 997. 966 tests, hooks 23 of 23, release check clean. Not seen in a real sitting. **0.166.0:**
 Claude Code's `sonnet` alias moved to Sonnet 5.5 on the Anthropic API (2026-09-28) and Kerd's Sonnet readers already
 ran it (18 of 18 calls observed); new profile `anthropic/sonnet-5-5.md` (24 pending clauses: recalibrated effort,
 medium default in Claude Code; early check-ins, unrequested files, self-started review rounds, done without a check),
@@ -17,20 +17,25 @@ own review rounds or subagents unless asked). codex-tui two rounds, CLEAR. Sketc
 **0.165.0:** Agent and Conductor say a Codex they start can't reach the network from its commands by default and offer
 the person's own open `codex` session (Backlog row has the tests). Account: `kivna/sessions/2026-09-29.md`.
 
-**Claude Code mods (shipped 2.1.287, 2026-10-01); a throwaway local mod is built, not yet seen live (2026-10-02).** Anthony asked
-what mods could do for Kerd; four reads (API map, outside survey, Kerd's pain points, his video) and six ideas are in
-`notes:overtone/work.md` with `ideas-map.png`: context band, turn-end check, live waits and workers band, requested vs
-observed model and effort, an ask before staging a private path toward the public repo, a one-button Switch Out. "Claude
-only is fine, we can look at codex separately; those 6 are good" (20:18). His "y" (20:20) built **`overtone` 0.1.0**: the
-context band and the turn-end check only, observe-only, outside this repo (counts only in the mod's store, never message
-text). codex-tui reviewed it read-only: no safety blocker, five should-fix issues, all fixed; `claude plugin test` 42 of 42
-against the real engine. His "y" (21:13) put it at `~/.claude/mods/overtone`, named in `CLAUDE_CODE_PLUGIN_DIRS` in
-`~/.claude/settings.json` (backup `settings.json.bak-overtone`; delete that line to turn it off). His open session did not load
-it (stale saved switch); a fresh session should. Unverified: the band and toast on his screen. The mods API is early; it
-broke other authors within days.
+**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.2.0 is copied live and not yet seen on his screen (2026-10-03 09:00).**
+Anthony asked what mods could do for Kerd; research, six ideas and the agreed picture are in `notes:overtone/` (`work.md`,
+`ui-brief.md`, `ui-direction.png`, `evidence/`). 0.1.0 passed its live check 22:09 ("yes it works": `/overtone`, the `ctx` band).
+He then removed the turn-end check and its toast and count ("pointless though, i can see its an or question"; "seems like a
+waste"): nothing graded by counts any more. He asked to "up the game in Mod Ui" and "learn from the best examples"; three readers
+studied Anthropic's and community mods; he liked the picture ("looks good"). His "y" (23:13) built 0.2.0 at `~/.claude/mods/overtone`
+(his "yes" 08:59 to copying it live before Codex's re-check): ONE composed band above the prompt (context row always, dim when calm;
+requested vs observed model row; workers rows only while workers run; width tiers; tmux first) and a **guard** that asks before Claude
+stages, commits or pushes a private path toward a public repo ("Don't run it" default; no answer in 30 s, or dismissal, refuses; a bug in
+the guard's own detection fails open). 114 of 114 `claude plugin test`, validate clean. codex-tui round one: 3 blockers in the guard
+(push target, un-cancellable ask after timeout, next() replay) plus shell-expansion paths, all fixed; **round two (request
+`0193c64b`) is sent and unanswered.** Known, unfixed: `git add -f .` can still stage an ignored `.env`; a timed-out dialog may stay on
+screen (late answer ignored); the never-run-twice tests also pass on the old guard. Idea 6 (one-button Switch Out): probe says
+"fill the prompt, he presses Enter" is feasible, not built, one-press submit left out. To turn the mod off delete the
+`CLAUDE_CODE_PLUGIN_DIRS` line in `~/.claude/settings.json` (backup `settings.json.bak-overtone`); pre-0.2 copy at
+`~/.claude/mods-work/overtone-live-pre-0.2`. The mods API is early; it broke other authors within days.
 
-**Claude Code runs 0.166.0** (updated 2026-09-29 12:2x; applies on restart). **Codex runs 0.164.0**; its package
-carries Agent and Conductor, so **installing 0.166.0 in Codex is owed, on Anthony's go in its window.** Laptop bells
+**Claude Code's installed Kerd read 0.166.0 at this Out (2026-10-03 09:00; 0.167.0 is on `main`, installed copy not updated or checked).** **Codex runs 0.164.0**; its package
+carries Agent, Conductor and Switch, so **installing 0.167.0 in Codex is owed, on Anthony's go in its window.** Laptop bells
 are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25); the 200k plan is parked (2026-09-27 13:20:
@@ -64,15 +69,19 @@ raise it until he does.
 drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
-- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0 and 0.166.0 through it on
-  2026-09-29 (09:37, 11:58), each on his own ask, the pause otherwise holds: "i would like stabalize releases for a while and
-  use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
+- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0, 0.166.0 and 0.167.0 through it on
+  2026-09-29 (09:37, 11:58) and 2026-10-02 23:13, each on his own ask, the pause otherwise holds: "i would like stabalize
+  releases for a while and use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
   defect the 2026-09-28 apple-music re-grade found. While it holds: grades, findings and ideas go to the Backlog, not
   into releases; any fix found comes back to him for the release decision; he lifts the pause.
 - **Switch Out previews what Switch In will offer, and Switch In offers Conductor start with up to four options (Anthony,
-  2026-10-02 20:18; "y" 20:20 to logging it): proposed, not built, a release, so it waits on the pause.** It replaces the
-  "exactly two picker options, one recommendation" wording; Switch In still re-weighs every open item and the saved choices
-  stay candidates. Needs no mod (Claude Code's own question dialog takes 2 to 4 options plus free text). Backlog row.
+  2026-10-02 20:18; built and released as 0.167.0 on his "y" 23:13).** It replaces the "exactly two picker options, one
+  recommendation" wording; Switch In still re-weighs every open item and the saved choices stay candidates; a plain yes still
+  means the recommendation and approves no operations. Needs no mod. Case in `docs/decisions.md`.
+- **Nothing is built to show him what he can already see on screen, and nothing is counted for its own sake (Anthony, 2026-10-02
+  22:1x: "pointless though, i can see its an or question"; "seems like a waste").** The overtone turn-end check, its toast and its
+  tally were removed; nothing graded by counts any more. He wants the mod UI to be good ("up the game"): quiet when fine, loud
+  only when something needs him.
 - **Mods are Claude Code only for now; Codex is looked at separately (Anthony, 2026-10-02 20:18).**
 - **Batch the work; fewer approvals (Anthony, 2026-09-25 23:01; 2026-09-26 08:17, 08:49):** under a
   grant like "we have tokens to use, lets build with subagents in fan out where we can unattended and
@@ -155,34 +164,37 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: the first live check of the overtone mod in a fresh session** (Anthony looks for the `ctx` line above his prompt and types `/overtone`; if neither shows, read the dim line the transcript names). After about a week of his sittings, grade its tally against what he felt; the other four mod ideas stay parked until it runs; Codex has not re-reviewed the five fixes. **Also proposed, open: Codex installs 0.166.0, on Anthony's go in its window** (so the
-Codex side carries the network notice and the Sonnet 5.5 guidance; install, then read back its skills against `main`).
-Also proposed, open: the first real check of the Sonnet 5.5 profile, a Sonnet grader at medium vs high on one grading
-job (the profile suggests medium for bounded readers; Kerd ran readers at high). Releases stay paused;
-findings go to the Backlog and a fix comes back to him. Re-graded 2026-09-29 across nine real sittings: push-first,
-unanswered-review and chat-roll restart still unseen in real use; vault notes in another project not gradable (no
-other project sets `work_notes`). New Backlog rows: the chat roll can't fire without a host-declared context window
-(alapah, one sitting + code); the Codex network row, now built as 0.165.0. Still Backlog, unfixed until seen: the
-Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the homepage, the thrash
-guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
+**Selected continuation: none selected; proposed: Anthony's first look at `overtone` 0.2.0 in a fresh session** (the dim context row,
+the model row, workers rows while workers run; the guard's "Don't run it" dialog when a private path is staged toward a public repo;
+if nothing draws, read the dim line the transcript names). **Pending job:** codex-tui's round-two review of the guard, request
+`0193c64b-14e7-4e27-9206-d095ef4eb45b`, submitted 2026-10-03 08:59, unconfirmed; round one took until morning and the system does not wake
+a turn when it lands, so check it with `agent.py status` at the next Switch In. Fix any blocker before leaning on the guard. **Also
+proposed, open: Codex installs 0.167.0, on Anthony's go in its window** (so the Codex side carries the network notice, the Sonnet 5.5
+guidance and the new picker; install, then read back its skills against `main`). Also proposed, open: the first real check of the Sonnet 5.5
+profile, a Sonnet grader at medium vs high on one grading job. Releases stay paused; findings go to the Backlog and a fix comes back to
+him. Idea 6 (one-button Switch Out) is not agreed to build: the probe says "fill the prompt, he presses Enter" is feasible. Unseen in real
+use: the four-choice picker and the "Switch In will offer" preview, push-first, unanswered-review, chat-roll restart. Still Backlog,
+unfixed until seen: the Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the homepage, the
+thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-10-02 21:2x):
-- this file complete: position, rulings (the release pause first), the proposed Codex install of 0.166.0;
+**Pickup reading set** (update 2026-10-03 09:0x):
+- this file complete: position, rulings (the release pause first), the proposed Codex install of 0.167.0;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are
   carried in this file);
-- `kivna/sessions/2026-10-02.md`, this sitting;
+- `kivna/sessions/2026-10-02.md`, newest log (two sittings: the research and the overtone 0.1 build, then the 0.2 build and 0.167.0 release);
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:overtone/work.md`; `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
+Deeper: `docs/decisions.md`; `notes:overtone/work.md` (+ `ui-brief.md`, `ui-direction.png`, `evidence/`); `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
 `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `37399e3ebf3e0bf6aaf9cd76121e5d6652b54ddd` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `690e9395604554944e291f932802e84190c8ffb1` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
 The observed position before this save is 0.166.0 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-10-02 21:2x: 34,323 bytes, about 8,581 tokens (estimate), **581 over the 8,000 target**, kept on purpose: the new
-sitting log and the mod's live check are this sitting's delta, and `TODO.md` `## Now` carries old tested "watch" rows that
-the next Out should prune first. All five carried findings are in the set. `read_args` for the next pickup:
+**Measured** 2026-10-03 09:0x: 39,655 bytes, about 9,914 tokens (estimate), **1,914 over the 8,000 target**, kept on purpose: the
+log carries two sittings and this file carries the 0.167.0 release and the live mod. Not pruned again: `TODO.md` `## Now` (14,826 bytes)
+still holds old "watch" rows that are open, not done (age alone closes nothing); the next Out should give each a verdict and move the
+closed ones to `docs/backlog-archive.md`. All four carried findings are in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-02.md", "--file", "notes:outside-the-repo.md",

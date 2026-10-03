@@ -2,12 +2,15 @@
 
 ## Now
 
-**Release boundary:** 0.166.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, and 0.166.0, the Sonnet 5.5 guidance, released on his asks 2026-09-29): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code runs 0.166.0 (on restart), Codex 0.164.0: **installing 0.166.0 in Codex is owed, on his go in its window** (its package carries Agent and Conductor). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.167.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, and 0.166.0, the Sonnet 5.5 guidance, released on his asks 2026-09-29; 0.167.0, the Switch In/Out options, on his "y" 2026-10-02 23:13): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code's installed copy read 0.166.0 at this Out, Codex 0.164.0: **installing 0.167.0 in Codex is owed, on his go in its window** (its package carries Agent, Conductor and Switch). Position is in `CONTEXT.md` `## Where We Are`.
 
-- **Check the overtone mod live (Anthony 2026-10-02 21:13 "y" put it in `~/.claude/mods/overtone`).** In a fresh session: the `ctx`
-  line above the prompt, `/overtone` prints its table; the toast on a weak ending. After about a week of his sittings, grade
-  the tally against what he felt. Codex has not re-reviewed the five fixes. Sketchbook `notes:overtone/work.md`; Backlog row has the
-  four parked ideas.
+- **Look at `overtone` 0.2.0 live (copied 2026-10-03 09:00 on Anthony's "yes")** in a fresh session: the dim context row, the model
+  row, workers rows while workers run, and the guard's "Don't run it" dialog on a private path staged toward a public repo. **codex-tui
+  round two on the guard is pending** (request `0193c64b`, unconfirmed): check it at the next Switch In, fix any blocker. Known gaps:
+  `git add -f .` can stage an ignored `.env`; a timed-out dialog may stay on screen; never-run-twice tests pass on the old guard too.
+  Sketchbook `notes:overtone/work.md`.
+- **Watch 0.167.0 in real use:** the first Switch Out that shows "Switch In will offer" and the first arrival with more than two
+  picker choices.
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
   projects use the Kerd look too). Updates replace the installed `style-guide.md` with the default;
   a project without a `.diagram-design` marker then draws in orange.
@@ -214,16 +217,8 @@ run checks during pickup.
   model" (model ID `claude-opus-5-5`, no `[1m]`). The context-reading hook gives tokens only (`hooks/context-reading.sh:6`),
   so on this setup the 50% trigger can never fire; the refusal was written only to the sketchbook, not said to the
   person as `to-roll.md:147` asks. One sitting and a code reading; how the 2026-09-25 test rolls got their window not checked.
-- **Switch Out previews what Switch In will offer; Switch In offers Conductor start with options (Anthony 2026-10-02 20:18, "y"
-  20:20 to the proposal; not built, a release, so waits on the pause).** Out's closing box adds "Switch In will offer": the
-  recommended step plus up to two other open items, each with its reason, marked proposed; the arrival's picker grows from
-  exactly two choices ("Yes — <recommended>", "Something else") to up to four, free text always open; picking any work opens
-  Conductor at Shape and approves none of its operations. Needs no mod: Claude Code's own question dialog takes 2 to 4 options
-  plus free text (`$.ui.ask`, API declaration). **This replaces the standing "exactly two picker options, one recommendation"
-  wording; Switch In still re-weighs every open item and the saved choices stay candidates.** View and sources:
-  `notes:overtone/work.md`, `in-out-options.png`.
-- **Claude Code mods (shipped 2.1.287, 2026-10-01): a local throwaway mod is being built** (Anthony 2026-10-02 20:20, "y": context
-  band and turn-end check only, observe-only, outside this repo, graded after about a week of his own sittings; no release).
-  Four more ideas liked, parked until it runs: live waits and workers band, requested vs observed model and effort, an ask
-  before staging a private path toward the public repo, a one-button Switch Out. Claude Code only; Codex looked at separately.
-  Research, ideas map and risks: `notes:overtone/work.md`.
+- **Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.2.0 is live** (context, model and workers band; private-path guard;
+  turn-end check removed on his word). Left from the six ideas: idea 6, one-button Switch Out, as "fill the prompt, he presses Enter"
+  (probe `notes:overtone/evidence/f-idea6-probe.md`; not agreed). Claude Code only; Codex looked at separately. `notes:overtone/work.md`.
+- **Switch SKILL.md frontmatter is unquoted and holds ": "** (found 2026-10-03 by the description fixer): a strict YAML parser rejects
+  it; the pre-0.167.0 text had the same shape and Claude Code loads it. Fix only if a host refuses it.

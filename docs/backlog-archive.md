@@ -1389,3 +1389,15 @@ independently by two sessions).
 
 **The launch sequence is retained and untouched**: five outcomes, 0 of 5, detail in
 TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
+
+
+## Closed 2026-10-03
+
+- **Done (0.167.0, merged and pushed 2026-10-03 08:58; evidence: commits 09c5550 and a180f43, 966 tests, codex-tui review consistent):** **Switch Out previews what Switch In will offer; Switch In offers Conductor start with options (Anthony 2026-10-02 20:18, "y"
+  20:20 to the proposal; not built, a release, so waits on the pause).** Out's closing box adds "Switch In will offer": the
+  recommended step plus up to two other open items, each with its reason, marked proposed; the arrival's picker grows from
+  exactly two choices ("Yes — <recommended>", "Something else") to up to four, free text always open; picking any work opens
+  Conductor at Shape and approves none of its operations. Needs no mod: Claude Code's own question dialog takes 2 to 4 options
+  plus free text (`$.ui.ask`, API declaration). **This replaces the standing "exactly two picker options, one recommendation"
+  wording; Switch In still re-weighs every open item and the saved choices stay candidates.** View and sources:
+  `notes:overtone/work.md`, `in-out-options.png`.
