@@ -191,7 +191,7 @@ Deeper: `docs/decisions.md`; `notes:overtone/work.md` (+ `ui-brief.md`, `ui-dire
 The observed position before this save is 0.166.0 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-10-03 09:0x: 39,655 bytes, about 9,914 tokens (estimate), **1,914 over the 8,000 target**, kept on purpose: the
+**Measured** 2026-10-03 09:0x: 39,810 bytes, about 9,953 tokens (estimate), **1,953 over the 8,000 target**, kept on purpose: the
 log carries two sittings and this file carries the 0.167.0 release and the live mod. Not pruned again: `TODO.md` `## Now` (14,826 bytes)
 still holds old "watch" rows that are open, not done (age alone closes nothing); the next Out should give each a verdict and move the
 closed ones to `docs/backlog-archive.md`. All four carried findings are in the set. `read_args` for the next pickup:
