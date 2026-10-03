@@ -1195,6 +1195,63 @@ class ClosingBoxTests(unittest.TestCase):
         for item in example["this_session"]:
             self.assertIn(flatten(item), out)
 
+    OTHERS = [{"text": "Try the diagram rules on a real diagram.", "why": "They have never been exercised."},
+              {"text": "Decide whether the hold is lifted.", "why": "Two releases wait on it."}]
+
+    def test_next_in_previews_what_switch_in_will_offer_marked_proposed(self):
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                out = flatten(self.render(markdown, next_in=self.OTHERS))
+                self.assertIn("Switch In will offer" if markdown else "SWITCH IN WILL OFFER", out)
+                self.assertIn("proposed, not agreed", out)
+                self.assertNotIn("NEXT TIME", out)
+                self.assertNotIn("Next time", out)
+                self.assertIn("Recommended: Start the diagnostic pilot.", out)
+                for item in self.OTHERS:
+                    self.assertIn(flatten(item["text"]), out)
+                    self.assertIn(flatten("Why: " + item["why"]), out.replace("**", ""))
+                # The recommended step leads, and still appears once.
+                self.assertLess(out.index("Start the diagnostic pilot."),
+                                out.index("Try the diagram rules on a real diagram."))
+                self.assertEqual(out.count("Start the diagnostic pilot."), 1)
+                self.assertTrue(out.rstrip().endswith(CLAUDE_RESTART_LINE))
+
+    def test_next_in_shows_at_most_two_other_items_and_counts_the_rest(self):
+        many = self.OTHERS + ["A third open item.", "A fourth open item."]
+        for markdown in (False, True):
+            with self.subTest(markdown=markdown):
+                out = flatten(self.render(markdown, next_in=many))
+                self.assertNotIn("A third open item.", out)
+                self.assertNotIn("A fourth open item.", out)
+                self.assertIn("2 more open items stay in the records.", out)
+                self.assertNotIn("\n4", self.render(markdown, next_in=many))
+
+    def test_next_in_accepts_strings_and_pairs_without_a_reason(self):
+        out = self.render(True, next_in=["Decide the hold.", ["Fix the roll.", None]])
+        self.assertIn("2. Decide the hold.\n", out)
+        self.assertIn("3. Fix the roll.\n", out)
+
+    def test_absent_or_empty_next_in_keeps_the_plain_next_time(self):
+        for value in (None, [], "", [None, "", {"text": ""}], 7):
+            for markdown in (False, True):
+                with self.subTest(value=value, markdown=markdown):
+                    out = self.render(markdown, next_in=value)
+                    self.assertIn("Next time" if markdown else "NEXT TIME", out)
+                    self.assertNotIn("will offer", out.lower())
+                    self.assertEqual(out, self.render(markdown))
+
+    def test_next_in_without_a_next_step_says_not_recorded(self):
+        out = self.render(True, next=None, next_in=self.OTHERS)
+        self.assertIn("1. Recommended: " + view.UNRECORDED, out)
+        self.assertNotIn("Why:** It is the first real work item", out)
+
+    def test_next_in_lines_fit_the_width(self):
+        long = {"text": "A long open item that keeps going " * 4, "why": "A long reason " * 6}
+        for width in (60, 78):
+            out = view.render_closing(self.base(next_in=[long, long]), NOW, width, False)
+            over = [line for line in out.splitlines() if view.columns(line) > width]
+            self.assertFalse(over, f"lines wider than {width}: {over}")
+
     def test_the_cli_reads_the_closing_summary_from_stdin(self):
         import json, subprocess
         result = subprocess.run([sys.executable, str(Path(view.__file__)), "--closing", "-", "--no-color"],

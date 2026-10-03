@@ -168,8 +168,8 @@ by its internal slug, unless they need the slug to find it. It does not repeat t
 session's saved next action merely because it was saved.
 
 **Weigh every open item, the saved one included.** Take the designated active
-list (with child sections) and any [saved selection](#save-the-selected-continuation)
-as candidates. For each, ask: does it move the product or the person's work
+list (with child sections) and any [saved selection](#save-the-selected-continuation),
+with the other choices Out previewed beside it, as candidates. For each, ask: does it move the product or the person's work
 forward, and why would it come before the others? Current user direction takes
 precedence; recorded priority, dependency and authority inform the order. A saved
 selection is one candidate with its recorded reasons, not the answer. Work that
@@ -253,8 +253,9 @@ work and any explicit authority it carries. Every answer that
 chooses work goes through Conductor, so a person wanting guidance always has one
 way in:
 
-- **Chooses work** (“yes”, the recommendation's picker option, “the migration
-  sign-off”, or new work in their own words): invoke `/kerd:conductor` through the host's skill
+- **Chooses work** (“yes”, the recommendation's picker option, another open
+  item's picker option, “the migration sign-off”, or new work in their own
+  words): invoke `/kerd:conductor` through the host's skill
   mechanism at Understand/Shape for that work. Naming or accepting the work
   selects it; it does not approve its operations. Conductor shows the shape and
   asks its own scoped approval before builds, installs, pushes or other
@@ -371,12 +372,16 @@ time or end marker. Ordinary In always supplies this question, including when
 nothing is actionable. Do not add a second question; the open items are its
 context, the recommendation its proposed answer. The renderer places the
 question; do not append it yourself. Where the host offers a native picker,
-follow the rendered output with exactly two options: **“Yes — <the recommended
-work>”**, naming the work it opens, and **“Something else”**, which opens
-Conductor to ask what; the host's free-form route stays open. Where the picker
-carries a description, Yes's says it opens Conductor at Shape for that work and
-approves none of its operations, so an action-worded recommendation (“Release
-0.137.0”) is never read as approval. The picker never
+follow the rendered output with up to four options: **“Yes — <the recommended
+work>”**, naming the work it opens; up to two other open items from this
+arrival's weighing, each named by the work it opens with a one-line why; and
+**“Something else”**, which opens Conductor to ask what. The host's free-form
+route stays open. Picking any work opens Conductor at Shape for that work and
+approves none of its operations; where the picker carries descriptions, each
+work option's says so, so an action-worded item (“Release 0.137.0”) is never
+read as approval. A plain yes still means the recommendation. The other items
+are this arrival's own weighing, not the saved preview copied: the saved
+choices stay candidates, and the recommendation stays one item. The picker never
 replaces or precedes the bubble. Without picker support, the bubble is answered
 normally.
 
@@ -631,7 +636,9 @@ Before saving, check that the pointer/current record and the log's next-action
 account agree on that scope and stopping point; a fresh reader should not have
 to assemble them from competing lists. Include this selection in the measured
 reading set and carry it into the closing box's `next`, with its reason in
-`why`. Save why it matters to the product, not only what it is: the next In weighs it against
+`why`, and up to two other open items worth offering beside it into `next_in`,
+each with its reason; save those beside the selection as proposed choices for
+the next arrival, not agreement and not a replacement for its weighing. Save why it matters to the product, not only what it is: the next In weighs it against
 the other open work and shows only a reason a person can check. Work that only
 proves the project's own mechanics is saved as open work, not as the selection,
 unless it blocks product work or the person chose it. In restores
@@ -806,7 +813,12 @@ printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing 
 Use the same chat-versus-terminal presentation choice as In above. The box
 mirrors the arrival, in plain product English: a one-row grid (PROJECT, SAVED,
 PHASE, RELEASED), **This session** with what changed for the person one line each,
-**Next time** with the next step and its **Why**, then one closing line. Save
+**Switch In will offer** (proposed, not agreed): the next step first, marked
+recommended, with its **Why**, then up to two other open items, each with its
+reason, then one closing line. These are the choices the next arrival's picker is
+expected to carry; the next Switch In still re-weighs every open item and may
+offer different ones. Without other items the section reads **Next time** with
+the next step and its **Why**, as before. Save
 mechanics (commit, file count, remote, reading set, measurement, log path) stay
 in the records the next Switch In reads, not on the screen. A save problem
 appears under **ATTENTION**, only when it is true.
@@ -827,9 +839,13 @@ omitted adds an attention line, and `false` also names the missing detail or
 recovery action in `next`. `phase` is where the wider work stands, in the
 project's own terms. `released` is what this sitting released
 ("0.136.0 → 0.138.0"), or `null` for "Nothing released"; the next step appears
-once, in Next time. `this_session` is what changed, in product language, not
+once, in Next time or first in Switch In will offer. `this_session` is what changed, in product language, not
 the files touched. `next` is the exact next action the start point names; `why`
-is the reason it comes first. `tree` is what remains in the working tree, in
+is the reason it comes first. `next_in` is up to two other open items the next
+Switch In is likely to offer beside it, each `{"text", "why"}` in product
+words, in the order Out would weigh them, and saved with the selection as
+proposed, never agreed; the renderer shows two at most and counts any more,
+and `null` or `[]` keeps the plain Next time. `tree` is what remains in the working tree, in
 words: exactly `clean` when nothing is left; anything else is shown under attention. Files the project
 keeps out of Git by decision are expected and not shown. `warnings` carries any
 other problem, such as a failed role designation. `host` is `claude` or `codex`:
@@ -869,6 +885,10 @@ routing. No session is ended by preparing its handoff.
   ],
   "next": "Start the diagnostic pilot.",
   "why": "It is the first real work item driven in someone else's project, and the only way to see Kerd work for a real user.",
+  "next_in": [
+    {"text": "Try the 0.134.0 diagram rules on a real diagram.", "why": "They have never been exercised."},
+    {"text": "Anthony: decide whether the \"prove Kerd first\" hold is lifted.", "why": "Two launch steps wait on it."}
+  ],
   "tree": "clean",
   "warnings": [],
   "host": "claude"

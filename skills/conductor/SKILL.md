@@ -58,7 +58,7 @@ not establish guided ownership. Continuing established work doesn't re-offer it.
 There are two valid entries: an explicitly selected and authorized action, and a
 request to use the workflow while deciding what to do. An answer to Switch
 In's **“Start a Conductor session?”** that chooses work, a plain yes to its
-recommendation included, is the latter for that work: enter
+recommendation or another open item its picker offered included, is the latter for that work: enter
 Understand/Shape on it, never approval of its operations. An answer asking for
 guidance without choosing, “Something else” included, enters direction-setting. Reuse the restored project, work pointer, current decision,
 actual approval and latest exclusions. Do not repeat pickup, intake already

@@ -149,14 +149,27 @@ class QuestionFormTests(unittest.TestCase):
         journey = flat(JOURNEY.read_text(encoding="utf-8"))
         # Each phrase runs past the permission into the bound that makes it safe:
         # a permission alone would survive being narrowed back to "only if asked".
-        self.assertIn("A native picker may follow the rendered output with exactly two "
-                      "options, “Yes — <the recommended work>” and “Something else”", journey)
+        self.assertIn("A native picker may follow the rendered output with up to four "
+                      "options, “Yes — <the recommended work>”, up to two other open items "
+                      "each with a one-line why, and “Something else”", journey)
         self.assertIn("so the renderer's output stays unchanged", journey)
+        self.assertIn("each work option opens Shape for that work and approves none of its "
+                      "operations", journey)
         in_out = flat((SKILLS / "switch" / "references" / "in-out.md").read_text(encoding="utf-8"))
-        self.assertIn("follow the rendered output with exactly two options: **“Yes — <the "
-                      "recommended work>”**, naming the work it opens, and **“Something else”**, "
-                      "which opens Conductor to ask what", in_out)
+        self.assertIn("follow the rendered output with up to four options: **“Yes — <the "
+                      "recommended work>”**, naming the work it opens; up to two other open "
+                      "items from this arrival's weighing, each named by the work it opens with "
+                      "a one-line why; and **“Something else”**, which opens Conductor to ask "
+                      "what", in_out)
+        self.assertIn("Picking any work opens Conductor at Shape for that work and approves "
+                      "none of its operations", in_out)
+        self.assertIn("A plain yes still means the recommendation.", in_out)
+        self.assertIn("the saved choices stay candidates, and the recommendation stays one item",
+                      in_out)
         self.assertIn("The picker never replaces or precedes the bubble.", in_out)
+        # The standing two-option rule was replaced in 0.167.0; it must not come back.
+        for text in (journey, in_out):
+            self.assertNotIn("exactly two options", text)
         # The Yes names the work it opens, so it cannot read as approving an
         # unnamed task's operations; Something else still routes through Conductor.
         for text in (journey, in_out):

@@ -140,14 +140,16 @@ to fit here:
 >
 > > 💬 **Start a Conductor session?**
 
-Say yes to the work it recommends, or name something else. Then work. Talk it
-through, change your mind, ship as you go. When you stop:
+Say yes to the work it recommends, pick one of the other open items it offers, or
+name something else. Then work. Talk it through, change your mind, ship as you
+go. When you stop:
 
 ```
 /kerd:switch out
 ```
 
-That saves the place: what changed, what got settled, what comes next and why.
+That saves the place: what changed, what got settled, and what the next Switch In
+will offer, the recommended next step first, each with its reason.
 The following sitting starts from it, here or on another machine.
 
 Step by step, including what each question means and what to do when something is
@@ -264,9 +266,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.166.0)
+## What's New (v0.167.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.167.0
+
+**Switch Out now shows what Switch In will offer, and Switch In offers more than one way in.** Out's closing box
+used to end on one next step. It now previews the choices the next arrival is expected to offer: the recommended step
+with its reason, plus up to two other open items, each with its reason, all marked proposed, never agreed. The next
+Switch In still weighs every open item afresh, so the saved choices are candidates, not a plan. At the arrival, the
+picker after "Start a Conductor session?" grows from exactly two choices ("Yes — <the recommended work>", "Something
+else") to up to four: the recommendation, up to two other open items each with a one-line why, and "Something else",
+with free text always open. Picking any work opens Conductor at Shape for it and approves none of its operations; a
+plain yes still means the recommendation, which stays one item. The bubble question is unchanged and the picker
+never replaces or precedes it. The renderer takes a new optional `next_in` list for the closing box; without it the
+box reads as before. Neither screen has been seen in a real sitting yet.
 
 ### v0.166.0
 

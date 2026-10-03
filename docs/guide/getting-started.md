@@ -233,9 +233,12 @@ anything is built. It does not approve a build, an install, or a push, even when
 the recommendation is worded like an action ("Release 0.139.0"). Those need their
 own go-ahead later.
 
-Where your host shows a picker you get two options, "Yes, <the recommended
-work>" and "Something else", and you can still type an answer of your own. Pick
-"Something else" and Conductor opens by asking what you want instead. Saying "not
+Where your host shows a picker you get up to four options: "Yes, <the
+recommended work>", up to two other open items each with a one-line why, and
+"Something else", and you can still type an answer of your own. Picking any of
+the work options opens Conductor at Shape for that work and approves nothing;
+a plain yes still means the recommendation. Pick "Something else" and Conductor
+opens by asking what you want instead. Saying "not
 now" starts nothing.
 
 If what you actually want is not on the list, just say it. Switch weighs every
@@ -288,8 +291,10 @@ the scope stops, any pending question.
 
 It ends on a closing box that starts with the save state in words: SESSION SAVED,
 SAVED LOCALLY, NOT SAVED, or SAVE STATUS NOT RECORDED. Then a project, saved,
-phase and released grid, what changed this session in product terms, the next
-step and why, and any save problem under Attention. Only after a confirmed save
+phase and released grid, what changed this session in product terms, what
+Switch In will offer (the next step and why, plus up to two other open items each
+with its reason, marked proposed, never agreed), and any save problem under
+Attention. Only after a confirmed save
 does it offer the restart line: "Exit (with Agent view on, Ctrl-C in the session
 list) and restart, or /clear and `/kerd:switch in` to pick up from here."
 

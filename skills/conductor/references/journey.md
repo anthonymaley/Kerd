@@ -62,12 +62,14 @@ as a bold speech-bubble blockquote, with the recommendation as its proposed
 answer; it is not a pending-task approval. Managed Roll
 does not use it. Other renderer callers may omit a question. Do not append
 another report or question. A native picker may follow the rendered output with
-exactly two options, “Yes — <the recommended work>” and “Something else”, plus
-the host's own free-form route — because it is a separate surface rather than
+up to four options, “Yes — <the recommended work>”, up to two other open items
+each with a one-line why, and “Something else”, plus the host's own free-form
+route — because it is a separate surface rather than
 appended text, so the renderer's output stays unchanged. Where the host's picker
-carries a description, say there that Yes opens Shape for that work and
-approves none of its operations, and that Something else opens Conductor for
-direction-setting.
+carries a description, say there that each work option opens Shape for that work
+and approves none of its operations, and that Something else opens Conductor for
+direction-setting. A plain yes still means the recommendation, which stays one
+item.
 Switch returns the complete renderer output unchanged; this is not a draft for
 a second presentation pass. Corrections go into the input and are rendered again.
 The ordinary Switch In **“Start a Conductor session?”** arrival is exempt from

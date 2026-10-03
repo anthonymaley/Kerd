@@ -1,6 +1,6 @@
 ---
 name: switch
-description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival headed by the Kerd version it loaded: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a Yes / Something else picker, without loading Conductor; choosing work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, adds what the sitting settled to Conductor's sketchbook for each piece of work, saves the next action and approval boundary, and ends on a plain-English box: what changed, the next step and why. Managed Roll continues without normal arrival approval; a Conductor chat in tmux rolls itself into a fresh session (`/kerd:switch roll`) and picks up its saved next step.
+description: Save, restore or move repo-based work between sittings and devices, or Roll an authorized Conductor build into fresh context. Ordinary In restores memory and pairing, weighs every open item (the saved next step is one candidate) and shows a plain-English arrival headed by the Kerd version it loaded: a project/phase/next/team grid, where things stand in product terms, open work one line each, one recommendation with why, then ends on “Start a Conductor session?” with a picker of up to four (the recommendation, up to two other open items, Something else), without loading Conductor; choosing any work opens Conductor at Shape for it, never approval of its operations. Returns the rendered arrival unchanged. Out checks role ownership, contributor coverage and urgent risks in the pickup set, adds what the sitting settled to Conductor's sketchbook for each piece of work, saves the next action and approval boundary, and ends on a plain-English box: what changed, the next step and why, and up to two other items Switch In will offer, marked proposed. Managed Roll continues without normal arrival approval; a Conductor chat in tmux rolls itself into a fresh session (`/kerd:switch roll`) and picks up its saved next step.
 ---
 
 # Switch
@@ -33,7 +33,9 @@ and repository boundaries still apply.
   live links outside the repo — rulings kept, cases and closed rows moved to
   reachable records, the reading set named — and end on the saved-place box:
   a project/saved/phase/released grid, what changed this session in product terms,
-  the next step and why, save problems under attention, and one restart line
+  what Switch In will offer (the next step and why, plus up to two other open
+  items each with its reason, marked proposed, never agreed), save problems
+  under attention, and one restart line
   only after a confirmed save. Read
   [pickup and closeout](references/in-out.md).
 - **To:** save the exact mid-work position through GitHub, relinquish source
@@ -85,15 +87,18 @@ explicit completion heading naming the Kerd version it loaded, the PROJECT · PH
 things stand, Last session, Open work, Recommended with its Why, attention and a
 real link to the open-work page, all in plain product English. No footer or end
 marker. The single question ends the screen as a bold speech-bubble blockquote.
-Where the host has a native picker it follows with exactly “Yes — <the
-recommended work>” and “Something else”.
+Where the host has a native picker it follows with up to four options: “Yes — <the
+recommended work>”, up to two other open items each with a one-line why, and
+“Something else”, free text always open; a plain yes still means the
+recommendation, and the recommendation stays one item.
 Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 
 Ordinary In restores the current work picture without executing it. Switch owns
 the [arrival decision](references/in-out.md#compose-the-arrival-in-switch): use
 the restored context, not a Conductor invocation or another intake. An answer to
-**“Start a Conductor session?”** that chooses work, a plain yes included, opens
+**“Start a Conductor session?”** that chooses work, a plain yes or another
+offered item included, opens
 Conductor at Shape for that work, and “Something else” opens it for
 direction-setting; choosing work never
 approves its operations. An explicitly selected and authorized task, direct

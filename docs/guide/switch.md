@@ -28,8 +28,11 @@ comes first. Anything material about the restore, a failed sync or a contradicti
 in the records, appears under ATTENTION. Then it stops on a single question,
 "Start a Conductor session?", and waits.
 
-Say yes and you are in [Conductor](conductor.md) at Shape for that work. Name
-different work and it opens there instead. Say "something else" and Conductor
+Where your host shows a picker it offers up to four choices: yes to the
+recommendation, up to two other open items each with a one-line why, and
+"something else", with free text always open. Say yes and you are in
+[Conductor](conductor.md) at Shape for the recommended work. Pick another item
+or name different work and it opens there instead. Say "something else" and Conductor
 opens to work out what to do. Choosing work does not approve anything Conductor
 then does; builds, installs and pushes each get their own approval.
 
@@ -42,8 +45,10 @@ Work. Then, when you stop:
 Out reads what actually changed, adds whatever the sitting settled to Conductor's
 sketchbook for each piece of work, and saves the next action with its owner,
 where it stops, and any question still hanging. It closes on a box: what changed
-for you this session, the next step, why it comes first, and a restart line if,
-and only if, the save is confirmed.
+for you this session, what Switch In will offer next time (the next step and why
+it comes first, plus up to two other open items each with its reason, marked
+proposed, never agreed: the next In still weighs everything afresh), and a
+restart line if, and only if, the save is confirmed.
 
 Two more actions exist for cases the first two do not cover. **To** saves the
 exact mid-work position through GitHub, hands source control over, and restores

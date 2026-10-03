@@ -355,7 +355,10 @@ OPEN_WORK_KEYS = ("project", "phase", "where", "open_work", "recommendation", "l
 # The closing box's input contract, the same way: Switch Out fills it from the
 # helper's save result and what it just wrote, never from this module.
 CLOSING_KEYS = ("project", "branch", "saved", "handoff_ready", "boundary", "phase", "released",
-                "this_session", "next", "why", "tree", "warnings", "host")
+                "this_session", "next", "why", "next_in", "tree", "warnings", "host")
+# Switch In's picker offers the recommendation, at most two other open items and
+# "Something else"; the closing box's preview matches it.
+NEXT_IN_LIMIT = 2
 ANSI = {"cyan": "36", "green": "32", "amber": "33", "red": "31", "dim": "2", "bold": "1"}
 BORDERS = "\u256d\u2570\u251c\u250c\u2514"
 
@@ -897,11 +900,37 @@ def dashboard_tail(summary, now, width, color, markdown, arrival=False):
     return lines
 
 
+def next_in_items(value):
+    """Normalise `next_in` to (text, why) pairs: each item is {"text", "why"},
+    a plain string (no reason), or a [text, why] pair. Null, an empty list or
+    items without text give nothing, so the box keeps its plain Next time."""
+    if value is None:
+        return []
+    if isinstance(value, (str, dict)):
+        value = [value]
+    if not isinstance(value, list):
+        return []
+    items = []
+    for item in value:
+        if isinstance(item, dict):
+            text, reason = item.get("text"), item.get("why")
+        elif isinstance(item, (list, tuple)) and item:
+            text, reason = item[0], (item[1] if len(item) > 1 else None)
+        else:
+            text, reason = item, None
+        if text is None or not str(text).strip():
+            continue
+        items.append((str(text), str(reason) if reason is not None and str(reason).strip() else None))
+    return items
+
+
 def render_closing(summary, now, width=80, color=True, markdown=False):
     """The end of Switch Out: how far the save reached, what changed, what next.
 
     A grid (project, save, phase, released), this session's changes in product
-    terms, the next step with its reason, then one closing line. Save
+    terms, the next step with its reason (or, given `next_in`, what Switch In
+    will offer: that step plus up to two other open items, each with its
+    reason, marked proposed), then one closing line. Save
     mechanics stay in the records; a problem (a save that did not reach the
     remote, memory not ready, work left behind) appears under Attention only
     when it is true. The box never claims the session exited or the context
@@ -979,6 +1008,17 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
         changes = [changes]
     changes = [str(item) for item in (changes or []) if item]
     why = get("why")
+    # `next_in`: up to two other open items the next Switch In will offer beside
+    # the recommended step, each with its reason. With any present, "Next time"
+    # becomes "Switch In will offer", the recommended step first, so the next
+    # step still appears once. Proposals only: Switch In re-weighs every open item.
+    others = next_in_items(get("next_in"))
+    extra = max(0, len(others) - NEXT_IN_LIMIT)
+    others = others[:NEXT_IN_LIMIT]
+    offer = ([("Recommended: " + str(get("next") or UNRECORDED), why if get("next") else None)]
+             + others) if others else None
+    more = (f"{extra} more open item{'s' if extra != 1 else ''} stay{'s' if extra == 1 else ''} "
+            "in the records.") if extra else None
 
     if markdown:
         lines = [f"**{md(project.upper())} \u00b7 {badge}**", "",
@@ -988,8 +1028,15 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
                  "**This session**", ""]
         lines += [f"- {md(item)}" for item in changes] or ["Nothing recorded."]
         lines.append("")
-        lines.append(f"**Next time:** {md(get('next') or UNRECORDED)}"
-                     + (f" **Why:** {md(why)}" if why and get("next") else ""))
+        if offer:
+            lines += ["**Switch In will offer** (proposed, not agreed)", ""]
+            lines += [f"{index}. {md(text)}" + (f" **Why:** {md(reason)}" if reason else "")
+                      for index, (text, reason) in enumerate(offer, 1)]
+            if more:
+                lines += ["", md(more)]
+        else:
+            lines.append(f"**Next time:** {md(get('next') or UNRECORDED)}"
+                         + (f" **Why:** {md(why)}" if why and get("next") else ""))
         lines.append("")
         if attention:
             lines += ["**ATTENTION**", ""] + [f"- {md(item)}" for item in attention] + [""]
@@ -1008,10 +1055,20 @@ def render_closing(summary, now, width=80, color=True, markdown=False):
     for item in changes or ["Nothing recorded."]:
         lines += ["   \u00b7 " + line if index == 0 else "     " + line
                   for index, line in enumerate(wrap(item, width - 5))]
-    lines += ["", ink(" NEXT TIME", "dim", on=color)]
-    lines += ["   " + line for line in wrap(get("next") or UNRECORDED, width - 3)]
-    if why and get("next"):
-        lines += ["   " + line for line in wrap("Why: " + str(why), width - 3)]
+    if offer:
+        lines += ["", ink(" SWITCH IN WILL OFFER (proposed, not agreed)", "dim", on=color)]
+        for index, (text, reason) in enumerate(offer, 1):
+            lines += [f"   {index} " + line if number == 0 else "     " + line
+                      for number, line in enumerate(wrap(text, width - 5))]
+            if reason:
+                lines += ["     " + line for line in wrap("Why: " + str(reason), width - 5)]
+        if more:
+            lines += ["   " + line for line in wrap(more, width - 3)]
+    else:
+        lines += ["", ink(" NEXT TIME", "dim", on=color)]
+        lines += ["   " + line for line in wrap(get("next") or UNRECORDED, width - 3)]
+        if why and get("next"):
+            lines += ["   " + line for line in wrap("Why: " + str(why), width - 3)]
     lines.append("")
     if attention:
         lines += panel("\u26a0 NEEDS ATTENTION", ["\u00b7 " + item for item in attention],
