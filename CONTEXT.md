@@ -17,14 +17,13 @@ own review rounds or subagents unless asked). codex-tui two rounds, CLEAR. Sketc
 **0.165.0:** Agent and Conductor say a Codex they start can't reach the network from its commands by default and offer
 the person's own open `codex` session (Backlog row has the tests). Account: `kivna/sessions/2026-09-29.md`.
 
-**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.4.0 is live (2026-10-03 12:39, Anthony's "y").** It is a
+**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.4.1 is live (0.4.0 2026-10-03 12:39 on Anthony's "y"; 0.4.1 12:46 on his "we need cache hit always in the one liner").** It is a
 usage band that replaces his status line: one line (context tokens and switch state, 5-hour with run-out, weekly with where
-it lands at reset; red alerts only when the cache goes cold, a worker runs on another model than asked, or a partner review
+it lands at reset, cache hit always (green 80%+, amber, red); red alerts only when the cache goes cold, a worker runs on another model than asked, or a partner review
 waits), expanding on click or `ctrl+x b` to a Workers card (asked vs seen, Codex review rows) then Context, 5-hour and Weekly,
 and a Cache card only when it fires, saying what to do. Claude gets the same figures on every prompt (`usage:` context
 line); nothing is written to disk. The guard (asks before a private path is staged, committed or pushed toward a public repo)
-had codex-tui's round-two blockers fixed and cleared (0.2.1, 10:52). codex-tui cleared 0.4.0 in its fourth round; one
-non-blocking wording note left. Not yet seen live: the band expanded by him, the alerts, the cache card, Codex rows, a mouse
+had codex-tui's round-two blockers fixed and cleared (0.2.1, 10:52). codex-tui cleared 0.4.0 in its fourth round (its wording note fixed in 0.4.1; 0.4.1 itself not reviewed). Not yet seen live: the band expanded by him, the alerts, the cache card, Codex rows, a mouse
 click. His old status line is still on: retiring it, and deleting the old `~/.cache/overtone` files, are his go. Pictures,
 agreement trail and backups: `notes:overtone/work.md` (`dashboard-v3.png` is the agreed layout). Turn the mod off by deleting
 the `CLAUDE_CODE_PLUGIN_DIRS` line in `~/.claude/settings.json`. The mods API is early; it broke other authors within days.
@@ -161,12 +160,12 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: Anthony's first look at `overtone` 0.4.0 expanded in a fresh session** (why: it
+**Selected continuation: none selected; proposed: Anthony's first look at `overtone` 0.4.1 expanded in a fresh session** (why: it
 replaces his status line and feeds Claude's switch decisions, and he has seen only its collapsed 0.3.0 line; click `▸ usage` or
 `ctrl+x b`, check it against `notes:overtone/dashboard-v3.png`; then his go to retire the old status line). Also proposed, open:
 **Codex installs 0.167.0, on Anthony's go in its window** (its side still runs 0.164.0: no network notice, Sonnet 5.5 guidance or
 four-choice picker); the first real check of the Sonnet 5.5 profile (a Sonnet grader at medium vs high on one grading job).
-Releases stay paused; findings go to the Backlog and a fix comes back to him. Overtone wording cleanup is non-blocking. Idea 6
+Releases stay paused; findings go to the Backlog and a fix comes back to him. Idea 6
 (one-button Switch Out) is not agreed to build. Unseen in real use: push-first, unanswered-review, chat-roll restart. Still
 Backlog, unfixed until seen: the Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the
 homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
@@ -180,9 +179,9 @@ homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-pr
 Deeper: `docs/decisions.md`; `notes:overtone/work.md` (+ `ui-brief.md`, `ui-direction.png`, `evidence/`); `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
 `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `f75c6bfdbc60097d1300aa64e3061e10ccd86427` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `b0e22f38c558c1c61a7c7150f2b1c3559be50263` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
-The observed position before this save is 0.167.0 on `main` (a758f26); the boundary commit is this save itself.
+The observed position before this save is 0.167.0 on `main` (fd4ffac); the boundary commit is this save itself.
 Ask `git log` for its ID.
 
 **Measured** 2026-10-03 12:4x: 35,862 bytes, about 8,966 tokens (estimate), **966 over the 8,000 target**, kept: this file
