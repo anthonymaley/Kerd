@@ -17,6 +17,18 @@ own review rounds or subagents unless asked). codex-tui two rounds, CLEAR. Sketc
 **0.165.0:** Agent and Conductor say a Codex they start can't reach the network from its commands by default and offer
 the person's own open `codex` session (Backlog row has the tests). Account: `kivna/sessions/2026-09-29.md`.
 
+**Claude Code mods (shipped 2.1.287, 2026-10-01); a throwaway local mod is built, not yet seen live (2026-10-02).** Anthony asked
+what mods could do for Kerd; four reads (API map, outside survey, Kerd's pain points, his video) and six ideas are in
+`notes:overtone/work.md` with `ideas-map.png`: context band, turn-end check, live waits and workers band, requested vs
+observed model and effort, an ask before staging a private path toward the public repo, a one-button Switch Out. "Claude
+only is fine, we can look at codex separately; those 6 are good" (20:18). His "y" (20:20) built **`overtone` 0.1.0**: the
+context band and the turn-end check only, observe-only, outside this repo (counts only in the mod's store, never message
+text). codex-tui reviewed it read-only: no safety blocker, five should-fix issues, all fixed; `claude plugin test` 42 of 42
+against the real engine. His "y" (21:13) put it at `~/.claude/mods/overtone`, named in `CLAUDE_CODE_PLUGIN_DIRS` in
+`~/.claude/settings.json` (backup `settings.json.bak-overtone`; delete that line to turn it off). His open session did not load
+it (stale saved switch); a fresh session should. Unverified: the band and toast on his screen. The mods API is early; it
+broke other authors within days.
+
 **Claude Code runs 0.166.0** (updated 2026-09-29 12:2x; applies on restart). **Codex runs 0.164.0**; its package
 carries Agent and Conductor, so **installing 0.166.0 in Codex is owed, on Anthony's go in its window.** Laptop bells
 are on for both (backups `*.bak-bell`).
@@ -57,6 +69,11 @@ drop this").** Don't raise it or recommend it again unless he does.
   use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
   defect the 2026-09-28 apple-music re-grade found. While it holds: grades, findings and ideas go to the Backlog, not
   into releases; any fix found comes back to him for the release decision; he lifts the pause.
+- **Switch Out previews what Switch In will offer, and Switch In offers Conductor start with up to four options (Anthony,
+  2026-10-02 20:18; "y" 20:20 to logging it): proposed, not built, a release, so it waits on the pause.** It replaces the
+  "exactly two picker options, one recommendation" wording; Switch In still re-weighs every open item and the saved choices
+  stay candidates. Needs no mod (Claude Code's own question dialog takes 2 to 4 options plus free text). Backlog row.
+- **Mods are Claude Code only for now; Codex is looked at separately (Anthony, 2026-10-02 20:18).**
 - **Batch the work; fewer approvals (Anthony, 2026-09-25 23:01; 2026-09-26 08:17, 08:49):** under a
   grant like "we have tokens to use, lets build with subagents in fan out where we can unattended and
   get fable to review", take several tasks per approval, dispatch independent work instead of
@@ -138,7 +155,7 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: Codex installs 0.166.0, on Anthony's go in its window** (so the
+**Selected continuation: none selected; proposed: the first live check of the overtone mod in a fresh session** (Anthony looks for the `ctx` line above his prompt and types `/overtone`; if neither shows, read the dim line the transcript names). After about a week of his sittings, grade its tally against what he felt; the other four mod ideas stay parked until it runs; Codex has not re-reviewed the five fixes. **Also proposed, open: Codex installs 0.166.0, on Anthony's go in its window** (so the
 Codex side carries the network notice and the Sonnet 5.5 guidance; install, then read back its skills against `main`).
 Also proposed, open: the first real check of the Sonnet 5.5 profile, a Sonnet grader at medium vs high on one grading
 job (the profile suggests medium for bounded readers; Kerd ran readers at high). Releases stay paused;
@@ -149,24 +166,25 @@ other project sets `work_notes`). New Backlog rows: the chat roll can't fire wit
 Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the homepage, the thrash
 guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-09-29 12:3x):
+**Pickup reading set** (update 2026-10-02 21:2x):
 - this file complete: position, rulings (the release pause first), the proposed Codex install of 0.166.0;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are
   carried in this file);
-- `kivna/sessions/2026-09-29.md`, this sitting;
+- `kivna/sessions/2026-10-02.md`, this sitting;
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
+Deeper: `docs/decisions.md`; `notes:overtone/work.md`; `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
 `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `ff8f41dc1bde32617cbaed21278b6e9c190f1d37` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `37399e3ebf3e0bf6aaf9cd76121e5d6652b54ddd` (pass it to `prepare`/`pickup` as `--notes-commit`).
 
 The observed position before this save is 0.166.0 on `main`; the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-09-29 12:3x: 31,937 bytes, about 7,985 tokens (estimate), within the 8,000 target. All five carried
-findings are in the set. `read_args` for the next pickup:
+**Measured** 2026-10-02 21:2x: 34,323 bytes, about 8,581 tokens (estimate), **581 over the 8,000 target**, kept on purpose: the new
+sitting log and the mod's live check are this sitting's delta, and `TODO.md` `## Now` carries old tested "watch" rows that
+the next Out should prune first. All five carried findings are in the set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-09-29.md", "--file", "notes:outside-the-repo.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-02.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
