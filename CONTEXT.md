@@ -17,19 +17,24 @@ own review rounds or subagents unless asked). codex-tui two rounds, CLEAR. Sketc
 **0.165.0:** Agent and Conductor say a Codex they start can't reach the network from its commands by default and offer
 the person's own open `codex` session (Backlog row has the tests). Account: `kivna/sessions/2026-09-29.md`.
 
-**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.4.1 is live (0.4.0 2026-10-03 12:39 on Anthony's "y"; 0.4.1 12:46 on his "we need cache hit always in the one liner").** It is a
+**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.4.3 is live and his only usage display (0.4.0 2026-10-03 12:39 on Anthony's "y"; 0.4.1 12:46, cache hit always on the line; 0.4.3 12:58, a blank line above the band, his "dont put a line maybe, just a CR line so it has space").** He checked it 2026-10-03: collapsed "thats better" (12:58), expanded "good" (13:25). It is a
 usage band that replaces his status line: one line (context tokens and switch state, 5-hour with run-out, weekly with where
 it lands at reset, cache hit always (green 80%+, amber, red); red alerts only when the cache goes cold, a worker runs on another model than asked, or a partner review
 waits), expanding on click or `ctrl+x b` to a Workers card (asked vs seen, Codex review rows) then Context, 5-hour and Weekly,
 and a Cache card only when it fires, saying what to do. Claude gets the same figures on every prompt (`usage:` context
 line); nothing is written to disk. The guard (asks before a private path is staged, committed or pushed toward a public repo)
-had codex-tui's round-two blockers fixed and cleared (0.2.1, 10:52). codex-tui cleared 0.4.0 in its fourth round (its wording note fixed in 0.4.1; 0.4.1 itself not reviewed). Not yet seen live: the band expanded by him, the alerts, the cache card, Codex rows, a mouse
-click. His old status line is still on: retiring it, and deleting the old `~/.cache/overtone` files, are his go. Pictures,
+had codex-tui's round-two blockers fixed and cleared (0.2.1, 10:52). codex-tui cleared 0.4.0 in its fourth round (its wording note fixed in 0.4.1; 0.4.1 itself not reviewed). Not yet seen live: the red alerts, the cache card, Codex rows on real data.
+Claude Code draws its own `[-]` at the right of a mod's first line; clicking it hides the band for that session, and
+`claude --resume` brings it back (seen once, 12:55). His old status line was retired on his "y" (13:39): scorched-earth's wrapper
+stays (its setup re-adds `statusLine` at every session start), its saved inner command was emptied so only the burn light shows,
+and only when it has a signal; `~/.cache/overtone` deleted. Backups `~/.claude/mods-work/statusline-retire-2026-10-03/`. Pictures,
 agreement trail and backups: `notes:overtone/work.md` (`dashboard-v3.png` is the agreed layout). Turn the mod off by deleting
 the `CLAUDE_CODE_PLUGIN_DIRS` line in `~/.claude/settings.json`. The mods API is early; it broke other authors within days.
 
-**Claude Code's installed Kerd reads 0.167.0 (installed_plugins.json, 2026-10-03 12:40).** **Codex runs 0.164.0**; its package
-carries Agent, Conductor and Switch, so **installing 0.167.0 in Codex is owed, on Anthony's go in its window.** Laptop bells
+**Claude Code's installed Kerd reads 0.167.0 (installed_plugins.json, 2026-10-03 12:40).** **Codex has 0.167.0 installed** (2026-10-03 14:03, on Anthony's
+"y" here, built and installed by Claude after his line never reached the Codex window: `output/kerd-codex-0.167.0`, `kerd-core`
+repointed, `codex plugin list` reads 0.167.0; config backup `~/.codex/config.toml.bak-kerd-0.164.0`). The open codex-tui window
+loads it only after he restarts it (`codex resume`); not yet seen loaded. Laptop bells
 are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25); the 200k plan is parked (2026-09-27 13:20:
@@ -160,35 +165,36 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: Anthony's first look at `overtone` 0.4.1 expanded in a fresh session** (why: it
-replaces his status line and feeds Claude's switch decisions, and he has seen only its collapsed 0.3.0 line; click `▸ usage` or
-`ctrl+x b`, check it against `notes:overtone/dashboard-v3.png`; then his go to retire the old status line). Also proposed, open:
-**Codex installs 0.167.0, on Anthony's go in its window** (its side still runs 0.164.0: no network notice, Sonnet 5.5 guidance or
-four-choice picker); the first real check of the Sonnet 5.5 profile (a Sonnet grader at medium vs high on one grading job).
+**Selected continuation: none selected; proposed: the first real check of the Sonnet 5.5 guidance** (a Sonnet grader at medium vs
+high on one grading job; why: 0.166.0 shipped 24 untested clauses that steer every Sonnet worker Kerd dispatches, and nothing has
+checked one; it spends usage, so after the weekly reset, 2026-10-03 18:00). Also proposed: Anthony restarts codex-tui (`codex resume`)
+and it reads back 0.167.0 (why: the install is on disk but no Codex session has loaded it); give each old "watch" row in `TODO.md`
+`## Now` a verdict and move closed ones to `docs/backlog-archive.md` (why: the active list carries rows from 0.144 to 0.156 that
+every pickup pays for; carried from three Outs).
 Releases stay paused; findings go to the Backlog and a fix comes back to him. Idea 6
 (one-button Switch Out) is not agreed to build. Unseen in real use: push-first, unanswered-review, chat-roll restart. Still
 Backlog, unfixed until seen: the Kerd Agent reply-ID risk. Parked: the 200k roll plan, the announcement, SAM and Aubel.app, the
 homepage, the thrash guard. Dropped: launch step 2. Backlog also: Skriv voice-profile wiring, blocked on his samples.
 
-**Pickup reading set** (update 2026-10-03 12:4x):
-- this file complete: position, rulings (the release pause first), the overtone position;
+**Pickup reading set** (update 2026-10-03 14:1x):
+- this file complete: position, rulings (the release pause first), the overtone and Codex positions;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; its rows are
   carried in this file);
-- `kivna/sessions/2026-10-03.md`, newest log (the guard fixes and the usage band, 0.2.1 to 0.4.0);
+- `kivna/sessions/2026-10-03.md`, newest log (the guard, the band 0.2.1 to 0.4.3, the status-line retirement, Codex 0.167.0);
 - `notes:outside-the-repo.md`, live links outside the repo.
-Deeper: `docs/decisions.md`; `notes:overtone/work.md` (+ `ui-brief.md`, `ui-direction.png`, `evidence/`); `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`;
-`notes:rolling-session/threshold.md`.
+Deeper: `docs/decisions.md`; `notes:overtone/work.md` (+ `ui-brief.md`, `ui-direction.png`, `evidence/`); `notes:sonnet-55/work.md`;
+`notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `b0e22f38c558c1c61a7c7150f2b1c3559be50263` (pass it to `prepare`/`pickup` as `--notes-commit`).
+**Notes commit:** `c91391c9616f59be22d9cbd1ebac5d67afa16771` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo
+root is `~/development/home/eolas` (notes under `vault/`); its apple-music changes are another project's and were left unsaved.
 
-The observed position before this save is 0.167.0 on `main` (fd4ffac); the boundary commit is this save itself.
+The observed position before this save is 0.167.0 on `main` (3b31662); the boundary commit is this save itself.
 Ask `git log` for its ID.
 
-**Measured** 2026-10-03 12:4x: 35,862 bytes, about 8,966 tokens (estimate), **966 over the 8,000 target**, kept: this file
-carries the live usage band and its ruling. Not pruned again: `TODO.md` `## Now` still holds old "watch" rows that are open, not
-done (age alone closes nothing); a later Out should give each a verdict and move the closed ones to `docs/backlog-archive.md`
-(carried from the last two Outs, not done this sitting). All four carried findings are in the set (one phrase matched by its
-wording without backticks). `read_args` for the next pickup:
+**Measured** 2026-10-03 14:1x: 38,367 bytes, about 9,592 tokens (estimate), **1,592 over the 8,000 target**, kept: today's log
+holds two sittings that the next pickup needs, and this file carries the band, Codex and status-line positions. The old "watch"
+rows in `TODO.md` `## Now` are the prune left to do (proposed as open work, not done this sitting). All four carried findings are
+in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-03.md", "--file", "notes:outside-the-repo.md",

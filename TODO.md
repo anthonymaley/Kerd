@@ -2,12 +2,11 @@
 
 ## Now
 
-**Release boundary:** 0.167.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, and 0.166.0, the Sonnet 5.5 guidance, released on his asks 2026-09-29; 0.167.0, the Switch In/Out options, on his "y" 2026-10-02 23:13): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code's installed copy read 0.166.0 at this Out, Codex 0.164.0: **installing 0.167.0 in Codex is owed, on his go in its window** (its package carries Agent, Conductor and Switch). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.167.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, the Codex network notice, and 0.166.0, the Sonnet 5.5 guidance, released on his asks 2026-09-29; 0.167.0, the Switch In/Out options, on his "y" 2026-10-02 23:13): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code and Codex both have 0.167.0 installed (Codex 2026-10-03 14:03, built and installed by Claude on his "y"); the open codex-tui window loads it after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`.
 
-- **Look at `overtone` 0.4.1 live (0.4.0 copied 2026-10-03 12:39 on Anthony's "y"; 0.4.1 adds the always-on cache hit, 12:46)** in a fresh session: expand the band (click `▸ usage`
-  or `ctrl+x b`) and check it against `notes:overtone/dashboard-v3.png`. Never seen live: the red alerts, the cache card, Codex rows
-  on real data, a mouse click. Then his go to retire his old status line and delete the old `~/.cache/overtone` files. Guard (0.2.1 logic) cleared by codex-tui.
-  Sketchbook `notes:overtone/work.md`.
+- **Watch `overtone` 0.4.3 in real use** (checked by Anthony 2026-10-03: collapsed "thats better", expanded "good"; old status
+  line retired and `~/.cache/overtone` deleted on his "y", 13:39). Never seen live: the red alerts, the cache card, Codex rows on
+  real data. Sketchbook `notes:overtone/work.md`.
 - **Watch 0.167.0 in real use:** the first Switch Out that shows "Switch In will offer" and the first arrival with more than two
   picker choices.
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54: his other
