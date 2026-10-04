@@ -1259,3 +1259,171 @@ describe('guard', () => {
     expect(w.ran).toEqual([])
   })
 })
+
+describe('guard: git however the command starts it', () => {
+  test('env, sudo, timeout, bash -c, eval: git add .env asks each time and runs nothing', async ($, on) => {
+    const { w, clock } = world(on, { status: '?? .env\0', answer: "Don't run it" })
+    const forms = [
+      'env git add .env',
+      'env FOO=1 git add .env',
+      'sudo git add .env',
+      'timeout 5 git add .env',
+      'bash -c "git add .env"',
+      'eval "git add .env"',
+      'bin/git add .env',
+    ]
+    for (const command of forms) {
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect([command, r.deny?.includes('.env (kept out of Git by instruction)')]).toEqual([command, true])
+    }
+    expect(w.asked).toHaveLength(forms.length)
+    expect(w.ran).toEqual([])
+  })
+
+  test('xargs and find -exec: the add cannot be read, so it asks', async ($, on) => {
+    const { w, clock } = world(on, { status: ' M README.md\0', answer: "Don't run it" })
+    const denies: (string | undefined)[] = []
+    for (const command of ['xargs git add < f', 'find . -exec git add {} +', 'watch git commit -am wip']) {
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      denies.push(((await call) as { deny?: string }).deny)
+    }
+    expect(w.asked).toHaveLength(3)
+    expect(denies[0]).toContain('xargs adds arguments the guard cannot read')
+    expect(denies[1]).toContain('find -exec runs it on paths the guard cannot list')
+    expect(denies[2]).toContain('`watch` runs git in a way the guard does not read')
+    expect(w.ran).toEqual([])
+  })
+
+  test('no false asks: git status, git log, echo push, npm run push, a heredoc that mentions git push', async ($, on) => {
+    const { w } = world(on)
+    const quiet = [
+      'git status',
+      'git log --oneline',
+      'echo push',
+      'npm run push',
+      'grep -rn "git push" docs',
+      "cat > notes.md <<'EOF'\nthen git add -A and git push\nEOF",
+    ]
+    for (const command of quiet) await $.tool.call(bash(command))
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(quiet)
+  })
+
+  test('timeout 5 git push is read like a bare push: its files are listed and judged', async ($, on) => {
+    const { w, clock } = world(on, { log: () => '.env\n', answer: "Don't run it" })
+    const call = $.tool.call(bash('timeout 5 git push'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(r.deny).toContain('.env (kept out of Git by instruction)')
+    expect(w.ran).toEqual([])
+  })
+
+  test('git subtree push: toward public origin it asks; toward the private vault remote it passes', async ($, on) => {
+    const remotes =
+      REMOTES + 'vault\tgit@github.com:alex/notes.git (fetch)\nvault\tgit@github.com:alex/notes.git (push)\n'
+    const { w, clock } = world(on, { remotes, answer: "Don't run it" })
+    const call = $.tool.call(bash('git subtree push --prefix x origin main'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(w.asked[0]).toContain('public github.com/alex/Kerd')
+    expect(r.deny).toContain('subtree push publishes commits split out of a folder')
+    await $.tool.call(bash('git subtree push --prefix x vault main'))
+    expect(w.asked).toHaveLength(1)
+    expect(w.ran).toEqual(['git subtree push --prefix x vault main'])
+  })
+
+  test('a git alias is read where git runs: one that runs status passes, one that runs add -A asks', async ($, on) => {
+    const { w, clock } = world(on, {
+      config: { 'alias.st': ['status\n', 0], 'alias.aa': ['add -A\n', 0] },
+      answer: "Don't run it",
+    })
+    await $.tool.call(bash('git st'))
+    expect(w.argv).toContainEqual(['git', 'config', '--get', 'alias.st'])
+    expect(w.asked).toEqual([])
+    const call = $.tool.call(bash('git aa'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('kerd-laptop-result.patch')
+    expect(w.ran).toEqual(['git st'])
+  })
+
+  test('not an alias (a git-<name> program), or an alias read that fails: asks', async ($, on) => {
+    const { w, clock } = world(on, { throws: ['config --get alias.zz'], answer: "Don't run it" })
+    for (const command of ['git frob', 'git zz']) {
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      await call
+    }
+    expect(w.asked).toHaveLength(2)
+    expect(w.asked[0]).toContain('git frob')
+    expect(w.ran).toEqual([])
+  })
+
+  test('an alias with config the read cannot see asks without reading it', async ($, on) => {
+    const { w, clock } = world(on, { config: { 'alias.st': ['status\n', 0] }, answer: "Don't run it" })
+    const call = $.tool.call(bash('HOME=/tmp git st'))
+    await clock.advance(5_000)
+    await call
+    expect(w.argv.some(a => a[1] === 'config' && a[3] === 'alias.st')).toBe(false)
+    expect(w.asked).toHaveLength(1)
+  })
+
+  test('text mode: an alias it cannot read is not asked about', async ($, on) => {
+    const { w } = world(on, { noProcess: true })
+    await $.tool.call(bash('git st'))
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git st'])
+  })
+})
+
+describe("guard: a push reads HEAD's and each pushed revision's committed vault.json", () => {
+  const SECRET = JSON.stringify({ private_paths: ['secret.txt'] })
+  for (const [where, rev] of [
+    ['HEAD', 'HEAD'],
+    ['the pushed revision', 'topic'],
+  ] as const) {
+    test(`first push of a new branch, working copy deleted: ${where}'s private_paths still ask`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: base => (base === rev ? SECRET : null),
+        missingBases: ['refs/remotes/origin/newbranch'],
+        log: () => 'secret.txt\n',
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash('git push origin topic:newbranch'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.argv).toContainEqual(['git', 'show', 'HEAD:kivna/vault.json'])
+      expect(w.argv).toContainEqual(['git', 'show', 'topic:kivna/vault.json'])
+      // Never a base: no work-folder tree is read from them.
+      expect(w.argv.some(a => a[1] === 'ls-tree' && (a[4] === 'HEAD' || a[4] === 'topic'))).toBe(false)
+      expect(r.deny).toContain('secret.txt (kept out of Git by instruction)')
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('add-only: no copy names it, the push passes; a thrown read adds nothing and removes nothing', async ($, on) => {
+    const { w, clock } = world(on, {
+      files: {},
+      committed: null,
+      missingBases: ['refs/remotes/origin/newbranch'],
+      log: () => 'secret.txt\n',
+    })
+    await $.tool.call(bash('git push origin topic:newbranch'))
+    expect(w.asked).toEqual([])
+    // HEAD's read throws; the pushed revision's copy still adds its path.
+    w.throws = ['show HEAD:kivna/vault.json']
+    w.committed = base => (base === 'topic' ? SECRET : null)
+    w.answer = "Don't run it"
+    const call = $.tool.call(bash('git push origin topic:newbranch'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('secret.txt (kept out of Git by instruction)')
+    expect(w.ran).toEqual(['git push origin topic:newbranch'])
+  })
+})

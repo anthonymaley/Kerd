@@ -202,8 +202,11 @@ Install it with:
 claude plugin install overtone@kerd-marketplace
 ```
 
-It needs a Claude Code version with mods (2.1.288 or later). To turn it off,
-uninstall it:
+It needs a Claude Code version with mods (2.1.288 or later). If you already
+load a local copy of overtone through a `CLAUDE_CODE_PLUGIN_DIRS` line, delete
+that line and restart before you configure the marketplace build: while the
+local copy loads, `/plugin configure` cannot see the installed one. To turn it
+off, uninstall it:
 
 ```
 claude plugin uninstall overtone@kerd-marketplace

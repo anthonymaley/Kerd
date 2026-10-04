@@ -34,6 +34,7 @@ import {
   VAULT_SETTING,
   VAULT_SETTING_UNUSABLE,
   shownNotes,
+  aliasKey,
   type PushConfig,
   type VaultFacts,
   type RepoFacts,
@@ -977,5 +978,334 @@ describe('decision', () => {
     expect(q).toContain('3 private paths')
     expect(q).toContain('public github.com/alex/Kerd')
     expect(q.endsWith('?')).toBe(true)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// git however the command starts it
+// ---------------------------------------------------------------------------
+
+describe('git reached through wrappers, shells and strings', () => {
+  const ENV_ADD = [
+    'env git add .env',
+    'env FOO=1 git add .env',
+    'env FOO=1 BAR=2 git add .env',
+    'env -i git add .env',
+    'env - git add .env',
+    'env -u HOME git add .env',
+    'env --unset=HOME git add .env',
+    'env -- git add .env',
+    'env -S "git add .env"',
+    'sudo git add .env',
+    'sudo -u root -E git add .env',
+    'sudo -uroot -- git add .env',
+    'sudo --preserve-env=PATH git add .env',
+    'doas -u root git add .env',
+    'nice git add .env',
+    'nice -n 5 git add .env',
+    'nice -10 git add .env',
+    'timeout 5 git add .env',
+    'timeout -s KILL 5 git add .env',
+    'timeout --signal=KILL --kill-after 2 5s git add .env',
+    'nohup git add .env',
+    'stdbuf -oL -e 0 git add .env',
+    'ionice -c2 -n7 git add .env',
+    'caffeinate -i git add .env',
+    'command git add .env',
+    'exec -a x git add .env',
+    'time -p git add .env',
+    'sudo env FOO=1 nice timeout 5 git add .env',
+    'bash -c "git add .env"',
+    "bash -lc 'git add .env'",
+    "sh -ec 'echo hi; git add .env'",
+    "zsh -o pipefail -c 'git add .env'",
+    "dash -c 'git add .env' arg0",
+    'eval "git add .env"',
+    'eval git add .env',
+    "bash -c \"eval 'git add .env'\"",
+    'if git add .env; then :; fi',
+    '{ git add .env; }',
+    '! git add .env',
+    'bin/git add .env',
+    './git add .env',
+    '/usr/bin/git add .env',
+    'echo "$(git add .env)"',
+    'echo `git add .env`',
+  ]
+  for (const command of ENV_ADD) {
+    test(`\`${command}\` stages .env: read, and asks`, () => {
+      const ops = parseGitOps(command, KERD, HOME)
+      const add = ops.find(o => o.kind === 'add')
+      expect(add?.specs.map(s => s.raw)).toContain('.env')
+      const findings = judge(command)
+      expect(findings.some(f => f.verdict === 'ask' && f.hits.some(h => h.path === '.env'))).toBe(true)
+    })
+  }
+
+  test('timeout 5 git push is a push, read like a bare one', () => {
+    const [op] = parseGitOps('timeout 5 git push', KERD, HOME)
+    expect(op!.kind).toBe('push')
+    expect(op!.push).toEqual({ remote: null, refspecs: [], sets: [], deleting: false, force: false, opaque: null })
+  })
+
+  test('env -C and sudo -D move where that one git runs; bash -c leaves the shell where it was; eval cd does not', () => {
+    const [a, b] = parseGitOps('env -C docs git add x && git add y', KERD, HOME)
+    expect(a!.cwd).toBe(`${KERD}/docs`)
+    expect(b!.cwd).toBe(KERD)
+    expect(parseGitOps('sudo -D docs git add x', KERD, HOME)[0]!.cwd).toBe(`${KERD}/docs`)
+    const [c, d] = parseGitOps('bash -c "cd docs && git add x" && git add y', KERD, HOME)
+    expect(c!.cwd).toBe(`${KERD}/docs`)
+    expect(d!.cwd).toBe(KERD)
+    expect(parseGitOps('eval "cd docs" && git add x', KERD, HOME)[0]!.cwd).toBe(`${KERD}/docs`)
+  })
+
+  const UNREAD = [
+    'xargs git add < f',
+    'printf ".env\\0" | xargs -0 -n1 git add',
+    'xargs -I{} git add {} < f',
+    'find . -exec git add {} +',
+    'find . -name "*.patch" -execdir git add {} \\;',
+    'find . -ok git commit {} \\;',
+    "xargs sh -c 'git add \"$@\"' _",
+    'parallel git add ::: .env',
+    'watch git commit -am wip',
+    'flock /tmp/l git add -A',
+    'ssh host "git add -A"',
+    'tmux send-keys "git commit -a" Enter',
+    '"$G" add .env',
+    '$GIT commit -a',
+  ]
+  for (const command of UNREAD) {
+    test(`\`${command}\`: an add or commit the guard cannot read asks; with no public remote it passes`, () => {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect(ops.length).toBeGreaterThan(0)
+      expect(ops.every(o => o.kind !== 'push' && o.isOpaque && o.specs.some(s => s.unreadable))).toBe(true)
+      expect(judge(command).some(f => f.verdict === 'ask')).toBe(true)
+      expect(judge(command, facts({ remotes: '' })).every(f => f.verdict === 'pass')).toBe(true)
+    })
+  }
+
+  test('pushes through xargs and find: a named remote is still read (private passes), none is opaque', () => {
+    const plan = (command: string, remotes = KERD_REMOTES) =>
+      pushPlan(parseGitOps(command, KERD, HOME)[0]!.push!, remotes, 'origin', null, SEEN)
+    expect(parseGitOps('xargs git push < f', KERD, HOME)[0]!.push!.opaque).toContain('xargs')
+    expect(plan('xargs git push < f').kind).toBe('opaque')
+    expect(parseGitOps('xargs git push origin < f', KERD, HOME)[0]!.push!.blind).toContain('xargs')
+    expect(plan('xargs git push origin < f')).toMatchObject({ kind: 'opaque', urls: ['git@github.com:alex/Kerd.git'] })
+    expect(plan('xargs git push origin < f', VAULT_REMOTES).kind).toBe('none')
+    expect(plan('find . -exec git push {} \\;').kind).toBe('opaque')
+    // A push whose arguments were not read stays opaque, whatever the
+    // default remote: a private origin with a public second remote asks.
+    const PRIVATE_ORIGIN = VAULT_REMOTES + KERD_REMOTES.replace(/origin/g, 'public')
+    for (const command of ['watch git push', '"$G" push', '$G -c a=b push', 'ssh host "git push"', 'xargs git push < f']) {
+      expect([command, plan(command, PRIVATE_ORIGIN).kind]).toEqual([command, 'opaque'])
+    }
+    // Naming its remote, a wrapped push is still placed: private passes.
+    expect(plan('ssh host "git push origin main"', VAULT_REMOTES).kind).toBe('none')
+  })
+
+  test('a quoted < or > is a word, not a redirection: the path after it is still read', () => {
+    for (const command of ['git add ">" .env', "git add '<' .env", 'git add \\> .env']) {
+      const [op] = parseGitOps(command, KERD, HOME)
+      expect([command, op!.specs.map(s => s.raw)]).toEqual([command, [command.includes("'") ? '<' : '>', '.env']])
+    }
+    // A partly quoted operator is a word too: the next word is kept.
+    for (const command of ['git add 2">" .env', "git add 2'>' .env", 'git add 2\\> .env', "git add >'x' .env"]) {
+      const [op] = parseGitOps(command, KERD, HOME)
+      expect([command, op!.specs.map(s => s.raw).includes('.env')]).toEqual([command, true])
+    }
+    // An unquoted one is a redirection: neither it nor its target is a path.
+    expect(parseGitOps('git add .env > out.txt 2>err', KERD, HOME)[0]!.specs.map(s => s.raw)).toEqual(['.env'])
+    expect(parseGitOps('git commit -m x > /dev/null', KERD, HOME)[0]!.specs).toEqual([])
+  })
+
+  test('git subtree push: to a public remote it asks, to a private one it passes', () => {
+    const [op] = parseGitOps('git subtree push --prefix x origin main', KERD, HOME)
+    expect(op!.kind).toBe('push')
+    expect(op!.push!.remote).toBe('origin')
+    expect(op!.push!.blind).toContain('subtree')
+    const plan = (remotes: string) => pushPlan(op!.push!, remotes, 'origin', null, SEEN)
+    expect(plan(KERD_REMOTES)).toMatchObject({ kind: 'opaque', urls: ['git@github.com:alex/Kerd.git'] })
+    expect(plan(VAULT_REMOTES).kind).toBe('none')
+    expect(parseGitOps('git subtree push -P x origin main', KERD, HOME)[0]!.push!.blind).toBeDefined()
+    expect(parseGitOps('git subtree push --prefix=x', KERD, HOME)[0]!.push!.opaque).toBeTruthy()
+    expect(parseGitOps('git -c a.b=c subtree push -P x origin main', KERD, HOME)[0]!.push!.opaque).toContain('-c a.b')
+    expect(parseGitOps('git subtree split -P x', KERD, HOME)).toEqual([])
+    // text mode: an unread push asks
+    expect(judge('git subtree push -P x origin main', null)[0]!.verdict).toBe('ask')
+  })
+
+  const QUIET = [
+    'echo push',
+    'echo git push',
+    'echo "git add .env"',
+    'git status',
+    'git log --grep push',
+    'git help push',
+    'npm run push',
+    'make push',
+    'git status && git log --oneline',
+    'grep -rn "git push" docs',
+    'rg "git (add|push)"',
+    "sed -i 's/git push/x/' f",
+    'perl -pe "s/git push/x/" f',
+    'command -v git',
+    'timeout 5 git fetch',
+    'sudo git status',
+    'bash -c "git status"',
+    'xargs git log < f',
+    'find . -exec git status \\;',
+    'git subtree split -P x',
+    'cat <<<"git push"',
+    "cat > notes.md <<'EOF'\nthen git add .env and git push\nEOF",
+    'cat > notes.md <<EOF\nthen git add -A\nEOF\necho done',
+    "ssh host <<'EOF'\nrun git push later\nEOF",
+  ]
+  for (const command of QUIET) {
+    test(`\`${command.split('\n')[0]}\`: no git add, commit or push`, () => {
+      expect(parseGitOps(command, KERD, HOME)).toEqual([])
+    })
+  }
+
+  test('a heredoc commit message is a message: `git add` in it is not a command', () => {
+    const command = "git commit -m \"$(cat <<'EOF'\nFix (x): `git add .env` asks\ngit push origin main\nEOF\n)\""
+    const ops = parseGitOps(command, KERD, HOME)
+    expect(ops.map(o => o.kind)).toEqual(['commit'])
+  })
+
+  test('only an unquoted, unescaped << starts a here-document', () => {
+    for (const command of ['echo "<<EOF"\ngit add .env', 'echo \\<<EOF\ngit add .env', "echo '<<EOF'\ngit add .env"]) {
+      expect([command, parseGitOps(command, KERD, HOME).map(o => o.kind)]).toEqual([command, ['add']])
+    }
+  })
+
+  test('a here-document fed to a shell is read as commands; one missing its end hides nothing', () => {
+    for (const command of [
+      'cat <<EOF | bash\ngit add .env\nEOF',
+      "bash <<'EOF'\ngit add .env\nEOF",
+      'cat <<EOF | sudo sh -s\ngit add .env\nEOF',
+      'cat <<EOF\ngit add .env',
+      'cat <<EOF\nnotes\ngit add .env\nEOX',
+    ]) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.map(o => o.kind), ops[0]?.specs.map(s => s.raw)]).toEqual([command, ['add'], ['.env']])
+    }
+    // An unquoted here-document runs its $(…) even when it is only data.
+    expect(parseGitOps('cat <<EOF\n$(git add .env)\nEOF', KERD, HOME).map(o => o.kind)).toEqual(['add'])
+    expect(parseGitOps("cat <<'EOF'\n$(git add .env)\nEOF", KERD, HOME)).toEqual([])
+  })
+
+  test('commands nested past the depth the guard reads still come back, and ask', () => {
+    let command = 'git add .env'
+    for (let n = 0; n < 7; n++) command = `bash -c ${JSON.stringify(command)}`
+    const ops = parseGitOps(command, KERD, HOME)
+    expect(ops.length).toBe(1)
+    // add when its words still read as git add there, else an unread push
+    expect(['add', 'push']).toContain(ops[0]!.kind)
+    expect(judge(command)[0]!.verdict).toBe('ask')
+    // Escapes that hide git from a text match still ask past the depth.
+    let hidden = 'gi\\t a\\dd .env'
+    for (let n = 0; n < 7; n++) hidden = `bash -c ${JSON.stringify(hidden)}`
+    const deep = parseGitOps(hidden, KERD, HOME)
+    expect(deep.length).toBe(1)
+    expect(deep[0]!.push?.opaque ?? deep[0]!.specs[0]?.unreadable).toContain('nested deeper')
+    expect(judge(hidden).some(f => f.verdict === 'ask')).toBe(true)
+    // Glob and brace spellings of git, that deep, ask too.
+    for (const inner of ['g?t add .env', '[g]it push', '{git,x} add .env', 'gi*t push']) {
+      let wrapped = inner
+      for (let n = 0; n < 7; n++) wrapped = `bash -c ${JSON.stringify(wrapped)}`
+      expect([inner, judge(wrapped).some(f => f.verdict === 'ask')]).toEqual([inner, true])
+    }
+    // Plain text with no git and nothing quoted, that deep, is nothing.
+    let plain = 'ls'
+    for (let n = 0; n < 7; n++) plain = `bash -c ${plain}`
+    expect(parseGitOps(plain, KERD, HOME)).toEqual([])
+  })
+})
+
+describe('git aliases', () => {
+  const read = (command: string, aliases: [string, string | null][] = []) =>
+    parseGitOps(command, KERD, HOME, new Map(aliases.map(([k, v]) => [aliasKey(KERD, k), v])))
+
+  test('an alias not yet read comes back for guard.tsx to read; unread, it asks only with a public remote', () => {
+    const [op] = read('git st')
+    expect(op!.alias).toBe('st')
+    expect(op!.specs[0]!.unreadable).toContain('git st')
+    expect(judge('git st')[0]!.verdict).toBe('ask')
+    expect(judge('git st', facts({ remotes: '' }))[0]!.verdict).toBe('pass')
+  })
+
+  test('a read alias is parsed as what it runs, chains included', () => {
+    expect(read('git st', [['st', 'status']])).toEqual([])
+    const [aa] = read('git aa', [['aa', 'add -A']])
+    expect(aa!.kind).toBe('add')
+    expect(aa!.all).toBe(true)
+    const [ci] = read('git ci -m x', [['ci', 'co -a'], ['co', 'commit']])
+    expect(ci!.kind).toBe('commit')
+    expect(ci!.all).toBe(true)
+    const [p] = read('git p origin main', [['p', 'push']])
+    expect(p!.push!.remote).toBe('origin')
+    expect(p!.push!.refspecs).toEqual(['main'])
+    // An alias of itself runs out of depth and asks.
+    const self = read('git x', [['x', 'x']])
+    expect(self.length).toBe(1)
+    expect(self[0]!.specs[0]!.unreadable).toBeTruthy()
+  })
+
+  test('a shell alias is read but never whole: its ops ask', () => {
+    const [op] = read('git save', [['save', '!git add .env && git commit -m wip']])
+    expect(op!.kind).toBe('add')
+    expect(op!.isOpaque).toBe(true)
+    expect(op!.specs.some(s => s.unreadable?.includes('shell alias'))).toBe(true)
+  })
+
+  test('not an alias: a git-<name> program on PATH, which asks', () => {
+    const [op] = read('git frob', [['frob', null]])
+    expect(op!.alias).toBeUndefined()
+    expect(op!.specs[0]!.unreadable).toContain('outside git')
+    expect(judge('git lfs push origin main').some(f => f.verdict === 'ask')).toBe(true)
+  })
+
+  test("config the guard's alias read cannot see: asks without reading it", () => {
+    for (const command of [
+      'git -c a.b=1 st',
+      'git -c alias.st="!git add .env" st',
+      'git --config-env=alias.st=X st',
+      'git --git-dir=/elsewhere/.git st',
+      'git --namespace n st',
+      'HOME=/tmp git st',
+      'GIT_CONFIG_GLOBAL=/tmp/c git st',
+      'GIT_CONFIG_COUNT=1 git st',
+      'XDG_CONFIG_HOME=/tmp git st',
+      'env git st',
+      'sudo git st',
+    ]) {
+      const ops = read(command, [['st', 'status']])
+      expect([command, ops.length, ops[0]?.alias, ops[0]?.specs[0]?.unreadable !== undefined]).toEqual([command, 1, undefined, true])
+    }
+  })
+
+  test('git status, git log and other builtins never read as aliases, whatever the env', () => {
+    for (const command of ['git status', 'git log', 'GIT_DIR=x git log', 'HOME=/tmp git diff', 'git -c a=b fetch', 'env git show']) {
+      expect([command, read(command)]).toEqual([command, []])
+    }
+  })
+})
+
+describe('kivna/vault.json that names only a vault', () => {
+  test('unparseable while it names a vault: unreadable (asks); saying nothing of one: no rule', () => {
+    expect(readVault('{"vault": "~/notes/vault"')).toBe('unreadable')
+    expect(readVault('{"vault": "~/notes/vault", "folder": "kerd"')).toBe('unreadable')
+    expect(readVault('{oops')).toBe(null)
+  })
+})
+
+describe('a command named by a shell expansion', () => {
+  test('with a git verb anywhere among its arguments it asks; without one it is quiet', () => {
+    for (const command of ['"$G" add .env', '"$G" -C /x add .env', '$G -c a=b push', '$G subtree push -P x origin main']) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length, judge(command).some(f => f.verdict === 'ask')]).toEqual([command, 1, true])
+    }
+    expect(parseGitOps('"$EDITOR" notes.txt', KERD, HOME)).toEqual([])
   })
 })

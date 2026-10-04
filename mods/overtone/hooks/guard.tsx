@@ -35,6 +35,7 @@ import {
   GH_WAIT_MS,
   GUARD,
   PUSH_DST,
+  aliasKey,
   destinationBase,
   liveCheck,
   liveRange,
@@ -63,6 +64,7 @@ import {
   type Spec,
   type VaultFacts,
   type VaultRead,
+  type Aliases,
   type Evidence,
   type Finding,
   type Outcome,
@@ -207,6 +209,35 @@ async function readVaultFile($: EngineInterface, path: string): Promise<VaultRea
   }
 }
 
+// The git ops in a command, with its git aliases read (`git config --get
+// alias.<name>` where git runs): parse, read the aliases it names, parse
+// again, a few rounds for an alias of an alias. An alias whose read fails
+// (thrown, or an answer git gives for neither set nor unset) stays unread,
+// and its op asks as it stands.
+async function readOps($: EngineInterface, command: string, cwd: string, home: string | undefined): Promise<GitOp[]> {
+  const aliases = new Map<string, string | null>()
+  const tried = new Set<string>()
+  let ops = parseGitOps(command, cwd, home, aliases)
+  for (let round = 0; round < 4; round++) {
+    const want = ops.filter(o => o.alias !== undefined && !tried.has(aliasKey(o.cwd, o.alias)))
+    if (!want.length) break
+    for (const o of want) {
+      const key = aliasKey(o.cwd, o.alias!)
+      if (tried.has(key)) continue
+      tried.add(key)
+      try {
+        const r = await $.process.run(['git', 'config', '--get', `alias.${o.alias}`], { cwd: o.cwd, timeoutMs: 10_000 })
+        if (r.exitCode === 0 && !r.isStdoutTruncated) aliases.set(key, r.stdout.trim())
+        else if (r.exitCode === 1) aliases.set(key, null)
+      } catch {
+        // unread: the op asks
+      }
+    }
+    ops = parseGitOps(command, cwd, home, aliases as Aliases)
+  }
+  return ops
+}
+
 const REFUSED_IN_CATCH =
   'overtone guard: did not run this command: the guard failed while waiting on the person. ' +
   'It stages, commits or pushes a private path toward a public repo. Stage files by name, never the private path, ' +
@@ -226,7 +257,7 @@ export const register: Register = (on, options) => {
       try {
         const cwd = await $.session.cwd()
         const home = await $.env.get('HOME')
-        const ops = parseGitOps(command, cwd, home)
+        const ops = await readOps($, command, cwd, home)
         const cache = new Map<string, RepoFacts | 'none' | null>()
         let textVault: VaultFacts | undefined
         for (const op of ops) {
@@ -508,6 +539,31 @@ export const register: Register = (on, options) => {
                 // Where the private vault is: what every copy of the file
                 // read here says (base trees and the working tree).
                 const vaultReads: VaultRead[] = []
+                // A push also reads HEAD's committed copy and each pushed
+                // revision's: add-only (never a base, never a slug), so a
+                // first push of a new branch keeps what the branch itself
+                // commits when the working copy is deleted or broken.
+                if (op.push && plan?.kind === 'revs') {
+                  const at = plan.revs.indexOf('--not')
+                  const pushed = (at < 0 ? plan.revs : plan.revs.slice(0, at)).filter(r => !r.startsWith('-'))
+                  for (const rev of [...new Set(['HEAD', ...pushed])]) {
+                    if (bases.includes(rev)) continue
+                    try {
+                      const copy = await $.process.run(['git', 'show', `${rev}:${GUARD.newWorkFolders.file}`], {
+                        cwd: root,
+                        timeoutMs: T,
+                      })
+                      if (copy.exitCode === 0 && !copy.isStdoutTruncated) {
+                        vaultWorkNotes ||= workNotesInVault(copy.stdout)
+                        vaultReads.push(readVault(copy.stdout))
+                      } else if (copy.exitCode === 0) workBaseUnknown = true // cut: as a base read
+                    } catch {
+                      // Thrown or timed out: as a thrown base read, the
+                      // work-folder judgement is unknown (asks on one).
+                      workBaseUnknown = true
+                    }
+                  }
+                }
                 // On a push a thrown or timed-out read leaves the base unknown
                 // (assess asks on work folders); stage and commit keep their
                 // text-only fallback.
@@ -576,6 +632,10 @@ export const register: Register = (on, options) => {
           }
           const facts = cache.get(key)
           if (facts === 'none') continue
+          // An alias the guard could not read, with no git to say whether the
+          // repo has a public remote: not asked about (text mode passes
+          // what it cannot place).
+          if (!facts && op.alias !== undefined) continue
           // Text mode: the session project's kivna/vault.json says where the
           // vault is.
           if (!facts) textVault ??= await resolveVault($, [await readVaultFile($, `${cwd}/${GUARD.newWorkFolders.file}`)], own, home)
