@@ -975,8 +975,8 @@ export type Dashboard = {
   panelWidth: number
   cache?: CacheCard
   next?: Next
-  // On a band short of rows the outer frame goes first, then the frames of
-  // the cards and panels, so the whole shows.
+  // On a band short of rows the outer frame goes first; the card frames
+  // only when nothing else will make the whole fit.
   outerBorder: boolean
   panelBorder: boolean
 }
@@ -990,10 +990,10 @@ export function perRowFor(columns: number): number {
 export function dashboardRows(d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'panels' | 'perRow' | 'cache' | 'next' | 'outerBorder' | 'panelBorder'>): number {
   const frame = d.panelBorder ? 2 : 0
   const jobs = d.jobs.length === 0 ? 1 : frame + 2 + d.jobs.length + (d.jobsHidden > 0 ? 1 : 0) + (d.jobsNote ? 1 : 0)
-  const rowsOfPanels = Math.ceil(d.panels.length / d.perRow)
-  const tallest = Math.max(0, ...d.panels.map(p => p.lines.length)) + 1
+  // The context, 5-hour and weekly panels are not drawn in the band (the
+  // line carries them as bars); /overtone prints them.
   const cache = d.cache ? frame + 1 + d.cache.lines.length : 0
-  return (d.outerBorder ? 2 : 0) + 1 + jobs + rowsOfPanels * (tallest + frame) + cache + (d.next ? 1 : 0)
+  return (d.outerBorder ? 2 : 0) + 1 + jobs + cache + (d.next ? 1 : 0)
 }
 
 export function dashboard(s: Snapshot, columns: number, maxRows: number = Infinity): Dashboard {
@@ -1026,8 +1026,14 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   if (cache) d.cache = cache
   const n = nextNote(s)
   if (n) d.next = n
+  // Workers come first: on a band short of rows the outer frame goes, then
+  // the cache card shrinks to its first line and then goes (the line still
+  // shows the cache in red), then the next line; only then do jobs fold, and
+  // the card frames go last.
   if (dashboardRows(d) > maxRows) d.outerBorder = false
-  if (dashboardRows(d) > maxRows) d.panelBorder = false
+  if (dashboardRows(d) > maxRows && d.cache && d.cache.lines.length > 1) d.cache = { ...d.cache, lines: d.cache.lines.slice(0, 1) }
+  if (dashboardRows(d) > maxRows) delete d.cache
+  if (dashboardRows(d) > maxRows) delete d.next
   // Still too tall: the jobs the band cannot show fold into "+K more", the
   // worst kept (wrong model, waiting on you, failed, late replies first).
   const over = dashboardRows(d) - maxRows
@@ -1038,6 +1044,7 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
     d.jobsHidden = d.jobs.length - kept.size
     d.jobs = d.jobs.filter((_, i) => kept.has(i))
   }
+  if (dashboardRows(d) > maxRows) d.panelBorder = false
   return d
 }
 

@@ -180,9 +180,10 @@ describe('band', () => {
     await measure($, w)
     for (const surface of SURFACES) {
       const ui = await expanded($, {}, surface)
-      expect(await ui.find({ type: 'Text', text: 'Context' })).toBeDefined()
-      expect(await ui.find({ type: 'Text', text: '5-hour' })).toBeDefined()
-      expect(await ui.find({ type: 'Text', text: 'Weekly' })).toBeDefined()
+      // the line carries context, 5-hour and weekly; the band shows workers and cache
+      expect(await ui.find({ type: 'Text', text: 'Context' })).toBeUndefined()
+      expect(await ui.find({ type: 'Text', text: '5-hour' })).toBeUndefined()
+      expect(await ui.find({ type: 'Text', text: 'Weekly' })).toBeUndefined()
       expect(await ui.find({ type: 'Text', text: /Monthly|Today|This session/ })).toBeUndefined()
       expect((await ui.find({ type: 'Button' }))?.props).toMatchObject({ label: '▾ usage', action: 'app:cycleDiffBase' })
       expect((await ui.find({ type: 'Text', text: /collapses$/ }))?.text).toBe('click or ctrl+x b collapses')
@@ -217,9 +218,7 @@ describe('band', () => {
     await ui.unmount()
     const big = await expanded($, { bodyColumns: 150 })
     expect((await big.find({ type: 'Text', text: /^next ▸/ }))?.text).toMatch(/^next ▸ 5-hour runs out ≈ \d\d:\d\d — hold big jobs; a good point to Switch Out$/)
-    expect((await big.find({ type: 'Text', text: /^▲ runs out/ }))?.text).toMatch(/^▲ runs out ≈ \d\d:\d\d, 2h 33m early$/)
-    expect(await big.find({ type: 'Text', text: 'lands ≈88% at reset' })).toBeDefined()
-    expect(await big.find({ type: 'Text', text: 'headroom left: ≈12% of the week' })).toBeDefined()
+    expect(await big.find({ type: 'Text', text: 'lands ≈88% at reset' })).toBeUndefined()
     await big.unmount()
   })
 

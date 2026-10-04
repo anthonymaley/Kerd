@@ -80,7 +80,7 @@ import {
   toggleView,
   usageText,
 } from './usage-logic'
-import type { JobRow, Panel, Snapshot, StepUsage, ULine, UTone } from './usage-logic'
+import type { JobRow, Snapshot, StepUsage, ULine, UTone } from './usage-logic'
 
 const reading = atom({ plugin: 'overtone', key: 'reading' } as const, null)
 const model = atom({ plugin: 'overtone', key: 'model' } as const, EMPTY_MODEL)
@@ -471,16 +471,6 @@ export const register: Register = on => {
         </Text>
       </Box>
     )
-    const panel = (p: Panel) => (
-      <Box {...frame(`p-${p.key}`, p.tone)} width={d.panelWidth}>
-        {titleRow(p.key, p.title, p.right)}
-        {p.lines.map((l, i) => (
-          <Text key={`${p.key}-${i}`} wrap="truncate-end">
-            {segs(l, `${p.key}-${i}`)}
-          </Text>
-        ))}
-      </Box>
-    )
     const col = jobColumns(cols)
     const jobRow = (j: JobRow) => {
       const bad = j.state === 'wrong model'
@@ -501,8 +491,6 @@ export const register: Register = on => {
         </Text>
       )
     }
-    const rows: Panel[][] = []
-    for (let i = 0; i < d.panels.length; i += d.perRow) rows.push(d.panels.slice(i, i + d.perRow))
     return (
       <Box flexDirection="column">
         <Box
@@ -550,11 +538,6 @@ export const register: Register = on => {
               )}
             </Box>
           )}
-          {rows.map((r, i) => (
-            <Box key={`row-${i}`} flexDirection="row" columnGap={1}>
-              {r.map(panel)}
-            </Box>
-          ))}
           {d.cache ? (
             <Box {...frame('p-cache', 'error')}>
               {titleRow('cache', [{ text: 'Cache', tone: 'plain', bold: true }, { text: ' shown only when it fires: hit under 80%, or about to expire', tone: 'dim' }], d.cache.right)}

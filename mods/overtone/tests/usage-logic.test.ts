@@ -532,14 +532,22 @@ describe('the dashboard', () => {
     expect(nextText(nextNote(run) as never)).toBe('5-hour runs out ≈ 12:26 — hold big jobs; a good point to Switch Out; context 212k, switch at a break')
   })
 
-  test('a short band drops the outer frame, then the card frames, so the whole shows', () => {
-    const s = snap({ steps: COLD, workers: { byId: { a: worker({ id: 'a', label: 'A' }) } } })
+  test('a short band keeps workers first: outer frame, then cache, then next; card frames last', () => {
+    const w = { byId: { a: worker({ id: 'a', label: 'A' }) } }
+    const s = snap({ steps: COLD, workers: w })
     const tall = dashboard(s, 150)
-    expect([tall.outerBorder, tall.panelBorder, dashboardRows(tall)]).toEqual([true, true, 22])
-    const mid = dashboard(s, 150, 21)
-    expect([mid.outerBorder, mid.panelBorder, dashboardRows(mid)]).toEqual([false, true, 20])
-    const low = dashboard(s, 150, 16)
-    expect([low.outerBorder, low.panelBorder]).toEqual([false, false])
+    // outer 2 + header 1 + jobs card (2 frame + title + columns + 1 job) 5 + cache (2 + title + 3) 6 + next 1
+    expect([tall.outerBorder, tall.panelBorder, dashboardRows(tall)]).toEqual([true, true, 15])
+    const noOuter = dashboard(s, 150, 13)
+    expect([noOuter.outerBorder, noOuter.cache?.lines.length, dashboardRows(noOuter)]).toEqual([false, 3, 13])
+    const shrunk = dashboard(s, 150, 11)
+    expect([shrunk.cache?.lines.length, dashboardRows(shrunk)]).toEqual([1, 11])
+    const noCache = dashboard(s, 150, 6)
+    expect([noCache.cache, noCache.next, noCache.panelBorder, noCache.jobs.length]).toEqual([undefined, undefined, true, 1])
+    const tiny = dashboard(s, 150, 5)
+    expect(tiny.panelBorder).toBe(false)
+    // /overtone still prints the context, 5-hour and weekly panels
+    expect(usageText(s)).toMatch(/^Context — /m)
     expect(perRowFor(124)).toBe(3)
     expect(perRowFor(80)).toBe(2)
     expect(perRowFor(79)).toBe(1)
@@ -552,8 +560,8 @@ describe('the dashboard', () => {
     const s = snap({ workers: { byId } })
     const all = dashboard(s, 150)
     expect([all.jobs.length, all.jobsHidden]).toEqual([8, 0])
-    const short = dashboard(s, 150, 14)
-    expect(short.panelBorder).toBe(false)
+    const short = dashboard(s, 150, 8)
+    expect(short.panelBorder).toBe(true)
     expect(dashboardRows(short)).toBeLessThanOrEqual(14)
     expect(short.jobsHidden).toBe(8 - short.jobs.length)
     expect(short.jobs.map(j => j.job)).toContain('Job 6')
