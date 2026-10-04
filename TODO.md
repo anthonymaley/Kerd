@@ -2,20 +2,20 @@
 
 ## Now
 
-**Release boundary:** 0.167.1 on `main` (overtone mod 0.5.1 live, outside Kerd); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, 0.166.0, 0.167.0 and 0.167.1 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.167.1 installed (loads on restart); Codex has 0.167.0, one patch behind; the open codex-tui window loads a new install only after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
+**Release boundary:** 0.167.1 on `main` (overtone mod 0.5.2 live, outside Kerd); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, 0.166.0, 0.167.0 and 0.167.1 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code and Codex both have 0.167.1 installed (Codex 2026-10-04 10:5x); the open codex-tui window loads it only after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
 
-- **Watch `overtone` 0.5.1 in real use** (0.5.0 live 2026-10-03 23:1x; 0.5.1 blocks 2026-10-04 10:1x on his ask; backup
-  `~/.claude/mods-work/overtone-live-pre-0.5.1`). First: Anthony's look at the block bars after a restart (he saw 0.5.0's solid
+- **Watch `overtone` 0.5.2 in real use** (0.5.0 live 2026-10-03 23:1x; 0.5.1 blocks 2026-10-04 10:1x ran solid in his font; 0.5.2 medium squares `◼` 10:5x; backup
+  `~/.claude/mods-work/overtone-live-pre-0.5.2`). `◼` bars confirmed separate by Anthony 10:52 in a fresh session (he saw 0.5.0's solid
   bars and asked for blocks like the mock `notes:overtone/band-bars.html`). Never seen live: the red alerts and their `⚠ N` fold, the cache card, Codex rows on real data,
   the guard passing a new work folder in a private repo, and the guard's "GitHub did not answer within 5 s" wording (needs a real
   stall). The 17:51 false stop on the vault was a `gh` timeout (identical retry passed 2.5 min later), fixed in 0.5.0. Sketchbook
   `notes:overtone/work.md`.
 - **Watch 0.167.x in real use:** the first Switch Out that shows "Switch In will offer"; the first arrival on 0.167.1 shows its
   screen above the picker (0.167.0 skipped it in 2 of 5 arrivals on 2026-10-03, and for a Kerd user 2026-10-04).
-- **Bring Codex to 0.167.1** (Switch and Conductor changed): Claude builds and installs on Anthony's go, then he restarts codex-tui.
+- **Anthony: restart codex-tui** (`codex resume`) so it loads 0.167.1 (installed 2026-10-04 10:5x; `notes:codex-update/work.md`).
 - **Watch the Sonnet 5.5 profile (0.166.0) in real use** (`notes:sonnet-55/work.md`): 24 clauses pending. First check
   2026-10-03: on the apple-music grading job medium matched high (6 of 6 slips each, ~7% fewer tokens); one run each, not a
-  verdict. Proposed Backlog: readers at medium (Anthony's release call). Still to see: whether the two Sonnet agent lines hold.
+  verdict. Readers stay at high, no release (Anthony 2026-10-04 10:56); the Backlog row collects more runs, revisit after two or three agree. Still to see: whether the two Sonnet agent lines hold.
 - **After any diagram-design update, reload the Kerd profile** (Anthony 2026-09-26 09:54). Updates replace the installed
   `style-guide.md` with the default; a project without a `.diagram-design` marker then draws in orange.
 - **Bring Codex along with each release** that changes its four-skill package (Conductor, Switch, Visuals, Agent); Codex
@@ -37,7 +37,7 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
 ## Backlog
 
 - Sonnet readers at medium instead of high (2026-10-03 effort check: medium matched high on one grading job, ~7% fewer
-  tokens, one run each; `notes:sonnet-55/work.md`). Kerd change, so Anthony's release call; small saving.
+  tokens, one run each; `notes:sonnet-55/work.md`). Held 2026-10-04 (Anthony): no release; collect two or three more runs first.
 - The 2026-09-28 apple-music question-shape grade undercounted: the 2026-10-03 re-run found more consequential asks without a
   block on 0.162.1/0.163.2 (three confirmed). Old versions; recheck on a current-version sitting before any rule change.
 - skriv voice profile wiring — needs non-founder-genre samples.
