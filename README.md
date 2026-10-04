@@ -175,6 +175,37 @@ the sketchbook that becomes a spec, the score the build is checked against, the
 goal check at the end, and an independent reviewer, not a machine that refuses
 your work.
 
+## Optional: overtone, a companion mod
+
+Overtone is a second plugin in the same marketplace, separate from Kerd's skills.
+It is a Claude Code mod: it draws inside Claude Code itself rather than adding
+commands.
+
+**What it shows.** One line above the prompt: three bars of square blocks for
+the context you have left, the 5-hour and weekly allowance you have left, then
+the cache hit. Click the band, or press `ctrl+x b`, and it opens in place into
+the detail behind each figure. Red alerts join the line only while something
+is wrong, such as a cache that went cold or a worker on a model you did not ask
+for.
+
+**The guard.** Before Claude stages, commits or pushes a private path toward a
+public repo, overtone asks you first, and no answer within 30 seconds counts as
+no. The private vault it guards is the one your project's `kivna/vault.json`
+names; a project without that file has no vault rule.
+
+Install it with:
+
+```
+claude plugin install overtone@kerd-marketplace
+```
+
+It needs Claude Code 2.1.287 or later, the release that runs mods. To turn it
+off, uninstall it:
+
+```
+claude plugin uninstall overtone@kerd-marketplace
+```
+
 ## What it writes, and how to remove it
 
 Four kinds of file carry the work, and all four are ordinary Markdown: open
@@ -266,9 +297,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.167.1)
+## What's New (v0.168.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.168.0
+
+**Overtone joins the marketplace as an optional companion mod.** Overtone is a Claude Code mod that has run in
+Kerd's own sittings: a one-line band above the prompt with three bars of square blocks for the context,
+5-hour and weekly allowance you have left, then the cache hit, opening in place on a click or `ctrl+x b`, with red
+alerts only while something is wrong. Its guard asks before Claude stages, commits or pushes a private path toward a
+public repo. It now ships as a second plugin, version 0.6.0, installed with `claude plugin install
+overtone@kerd-marketplace` and removed by uninstalling it; it needs Claude Code 2.1.287 or later. For this release
+the guard stopped carrying its author's own vault path: it now guards the vault your project's `kivna/vault.json`
+names, has no vault rule where that file is missing, and asks when the file mentions `work_notes` but cannot be read.
+Its tests cover all three cases. Kerd's skills are unchanged. Not yet installed from the marketplace in a real
+sitting.
 
 ### v0.167.1
 

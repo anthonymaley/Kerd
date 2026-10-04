@@ -1,0 +1,605 @@
+// overtone 0.4: the usage band (dashboard-v3). One line above the prompt
+// (collapsed, the default): three bars of what is left (context window,
+// 5-hour and weekly allowance, each in its usual tone), the cache hit, and
+// red alerts only while they fire. A
+// click on its `▸ usage` Button, or the chord of its engine action
+// (BAND_ACTION, ctrl+x b), opens it in place: the jobs (workers and Kerd
+// Agent partner requests) first, then Context, 5-hour and Weekly, a Cache
+// card only when the cache went cold or is about to, and a next line only
+// when something needs him.
+//
+// It also holds 0.2's session.start, session.measure and turn.step hooks
+// (the context reading, the model asked vs seen): the engine takes one
+// unmatched registration of an event per plugin, and `$` may only be handed
+// to a function of the same file.
+//
+// Beyond drawing:
+// - prompt.submit: one short line of the same figures (alerts and a next
+//   line only when they fire) attached to the prompt's `context`. The
+//   prompt's text is passed on as it came.
+// - session.measure: the latest figures kept in $.store `snapshot` (no
+//   plugin-managed file; $.store is host-managed). Claude gets the same
+//   figures on every prompt (the context line above), which is what Switch
+//   Out reads.
+// - Partner rows: Kerd Agent's request records for this project, read-only
+//   from `git rev-parse --git-path kerd-agent` (requests/*.json, aliases
+//   from partners/*.json): at most every 30 s; of the records written in the
+//   last three hours (each under 256 KB), newest first, at most 40 are read
+//   and the first 12 that are this project's pending or just-answered
+//   requests are kept (arrival notices and other projects never count). Nothing there is written, and the
+//   helper's own `status` command (which takes a lock and may update the
+//   record) is never run. Only alias, provider, role, status and times are
+//   kept; prompt and reply text are not.
+// - classic.PostModelSwitch: the prompt-cache TTL Claude Code reports there
+//   (`cache_ttl`, on a model switch and when a resume restores the model);
+//   without one the cache is assumed to live 1 hour.
+// - Timers from session.start ($.clock.after, $.clock.every): the first
+//   partner read 1.5 s after start, then a tick every 15 s that moves the
+//   countdowns and re-reads partners when due. A hook's `$` ends with its
+//   dispatch, so nothing is left running from any other hook.
+//
+// Safety contract: every hook passes its event on (`next`); only
+// prompt.submit adds to it (context). Each hook's own work sits in try/catch
+// and each registration has a `.catch` that calls `next` only when the hook
+// never reached it.
+
+import { atom, read, update } from 'claude-code'
+import type { EngineInterface, Register } from 'claude-code'
+
+import type {
+  OvertoneModel,
+  OvertonePartnerRow,
+  OvertonePartners,
+  OvertoneReading,
+  OvertoneSteps,
+  OvertoneUsage,
+  OvertoneView,
+  OvertoneWorkers,
+} from '../types'
+import { EMPTY_MODEL, EMPTY_WORKERS, bandText, noteList, noteListError, noteStepEnd, noteStepStart } from './logic'
+import {
+  BAND_ACTION,
+  COLLAPSED_LABEL,
+  EMPTY_STEPS,
+  EMPTY_VIEW,
+  EXPANDED_LABEL,
+  aliasMap,
+  cell,
+  collapsedLine,
+  contextSummary,
+  dashboard,
+  hasFigures,
+  jobColumns,
+  noteMainStep,
+  noteWorkerModel,
+  noteWorkerSeen,
+  partnerRow,
+  snapshotJson,
+  stateLabel,
+  stateTone,
+  toggleView,
+  usageText,
+} from './usage-logic'
+import type { JobRow, Panel, Snapshot, StepUsage, ULine, UTone } from './usage-logic'
+
+const reading = atom({ plugin: 'overtone', key: 'reading' } as const, null)
+const model = atom({ plugin: 'overtone', key: 'model' } as const, EMPTY_MODEL)
+const workers = atom({ plugin: 'overtone', key: 'workers' } as const, EMPTY_WORKERS)
+const usage = atom({ plugin: 'overtone', key: 'usage' } as const, null)
+const steps = atom({ plugin: 'overtone', key: 'steps' } as const, EMPTY_STEPS)
+const partners = atom({ plugin: 'overtone', key: 'partners' } as const, null)
+const cacheTtl = atom({ plugin: 'overtone', key: 'cacheTtl' } as const, null)
+const view = atom({ plugin: 'overtone', key: 'view' } as const, EMPTY_VIEW)
+const tick = atom({ plugin: 'overtone', key: 'tick' } as const, 0)
+
+// Theme keys for the tones that carry colour.
+const COLOR: Partial<Record<UTone, string>> = { success: 'success', warning: 'warning', error: 'error' }
+
+const TICK_MS = 15_000
+const PARTNER_EVERY_MS = 30_000
+const PARTNER_FILES = 12
+const PARTNER_READS = 40
+const PARTNER_WINDOW_MS = 3 * 3_600_000
+const PARTNER_MAX_BYTES = 256 * 1024
+const ALIAS_EVERY_MS = 5 * 60_000
+
+// Module state: the timers, and the partner reader's caches. A reload starts
+// them over (the old timers are cancelled with the old environment).
+let ticker: { cancel: () => void } | undefined
+let first: { cancel: () => void } | undefined
+let polling = false
+let agentDir: { root: string; dir: string | null } | undefined
+let aliases: { root: string; atMs: number; map: Record<string, string> } | undefined
+
+const errText = (err: unknown): string => (err instanceof Error ? err.message : String(err))
+
+type Context = { tokens?: number; window: number; percent?: number }
+
+const toReading = (c: Context): OvertoneReading => ({
+  tokens: c.tokens,
+  window: c.window,
+  percent: c.percent,
+})
+
+type Usage = Awaited<ReturnType<EngineInterface['session']['usage']>>
+
+async function readUsage($: EngineInterface, u: Usage): Promise<OvertoneUsage> {
+  let sessionId: string | undefined
+  try {
+    sessionId = await $.session.id()
+  } catch {
+    sessionId = undefined
+  }
+  const out: OvertoneUsage = {
+    rateLimits: u.rateLimits.map(l => ({ kind: l.kind, percentUsed: l.percentUsed, resetsAt: l.resetsAt })),
+    measuredMs: await $.clock.now(),
+  }
+  if (sessionId !== undefined) out.sessionId = sessionId
+  return out
+}
+
+async function snapshotOf($: EngineInterface, isWorking: boolean): Promise<Snapshot> {
+  const nowMs = await $.clock.now()
+  const ttl = (await read($, cacheTtl))?.ttl
+  return {
+    ...(ttl ? { cacheTtl: ttl } : {}),
+    nowMs,
+    offsetMin: -new Date(nowMs).getTimezoneOffset(),
+    isWorking,
+    reading: await read($, reading),
+    model: await read($, model),
+    usage: await read($, usage),
+    steps: await read($, steps),
+    workers: await read($, workers),
+    partners: await read($, partners),
+  }
+}
+
+// The latest figures in $.store `snapshot`. Best effort; no plugin-managed
+// file ($.store is host-managed).
+async function writeSnapshot($: EngineInterface): Promise<void> {
+  const s = await snapshotOf($, false)
+  await $.store.set('snapshot', snapshotJson(s, s.usage?.sessionId))
+}
+
+async function readJson($: EngineInterface, path: string): Promise<unknown> {
+  try {
+    return JSON.parse(await $.fs.read(path))
+  } catch {
+    return undefined
+  }
+}
+
+// Kerd Agent's request records for this project, read-only, bounded.
+async function pollPartners($: EngineInterface): Promise<void> {
+  if (polling) return
+  polling = true
+  try {
+    const now = await $.clock.now()
+    const root = await $.session.root()
+    if (agentDir?.root !== root) {
+      const r = await $.process.run(['git', 'rev-parse', '--path-format=absolute', '--git-path', 'kerd-agent'], {
+        cwd: root,
+        timeoutMs: 5_000,
+      })
+      const dir = r.exitCode === 0 ? r.stdout.trim() : ''
+      agentDir = { root, dir: dir !== '' ? dir : null }
+    }
+    const dir = agentDir.dir
+    const none = async (note: string) => {
+      await update($, partners, () => ({ polledMs: now, rows: [], note }) satisfies OvertonePartners)
+    }
+    if (dir === null) return await none('not in a git repository')
+    if (!(await $.fs.exists(`${dir}/requests`))) return await none('no Kerd Agent requests in this project')
+    if (!aliases || aliases.root !== root || now - aliases.atMs >= ALIAS_EVERY_MS) {
+      const records: unknown[] = []
+      if (await $.fs.exists(`${dir}/partners`)) {
+        const list = await $.fs.list(`${dir}/partners`)
+        for (const f of list.filter(x => x.kind === 'file' && x.name.endsWith('.json') && x.size <= PARTNER_MAX_BYTES).slice(0, 64)) {
+          records.push(await readJson($, `${dir}/partners/${f.name}`))
+        }
+      }
+      aliases = { root, atMs: now, map: aliasMap(records) }
+    }
+    // Newest first, within the window; each record read is checked (this
+    // project, a request that expects a reply, a status that matters) before
+    // it counts. At most PARTNER_READS reads, at most PARTNER_FILES rows.
+    const recent = (await $.fs.list(`${dir}/requests`))
+      .filter(x => x.kind === 'file' && x.name.endsWith('.json') && x.size <= PARTNER_MAX_BYTES && now - x.mtimeMs <= PARTNER_WINDOW_MS)
+      .sort((a, b) => b.mtimeMs - a.mtimeMs)
+      .slice(0, PARTNER_READS)
+    const rows: OvertonePartnerRow[] = []
+    for (const f of recent) {
+      if (rows.length >= PARTNER_FILES) break
+      const rec = await readJson($, `${dir}/requests/${f.name}`)
+      const row = rec && typeof rec === 'object' ? partnerRow(rec, root, aliases.map, now) : undefined
+      if (row) rows.push(row)
+    }
+    await update($, partners, () => ({ polledMs: now, rows }) satisfies OvertonePartners)
+  } catch (err) {
+    try {
+      const now = await $.clock.now()
+      await update($, partners, (p: OvertonePartners | null) => ({
+        polledMs: now,
+        rows: p?.rows ?? [],
+        note: `partner records unreadable: ${errText(err).slice(0, 60)}`,
+      }))
+    } catch {
+      // fail open
+    }
+  } finally {
+    polling = false
+  }
+}
+
+// From the session.start hook, after `next`: the exact figures, the first
+// partner read and the tick.
+async function usageOnStart($: EngineInterface): Promise<void> {
+  try {
+    const u = await $.session.usage()
+    const value = await readUsage($, u)
+    await update($, usage, () => value)
+  } catch {
+    // fail open
+  }
+  try {
+    // Work that outlives a dispatch runs on the session's timers.
+    ticker?.cancel()
+    first?.cancel()
+    first = $.clock.after(1_500, () => {
+      void pollPartners($).catch(() => undefined)
+    })
+    ticker = $.clock.every(TICK_MS, () => {
+      void (async () => {
+        try {
+          const now = await $.clock.now()
+          await update($, tick, () => now)
+          const p = await read($, partners)
+          if (!p || now - p.polledMs >= PARTNER_EVERY_MS) await pollPartners($)
+        } catch {
+          // fail open
+        }
+      })()
+    })
+  } catch {
+    ticker = undefined
+    first = undefined
+  }
+}
+
+export const register: Register = on => {
+  // Registers /overtone and takes what a resumed or reloaded session already
+  // has. `session.start` fires once per process (and again on a reload), not
+  // after /clear; a registered command stays for the session.
+  on('session.start', async ($, e, next) => {
+    try {
+      await $.command.register({
+        name: 'overtone',
+        description: 'The overtone usage band as text: jobs, context, 5-hour, weekly, cache alerts.',
+      })
+    } catch {
+      // fail open
+    }
+    try {
+      const u = await $.session.usage()
+      if (u.context.tokens !== undefined) await update($, reading, () => toReading(u.context))
+    } catch {
+      // fail open
+    }
+    try {
+      const list = await $.agent.list()
+      const now = await $.clock.now()
+      await update($, workers, w => noteList(w, list, now))
+    } catch {
+      // fail open: no workers known yet is not a failed read worth showing
+    }
+    const started = await next(e)
+    await usageOnStart($)
+    return started
+  }).catch(($, e, next) => (next.called ? undefined : next(e)))
+
+  // After each main-thread turn: the context reading, a fresh read of the
+  // workers, the windows; then the snapshot in $.store (host-managed).
+  on('session.measure', async ($, e, next) => {
+    try {
+      const u = await $.session.usage()
+      await update($, reading, () => toReading(u.context))
+      const value = await readUsage($, { ...u, rateLimits: e.rateLimits })
+      await update($, usage, () => value)
+    } catch {
+      // fail open
+    }
+    try {
+      const list = await $.agent.list()
+      const now = await $.clock.now()
+      await update($, workers, w => noteList(w, list, now))
+    } catch (err) {
+      try {
+        await update($, workers, w => noteListError(w, errText(err)))
+      } catch {
+        // fail open
+      }
+    }
+    const measured = await next(e)
+    try {
+      await writeSnapshot($)
+    } catch {
+      // fail open: the band does not depend on the file
+    }
+    return measured
+  }).catch(($, e, next) => (next.called ? undefined : next(e)))
+
+  // Every model request. The main loop's: the model asked (the session's as
+  // /model shows it, else the request's) and seen, the effort asked, and its
+  // ModelUsage for the cache. A worker's: the model and effort it sent and
+  // the model that answered (asked vs saw).
+  on('turn.step', async function* ($, e, next) {
+    const agentId = e.agentId
+    if (agentId !== undefined) {
+      try {
+        await update($, workers, (w: OvertoneWorkers) => noteWorkerModel(w, agentId, e.model, e.effort))
+      } catch {
+        // fail open
+      }
+      const sub = yield* next(e)
+      try {
+        const seen = sub.usage?.model
+        await update($, workers, (w: OvertoneWorkers) => noteWorkerSeen(w, agentId, seen))
+      } catch {
+        // fail open
+      }
+      return sub
+    }
+    let startMs = 0
+    try {
+      startMs = await $.clock.now()
+      let sessionModel: string | undefined
+      try {
+        sessionModel = await $.session.model()
+      } catch {
+        sessionModel = undefined
+      }
+      await update($, model, (m: OvertoneModel) =>
+        noteStepStart(m, { sessionModel, stepModel: e.model, effort: e.effort }),
+      )
+    } catch {
+      // fail open
+    }
+    const result = yield* next(e)
+    try {
+      await update($, model, (m: OvertoneModel) => noteStepEnd(m, result.usage?.model))
+      const u: StepUsage | null = result.usage
+      if (u) {
+        const now = await $.clock.now()
+        await update($, steps, (s: OvertoneSteps) => noteMainStep(s, u, startMs || now, now))
+      }
+    } catch {
+      // fail open
+    }
+    return result
+  }).catch(async function* ($, e, next) {
+    return yield* next(e)
+  })
+
+  // The prompt-cache TTL, where Claude Code reports it: after a model switch
+  // and when a resume restores the model. Observed only; passed on as it came.
+  on('classic.PostModelSwitch', async ($, e, next) => {
+    try {
+      const ttl = e.cache_ttl
+      if (ttl === '5m' || ttl === '1h') {
+        const now = await $.clock.now()
+        await update($, cacheTtl, () => ({ ttl, atMs: now }))
+      }
+    } catch {
+      // fail open
+    }
+    return next(e)
+  }).catch(($, e, next) => (next.called ? undefined : next(e)))
+
+  // Claude sees the same figures: one short line beside the prompt.
+  on('prompt.submit', async ($, e, next) => {
+    let line: string | undefined
+    try {
+      // the person is prompting: no "send the next prompt" expiry note
+      line = contextSummary(await snapshotOf($, true))
+    } catch {
+      line = undefined
+    }
+    if (line === undefined) return next(e)
+    return next({ ...e, context: [...(e.context ?? []), line] })
+  }).catch(($, e, next) => (next.called ? undefined : next(e)))
+
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    if (e.props.hasSurvey) return next(e)
+    let s: Snapshot
+    let expanded: boolean
+    try {
+      await read($, tick)
+      s = await snapshotOf($, e.props.isWorking)
+      expanded = (await read($, view)).expanded
+    } catch {
+      return next(e)
+    }
+    if (!hasFigures(s)) return next(e)
+    const { Box, Text, Button } = $.ui.resolve(e)
+    const toggle = () => {
+      void update($, view, (v: OvertoneView) => toggleView(v))
+    }
+    const segs = (line: ULine, key: string) =>
+      line.map((sg, i) =>
+        sg.tone === undefined ? (
+          sg.text
+        ) : (
+          <Text key={`${key}-${i}`} color={COLOR[sg.tone]} bold={sg.bold} dimColor={sg.tone === 'dim' ? true : undefined}>
+            {sg.text}
+          </Text>
+        ),
+      )
+    const beneath = await next(e)
+    const cols = e.props.bodyColumns
+    if (!expanded) {
+      return (
+        <Box flexDirection="column">
+          <Text key="space"> </Text>
+          <Box flexDirection="row">
+            <Button key="usage" label={COLLAPSED_LABEL} variant="primary" action={BAND_ACTION} onPress={toggle} />
+            <Text key="line" wrap="truncate-end">
+              {'  '}
+              {segs(collapsedLine(s, cols), 'c')}
+            </Text>
+          </Box>
+          {beneath}
+        </Box>
+      )
+    }
+    const d = dashboard(s, cols, e.props.maxRows)
+    const frame = (key: string, tone?: UTone) => ({
+      key,
+      flexDirection: 'column' as const,
+      borderStyle: d.panelBorder ? 'round' : undefined,
+      borderColor: d.panelBorder && tone ? COLOR[tone] : undefined,
+      borderDimColor: d.panelBorder && !tone ? true : undefined,
+      paddingX: 1,
+    })
+    const titleRow = (key: string, left: ULine, right: ULine) => (
+      <Box key={`${key}-head`} flexDirection="row" justifyContent="space-between">
+        <Text key="t" wrap="truncate-end">
+          {segs(left, `${key}-t`)}
+        </Text>
+        <Text key="r" wrap="truncate-end">
+          {segs(right, `${key}-r`)}
+        </Text>
+      </Box>
+    )
+    const panel = (p: Panel) => (
+      <Box {...frame(`p-${p.key}`, p.tone)} width={d.panelWidth}>
+        {titleRow(p.key, p.title, p.right)}
+        {p.lines.map((l, i) => (
+          <Text key={`${p.key}-${i}`} wrap="truncate-end">
+            {segs(l, `${p.key}-${i}`)}
+          </Text>
+        ))}
+      </Box>
+    )
+    const col = jobColumns(cols)
+    const jobRow = (j: JobRow) => {
+      const bad = j.state === 'wrong model'
+      return (
+        <Text key={j.key} wrap="truncate-end">
+          <Text dimColor>{'▸ '}</Text>
+          <Text bold>{cell(j.job, col.job)}</Text>
+          <Text dimColor>{cell(j.doing, col.doing)}</Text>
+          {cell(j.asked, col.asked)}
+          <Text color={bad ? 'error' : undefined} bold={bad ? true : undefined}>
+            {cell(j.saw, col.saw)}
+          </Text>
+          {cell(j.elapsed, col.elapsed)}
+          <Text color={COLOR[stateTone(j.state)]} dimColor={stateTone(j.state) === 'dim' ? true : undefined} bold={bad ? true : undefined}>
+            {stateLabel(j.state)}
+          </Text>
+          {j.sent ? <Text color="warning">{` · ${j.sent}`}</Text> : ''}
+        </Text>
+      )
+    }
+    const rows: Panel[][] = []
+    for (let i = 0; i < d.panels.length; i += d.perRow) rows.push(d.panels.slice(i, i + d.perRow))
+    return (
+      <Box flexDirection="column">
+        <Box
+          flexDirection="column"
+          borderStyle={d.outerBorder ? 'round' : undefined}
+          borderDimColor={d.outerBorder ? true : undefined}
+          paddingX={d.outerBorder ? 1 : 0}
+        >
+          <Box flexDirection="row" justifyContent="space-between" paddingRight={d.outerBorder ? 0 : 4}>
+            <Box flexDirection="row">
+              <Button key="usage" label={EXPANDED_LABEL} variant="primary" action={BAND_ACTION} onPress={toggle} />
+              <Text key="head" wrap="truncate-end">
+                {segs(d.header, 'h')}
+              </Text>
+            </Box>
+            <Text key="hint" dimColor wrap="truncate-end">
+              {d.hint}
+            </Text>
+          </Box>
+          {d.jobs.length === 0 ? (
+            <Text key="no-jobs" wrap="truncate-end">
+              <Text dimColor>▸ Workers · no jobs running</Text>
+              {d.jobsNote ? <Text color="warning">{` · ${d.jobsNote}`}</Text> : ''}
+            </Text>
+          ) : (
+            <Box {...frame('p-jobs')}>
+              {titleRow('jobs', [{ text: 'Workers', tone: 'plain', bold: true }, { text: ' running now, what each is doing, asked vs saw', tone: 'dim' }], [{ text: String(d.jobs.length) }])}
+              <Text key="jobs-cols" dimColor wrap="truncate-end">
+                {`  ${cell('job', col.job)}${cell('doing', col.doing)}${cell('asked', col.asked)}${cell('saw', col.saw)}${cell('elapsed', col.elapsed)}state`}
+              </Text>
+              {d.jobs.map(jobRow)}
+              {d.jobsHidden > 0 ? (
+                <Text key="jobs-more" dimColor>
+                  {`  +${d.jobsHidden} more`}
+                </Text>
+              ) : (
+                ''
+              )}
+              {d.jobsNote ? (
+                <Text key="jobs-note" color="warning" wrap="truncate-end">
+                  {d.jobsNote}
+                </Text>
+              ) : (
+                ''
+              )}
+            </Box>
+          )}
+          {rows.map((r, i) => (
+            <Box key={`row-${i}`} flexDirection="row" columnGap={1}>
+              {r.map(panel)}
+            </Box>
+          ))}
+          {d.cache ? (
+            <Box {...frame('p-cache', 'error')}>
+              {titleRow('cache', [{ text: 'Cache', tone: 'plain', bold: true }, { text: ' shown only when it fires: hit under 80%, or about to expire', tone: 'dim' }], d.cache.right)}
+              {d.cache.lines.map((l, i) => (
+                <Text key={`cache-${i}`} wrap="truncate-end">
+                  {segs(l, `cache-${i}`)}
+                </Text>
+              ))}
+            </Box>
+          ) : (
+            ''
+          )}
+          {d.next ? (
+            <Text key="next" wrap="truncate-end">
+              <Text dimColor>next ▸ </Text>
+              <Text color={COLOR[d.next.tone]} bold>
+                {d.next.lead}
+              </Text>
+              {d.next.rest ? ` — ${d.next.rest}` : ''}
+            </Text>
+          ) : (
+            ''
+          )}
+        </Box>
+        {beneath}
+      </Box>
+    )
+  }).catch(($, e, next) => (next.called ? undefined : next(e)))
+
+  // /overtone: the dashboard as text, then 0.2's context, model and workers rows.
+  on('command.run', { command: 'overtone' }, async $ => {
+    try {
+      try {
+        const u = await $.session.usage()
+        const value = await readUsage($, u)
+        await update($, usage, () => value)
+        if (u.context.tokens !== undefined) await update($, reading, () => toReading(u.context))
+      } catch {
+        // the last reading stands
+      }
+      const s = await snapshotOf($, false)
+      const rows = bandText({ reading: s.reading, model: s.model, workers: s.workers, nowMs: s.nowMs })
+      return { text: `overtone\n${usageText(s)}\n\n${rows}` }
+    } catch {
+      return { text: 'overtone: the figures could not be read.' }
+    }
+  })
+}
