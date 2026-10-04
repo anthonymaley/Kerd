@@ -191,7 +191,7 @@ for.
 **The guard.** Before Claude stages, commits or pushes a private path toward a
 public repo, overtone asks you first, and no answer within 30 seconds counts as
 no. It always guards `.env` and `.playwright-mcp/`. Set your notes folder once
-in overtone's `vault_path` setting (`/config`) and it is guarded in every
+in overtone's `vault_path` setting (`/plugin configure overtone@kerd-marketplace`) and it is guarded in every
 project. A project can add to that in its `kivna/vault.json`: the `vault` it
 names, and its own files under `"private_paths"`. Neither can switch a check
 off, and a file the guard cannot use makes it ask.
