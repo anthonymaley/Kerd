@@ -166,7 +166,9 @@ class QuestionFormTests(unittest.TestCase):
         self.assertIn("A plain yes still means the recommendation.", in_out)
         self.assertIn("the saved choices stay candidates, and the recommendation stays one item",
                       in_out)
-        self.assertIn("The picker never replaces or precedes the bubble.", in_out)
+        self.assertIn("The picker never replaces or precedes the bubble, and never stands in "
+                      "for the screen: a picker with no screen in the reply above it is a "
+                      "skipped arrival.", in_out)
         # The standing two-option rule was replaced in 0.167.0; it must not come back.
         for text in (journey, in_out):
             self.assertNotIn("exactly two options", text)
@@ -175,6 +177,19 @@ class QuestionFormTests(unittest.TestCase):
         for text in (journey, in_out):
             self.assertIn("Yes — <the recommended work>", text)
             self.assertNotIn("Not now", text)
+
+    def test_the_arrival_screen_is_reply_text_before_the_picker(self):
+        """2026-10-03/04: arrivals rendered the screen in a shell call, left it in
+        the folded tool result and opened with the picker, so the person saw a
+        question and no summary. The rule is stated wherever the picker is."""
+        rule = ("The screen is reply text: paste the rendered output into the message "
+                "itself, before the picker in the same message; output left in a tool "
+                "result has not been shown, since the host folds it away.")
+        for path in (SKILLS / "switch" / "SKILL.md",
+                     SKILLS / "switch" / "references" / "in-out.md",
+                     JOURNEY):
+            with self.subTest(path=path.relative_to(REPO)):
+                self.assertIn(rule, flat(path.read_text(encoding="utf-8")))
 
     def test_bubble_questions_are_never_inside_code_fences(self):
         """A fenced bubble renders as literal Markdown, not a question (e.g. Tend's report)."""

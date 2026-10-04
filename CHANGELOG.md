@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.167.1
+
+**Switch In shows its screen before the picker, every time.** An arrival could open straight on "Start a
+Conductor session?" with no summary above it: the screen was drawn in a shell call, its output stayed in the folded
+tool result, and the picker came next. Two of five of Kerd's own arrivals on 2026-10-03 did this, and a Kerd user
+met it on 2026-10-04. Switch, its pickup guide and Conductor's question form now say the screen is reply text, pasted
+into the message itself before the picker, and that a picker with no screen above it is a skipped arrival. A wording
+test guards all three places. Nothing else about the arrival changes. Not yet seen in a real sitting.
+
 ## 0.167.0
 
 **Switch Out now shows what Switch In will offer, and Switch In offers more than one way in.** Out's closing box

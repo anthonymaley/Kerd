@@ -65,7 +65,7 @@ another report or question. A native picker may follow the rendered output with
 up to four options, “Yes — <the recommended work>”, up to two other open items
 each with a one-line why, and “Something else”, plus the host's own free-form
 route — because it is a separate surface rather than
-appended text, so the renderer's output stays unchanged. Where the host's picker
+appended text, so the renderer's output stays unchanged. The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away. Where the host's picker
 carries a description, say there that each work option opens Shape for that work
 and approves none of its operations, and that Something else opens Conductor for
 direction-setting. A plain yes still means the recommendation, which stays one

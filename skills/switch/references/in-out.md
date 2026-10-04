@@ -356,7 +356,7 @@ printf '%s' "$summary" | python3 "$SKILL_DIR/scripts/where_we_are.py" --summary 
 ```
 
 The complete stdout from this call **is the final assistant message**. Return
-it unchanged: no paraphrasing, added intro or second question. Rendering is the
+it unchanged: no paraphrasing, added intro or second question. The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away. Rendering is the
 last step of In, not material for another writing pass. If content needs
 correcting, change the summary and render again; use that latest complete
 output. If the tool output is truncated, retrieve the complete result rather
@@ -382,7 +382,8 @@ work option's says so, so an action-worded item (“Release 0.137.0”) is never
 read as approval. A plain yes still means the recommendation. The other items
 are this arrival's own weighing, not the saved preview copied: the saved
 choices stay candidates, and the recommendation stays one item. The picker never
-replaces or precedes the bubble. Without picker support, the bubble is answered
+replaces or precedes the bubble, and never stands in for the screen: a picker
+with no screen in the reply above it is a skipped arrival. Without picker support, the bubble is answered
 normally.
 
 The question ends restoration, not the session, and starts no work. Partial or

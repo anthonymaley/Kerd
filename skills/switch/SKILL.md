@@ -87,6 +87,7 @@ explicit completion heading naming the Kerd version it loaded, the PROJECT · PH
 things stand, Last session, Open work, Recommended with its Why, attention and a
 real link to the open-work page, all in plain product English. No footer or end
 marker. The single question ends the screen as a bold speech-bubble blockquote.
+The screen is reply text: paste the rendered output into the message itself, before the picker in the same message; output left in a tool result has not been shown, since the host folds it away.
 Where the host has a native picker it follows with up to four options: “Yes — <the
 recommended work>”, up to two other open items each with a one-line why, and
 “Something else”, free text always open; a plain yes still means the
