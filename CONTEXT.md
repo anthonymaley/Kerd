@@ -6,8 +6,8 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.167.1 on `main`; releases stay paused apart from four he asked for** (pause: Anthony
-2026-09-28 15:00; 0.165.0 on his "lets just implement it", 2026-09-29 09:37; 0.166.0 on his "y", 11:58; 0.167.0 on his "y", 2026-10-02 23:13; 0.167.1 on his "y", 2026-10-04 10:24). **0.167.1:** Switch In's screen is reply text, pasted into the message before the picker; a picker with no screen above it is a skipped arrival (Switch, its pickup guide and Conductor's question form; one wording test). Found from a Kerd user's report (2026-10-04: "do you want to...?" at once, no summary) and reproduced in 2 of 5 Kerd arrivals on 2026-10-03, where the screen stayed in a folded shell result. codex-tui: wording clear; its blocker (a Backlog row for the fixed defect) dropped. 967 tests, hooks 23 of 23, CI green. Not seen in a real sitting. **0.167.0:** Switch Out's closing box adds "Switch In will offer" (the recommended step plus up to two other open items, each with its reason, marked proposed), and Switch In's picker grows from exactly two choices to up to four with free text always open; a plain yes still means the recommendation and approves no operations; the bubble is unchanged. codex-tui reviewed the diff: consistent; its one finding (Switch description over 1,024 characters) fixed, now 997. 966 tests, hooks 23 of 23, release check clean. Not seen in a real sitting. **0.166.0:**
+**Release boundary: 0.168.0 on `main`; releases stay paused apart from five he asked for** (pause: Anthony
+2026-09-28 15:00; 0.165.0 on his "lets just implement it", 2026-09-29 09:37; 0.166.0 on his "y", 11:58; 0.167.0 on his "y", 2026-10-02 23:13; 0.167.1 on his "y", 2026-10-04 10:24; 0.168.0 on his "make it available" then "yes", 11:14). **0.168.0:** the usage band, overtone 0.6.0, is installable by any Kerd user: `claude plugin install overtone@kerd-marketplace` (source `mods/overtone/`, a second plugin in Kerd's marketplace; Claude Code 2.1.288 or later). Its guard no longer has his paths written in: each person sets `vault_path` (`/plugin configure`), and a project's `kivna/vault.json` can only add protection (`vault`, add-only `private_paths`; Kerd's own five moved there). A fresh Opus reviewer stood in for codex-tui (no answer in 35 min, on his "y") and found a blocker (a repo's vault.json could switch the guard off), fixed and re-checked closed; two low gaps are Backlog. 297 mod tests, 967 skill tests, hooks 23/23, CI green; installed from GitHub into a throwaway config. Not yet run live. Detail `notes:overtone/work.md`. **0.167.1:** Switch In's screen is reply text, pasted into the message before the picker; a picker with no screen above it is a skipped arrival (Switch, its pickup guide and Conductor's question form; one wording test). Found from a Kerd user's report (2026-10-04: "do you want to...?" at once, no summary) and reproduced in 2 of 5 Kerd arrivals on 2026-10-03, where the screen stayed in a folded shell result. codex-tui: wording clear; its blocker (a Backlog row for the fixed defect) dropped. 967 tests, hooks 23 of 23, CI green. Not seen in a real sitting. **0.167.0:** Switch Out's closing box adds "Switch In will offer" (the recommended step plus up to two other open items, each with its reason, marked proposed), and Switch In's picker grows from exactly two choices to up to four with free text always open; a plain yes still means the recommendation and approves no operations; the bubble is unchanged. codex-tui reviewed the diff: consistent; its one finding (Switch description over 1,024 characters) fixed, now 997. 966 tests, hooks 23 of 23, release check clean. Not seen in a real sitting. **0.166.0:**
 Claude Code's `sonnet` alias moved to Sonnet 5.5 on the Anthropic API (2026-09-28) and Kerd's Sonnet readers already
 ran it (18 of 18 calls observed); new profile `anthropic/sonnet-5-5.md` (24 pending clauses: recalibrated effort,
 medium default in Claude Code; early check-ins, unrequested files, self-started review rounds, done without a check),
@@ -158,15 +158,17 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: Anthony restarts codex-tui (`codex resume`) and looks at its first Switch In**
-(why: Codex was brought to 0.167.1 on his "y" at 10:5x, installed and checked, but the open window still runs 0.167.0; its first
-arrival is the first real test that the welcome screen comes before the closing question there. Codex has no picker; the
-question is answered as text). Also proposed: read 3of3's own sittings for Kerd evidence when he asks (launch step 1). Sonnet
-readers stay at high, no release (Anthony 10:56); the Backlog row collects more runs. Done this sitting: `kivna/sessions/2026-10-04.md`.
+**Selected continuation: none selected; proposed: Anthony decides where and when to tell people overtone is available**
+(why: it is public and installs from GitHub, but nobody knows; telling people is his, as for the launch). Before he moves his
+own band to the marketplace build: set `vault_path` to `~/eolas/vault` and delete the `CLAUDE_CODE_PLUGIN_DIRS` line in
+`~/.claude/settings.json`, or two bands load. Also proposed: restart codex-tui (`codex resume`) and look at its first Switch In
+(Codex runs 0.167.1, not yet seen loaded); the two overtone guard gaps in the Backlog for the next patch (releases paused, his call).
+Sonnet readers stay at high, no release (Anthony 10:56). codex-tui's pre-push request (11:2x) never confirmed; ignore a late reply
+or read it as a second opinion. Done this sitting: `kivna/sessions/2026-10-04.md`.
 **Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
 findings go to the Backlog.
 
-**Pickup reading set** (update 2026-10-04 11:0x):
+**Pickup reading set** (update 2026-10-04 12:1x):
 - this file complete: position, rulings (the release pause first, then Switch Out when work is finished, then the band-as-bars ruling), the overtone and Codex positions;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set);
 - `kivna/sessions/2026-10-04.md`, newest log (one sitting; 2026-10-03's five are one file back);
@@ -174,12 +176,12 @@ findings go to the Backlog.
 Deeper: `docs/decisions.md`; `docs/backlog-archive.md` (the pruned rows, verbatim); `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `be4e80e51a7462333d630befe663deb5d4077090` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `e122146c6c746659aca0737008b86e6ce69d70f7` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`).
 
-The observed position before this save is `main` at the 10:3x Switch commit (0.167.1 released); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at the 0.168.0 README commit; the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-04 11:0x: 27,548 bytes, about 6,887 tokens (estimate), within the 8,000 target; the newest log holds two sittings. Five carried findings checked; all in the set ("Sonnet readers stay at high" wraps across a line in this file). `read_args` for the next pickup:
+**Measured** 2026-10-04 12:1x: 30,942 bytes, about 7,736 tokens (estimate), within the 8,000 target; the newest log holds three sittings. Five carried findings checked; all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-04.md", "--file", "notes:outside-the-repo.md",

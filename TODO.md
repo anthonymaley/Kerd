@@ -2,8 +2,9 @@
 
 ## Now
 
-**Release boundary:** 0.167.1 on `main` (overtone mod 0.5.2 live, outside Kerd); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, 0.166.0, 0.167.0 and 0.167.1 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code and Codex both have 0.167.1 installed (Codex 2026-10-04 10:5x); the open codex-tui window loads it only after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
+**Release boundary:** 0.168.0 on `main` (overtone 0.6.0 public in its marketplace; his own band 0.5.2 from his settings line); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.168.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.168.0 installed (loads on restart); Codex has 0.167.1 (10:5x), whose four skills 0.168.0 left unchanged; the open codex-tui window loads it only after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
 
+- **overtone is public as 0.6.0** in Kerd's marketplace (Kerd 0.168.0, 2026-10-04 12:0x; installed from GitHub into a throwaway config, not yet run live). Anthony's own band is still 0.5.2 from his settings line; before switching to the marketplace build he sets `vault_path` to `~/eolas/vault` (`/plugin configure overtone@kerd-marketplace`) and deletes the `CLAUDE_CODE_PLUGIN_DIRS` line, or two bands load. Where and when to tell people is his.
 - **Watch `overtone` 0.5.2 in real use** (0.5.0 live 2026-10-03 23:1x; 0.5.1 blocks 2026-10-04 10:1x ran solid in his font; 0.5.2 medium squares `◼` 10:5x; backup
   `~/.claude/mods-work/overtone-live-pre-0.5.2`). `◼` bars confirmed separate by Anthony 10:52 in a fresh session (he saw 0.5.0's solid
   bars and asked for blocks like the mock `notes:overtone/band-bars.html`). Never seen live: the red alerts and their `⚠ N` fold, the cache card, Codex rows on real data,
@@ -36,6 +37,8 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
 
 ## Backlog
 
+- overtone: a broken `kivna/vault.json` that names only `"vault"` (no work_notes/private_paths) is read as no rule, silently; add `"vault"` to readVault's unparseable heuristic so it asks (2026-10-04 review, low). `notes:overtone/work.md`.
+- overtone: on a push the committed `kivna/vault.json` is read only from the destination's bases; a first push of a new branch reads only the working copy, so a deleted/broken working copy drops `private_paths`. Also read `HEAD:` and each pushed rev's copy (add-only, not into `bases`) (2026-10-04 review, low-medium). `notes:overtone/work.md`.
 - overtone guard misses wrapped git commands (pre-existing since 0.5.2, found 2026-10-04 review): `env git add .env`, `sudo git`, `nice`/`timeout`, `bash -c "git add"`, `eval`, `xargs git add`, `find -exec git add`, git aliases, `git subtree push`. Fix: skip-prefix env/sudo/nice/timeout/xargs, re-parse `-c`/eval strings, ask on unknown wrapped forms mentioning add/commit/push. `notes:overtone/work.md`.
 - Sonnet readers at medium instead of high (2026-10-03 effort check: medium matched high on one grading job, ~7% fewer
   tokens, one run each; `notes:sonnet-55/work.md`). Held 2026-10-04 (Anthony): no release; collect two or three more runs first.
