@@ -2,30 +2,27 @@
 // level. guard.tsx gathers the git facts and asks; this file decides.
 
 // ---------------------------------------------------------------------------
-// The private-path list: edit here.
+// What is private.
 //
-// Derived from Kerd's own record, not guessed:
-// - Working notes live in the private vault since 0.157.0 (2026-09-25,
-//   kivna/vault.json "work_notes": "vault"; CONTEXT.md). The vault is where
-//   the repo's own kivna/vault.json says (`"vault"`, and where it lands when
-//   that path is a link), never a path written here; a repo without the file
-//   has no vault rule. Any `notes:` path is a vault note everywhere.
-// - The 2026-09-25 slips: notes:backlog-sweep and notes:unattended-sweep were
-//   pushed to the public repo as `docs/work/backlog-sweep/{work.md,build.html,
-//   build.png}` (adeb726, 0.155.0) and `docs/work/unattended-sweep/{work.md,
-//   plan.*,drafts/*,evidence/*}` (fdf57de, 1db3a3d, 0.156.0). The shape that
-//   slipped: a NEW folder under docs/work/ (a sketchbook that belongs in the
-//   vault). Folders already published stay public; `question-sets` is the
-//   public seed folder.
-// - Kept out of Git by instruction (CONTEXT.md): the three local-only files.
-// - `.env` at the repo root (local keys, gitignored) and
-//   `.playwright-mcp/` (browser snapshots).
+// - Working notes live in the private vault. The vault is where the person's
+//   own `vault_path` setting says, in every repo, and where the repo's
+//   kivna/vault.json says (`"vault"`), each with where it lands when that
+//   path is a link. Never a path written here. A vault path only ever adds
+//   what the guard asks about; it never lets a command through. A repo's
+//   `"vault"` that is relative, or holds the repo or the home folder, cannot
+//   be used: the guard asks. Any `notes:` path is a vault note everywhere.
+// - A NEW folder under docs/work/ is a sketchbook that belongs in the vault,
+//   in a repo whose kivna/vault.json says "work_notes": "vault". Folders the
+//   base tree already has stay public; `question-sets` is the public seed
+//   folder.
+// - `.env` at the repo root (local keys, gitignored) and `.playwright-mcp/`
+//   (browser snapshots), in every repo. A repo adds its own private paths in
+//   kivna/vault.json `"private_paths"`: add-only, repo-relative, a trailing
+//   `/` for a folder; an entry the guard cannot use makes it ask.
 // - A github.com remote (githubRepo) is public unless GitHub says it is
 //   private (guard.tsx asks `gh repo view`), the vault's own repo included;
 //   one it could not ask about is guarded. Any other URL with "github" in it
 //   is guarded unconfirmed. Only URLs without it are not guarded.
-// - Only a repo that keeps its working notes in the vault (kivna/vault.json
-//   "work_notes": "vault") has the new-work-folder rule.
 // ---------------------------------------------------------------------------
 export const GUARD = {
   // A command argument with this prefix names a vault note.
@@ -34,11 +31,6 @@ export const GUARD = {
   repoPaths: [
     '.env',
     '.playwright-mcp/',
-    'kerd-laptop-result.patch',
-    'docs/guide/reference-from-readme.md',
-    'docs/work/jev-trial/review_results.json',
-    'docs/work/backlog-sweep/',
-    'docs/work/unattended-sweep/',
   ],
   // A file in a folder under `root` that the base tree does not have yet is a
   // new sketchbook: it belongs in the vault. `keep` folders are public. Only
@@ -86,21 +78,23 @@ export function resolvePath(cwd: string, path: string, home?: string): string {
 
 const isInside = (abs: string, root: string) => abs === root || abs.startsWith(root + '/')
 
-// Anything inside the vault's paths is private working notes (`~` is $HOME).
+// Anything inside a vault path is private working notes (`~` is $HOME).
 export function inVault(abs: string, home: string | undefined, vault: VaultFacts): boolean {
-  return (vault.vault?.paths ?? []).some(v => isInside(abs, normalize(expandHome(v, home))))
+  return [...vault.paths, ...vault.own].some(v => isInside(abs, normalize(expandHome(v, home))))
 }
 
 // Why a repo-relative path is private, or undefined. `knownWorkSlugs` is the
 // set of folders under newWorkFolders.root in the base tree; null skips the
-// new-folder rule (unknown base: fail open).
+// new-folder rule (unknown base: fail open). `extra`: the repo's own
+// private_paths, added to cfg.repoPaths.
 export function privateReason(
   rel: string,
   knownWorkSlugs: ReadonlySet<string> | null,
   cfg: GuardConfig = GUARD,
+  extra: readonly string[] = [],
 ): string | undefined {
   const p = normalize(rel)
-  for (const entry of cfg.repoPaths) {
+  for (const entry of [...cfg.repoPaths, ...extra]) {
     if (entry.endsWith('/') ? isInside(p, entry.slice(0, -1)) : isInside(p, entry)) {
       return entry.endsWith('/') ? `private folder ${entry}` : 'kept out of Git by instruction'
     }
@@ -137,57 +131,150 @@ export function workNotesInVault(text: string): boolean {
   }
 }
 
-// What one newWorkFolders.file text says about the private vault: where it is
-// (`"vault"`, `"folder"`, and whether `"work_notes": "vault"`), null when it
-// names none, or 'unreadable' when it speaks of work_notes but cannot be read
-// (unparseable, or "work_notes": "vault" with no vault path): the guard
-// cannot tell where the vault is, so it asks.
-export type VaultRead = { vault: string; folder?: string; workNotes: boolean } | 'unreadable' | null
+// What one newWorkFolders.file text says: where the private vault is
+// (`"vault"`, `"folder"`, whether `"work_notes": "vault"`) and the repo's own
+// `"private_paths"`; null when it says none of that. 'unreadable' when the
+// guard cannot use it and must ask: unparseable while it speaks of work_notes
+// or private_paths; "work_notes": "vault" with no vault; a vault that is not
+// an absolute or `~/` path; private_paths that is not a list of plain
+// repo-relative paths.
+export type VaultRead =
+  | { vault?: string; folder?: string; workNotes: boolean; privatePaths: string[] }
+  | 'unreadable'
+  | null
+
+// A vault path as written: absolute or under `~/`, never `/` or `~` alone.
+const VAULT_SHAPE = /^(?:\/|~\/)./
+
+// One private_paths entry, repo-relative: no leading `/` or `~`, no `..`, no
+// glob or expansion, nothing empty. The trailing `/` of a folder is kept.
+function plainRepoPath(entry: unknown): string | undefined {
+  if (typeof entry !== 'string') return undefined
+  const e = entry.trim()
+  if (!e || e.startsWith('/') || e.startsWith('~') || /[*?[\]$`\\]/.test(e)) return undefined
+  if (e.split('/').some(part => part === '..')) return undefined
+  const n = normalize(e)
+  if (n === '.' || n === '') return undefined
+  return e.endsWith('/') ? `${n}/` : n
+}
 
 export function readVault(text: string): VaultRead {
   let j: unknown
   try {
     j = JSON.parse(text)
   } catch {
-    return /work_notes/.test(text) ? 'unreadable' : null
+    return /work_notes|private_paths/.test(text) ? 'unreadable' : null
   }
-  if (typeof j !== 'object' || j === null) return null
-  const { vault, folder, work_notes } = j as { vault?: unknown; folder?: unknown; work_notes?: unknown }
+  if (typeof j !== 'object' || j === null || Array.isArray(j)) return null
+  const { vault, folder, work_notes, private_paths } = j as Record<string, unknown>
   const workNotes = work_notes === 'vault'
-  if (typeof vault !== 'string' || vault.trim() === '') return workNotes ? 'unreadable' : null
+  let privatePaths: string[] = []
+  if (private_paths !== undefined) {
+    if (!Array.isArray(private_paths)) return 'unreadable'
+    const read = private_paths.map(plainRepoPath)
+    if (read.some(r => r === undefined)) return 'unreadable'
+    privatePaths = [...new Set(read as string[])]
+  }
+  let where: string | undefined
+  if (typeof vault === 'string' && vault.trim() !== '') {
+    where = vault.trim()
+    if (!VAULT_SHAPE.test(where) || where.split('/').includes('..')) return 'unreadable'
+    // `//`, `~//` and the like name the root or $HOME, which guard nothing.
+    if (['/', '~', '~/'].includes(normalize(where).replace(/\/+$/, '') || '/')) return 'unreadable'
+  } else if (vault !== undefined && vault !== '' ) {
+    return 'unreadable'
+  }
+  if (workNotes && where === undefined) return 'unreadable'
+  if (where === undefined && !privatePaths.length && !workNotes) return null
   return {
-    vault: vault.trim(),
+    ...(where !== undefined ? { vault: where } : {}),
     ...(typeof folder === 'string' && folder.trim() !== '' ? { folder: folder.trim() } : {}),
     workNotes,
+    privatePaths,
   }
 }
 
-// The private vault as the repo's kivna/vault.json files say (each base
-// tree's committed copy and the working tree's): every path any of them
-// names, and where the working notes go, for the deny message.
-export type Vault = {
-  // As written (`~` is $HOME); guard.tsx adds where each lands when a link.
+// What the guard knows about the vault and the repo's own private paths.
+export type VaultFacts = {
+  // The vault paths the repo's kivna/vault.json files name (each base tree's
+  // committed copy and the working tree's), as written (`~` is $HOME), and
+  // guard.tsx adds where each lands when a link.
   paths: string[]
-  // <vault>/<folder>/work/ when "work_notes": "vault" names a folder, else <vault>/.
-  notes: string
+  // The person's own `vault_path` setting, and where it lands: every repo.
+  own: string[]
+  // Where working notes go, for the deny message: <vault>/<folder>/work/
+  // when "work_notes": "vault" names a folder, else <vault>/. Only a plain
+  // path (SAFE_NOTES) is ever shown; anything else, none.
+  notes?: string
+  // The repo's own private_paths, every copy's together (add-only).
+  privatePaths: string[]
+  // Why the guard must ask whatever the paths: a file or setting it cannot use.
+  unusable: Hit[]
 }
 
-// `vault` null: no vault rule. `unreadable`: a file that speaks of work_notes
-// could not be read, so the guard asks.
-export type VaultFacts = { vault: Vault | null; unreadable: boolean }
+export const NO_VAULT: VaultFacts = { paths: [], own: [], privatePaths: [], unusable: [] }
 
-export const NO_VAULT: VaultFacts = { vault: null, unreadable: false }
+// A kivna/vault.json the guard cannot use: it asks.
+export const VAULT_UNREADABLE =
+  'the guard could not read where kivna/vault.json puts the private vault or which paths it keeps private, so it cannot tell whether a path here is private'
+// A repo's vault path that holds the repo itself or the home folder.
+export const VAULT_TOO_WIDE =
+  'its vault path holds this repo or your home folder, so the guard cannot use it to tell notes from the repo'
+// The person's vault_path setting is not a usable path.
+export const VAULT_SETTING_UNUSABLE =
+  "overtone's vault_path setting is not an absolute or ~/ path below your home folder, so the guard cannot use it"
+export const VAULT_SETTING = 'overtone setting vault_path'
+
+// A path shown to Claude in the deny message: plain characters, clipped.
+const SAFE_NOTES = /^~?\/[\w./-]+$/
+const NOTES_MAX = 120
+export const shownNotes = (p: string | undefined): string | undefined =>
+  p !== undefined && SAFE_NOTES.test(p) && p.length <= NOTES_MAX ? p : undefined
 
 const slashed = (p: string) => (p.endsWith('/') ? p : `${p}/`)
 
-export function vaultFrom(reads: readonly VaultRead[]): VaultFacts {
+// `own`: the person's vault_path setting ('' or absent: none).
+export function vaultFrom(reads: readonly VaultRead[], own = ''): VaultFacts {
   const found = reads.filter((r): r is Exclude<VaultRead, 'unreadable' | null> => r !== null && r !== 'unreadable')
-  const unreadable = reads.includes('unreadable')
-  if (!found.length) return { vault: null, unreadable }
-  const paths = [...new Set(found.map(r => r.vault))]
-  const first = found.find(r => r.workNotes && r.folder) ?? found[0]!
-  const notes = first.workNotes && first.folder ? `${slashed(first.vault)}${first.folder}/work/` : slashed(first.vault)
-  return { vault: { paths, notes }, unreadable }
+  const unusable: Hit[] = reads.includes('unreadable') ? [{ path: GUARD.newWorkFolders.file, reason: VAULT_UNREADABLE }] : []
+  const mine = own.trim()
+  const ownPaths: string[] = []
+  if (mine) {
+    if (VAULT_SHAPE.test(mine) && !mine.split('/').includes('..')) ownPaths.push(mine)
+    else unusable.push({ path: VAULT_SETTING, reason: VAULT_SETTING_UNUSABLE })
+  }
+  const paths = [...new Set(found.flatMap(r => (r.vault !== undefined ? [r.vault] : [])))]
+  const privatePaths = [...new Set(found.flatMap(r => r.privatePaths))]
+  const first = found.find(r => r.vault !== undefined && r.workNotes && r.folder) ?? found.find(r => r.vault !== undefined)
+  const notes = first?.vault
+    ? first.workNotes && first.folder
+      ? `${slashed(first.vault)}${first.folder}/work/`
+      : slashed(first.vault)
+    : ownPaths[0] !== undefined
+      ? slashed(ownPaths[0])
+      : undefined
+  const shown = shownNotes(notes)
+  return { paths, own: ownPaths, privatePaths, unusable, ...(shown ? { notes: shown } : {}) }
+}
+
+// The vault as the guard may use it here: a repo's vault path that holds
+// `root` (the repo, or where git runs) or the home folder is dropped and
+// asked about; the person's own setting is dropped and asked about only when
+// it holds the home folder. Nothing here ever lets a command through.
+export function usableVault(vault: VaultFacts, root: string, home: string | undefined): VaultFacts {
+  const h = home ? normalize(home) : undefined
+  const holds = (v: string, also: boolean) => {
+    const abs = normalize(expandHome(v, home))
+    return (also && isInside(root, abs)) || (h !== undefined && isInside(h, abs))
+  }
+  const paths = vault.paths.filter(v => !holds(v, true))
+  const own = vault.own.filter(v => !holds(v, false))
+  const unusable = [...vault.unusable]
+  if (paths.length < vault.paths.length) unusable.push({ path: GUARD.newWorkFolders.file, reason: VAULT_TOO_WIDE })
+  if (own.length < vault.own.length) unusable.push({ path: VAULT_SETTING, reason: VAULT_SETTING_UNUSABLE })
+  const widened = paths.length < vault.paths.length || own.length < vault.own.length
+  const { notes, ...rest } = vault
+  return { ...rest, paths, own, unusable, ...(notes && !widened ? { notes } : {}) }
 }
 
 // ---------------------------------------------------------------------------
@@ -278,6 +365,9 @@ export const hasExpansion = (word: string): boolean => EXPANSION.test(word)
 export type Spec = {
   raw: string
   abs: string
+  // Where `abs` lands when a folder on its way is a link, as guard.tsx
+  // resolves it (absent: not resolved, or the same).
+  real?: string
   // Why the guard cannot place this spec, when it cannot: the op asks.
   unreadable?: string
 }
@@ -926,7 +1016,7 @@ function textHits(
       hits.push({ path: s.raw, reason: 'a vault note (notes:)' })
       continue
     }
-    if (inVault(s.abs, home, vault)) {
+    if (inVault(s.abs, home, vault) || (s.real !== undefined && inVault(s.real, home, vault))) {
       hits.push({ path: s.raw, reason: 'inside the private vault' })
       continue
     }
@@ -934,7 +1024,7 @@ function textHits(
     // Without a root, try the spec as written, relative to where git runs.
     const candidate = r ?? (s.raw.startsWith('/') || s.raw.startsWith('~') ? null : normalize(s.raw))
     if (candidate) {
-      const why = privateReason(candidate, slugs, cfg)
+      const why = privateReason(candidate, slugs, cfg, vault.privatePaths)
       if (why) hits.push({ path: candidate, reason: why })
     }
   }
@@ -977,14 +1067,7 @@ export function touchedPaths(op: GitOp, facts: RepoFacts): string[] | null {
   return tracked.filter(e => e.x !== ' ' || (op.all && e.y !== ' ')).map(e => e.path)
 }
 
-// A kivna/vault.json that speaks of work_notes but could not be read: the
-// guard cannot tell where the private vault is, so it asks.
-export const VAULT_UNREADABLE =
-  'the guard could not read where kivna/vault.json puts the private vault, so it cannot tell whether a path here is in it'
-
-const vaultHit = (vault: VaultFacts, cfg: GuardConfig): Hit[] =>
-  vault.unreadable ? [{ path: cfg.newWorkFolders.file, reason: VAULT_UNREADABLE }] : []
-const notesOf = (vault: VaultFacts): Pick<Finding, 'notes'> => (vault.vault ? { notes: vault.vault.notes } : {})
+const notesOf = (vault: VaultFacts): Pick<Finding, 'notes'> => (vault.notes ? { notes: vault.notes } : {})
 
 // Judges one op. `facts` null: no process access (or git failed): text mode,
 // with `textVault` as the session project's kivna/vault.json says.
@@ -995,14 +1078,15 @@ export function assess(
   cfg: GuardConfig = GUARD,
   textVault: VaultFacts = NO_VAULT,
 ): Finding {
+  // A vault path only ever adds hits: no repo or folder is let through for
+  // being inside one.
   if (!facts) {
-    if (inVault(op.cwd, home, textVault)) return { op, verdict: 'pass', mode: 'text', hits: [], touched: 0 }
-    const hits = [...textHits(op, null, null, home, cfg, textVault), ...vaultHit(textVault, cfg)]
-    return { op, verdict: hits.length ? 'ask' : 'pass', mode: 'text', hits, touched: 0, ...notesOf(textVault) }
+    const v = usableVault(textVault, op.cwd, home)
+    const hits = [...textHits(op, null, null, home, cfg, v), ...v.unusable]
+    return { op, verdict: hits.length ? 'ask' : 'pass', mode: 'text', hits, touched: 0, ...notesOf(v) }
   }
-  const vault = facts.vault ?? NO_VAULT
+  const vault = usableVault(facts.vault ?? NO_VAULT, facts.root, home)
   const pass: Finding = { op, verdict: 'pass', mode: 'git', hits: [], touched: 0 }
-  if (inVault(facts.root, home, vault)) return pass
   const remotes = publicRemotes(facts.remotes, facts.visibility)
   const named = remotes.find(u => facts.visibility.get(u) === 'public') ?? remotes[0]
   const plan = op.kind === 'push' ? facts.pushPlan : undefined
@@ -1018,11 +1102,11 @@ export function assess(
     }
   } else if (!remotes.length) return pass
   const slugs = facts.vaultWorkNotes && facts.knownWorkSlugs ? new Set(facts.knownWorkSlugs) : null
-  const hits = [...textHits(op, facts.root, slugs, home, cfg, vault), ...vaultHit(vault, cfg)]
+  const hits = [...textHits(op, facts.root, slugs, home, cfg, vault), ...vault.unusable]
   const listed = touchedPaths(op, facts)
   const touched = listed ?? []
   for (const p of touched) {
-    const why = privateReason(p, slugs, cfg)
+    const why = privateReason(p, slugs, cfg, vault.privatePaths)
     if (why && !hits.some(h => h.path === p)) hits.push({ path: p, reason: why })
   }
   // A push destination whose committed tree was not read, or a forced push
@@ -1174,7 +1258,7 @@ export function denyMessage(command: string, findings: readonly Finding[], why: 
   const asks = findings.filter(f => f.verdict === 'ask')
   const hits = allHits(asks)
   const list = hits.map(h => `${h.path} (${h.reason})`).join('; ')
-  const notes = asks.find(f => f.notes)?.notes
+  const notes = shownNotes(asks.find(f => f.notes)?.notes)
   const sweep = asks.some(
     f => f.op.all || f.op.update || f.op.isOpaque || f.op.specs.some(s => s.raw === '.' || s.raw.endsWith('/')),
   )

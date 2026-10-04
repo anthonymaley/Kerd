@@ -7,11 +7,14 @@ Kerd's own sittings: a one-line band above the prompt with three bars of square 
 5-hour and weekly allowance you have left, then the cache hit, opening in place on a click or `ctrl+x b`, with red
 alerts only while something is wrong. Its guard asks before Claude stages, commits or pushes a private path toward a
 public repo. It now ships as a second plugin, version 0.6.0, installed with `claude plugin install
-overtone@kerd-marketplace` and removed by uninstalling it; it needs Claude Code 2.1.287 or later. For this release
-the guard stopped carrying its author's own vault path: it now guards the vault your project's `kivna/vault.json`
-names, has no vault rule where that file is missing, and asks when the file mentions `work_notes` but cannot be read.
-Its tests cover all three cases. Kerd's skills are unchanged. Not yet installed from the marketplace in a real
-sitting.
+overtone@kerd-marketplace` and removed by uninstalling it; it needs a Claude Code version with mods (2.1.288 or
+later). For this release the guard stopped carrying anything of its author's: it ships with only `.env` and
+`.playwright-mcp/` as private paths. Your own notes folder goes in its new `vault_path` setting and is guarded in
+every project. A project adds its vault and its own private files in `kivna/vault.json` (`vault`, and the new
+`"private_paths"` list). Those settings only add checks: a vault path that holds the project or your home folder, a
+relative one, or a file the guard cannot read makes it ask, never pass. Kerd's own `kivna/vault.json` now lists its
+five local-only files there. Tests cover each case. Kerd's skills are unchanged. Not yet installed from the
+marketplace in a real sitting.
 
 ## 0.167.1
 

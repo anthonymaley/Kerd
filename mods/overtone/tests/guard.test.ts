@@ -7,7 +7,9 @@ const STATUS = '?? kerd-laptop-result.patch\0 M README.md\0'
 const VAULT_JSON = `${KERD}/kivna/vault.json`
 const OID_TRACKED = 'a'.repeat(40)
 const remotesOf = (url: string) => `origin\t${url} (fetch)\norigin\t${url} (push)\n`
-const VAULT_TEXT = '{"vault": "~/notes/vault", "folder": "kerd", "work_notes": "vault"}\n'
+// The repo's kivna/vault.json: the vault, where notes go, the repo's own private paths.
+const VAULT_TEXT =
+  JSON.stringify({ vault: '~/notes/vault', folder: 'kerd', work_notes: 'vault', private_paths: ['kerd-laptop-result.patch'] }) + '\n'
 // What `gh repo view github.com/<repo> --json isPrivate,url` prints.
 const ghSays = (repo: string, isPrivate: boolean): [string, number] => [
   `${JSON.stringify({ isPrivate, url: `https://github.com/${repo}` })}\n`,
@@ -794,6 +796,71 @@ describe('guard', () => {
       return { value: { kind: 'dir', size: 0, mtimeMs: 0, isLink: true, realPath: '/Users/alex/code/notes/vault' } } as never
     })
     const call = $.tool.call(bash('git add /Users/alex/code/notes/vault/kerd/work/x.md'))
+    await clock.advance(5_000)
+    await call
+    expect(w.asked).toHaveLength(1)
+    expect(w.ran).toEqual([])
+  })
+
+  // The reviewer's bypass: a repo's own vault.json naming a vault that holds
+  // the repo (or home, or a relative path) once turned every check off.
+  for (const v of ['~', '/Users/alex', '/Users/alex/code', '.', '..']) {
+    test(`kivna/vault.json "vault": "${v}": git add .env still asks`, async ($, on) => {
+      const text = JSON.stringify({ vault: v, work_notes: 'vault' })
+      const { w, clock } = world(on, { status: '?? .env\0', files: { [VAULT_JSON]: text }, committed: text, answer: "Don't run it" })
+      const call = $.tool.call(bash('git add .env'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain('.env (kept out of Git by instruction)')
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('kivna/vault.json private_paths: a listed path asks; deleting the list in the same change does not undo it', async ($, on) => {
+    const { w, clock } = world(on, { status: '?? kerd-laptop-result.patch\0', files: {}, answer: "Don't run it" })
+    const call = $.tool.call(bash('git add kerd-laptop-result.patch'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(r.deny).toContain('kerd-laptop-result.patch (kept out of Git by instruction)')
+  })
+
+  test('without private_paths, a Kerd file name is an ordinary file', async ($, on) => {
+    const text = '{"vault": "~/notes/vault"}'
+    const { w } = world(on, { status: '?? kerd-laptop-result.patch\0', files: { [VAULT_JSON]: text }, committed: text })
+    await $.tool.call(bash('git add kerd-laptop-result.patch'))
+    expect(w.asked).toEqual([])
+  })
+
+  test('the vault_path setting: guarded in a repo with no kivna/vault.json', { options: { vault_path: '~/mine/vault' } }, async ($, on) => {
+    const { w, clock } = world(on, { files: {}, committed: null, answer: "Don't run it" })
+    const call = $.tool.call(bash('git add ~/mine/vault/x.md'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(r.deny).toContain('~/mine/vault/x.md (inside the private vault)')
+    expect(r.deny).toContain('under ~/mine/vault/)')
+    await $.tool.call(bash('git add README.md'))
+    expect(w.ran).toEqual(['git add README.md'])
+  })
+
+  test('the vault_path setting holds in text mode too', { options: { vault_path: '/srv/mine' } }, async ($, on) => {
+    const { w, clock } = world(on, { noProcess: true, files: {}, answer: "Don't run it" })
+    const call = $.tool.call(bash('git add /srv/mine/x.md'))
+    await clock.advance(5_000)
+    await call
+    expect(w.asked).toHaveLength(1)
+    expect(w.ran).toEqual([])
+  })
+
+  test('a vault named by its link target still catches a path spelled through the link', { options: { vault_path: '/Volumes/data/vault' } }, async ($, on) => {
+    const { w, clock } = world(on, { files: {}, committed: null, answer: "Don't run it" })
+    on('fs.stat', ($, e) => {
+      if (e.path !== '/Users/alex/notes/vault/kerd') throw new Error('ENOENT')
+      return { value: { kind: 'dir', size: 0, mtimeMs: 0, isLink: false, realPath: '/Volumes/data/vault/kerd' } } as never
+    })
+    const call = $.tool.call(bash('git add ~/notes/vault/kerd/x.md'))
     await clock.advance(5_000)
     await call
     expect(w.asked).toHaveLength(1)

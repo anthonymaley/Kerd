@@ -36,6 +36,7 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
 
 ## Backlog
 
+- overtone guard misses wrapped git commands (pre-existing since 0.5.2, found 2026-10-04 review): `env git add .env`, `sudo git`, `nice`/`timeout`, `bash -c "git add"`, `eval`, `xargs git add`, `find -exec git add`, git aliases, `git subtree push`. Fix: skip-prefix env/sudo/nice/timeout/xargs, re-parse `-c`/eval strings, ask on unknown wrapped forms mentioning add/commit/push. `notes:overtone/work.md`.
 - Sonnet readers at medium instead of high (2026-10-03 effort check: medium matched high on one grading job, ~7% fewer
   tokens, one run each; `notes:sonnet-55/work.md`). Held 2026-10-04 (Anthony): no release; collect two or three more runs first.
 - The 2026-09-28 apple-music question-shape grade undercounted: the 2026-10-03 re-run found more consequential asks without a

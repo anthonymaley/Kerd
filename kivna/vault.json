@@ -2,5 +2,12 @@
   "vault": "~/eolas/vault",
   "folder": "kerd",
   "name": "Kerd",
-  "work_notes": "vault"
+  "work_notes": "vault",
+  "private_paths": [
+    "kerd-laptop-result.patch",
+    "docs/guide/reference-from-readme.md",
+    "docs/work/jev-trial/review_results.json",
+    "docs/work/backlog-sweep/",
+    "docs/work/unattended-sweep/"
+  ]
 }

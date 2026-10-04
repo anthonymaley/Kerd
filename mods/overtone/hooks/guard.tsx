@@ -59,7 +59,8 @@ import {
   expandHome,
   readVault,
   vaultFrom,
-  NO_VAULT,
+  type GitOp,
+  type Spec,
   type VaultFacts,
   type VaultRead,
   type Evidence,
@@ -147,21 +148,53 @@ async function askGithub($: EngineInterface, urls: readonly string[]): Promise<V
   ])
 }
 
-// The vault as kivna/vault.json says, plus where each path really lands when
-// it is a link (a vault reached by its link and by its target is one vault).
-async function resolveVault($: EngineInterface, reads: readonly VaultRead[], home: string | undefined): Promise<VaultFacts> {
-  const facts = vaultFrom(reads)
-  if (!facts.vault) return facts
-  const paths = [...facts.vault.paths]
-  for (const p of facts.vault.paths) {
+// The vault as kivna/vault.json and the person's vault_path setting say,
+// plus where each path really lands when it is a link (a vault reached by its
+// link and by its target is one vault).
+async function resolveVault(
+  $: EngineInterface,
+  reads: readonly VaultRead[],
+  own: string,
+  home: string | undefined,
+): Promise<VaultFacts> {
+  const facts = vaultFrom(reads, own)
+  const landed = async (list: readonly string[]) => {
+    const out = [...list]
+    for (const p of list) {
+      try {
+        const real = (await $.fs.stat(expandHome(p, home), { resolve: true }))?.realPath
+        if (real && !out.includes(real)) out.push(real)
+      } catch {
+        // not there, or no file access: the path as written still counts
+      }
+    }
+    return out
+  }
+  return { ...facts, paths: await landed(facts.paths), own: await landed(facts.own) }
+}
+
+// Each pathspec with where it lands when a folder on its way is a link, so a
+// vault named by its target still catches a path spelled through the link.
+// Only when there is a vault to compare with.
+async function landSpecs($: EngineInterface, op: GitOp, vault: VaultFacts): Promise<GitOp> {
+  if (!vault.paths.length && !vault.own.length) return op
+  const specs: Spec[] = []
+  for (const s of op.specs) {
+    if (s.unreadable || s.raw.startsWith(GUARD.notesPrefix) || !s.abs.startsWith('/')) {
+      specs.push(s)
+      continue
+    }
+    const cut = s.abs.lastIndexOf('/')
+    const dir = cut <= 0 ? '/' : s.abs.slice(0, cut)
     try {
-      const real = (await $.fs.stat(expandHome(p, home), { resolve: true }))?.realPath
-      if (real && !paths.includes(real)) paths.push(real)
+      const real = (await $.fs.stat(dir, { resolve: true }))?.realPath
+      const landed = real ? `${real.replace(/\/$/, '')}/${s.abs.slice(cut + 1)}` : undefined
+      specs.push(landed && landed !== s.abs ? { ...s, real: landed } : s)
     } catch {
-      // not there, or no file access: the path as written still counts
+      specs.push(s)
     }
   }
-  return { ...facts, vault: { ...facts.vault, paths } }
+  return { ...op, specs }
 }
 
 // What a kivna/vault.json file says; missing or unreadable as a file: null
@@ -179,7 +212,9 @@ const REFUSED_IN_CATCH =
   'It stages, commits or pushes a private path toward a public repo. Stage files by name, never the private path, ' +
   'and ask the person how they want it done.'
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  // The person's own vault (the vault_path setting): guarded in every repo.
+  const own = typeof options?.vault_path === 'string' ? options.vault_path : ''
   on('tool.call', { tool: 'Bash' }, async ($, e, next) => {
     const command = typeof e.command === 'string' ? e.command : ''
     const id = e.tool_use_id
@@ -494,19 +529,19 @@ export const register: Register = on => {
                   }
                   const slugs = slugsFrom(tree.stdout)
                   knownWorkSlugs = knownWorkSlugs === null ? slugs : knownWorkSlugs.filter(x => slugs.includes(x))
-                  if (!vaultWorkNotes) {
-                    try {
-                      const committed = await $.process.run(['git', 'show', `${b}:${GUARD.newWorkFolders.file}`], {
-                        cwd: root,
-                        timeoutMs: T,
-                      })
-                      vaultWorkNotes =
-                        committed.exitCode === 0 && !committed.isStdoutTruncated && workNotesInVault(committed.stdout)
-                      if (committed.exitCode === 0 && !committed.isStdoutTruncated) vaultReads.push(readVault(committed.stdout))
-                    } catch (err) {
-                      if (!op.push) throw err
-                      workBaseUnknown = true
+                  // Every base's copy: its private_paths and vault add up.
+                  try {
+                    const committed = await $.process.run(['git', 'show', `${b}:${GUARD.newWorkFolders.file}`], {
+                      cwd: root,
+                      timeoutMs: T,
+                    })
+                    if (committed.exitCode === 0 && !committed.isStdoutTruncated) {
+                      vaultWorkNotes ||= workNotesInVault(committed.stdout)
+                      vaultReads.push(readVault(committed.stdout))
                     }
+                  } catch (err) {
+                    if (!op.push) throw err
+                    workBaseUnknown = true
                   }
                 }
                 try {
@@ -516,7 +551,7 @@ export const register: Register = on => {
                 } catch {
                   // missing or unreadable as a file: nothing from it
                 }
-                const vault = await resolveVault($, vaultReads, home)
+                const vault = await resolveVault($, vaultReads, own, home)
                 facts = {
                   root,
                   remotes,
@@ -543,8 +578,9 @@ export const register: Register = on => {
           if (facts === 'none') continue
           // Text mode: the session project's kivna/vault.json says where the
           // vault is.
-          if (!facts) textVault ??= await resolveVault($, [await readVaultFile($, `${cwd}/${GUARD.newWorkFolders.file}`)], home)
-          findings.push(assess(op, facts ?? null, home, undefined, facts ? NO_VAULT : textVault))
+          if (!facts) textVault ??= await resolveVault($, [await readVaultFile($, `${cwd}/${GUARD.newWorkFolders.file}`)], own, home)
+          const vault = facts ? facts.vault : textVault
+          findings.push(assess(vault ? await landSpecs($, op, vault) : op, facts ?? null, home, undefined, textVault))
         }
       } catch (err) {
         findings = []

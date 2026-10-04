@@ -7,6 +7,15 @@
   },
   "homepage": "https://github.com/anthonymaley/Kerd",
   "repository": "https://github.com/anthonymaley/Kerd",
+  "userConfig": {
+    "vault_path": {
+      "type": "string",
+      "title": "Private vault",
+      "description": "Your private notes folder, as an absolute or ~/ path (for example ~/notes/vault). The guard asks before a path inside it is staged, committed or pushed toward a public repo, in every project, on top of any vault a project's kivna/vault.json names. Empty: only those.",
+      "required": false,
+      "default": ""
+    }
+  },
   "types": "./types/index.d.ts",
   "license": "MIT"
 }
