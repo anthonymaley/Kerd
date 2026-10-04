@@ -2,15 +2,14 @@
 
 ## Now
 
-**Release boundary:** 0.167.0 on `main`; **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, 0.166.0 and 0.167.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code and Codex both have 0.167.0 installed; the open codex-tui window loads it after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
+**Release boundary:** 0.167.0 on `main` (overtone mod 0.5.0 live, outside Kerd); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0, 0.166.0 and 0.167.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code and Codex both have 0.167.0 installed; the open codex-tui window loads it after he restarts it (`codex resume`). Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
 
-- **Watch `overtone` in real use** (band 0.4.3 checked by Anthony 2026-10-03: collapsed "thats better", expanded "good";
-  guard private-repo fix live 16:5x after seven codex-tui rounds). Never seen live: the red alerts, the cache card, Codex rows
-  on real data, and the guard letting a new work folder through in a private repo. The "vault sentence on a non-vault block"
-  slip noted 16:5x does not reproduce (live code gates it; 258/258 with a new test in the working copy, 17:4x). Sketchbook
-  `notes:overtone/work.md`. **Found live 2026-10-03 17:5x:** the guard stopped a by-name commit of
-  `vault/kerd/work/overtone/work.md` in the vault repo itself, saying it "could not confirm" `anthonymaley/eolas` is private,
-  while `gh repo view` answered PRIVATE in 0.3 s. Not yet diagnosed; its question timed out unanswered.
+- **Watch `overtone` 0.5.0 in real use** (live 2026-10-03 23:1x on Anthony's "y"; backup `~/.claude/mods-work/overtone-live-pre-0.5.0`).
+  First: Anthony's look at the bars in a fresh session (ctx/5h/7d bars of what is left, colour only; mock
+  `notes:overtone/band-bars.html`). Never seen live: the red alerts and their `⚠ N` fold, the cache card, Codex rows on real data,
+  the guard passing a new work folder in a private repo, and the guard's "GitHub did not answer within 5 s" wording (needs a real
+  stall). The 17:51 false stop on the vault was a `gh` timeout (identical retry passed 2.5 min later), fixed in 0.5.0. Sketchbook
+  `notes:overtone/work.md`.
 - **Watch 0.167.0 in real use:** the first Switch Out that shows "Switch In will offer". The first arrival with more than two
   picker choices was seen 2026-10-03 17:3x (three choices; Anthony picked "Yes").
 - **Watch the Sonnet 5.5 profile (0.166.0) in real use** (`notes:sonnet-55/work.md`): 24 clauses pending. First check

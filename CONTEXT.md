@@ -17,22 +17,7 @@ own review rounds or subagents unless asked). codex-tui two rounds, CLEAR. Sketc
 **0.165.0:** Agent and Conductor say a Codex they start can't reach the network from its commands by default and offer
 the person's own open `codex` session (Backlog row has the tests). Account: `kivna/sessions/2026-09-29.md`.
 
-**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.4.3 is live and his only usage display (0.4.0 2026-10-03 12:39 on Anthony's "y"; 0.4.1 12:46, cache hit always on the line; 0.4.3 12:58, a blank line above the band, his "dont put a line maybe, just a CR line so it has space").** He checked it 2026-10-03: collapsed "thats better" (12:58), expanded "good" (13:25). It is a
-usage band that replaces his status line: one line (context tokens and switch state, 5-hour with run-out, weekly with where
-it lands at reset, cache hit always (green 80%+, amber, red); red alerts only when the cache goes cold, a worker runs on another model than asked, or a partner review
-waits), expanding on click or `ctrl+x b` to a Workers card (asked vs seen, Codex review rows) then Context, 5-hour and Weekly,
-and a Cache card only when it fires, saying what to do. Claude gets the same figures on every prompt (`usage:` context
-line); nothing is written to disk. The guard (asks before a private path is staged, committed or pushed toward a public repo) got its private-repo fix live
-2026-10-03 16:5x on Anthony's "y": a repo is public only when GitHub says so (`gh`, private answers re-checked after 5 min), the
-notes-folder rule only where `kivna/vault.json` sets vault notes, every push-path read fails closed, live remote state checked
-before a push (offline: guarded pushes ask). codex-tui seven rounds, "Safe to copy live"; 257/257 against live; backup
-`~/.claude/mods-work/overtone-live-pre-0.4.4`. Accepted limits are in `notes:overtone/work.md`. codex-tui cleared 0.4.0 in its fourth round (its wording note fixed in 0.4.1; 0.4.1 itself not reviewed). Not yet seen live: the red alerts, the cache card, Codex rows on real data.
-Claude Code draws its own `[-]` at the right of a mod's first line; clicking it hides the band for that session, and
-`claude --resume` brings it back (seen once, 12:55). His old status line was retired on his "y" (13:39): scorched-earth's wrapper
-stays (its setup re-adds `statusLine` at every session start), its saved inner command was emptied so only the burn light shows,
-and only when it has a signal; `~/.cache/overtone` deleted. Backups `~/.claude/mods-work/statusline-retire-2026-10-03/`. Pictures,
-agreement trail and backups: `notes:overtone/work.md` (`dashboard-v3.png` is the agreed layout). Turn the mod off by deleting
-the `CLAUDE_CODE_PLUGIN_DIRS` line in `~/.claude/settings.json`. The mods API is early; it broke other authors within days.
+**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.5.0 is live and his only usage display (2026-10-03 23:1x on Anthony's "y"; backup `~/.claude/mods-work/overtone-live-pre-0.5.0`; codex-tui three rounds, cleared; 270/270 against live; not yet seen in his terminal).** The one-line band is three colour bars of what is left (ctx, 5h, 7d) plus the cache figure; firing alerts fold to a red "⚠ N" when narrow; click or `ctrl+x b` expands it to the Workers, Context, 5-hour, Weekly and (when it fires) Cache cards. Claude gets the figures on every prompt (`usage:` line); nothing is written to disk. Claude Code draws its own `[-]` at the right of the band's first line; clicking it hides the band until `claude --resume`. The guard asks before a private path is staged, committed or pushed toward a public repo: public only when GitHub says so (`gh`; a private answer re-checked after 5 min; no answer in 5 s asks, and now says GitHub did not answer), the notes-folder rule only where `kivna/vault.json` sets vault notes, push-path reads fail closed. Not yet seen live: the bars in his terminal, red alerts and their fold, the cache card, Codex rows on real data. Old status line retired 2026-10-03 13:39 (scorched-earth's wrapper keeps only its burn light; backups `~/.claude/mods-work/statusline-retire-2026-10-03/`). Turn the mod off by deleting the `CLAUDE_CODE_PLUGIN_DIRS` line in `~/.claude/settings.json`. The mods API is early. History, pictures, accepted limits and backups: `notes:overtone/work.md`.
 
 **Claude Code's installed Kerd reads 0.167.0 (installed_plugins.json, 2026-10-03 12:40).** **Codex has 0.167.0 installed** (2026-10-03 14:03, on Anthony's
 "y" here, built and installed by Claude after his line never reached the Codex window: `output/kerd-codex-0.167.0`, `kerd-core`
@@ -80,6 +65,7 @@ drop this").** Don't raise it or recommend it again unless he does.
   2026-10-02 20:18; built and released as 0.167.0 on his "y" 23:13).** It replaces the "exactly two picker options, one
   recommendation" wording; Switch In still re-weighs every open item and the saved choices stay candidates; a plain yes still
   means the recommendation and approves no operations. Needs no mod. Case in `docs/decisions.md`.
+- **The one-line band is colour, not text: ctx, 5h and 7d as bars of what is left, coloured by the existing rules; figures live in the expanded band and Claude's usage line; cache stays a figure (Anthony, 2026-10-03 18:07: "we dont need the text, the color is enough"; live 0.5.0, 23:1x).**
 - **A mod shows only figures that drive a decision for him or Claude (Anthony, 2026-10-03 11:53, "yeah agree"); nothing repeats
   what is already on screen (2026-10-03 10:55: "kinda pointless, already have this is status line below").**
 - **Nothing is built to show him what he can already see on screen, and nothing is counted for its own sake (Anthony, 2026-10-02
@@ -171,32 +157,29 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: Anthony restarts the codex-tui window (`codex resume`) so it loads 0.167.0**
-(why: installed on disk 14:03, not yet loaded; the review partner otherwise reviews against older Kerd wording). Also proposed:
-Anthony decides whether Sonnet readers move to medium (why: the 2026-10-03 check found medium matched high at ~7% fewer tokens;
-it is a release, so his call under the pause); watch the overtone band's alerts and cache card in real use (why: never seen
-live). Done this sitting (17:3x to 17:5x): the guard's "vault sentence on a non-vault block" slip does not reproduce (live code
-already gates it; new test in the mod working copy, 258/258; `notes:overtone/work.md`); `TODO.md` `## Now` pruned from 33
-entries to 8 on his "y" (closed rows verbatim in `docs/backlog-archive.md`). **Parked (Anthony 17:48, "just leave for now"):**
-a Switch Out/In button from the overtone band (idea 6; no context menu exists in the mods API; fill-then-Enter is the feasible
-shape); don't raise it until he does. Releases stay paused; findings go to the Backlog and a fix comes back to him. Unseen in real
-use, Backlog and parked items: see `TODO.md` `## Now` and the rulings above.
+**Selected continuation: none selected; proposed: Anthony looks at overtone 0.5.0's bars in a fresh session** (why: live since
+23:1x but never seen in his terminal; an open session keeps the old band until it restarts; his reaction decides whether the bars
+stay). Also proposed: Anthony restarts the codex-tui window (`codex resume`) so it loads Kerd 0.167.0 (why: installed 14:03, load
+not confirmed); Anthony decides whether Sonnet readers move to medium (why: medium matched high at ~7% fewer tokens once; a release,
+his call under the pause). Done this sitting (17:54 to 23:1x): the guard's 17:51 stop on the private vault was GitHub not answering in
+time, not a misjudgement (same command passed 2.5 min later); fixed so a slow `gh` is not tried twice and the question says GitHub did
+not answer; and the band became bars on his ask; both live as overtone 0.5.0. Detail `notes:overtone/work.md`. **Parked (Anthony
+17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused; findings go to the Backlog.
 
-**Pickup reading set** (update 2026-10-03 17:5x):
-- this file complete: position, rulings (the release pause first, then Switch Out when work is finished), the overtone and Codex positions;
-- `TODO.md` `## Now`, the designated active list, pruned to 8 entries this sitting (`## Backlog` is a separate section outside the set);
+**Pickup reading set** (update 2026-10-03 23:2x):
+- this file complete: position, rulings (the release pause first, then Switch Out when work is finished, then the band-as-bars ruling), the overtone and Codex positions;
+- `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set);
 - `kivna/sessions/2026-10-03.md`, newest log (four sittings);
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `docs/backlog-archive.md` (the pruned rows, verbatim); `notes:overtone/work.md`; `notes:sonnet-55/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `8b6a8e7543c3a8833c4706835b63b55c782b15cb` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `1be8c39f240049f7f3cc30b086123ece45baf008` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`).
 
 The observed position before this save is `main` at the prune commit; the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-03 17:5x: 32,011 bytes, about 8,003 tokens (estimate), at the 8,000 target (was 10,538 before the prune). All five
-carried findings are in the set. `read_args` for the next pickup:
+**Measured** 2026-10-03 23:2x: 32,884 bytes, about 8,221 tokens (estimate), 221 over the 8,000 target: the newest log holds five sittings (10.3k bytes) and the overtone paragraph was cut by a third this sitting; kept rather than drop active context. All five carried findings are in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-03.md", "--file", "notes:outside-the-repo.md",
