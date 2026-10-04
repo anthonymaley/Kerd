@@ -6,8 +6,8 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 ## Where We Are
 
-**Release boundary: 0.167.0 on `main`; releases stay paused apart from three he asked for** (pause: Anthony
-2026-09-28 15:00; 0.165.0 on his "lets just implement it", 2026-09-29 09:37; 0.166.0 on his "y", 11:58; 0.167.0 on his "y", 2026-10-02 23:13). **0.167.0:** Switch Out's closing box adds "Switch In will offer" (the recommended step plus up to two other open items, each with its reason, marked proposed), and Switch In's picker grows from exactly two choices to up to four with free text always open; a plain yes still means the recommendation and approves no operations; the bubble is unchanged. codex-tui reviewed the diff: consistent; its one finding (Switch description over 1,024 characters) fixed, now 997. 966 tests, hooks 23 of 23, release check clean. Not seen in a real sitting. **0.166.0:**
+**Release boundary: 0.167.1 on `main`; releases stay paused apart from four he asked for** (pause: Anthony
+2026-09-28 15:00; 0.165.0 on his "lets just implement it", 2026-09-29 09:37; 0.166.0 on his "y", 11:58; 0.167.0 on his "y", 2026-10-02 23:13; 0.167.1 on his "y", 2026-10-04 10:24). **0.167.1:** Switch In's screen is reply text, pasted into the message before the picker; a picker with no screen above it is a skipped arrival (Switch, its pickup guide and Conductor's question form; one wording test). Found from a Kerd user's report (2026-10-04: "do you want to...?" at once, no summary) and reproduced in 2 of 5 Kerd arrivals on 2026-10-03, where the screen stayed in a folded shell result. codex-tui: wording clear; its blocker (a Backlog row for the fixed defect) dropped. 967 tests, hooks 23 of 23, CI green. Not seen in a real sitting. **0.167.0:** Switch Out's closing box adds "Switch In will offer" (the recommended step plus up to two other open items, each with its reason, marked proposed), and Switch In's picker grows from exactly two choices to up to four with free text always open; a plain yes still means the recommendation and approves no operations; the bubble is unchanged. codex-tui reviewed the diff: consistent; its one finding (Switch description over 1,024 characters) fixed, now 997. 966 tests, hooks 23 of 23, release check clean. Not seen in a real sitting. **0.166.0:**
 Claude Code's `sonnet` alias moved to Sonnet 5.5 on the Anthropic API (2026-09-28) and Kerd's Sonnet readers already
 ran it (18 of 18 calls observed); new profile `anthropic/sonnet-5-5.md` (24 pending clauses: recalibrated effort,
 medium default in Claude Code; early check-ins, unrequested files, self-started review rounds, done without a check),
@@ -17,9 +17,9 @@ own review rounds or subagents unless asked). codex-tui two rounds, CLEAR. Sketc
 **0.165.0:** Agent and Conductor say a Codex they start can't reach the network from its commands by default and offer
 the person's own open `codex` session (Backlog row has the tests). Account: `kivna/sessions/2026-09-29.md`.
 
-**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.5.0 is live and his only usage display (2026-10-03 23:1x on Anthony's "y"; backup `~/.claude/mods-work/overtone-live-pre-0.5.0`; codex-tui three rounds, cleared; 270/270 against live; not yet seen in his terminal).** The one-line band is three colour bars of what is left (ctx, 5h, 7d) plus the cache figure; firing alerts fold to a red "⚠ N" when narrow; click or `ctrl+x b` expands it to the Workers, Context, 5-hour, Weekly and (when it fires) Cache cards. Claude gets the figures on every prompt (`usage:` line); nothing is written to disk. Claude Code draws its own `[-]` at the right of the band's first line; clicking it hides the band until `claude --resume`. The guard asks before a private path is staged, committed or pushed toward a public repo: public only when GitHub says so (`gh`; a private answer re-checked after 5 min; no answer in 5 s asks, and now says GitHub did not answer), the notes-folder rule only where `kivna/vault.json` sets vault notes, push-path reads fail closed. Not yet seen live: the bars in his terminal, red alerts and their fold, the cache card, Codex rows on real data. Old status line retired 2026-10-03 13:39 (scorched-earth's wrapper keeps only its burn light; backups `~/.claude/mods-work/statusline-retire-2026-10-03/`). Turn the mod off by deleting the `CLAUDE_CODE_PLUGIN_DIRS` line in `~/.claude/settings.json`. The mods API is early. History, pictures, accepted limits and backups: `notes:overtone/work.md`.
+**Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.5.1 is live and his only usage display (0.5.0 2026-10-03 23:1x on his "y", codex-tui cleared; 0.5.1 2026-10-04 10:1x on his ask "can we have gaps to show blocks in the bars like the example?", backup `~/.claude/mods-work/overtone-live-pre-0.5.1`, 270/270 against live; blocks not yet seen in his terminal).** The one-line band is three bars of separate `■` blocks for what is left (ctx, 5h, 7d; left in colour, used dim) plus the cache figure; firing alerts fold to a red "⚠ N" when narrow; click or `ctrl+x b` expands it to the Workers, Context, 5-hour, Weekly and (when it fires) Cache cards. Claude gets the figures on every prompt (`usage:` line); nothing is written to disk. Claude Code draws its own `[-]` at the right of the band's first line; clicking it hides the band until `claude --resume`. The guard asks before a private path is staged, committed or pushed toward a public repo: public only when GitHub says so (`gh`; a private answer re-checked after 5 min; no answer in 5 s asks, and now says GitHub did not answer), the notes-folder rule only where `kivna/vault.json` sets vault notes, push-path reads fail closed. Not yet seen live: the block bars in his terminal (he saw the 0.5.0 solid bars 2026-10-04 and asked for blocks), red alerts and their fold, the cache card, Codex rows on real data. Old status line retired 2026-10-03 13:39 (scorched-earth's wrapper keeps only its burn light; backups `~/.claude/mods-work/statusline-retire-2026-10-03/`). Turn the mod off by deleting the `CLAUDE_CODE_PLUGIN_DIRS` line in `~/.claude/settings.json`. The mods API is early. History, pictures, accepted limits and backups: `notes:overtone/work.md`.
 
-**Claude Code's installed Kerd reads 0.167.0 (installed_plugins.json, 2026-10-03 12:40).** **Codex has 0.167.0 installed** (2026-10-03 14:03, on Anthony's
+**Claude Code's installed Kerd reads 0.167.1 (`claude plugin update`, 2026-10-04 10:3x; loads on restart).** **Codex has 0.167.0 installed, one patch behind; 0.167.1 changes Switch and Conductor, both in its package** (2026-10-03 14:03, on Anthony's
 "y" here, built and installed by Claude after his line never reached the Codex window: `output/kerd-codex-0.167.0`, `kerd-core`
 repointed, `codex plugin list` reads 0.167.0; config backup `~/.codex/config.toml.bak-kerd-0.164.0`). The open codex-tui window
 loads it only after he restarts it (`codex resume`); not yet seen loaded. Laptop bells
@@ -56,8 +56,8 @@ raise it until he does.
 drop this").** Don't raise it or recommend it again unless he does.
 
 **Rulings that govern the next work (cases in `docs/decisions.md`):**
-- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0, 0.166.0 and 0.167.0 through it on
-  2026-09-29 (09:37, 11:58) and 2026-10-02 23:13, each on his own ask, the pause otherwise holds: "i would like stabalize
+- **Releases are paused so Anthony can use Kerd (2026-09-28 15:00; he released 0.165.0, 0.166.0, 0.167.0 and 0.167.1 through it on
+  2026-09-29 (09:37, 11:58), 2026-10-02 23:13 and 2026-10-04 10:24, each on his own ask, the pause otherwise holds: "i would like stabalize
   releases for a while and use it"; "yes but only if there is nothing left to fix").** The pause starts at 0.164.1, which fixed the one
   defect the 2026-09-28 apple-music re-grade found. While it holds: grades, findings and ideas go to the Backlog, not
   into releases; any fix found comes back to him for the release decision; he lifts the pause.
@@ -157,31 +157,31 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: none selected; proposed: Anthony looks at overtone 0.5.0's bars in a fresh session** (why: live since
-23:1x but never seen in his terminal; an open session keeps the old band until it restarts; his reaction decides whether the bars
-stay). Also proposed: Anthony restarts the codex-tui window (`codex resume`) so it loads Kerd 0.167.0 (why: installed 14:03, load
-not confirmed); Anthony decides whether Sonnet readers move to medium (why: medium matched high at ~7% fewer tokens once; a release,
-his call under the pause). Done this sitting (17:54 to 23:1x): the guard's 17:51 stop on the private vault was GitHub not answering in
-time, not a misjudgement (same command passed 2.5 min later); fixed so a slow `gh` is not tried twice and the question says GitHub did
-not answer; and the band became bars on his ask; both live as overtone 0.5.0. Detail `notes:overtone/work.md`. **Parked (Anthony
-17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused; findings go to the Backlog.
+**Selected continuation: none selected; proposed: Anthony looks at overtone 0.5.1's block bars after this restart** (why: he asked for
+the blocks this morning and has not seen them; a running session keeps the old band; his reaction decides whether the band is
+done). Also proposed: bring Codex to 0.167.1 (why: the skipped-screen fix is in Switch and Conductor, both in Codex's package; Claude
+builds and installs on his go, as for 0.167.0) and restart the codex-tui window so it loads it; Anthony decides whether Sonnet
+readers move to medium (why: medium matched high at ~7% fewer tokens once; a release, his call under the pause). Watch the first
+arrival after 0.167.1 for the screen above the picker. Done this sitting (2026-10-04 08:53 to 10:3x): see `kivna/sessions/2026-10-04.md`.
+**Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
+findings go to the Backlog.
 
-**Pickup reading set** (update 2026-10-03 23:2x):
+**Pickup reading set** (update 2026-10-04 10:3x):
 - this file complete: position, rulings (the release pause first, then Switch Out when work is finished, then the band-as-bars ruling), the overtone and Codex positions;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set);
-- `kivna/sessions/2026-10-03.md`, newest log (four sittings);
+- `kivna/sessions/2026-10-04.md`, newest log (one sitting; 2026-10-03's five are one file back);
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `docs/decisions.md`; `docs/backlog-archive.md` (the pruned rows, verbatim); `notes:overtone/work.md`; `notes:sonnet-55/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `1be8c39f240049f7f3cc30b086123ece45baf008` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `55cee4eff5eab6c77e4d6b232e00541ef98117b6` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`).
 
-The observed position before this save is `main` at the prune commit; the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at the 0.167.1 release commit; the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-03 23:2x: 32,884 bytes, about 8,221 tokens (estimate), 221 over the 8,000 target: the newest log holds five sittings (10.3k bytes) and the overtone paragraph was cut by a third this sitting; kept rather than drop active context. All five carried findings are in the set. `read_args` for the next pickup:
+**Measured** 2026-10-04 10:3x: 25,825 bytes, about 6,457 tokens (estimate), within the 8,000 target; the newest log is one sitting. All five carried findings are in the set. `read_args` for the next pickup:
 
 ```
-["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-03.md", "--file", "notes:outside-the-repo.md",
+["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-04.md", "--file", "notes:outside-the-repo.md",
  "--section", "TODO.md", "## Now"]
 ```
