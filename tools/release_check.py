@@ -452,7 +452,9 @@ def _fallback_parse(block):
         match = _FALLBACK_KEY.match(line)
         if not match:
             raise _FallbackUnsupported(f"line is not a one-line 'key: value': {line[:60]!r}")
-        key, raw = match.group(1), (match.group(2) or "").strip()
+        # Only the space is YAML whitespace here (tabs are refused above); any
+        # other Unicode space is content and must stay.
+        key, raw = match.group(1), (match.group(2) or "").strip(" ")
         if key in fields:
             raise ValueError(f"duplicate key {key!r}")
         if raw == "":
@@ -477,7 +479,10 @@ def _fallback_plain(key, raw):
         )
     if raw.endswith(":") or " #" in raw:
         raise _FallbackUnsupported(f"plain value of {key!r} ends in ':' or carries ' #'")
-    if key == "description" and (not re.search(r"\s", raw) or _TIMESTAMP_START.match(raw)):
+    if _TIMESTAMP_START.match(raw):
+        # Any key: a date-like plain scalar is a timestamp YAML may reject.
+        raise _FallbackUnsupported(f"plain value of {key!r} {raw[:40]!r} looks like a date")
+    if key == "description" and not re.search(r"\s", raw):
         # YAML may resolve a one-word or date-like plain scalar to null, a
         # boolean, a number or a timestamp; only PyYAML can say which.
         raise _FallbackUnsupported(f"plain description {raw[:40]!r} may not be a string")
@@ -498,7 +503,7 @@ def _fallback_double_quoted(key, raw):
     while j < len(raw):
         ch = raw[j]
         if ch == '"':
-            if raw[j + 1:].strip():
+            if raw[j + 1:].strip(" "):
                 raise _FallbackUnsupported(f"text after the closing quote of {key!r}")
             return "".join(out)
         if ch == "\\":

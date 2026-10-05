@@ -178,7 +178,9 @@ class FrontmatterRuleTests(unittest.TestCase):
                  "description: Plain words, fine.", "description: \"a <b>\"",
                  "description: \tleading tab words", "description: two words\t",
                  "description: words\x85more words", "description: \"a\x85b c\"",
-                 "description: some\u2028words here"]
+                 "description: some\u2028words here",
+                 "description: \"ok\"\u00a0", f"description: {'c ' * 512}c\u00a0",
+                 "description: \"ok\"\ndate: 2026-99-99"]
         for line in lines:
             with self.subTest(line=line[:40]):
                 self.write("skills/a/SKILL.md", frontmatter(line))
