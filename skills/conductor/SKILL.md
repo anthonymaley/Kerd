@@ -52,9 +52,13 @@ names the guide section with its detail: open that section before the step.
   pairing or unfinished task alone does not establish guided ownership
   ([Enter work](references/entry.md#enter-work-not-another-pickup)).
 - Match the requested scope first: a standalone status, review or input request is
-  not automatically a new guided work package, and read-only requests stay read-only.
-  Discovering this skill for a substantial work request permits the offer, not
-  silently opting the person into guided work; discussion is not build authorization
+  not automatically a new guided work package. Inspect the relevant material and
+  answer within that authority; skip the guided intake, direction review and record
+  creation. Read-only requests stay read-only. Match actual intent, not a word in
+  quoted text: discovering this skill for a substantial work request permits the
+  offer, not silently opting the person into guided work; discussion is not build
+  authorization. Switch invokes this skill on its approved Conductor proposal or a
+  direct workflow request, not while restoring the dashboard
   ([Enter work](references/entry.md#enter-work-not-another-pickup)).
 - Choosing Conductor chooses orchestration: assess every task before acting and each
   new task as it emerges (a task is a user-visible job with its own result, not every
@@ -65,8 +69,8 @@ names the guide section with its detail: open that section before the step.
 - Two valid entries: an explicitly selected and authorized action, and a request to
   use the workflow while deciding what to do. An answer to Switch In's **“Start a
   Conductor session?”** that chooses work, a plain yes to its recommendation or
-  another open item its picker offered included, enters Understand/Shape on that
-  work, never approval of its operations; an answer asking for guidance without
+  another open item its picker offered included, enters Shape for that work, not
+  its operations; an answer asking for guidance without
   choosing, “Something else” included, enters direction-setting. Reuse the restored
   project, work pointer, current decision, actual approval and latest exclusions; do
   not repeat pickup, intake already answered or approval already supplied
@@ -77,7 +81,11 @@ names the guide section with its detail: open that section before the step.
   is not permission to investigate every adjacent issue or live system
   ([Enter work](references/entry.md#enter-work-not-another-pickup)).
 - Workflow requested, action absent or excluded: Conductor is open at
-  Understand/Shape, and opening it is not operation approval. Do not ask again to
+  Understand/Shape, and opening it is not operation approval. Acknowledge the
+  exclusion, use the restored context to inspect missing relevant active work,
+  recommend a relevant direction before asking for facts already recorded, or ask
+  the missing outcome question, and wait where a real choice is needed. Use bounded
+  local record/repository reads for direction-setting. Do not ask again to
   start Conductor, treat a rejected task as a grant for a similar one, or launch
   probes to choose a task; without a selected authorized task, do not dispatch
   contributor/model jobs merely to choose one (an explicit research request can
@@ -88,10 +96,10 @@ names the guide section with its detail: open that section before the step.
   ([Enter work](references/entry.md#enter-work-not-another-pickup)).
 - In that same workflow-requested case, a human-blocked saved continuation is not a
   project-wide hold: assess other eligible independent active work by dependency,
-  priority and authority, and recommend a useful direction when grounded. Keep pending human evidence open; do
-  not ignore eligible work merely because it was not the saved selection, invent
-  substitute approval, impose a fixed task count or always choose an alternative. A
-  relevant recommendation from saved priority is allowed, labelled proposed, with a
+  priority and authority, and recommend a useful direction when grounded. Keep
+  pending human evidence open; do not ignore eligible work merely because it was not
+  the saved selection, invent substitute approval, impose a fixed task count or
+  always choose an alternative. A relevant recommendation from saved priority is allowed, labelled proposed, with a
   single approval for its operations—not another approval to open
   ([Enter work](references/entry.md#enter-work-not-another-pickup)).
 - Before substantial research, design or delivery, show a short entry update,
@@ -122,9 +130,13 @@ names the guide section with its detail: open that section before the step.
 - For a small, unambiguous, already-authorized change, act and verify
   proportionately; a seemingly small change with consequential effects still needs
   those effects resolved. Before broad reading, follow an explicitly supplied work
-  record or existing project/Now pointer, including a nested record; otherwise the
-  current-context pointer (CONTEXT.md by convention), then work-record names under
-  `docs/work/`: a small lookup, not a project audit
+  record or existing project/Now pointer, including a nested record. Otherwise check
+  the project's current-context pointer (CONTEXT.md by convention), then work-record
+  names under `docs/work/`; if no active pointer resolves, locate nested `work.md`
+  names within the relevant work folder and read only plausible current-position
+  sections. This is a small lookup, not a project audit: do not read the whole
+  repository, session history or guidance pack to earn the right to ask the first
+  question
   ([Start from the person](references/entry.md#start-from-the-person-or-the-saved-place)).
 - A supplied outcome is used, not asked for again. Fresh with no outcome supplied,
   ask **“What are you trying to achieve?”**, then wait, with no guessed brief.
@@ -146,7 +158,10 @@ names the guide section with its detail: open that section before the step.
   Small or coupled work is simply delivered in rehearsal; it never needs a concert
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - Once intent is known, read the relevant project material to avoid asking for facts
-  already on disk, and read [the understanding guide](references/understanding.md):
+  already on disk. Distinguish sourced facts, the person's decisions, proposals and
+  unresolved questions. Challenge an unsupported premise when it could change the
+  outcome; don't turn every suggestion into a requirement. Read
+  [the understanding guide](references/understanding.md):
   its ten areas are internal coverage, not a question sequence or ten confirmations.
   Ask only a gap that changes the next action or prevents a consequential mistake;
   save an actual pending question before pausing
@@ -170,7 +185,9 @@ names the guide section with its detail: open that section before the step.
 - Update the record as the conversation progresses, including the exact pending
   question or next action before each pause. Capture the actual agreement response
   and its conditions; no invented approval or timestamps. An earlier discussion,
-  draft or example is not the person's agreement to this direction
+  draft or example is not the person's agreement to this direction. Preserve
+  previous agreement when recording a material revision and its reason. Revisit the
+  changed decision, not every unaffected detail. No hashes or fingerprints
   ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
 - Questions take the form in the opening paragraphs. At a decision, show the current
   stage, what is settled, what needs the person's input and what follows their
@@ -186,8 +203,9 @@ names the guide section with its detail: open that section before the step.
   during intake; do not save every diagram for the final direction review. Before
   drawing, read [the sibling visual skill](../visuals/SKILL.md); the view goes
   through diagram-design or Archify, and hand-rolled ASCII in a code fence, or the
-  bundled starter patterns alone, does not satisfy this. Don't silently install a
-  tool. Draw the actual work's product view; don't substitute a diagram of
+  bundled starter patterns alone, does not satisfy this. Where the work and the
+  person's preference both fit, follow the preference; the choice is between the
+  required tools, not away from them. Don't silently install a tool. Draw the actual work's product view; don't substitute a diagram of
   Conductor's stages. If preview is unavailable, disclose it and ask the person to
   open the artifact; don't claim they saw or approved it
   ([Make the conversation easy to use](references/journey.md#make-the-conversation-easy-to-use);
@@ -202,8 +220,11 @@ names the guide section with its detail: open that section before the step.
 - “You decide” delegates that choice within existing scope; it doesn't authorize
   publishing, purchases, deletion or unrelated changes. Time, token and spending
   limits are optional: record supplied limits, or that none were requested; never
-  hold up authorized work merely to obtain a number. “Use it all” does not authorize
-  new purchases, paid overages or scope expansion. No external writes, paid jobs or
+  hold up authorized work merely to obtain a number. “Use it all” means work toward
+  the agreed outcome until complete or the available allowance is exhausted, with no
+  compulsory deadline. It does not authorize new purchases, paid overages or scope
+  expansion. Disclose when remaining allowance cannot be measured rather than
+  inventing a balance. No external writes, paid jobs or
   new dependencies are authorized merely by this interview
   ([Enough shared understanding](references/understanding.md#enough-shared-understanding-for-the-next-action)).
 - The score is written as you go: call the composer at any time to draft part of it
@@ -292,8 +313,7 @@ names the guide section with its detail: open that section before the step.
 - The goals and checks set in rehearsal and written into the score decide when it
   is over: before leaving the loop, read the risks list back and say which are still
   open, compare the result with those goals and checks, and show the person that
-  comparison. Work is not done
-  because the steps ran out
+  comparison. Work is not done because the steps ran out
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - Then bring one decision: merge the concert branch back into the branch it started
   from. The merge and its push need the person's go; never merge because the steps
@@ -304,9 +324,11 @@ names the guide section with its detail: open that section before the step.
   ([Enough shared understanding](references/understanding.md#enough-shared-understanding-for-the-next-action)).
 - For status requests, give the stage, current activity, open issue and next action
   from the record and actual artifacts, distinguishing reported work from verified
-  results. Do not commit, push or publish just to finish a status request. An
-  explicitly requested session save or pickup uses [Switch](../switch/SKILL.md); do
-  not assume a local save transferred native model sessions elsewhere
+  results. No commit, board render or CI result is required to save or resume. Do
+  not commit, push or publish just to finish a status request. An explicitly
+  requested session save or pickup uses [Switch](../switch/SKILL.md), which carries
+  a work pointer and session history, not another copy of the plan; do not assume a
+  local save transferred native model sessions elsewhere
   ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
 
 ## Open this guide when

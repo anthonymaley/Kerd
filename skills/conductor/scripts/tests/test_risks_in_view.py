@@ -1,11 +1,12 @@
 """Guards the short risks list that replaced the retired risk ledger (0.142.0).
 
 Conductor keeps risks in the sketchbook instead of a ledger: the rule sits beside
-the sketchbook paragraph in SKILL.md and carries its three obligations (write the
-risk down, read the list back before Ready and before the goal check, never invent
-a risk to fill it), and the work record describes the matching section. The same
-release removed the step check, so SKILL.md must no longer carry its heading or the
-gate command. This checks presence of the wording, not that a model follows it.
+the sketchbook paragraph in the entry guide's rehearsal section (moved there from
+SKILL.md, which keeps a must-hold summary) and carries its three obligations (write
+the risk down, read the list back before Ready and before the goal check, never
+invent a risk to fill it), and the work record describes the matching section. The
+same release removed the step check, so neither SKILL.md nor the entry guide may
+carry its heading or the gate command. This checks presence of the wording, not that a model follows it.
 """
 from pathlib import Path
 import unittest
