@@ -2,11 +2,10 @@
 
 ## Now
 
-**Release boundary:** 0.171.0 on `main` (overtone 0.7.1 public in its marketplace and his own band from it); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.171.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.171.0 (2026-10-05 16:2x) and overtone 0.7.1 installed, load on restart; Codex has 0.167.1. Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
+**Release boundary:** 0.171.1 on `main` (overtone 0.7.1 public in its marketplace and his own band from it); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.171.1 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.171.1 (2026-10-05 19:1x) and overtone 0.7.1 installed, load on restart; Codex has 0.167.1. Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
 
-- **Rebuild the Codex package for 0.171.0** on Anthony's go in its window (Conductor and Visuals frontmatter changed in 0.169.1, Switch restructured in 0.170.0, Conductor in 0.171.0; Codex runs 0.167.1).
-- **Light check of Agent, the Switch way** (proposed; last part of the skills-restructure plan): must-hold lines and contents lists if they earn their place; evals only if the check finds a real gap. `notes:skills-guideline/work.md`.
-- **Watch 0.170.0 Switch and 0.171.0 Conductor in real use:** Switch's must-hold lists ran their first real In and Out on 2026-10-05 (Opus; In and Out on 0.170.0); Conductor's restructure has evals only (entry 2 of 3 clean, the go 0 of 3).
+- **Rebuild the Codex package for 0.171.1** on Anthony's go in its window (Conductor and Visuals frontmatter changed in 0.169.1, Switch restructured in 0.170.0, Conductor in 0.171.0, Agent in 0.171.1; Codex runs 0.167.1).
+- **Watch 0.170.0 Switch, 0.171.0 Conductor and 0.171.1 Agent in real use:** Switch's must-hold lists ran their first real In and Out on 2026-10-05 (Opus; In and Out on 0.170.0); Conductor's restructure has evals only (entry 2 of 3 clean, the go 0 of 3).
 - **Watch `overtone` in real use (0.7.1 installed 2026-10-05 13:1x, loads on restart: worker rows show the task; 0.7.0 09:5x the new guard and the workers-and-cache band; 0.6.0 from 2026-10-04 17:3x; 0.5.2 history below)** (0.5.0 live 2026-10-03 23:1x; 0.5.1 blocks 2026-10-04 10:1x ran solid in his font; 0.5.2 medium squares `◼` 10:5x; backup
   `~/.claude/mods-work/overtone-live-pre-0.5.2`). `◼` bars confirmed separate by Anthony 10:52 in a fresh session (he saw 0.5.0's solid
   bars and asked for blocks like the mock `notes:overtone/band-bars.html`). Never seen live: the red alerts and their `⚠ N` fold, the cache card, Codex rows on real data,
