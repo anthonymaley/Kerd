@@ -268,7 +268,7 @@ export function noteSpawn(
   const old = prev.byId[s.id]
   const worker: OvertoneWorker = {
     ...(old ?? blank(s.id, s.nowMs, true)),
-    label: clip(s.description || s.name || s.type || old?.label || s.id, 32),
+    label: clip(s.description || s.name || s.type || old?.label || s.id, 56),
     type: s.type || old?.type || 'agent',
     // `nowMs` is taken before the spawn ran: the earliest sign of the worker.
     firstSeenMs: Math.min(old?.firstSeenMs ?? s.nowMs, s.nowMs),
@@ -291,7 +291,7 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     const listed = typeof a.status === 'string' && a.status !== '' ? a.status : old.status
     const status = old.endedMs !== undefined ? old.status : listed
     const ended = FINAL.has(status) ? (old.endedMs ?? nowMs) : undefined
-    const label = byId[a.id] ? old.label : clip(a.description || a.name || a.type || old.label, 32)
+    const label = byId[a.id] ? old.label : clip(a.description || a.name || a.type || old.label, 56)
     const next: OvertoneWorker = { ...old, label, type: a.type || old.type, status }
     if (ended !== undefined) {
       next.endedMs = ended
@@ -407,7 +407,7 @@ function workerRows(w: OvertoneWorkers, nowMs: number, tier: Exclude<Tier, 'narr
   const rows: Row[] = [{ key: 'workers', segs: [seg(lead), ...joinSegs(head)], dim: nBlocked === 0 && w.error === undefined }]
   const since = (x: OvertoneWorker, from: number) => `${x.fromSpawn ? '' : '≥'}${fmtDuration(nowMs - from)}`
   for (const x of f.shown) {
-    const label = clip(x.label, 24)
+    const label = clip(x.label, 56)
     if (x.blocked) {
       const waited = fmtDuration(nowMs - x.blocked.sinceMs)
       if (tier === 'wide') {
@@ -420,10 +420,10 @@ function workerRows(w: OvertoneWorkers, nowMs: number, tier: Exclude<Tier, 'narr
     }
     if (tier === 'wide') {
       const calls = `${x.tools} tool call${x.tools === 1 ? '' : 's'}`
-      rows.push({ key: `w-${x.id}`, segs: [seg(`▸ ${label}  ${x.activity ?? 'started'}`)], dim: true })
+      rows.push({ key: `w-${x.id}`, segs: [seg(`▸ ${label}`)], dim: true })
       rows.push({ key: `w-${x.id}-2`, segs: [seg(`    ${since(x, x.firstSeenMs)} · ${calls}`)], dim: true })
     } else {
-      rows.push({ key: `w-${x.id}`, segs: [seg(`▸ ${label} · ${x.activity ?? since(x, x.firstSeenMs)}`)], dim: true })
+      rows.push({ key: `w-${x.id}`, segs: [seg(`▸ ${label} · ${since(x, x.firstSeenMs)}`)], dim: true })
     }
   }
   if (f.hidden > 0) rows.push({ key: 'w-more', segs: [seg(`${tier === 'wide' ? '    ' : ''}+${f.hidden} more running`)], dim: true })

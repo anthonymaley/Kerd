@@ -636,8 +636,8 @@ describe('what Claude and scripts read', () => {
 
 describe('the jobs table', () => {
   test('columns fit the band; the job name gets more room on a wide one', () => {
-    expect(jobColumns(120)).toEqual({ job: 14, asked: 20, saw: 20, elapsed: 9, doing: 21 })
-    expect(jobColumns(150)).toEqual({ job: 22, asked: 20, saw: 20, elapsed: 9, doing: 43 })
+    expect(jobColumns(120)).toEqual({ job: 35, asked: 20, saw: 20, elapsed: 9 })
+    expect(jobColumns(150)).toEqual({ job: 65, asked: 20, saw: 20, elapsed: 9 })
     expect(cell('a very long job description here', 14)).toBe('a very long … ')
   })
 })

@@ -342,10 +342,10 @@ describe('workers', () => {
     w.now = T0 + 2 * 60_000
     for (const surface of SURFACES) {
       const ui = await expanded($, {}, surface)
-      expect((await ui.find({ type: 'Text', text: /^Workers/ }))?.text).toBe('Workers running now, what each is doing, asked vs saw')
-      expect(squash((await ui.find({ type: 'Text', text: /^ {2}job/ }))?.text)).toBe('job | doing | asked | saw | elapsed | state')
-      expect(squash((await ui.find({ type: 'Text', text: ROW('Reviewer') }))?.text)).toBe('▸ Reviewer | started | — | — | ≥2m 00s | running')
-      expect(squash((await ui.find({ type: 'Text', text: ROW('Scout') }))?.text)).toBe('▸ Scout | returned | — | — | ≥0s | returned, not yet checked')
+      expect((await ui.find({ type: 'Text', text: /^Workers/ }))?.text).toBe('Workers running now, asked vs saw')
+      expect(squash((await ui.find({ type: 'Text', text: /^ {2}job/ }))?.text)).toBe('job | asked | saw | elapsed | state')
+      expect(squash((await ui.find({ type: 'Text', text: ROW('Reviewer') }))?.text)).toBe('▸ Reviewer | — | — | ≥2m 00s | running')
+      expect(squash((await ui.find({ type: 'Text', text: ROW('Scout') }))?.text)).toBe('▸ Scout | — | — | ≥0s | returned, not yet checked')
       await ui.press({ key: 'usage' })
       await ui.unmount()
     }
@@ -383,11 +383,11 @@ describe('workers', () => {
     const call = await $.tool.call({ tool: 'Read', file_path: '/a/b/hooks.ts', agentId: 's1', tool_use_id: 'u1' } as never)
     expect(call).toMatchObject({ result: 'ok' })
     expect(ask).toMatchObject({ decision: 'ask' })
-    expect(seenWhileWaiting).toContain('▸ Reviewer | wants to run Read h… Sonnet · high | Sonnet 5.5 | 0s | waiting on you')
+    expect(seenWhileWaiting).toContain('▸ Reviewer · wants to run Read hook… Sonnet · high | Sonnet 5.5 | 0s | waiting on you')
     expect(seenWhileWaiting).toContain('next ▸ The Reviewer — waits on a permission prompt')
     const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
     expect(squash((await ui.find({ type: 'Text', text: ROW('Reviewer') }))?.text)).toBe(
-      '▸ Reviewer | Read hooks.ts | Sonnet · high | Sonnet 5.5 | 0s | ✓ matches',
+      '▸ Reviewer | Sonnet · high | Sonnet 5.5 | 0s | ✓ matches',
     )
     await ui.unmount()
   })
@@ -403,7 +403,7 @@ describe('workers', () => {
     expect((await ui.find({ type: 'Text', text: LINE }))?.text).toBe('  ctx ◼◼◼◼◼◼◼◼◼◼  │  5h —  │  7d —  │  cache —  │  worker on sonnet, asked opus')
     await ui.unmount()
     const open = await expanded($)
-    expect(squash((await open.find({ type: 'Text', text: ROW('Builder') }))?.text)).toBe('▸ Builder | started | Opus | Sonnet 5.5 | 0s | ▼ wrong model · sent Sonnet 5.5 · high')
+    expect(squash((await open.find({ type: 'Text', text: ROW('Builder') }))?.text)).toBe('▸ Builder | Opus | Sonnet 5.5 | 0s | ▼ wrong model · sent Sonnet 5.5 · high')
     const red = (await open.findAll({ type: 'Text' })).filter(t => t.props.color === 'error').map(t => t.text.trim())
     expect(red).toEqual(expect.arrayContaining(['Sonnet 5.5', '▼ wrong model']))
     expect((await open.find({ type: 'Text', text: /^next ▸/ }))?.text).toBe('next ▸ The Builder — is on the wrong model')
@@ -568,10 +568,10 @@ describe('what Claude and Switch Out see', () => {
     await ui.unmount()
     const open = await expanded($, { bodyColumns: 150 })
     expect(squash((await open.find({ type: 'Text', text: /^▸ codex-partner .*review/ }))?.text)).toBe(
-      '▸ codex-partner | review of overtone 0.3.1 | Codex session | — | 14m | waiting on a reply',
+      '▸ codex-partner · review of overtone 0.3.1 | Codex session | — | 14m | waiting on a reply',
     )
     expect(squash((await open.find({ type: 'Text', text: /^▸ codex-partner .*guard/ }))?.text)).toBe(
-      '▸ codex-partner | guard re-check | Codex session | — | 13m | reply received',
+      '▸ codex-partner · guard re-check | Codex session | — | 13m | reply received',
     )
     expect(await open.find({ type: 'Text', text: /elsewhere|PROMPT/ })).toBeUndefined()
     expect((await open.findAll({ type: 'Text', text: /^▸ codex-partner/ })).length).toBe(2)

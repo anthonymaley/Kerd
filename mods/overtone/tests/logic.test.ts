@@ -115,7 +115,7 @@ describe('quiet by default', () => {
       'ctx 119k · 12% of window used · keep working',
       'model  sonnet-5.5 asked · sonnet-5.5 seen · effort high asked, seen unavailable',
       'workers  1 running',
-      '▸ Worker 0  started',
+      '▸ Worker 0',
       '    2m · 0 tool calls',
     ])
     expect(b?.rows.every(r => r.dim)).toBe(true)
@@ -197,7 +197,7 @@ describe('workers', () => {
       'workers  1 blocked · 1 running',
       '■ Worker 0  blocked: wants to run Bash git push',
       '    waiting 4m · answer the permission prompt',
-      '▸ Worker 1  started',
+      '▸ Worker 1',
       '    5m · 0 tool calls',
     ])
     expect(toned(b?.rows[2])).toEqual([{ text: '1 blocked', tone: 'warning', bold: true }])

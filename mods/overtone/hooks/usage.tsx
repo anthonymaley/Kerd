@@ -70,6 +70,7 @@ import {
   dashboard,
   hasFigures,
   jobColumns,
+  jobTitle,
   noteMainStep,
   noteWorkerModel,
   noteWorkerSeen,
@@ -477,8 +478,7 @@ export const register: Register = on => {
       return (
         <Text key={j.key} wrap="truncate-end">
           <Text dimColor>{'▸ '}</Text>
-          <Text bold>{cell(j.job, col.job)}</Text>
-          <Text dimColor>{cell(j.doing, col.doing)}</Text>
+          <Text bold>{cell(jobTitle(j), col.job)}</Text>
           {cell(j.asked, col.asked)}
           <Text color={bad ? 'error' : undefined} bold={bad ? true : undefined}>
             {cell(j.saw, col.saw)}
@@ -527,12 +527,12 @@ export const register: Register = on => {
                       ...(d.jobsNote ? [{ text: ` · ${d.jobsNote}`, tone: 'warning' as const }] : []),
                     ],
                   )
-                : titleRow('jobs', [{ text: 'Workers', tone: 'plain', bold: true }, { text: ' running now, what each is doing, asked vs saw', tone: 'dim' }], [{ text: String(d.jobs.length) }])}
+                : titleRow('jobs', [{ text: 'Workers', tone: 'plain', bold: true }, { text: ' running now, asked vs saw', tone: 'dim' }], [{ text: String(d.jobs.length) }])}
               {d.jobsCompact ? (
                 ''
               ) : (
                 <Text key="jobs-cols" dimColor wrap="truncate-end">
-                  {`  ${cell('job', col.job)}${cell('doing', col.doing)}${cell('asked', col.asked)}${cell('saw', col.saw)}${cell('elapsed', col.elapsed)}state`}
+                  {`  ${cell('job', col.job)}${cell('asked', col.asked)}${cell('saw', col.saw)}${cell('elapsed', col.elapsed)}state`}
                 </Text>
               )}
               {d.jobs.map(jobRow)}

@@ -1089,15 +1089,22 @@ const RANK: Record<JobState, number> = {
 }
 const jobRank = (j: JobRow): number => (j.waitMs !== undefined && j.waitMs >= PARTNER_ALERT_MS ? 2.5 : RANK[j.state])
 
-// The jobs table's columns, sized to the band: job, doing, asked, saw,
-// elapsed, state. `doing` takes what is left.
-export function jobColumns(columns: number): { job: number; doing: number; asked: number; saw: number; elapsed: number } {
+// The jobs table's columns, sized to the band: job, asked, saw, elapsed,
+// state. `job` takes what is left: a worker's task needs the room more than
+// its latest tool call, which changes every few seconds.
+export function jobColumns(columns: number): { job: number; asked: number; saw: number; elapsed: number } {
   const inner = Math.max(40, (isNum(columns) ? columns : 200) - 8)
-  const fixed = { job: inner >= 130 ? 22 : 14, asked: 20, saw: 20, elapsed: 9 }
+  const fixed = { asked: 20, saw: 20, elapsed: 9 }
   const state = 26
-  const doing = Math.max(10, inner - fixed.job - fixed.asked - fixed.saw - fixed.elapsed - state - 2)
-  return { ...fixed, doing }
+  const job = Math.max(24, inner - fixed.asked - fixed.saw - fixed.elapsed - state - 2)
+  return { job, ...fixed }
 }
+
+// What the job column shows: a worker's task alone, or with what it waits on
+// when it waits on you (that is what to answer); a partner's name and the
+// role it was asked.
+export const jobTitle = (j: JobRow): string =>
+  j.kind === 'partner' || j.state === 'waiting on you' ? `${j.job} · ${j.doing}` : j.job
 
 export const cell = (text: string, width: number): string => {
   const t = clip(text, width - 1)
