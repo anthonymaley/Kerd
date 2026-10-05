@@ -306,9 +306,26 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.169.2)
+## What's New (v0.170.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.170.0
+
+**Switch keeps the rules that must hold where Claude reads them.** Two weeks of Kerd sessions showed Claude reads a
+skill's guide files whole only 12% of the time, and Switch Out never opened its 941-line guide in 10 of 33 runs. Switch's
+SKILL.md, which is always loaded whole, now opens with short must-hold lists for In, Out, To and Roll, each with the
+guide's own conditions and a direct link to the section with the detail. The guide is split into an In guide and an Out
+guide, each with a contents list; the short To guide is folded into To and Roll, which repeated it. No rule was rewritten:
+1,220 of 1,229 guide lines moved word for word, the rest are titles and pointers turned into links. Six behaviour cases in
+`evals/switch-*` (In and Out, each clean, with a file kept local by decision, and without a session log with a
+human-owned item) measured it before and after with the same graders, three runs each: Sonnet's Switch Out went from 3 of
+9 clean runs to 7 of 9 (it now records the reading-set measurement it used to skip), Switch In from 8 of 9 to 9 of 9, and
+Opus stayed near-perfect; Haiku follows Switch poorly either way. Run them with
+`PATH=<dir with a real git>:$PATH claude plugin eval . --case 'switch-*' --model sonnet --runs 3 --scaffold --allow-tools Bash Edit Write --ablation none`;
+on a Mac whose `/usr/bin/git` is Apple's stub the sandbox cannot find git without that PATH. SKILL.md grows from about
+3,200 to 5,500 tokens. A fresh Codex reviewer, three rounds, found must-hold lines that had dropped a guide's condition and
+graders that passed too easily; all fixed. Not yet seen in a real sitting.
 
 ### v0.169.2
 
