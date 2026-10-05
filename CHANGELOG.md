@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.169.1
+
+**Kerd's skills meet Anthropic's frontmatter limits, and the release check keeps them there.** Anthropic's skill
+authoring guide caps a skill's description at 1,024 characters with no XML tags, and Claude Code's skill list cuts
+each entry at 1,536. Conductor's description was 2,139 characters, so its later trigger phrases were cut off; it is
+now 987, with its triggers first and its secondary detail left to the skill body. The frontmatter of Conductor,
+Switch, Visuals and the five older effort agents did not parse as YAML because of an unquoted colon; it is quoted
+now, with no wording changed. `tools/release_check.py` refuses frontmatter that does not parse, a description over
+1,024 characters or containing `<` or `>`, and a SKILL.md body of 500 lines or more, with or without PyYAML
+installed. Reviewed by a fresh Codex reviewer twice. Not yet seen in a real sitting.
+
 ## 0.169.0
 
 **Overtone 0.7.0: the guard sees git however Claude starts it, and the band opens on workers.** The guard now
