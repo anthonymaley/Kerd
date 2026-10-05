@@ -4,7 +4,6 @@
 
 **Release boundary:** 0.171.0 on `main` (overtone 0.7.1 public in its marketplace and his own band from it); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.171.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.171.0 (2026-10-05 16:2x) and overtone 0.7.1 installed, load on restart; Codex has 0.167.1. Position is in `CONTEXT.md` `## Where We Are`. Rows closed 2026-10-03 (watch-row prune) are in `docs/backlog-archive.md`.
 
-- **Confirm the 0.171.0 GitHub check went green** (run 37368038271; GitHub Actions degraded 2026-10-05 16:2x: first run found no runner, re-run queued; local checks all passed).
 - **Rebuild the Codex package for 0.171.0** on Anthony's go in its window (Conductor and Visuals frontmatter changed in 0.169.1, Switch restructured in 0.170.0, Conductor in 0.171.0; Codex runs 0.167.1).
 - **Light check of Agent, the Switch way** (proposed; last part of the skills-restructure plan): must-hold lines and contents lists if they earn their place; evals only if the check finds a real gap. `notes:skills-guideline/work.md`.
 - **Watch 0.170.0 Switch and 0.171.0 Conductor in real use:** Switch's must-hold lists ran their first real In and Out on 2026-10-05 (Opus; In and Out on 0.170.0); Conductor's restructure has evals only (entry 2 of 3 clean, the go 0 of 3).
