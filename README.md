@@ -306,9 +306,18 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.169.1)
+## What's New (v0.169.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.169.2
+
+**overtone 0.7.1: a worker's row shows its task, not its latest command.** In the expanded band's Workers card the
+"doing" column is gone and the job column takes its room, so a task name gets 35 characters on a 120-column band and
+65 on a 150-column one instead of 14 or 22; the latest tool call changed every few seconds and pushed the task out. A
+worker waiting on a permission prompt still shows what it waits on, since that is what you answer, and a partner row
+reads its name and the role it was asked. Running rows in the one-line form drop the tool call too, and task names
+are kept at up to 56 characters on a wide band. `/overtone` still prints each job's latest call. A fresh Codex reviewer and two re-checks: a long task hid the call a blocked worker waits on, now fixed. 454 mod tests. Not yet seen live.
 
 ### v0.169.1
 
