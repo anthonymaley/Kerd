@@ -1,9 +1,33 @@
 # Understand enough to start correctly
 
+Contents:
+
+- [Understand and shape together](#understand-and-shape-together): read before asking, the ten areas as internal coverage
+- [Decide whether to ask](#decide-whether-to-ask): reuse answers, ask only what changes the next action
+- [Internal coverage and conditional wording](#internal-coverage-and-conditional-wording): the ten areas and when each is needed
+- [Contribute, don't just collect](#contribute-dont-just-collect): propose an answer above the question
+- [Enough shared understanding for the next action](#enough-shared-understanding-for-the-next-action): the brief, checks, interpretation, “you decide”, limits and how much analysis
+- [A brief the person can use](#a-brief-the-person-can-use): “What we're building” before substantial execution
+- [Examples of proportionate entry](#examples-of-proportionate-entry): small and large requests
+- [Survive interruption](#survive-interruption): what to save before pausing
+
 The ten areas below are internal coverage, not ten turns or a fixed order. The
 user approved this adaptive approach on 2026-09-08, superseding the requirement
 to show and confirm every topic. Existing answers and decisions remain valid.
 Don't restart an old interview or rewrite its historical record.
+
+## Understand and shape together
+
+Once intent is known, read the relevant project material to avoid asking for
+facts already on disk. Distinguish sourced facts, the person's decisions,
+proposals and unresolved questions. Challenge an unsupported premise when it
+could change the outcome; don't turn every suggestion into a requirement.
+
+Read [the understanding guide](understanding.md) once intent is known.
+Its ten areas are internal coverage, not a question sequence or ten confirmations.
+Reuse answers, inspect relevant sources, propose what needs judgment and ask only
+a gap that changes the next action or prevents a consequential mistake. Save an
+actual pending question before pausing.
 
 ## Decide whether to ask
 
@@ -13,7 +37,7 @@ cannot grant new authority or settle a current preference by itself.
 
 Before that inspection becomes substantial research or diagnosis, use the
 [work split](execution.md#prepare-and-do-the-next-useful-job) and the
-[entry view](../SKILL.md#enter-work-not-another-pickup). Understanding is not a
+[entry view](entry.md#enter-work-not-another-pickup). Understanding is not a
 separate path for the controller to do every survey and check inline. Reuse
 existing context and settled assignments; a small orientation read or ordinary
 question does not need a delegation exercise.
@@ -78,6 +102,49 @@ Separate Must, Prefer and Open when useful. Hard requirements and protections
 need a basis; preferences permit tradeoffs; open choices give the model freedom
 within agreement. Fast doesn't mean prototype or a reduced final destination.
 Ask or propose intended readiness when it is unclear and consequential.
+
+## Enough shared understanding for the next action
+
+Use a concise “What we're building” brief: intended result, success checks,
+boundaries, room to decide and important unknowns. Keep Must (actual requirements),
+Prefer (qualities to optimize) and Open (delegated choices) distinct where useful.
+Don't turn every adjective into a requirement or a proposed omission into a user
+prohibition. Keep the brief easy to correct in conversation; no editable UI is
+implied where the host only supports text.
+
+The person supplies the intended benefit and known standards. Conductor proposes
+appropriate checks and evidence, resolving meaningful judgment with the person.
+Don't make them design an evaluation. Distinguish proposed measures, agreed checks
+and actual readings. A “looks right” about appearance doesn't approve unseen
+success criteria. Preserve existing agreement when resolving a missing measure.
+
+Show a compact interpretation before substantial execution and establish agreement
+to new direction or material choices. Reuse clear instructions and approvals
+already given; don't require a second yes for an unchanged authorized request.
+The Switch In arrival question is the one exception, by design.
+An unresolved later decision can stay open with a named revisit point while safe
+work proceeds. Stop the affected action if it requires that answer. Delivery can
+finish before a long-term benefit is measurable when that stopping point and its
+available evidence are agreed; never relabel unmeasured benefit as achieved.
+
+“Help me decide” calls for a recommendation with its tradeoff. “Not sure yet”
+keeps the issue open. “You decide” delegates that choice within existing scope;
+it doesn't authorize publishing, purchases, deletion or unrelated changes.
+
+Time, token and spending limits are optional. Record supplied limits, or that
+none were requested; never hold up authorized work merely to obtain a number.
+“Use it all” means work toward the agreed outcome until complete or the available
+allowance is exhausted, with no compulsory deadline. It does not authorize new
+purchases, paid overages or scope expansion. Disclose when remaining allowance
+cannot be measured rather than inventing a balance.
+
+Choose how much analysis the work needs and briefly explain any substantial
+effort. Don't ask the person to choose a rigor tier, model jargon or diagram
+type. Resolve routine choices from facts and agreed boundaries. Ask when there
+is no sound basis or a decision materially affects quality, experience, scope,
+authority or resources. Exploring a feasibility question is not proof that a
+proposed capability works. No external writes, paid jobs or new dependencies
+are authorized merely by this interview.
 
 ## A brief the person can use
 

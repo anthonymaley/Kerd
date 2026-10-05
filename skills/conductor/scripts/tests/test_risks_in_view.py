@@ -1,11 +1,12 @@
 """Guards the short risks list that replaced the retired risk ledger (0.142.0).
 
 Conductor keeps risks in the sketchbook instead of a ledger: the rule sits beside
-the sketchbook paragraph in SKILL.md and carries its three obligations (write the
-risk down, read the list back before Ready and before the goal check, never invent
-a risk to fill it), and the work record describes the matching section. The same
-release removed the step check, so SKILL.md must no longer carry its heading or the
-gate command. This checks presence of the wording, not that a model follows it.
+the sketchbook paragraph in the entry guide's rehearsal section (moved there from
+SKILL.md, which keeps a must-hold summary) and carries its three obligations (write
+the risk down, read the list back before Ready and before the goal check, never
+invent a risk to fill it), and the work record describes the matching section. The
+same release removed the step check, so neither SKILL.md nor the entry guide may
+carry its heading or the gate command. This checks presence of the wording, not that a model follows it.
 """
 from pathlib import Path
 import unittest
@@ -13,6 +14,9 @@ import unittest
 REPO = Path(__file__).resolve().parents[4]
 CONDUCTOR = REPO / "skills" / "conductor"
 SKILL = CONDUCTOR / "SKILL.md"
+# The rehearsal section, with the sketchbook and risks rules, moved verbatim to the
+# entry guide when SKILL.md became the must-hold routing page.
+ENTRY = CONDUCTOR / "references" / "entry.md"
 RECORD = CONDUCTOR / "references" / "work-record.md"
 
 
@@ -23,7 +27,7 @@ def flat(text):
 
 class RisksInViewTests(unittest.TestCase):
     def setUp(self):
-        self.skill = SKILL.read_text(encoding="utf-8")
+        self.skill = ENTRY.read_text(encoding="utf-8")
         self.prose = flat(self.skill)
 
     def test_the_rule_sits_in_rehearsal_beside_the_sketchbook(self):
@@ -76,8 +80,9 @@ class RisksInViewTests(unittest.TestCase):
                 self.assertIn(flat(phrase), prose)
 
     def test_the_step_check_is_gone(self):
-        self.assertNotIn("Check where the work stands", self.skill)
-        self.assertNotIn("gate.py", self.skill)
+        for text in (self.skill, SKILL.read_text(encoding="utf-8")):
+            self.assertNotIn("Check where the work stands", text)
+            self.assertNotIn("gate.py", text)
 
 
 if __name__ == "__main__":

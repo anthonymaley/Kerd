@@ -1,5 +1,16 @@
 # Assess and show the work before starting
 
+Contents:
+
+- [Establish suitability from available evidence](#establish-suitability-from-available-evidence): the task's requirement and suitable model/effort pairs
+- [Write the score before assigning executable work](#write-the-score-before-assigning-executable-work): the four responsibilities
+  - [Choose who writes the steps](#choose-who-writes-the-steps): the composer routes
+  - [Make every score step independently executable](#make-every-score-step-independently-executable): what a score step states
+  - [Size roles and advise the controller by the work](#size-roles-and-advise-the-controller-by-the-work): controller sizing
+  - [Plan independent review from the pairing](#plan-independent-review-from-the-pairing): partners, review cadence and an unanswered review
+- [One visible startup view](#one-visible-startup-view): the startup view, Fit lines and grid rows for every dispatch
+- [Prepare, send and assess visibly](#prepare-send-and-assess-visibly): sending, local guidance and assessing returns
+
 For a substantial build, design or workflow request, new or existing, offer
 Conductor and useful proposed contributions; small fixes run directly. An explicit Conductor request opens it
 without another invitation; ongoing guided work never needs a repeat offer.

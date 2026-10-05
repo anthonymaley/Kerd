@@ -1,8 +1,58 @@
 # A working conversation, not a forwarded email
 
+Contents:
+
+- [Make the conversation easy to use](#make-the-conversation-easy-to-use): report shape, task list, delegation grid, decisions and when views appear
+- [The conversation frame](#the-conversation-frame): what to show at entry, resume, decisions and stage changes
+- [Question surface and host adaptation](#question-surface-and-host-adaptation): the speech bubble, the decision block, pickers
+- [Visuals belong throughout](#visuals-belong-throughout): the rendered-view default and the required tools
+- [Show the direction](#show-the-direction): drawing the product view and the direction summary
+- [Make answers feel consequential](#make-answers-feel-consequential): showing what an answer changed
+- [Delivery has a working view too](#delivery-has-a-working-view-too): the working view in delivery and how a turn ends
+  - [The shape of every report](#the-shape-of-every-report): result first, position second, five items
+  - [Keep the tasks visible while the work unfolds](#keep-the-tasks-visible-while-the-work-unfolds): the task list and the delegation grid
+  - [One clear finish](#one-clear-finish): the finish format
+- [One record, no extra machinery](#one-record-no-extra-machinery): the display is a view of the record
+- [Relaxed, useful language](#relaxed-useful-language): plain product English
+
 The person is sitting at a screen. Help them see where they are, what their answer
 changed, what is happening and what follows. Use one recognizable presentation,
 not a report or an approval request on every turn.
+
+## Make the conversation easy to use
+
+Read [the journey presentation guide](journey.md) before the first
+substantive response. It owns the question layout, working-brief view, progress updates
+and worked examples. Use it throughout the conversation, not only at agreement.
+Every report of work — a return, a batch, a review, the finish — follows the guide's
+[shape of every report](#the-shape-of-every-report): what the
+person has now and where to look at it first, where the work stands second, at most
+five items on screen with the rest in the sketchbook, one thing at a time, and a
+first-line-and-last-line check before sending.
+For multi-step work, use the host's available native task list and update it as
+work progresses, with actual work and model handoffs visible underneath. Follow
+the guide's compact fallback when native task controls are unavailable. For
+delegation, use its task/who/model/effort/status grid and report actual guidance,
+saved-prompt and dispatch transitions; do not leave these facts until asked.
+
+At a decision, show the current stage, what is settled, what needs the person's
+input and what follows their reply—not “question 4 of 10”. Put the proposed answer
+and its qualifications above, then end on one speech-bubble question,
+`> 💬 **The question?**`, the same form as Switch's arrival question and every Kerd
+question. A ban on numbered choices is not a ban on progress or structure.
+Never simulate clickable controls, colours or native capabilities that are absent.
+
+No routine Correct / Change menu: recommend one answer and ask one direct question.
+A clear yes settles the shown answer; a correction changes it. Missing answers
+need a focused question, not an invented proposal presented as confirmed.
+Follow host rules over these presentation defaults.
+
+Show the rendered view as soon as the work qualifies — two or more connected
+parts, a branch, an ownership boundary or a before → after change — including
+during intake. Do not save every diagram for the final direction review. Make real
+activity, returned findings and the effect of answers visible without inventing
+work, metrics, insight or extra confirmation turns. Save the actual state in the
+existing record; the display is a view of it, not another source of truth.
 
 ## The conversation frame
 
@@ -213,6 +263,36 @@ from the journey strip: one explains what we are making; the other locates us
 in the process. Lead with an accessible overview, with deeper design, sequence
 and evidence linked for those who want it. Show material findings and tradeoffs
 directly; do not hide decision-critical detail.
+
+## Show the direction
+
+Before drawing, read [the sibling visual skill](../../visuals/SKILL.md) and the
+pattern it selects. Load this guidance at use, not during the opener. A rendered
+view goes through diagram-design or Archify: diagram-design for static layouts,
+Archify where exploration or comparison earns it. Hand-rolled ASCII in a code
+fence, or the bundled starter patterns alone, does not satisfy this. Where the
+work and the person's preference both fit, follow the preference; the choice is
+between the required tools, not away from them. Don't silently install a tool.
+
+Produce the actual work's product view: connected people, capabilities, flow
+and boundaries. Mark proposed and unknown parts. Don't substitute a diagram of
+Conductor's stages for a picture of what this person wants to create. Start
+with a readable overview; offer deeper detail without requiring a long review.
+Keep material tradeoffs visible, not hidden inside optional detail.
+
+Save the drawing beside the record. Render and inspect it when supported, and
+provide a directly openable link or preview. Raw Mermaid or another source
+block alone is not the user view. If preview is unavailable, disclose it and
+ask the person to open the artifact; don't claim they saw or approved it.
+
+For a substantial package, alongside the view give a short direction summary: intended outcome, success
+and proof, boundaries/authority, resource limits or unresolved choices, and
+what happens next. Where agreement is needed, close with the question form's
+bubble — never a next action restated as its own yes/no — naming what remains
+unresolved above it. Do not
+repeat settled agreement or add a seal or blanket approval of hidden detail.
+Only a single action or a factual answer goes without the view; work that is
+easy to describe in words is not thereby a single action.
 
 ## Make answers feel consequential
 

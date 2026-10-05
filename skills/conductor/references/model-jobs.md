@@ -1,5 +1,13 @@
 # Ask another model to contribute
 
+Contents:
+
+- [Prepare work the chosen model can do well](#prepare-work-the-chosen-model-can-do-well): model choice, the route table and the dispatch contract (`model` and the matching Kerd agent on every `Agent` call)
+- [First use: handle setup, not a session-ID exercise](#first-use-handle-setup-not-a-session-id-exercise): checking only the chosen route
+- [Native route first](#native-route-first): native subagents for the chosen model
+- [Send it without adding project infrastructure](#send-it-without-adding-project-infrastructure): naming the model, contribution and edit rights before sending
+- [Receive, use and keep moving](#receive-use-and-keep-moving): background requests, results and carrying on
+
 Read when preparing a delegated job. For a direct “ask Claude/Codex”, use
 `/kerd:agent` (sibling `../../agent/SKILL.md`) to resolve the established partner
 or show session choices before dispatch. If Agent is absent from the

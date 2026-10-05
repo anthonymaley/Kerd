@@ -238,9 +238,10 @@ class ModelEffortAgentDefinitionTests(unittest.TestCase):
     def test_every_live_mention_of_the_model_agents_carries_the_haiku_exception(self):
         """Haiku takes no effort, so guidance naming `kerd:<model>-<effort>` must also
         name plain `kerd:haiku` in the same passage, or it tells Conductor to send a
-        Haiku job an effort label that lies. SKILL.md names them only in its
-        description, which may not carry '<' or '>' (tools/release_check.py R6),
-        so there the mention is the plain-words form."""
+        Haiku job an effort label that lies. SKILL.md's description may not carry
+        '<' or '>' (tools/release_check.py R6), so the checked mention there is the
+        description's plain-words form; its must-hold body also names
+        `kerd:<model>-<effort>` beside `kerd:haiku`."""
         mentions = {"skills/conductor/SKILL.md":
                     "names an explicit model and the matching Kerd model agent"}
         for rel in ("skills/conductor/SKILL.md", "skills/conductor/references/execution.md",
