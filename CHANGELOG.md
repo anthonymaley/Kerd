@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.169.0
+
+**Overtone 0.7.0: the guard sees git however Claude starts it, and the band opens on workers.** The guard now
+reads git behind `env`, `sudo`, `timeout`, `nice`, `bash -c`, `eval`, here-documents, redirects and shortened or
+cancelled options, and asks when it cannot tell what a command does: through `xargs`, `find -exec`, `git subtree
+push`, aliases, a `cd` into a variable, or git settings passed for one command. A commit with `-i` counts what is
+already staged, a push lists files from merge commits and files with accented names, and `push --all` reads every
+branch's private-file list. It is a safety net for honest mistakes, not a lock against a command disguised on
+purpose, and the README now says so. Opened, the band shows the workers running and, when the cache went cold,
+why; the context, 5-hour and weekly bars stay on the one line, and `/overtone` prints their detail. When rows run
+short, workers come first and the card borders stay. 450 mod tests; four fresh read-only reviews. Kerd's skills
+are unchanged. Not yet seen in a real sitting.
+
 ## 0.168.0
 
 **Overtone joins the marketplace as an optional companion mod.** Overtone is a Claude Code mod that has run in

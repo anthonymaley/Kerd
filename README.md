@@ -306,9 +306,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.168.0)
+## What's New (v0.169.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.169.0
+
+**Overtone 0.7.0: the guard sees git however Claude starts it, and the band opens on workers.** The guard now
+reads git behind `env`, `sudo`, `timeout`, `nice`, `bash -c`, `eval`, here-documents, redirects and shortened or
+cancelled options, and asks when it cannot tell what a command does: through `xargs`, `find -exec`, `git subtree
+push`, aliases, a `cd` into a variable, or git settings passed for one command. A commit with `-i` counts what is
+already staged, a push lists files from merge commits and files with accented names, and `push --all` reads every
+branch's private-file list. It is a safety net for honest mistakes, not a lock against a command disguised on
+purpose, and the README now says so. Opened, the band shows the workers running and, when the cache went cold,
+why; the context, 5-hour and weekly bars stay on the one line, and `/overtone` prints their detail. When rows run
+short, workers come first and the card borders stay. 450 mod tests; four fresh read-only reviews. Kerd's skills
+are unchanged. Not yet seen in a real sitting.
 
 ### v0.168.0
 
