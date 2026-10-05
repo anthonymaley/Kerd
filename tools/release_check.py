@@ -2,7 +2,9 @@
 """Standalone release-rules check: version sync across the three manifest
 locations, capability-list identity between the two manifests, the
 `kerd:` slash-command namespace rule, release-history parity between
-README.md and CHANGELOG.md, and README's "What's New" header version.
+README.md and CHANGELOG.md, README's "What's New" header version, and the
+skill/agent frontmatter limits (valid YAML, a description of at most 1,024
+characters with no '<' or '>', a SKILL.md body of at most 500 lines).
 
     python3 tools/release_check.py [--root PATH] [--json]
     python3 tools/release_check.py selftest
@@ -360,6 +362,241 @@ def _release_whats_new(root, plugin):
     return problems
 
 
+# ── R6: skill and agent frontmatter meets the authoring limits ──────────
+
+# Anthropic's skill-authoring rules: `description` is non-empty, at most
+# 1,024 characters and carries no XML tags; a SKILL.md body stays under
+# 500 lines. Claude Code also truncates a listing entry at 1,536
+# characters, so the 1,024 limit is the binding one.
+DESCRIPTION_MAX_CHARS = 1024
+SKILL_BODY_MAX_LINES = 500
+
+_FALLBACK_KEY = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*):(?: (.*)|)$")
+_PLAIN_START_REFUSED = set("[]{}#&*!|>'\"%@`,")
+
+
+class _FallbackUnsupported(ValueError):
+    """Frontmatter the fallback parser cannot read; PyYAML might."""
+
+
+def _frontmatter_files(root):
+    """skills/*/SKILL.md and agents/*.md, sorted. Derived from the tree."""
+    paths = glob.glob(os.path.join(root, "skills", "*", "SKILL.md"))
+    paths += glob.glob(os.path.join(root, "agents", "*.md"))
+    return sorted(paths)
+
+
+def _split_frontmatter(text):
+    """(block, body) for text that opens with a `---` line and has a closing
+    `---` line, else None."""
+    lines = text.split("\n")
+    if not lines or lines[0].rstrip("\r") != "---":
+        return None
+    for index in range(1, len(lines)):
+        if lines[index].rstrip("\r") == "---":
+            return "\n".join(lines[1:index]), "\n".join(lines[index + 1:])
+    return None
+
+
+def _parse_frontmatter(block):
+    """Parse a frontmatter block as YAML. PyYAML's safe_load when it is
+    installed; otherwise the strict fallback below. Raises ValueError with
+    a one-line reason when the block does not parse."""
+    try:
+        import yaml
+    except ImportError:
+        return _fallback_parse(block)
+    try:
+        return yaml.safe_load(block)
+    except yaml.YAMLError as exc:
+        mark = getattr(exc, "problem_mark", None)
+        problem = getattr(exc, "problem", None)
+        if mark is not None and problem:
+            # mark.line counts from 0 inside the block; the block starts on file line 2.
+            raise ValueError(f"{problem} (line {mark.line + 2}, column {mark.column + 1})") from None
+        raise ValueError(" ".join(str(exc).split())) from None
+
+
+def _fallback_parse(block):
+    """A strict reader for the frontmatter shape Kerd uses: one top-level
+    `key: value` per line, where value is plain, single-quoted,
+    double-quoted, or a `|`/`>` block scalar. Anything outside that subset
+    is refused, never guessed at: a plain value carrying ': ' or ' #' is
+    invalid YAML (ValueError); nested mappings, lists and multi-line plain
+    scalars are YAML this reader does not handle (_FallbackUnsupported).
+    Values come back as strings; an empty value is None."""
+    fields = {}
+    lines = block.split("\n")
+    i = 0
+    while i < len(lines):
+        line = lines[i].rstrip("\r")
+        i += 1
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if line[0] in " \t":
+            raise _FallbackUnsupported(f"unexpected indented line: {line.strip()[:60]!r}")
+        match = _FALLBACK_KEY.match(line)
+        if not match:
+            raise ValueError(f"line is not 'key: value': {line[:60]!r}")
+        key, raw = match.group(1), (match.group(2) or "").strip()
+        if key in fields:
+            raise ValueError(f"duplicate key {key!r}")
+        if raw[:1] in ("|", ">"):
+            if not re.fullmatch(r"[|>][+-]?", raw):
+                raise _FallbackUnsupported(f"block scalar header {raw!r} under {key!r}")
+            body = []
+            while i < len(lines) and (not lines[i].strip() or lines[i][:1] in " \t"):
+                body.append(lines[i].rstrip("\r"))
+                i += 1
+            fields[key] = _fallback_block_scalar(raw, body)
+        elif raw.startswith('"'):
+            fields[key] = _fallback_double_quoted(raw)
+        elif raw.startswith("'"):
+            fields[key] = _fallback_single_quoted(raw)
+        elif raw == "":
+            if i < len(lines) and lines[i][:1] in " \t" and lines[i].strip():
+                raise _FallbackUnsupported(f"nested value under {key!r}")
+            fields[key] = None
+        else:
+            fields[key] = _fallback_plain(key, raw)
+        if i < len(lines) and lines[i][:1] in " \t" and lines[i].strip():
+            raise _FallbackUnsupported(f"multi-line value under {key!r}")
+    return fields
+
+
+def _fallback_plain(key, raw):
+    if raw[0] in _PLAIN_START_REFUSED or raw[:2] in ("- ", "? ", ": "):
+        raise ValueError(f"plain value of {key!r} starts with {raw[0]!r}; quote it")
+    if ": " in raw or raw.endswith(":"):
+        raise ValueError(
+            f"plain value of {key!r} carries ': ' (mapping values are not allowed here); quote it"
+        )
+    if re.search(r"\s#", raw):
+        raise ValueError(
+            f"plain value of {key!r} carries ' #', which YAML reads as a comment; quote it"
+        )
+    return raw
+
+
+_DQ_ESCAPES = {'"': '"', "\\": "\\", "/": "/", "n": "\n", "t": "\t", "r": "\r",
+               "0": "\0", " ": " ", "a": "\a", "b": "\b", "e": "\x1b", "f": "\f",
+               "v": "\v", "N": "\x85", "_": "\xa0", "L": " ", "P": " "}
+
+
+def _fallback_double_quoted(raw):
+    out, j = [], 1
+    while j < len(raw):
+        ch = raw[j]
+        if ch == '"':
+            if raw[j + 1:].strip() and not raw[j + 1:].strip().startswith("#"):
+                raise ValueError("text after the closing double quote")
+            return "".join(out)
+        if ch == "\\":
+            nxt = raw[j + 1:j + 2]
+            if nxt in _DQ_ESCAPES:
+                out.append(_DQ_ESCAPES[nxt])
+                j += 2
+                continue
+            width = {"x": 2, "u": 4, "U": 8}.get(nxt)
+            digits = raw[j + 2:j + 2 + width] if width else ""
+            if not width or not re.fullmatch(r"[0-9A-Fa-f]+", digits) or len(digits) != width:
+                raise ValueError(f"unknown escape \\{nxt} in a double-quoted value")
+            out.append(chr(int(digits, 16)))
+            j += 2 + width
+            continue
+        out.append(ch)
+        j += 1
+    raise _FallbackUnsupported("double-quoted value does not close on its line")
+
+
+def _fallback_single_quoted(raw):
+    out, j = [], 1
+    while j < len(raw):
+        if raw[j] == "'":
+            if raw[j + 1:j + 2] == "'":
+                out.append("'")
+                j += 2
+                continue
+            if raw[j + 1:].strip() and not raw[j + 1:].strip().startswith("#"):
+                raise ValueError("text after the closing single quote")
+            return "".join(out)
+        out.append(raw[j])
+        j += 1
+    raise _FallbackUnsupported("single-quoted value does not close on its line")
+
+
+def _fallback_block_scalar(header, body):
+    while body and not body[-1].strip():
+        body.pop()
+    indents = [len(l) - len(l.lstrip(" ")) for l in body if l.strip()]
+    if not indents:
+        return ""
+    cut = min(indents)
+    texts = [l[cut:] if l.strip() else "" for l in body]
+    if header[0] == "|":
+        value = "\n".join(texts)
+    else:
+        paragraphs, current = [], []
+        for t in texts:
+            if t:
+                current.append(t)
+            else:
+                paragraphs.append(" ".join(current))
+                current = []
+        paragraphs.append(" ".join(current))
+        value = "\n".join(paragraphs)
+    return value if header.endswith("-") else value + "\n"
+
+
+def _release_frontmatter(root):
+    """R6 — every skills/*/SKILL.md and agents/*.md opens with frontmatter
+    that parses as YAML and carries a non-empty string `description` of at
+    most 1,024 characters with no '<' or '>'; a SKILL.md body (the lines
+    after the closing ---) is at most 500 lines. No skills or agents
+    directory: nothing to check."""
+    problems = []
+    for path in _frontmatter_files(root):
+        rel = os.path.relpath(path, root)
+        split = _split_frontmatter(_read(path))
+        if split is None:
+            problems.append(f"{rel} — no frontmatter (open with a --- delimited YAML block)")
+            continue
+        block, body = split
+        try:
+            fields = _parse_frontmatter(block)
+        except _FallbackUnsupported as exc:
+            problems.append(
+                f"{rel} — frontmatter uses YAML the fallback parser does not read "
+                f"(install PyYAML to check it): {exc}"
+            )
+            continue
+        except ValueError as exc:
+            problems.append(f"{rel} — frontmatter is not valid YAML: {exc}")
+            continue
+        if not isinstance(fields, dict):
+            problems.append(f"{rel} — frontmatter is not a key: value mapping")
+            continue
+        description = fields.get("description")
+        if not isinstance(description, str) or not description.strip():
+            problems.append(f"{rel} — 'description' missing or empty")
+        else:
+            if len(description) > DESCRIPTION_MAX_CHARS:
+                problems.append(
+                    f"{rel} — description is {len(description)} characters "
+                    f"(limit {DESCRIPTION_MAX_CHARS})"
+                )
+            if "<" in description or ">" in description:
+                problems.append(f"{rel} — description contains '<' or '>' (no XML tags)")
+        if os.path.basename(path) == "SKILL.md":
+            body_lines = len(body.splitlines())
+            if body_lines > SKILL_BODY_MAX_LINES:
+                problems.append(
+                    f"{rel} — body is {body_lines} lines (limit {SKILL_BODY_MAX_LINES}; "
+                    f"move detail into references/)"
+                )
+    return problems
+
+
 def _version_key(version):
     return tuple(int(part) for part in version.split("."))
 
@@ -369,10 +606,11 @@ def _read(path):
         return handle.read()
 
 def release_audit(root):
-    """Release-rules sweep (R1–R5). Empty list = clean. R1/R2 skip
+    """Release-rules sweep (R1–R6). Empty list = clean. R1/R2 skip
     vacuously when neither plugin file exists; R3 runs regardless (it
     depends only on the tree); R4 skips unless both history files exist;
-    R5 skips unless plugin.json and README.md both exist."""
+    R5 skips unless plugin.json and README.md both exist; R6 checks
+    whatever skills/*/SKILL.md and agents/*.md exist."""
     plugin, marketplace, problems = _release_files(root)
     if plugin or marketplace or problems:
         problems.extend(_release_versions(plugin, marketplace))
@@ -380,6 +618,7 @@ def release_audit(root):
     problems.extend(_release_namespace(root))
     problems.extend(_release_history(root))
     problems.extend(_release_whats_new(root, plugin))
+    problems.extend(_release_frontmatter(root))
     return problems
 
 
@@ -433,10 +672,21 @@ def _selftest_cases():
         )
         _sw(
             os.path.join(root, "skills", "tend", "SKILL.md"),
+            "---\nname: tend\ndescription: \"Use when: tending.\"\n---\n"
             "Use /kerd:tend here.\nSee skills/tend/SKILL.md for the source.\n",
         )
         problems = release_audit(root)
         cases.append(("clean tree passes", problems == [], problems))
+
+    # Case R6 — an unquoted ': ' in a description is invalid YAML.
+    with tempfile.TemporaryDirectory() as root:
+        _sw(
+            os.path.join(root, "agents", "a.md"),
+            "---\nname: a\ndescription: Use when: never.\n---\nBody.\n",
+        )
+        problems = _release_frontmatter(root)
+        ok = len(problems) == 1 and "not valid YAML" in problems[0]
+        cases.append(("an unquoted ': ' in a description refuses", ok, problems))
 
     # Case R4a — a note that differs between the two histories refuses.
     with tempfile.TemporaryDirectory() as root:

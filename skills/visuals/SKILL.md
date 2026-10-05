@@ -1,6 +1,6 @@
 ---
 name: visuals
-description: Create readable product, process and system diagrams that help a person understand or agree a direction. Use whenever the person asks to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change — connected-parts views, responsibility flows, scope boundaries and decision paths. Draw with diagram-design or Archify, which are required: produce a saved, rendered view, never hand-rolled ASCII in a code fence or a document made of text boxes.
+description: "Create readable product, process and system diagrams that help a person understand or agree a direction. Use whenever the person asks to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change — connected-parts views, responsibility flows, scope boundaries and decision paths. Draw with diagram-design or Archify, which are required: produce a saved, rendered view, never hand-rolled ASCII in a code fence or a document made of text boxes."
 license: MIT
 ---
 

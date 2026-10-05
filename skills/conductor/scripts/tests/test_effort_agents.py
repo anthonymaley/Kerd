@@ -7,6 +7,7 @@ These agents are owned by Conductor; this test reports contract violations,
 it never edits them.
 """
 from pathlib import Path
+import json
 import unittest
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -24,7 +25,9 @@ def normalize(text):
 
 def parse_frontmatter(text):
     """Parse the block between the first two '---' lines as key: value pairs,
-    one per line, with no YAML dependency. Returns (fields, body)."""
+    one per line, with no YAML dependency. A value wrapped in double quotes
+    (how a description containing ': ' stays valid YAML) is unquoted, so the
+    assertions read the text a YAML parser reads. Returns (fields, body)."""
     lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         raise ValueError("Missing opening --- frontmatter delimiter")
@@ -42,7 +45,10 @@ def parse_frontmatter(text):
         if ":" not in line:
             raise ValueError(f"Frontmatter line is not key: value: {line!r}")
         key, _, value = line.partition(":")
-        fields[key.strip()] = value.strip()
+        value = value.strip()
+        if len(value) >= 2 and value.startswith('"') and value.endswith('"'):
+            value = json.loads(value)
+        fields[key.strip()] = value
     body = "\n".join(lines[end + 1:])
     return fields, body
 
@@ -232,7 +238,11 @@ class ModelEffortAgentDefinitionTests(unittest.TestCase):
     def test_every_live_mention_of_the_model_agents_carries_the_haiku_exception(self):
         """Haiku takes no effort, so guidance naming `kerd:<model>-<effort>` must also
         name plain `kerd:haiku` in the same passage, or it tells Conductor to send a
-        Haiku job an effort label that lies."""
+        Haiku job an effort label that lies. SKILL.md names them only in its
+        description, which may not carry '<' or '>' (tools/release_check.py R6),
+        so there the mention is the plain-words form."""
+        mentions = {"skills/conductor/SKILL.md":
+                    "names an explicit model and the matching Kerd model agent"}
         for rel in ("skills/conductor/SKILL.md", "skills/conductor/references/execution.md",
                     "skills/conductor/references/guidance/model-choice.md",
                     "skills/conductor/references/orchestration.md",
@@ -241,7 +251,7 @@ class ModelEffortAgentDefinitionTests(unittest.TestCase):
                     "skills/agent/references/native-sessions.md"):
             text = normalize((REPO_ROOT / rel).read_text(encoding="utf-8"))
             with self.subTest(doc=rel):
-                self.assertIn("<model>-<effort>", text)
+                self.assertIn(mentions.get(rel, "<model>-<effort>"), text)
                 self.assertIn("kerd:haiku", text, f"{rel}: names the model agents without the Haiku exception")
 
     def test_haiku_names_no_effort_because_it_takes_none(self):
