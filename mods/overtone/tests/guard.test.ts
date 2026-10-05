@@ -18,6 +18,14 @@ const ghSays = (repo: string, isPrivate: boolean): [string, number] => [
 
 type Answer = string | 'dismiss' | 'never'
 
+// A path as git prints it without -z (core.quotePath on): any byte outside
+// printable ASCII, a quote or a backslash, and the name is quoted, octal-escaped.
+const cQuote = (p: string): string => {
+  const bytes = [...new TextEncoder().encode(p)]
+  if (!bytes.some(b => b < 0x20 || b >= 0x7f || b === 0x22 || b === 0x5c)) return p
+  return `"${bytes.map(b => (b === 0x22 || b === 0x5c ? `\\${String.fromCharCode(b)}` : b < 0x20 || b >= 0x7f ? `\\${b.toString(8).padStart(3, '0')}` : String.fromCharCode(b))).join('')}"`
+}
+
 type World = {
   ran: string[]
   asked: string[]
@@ -61,6 +69,8 @@ type World = {
   live: ((url: string, ref: string) => string | null) | 'fail' | 'cut'
   // Commits this clone has (`git cat-file -e`).
   commits: string[]
+  // The folders under docs/work/ every base's tree has (`git ls-tree`).
+  workTree: string[]
   // `git log` exit code and truncation.
   logExit: number
   logCut: boolean
@@ -103,6 +113,7 @@ function world(on: On, over: Partial<World> = {}) {
     missingBases: [],
     live: (url, ref) => (w.missingBases.some(b => b.endsWith(`/${ref.slice('refs/heads/'.length)}`)) ? null : OID_TRACKED),
     commits: [OID_TRACKED],
+    workTree: ['docs/work/jev-trial', 'docs/work/question-sets'],
     logExit: 0,
     logCut: false,
     throws: [],
@@ -144,16 +155,29 @@ function world(on: On, over: Partial<World> = {}) {
       const [stdout, code] = w.gh[e.argv[3]!] ?? ['', 1]
       return out(stdout, code)
     }
+    // Whether a tip's tree holds kivna/vault.json: as `committed` says.
+    if (a.startsWith('git ls-tree --full-tree ') && a.endsWith(' -- kivna/vault.json')) {
+      const base = e.argv[3]!
+      const text = typeof w.committed === 'function' ? w.committed(base) : w.committed
+      return out(text === null ? '' : `100644 blob ${'b'.repeat(40)}\tkivna/vault.json\n`)
+    }
     if (a.startsWith('git ls-tree')) {
-      if (w.missingBases.includes(e.argv[4]!)) return out('', 128)
-      return out('docs/work/jev-trial\ndocs/work/question-sets\n')
+      const b = e.argv.filter(x => !x.startsWith('-'))[2]!
+      if (w.missingBases.includes(b)) return out('', 128)
+      const z = e.argv.includes('-z')
+      return out(w.workTree.map(p => `${z ? p : cQuote(p)}${z ? '\0' : '\n'}`).join(''))
     }
     if (a.startsWith('git show') && a.endsWith(':kivna/vault.json')) {
       const base = e.argv[2]!.slice(0, -':kivna/vault.json'.length)
       const text = typeof w.committed === 'function' ? w.committed(base) : w.committed
       return text === null ? out('', 128) : out(text)
     }
-    if (a.startsWith('git log')) return out(w.log(a), w.logExit, w.logCut)
+    // `git log` prints names C-quoted, one a line; with -z as written, NUL-ended.
+    if (a.startsWith('git log')) {
+      const names = w.log(a).split('\n').filter(Boolean)
+      const text = e.argv.includes('-z') ? names.map(n => `${n}\0`).join('') : names.map(n => `${cQuote(n)}\n`).join('')
+      return out(text, w.logExit, w.logCut)
+    }
     if (a.startsWith('git rev-parse -q --verify ')) {
       const base = e.argv[4]!.replace(/\^\{commit\}$/, '')
       return w.missingBases.includes(base) ? out('', 1) : out(`${OID_TRACKED}\n`)
@@ -295,7 +319,7 @@ describe('guard', () => {
     const call = $.tool.call(bash('git push origin feature'))
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'feature', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'feature', '--not', '--remotes=origin', '--'])
     expect(w.asked).toHaveLength(1)
     expect(r.deny).toContain('docs/work/backlog-sweep/work.md')
     // The same ref to the private remote passes without a dialog: GitHub
@@ -310,7 +334,7 @@ describe('guard', () => {
     const { w } = world(on, { log: () => '' })
     await $.tool.call(bash('git push'))
     expect(w.argv).toContainEqual(['git', 'for-each-ref', '--format=%(push:remotename)', 'refs/heads/feature'])
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
     expect(w.ran).toEqual(['git push'])
   })
 
@@ -330,14 +354,14 @@ describe('guard', () => {
   test('push: remote.origin.push stands in for the refspec', async ($, on) => {
     const { w } = world(on, { config: { 'remote.origin.push': ['refs/heads/release:refs/heads/release\n', 0] }, log: () => '' })
     await $.tool.call(bash('git push'))
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'refs/heads/release', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'refs/heads/release', '--not', '--remotes=origin', '--'])
     expect(w.ran).toEqual(['git push'])
   })
 
   test('push: push.default=simple keeps the HEAD plan; a push with a refspec reads no push settings', async ($, on) => {
     const { w } = world(on, { config: { 'push.default': ['simple\n', 0] }, log: () => '' })
     await $.tool.call(bash('git push'))
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
     const before = w.argv.length
     await $.tool.call(bash('git push origin feature'))
     expect(w.argv.slice(before).some(a => a[1] === 'config')).toBe(false)
@@ -362,7 +386,7 @@ describe('guard', () => {
     }
     const { w } = world(on, { config, log: () => '' })
     await $.tool.call(bash('git push'))
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
     expect(w.asked).toEqual([])
     expect(w.ran).toEqual(['git push'])
   })
@@ -912,9 +936,9 @@ describe('guard', () => {
     const call = $.tool.call(bash('git push mirror topic:release'))
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
-    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', 'refs/remotes/mirror/release', 'docs/work/'])
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', 'refs/remotes/mirror/release', 'docs/work/'])
     expect(w.argv).toContainEqual(['git', 'show', 'refs/remotes/mirror/release:kivna/vault.json'])
-    expect(w.argv.some(a => a[1] === 'ls-tree' && a[4] !== 'refs/remotes/mirror/release')).toBe(false)
+    expect(w.argv.some(a => a[1] === 'ls-tree' && a[5] !== 'refs/remotes/mirror/release')).toBe(false)
     expect(w.asked).toHaveLength(1)
     expect(w.asked[0]).toContain('public github.com/someone/kerd-mirror')
     expect(r.deny).toContain('docs/work/fresh/work.md (new work folder docs/work/fresh/')
@@ -934,7 +958,7 @@ describe('guard', () => {
     expect(w.asked).toHaveLength(1)
     expect(r.deny).toContain('cannot tell whether this work folder is new')
     // No other branch stands in for it.
-    expect(w.argv.some(a => a[1] === 'ls-tree' && /HEAD|@\{u\}/.test(a[4]!))).toBe(false)
+    expect(w.argv.some(a => a[1] === 'ls-tree' && /HEAD|@\{u\}/.test(a[5]!))).toBe(false)
     // The same push carrying no work folder passes.
     w.log = () => 'README.md\n'
     await $.tool.call(bash('git push mirror topic:newbranch'))
@@ -947,7 +971,7 @@ describe('guard', () => {
     const call = $.tool.call(bash('git push origin HEAD'))
     await clock.advance(5_000)
     await call
-    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', 'refs/remotes/origin/feature', 'docs/work/'])
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', 'refs/remotes/origin/feature', 'docs/work/'])
     expect(w.asked).toHaveLength(1)
     expect(w.asked[0]).not.toContain('cannot tell')
     const before = w.argv.length
@@ -1011,7 +1035,7 @@ describe('guard', () => {
     const { w } = world(on, { log: () => 'README.md\n' })
     await $.tool.call(bash('git push origin feature'))
     expect(w.argv).toContainEqual(['git', 'ls-remote', 'git@github.com:alex/Kerd.git', 'refs/heads/feature'])
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'feature', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'feature', '--not', '--remotes=origin', '--'])
     expect(w.argv.some(a => a[1] === 'cat-file')).toBe(false)
     expect(w.ran).toEqual(['git push origin feature'])
   })
@@ -1026,9 +1050,9 @@ describe('guard', () => {
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
     expect(w.argv).toContainEqual([
-      'git', 'log', '--format=', '--name-only', 'feature', '--not', REWOUND, '--exclude=origin/feature', '--remotes=origin', '--',
+      'git', 'log', '--format=', '--name-only', '-z', 'feature', '--not', REWOUND, '--exclude=origin/feature', '--remotes=origin', '--',
     ])
-    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', REWOUND, 'docs/work/'])
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', REWOUND, 'docs/work/'])
     expect(w.asked).toHaveLength(1)
     expect(r.deny).toContain('.env (kept out of Git by instruction)')
     expect(w.ran).toEqual([])
@@ -1189,7 +1213,7 @@ describe('guard', () => {
     const { w } = world(on, { log: () => '' })
     await $.tool.call(bash('git push'))
     expect(w.argv).toContainEqual(['git', 'for-each-ref', '--format=%(push)', 'refs/heads/feature'])
-    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', 'refs/remotes/origin/feature', 'docs/work/'])
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', 'refs/remotes/origin/feature', 'docs/work/'])
     expect(w.ran).toEqual(['git push'])
   })
 
@@ -1317,7 +1341,7 @@ describe('guard: git however the command starts it', () => {
     const call = $.tool.call(bash('timeout 5 git push'))
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
     expect(r.deny).toContain('.env (kept out of Git by instruction)')
     expect(w.ran).toEqual([])
   })
@@ -1490,6 +1514,8 @@ describe("guard: a ref-set push reads every pushed tip's committed vault.json", 
     await $.tool.call(bash('git push --all origin'))
     expect(w.asked).toEqual([])
     expect(w.ran).toEqual(['git push --all origin'])
+    // Absent, as the tip's own tree says: not a failed read.
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '--full-tree', TIP_B, '--', 'kivna/vault.json'])
   })
 
   const FAILS: [string, Partial<World>, string][] = [
@@ -1498,6 +1524,30 @@ describe("guard: a ref-set push reads every pushed tip's committed vault.json", 
     ['a cut listing', { answers: { 'for-each-ref --format=%(objectname)': [`${TIP_A}\n`, 0, true] } }, 'could not list the refs'],
     ['a listing that throws', { throws: ['for-each-ref --format=%(objectname)'] }, 'could not list the refs'],
     ['a tip whose copy cannot be read', { answers: tips([TIP_A, TIP_B]), throws: [`show ${TIP_B}:kivna/vault.json`] }, 'at a ref this push sends'],
+    [
+      'a tip whose tree has the file but git will not show it',
+      {
+        committed: base => (base === TIP_B ? SECRET : null),
+        answers: { ...tips([TIP_A, TIP_B]), [`show ${TIP_B}:kivna/vault.json`]: ['', 128, false] },
+      },
+      'at a ref this push sends',
+    ],
+    [
+      'a tip whose copy will not show and whose tree cannot be listed',
+      {
+        answers: {
+          ...tips([TIP_A, TIP_B]),
+          [`show ${TIP_B}:kivna/vault.json`]: ['', 128, false],
+          [`ls-tree --full-tree ${TIP_B} -- kivna/vault.json`]: ['', 128, false],
+        },
+      },
+      'at a ref this push sends',
+    ],
+    [
+      'a tip whose tree listing throws',
+      { answers: tips([TIP_A, TIP_B]), throws: [`ls-tree --full-tree ${TIP_B}`] },
+      'at a ref this push sends',
+    ],
   ]
   for (const [what, over, why] of FAILS) {
     test(`${what}: asks`, async ($, on) => {
@@ -1510,4 +1560,32 @@ describe("guard: a ref-set push reads every pushed tip's committed vault.json", 
       expect(w.ran).toEqual([])
     })
   }
+})
+
+describe('guard: push file names git would quote', () => {
+  test('a private folder file with a non-ASCII name asks', async ($, on) => {
+    const { w, clock } = world(on, { log: () => '.playwright-mcp/é.png\n', answer: "Don't run it" })
+    const call = $.tool.call(bash('git push origin feature'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(r.deny).toContain('.playwright-mcp/é.png')
+    expect(w.ran).toEqual([])
+  })
+
+  test('a new work folder with a non-ASCII name asks', async ($, on) => {
+    const fresh = world(on, { log: () => 'docs/work/é/notes.md\n', answer: "Don't run it" })
+    const call = $.tool.call(bash('git push origin feature'))
+    await fresh.clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('docs/work/é/notes.md')
+    expect(fresh.w.ran).toEqual([])
+  })
+
+  test('a work folder with a non-ASCII name the base already has passes', async ($, on) => {
+    const { w } = world(on, { log: () => 'docs/work/é/notes.md\n', workTree: ['docs/work/é', 'docs/work/question-sets'] })
+    await $.tool.call(bash('git push origin feature'))
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push origin feature'])
+  })
 })

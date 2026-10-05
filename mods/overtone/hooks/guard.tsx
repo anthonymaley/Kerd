@@ -97,9 +97,11 @@ const PRIVATE_MS = 5 * 60_000
 const firstHold = (): Hold | undefined => holds.values().next().value
 
 const WORK_ROOT = GUARD.newWorkFolders.root
+// `git ls-tree -z` output: NUL-separated, so a name git would quote
+// (`docs/work/é`) comes through as written.
 const slugsFrom = (lsTree: string): string[] =>
   lsTree
-    .split('\n')
+    .split('\0')
     .filter(Boolean)
     .map(p => p.slice(WORK_ROOT.length).split('/')[0] ?? '')
 
@@ -491,15 +493,16 @@ export const register: Register = (on, options) => {
                     if (plan.kind === 'revs') {
                       // What this push publishes: its source refs, less every
                       // commit THAT remote has. A failed, cut, thrown or
-                      // timed-out list stays null: assess asks.
+                      // timed-out list stays null: assess asks. -z: names
+                      // as written, never git's C-quoting (`"\303\251.png"`).
                       try {
-                        const log = await $.process.run(['git', 'log', '--format=', '--name-only', ...revs, '--'], {
+                        const log = await $.process.run(['git', 'log', '--format=', '--name-only', '-z', ...revs, '--'], {
                           cwd: root,
                           timeoutMs: T,
                         })
                         pushPaths =
                           log.exitCode === 0 && !log.isStdoutTruncated
-                            ? [...new Set(log.stdout.split('\n').filter(Boolean))]
+                            ? [...new Set(log.stdout.split('\0').filter(Boolean))]
                             : null
                       } catch {
                         pushPaths = null
@@ -593,6 +596,18 @@ export const register: Register = (on, options) => {
                         // cut: as a base read; on a ref-set tip, it asks
                         workBaseUnknown = true
                         if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
+                      } else if (tips.has(rev)) {
+                        // A ref-set tip whose copy git would not show: absent
+                        // only when that tip's tree has no such path; any
+                        // other failure asks, as a cut or thrown read does.
+                        const has = await $.process.run(
+                          ['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file],
+                          { cwd: root, timeoutMs: T },
+                        )
+                        if (has.exitCode !== 0 || has.isStdoutTruncated || has.stdout.trim() !== '') {
+                          workBaseUnknown = true
+                          setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
+                        }
                       }
                     } catch {
                       // Thrown or timed out: as a thrown base read, the
@@ -612,7 +627,7 @@ export const register: Register = (on, options) => {
                 for (const b of bases) {
                   let tree: Awaited<ReturnType<EngineInterface['process']['run']>>
                   try {
-                    tree = await $.process.run(['git', 'ls-tree', '-d', '--name-only', b, WORK_ROOT], {
+                    tree = await $.process.run(['git', 'ls-tree', '-d', '--name-only', '-z', b, WORK_ROOT], {
                       cwd: root,
                       timeoutMs: T,
                     })

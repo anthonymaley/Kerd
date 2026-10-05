@@ -297,6 +297,9 @@ type Simple = {
   unread: string[]
   heredocs: { body: string; quoted: boolean }[]
   piped: boolean
+  // Unquoted parentheses between the command before and this one, in order:
+  // a `(` opens a subshell, a `)` closes it.
+  parens: ('(' | ')')[]
 }
 
 // From just after `$(`: the index of the `)` that closes it, read as the
@@ -456,7 +459,7 @@ export function splitCommands(command: string): string[][] {
 
 function splitShell(command: string): Simple[] {
   const commands: Simple[] = []
-  const fresh = (): Simple => ({ words: [], firstQuoted: [], subs: [], unread: [], heredocs: [], piped: false })
+  const fresh = (): Simple => ({ words: [], firstQuoted: [], subs: [], unread: [], heredocs: [], piped: false, parens: [] })
   let cur = fresh()
   let word = ''
   let hasWord = false
@@ -504,11 +507,14 @@ function splitShell(command: string): Simple[] {
   }
   const endCommand = (piped = false) => {
     endWord()
+    // Parentheses with no command yet carry on to the next one.
+    const carry = cur.words.length ? [] : cur.parens
     if (cur.words.length) {
       cur.piped = piped
       commands.push(cur)
     }
     cur = fresh()
+    cur.parens = carry
   }
   // At a newline: the bodies of the here-documents named on the line before,
   // in order. Returns the index of the last character read. A body whose
@@ -666,6 +672,7 @@ function splitShell(command: string): Simple[] {
     }
     if (c === ';' || c === '&' || c === '(' || c === ')') {
       endCommand()
+      if (c === '(' || c === ')') cur.parens.push(c)
       continue
     }
     if (c === '#' && !hasWord) {
@@ -729,6 +736,8 @@ export type GitOp = {
   update: boolean
   // add: -f/--force (ignored files too, which status does not list).
   force: boolean
+  // commit: -i/--include (the staged index as well as the named paths).
+  include?: boolean
   // Pathspecs as written, and resolved to absolute paths.
   specs: Spec[]
   // A spec the reader cannot place (`:(magic)`, a glob, a pathspec file):
@@ -884,8 +893,16 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
     return dir
   }
   const cmds = splitShell(command)
+  // Where each open `( … )` subshell started: a `cd` inside it ends at its
+  // `)`. (A `{ …; }` group runs in this shell, so its `cd` stays.) A `)`
+  // with nothing open (a `case` pattern) changes nothing.
+  const opened: string[] = []
   for (let n = 0; n < cmds.length; n++) {
     const c = cmds[n]!
+    for (const p of c.parens) {
+      if (p === '(') opened.push(dir)
+      else if (opened.length) dir = opened.pop()!
+    }
     // `$(…)` and backticks run first, in a subshell.
     for (const sub of c.subs) readLine(r, sub, dir, depth + 1, false)
     for (const text of c.unread) unreadText(r, text, dir, 'a command substitution the guard cannot read to its end')
@@ -899,7 +916,9 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
     }
     if (fed) for (const text of hereStrings(c.words, c.firstQuoted)) readLine(r, text, dir, depth + 1, false)
   }
-  return dir
+  // A subshell still open here closes at the line's end: the shell is left
+  // where it was before it.
+  return opened.length ? opened[0]! : dir
 }
 
 // Text the reader cannot read as commands. Its words naming git and a verb:
@@ -1457,6 +1476,8 @@ function readGit(
       if (w === '--all' || w === '--no-ignore-removal') op.all = true
       else if (w === '--update') op.update = true
       else if (w === '--force' && kind === 'add') op.force = true
+      else if (kind === 'commit' && /^--inc(?:l(?:u(?:d(?:e)?)?)?)?$/.test(w)) op.include = true
+      else if (kind === 'commit' && /^--on(?:l(?:y)?)?$/.test(w)) op.include = false
       else if (w.startsWith('--pathspec-from-file')) op.isOpaque = true
       else if (kind === 'commit' && COMMIT_LONG_ARG.has(w)) j++
       continue
@@ -1469,6 +1490,8 @@ function readGit(
         else if (f === 'a' && kind === 'commit') op.all = true
         else if (f === 'u' && kind === 'add') op.update = true
         else if (f === 'f' && kind === 'add') op.force = true
+        else if (f === 'i' && kind === 'commit') op.include = true
+        else if (f === 'o' && kind === 'commit') op.include = false
         else if (kind === 'commit' && COMMIT_SHORT_ARG.has(f)) {
           if (k === flags.length - 1) j++
           break
@@ -2036,9 +2059,10 @@ export function touchedPaths(op: GitOp, facts: RepoFacts): string[] | null {
     }
     return listed
   }
-  // commit
+  // commit. Named paths alone (--only, the default) commit just those;
+  // -i/--include commits the staged index as well.
   const tracked = entries.filter(e => e.x !== '?' && e.x !== '!')
-  if (specs.length) return tracked.filter(e => matches(e.path)).map(e => e.path)
+  if (specs.length) return tracked.filter(e => matches(e.path) || (op.include && e.x !== ' ')).map(e => e.path)
   return tracked.filter(e => e.x !== ' ' || (op.all && e.y !== ' ')).map(e => e.path)
 }
 

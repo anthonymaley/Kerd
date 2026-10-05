@@ -258,6 +258,25 @@ describe('assessment', () => {
     expect(f!.hits[0]!.path).toBe('.playwright-mcp/snap.yml')
   })
 
+  test('commit --include/-i commits the staged index as well as the named paths: a staged .env asks', () => {
+    const status = 'A  .env\0 M README.md\0'
+    for (const command of [
+      'git commit --include README.md -m x',
+      'git commit -i README.md -m x',
+      'git commit -im x README.md',
+      'git commit --incl -m x README.md',
+    ]) {
+      const [f] = judge(command, facts({ status }))
+      expect(f!.verdict).toBe('ask')
+      expect(f!.hits.map(h => h.path)).toEqual(['.env'])
+    }
+    // --only (git's default with paths) and -o commit the named paths alone.
+    for (const command of ['git commit README.md -m x', 'git commit --only README.md -m x', 'git commit -o README.md -m x']) {
+      expect(judge(command, facts({ status }))[0]!.verdict).toBe('pass')
+    }
+    expect(parseGitOps('git commit -i README.md -m x', KERD, HOME)[0]!.include).toBe(true)
+  })
+
   test('push asks when an unpushed commit carries a slipped path', () => {
     const [f] = judge('git push origin main', facts({ pushPaths: ['README.md', 'docs/work/backlog-sweep/work.md'] }))
     expect(f!.verdict).toBe('ask')
@@ -1057,6 +1076,22 @@ describe('git reached through wrappers, shells and strings', () => {
     expect(c!.cwd).toBe(`${KERD}/docs`)
     expect(d!.cwd).toBe(KERD)
     expect(parseGitOps('eval "cd docs" && git add x', KERD, HOME)[0]!.cwd).toBe(`${KERD}/docs`)
+  })
+
+  test('a cd inside ( … ) ends at its ); one inside { …; } stays', () => {
+    const [a] = parseGitOps('(cd /tmp); git add -f .env', KERD, HOME)
+    expect(a!.cwd).toBe(KERD)
+    expect(a!.specs[0]!.abs).toBe(`${KERD}/.env`)
+    const [b, c] = parseGitOps('(cd /tmp && git add x) && git add y', KERD, HOME)
+    expect(b!.cwd).toBe('/tmp')
+    expect(c!.cwd).toBe(KERD)
+    expect(parseGitOps('( (cd /tmp); git add x ); git add y', KERD, HOME).map(o => o.cwd)).toEqual([KERD, KERD])
+    expect(parseGitOps('cd docs; (cd /tmp) ; git add x', KERD, HOME)[0]!.cwd).toBe(`${KERD}/docs`)
+    expect(parseGitOps('echo $(cd /tmp) && git add x', KERD, HOME)[0]!.cwd).toBe(KERD)
+    expect(parseGitOps('eval "(cd docs)" && git add x', KERD, HOME)[0]!.cwd).toBe(KERD)
+    expect(parseGitOps('{ cd docs; }; git add x', KERD, HOME)[0]!.cwd).toBe(`${KERD}/docs`)
+    // A `)` that closes no subshell (a case pattern) moves nothing back.
+    expect(parseGitOps('cd docs; case x in x) true;; esac; git add x', KERD, HOME)[0]!.cwd).toBe(`${KERD}/docs`)
   })
 
   const UNREAD = [

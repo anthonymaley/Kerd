@@ -194,7 +194,10 @@ no. It always guards `.env` and `.playwright-mcp/`. Set your notes folder once
 in overtone's `vault_path` setting (`/plugin configure overtone@kerd-marketplace`) and it is guarded in every
 project. A project can add to that in its `kivna/vault.json`: the `vault` it
 names, and its own files under `"private_paths"`. Neither can switch a check
-off, and a file the guard cannot use makes it ask.
+off, and a file the guard cannot use makes it ask. It reads ordinary git
+commands and the common ways of wrapping them, such as `env`, `sudo` or
+`bash -c`, and asks when it cannot tell what one does: it is a safety net for
+honest mistakes, not a lock against a command disguised on purpose.
 
 Install it with:
 
