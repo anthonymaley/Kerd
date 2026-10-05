@@ -383,7 +383,7 @@ describe('workers', () => {
     const call = await $.tool.call({ tool: 'Read', file_path: '/a/b/hooks.ts', agentId: 's1', tool_use_id: 'u1' } as never)
     expect(call).toMatchObject({ result: 'ok' })
     expect(ask).toMatchObject({ decision: 'ask' })
-    expect(seenWhileWaiting).toContain('▸ Reviewer · wants to run Read hook… Sonnet · high | Sonnet 5.5 | 0s | waiting on you')
+    expect(seenWhileWaiting).toContain('▸ Reviewer · Read hooks.ts | Sonnet · high | Sonnet 5.5 | 0s | waiting on you')
     expect(seenWhileWaiting).toContain('next ▸ The Reviewer — waits on a permission prompt')
     const ui = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
     expect(squash((await ui.find({ type: 'Text', text: ROW('Reviewer') }))?.text)).toBe(

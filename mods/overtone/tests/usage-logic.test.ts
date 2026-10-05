@@ -662,7 +662,7 @@ describe('the job title keeps what to act on', () => {
   test('a blocked task keeps what it waits on, the name shortened first', () => {
     const t = jobTitle(row({ state: 'waiting on you' }), 35)
     expect(t.length).toBeLessThanOrEqual(34)
-    expect(t).toContain(' · wants to run')
+    expect(t).toContain(' · Bash git push')
     expect(t.startsWith('Restructure')).toBe(true)
   })
   test('a partner keeps its role behind a long name', () => {

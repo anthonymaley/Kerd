@@ -1103,15 +1103,20 @@ export function jobColumns(columns: number): { job: number; asked: number; saw: 
 // What the job column shows: a worker's task alone, or with what it waits on
 // when it waits on you (that is what to answer); a partner's name and the
 // role it was asked.
-// `width` is the cell's: the suffix keeps at least half of it, and the name
-// is shortened first, so a long task never hides what to answer or the role.
+// `width` is the cell's: the name is shortened first, so a long task never
+// hides the call a worker waits on or a partner's role.
 export function jobTitle(j: JobRow, width: number): string {
   const room = Math.max(1, width - 1)
   if (j.kind !== 'partner' && j.state !== 'waiting on you') return clip(j.job, room)
   const name = clip(j.job, room)
-  // The suffix gets what the name leaves, and never less than half the cell.
-  const suffixRoom = Math.max(Math.floor(room / 2), room - name.length) - 3
-  const suffix = ` · ${clip(j.doing, Math.max(4, suffixRoom))}`
+  // A blocked row's state already says it waits on you, so its suffix is the
+  // call itself (`Bash git push…`) and keeps two thirds of the cell; a
+  // partner's role keeps half. Either way it also gets what the name leaves.
+  const blocked = j.kind !== 'partner'
+  const what = blocked ? j.doing.replace(/^wants to run /, '') : j.doing
+  const share = blocked ? Math.floor((room * 2) / 3) : Math.floor(room / 2)
+  const suffixRoom = Math.max(share, room - name.length) - 3
+  const suffix = ` · ${clip(what, Math.max(4, suffixRoom))}`
   return `${clip(j.job, Math.max(4, room - suffix.length))}${suffix}`
 }
 
