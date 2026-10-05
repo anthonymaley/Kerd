@@ -29,46 +29,46 @@ class PrivateNotesWordingTests(unittest.TestCase):
              "same set by hand, every `notes:` entry from the notes root included; an entry is "
              "never skipped because it lives outside the repo."),
             # In: a notes: entry is read from the notes root, not the repo.
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/in.md",
              "A reading-set entry written `notes:<path>` "
              "is read from the notes root (`kivna/vault.json`'s `work_notes`), not the repo."),
             # In: reading one fetches the vault and refuses unsaved/missing notes.
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/in.md",
              "Reading one also fetches the vault repo that holds it: refuse to read unsaved "
              "vault notes, or a vault missing the commit Out recorded, rather than showing a "
              "stale or partial sketchbook."),
             # Out: measure warns rather than refuses an untracked source; prepare refuses one,
             # a notes: source must be tracked, and only a --preserve'd project record is
             # still readable by pickup (the 2026-09-09 ruling).
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/out.md",
              "`measure` now warns when a source is not tracked: `prepare` refuses an "
              "untracked source and a `notes:` source must be tracked in the vault, while "
              "pickup can still read a project record the project deliberately keeps out "
              "of Git, named with `--preserve`."),
             # Out: --carry-file phrases, never a bare argument (argv is visible locally).
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/out.md",
              "Name the few findings that must survive this sitting, three to five, one "
              "line each, and pass them on the same call as `--carry-file <path>`, a file "
              "with one phrase per line that only its owner can read, or `--carry-file -` "
              "to pipe them on stdin. Never pass a phrase as a bare argument: argv is "
              "visible to other local accounts on the machine."),
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/out.md",
              "A phrase `measure` reports "
              "as not in the reading set is fixed by writing it into CONTEXT.md or TODO.md, "
              "or by adding its source to the set, then measuring again. This never blocks "
              "the save and asks the person nothing."),
             # Out: same named-file save reaches the vault repo too.
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/out.md",
              "When `kivna/vault.json` sets `work_notes`, "
              "save and push the vault repo the same way, by the same named-file save, "
              "alongside the project; the sketchbook it holds is part of this sitting's saved "
              "place, not a separate closeout."),
             # Out: the boundary check now proves both repos.
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/out.md",
              "With `work_notes` set, this includes the vault repo: the boundary check now "
              "covers both, and the box shows both as saved only when each passes."),
             # Sketchbook location moves with the key when the Out owner starts a fresh record.
-            ("skills/switch/references/in-out.md",
+            ("skills/switch/references/out.md",
              "When `kivna/vault.json` sets `work_notes`, start it instead at "
              "`<notes root>/<slug>/work.md` in the private vault repo and point to it as "
              "`notes:<slug>/work.md`."),
