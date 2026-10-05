@@ -78,6 +78,9 @@ import {
 const PANE_ID = 'overtone-guard'
 const FAILURES_KEY = 'guard-failures'
 const MAX_ROWS = 6
+// A ref-set push (--all, --mirror, --tags): at most this many tips have
+// their kivna/vault.json read; more asks.
+const MAX_TIPS = 64
 
 type Hold = Evidence & { where: 'pane' | 'band' }
 const holds = new Map<string, Hold>()
@@ -251,7 +254,10 @@ export const register: Register = (on, options) => {
     const id = e.tool_use_id
     let deny: string | undefined
 
-    if (/\bgit\b/.test(command)) {
+    // Every command goes to the reader: a text test for "git" would be
+    // stricter than it (`gi\t add`, `"$G" add`, `xargs git` fed a verb).
+    // A command it finds no git add, commit or push in reads nothing.
+    if (command.trim() !== '') {
       // ---- observe: fail open -------------------------------------------
       let findings: Finding[] = []
       try {
@@ -546,7 +552,34 @@ export const register: Register = (on, options) => {
                 if (op.push && plan?.kind === 'revs') {
                   const at = plan.revs.indexOf('--not')
                   const pushed = (at < 0 ? plan.revs : plan.revs.slice(0, at)).filter(r => !r.startsWith('-'))
-                  for (const rev of [...new Set(['HEAD', ...pushed])]) {
+                  // A ref set (--all/--branches, --mirror, --tags) sends every
+                  // tip it names, each with its own committed copy: read them
+                  // all. A listing that fails or runs past MAX_TIPS, or a tip
+                  // whose copy cannot be read, asks.
+                  const tips = new Set<string>()
+                  let setWhy: string | null = null
+                  if (op.push.sets.length) {
+                    const patterns = [
+                      ...new Set(op.push.sets.map(s => (s === '--branches' ? 'refs/heads/' : s === '--tags' ? 'refs/tags/' : 'refs/'))),
+                    ]
+                    try {
+                      const list = await $.process.run(['git', 'for-each-ref', '--format=%(objectname)', ...patterns], {
+                        cwd: root,
+                        timeoutMs: T,
+                      })
+                      if (!fullRead(list)) setWhy = 'the guard could not list the refs this push sends'
+                      else {
+                        const oids = [...new Set(list.stdout.split('\n').map(l => l.trim()).filter(Boolean))]
+                        if (oids.length > MAX_TIPS) {
+                          setWhy = `this push sends ${oids.length} ref tips, more than the ${MAX_TIPS} whose ${GUARD.newWorkFolders.file} the guard reads`
+                        } else for (const oid of oids) tips.add(oid)
+                      }
+                    } catch {
+                      setWhy = 'the guard could not list the refs this push sends'
+                    }
+                  }
+                  for (const rev of [...new Set(['HEAD', ...pushed, ...tips])]) {
+                    if (setWhy !== null) break
                     if (bases.includes(rev)) continue
                     try {
                       const copy = await $.process.run(['git', 'show', `${rev}:${GUARD.newWorkFolders.file}`], {
@@ -556,12 +589,21 @@ export const register: Register = (on, options) => {
                       if (copy.exitCode === 0 && !copy.isStdoutTruncated) {
                         vaultWorkNotes ||= workNotesInVault(copy.stdout)
                         vaultReads.push(readVault(copy.stdout))
-                      } else if (copy.exitCode === 0) workBaseUnknown = true // cut: as a base read
+                      } else if (copy.exitCode === 0) {
+                        // cut: as a base read; on a ref-set tip, it asks
+                        workBaseUnknown = true
+                        if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
+                      }
                     } catch {
                       // Thrown or timed out: as a thrown base read, the
-                      // work-folder judgement is unknown (asks on one).
+                      // work-folder judgement is unknown (asks on one); on a
+                      // ref-set tip, it asks.
                       workBaseUnknown = true
+                      if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
                     }
+                  }
+                  if (setWhy !== null) {
+                    plan = { kind: 'opaque', why: `${setWhy}, so it cannot tell which paths each keeps private`, urls: plan.urls }
                   }
                 }
                 // On a push a thrown or timed-out read leaves the base unknown

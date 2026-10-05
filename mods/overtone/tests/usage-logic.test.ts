@@ -562,10 +562,23 @@ describe('the dashboard', () => {
     expect([all.jobs.length, all.jobsHidden]).toEqual([8, 0])
     const short = dashboard(s, 150, 8)
     expect(short.panelBorder).toBe(true)
-    expect(dashboardRows(short)).toBeLessThanOrEqual(14)
+    expect(dashboardRows(short)).toBeLessThanOrEqual(8)
     expect(short.jobsHidden).toBe(8 - short.jobs.length)
     expect(short.jobs.map(j => j.job)).toContain('Job 6')
     expect(usageText(s).includes('+')).toBe(false)
+    // A hard cap from three rows up, with the worker-list note too: the jobs
+    // card sheds its column-header row and folds "+K more" and the note into
+    // its title row; the worst job stays.
+    const noted = snap({ workers: { byId, error: 'read failed' } })
+    for (const snapshot of [s, noted]) {
+      for (let rows = 3; rows <= 16; rows++) {
+        const d = dashboard(snapshot, 150, rows)
+        expect([rows, dashboardRows(d) <= rows]).toEqual([rows, true])
+        expect([rows, d.jobs.length + d.jobsHidden, d.jobs.map(j => j.job).includes('Job 6')]).toEqual([rows, 8, true])
+      }
+    }
+    const five = dashboard(noted, 150, 5)
+    expect([five.jobsCompact, five.jobsNote, dashboardRows(five)]).toEqual([true, 'worker status unavailable · read failed', 5])
   })
 
   test('the even-pace mark: caption after it, or before it when there is no room', () => {

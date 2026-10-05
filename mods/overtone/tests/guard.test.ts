@@ -1427,3 +1427,87 @@ describe("guard: a push reads HEAD's and each pushed revision's committed vault.
     expect(w.ran).toEqual(['git push origin topic:newbranch'])
   })
 })
+
+describe('guard: the reader decides, never a text match for "git"', () => {
+  test('git spelled with an escape or a variable reaches the reader, and asks', async ($, on) => {
+    const { w, clock } = world(on, { status: '?? .env\0', answer: "Don't run it" })
+    const forms = ['gi\\t add -f .env', 'G=git; "$G" add -f .env']
+    const denies: (string | undefined)[] = []
+    for (const command of forms) {
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      denies.push(((await call) as { deny?: string }).deny)
+    }
+    expect(w.asked).toHaveLength(2)
+    expect(denies[0]).toContain('.env (kept out of Git by instruction)')
+    expect(denies[1]).toContain('is a shell expansion that may be git')
+    expect(w.ran).toEqual([])
+  })
+
+  test('a command with no git op in it still reads no git and asks nothing', async ($, on) => {
+    const { w } = world(on)
+    const quiet = ['ls -la', 'echo push', 'npm run push', 'grep "git push" notes.md', 'make 2>&1 | tee build.log']
+    for (const command of quiet) await $.tool.call(bash(command))
+    expect(w.argv).toEqual([])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(quiet)
+  })
+})
+
+describe("guard: a ref-set push reads every pushed tip's committed vault.json", () => {
+  const SECRET = JSON.stringify({ private_paths: ['secret.txt'] })
+  const TIP_A = 'b'.repeat(40)
+  const TIP_B = 'c'.repeat(40)
+  const tips = (oids: string[]): Record<string, [string, number, boolean]> => ({
+    'for-each-ref --format=%(objectname)': [oids.map(o => `${o}\n`).join(''), 0, false],
+  })
+  for (const [command, pattern] of [
+    ['git push --all origin', 'refs/heads/'],
+    ['git push --branches origin', 'refs/heads/'],
+    ['git push --mirror origin', 'refs/'],
+    ['git push --tags origin', 'refs/tags/'],
+  ] as const) {
+    test(`\`${command}\`: a private path another tip keeps asks`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: base => (base === TIP_B ? SECRET : null),
+        log: () => 'secret.txt\n',
+        answers: tips([TIP_A, TIP_B]),
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.argv).toContainEqual(['git', 'for-each-ref', '--format=%(objectname)', pattern])
+      expect(w.argv).toContainEqual(['git', 'show', `${TIP_B}:kivna/vault.json`])
+      expect(r.deny).toContain('secret.txt (kept out of Git by instruction)')
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('add-only: no tip names the path, the push passes', async ($, on) => {
+    const { w } = world(on, { files: {}, committed: null, log: () => 'secret.txt\n', answers: tips([TIP_A, TIP_B]) })
+    await $.tool.call(bash('git push --all origin'))
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push --all origin'])
+  })
+
+  const FAILS: [string, Partial<World>, string][] = [
+    ['more tips than it reads', { answers: tips(Array.from({ length: 65 }, (_, i) => i.toString(16).padStart(40, '0'))) }, 'more than the 64'],
+    ['a listing that fails', { answers: { 'for-each-ref --format=%(objectname)': ['', 128, false] } }, 'could not list the refs'],
+    ['a cut listing', { answers: { 'for-each-ref --format=%(objectname)': [`${TIP_A}\n`, 0, true] } }, 'could not list the refs'],
+    ['a listing that throws', { throws: ['for-each-ref --format=%(objectname)'] }, 'could not list the refs'],
+    ['a tip whose copy cannot be read', { answers: tips([TIP_A, TIP_B]), throws: [`show ${TIP_B}:kivna/vault.json`] }, 'at a ref this push sends'],
+  ]
+  for (const [what, over, why] of FAILS) {
+    test(`${what}: asks`, async ($, on) => {
+      const { w, clock } = world(on, { files: {}, committed: null, log: () => 'README.md\n', answer: "Don't run it", ...over })
+      const call = $.tool.call(bash('git push --all origin'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(why)
+      expect(w.ran).toEqual([])
+    })
+  }
+})

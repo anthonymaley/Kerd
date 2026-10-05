@@ -517,19 +517,33 @@ export const register: Register = on => {
             </Text>
           ) : (
             <Box {...frame('p-jobs')}>
-              {titleRow('jobs', [{ text: 'Workers', tone: 'plain', bold: true }, { text: ' running now, what each is doing, asked vs saw', tone: 'dim' }], [{ text: String(d.jobs.length) }])}
-              <Text key="jobs-cols" dimColor wrap="truncate-end">
-                {`  ${cell('job', col.job)}${cell('doing', col.doing)}${cell('asked', col.asked)}${cell('saw', col.saw)}${cell('elapsed', col.elapsed)}state`}
-              </Text>
+              {d.jobsCompact
+                ? titleRow(
+                    'jobs',
+                    [{ text: 'Workers', tone: 'plain', bold: true }],
+                    [
+                      { text: String(d.jobs.length + d.jobsHidden) },
+                      ...(d.jobsHidden > 0 ? [{ text: ` · +${d.jobsHidden} more`, tone: 'dim' as const }] : []),
+                      ...(d.jobsNote ? [{ text: ` · ${d.jobsNote}`, tone: 'warning' as const }] : []),
+                    ],
+                  )
+                : titleRow('jobs', [{ text: 'Workers', tone: 'plain', bold: true }, { text: ' running now, what each is doing, asked vs saw', tone: 'dim' }], [{ text: String(d.jobs.length) }])}
+              {d.jobsCompact ? (
+                ''
+              ) : (
+                <Text key="jobs-cols" dimColor wrap="truncate-end">
+                  {`  ${cell('job', col.job)}${cell('doing', col.doing)}${cell('asked', col.asked)}${cell('saw', col.saw)}${cell('elapsed', col.elapsed)}state`}
+                </Text>
+              )}
               {d.jobs.map(jobRow)}
-              {d.jobsHidden > 0 ? (
+              {!d.jobsCompact && d.jobsHidden > 0 ? (
                 <Text key="jobs-more" dimColor>
                   {`  +${d.jobsHidden} more`}
                 </Text>
               ) : (
                 ''
               )}
-              {d.jobsNote ? (
+              {!d.jobsCompact && d.jobsNote ? (
                 <Text key="jobs-note" color="warning" wrap="truncate-end">
                   {d.jobsNote}
                 </Text>

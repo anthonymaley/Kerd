@@ -291,8 +291,160 @@ type Simple = {
   // none). A redirection operator counts only when all of it is unquoted.
   firstQuoted: number[]
   subs: string[]
+  // `$(…)` inside double quotes whose end the reader cannot find (it never
+  // closes, or a `case` inside makes a `)` ambiguous): the text from there
+  // on, which asks.
+  unread: string[]
   heredocs: { body: string; quoted: boolean }[]
   piped: boolean
+}
+
+// From just after `$(`: the index of the `)` that closes it, read as the
+// shell reads it (quotes, escapes, nested `$(…)`, backticks, comments and
+// here-document bodies), or -1 when it never closes. `ambiguous`: a `case`
+// inside, whose patterns end in a `)` this scan does not pair.
+function scanSub(s: string, from: number): { end: number; ambiguous: boolean } {
+  let depth = 1
+  let ambiguous = false
+  const fail = () => ({ end: -1, ambiguous })
+  const heredocs: { delim: string; strip: boolean }[] = []
+  // The next character starts a word (a command word may be `case` or `#`).
+  let atWord = true
+  for (let i = from; i < s.length; i++) {
+    const c = s[i]!
+    if (c === '\\') {
+      i++
+      atWord = false
+      continue
+    }
+    if (c === "'") {
+      const j = s.indexOf("'", i + 1)
+      if (j < 0) return fail()
+      i = j
+      atWord = false
+      continue
+    }
+    if (c === '"') {
+      const j = dquoteEnd(s, i + 1)
+      if (j < 0) return fail()
+      i = j
+      atWord = false
+      continue
+    }
+    if (c === '`') {
+      const j = backtickEnd(s, i + 1)
+      if (j < 0) return fail()
+      i = j
+      atWord = false
+      continue
+    }
+    if (c === '$' && s[i + 1] === '(') {
+      const r = scanSub(s, i + 2)
+      if (r.end < 0) return fail()
+      ambiguous ||= r.ambiguous
+      i = r.end
+      atWord = false
+      continue
+    }
+    if (c === '<' && s[i + 1] === '<' && s[i + 2] === '<') {
+      i += 2
+      atWord = true
+      continue
+    }
+    if (c === '<' && s[i + 1] === '<') {
+      // A here-document: its delimiter, quotes removed; the body is skipped
+      // at the next newline.
+      let j = i + 2
+      const strip = s[j] === '-'
+      if (strip) j++
+      while (s[j] === ' ' || s[j] === '\t') j++
+      let delim = ''
+      for (; j < s.length && !/[\s;&|()<>]/.test(s[j]!); j++) {
+        const d = s[j]!
+        if (d === "'" || d === '"') {
+          const k = s.indexOf(d, j + 1)
+          if (k < 0) return fail()
+          delim += s.slice(j + 1, k)
+          j = k
+        } else if (d === '\\') {
+          delim += s[j + 1] ?? ''
+          j++
+        } else delim += d
+      }
+      heredocs.push({ delim, strip })
+      i = j - 1
+      atWord = false
+      continue
+    }
+    if (c === '\n') {
+      let at = i + 1
+      while (heredocs.length) {
+        const h = heredocs.shift()!
+        let closed = false
+        while (at < s.length) {
+          const nl = s.indexOf('\n', at)
+          const line = nl < 0 ? s.slice(at) : s.slice(at, nl)
+          at = nl < 0 ? s.length : nl + 1
+          if ((h.strip ? line.replace(/^\t+/, '') : line) === h.delim) {
+            closed = true
+            break
+          }
+        }
+        if (!closed) return fail()
+      }
+      i = at - 1
+      atWord = true
+      continue
+    }
+    if (c === '#' && atWord) {
+      const nl = s.indexOf('\n', i)
+      if (nl < 0) return fail()
+      i = nl - 1
+      continue
+    }
+    if (c === '(') {
+      depth++
+      atWord = true
+      continue
+    }
+    if (c === ')') {
+      depth--
+      if (depth === 0) return { end: i, ambiguous }
+      atWord = true
+      continue
+    }
+    if (/[\s;&|]/.test(c)) {
+      atWord = true
+      continue
+    }
+    if (atWord && /^case(?:[\s;&|()]|$)/.test(s.slice(i, i + 5))) ambiguous = true
+    atWord = false
+  }
+  return fail()
+}
+
+// From just after an opening `"`: the index of its closing `"`, or -1.
+function dquoteEnd(s: string, from: number): number {
+  for (let j = from; j < s.length; j++) {
+    const c = s[j]
+    if (c === '\\') j++
+    else if (c === '"') return j
+    else if (c === '`') {
+      j = backtickEnd(s, j + 1)
+      if (j < 0) return -1
+    } else if (c === '$' && s[j + 1] === '(') {
+      j = scanSub(s, j + 2).end
+      if (j < 0) return -1
+    }
+  }
+  return -1
+}
+
+// From just after an opening backtick: the index of its closing one, or -1.
+function backtickEnd(s: string, from: number): number {
+  let j = from
+  while (j < s.length && s[j] !== '`') j += s[j] === '\\' ? 2 : 1
+  return j < s.length ? j : -1
 }
 
 // Splits a command line into simple commands, each a list of words. Splits on
@@ -304,15 +456,13 @@ export function splitCommands(command: string): string[][] {
 
 function splitShell(command: string): Simple[] {
   const commands: Simple[] = []
-  const fresh = (): Simple => ({ words: [], firstQuoted: [], subs: [], heredocs: [], piped: false })
+  const fresh = (): Simple => ({ words: [], firstQuoted: [], subs: [], unread: [], heredocs: [], piped: false })
   let cur = fresh()
   let word = ''
   let hasWord = false
   // The word had a quote or an escape (a quoted here-doc delimiter).
   let wordQuoted = false
   let quote: '"' | "'" | null = null
-  let depth = 0 // $( ... ) nesting inside double quotes
-  let subAt = -1 // where the outermost $( inside double quotes began
   // Here-documents named on this line, read after its newline. Only an
   // unquoted, unescaped `<<` (seen in the loop below, never read back from a
   // finished word) starts one: `"<<EOF"` and `\<<EOF` are text.
@@ -402,19 +552,25 @@ function splitShell(command: string): Simple[] {
         continue
       }
       if (c === '$' && command[i + 1] === '(') {
-        if (depth === 0) subAt = i + 2
-        depth++
-        word += '$('
-        i++
+        // A command substitution runs: read to its own end, quotes and all.
+        const s = scanSub(command, i + 2)
+        if (s.end < 0 || s.ambiguous) cur.unread.push(command.slice(i + 2))
+        else cur.subs.push(command.slice(i + 2, s.end))
+        const end = s.end < 0 ? command.length - 1 : s.end
+        word += command.slice(i, end + 1)
+        i = end
         continue
-      } else if (c === '(' && depth > 0) depth++
-      else if (c === ')' && depth > 0) {
-        depth--
-        if (depth === 0 && subAt >= 0) {
-          cur.subs.push(command.slice(subAt, i))
-          subAt = -1
-        }
-      } else if (c === '"' && depth === 0) {
+      }
+      if (c === '`') {
+        // So does a backtick command inside double quotes.
+        const j = backtickEnd(command, i + 1)
+        const end = j < 0 ? command.length : j
+        cur.subs.push(command.slice(i + 1, end))
+        word += command.slice(i, end + 1)
+        i = end
+        continue
+      }
+      if (c === '"') {
         quote = null
         continue
       }
@@ -433,6 +589,32 @@ function splitShell(command: string): Simple[] {
     if (c === "'" || c === '"') {
       quoted()
       quote = c
+      hasWord = true
+      continue
+    }
+    // An unquoted redirection operator ends the word before it unless that
+    // word is a file descriptor (unquoted digits): `.env>/dev/null` is the
+    // path `.env` and a redirection, `2>&1` one redirection. The operator
+    // and its attached target are one word, which dropRedirects removes.
+    const opStarts = (c === '<' || c === '>' || (c === '&' && command[i + 1] === '>'))
+    if (opStarts && hasWord && !(/^\d+$/.test(word) && firstQuoted === Infinity)) endWord()
+    if (c === '&' && command[i + 1] === '>') {
+      word += '&>'
+      i++
+      if (command[i + 1] === '>') {
+        word += '>'
+        i++
+      }
+      hasWord = true
+      continue
+    }
+    if ((c === '<' || c === '>') && !(c === '<' && command[i + 1] === '<')) {
+      word += c
+      const n = command[i + 1]
+      if ((c === '>' && (n === '>' || n === '|' || n === '&')) || (c === '<' && (n === '&' || n === '>'))) {
+        word += n
+        i++
+      }
       hasWord = true
       continue
     }
@@ -657,6 +839,14 @@ const VERBS: ReadonlyMap<string, GitOp['kind']> = new Map([
 const ASSIGNMENT = /^[A-Za-z_][A-Za-z0-9_]*=/
 // Assignments that change which git config (or git programs) a command sees.
 const CONFIG_ENV = /^(?:GIT_[A-Za-z0-9_]*|HOME|XDG_CONFIG_HOME)=/
+// Variables that change the config a push reads (its remotes, push URLs and
+// push settings): the push cannot be placed.
+const PUSH_ENV = /^(?:GIT_CONFIG\w*|GIT_DIR|GIT_COMMON_DIR|GIT_WORK_TREE|HOME|XDG_CONFIG_HOME)$/
+// Variables that point add or commit at another repository, work tree or
+// index than the one the guard reads.
+const TREE_ENV = /^(?:GIT_DIR|GIT_COMMON_DIR|GIT_WORK_TREE|GIT_INDEX_FILE)$/
+// Builtins that set or export shell variables for the commands after them.
+const SETS_VARS = new Set(['export', 'declare', 'typeset', 'readonly', 'local'])
 const base = (w: string) => w.slice(w.lastIndexOf('/') + 1)
 // `git`, or any path to it (`/usr/bin/git`, `./git`, `bin/git`).
 const isGit = (w: string) => base(w) === 'git'
@@ -668,7 +858,10 @@ export const aliasKey = (cwd: string, name: string) => `${cwd}\0${name}`
 // (not an alias). A key not here has not been read.
 export type Aliases = ReadonlyMap<string, string | null>
 
-type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[] }
+// `shellVars`: variables the line set or exported before (`export GIT_DIR=x;
+// git add`), which the commands after it may run with. Never scoped to a
+// subshell: one set anywhere counts for the rest of the line.
+type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[]; shellVars: Set<string> }
 
 // The git add / commit / push commands in a Bash command line, in order.
 // Commands it reaches through a wrapper it cannot fully read (xargs, find
@@ -677,7 +870,7 @@ type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[] }
 // git aliases; an unread one comes back as an op with `alias` set, which
 // asks unless guard.tsx reads it.
 export function parseGitOps(command: string, cwd: string, home?: string, aliases: Aliases = new Map()): GitOp[] {
-  const r: Reader = { home, aliases, ops: [] }
+  const r: Reader = { home, aliases, ops: [], shellVars: new Set() }
   readLine(r, command, normalize(cwd), 0, false)
   return r.ops
 }
@@ -687,16 +880,7 @@ export function parseGitOps(command: string, cwd: string, home?: string, aliases
 // reader does not know): only a command line that starts with git counts.
 function readLine(r: Reader, command: string, dir: string, depth: number, strict: boolean): string {
   if (depth > MAX_DEPTH) {
-    // Too deep to read. Its words naming git and a verb: that op, unread.
-    // Otherwise only plain words with no git in them pass; anything else (a
-    // quote, escape, glob, brace or expansion can spell git unseen: `gi\t`,
-    // `g?t`, `[g]it`, `{git,x}`) is an unread push, which always asks.
-    const why = 'commands nested deeper than the guard reads'
-    const kind = mentioned(splitCommands(command).flat())
-    if (kind) r.ops.push(unreadableOp(kind, dir, command, why))
-    else if (!/^[A-Za-z0-9_\-./ =:,\n\t]*$/.test(command) || /git/i.test(command)) {
-      r.ops.push(unreadableOp('push', dir, command, why))
-    }
+    unreadText(r, command, dir, 'commands nested deeper than the guard reads')
     return dir
   }
   const cmds = splitShell(command)
@@ -704,17 +888,35 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
     const c = cmds[n]!
     // `$(…)` and backticks run first, in a subshell.
     for (const sub of c.subs) readLine(r, sub, dir, depth + 1, false)
+    for (const text of c.unread) unreadText(r, text, dir, 'a command substitution the guard cannot read to its end')
     dir = readCommand(r, dropRedirects(c.words, c.firstQuoted), dir, depth, strict, null)
+    // A here-document or here-string is a command line only when a shell
+    // reads it.
+    const fed = feedsShell(cmds, n)
     for (const h of c.heredocs) {
       if (!h.quoted) for (const sub of substitutions(h.body)) readLine(r, sub, dir, depth + 1, false)
-      // A here-document is a command line only when a shell reads it.
-      if (feedsShell(cmds, n)) readLine(r, h.body, dir, depth + 1, false)
+      if (fed) readLine(r, h.body, dir, depth + 1, false)
     }
+    if (fed) for (const text of hereStrings(c.words, c.firstQuoted)) readLine(r, text, dir, depth + 1, false)
   }
   return dir
 }
 
-// The `$(…)` and backtick commands in a here-document body.
+// Text the reader cannot read as commands. Its words naming git and a verb:
+// that op, unread. Otherwise only plain words with no git in them pass;
+// anything else (a quote, escape, glob, brace or expansion can spell git
+// unseen: `gi\t`, `g?t`, `[g]it`, `{git,x}`) is an unread push, which
+// always asks.
+function unreadText(r: Reader, text: string, dir: string, why: string): void {
+  const kind = mentioned(splitCommands(text).flat())
+  if (kind) r.ops.push(unreadableOp(kind, dir, text, why))
+  else if (!/^[A-Za-z0-9_\-./ =:,\n\t]*$/.test(text) || /git/i.test(text)) {
+    r.ops.push(unreadableOp('push', dir, text, why))
+  }
+}
+
+// The `$(…)` and backtick commands in a here-document body. One whose end
+// cannot be found takes the rest of the body.
 function substitutions(text: string): string[] {
   const out: string[] = []
   for (let i = 0; i < text.length; i++) {
@@ -723,30 +925,54 @@ function substitutions(text: string): string[] {
       continue
     }
     if (text[i] === '$' && text[i + 1] === '(') {
-      let depth = 1
-      let j = i + 2
-      for (; j < text.length && depth > 0; j++) {
-        if (text[j] === '(') depth++
-        else if (text[j] === ')') depth--
+      const s = scanSub(text, i + 2)
+      if (s.end < 0 || s.ambiguous) {
+        out.push(text.slice(i + 2))
+        break
       }
-      out.push(text.slice(i + 2, depth === 0 ? j - 1 : j))
-      i = j - 1
+      out.push(text.slice(i + 2, s.end))
+      i = s.end
     } else if (text[i] === '`') {
-      const j = text.indexOf('`', i + 1)
+      const j = backtickEnd(text, i + 1)
       out.push(text.slice(i + 1, j < 0 ? text.length : j))
-      i = j < 0 ? text.length : j
+      if (j < 0) break
+      i = j
     }
   }
   return out
 }
 
+// The here-strings a command reads (`<<< word`, `<<<word`), as words.
+function hereStrings(words: readonly string[], firstQuoted: readonly number[]): string[] {
+  const out: string[] = []
+  for (let k = 0; k < words.length; k++) {
+    const m = /^\d*<<</.exec(words[k]!)
+    if (!m || (firstQuoted[k] ?? Infinity) < m[0].length) continue
+    const target = words[k]!.length > m[0].length ? words[k]!.slice(m[0].length) : words[k + 1]
+    if (target !== undefined) out.push(target)
+  }
+  return out
+}
+
+// Commands that run what they read as shell commands: `eval` and `source`
+// can be handed it (`eval "$(cat)"`), and so can a shell whose -c string is
+// an expansion.
+const READS_COMMANDS = new Set(['eval', 'source', '.'])
+
 // True when command n, or one it pipes into, is a shell reading its
-// commands from input.
+// commands from input. Redirections are not the command: `<<EOF bash` is.
 function feedsShell(cmds: readonly Simple[], n: number): boolean {
   for (let k = n; k < cmds.length; k++) {
-    const u = unwrap(cmds[k]!.words, '/', undefined)
+    const u = unwrap(dropRedirects(cmds[k]!.words, cmds[k]!.firstQuoted), '/', undefined)
     const head = u.words[u.i]
-    if (head !== undefined && SHELLS.has(base(head)) && shellString(u.words, u.i) === undefined) return true
+    if (head !== undefined) {
+      const name = base(head)
+      if (READS_COMMANDS.has(name)) return true
+      if (SHELLS.has(name)) {
+        const s = shellString(u.words, u.i)
+        if (s === undefined || hasExpansion(s)) return true
+      }
+    }
     if (!cmds[k]!.piped) return false
   }
   return false
@@ -781,15 +1007,18 @@ function unwrap(
   words: readonly string[],
   dir: string,
   home: string | undefined,
-): { words: string[]; i: number; dir: string; env: boolean } {
+): { words: string[]; i: number; dir: string; env: boolean; vars: string[] } {
   let ws = [...words]
   let i = 0
   let d = dir
   let env = false
+  // The names assigned before the command, bare or through env.
+  const vars: string[] = []
   for (let guard = 0; guard < 64 && i < ws.length; guard++) {
     const w = ws[i]!
     if (ASSIGNMENT.test(w) || KEYWORDS.has(w)) {
       if (CONFIG_ENV.test(w)) env = true
+      if (ASSIGNMENT.test(w)) vars.push(w.slice(0, w.indexOf('=')))
       i++
       continue
     }
@@ -812,7 +1041,7 @@ function unwrap(
     }
     i = j + (spec.operands ?? 0)
   }
-  return { words: ws, i, dir: d, env }
+  return { words: ws, i, dir: d, env, vars }
 }
 
 // Reads a wrapper's options from word j; returns the first word after them.
@@ -952,7 +1181,12 @@ function readCommand(
 ): string {
   const u = unwrap(words, dir, r.home)
   const head = u.words[u.i]
-  if (head === undefined) return dir
+  if (head === undefined) {
+    // Assignments alone set shell variables the commands after may see (an
+    // exported one, HOME, does).
+    for (const v of u.vars) r.shellVars.add(v)
+    return dir
+  }
   const name = base(head)
   const rest = u.words.slice(u.i)
   const blindFrom = (mark: number, why: string) => {
@@ -962,15 +1196,34 @@ function readCommand(
     const target = u.words.slice(u.i + 1).find(w => !w.startsWith('-'))
     return target === undefined ? normalize(r.home ?? dir) : resolvePath(dir, target, r.home)
   }
+  if (SETS_VARS.has(name)) {
+    for (const w of rest.slice(1)) if (/^[A-Za-z_]/.test(w)) r.shellVars.add(w.split('=')[0]!)
+    return dir
+  }
   if (isGit(head)) {
     const mark = r.ops.length
-    readGit(r, u.words, u.i, u.dir, depth, u.env)
-    if (wrapped) blindFrom(mark, wrapped)
+    const sub = readGit(r, u.words, u.i, u.dir, depth, u.env, u.vars)
+    if (wrapped) {
+      // xargs or find -exec supplies the subcommand itself (`xargs git`,
+      // `-exec git {} ;`): nothing here says what git does. It asks.
+      if (r.ops.length === mark && !GIT_COMMANDS.has(sub)) {
+        r.ops.push(unreadableOp('push', u.dir, rest.join(' '), `${wrapped}, and it names no git command the guard can read`))
+      }
+      blindFrom(mark, wrapped)
+    }
     return dir
   }
   if (name === 'xargs') {
-    const j = readOptions(u.words, u.i + 1, XARGS, () => {})
-    readCommand(r, u.words.slice(j), u.dir, depth, strict, 'xargs adds arguments the guard cannot read')
+    // -I/-i/--replace: each word holding the token is replaced by what xargs
+    // reads, which the guard cannot see: an expansion, never a known word.
+    let token: string | null = null
+    const j = readOptions(u.words, u.i + 1, XARGS, (opt, value) => {
+      if (opt === '-I') token = value ?? null
+      else if (opt === '-i' || opt === '--replace') token = value || '{}'
+    })
+    const t: string | null = token
+    const inner = t ? u.words.slice(j).map(w => (w.includes(t) ? w.split(t).join('${xargs}') : w)) : u.words.slice(j)
+    readCommand(r, inner, u.dir, depth, strict, 'xargs adds arguments the guard cannot read')
     return dir
   }
   if (name === 'find') {
@@ -1033,8 +1286,17 @@ function readCommand(
 }
 
 // `git …` from words[i] (the git word), run from `dir`.
-// `env`: what came before git can change the config it reads (unwrap).
-function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string, depth: number, env = false): void {
+// `env`: what came before git can change the config it reads (unwrap);
+// `vars`: the variables assigned before it. Returns the subcommand word.
+function readGit(
+  r: Reader,
+  words: readonly string[],
+  gitAt: number,
+  dir: string,
+  depth: number,
+  env = false,
+  vars: readonly string[] = [],
+): string {
   const home = r.home
   const at = (n: number): string => words[n] ?? ''
   let gitDir = dir
@@ -1045,11 +1307,15 @@ function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string
   const keyOf = (kv: string) => kv.split('=')[0] ?? ''
   // --git-dir, --namespace or --exec-path: another repo's config, or other
   // git programs, than guard.tsx reads.
-  let elsewhere = false
+  let elsewhere: string | null = null
+  // --git-dir or --work-tree: another repository or work tree than the one
+  // guard.tsx reads the status of.
+  let tree: string | null = null
   let i = gitAt + 1
   // git's own options before the subcommand
   while (i < words.length && at(i).startsWith('-')) {
     const w = at(i)
+    const opt = w.split('=')[0]!
     if (w === '-C') {
       gitDir = resolvePath(gitDir, words[i + 1] ?? '.', home)
       i += 2
@@ -1060,27 +1326,44 @@ function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string
       configKeys.push(`--config-env ${keyOf(w.slice('--config-env='.length))}`)
       i++
     } else if (w === '--git-dir' || w === '--work-tree' || w === '--namespace') {
-      if (w !== '--work-tree') elsewhere = true
+      if (w !== '--work-tree') elsewhere ??= w
+      if (w !== '--namespace') tree ??= w
       i += 2
     } else if (w.startsWith('--git-dir=') || w.startsWith('--namespace=') || w.startsWith('--exec-path=')) {
-      elsewhere = true
+      elsewhere ??= opt
+      if (opt === '--git-dir') tree ??= opt
       i++
     } else if (w.startsWith('--work-tree=')) {
-      gitDir = resolvePath(gitDir, w.slice('--work-tree='.length), home)
+      tree ??= opt
       i++
     } else i++
   }
   const sub = at(i)
   const text = ['git', ...words.slice(i)].join(' ')
+  const shellVars = [...r.shellVars]
+  const pushVar = [...vars, ...shellVars].find(v => PUSH_ENV.test(v))
+  const treeVar = [...vars, ...shellVars].find(v => TREE_ENV.test(v))
   // Any config given on the command line can change where or what a push
   // sends (`url.*.insteadOf` redirects a remote, `include.path` pulls in
   // remote and push settings), and the guard's own config reads cannot see
-  // it.
+  // it; nor can they see config an environment variable points git at, or
+  // another repository's.
   const overridden = (t: PushTarget) => {
+    if (t.opaque) return
     const override = configKeys[0]
-    if (override !== undefined && !t.opaque) {
+    if (override !== undefined) {
       t.opaque = `\`${override}\` sets git config for this push only, which can change where or what it sends, and the guard cannot check it`
+    } else if (pushVar !== undefined) {
+      t.opaque = `\`${pushVar}\` is set for this push, which changes the git config it reads, so the guard cannot tell where or what it sends`
+    } else if (elsewhere !== null) {
+      t.opaque = `\`${elsewhere}\` points this push at another repository's config, so the guard cannot tell where or what it sends`
     }
+  }
+  // Expansions as the subcommand (`git "$@"`, `git $CMD -f .env`): it may
+  // be any verb, a push included. It asks.
+  if (hasExpansion(sub)) {
+    r.ops.push(unreadableOp('push', gitDir, text, `\`${sub}\` is a shell expansion that may be any git command`))
+    return sub
   }
   if (sub === 'subtree') {
     // `git subtree push -P <prefix> <repository> <ref>`: it pushes commits it
@@ -1091,7 +1374,7 @@ function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string
       if (['-P', '--prefix', '-m', '--message', '-b', '--branch', '--onto'].includes(w)) j++
       else if (!w.startsWith('-')) pos.push(w)
     }
-    if (pos[0] !== 'push') return
+    if (pos[0] !== 'push') return sub
     const t: PushTarget = { remote: pos[1] ?? null, refspecs: [], sets: [], deleting: false, force: false, opaque: null }
     const unread = pos.slice(1).find(hasExpansion)
     if (unread !== undefined) t.opaque = `the push target \`${unread}\` is a shell expansion`
@@ -1099,48 +1382,53 @@ function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string
     else t.blind = 'git subtree push publishes commits split out of a folder, which the guard cannot list'
     overridden(t)
     r.ops.push({ kind: 'push', cwd: gitDir, text, all: false, update: false, force: false, specs: [], isOpaque: false, push: t })
-    return
+    return sub
   }
   const kind = VERBS.get(sub) ?? null
   if (!kind) {
-    if (sub === '' || GIT_COMMANDS.has(sub) || !ALIAS_NAME.test(sub)) return
+    if (sub === '' || GIT_COMMANDS.has(sub) || !ALIAS_NAME.test(sub)) return sub
     // Not a git command: an alias, or a `git-<name>` program.
     const why = `\`git ${sub}\` is not a git command the guard knows, and it could not read what the alias runs`
     if (depth >= MAX_DEPTH) {
       r.ops.push(unreadableOp('commit', gitDir, text, why))
-      return
+      return sub
     }
-    if (configKeys.length || elsewhere || env) {
+    if (configKeys.length || elsewhere || env || shellVars.some(v => /^(?:GIT_\w*|HOME|XDG_CONFIG_HOME)$/.test(v))) {
       // Config set on the command line, another git dir, or an environment
       // that changes which config git reads: guard.tsx's read of the alias
       // would not be what git sees.
       r.ops.push(
         unreadableOp('commit', gitDir, text, `\`git ${sub}\` runs with config the guard cannot read, so it cannot tell what it does`),
       )
-      return
+      return sub
     }
     const key = aliasKey(gitDir, sub)
     if (!r.aliases.has(key)) {
       r.ops.push({ ...unreadableOp('commit', gitDir, text, why), alias: sub })
-      return
+      return sub
     }
     const value = r.aliases.get(key)
     if (value === null || value === undefined) {
       // Not an alias: git runs a `git-<name>` program from PATH, which can do
       // anything. It asks.
       r.ops.push(unreadableOp('commit', gitDir, text, `\`git ${sub}\` runs a program outside git, so the guard cannot tell what it does`))
-      return
+      return sub
     }
     const mark = r.ops.length
     if (value.startsWith('!')) {
-      // A shell alias runs from the repo root with the arguments appended.
-      readLine(r, value.slice(1), gitDir, depth + 1, false)
-      for (const op of r.ops.slice(mark)) blind(op, `\`git ${sub}\` is a shell alias, which the guard cannot read whole`)
-      return
+      // A shell alias runs from the repo root with the arguments appended
+      // (git runs `sh -c '<body> "$@"'`): `!git` with `add -f .env` is
+      // `git add -f .env`. Read so, and never whole; one that shows no git
+      // add, commit or push still asks.
+      const why = `\`git ${sub}\` is a shell alias, which the guard cannot read whole`
+      const args = words.slice(i + 1).map(w => `'${w.replace(/'/g, `'\\''`)}'`)
+      readLine(r, [value.slice(1), ...args].join(' '), gitDir, depth + 1, false)
+      if (r.ops.length === mark) r.ops.push(unreadableOp('commit', gitDir, text, why))
+      for (const op of r.ops.slice(mark)) blind(op, why)
+      return sub
     }
     const expanded = ['git', ...words.slice(gitAt + 1, i), ...splitCommands(value).flat(), ...words.slice(i + 1)]
-    readGit(r, expanded, 0, dir, depth + 1, env)
-    return
+    return readGit(r, expanded, 0, dir, depth + 1, env, vars)
   }
   const op: GitOp = {
     kind,
@@ -1156,7 +1444,7 @@ function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string
     op.push = parsePushTarget(words, i + 1)
     overridden(op.push)
     r.ops.push(op)
-    return
+    return sub
   }
   let onlyPaths = false
   for (let j = i + 1; j < words.length; j++) {
@@ -1200,6 +1488,17 @@ function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string
     }
     op.specs.push({ raw: w, abs: w.startsWith(GUARD.notesPrefix) ? w : resolvePath(gitDir, w, home) })
   }
+  // Another repository, work tree or index than the one guard.tsx reads the
+  // status of: what it stages or commits cannot be listed. It asks.
+  const elsewhereTree = tree ?? treeVar
+  if (elsewhereTree !== undefined && elsewhereTree !== null) {
+    op.isOpaque = true
+    op.specs.push({
+      raw: text,
+      abs: gitDir,
+      unreadable: `\`${elsewhereTree}\` points git at another repository, work tree or index than the guard reads`,
+    })
+  }
   // A glob with -f can stage ignored files, which status does not list.
   if (op.force) {
     for (const s of op.specs) {
@@ -1209,6 +1508,7 @@ function readGit(r: Reader, words: readonly string[], gitAt: number, dir: string
     }
   }
   r.ops.push(op)
+  return sub
 }
 
 // git push options that take the next word as their value.

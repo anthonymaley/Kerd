@@ -970,6 +970,9 @@ export type Dashboard = {
   // Why the job list may be incomplete (the last worker list read failed, or
   // the partner records could not be read).
   jobsNote?: string
+  // A band shorter still: the jobs card drops its column-header row, and
+  // "+K more" and the note go into its title row.
+  jobsCompact?: boolean
   panels: Panel[]
   perRow: number
   panelWidth: number
@@ -987,9 +990,16 @@ export function perRowFor(columns: number): number {
   return inner >= 120 ? 3 : inner >= 76 ? 2 : 1
 }
 
-export function dashboardRows(d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'panels' | 'perRow' | 'cache' | 'next' | 'outerBorder' | 'panelBorder'>): number {
+export function dashboardRows(
+  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'panels' | 'perRow' | 'cache' | 'next' | 'outerBorder' | 'panelBorder'>,
+): number {
   const frame = d.panelBorder ? 2 : 0
-  const jobs = d.jobs.length === 0 ? 1 : frame + 2 + d.jobs.length + (d.jobsHidden > 0 ? 1 : 0) + (d.jobsNote ? 1 : 0)
+  const jobs =
+    d.jobs.length === 0
+      ? 1
+      : d.jobsCompact
+        ? frame + 1 + d.jobs.length
+        : frame + 2 + d.jobs.length + (d.jobsHidden > 0 ? 1 : 0) + (d.jobsNote ? 1 : 0)
   // The context, 5-hour and weekly panels are not drawn in the band (the
   // line carries them as bars); /overtone prints them.
   const cache = d.cache ? frame + 1 + d.cache.lines.length : 0
@@ -1036,16 +1046,34 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   if (dashboardRows(d) > maxRows) delete d.next
   // Still too tall: the jobs the band cannot show fold into "+K more", the
   // worst kept (wrong model, waiting on you, failed, late replies first).
-  const over = dashboardRows(d) - maxRows
-  if (over > 0 && d.jobs.length > 1) {
-    const keep = Math.max(1, d.jobs.length - over - (d.jobsHidden > 0 ? 0 : 1))
-    const ranked = d.jobs.map((j, i) => ({ j, i })).sort((a, b) => jobRank(a.j) - jobRank(b.j) || a.i - b.i)
-    const kept = new Set(ranked.slice(0, keep).map(r => r.i))
-    d.jobsHidden = d.jobs.length - kept.size
-    d.jobs = d.jobs.filter((_, i) => kept.has(i))
-  }
+  const allJobs = d.jobs
+  foldJobs(d, maxRows)
   if (dashboardRows(d) > maxRows) d.panelBorder = false
+  // Shorter still: the jobs card sheds its column-header row and folds
+  // "+K more" and the note into its title row, then folds again from every
+  // job. From three rows up the band never runs past what it is given.
+  if (dashboardRows(d) > maxRows && d.jobs.length > 0) {
+    d.jobsCompact = true
+    d.jobs = allJobs
+    d.jobsHidden = 0
+    foldJobs(d, maxRows)
+  }
   return d
+}
+
+// Folds the fewest jobs that fit `maxRows` into the hidden count, the worst
+// kept; at least one stays.
+function foldJobs(d: Dashboard, maxRows: number): void {
+  if (dashboardRows(d) <= maxRows || d.jobs.length <= 1) return
+  const ranked = d.jobs.map((j, i) => ({ j, i })).sort((a, b) => jobRank(a.j) - jobRank(b.j) || a.i - b.i)
+  const all = d.jobs
+  const hidden = d.jobsHidden
+  for (let keep = all.length - 1; keep >= 1; keep--) {
+    const kept = new Set(ranked.slice(0, keep).map(r => r.i))
+    d.jobs = all.filter((_, i) => kept.has(i))
+    d.jobsHidden = hidden + all.length - keep
+    if (dashboardRows(d) <= maxRows) return
+  }
 }
 
 const RANK: Record<JobState, number> = {
