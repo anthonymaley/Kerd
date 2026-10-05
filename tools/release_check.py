@@ -4,7 +4,7 @@ locations, capability-list identity between the two manifests, the
 `kerd:` slash-command namespace rule, release-history parity between
 README.md and CHANGELOG.md, README's "What's New" header version, and the
 skill/agent frontmatter limits (valid YAML, a description of at most 1,024
-characters with no '<' or '>', a SKILL.md body of at most 500 lines).
+characters with no '<' or '>', a SKILL.md body under 500 lines).
 
     python3 tools/release_check.py [--root PATH] [--json]
     python3 tools/release_check.py selftest
@@ -369,10 +369,16 @@ def _release_whats_new(root, plugin):
 # 500 lines. Claude Code also truncates a listing entry at 1,536
 # characters, so the 1,024 limit is the binding one.
 DESCRIPTION_MAX_CHARS = 1024
-SKILL_BODY_MAX_LINES = 500
+SKILL_BODY_MAX_LINES = 499  # "under 500 lines"
 
 _FALLBACK_KEY = re.compile(r"^([A-Za-z_][A-Za-z0-9_-]*):(?: (.*)|)$")
-_PLAIN_START_REFUSED = set("[]{}#&*!|>'\"%@`,")
+_PLAIN_START_REFUSED = set("[]{}#&*!|>'\"%@`,~")
+_FALLBACK_REFUSED_CHARS = re.compile("[\t\r\x85\u2028\u2029]")
+_TIMESTAMP_START = re.compile(r"^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}")
+# What PyYAML's reader refuses outright (yaml/reader.py NON_PRINTABLE).
+_NON_PRINTABLE = re.compile(
+    "[^\x09\x0A\x0D\x20-\x7E\x85\xA0-\uD7FF\uE000-\uFFFD\U00010000-\U0010FFFF]"
+)
 
 
 class _FallbackUnsupported(ValueError):
@@ -400,8 +406,9 @@ def _split_frontmatter(text):
 
 def _parse_frontmatter(block):
     """Parse a frontmatter block as YAML. PyYAML's safe_load when it is
-    installed; otherwise the strict fallback below. Raises ValueError with
-    a one-line reason when the block does not parse."""
+    installed; otherwise the narrow fallback below, which refuses
+    (_FallbackUnsupported) whatever it cannot match PyYAML on. Raises
+    ValueError with a one-line reason when the block does not parse."""
     try:
         import yaml
     except ImportError:
@@ -418,78 +425,81 @@ def _parse_frontmatter(block):
 
 
 def _fallback_parse(block):
-    """A strict reader for the frontmatter shape Kerd uses: one top-level
-    `key: value` per line, where value is plain, single-quoted,
-    double-quoted, or a `|`/`>` block scalar. Anything outside that subset
-    is refused, never guessed at: a plain value carrying ': ' or ' #' is
-    invalid YAML (ValueError); nested mappings, lists and multi-line plain
-    scalars are YAML this reader does not handle (_FallbackUnsupported).
-    Values come back as strings; an empty value is None."""
+    """A deliberately narrow reader for the two frontmatter shapes Kerd
+    uses, so that without PyYAML the check never passes what PyYAML would
+    reject. Each non-blank line is a top-level `key: value` whose value is
+    either a single-line plain scalar with no ': ' and no ' #', or a
+    single-line double-quoted scalar with YAML's standard escapes; `key:`
+    with nothing after it is null. Everything else (comments, block
+    scalars, single quotes, flow collections, nested or multi-line values,
+    a plain description YAML would not read as a string) raises
+    _FallbackUnsupported, which the rule reports as a problem asking for
+    PyYAML. ValueError is kept for text that is invalid YAML for certain:
+    a plain value carrying ': ', an unknown escape, a duplicate key."""
+    bad = _NON_PRINTABLE.search(block)
+    if bad:
+        raise _FallbackUnsupported(f"non-printable character {bad.group()!r}")
     fields = {}
-    lines = block.split("\n")
-    i = 0
-    while i < len(lines):
-        line = lines[i].rstrip("\r")
-        i += 1
-        if not line.strip() or line.lstrip().startswith("#"):
+    for line in block.split("\n"):
+        if line.endswith("\r"):
+            line = line[:-1]
+        if not line.strip():
             continue
-        if line[0] in " \t":
-            raise _FallbackUnsupported(f"unexpected indented line: {line.strip()[:60]!r}")
+        odd = _FALLBACK_REFUSED_CHARS.search(line)
+        if odd:
+            # A tab, or a character YAML reads as a line break, inside a line.
+            raise _FallbackUnsupported(f"character {odd.group()!r} in {line.strip()[:60]!r}")
         match = _FALLBACK_KEY.match(line)
         if not match:
-            raise ValueError(f"line is not 'key: value': {line[:60]!r}")
+            raise _FallbackUnsupported(f"line is not a one-line 'key: value': {line[:60]!r}")
         key, raw = match.group(1), (match.group(2) or "").strip()
         if key in fields:
             raise ValueError(f"duplicate key {key!r}")
-        if raw[:1] in ("|", ">"):
-            if not re.fullmatch(r"[|>][+-]?", raw):
-                raise _FallbackUnsupported(f"block scalar header {raw!r} under {key!r}")
-            body = []
-            while i < len(lines) and (not lines[i].strip() or lines[i][:1] in " \t"):
-                body.append(lines[i].rstrip("\r"))
-                i += 1
-            fields[key] = _fallback_block_scalar(raw, body)
-        elif raw.startswith('"'):
-            fields[key] = _fallback_double_quoted(raw)
-        elif raw.startswith("'"):
-            fields[key] = _fallback_single_quoted(raw)
-        elif raw == "":
-            if i < len(lines) and lines[i][:1] in " \t" and lines[i].strip():
-                raise _FallbackUnsupported(f"nested value under {key!r}")
+        if raw == "":
             fields[key] = None
+        elif raw.startswith('"'):
+            fields[key] = _fallback_double_quoted(key, raw)
         else:
             fields[key] = _fallback_plain(key, raw)
-        if i < len(lines) and lines[i][:1] in " \t" and lines[i].strip():
-            raise _FallbackUnsupported(f"multi-line value under {key!r}")
     return fields
 
 
 def _fallback_plain(key, raw):
-    if raw[0] in _PLAIN_START_REFUSED or raw[:2] in ("- ", "? ", ": "):
-        raise ValueError(f"plain value of {key!r} starts with {raw[0]!r}; quote it")
-    if ": " in raw or raw.endswith(":"):
+    """A single-line plain scalar, accepted only where YAML reads it as
+    exactly this text."""
+    if raw[0] in _PLAIN_START_REFUSED or raw[:2] in ("- ", "? ") or raw in ("-", "?", ":"):
+        # Flow collections, anchors, tags, quotes, comments: not a plain scalar.
+        raise _FallbackUnsupported(f"plain value of {key!r} starts with {raw[0]!r}")
+    if re.search(r":[ \t]", raw):
         raise ValueError(
-            f"plain value of {key!r} carries ': ' (mapping values are not allowed here); quote it"
+            f"plain value of {key!r} carries ': ' (mapping values are not allowed here); "
+            f"quote it"
         )
-    if re.search(r"\s#", raw):
-        raise ValueError(
-            f"plain value of {key!r} carries ' #', which YAML reads as a comment; quote it"
-        )
+    if raw.endswith(":") or " #" in raw:
+        raise _FallbackUnsupported(f"plain value of {key!r} ends in ':' or carries ' #'")
+    if key == "description" and (not re.search(r"\s", raw) or _TIMESTAMP_START.match(raw)):
+        # YAML may resolve a one-word or date-like plain scalar to null, a
+        # boolean, a number or a timestamp; only PyYAML can say which.
+        raise _FallbackUnsupported(f"plain description {raw[:40]!r} may not be a string")
     return raw
 
 
-_DQ_ESCAPES = {'"': '"', "\\": "\\", "/": "/", "n": "\n", "t": "\t", "r": "\r",
-               "0": "\0", " ": " ", "a": "\a", "b": "\b", "e": "\x1b", "f": "\f",
-               "v": "\v", "N": "\x85", "_": "\xa0", "L": " ", "P": " "}
+_DQ_ESCAPES = {"0": "\0", "a": "\a", "b": "\b", "t": "\t", "\t": "\t", "n": "\n",
+               "v": "\v", "f": "\f", "r": "\r", "e": "\x1b", " ": " ", '"': '"',
+               "/": "/", "\\": "\\", "N": "\x85", "_": "\xa0", "L": " ",
+               "P": " "}
+_DQ_HEX = {"x": 2, "u": 4, "U": 8}
 
 
-def _fallback_double_quoted(raw):
+def _fallback_double_quoted(key, raw):
+    """A double-quoted scalar that opens and closes on this line, with
+    nothing after the closing quote."""
     out, j = [], 1
     while j < len(raw):
         ch = raw[j]
         if ch == '"':
-            if raw[j + 1:].strip() and not raw[j + 1:].strip().startswith("#"):
-                raise ValueError("text after the closing double quote")
+            if raw[j + 1:].strip():
+                raise _FallbackUnsupported(f"text after the closing quote of {key!r}")
             return "".join(out)
         if ch == "\\":
             nxt = raw[j + 1:j + 2]
@@ -497,62 +507,26 @@ def _fallback_double_quoted(raw):
                 out.append(_DQ_ESCAPES[nxt])
                 j += 2
                 continue
-            width = {"x": 2, "u": 4, "U": 8}.get(nxt)
+            width = _DQ_HEX.get(nxt)
             digits = raw[j + 2:j + 2 + width] if width else ""
-            if not width or not re.fullmatch(r"[0-9A-Fa-f]+", digits) or len(digits) != width:
-                raise ValueError(f"unknown escape \\{nxt} in a double-quoted value")
-            out.append(chr(int(digits, 16)))
+            if not width or len(digits) != width or not re.fullmatch(r"[0-9A-Fa-f]+", digits):
+                raise ValueError(f"unknown escape \\{nxt} in the value of {key!r}")
+            code = int(digits, 16)
+            if code > 0x10FFFF or 0xD800 <= code <= 0xDFFF:
+                raise _FallbackUnsupported(f"escape \\{nxt}{digits} in the value of {key!r}")
+            out.append(chr(code))
             j += 2 + width
             continue
         out.append(ch)
         j += 1
-    raise _FallbackUnsupported("double-quoted value does not close on its line")
-
-
-def _fallback_single_quoted(raw):
-    out, j = [], 1
-    while j < len(raw):
-        if raw[j] == "'":
-            if raw[j + 1:j + 2] == "'":
-                out.append("'")
-                j += 2
-                continue
-            if raw[j + 1:].strip() and not raw[j + 1:].strip().startswith("#"):
-                raise ValueError("text after the closing single quote")
-            return "".join(out)
-        out.append(raw[j])
-        j += 1
-    raise _FallbackUnsupported("single-quoted value does not close on its line")
-
-
-def _fallback_block_scalar(header, body):
-    while body and not body[-1].strip():
-        body.pop()
-    indents = [len(l) - len(l.lstrip(" ")) for l in body if l.strip()]
-    if not indents:
-        return ""
-    cut = min(indents)
-    texts = [l[cut:] if l.strip() else "" for l in body]
-    if header[0] == "|":
-        value = "\n".join(texts)
-    else:
-        paragraphs, current = [], []
-        for t in texts:
-            if t:
-                current.append(t)
-            else:
-                paragraphs.append(" ".join(current))
-                current = []
-        paragraphs.append(" ".join(current))
-        value = "\n".join(paragraphs)
-    return value if header.endswith("-") else value + "\n"
+    raise _FallbackUnsupported(f"double-quoted value of {key!r} does not close on its line")
 
 
 def _release_frontmatter(root):
     """R6 — every skills/*/SKILL.md and agents/*.md opens with frontmatter
     that parses as YAML and carries a non-empty string `description` of at
     most 1,024 characters with no '<' or '>'; a SKILL.md body (the lines
-    after the closing ---) is at most 500 lines. No skills or agents
+    after the closing ---) is under 500 lines. No skills or agents
     directory: nothing to check."""
     problems = []
     for path in _frontmatter_files(root):
@@ -591,8 +565,8 @@ def _release_frontmatter(root):
             body_lines = len(body.splitlines())
             if body_lines > SKILL_BODY_MAX_LINES:
                 problems.append(
-                    f"{rel} — body is {body_lines} lines (limit {SKILL_BODY_MAX_LINES}; "
-                    f"move detail into references/)"
+                    f"{rel} — body is {body_lines} lines (must be under "
+                    f"{SKILL_BODY_MAX_LINES + 1}; move detail into references/)"
                 )
     return problems
 
