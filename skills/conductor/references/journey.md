@@ -30,10 +30,10 @@ description instead of asking again. Do not read broadly or invent a diagram
 before intent exists. Small explicit work needs only proportionate orientation.
 
 When Switch has just restored the session, its
-[welcome-back summary](../../switch/references/in-out.md#welcome-back-the-screen-summary)
+[welcome-back summary](../../switch/references/in.md#welcome-back-the-screen-summary)
 is the entry orientation: don't repeat it. Switch composes that decision without
 loading Conductor. When the person
-[answers its question](../../switch/references/in-out.md#enter-conductor-from-the-answer)
+[answers its question](../../switch/references/in.md#enter-conductor-from-the-answer)
 by choosing work, enter Shape for that work without approving its operations;
 an approved scoped action enters its actual stage, and a request for guidance
 enters direction-setting. A workflow

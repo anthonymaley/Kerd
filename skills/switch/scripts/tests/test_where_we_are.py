@@ -841,12 +841,12 @@ class DocumentedExampleTests(unittest.TestCase):
     lists: a field the renderer stops reading, or reads partially, fails here.
     """
 
-    GUIDE = Path(__file__).resolve().parents[2] / "references" / "in-out.md"
+    GUIDE = Path(__file__).resolve().parents[2] / "references" / "in.md"
 
     def example(self):
         import json, re
         blocks = re.findall(r"```json\n(.*?)```", self.GUIDE.read_text(), re.S)
-        self.assertTrue(blocks, "in-out.md carries no json example for the renderer")
+        self.assertTrue(blocks, "in.md carries no json example for the renderer")
         return json.loads(blocks[0])
 
     def rendered(self, width=78):
@@ -998,13 +998,13 @@ class ClosingBoxTests(unittest.TestCase):
     memory ready.
     """
 
-    GUIDE = Path(__file__).resolve().parents[2] / "references" / "in-out.md"
+    GUIDE = Path(__file__).resolve().parents[2] / "references" / "out.md"
 
     def example(self):
         import json, re
         blocks = re.findall(r"```json\n(.*?)```", self.GUIDE.read_text(), re.S)
-        self.assertGreaterEqual(len(blocks), 2, "in-out.md carries no json example for the closing box")
-        return json.loads(blocks[1])
+        self.assertTrue(blocks, "out.md carries no json example for the closing box")
+        return json.loads(blocks[0])
 
     def base(self, **over):
         summary = {"project": "Kerd", "branch": "main", "saved": "remote-verified", "handoff_ready": True,

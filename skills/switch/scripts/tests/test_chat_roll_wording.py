@@ -22,11 +22,11 @@ class ChatRollWordingTests(unittest.TestCase):
             ("skills/switch/references/to-roll.md", "### Roll the Conductor chat (tmux)"),
             ("skills/switch/references/to-roll.md", "Nothing is typed into Claude."),
             ("skills/switch/references/to-roll.md", "A refusal stops and says why; it never becomes ordinary In."),
-            ("skills/switch/references/to.md", "which restarts only its own recorded pane after checking it still runs the recorded Claude, and never types into it."),
+            ("skills/switch/references/to-roll.md", "which restarts only its own recorded pane after checking it still runs the recorded Claude, and never types into it."),
             ("skills/conductor/SKILL.md", "roll at the batch boundary yourself with `/kerd:switch roll`"),
             ("skills/conductor/SKILL.md", "Never ask the person to roll"),
             ("skills/switch/SKILL.md", "Conductor rolls its own chat with `/kerd:switch roll`"),
-            ("skills/switch/references/in-out.md", "never acted on by ordinary In; only `/kerd:switch roll in` claims it."),
+            ("skills/switch/references/in.md", "never acted on by ordinary In; only `/kerd:switch roll in` claims it."),
         ):
             with self.subTest(rel=rel, fragment=fragment[:40]):
                 self.assertIn(fragment, read(rel))

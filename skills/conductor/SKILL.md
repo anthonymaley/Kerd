@@ -131,7 +131,7 @@ a new chat or a bare “resume” label is not evidence of managed authority or
 exclusive ownership. Do not claim this entry replaces an arbitrary open TUI; a
 claimed chat roll (`/kerd:switch roll in`) continues its own saved next action.
 
-Switch owns [ordinary arrival composition](../switch/references/in-out.md#compose-the-arrival-in-switch)
+Switch owns [ordinary arrival composition](../switch/references/in.md#compose-the-arrival-in-switch)
 without loading this skill. Choosing work in answer to its question enters
 Shape for that work, not its operations; an explicitly selected and authorized
 task can enter work. Use its restored active-work context when the person enters

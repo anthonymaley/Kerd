@@ -16,6 +16,132 @@ the person's project, not this skill's directory. Do not invoke the old gate/mod
 machinery to run this skill. No CI, custom hooks or plugin installation is required. Existing host permissions
 and repository boundaries still apply.
 
+## Must hold
+
+A run of each action does not skip these steps or break these prohibitions. Each
+item names the guide section with its detail: open that section before the step.
+
+### In
+
+- A named handoff or trial resolves its own record, repo and branch first; missing
+  or mismatched stops, never a fresh start ([In](references/in.md#in)).
+- Before any fast-forward or work proposal, check `git rev-parse --git-path roll/run.json`;
+  a recorded managed run is inspected read-only with `roll_status.py`: never adopted,
+  its checkout unchanged, no competing work proposed, unknown state never read as no
+  run; an unclaimed `roll/chat.json` is shown in ATTENTION, never acted on by
+  ordinary In ([In](references/in.md#in)).
+- An explicitly requested Git-backed pickup syncs under the agreed Git authority:
+  local changes preserved, fast-forward only when safe, no auto-stash, force-reset or
+  guessed conflict resolution; a failed sync is shown, never claimed current; paths
+  the project deliberately keeps out of Git are named with `--preserve`
+  ([In](references/in.md#in)).
+- The read set: the saved `read_args` selections, read first and in full, through
+  `prepare` (with `--notes-commit` when the start point records one), or by hand where
+  `prepare` cannot run or the caller already supplied the records; plus the complete
+  active list with child sections, explicitly current linked work records, governing
+  decisions, constraints and risks; every `notes:` entry is read from the notes root,
+  and unsaved vault notes or a vault missing the recorded commit are refused
+  ([In](references/in.md#in)).
+- Team: with a binding for this project, compare this session's ID, follow the
+  [succession guide](../agent/references/session-succession.md) when an ID matches or
+  continuity evidence exists, then, after identity and any required adoption, send its arrival notice to established partners
+  (or, when none is named, the helper's unambiguous default); TEAM shows provider and
+  role only; no binding, no setup question ([Restore the existing team](references/in.md#restore-the-existing-team)).
+- Weigh every open item, the saved one included, and recommend exactly one with its
+  Why, or say nothing is actionable rather than invent work, without loading
+  Conductor ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
+- Renderer: copy the `$summary` shape from the guide, never from the script, and run
+  `where_we_are.py --summary - --markdown`; only if it fails or is unavailable, say so
+  and give the restored facts and the question as plain text ([Welcome back](references/in.md#welcome-back-the-screen-summary)).
+- The screen is pasted as reply text, unchanged, before any picker in the same message;
+  output left in a tool result has not been shown.
+- One question: `> 💬 **Start a Conductor session?**`, placed by the renderer, is the
+  last line of the message. Only the host's native picker may follow it (up to four
+  options); without one, nothing follows: never a written list of options. In does
+  not execute the restored plan or other project work (no drafted replies, reviews, repairs or
+  backlog investigation); requested safe Git sync and private Agent succession and
+  arrival upkeep are permitted. An answer that chooses work opens Conductor at Shape
+  without approving its operations; only approval and exclusions the person states
+  are carried ([Enter Conductor from the answer](references/in.md#enter-conductor-from-the-answer)).
+
+### Out
+
+- The session asked to run Out owns it: if another owner is already known, return
+  this account to it; if both were asked, the person names one. Check the owner's
+  pairing-role continuity with Agent's Out ownership check before editing the
+  handoff; no binding, no setup stop ([One coordinated closeout](references/out.md#one-coordinated-closeout)).
+- Contribution checkpoint before drafting closeout records, shown in one line
+  (“Contributions captured: …; missing: …”). A residual gap is recorded with why it
+  is safe when other evidence restores scope, authority, known outcomes, limits and
+  next action; only unavailable necessary memory is reported as incomplete coverage,
+  with its recovery step, and sets `handoff_ready: false` ([One coordinated closeout](references/out.md#one-coordinated-closeout)).
+- Add what the sitting settled and the record is missing to each moved piece of
+  work's sketchbook (a small fix needs none), nothing invented, asking the person
+  nothing ([Add to Conductor's sketchbook](references/out.md#add-to-conductors-sketchbook));
+  with `work_notes`, keep `notes:outside-the-repo.md` ([the list](references/out.md#keep-the-outside-the-repo-list)).
+- Save the selected continuation: next action and owner with its status, where it
+  stops, its pending question, its why, up to two other items as proposed, or, when
+  none can be grounded, say so; and every unresolved risk the active records flag
+  urgent or imminent, inside the reading set ([Save the selected continuation](references/out.md#save-the-selected-continuation)).
+- A lean, measured start point: rulings stay and cases move, closed rows leave with
+  their reason, the reading set is named, `handoff.py measure` runs with `--carry-file`
+  (never a phrase as a bare argument), and its reading and `read_args` are saved beside
+  the set ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
+- Save named files only, under the agreed Git authority; on a concert branch, stop if
+  the checked-out branch is not its sketchbook's; acknowledged local paths are passed
+  with `--preserve`; with `work_notes`, the vault repo is saved the same way;
+  `save … --push` when pushing is authorized ([Default verified save](references/out.md#default-verified-save-when-pushing-is-authorized)).
+- After the last commit and before the box, run the `boundary` check on every repo
+  committed to, repeating `--preserve <path>`; only `passed` earns the ✓ (a local-only
+  Out says so instead), and its `notes_commit` goes into the start point
+  ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
+- End on the saved-place box from `where_we_are.py --closing - --markdown`, its shape
+  copied from the guide; if the renderer cannot run, say the same as plain text
+  ([Close with the saved-place box](references/out.md#close-with-the-saved-place-box)).
+- The restart line appears only after a remote-verified or committed save,
+  `handoff_ready: true` and `boundary: "passed"`; never claim the session exited or
+  the context was cleared.
+
+### To
+
+- Start from the person's intent: the same SSH/tmux session needs no handoff; a live
+  controller's work takes its managed To path; an ordinary session saves its precise
+  place under existing Git authority ([device handoff](references/to-roll.md#to-one-device-releases-the-other-continues)).
+- No Out backlog cleanup or replanning at a mid-work boundary; save the agreed outcome
+  and success measures, active step, useful decisions and findings, current artifacts,
+  pending question with shown answer, exact next action, failure counts, optional
+  resource limits and unresolved jobs ([To and Roll](references/to-roll.md)).
+- Verify the saved remote revision before relinquishing the source; a failed save keeps
+  control and names recovery.
+- The destination gets one self-contained pickup instruction (repo, branch, exact saved
+  revision, record path, source-release evidence, authority; no private IDs or
+  credentials) and, with the helper, runs `prepare … --commit FULL_SAVED_COMMIT --sync`;
+  without it, the instruction carries the same checks explicitly.
+- Never kill a pane, send exit keystrokes to a guessed target or call a new worker's
+  exit the source's exit (the one exception is the Conductor chat roll restarting its
+  own recorded pane); without release evidence the destination only inspects
+  read-only, and an unproved exit is reported as “saved, source exit unproved”.
+
+### Roll
+
+- Only for a build its controller already owns under agreed authority: no new
+  interview or routine go-ahead, and a new window grants no new authority
+  ([Roll](references/to-roll.md#roll-fresh-window-same-authorized-build)).
+- Rolling In starts only after the checkpoint is saved and read back and the source's
+  release is verified; review and genuine blockers return to Conductor.
+- The chat roll is a Claude Conductor chat only, at a batch boundary or after a
+  delivery job returns, owning nothing outstanding (unknown counts as outstanding),
+  past 50% of the host-declared window (none declared, no roll); nothing is typed into
+  Claude and no shell variables go in the command ([the chat roll](references/to-roll.md#roll-the-conductor-chat-tmux)).
+- `/kerd:switch roll in` claims the marker or refuses; a refusal stops and says why and
+  never becomes ordinary In; every abandoned roll revokes the prepared role with
+  Agent's `handoff --cancel` before the old session does any more work.
+- A finished worker Roll record (`review` or `blocked`, no pending job, owner lock
+  free) is inspected, reconciled and retired with `roll_retire.py` before a different
+  agreement runs, never deleted or moved by hand; a `running`, `uncertain` or `failed`
+  record goes through recovery, and a blocked or uncertain outcome needs diagnosis
+  before any retry ([Run the existing managed loop](references/to-roll.md#run-the-existing-managed-loop)).
+
 ## Pick the intended action
 
 - **In:** restore useful memory, the wider active-work picture and the saved
@@ -26,7 +152,7 @@ and repository boundaries still apply.
   **“Start a Conductor session?”**. A saved next
   step is a candidate, never repeated just because it was saved. Return the renderer's complete
   Markdown as the final message unchanged, then wait; do not rewrite its prose. Read
-  [pickup and closeout](references/in-out.md).
+  [pickup](references/in.md).
 - **Out:** close this sitting well: record history, tidy active work, leave a
   lean, measured start point with the selected continuation, its approval
   boundary, recorded urgent risks and, with vault notes, the private list of
@@ -37,10 +163,10 @@ and repository boundaries still apply.
   items each with its reason, marked proposed, never agreed), save problems
   under attention, and one restart line
   only after a confirmed save. Read
-  [pickup and closeout](references/in-out.md).
+  [closeout](references/out.md).
 - **To:** save the exact mid-work position through GitHub, relinquish source
   control and restore at the destination. Not full Out. Read
-  [device handoff](references/to.md). Load managed detail only for an owned build.
+  [device handoff](references/to-roll.md#to-one-device-releases-the-other-continues). Load managed detail only for an owned build.
 - **Roll:** preserve an active Conductor build across a fresh context window,
   without a new interview or routine go-ahead. Read
   [managed handoff and Roll](references/to-roll.md). For the continuing decision
@@ -82,7 +208,7 @@ the specific blocker. Link the saved place. Distinguish planned, running, return
 and verified work. Don't claim a file save exited a session, moved a process or
 proved full restoration. No fake activity or progress percentages.
 
-For In, use the guide's [welcome-back summary](references/in-out.md#welcome-back-the-screen-summary):
+For In, use the guide's [welcome-back summary](references/in.md#welcome-back-the-screen-summary):
 explicit completion heading naming the Kerd version it loaded, the PROJECT · PHASE · NEXT · TEAM grid, Where
 things stand, Last session, Open work, Recommended with its Why, attention and a
 real link to the open-work page, all in plain product English. No footer or end
@@ -96,7 +222,7 @@ Retain the terminal output when appropriate.
 An evidence-grounded Insight is optional, never an entry requirement.
 
 Ordinary In restores the current work picture without executing it. Switch owns
-the [arrival decision](references/in-out.md#compose-the-arrival-in-switch): use
+the [arrival decision](references/in.md#compose-the-arrival-in-switch): use
 the restored context, not a Conductor invocation or another intake. An answer to
 **“Start a Conductor session?”** that chooses work, a plain yes or another
 offered item included, opens
@@ -105,7 +231,7 @@ direction-setting; choosing work never
 approves its operations. An explicitly selected and authorized task, direct
 workflow request or action approval invokes Conductor through the host skill
 mechanism as the guide's
-[work handover](references/in-out.md#enter-conductor-from-the-answer)
+[work handover](references/in.md#enter-conductor-from-the-answer)
 describes. Carry the actual approval and exclusions; opening the workflow alone
 does not approve operations. This is not a second approval; managed To/Roll
 keeps its agreed continuation.

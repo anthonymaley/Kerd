@@ -155,7 +155,7 @@ class QuestionFormTests(unittest.TestCase):
         self.assertIn("so the renderer's output stays unchanged", journey)
         self.assertIn("each work option opens Shape for that work and approves none of its "
                       "operations", journey)
-        in_out = flat((SKILLS / "switch" / "references" / "in-out.md").read_text(encoding="utf-8"))
+        in_out = flat((SKILLS / "switch" / "references" / "in.md").read_text(encoding="utf-8"))
         self.assertIn("follow the rendered output with up to four options: **“Yes — <the "
                       "recommended work>”**, naming the work it opens; up to two other open "
                       "items from this arrival's weighing, each named by the work it opens with "
@@ -186,7 +186,7 @@ class QuestionFormTests(unittest.TestCase):
                 "itself, before the picker in the same message; output left in a tool "
                 "result has not been shown, since the host folds it away.")
         for path in (SKILLS / "switch" / "SKILL.md",
-                     SKILLS / "switch" / "references" / "in-out.md",
+                     SKILLS / "switch" / "references" / "in.md",
                      JOURNEY):
             with self.subTest(path=path.relative_to(REPO)):
                 self.assertIn(rule, flat(path.read_text(encoding="utf-8")))

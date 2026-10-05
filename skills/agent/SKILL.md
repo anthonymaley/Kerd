@@ -151,7 +151,7 @@ not shell subcommands. For execution, use the workflow below.
    their own result contract.
    When contributing to another session's Switch Out, return the missing account
    to its established owner; do not also rewrite shared handoff files. Follow
-   [coordinated closeout](../switch/references/in-out.md#one-coordinated-closeout).
+   [coordinated closeout](../switch/references/out.md#one-coordinated-closeout).
 
 The same local command can be called by either provider when that session has
 permission to run it. No human copy/paste relay, Kerd inbox, watcher or service.
