@@ -45,9 +45,10 @@ item names the guide section with its detail: open that section before the step.
   `where_we_are.py --summary - --markdown` ([Welcome back](references/in.md#welcome-back-the-screen-summary)).
 - The screen is pasted as reply text, unchanged, before any picker in the same message;
   output left in a tool result has not been shown.
-- One question: `> 💬 **Start a Conductor session?**`, placed by the renderer, then at
-  most a picker of up to four options; In executes nothing, and choosing work opens
-  Conductor at Shape without approving its operations
+- One question: `> 💬 **Start a Conductor session?**`, placed by the renderer, is the
+  last line of the message. Only the host's native picker may follow it (up to four
+  options); without one, nothing follows: never a written list of options. In executes
+  nothing, and choosing work opens Conductor at Shape without approving its operations
   ([Enter Conductor from the answer](references/in.md#enter-conductor-from-the-answer)).
 
 ### Out
