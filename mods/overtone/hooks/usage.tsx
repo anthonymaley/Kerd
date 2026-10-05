@@ -478,7 +478,7 @@ export const register: Register = on => {
       return (
         <Text key={j.key} wrap="truncate-end">
           <Text dimColor>{'▸ '}</Text>
-          <Text bold>{cell(jobTitle(j), col.job)}</Text>
+          <Text bold>{cell(jobTitle(j, col.job), col.job)}</Text>
           {cell(j.asked, col.asked)}
           <Text color={bad ? 'error' : undefined} bold={bad ? true : undefined}>
             {cell(j.saw, col.saw)}

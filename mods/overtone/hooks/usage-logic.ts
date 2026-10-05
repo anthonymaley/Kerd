@@ -1103,8 +1103,17 @@ export function jobColumns(columns: number): { job: number; asked: number; saw: 
 // What the job column shows: a worker's task alone, or with what it waits on
 // when it waits on you (that is what to answer); a partner's name and the
 // role it was asked.
-export const jobTitle = (j: JobRow): string =>
-  j.kind === 'partner' || j.state === 'waiting on you' ? `${j.job} · ${j.doing}` : j.job
+// `width` is the cell's: the suffix keeps at least half of it, and the name
+// is shortened first, so a long task never hides what to answer or the role.
+export function jobTitle(j: JobRow, width: number): string {
+  const room = Math.max(1, width - 1)
+  if (j.kind !== 'partner' && j.state !== 'waiting on you') return clip(j.job, room)
+  const name = clip(j.job, room)
+  // The suffix gets what the name leaves, and never less than half the cell.
+  const suffixRoom = Math.max(Math.floor(room / 2), room - name.length) - 3
+  const suffix = ` · ${clip(j.doing, Math.max(4, suffixRoom))}`
+  return `${clip(j.job, Math.max(4, room - suffix.length))}${suffix}`
+}
 
 export const cell = (text: string, width: number): string => {
   const t = clip(text, width - 1)

@@ -407,7 +407,9 @@ function workerRows(w: OvertoneWorkers, nowMs: number, tier: Exclude<Tier, 'narr
   const rows: Row[] = [{ key: 'workers', segs: [seg(lead), ...joinSegs(head)], dim: nBlocked === 0 && w.error === undefined }]
   const since = (x: OvertoneWorker, from: number) => `${x.fromSpawn ? '' : '≥'}${fmtDuration(nowMs - from)}`
   for (const x of f.shown) {
-    const label = clip(x.label, 56)
+    // A long task takes the room only on a wide running row; a blocked row keeps
+    // room for what it waits on, a short row for its time.
+    const label = clip(x.label, x.blocked ? 24 : tier === 'wide' ? 56 : 32)
     if (x.blocked) {
       const waited = fmtDuration(nowMs - x.blocked.sinceMs)
       if (tier === 'wide') {

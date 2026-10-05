@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'claude-code/testing'
 
 import type { OvertonePartners, OvertoneSteps, OvertoneWorker, OvertoneWorkers } from '../types'
+import type { JobRow } from '../hooks/usage-logic'
 import {
   BAND_ACTION,
   BAND_CHORD,
@@ -23,6 +24,7 @@ import {
   sentNote,
   hasFigures,
   jobColumns,
+  jobTitle,
   cell,
   hitPct,
   jobsOf,
@@ -648,5 +650,27 @@ describe('formatting', () => {
     expect([fmtSpan(30_000), fmtSpan(14 * M), fmtSpan(134 * M), fmtSpan(78 * H)]).toEqual(['<1m', '14m', '2h 14m', '3d 6h'])
     expect([fmtElapsed(45_000), fmtElapsed(134_000), fmtElapsed(H + 5 * M)]).toEqual(['45s', '2m 14s', '1h 05m'])
     expect(gauge(60, 5)).toEqual({ fill: '███', rest: '░░' })
+  })
+})
+
+describe('the job title keeps what to act on', () => {
+  const row = (over: Partial<JobRow>): JobRow =>
+    ({ key: 'k', kind: 'worker', job: 'Restructure the Switch skill so its must-hold rules sit on top', doing: 'wants to run Bash git push origin main', asked: '—', saw: '—', elapsed: '1m', state: 'running', ...over }) as JobRow
+  test('a long running task fills the cell alone', () => {
+    expect(jobTitle(row({}), 35)).toBe('Restructure the Switch skill so i…')
+  })
+  test('a blocked task keeps what it waits on, the name shortened first', () => {
+    const t = jobTitle(row({ state: 'waiting on you' }), 35)
+    expect(t.length).toBeLessThanOrEqual(34)
+    expect(t).toContain(' · wants to run')
+    expect(t.startsWith('Restructure')).toBe(true)
+  })
+  test('a partner keeps its role behind a long name', () => {
+    const t = jobTitle(row({ kind: 'partner', job: 'a-very-long-partner-alias-for-codex-review', doing: 'expert review' }), 35)
+    expect(t).toContain(' · expert review')
+    expect(t.length).toBeLessThanOrEqual(34)
+  })
+  test('short names are untouched', () => {
+    expect(jobTitle(row({ kind: 'partner', job: 'codex-tui', doing: 'review' }), 35)).toBe('codex-tui · review')
   })
 })
