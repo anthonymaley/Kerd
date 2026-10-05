@@ -306,9 +306,17 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.171.0)
+## What's New (v0.171.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.171.1
+
+**Agent keeps the rules that must hold at the top.** Agent's SKILL.md now opens with a Must hold section: the paragraphs
+on permissions, inbound trust and what it never does (kill a terminal, resume "latest", revive an offline session) moved
+there word for word from the end of the file. The long role-and-review-cadence question moved word for word into the user
+guide, and all three Agent guides have contents lists. SKILL.md is 157 lines, down from 185; a line-by-line check found
+every original line still present. No behaviour changes, and no evals were run.
 
 ### v0.171.0
 

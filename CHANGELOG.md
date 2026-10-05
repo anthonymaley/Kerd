@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.171.1
+
+**Agent keeps the rules that must hold at the top.** Agent's SKILL.md now opens with a Must hold section: the paragraphs
+on permissions, inbound trust and what it never does (kill a terminal, resume "latest", revive an offline session) moved
+there word for word from the end of the file. The long role-and-review-cadence question moved word for word into the user
+guide, and all three Agent guides have contents lists. SKILL.md is 157 lines, down from 185; a line-by-line check found
+every original line still present. No behaviour changes, and no evals were run.
+
 ## 0.171.0
 
 **Conductor keeps the rules that must hold at the top, and gets shorter.** Conductor's SKILL.md was 443 lines, close to
