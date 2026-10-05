@@ -319,7 +319,7 @@ describe('guard', () => {
     const call = $.tool.call(bash('git push origin feature'))
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'feature', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'feature', '--not', '--remotes=origin', '--'])
     expect(w.asked).toHaveLength(1)
     expect(r.deny).toContain('docs/work/backlog-sweep/work.md')
     // The same ref to the private remote passes without a dialog: GitHub
@@ -334,7 +334,7 @@ describe('guard', () => {
     const { w } = world(on, { log: () => '' })
     await $.tool.call(bash('git push'))
     expect(w.argv).toContainEqual(['git', 'for-each-ref', '--format=%(push:remotename)', 'refs/heads/feature'])
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'HEAD', '--not', '--remotes=origin', '--'])
     expect(w.ran).toEqual(['git push'])
   })
 
@@ -354,14 +354,14 @@ describe('guard', () => {
   test('push: remote.origin.push stands in for the refspec', async ($, on) => {
     const { w } = world(on, { config: { 'remote.origin.push': ['refs/heads/release:refs/heads/release\n', 0] }, log: () => '' })
     await $.tool.call(bash('git push'))
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'refs/heads/release', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'refs/heads/release', '--not', '--remotes=origin', '--'])
     expect(w.ran).toEqual(['git push'])
   })
 
   test('push: push.default=simple keeps the HEAD plan; a push with a refspec reads no push settings', async ($, on) => {
     const { w } = world(on, { config: { 'push.default': ['simple\n', 0] }, log: () => '' })
     await $.tool.call(bash('git push'))
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'HEAD', '--not', '--remotes=origin', '--'])
     const before = w.argv.length
     await $.tool.call(bash('git push origin feature'))
     expect(w.argv.slice(before).some(a => a[1] === 'config')).toBe(false)
@@ -386,7 +386,7 @@ describe('guard', () => {
     }
     const { w } = world(on, { config, log: () => '' })
     await $.tool.call(bash('git push'))
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'HEAD', '--not', '--remotes=origin', '--'])
     expect(w.asked).toEqual([])
     expect(w.ran).toEqual(['git push'])
   })
@@ -1035,7 +1035,7 @@ describe('guard', () => {
     const { w } = world(on, { log: () => 'README.md\n' })
     await $.tool.call(bash('git push origin feature'))
     expect(w.argv).toContainEqual(['git', 'ls-remote', 'git@github.com:alex/Kerd.git', 'refs/heads/feature'])
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'feature', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'feature', '--not', '--remotes=origin', '--'])
     expect(w.argv.some(a => a[1] === 'cat-file')).toBe(false)
     expect(w.ran).toEqual(['git push origin feature'])
   })
@@ -1050,7 +1050,7 @@ describe('guard', () => {
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
     expect(w.argv).toContainEqual([
-      'git', 'log', '--format=', '--name-only', '-z', 'feature', '--not', REWOUND, '--exclude=origin/feature', '--remotes=origin', '--',
+      'git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'feature', '--not', REWOUND, '--exclude=origin/feature', '--remotes=origin', '--',
     ])
     expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', REWOUND, 'docs/work/'])
     expect(w.asked).toHaveLength(1)
@@ -1341,7 +1341,7 @@ describe('guard: git however the command starts it', () => {
     const call = $.tool.call(bash('timeout 5 git push'))
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
-    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', 'HEAD', '--not', '--remotes=origin', '--'])
+    expect(w.argv).toContainEqual(['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', 'HEAD', '--not', '--remotes=origin', '--'])
     expect(r.deny).toContain('.env (kept out of Git by instruction)')
     expect(w.ran).toEqual([])
   })
@@ -1587,5 +1587,41 @@ describe('guard: push file names git would quote', () => {
     await $.tool.call(bash('git push origin feature'))
     expect(w.asked).toEqual([])
     expect(w.ran).toEqual(['git push origin feature'])
+  })
+})
+
+describe('guard: merges, and repositories the guard cannot name', () => {
+  test('a file only a merge brings (a conflict resolution) is in what the push publishes: it asks', async ($, on) => {
+    // git log lists a merge commit's own changes only when asked for its
+    // diff against each parent; without that, the merge lists nothing.
+    const log = (a: string) => (a.includes('--diff-merges=separate') ? 'README.md\nkerd-laptop-result.patch\n' : 'README.md\n')
+    const { w, clock } = world(on, { log, answer: "Don't run it" })
+    const call = $.tool.call(bash('git push origin feature'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(r.deny).toContain('kerd-laptop-result.patch')
+    expect(w.ran).toEqual([])
+  })
+
+  test("find -execdir git push, or one after cd \"$DIR\", asks even from a private repo, reading none of the caller's git", async ($, on) => {
+    const { w, clock } = world(on, { remotes: remotesOf('git@github.com:alex/notes.git'), answer: "Don't run it" })
+    // The caller's own private push passes, as before.
+    await $.tool.call(bash('git push origin HEAD'))
+    expect(w.ran).toEqual(['git push origin HEAD'])
+    for (const command of [
+      'find /work/repos -name .git -prune -execdir git push origin HEAD \\;',
+      'find /work/repos -maxdepth 1 -type d -exec git -C {} push origin HEAD \\;',
+      'cd "$DIR" && git push origin HEAD',
+    ]) {
+      w.argv.length = 0
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect([command, r.deny]).toEqual([command, expect.stringContaining('cannot name')])
+      expect([command, w.argv.filter(a => a[0] === 'git')]).toEqual([command, []])
+    }
+    expect(w.ran).toEqual(['git push origin HEAD'])
+    expect(w.asked).toHaveLength(3)
   })
 })

@@ -738,6 +738,15 @@ export type GitOp = {
   force: boolean
   // commit: -i/--include (the staged index as well as the named paths).
   include?: boolean
+  // commit: -o/--only (the named paths alone; with none, as with --amend,
+  // nothing staged is committed).
+  only?: boolean
+  // add -n/--dry-run, commit --dry-run (or --short, --porcelain, --long,
+  // which imply it): it stages or commits nothing.
+  dryRun?: boolean
+  // Why git runs in a repository the guard cannot name (find -execdir, `git
+  // -C {}`): it asks, whatever the caller's repo is.
+  unknownRepo?: string
   // Pathspecs as written, and resolved to absolute paths.
   specs: Spec[]
   // A spec the reader cannot place (`:(magic)`, a glob, a pathspec file):
@@ -751,10 +760,96 @@ export type GitOp = {
 }
 
 const COMMIT_SHORT_ARG = new Set(['m', 'F', 'C', 'c', 't'])
-const COMMIT_LONG_ARG = new Set([
-  '--message', '--file', '--author', '--date', '--template', '--reuse-message',
-  '--reedit-message', '--fixup', '--squash', '--trailer', '--cleanup',
-])
+// commit's short options whose value can only be attached (`-uno`, `-S<key>`):
+// the rest of the word is the value, never more flags.
+const COMMIT_SHORT_ATTACHED = new Set(['u', 'S'])
+
+// The long options of add, commit and push (git 2.54, `git <cmd>
+// --git-completion-helper-all`), positive forms; `=`: takes a value
+// (`--x=v` or `--x v`). git also reads `--no-<name>`, and for a `no-<name>`
+// option `--<name>`, as the negation, and any unique prefix of either.
+const longTable = (names: string): ReadonlyMap<string, boolean> =>
+  new Map(names.split(' ').map(n => [n.replace(/=$/, ''), n.endsWith('=')]))
+const LONG: Record<GitOp['kind'], ReadonlyMap<string, boolean>> = {
+  add: longTable(
+    'dry-run verbose interactive patch auto-advance unified= inter-hunk-context= edit force update renormalize ' +
+      'intent-to-add all ignore-removal refresh ignore-errors ignore-missing sparse chmod= warn-embedded-repo ' +
+      'pathspec-from-file= pathspec-file-nul',
+  ),
+  commit: longTable(
+    'quiet verbose file= author= date= message= reedit-message= reuse-message= fixup= squash= reset-author ' +
+      'trailer= signoff template= edit cleanup= status gpg-sign all include interactive patch unified= ' +
+      'inter-hunk-context= only no-verify dry-run short branch ahead-behind porcelain long null amend ' +
+      'no-post-rewrite untracked-files pathspec-from-file= pathspec-file-nul allow-empty allow-empty-message',
+  ),
+  push: longTable(
+    'verbose quiet repo= all branches mirror delete tags dry-run porcelain force force-with-lease force-if-includes ' +
+      'recurse-submodules= thin receive-pack= exec= set-upstream progress prune no-verify follow-tags signed atomic ' +
+      'push-option= ipv4 ipv6',
+  ),
+}
+// The options whose reading changes what the guard decides (and every one
+// that takes a value, which moves the words after it): an abbreviation that
+// could be one of them and another option is not guessed at.
+const MATTERS: Record<GitOp['kind'], ReadonlySet<string>> = {
+  add: new Set([
+    'all', 'ignore-removal', 'update', 'force', 'dry-run', 'edit', 'interactive', 'patch', 'pathspec-from-file', 'unified',
+    'inter-hunk-context', 'chmod',
+  ]),
+  commit: new Set([
+    'all', 'include', 'only', 'dry-run', 'short', 'porcelain', 'long', 'pathspec-from-file', 'file', 'author', 'date',
+    'message', 'reedit-message', 'reuse-message', 'fixup', 'squash', 'trailer', 'template', 'cleanup', 'unified',
+    'inter-hunk-context',
+  ]),
+  push: new Set([
+    'repo', 'all', 'branches', 'mirror', 'delete', 'tags', 'force', 'force-with-lease', 'force-if-includes',
+    'recurse-submodules', 'receive-pack', 'exec', 'push-option',
+  ]),
+}
+
+export type LongRead =
+  | { name: string; negated: boolean; value: string | undefined; takes: boolean }
+  | { ambiguous: { name: string; negated: boolean }[] }
+  | null
+
+// A long option word (`--for`, `--no-de`, `--message=x`) as git reads it
+// against `known`: the option it names, exactly or by a unique prefix, and
+// whether it is the `--no-` form; `ambiguous` when the prefix fits more than
+// one (git refuses the command); null when it fits none (git refuses it too).
+// As git's parse-options: `--no-x` negates x, `--x` negates `no-x`, and
+// `--n`, `--no`, `--no-` fit every option's negation.
+export function readLong(word: string, known: ReadonlyMap<string, boolean>): LongRead {
+  const arg = word.slice(2)
+  const eq = arg.indexOf('=')
+  const key = eq < 0 ? arg : arg.slice(0, eq)
+  const value = eq < 0 ? undefined : arg.slice(eq + 1)
+  const hit = (name: string, negated: boolean) => ({ name, negated, value, takes: known.get(name) ?? false })
+  if (key === '') return null
+  for (const name of known.keys()) {
+    if (key === name) return hit(name, false)
+    if (key === `no-${name}`) return hit(name, true)
+    if (name.startsWith('no-') && key === name.slice(3)) return hit(name, true)
+  }
+  const fits = new Map<string, { name: string; negated: boolean }>()
+  const fit = (name: string, negated: boolean) => fits.set(`${negated ? 'no-' : ''}${name}`, { name, negated })
+  for (const name of known.keys()) {
+    if (name.startsWith(key)) fit(name, false)
+    if ('no-'.startsWith(key)) fit(name, true)
+    if (key.startsWith('no-') && name.startsWith(key.slice(3))) fit(name, true)
+    if (!key.startsWith('no-') && name.startsWith('no-') && name.slice(3).startsWith(key)) fit(name, true)
+  }
+  const all = [...fits.values()]
+  if (all.length === 1) return hit(all[0]!.name, all[0]!.negated)
+  return all.length ? { ambiguous: all } : null
+}
+
+// Why the guard does not guess at an ambiguous long option of `kind`, or
+// null when none of what it could be changes anything the guard reads.
+function ambiguousWhy(word: string, read: { ambiguous: { name: string; negated: boolean }[] }, kind: GitOp['kind']): string | null {
+  if (!read.ambiguous.some(c => MATTERS[kind].has(c.name))) return null
+  const names = read.ambiguous.map(c => `--${c.negated ? 'no-' : ''}${c.name}`).slice(0, 3).join(', ')
+  return `\`${word}\` could be more than one git ${kind} option (${names}), so the guard cannot tell which`
+}
 
 // How deep the reader follows commands inside commands (`bash -c`, `eval`,
 // `$(…)`, an alias); deeper, a command that names git asks.
@@ -881,7 +976,27 @@ type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[]; shellV
 export function parseGitOps(command: string, cwd: string, home?: string, aliases: Aliases = new Map()): GitOp[] {
   const r: Reader = { home, aliases, ops: [], shellVars: new Set() }
   readLine(r, command, normalize(cwd), 0, false)
+  // git run in a directory a shell expansion names (`cd "$DIR"`, `git -C
+  // $REPO`): never "not a git repo", which would pass. It asks.
+  for (const op of r.ops) {
+    if (!hasExpansion(op.cwd)) continue
+    const why = `git runs in \`${op.cwd}\`, a directory a shell expansion names, so the guard cannot name its repository`
+    op.unknownRepo ??= why
+    if (op.push) op.push.opaque ??= why
+  }
   return r.ops
+}
+
+// The home folder as the shell expands it here: unknown once the line sets
+// HOME itself (`HOME=/x; cd ~`).
+const homeNow = (r: Reader): string | undefined => (r.shellVars.has('HOME') ? undefined : r.home)
+
+// A directory as the shell hands it over: `~`, `$HOME` or `${HOME}` at its
+// start is the home folder; with none known it stays an expansion, so the
+// repo is unknown.
+function expandDir(path: string, home: string | undefined): string {
+  const m = /^(?:~|\$HOME|\$\{HOME\})(?=\/|$)/.exec(path)
+  return m ? (home ?? '$HOME') + path.slice(m[0].length) : path
 }
 
 // Reads a command line from `dir`; returns where it leaves the shell (`cd`).
@@ -906,15 +1021,16 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
     // `$(…)` and backticks run first, in a subshell.
     for (const sub of c.subs) readLine(r, sub, dir, depth + 1, false)
     for (const text of c.unread) unreadText(r, text, dir, 'a command substitution the guard cannot read to its end')
+    const before = dir
     dir = readCommand(r, dropRedirects(c.words, c.firstQuoted), dir, depth, strict, null)
     // A here-document or here-string is a command line only when a shell
-    // reads it.
-    const fed = feedsShell(cmds, n)
+    // reads it, from the directory that shell runs in (`env -C`, `sudo -D`).
+    const fed = feedsShell(cmds, n, before, homeNow(r))
     for (const h of c.heredocs) {
-      if (!h.quoted) for (const sub of substitutions(h.body)) readLine(r, sub, dir, depth + 1, false)
-      if (fed) readLine(r, h.body, dir, depth + 1, false)
+      if (!h.quoted) for (const sub of substitutions(h.body)) readLine(r, sub, before, depth + 1, false)
+      if (fed !== null) readLine(r, h.body, fed, depth + 1, false)
     }
-    if (fed) for (const text of hereStrings(c.words, c.firstQuoted)) readLine(r, text, dir, depth + 1, false)
+    if (fed !== null) for (const text of hereStrings(c.words, c.firstQuoted)) readLine(r, text, fed, depth + 1, false)
   }
   // A subshell still open here closes at the line's end: the shell is left
   // where it was before it.
@@ -978,23 +1094,25 @@ function hereStrings(words: readonly string[], firstQuoted: readonly number[]): 
 // an expansion.
 const READS_COMMANDS = new Set(['eval', 'source', '.'])
 
-// True when command n, or one it pipes into, is a shell reading its
-// commands from input. Redirections are not the command: `<<EOF bash` is.
-function feedsShell(cmds: readonly Simple[], n: number): boolean {
+// When command n, or one it pipes into, is a shell reading its commands
+// from input: the directory that shell runs in (from `dir`, through env -C
+// or sudo -D); otherwise null. Redirections are not the command: `<<EOF
+// bash` is.
+function feedsShell(cmds: readonly Simple[], n: number, dir: string, home: string | undefined): string | null {
   for (let k = n; k < cmds.length; k++) {
-    const u = unwrap(dropRedirects(cmds[k]!.words, cmds[k]!.firstQuoted), '/', undefined)
+    const u = unwrap(dropRedirects(cmds[k]!.words, cmds[k]!.firstQuoted), dir, home)
     const head = u.words[u.i]
     if (head !== undefined) {
       const name = base(head)
-      if (READS_COMMANDS.has(name)) return true
+      if (READS_COMMANDS.has(name)) return u.dir
       if (SHELLS.has(name)) {
         const s = shellString(u.words, u.i)
-        if (s === undefined || hasExpansion(s)) return true
+        if (s === undefined || hasExpansion(s)) return u.dir
       }
     }
-    if (!cmds[k]!.piped) return false
+    if (!cmds[k]!.piped) return null
   }
-  return false
+  return null
 }
 
 // A command's words without its redirections (`< f`, `>out`, `2> err`,
@@ -1049,7 +1167,7 @@ function unwrap(
     let split: string[] | null = null
     const take = (opt: string, value: string | undefined) => {
       if (value === undefined) return
-      if (spec.dir?.includes(opt)) d = resolvePath(d, value, home)
+      if (spec.dir?.includes(opt)) d = resolvePath(d, expandDir(value, home), home)
       if (spec.split?.includes(opt)) split = splitCommands(value).flat()
     }
     j = readOptions(ws, j, spec, take, name === 'env')
@@ -1188,6 +1306,19 @@ function blind(op: GitOp, why: string): void {
   if (!op.specs.some(s => s.unreadable === why)) op.specs.push({ raw: op.text, abs: op.cwd, unreadable: why })
 }
 
+// Ops xargs or find run in a repository the guard cannot name: all of them
+// (`every`: find -execdir), or each whose directory is the path the wrapper
+// supplies (`{}`, an expansion). They ask, whatever the caller's repo is.
+function inUnknownRepo(ops: readonly GitOp[], every: boolean, why: string): void {
+  for (const op of ops) {
+    if (!every && !op.cwd.includes('{}') && !hasExpansion(op.cwd)) continue
+    op.unknownRepo ??= why
+    // Its remote names a remote of a repo the guard has not read: never the
+    // caller's, which a private origin would pass.
+    if (op.push) op.push.opaque ??= why
+  }
+}
+
 // One simple command. `wrapped`: why the command it reaches cannot be read
 // whole (xargs, find -exec), or null. Returns where the shell is after it.
 function readCommand(
@@ -1198,7 +1329,7 @@ function readCommand(
   strict: boolean,
   wrapped: string | null,
 ): string {
-  const u = unwrap(words, dir, r.home)
+  const u = unwrap(words, dir, homeNow(r))
   const head = u.words[u.i]
   if (head === undefined) {
     // Assignments alone set shell variables the commands after may see (an
@@ -1213,7 +1344,7 @@ function readCommand(
   }
   if (head === 'cd' || head === 'pushd') {
     const target = u.words.slice(u.i + 1).find(w => !w.startsWith('-'))
-    return target === undefined ? normalize(r.home ?? dir) : resolvePath(dir, target, r.home)
+    return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
   }
   if (SETS_VARS.has(name)) {
     for (const w of rest.slice(1)) if (/^[A-Za-z_]/.test(w)) r.shellVars.add(w.split('=')[0]!)
@@ -1242,7 +1373,9 @@ function readCommand(
     })
     const t: string | null = token
     const inner = t ? u.words.slice(j).map(w => (w.includes(t) ? w.split(t).join('${xargs}') : w)) : u.words.slice(j)
+    const mark = r.ops.length
     readCommand(r, inner, u.dir, depth, strict, 'xargs adds arguments the guard cannot read')
+    inUnknownRepo(r.ops.slice(mark), false, 'xargs runs git in a directory it reads, which the guard cannot name')
     return dir
   }
   if (name === 'find') {
@@ -1251,7 +1384,11 @@ function readCommand(
       if (w !== '-exec' && w !== '-execdir' && w !== '-ok' && w !== '-okdir') continue
       const end = u.words.findIndex((x, k) => k > j && (x === ';' || x === '+'))
       const stop = end < 0 ? u.words.length : end
+      const mark = r.ops.length
       readCommand(r, u.words.slice(j + 1, stop), u.dir, depth, strict, `find ${w} runs it on paths the guard cannot list`)
+      // -execdir and -okdir run it in each directory find reaches; -exec
+      // with `git -C {}` or `cd {}`, in the one it names.
+      inUnknownRepo(r.ops.slice(mark), w.endsWith('dir'), `find ${w} runs git in each directory it finds, which the guard cannot name`)
       j = stop
     }
     return dir
@@ -1316,7 +1453,7 @@ function readGit(
   env = false,
   vars: readonly string[] = [],
 ): string {
-  const home = r.home
+  const home = homeNow(r)
   const at = (n: number): string => words[n] ?? ''
   let gitDir = dir
   // Config this command sets for itself (`-c k=v`, `--config-env k=V`,
@@ -1336,7 +1473,7 @@ function readGit(
     const w = at(i)
     const opt = w.split('=')[0]!
     if (w === '-C') {
-      gitDir = resolvePath(gitDir, words[i + 1] ?? '.', home)
+      gitDir = resolvePath(gitDir, expandDir(words[i + 1] ?? '.', home), home)
       i += 2
     } else if (w === '-c' || w === '--config-env') {
       configKeys.push(`${w} ${keyOf(at(i + 1))}`)
@@ -1466,6 +1603,12 @@ function readGit(
     return sub
   }
   let onlyPaths = false
+  // add -n/--dry-run, commit --dry-run; commit's status formats imply it.
+  let dryRun = false
+  let statusFormat = false
+  // add -e/--edit, -i/--interactive, -p/--patch: git does not keep these to
+  // a dry run (-e stages with -n), so -n proves nothing.
+  let editMode = false
   for (let j = i + 1; j < words.length; j++) {
     const w = at(j)
     if (!onlyPaths && w === '--') {
@@ -1473,13 +1616,30 @@ function readGit(
       continue
     }
     if (!onlyPaths && w.startsWith('--')) {
-      if (w === '--all' || w === '--no-ignore-removal') op.all = true
-      else if (w === '--update') op.update = true
-      else if (w === '--force' && kind === 'add') op.force = true
-      else if (kind === 'commit' && /^--inc(?:l(?:u(?:d(?:e)?)?)?)?$/.test(w)) op.include = true
-      else if (kind === 'commit' && /^--on(?:l(?:y)?)?$/.test(w)) op.include = false
-      else if (w.startsWith('--pathspec-from-file')) op.isOpaque = true
-      else if (kind === 'commit' && COMMIT_LONG_ARG.has(w)) j++
+      // Read as git reads it: a unique prefix names the option, `--no-`
+      // negates it, and the last one given wins.
+      const o = readLong(w, LONG[kind])
+      if (o === null) continue
+      if ('ambiguous' in o) {
+        const why = ambiguousWhy(w, o, kind)
+        if (why) {
+          op.isOpaque = true
+          op.specs.push({ raw: w, abs: gitDir, unreadable: why })
+        }
+        continue
+      }
+      if (o.takes && !o.negated && o.value === undefined) j++
+      const on = !o.negated
+      if (o.name === 'all') op.all = on
+      else if (o.name === 'ignore-removal') op.all = !on // add: --ignore-removal is --no-all
+      else if (o.name === 'update') op.update = on
+      else if (o.name === 'force') op.force = on
+      else if (o.name === 'include') op.include = on
+      else if (o.name === 'only') op.only = on
+      else if (o.name === 'dry-run') dryRun = on
+      else if (kind === 'add' && (o.name === 'edit' || o.name === 'interactive' || o.name === 'patch')) editMode ||= on
+      else if (o.name === 'short' || o.name === 'porcelain' || o.name === 'long') statusFormat = on
+      else if (o.name === 'pathspec-from-file' && on) op.isOpaque = true
       continue
     }
     if (!onlyPaths && w.startsWith('-') && w.length > 1) {
@@ -1490,8 +1650,11 @@ function readGit(
         else if (f === 'a' && kind === 'commit') op.all = true
         else if (f === 'u' && kind === 'add') op.update = true
         else if (f === 'f' && kind === 'add') op.force = true
+        else if (f === 'n' && kind === 'add') dryRun = true
+        else if ((f === 'e' || f === 'i' || f === 'p') && kind === 'add') editMode = true
         else if (f === 'i' && kind === 'commit') op.include = true
-        else if (f === 'o' && kind === 'commit') op.include = false
+        else if (f === 'o' && kind === 'commit') op.only = true
+        else if (kind === 'commit' && COMMIT_SHORT_ATTACHED.has(f)) break
         else if (kind === 'commit' && COMMIT_SHORT_ARG.has(f)) {
           if (k === flags.length - 1) j++
           break
@@ -1511,6 +1674,7 @@ function readGit(
     }
     op.specs.push({ raw: w, abs: w.startsWith(GUARD.notesPrefix) ? w : resolvePath(gitDir, w, home) })
   }
+  if ((dryRun && !editMode) || (kind === 'commit' && statusFormat)) op.dryRun = true
   // Another repository, work tree or index than the one guard.tsx reads the
   // status of: what it stages or commits cannot be listed. It asks.
   const elsewhereTree = tree ?? treeVar
@@ -1534,8 +1698,6 @@ function readGit(
   return sub
 }
 
-// git push options that take the next word as their value.
-const PUSH_LONG_ARG = new Set(['--repo', '--push-option', '--receive-pack', '--exec'])
 
 // `git push [options] [<repository> [<refspec>...]]`, from the word after
 // `push`.
@@ -1544,6 +1706,11 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
   const positional: string[] = []
   let repoOption: string | null = null
   let onlyArgs = false
+  // In the order given, as git applies them: the last of `--x` and
+  // `--no-x` wins. --all and --branches are one option.
+  const sets = new Set<PushTarget['sets'][number]>()
+  const forces = new Set<string>()
+  const setOf = { all: '--branches', branches: '--branches', mirror: '--all', tags: '--tags' } as const
   for (let j = from; j < words.length; j++) {
     const w = words[j] ?? ''
     if (!onlyArgs && w === '--') {
@@ -1551,18 +1718,23 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
       continue
     }
     if (!onlyArgs && w.startsWith('--')) {
-      const eq = w.indexOf('=')
-      const name = eq < 0 ? w : w.slice(0, eq)
-      const value = eq < 0 ? undefined : w.slice(eq + 1)
-      if (name === '--all' || name === '--branches') t.sets.push('--branches')
-      else if (name === '--mirror') t.sets.push('--all')
-      else if (name === '--tags') t.sets.push('--tags')
-      else if (name === '--delete') t.deleting = true
-      else if (name === '--force' || name === '--force-with-lease' || name === '--force-if-includes') t.force = true
-      else if (PUSH_LONG_ARG.has(name)) {
-        const v = value ?? words[++j]
-        if (name === '--repo') repoOption = v ?? null
+      const o = readLong(w, LONG.push)
+      if (o === null) continue
+      if ('ambiguous' in o) {
+        t.opaque ??= ambiguousWhy(w, o, 'push')
+        continue
       }
+      const on = !o.negated
+      const value = o.takes && on && o.value === undefined ? words[++j] : o.value
+      if (o.name in setOf) {
+        const set = setOf[o.name as keyof typeof setOf]
+        if (on) sets.add(set)
+        else sets.delete(set)
+      } else if (o.name === 'delete') t.deleting = on
+      else if (o.name === 'force' || o.name === 'force-with-lease' || o.name === 'force-if-includes') {
+        if (on) forces.add(o.name)
+        else forces.delete(o.name)
+      } else if (o.name === 'repo') repoOption = on ? value ?? null : null
       continue
     }
     if (!onlyArgs && w.startsWith('-') && w.length > 1) {
@@ -1570,7 +1742,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
       for (let k = 0; k < flags.length; k++) {
         const f = flags.charAt(k)
         if (f === 'd') t.deleting = true
-        else if (f === 'f') t.force = true
+        else if (f === 'f') forces.add('force')
         else if (f === 'o') {
           if (k === flags.length - 1) j++
           break
@@ -1580,6 +1752,8 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
     }
     positional.push(w)
   }
+  t.sets = [...sets]
+  t.force = forces.size > 0
   t.remote = positional[0] ?? repoOption
   // `tag <name>` is git's spelling of refs/tags/<name>.
   const rest = positional.slice(1)
@@ -1982,7 +2156,8 @@ export type Finding = {
   unconfirmed?: boolean
   // Unconfirmed because GitHub did not answer in time: the words say that.
   slow?: boolean
-  // A push whose destination the guard could not resolve: no remote named.
+  // An op whose destination the guard could not resolve: a push naming no
+  // remote, or git run in a repository it cannot name.
   unresolved?: boolean
   // Why the paths shown may not be all the op touches, when they may not.
   incomplete?: string
@@ -2062,6 +2237,9 @@ export function touchedPaths(op: GitOp, facts: RepoFacts): string[] | null {
   // commit. Named paths alone (--only, the default) commit just those;
   // -i/--include commits the staged index as well.
   const tracked = entries.filter(e => e.x !== '?' && e.x !== '!')
+  // --only with no paths (--amend, --allow-empty; otherwise git refuses it)
+  // commits none of the index.
+  if (op.only && !op.include && !op.all && !specs.length && !op.isOpaque) return []
   if (specs.length) return tracked.filter(e => matches(e.path) || (op.include && e.x !== ' ')).map(e => e.path)
   return tracked.filter(e => e.x !== ' ' || (op.all && e.y !== ' ')).map(e => e.path)
 }
@@ -2077,6 +2255,17 @@ export function assess(
   cfg: GuardConfig = GUARD,
   textVault: VaultFacts = NO_VAULT,
 ): Finding {
+  // Git runs in a repository the guard cannot name: whatever the caller's
+  // repo is, it cannot tell where this goes. It asks.
+  if (op.unknownRepo) {
+    const hits = [{ path: op.text, reason: op.unknownRepo }]
+    return { op, verdict: 'ask', mode: facts ? 'git' : 'text', hits, touched: 0, unresolved: true }
+  }
+  // A dry run stages or commits nothing, when the guard read all of it: a
+  // word it could not read (an expansion, what xargs adds, an alias) may
+  // undo the dry run.
+  const readWhole = !op.isOpaque && !op.specs.some(s => s.unreadable) && !hasExpansion(op.text) && op.alias === undefined
+  if (op.kind !== 'push' && op.dryRun && readWhole) return { op, verdict: 'pass', mode: facts ? 'git' : 'text', hits: [], touched: 0 }
   // A vault path only ever adds hits: no repo or folder is let through for
   // being inside one.
   if (!facts) {

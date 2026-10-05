@@ -269,6 +269,12 @@ export const register: Register = (on, options) => {
         const cache = new Map<string, RepoFacts | 'none' | null>()
         let textVault: VaultFacts | undefined
         for (const op of ops) {
+          // Git runs in a repository the guard cannot name (find -execdir,
+          // `git -C {}`): no read of this one says where it goes. It asks.
+          if (op.unknownRepo) {
+            findings.push(assess(op, null, home))
+            continue
+          }
           // A push's facts depend on its target, and a forced add's on its
           // pathspecs (the ignored files), so each of those reads its own.
           const key = `${op.kind}\0${op.cwd}\0${op.kind === 'push' || stagesIgnored(op) ? op.text : ''}`
@@ -495,11 +501,14 @@ export const register: Register = (on, options) => {
                       // commit THAT remote has. A failed, cut, thrown or
                       // timed-out list stays null: assess asks. -z: names
                       // as written, never git's C-quoting (`"\303\251.png"`).
+                      // --diff-merges=separate: a merge lists what it changes
+                      // against each parent, so a file only a merge brings (a
+                      // conflict resolution) is listed too.
                       try {
-                        const log = await $.process.run(['git', 'log', '--format=', '--name-only', '-z', ...revs, '--'], {
-                          cwd: root,
-                          timeoutMs: T,
-                        })
+                        const log = await $.process.run(
+                          ['git', 'log', '--format=', '--name-only', '-z', '--diff-merges=separate', ...revs, '--'],
+                          { cwd: root, timeoutMs: T },
+                        )
                         pushPaths =
                           log.exitCode === 0 && !log.isStdoutTruncated
                             ? [...new Set(log.stdout.split('\0').filter(Boolean))]

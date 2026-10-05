@@ -1099,7 +1099,6 @@ describe('git reached through wrappers, shells and strings', () => {
     'printf ".env\\0" | xargs -0 -n1 git add',
     'xargs -I{} git add {} < f',
     'find . -exec git add {} +',
-    'find . -name "*.patch" -execdir git add {} \\;',
     'find . -ok git commit {} \\;',
     "xargs sh -c 'git add \"$@\"' _",
     'parallel git add ::: .env',
@@ -1522,6 +1521,195 @@ describe('fail closed: forms that once read as nothing', () => {
       "cat > notes.md <<'EOF'\nthen git add .env and git push\nEOF",
     ]) {
       expect([command, parseGitOps(command, KERD, HOME)]).toEqual([command, []])
+    }
+  })
+})
+
+describe('options as git reads them, and repositories the guard cannot name', () => {
+  const PRIVATE_ORIGIN = VAULT_REMOTES + KERD_REMOTES.replace(/origin/g, 'public')
+  const op = (command: string) => parseGitOps(command, KERD, HOME)[0]!
+  const target = (command: string) => op(command).push!
+  const plan = (command: string, remotes = KERD_REMOTES) => pushPlan(target(command), remotes, 'origin', null, SEEN)
+  const STAGED_ENV = 'A  .env\0 M README.md\0'
+
+  test('a unique prefix of a long option is that option, as git reads it', () => {
+    for (const command of ['git add --for .', 'git add --forc .env', 'git add --f .env']) {
+      expect([command, op(command).force]).toEqual([command, true])
+    }
+    expect(op('git add --al').all).toBe(true)
+    expect(op('git add --no-ignore-rem').all).toBe(true)
+    expect(op('git add --upd').update).toBe(true)
+    // commit --al is no prefix of one option (all, allow-empty, ...): git
+    // refuses it, and the guard asks (below).
+    expect(op('git commit --inc README.md -m x').include).toBe(true)
+    expect(target('git push --ta origin').sets).toEqual(['--tags'])
+    expect(target('git push --al origin').sets).toEqual(['--branches'])
+    expect(target('git push --bra origin').sets).toEqual(['--branches'])
+    expect(target('git push --mir origin').sets).toEqual(['--all'])
+    expect(target('git push --del origin main').deleting).toBe(true)
+    expect(target('git push --force-w origin main').force).toBe(true)
+    expect(target('git push --rep https://github.com/me/public.git').remote).toBe('https://github.com/me/public.git')
+    // A prefix of an option that takes a value takes the next word too.
+    expect(op('git commit --mess x README.md').specs.map(s => s.raw)).toEqual(['README.md'])
+    expect(op('git add --chmod +x run.sh').specs.map(s => s.raw)).toEqual(['run.sh'])
+    // So the forced add sweeps ignored files; a push of the tags asks.
+    expect(judge('git add --for .env', facts({ status: '', ignored: '.env\0' }))[0]!.verdict).toBe('ask')
+    expect(plan('git push --ta origin')).toMatchObject({ kind: 'revs', dsts: null })
+  })
+
+  test('an abbreviation git could read as more than one option that matters is not guessed: it asks', () => {
+    // git refuses these (`ambiguous option`); the guard asks rather than pick.
+    for (const command of ['git push --forc origin main', 'git push --a origin', 'git push --no-f origin main', 'git push --re x origin main']) {
+      expect([command, plan(command, PRIVATE_ORIGIN).kind]).toEqual([command, 'opaque'])
+    }
+    // Read without the option, each would pass: README.md alone, nothing staged.
+    const UNSTAGED_ENV = ' M .env\0 M README.md\0'
+    for (const command of ['git add --i README.md', 'git commit --a -m x', 'git commit --al -m x']) {
+      expect([command, judge(command, facts({ status: UNSTAGED_ENV })).map(f => f.verdict)]).toEqual([command, ['ask']])
+      expect([command, judge(command.replace(/ --\w+/, ''), facts({ status: UNSTAGED_ENV })).map(f => f.verdict)]).toEqual([command, ['pass']])
+    }
+    // One whose candidates change nothing the guard reads is left alone.
+    expect(plan('git push --ver origin main', PRIVATE_ORIGIN).kind).toBe('none')
+  })
+
+  test('--no-<option>, spelled out or abbreviated: the last given wins', () => {
+    for (const command of ['git push --delete --no-delete origin HEAD', 'git push -d --no-de origin HEAD', 'git push --del --no-delete origin HEAD']) {
+      expect([command, target(command).deleting, plan(command).kind]).toEqual([command, false, 'revs'])
+    }
+    expect(target('git push --no-delete --delete origin HEAD').deleting).toBe(true)
+    expect(target('git push --tags --no-tags origin main').sets).toEqual([])
+    expect(target('git push --all --no-al origin main').sets).toEqual([])
+    expect(target('git push --no-all --all origin').sets).toEqual(['--branches'])
+    expect(target('git push --mirror --no-mirror origin main').sets).toEqual([])
+    expect(target('git push --force --no-force origin main').force).toBe(false)
+    expect(target('git push -f --no-force origin main').force).toBe(false)
+    expect(target('git push --force-with-lease --no-force-with-lease origin main').force).toBe(false)
+    expect(target('git push --no-force --force origin main').force).toBe(true)
+    expect(op('git add -A --no-all .').all).toBe(false)
+    expect(op('git add --no-all -A').all).toBe(true)
+    expect(op('git add -A --ignore-removal .').all).toBe(false)
+    expect(op('git add -f --no-force .env').force).toBe(false)
+    expect(op('git add --no-force -f .env').force).toBe(true)
+    expect(op('git commit -a --no-all -m x').all).toBe(false)
+  })
+
+  test('a here-string or here-document fed to a shell is read where that shell runs', () => {
+    for (const command of [
+      "env -C /tmp/public bash <<< 'git push origin HEAD'",
+      "env --chdir=/tmp/public bash <<< 'git push origin HEAD'",
+      "sudo -D /tmp/public bash <<< 'git push origin HEAD'",
+      "cd /tmp/public && bash <<< 'git push origin HEAD'",
+      "env -C /tmp/public sh <<'EOF'\ngit push origin HEAD\nEOF",
+      "cat <<< 'git push origin HEAD' | env -C /tmp/public bash",
+    ]) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.map(o => o.cwd)]).toEqual([command, ['/tmp/public']])
+    }
+    expect(parseGitOps("bash <<< 'git push origin HEAD'", KERD, HOME).map(o => o.cwd)).toEqual([KERD])
+  })
+
+  test("find -execdir, or -exec into the path it finds, runs git in a repo the guard cannot name: it asks, whatever the caller's remotes", () => {
+    for (const command of [
+      'find /work/repos -name .git -prune -execdir git push origin HEAD \\;',
+      'find /work/repos -name .git -prune -okdir git push origin HEAD \\;',
+      'find /work/repos -maxdepth 1 -type d -exec git -C {} push origin HEAD \\;',
+      "find /work/repos -maxdepth 1 -type d -exec sh -c 'cd {} && git push origin HEAD' \\;",
+      "find /work/repos -maxdepth 1 -type d -exec sh -c 'cd \"$1\" && git push origin HEAD' _ {} \\;",
+      'ls -d /work/repos/* | xargs -I{} git -C {} push origin HEAD',
+      'find . -name "*.patch" -execdir git add {} \\;',
+      'find /work/repos -maxdepth 1 -exec git -C {} commit -am wip \\;',
+    ]) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
+      // A private caller repo does not pass it, with git's facts or without.
+      expect([command, judge(command, facts({ remotes: VAULT_REMOTES })).every(f => f.verdict === 'ask')]).toEqual([command, true])
+      expect([command, judge(command, null).every(f => f.verdict === 'ask')]).toEqual([command, true])
+      for (const o of ops) if (o.push) expect([command, pushPlan(o.push, VAULT_REMOTES, 'origin', null, SEEN).kind]).toEqual([command, 'opaque'])
+    }
+    // -exec with the path as an argument runs git in the caller's repo, as before.
+    expect(parseGitOps('find . -name "*.md" -exec git add {} +', KERD, HOME)[0]!.unknownRepo).toBeUndefined()
+    expect(judge('find . -name "*.md" -exec git add {} +', facts({ remotes: '' })).every(f => f.verdict === 'pass')).toBe(true)
+  })
+
+  test('a directory named by an expansion is a repo the guard cannot name: it asks; $HOME and ~ are the home folder', () => {
+    for (const command of [
+      'cd "$DIR" && git push origin HEAD',
+      'cd $REPO; git add -f .env',
+      'pushd "${WORK}/x" && git commit -am wip',
+      'git -C "$REPO" push origin HEAD',
+      'env -C "$REPO" git push origin HEAD',
+      'HOME=/tmp/x; cd ~/code/Kerd && git push origin HEAD',
+    ]) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
+      expect([command, judge(command, facts({ remotes: VAULT_REMOTES })).every(f => f.verdict === 'ask')]).toEqual([command, true])
+      for (const o of ops) if (o.push) expect([command, pushPlan(o.push, VAULT_REMOTES, 'origin', null, SEEN).kind]).toEqual([command, 'opaque'])
+    }
+    for (const command of [
+      'cd $HOME/code/Kerd && git add .env',
+      'cd "${HOME}/code/Kerd" && git add .env',
+      'cd ~/code/Kerd && git add .env',
+      'git -C $HOME/code/Kerd add .env',
+      'env -C ~/code/Kerd git add .env',
+    ]) {
+      const [o] = parseGitOps(command, '/tmp', HOME)
+      expect([command, o!.cwd, o!.unknownRepo, o!.specs[0]!.abs]).toEqual([command, KERD, undefined, `${KERD}/.env`])
+    }
+    for (const command of ['cd ~/x && git status', 'cd "$DIR" && git status', 'cd $HOME && ls']) {
+      expect([command, parseGitOps(command, KERD, HOME)]).toEqual([command, []])
+    }
+  })
+
+  test('a dry run stages or commits nothing: it passes', () => {
+    for (const command of ['git add -n -f .env', 'git add --dry-run -A', 'git add --dry -A', 'git commit --dry-run -a', 'git commit --short -a', 'git commit --porcelain -am x']) {
+      expect([command, op(command).dryRun, judge(command, facts({ status: STAGED_ENV, ignored: '.env\0' })).map(f => f.verdict)]).toEqual([command, true, ['pass']])
+    }
+    for (const command of ['git add --dry-run --no-dry-run -A', 'git commit -n -a -m x', 'git commit --short --no-short -a -m x']) {
+      expect([command, judge(command, facts({ status: STAGED_ENV })).map(f => f.verdict)]).toEqual([command, ['ask']])
+    }
+    // -e stages even with -n (git applies the edited patch); -p and -i, git
+    // refuses with it. Neither proves a dry run: the add is judged.
+    for (const command of ['git add -n -e .env', 'git add --dry-run -p .env', 'git add -n --interactive .env', 'git add -ne .env', 'git add --dry-run --ed .env']) {
+      expect([command, op(command).dryRun, judge(command, facts({ status: '?? .env\0' })).map(f => f.verdict)]).toEqual([command, undefined, ['ask']])
+    }
+    // Only a dry run read whole passes: a word the guard cannot read (an
+    // expansion, what xargs adds) may undo it.
+    for (const command of ['git add -n "$X"', 'git add -n -A "$@"', 'printf x | xargs git add -n', 'git add -n .env $FLAGS']) {
+      expect([command, judge(command, facts({ status: '?? .env\0' })).map(f => f.verdict)]).toEqual([command, ['ask']])
+    }
+  })
+
+  test('commit --only with no paths commits nothing staged; -uno is not -o', () => {
+    for (const command of ['git commit --only --amend --no-edit', 'git commit -o --amend -m x', 'git commit --only --allow-empty -m x']) {
+      expect([command, judge(command, facts({ status: STAGED_ENV })).map(f => f.verdict)]).toEqual([command, ['pass']])
+    }
+    for (const command of ['git commit --amend --no-edit', 'git commit -uno -m wip', 'git commit -Skey -m wip', 'git commit --only -a --amend --no-edit']) {
+      expect([command, judge(command, facts({ status: STAGED_ENV })).map(f => f.verdict)]).toEqual([command, ['ask']])
+    }
+  })
+
+  test('no new false asks on the everyday option forms', () => {
+    for (const command of [
+      'git push -u origin feature',
+      'git push --set-upstream origin feature',
+      'git push --verbose origin feature',
+      'git push --follow-tags origin feature',
+      'git push --no-verify origin feature',
+      'git push --force-with-lease=feature:abc origin feature',
+      'git push --delete origin old',
+    ]) {
+      expect([command, plan(command, PRIVATE_ORIGIN).kind]).toEqual([command, 'none'])
+    }
+    for (const command of [
+      'git add README.md',
+      'git add --verbose README.md',
+      'git add -p README.md',
+      'git commit -m "x" --no-verify README.md',
+      'git commit --amend --no-edit README.md',
+      'git commit --message=wip README.md',
+      'git commit --signoff -m x README.md',
+    ]) {
+      expect([command, judge(command, facts({ status: STAGED_ENV.replace('A  .env', ' M .env') })).map(f => f.verdict)]).toEqual([command, ['pass']])
     }
   })
 })
