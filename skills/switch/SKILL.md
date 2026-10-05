@@ -44,7 +44,7 @@ item names the guide section with its detail: open that section before the step.
   ([In](references/in.md#in)).
 - Team: with a binding for this project, compare this session's ID, follow the
   [succession guide](../agent/references/session-succession.md) when an ID matches or
-  continuity evidence exists, then send its arrival notice to established partners
+  continuity evidence exists, then, after identity and any required adoption, send its arrival notice to established partners
   (or, when none is named, the helper's unambiguous default); TEAM shows provider and
   role only; no binding, no setup question ([Restore the existing team](references/in.md#restore-the-existing-team)).
 - Weigh every open item, the saved one included, and recommend exactly one with its
@@ -58,7 +58,7 @@ item names the guide section with its detail: open that section before the step.
 - One question: `> 💬 **Start a Conductor session?**`, placed by the renderer, is the
   last line of the message. Only the host's native picker may follow it (up to four
   options); without one, nothing follows: never a written list of options. In does
-  not execute the restored plan or other project work (no replies, reviews, repairs or
+  not execute the restored plan or other project work (no drafted replies, reviews, repairs or
   backlog investigation); requested safe Git sync and private Agent succession and
   arrival upkeep are permitted. An answer that chooses work opens Conductor at Shape
   without approving its operations; only approval and exclusions the person states
