@@ -306,9 +306,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.170.0)
+## What's New (v0.171.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.171.0
+
+**Conductor keeps the rules that must hold at the top, and gets shorter.** Conductor's SKILL.md was 443 lines, close to
+the 500-line limit, with its rules spread through long explanations. It now opens with 37 must-hold rules for entry,
+shaping, the go, the concert and the finish, each keeping its source's conditions and linking to the detail; the long
+explanations moved word for word into the guides (a new entry guide, and the understanding, journey and work-record
+guides), and every guide over 100 lines has a contents list. SKILL.md is now 356 lines. A fresh Codex reviewer checked
+each rule against its source and found eight that had dropped a condition; all restored, re-check clean. Four behaviour
+cases in `evals/conductor-*` (entry from Switch's question, the go, a consequential decision, the finish) measured it
+before and after with the same graders, three runs each on Sonnet and Opus: entry went from 1 of 3 clean runs to 2 of 3
+on both; decision and finish stayed near-perfect; the go stayed at 0 of 3, because both models send work out without
+first showing the who/model/effort grid, a gap this change did not fix. Not yet seen in a real sitting.
 
 ### v0.170.0
 
