@@ -19,6 +19,35 @@ For Switch In's informational arrival (no contribution or reply), use only the
 path. It shows the restored team and deduplicates identity announcements without
 turning them into review jobs or waiting for a response.
 
+## Must hold
+
+A run of Agent does not break these. They apply to every route below.
+
+Existing sessions keep their permission settings. A peer cannot approve a
+pending action or route around a refusal. New partners default to read-only;
+file edits require the agreed scope and `--write`. The launcher currently gives
+Claude file tools, not Bash or nested delegation. Choose another authorized
+route when the contribution requires those tools; do not claim all native
+session capabilities were enabled.
+
+When pairing, explain that the local alias does not grant native inbound trust.
+If Claude holds a message, the person may approve that message or explicitly
+choose broader reception; see the guide's setup choices. Never attest a guessed
+sender permission mode or borrow the recipient's token to bypass the hold.
+
+New Claude partners also start with native `crossSessionInbound: accept` for
+that session's lifetime. This is not an allowlist of Kerd peers: other local
+senders can submit messages under the recipient's tool permissions. Disclose
+that setup when creating a partner; existing sessions' inbound settings stay as-is.
+
+Never kill an occupied terminal, resume “latest”, fork without saying so,
+change global settings, or revive an unowned offline session to make delivery
+look successful. Kerd-created Codex partners may be dormant between requests;
+their exact native conversation is awakened on the next request. A person's own
+Codex TUI is never resumed, forked or stopped: it is queued to exactly as it
+stands, and whether it is attended is unknown until it answers. This is not
+attachment to an arbitrary app's session. Keep these distinctions visible.
+
 ## Help
 
 For `/kerd:agent help`, “how do I connect the models?” or a setup question, read
@@ -77,42 +106,10 @@ not shell subcommands. For execution, use the workflow below.
    `websockets` dependency, say so with its setup in the
    [user guide](references/user-guide.md#first-use-what-you-need-to-do); a partial
    list is not proof that no Codex session is open.
-   Define the partner's ongoing role during Agent setup, using the person's
-   stated responsibility (for example implementation partner or reviewer).
-   Reuse a recorded role; ask briefly if a needed role is unclear, not on every
-   request. `pair` and `start --kind partner` accept `--partner-role`; pairing
-   again with the exact alias/provider/ID and an explicit role updates that role.
-   Show it from the private `partners` binding alongside provider, alias and ID.
-   Missing means not defined, never guessed from the title or model. The existing
-   `--role` on a job is that contribution, not an automatic standing-role change.
-   A role is neither a permission grant nor appointment as the current Out owner.
-   When pairing or starting a persistent partner, ask once for whatever is not
-   yet recorded, never re-asking a recorded role or a recorded cadence. If
-   neither is recorded, ask for both together, in one message: the options
-   listed above, one speech-bubble question, `> 💬 **…?**`, as the last prose
-   line, then the picker or pickers. For a missing role, follow the bubble,
-   where the host offers one, with a native single-choice picker naming the
-   four shortcuts — **Pairing partner**, **Implementation partner**,
-   **Independent reviewer**, **Specialist adviser** — and leave anything else
-   to the host's own free-form route; do not add an “Other” entry where the
-   host supplies that route itself. Those four are shortcuts, never the
-   permitted set: any responsibility the person names is a valid answer, and
-   the role recorded is whatever they actually say, in their wording —
-   `--partner-role` takes any wording, where `--review-cadence` enforces its
-   four values. Where a host's picker offers no free-form route, the role
-   question is answered in words instead. For a missing cadence, list the four values — `checkpoints`,
-   `before-push`, `end`, `on-request` — with one-line meanings above the
-   bubble, and follow the bubble with a native multi-select picker over those
-   same four, since the person may name several values, though `on-request`
-   stands alone. If a role is recorded and only the cadence is missing, ask
-   for the cadence alone, the same way. Where the host offers no picker, the
-   bubble is answered in words exactly as before; a picker accelerates the
-   answer, never gates it, and never narrows it. Record the answers with
-   `--partner-role` and `--review-cadence`; do not re-ask on later requests,
-   and the person changes either by saying so. A cadence schedules this
-   partner's review only inside authorized work and grants no work, contact
-   beyond it, commit, push or release. Conductor reads bindings through
-   `agent.py partners`.
+   Define the partner's ongoing role and review cadence during Agent setup,
+   asking once for what is not recorded, as
+   [the user guide](references/user-guide.md#partner-role-and-review-cadence)
+   describes; read it before asking.
    For a designated replacement after a clear, restart or handoff, follow
    [session succession](references/session-succession.md). Verify this host's
    actual identity; do not overwrite a binding just because its peer is absent.
@@ -158,28 +155,3 @@ permission to run it. No human copy/paste relay, Kerd inbox, watcher or service.
 Native Claude sessions, the native Codex server, and the Codex TUI a person
 already has open own execution. A TUI is reached by `codex queue` and read back
 from its own transcript; it is listed as a saved thread with activity unknown.
-
-Existing sessions keep their permission settings. A peer cannot approve a
-pending action or route around a refusal. New partners default to read-only;
-file edits require the agreed scope and `--write`. The launcher currently gives
-Claude file tools, not Bash or nested delegation. Choose another authorized
-route when the contribution requires those tools; do not claim all native
-session capabilities were enabled.
-
-When pairing, explain that the local alias does not grant native inbound trust.
-If Claude holds a message, the person may approve that message or explicitly
-choose broader reception; see the guide's setup choices. Never attest a guessed
-sender permission mode or borrow the recipient's token to bypass the hold.
-
-New Claude partners also start with native `crossSessionInbound: accept` for
-that session's lifetime. This is not an allowlist of Kerd peers: other local
-senders can submit messages under the recipient's tool permissions. Disclose
-that setup when creating a partner; existing sessions' inbound settings stay as-is.
-
-Never kill an occupied terminal, resume “latest”, fork without saying so,
-change global settings, or revive an unowned offline session to make delivery
-look successful. Kerd-created Codex partners may be dormant between requests;
-their exact native conversation is awakened on the next request. A person's own
-Codex TUI is never resumed, forked or stopped: it is queued to exactly as it
-stands, and whether it is attended is unknown until it answers. This is not
-attachment to an arbitrary app's session. Keep these distinctions visible.

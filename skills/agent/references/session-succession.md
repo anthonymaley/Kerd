@@ -1,5 +1,12 @@
 # Keep the role, verify the session
 
+Contents:
+
+- [Identity first](#identity-first)
+- [Out: designate this role's continuation](#out-designate-this-roles-continuation)
+- [In: keep, adopt or recover, then stop at the dashboard](#in-keep-adopt-or-recover-then-stop-at-the-dashboard)
+- [Arrival notice and TEAM display](#arrival-notice-and-team-display)
+
 Use only for an existing local pairing during Switch In/Out or an explicitly
 selected role replacement. The shared Markdown holds the work and handoff;
 native IDs stay in the existing Git-private Agent binding. No new roster.

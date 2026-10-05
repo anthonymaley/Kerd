@@ -1,5 +1,18 @@
 # Working with Claude and Codex
 
+Contents:
+
+- [Quick help](#quick-help)
+- [Recognize your partner](#recognize-your-partner)
+- [Which kind of session?](#which-kind-of-session)
+- [Partner role and review cadence](#partner-role-and-review-cadence)
+- [A typical exchange](#a-typical-exchange)
+- [First use: what you need to do](#first-use-what-you-need-to-do)
+  - [If Claude asks you to approve the message](#if-claude-asks-you-to-approve-the-message)
+  - [Stopping repeated inbound prompts](#stopping-repeated-inbound-prompts)
+- [When something is unavailable](#when-something-is-unavailable)
+- [Commands for people who want the terminal details](#commands-for-people-who-want-the-terminal-details)
+
 Ask for the contribution you need. Kerd handles finding the session, preparing
 the request, sending it and bringing the answer back. You do not need to copy
 messages between terminals or remember session IDs.
@@ -141,6 +154,45 @@ refuses to run whenever the setting gives it effective network access:
 [sandbox_workspace_write]
 network_access = true
 ```
+
+## Partner role and review cadence
+
+Define the partner's ongoing role during Agent setup, using the person's
+stated responsibility (for example implementation partner or reviewer).
+Reuse a recorded role; ask briefly if a needed role is unclear, not on every
+request. `pair` and `start --kind partner` accept `--partner-role`; pairing
+again with the exact alias/provider/ID and an explicit role updates that role.
+Show it from the private `partners` binding alongside provider, alias and ID.
+Missing means not defined, never guessed from the title or model. The existing
+`--role` on a job is that contribution, not an automatic standing-role change.
+A role is neither a permission grant nor appointment as the current Out owner.
+When pairing or starting a persistent partner, ask once for whatever is not
+yet recorded, never re-asking a recorded role or a recorded cadence. If
+neither is recorded, ask for both together, in one message: the options
+listed above, one speech-bubble question, `> 💬 **…?**`, as the last prose
+line, then the picker or pickers. For a missing role, follow the bubble,
+where the host offers one, with a native single-choice picker naming the
+four shortcuts — **Pairing partner**, **Implementation partner**,
+**Independent reviewer**, **Specialist adviser** — and leave anything else
+to the host's own free-form route; do not add an “Other” entry where the
+host supplies that route itself. Those four are shortcuts, never the
+permitted set: any responsibility the person names is a valid answer, and
+the role recorded is whatever they actually say, in their wording —
+`--partner-role` takes any wording, where `--review-cadence` enforces its
+four values. Where a host's picker offers no free-form route, the role
+question is answered in words instead. For a missing cadence, list the four values — `checkpoints`,
+`before-push`, `end`, `on-request` — with one-line meanings above the
+bubble, and follow the bubble with a native multi-select picker over those
+same four, since the person may name several values, though `on-request`
+stands alone. If a role is recorded and only the cadence is missing, ask
+for the cadence alone, the same way. Where the host offers no picker, the
+bubble is answered in words exactly as before; a picker accelerates the
+answer, never gates it, and never narrows it. Record the answers with
+`--partner-role` and `--review-cadence`; do not re-ask on later requests,
+and the person changes either by saying so. A cadence schedules this
+partner's review only inside authorized work and grants no work, contact
+beyond it, commit, push or release. Conductor reads bindings through
+`agent.py partners`.
 
 ## A typical exchange
 

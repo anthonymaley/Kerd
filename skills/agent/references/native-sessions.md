@@ -1,5 +1,12 @@
 # Local sessions, native queues
 
+Contents:
+
+- [Select or start](#select-or-start)
+- [Ask and receive](#ask-and-receive)
+- [Images](#images)
+- [Setup and compatibility](#setup-and-compatibility)
+
 Use `python3 /PATH/TO/skills/agent/scripts/agent.py --project /PROJECT` as the
 prefix below. Paths are resolved by the caller; never copy this helper into
 consumer projects. Python 3.10+ and macOS/Linux process/filesystem semantics.
