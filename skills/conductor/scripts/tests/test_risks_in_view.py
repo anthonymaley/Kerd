@@ -13,6 +13,9 @@ import unittest
 REPO = Path(__file__).resolve().parents[4]
 CONDUCTOR = REPO / "skills" / "conductor"
 SKILL = CONDUCTOR / "SKILL.md"
+# The rehearsal section, with the sketchbook and risks rules, moved verbatim to the
+# entry guide when SKILL.md became the must-hold routing page.
+ENTRY = CONDUCTOR / "references" / "entry.md"
 RECORD = CONDUCTOR / "references" / "work-record.md"
 
 
@@ -23,7 +26,7 @@ def flat(text):
 
 class RisksInViewTests(unittest.TestCase):
     def setUp(self):
-        self.skill = SKILL.read_text(encoding="utf-8")
+        self.skill = ENTRY.read_text(encoding="utf-8")
         self.prose = flat(self.skill)
 
     def test_the_rule_sits_in_rehearsal_beside_the_sketchbook(self):
@@ -76,8 +79,9 @@ class RisksInViewTests(unittest.TestCase):
                 self.assertIn(flat(phrase), prose)
 
     def test_the_step_check_is_gone(self):
-        self.assertNotIn("Check where the work stands", self.skill)
-        self.assertNotIn("gate.py", self.skill)
+        for text in (self.skill, SKILL.read_text(encoding="utf-8")):
+            self.assertNotIn("Check where the work stands", text)
+            self.assertNotIn("gate.py", text)
 
 
 if __name__ == "__main__":

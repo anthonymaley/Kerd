@@ -1,5 +1,13 @@
 # Carry agreed work through delivery
 
+Contents:
+
+- [Resolve the reply against the current work](#resolve-the-reply-against-the-current-work): what a reply advances, repeated instructions, changed limits
+- [Prepare and do the next useful job](#prepare-and-do-the-next-useful-job): the job split, routes and the delegated job
+- [Keep a long build moving through Roll](#keep-a-long-build-moving-through-roll): managed Conductor, the worker-only Roll route and a To handoff
+- [Review, prove and improve](#review-prove-and-improve): checking against success criteria and independent review
+- [Finish the outcome, not a stage label](#finish-the-outcome-not-a-stage-label): reporting met, not met or not assessable
+
 Read when entering or resuming Deliver; the job-split section also applies before
 substantial design research or diagnosis. The work record and actual artifacts
 establish the outcome, success, authority and current activity. Reconcile stale

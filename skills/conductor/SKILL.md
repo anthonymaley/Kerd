@@ -35,409 +35,300 @@ still asked for.
 If higher-priority instructions conflict, explain the specific conflict rather
 than claiming it is bypassed. Existing host permissions still apply.
 
-## Enter work, not another pickup
+## Must hold
 
-For a substantial build, design or workflow request, whether new or continuing
-in an existing repo, offer Conductor with one grounded approach and useful
-fan-out if appropriate. This is an invitation, not permission to launch jobs or
-a forced model change. A small standalone fix stays direct without that offer.
-An explicit request to use Conductor opens it without another invitation.
+A run of Conductor does not skip these steps or break these prohibitions. Each item
+names the guide section with its detail: open that section before the step.
 
-Choosing Conductor chooses orchestration. Assess every task before acting and
-each new task as it emerges: a task is a user-visible job with its own result,
-not every tool call. Read [orchestration startup](references/orchestration.md)
-on entry for current-session model/effort suitability, bounded composition and
-the execution-score/assignment contract, plus the visible assignment view. Small
-tasks get a brief suitability/inline decision, not an exemption or compulsory
-worker. Reuse settled assessments on resume; status questions inside the work
-need no new staffing grid. Established means
-the current conversation or selected record identifies this work as entered or
-owned by Conductor; an old work.md, Agent pairing or unfinished task alone does
-not establish guided ownership. Continuing established work doesn't re-offer it.
+### Entry
 
-There are two valid entries: an explicitly selected and authorized action, and a
-request to use the workflow while deciding what to do. An answer to Switch
-In's **“Start a Conductor session?”** that chooses work, a plain yes to its
-recommendation or another open item its picker offered included, is the latter for that work: enter
-Understand/Shape on it, never approval of its operations. An answer asking for
-guidance without choosing, “Something else” included, enters direction-setting. Reuse the restored project, work pointer, current decision,
-actual approval and latest exclusions. Do not repeat pickup, intake already
-answered or approval already supplied.
+- For a substantial build, design or workflow request, new or continuing in an
+  existing repo, offer Conductor with one grounded approach and useful fan-out if
+  appropriate: an invitation, not permission to launch jobs or a forced model change.
+  A small standalone fix stays direct without that offer; an explicit request to use
+  Conductor opens it without another invitation; continuing established work doesn't
+  re-offer it. Established means the current conversation or selected record
+  identifies this work as entered or owned by Conductor; an old work.md, Agent
+  pairing or unfinished task alone does not establish guided ownership
+  ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- Match the requested scope first: a standalone status, review or input request is
+  not automatically a new guided work package, and read-only requests stay read-only.
+  Discovering this skill for a substantial work request permits the offer, not
+  silently opting the person into guided work; discussion is not build authorization
+  ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- Choosing Conductor chooses orchestration: assess every task before acting and each
+  new task as it emerges (a task is a user-visible job with its own result, not every
+  tool call), reading [orchestration startup](references/orchestration.md) on entry.
+  Small tasks get a brief suitability/inline decision, not an exemption or compulsory
+  worker; reuse settled assessments on resume; status questions inside the work need
+  no new staffing grid ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- Two valid entries: an explicitly selected and authorized action, and a request to
+  use the workflow while deciding what to do. An answer to Switch In's **“Start a
+  Conductor session?”** that chooses work, a plain yes to its recommendation or
+  another open item its picker offered included, enters Understand/Shape on that
+  work, never approval of its operations; an answer asking for guidance without
+  choosing, “Something else” included, enters direction-setting. Reuse the restored
+  project, work pointer, current decision, actual approval and latest exclusions; do
+  not repeat pickup, intake already answered or approval already supplied
+  ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- An approved action enters its actual stage and is performed in this turn:
+  design-only approval enters Shape, not Deliver; an approved diagnostic can deliver
+  findings without authorizing repairs. Bound research to the outcome: “read-only”
+  is not permission to investigate every adjacent issue or live system
+  ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- Workflow requested, action absent or excluded: Conductor is open at
+  Understand/Shape, and opening it is not operation approval. Do not ask again to
+  start Conductor, treat a rejected task as a grant for a similar one, or launch
+  probes to choose a task; without a selected authorized task, do not dispatch
+  contributor/model jobs merely to choose one (an explicit research request can
+  itself supply that task authority). Live-system queries, SSH/database access,
+  device or audible actions and paid/shared-resource jobs need authority for that
+  actual task; workflow entry alone supplies none. A bare invocation after a
+  human-owned check supplies neither its result nor authority to do it for them
+  ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- In that same workflow-requested case, a human-blocked saved continuation is not a
+  project-wide hold: assess other eligible independent active work by dependency,
+  priority and authority, and recommend a useful direction when grounded. Keep pending human evidence open; do
+  not ignore eligible work merely because it was not the saved selection, invent
+  substitute approval, impose a fixed task count or always choose an alternative. A
+  relevant recommendation from saved priority is allowed, labelled proposed, with a
+  single approval for its operations—not another approval to open
+  ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- Before substantial research, design or delivery, show a short entry update,
+  **Conductor · <actual stage> — <next activity>**, with the owner, intended result
+  and stopping boundary: an acknowledgement of the actual agreement, not a second
+  approval or a label added only to the final report. For multi-step work already
+  scoped by Switch, the order is: (1) read orchestration startup, the relevant
+  job-split guidance and work view if not already loaded (Kerd instruction reads, not
+  project research); (2) give the entry update as the first work response, with
+  current model/effort evidence, suitability and the actual split, using the grid
+  for contributors or a practical inline reason; (3) then the substantive project
+  reads, dispatches or edits, with no second pickup or approval. With missing
+  context, bounded local orientation may establish the stage and job boundaries
+  first; do not guess an agreement or settled split. State that limited orientation
+  and resolve the split before it expands into the investigation. Small explicit
+  work and status/factual questions stay proportionate; no ceremonial plan or
+  staffing approval ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- Sustained authorized local work requiring automatic context continuation enters
+  [managed Conductor](references/managed-conductor.md) from the outset, using only
+  its supported provider, permission and lifecycle scope. A verified managed rolling
+  continuation enters delivery from its saved place and unchanged agreement without
+  the normal arrival question; a new chat or a bare “resume” label is not evidence of
+  managed authority or exclusive ownership. A managed owner remains owned: ordinary
+  direction-setting may inspect that ownership issue, never take over or duplicate
+  the managed work. Exiting guidance does not stop already-running managed jobs:
+  preserve and resolve their ownership rather than abandoning them or starting
+  competing work ([Enter work](references/entry.md#enter-work-not-another-pickup)).
+- For a small, unambiguous, already-authorized change, act and verify
+  proportionately; a seemingly small change with consequential effects still needs
+  those effects resolved. Before broad reading, follow an explicitly supplied work
+  record or existing project/Now pointer, including a nested record; otherwise the
+  current-context pointer (CONTEXT.md by convention), then work-record names under
+  `docs/work/`: a small lookup, not a project audit
+  ([Start from the person](references/entry.md#start-from-the-person-or-the-saved-place)).
+- A supplied outcome is used, not asked for again. Fresh with no outcome supplied,
+  ask **“What are you trying to achieve?”**, then wait, with no guessed brief.
+  Resuming, say where work stands and restore the exact saved pending question or
+  next action, accounting for an answer already supplied in the new message; do not
+  restart the interview or treat an awaiting-agreement record as approved. Several
+  records could be active and the request doesn't identify one: ask which. A
+  missing or contradictory record is named as that gap; never manufacture the lost
+  decision ([Start from the person](references/entry.md#start-from-the-person-or-the-saved-place)).
 
-- **Approved action:** enter its actual stage and perform it in this turn.
-  Design-only approval enters Shape, not Deliver; an approved diagnostic can
-  deliver findings without authorizing repairs. Bound research to the outcome:
-  inspect what informs the design or diagnosis, rather than treating “read-only”
-  as permission to investigate every adjacent issue or live system.
-- **Workflow requested, action absent or excluded:** Conductor is open at
-  Understand/Shape. Acknowledge the exclusion, use the restored context to
-  inspect missing relevant active work, recommend a relevant direction before
-  asking for facts already recorded, or ask the missing outcome question, and wait
-  where a real choice is needed. Do not ask again to start Conductor, treat a
-  rejected task as a grant for a similar one, or launch probes to choose a task.
-  A human-blocked saved continuation is not a project-wide hold: assess other
-  eligible independent active work by dependency, priority and authority, and
-  recommend a useful direction when grounded. Keep pending human evidence open;
-  do not ignore eligible work merely because it was not the saved selection,
-  invent substitute approval, impose a fixed task count or always choose an
-  alternative. Opening Conductor is not operation approval. A bare invocation after a
-  human-owned check supplies neither its result nor authority to do it for them.
-  Use bounded local record/repository reads for direction-setting. Live-system
-  queries, SSH/database access, device or audible actions and paid/shared-resource
-  jobs need authority for that actual task; workflow entry alone supplies none.
-  A relevant recommendation from saved priority is allowed, labelled proposed,
-  with a single approval for its operations—not another approval to open.
-  Without a selected authorized task, do not dispatch contributor/model jobs
-  merely to choose one. An explicit research request can itself supply that
-  task authority; it does not need a second approval because it uses contributors.
+### Shape and rehearsal
 
-Before substantial research, design or delivery, show a short entry update:
-**Conductor · <actual stage> — <next activity>**, with the owner, intended result
-and stopping boundary. This is an acknowledgement of the actual agreement,
-not a second approval or a label added only to the final report. For multi-step
-work already scoped by Switch, the order is:
+- Rehearsal has no gates, ladder or required sequence. Its own tasks run to
+  completion, and a rehearsal turn stops only to get information or direction the
+  person holds — never merely because a turn ended. Neither phase leaves a session
+  idle with nothing asked: a turn waiting on a job first starts every other job its
+  authority already covers, then names the job and how and when it resumes, and a
+  turn that took in a partner's contribution still ends with a line to the person.
+  Small or coupled work is simply delivered in rehearsal; it never needs a concert
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Once intent is known, read the relevant project material to avoid asking for facts
+  already on disk, and read [the understanding guide](references/understanding.md):
+  its ten areas are internal coverage, not a question sequence or ten confirmations.
+  Ask only a gap that changes the next action or prevents a consequential mistake;
+  save an actual pending question before pausing
+  ([Understand and shape together](references/understanding.md#understand-and-shape-together)).
+- Keep a sketchbook: Conductor owns one per piece of work, its existing work record.
+  Write what gets settled as it is settled, and read it back before answering where
+  things stand, prompting Ready or briefing anyone. The person never fills in a
+  form; Switch Out may add what a sitting settled, but the sketchbook stays
+  Conductor's. When `kivna/vault.json` carries `"work_notes": "vault"`, the sketchbook
+  (and its diagrams, evidence and drafts) is written to `<notes root>/<work>/work.md`
+  instead of the repo and pointed to as `notes:<work>/work.md`; without that key, it
+  stays at `docs/work/<work>/work.md` and is committed with the project
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Keep the risks in view: when the person or the work names something that could
+  sink the work or hurt later, write it in the sketchbook's short risks list, the
+  risk in one plain sentence and what is being done about it or that it is accepted
+  as it stands; no sizing, columns or tiers. Read the list back before saying Ready
+  and before the goal check, and say which risks are still open. An empty list is
+  fine; never invent risks to fill it
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Update the record as the conversation progresses, including the exact pending
+  question or next action before each pause. Capture the actual agreement response
+  and its conditions; no invented approval or timestamps. An earlier discussion,
+  draft or example is not the person's agreement to this direction
+  ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
+- Questions take the form in the opening paragraphs. At a decision, show the current
+  stage, what is settled, what needs the person's input and what follows their
+  reply—not “question 4 of 10”, with the proposed answer and its qualifications
+  above the one speech-bubble question. No routine Correct / Change menu: recommend
+  one answer and ask one direct question; missing answers need a focused question,
+  not an invented proposal presented as confirmed. Never simulate clickable
+  controls, colours or native capabilities that are absent. Follow host rules over
+  these presentation defaults
+  ([Make the conversation easy to use](references/journey.md#make-the-conversation-easy-to-use)).
+- Show the rendered view as soon as the work qualifies — two or more connected
+  parts, a branch, an ownership boundary or a before → after change — including
+  during intake; do not save every diagram for the final direction review. Before
+  drawing, read [the sibling visual skill](../visuals/SKILL.md); the view goes
+  through diagram-design or Archify, and hand-rolled ASCII in a code fence, or the
+  bundled starter patterns alone, does not satisfy this. Don't silently install a
+  tool. Draw the actual work's product view; don't substitute a diagram of
+  Conductor's stages. If preview is unavailable, disclose it and ask the person to
+  open the artifact; don't claim they saw or approved it
+  ([Make the conversation easy to use](references/journey.md#make-the-conversation-easy-to-use);
+  [Show the direction](references/journey.md#show-the-direction)).
+- Show a compact interpretation before substantial execution and establish agreement
+  to new direction or material choices. Reuse clear instructions and approvals
+  already given; don't require a second yes for an unchanged authorized request.
+  The Switch In arrival question is the one exception, by design. An unresolved
+  later decision can stay open with a named revisit point while safe work proceeds;
+  stop the affected action if it requires that answer
+  ([Enough shared understanding](references/understanding.md#enough-shared-understanding-for-the-next-action)).
+- “You decide” delegates that choice within existing scope; it doesn't authorize
+  publishing, purchases, deletion or unrelated changes. Time, token and spending
+  limits are optional: record supplied limits, or that none were requested; never
+  hold up authorized work merely to obtain a number. “Use it all” does not authorize
+  new purchases, paid overages or scope expansion. No external writes, paid jobs or
+  new dependencies are authorized merely by this interview
+  ([Enough shared understanding](references/understanding.md#enough-shared-understanding-for-the-next-action)).
+- The score is written as you go: call the composer at any time to draft part of it
+  during rehearsal or rework a complex passage until it is sound; it returns the
+  passage, and reviewing built work stays with a reviewer. Where the steps are
+  already clear, Conductor writes them itself
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 
-1. Read [orchestration startup](references/orchestration.md), the relevant
-   [job-split guidance](references/execution.md#prepare-and-do-the-next-useful-job)
-   and [work view](references/journey.md#keep-the-tasks-visible-while-the-work-unfolds)
-   if not already loaded. These Kerd instruction reads are not project research.
-2. Give the entry update as the first work response, including current
-   model/effort evidence, suitability and the actual split:
-   reuse settled assignments or decide independent research/checks as well as
-   implementation. Use the grid for contributors, or a practical inline reason.
-3. Then do the substantive project reads, dispatches or edits and continue the
-   authorized job. No second pickup or approval.
+### Ready and the go
 
-With missing context, bounded local orientation may establish the stage and job
-boundaries first; do not guess an agreement or settled split. State that limited
-orientation and resolve the split before it expands into the investigation.
-Small explicit work
-and status/factual questions stay proportionate; no ceremonial plan or staffing
-approval. Supporting skills supply a method without replacing this direction.
+- Ready can come from either side. Say “I think we're ready” when the sketchbook and
+  score would let players perform without stopping to ask the person, or name the
+  one or two things still needed. When the person says they are ready, say honestly
+  what is still open; going ahead anyway is their call, recorded in the sketchbook.
+  Ready is a judgment spoken in conversation, never a checklist shown to the person
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- At Ready, show the rendered view of what will be built, put the go as the question
+  form's decision block, and ask for it with the Recommendation ending “— approve?”
+  only where it has not already been given
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- A concert performs on its own branch. At the go, start `concert/<work>` from the
+  current tip, as part of that same go and not a second question, and record the
+  branch and where it started in the sketchbook. Every commit, save and roll in the
+  concert lands there. Rehearsal and small work stay on the current branch
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- After agreement, perform the next authorized action in this turn. Don't end with
+  “next is implementation” or “ready for implementation” when implementation is
+  authorized and possible. Interpret a brief “okay” or “go” against the live
+  decision, not an older suggestion or arbitrary backlog item. If execution is
+  genuinely unavailable or outside the agreed scope, state the exact boundary and
+  save an honest handoff
+  ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
 
-For sustained authorized local work requiring automatic context continuation,
-enter [managed Conductor](references/managed-conductor.md) from the outset.
-The chat stays the control surface while managed decision sessions own delivery
-and review; do not wait until this chat is full and promise a TUI replacement.
-Use only its supported provider, permission and lifecycle scope. A Conductor chat
-in tmux, on Claude, rolls itself between batches through the
-[chat roll](../switch/references/to-roll.md#roll-the-conductor-chat-tmux); that
-is the one TUI replacement, and it does not make an unattended build.
+### Concert
 
-A verified managed rolling continuation enters delivery from its saved place
-and unchanged agreement without the normal arrival question. Follow the
-[Roll boundary](../switch/references/to-roll.md#roll-fresh-window-same-authorized-build);
-a new chat or a bare “resume” label is not evidence of managed authority or
-exclusive ownership. Do not claim this entry replaces an arbitrary open TUI; a
-claimed chat roll (`/kerd:switch roll in`) continues its own saved next action.
+- Fan out every independent part of the score to its own player, as many as the
+  score allows, each at a fitted model and effort
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Every `Agent` call names both keys concretely: `model` is required in every case,
+  and `subagent_type` names the matching Kerd agent whenever those definitions are
+  loaded, with the same model as `model`: `kerd:<model>-<effort>` for a model that
+  supports effort, and plain `kerd:haiku` for Haiku, which takes no effort setting
+  (a session opened on 0.146.0 or earlier uses the matching older
+  `kerd:effort-<level>` agent; when neither is loaded, a concrete ordinary
+  `subagent_type`, with effort shown as unset and unverified and the reason
+  disclosed). “Per definition”, “inherited”, “the controller's” and “default” are
+  not valid choices; while `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` is `1`, a native Claude
+  dispatch is not a compliant Kerd route
+  ([the dispatch contract](references/model-jobs.md#prepare-work-the-chosen-model-can-do-well);
+  [grid rows](references/orchestration.md#one-visible-startup-view)).
+- When a batch returns, check each player's claim against its part of the score:
+  Conductor is not the independent reviewer, but it never takes a return on trust.
+  Write the results into the sketchbook
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Then look at the room left in this context: carry on with the next batch, or, past
+  50% of the declared window with nothing outstanding, roll at the batch boundary
+  yourself with `/kerd:switch roll` (the
+  [chat roll](../switch/references/to-roll.md#roll-the-conductor-chat-tmux)) and
+  start the next batch from the sketchbook and score under the same agreement.
+  Never ask the person to roll; outside tmux, show the one line the roll prints. A
+  roll with no progress since the last (same commit, same sketchbook) is refused,
+  and a fourth roll in a row stops for the person. A build that must run unattended
+  can use managed Conductor instead, which currently runs one player at a time
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Before each save or roll, and when a fresh session picks the concert up, check
+  that the checked-out branch is the recorded concert branch; if it is not, stop
+  before committing and say so
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- A gap the score cannot answer stops that passage and comes back to the person in
+  the chat for that one point, not to the start
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Every report of work — a return, a batch, a review, the finish — follows the
+  guide's [shape of every report](references/journey.md#the-shape-of-every-report):
+  what the person has now and where to look at it first, where the work stands
+  second, at most five items on screen with the rest in the sketchbook, one thing
+  at a time, and a first-line-and-last-line check before sending.
+- For multi-step work, use the host's available native task list and update it as
+  work progresses, following the guide's compact fallback when native task controls
+  are unavailable. For delegation, use its task/who/model/effort/status grid and
+  report actual guidance, saved-prompt and dispatch transitions; do not leave these
+  facts until asked
+  ([Make the conversation easy to use](references/journey.md#make-the-conversation-easy-to-use)).
 
-Switch owns [ordinary arrival composition](../switch/references/in.md#compose-the-arrival-in-switch)
-without loading this skill. Choosing work in answer to its question enters
-Shape for that work, not its operations; an explicitly selected and authorized
-task can enter work. Use its restored active-work context when the person enters
-Conductor; inspect bounded missing relevant active work yourself, but do not
-recreate the pickup or its dashboard. A managed owner remains owned: ordinary
-direction-setting may inspect that ownership issue, never take over or duplicate
-the managed work.
+### Finish
 
-On the person's next request, handle the actual request: status stays status;
-a clear action approval or explicit continuation enters the selected work without
-repeating intake. Supporting skills can supply a job's method, but do not replace
-Conductor's agreement, progress display, model handoffs and outcome assessment.
-If instructions conflict, disclose the conflict rather than silently switching
-workflows or claiming this skill overrides higher-priority instructions.
+- The goals and checks set in rehearsal and written into the score decide when it
+  is over: before leaving the loop, read the risks list back and say which are still
+  open, compare the result with those goals and checks, and show the person that
+  comparison. Work is not done
+  because the steps ran out
+  ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Then bring one decision: merge the concert branch back into the branch it started
+  from. The merge and its push need the person's go; never merge because the steps
+  ran out ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
+- Delivery can finish before a long-term benefit is measurable when that stopping
+  point and its available evidence are agreed; never relabel unmeasured benefit as
+  achieved
+  ([Enough shared understanding](references/understanding.md#enough-shared-understanding-for-the-next-action)).
+- For status requests, give the stage, current activity, open issue and next action
+  from the record and actual artifacts, distinguishing reported work from verified
+  results. Do not commit, push or publish just to finish a status request. An
+  explicitly requested session save or pickup uses [Switch](../switch/SKILL.md); do
+  not assume a local save transferred native model sessions elsewhere
+  ([Record agreement](references/work-record.md#record-agreement-and-carry-the-work-forward)).
 
-Match the requested scope first. A standalone status, review or input request
-is not automatically a new guided work package. Inspect the relevant material
-and answer within that authority; skip the guided intake, direction review
-and record creation. If another model is explicitly requested, use
-[the model-job guide](references/model-jobs.md). Read-only requests stay read-only.
+## Open this guide when
 
-Match actual intent, not a word in quoted text. Discovering this skill for a
-substantial work request permits the offer above, not silently opting the person
-into guided work. Discussion is not build authorization; host instructions still
-govern. Switch invokes this skill on its approved Conductor proposal or a direct
-workflow request, not while restoring the dashboard. When the person chooses
-ordinary work, retain ordinary host behavior and actual task limits. Exiting
-guidance does not stop already-running managed jobs: preserve and resolve their
-ownership rather than abandoning them or starting competing work.
-
-## Start from the person, or the saved place
-
-For a small, unambiguous, already-authorized change, act and verify proportionately;
-don't require a new package, ten answers or a ceremonial brief. The request can
-itself establish outcome, check and permission. A seemingly small change with
-consequential effects still needs those effects resolved.
-
-Before broad reading, follow an explicitly supplied work record or existing
-project/Now pointer, including a nested record. Otherwise check the project's
-current-context pointer (CONTEXT.md by convention), then work-record names under
-`docs/work/`. The usual home is `docs/work/*/work.md`, not a depth restriction:
-if no active pointer resolves, locate nested `work.md` names within the relevant
-work folder and read only plausible current-position sections. This is a small lookup, not a
-project audit. Do not read the whole repository, session history or guidance pack
-to earn the right to ask the first question.
-
-- If the person supplies a new outcome, use it; don't ask them to repeat it.
-- If fresh and no outcome is supplied, ask **“What are you trying to achieve?”**
-  A rough idea, notes or examples are enough; none is required homework.
-  Then wait. Do not write a guessed brief or preload an example's answers.
-- If resuming, read the selected work record and necessary linked material.
-  Say where work stands, then restore the exact saved pending question or next
-  action. Account for an answer already supplied in the new message. Do not
-  restart the interview or treat an awaiting-agreement record as approved.
-- If several records could be active and the request doesn't identify one,
-  ask which work to continue. If the record is missing or contradictory, name
-  that small gap; don't manufacture the lost decision.
-
-## Rehearsal, then the concert
-
-Always be delivering. **Rehearsal** is incremental work: you and the person
-playing it through turn by turn, in whatever order the conversation takes, and
-shipping as you go. The **concert** is implementation to a score and a goal:
-the work is agreed, written down, and performed without turn-by-turn input.
-Rehearsal has no gates, ladder or required sequence. In the journey's words,
-rehearsal is Understand through Agree and the concert is Deliver. Rehearsal's own
-tasks still run to completion: research, drafts, checks and the score are worked
-through without stopping between them, and a rehearsal turn stops only to get
-information or direction the person holds — never merely because a turn ended.
-Neither phase leaves a session idle with nothing asked: a turn waiting on a job
-first starts every other job its authority already covers, then names the job
-and how and when it resumes, and a turn that took in a partner's
-contribution still ends with a line to the person; see
-[a turn ends carrying on, or stopped on a reason](references/journey.md#delivery-has-a-working-view-too).
-Small or coupled work is simply delivered in rehearsal; it never needs a concert.
-
-In rehearsal, Conductor guides, interviews and prompts, so that the two of you
-come to hold what a concert needs: the idea and why it matters, whether it can
-work and is worth doing, the goals, the constraints, the design, and the risks
-worth keeping in view. Let the AI do the work and the person react; ask only
-what moves one of those forward.
-
-**Keep a sketchbook.** Conductor owns one sketchbook per piece of work: its existing
-[work record](references/work-record.md), under a musical name. Write what gets settled as it is settled, and read it back before
-answering where things stand, prompting Ready or briefing anyone. The person
-never fills in a form. Switch Out may add what a sitting settled, but the
-sketchbook stays Conductor's. When asked where things stand, answer from it in a
-line or two of plain English: what is settled and what is still open.
-When `kivna/vault.json` carries `"work_notes": "vault"`, write the sketchbook
-(and its diagrams, evidence and drafts) to `<notes root>/<work>/work.md` instead
-of the repo, so a public project's working notes stay in the private vault repo;
-point to it as `notes:<work>/work.md`. Without that key, the sketchbook stays at
-`docs/work/<work>/work.md` and is committed with the project as today.
-
-**Keep the risks in view.** When the person or the work names something that
-could sink the work or hurt later, write it in the sketchbook's short risks
-list: the risk in one plain sentence, and what is being done about it or that
-it is accepted as it stands. No sizing, columns or tiers. Read the list back
-before saying Ready and before the goal check, and say which risks are still
-open. An empty list is fine; never invent risks to fill it.
-
-**The score is written as you go.** Call the
-[composer](references/orchestration.md#choose-who-writes-the-steps) at any time:
-to draft part of the score during rehearsal, or to rework a complex passage until
-it is sound. It returns the passage; reviewing built work stays with a reviewer.
-Where the steps are already clear, Conductor writes them itself.
-
-**Ready** can come from either side. Say “I think we're ready” when the
-sketchbook and score would let players perform without stopping to ask the person,
-or name the one or two things still needed: “we need the constraints on X
-before this is ready.” When the person says they are ready, say honestly what is
-still open; going ahead anyway is their call, recorded in the sketchbook. Ready is
-a judgment spoken in conversation, never a checklist shown to the person. At
-Ready, show the rendered view of what will be built, put the go as the question
-form's decision block, and ask for it with the Recommendation ending “— approve?” only where it has not
-already been given.
-
-A concert performs on **its own branch**. At the go, start `concert/<work>` from
-the current tip, as part of that same go and not a second question, and record the
-branch and where it started in the sketchbook. Every commit, save and roll in the
-concert lands there, so the starting branch (usually `main`) does not move while the
-work is half-built. Before each save or roll, and when a fresh session picks the
-concert up, check that the checked-out branch is the recorded concert branch; if it
-is not, stop before committing and say so. Rehearsal and small work stay on the current branch.
-
-In the **concert**, fan out every independent part of the score to its own
-player, as many as the score allows, each at a fitted model and effort. When a
-batch returns, check each player's claim against its part of the score: Conductor
-is not the independent reviewer, but it never takes a return on trust. Write the
-results into the sketchbook, then look at the room left in this context: carry on
-with the next batch, or, past 50% of the declared window with nothing outstanding,
-roll at the batch boundary yourself with `/kerd:switch roll` (the
-[chat roll](../switch/references/to-roll.md#roll-the-conductor-chat-tmux): save,
-restart this tmux pane, pick up) and start the next batch from the sketchbook and
-score under the same agreement. Never ask the person to roll; outside tmux, show
-the one line the roll prints. A roll with no progress since the last (same commit,
-same sketchbook) is refused, and a fourth roll in a row stops for the person. A build that must run unattended can use
-[managed Conductor](references/managed-conductor.md) instead, which currently
-runs one player at a time. The goals and
-checks set in rehearsal and written into the score decide when it is over: before
-leaving the loop, compare the result with them and show the person that
-comparison. Then bring one decision: merge the concert branch back into the
-branch it started from. The merge and its push need the person's go; never
-merge because the steps ran out. Work is not done because the steps ran out. A gap the score cannot
-answer stops that passage and comes back to the person in the chat for that one
-point, not to the start.
-
-Agents and rendered views work the same in both: use agents whenever they help,
-and show a view whenever agreement or alignment is needed.
-In the concert, the views also show what has been built and how far the
-performance has come. Everything shown to the person, views included, is plain
-product English.
-
-## Understand and shape together
-
-Once intent is known, read the relevant project material to avoid asking for
-facts already on disk. Distinguish sourced facts, the person's decisions,
-proposals and unresolved questions. Challenge an unsupported premise when it
-could change the outcome; don't turn every suggestion into a requirement.
-
-Read [the understanding guide](references/understanding.md) once intent is known.
-Its ten areas are internal coverage, not a question sequence or ten confirmations.
-Reuse answers, inspect relevant sources, propose what needs judgment and ask only
-a gap that changes the next action or prevents a consequential mistake. Save an
-actual pending question before pausing.
-
-## Make the conversation easy to use
-
-Read [the journey presentation guide](references/journey.md) before the first
-substantive response. It owns the question layout, working-brief view, progress updates
-and worked examples. Use it throughout the conversation, not only at agreement.
-Every report of work — a return, a batch, a review, the finish — follows the guide's
-[shape of every report](references/journey.md#the-shape-of-every-report): what the
-person has now and where to look at it first, where the work stands second, at most
-five items on screen with the rest in the sketchbook, one thing at a time, and a
-first-line-and-last-line check before sending.
-For multi-step work, use the host's available native task list and update it as
-work progresses, with actual work and model handoffs visible underneath. Follow
-the guide's compact fallback when native task controls are unavailable. For
-delegation, use its task/who/model/effort/status grid and report actual guidance,
-saved-prompt and dispatch transitions; do not leave these facts until asked.
-
-At a decision, show the current stage, what is settled, what needs the person's
-input and what follows their reply—not “question 4 of 10”. Put the proposed answer
-and its qualifications above, then end on one speech-bubble question,
-`> 💬 **The question?**`, the same form as Switch's arrival question and every Kerd
-question. A ban on numbered choices is not a ban on progress or structure.
-Never simulate clickable controls, colours or native capabilities that are absent.
-
-No routine Correct / Change menu: recommend one answer and ask one direct question.
-A clear yes settles the shown answer; a correction changes it. Missing answers
-need a focused question, not an invented proposal presented as confirmed.
-Follow host rules over these presentation defaults.
-
-Show the rendered view as soon as the work qualifies — two or more connected
-parts, a branch, an ownership boundary or a before → after change — including
-during intake. Do not save every diagram for the final direction review. Make real
-activity, returned findings and the effect of answers visible without inventing
-work, metrics, insight or extra confirmation turns. Save the actual state in the
-existing record; the display is a view of it, not another source of truth.
-
-## Enough shared understanding for the next action
-
-Use a concise “What we're building” brief: intended result, success checks,
-boundaries, room to decide and important unknowns. Keep Must (actual requirements),
-Prefer (qualities to optimize) and Open (delegated choices) distinct where useful.
-Don't turn every adjective into a requirement or a proposed omission into a user
-prohibition. Keep the brief easy to correct in conversation; no editable UI is
-implied where the host only supports text.
-
-The person supplies the intended benefit and known standards. Conductor proposes
-appropriate checks and evidence, resolving meaningful judgment with the person.
-Don't make them design an evaluation. Distinguish proposed measures, agreed checks
-and actual readings. A “looks right” about appearance doesn't approve unseen
-success criteria. Preserve existing agreement when resolving a missing measure.
-
-Show a compact interpretation before substantial execution and establish agreement
-to new direction or material choices. Reuse clear instructions and approvals
-already given; don't require a second yes for an unchanged authorized request.
-The Switch In arrival question is the one exception, by design.
-An unresolved later decision can stay open with a named revisit point while safe
-work proceeds. Stop the affected action if it requires that answer. Delivery can
-finish before a long-term benefit is measurable when that stopping point and its
-available evidence are agreed; never relabel unmeasured benefit as achieved.
-
-“Help me decide” calls for a recommendation with its tradeoff. “Not sure yet”
-keeps the issue open. “You decide” delegates that choice within existing scope;
-it doesn't authorize publishing, purchases, deletion or unrelated changes.
-
-Time, token and spending limits are optional. Record supplied limits, or that
-none were requested; never hold up authorized work merely to obtain a number.
-“Use it all” means work toward the agreed outcome until complete or the available
-allowance is exhausted, with no compulsory deadline. It does not authorize new
-purchases, paid overages or scope expansion. Disclose when remaining allowance
-cannot be measured rather than inventing a balance.
-
-Choose how much analysis the work needs and briefly explain any substantial
-effort. Don't ask the person to choose a rigor tier, model jargon or diagram
-type. Resolve routine choices from facts and agreed boundaries. Ask when there
-is no sound basis or a decision materially affects quality, experience, scope,
-authority or resources. Exploring a feasibility question is not proof that a
-proposed capability works. No external writes, paid jobs or new dependencies
-are authorized merely by this interview.
-
-## Show the direction
-
-Before drawing, read [the sibling visual skill](../visuals/SKILL.md) and the
-pattern it selects. Load this guidance at use, not during the opener. A rendered
-view goes through diagram-design or Archify: diagram-design for static layouts,
-Archify where exploration or comparison earns it. Hand-rolled ASCII in a code
-fence, or the bundled starter patterns alone, does not satisfy this. Where the
-work and the person's preference both fit, follow the preference; the choice is
-between the required tools, not away from them. Don't silently install a tool.
-
-Produce the actual work's product view: connected people, capabilities, flow
-and boundaries. Mark proposed and unknown parts. Don't substitute a diagram of
-Conductor's stages for a picture of what this person wants to create. Start
-with a readable overview; offer deeper detail without requiring a long review.
-Keep material tradeoffs visible, not hidden inside optional detail.
-
-Save the drawing beside the record. Render and inspect it when supported, and
-provide a directly openable link or preview. Raw Mermaid or another source
-block alone is not the user view. If preview is unavailable, disclose it and
-ask the person to open the artifact; don't claim they saw or approved it.
-
-For a substantial package, alongside the view give a short direction summary: intended outcome, success
-and proof, boundaries/authority, resource limits or unresolved choices, and
-what happens next. Where agreement is needed, close with the question form's
-bubble — never a next action restated as its own yes/no — naming what remains
-unresolved above it. Do not
-repeat settled agreement or add a seal or blanket approval of hidden detail.
-Only a single action or a factual answer goes without the view; work that is
-easy to describe in words is not thereby a single action.
-
-## Record agreement and carry the work forward
-
-Keep one readable record per work package, normally
-`docs/work/<short-work-name>/work.md`, or `notes:<short-work-name>/work.md` in
-the private vault repo when `kivna/vault.json` sets `work_notes`; use a suitable
-existing location instead when the project already has one. Read
-[the writing aid](references/work-record.md)
-when first saving work. It is not a required schema or a condition for permission.
-Keep diagrams and any necessary supporting detail with this record.
-
-Update it as the conversation progresses, including the exact pending question
-or next action before each pause. Capture the actual agreement response and
-its conditions; no invented approval or timestamps. An earlier discussion,
-draft or example is not the person's agreement to this direction. Preserve
-previous agreement when recording a material revision and its reason. Revisit
-the changed decision, not every unaffected detail. No hashes or fingerprints.
-
-After agreement, use [the work entry](#enter-work-not-another-pickup) and perform
-the next authorized action in this turn. Don't end with “next is implementation” or “ready for implementation”
-when implementation is authorized and possible. Interpret a brief “okay” or “go”
-against the live decision, not an older suggestion or arbitrary backlog item.
-For repeated instructions, changed limits or a finished task, use the delivery
-guide's [reply handling](references/execution.md#resolve-the-reply-against-the-current-work).
-If execution is genuinely unavailable or outside the agreed scope, state the
-exact boundary and save an honest handoff.
-
-For status requests, give the stage, current activity, open issue and next
-action from the record and actual artifacts. Distinguish reported work from
-verified results. No commit, board render or CI result is required to save or
-resume. Do not commit, push or publish just to finish a status request.
-
-For an explicitly requested session save or pickup, use
-[Switch](../switch/SKILL.md). It carries a work pointer and session
-history, not another copy of the plan. Do not assume a local save transferred
-native model sessions elsewhere.
+- [Entry](references/entry.md): entering or resuming work, an answer to Switch In's
+  question, managed or rolled entry, where to start, and the whole rehearsal and
+  concert: sketchbook, risks, score, Ready, the concert branch, fan-out, rolls and
+  the finish.
+- [Orchestration](references/orchestration.md): on entry, for model/effort
+  suitability, the score, who writes the steps, review planning and the startup
+  view.
+- [Understanding](references/understanding.md): once intent is known; the brief,
+  checks, limits and how much to ask.
+- [Journey](references/journey.md): before the first substantive response; the
+  question form, rendered views, the shape of every report, the task view and the
+  finish.
+- [Delivery](references/execution.md): entering or resuming Deliver, splitting jobs,
+  resolving a reply, Roll, review and finishing the outcome.
+- [Model jobs](references/model-jobs.md): the dispatch contract, and asking another
+  model or an established partner to contribute.
+- [Work record](references/work-record.md): when first saving work, recording
+  agreement and carrying the work forward.
+- [Managed Conductor](references/managed-conductor.md): sustained authorized work
+  that must continue context automatically or run unattended.
+- [Model guidance](references/guidance/README.md): model profiles and model choice.

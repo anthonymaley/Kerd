@@ -1,5 +1,10 @@
 # A small record that survives the conversation
 
+Contents:
+
+- The record template and how to keep it: headings as a writing aid, the risks section, score-and-delivery lines
+- [Record agreement and carry the work forward](#record-agreement-and-carry-the-work-forward): where the record lives, capturing agreement, the next authorized action, status requests and save or pickup
+
 Write in the person's language. Use only the detail this work needs; these
 headings are a writing aid, not a parser contract. If the project has a suitable
 record, update that instead of making a second source of truth.
@@ -118,3 +123,39 @@ saved, say so and offer a compact handoff; don't promise reliable resume.
 Preserve any explicit planning-only stopping point. Otherwise, actual agreement
 and authorization lead into delivery, not an artificial handoff.
 The record must not claim the solution is built just because direction is agreed.
+
+## Record agreement and carry the work forward
+
+Keep one readable record per work package, normally
+`docs/work/<short-work-name>/work.md`, or `notes:<short-work-name>/work.md` in
+the private vault repo when `kivna/vault.json` sets `work_notes`; use a suitable
+existing location instead when the project already has one. Read
+[the writing aid](work-record.md)
+when first saving work. It is not a required schema or a condition for permission.
+Keep diagrams and any necessary supporting detail with this record.
+
+Update it as the conversation progresses, including the exact pending question
+or next action before each pause. Capture the actual agreement response and
+its conditions; no invented approval or timestamps. An earlier discussion,
+draft or example is not the person's agreement to this direction. Preserve
+previous agreement when recording a material revision and its reason. Revisit
+the changed decision, not every unaffected detail. No hashes or fingerprints.
+
+After agreement, use [the work entry](entry.md#enter-work-not-another-pickup) and perform
+the next authorized action in this turn. Don't end with “next is implementation” or “ready for implementation”
+when implementation is authorized and possible. Interpret a brief “okay” or “go”
+against the live decision, not an older suggestion or arbitrary backlog item.
+For repeated instructions, changed limits or a finished task, use the delivery
+guide's [reply handling](execution.md#resolve-the-reply-against-the-current-work).
+If execution is genuinely unavailable or outside the agreed scope, state the
+exact boundary and save an honest handoff.
+
+For status requests, give the stage, current activity, open issue and next
+action from the record and actual artifacts. Distinguish reported work from
+verified results. No commit, board render or CI result is required to save or
+resume. Do not commit, push or publish just to finish a status request.
+
+For an explicitly requested session save or pickup, use
+[Switch](../../switch/SKILL.md). It carries a work pointer and session
+history, not another copy of the plan. Do not assume a local save transferred
+native model sessions elsewhere.

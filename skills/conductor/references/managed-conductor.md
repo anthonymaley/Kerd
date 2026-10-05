@@ -1,5 +1,12 @@
 # Run Conductor in managed contexts
 
+Contents:
+
+- [Prepare once](#prepare-once): the approved record as the agreement, contributor accounts before launch
+- [What continues automatically](#what-continues-automatically): the driver, its decision sessions and adapters
+- [Observe, stop, close](#observe-stop-close): refused decisions, stopping and closing a run
+- [Capability and evidence limits](#capability-and-evidence-limits): what managed Conductor supports today
+
 Use for an authorized sustained **local** build that must carry its Conductor
 decisions, implementation and review/correction loop through fresh context
 without routine user input. Start it at delivery entry, not when the existing
