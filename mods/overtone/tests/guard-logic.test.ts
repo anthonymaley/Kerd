@@ -1660,6 +1660,46 @@ describe('options as git reads them, and repositories the guard cannot name', ()
     }
   })
 
+  test('cd - returns to the directory before the last cd; an unknown one asks', () => {
+    const cwds = (c: string) => parseGitOps(c, KERD, HOME).map(o => o.cwd)
+    // The gap: `cd -` is /a, not $HOME.
+    expect(cwds('cd /a && cd /b && cd - && git push origin HEAD')).toEqual(['/a'])
+    expect(cwds('cd /a && cd /b && cd - && cd - && git push origin HEAD')).toEqual(['/b'])
+    expect(cwds('cd /a; cd -; git add x')).toEqual([KERD])
+    // The first `cd -` has an OLDPWD from outside the command: it asks.
+    for (const command of ['cd - && git push origin HEAD', 'cd -; git add -f .env', 'cd - && cd sub && git commit -am x']) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
+      expect([command, judge(command, facts({ remotes: VAULT_REMOTES })).every(f => f.verdict === 'ask')]).toEqual([command, true])
+    }
+    // A subshell's cd (and what it sets OLDPWD to) does not leak.
+    expect(cwds('cd /a && (cd /b) && cd /c && cd - && git add x')).toEqual(['/a'])
+    expect(cwds('cd /a && (cd /b && cd - && git add x)')).toEqual(['/a'])
+    expect(cwds('cd /a && cd /b && (cd - && git add x) && git add y')).toEqual(['/a', '/b'])
+    expect(cwds('cd /a && echo $(cd /b) && cd /c && cd - && git add x')).toEqual(['/a'])
+    expect(parseGitOps('(cd /a && cd /b); cd - && git add x', KERD, HOME)[0]!.unknownRepo).toBeDefined()
+    // Options: -- and -P/-L still name the directory; `cd -P -` is the previous one.
+    expect(cwds('cd -- /a && git add x')).toEqual(['/a'])
+    expect(cwds('cd -P /a && git add x')).toEqual(['/a'])
+    expect(cwds('cd -L -P /a && git add x')).toEqual(['/a'])
+    expect(cwds('cd /a && cd -P /b && cd -P - && git add x')).toEqual(['/a'])
+    expect(cwds('cd /a && cd /b && cd -- - && git add x')).toEqual(['/a'])
+    expect(cwds('cd -P && git add x')).toEqual([HOME])
+  })
+
+  test('pushd and popd keep a directory stack; a popd the guard cannot place asks', () => {
+    const cwds = (c: string) => parseGitOps(c, KERD, HOME).map(o => o.cwd)
+    expect(cwds('pushd /a && popd && git add x')).toEqual([KERD])
+    expect(cwds('pushd /a && pushd /b && popd && git add x')).toEqual(['/a'])
+    expect(cwds('pushd /a && cd /b && cd - && git add x')).toEqual(['/a'])
+    expect(cwds('(pushd /a && popd) && git add x')).toEqual([KERD])
+    expect(cwds('(pushd /a); popd; git add x').every(c => c.includes('$'))).toBe(true)
+    for (const command of ['popd && git push origin HEAD', 'pushd /a && popd && popd && git add x', 'pushd && git add x', 'pushd +1 && git add x', 'popd +1 && git add x']) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
+    }
+  })
+
   test('a dry run stages or commits nothing: it passes', () => {
     for (const command of ['git add -n -f .env', 'git add --dry-run -A', 'git add --dry -A', 'git commit --dry-run -a', 'git commit --short -a', 'git commit --porcelain -am x']) {
       expect([command, op(command).dryRun, judge(command, facts({ status: STAGED_ENV, ignored: '.env\0' })).map(f => f.verdict)]).toEqual([command, true, ['pass']])

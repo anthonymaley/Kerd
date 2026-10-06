@@ -965,7 +965,18 @@ export type Aliases = ReadonlyMap<string, string | null>
 // `shellVars`: variables the line set or exported before (`export GIT_DIR=x;
 // git add`), which the commands after it may run with. Never scoped to a
 // subshell: one set anywhere counts for the rest of the line.
-type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[]; shellVars: Set<string> }
+//
+// `nav`: where `cd -` and `popd` lead. `prev`: the directory before the last
+// cd (OLDPWD), null while it comes from outside the command; `stack`: the
+// directories `pushd` left, newest last. A `( … )` subshell, `$(…)`, or
+// `bash -c` gets a copy: what it changes ends with it.
+type Nav = { prev: string | null; stack: string[] }
+type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[]; shellVars: Set<string>; nav: Nav }
+
+// A directory the guard cannot name: an expansion, so the git ops there ask.
+const UNKNOWN_PREV = '${OLDPWD}'
+const UNKNOWN_STACK = '${DIRSTACK}'
+const copyNav = (n: Nav): Nav => ({ prev: n.prev, stack: [...n.stack] })
 
 // The git add / commit / push commands in a Bash command line, in order.
 // Commands it reaches through a wrapper it cannot fully read (xargs, find
@@ -974,7 +985,7 @@ type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[]; shellV
 // git aliases; an unread one comes back as an op with `alias` set, which
 // asks unless guard.tsx reads it.
 export function parseGitOps(command: string, cwd: string, home?: string, aliases: Aliases = new Map()): GitOp[] {
-  const r: Reader = { home, aliases, ops: [], shellVars: new Set() }
+  const r: Reader = { home, aliases, ops: [], shellVars: new Set(), nav: { prev: null, stack: [] } }
   readLine(r, command, normalize(cwd), 0, false)
   // git run in a directory a shell expansion names (`cd "$DIR"`, `git -C
   // $REPO`): never "not a git repo", which would pass. It asks.
@@ -1002,7 +1013,17 @@ function expandDir(path: string, home: string | undefined): string {
 // Reads a command line from `dir`; returns where it leaves the shell (`cd`).
 // `strict`: a string that may only be text (an argument to a command the
 // reader does not know): only a command line that starts with git counts.
-function readLine(r: Reader, command: string, dir: string, depth: number, strict: boolean): string {
+function readLine(r: Reader, command: string, dir: string, depth: number, strict: boolean, keepNav = false): string {
+  const outer = r.nav
+  if (!keepNav) r.nav = copyNav(outer)
+  try {
+    return readLineIn(r, command, dir, depth, strict)
+  } finally {
+    if (!keepNav) r.nav = outer
+  }
+}
+
+function readLineIn(r: Reader, command: string, dir: string, depth: number, strict: boolean): string {
   if (depth > MAX_DEPTH) {
     unreadText(r, command, dir, 'commands nested deeper than the guard reads')
     return dir
@@ -1011,12 +1032,16 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
   // Where each open `( … )` subshell started: a `cd` inside it ends at its
   // `)`. (A `{ …; }` group runs in this shell, so its `cd` stays.) A `)`
   // with nothing open (a `case` pattern) changes nothing.
-  const opened: string[] = []
+  const opened: { dir: string; nav: Nav }[] = []
   for (let n = 0; n < cmds.length; n++) {
     const c = cmds[n]!
     for (const p of c.parens) {
-      if (p === '(') opened.push(dir)
-      else if (opened.length) dir = opened.pop()!
+      if (p === '(') opened.push({ dir, nav: copyNav(r.nav) })
+      else if (opened.length) {
+        const o = opened.pop()!
+        dir = o.dir
+        r.nav = o.nav
+      }
     }
     // `$(…)` and backticks run first, in a subshell.
     for (const sub of c.subs) readLine(r, sub, dir, depth + 1, false)
@@ -1034,7 +1059,11 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
   }
   // A subshell still open here closes at the line's end: the shell is left
   // where it was before it.
-  return opened.length ? opened[0]! : dir
+  if (opened.length) {
+    r.nav = opened[0]!.nav
+    return opened[0]!.dir
+  }
+  return dir
 }
 
 // Text the reader cannot read as commands. Its words naming git and a verb:
@@ -1342,9 +1371,46 @@ function readCommand(
   const blindFrom = (mark: number, why: string) => {
     for (const op of r.ops.slice(mark)) blind(op, why)
   }
-  if (head === 'cd' || head === 'pushd') {
-    const target = u.words.slice(u.i + 1).find(w => !w.startsWith('-'))
-    return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
+  if (head === 'cd' || head === 'pushd' || head === 'popd') {
+    const args = u.words.slice(u.i + 1)
+    const nav = r.nav
+    // Options come first; `--` ends them. A lone `-` is OLDPWD.
+    let k = 0
+    let opts = ''
+    while (k < args.length && args[k]!.startsWith('-') && args[k] !== '-') {
+      if (args[k] === '--') {
+        k++
+        break
+      }
+      opts += args[k]!.slice(1)
+      k++
+    }
+    const target = args[k]
+    const to = (next: string): string => {
+      nav.prev = dir
+      return next
+    }
+    if (head === 'popd') {
+      // `popd +N` / `-n` take another entry or do not move: not read.
+      if (target !== undefined || opts.includes('n')) {
+        nav.prev = null
+        return UNKNOWN_STACK
+      }
+      const top = nav.stack.pop()
+      return top === undefined ? to(UNKNOWN_STACK) : to(top)
+    }
+    // `pushd` with no directory swaps the top two, `+N` rotates, `-n` does
+    // not move: the guard cannot place the shell.
+    if (head === 'pushd' && (target === undefined || /^[+-]\d+$/.test(target) || opts.includes('n') || target === '-')) {
+      nav.prev = null
+      return UNKNOWN_STACK
+    }
+    let next: string
+    if (target === undefined) next = normalize(homeNow(r) ?? '$HOME')
+    else if (target === '-') next = nav.prev ?? UNKNOWN_PREV
+    else next = resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
+    if (head === 'pushd') nav.stack.push(dir)
+    return to(next)
   }
   if (SETS_VARS.has(name)) {
     for (const w of rest.slice(1)) if (/^[A-Za-z_]/.test(w)) r.shellVars.add(w.split('=')[0]!)
@@ -1404,7 +1470,7 @@ function readCommand(
   }
   if (name === 'eval') {
     const mark = r.ops.length
-    const after = readLine(r, u.words.slice(u.i + 1).join(' '), u.dir, depth + 1, false)
+    const after = readLine(r, u.words.slice(u.i + 1).join(' '), u.dir, depth + 1, false, true)
     if (wrapped) blindFrom(mark, wrapped)
     return after
   }
