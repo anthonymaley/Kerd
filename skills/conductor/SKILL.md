@@ -243,7 +243,11 @@ names the guide section with its detail: open that section before the step.
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - At Ready, show the rendered view of what will be built, put the go as the question
   form's decision block, and ask for it with the Recommendation ending “— approve?”
-  only where it has not already been given
+  only where it has not already been given. That decision block carries the
+  task/who/model/effort grid for the controller and every composer, player and
+  reviewer job the go will dispatch, each with its Fit line, so the go approves the
+  staffing the person has seen; the go then dispatches as shown, and a row whose
+  model, effort or route changes is shown again, with its Fit line, before its dispatch
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - A concert performs on its own branch. At the go, start `concert/<work>` from the
   current tip, as part of that same go and not a second question, and record the
