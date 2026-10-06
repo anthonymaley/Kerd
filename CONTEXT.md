@@ -148,25 +148,27 @@ handoff from 2026-09-25; not adopted. Anthony confirmed (2026-10-05 22:14) the b
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Eval leftovers cleared (Anthony 2026-10-06 08:41, "y"):** 400 sealed `/private/tmp/e-*` folders (513 MB measured with `sudo du`; the earlier "26 GB" was all of /private/tmp, mostly Claude Code scratch and another project's `dd-*` builds) and the `Kerd-switch-baseline` worktree (its 119 untracked eval files byte-identical to main) removed; `~/.cache/kerd-eval/gitbin` kept for future evals. Next, proposed, not agreed: Anthony restarting codex-tui (`codex resume`) so it loads 0.172.0; watching the Ready grid on the first real Conductor go.
+**Eval leftovers cleared (Anthony 2026-10-06 08:41, "y"):** 400 sealed `/private/tmp/e-*` folders (513 MB measured with `sudo du`; the earlier "26 GB" was all of /private/tmp, mostly Claude Code scratch and another project's `dd-*` builds) and the `Kerd-switch-baseline` worktree (its 119 untracked eval files byte-identical to main) removed; `~/.cache/kerd-eval/gitbin` kept for future evals. 
+
+**Selected continuation: proposed, not agreed: Anthony restarts codex-tui** (`codex resume`) so the review partner loads 0.172.0 (why: it was resumed 2026-10-05 21:15, before the 0.171.1 and 0.172.0 installs, so the next review would likely run an older Kerd; inference from thread write time, not checked). His action; Claude does nothing until he says it is done; stops there. Also proposed: watching the Ready grid on the first real Conductor go (the only way to see whether the go dispatches as shown); the one-line fix so Switch Out ends on its box (Backlog; a release, so his decision while releases are paused).
 Done this sitting: `kivna/sessions/2026-10-06.md`.
 **Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
 findings go to the Backlog.
 
-**Pickup reading set** (update 2026-10-06 08:2x):
+**Pickup reading set** (update 2026-10-06 09:1x):
 - this file complete: position (0.172.0 on both hosts, 0.171.1, 0.171.0, 0.170.0), rulings (the worker-row ruling, the guard-scope ruling, the release pause, Switch Out when work is finished) and the Codex position;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set);
-- `kivna/sessions/2026-10-06.md`, newest log (one sitting, 08:16 to 08:2x);
+- `kivna/sessions/2026-10-06.md`, newest log (two sittings, 08:16 to 09:1x);
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `notes:skills-guideline/work.md` (with `ready-grid.html`, `reading-evidence.md`); `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `76208f8f28b631dce4274a307a99b1fc00b6cbda` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `723ddff3969e157e32eda4dcb59e4119e3a70aa6` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). The vault also holds apple-music's uncommitted notes from another project's sitting; they are not Kerd's and were not saved.
 
-The observed position before this save is `main` at the 0.172.0 release commit; the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at the eval-leftovers record commit; the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-06 08:2x: 27,135 bytes, about 6,784 tokens (estimate), within the 8,000 target. Carried findings checked (Codex on 0.172.0, the eval leftovers, the release pause, restarting codex-tui, the Ready grid watch); all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-06 09:1x: 27,855 bytes, about 6,964 tokens (estimate), within the 8,000 target. Carried findings checked (restarting codex-tui, the Ready grid watch, the release pause, the notes commit, the 513 MB correction); all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-06.md", "--file", "notes:outside-the-repo.md",
