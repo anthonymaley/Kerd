@@ -73,6 +73,15 @@ export function expandHome(path: string, home: string | undefined): string {
 
 export function resolvePath(cwd: string, path: string, home?: string): string {
   const p = expandHome(path, home)
+  // A tilde form the shell expands other than `~` and `~/` (`~-` is OLDPWD,
+  // `~+`/`~N`/`~+N`/`~-N` the directory stack, `~user` another home): a
+  // directory the guard cannot name, so an expansion, and it asks.
+  if (p.startsWith('~')) return `\${${p}}`
+  // `..` must not cancel an expansion, in the directory or the path itself
+  // (`${OLDPWD}/..`, `"$X/.."` are not where they started): left unresolved,
+  // it stays one, and asks.
+  if (hasExpansion(p)) return p.startsWith('/') ? p : `${cwd}/${p}`
+  if (!p.startsWith('/') && hasExpansion(cwd)) return `${cwd}/${p}`
   return normalize(p.startsWith('/') ? p : `${cwd}/${p}`)
 }
 
@@ -962,19 +971,41 @@ export const aliasKey = (cwd: string, name: string) => `${cwd}\0${name}`
 // (not an alias). A key not here has not been read.
 export type Aliases = ReadonlyMap<string, string | null>
 
+// Where git runs a shell alias (`!…`): the top of the working tree git is in,
+// by aliasKey, as `git rev-parse --show-toplevel` said there. A key not here
+// (not read, failed, no work tree, a bare repo) is a top the guard does not
+// know, and the alias asks.
+export type AliasTops = ReadonlyMap<string, string>
+
 // `shellVars`: variables the line set or exported before (`export GIT_DIR=x;
 // git add`), which the commands after it may run with. Never scoped to a
 // subshell: one set anywhere counts for the rest of the line.
-type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[]; shellVars: Set<string> }
+type Reader = { home: string | undefined; aliases: Aliases; tops: AliasTops; ops: GitOp[]; shellVars: Set<string> }
+
+// Where `cd -` (OLDPWD), `popd` and the `pushd` forms that rotate the stack
+// lead is state the guard does not follow: the shell's directory becomes an
+// expansion it cannot name, so every git op after it asks. (Following it was
+// tried and refused: a failed or conditional `cd`, an `OLDPWD=` assignment,
+// a fresh `bash -c` that inherits no stack, each put the guard somewhere the
+// shell is not.)
+const UNKNOWN_PREV = '${OLDPWD}'
+const UNKNOWN_STACK = '${DIRSTACK}'
 
 // The git add / commit / push commands in a Bash command line, in order.
 // Commands it reaches through a wrapper it cannot fully read (xargs, find
 // -exec, a shell alias, a command it does not know that names git and a
 // verb) come back unreadable, which asks. `aliases`: what guard.tsx read of
 // git aliases; an unread one comes back as an op with `alias` set, which
-// asks unless guard.tsx reads it.
-export function parseGitOps(command: string, cwd: string, home?: string, aliases: Aliases = new Map()): GitOp[] {
-  const r: Reader = { home, aliases, ops: [], shellVars: new Set() }
+// asks unless guard.tsx reads it. `tops`: where git runs each shell alias
+// from (the top of the work tree); one it does not hold asks.
+export function parseGitOps(
+  command: string,
+  cwd: string,
+  home?: string,
+  aliases: Aliases = new Map(),
+  tops: AliasTops = new Map(),
+): GitOp[] {
+  const r: Reader = { home, aliases, tops, ops: [], shellVars: new Set() }
   readLine(r, command, normalize(cwd), 0, false)
   // git run in a directory a shell expansion names (`cd "$DIR"`, `git -C
   // $REPO`): never "not a git repo", which would pass. It asks.
@@ -1342,8 +1373,27 @@ function readCommand(
   const blindFrom = (mark: number, why: string) => {
     for (const op of r.ops.slice(mark)) blind(op, why)
   }
-  if (head === 'cd' || head === 'pushd') {
-    const target = u.words.slice(u.i + 1).find(w => !w.startsWith('-'))
+  if (head === 'cd' || head === 'pushd' || head === 'popd') {
+    const args = u.words.slice(u.i + 1)
+    // `popd`, `cd -` (OLDPWD), and a `pushd` that names no plain directory
+    // (none, `+N`/`-N`, `-`, `-n`) move the shell somewhere the guard does not
+    // follow: an expansion, so the git ops after it ask.
+    if (head === 'popd') return UNKNOWN_STACK
+    // Options as the shell reads them: known letters up to `--` or the first
+    // other word, which is the target even when it starts with `-` (`cd --
+    // -pub`). A target starting with `-` (`-`, `-pub`, an unknown option) or
+    // a `pushd -n` is not followed: an expansion, so it asks.
+    let k = 0
+    let opts = ''
+    const optRe = head === 'pushd' ? /^-n+$/ : /^-[LPe@]+$/
+    while (k < args.length && optRe.test(args[k]!)) opts += args[k++]!.slice(1)
+    if (args[k] === '--') k++
+    const target = args[k]
+    // A word after the target makes the shell refuse it (`cd /a -`, `pushd /a -n`): not followed either.
+    if ((target !== undefined && target.startsWith('-')) || args.length > k + 1) return head === 'pushd' ? UNKNOWN_STACK : UNKNOWN_PREV
+    // `+N` is a directory-stack entry (pushd; zsh's cd too).
+    if (target !== undefined && /^\+\d+$/.test(target)) return UNKNOWN_STACK
+    if (head === 'pushd' && (target === undefined || opts.includes('n'))) return UNKNOWN_STACK
     return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
   }
   if (SETS_VARS.has(name)) {
@@ -1572,15 +1622,33 @@ function readGit(
     }
     const mark = r.ops.length
     if (value.startsWith('!')) {
-      // A shell alias runs from the repo root with the arguments appended
-      // (git runs `sh -c '<body> "$@"'`): `!git` with `add -f .env` is
-      // `git add -f .env`. Read so, and never whole; one that shows no git
-      // add, commit or push still asks.
+      // A shell alias runs from the top of the work tree git is in (not
+      // from where git was run; GIT_PREFIX holds the way back) with the
+      // arguments appended (git runs `sh -c '<body> "$@"'`): `!git` with
+      // `add -f .env` is `git add -f .env`. Read so, and never whole; one
+      // that shows no git add, commit or push still asks. The body is read
+      // from where git ran AND, when it is known and different, from that
+      // top; the ops of both are kept, so the alias asks if either place
+      // does (a relative `-C ../x` lands somewhere else from each). With the
+      // top unknown (the read failed, no work tree, a bare repo, or
+      // --work-tree moved it) every op it yields also asks whatever repo it
+      // lands in.
       const why = `\`git ${sub}\` is a shell alias, which the guard cannot read whole`
+      const top = r.tops.get(key)
+      const known = tree === null && top !== undefined && top.startsWith('/') ? normalize(top) : null
       const args = words.slice(i + 1).map(w => `'${w.replace(/'/g, `'\\''`)}'`)
-      readLine(r, [value.slice(1), ...args].join(' '), gitDir, depth + 1, false)
+      const body = [value.slice(1), ...args].join(' ')
+      readLine(r, body, gitDir, depth + 1, false)
+      if (known !== null && known !== gitDir) readLine(r, body, known, depth + 1, false)
       if (r.ops.length === mark) r.ops.push(unreadableOp('commit', gitDir, text, why))
       for (const op of r.ops.slice(mark)) blind(op, why)
+      if (known === null) {
+        const lost = `\`git ${sub}\` is a shell alias that runs from the top of the work tree, which the guard could not find, so it cannot tell which repository the alias works in`
+        for (const op of r.ops.slice(mark)) {
+          op.unknownRepo ??= lost
+          if (op.push) op.push.opaque ??= lost
+        }
+      }
       return sub
     }
     const expanded = ['git', ...words.slice(gitAt + 1, i), ...splitCommands(value).flat(), ...words.slice(i + 1)]
@@ -1672,7 +1740,15 @@ function readGit(
       op.specs.push({ raw: w, abs: gitDir })
       continue
     }
-    op.specs.push({ raw: w, abs: w.startsWith(GUARD.notesPrefix) ? w : resolvePath(gitDir, w, home) })
+    const abs = w.startsWith(GUARD.notesPrefix) ? w : resolvePath(gitDir, w, home)
+    // A path that resolves to an expansion (a tilde form `~-/x`, `~/x` with no
+    // known home): the guard cannot name it. It asks.
+    if (hasExpansion(abs)) {
+      op.isOpaque = true
+      op.specs.push({ raw: w, abs: gitDir, unreadable: 'a path the shell expands, which the guard cannot name' })
+      continue
+    }
+    op.specs.push({ raw: w, abs })
   }
   if ((dryRun && !editMode) || (kind === 'commit' && statusFormat)) op.dryRun = true
   // Another repository, work tree or index than the one guard.tsx reads the
@@ -2065,11 +2141,23 @@ export function liveCheck(
   return { stale }
 }
 
+// A ref-set push (--all, --branches, --mirror, --tags) leaves out everything
+// every tracking ref of the remote holds, so one stale ref anywhere hides
+// commits: it asks, naming up to three of them (null: none is stale).
+export function refSetStaleWhy(stale: readonly Stale[]): string | null {
+  if (!stale.length) return null
+  const names = stale.map(s => s.base.replace(/^refs\/remotes\/[^/]+\//, ''))
+  const shown = names.slice(0, 3).join(', ') + (names.length > 3 ? `, and ${names.length - 3} more` : '')
+  return `the remote no longer has what this clone's tracking refs say for ${shown} (it changed since the last fetch), so the guard cannot tell what the push republishes (fetch first)`
+}
+
 // The publish range measured against the live remote: stale tracking refs
 // are left out of `--remotes` and their live commits excluded instead.
 // Accepted residuals: only the destination branches are read live, so a
 // stale tracking ref for another branch of the remote can still hide commits
-// through `--remotes=<remote>`; and a tag push gets no live check.
+// through `--remotes=<remote>`; and a tag named by refspec gets no live check.
+// (A ref set, --all/--branches/--mirror/--tags, reads every tracking ref live:
+// guard.tsx trackingStale.)
 export function liveRange(plan: Extract<PushPlan, { kind: 'revs' }>, stale: readonly Stale[]): string[] {
   if (!stale.length) return plan.revs
   const at = plan.revs.indexOf('--not')

@@ -14,6 +14,7 @@ import {
   destinationBase,
   liveCheck,
   liveRange,
+  refSetStaleWhy,
   evidence,
   ghFailure,
   githubRepo,
@@ -527,6 +528,14 @@ describe('push target', () => {
     expect(liveCheck([{ base, tracking: null, live: [null] }], new Set())).toEqual({ stale: [] })
     expect(liveCheck([{ base, tracking: A, live: [null] }], new Set())).toEqual({ stale: [{ base, oid: null }] })
     expect(liveRange(p, [{ base, oid: null }])).toEqual(['topic', '--not', '--exclude=mirror/release', '--remotes=mirror'])
+  })
+
+  test('a ref set asks on any stale tracking ref, naming up to three', () => {
+    const st = (n: string) => ({ base: `refs/remotes/origin/${n}`, oid: null })
+    expect(refSetStaleWhy([])).toBeNull()
+    expect(refSetStaleWhy([st('a')])).toContain('tracking refs say for a (')
+    expect(refSetStaleWhy([st('x/y'), st('b')])).toContain('for x/y, b (')
+    expect(refSetStaleWhy(['a', 'b', 'c', 'd'].map(st))).toContain('for a, b, c, and 1 more (')
   })
 
   test('fetch from a private repo, push to a public one: opaque, naming the push URL', () => {
@@ -1326,6 +1335,103 @@ describe('git aliases', () => {
   })
 })
 
+describe('a shell alias runs from the top of the work tree, not where git was run', () => {
+  const SUB = `${KERD}/mods/overtone`
+  const UP: [string, string | null][] = [['up', '!git -C .. push origin main']]
+  const read = (command: string, cwd: string, tops: [string, string][] = [], aliasesAt = cwd) =>
+    parseGitOps(command, cwd, HOME, new Map(UP.map(([k, v]) => [aliasKey(aliasesAt, k), v])), new Map(tops.map(([k, v]) => [aliasKey(aliasesAt, k), v])))
+
+  test('`!git -C ..` from a subfolder is read from where git ran AND from the top: both pushes are kept', () => {
+    const ops = read('git up', SUB, [['up', KERD]])
+    expect(ops.every(o => o.kind === 'push' && o.unknownRepo === undefined)).toBe(true)
+    // From the invocation directory (as before): the folder above the subfolder; from the top: the folder above it.
+    expect(ops.map(o => o.cwd).sort()).toEqual([`${KERD}/mods`, '/Users/alex/code'].sort())
+    // From the top itself, there is one place to read from.
+    expect(read('git up', KERD, [['up', KERD]]).map(o => o.cwd)).toEqual(['/Users/alex/code'])
+  })
+
+  test('ask-more: a relative `-C ../private` from /outer/sub asks when either read lands in a guarded repo', () => {
+    // From /outer/sub the invocation read lands in /outer/private (guarded, asks); the top read (/outer) lands in /private (passes).
+    const ops = parseGitOps(
+      'git sp',
+      '/outer/sub',
+      HOME,
+      new Map([[aliasKey('/outer/sub', 'sp'), '!git -C ../private push origin HEAD']]),
+      new Map([[aliasKey('/outer/sub', 'sp'), '/outer']]),
+    )
+    expect(ops.map(o => o.cwd).sort()).toEqual(['/outer/private', '/private'])
+    // /outer/private holds a private path in the push range; /private is clean.
+    const at = (cwd: string) => facts({ root: cwd, pushPaths: cwd === '/outer/private' ? ['kerd-laptop-result.patch'] : [] })
+    const verdicts = ops.map(o => ({ cwd: o.cwd, v: assess(o, at(o.cwd), HOME).verdict }))
+    expect(verdicts.find(x => x.cwd === '/outer/private')!.v).toBe('ask')
+    expect(verdicts.some(x => x.v === 'ask')).toBe(true)
+  })
+
+  test('with the top unknown, every op the alias yields asks, whatever repo it lands in', () => {
+    const ops = read('git up', SUB)
+    expect(ops.length).toBeGreaterThan(0)
+    for (const op of ops) {
+      expect(op.unknownRepo).toContain('top of the work tree')
+      expect(op.push!.opaque).toContain('top of the work tree')
+      expect(assess(op, null, HOME).verdict).toBe('ask')
+    }
+    // An alias that shows no git verb asks too, without a top.
+    const [quiet] = parseGitOps('git q', SUB, HOME, new Map([[aliasKey(SUB, 'q'), '!echo hi']]))
+    expect(quiet!.unknownRepo).toBeTruthy()
+    expect(assess(quiet!, null, HOME).verdict).toBe('ask')
+  })
+
+  test('a top that is not a path, or --work-tree before the alias name, counts as unknown', () => {
+    expect(read('git up', SUB, [['up', '']])[0]!.unknownRepo).toBeTruthy()
+    expect(read('git up', SUB, [['up', 'relative/path']])[0]!.unknownRepo).toBeTruthy()
+    const moved = parseGitOps(
+      'git --work-tree=/elsewhere up',
+      SUB,
+      HOME,
+      new Map([[aliasKey(SUB, 'up'), '!git push origin main']]),
+      new Map([[aliasKey(SUB, 'up'), KERD]]),
+    )
+    expect(moved[0]!.unknownRepo).toBeTruthy()
+  })
+
+  test('`git -C sub up`: the alias and its top are keyed by the folder git runs in', () => {
+    const at = (tops: [string, string][]) => read('git -C mods/overtone up', KERD, tops, SUB)
+    // Keyed by KERD (where git was started), they are not found: unread, it asks.
+    expect(read('git -C mods/overtone up', KERD, [], KERD)[0]!.alias).toBe('up')
+    const [op] = at([['up', KERD]])
+    expect(op!.kind).toBe('push')
+    expect(op!.unknownRepo).toBeUndefined()
+    // The top of a nested repo is that repo, not the outer one.
+    const NESTED = `${KERD}/vendor/inner`
+    const inner = parseGitOps(
+      'git -C vendor/inner/src up',
+      KERD,
+      HOME,
+      new Map([[aliasKey(`${NESTED}/src`, 'up'), '!git push origin main']]),
+      new Map([[aliasKey(`${NESTED}/src`, 'up'), NESTED]]),
+    ).find(o => o.cwd === NESTED)
+    expect(inner).toBeDefined()
+    // ... and the invocation directory is read as well (as before).
+    expect(
+      parseGitOps(
+        'git -C vendor/inner/src up',
+        KERD,
+        HOME,
+        new Map([[aliasKey(`${NESTED}/src`, 'up'), '!git push origin main']]),
+        new Map([[aliasKey(`${NESTED}/src`, 'up'), NESTED]]),
+      ).map(o => o.cwd),
+    ).toEqual([`${NESTED}/src`, NESTED])
+  })
+
+  test('a plain (expansion) alias is unaffected: read where git runs, no top needed', () => {
+    const [p] = parseGitOps('git p origin main', SUB, HOME, new Map([[aliasKey(SUB, 'p'), 'push']]))
+    expect(p!.kind).toBe('push')
+    expect(p!.cwd).toBe(SUB)
+    expect(p!.unknownRepo).toBeUndefined()
+    expect(p!.push!.opaque).toBeNull()
+  })
+})
+
 describe('kivna/vault.json that names only a vault', () => {
   test('unparseable while it names a vault: unreadable (asks); saying nothing of one: no rule', () => {
     expect(readVault('{"vault": "~/notes/vault"')).toBe('unreadable')
@@ -1360,7 +1466,9 @@ describe('fail closed: forms that once read as nothing', () => {
   test('a shell alias gets the arguments git appends: `!git` with `add -f .env` stages .env, and asks', () => {
     const PROXY: [string, string | null][] = [['proxy', '!git']]
     expect(stagesEnv('git proxy add -f .env', PROXY)).toBe(true)
-    const read = (command: string) => parseGitOps(command, KERD, HOME, new Map(PROXY.map(([k, v]) => [aliasKey(KERD, k), v])))
+    // Run from the top of the work tree, which is where KERD is.
+    const read = (command: string) =>
+      parseGitOps(command, KERD, HOME, new Map(PROXY.map(([k, v]) => [aliasKey(KERD, k), v])), new Map([[aliasKey(KERD, 'proxy'), KERD]]))
     const [op] = read('git proxy add -f .env')
     expect(op!.isOpaque).toBe(true)
     expect(op!.specs.some(s => s.unreadable?.includes('shell alias'))).toBe(true)
@@ -1658,6 +1766,134 @@ describe('options as git reads them, and repositories the guard cannot name', ()
     for (const command of ['cd ~/x && git status', 'cd "$DIR" && git status', 'cd $HOME && ls']) {
       expect([command, parseGitOps(command, KERD, HOME)]).toEqual([command, []])
     }
+  })
+
+  test('cd - is not followed: the shell lands somewhere the guard cannot name, so every git op after it asks', () => {
+    const cwds = (c: string) => parseGitOps(c, KERD, HOME).map(o => o.cwd)
+    for (const command of [
+      'cd - && git push origin HEAD',
+      'cd -; git add -f .env',
+      'cd - && cd sub && git commit -am x',
+      'cd /a && cd /b && cd - && git push origin HEAD',
+      'cd /a; cd -; git add x',
+      'cd /a && cd /b && cd /missing; cd - && git push origin HEAD',
+      'cd /a; OLDPWD=/b; cd -; git push',
+      'cd /a && cd /b && cd - && cd - && git push origin HEAD',
+      'cd -P - && git push origin HEAD',
+      'cd -- - && git push origin HEAD',
+      'cd /a && cd /b && (cd - && git add x)',
+      // A directory named like an option, after `--` (security review 2026-10-06): never $HOME.
+      'cd -- -pub && git add -f .env && git commit -m x && git push origin HEAD',
+      'cd -P -- -pub && git push origin HEAD',
+      'cd -x && git push origin HEAD',
+      'pushd -- -pub && git push origin HEAD',
+      // `..` after an expansion in the path itself (security review 2026-10-06).
+      'cd "$X/.." && git push origin HEAD',
+      // Words after the target (codex-tui round 3): bash refuses the cd.
+      'cd /a -; git push origin HEAD',
+      'pushd /a -n; git push origin HEAD',
+      'cd /a /b && git push origin HEAD',
+      // zsh: `cd OLD NEW` substitutes, `cd +N` is a stack entry (security review 2026-10-06).
+      'cd private public && git push origin HEAD',
+      'pushd /pub; cd /x; cd +1; git push origin HEAD',
+      // Each builtin's own options only: bash refuses `cd -n`, `pushd -P` (security review 2026-10-06).
+      'cd -n /pub && git push origin HEAD',
+      'pushd -P /pub && git push origin HEAD',
+      // Tilde forms for OLDPWD and the stack (security review 2026-10-06).
+      'cd /pub; cd /private-repo; cd ~-; git push origin HEAD',
+      'pushd /pub; cd /private-repo; cd ~+1; git push origin HEAD',
+      'cd ~1 && git push origin HEAD',
+      'git -C ~-/x push origin HEAD',
+      'cd /a/$X/.. && git push origin HEAD',
+      'git -C "$X/.." push origin HEAD',
+    ]) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
+      expect([command, judge(command, facts({ remotes: VAULT_REMOTES })).every(f => f.verdict === 'ask')]).toEqual([command, true])
+    }
+    // A subshell's `cd -` ends with it; the shell outside is where it was.
+    expect(cwds('cd /a && (cd /b; cd -) && git add x')).toEqual(['/a'])
+    // An explicit cd afterwards names the directory again.
+    expect(cwds('cd - && cd /c && git add x')).toEqual(['/c'])
+    // Options: -- and -P/-L still name the directory; no target is $HOME.
+    expect(cwds('cd -- /a && git add x')).toEqual(['/a'])
+    expect(cwds('cd -P /a && git add x')).toEqual(['/a'])
+    expect(cwds('cd -L -P /a && git add x')).toEqual(['/a'])
+    expect(cwds('cd -P && git add x')).toEqual([HOME])
+    expect(cwds('cd && git add x')).toEqual([HOME])
+  })
+
+  test('popd and the pushd forms that name no plain directory are not followed: they ask; pushd <dir> moves as cd does', () => {
+    const cwds = (c: string) => parseGitOps(c, KERD, HOME).map(o => o.cwd)
+    expect(cwds('pushd /a && git add x')).toEqual(['/a'])
+    expect(cwds('pushd -- /a && git add x')).toEqual(['/a'])
+    expect(cwds('pushd /a && pushd /b && git add x')).toEqual(['/b'])
+    expect(cwds('(pushd /a && popd); git add x')).toEqual([KERD])
+    expect(cwds('(pushd /a && popd && git add x)').every(c => c.includes('$'))).toBe(true)
+    expect(cwds('(pushd /a); git add x')).toEqual([KERD])
+    for (const command of [
+      'popd && git push origin HEAD',
+      'pushd /a && popd && git add x',
+      'pushd /a && pushd /b && popd && git add x',
+      'pushd /a; bash -c \'popd; git push origin HEAD\'',
+      'pushd /a; sh -c "popd; git push origin HEAD"',
+      'pushd /a && cd /b && cd - && git add x',
+      'pushd && git add x',
+      'pushd +1 && git add x',
+      'pushd -1 && git add x',
+      'pushd - && git add x',
+      'pushd -n /a && git add x',
+      'popd +1 && git add x',
+      'popd -n && git add x',
+    ]) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
+    }
+  })
+
+  // The review's four blockers and the three original gap examples: each asks
+  // (or resolves to the directory it did on 9652021). The ask-more rule: no
+  // input that asked on 9652021 may pass now, so every row either asks or
+  // names the same directory 9652021 named. `was`: what 9652021 read.
+  test('a pathspec the shell expands (a tilde form, ~/ with no known home) is unreadable: add and commit ask', () => {
+    for (const command of ['git add -f ~-/../.env', 'git commit ~-/../.env', 'git add ~+1/x', 'git commit -m x ~user/.env']) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.isOpaque && o.specs.some(s => s.unreadable !== undefined))]).toEqual([command, true])
+      // In Kerd (public): what it stages cannot be listed, so it asks.
+      expect([command, judge(command).every(f => f.verdict === 'ask')]).toEqual([command, true])
+    }
+    const noHome = parseGitOps('git add -f ~/.env', KERD, undefined)
+    expect(noHome.every(o => o.isOpaque && o.specs.some(s => s.unreadable !== undefined))).toBe(true)
+  })
+
+  test('regression table: the review blockers and the original gaps ask, never pass where 9652021 asked', () => {
+    // 9652021 read `cd -` as $HOME (a guarded repo, so it asked); `popd` as
+    // the previous directory it never moved from.
+    const table: { command: string; cwd?: string; was: string }[] = [
+      { command: 'cd /a && cd /b && cd /missing; cd - && git push', was: 'HOME' },
+      { command: "pushd /a; bash -c 'popd; git push origin HEAD'", was: 'popd ignored (/a)' },
+      { command: 'cd /a; OLDPWD=/b; cd -; git push', was: 'HOME' },
+      { command: 'cd /a && cd /b && cd - && git push origin HEAD', was: 'HOME' },
+      { command: 'pushd /a && popd && git push origin HEAD', was: 'popd ignored (/a)' },
+      { command: '(pushd /a); popd; git push origin HEAD', was: 'popd ignored (cwd)' },
+      // `..` from an unknown directory must not cancel the expansion (`${OLDPWD}/..` once read as `.`).
+      { command: 'pushd +1 && cd .. && git push origin HEAD', was: 'HOME-relative' },
+      { command: 'cd - && cd ../.. && git push origin HEAD', was: 'HOME-relative' },
+      { command: 'cd "$X" && cd .. && git push origin HEAD', was: 'passed on 9652021 (cwd read as .)' },
+      { command: 'cd "$X" && git -C .. push origin HEAD', was: 'passed on 9652021 (cwd read as .)' },
+    ]
+    for (const row of table) {
+      const ops = parseGitOps(row.command, row.cwd ?? KERD, HOME)
+      const pushes = ops.filter(o => o.kind === 'push')
+      expect([row.command, pushes.length > 0 && pushes.every(o => o.unknownRepo !== undefined)]).toEqual([row.command, true])
+      expect([row.command, judge(row.command, facts({ remotes: VAULT_REMOTES }), row.cwd ?? KERD).every(f => f.verdict === 'ask')]).toEqual([row.command, true])
+    }
+    // 9652021 read `cd -` as $HOME: with HOME a guarded repo the op asked. The
+    // op now asks whatever HOME is (unknownRepo cannot be turned into a pass).
+    const wasHome = parseGitOps('cd -; git push origin HEAD', KERD, HOME)[0]!
+    expect(wasHome.cwd).not.toBe(HOME)
+    expect(wasHome.unknownRepo).toBeDefined()
+    expect(assess(wasHome, facts({ root: HOME, remotes: VAULT_REMOTES }), HOME).verdict).toBe('ask')
   })
 
   test('a dry run stages or commits nothing: it passes', () => {

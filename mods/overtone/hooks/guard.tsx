@@ -39,6 +39,7 @@ import {
   destinationBase,
   liveCheck,
   liveRange,
+  refSetStaleWhy,
   HEADER,
   LATE_NOTE,
   RUN,
@@ -221,8 +222,10 @@ async function readVaultFile($: EngineInterface, path: string): Promise<VaultRea
 // and its op asks as it stands.
 async function readOps($: EngineInterface, command: string, cwd: string, home: string | undefined): Promise<GitOp[]> {
   const aliases = new Map<string, string | null>()
+  // Where git runs a shell alias from: the top of the work tree it is in.
+  const tops = new Map<string, string>()
   const tried = new Set<string>()
-  let ops = parseGitOps(command, cwd, home, aliases)
+  let ops = parseGitOps(command, cwd, home, aliases, tops)
   for (let round = 0; round < 4; round++) {
     const want = ops.filter(o => o.alias !== undefined && !tried.has(aliasKey(o.cwd, o.alias)))
     if (!want.length) break
@@ -232,13 +235,27 @@ async function readOps($: EngineInterface, command: string, cwd: string, home: s
       tried.add(key)
       try {
         const r = await $.process.run(['git', 'config', '--get', `alias.${o.alias}`], { cwd: o.cwd, timeoutMs: 10_000 })
-        if (r.exitCode === 0 && !r.isStdoutTruncated) aliases.set(key, r.stdout.trim())
-        else if (r.exitCode === 1) aliases.set(key, null)
+        if (r.exitCode === 0 && !r.isStdoutTruncated) {
+          const value = r.stdout.trim()
+          aliases.set(key, value)
+          // A shell alias runs from the top of the work tree, not where git
+          // was run. No top read (not a work tree, a bare repo, a failure or
+          // timeout) leaves the key out, and the alias asks.
+          if (value.startsWith('!')) {
+            try {
+              const t = await $.process.run(['git', 'rev-parse', '--show-toplevel'], { cwd: o.cwd, timeoutMs: 10_000 })
+              const top = t.stdout.trim()
+              if (t.exitCode === 0 && !t.isStdoutTruncated && top.startsWith('/')) tops.set(key, top)
+            } catch {
+              // top unknown: the alias asks
+            }
+          }
+        } else if (r.exitCode === 1) aliases.set(key, null)
       } catch {
         // unread: the op asks
       }
     }
-    ops = parseGitOps(command, cwd, home, aliases as Aliases)
+    ops = parseGitOps(command, cwd, home, aliases as Aliases, tops)
   }
   return ops
 }
@@ -247,6 +264,93 @@ const REFUSED_IN_CATCH =
   'overtone guard: did not run this command: the guard failed while waiting on the person. ' +
   'It stages, commits or pushes a private path toward a public repo. Stage files by name, never the private path, ' +
   'and ask the person how they want it done.'
+
+// What `git ls-remote <url> <patterns>` says now, by ref name; undefined when
+// the read failed, timed out, threw or was cut (never a partial answer).
+async function liveRefs(
+  $: EngineInterface,
+  root: string,
+  url: string,
+  patterns: readonly string[],
+): Promise<Map<string, string> | undefined> {
+  try {
+    const ls = await $.process.run(['git', 'ls-remote', url, ...patterns], { cwd: root, timeoutMs: 10_000 })
+    if (ls.exitCode !== 0 || ls.isStdoutTruncated) return undefined
+    const said = new Map<string, string>()
+    for (const line of ls.stdout.split('\n')) {
+      const [oid, ref] = line.split('\t')
+      if (oid && ref) said.set(ref.trim(), oid.trim())
+    }
+    return said
+  } catch {
+    return undefined
+  }
+}
+
+// Which of these reads' live commits this clone has (`here`), and which
+// checks threw or timed out (`unchecked`), for liveCheck.
+async function liveHere($: EngineInterface, root: string, reads: readonly LiveRead[]) {
+  const here = new Set<string>()
+  const unchecked = new Set<string>()
+  for (const r of reads) {
+    for (const oid of r.live) {
+      if (typeof oid !== 'string' || oid === r.tracking || here.has(oid) || unchecked.has(oid)) continue
+      try {
+        const has = await $.process.run(['git', 'cat-file', '-e', `${oid}^{commit}`], { cwd: root, timeoutMs: 10_000 })
+        if (has.exitCode === 0) here.add(oid)
+      } catch {
+        unchecked.add(oid)
+      }
+    }
+  }
+  return { here, unchecked }
+}
+
+// A ref-set push excludes (`--not --remotes=<remote>`) every commit any of the
+// remote's tracking refs holds. Each of those refs, read live: null when the
+// remote still has exactly what they say, else why the guard cannot trust them
+// (an ask). `urls`: every guarded push URL of the remote.
+async function trackingStale(
+  $: EngineInterface,
+  root: string,
+  remote: string,
+  urls: readonly string[],
+): Promise<string | null> {
+  const prefix = `refs/remotes/${remote}/`
+  const unlisted = "the guard could not list this clone's tracking refs for the remote, so it cannot tell what the push republishes"
+  let list: Awaited<ReturnType<EngineInterface['process']['run']>>
+  try {
+    list = await $.process.run(['git', 'for-each-ref', '--format=%(refname) %(objectname) %(symref)', prefix], {
+      cwd: root,
+      timeoutMs: 10_000,
+    })
+  } catch {
+    return unlisted
+  }
+  if (list.exitCode !== 0 || list.isStdoutTruncated) return unlisted
+  const reads: LiveRead[] = []
+  for (const line of list.stdout.split('\n')) {
+    if (line.trim() === '') continue
+    const [ref, oid, symref] = line.trim().split(' ')
+    if (!ref || !oid || !ref.startsWith(prefix)) return unlisted
+    // `origin/HEAD` and the like: the ref it points at is read as itself.
+    if (symref) {
+      if (symref.startsWith(prefix)) continue
+      return `the tracking ref ${ref.slice('refs/remotes/'.length)} points outside the remote, so the guard cannot tell what the push republishes`
+    }
+    reads.push({ base: ref, tracking: oid, live: [] })
+  }
+  // No tracking refs: nothing is excluded, so nothing is trusted.
+  if (!reads.length) return null
+  for (const url of urls) {
+    const said = await liveRefs($, root, url, ['refs/heads/*'])
+    reads.forEach(r => r.live.push(said === undefined ? undefined : said.get(`refs/heads/${r.base.slice(prefix.length)}`) ?? null))
+  }
+  const { here, unchecked } = await liveHere($, root, reads)
+  const checked = liveCheck(reads, here, unchecked)
+  if ('why' in checked) return checked.why
+  return refSetStaleWhy(checked.stale)
+}
 
 export const register: Register = (on, options) => {
   // The person's own vault (the vault_path setting): guarded in every repo.
@@ -449,38 +553,11 @@ export const register: Register = (on, options) => {
                         reads.push({ base: b, tracking, live: [] })
                       }
                       for (const url of plan.urls) {
-                        let said: Map<string, string> | undefined
-                        try {
-                          const ls = await $.process.run(['git', 'ls-remote', url, ...heads], { cwd: root, timeoutMs: 10_000 })
-                          if (ls.exitCode === 0 && !ls.isStdoutTruncated) {
-                            said = new Map()
-                            for (const line of ls.stdout.split('\n')) {
-                              const [oid, ref] = line.split('\t')
-                              if (oid && ref) said.set(ref.trim(), oid.trim())
-                            }
-                          }
-                        } catch {
-                          said = undefined
-                        }
+                        const said = await liveRefs($, root, url, heads)
                         reads.forEach((r, i) => r.live.push(said === undefined ? undefined : said.get(heads[i]!) ?? null))
                       }
                       // Which live commits this clone has.
-                      const here = new Set<string>()
-                      const unchecked = new Set<string>()
-                      for (const r of reads) {
-                        for (const oid of r.live) {
-                          if (typeof oid !== 'string' || oid === r.tracking || here.has(oid) || unchecked.has(oid)) continue
-                          try {
-                            const has = await $.process.run(['git', 'cat-file', '-e', `${oid}^{commit}`], {
-                              cwd: root,
-                              timeoutMs: T,
-                            })
-                            if (has.exitCode === 0) here.add(oid)
-                          } catch {
-                            unchecked.add(oid)
-                          }
-                        }
-                      }
+                      const { here, unchecked } = await liveHere($, root, reads)
                       const checked = liveCheck(reads, here, unchecked)
                       if ('why' in checked) {
                         plan = { kind: 'opaque', why: checked.why, urls: plan.urls }
@@ -495,6 +572,15 @@ export const register: Register = (on, options) => {
                           else workBaseUnknown = true
                         }
                       }
+                    }
+                    if (plan.kind === 'revs' && op.push.sets.length) {
+                      // A ref set (--all, --branches, --mirror, --tags) is
+                      // measured against every tracking ref of the remote
+                      // (`--remotes=<remote>`), not a named destination, so
+                      // each of those is read live too: any that is not what
+                      // the remote has now asks.
+                      const why = await trackingStale($, root, plan.remote, plan.urls)
+                      if (why !== null) plan = { kind: 'opaque', why, urls: plan.urls }
                     }
                     if (plan.kind === 'revs') {
                       // What this push publishes: its source refs, less every

@@ -306,9 +306,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.175.0)
+## What's New (v0.175.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.175.1
+
+**overtone 0.8.1: the guard stops guessing which folder a push runs in.** Three rare gaps a review left at 0.7.0,
+and five more the closing reviews found (four of them already in 0.8.0), let the guard judge a git command against a
+folder it had guessed. `cd -`, `popd`, `pushd` forms that name no plain folder, `cd +N`, the `~-`/`~+`/`~N` tilde
+forms, a folder after `--` that starts with `-`, an option the builtin does not take, and a word after the target
+now ask instead of being followed. A shell alias (`!git …`) is read from both where you ran it and the top of the
+work tree, where git runs it, and asks if either does. `..` never cancels a `$X` in a path, and a pathspec the shell
+expands is unreadable. `git push --all/--tags/--mirror` to a public remote checks what the remote has now before
+trusting the tracking refs, and asks if they are stale. Every change only asks more; codex-tui's last two of six
+review rounds found no command that asked before and passes now. Kerd's skills are unchanged.
 
 ### v0.175.0
 
