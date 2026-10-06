@@ -6,6 +6,12 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-06 (Switch Out, 18:2x)
+
+**Done:** the Backlog row below. Evidence: Conductor concert `concert/overtone-guard-gaps` on Anthony's "y" (15:38); three Sonnet players, one fix round, and inline fixes for five findings from Claude Code's background security review; codex-tui six rounds, the last two "Safe to push" with no ask→pass found; 507 overtone tests; released 0.175.1 / overtone 0.8.1 on his "y" (18:10), main CI green. What the fixes left is a new Backlog row ("gaps left at 0.8.1"). Sketchbook `notes:overtone-guard-gaps/work.md`.
+
+- overtone guard, rare in-scope gaps left at 0.7.0 (2026-10-04 fourth review): `cd /a && cd /b && cd - && git push` reads the wrong repo; a shell alias running `git -C ..` from inside a nested repo resolves from the wrong root; `push --all/--tags/--mirror` trusts stale tracking refs after the public remote was rewound (verify excluded refs live, or ask). `notes:overtone/work.md`.
+
 ## Closed 2026-10-06 (Switch Out, 13:5x)
 
 **Done:** the Backlog row below. Evidence: on Anthony's "y" (12:09) and "yu" (13:44) `to-roll.md` counts a window Claude Code reports to this session (system prompt, or overtone's `ctx <used>/<window>`) as declared, with partner replies, quotes, examples and post-model-switch figures excluded; the refusal-said-in-chat half was already fixed in 0.173.0; wording tests in `test_chat_roll_wording.py`; codex-tui two rounds, "Safe to push"; released 0.175.0, CI green. Not yet seen firing live (Now row). Sketchbook `notes:chat-roll-window/work.md`.
