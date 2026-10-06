@@ -14,6 +14,7 @@ import {
   destinationBase,
   liveCheck,
   liveRange,
+  refSetStaleWhy,
   evidence,
   ghFailure,
   githubRepo,
@@ -527,6 +528,14 @@ describe('push target', () => {
     expect(liveCheck([{ base, tracking: null, live: [null] }], new Set())).toEqual({ stale: [] })
     expect(liveCheck([{ base, tracking: A, live: [null] }], new Set())).toEqual({ stale: [{ base, oid: null }] })
     expect(liveRange(p, [{ base, oid: null }])).toEqual(['topic', '--not', '--exclude=mirror/release', '--remotes=mirror'])
+  })
+
+  test('a ref set asks on any stale tracking ref, naming up to three', () => {
+    const st = (n: string) => ({ base: `refs/remotes/origin/${n}`, oid: null })
+    expect(refSetStaleWhy([])).toBeNull()
+    expect(refSetStaleWhy([st('a')])).toContain('tracking refs say for a (')
+    expect(refSetStaleWhy([st('x/y'), st('b')])).toContain('for x/y, b (')
+    expect(refSetStaleWhy(['a', 'b', 'c', 'd'].map(st))).toContain('for a, b, c, and 1 more (')
   })
 
   test('fetch from a private repo, push to a public one: opaque, naming the push URL', () => {

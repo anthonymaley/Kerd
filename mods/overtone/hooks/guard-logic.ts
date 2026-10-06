@@ -2158,11 +2158,23 @@ export function liveCheck(
   return { stale }
 }
 
+// A ref-set push (--all, --branches, --mirror, --tags) leaves out everything
+// every tracking ref of the remote holds, so one stale ref anywhere hides
+// commits: it asks, naming up to three of them (null: none is stale).
+export function refSetStaleWhy(stale: readonly Stale[]): string | null {
+  if (!stale.length) return null
+  const names = stale.map(s => s.base.replace(/^refs\/remotes\/[^/]+\//, ''))
+  const shown = names.slice(0, 3).join(', ') + (names.length > 3 ? `, and ${names.length - 3} more` : '')
+  return `the remote no longer has what this clone's tracking refs say for ${shown} (it changed since the last fetch), so the guard cannot tell what the push republishes (fetch first)`
+}
+
 // The publish range measured against the live remote: stale tracking refs
 // are left out of `--remotes` and their live commits excluded instead.
 // Accepted residuals: only the destination branches are read live, so a
 // stale tracking ref for another branch of the remote can still hide commits
-// through `--remotes=<remote>`; and a tag push gets no live check.
+// through `--remotes=<remote>`; and a tag named by refspec gets no live check.
+// (A ref set, --all/--branches/--mirror/--tags, reads every tracking ref live:
+// guard.tsx trackingStale.)
 export function liveRange(plan: Extract<PushPlan, { kind: 'revs' }>, stale: readonly Stale[]): string[] {
   if (!stale.length) return plan.revs
   const at = plan.revs.indexOf('--not')
