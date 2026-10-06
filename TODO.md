@@ -36,7 +36,7 @@ agreed result, unaided. **Step 1: 3of3 is using Kerd in its own sessions; Kerd e
 Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when to announce is Anthony's.
 
 ## Backlog
-- **Switch evals: two known grader limits** (2026-10-05): `context-records-measurement` rejects "0.7k tokens" (one false fail on Opus); guide-read accepts a `head` of the file, `boundary-ran` does not check success or order, Conductor read through Read is not caught. On this Mac evals need `PATH=~/.cache/kerd-eval/gitbin:$PATH`.
+- **Switch evals: grader limits** (2026-10-05; two fixed in 0.174.0: the measurement check takes "0.7k tokens", `conductor-not-read` catches In reading Conductor through Read). Left (codex-tui 2026-10-06 11:51): guide-read passes a `head` slice, and command names cannot prove a whole-file read (`cat x | head`, `bat --line-range`, Read with `limit`); `boundary-ran` does not check success or that it ran after the last save, and `tool_order` compares first matches only, so an order grader cannot prove a final boundary; `conductor-not-read` misses shell reads. On this Mac evals need `PATH=~/.cache/kerd-eval/gitbin:$PATH`.
 - **Haiku does not follow Switch** (evals 2026-10-05, before and after 0.170.0): In never opens its guide or runs the renderer (hand-writes the screen, ~0.6); Out skips most steps (~0.2) and once wrote `boundary: "passed"` without running it. Not a target today; noted for anyone routing Switch to Haiku.
 - overtone guard, rare in-scope gaps left at 0.7.0 (2026-10-04 fourth review): `cd /a && cd /b && cd - && git push` reads the wrong repo; a shell alias running `git -C ..` from inside a nested repo resolves from the wrong root; `push --all/--tags/--mirror` trusts stale tracking refs after the public remote was rewound (verify excluded refs live, or ask). `notes:overtone/work.md`.
 - overtone guard, out of scope by decision (Anthony 2026-10-04 22:18, "safety net for honest mistakes"): a command string piped into a shell (`printf 'git add' | bash`), command strings or names in variables (`bash -c "$CMD"`, `"$G" "$C"`), `GIT_CONFIG_*` set before `bash -c`, `git config remote.*.pushurl …; git push`, `--git-dir`/`GIT_DIR` to a public repo from a private one, an on-the-spot `-c alias.x='!git push …'`; also unguarded: `git update-index --add`, `send-pack`, `http-push`, `gh pr create`. Revisit only if a real slip shows one.
@@ -58,29 +58,6 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
   four `.tmp` replies from 2026-09-25 that were never renamed. Possible fixes for Anthony's release decision: a near-miss
   match on the ID, or a shorter marker. Detail in the evidence note.
   **Anthony 2026-09-28 23:09, "y": kept in the Backlog, unfixed, until the reply-ID miss is seen in Kerd Agent itself.**
-- **A Codex that Kerd starts has no internet (user feedback relayed by Anthony 2026-09-29 09:22 to 09:25: "spins up
-  codex in a sandbox with no internet access", "anytime i ask it to do anything").** Checked in code: every Codex Kerd
-  starts is `read-only`, or `workspace-write` for an editing job, with approval "never" and no network setting
-  (`agent.py:1088` new partner, `conductor/scripts/ask.py:267` worker or reviewer, `switch/scripts/codex_roll.py:330`
-  managed Roll, which also turns web search off). Codex keeps network off in those sandboxes unless the config turns it on
-  (openai/codex `codex-network.md`). Messages into the person's own open Codex session carry no sandbox override
-  (`agent.py:1230`), so the person's settings apply there. Stated rule: `conductor/references/model-jobs.md:298`
-  (read-only jobs perform no network operations). Cost: a Codex job can't check docs, fetch packages or run tests that
-  download. **Tested 2026-09-29 09:3x** (scratch repo, `ask.py run --target codex`, codex-cli 0.159.0, `curl
-  https://example.com`): editing job without the setting "Could not resolve host"; with `[sandbox_workspace_write]
-  network_access = true` in `~/.codex/config.toml`, HTTP 200; read-only job with the setting still "Could not resolve
-  host". Config restored after. So the config line fixes editing jobs only; reviews stay offline. **Web search, tested
-  09:58:** a read-only `ask.py` Codex job used Codex's own web search and returned requests 2.34.2 from PyPI, so the
-  limit is shell-command network, not lookups (codex-tui round 3 caught the conflation). **Built as 0.165.0 on
-  Anthony's "lets just implement it" (09:37).** **Anthony's proposed countermeasure (09:29):** when Kerd would start a Codex, ask what Codex's
-  role is and advise the person to run `codex` in a new terminal and share its session ID, so Kerd pairs with their own
-  session and their settings apply. **Proposed fix (Anthony "yes" 09:34 to record it; not built):** in Agent's choice of
-  existing session / new persistent partner / fresh worker (`skills/agent/SKILL.md:64`), say that a Codex Kerd starts is
-  offline, e.g. "A Codex I start is offline: read-only, no internet. For internet, open `codex` in a new terminal in this
-  folder and I'll find it." No ID sharing needed: `agent.py sessions` already discovers open Codex sessions from the
-  local session store (checked 09:3x: found `codex-tui` and one other in Kerd). Its "partial discovery" when the
-  optional `websockets` dependency is missing (seen on the Studio 09:3x) belongs in the same advice. Fix is Anthony's
-  release decision.
 - **The chat roll can't fire without a declared context window (alapah a15a217f, Kerd 0.164.0, 2026-09-29 03:30Z).**
   The session called `/kerd:switch roll` after a merge, then did not roll: "no host-declared context window for this
   model" (model ID `claude-opus-5-5`, no `[1m]`). The context-reading hook gives tokens only (`hooks/context-reading.sh:6`),
@@ -89,5 +66,3 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
 - **Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.2.0 is live** (context, model and workers band; private-path guard;
   turn-end check removed on his word). Left from the six ideas: idea 6, one-button Switch Out, as "fill the prompt, he presses Enter"
   (probe `notes:overtone/evidence/f-idea6-probe.md`; not agreed). Claude Code only; Codex looked at separately. `notes:overtone/work.md`.
-- **Switch SKILL.md frontmatter is unquoted and holds ": "** (found 2026-10-03 by the description fixer): a strict YAML parser rejects
-  it; the pre-0.167.0 text had the same shape and Claude Code loads it. Fix only if a host refuses it.

@@ -65,7 +65,7 @@ a bank of examples; tailor it to the actual work.
 
 | Area | Ask when / possible wording | Needed by | If unknown |
 |---|---|---|---|
-| Outcome | The intended change is unclear. “What are you trying to achieve?” List any recorded candidate work above it with one recommendation; ask it bare only when nothing is in hand. Ask the reason only if it affects the work. | Choosing a useful next action. | Help shape possibilities; don't invent the goal. |
+| Outcome | The intended change is unclear. “What are you trying to achieve?” While no work is chosen yet and recorded candidate work exists, list it with one recommendation and ask about that recommendation instead (“Start with <it>?”). Once work is chosen, an unclear outcome for it still gets the open question; other candidates do not turn it back into a work choice. Ask the reason only if it affects the work. | Choosing a useful next action. | Help shape possibilities; don't invent the goal. |
 | Audience | The main user/reader changes the result and isn't known. “Who is this mainly for?” Separate recipients/approvers where relevant. | Audience-dependent decisions. | Inspect context or propose an audience for decision. |
 | Starting point | Relevant material is unavailable or ambiguous. “Anything we should build on?” Notes, files and examples are optional aids. | Reusing or replacing material. | Inspect what is available; no required homework or whole-archive read. |
 | Deliverables and scope | Materially different packages fit. “Make a guide and checklist — approve?” | Substantial execution. | Recommend a bounded package; “help me work that out” is valid. |

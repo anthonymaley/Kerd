@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.174.0
+
+**The question asks about the recommendation.** 0.173.0 listed the options above an open question, so a person saw
+four candidates and a recommendation and was then asked "What are you trying to achieve?" as if none had been offered
+("why ask an opposing question after listing option?", its first real use). Every skill now says: when options are
+listed with one recommendation and the question chooses among them (which work, which route), it asks about that
+recommendation ("Start with the export fix?"). A missing fact, a pick-several choice and Switch In's fixed arrival
+question keep their own question. Conductor's entry follows suit. Wording tests pin the rule and its exceptions.
+
+**Two Switch eval grader fixes.** The measurement check accepts "0.7k tokens", and a new check catches Switch In opening
+Conductor's files with Read (a shell read is not caught). Not yet run in an eval.
+
 ## 0.173.0
 
 **Questions come with the options in hand.** Every skill's question rule now says: when options are in hand (open work,

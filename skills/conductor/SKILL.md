@@ -5,7 +5,7 @@ description: "Use when the work is a substantial build, design or workflow, new 
 
 # Conductor
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; when options are in hand (open work, known routes, candidates), list them above the question with one recommendation, even for an open question, and ask bare only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](references/journey.md#question-surface-and-host-adaptation).
 
@@ -140,9 +140,10 @@ names the guide section with its detail: open that section before the step.
   ([Start from the person](references/entry.md#start-from-the-person-or-the-saved-place)).
 - A supplied outcome is used, not asked for again. Fresh with no outcome supplied,
   ask **“What are you trying to achieve?”**, then wait, with no guessed brief;
-  when the restored context or records hold candidate work, list it above that
-  question with one recommendation (recorded candidates are not a guess), and ask
-  it bare only when nothing is in hand.
+  when the restored context or records hold candidate work, list it above the
+  bubble with one recommendation (recorded candidates are not a guess) and ask
+  about that recommendation instead (“Start with <it>?”); ask the open question
+  only when nothing is in hand.
   Resuming, say where work stands and restore the exact saved pending question or
   next action, accounting for an answer already supplied in the new message; do not
   restart the interview or treat an awaiting-agreement record as approved. Several

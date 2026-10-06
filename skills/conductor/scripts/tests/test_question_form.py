@@ -143,28 +143,44 @@ class QuestionFormTests(unittest.TestCase):
                     prose,
                 )
 
-    def test_options_in_hand_are_listed_above_even_an_open_question(self):
-        """Standing ruling 2026-10-06: never ask bare when options are in hand."""
+    def test_options_in_hand_are_listed_and_the_bubble_asks_about_the_recommendation(self):
+        """Standing ruling 2026-10-06: never ask bare when options are in hand; the bubble
+        then asks about the recommendation, not an open question that ignores the list
+        (Anthony 2026-10-06 11:41, "why ask an opposing question after listing option?")."""
         clause = flat(
             "when options are in hand (open work, known routes, candidates), list them "
-            "above the question with one recommendation, even for an open question, and "
-            "ask bare only when none are in hand"
+            "above the question with one recommendation; a question that chooses among them "
+            "(which work, which route) asks about that recommendation (“Start with the export "
+            "fix?”), never an open question that ignores the list, while a missing fact, a "
+            "pick-several choice and Switch In’s fixed arrival question keep their own "
+            "question; ask with no list only when none are in hand"
         )
         for path in sorted(SKILLS.glob("*/SKILL.md")):
             with self.subTest(skill=path.parent.name):
                 self.assertIn(clause, flat(path.read_text(encoding="utf-8")))
         journey = flat(JOURNEY.read_text(encoding="utf-8"))
-        self.assertIn(flat("The same holds for an open question: when options are in hand "
-                           "(open work, known routes, candidates), list them above it with "
-                           "one recommendation, and ask it bare only when none are in hand."),
+        self.assertIn(flat("When the question chooses among them (which work, which route), the "
+                           "bubble asks about that recommendation (“Start with the export fix?”); "
+                           "an open question after the list reads as ignoring it."), journey)
+        # Codex review 2026-10-06 11:51: options never settle a missing fact; the
+        # preserved exceptions are pinned so the rule cannot swallow them.
+        for kept in ("Options do not settle a missing fact: a fact the work needs still gets its "
+                     "actual question, a pick-several choice still asks which, and Switch In’s "
+                     "fixed “Start a Conductor session?” stays as it is.",
+                     "A missing fact still needs its actual question, not confirmation of a guess."):
+            self.assertIn(flat(kept), journey)
+        self.assertIn(flat("Ask with no list only when none are in hand."),
                       journey)
         sites = {
-            SKILLS / "conductor" / "SKILL.md": "list it above that question with one recommendation",
+            SKILLS / "conductor" / "SKILL.md":
+                "ask about that recommendation instead (“Start with <it>?”)",
             SKILLS / "conductor" / "references" / "entry.md":
-                "list it above that question with one recommendation",
+                "ask about that recommendation instead (“Start with <it>?”)",
             SKILLS / "conductor" / "references" / "understanding.md":
-                "List any recorded candidate work above it with one recommendation; "
-                "ask it bare only when nothing is in hand.",
+                "While no work is chosen yet and recorded candidate work exists, list it with one "
+                "recommendation and ask about that recommendation instead (“Start with <it>?”). "
+                "Once work is chosen, an unclear outcome for it still gets the open question; "
+                "other candidates do not turn it back into a work choice.",
         }
         for path, phrase in sites.items():
             with self.subTest(outcome_site=path.name):

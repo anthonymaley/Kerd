@@ -152,9 +152,9 @@ to earn the right to ask the first question.
 - If the person supplies a new outcome, use it; don't ask them to repeat it.
 - If fresh and no outcome is supplied, ask **“What are you trying to achieve?”**
   When the restored context or records hold candidate work (open Backlog items,
-  a saved next step), list it above that question with one recommendation;
-  recorded candidates are not a guessed brief. Ask it bare only when nothing is
-  in hand.
+  a saved next step), list it above the bubble with one recommendation and ask
+  about that recommendation instead (“Start with <it>?”); recorded candidates are
+  not a guessed brief. Ask the open question only when nothing is in hand.
   A rough idea, notes or examples are enough; none is required homework.
   Then wait. Do not write a guessed brief or preload an example's answers.
 - If resuming, read the selected work record and necessary linked material.

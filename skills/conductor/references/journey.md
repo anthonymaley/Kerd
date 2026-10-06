@@ -192,9 +192,15 @@ answer choices. A missing fact still needs its actual question, not
 confirmation of a guess.
 
 Choices, including a genuine pick-several choice such as Agent's review cadence at
-pairing, are listed above the bubble with the recommendation. The same holds for an open
-question: when options are in hand (open work, known routes, candidates), list them
-above it with one recommendation, and ask it bare only when none are in hand.
+pairing, are listed above the bubble with the recommendation. The same holds where an open
+question would otherwise be asked: when options are in hand (open work, known routes,
+candidates), list them above the bubble with one recommendation. When the question
+chooses among them (which work, which route), the bubble asks about that
+recommendation (“Start with the export fix?”); an open question after the list reads
+as ignoring it. Options do not settle a missing fact: a fact the work needs still
+gets its actual question, a pick-several choice still asks which, and Switch In’s
+fixed “Start a Conductor session?” stays as it is. Ask with no list only when none
+are in hand.
 Withholding options Kerd already holds makes the person ask “options?”. The
 bubble is always the last prose line and holds the single question. Where the host offers one, a
 native single- or multi-select picker may follow it so the person can answer
