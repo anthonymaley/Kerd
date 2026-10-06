@@ -6,6 +6,16 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-06 (Switch Out, 13:5x)
+
+**Done:** the Backlog row below. Evidence: on Anthony's "y" (12:09) and "yu" (13:44) `to-roll.md` counts a window Claude Code reports to this session (system prompt, or overtone's `ctx <used>/<window>`) as declared, with partner replies, quotes, examples and post-model-switch figures excluded; the refusal-said-in-chat half was already fixed in 0.173.0; wording tests in `test_chat_roll_wording.py`; codex-tui two rounds, "Safe to push"; released 0.175.0, CI green. Not yet seen firing live (Now row). Sketchbook `notes:chat-roll-window/work.md`.
+
+- **The chat roll can't fire without a declared context window (alapah a15a217f, Kerd 0.164.0, 2026-09-29 03:30Z).**
+  The session called `/kerd:switch roll` after a merge, then did not roll: "no host-declared context window for this
+  model" (model ID `claude-opus-5-5`, no `[1m]`). The context-reading hook gives tokens only (`hooks/context-reading.sh:6`),
+  so on this setup the 50% trigger can never fire; the refusal was written only to the sketchbook, not said to the
+  person as `to-roll.md:147` asks. One sitting and a code reading; how the 2026-09-25 test rolls got their window not checked.
+
 ## Closed 2026-10-06 (Switch Out, 10:2x)
 
 **Done:** the Backlog row below. Evidence: on Anthony's "y" (09:34, 09:48) `out.md` and SKILL.md's Out must-hold say nothing follows the box's closing line; wording test `test_out_box_wording.py`; released 0.172.1 (db93123, CI green), Claude Code and Codex installs updated. Evals not re-run; real use watched in `TODO.md` `## Now`. Record `notes:skills-guideline/work.md`. The row as it stood:

@@ -2,9 +2,11 @@
 
 ## Now
 
-**Release boundary:** 0.174.0 on `main` (overtone 0.8.0 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.174.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.174.0 (2026-10-06 12:0x, loads on restart) and overtone 0.8.0; Codex has 0.174.0 (12:0x), level with main; a running Codex thread picks up an install on its next turn. Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.175.0 on `main` (overtone 0.8.0 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.175.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.175.0 (2026-10-06 13:5x, loads on restart) and overtone 0.8.0; Codex has 0.175.0 (13:5x), level with main; a running Codex thread picks up an install on its next turn. Position is in `CONTEXT.md` `## Where We Are`.
 
 - **Watch 0.174.0 in real use:** a question that chooses among listed options should end on the recommendation ("Start with <it>?"), not an open question (0.173.0's first real use, 11:41, asked the open one; fixed 0.174.0); a missing fact still gets its own question; Switch Out's new order (vault commit written before the last project commit, nothing after the boundary check); a refused chat roll said in chat. Wording tests only. Sketchbook `notes:fixes-2026-10-06/work.md`.
+- **Watch 0.175.0's chat roll fire on a reported window:** a Conductor chat in tmux past 50% of the window overtone reports (~500k at 1M) should roll at a batch boundary; after a model switch it should refuse until restart. Wording tests only; never seen live. Sketchbook `notes:chat-roll-window/work.md`.
+- **0.174.0's question rule held at its first two real sightings** (2026-10-06 13:0x: Switch In's "Start with the chat-roll fix?" answered "y"; a decision block's "— approve?" answered "y"); keep watching other sittings.
 - **Watch overtone 0.8.0's workers rows:** a finished nested helper should leave the band when the agent above it ends; one overtone cannot explain shows "quiet" after ten minutes, never "running" for hours. Reviewed safe by codex-tui in three rounds, 469 tests; never seen live, and the cause of the 2026-10-05 stuck rows is likely, not proven.
 - **Watch 0.170.0 Switch, 0.171.0 Conductor and 0.171.1 Agent in real use** (and 0.172.1: Switch Out ends on its box, nothing after the closing line; wording test only, evals not re-run): Switch's must-hold lists ran their first real In and Out on 2026-10-05 (Opus; In and Out on 0.170.0); Conductor's restructure has evals only (entry 2 of 3 clean, the go 0 of 3).
 - **Watch `overtone` in real use (0.7.1 installed 2026-10-05 13:1x, loads on restart: worker rows show the task; 0.7.0 09:5x the new guard and the workers-and-cache band; 0.6.0 from 2026-10-04 17:3x; 0.5.2 history below)** (0.5.0 live 2026-10-03 23:1x; 0.5.1 blocks 2026-10-04 10:1x ran solid in his font; 0.5.2 medium squares `◼` 10:5x; backup
@@ -58,11 +60,6 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
   four `.tmp` replies from 2026-09-25 that were never renamed. Possible fixes for Anthony's release decision: a near-miss
   match on the ID, or a shorter marker. Detail in the evidence note.
   **Anthony 2026-09-28 23:09, "y": kept in the Backlog, unfixed, until the reply-ID miss is seen in Kerd Agent itself.**
-- **The chat roll can't fire without a declared context window (alapah a15a217f, Kerd 0.164.0, 2026-09-29 03:30Z).**
-  The session called `/kerd:switch roll` after a merge, then did not roll: "no host-declared context window for this
-  model" (model ID `claude-opus-5-5`, no `[1m]`). The context-reading hook gives tokens only (`hooks/context-reading.sh:6`),
-  so on this setup the 50% trigger can never fire; the refusal was written only to the sketchbook, not said to the
-  person as `to-roll.md:147` asks. One sitting and a code reading; how the 2026-09-25 test rolls got their window not checked.
 - **Claude Code mods (shipped 2.1.287, 2026-10-01): `overtone` 0.2.0 is live** (context, model and workers band; private-path guard;
   turn-end check removed on his word). Left from the six ideas: idea 6, one-button Switch Out, as "fill the prompt, he presses Enter"
   (probe `notes:overtone/evidence/f-idea6-probe.md`; not agreed). Claude Code only; Codex looked at separately. `notes:overtone/work.md`.
