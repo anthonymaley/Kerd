@@ -232,7 +232,15 @@ boundary or after a delivery job returns, and only when this session owns
 nothing outstanding: no unreturned agent, background shell, monitor, partner
 request or question to the person. Unknown counts as outstanding. The trigger is
 the context reading passing **50% of the host-declared window** of the running
-model; with no declared window, it does not roll and says so once, to the person in the
+model. A window Claude Code itself reports to this session counts as declared: the
+system prompt's, or the `ctx <used>/<window>` figure the overtone mod adds to this
+session's own prompts from Claude Code's reading (for example `ctx 118k/1M`). Only
+those host-added lines count, never a figure in a partner's or worker's reply, a pasted
+report, a quote or an example. A model or session change in this session voids it:
+overtone's line can repeat the previous model's window from its cache, so after a
+change no figure counts until the session restarts. Never guess a window from the
+model's name. A figure whose source or currency is unknown does not count. `tmux_roll.py` records the `--threshold-tokens` it is given and checks
+neither the window nor the crossing; that judgment is this session's. With no declared window, it does not roll and says so once, to the person in the
 chat (a sketchbook entry alone does not count as saying it).
 
 1. **Rolling Out.** Write the sketchbook's position and exact next action, last,

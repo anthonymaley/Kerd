@@ -306,9 +306,19 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.174.0)
+## What's New (v0.175.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.175.0
+
+**The chat roll can fire on a window Claude Code reports.** Conductor's chat roll fires past 50% of the host-declared
+context window, but on a setup whose model ID carries no window (`claude-opus-5-5`) nothing declared one, so the roll
+never fired. A window Claude Code itself reports in the conversation now counts as declared: the system prompt's, or the
+`ctx <used>/<window>` figure the overtone mod adds to this session's own prompts from Claude Code's reading. A figure in a
+partner's reply, a quote or an example never counts, a model change voids it until restart (overtone can repeat the old
+window), and nothing is guessed from the model's name. Without one, the roll still refuses and says so once in chat.
+Wording tests pin the source and its exclusions.
 
 ### v0.174.0
 

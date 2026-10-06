@@ -34,6 +34,20 @@ class ChatRollWordingTests(unittest.TestCase):
     def test_guide_forbids_shell_variables_in_the_relaunch(self):
         self.assertIn("Pass no shell variables in the command", read("skills/switch/references/to-roll.md"))
 
+    def test_reported_window_counts_as_declared(self):
+        guide = read("skills/switch/references/to-roll.md")
+        self.assertIn("A window Claude Code itself reports to this session counts as declared", guide)
+        self.assertIn("the `ctx <used>/<window>` figure the overtone mod adds to this session's own prompts", guide)
+        self.assertIn("Never guess a window from the model's name.", guide)
+
+    def test_reported_window_excludes_other_sources_and_stale_figures(self):
+        guide = read("skills/switch/references/to-roll.md")
+        self.assertIn("never a figure in a partner's or worker's reply, a pasted report, a quote or an example", guide)
+        self.assertIn("A model or session change in this session voids it", guide)
+        self.assertIn("after a change no figure counts until the session restarts", guide)
+        self.assertIn("A figure whose source or currency is unknown does not count.", guide)
+        self.assertIn("checks neither the window nor the crossing; that judgment is this session's", guide)
+
     def test_no_window_refusal_is_said_to_the_person(self):
         self.assertIn("says so once, to the person in the chat (a sketchbook entry alone does not count",
                       read("skills/switch/references/to-roll.md"))
