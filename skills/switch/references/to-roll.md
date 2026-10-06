@@ -232,7 +232,8 @@ boundary or after a delivery job returns, and only when this session owns
 nothing outstanding: no unreturned agent, background shell, monitor, partner
 request or question to the person. Unknown counts as outstanding. The trigger is
 the context reading passing **50% of the host-declared window** of the running
-model; with no declared window, it does not roll and says so once.
+model; with no declared window, it does not roll and says so once, to the person in the
+chat (a sketchbook entry alone does not count as saying it).
 
 1. **Rolling Out.** Write the sketchbook's position and exact next action, last,
    and run Agent's `handoff --record <sketchbook>` if a Claude role is bound. Then:

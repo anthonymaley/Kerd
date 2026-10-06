@@ -329,6 +329,13 @@ and it never deletes or stashes. New or unacknowledged work still needs resoluti
 not blanket staging. Show locally saved vs committed vs remotely verified. A failed
 push leaves useful local work recoverable; do not call that a cross-device handoff.
 
+With `work_notes` set, save the vault repo first and take its commit
+(`git -C <notes repo> rev-parse HEAD`, the same value `boundary` reports as
+`notes_commit`); write it into the start point beside the pickup reading set
+("Notes commit: <sha>") before the project's last commit, so the start point is
+committed with it and the tree stays clean afterward. The next In passes it as
+`--notes-commit`.
+
 Then prove the boundary, after the last commit and before the box, with the same
 helper: `python3 "$SKILL_DIR/scripts/handoff.py" --project <project> boundary`,
 repeating `--preserve <path>` for each acknowledged local path. It fetches now
@@ -341,8 +348,9 @@ information, not a refusal: when it is nonzero, say so in `warnings`
 committed to; a local-only Out is allowed, and its box says so instead of ✓.
 With `work_notes` set, this includes the vault repo: the boundary check now
 covers both, and the box shows both as saved only when each passes.
-Its output carries `notes_commit`: write that full commit into the start point beside the
-pickup reading set ("Notes commit: <sha>"), so the next In can pass it as `--notes-commit`.
+Its `notes_commit` must equal the commit already written into the start point; if the
+vault moved since, record the new one, commit again and re-run `boundary`. Never write
+anything after a passed check.
 
 ### Close with the saved-place box
 

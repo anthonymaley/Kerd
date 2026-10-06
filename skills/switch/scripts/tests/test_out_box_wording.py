@@ -25,6 +25,15 @@ class OutBoxWordingTests(unittest.TestCase):
             with self.subTest(rel=rel):
                 self.assertIn(fragment, read(rel))
 
+    def test_notes_commit_is_written_before_the_last_commit(self):
+        out = read("skills/switch/references/out.md")
+        self.assertIn("save the vault repo first and take its commit", out)
+        self.assertLess(out.index("save the vault repo first and take its commit"),
+                        out.index("Then prove the boundary, after the last commit"))
+        self.assertIn("Never write anything after a passed check.", out)
+        self.assertIn("write its commit into the start point before the project's last commit",
+                      read("skills/switch/SKILL.md"))
+
 
 if __name__ == "__main__":
     unittest.main()

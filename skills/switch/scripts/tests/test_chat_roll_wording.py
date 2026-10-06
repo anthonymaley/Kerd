@@ -34,6 +34,10 @@ class ChatRollWordingTests(unittest.TestCase):
     def test_guide_forbids_shell_variables_in_the_relaunch(self):
         self.assertIn("Pass no shell variables in the command", read("skills/switch/references/to-roll.md"))
 
+    def test_no_window_refusal_is_said_to_the_person(self):
+        self.assertIn("says so once, to the person in the chat (a sketchbook entry alone does not count",
+                      read("skills/switch/references/to-roll.md"))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -39,6 +39,13 @@ export type OvertoneWorker = {
   firstSeenMs: number
   fromSpawn: boolean
   endedMs?: number
+  // The agent whose loop spawned it, when known: from agent.spawn's
+  // parentAgentId or $.agent.list()'s parentId; absent for the main loop's.
+  parentId?: string
+  // When it last started a tool call (absent until its first).
+  lastToolMs?: number
+  // Whether the latest good $.agent.list() read named it.
+  listed?: boolean
   // The last tool call it made, summarised, and how many it made.
   activity?: string
   tools: number

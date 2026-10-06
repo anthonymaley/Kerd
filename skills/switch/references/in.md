@@ -266,7 +266,7 @@ way in:
 - **Chooses work** (“yes”, the recommendation's picker option, another open
   item's picker option, “the migration sign-off”, or new work in their own
   words): invoke `/kerd:conductor` through the host's skill
-  mechanism at Understand/Shape for that work. Naming or accepting the work
+  mechanism at Shape for that work. Naming or accepting the work
   selects it; it does not approve its operations. Conductor shows the shape and
   asks its own scoped approval before builds, installs, pushes or other
   consequential actions. A plain yes accepts the recommendation as the work to

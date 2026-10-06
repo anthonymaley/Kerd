@@ -21,7 +21,7 @@ import type {
   OvertoneWorker,
   OvertoneWorkers,
 } from '../types'
-import { EMPTY_MODEL, EMPTY_WORKERS, compareModels, isActive, normModel, readContext } from './logic'
+import { EMPTY_MODEL, EMPTY_WORKERS, compareModels, isActive, QUIET_AFTER_MS, isQuiet, normModel, quietCount, readContext } from './logic'
 import type { BandState } from './logic'
 
 // ---------------------------------------------------------------------------
@@ -455,10 +455,11 @@ const withEffort = (model: string | undefined, effort: string | number | undefin
   model ? `${prettyModel(model)}${effort === undefined ? '' : ` · ${effort}`}` : '—'
 
 // Active workers, and those that returned since the main loop last stepped
-// (it has not read them yet).
+// (it has not read them yet). Quiet workers (see isQuiet) are not jobs: they
+// are counted apart, never as running.
 export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartMs: number | undefined, nowMs: number): JobRow[] {
   const all = Object.values((w ?? EMPTY_WORKERS).byId)
-  const shown = all.filter(x => isActive(x) || (x.endedMs !== undefined && x.endedMs > (lastMainStartMs ?? 0)))
+  const shown = all.filter(x => !isQuiet(x, nowMs) && (isActive(x) || (x.endedMs !== undefined && x.endedMs > (lastMainStartMs ?? 0))))
   shown.sort((a, b) => a.firstSeenMs - b.firstSeenMs)
   return shown.map(x => {
     const state = workerState(x)
@@ -970,6 +971,8 @@ export type Dashboard = {
   // Why the job list may be incomplete (the last worker list read failed, or
   // the partner records could not be read).
   jobsNote?: string
+  // Workers that went quiet: not counted as running, named dim beside the count.
+  jobsQuiet?: number
   // A band shorter still: the jobs card drops its column-header row, and
   // "+K more" and the note go into its title row.
   jobsCompact?: boolean
@@ -1032,6 +1035,8 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
     s.partners?.note?.startsWith('partner records unreadable') ? s.partners.note : '',
   ].filter(Boolean)
   if (notes.length > 0) d.jobsNote = notes.join(' · ')
+  const quiet = quietCount(s.workers, s.nowMs)
+  if (quiet > 0) d.jobsQuiet = quiet
   const cache = cacheCard(s)
   if (cache) d.cache = cache
   const n = nextNote(s)
@@ -1170,6 +1175,7 @@ export function usageText(s: Snapshot): string {
   const d = dashboard(s, 200)
   const out: string[] = [`usage${lineText(d.header)}`]
   if (d.jobsNote) out.push(`Workers · ${d.jobsNote}`)
+  if (d.jobsQuiet) out.push(`Workers · ${d.jobsQuiet} quiet (no tool call for ${fmtSpan(QUIET_AFTER_MS)} and not in the list), not counted as running`)
   if (d.jobs.length === 0) out.push('Workers · no jobs running')
   else {
     out.push(`Workers — ${d.jobs.length}`)

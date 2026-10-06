@@ -392,6 +392,73 @@ describe('workers', () => {
     await ui.unmount()
   })
 
+  test('a nested helper the list names under a parent ends with that parent; a main-loop turn reconciles the rest', async ($, on) => {
+    const w = world(on)
+    w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
+    on('agent.spawn', (_$, e) => ({ model: 'claude-sonnet-5-5', agentId: e.description === 'Child' ? 'c1' : 'p1' }))
+    on('turn.complete', () => ({ text: 'ok' }))
+    on('tool.call', () => ({ result: 'ok' }) as never)
+    const done = (extra: Record<string, unknown> = {}) =>
+      ({ answer: 'done', durationMs: 1, isAborted: false, turnId: 't1', reason: 'answer', ...extra }) as never
+    await measure($, w)
+    await $.agent.spawn({ prompt: 'Go.', description: 'Parent', subagentType: 'Explore' } as never)
+    await $.agent.spawn({ prompt: 'Go.', description: 'Child', subagentType: 'Explore', parentAgentId: 'p1' } as never)
+    // two helpers overtone never saw spawn: one the list ties to the parent, one it stops naming
+    await $.tool.call({ tool: 'Read', file_path: '/a/b.ts', agentId: 'h1', tool_use_id: 'u1' } as never)
+    await $.tool.call({ tool: 'Read', file_path: '/a/c.ts', agentId: 'h2', tool_use_id: 'u2' } as never)
+    w.agents = [
+      { id: 'p1', description: 'Parent', type: 'Explore', status: 'running' },
+      { id: 'h1', description: 'Helper', type: 'Explore', status: 'running', parentId: 'p1' },
+    ]
+    await measure($, w)
+    const rows = async () => {
+      const ui = await expanded($)
+      const texts = (await ui.findAll({ type: 'Text' })).map(t => squash(t.text))
+      await ui.press({ key: 'usage' })
+      await ui.unmount()
+      return texts
+    }
+    expect((await rows()).filter(t => t.startsWith('▸ ')).map(t => t.split(' | ')[0])).toEqual(['▸ Parent', '▸ Child', '▸ agent h1', '▸ agent h2'])
+    // the parent returns; the list (read first) no longer shows its helper as alive
+    w.agents = [
+      { id: 'p1', description: 'Parent', type: 'Explore', status: 'completed' },
+      { id: 'h1', description: 'Helper', type: 'Explore', status: 'completed', parentId: 'p1' },
+    ]
+    await $.turn.complete(done({ agentId: 'p1' }))
+    // h2 is a main-loop leftover: the list no longer has it, and a main turn reads the list
+    w.agents = [{ id: 'h2', description: 'Other', type: 'Explore', status: 'completed' }]
+    await $.turn.complete(done())
+    // all four show as returned (until the main loop steps), none as running
+    const after = (await rows()).filter(t => t.startsWith('▸ ') && t.includes(' | '))
+    expect(after.map(t => t.split(' | ')[0])).toEqual(['▸ Parent', '▸ Child', '▸ agent h1', '▸ agent h2'])
+    expect(after.every(t => t.endsWith('returned, not yet checked'))).toBe(true)
+  })
+
+  test('a worker the list does not name goes quiet after ten minutes: counted apart, not running, not done', async ($, on) => {
+    const w = world(on)
+    w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
+    on('tool.call', () => ({ result: 'ok' }) as never)
+    await measure($, w)
+    await $.tool.call({ tool: 'Read', file_path: '/a/b.ts', agentId: 'h9', tool_use_id: 'u1' } as never)
+    w.now = T0 + 9 * 60_000
+    let ui = await expanded($)
+    expect(squash((await ui.find({ type: 'Text', text: ROW('agent h9') }))?.text)).toMatch(/^▸ agent h9 \| .* \| running$/)
+    await ui.press({ key: 'usage' })
+    await ui.unmount()
+    w.now = T0 + 11 * 60_000
+    ui = await expanded($)
+    const texts = (await ui.findAll({ type: 'Text' })).map(t => squash(t.text))
+    expect(texts).toContain('▸ Workers · no jobs running · 1 quiet')
+    expect(texts.some(t => /agent h9|returned/.test(t))).toBe(false)
+    await ui.press({ key: 'usage' })
+    await ui.unmount()
+    await $.tool.call({ tool: 'Read', file_path: '/a/c.ts', agentId: 'h9', tool_use_id: 'u2' } as never)
+    ui = await expanded($)
+    expect(squash((await ui.find({ type: 'Text', text: ROW('agent h9') }))?.text)).toMatch(/running$/)
+    await ui.press({ key: 'usage' })
+    await ui.unmount()
+  })
+
   test('a worker on another model than asked: red on the line and in its row', async ($, on) => {
     const w = world(on)
     w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }

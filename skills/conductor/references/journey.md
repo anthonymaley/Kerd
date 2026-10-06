@@ -192,8 +192,11 @@ answer choices. A missing fact still needs its actual question, not
 confirmation of a guess.
 
 Choices, including a genuine pick-several choice such as Agent's review cadence at
-pairing, are listed above the bubble with the recommendation. The bubble is always
-the last prose line and holds the single question. Where the host offers one, a
+pairing, are listed above the bubble with the recommendation. The same holds for an open
+question: when options are in hand (open work, known routes, candidates), list them
+above it with one recommendation, and ask it bare only when none are in hand.
+Withholding options Kerd already holds makes the person ask “options?”. The
+bubble is always the last prose line and holds the single question. Where the host offers one, a
 native single- or multi-select picker may follow it so the person can answer
 faster, including for an approval. After an approval bubble the picker carries only
 “Approve” and the host's free-form route, never the Known

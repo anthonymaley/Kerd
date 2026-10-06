@@ -3,12 +3,14 @@ import { describe, expect, test } from 'claude-code/testing'
 import type { OvertoneModel, OvertoneWorkers } from '../types'
 import {
   EMPTY_WORKERS,
+  QUIET_AFTER_MS,
   bandState,
   bandText,
   compareModels,
   composeBand,
   fmtDuration,
   foldWorkers,
+  isQuiet,
   needsBand,
   noteAsk,
   noteEnd,
@@ -19,6 +21,7 @@ import {
   noteStepStart,
   noteToolEnd,
   noteToolStart,
+  quietCount,
   readContext,
   rowText,
   showModel,
@@ -316,5 +319,97 @@ describe('/overtone text', () => {
     expect(bandText({ reading: hot, model: null, workers: null, nowMs: T0 }).split('\n')[0]).toBe(
       'ctx 164k · ≈82% of window used · switch now',
     )
+  })
+})
+
+describe('workers that never reported an ending', () => {
+  const listed = (id: string, status: string, parentId?: string) => ({ id, status, ...(parentId ? { parentId } : {}) })
+
+  test('a parent that ends takes its unseen descendants with it, against a list read', () => {
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'p', description: 'Parent', type: 'Explore', nowMs: T0 })
+    // the child is known by its parentAgentId on the spawn, the grandchild by the list
+    w = noteSpawn(w, { id: 'c', description: 'Child', type: 'Explore', parentId: 'p', nowMs: T0 })
+    w = noteToolStart(w, { agentId: 'g', toolUseId: 'u1', summary: 'Read a.ts', nowMs: T0 + MIN })
+    w = noteList(w, [listed('p', 'running'), listed('c', 'running', 'p'), listed('g', 'running', 'c')], T0 + MIN)
+    expect(w.byId.c?.parentId).toBe('p')
+    expect(w.byId.g?.parentId).toBe('c')
+    w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 5 * MIN, listed: [listed('p', 'idle')] })
+    expect(w.byId.p).toMatchObject({ status: 'completed', endedMs: T0 + 5 * MIN })
+    expect(w.byId.c).toMatchObject({ status: 'completed', endedMs: T0 + 5 * MIN, pending: {} })
+    expect(w.byId.g).toMatchObject({ status: 'completed', endedMs: T0 + 5 * MIN })
+    expect(foldWorkers(w).running).toEqual([])
+  })
+
+  test('with no good list the parent still ends and nothing under it is guessed at', () => {
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'p', description: 'Parent', type: 'Explore', nowMs: T0 })
+    w = noteSpawn(w, { id: 'c', description: 'Child', type: 'Explore', parentId: 'p', nowMs: T0 })
+    w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + MIN })
+    expect(w.byId.p?.status).toBe('completed')
+    expect(w.byId.c?.status).toBe('running')
+    // the next good read settles it
+    w = noteList(w, [listed('p', 'idle'), listed('c', 'completed', 'p')], T0 + 2 * MIN)
+    expect(w.byId.c?.status).toBe('completed')
+  })
+
+  test('a list that marks a worker final ends its descendants the list does not name as alive', () => {
+    let w = noteList(EMPTY_WORKERS, [listed('p', 'running'), listed('c', 'running', 'p'), listed('k', 'running', 'p')], T0)
+    w = noteList(w, [listed('p', 'completed'), listed('k', 'running', 'p')], T0 + 3 * MIN)
+    expect(w.byId.p).toMatchObject({ status: 'completed', endedMs: T0 + 3 * MIN })
+    // c dropped off the list: ended; k still running per the list: kept
+    expect(w.byId.c).toMatchObject({ status: 'completed', endedMs: T0 + 3 * MIN })
+    expect(w.byId.k?.status).toBe('running')
+    expect(w.byId.k?.endedMs).toBeUndefined()
+  })
+
+  test('a worker the list reports running, pending or waiting is never ended', () => {
+    for (const status of ['running', 'pending', 'waiting']) {
+      let w = noteList(EMPTY_WORKERS, [listed('p', 'running'), listed('c', status, 'p')], T0)
+      w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + MIN, listed: [listed('p', 'completed'), listed('c', status, 'p')] })
+      expect(w.byId.c?.status).toBe(status)
+      w = noteList(w, [listed('p', 'completed'), listed('c', status, 'p')], T0 + 2 * MIN)
+      expect(w.byId.c?.status).toBe(status)
+      expect(w.byId.c?.endedMs).toBeUndefined()
+    }
+  })
+
+  test('a parent loop in the records cannot hang the cascade', () => {
+    let w = noteList(EMPTY_WORKERS, [listed('a', 'completed', 'b'), listed('b', 'running', 'a')], T0)
+    w = noteList(w, [listed('a', 'completed', 'b')], T0 + MIN)
+    expect(w.byId.b?.status).toBe('completed')
+  })
+
+  test('quiet: an unspawned worker the list does not name, after QUIET_AFTER_MS without a tool call', () => {
+    let w = noteToolStart(EMPTY_WORKERS, { agentId: 'x', toolUseId: 'u1', summary: 'Read a.ts', nowMs: T0 })
+    w = noteToolEnd(w, { agentId: 'x', toolUseId: 'u1' })
+    const x = () => w.byId.x as NonNullable<(typeof w.byId)[string]>
+    expect(isQuiet(x(), T0 + QUIET_AFTER_MS - 1)).toBe(false)
+    expect(isQuiet(x(), T0 + QUIET_AFTER_MS)).toBe(true)
+    const late = T0 + QUIET_AFTER_MS + MIN
+    // not running, not done: still active, counted apart
+    expect(foldWorkers(w, late).running).toEqual([])
+    expect(foldWorkers(w, late).quiet.map(q => q.id)).toEqual(['x'])
+    expect(quietCount(w, late)).toBe(1)
+    expect(x().status).toBe('running')
+    expect(needsBand({ reading: calm, model: matched, workers: w, nowMs: late })).toBe(false)
+    expect(texts(composeBand({ reading: calm, model: matched, workers: w, nowMs: late }, 120))[2]).toBe('workers  0 running · 1 quiet')
+    // a later tool call makes it running again
+    w = noteToolStart(w, { agentId: 'x', toolUseId: 'u2', summary: 'Read b.ts', nowMs: late })
+    expect(isQuiet(x(), late + MIN)).toBe(false)
+    expect(foldWorkers(w, late + MIN).running.map(r => r.id)).toEqual(['x'])
+    expect(quietCount(w, late + MIN)).toBe(0)
+  })
+
+  test('quiet never applies to a spawned worker, one the list names, one mid-call or blocked', () => {
+    const late = T0 + 3 * 60 * MIN
+    const spawned = noteSpawn(EMPTY_WORKERS, { id: 's', description: 'Spawned', type: 'Explore', nowMs: T0 })
+    expect(quietCount(spawned, late)).toBe(0)
+    expect(foldWorkers(spawned, late).running.map(r => r.id)).toEqual(['s'])
+    const named = noteList(EMPTY_WORKERS, [{ id: 'n', status: 'running' }], T0)
+    expect(quietCount(named, late)).toBe(0)
+    // once a later read stops naming it, the clock counts
+    expect(quietCount(noteList(named, [], T0 + MIN), late)).toBe(1)
+    const midCall = noteToolStart(EMPTY_WORKERS, { agentId: 'm', toolUseId: 'u1', summary: 'Bash make', nowMs: T0 })
+    expect(quietCount(midCall, late)).toBe(0)
+    expect(quietCount(blockedOne(EMPTY_WORKERS, 'b', T0), late)).toBe(0)
   })
 })

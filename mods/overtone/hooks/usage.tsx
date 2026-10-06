@@ -512,7 +512,7 @@ export const register: Register = on => {
           </Box>
           {d.jobs.length === 0 ? (
             <Text key="no-jobs" wrap="truncate-end">
-              <Text dimColor>▸ Workers · no jobs running</Text>
+              <Text dimColor>{`▸ Workers · no jobs running${d.jobsQuiet ? ` · ${d.jobsQuiet} quiet` : ''}`}</Text>
               {d.jobsNote ? <Text color="warning">{` · ${d.jobsNote}`}</Text> : ''}
             </Text>
           ) : (
@@ -523,11 +523,12 @@ export const register: Register = on => {
                     [{ text: 'Workers', tone: 'plain', bold: true }],
                     [
                       { text: String(d.jobs.length + d.jobsHidden) },
+                      ...(d.jobsQuiet ? [{ text: ` · ${d.jobsQuiet} quiet`, tone: 'dim' as const }] : []),
                       ...(d.jobsHidden > 0 ? [{ text: ` · +${d.jobsHidden} more`, tone: 'dim' as const }] : []),
                       ...(d.jobsNote ? [{ text: ` · ${d.jobsNote}`, tone: 'warning' as const }] : []),
                     ],
                   )
-                : titleRow('jobs', [{ text: 'Workers', tone: 'plain', bold: true }, { text: ' running now, asked vs saw', tone: 'dim' }], [{ text: String(d.jobs.length) }])}
+                : titleRow('jobs', [{ text: 'Workers', tone: 'plain', bold: true }, { text: ' running now, asked vs saw', tone: 'dim' }], [{ text: String(d.jobs.length) }, ...(d.jobsQuiet ? [{ text: ` · ${d.jobsQuiet} quiet`, tone: 'dim' as const }] : [])])}
               {d.jobsCompact ? (
                 ''
               ) : (

@@ -5,7 +5,7 @@ description: "Save, restore or move repo work between sittings and devices, or R
 
 # Switch
 
-**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; when options are in hand (open work, known routes, candidates), list them above the question with one recommendation, even for an open question, and ask bare only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
 **Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
 
@@ -91,9 +91,11 @@ item names the guide section with its detail: open that section before the step.
   the checked-out branch is not its sketchbook's; acknowledged local paths are passed
   with `--preserve`; with `work_notes`, the vault repo is saved the same way;
   `save … --push` when pushing is authorized ([Default verified save](references/out.md#default-verified-save-when-pushing-is-authorized)).
-- After the last commit and before the box, run the `boundary` check on every repo
-  committed to, repeating `--preserve <path>`; only `passed` earns the ✓ (a local-only
-  Out says so instead), and its `notes_commit` goes into the start point
+- With `work_notes`, save the vault first and write its commit into the start point
+  before the project's last commit. After the last commit and before the box, run the
+  `boundary` check on every repo committed to, repeating `--preserve <path>`; only
+  `passed` earns the ✓ (a local-only Out says so instead), and nothing is written
+  after it
   ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - End on the saved-place box from `where_we_are.py --closing - --markdown`, its shape
   copied from the guide; nothing follows its closing line; if the renderer cannot

@@ -227,6 +227,27 @@ const FAILED = new Set(['failed', 'killed', 'error', 'cancelled'])
 export const isActive = (w: OvertoneWorker): boolean => !FINAL.has(w.status)
 export const KEEP_FINISHED = 50
 
+// How long a worker overtone never saw spawn may go without a tool call, with
+// the latest list not naming it, before it is called quiet rather than
+// running. Ten minutes: far longer than the gap between a working subagent's
+// calls (a single long call is exempt: it stays pending), short enough that a
+// row whose ending never reached overtone stops reading as work within one
+// sitting. Quiet is only a doubt, never an ending: the row is not counted as
+// running, never shown as done, and a later tool call makes it running again.
+export const QUIET_AFTER_MS = 10 * 60_000
+
+export function isQuiet(w: OvertoneWorker, nowMs: number | undefined): boolean {
+  if (nowMs === undefined || !isActive(w) || w.fromSpawn || w.listed === true || w.blocked) return false
+  if (Object.keys(w.pending).length > 0) return false
+  return nowMs - (w.lastToolMs ?? w.firstSeenMs) >= QUIET_AFTER_MS
+}
+
+// Active and not quiet: what the band counts as running.
+export const isRunning = (w: OvertoneWorker, nowMs: number | undefined): boolean => isActive(w) && !isQuiet(w, nowMs)
+
+export const quietCount = (w: OvertoneWorkers | null | undefined, nowMs: number | undefined): number =>
+  Object.values((w ?? EMPTY_WORKERS).byId).filter(x => isQuiet(x, nowMs)).length
+
 // A tool call in a line: the tool and what it touches, never more than a
 // short line. Only the first line of a command is kept.
 export function summarizeTool(tool: string, input: unknown): string {
@@ -260,9 +281,44 @@ function blank(id: string, nowMs: number, fromSpawn: boolean): OvertoneWorker {
 
 const ws = (w: OvertoneWorkers | null | undefined): OvertoneWorkers => w ?? EMPTY_WORKERS
 
+// Every worker below `id` in the parent links, nearest first, each once.
+function descendantsOf(byId: Record<string, OvertoneWorker>, id: string): string[] {
+  const out: string[] = []
+  const seen = new Set([id])
+  for (let queue = [id]; queue.length > 0; ) {
+    const parent = queue.shift() as string
+    for (const x of Object.values(byId)) {
+      if (x.parentId !== parent || seen.has(x.id)) continue
+      seen.add(x.id)
+      out.push(x.id)
+      queue.push(x.id)
+    }
+  }
+  return out
+}
+
+// What a list read says is still alive: a status that is not final. A
+// worker it names this way is never ended on a guess.
+const liveIds = (list: readonly ListedAgent[]): Set<string> =>
+  new Set(list.filter(a => a && typeof a.id === 'string' && !FINAL.has(a.status ?? '')).map(a => a.id))
+
+// A worker ended, so the agents it spawned are over too: those overtone never
+// saw end are ended (`completed`) now, unless `live` names them.
+function endBelow(byId: Record<string, OvertoneWorker>, id: string, live: ReadonlySet<string>, nowMs: number): Record<string, OvertoneWorker> {
+  const out = { ...byId }
+  for (const d of descendantsOf(byId, id)) {
+    const x = out[d]
+    if (!x || !isActive(x) || live.has(d)) continue
+    const next: OvertoneWorker = { ...x, status: 'completed', endedMs: nowMs, pending: {} }
+    delete next.blocked
+    out[d] = next
+  }
+  return out
+}
+
 export function noteSpawn(
   w: OvertoneWorkers | null | undefined,
-  s: { id: string; description?: string; name?: string; type?: string; nowMs: number },
+  s: { id: string; description?: string; name?: string; type?: string; parentId?: string; nowMs: number },
 ): OvertoneWorkers {
   const prev = ws(w)
   const old = prev.byId[s.id]
@@ -273,18 +329,23 @@ export function noteSpawn(
     // `nowMs` is taken before the spawn ran: the earliest sign of the worker.
     firstSeenMs: Math.min(old?.firstSeenMs ?? s.nowMs, s.nowMs),
     fromSpawn: true,
+    ...(s.parentId ? { parentId: s.parentId } : {}),
   }
   return { ...prev, byId: prune({ ...prev.byId, [s.id]: worker }) }
 }
 
-export type ListedAgent = { id: string; description?: string; type?: string; status?: string; name?: string }
+export type ListedAgent = { id: string; description?: string; type?: string; status?: string; name?: string; parentId?: string }
 
 // A good $.agent.list() read. A worker overtone saw end keeps its own ending
 // even when the list still says running; one the list no longer names keeps
-// what overtone last knew.
+// what overtone last knew. It also records each worker's parent, notes who
+// the list named (for the quiet rule), and ends what is left under a worker
+// that is over: its descendants the list does not name as alive.
 export function noteList(w: OvertoneWorkers | null | undefined, list: readonly ListedAgent[], nowMs: number): OvertoneWorkers {
   const prev = ws(w)
-  const byId = { ...prev.byId }
+  let byId = { ...prev.byId }
+  const named = new Set(list.filter(a => a && typeof a.id === 'string').map(a => a.id))
+  for (const id of Object.keys(byId)) byId[id] = { ...(byId[id] as OvertoneWorker), listed: named.has(id) }
   for (const a of list) {
     if (!a || typeof a.id !== 'string') continue
     const old = byId[a.id] ?? blank(a.id, nowMs, false)
@@ -292,7 +353,8 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     const status = old.endedMs !== undefined ? old.status : listed
     const ended = FINAL.has(status) ? (old.endedMs ?? nowMs) : undefined
     const label = byId[a.id] ? old.label : clip(a.description || a.name || a.type || old.label, 56)
-    const next: OvertoneWorker = { ...old, label, type: a.type || old.type, status }
+    const next: OvertoneWorker = { ...old, label, type: a.type || old.type, status, listed: true }
+    if (typeof a.parentId === 'string' && a.parentId !== '') next.parentId = a.parentId
     if (ended !== undefined) {
       next.endedMs = ended
       delete next.blocked
@@ -300,6 +362,8 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     }
     byId[a.id] = next
   }
+  const live = liveIds(list)
+  for (const x of Object.values(byId)) if (!isActive(x)) byId = endBelow(byId, x.id, live, nowMs)
   return { byId: prune(byId) }
 }
 
@@ -315,7 +379,7 @@ export function noteToolStart(
   const old = prev.byId[t.agentId] ?? blank(t.agentId, t.nowMs, false)
   if (!isActive(old)) return prev
   const pending = t.toolUseId ? { ...old.pending, [t.toolUseId]: t.summary } : old.pending
-  return { ...prev, byId: { ...prev.byId, [t.agentId]: { ...old, activity: t.summary, tools: old.tools + 1, pending } } }
+  return { ...prev, byId: { ...prev.byId, [t.agentId]: { ...old, activity: t.summary, tools: old.tools + 1, pending, lastToolMs: t.nowMs } } }
 }
 
 export function noteToolEnd(w: OvertoneWorkers | null | undefined, t: { agentId: string; toolUseId?: string }): OvertoneWorkers {
@@ -341,14 +405,18 @@ export function noteAsk(w: OvertoneWorkers | null | undefined, a: { toolUseId: s
 
 export function noteEnd(
   w: OvertoneWorkers | null | undefined,
-  e: { agentId: string; failed: boolean; nowMs: number },
+  e: { agentId: string; failed: boolean; nowMs: number; listed?: readonly ListedAgent[] },
 ): OvertoneWorkers {
   const prev = ws(w)
   const old = prev.byId[e.agentId]
   if (!old) return prev
   const next: OvertoneWorker = { ...old, status: e.failed ? 'failed' : 'completed', endedMs: e.nowMs, pending: {} }
   delete next.blocked
-  return { ...prev, byId: prune({ ...prev.byId, [e.agentId]: next }) }
+  let byId = { ...prev.byId, [e.agentId]: next }
+  // Its descendants end with it, but only against a good list read: with none,
+  // the next read (noteList) does it, so nothing running is ended on a guess.
+  if (e.listed) byId = endBelow(byId, e.agentId, liveIds(e.listed), e.nowMs)
+  return { ...prev, byId: prune(byId) }
 }
 
 export function fmtDuration(ms: number): string {
@@ -359,20 +427,23 @@ export function fmtDuration(ms: number): string {
   return `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}m`
 }
 
-export type Fold = { blocked: OvertoneWorker[]; running: OvertoneWorker[]; shown: OvertoneWorker[]; hidden: number }
+export type Fold = { blocked: OvertoneWorker[]; running: OvertoneWorker[]; quiet: OvertoneWorker[]; shown: OvertoneWorker[]; hidden: number }
 
 // Blocked first (longest waiting first), never folded away; then the newest
 // running, at most RUNNING_CAP of them and no more than ROW_CAP rows in all
-// unless blocked ones alone take more. The rest fold into `+N more`.
-export function foldWorkers(w: OvertoneWorkers | null | undefined): Fold {
-  const active = Object.values(ws(w).byId).filter(isActive)
+// unless blocked ones alone take more. The rest fold into `+N more`. With
+// `nowMs`, quiet workers are set apart: not running, not drawn as rows.
+export function foldWorkers(w: OvertoneWorkers | null | undefined, nowMs?: number): Fold {
+  const all = Object.values(ws(w).byId).filter(isActive)
+  const quiet = all.filter(x => isQuiet(x, nowMs))
+  const active = all.filter(x => !isQuiet(x, nowMs))
   const blocked = active
     .filter(x => x.blocked)
     .sort((a, b) => (a.blocked as { sinceMs: number }).sinceMs - (b.blocked as { sinceMs: number }).sinceMs)
   const running = active.filter(x => !x.blocked).sort((a, b) => b.firstSeenMs - a.firstSeenMs)
   const room = Math.max(0, Math.min(RUNNING_CAP, ROW_CAP - blocked.length))
   const shownRunning = running.slice(0, room)
-  return { blocked, running, shown: [...blocked, ...shownRunning], hidden: running.length - shownRunning.length }
+  return { blocked, running, quiet, shown: [...blocked, ...shownRunning], hidden: running.length - shownRunning.length }
 }
 
 // Finished workers grouped by type, most first: `✓ Explore ×3`.
@@ -389,13 +460,14 @@ export function finishedGroups(w: OvertoneWorkers | null | undefined): { ok: [st
 }
 
 function workerRows(w: OvertoneWorkers, nowMs: number, tier: Exclude<Tier, 'narrow'>): Row[] {
-  const f = foldWorkers(w)
+  const f = foldWorkers(w, nowMs)
   const nBlocked = f.blocked.length
   const nRunning = f.running.length
   const lead = tier === 'wide' ? 'workers  ' : 'workers '
   const head: Seg[][] = []
   if (nBlocked > 0) head.push([seg(`${nBlocked} blocked`, 'warning', true)])
   if (nRunning > 0 || nBlocked === 0) head.push([seg(`${nRunning} running`)])
+  if (f.quiet.length > 0) head.push([seg(`${f.quiet.length} quiet`)])
   if (tier === 'wide') {
     const g = finishedGroups(w)
     for (const [type, n] of g.ok.slice(0, 2)) head.push([seg(`✓ ${type} ×${n}`)])
@@ -454,7 +526,7 @@ export function needsBand(i: BandInput): boolean {
   return (
     isCrossed(readContext(i.reading)) ||
     compareModels(i.model?.asked, i.model?.seen) === 'mismatch' ||
-    Object.values(w.byId).some(isActive) ||
+    Object.values(w.byId).some(x => isRunning(x, i.nowMs)) ||
     w.error !== undefined
   )
 }
@@ -465,7 +537,7 @@ function narrowRow(i: BandInput): Row {
   const c = readContext(i.reading)
   const m = i.model ?? EMPTY_MODEL
   const w = ws(i.workers)
-  const f = foldWorkers(w)
+  const f = foldWorkers(w, i.nowMs)
   const match = compareModels(m.asked, m.seen)
   const alerts: Seg[][] = []
   if (f.blocked.length > 0) alerts.push([seg(`${f.blocked.length} blocked`, 'warning', true)])

@@ -24,7 +24,7 @@
 //   or helper. All formatting, tiers and folding live in logic.ts.
 
 import { atom, update } from 'claude-code'
-import type { Register } from 'claude-code'
+import type { AgentInfo, Register } from 'claude-code'
 
 import type { OvertoneWorkers } from '../types'
 import { EMPTY_WORKERS, noteAsk, noteEnd, noteList, noteSpawn, noteToolEnd, noteToolStart, summarizeTool } from './logic'
@@ -45,7 +45,7 @@ export const register: Register = on => {
     try {
       if (result.agentId !== undefined && t0 !== undefined) {
         const id = result.agentId
-        const s = { id, description: e.description, name: e.name, type: e.subagentType, nowMs: t0 }
+        const s = { id, description: e.description, name: e.name, type: e.subagentType, parentId: e.parentAgentId, nowMs: t0 }
         await update($, workers, (w: OvertoneWorkers) => noteSpawn(w, s))
         // what the spawn asked for: the Agent call's model, or a kerd:<model>-<effort> type
         await update($, workers, (w: OvertoneWorkers) => noteAsked(w, id, { model: e.model, type: e.subagentType }))
@@ -94,21 +94,31 @@ export const register: Register = on => {
     return result
   }).catch(($, e, next) => (next.called ? undefined : next(e)))
 
-  // A worker's turn ended: finished, or failed on an error or abort; then a
-  // fresh list read for the rest.
+  // A turn ended. A worker's: finished, or failed on an error or abort, and
+  // what it spawned ends with it, judged against a list read taken first. The
+  // main loop's: just the list read, so rows whose ending never came are
+  // reconciled even when no subagent ends.
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
-    if (e.agentId !== undefined) {
-      const agentId = e.agentId
-      const failed = e.reason !== 'answer'
+    try {
+      const now = await $.clock.now()
+      let list: AgentInfo[] | undefined
       try {
-        const now = await $.clock.now()
-        await update($, workers, (w: OvertoneWorkers) => noteEnd(w, { agentId, failed, nowMs: now }))
-        const list = await $.agent.list()
-        await update($, workers, (w: OvertoneWorkers) => noteList(w, list, now))
+        list = await $.agent.list()
       } catch {
-        // fail open
+        list = undefined
       }
+      if (e.agentId !== undefined) {
+        const agentId = e.agentId
+        const failed = e.reason !== 'answer'
+        await update($, workers, (w: OvertoneWorkers) => noteEnd(w, { agentId, failed, nowMs: now, listed: list }))
+      }
+      if (list !== undefined) {
+        const read = list
+        await update($, workers, (w: OvertoneWorkers) => noteList(w, read, now))
+      }
+    } catch {
+      // fail open
     }
     return result
   }).catch(($, e, next) => (next.called ? undefined : next(e)))

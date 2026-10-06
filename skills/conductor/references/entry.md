@@ -30,7 +30,7 @@ There are two valid entries: an explicitly selected and authorized action, and a
 request to use the workflow while deciding what to do. An answer to Switch
 In's **“Start a Conductor session?”** that chooses work, a plain yes to its
 recommendation or another open item its picker offered included, is the latter for that work: enter
-Understand/Shape on it, never approval of its operations. An answer asking for
+Shape on it, never approval of its operations. An answer asking for
 guidance without choosing, “Something else” included, enters direction-setting. Reuse the restored project, work pointer, current decision,
 actual approval and latest exclusions. Do not repeat pickup, intake already
 answered or approval already supplied.
@@ -151,6 +151,10 @@ to earn the right to ask the first question.
 
 - If the person supplies a new outcome, use it; don't ask them to repeat it.
 - If fresh and no outcome is supplied, ask **“What are you trying to achieve?”**
+  When the restored context or records hold candidate work (open Backlog items,
+  a saved next step), list it above that question with one recommendation;
+  recorded candidates are not a guessed brief. Ask it bare only when nothing is
+  in hand.
   A rough idea, notes or examples are enough; none is required homework.
   Then wait. Do not write a guessed brief or preload an example's answers.
 - If resuming, read the selected work record and necessary linked material.

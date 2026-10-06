@@ -143,6 +143,35 @@ class QuestionFormTests(unittest.TestCase):
                     prose,
                 )
 
+    def test_options_in_hand_are_listed_above_even_an_open_question(self):
+        """Standing ruling 2026-10-06: never ask bare when options are in hand."""
+        clause = flat(
+            "when options are in hand (open work, known routes, candidates), list them "
+            "above the question with one recommendation, even for an open question, and "
+            "ask bare only when none are in hand"
+        )
+        for path in sorted(SKILLS.glob("*/SKILL.md")):
+            with self.subTest(skill=path.parent.name):
+                self.assertIn(clause, flat(path.read_text(encoding="utf-8")))
+        journey = flat(JOURNEY.read_text(encoding="utf-8"))
+        self.assertIn(flat("The same holds for an open question: when options are in hand "
+                           "(open work, known routes, candidates), list them above it with "
+                           "one recommendation, and ask it bare only when none are in hand."),
+                      journey)
+        sites = {
+            SKILLS / "conductor" / "SKILL.md": "list it above that question with one recommendation",
+            SKILLS / "conductor" / "references" / "entry.md":
+                "list it above that question with one recommendation",
+            SKILLS / "conductor" / "references" / "understanding.md":
+                "List any recorded candidate work above it with one recommendation; "
+                "ask it bare only when nothing is in hand.",
+        }
+        for path, phrase in sites.items():
+            with self.subTest(outcome_site=path.name):
+                text = flat(path.read_text(encoding="utf-8"))
+                self.assertIn(flat(phrase), text)
+        self.assertIn("with no guessed brief", flat((SKILLS / "conductor" / "SKILL.md").read_text(encoding="utf-8")))
+
     def test_the_arrival_bubble_may_carry_a_picker(self):
         """Switch's arrival is the most-asked Kerd question; its picker allowance
         was withdrawn once by mistake and is guarded in both places that state it."""
