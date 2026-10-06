@@ -73,6 +73,9 @@ export function expandHome(path: string, home: string | undefined): string {
 
 export function resolvePath(cwd: string, path: string, home?: string): string {
   const p = expandHome(path, home)
+  // Relative to a directory an expansion names, `..` must not cancel the
+  // expansion (`${OLDPWD}/..` is not `.`): it stays one, and asks.
+  if (!p.startsWith('/') && hasExpansion(cwd)) return `${cwd}/${p}`
   return normalize(p.startsWith('/') ? p : `${cwd}/${p}`)
 }
 
@@ -971,18 +974,16 @@ export type AliasTops = ReadonlyMap<string, string>
 // `shellVars`: variables the line set or exported before (`export GIT_DIR=x;
 // git add`), which the commands after it may run with. Never scoped to a
 // subshell: one set anywhere counts for the rest of the line.
-//
-// `nav`: where `cd -` and `popd` lead. `prev`: the directory before the last
-// cd (OLDPWD), null while it comes from outside the command; `stack`: the
-// directories `pushd` left, newest last. A `( … )` subshell, `$(…)`, or
-// `bash -c` gets a copy: what it changes ends with it.
-type Nav = { prev: string | null; stack: string[] }
-type Reader = { home: string | undefined; aliases: Aliases; tops: AliasTops; ops: GitOp[]; shellVars: Set<string>; nav: Nav }
+type Reader = { home: string | undefined; aliases: Aliases; tops: AliasTops; ops: GitOp[]; shellVars: Set<string> }
 
-// A directory the guard cannot name: an expansion, so the git ops there ask.
+// Where `cd -` (OLDPWD), `popd` and the `pushd` forms that rotate the stack
+// lead is state the guard does not follow: the shell's directory becomes an
+// expansion it cannot name, so every git op after it asks. (Following it was
+// tried and refused: a failed or conditional `cd`, an `OLDPWD=` assignment,
+// a fresh `bash -c` that inherits no stack, each put the guard somewhere the
+// shell is not.)
 const UNKNOWN_PREV = '${OLDPWD}'
 const UNKNOWN_STACK = '${DIRSTACK}'
-const copyNav = (n: Nav): Nav => ({ prev: n.prev, stack: [...n.stack] })
 
 // The git add / commit / push commands in a Bash command line, in order.
 // Commands it reaches through a wrapper it cannot fully read (xargs, find
@@ -998,7 +999,7 @@ export function parseGitOps(
   aliases: Aliases = new Map(),
   tops: AliasTops = new Map(),
 ): GitOp[] {
-  const r: Reader = { home, aliases, tops, ops: [], shellVars: new Set(), nav: { prev: null, stack: [] } }
+  const r: Reader = { home, aliases, tops, ops: [], shellVars: new Set() }
   readLine(r, command, normalize(cwd), 0, false)
   // git run in a directory a shell expansion names (`cd "$DIR"`, `git -C
   // $REPO`): never "not a git repo", which would pass. It asks.
@@ -1026,17 +1027,7 @@ function expandDir(path: string, home: string | undefined): string {
 // Reads a command line from `dir`; returns where it leaves the shell (`cd`).
 // `strict`: a string that may only be text (an argument to a command the
 // reader does not know): only a command line that starts with git counts.
-function readLine(r: Reader, command: string, dir: string, depth: number, strict: boolean, keepNav = false): string {
-  const outer = r.nav
-  if (!keepNav) r.nav = copyNav(outer)
-  try {
-    return readLineIn(r, command, dir, depth, strict)
-  } finally {
-    if (!keepNav) r.nav = outer
-  }
-}
-
-function readLineIn(r: Reader, command: string, dir: string, depth: number, strict: boolean): string {
+function readLine(r: Reader, command: string, dir: string, depth: number, strict: boolean): string {
   if (depth > MAX_DEPTH) {
     unreadText(r, command, dir, 'commands nested deeper than the guard reads')
     return dir
@@ -1045,16 +1036,12 @@ function readLineIn(r: Reader, command: string, dir: string, depth: number, stri
   // Where each open `( … )` subshell started: a `cd` inside it ends at its
   // `)`. (A `{ …; }` group runs in this shell, so its `cd` stays.) A `)`
   // with nothing open (a `case` pattern) changes nothing.
-  const opened: { dir: string; nav: Nav }[] = []
+  const opened: string[] = []
   for (let n = 0; n < cmds.length; n++) {
     const c = cmds[n]!
     for (const p of c.parens) {
-      if (p === '(') opened.push({ dir, nav: copyNav(r.nav) })
-      else if (opened.length) {
-        const o = opened.pop()!
-        dir = o.dir
-        r.nav = o.nav
-      }
+      if (p === '(') opened.push(dir)
+      else if (opened.length) dir = opened.pop()!
     }
     // `$(…)` and backticks run first, in a subshell.
     for (const sub of c.subs) readLine(r, sub, dir, depth + 1, false)
@@ -1072,11 +1059,7 @@ function readLineIn(r: Reader, command: string, dir: string, depth: number, stri
   }
   // A subshell still open here closes at the line's end: the shell is left
   // where it was before it.
-  if (opened.length) {
-    r.nav = opened[0]!.nav
-    return opened[0]!.dir
-  }
-  return dir
+  return opened.length ? opened[0]! : dir
 }
 
 // Text the reader cannot read as commands. Its words naming git and a verb:
@@ -1386,44 +1369,15 @@ function readCommand(
   }
   if (head === 'cd' || head === 'pushd' || head === 'popd') {
     const args = u.words.slice(u.i + 1)
-    const nav = r.nav
-    // Options come first; `--` ends them. A lone `-` is OLDPWD.
-    let k = 0
-    let opts = ''
-    while (k < args.length && args[k]!.startsWith('-') && args[k] !== '-') {
-      if (args[k] === '--') {
-        k++
-        break
-      }
-      opts += args[k]!.slice(1)
-      k++
-    }
-    const target = args[k]
-    const to = (next: string): string => {
-      nav.prev = dir
-      return next
-    }
-    if (head === 'popd') {
-      // `popd +N` / `-n` take another entry or do not move: not read.
-      if (target !== undefined || opts.includes('n')) {
-        nav.prev = null
-        return UNKNOWN_STACK
-      }
-      const top = nav.stack.pop()
-      return top === undefined ? to(UNKNOWN_STACK) : to(top)
-    }
-    // `pushd` with no directory swaps the top two, `+N` rotates, `-n` does
-    // not move: the guard cannot place the shell.
-    if (head === 'pushd' && (target === undefined || /^[+-]\d+$/.test(target) || opts.includes('n') || target === '-')) {
-      nav.prev = null
+    // `popd`, `cd -` (OLDPWD), and a `pushd` that names no plain directory
+    // (none, `+N`/`-N`, `-`, `-n`) move the shell somewhere the guard does not
+    // follow: an expansion, so the git ops after it ask.
+    if (head === 'popd') return UNKNOWN_STACK
+    if (args.includes('-')) return UNKNOWN_PREV
+    const target = args.find(w => !w.startsWith('-'))
+    if (head === 'pushd' && (target === undefined || /^[+-]\d+$/.test(target) || args.some(w => /^-[a-zA-Z]*n/.test(w))))
       return UNKNOWN_STACK
-    }
-    let next: string
-    if (target === undefined) next = normalize(homeNow(r) ?? '$HOME')
-    else if (target === '-') next = nav.prev ?? UNKNOWN_PREV
-    else next = resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
-    if (head === 'pushd') nav.stack.push(dir)
-    return to(next)
+    return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
   }
   if (SETS_VARS.has(name)) {
     for (const w of rest.slice(1)) if (/^[A-Za-z_]/.test(w)) r.shellVars.add(w.split('=')[0]!)
@@ -1483,7 +1437,7 @@ function readCommand(
   }
   if (name === 'eval') {
     const mark = r.ops.length
-    const after = readLine(r, u.words.slice(u.i + 1).join(' '), u.dir, depth + 1, false, true)
+    const after = readLine(r, u.words.slice(u.i + 1).join(' '), u.dir, depth + 1, false)
     if (wrapped) blindFrom(mark, wrapped)
     return after
   }
@@ -1655,17 +1609,21 @@ function readGit(
       // from where git was run; GIT_PREFIX holds the way back) with the
       // arguments appended (git runs `sh -c '<body> "$@"'`): `!git` with
       // `add -f .env` is `git add -f .env`. Read so, and never whole; one
-      // that shows no git add, commit or push still asks. With that top
-      // unknown (the read failed, no work tree, a bare repo, or --work-tree
-      // moved it) the body is read from where git ran, and every op it
-      // yields asks whatever repo it lands in.
+      // that shows no git add, commit or push still asks. The body is read
+      // from where git ran AND, when it is known and different, from that
+      // top; the ops of both are kept, so the alias asks if either place
+      // does (a relative `-C ../x` lands somewhere else from each). With the
+      // top unknown (the read failed, no work tree, a bare repo, or
+      // --work-tree moved it) every op it yields also asks whatever repo it
+      // lands in.
       const why = `\`git ${sub}\` is a shell alias, which the guard cannot read whole`
       const top = r.tops.get(key)
       const known = tree === null && top !== undefined && top.startsWith('/') ? normalize(top) : null
-      const base = known ?? gitDir
       const args = words.slice(i + 1).map(w => `'${w.replace(/'/g, `'\\''`)}'`)
-      readLine(r, [value.slice(1), ...args].join(' '), base, depth + 1, false)
-      if (r.ops.length === mark) r.ops.push(unreadableOp('commit', base, text, why))
+      const body = [value.slice(1), ...args].join(' ')
+      readLine(r, body, gitDir, depth + 1, false)
+      if (known !== null && known !== gitDir) readLine(r, body, known, depth + 1, false)
+      if (r.ops.length === mark) r.ops.push(unreadableOp('commit', gitDir, text, why))
       for (const op of r.ops.slice(mark)) blind(op, why)
       if (known === null) {
         const lost = `\`git ${sub}\` is a shell alias that runs from the top of the work tree, which the guard could not find, so it cannot tell which repository the alias works in`
