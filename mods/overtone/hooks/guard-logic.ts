@@ -1740,7 +1740,15 @@ function readGit(
       op.specs.push({ raw: w, abs: gitDir })
       continue
     }
-    op.specs.push({ raw: w, abs: w.startsWith(GUARD.notesPrefix) ? w : resolvePath(gitDir, w, home) })
+    const abs = w.startsWith(GUARD.notesPrefix) ? w : resolvePath(gitDir, w, home)
+    // A path that resolves to an expansion (a tilde form `~-/x`, `~/x` with no
+    // known home): the guard cannot name it. It asks.
+    if (hasExpansion(abs)) {
+      op.isOpaque = true
+      op.specs.push({ raw: w, abs: gitDir, unreadable: 'a path the shell expands, which the guard cannot name' })
+      continue
+    }
+    op.specs.push({ raw: w, abs })
   }
   if ((dryRun && !editMode) || (kind === 'commit' && statusFormat)) op.dryRun = true
   // Another repository, work tree or index than the one guard.tsx reads the

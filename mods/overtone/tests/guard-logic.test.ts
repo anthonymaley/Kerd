@@ -1855,6 +1855,17 @@ describe('options as git reads them, and repositories the guard cannot name', ()
   // (or resolves to the directory it did on 9652021). The ask-more rule: no
   // input that asked on 9652021 may pass now, so every row either asks or
   // names the same directory 9652021 named. `was`: what 9652021 read.
+  test('a pathspec the shell expands (a tilde form, ~/ with no known home) is unreadable: add and commit ask', () => {
+    for (const command of ['git add -f ~-/../.env', 'git commit ~-/../.env', 'git add ~+1/x', 'git commit -m x ~user/.env']) {
+      const ops = parseGitOps(command, KERD, HOME)
+      expect([command, ops.length > 0 && ops.every(o => o.isOpaque && o.specs.some(s => s.unreadable !== undefined))]).toEqual([command, true])
+      // In Kerd (public): what it stages cannot be listed, so it asks.
+      expect([command, judge(command).every(f => f.verdict === 'ask')]).toEqual([command, true])
+    }
+    const noHome = parseGitOps('git add -f ~/.env', KERD, undefined)
+    expect(noHome.every(o => o.isOpaque && o.specs.some(s => s.unreadable !== undefined))).toBe(true)
+  })
+
   test('regression table: the review blockers and the original gaps ask, never pass where 9652021 asked', () => {
     // 9652021 read `cd -` as $HOME (a guarded repo, so it asked); `popd` as
     // the previous directory it never moved from.
