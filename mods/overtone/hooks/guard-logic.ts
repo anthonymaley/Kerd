@@ -962,19 +962,32 @@ export const aliasKey = (cwd: string, name: string) => `${cwd}\0${name}`
 // (not an alias). A key not here has not been read.
 export type Aliases = ReadonlyMap<string, string | null>
 
+// Where git runs a shell alias (`!…`): the top of the working tree git is in,
+// by aliasKey, as `git rev-parse --show-toplevel` said there. A key not here
+// (not read, failed, no work tree, a bare repo) is a top the guard does not
+// know, and the alias asks.
+export type AliasTops = ReadonlyMap<string, string>
+
 // `shellVars`: variables the line set or exported before (`export GIT_DIR=x;
 // git add`), which the commands after it may run with. Never scoped to a
 // subshell: one set anywhere counts for the rest of the line.
-type Reader = { home: string | undefined; aliases: Aliases; ops: GitOp[]; shellVars: Set<string> }
+type Reader = { home: string | undefined; aliases: Aliases; tops: AliasTops; ops: GitOp[]; shellVars: Set<string> }
 
 // The git add / commit / push commands in a Bash command line, in order.
 // Commands it reaches through a wrapper it cannot fully read (xargs, find
 // -exec, a shell alias, a command it does not know that names git and a
 // verb) come back unreadable, which asks. `aliases`: what guard.tsx read of
 // git aliases; an unread one comes back as an op with `alias` set, which
-// asks unless guard.tsx reads it.
-export function parseGitOps(command: string, cwd: string, home?: string, aliases: Aliases = new Map()): GitOp[] {
-  const r: Reader = { home, aliases, ops: [], shellVars: new Set() }
+// asks unless guard.tsx reads it. `tops`: where git runs each shell alias
+// from (the top of the work tree); one it does not hold asks.
+export function parseGitOps(
+  command: string,
+  cwd: string,
+  home?: string,
+  aliases: Aliases = new Map(),
+  tops: AliasTops = new Map(),
+): GitOp[] {
+  const r: Reader = { home, aliases, tops, ops: [], shellVars: new Set() }
   readLine(r, command, normalize(cwd), 0, false)
   // git run in a directory a shell expansion names (`cd "$DIR"`, `git -C
   // $REPO`): never "not a git repo", which would pass. It asks.
@@ -1572,15 +1585,29 @@ function readGit(
     }
     const mark = r.ops.length
     if (value.startsWith('!')) {
-      // A shell alias runs from the repo root with the arguments appended
-      // (git runs `sh -c '<body> "$@"'`): `!git` with `add -f .env` is
-      // `git add -f .env`. Read so, and never whole; one that shows no git
-      // add, commit or push still asks.
+      // A shell alias runs from the top of the work tree git is in (not
+      // from where git was run; GIT_PREFIX holds the way back) with the
+      // arguments appended (git runs `sh -c '<body> "$@"'`): `!git` with
+      // `add -f .env` is `git add -f .env`. Read so, and never whole; one
+      // that shows no git add, commit or push still asks. With that top
+      // unknown (the read failed, no work tree, a bare repo, or --work-tree
+      // moved it) the body is read from where git ran, and every op it
+      // yields asks whatever repo it lands in.
       const why = `\`git ${sub}\` is a shell alias, which the guard cannot read whole`
+      const top = r.tops.get(key)
+      const known = tree === null && top !== undefined && top.startsWith('/') ? normalize(top) : null
+      const base = known ?? gitDir
       const args = words.slice(i + 1).map(w => `'${w.replace(/'/g, `'\\''`)}'`)
-      readLine(r, [value.slice(1), ...args].join(' '), gitDir, depth + 1, false)
-      if (r.ops.length === mark) r.ops.push(unreadableOp('commit', gitDir, text, why))
+      readLine(r, [value.slice(1), ...args].join(' '), base, depth + 1, false)
+      if (r.ops.length === mark) r.ops.push(unreadableOp('commit', base, text, why))
       for (const op of r.ops.slice(mark)) blind(op, why)
+      if (known === null) {
+        const lost = `\`git ${sub}\` is a shell alias that runs from the top of the work tree, which the guard could not find, so it cannot tell which repository the alias works in`
+        for (const op of r.ops.slice(mark)) {
+          op.unknownRepo ??= lost
+          if (op.push) op.push.opaque ??= lost
+        }
+      }
       return sub
     }
     const expanded = ['git', ...words.slice(gitAt + 1, i), ...splitCommands(value).flat(), ...words.slice(i + 1)]

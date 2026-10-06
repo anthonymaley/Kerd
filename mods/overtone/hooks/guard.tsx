@@ -221,8 +221,10 @@ async function readVaultFile($: EngineInterface, path: string): Promise<VaultRea
 // and its op asks as it stands.
 async function readOps($: EngineInterface, command: string, cwd: string, home: string | undefined): Promise<GitOp[]> {
   const aliases = new Map<string, string | null>()
+  // Where git runs a shell alias from: the top of the work tree it is in.
+  const tops = new Map<string, string>()
   const tried = new Set<string>()
-  let ops = parseGitOps(command, cwd, home, aliases)
+  let ops = parseGitOps(command, cwd, home, aliases, tops)
   for (let round = 0; round < 4; round++) {
     const want = ops.filter(o => o.alias !== undefined && !tried.has(aliasKey(o.cwd, o.alias)))
     if (!want.length) break
@@ -232,13 +234,27 @@ async function readOps($: EngineInterface, command: string, cwd: string, home: s
       tried.add(key)
       try {
         const r = await $.process.run(['git', 'config', '--get', `alias.${o.alias}`], { cwd: o.cwd, timeoutMs: 10_000 })
-        if (r.exitCode === 0 && !r.isStdoutTruncated) aliases.set(key, r.stdout.trim())
-        else if (r.exitCode === 1) aliases.set(key, null)
+        if (r.exitCode === 0 && !r.isStdoutTruncated) {
+          const value = r.stdout.trim()
+          aliases.set(key, value)
+          // A shell alias runs from the top of the work tree, not where git
+          // was run. No top read (not a work tree, a bare repo, a failure or
+          // timeout) leaves the key out, and the alias asks.
+          if (value.startsWith('!')) {
+            try {
+              const t = await $.process.run(['git', 'rev-parse', '--show-toplevel'], { cwd: o.cwd, timeoutMs: 10_000 })
+              const top = t.stdout.trim()
+              if (t.exitCode === 0 && !t.isStdoutTruncated && top.startsWith('/')) tops.set(key, top)
+            } catch {
+              // top unknown: the alias asks
+            }
+          }
+        } else if (r.exitCode === 1) aliases.set(key, null)
       } catch {
         // unread: the op asks
       }
     }
-    ops = parseGitOps(command, cwd, home, aliases as Aliases)
+    ops = parseGitOps(command, cwd, home, aliases as Aliases, tops)
   }
   return ops
 }

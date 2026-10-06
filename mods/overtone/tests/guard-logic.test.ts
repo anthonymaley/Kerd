@@ -1326,6 +1326,76 @@ describe('git aliases', () => {
   })
 })
 
+describe('a shell alias runs from the top of the work tree, not where git was run', () => {
+  const SUB = `${KERD}/mods/overtone`
+  const UP: [string, string | null][] = [['up', '!git -C .. push origin main']]
+  const read = (command: string, cwd: string, tops: [string, string][] = [], aliasesAt = cwd) =>
+    parseGitOps(command, cwd, HOME, new Map(UP.map(([k, v]) => [aliasKey(aliasesAt, k), v])), new Map(tops.map(([k, v]) => [aliasKey(aliasesAt, k), v])))
+
+  test('`!git -C ..` from a subfolder resolves against the top, so the push lands in the folder above it', () => {
+    const [op] = read('git up', SUB, [['up', KERD]])
+    expect(op!.kind).toBe('push')
+    expect(op!.cwd).toBe('/Users/alex/code')
+    expect(op!.unknownRepo).toBeUndefined()
+    // From the top itself, the same alias lands in the same place.
+    expect(read('git up', KERD, [['up', KERD]])[0]!.cwd).toBe(op!.cwd)
+  })
+
+  test('with the top unknown, every op the alias yields asks, whatever repo it lands in', () => {
+    const ops = read('git up', SUB)
+    expect(ops.length).toBeGreaterThan(0)
+    for (const op of ops) {
+      expect(op.unknownRepo).toContain('top of the work tree')
+      expect(op.push!.opaque).toContain('top of the work tree')
+      expect(assess(op, null, HOME).verdict).toBe('ask')
+    }
+    // An alias that shows no git verb asks too, without a top.
+    const [quiet] = parseGitOps('git q', SUB, HOME, new Map([[aliasKey(SUB, 'q'), '!echo hi']]))
+    expect(quiet!.unknownRepo).toBeTruthy()
+    expect(assess(quiet!, null, HOME).verdict).toBe('ask')
+  })
+
+  test('a top that is not a path, or --work-tree before the alias name, counts as unknown', () => {
+    expect(read('git up', SUB, [['up', '']])[0]!.unknownRepo).toBeTruthy()
+    expect(read('git up', SUB, [['up', 'relative/path']])[0]!.unknownRepo).toBeTruthy()
+    const moved = parseGitOps(
+      'git --work-tree=/elsewhere up',
+      SUB,
+      HOME,
+      new Map([[aliasKey(SUB, 'up'), '!git push origin main']]),
+      new Map([[aliasKey(SUB, 'up'), KERD]]),
+    )
+    expect(moved[0]!.unknownRepo).toBeTruthy()
+  })
+
+  test('`git -C sub up`: the alias and its top are keyed by the folder git runs in', () => {
+    const at = (tops: [string, string][]) => read('git -C mods/overtone up', KERD, tops, SUB)
+    // Keyed by KERD (where git was started), they are not found: unread, it asks.
+    expect(read('git -C mods/overtone up', KERD, [], KERD)[0]!.alias).toBe('up')
+    const [op] = at([['up', KERD]])
+    expect(op!.kind).toBe('push')
+    expect(op!.unknownRepo).toBeUndefined()
+    // The top of a nested repo is that repo, not the outer one.
+    const NESTED = `${KERD}/vendor/inner`
+    const [inner] = parseGitOps(
+      'git -C vendor/inner/src up',
+      KERD,
+      HOME,
+      new Map([[aliasKey(`${NESTED}/src`, 'up'), '!git push origin main']]),
+      new Map([[aliasKey(`${NESTED}/src`, 'up'), NESTED]]),
+    )
+    expect(inner!.cwd).toBe(NESTED)
+  })
+
+  test('a plain (expansion) alias is unaffected: read where git runs, no top needed', () => {
+    const [p] = parseGitOps('git p origin main', SUB, HOME, new Map([[aliasKey(SUB, 'p'), 'push']]))
+    expect(p!.kind).toBe('push')
+    expect(p!.cwd).toBe(SUB)
+    expect(p!.unknownRepo).toBeUndefined()
+    expect(p!.push!.opaque).toBeNull()
+  })
+})
+
 describe('kivna/vault.json that names only a vault', () => {
   test('unparseable while it names a vault: unreadable (asks); saying nothing of one: no rule', () => {
     expect(readVault('{"vault": "~/notes/vault"')).toBe('unreadable')
@@ -1360,7 +1430,9 @@ describe('fail closed: forms that once read as nothing', () => {
   test('a shell alias gets the arguments git appends: `!git` with `add -f .env` stages .env, and asks', () => {
     const PROXY: [string, string | null][] = [['proxy', '!git']]
     expect(stagesEnv('git proxy add -f .env', PROXY)).toBe(true)
-    const read = (command: string) => parseGitOps(command, KERD, HOME, new Map(PROXY.map(([k, v]) => [aliasKey(KERD, k), v])))
+    // Run from the top of the work tree, which is where KERD is.
+    const read = (command: string) =>
+      parseGitOps(command, KERD, HOME, new Map(PROXY.map(([k, v]) => [aliasKey(KERD, k), v])), new Map([[aliasKey(KERD, 'proxy'), KERD]]))
     const [op] = read('git proxy add -f .env')
     expect(op!.isOpaque).toBe(true)
     expect(op!.specs.some(s => s.unreadable?.includes('shell alias'))).toBe(true)
