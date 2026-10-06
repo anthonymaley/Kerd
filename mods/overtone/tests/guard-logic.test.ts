@@ -1793,6 +1793,9 @@ describe('options as git reads them, and repositories the guard cannot name', ()
       'cd /a -; git push origin HEAD',
       'pushd /a -n; git push origin HEAD',
       'cd /a /b && git push origin HEAD',
+      // zsh: `cd OLD NEW` substitutes, `cd +N` is a stack entry (security review 2026-10-06).
+      'cd private public && git push origin HEAD',
+      'pushd /pub; cd /x; cd +1; git push origin HEAD',
       'cd /a/$X/.. && git push origin HEAD',
       'git -C "$X/.." push origin HEAD',
     ]) {

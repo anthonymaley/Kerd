@@ -1386,7 +1386,9 @@ function readCommand(
     const target = args[k]
     // A word after the target makes the shell refuse it (`cd /a -`, `pushd /a -n`): not followed either.
     if ((target !== undefined && target.startsWith('-')) || args.length > k + 1) return head === 'pushd' ? UNKNOWN_STACK : UNKNOWN_PREV
-    if (head === 'pushd' && (target === undefined || /^\+\d+$/.test(target) || opts.includes('n'))) return UNKNOWN_STACK
+    // `+N` is a directory-stack entry (pushd; zsh's cd too).
+    if (target !== undefined && /^\+\d+$/.test(target)) return UNKNOWN_STACK
+    if (head === 'pushd' && (target === undefined || opts.includes('n'))) return UNKNOWN_STACK
     return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
   }
   if (SETS_VARS.has(name)) {
