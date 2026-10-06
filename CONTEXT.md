@@ -143,30 +143,30 @@ local-only here moved there on 2026-09-25 (vault commit `b64d50a`). `notes:backl
 untracked the same day; the old commits still hold them.
 
 **Routing:** no role designation saved. The old `kerd-b5-review` binding still carries a pre-12:51
-handoff from 2026-09-25; not adopted.
+handoff from 2026-09-25; not adopted. Anthony confirmed (2026-10-05 22:14) the bound codex-tui thread is the one to keep using; the session ID he first gave was a closed Codex voice session that Agent refused. That thread was last written 21:15, before the 21:3x install, so it probably still runs the older Kerd (inference, not checked).
 
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: proposed, not agreed: find out why Conductor's go skips the who/model/effort grid** (why: at the go the person should see who builds what, on which model and effort, before anything is dispatched; 0 of 6 eval runs show it, before and after 0.171.0, on Sonnet and Opus; Backlog row "Conductor's go skips the grid"). Scope: read-only diagnosis of the go wording and the eval transcripts, findings to the Backlog; stops before any fix or release (releases paused; a fix comes back to him). Also proposed: Anthony restarting codex-tui so it loads 0.171.1; removing the old Switch eval worktree on his go.
+**Selected continuation: proposed, not agreed: test showing the who/model/effort grid inside Conductor's Ready decision block, before the go** (why: at a go Claude dispatches without the grid in every eval run and in today's two real gos; a rule placed at the go was tried and did nothing, 0/6 → 0/6 on 2026-10-05 22:2x, so the next place to try is the message Claude reliably writes and where he decides). Scope: draft the wording on a concert branch, add or adapt a Ready eval, run before/after on Sonnet and Opus (about $5–10); stops before any merge or release (releases paused; his decision). Needs his go. Also proposed: Anthony restarting codex-tui so it loads 0.171.1; clearing the old eval leftovers (the Switch baseline worktree and 379 kept eval temp folders in /private/tmp) on his go.
 Done this sitting: `kivna/sessions/2026-10-05.md`.
 **Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
 findings go to the Backlog.
 
-**Pickup reading set** (update 2026-10-05 21:3x):
-- this file complete: position (0.171.1, 0.171.0, 0.170.0), rulings (the worker-row ruling, the guard-scope ruling, the release pause, Switch Out when work is finished) and the Codex position;
+**Pickup reading set** (update 2026-10-05 22:2x):
+- this file complete: position (0.171.1, 0.171.0, 0.170.0), the go-grid findings, rulings (the worker-row ruling, the guard-scope ruling, the release pause, Switch Out when work is finished) and the Codex position;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set);
 - `kivna/sessions/2026-10-05.md`, newest log (five sittings, the last 20:56 to 21:3x);
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `notes:skills-guideline/work.md` (with `reading-evidence.md`, `switch-restructure.html`, `conductor-restructure.html`); `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `9de0fb640d6686bcf6d2890e00a2df5bf102582c` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `abae49572c8cbe8bd2fbdf1b2c2b28c6ac015219` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`).
 
-The observed position before this save is `main` at the previous Switch save (`Switch: 2026-10-05 Agent light check released…`); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at the previous Switch save (`Switch: 2026-10-05 Codex package 0.171.1 installed…`); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-05 21:3x: 32,844 bytes, about 8,211 tokens (estimate), just over the 8,000 target because today's log holds five sittings; tomorrow's log starts fresh. Carried findings checked (Codex on 0.171.1, the go-grid gap, restarting codex-tui, the release pause); all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-05 22:2x: 35,190 bytes, about 8,798 tokens (estimate), over the 8,000 target because today's log holds six sittings; tomorrow's log starts fresh. Carried findings checked (the Ready-block idea, keep the bound codex-tui, the refuted clause 0/6 → 0/6, the release pause, the eval leftovers); all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-05.md", "--file", "notes:outside-the-repo.md",
