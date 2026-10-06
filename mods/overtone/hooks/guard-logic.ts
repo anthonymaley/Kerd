@@ -1381,7 +1381,8 @@ function readCommand(
     // a `pushd -n` is not followed: an expansion, so it asks.
     let k = 0
     let opts = ''
-    while (k < args.length && /^-[LPe@n]+$/.test(args[k]!)) opts += args[k++]!.slice(1)
+    const optRe = head === 'pushd' ? /^-n+$/ : /^-[LPe@]+$/
+    while (k < args.length && optRe.test(args[k]!)) opts += args[k++]!.slice(1)
     if (args[k] === '--') k++
     const target = args[k]
     // A word after the target makes the shell refuse it (`cd /a -`, `pushd /a -n`): not followed either.
