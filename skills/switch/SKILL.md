@@ -96,7 +96,8 @@ item names the guide section with its detail: open that section before the step.
   Out says so instead), and its `notes_commit` goes into the start point
   ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - End on the saved-place box from `where_we_are.py --closing - --markdown`, its shape
-  copied from the guide; if the renderer cannot run, say the same as plain text
+  copied from the guide; nothing follows its closing line; if the renderer cannot
+  run, say the same as plain text
   ([Close with the saved-place box](references/out.md#close-with-the-saved-place-box)).
 - The restart line appears only after a remote-verified or committed save,
   `handoff_ready: true` and `boundary: "passed"`; never claim the session exited or

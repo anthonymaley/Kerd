@@ -306,9 +306,17 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.172.0)
+## What's New (v0.172.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.172.1
+
+**Switch Out ends on its box.** The saved-place box is now the last thing Switch Out shows: its guide and the Out
+must-hold list say nothing follows the closing line, and anything worth saying goes into the box or the records. Before
+this, the Out guide said to end on one box but never, as Switch In does, that nothing follows it, and Sonnet eval runs
+sometimes added a note after the restart line (1 of 9 before 0.170.0; 2 of 3 on one case after). A wording test pins the
+rule; the behaviour evals were not re-run.
 
 ### v0.172.0
 

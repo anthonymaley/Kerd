@@ -352,6 +352,11 @@ End Out on one box, rendered with the same packaged renderer:
 printf '%s' "$closing" | python3 "$SKILL_DIR/scripts/where_we_are.py" --closing - --markdown
 ```
 
+The box is the last thing in the message: its closing line ends Out, and nothing
+follows it: no note, footer, commit trailer or remark about a preserved file.
+Anything worth saying goes into the box (attention or This session) before it is
+rendered, or into the records.
+
 Use the same chat-versus-terminal presentation choice as [In](in.md#welcome-back-the-screen-summary). The box
 mirrors the arrival, in plain product English: a one-row grid (PROJECT, SAVED,
 PHASE, RELEASED), **This session** with what changed for the person one line each,
