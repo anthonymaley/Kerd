@@ -222,22 +222,27 @@ function modelRow(m: OvertoneModel, tier: Exclude<Tier, 'narrow'>): Row {
 // ---------------------------------------------------------------------------
 
 export const EMPTY_WORKERS: OvertoneWorkers = { byId: {} }
-const FINAL = new Set(['completed', 'failed', 'killed', 'error', 'cancelled', 'stopped'])
+// `unconfirmed` is overtone's own: a worker inferred over because the agent
+// above it ended, never seen to end itself. It is final for counting, but it
+// claims neither success nor failure, and fresh evidence of life reverses it.
+export const INFERRED = 'unconfirmed'
+const FINAL = new Set(['completed', 'failed', 'killed', 'error', 'cancelled', 'stopped', INFERRED])
 const FAILED = new Set(['failed', 'killed', 'error', 'cancelled'])
 export const isActive = (w: OvertoneWorker): boolean => !FINAL.has(w.status)
 export const KEEP_FINISHED = 50
 
 // How long a worker overtone never saw spawn may go without a tool call, with
-// the latest list not naming it, before it is called quiet rather than
+// the latest good list read having left it out (`listed === false`: a failed
+// read proves no absence), before it is called quiet rather than
 // running. Ten minutes: far longer than the gap between a working subagent's
-// calls (a single long call is exempt: it stays pending), short enough that a
+// calls (a single long call is exempt while it runs, and its end counts as activity), short enough that a
 // row whose ending never reached overtone stops reading as work within one
 // sitting. Quiet is only a doubt, never an ending: the row is not counted as
 // running, never shown as done, and a later tool call makes it running again.
 export const QUIET_AFTER_MS = 10 * 60_000
 
 export function isQuiet(w: OvertoneWorker, nowMs: number | undefined): boolean {
-  if (nowMs === undefined || !isActive(w) || w.fromSpawn || w.listed === true || w.blocked) return false
+  if (nowMs === undefined || !isActive(w) || w.fromSpawn || w.listed !== false || w.blocked) return false
   if (Object.keys(w.pending).length > 0) return false
   return nowMs - (w.lastToolMs ?? w.firstSeenMs) >= QUIET_AFTER_MS
 }
@@ -281,37 +286,47 @@ function blank(id: string, nowMs: number, fromSpawn: boolean): OvertoneWorker {
 
 const ws = (w: OvertoneWorkers | null | undefined): OvertoneWorkers => w ?? EMPTY_WORKERS
 
-// Every worker below `id` in the parent links, nearest first, each once.
-function descendantsOf(byId: Record<string, OvertoneWorker>, id: string): string[] {
-  const out: string[] = []
-  const seen = new Set([id])
-  for (let queue = [id]; queue.length > 0; ) {
-    const parent = queue.shift() as string
-    for (const x of Object.values(byId)) {
-      if (x.parentId !== parent || seen.has(x.id)) continue
-      seen.add(x.id)
-      out.push(x.id)
-      queue.push(x.id)
-    }
-  }
-  return out
-}
-
 // What a list read says is still alive: a status that is not final. A
 // worker it names this way is never ended on a guess.
 const liveIds = (list: readonly ListedAgent[]): Set<string> =>
   new Set(list.filter(a => a && typeof a.id === 'string' && !FINAL.has(a.status ?? '')).map(a => a.id))
 
-// A worker ended, so the agents it spawned are over too: those overtone never
-// saw end are ended (`completed`) now, unless `live` names them.
-function endBelow(byId: Record<string, OvertoneWorker>, id: string, live: ReadonlySet<string>, nowMs: number): Record<string, OvertoneWorker> {
+// The agents under `roots`, which are over, are inferred over too (`unconfirmed`,
+// not `completed`: absence is no evidence of success), unless something shows
+// them alive: the list names them, a call is pending or waits on a permission,
+// or they made a call after their root ended. Such a worker is kept, and so is
+// everything below it. One pass over a parent -> children map built once.
+function endUnder(
+  byId: Record<string, OvertoneWorker>,
+  roots: readonly string[],
+  live: ReadonlySet<string>,
+  nowMs: number,
+): Record<string, OvertoneWorker> {
+  const kids = new Map<string, string[]>()
+  for (const x of Object.values(byId)) {
+    if (x.parentId === undefined) continue
+    const l = kids.get(x.parentId)
+    if (l) l.push(x.id)
+    else kids.set(x.parentId, [x.id])
+  }
   const out = { ...byId }
-  for (const d of descendantsOf(byId, id)) {
-    const x = out[d]
-    if (!x || !isActive(x) || live.has(d)) continue
-    const next: OvertoneWorker = { ...x, status: 'completed', endedMs: nowMs, pending: {} }
-    delete next.blocked
-    out[d] = next
+  const seen = new Set(roots)
+  const queue = roots.map(id => ({ id, at: byId[id]?.endedMs ?? nowMs }))
+  for (let i = 0; i < queue.length; i++) {
+    const { id, at } = queue[i] as { id: string; at: number }
+    for (const c of kids.get(id) ?? []) {
+      if (seen.has(c)) continue
+      seen.add(c)
+      const x = out[c]
+      if (!x) continue
+      if (isActive(x)) {
+        if (live.has(c) || x.blocked || Object.keys(x.pending).length > 0 || (x.lastToolMs ?? -Infinity) > at) continue
+        const next: OvertoneWorker = { ...x, status: INFERRED, endedMs: nowMs, pending: {} }
+        delete next.blocked
+        out[c] = next
+      }
+      queue.push({ id: c, at })
+    }
   }
   return out
 }
@@ -350,20 +365,21 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     if (!a || typeof a.id !== 'string') continue
     const old = byId[a.id] ?? blank(a.id, nowMs, false)
     const listed = typeof a.status === 'string' && a.status !== '' ? a.status : old.status
-    const status = old.endedMs !== undefined ? old.status : listed
+    // An ending overtone saw stands; an inferred one gives way to the list.
+    const status = old.endedMs !== undefined && old.status !== INFERRED ? old.status : listed
     const ended = FINAL.has(status) ? (old.endedMs ?? nowMs) : undefined
     const label = byId[a.id] ? old.label : clip(a.description || a.name || a.type || old.label, 56)
     const next: OvertoneWorker = { ...old, label, type: a.type || old.type, status, listed: true }
     if (typeof a.parentId === 'string' && a.parentId !== '') next.parentId = a.parentId
-    if (ended !== undefined) {
+    if (ended === undefined) delete next.endedMs
+    else {
       next.endedMs = ended
       delete next.blocked
       next.pending = {}
     }
     byId[a.id] = next
   }
-  const live = liveIds(list)
-  for (const x of Object.values(byId)) if (!isActive(x)) byId = endBelow(byId, x.id, live, nowMs)
+  byId = endUnder(byId, Object.values(byId).filter(x => !isActive(x)).map(x => x.id), liveIds(list), nowMs)
   return { byId: prune(byId) }
 }
 
@@ -376,19 +392,29 @@ export function noteToolStart(
   t: { agentId: string; toolUseId?: string; summary: string; nowMs: number },
 ): OvertoneWorkers {
   const prev = ws(w)
-  const old = prev.byId[t.agentId] ?? blank(t.agentId, t.nowMs, false)
-  if (!isActive(old)) return prev
+  let old = prev.byId[t.agentId] ?? blank(t.agentId, t.nowMs, false)
+  if (old.status === INFERRED) {
+    // a call is fresh evidence of life: the inferred ending is undone
+    old = { ...old, status: 'running' }
+    delete old.endedMs
+  } else if (!isActive(old)) return prev
   const pending = t.toolUseId ? { ...old.pending, [t.toolUseId]: t.summary } : old.pending
   return { ...prev, byId: { ...prev.byId, [t.agentId]: { ...old, activity: t.summary, tools: old.tools + 1, pending, lastToolMs: t.nowMs } } }
 }
 
-export function noteToolEnd(w: OvertoneWorkers | null | undefined, t: { agentId: string; toolUseId?: string }): OvertoneWorkers {
+// `nowMs`, when given, is activity too: a call that ran long is not quiet the
+// moment it returns.
+export function noteToolEnd(
+  w: OvertoneWorkers | null | undefined,
+  t: { agentId: string; toolUseId?: string; nowMs?: number },
+): OvertoneWorkers {
   const prev = ws(w)
   const old = prev.byId[t.agentId]
   if (!old) return prev
   const pending = { ...old.pending }
   if (t.toolUseId) delete pending[t.toolUseId]
   const next: OvertoneWorker = { ...old, pending }
+  if (t.nowMs !== undefined && isActive(old)) next.lastToolMs = t.nowMs
   if (old.blocked && old.blocked.toolUseId === t.toolUseId) delete next.blocked
   return { ...prev, byId: { ...prev.byId, [t.agentId]: next } }
 }
@@ -415,7 +441,7 @@ export function noteEnd(
   let byId = { ...prev.byId, [e.agentId]: next }
   // Its descendants end with it, but only against a good list read: with none,
   // the next read (noteList) does it, so nothing running is ended on a guess.
-  if (e.listed) byId = endBelow(byId, e.agentId, liveIds(e.listed), e.nowMs)
+  if (e.listed) byId = endUnder(byId, [e.agentId], liveIds(e.listed), e.nowMs)
   return { ...prev, byId: prune(byId) }
 }
 
@@ -451,7 +477,7 @@ export function finishedGroups(w: OvertoneWorkers | null | undefined): { ok: [st
   const ok = new Map<string, number>()
   const failed = new Map<string, number>()
   for (const x of Object.values(ws(w).byId)) {
-    if (isActive(x)) continue
+    if (isActive(x) || x.status === INFERRED) continue
     const m = FAILED.has(x.status) ? failed : ok
     m.set(x.type, (m.get(x.type) ?? 0) + 1)
   }

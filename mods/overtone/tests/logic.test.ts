@@ -3,6 +3,7 @@ import { describe, expect, test } from 'claude-code/testing'
 import type { OvertoneModel, OvertoneWorkers } from '../types'
 import {
   EMPTY_WORKERS,
+  INFERRED,
   QUIET_AFTER_MS,
   bandState,
   bandText,
@@ -330,13 +331,14 @@ describe('workers that never reported an ending', () => {
     // the child is known by its parentAgentId on the spawn, the grandchild by the list
     w = noteSpawn(w, { id: 'c', description: 'Child', type: 'Explore', parentId: 'p', nowMs: T0 })
     w = noteToolStart(w, { agentId: 'g', toolUseId: 'u1', summary: 'Read a.ts', nowMs: T0 + MIN })
+    w = noteToolEnd(w, { agentId: 'g', toolUseId: 'u1', nowMs: T0 + MIN })
     w = noteList(w, [listed('p', 'running'), listed('c', 'running', 'p'), listed('g', 'running', 'c')], T0 + MIN)
     expect(w.byId.c?.parentId).toBe('p')
     expect(w.byId.g?.parentId).toBe('c')
     w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 5 * MIN, listed: [listed('p', 'idle')] })
     expect(w.byId.p).toMatchObject({ status: 'completed', endedMs: T0 + 5 * MIN })
-    expect(w.byId.c).toMatchObject({ status: 'completed', endedMs: T0 + 5 * MIN, pending: {} })
-    expect(w.byId.g).toMatchObject({ status: 'completed', endedMs: T0 + 5 * MIN })
+    expect(w.byId.c).toMatchObject({ status: INFERRED, endedMs: T0 + 5 * MIN, pending: {} })
+    expect(w.byId.g).toMatchObject({ status: INFERRED, endedMs: T0 + 5 * MIN })
     expect(foldWorkers(w).running).toEqual([])
   })
 
@@ -356,7 +358,7 @@ describe('workers that never reported an ending', () => {
     w = noteList(w, [listed('p', 'completed'), listed('k', 'running', 'p')], T0 + 3 * MIN)
     expect(w.byId.p).toMatchObject({ status: 'completed', endedMs: T0 + 3 * MIN })
     // c dropped off the list: ended; k still running per the list: kept
-    expect(w.byId.c).toMatchObject({ status: 'completed', endedMs: T0 + 3 * MIN })
+    expect(w.byId.c).toMatchObject({ status: INFERRED, endedMs: T0 + 3 * MIN })
     expect(w.byId.k?.status).toBe('running')
     expect(w.byId.k?.endedMs).toBeUndefined()
   })
@@ -375,12 +377,17 @@ describe('workers that never reported an ending', () => {
   test('a parent loop in the records cannot hang the cascade', () => {
     let w = noteList(EMPTY_WORKERS, [listed('a', 'completed', 'b'), listed('b', 'running', 'a')], T0)
     w = noteList(w, [listed('a', 'completed', 'b')], T0 + MIN)
-    expect(w.byId.b?.status).toBe('completed')
+    expect(w.byId.b?.status).toBe(INFERRED)
   })
 
   test('quiet: an unspawned worker the list does not name, after QUIET_AFTER_MS without a tool call', () => {
     let w = noteToolStart(EMPTY_WORKERS, { agentId: 'x', toolUseId: 'u1', summary: 'Read a.ts', nowMs: T0 })
     w = noteToolEnd(w, { agentId: 'x', toolUseId: 'u1' })
+    // never quiet before a good list read has left it out; a failed read proves nothing
+    expect(isQuiet(w.byId.x as never, T0 + 60 * MIN)).toBe(false)
+    w = noteListError(w, 'list timed out')
+    expect(isQuiet(w.byId.x as never, T0 + 60 * MIN)).toBe(false)
+    w = noteList(w, [], T0 + 1000)
     const x = () => w.byId.x as NonNullable<(typeof w.byId)[string]>
     expect(isQuiet(x(), T0 + QUIET_AFTER_MS - 1)).toBe(false)
     expect(isQuiet(x(), T0 + QUIET_AFTER_MS)).toBe(true)
@@ -408,8 +415,69 @@ describe('workers that never reported an ending', () => {
     expect(quietCount(named, late)).toBe(0)
     // once a later read stops naming it, the clock counts
     expect(quietCount(noteList(named, [], T0 + MIN), late)).toBe(1)
-    const midCall = noteToolStart(EMPTY_WORKERS, { agentId: 'm', toolUseId: 'u1', summary: 'Bash make', nowMs: T0 })
+    const midCall = noteList(noteToolStart(EMPTY_WORKERS, { agentId: 'm', toolUseId: 'u1', summary: 'Bash make', nowMs: T0 }), [], T0 + 1000)
     expect(quietCount(midCall, late)).toBe(0)
-    expect(quietCount(blockedOne(EMPTY_WORKERS, 'b', T0), late)).toBe(0)
+    expect(quietCount(noteList(blockedOne(EMPTY_WORKERS, 'b', T0), [], T0 + 1000), late)).toBe(0)
+  })
+
+  test('the cascade stops below a live child: its descendants are kept, even at a permission ask', () => {
+    let w = noteList(EMPTY_WORKERS, [listed('p', 'running'), listed('c', 'running', 'p'), listed('g', 'running', 'c')], T0)
+    w = noteToolStart(w, { agentId: 'g', toolUseId: 'u1', summary: 'Bash git push', nowMs: T0 + MIN })
+    w = noteAsk(w, { toolUseId: 'u1', nowMs: T0 + MIN })
+    // the list names p (now over) and c as running, but omits g
+    const read = [listed('p', 'completed'), listed('c', 'running', 'p')]
+    const ended = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 2 * MIN, listed: read })
+    expect(ended.byId.c?.status).toBe('running')
+    expect(ended.byId.g?.status).toBe('running')
+    expect(ended.byId.g?.blocked).toBeDefined()
+    const reread = noteList(w, read, T0 + 2 * MIN)
+    expect(reread.byId.g?.status).toBe('running')
+    // without the permission ask or the live child, a worker with a call pending is still kept
+    const pending = noteToolStart(noteList(EMPTY_WORKERS, [listed('p', 'running'), listed('g', 'running', 'p')], T0), { agentId: 'g', toolUseId: 'u2', summary: 'Bash make', nowMs: T0 })
+    expect(noteList(pending, [listed('p', 'completed')], T0 + MIN).byId.g?.status).toBe('running')
+  })
+
+  test('an inferred ending claims no success and is undone by a later list or tool call', () => {
+    const base = noteList(EMPTY_WORKERS, [listed('p', 'running'), listed('g', 'running', 'p')], T0)
+    // the parent FAILED: the descendant is not reported as completed, and not as a ✓ either
+    const failedParent = noteEnd(base, { agentId: 'p', failed: true, nowMs: T0 + MIN, listed: [listed('p', 'failed')] })
+    expect(failedParent.byId.p?.status).toBe('failed')
+    expect(failedParent.byId.g?.status).toBe(INFERRED)
+    const b = composeBand({ reading: calm, model: null, workers: failedParent, nowMs: T0 + 2 * MIN }, 120)
+    expect(texts(b).join('\n')).not.toMatch(/Explore|✓/)
+    expect(texts(b)).toHaveLength(2)
+    // a later list naming it running revives it
+    const byList = noteList(failedParent, [listed('p', 'failed'), listed('g', 'running', 'p')], T0 + 3 * MIN)
+    expect(byList.byId.g?.status).toBe('running')
+    expect(byList.byId.g?.endedMs).toBeUndefined()
+    // so does a tool call, and the next list that omits it does not end it again
+    const byCall = noteToolStart(failedParent, { agentId: 'g', toolUseId: 'u9', summary: 'Read a.ts', nowMs: T0 + 3 * MIN })
+    expect(byCall.byId.g?.status).toBe('running')
+    expect(byCall.byId.g?.endedMs).toBeUndefined()
+    const settled = noteToolEnd(byCall, { agentId: 'g', toolUseId: 'u9', nowMs: T0 + 3 * MIN })
+    expect(noteList(settled, [listed('p', 'failed')], T0 + 4 * MIN).byId.g?.status).toBe('running')
+    // its own turn.complete later is a confirmed ending
+    expect(noteEnd(failedParent, { agentId: 'g', failed: false, nowMs: T0 + 5 * MIN }).byId.g?.status).toBe('completed')
+    // and a list that reports it final confirms the ending as the list says
+    expect(noteList(failedParent, [listed('p', 'failed'), listed('g', 'killed', 'p')], T0 + 3 * MIN).byId.g?.status).toBe('killed')
+  })
+
+  test('a tool call that ran past the quiet time is not quiet the moment it returns', () => {
+    let w = noteToolStart(EMPTY_WORKERS, { agentId: 'x', toolUseId: 'u1', summary: 'Bash make', nowMs: T0 })
+    w = noteList(w, [], T0 + 1000)
+    const back = T0 + QUIET_AFTER_MS + 5 * MIN
+    expect(quietCount(w, back)).toBe(0)
+    w = noteToolEnd(w, { agentId: 'x', toolUseId: 'u1', nowMs: back })
+    expect(quietCount(w, back)).toBe(0)
+    expect(quietCount(w, back + QUIET_AFTER_MS)).toBe(1)
+  })
+
+  test('a long chain of finished roots resolves in one pass', () => {
+    const list = [listed('r0', 'completed')]
+    for (let i = 1; i < 40; i++) list.push(listed(`r${i}`, i % 2 ? 'completed' : 'running', `r${i - 1}`))
+    const w = noteList(EMPTY_WORKERS, list, T0)
+    expect(Object.values(w.byId).filter(x => x.status === INFERRED)).toHaveLength(0)
+    const gone = noteList(w, list.filter(a => a.id === 'r0'), T0 + MIN)
+    expect(Object.values(gone.byId).every(x => x.status !== 'running')).toBe(true)
   })
 })

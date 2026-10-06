@@ -71,7 +71,8 @@ export const register: Register = on => {
     }
     const result = await next(e)
     try {
-      await update($, workers, (w: OvertoneWorkers) => noteToolEnd(w, { agentId, toolUseId }))
+      const done = await $.clock.now()
+      await update($, workers, (w: OvertoneWorkers) => noteToolEnd(w, { agentId, toolUseId, nowMs: done }))
     } catch {
       // fail open
     }

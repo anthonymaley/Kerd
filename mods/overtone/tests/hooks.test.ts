@@ -428,9 +428,10 @@ describe('workers', () => {
     // h2 is a main-loop leftover: the list no longer has it, and a main turn reads the list
     w.agents = [{ id: 'h2', description: 'Other', type: 'Explore', status: 'completed' }]
     await $.turn.complete(done())
-    // all four show as returned (until the main loop steps), none as running
+    // the ones the list says returned show so (until the main loop steps); the child inferred over is
+    // not claimed as returned; none is running
     const after = (await rows()).filter(t => t.startsWith('▸ ') && t.includes(' | '))
-    expect(after.map(t => t.split(' | ')[0])).toEqual(['▸ Parent', '▸ Child', '▸ agent h1', '▸ agent h2'])
+    expect(after.map(t => t.split(' | ')[0])).toEqual(['▸ Parent', '▸ agent h1', '▸ agent h2'])
     expect(after.every(t => t.endsWith('returned, not yet checked'))).toBe(true)
   })
 
@@ -440,6 +441,8 @@ describe('workers', () => {
     on('tool.call', () => ({ result: 'ok' }) as never)
     await measure($, w)
     await $.tool.call({ tool: 'Read', file_path: '/a/b.ts', agentId: 'h9', tool_use_id: 'u1' } as never)
+    // a good list read that leaves it out is what lets it go quiet
+    await measure($, w)
     w.now = T0 + 9 * 60_000
     let ui = await expanded($)
     expect(squash((await ui.find({ type: 'Text', text: ROW('agent h9') }))?.text)).toMatch(/^▸ agent h9 \| .* \| running$/)

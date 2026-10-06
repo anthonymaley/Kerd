@@ -21,7 +21,7 @@ import type {
   OvertoneWorker,
   OvertoneWorkers,
 } from '../types'
-import { EMPTY_MODEL, EMPTY_WORKERS, compareModels, isActive, QUIET_AFTER_MS, isQuiet, normModel, quietCount, readContext } from './logic'
+import { EMPTY_MODEL, EMPTY_WORKERS, INFERRED, compareModels, isActive, QUIET_AFTER_MS, isQuiet, normModel, quietCount, readContext } from './logic'
 import type { BandState } from './logic'
 
 // ---------------------------------------------------------------------------
@@ -459,7 +459,7 @@ const withEffort = (model: string | undefined, effort: string | number | undefin
 // are counted apart, never as running.
 export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartMs: number | undefined, nowMs: number): JobRow[] {
   const all = Object.values((w ?? EMPTY_WORKERS).byId)
-  const shown = all.filter(x => !isQuiet(x, nowMs) && (isActive(x) || (x.endedMs !== undefined && x.endedMs > (lastMainStartMs ?? 0))))
+  const shown = all.filter(x => x.status !== INFERRED && !isQuiet(x, nowMs) && (isActive(x) || (x.endedMs !== undefined && x.endedMs > (lastMainStartMs ?? 0))))
   shown.sort((a, b) => a.firstSeenMs - b.firstSeenMs)
   return shown.map(x => {
     const state = workerState(x)
