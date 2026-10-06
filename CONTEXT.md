@@ -148,7 +148,7 @@ handoff from 2026-09-25; not adopted. Anthony confirmed (2026-10-05 22:14) the b
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: proposed, not agreed: clear the old eval leftovers** (why: about 26 GB of sealed eval temp folders and a stale baseline worktree sit on the Studio's disk with no further use since 0.172.0 shipped, and it is the only open item Claude can act on; the rest is watching releases in real use). Scope: Claude removes `/private/tmp/e-*` kept eval folders and `git worktree remove ~/development/product/Kerd-switch-baseline`; keeps `~/.cache/kerd-eval/gitbin` unless Anthony says no more evals; stops there. Needs his go (deletion). Also proposed: Anthony restarting codex-tui (`codex resume`) so it loads 0.172.0; watching the Ready grid on the first real Conductor go.
+**Eval leftovers cleared (Anthony 2026-10-06 08:41, "y"):** 400 sealed `/private/tmp/e-*` folders (513 MB measured with `sudo du`; the earlier "26 GB" was all of /private/tmp, mostly Claude Code scratch and another project's `dd-*` builds) and the `Kerd-switch-baseline` worktree (its 119 untracked eval files byte-identical to main) removed; `~/.cache/kerd-eval/gitbin` kept for future evals. Next, proposed, not agreed: Anthony restarting codex-tui (`codex resume`) so it loads 0.172.0; watching the Ready grid on the first real Conductor go.
 Done this sitting: `kivna/sessions/2026-10-06.md`.
 **Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
 findings go to the Backlog.

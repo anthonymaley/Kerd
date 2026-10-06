@@ -1600,3 +1600,7 @@ TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
   plus free text (`$.ui.ask`, API declaration). **This replaces the standing "exactly two picker options, one recommendation"
   wording; Switch In still re-weighs every open item and the saved choices stay candidates.** View and sources:
   `notes:overtone/work.md`, `in-out-options.png`.
+
+## Closed 2026-10-06
+
+- **Done (Anthony's "y" 2026-10-06 08:41; evidence: `ls /private/tmp/e-*` finds none, `git worktree list` shows main only):** **Clear the old eval leftovers.** 400 sealed `/private/tmp/e-*` folders (513 MB by `sudo du`; their `sealed/` subfolders are mode `-w-------`, so plain `du` and `chmod -R` cannot enter them and `sudo rm -rf` was needed) and the `Kerd-switch-baseline` worktree (`--force`; its 119 untracked eval files byte-identical to main) removed. The recorded "26 GB" was all of /private/tmp, mostly Claude Code scratch and another project's builds. `~/.cache/kerd-eval/gitbin` kept.
