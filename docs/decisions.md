@@ -12,6 +12,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. WHEN OPTIONS ARE LISTED AND THE QUESTION CHOOSES AMONG THEM, THE BUBBLE ASKS ABOUT THE RECOMMENDATION; A MISSING FACT, A PICK-SEVERAL CHOICE, THE ARRIVAL QUESTION AND A CHOSEN WORK'S OUTCOME KEEP THEIR OWN QUESTION — Anthony, 2026-10-06 11:41; released 0.174.0.
 1. EVERY QUESTION CARRIES THE OPTIONS IN HAND: LIST THEM ABOVE THE QUESTION WITH ONE RECOMMENDATION, EVEN AN OPEN ONE; ASK BARE ONLY WHEN NONE ARE IN HAND — Anthony, 2026-10-06 10:40 and 10:41; released 0.173.0.
 1. A WORKER'S ROW SHOWS ITS TASK, NOT ITS LATEST COMMAND; A BLOCKED WORKER SHOWS THE CALL IT WAITS ON — Anthony, 2026-10-05 10:59; released as overtone 0.7.1 (Kerd 0.169.2).
 1. OVERTONE'S GUARD IS A SAFETY NET FOR HONEST MISTAKES, NOT A LOCK AGAINST A DELIBERATELY DISGUISED COMMAND — Anthony, 2026-10-04 22:18.
@@ -239,6 +240,14 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **When options are listed and the question chooses among them, the bubble asks about the recommendation (Anthony,
+  2026-10-06 11:41: "why ask an opposing question after listing option?"; 11:42 "y, and lets fix that").** The
+  0.173.0 rule's first real use listed four candidates and a recommendation, then asked "What are you trying to
+  achieve?" as if none were offered. Fixed in 0.174.0 (his "y" 11:48): the bubble asks "Start with <it>?". Scoped
+  after codex-tui's before-push review (three rounds, "Safe to push"): a missing fact, a pick-several choice, Switch
+  In's fixed arrival question, and an unclear outcome for already-chosen work keep their own question. Narrows the
+  entry below; does not supersede it.
 
 - **Every question carries the options in hand (Anthony, 2026-10-06 10:40: "we should always give options to user when
   we have them"; 10:41: "we should also look at adding options to empty questions - happens a lot in other repos
