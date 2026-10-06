@@ -367,7 +367,8 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     const listed = typeof a.status === 'string' && a.status !== '' ? a.status : old.status
     // An ending overtone saw stands; an inferred one gives way to the list.
     const status = old.endedMs !== undefined && old.status !== INFERRED ? old.status : listed
-    const ended = FINAL.has(status) ? (old.endedMs ?? nowMs) : undefined
+    // A guessed ending time is replaced by the time the list confirmed it.
+    const ended = FINAL.has(status) ? ((old.status === INFERRED ? undefined : old.endedMs) ?? nowMs) : undefined
     const label = byId[a.id] ? old.label : clip(a.description || a.name || a.type || old.label, 56)
     const next: OvertoneWorker = { ...old, label, type: a.type || old.type, status, listed: true }
     if (typeof a.parentId === 'string' && a.parentId !== '') next.parentId = a.parentId
@@ -379,7 +380,9 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     }
     byId[a.id] = next
   }
-  byId = endUnder(byId, Object.values(byId).filter(x => !isActive(x)).map(x => x.id), liveIds(list), nowMs)
+  // Roots are confirmed endings only: an inferred one carries its root's time,
+  // so the cutoff for "made a call after it ended" never moves later.
+  byId = endUnder(byId, Object.values(byId).filter(x => !isActive(x) && x.status !== INFERRED).map(x => x.id), liveIds(list), nowMs)
   return { byId: prune(byId) }
 }
 

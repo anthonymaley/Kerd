@@ -462,6 +462,32 @@ describe('workers that never reported an ending', () => {
     expect(noteList(failedParent, [listed('p', 'failed'), listed('g', 'killed', 'p')], T0 + 3 * MIN).byId.g?.status).toBe('killed')
   })
 
+  test('an inferred child never becomes a root: the grandchild kept at one reconciliation is kept at the next', () => {
+    let w = noteList(EMPTY_WORKERS, [listed('p', 'running'), listed('c', 'running', 'p'), listed('g', 'running', 'c')], T0)
+    // the parent ends at 100s; the grandchild finishes a call at 160s
+    w = noteToolStart(w, { agentId: 'g', toolUseId: 'u1', summary: 'Read a.ts', nowMs: T0 + 160_000 })
+    w = noteToolEnd(w, { agentId: 'g', toolUseId: 'u1', nowMs: T0 + 160_000 })
+    w = noteEnd(w, { agentId: 'p', failed: false, nowMs: T0 + 100_000 })
+    // reconciliation at 200s: the list omits c and g
+    w = noteList(w, [listed('p', 'completed')], T0 + 200_000)
+    expect(w.byId.c).toMatchObject({ status: INFERRED, endedMs: T0 + 200_000 })
+    expect(w.byId.g?.status).toBe('running')
+    // the next one, at 300s, still keeps it
+    w = noteList(w, [listed('p', 'completed')], T0 + 300_000)
+    expect(w.byId.g?.status).toBe('running')
+    expect(w.byId.c?.endedMs).toBe(T0 + 200_000)
+  })
+
+  test('confirming an inferred ending replaces its guessed time', () => {
+    const base = noteList(EMPTY_WORKERS, [listed('p', 'running'), listed('g', 'running', 'p')], T0)
+    const inferred = noteEnd(base, { agentId: 'p', failed: false, nowMs: T0 + 100_000, listed: [listed('p', 'completed')] })
+    expect(inferred.byId.g).toMatchObject({ status: INFERRED, endedMs: T0 + 100_000 })
+    const byList = noteList(inferred, [listed('p', 'completed'), listed('g', 'completed', 'p')], T0 + 300_000)
+    expect(byList.byId.g).toMatchObject({ status: 'completed', endedMs: T0 + 300_000 })
+    const byTurn = noteEnd(inferred, { agentId: 'g', failed: false, nowMs: T0 + 300_000 })
+    expect(byTurn.byId.g).toMatchObject({ status: 'completed', endedMs: T0 + 300_000 })
+  })
+
   test('a tool call that ran past the quiet time is not quiet the moment it returns', () => {
     let w = noteToolStart(EMPTY_WORKERS, { agentId: 'x', toolUseId: 'u1', summary: 'Bash make', nowMs: T0 })
     w = noteList(w, [], T0 + 1000)
