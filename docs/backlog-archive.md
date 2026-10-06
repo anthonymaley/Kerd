@@ -6,6 +6,13 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-05 (Switch Out, 21:3x)
+
+**Done:** the Now row below. Evidence: on Anthony's "y" (21:30) Claude built `output/kerd-codex-0.171.1` from main and ran `codex plugin add kerd@kerd-core`; `codex plugin list` reads 0.171.1, cache skills and agents identical to main. Record `notes:codex-update/work.md`. The row as it stood:
+
+- **Rebuild the Codex package for 0.171.1** on Anthony's go in its window (Conductor and Visuals frontmatter changed in 0.169.1, Switch restructured in 0.170.0, Conductor in 0.171.0, Agent in 0.171.1; Codex runs 0.167.1).
+
+
 ## Closed 2026-10-03 (watch-row prune, Anthony's "y" 17:43)
 
 Verdicts on the 33 entries of `TODO.md` `## Now`: 7 kept (two shortened), 8 combined into one "Unseen in real use" row, 18

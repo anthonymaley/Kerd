@@ -11,7 +11,7 @@ Kerd — a Claude Code plugin of eight workflow skills: switch (session handoff 
 
 **Claude Code mods: his band is the public `overtone` 0.7.1 from Kerd's marketplace (2026-10-05 13:0x; loads on restart; `vault_path` = `~/eolas/vault`; rollback hand copy `~/.claude/mods/overtone`).** One-line band: ctx, 5h and 7d as `◼` bars of what is left plus the cache figure; expands to the Workers and Cache cards. The guard asks before a private path goes toward a public repo (a safety net, not a lock). Not yet seen live: red alerts and their fold, the cache card, Codex rows. Off: `claude plugin disable overtone@kerd-marketplace`. History, limits and backups: `notes:overtone/work.md`.
 
-**Claude Code's installed Kerd reads 0.171.1 (`claude plugin update`, 2026-10-05 19:1x; loads on restart) and overtone 0.7.1.** **Codex has 0.167.1 installed, five releases behind; all four of its skills have changed since (0.169.1 frontmatter, 0.170.0 Switch, 0.171.0 Conductor, 0.171.1 Agent restructure), so its package needs a rebuild on his go in its window** (0.167.1 built 2026-10-04 10:5x from main's Agent, Conductor, Switch, Visuals and agents, `codex plugin add kerd@kerd-core`; config backup `~/.codex/config.toml.bak-0.167.1`). codex-tui left two review requests unanswered (2026-10-04 18:35; 2026-10-05 11:04); fresh one-off Codex reviewers stood in on his "y". Detail `notes:codex-update/work.md`. Laptop bells
+**Claude Code's installed Kerd reads 0.171.1 (`claude plugin update`, 2026-10-05 19:1x; loads on restart) and overtone 0.7.1.** **Codex has 0.171.1 installed (2026-10-05 21:3x, on his "y": Claude built `output/kerd-codex-0.171.1` from main, repointed `kerd-core`, `codex plugin add`; read back: `codex plugin list` 0.171.1, cache skills and agents identical to main; config backup `~/.codex/config.toml.bak-0.171.1`, 0.167.1 package kept for rollback). The open codex-tui loads it only after Anthony restarts it (`codex resume`).** codex-tui left two review requests unanswered (2026-10-04 18:35; 2026-10-05 11:04); fresh one-off Codex reviewers stood in on his "y". Detail `notes:codex-update/work.md`. Laptop bells
 are on for both (backups `*.bak-bell`).
 
 **Rolling by hand at ~200k tokens is on trial (Anthony, 2026-09-25); the 200k plan is parked (2026-09-27 13:20:
@@ -148,29 +148,25 @@ handoff from 2026-09-25; not adopted.
 **Claude Code's Agent view stays on (Anthony, 2026-09-25 20:54):** `/exit` detaches into the
 background-session list; he quits there with Ctrl-C. Switch Out's restart line says so (0.160.0).
 
-**Selected continuation: proposed, not agreed: rebuild the Codex package for 0.171.1, on Anthony's go in Codex's window** (why: Codex is
-the review partner and runs 0.167.1, five releases behind; every Codex sitting follows the old Conductor, Switch, Visuals and Agent rules,
-including the ones the three restructures just fixed). Stops at his go; a relayed "y" is not enough for Codex to install or build. Detail
-`notes:codex-update/work.md`. Also proposed: look at why Conductor's go skips the who/model/effort grid (6 of 6 eval runs before and after
-0.171.0); Anthony restarting codex-tui so it loads the rebuilt package.
+**Selected continuation: proposed, not agreed: find out why Conductor's go skips the who/model/effort grid** (why: at the go the person should see who builds what, on which model and effort, before anything is dispatched; 0 of 6 eval runs show it, before and after 0.171.0, on Sonnet and Opus; Backlog row "Conductor's go skips the grid"). Scope: read-only diagnosis of the go wording and the eval transcripts, findings to the Backlog; stops before any fix or release (releases paused; a fix comes back to him). Also proposed: Anthony restarting codex-tui so it loads 0.171.1; removing the old Switch eval worktree on his go.
 Done this sitting: `kivna/sessions/2026-10-05.md`.
 **Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
 findings go to the Backlog.
 
-**Pickup reading set** (update 2026-10-05 19:2x):
+**Pickup reading set** (update 2026-10-05 21:3x):
 - this file complete: position (0.171.1, 0.171.0, 0.170.0), rulings (the worker-row ruling, the guard-scope ruling, the release pause, Switch Out when work is finished) and the Codex position;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set);
-- `kivna/sessions/2026-10-05.md`, newest log (four sittings, the last 16:59 to 19:2x);
+- `kivna/sessions/2026-10-05.md`, newest log (five sittings, the last 20:56 to 21:3x);
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `notes:skills-guideline/work.md` (with `reading-evidence.md`, `switch-restructure.html`, `conductor-restructure.html`); `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `ab0770e77bca30c8a9894c5bd35d4dd15eb7121b` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `9de0fb640d6686bcf6d2890e00a2df5bf102582c` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`).
 
-The observed position before this save is `main` at the 0.171.1 release commit (`Release 0.171.1: Agent keeps the rules…`); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at the previous Switch save (`Switch: 2026-10-05 Agent light check released…`); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-05 19:2x: about 32,200 bytes, about 8,050 tokens (estimate), just over the 8,000 target because today's log holds four sittings; tomorrow's log starts fresh. Carried findings checked (0.171.1, the Codex rebuild, five releases behind, the go-grid gap); all in the set. `read_args` for the next pickup:
+**Measured** 2026-10-05 21:3x: 32,844 bytes, about 8,211 tokens (estimate), just over the 8,000 target because today's log holds five sittings; tomorrow's log starts fresh. Carried findings checked (Codex on 0.171.1, the go-grid gap, restarting codex-tui, the release pause); all in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-05.md", "--file", "notes:outside-the-repo.md",
