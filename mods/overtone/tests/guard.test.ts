@@ -67,6 +67,10 @@ type World = {
   // ref), or 'fail' (exit 128) / 'cut' (truncated). Default: what the
   // tracking ref holds (OID_TRACKED), so nothing is stale.
   live: ((url: string, ref: string) => string | null) | 'fail' | 'cut'
+  // The remote-tracking refs `git for-each-ref refs/remotes/origin/` lists
+  // (ref -> what it holds; `symref:<target>` makes it a symbolic ref).
+  // Default: one branch, at the commit the live remote has.
+  tracking: Record<string, string>
   // Commits this clone has (`git cat-file -e`).
   commits: string[]
   // The folders under docs/work/ every base's tree has (`git ls-tree`).
@@ -112,6 +116,7 @@ function world(on: On, over: Partial<World> = {}) {
     committed: VAULT_TEXT,
     missingBases: [],
     live: (url, ref) => (w.missingBases.some(b => b.endsWith(`/${ref.slice('refs/heads/'.length)}`)) ? null : OID_TRACKED),
+    tracking: { 'refs/remotes/origin/feature': OID_TRACKED },
     commits: [OID_TRACKED],
     workTree: ['docs/work/jev-trial', 'docs/work/question-sets'],
     logExit: 0,
@@ -144,6 +149,13 @@ function world(on: On, over: Partial<World> = {}) {
     if (a === 'git remote -v') return out(w.remotes)
     if (a === 'git symbolic-ref -q HEAD') return out('refs/heads/feature\n')
     if (a.startsWith('git for-each-ref --format=%(push) ')) return out('refs/remotes/origin/feature\n')
+    if (a.startsWith('git for-each-ref --format=%(refname) %(objectname) %(symref) ')) {
+      return out(
+        Object.entries(w.tracking)
+          .map(([ref, v]) => (v.startsWith('symref:') ? `${ref} ${OID_TRACKED} ${v.slice(7)}\n` : `${ref} ${v} \n`))
+          .join(''),
+      )
+    }
     if (a.startsWith('git for-each-ref')) return out('origin\n')
     if (a.startsWith('git status')) return out(w.status)
     if (e.argv[1] === 'repo' && e.argv[2] === 'view') {
@@ -187,7 +199,15 @@ function world(on: On, over: Partial<World> = {}) {
       if (live === 'fail') return out('', 128)
       if (live === 'cut') return out('', 0, true)
       const url = e.argv[2]!
-      const lines = e.argv.slice(3).flatMap(ref => {
+      // `refs/heads/*` is every branch the clone tracks, as the remote says.
+      const asked = e.argv.slice(3).flatMap(ref =>
+        ref === 'refs/heads/*'
+          ? Object.keys(w.tracking)
+              .filter(t => !w.tracking[t]!.startsWith('symref:'))
+              .map(t => `refs/heads/${t.slice('refs/remotes/origin/'.length)}`)
+          : [ref],
+      )
+      const lines = asked.flatMap(ref => {
         const oid = live(url, ref)
         return oid === null ? [] : [`${oid}\t${ref}\n`]
       })
@@ -1560,6 +1580,160 @@ describe("guard: a ref-set push reads every pushed tip's committed vault.json", 
       expect(w.ran).toEqual([])
     })
   }
+})
+
+describe('guard: a ref-set push reads the remote live before it trusts the tracking refs', () => {
+  const PUBLIC = 'git@github.com:alex/Kerd.git'
+  const REWOUND = 'b'.repeat(40)
+  const SETS = ['git push --all origin', 'git push --branches origin', 'git push --tags origin', 'git push --mirror origin']
+  const ls = (w: { argv: string[][] }) => w.argv.filter(a => a[1] === 'ls-remote')
+
+  for (const command of SETS) {
+    test(`\`${command}\`: the remote still has what the tracking refs say: passes, one live read of its branches`, async ($, on) => {
+      const { w } = world(on, { log: () => 'README.md\n' })
+      await $.tool.call(bash(command))
+      expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/*']])
+      expect(w.argv.some(a => a[1] === 'cat-file')).toBe(false)
+      expect(w.argv).toContainEqual(expect.arrayContaining(['log', '--not', '--remotes=origin']))
+      expect(w.asked).toEqual([])
+      expect(w.ran).toEqual([command])
+    })
+
+    test(`\`${command}\`: the remote was rewound since the last fetch: asks, and the log is never read against the stale ref`, async ($, on) => {
+      // The tracking ref still holds the commit that added .env; the remote
+      // has gone back to another commit this clone has. Measured against the
+      // tracking refs (`--not --remotes=origin`) that commit reads as
+      // published; the log lists .env only when it is not.
+      const { w, clock } = world(on, {
+        live: () => REWOUND,
+        commits: [OID_TRACKED, REWOUND],
+        log: a => (a.includes('--remotes=origin') ? 'README.md\n' : '.env\n'),
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(w.asked[0]).toContain('toward public github.com/alex/Kerd.')
+      expect(r.deny).toContain("the remote no longer has what this clone's tracking refs say for feature")
+      expect(w.argv.some(a => a[1] === 'log')).toBe(false)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('the branch is gone from the remote while its tracking ref stays: asks', async ($, on) => {
+    const { w, clock } = world(on, { live: () => null, answer: "Don't run it" })
+    const call = $.tool.call(bash('git push --all origin'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(r.deny).toContain('no longer has what this clone')
+    expect(w.ran).toEqual([])
+  })
+
+  test('the remote moved to a commit this clone does not have: asks (fetch first)', async ($, on) => {
+    const { w, clock } = world(on, { live: () => 'c'.repeat(40), answer: "Don't run it" })
+    const call = $.tool.call(bash('git push --tags origin'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(r.deny).toContain('which this clone does not have')
+    expect(w.ran).toEqual([])
+  })
+
+  test('only a branch other than the pushed ones is stale: still asks (every tracking ref is excluded)', async ($, on) => {
+    const other = 'refs/remotes/origin/old-release'
+    const { w, clock } = world(on, {
+      tracking: { 'refs/remotes/origin/feature': OID_TRACKED, [other]: OID_TRACKED },
+      live: (_url, ref) => (ref === 'refs/heads/old-release' ? REWOUND : OID_TRACKED),
+      commits: [OID_TRACKED, REWOUND],
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git push --all origin'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('for old-release')
+    expect(r.deny).not.toContain('for feature')
+    expect(w.ran).toEqual([])
+  })
+
+  test('many stale branches: the why names three and counts the rest', async ($, on) => {
+    const names = ['a', 'b', 'c', 'd', 'e']
+    const { w, clock } = world(on, {
+      tracking: Object.fromEntries(names.map(n => [`refs/remotes/origin/${n}`, OID_TRACKED])),
+      live: () => REWOUND,
+      commits: [OID_TRACKED, REWOUND],
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git push --all origin'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('for a, b, c, and 2 more')
+    expect(w.ran).toEqual([])
+  })
+
+  const FAILS: [string, Partial<World>, string][] = [
+    ['git ls-remote failing', { live: 'fail' }, 'git ls-remote failed'],
+    ['a cut git ls-remote', { live: 'cut' }, 'git ls-remote failed'],
+    ['a git ls-remote that throws or times out', { throws: ['ls-remote'] }, 'git ls-remote failed'],
+    ['a check of the live commit that throws', { live: () => REWOUND, throws: ['cat-file'] }, 'could not check whether this clone has'],
+    ['a tracking-ref listing that fails', { answers: { 'for-each-ref --format=%(refname)': ['', 128, false] } }, "could not list this clone's tracking refs"],
+    [
+      'a cut tracking-ref listing',
+      { answers: { 'for-each-ref --format=%(refname)': [`refs/remotes/origin/feature ${OID_TRACKED} \n`, 0, true] } },
+      "could not list this clone's tracking refs",
+    ],
+    ['a tracking-ref listing that throws', { throws: ['for-each-ref --format=%(refname)'] }, "could not list this clone's tracking refs"],
+    [
+      'a tracking ref that points outside the remote',
+      { tracking: { 'refs/remotes/origin/HEAD': 'symref:refs/remotes/vault/main' } },
+      'points outside the remote',
+    ],
+  ]
+  for (const [what, over, why] of FAILS) {
+    test(`${what}: asks`, async ($, on) => {
+      const { w, clock } = world(on, { log: () => 'README.md\n', answer: "Don't run it", ...over })
+      const call = $.tool.call(bash('git push --all origin'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(why)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('origin/HEAD pointing at another origin branch is read as that branch: passes in sync', async ($, on) => {
+    const { w } = world(on, {
+      tracking: { 'refs/remotes/origin/feature': OID_TRACKED, 'refs/remotes/origin/HEAD': 'symref:refs/remotes/origin/feature' },
+    })
+    await $.tool.call(bash('git push --all origin'))
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push --all origin'])
+  })
+
+  test('no tracking refs: nothing is excluded, so no live read and the push passes', async ($, on) => {
+    const { w } = world(on, { tracking: {} })
+    await $.tool.call(bash('git push --all origin'))
+    expect(ls(w)).toEqual([])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push --all origin'])
+  })
+
+  test('a ref set to a private remote reads nothing live and passes', async ($, on) => {
+    const remotes = REMOTES + 'vault\tgit@github.com:alex/notes.git (fetch)\nvault\tgit@github.com:alex/notes.git (push)\n'
+    const { w } = world(on, { remotes, live: 'fail' })
+    await $.tool.call(bash('git push --all vault'))
+    expect(ls(w)).toEqual([])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push --all vault'])
+  })
+
+  test('a named-branch push is unchanged: no tracking-ref listing', async ($, on) => {
+    const { w } = world(on)
+    await $.tool.call(bash('git push origin feature'))
+    expect(w.argv.some(a => a[1] === 'for-each-ref' && a[2]?.startsWith('--format=%(refname)'))).toBe(false)
+    expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/feature']])
+  })
 })
 
 describe('guard: push file names git would quote', () => {
