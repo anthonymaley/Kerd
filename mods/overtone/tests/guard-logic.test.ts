@@ -1799,6 +1799,11 @@ describe('options as git reads them, and repositories the guard cannot name', ()
       // Each builtin's own options only: bash refuses `cd -n`, `pushd -P` (security review 2026-10-06).
       'cd -n /pub && git push origin HEAD',
       'pushd -P /pub && git push origin HEAD',
+      // Tilde forms for OLDPWD and the stack (security review 2026-10-06).
+      'cd /pub; cd /private-repo; cd ~-; git push origin HEAD',
+      'pushd /pub; cd /private-repo; cd ~+1; git push origin HEAD',
+      'cd ~1 && git push origin HEAD',
+      'git -C ~-/x push origin HEAD',
       'cd /a/$X/.. && git push origin HEAD',
       'git -C "$X/.." push origin HEAD',
     ]) {

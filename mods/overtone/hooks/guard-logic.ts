@@ -73,6 +73,10 @@ export function expandHome(path: string, home: string | undefined): string {
 
 export function resolvePath(cwd: string, path: string, home?: string): string {
   const p = expandHome(path, home)
+  // A tilde form the shell expands other than `~` and `~/` (`~-` is OLDPWD,
+  // `~+`/`~N`/`~+N`/`~-N` the directory stack, `~user` another home): a
+  // directory the guard cannot name, so an expansion, and it asks.
+  if (p.startsWith('~')) return `\${${p}}`
   // `..` must not cancel an expansion, in the directory or the path itself
   // (`${OLDPWD}/..`, `"$X/.."` are not where they started): left unresolved,
   // it stays one, and asks.
