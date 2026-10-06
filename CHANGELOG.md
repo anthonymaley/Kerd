@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.173.0
+
+**Questions come with the options in hand.** Every skill's question rule now says: when options are in hand (open work,
+known routes, candidates), list them above the question with one recommendation, even for an open question, and ask bare
+only when none are in hand. Conductor's "What are you trying to achieve?" lists recorded candidate work above it. Before
+this, Conductor asked that question bare after Switch In although the Backlog held four candidates, and the person had
+to ask "options?"; it happened in other repos too. Wording tests pin the rule; model behaviour not yet seen.
+
+**overtone 0.8.0: finished helpers stop reading as running.** A helper agent overtone first sees through a tool call,
+never at its spawn, now ends when the agent above it ends, unless the host's agent list, a pending call or a permission
+ask shows it alive; such an ending is "unconfirmed", claims neither success nor failure, and revives on fresh signs of
+life. One the host's list has left out and that has made no call for ten minutes is shown as quiet, never as running or
+done. Before this, three finished helpers read as running for over two and a half hours. Reviewed by Codex in three
+rounds; 469 tests; not yet seen live, and the cause of the stuck rows is likely, not proven.
+
+**Three wording fixes.** A Switch In answer that chooses work opens Conductor at Shape (one stage name everywhere);
+Switch Out saves the vault first and writes its commit into the start point before the last project commit, so nothing
+is written after the passed boundary check; a chat roll refused for want of a declared context window is said to the
+person in the chat, not only in the sketchbook.
+
 ## 0.172.1
 
 **Switch Out ends on its box.** The saved-place box is now the last thing Switch Out shows: its guide and the Out

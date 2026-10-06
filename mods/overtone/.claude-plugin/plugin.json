@@ -1,6 +1,6 @@
 {
   "name": "overtone",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "A usage band above the prompt: one line (context and the switch state, the 5-hour and weekly windows, the cache hit, red alerts only when something is wrong) that opens in place into the jobs (workers and Kerd Agent partner requests, asked vs saw) and a cache card only when the cache went cold; Claude gets the same figures with each prompt. A guard asks before a private path is staged, committed or pushed toward a public repo.",
   "author": {
     "name": "Anthony Maley"
