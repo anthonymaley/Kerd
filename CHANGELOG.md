@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.172.0
+
+**Conductor shows who does what before your go.** At Ready, Conductor's decision block now carries the
+task/who/model/effort grid for every job the go will dispatch, each with its Fit line, so the go approves staffing you have
+seen; the go dispatches as shown, and a row that changes is shown again before it is sent. Before this, Conductor chose
+models correctly but dispatched without ever showing the grid, in every eval run and in real use, and a rule placed at the
+go itself changed nothing. A new behaviour case, `evals/conductor-ready`, measured it with the same graders, three runs
+each on Opus with shell and editing allowed: the grid and Fit lines appeared before the go in 1 of 3 runs before and 3 of
+3 after, with nothing dispatched early. Sonnet was not measured cleanly (1 of 3 after in a first pass the eval's tool
+limits skewed). A fresh Codex reviewer found four blockers (the must-hold
+line had dropped the controller row and the repeated Fit line; the graders were too loose); all fixed, and a re-run with
+stricter graders showed the full grid with a Fit line for every job in 3 of 3 Opus runs, nothing built or branched early
+(one run then asked to install the diagram tool the eval sandbox cannot load).
+
 ## 0.171.1
 
 **Agent keeps the rules that must hold at the top.** Agent's SKILL.md now opens with a Must hold section: the paragraphs
