@@ -1789,6 +1789,10 @@ describe('options as git reads them, and repositories the guard cannot name', ()
       'pushd -- -pub && git push origin HEAD',
       // `..` after an expansion in the path itself (security review 2026-10-06).
       'cd "$X/.." && git push origin HEAD',
+      // Words after the target (codex-tui round 3): bash refuses the cd.
+      'cd /a -; git push origin HEAD',
+      'pushd /a -n; git push origin HEAD',
+      'cd /a /b && git push origin HEAD',
       'cd /a/$X/.. && git push origin HEAD',
       'git -C "$X/.." push origin HEAD',
     ]) {

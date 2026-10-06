@@ -1384,7 +1384,8 @@ function readCommand(
     while (k < args.length && /^-[LPe@n]+$/.test(args[k]!)) opts += args[k++]!.slice(1)
     if (args[k] === '--') k++
     const target = args[k]
-    if (target !== undefined && target.startsWith('-')) return head === 'pushd' ? UNKNOWN_STACK : UNKNOWN_PREV
+    // A word after the target makes the shell refuse it (`cd /a -`, `pushd /a -n`): not followed either.
+    if ((target !== undefined && target.startsWith('-')) || args.length > k + 1) return head === 'pushd' ? UNKNOWN_STACK : UNKNOWN_PREV
     if (head === 'pushd' && (target === undefined || /^\+\d+$/.test(target) || opts.includes('n'))) return UNKNOWN_STACK
     return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
   }
