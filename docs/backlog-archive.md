@@ -6,6 +6,16 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-06 (Switch Out, 10:2x)
+
+**Done:** the Backlog row below. Evidence: on Anthony's "y" (09:34, 09:48) `out.md` and SKILL.md's Out must-hold say nothing follows the box's closing line; wording test `test_out_box_wording.py`; released 0.172.1 (db93123, CI green), Claude Code and Codex installs updated. Evals not re-run; real use watched in `TODO.md` `## Now`. Record `notes:skills-guideline/work.md`. The row as it stood:
+
+- **Switch Out can end with a note after its restart line** (evals 2026-10-05: Sonnet in 1 of 9 runs before 0.170.0 and 2 of 3 on one case after; it added a line about a preserved file or a commit trailer). The Out guide says "End Out on one box" but, unlike In, never says nothing follows it. Fix is one line in `out.md` and SKILL.md's Out list; Anthony's release decision. `notes:skills-guideline/work.md`.
+
+**No longer needed:** the Now row below. Evidence (2026-10-06 09:2x, read-only): codex-tui's own thread lists its skill roots each turn; they moved to `kerd-core/kerd/0.172.0` at 08:28, right after that install, so a running Codex thread picks up an install on its next turn. Its process started 2026-10-05 22:13 (not 21:15), and that turn listed 0.171.1. The row as it stood:
+
+- **Anthony: restart codex-tui** (`codex resume`) so it loads 0.172.0 (installed 2026-10-06 08:2x; `notes:codex-update/work.md`). He resumed it at 2026-10-05 21:15, before the 0.171.1 and 0.172.0 installs, so it probably still runs an older Kerd (thread write time, not checked); he confirmed 22:14 that this thread stays the partner. It left review requests unanswered on 2026-10-04 18:35 and 2026-10-05 11:04; a late reply reads as a second opinion.
+
 ## Closed 2026-10-05 (Switch Out, 23:0x)
 
 **Done:** the Backlog row below. Evidence: on Anthony's "y" (22:31, 22:39, 22:54) the grid moved into the Ready decision block; `evals/conductor-ready` clean Opus 1/3 → 3/3, re-run after a fresh Codex review's fixes 3/3 grid with Fit lines; released 0.172.0 (CI green). Real use is watched in `TODO.md` `## Now`. Record `notes:skills-guideline/work.md`. The row as it stood:
