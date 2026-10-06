@@ -73,8 +73,10 @@ export function expandHome(path: string, home: string | undefined): string {
 
 export function resolvePath(cwd: string, path: string, home?: string): string {
   const p = expandHome(path, home)
-  // Relative to a directory an expansion names, `..` must not cancel the
-  // expansion (`${OLDPWD}/..` is not `.`): it stays one, and asks.
+  // `..` must not cancel an expansion, in the directory or the path itself
+  // (`${OLDPWD}/..`, `"$X/.."` are not where they started): left unresolved,
+  // it stays one, and asks.
+  if (hasExpansion(p)) return p.startsWith('/') ? p : `${cwd}/${p}`
   if (!p.startsWith('/') && hasExpansion(cwd)) return `${cwd}/${p}`
   return normalize(p.startsWith('/') ? p : `${cwd}/${p}`)
 }

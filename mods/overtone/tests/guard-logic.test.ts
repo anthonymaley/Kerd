@@ -1787,6 +1787,10 @@ describe('options as git reads them, and repositories the guard cannot name', ()
       'cd -P -- -pub && git push origin HEAD',
       'cd -x && git push origin HEAD',
       'pushd -- -pub && git push origin HEAD',
+      // `..` after an expansion in the path itself (security review 2026-10-06).
+      'cd "$X/.." && git push origin HEAD',
+      'cd /a/$X/.. && git push origin HEAD',
+      'git -C "$X/.." push origin HEAD',
     ]) {
       const ops = parseGitOps(command, KERD, HOME)
       expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
