@@ -219,9 +219,9 @@ a judgment spoken in conversation, never a checklist shown to the person. At
 Ready, show the rendered view of what will be built, put the go as the question
 form's decision block, and ask for it with the Recommendation ending “— approve?” only where it has not
 already been given. That decision block carries the staffing: the
-[task/who/model/effort grid](orchestration.md#one-visible-startup-view) for every
-job the go will dispatch (controller, players, composer and reviewer), each with
-its Fit line, inside the block above the bubble. The go then approves the staffing
+[task/who/model/effort grid](orchestration.md#one-visible-startup-view), a row
+for the controller and every composer, player and reviewer job the go will
+dispatch, each with its Fit line, inside the block above the bubble. The go then approves the staffing
 the person has seen; dispatch as shown, and show a row again, with its Fit line,
 before dispatching it if its model, effort or route has changed since Ready.
 
