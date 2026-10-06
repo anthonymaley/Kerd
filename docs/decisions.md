@@ -12,6 +12,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. EVERY QUESTION CARRIES THE OPTIONS IN HAND: LIST THEM ABOVE THE QUESTION WITH ONE RECOMMENDATION, EVEN AN OPEN ONE; ASK BARE ONLY WHEN NONE ARE IN HAND — Anthony, 2026-10-06 10:40 and 10:41; released 0.173.0.
 1. A WORKER'S ROW SHOWS ITS TASK, NOT ITS LATEST COMMAND; A BLOCKED WORKER SHOWS THE CALL IT WAITS ON — Anthony, 2026-10-05 10:59; released as overtone 0.7.1 (Kerd 0.169.2).
 1. OVERTONE'S GUARD IS A SAFETY NET FOR HONEST MISTAKES, NOT A LOCK AGAINST A DELIBERATELY DISGUISED COMMAND — Anthony, 2026-10-04 22:18.
 1. THE ONE-LINE USAGE BAND IS COLOUR, NOT TEXT: CTX, 5H AND 7D AS BARS OF WHAT IS LEFT, COLOURED BY THE EXISTING RULES; FIGURES IN THE EXPANDED BAND AND CLAUDE'S USAGE LINE; CACHE STAYS A FIGURE — Anthony, 2026-10-03 18:07; live as overtone 0.5.0 (outside the repo), 23:1x.
@@ -238,6 +239,14 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **Every question carries the options in hand (Anthony, 2026-10-06 10:40: "we should always give options to user when
+  we have them"; 10:41: "we should also look at adding options to empty questions - happens a lot in other repos
+  too").** After Switch In's "Yes — real work" with the work unnamed, Conductor asked "What are you trying to
+  achieve?" bare although the Backlog held four candidates; he had to ask "options?". Built into every skill's
+  "Asking the person" paragraph, journey.md's question surface and Conductor's outcome question; released 0.173.0
+  on his "y" 11:09. Still one recommendation and one bubble; options sit above it. Narrows nothing: the 2026-09-25
+  decision-block ruling already allowed known options as facts.
 
 - **A worker's row shows its task, not its latest command** (Anthony, 2026-10-05 10:59: "on overtone, we can just keep the task and remove the command so the task has more room to have more meaning?" "for workers that is"; "y" to the decision block). Case: the Workers card gave the task 14 or 22 characters and the rest to the latest tool call, which changed every few seconds and was not something he acts on. Ruling: running and returned workers show the task; the state column says when one waits on him, and then the row shows the call it waits on, since that is what he answers; a partner row shows its role. A fresh Codex review found the first build let a long task hide that call; fixed so the call keeps two thirds of the cell. `/overtone` text still lists each job's latest call. Detail `notes:overtone/work.md`.
 - **overtone's guard is a safety net for honest mistakes, not a lock against a deliberately disguised command** (Anthony, 2026-10-04 22:18, "y" to the decision block). Case: two fresh read-only Codex reviews of the guard patch found 8, then 9 new ways round it, each a stranger shell form (`printf 'git add' | bash`, `bash -c "$CMD"`, `GIT_CONFIG_*` set before `bash -c`, `git config …; git push`). Reading every shell form does not converge. Claude does not hide its commands; the real risk is a private file staged through an ordinary or commonly wrapped command. Ruling: the guard must be sure about ordinary git and common wrappers (env, sudo, timeout, nice, bash -c "git …", eval, xargs, find -exec, aliases, here-docs, redirects, one-command settings, ref-set pushes) and asks when it cannot tell; disguised forms are Backlog, revisited only if a real slip shows one; the README states the limit. Two further reviews on that scope found 5 then 3 (rare) gaps; released as overtone 0.7.0 (Kerd 0.169.0) with the three on the Backlog. Detail `notes:overtone/work.md`.
