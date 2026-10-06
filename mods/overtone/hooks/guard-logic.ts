@@ -1373,10 +1373,17 @@ function readCommand(
     // (none, `+N`/`-N`, `-`, `-n`) move the shell somewhere the guard does not
     // follow: an expansion, so the git ops after it ask.
     if (head === 'popd') return UNKNOWN_STACK
-    if (args.includes('-')) return UNKNOWN_PREV
-    const target = args.find(w => !w.startsWith('-'))
-    if (head === 'pushd' && (target === undefined || /^[+-]\d+$/.test(target) || args.some(w => /^-[a-zA-Z]*n/.test(w))))
-      return UNKNOWN_STACK
+    // Options as the shell reads them: known letters up to `--` or the first
+    // other word, which is the target even when it starts with `-` (`cd --
+    // -pub`). A target starting with `-` (`-`, `-pub`, an unknown option) or
+    // a `pushd -n` is not followed: an expansion, so it asks.
+    let k = 0
+    let opts = ''
+    while (k < args.length && /^-[LPe@n]+$/.test(args[k]!)) opts += args[k++]!.slice(1)
+    if (args[k] === '--') k++
+    const target = args[k]
+    if (target !== undefined && target.startsWith('-')) return head === 'pushd' ? UNKNOWN_STACK : UNKNOWN_PREV
+    if (head === 'pushd' && (target === undefined || /^\+\d+$/.test(target) || opts.includes('n'))) return UNKNOWN_STACK
     return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
   }
   if (SETS_VARS.has(name)) {

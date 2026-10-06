@@ -1782,6 +1782,11 @@ describe('options as git reads them, and repositories the guard cannot name', ()
       'cd -P - && git push origin HEAD',
       'cd -- - && git push origin HEAD',
       'cd /a && cd /b && (cd - && git add x)',
+      // A directory named like an option, after `--` (security review 2026-10-06): never $HOME.
+      'cd -- -pub && git add -f .env && git commit -m x && git push origin HEAD',
+      'cd -P -- -pub && git push origin HEAD',
+      'cd -x && git push origin HEAD',
+      'pushd -- -pub && git push origin HEAD',
     ]) {
       const ops = parseGitOps(command, KERD, HOME)
       expect([command, ops.length > 0 && ops.every(o => o.unknownRepo !== undefined)]).toEqual([command, true])
