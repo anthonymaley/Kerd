@@ -1397,6 +1397,39 @@ describe('guard: git however the command starts it', () => {
     expect(w.asked).toHaveLength(1)
   })
 
+  test('a shell alias is read from the top of the work tree: the guard reads that top, and asks when it cannot', async ($, on) => {
+    const PRIVATE = remotesOf('git@github.com:alex/notes.git')
+    const config = { 'alias.sa': ['!git add -A\n', 0] as [string, number] }
+    // The top found: the alias reads there, and a private remote passes.
+    const { w } = world(on, { config, remotes: PRIVATE })
+    await $.tool.call(bash('git sa'))
+    expect(w.argv).toContainEqual(['git', 'config', '--get', 'alias.sa'])
+    expect(w.argv.filter(a => a.join(' ') === 'git rev-parse --show-toplevel').length).toBeGreaterThan(1)
+    expect(w.asked).toEqual([])
+  })
+
+  test('a plain alias is read as before, with no top read for the alias itself', async ($, on) => {
+    const { w } = world(on, { config: { 'alias.aa': ['add -A\n', 0] }, remotes: remotesOf('git@github.com:alex/notes.git') })
+    await $.tool.call(bash('git aa'))
+    expect(w.asked).toEqual([])
+  })
+
+  test('a shell alias whose top cannot be read asks, even where the repo is private', async ($, on) => {
+    const PRIVATE = remotesOf('git@github.com:alex/notes.git')
+    const { w, clock } = world(on, {
+      config: { 'alias.sa': ['!git add -A\n', 0] },
+      remotes: PRIVATE,
+      answer: "Don't run it",
+      answers: { 'rev-parse --show-toplevel': ['', 128, false] },
+    })
+    const call = $.tool.call(bash('git sa'))
+    await clock.advance(5_000)
+    await call
+    expect(w.asked).toHaveLength(1)
+    expect(w.asked[0]).toContain('git sa')
+    expect(w.ran).toEqual([])
+  })
+
   test('text mode: an alias it cannot read is not asked about', async ($, on) => {
     const { w } = world(on, { noProcess: true })
     await $.tool.call(bash('git st'))
