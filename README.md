@@ -306,9 +306,19 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.175.3)
+## What's New (v0.176.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.176.0
+
+**Switch reads its guide before it acts, so it now works on Haiku.** On Haiku, Switch never opened its guide (0 of 18
+eval runs): Switch In wrote the screen by hand (~0.6) and Switch Out skipped most steps (~0.2), once telling you the
+session was closed and saved when nothing was saved. Switch's first instruction now says to read the guide for the
+action before any other tool call, with the host's file reader: In and Out in full, To and Roll the sections their
+guide routes them to; and to run every command in your project, never in the skill's folder. Haiku now opens the
+guide every time: In 1.00, Out 0.69-0.88, no false close (it still skips the measured start point; Backlog). Sonnet
+and Opus unchanged. codex-tui: two rounds, safe to push.
 
 ### v0.175.3
 
