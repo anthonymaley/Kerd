@@ -41,6 +41,8 @@ import {
   liveCheck,
   liveRange,
   refSetStaleWhy,
+  trackingSources,
+  liveSource,
   HEADER,
   LATE_NOTE,
   RUN,
@@ -343,9 +345,27 @@ async function trackingStale(
   }
   // No tracking refs: nothing is excluded, so nothing is trusted.
   if (!reads.length) return null
+  // Each tracking ref is read live as the ref it was fetched from (a custom
+  // fetch refspec: `origin/pr/1` is the remote's `refs/pull/1/head`). Unset
+  // reads exit 1; any other failure, or a cut read, is unreadable: ask.
+  const unread = "the guard could not read the remote's fetch settings, so it cannot tell what the push republishes"
+  let fetch: string[]
+  try {
+    const f = await $.process.run(['git', 'config', '--get-all', `remote.${remote}.fetch`], { cwd: root, timeoutMs: 10_000 })
+    if ((f.exitCode !== 0 && f.exitCode !== 1) || f.isStdoutTruncated) return unread
+    fetch = f.exitCode === 0 ? f.stdout.split('\n').map(l => l.trim()).filter(Boolean) : []
+  } catch {
+    return unread
+  }
+  const mapped = trackingSources(remote, fetch, reads.map(r => r.base))
+  if ('why' in mapped) return mapped.why
   for (const url of urls) {
-    const said = await liveRefs($, root, url, ['refs/heads/*'])
-    reads.forEach(r => r.live.push(said === undefined ? undefined : said.get(`refs/heads/${r.base.slice(prefix.length)}`) ?? null))
+    const said = await liveRefs($, root, url, mapped.patterns)
+    for (const r of reads) {
+      const live = liveSource(r.base, mapped.sources.get(r.base)!, said)
+      if (live !== null && typeof live === 'object') return live.why
+      r.live.push(live)
+    }
   }
   const { here, unchecked } = await liveHere($, root, reads)
   const checked = liveCheck(reads, here, unchecked)

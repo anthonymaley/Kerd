@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'claude-code/testing'
 
 import {
+  liveSource,
+  trackingSources,
   GUARD,
   INCOMPLETE_IGNORED,
   RUN,
@@ -1947,5 +1949,35 @@ describe('options as git reads them, and repositories the guard cannot name', ()
     ]) {
       expect([command, judge(command, facts({ status: STAGED_ENV.replace('A  .env', ' M .env') })).map(f => f.verdict)]).toEqual([command, ['pass']])
     }
+  })
+})
+
+describe('trackingSources and liveSource: a tracking ref is read as the ref it was fetched from', () => {
+  const O = 'refs/remotes/origin/'
+  test('no fetch setting: git\'s default, every tracking ref a branch', () => {
+    expect(trackingSources('origin', [], [`${O}main`])).toEqual({ sources: new Map([[`${O}main`, ['refs/heads/main']]]), patterns: ['refs/heads/*'] })
+  })
+  test('a pull-request refspec: pr/1 can come from either refspec; both are asked for', () => {
+    const r = trackingSources('origin', ['+refs/heads/*:refs/remotes/origin/*', '+refs/pull/*/head:refs/remotes/origin/pr/*'], [`${O}pr/1`])
+    expect(r).toEqual({ sources: new Map([[`${O}pr/1`, ['refs/heads/pr/1', 'refs/pull/1/head']]]), patterns: ['refs/heads/*', 'refs/pull/*/head'] })
+  })
+  test('an exact refspec; a negative one and one with no destination name no tracking ref', () => {
+    const r = trackingSources('origin', ['refs/heads/main:refs/remotes/origin/main', '^refs/heads/tmp/*', 'refs/tags/v1'], [`${O}main`])
+    expect(r).toEqual({ sources: new Map([[`${O}main`, ['refs/heads/main']]]), patterns: ['refs/heads/main'] })
+  })
+  test('unexplained or unreadable: why', () => {
+    expect(trackingSources('origin', ['refs/heads/main:refs/remotes/origin/main'], [`${O}feature`])).toHaveProperty('why')
+    expect(trackingSources('origin', ['refs/*/x/*:refs/remotes/origin/*'], [`${O}a`])).toHaveProperty('why')
+    expect(trackingSources('origin', ['refs/heads/*:refs/remotes/origin/main'], [`${O}main`])).toHaveProperty('why')
+    expect(trackingSources('origin', ['a:b:c'], [`${O}main`])).toHaveProperty('why')
+    expect(trackingSources('origin', ['heads/*:refs/remotes/origin/*'], [`${O}main`])).toHaveProperty('why')
+  })
+  test('liveSource: the one source there, none (gone), a failed read, or two there (why)', () => {
+    const said = new Map([['refs/pull/1/head', 'a'.repeat(40)]])
+    expect(liveSource(`${O}pr/1`, ['refs/heads/pr/1', 'refs/pull/1/head'], said)).toBe('a'.repeat(40))
+    expect(liveSource(`${O}pr/2`, ['refs/heads/pr/2', 'refs/pull/2/head'], said)).toBeNull()
+    expect(liveSource(`${O}pr/1`, ['refs/pull/1/head'], undefined)).toBeUndefined()
+    said.set('refs/heads/pr/1', 'b'.repeat(40))
+    expect(liveSource(`${O}pr/1`, ['refs/heads/pr/1', 'refs/pull/1/head'], said)).toHaveProperty('why')
   })
 })

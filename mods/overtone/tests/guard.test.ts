@@ -63,6 +63,11 @@ type World = {
   // Bases `git ls-tree` cannot read (a remote branch that does not exist):
   // no tracking ref here, and no such branch on the remote.
   missingBases: string[]
+  // Refs outside refs/heads/ the remote has, for a `git ls-remote` glob such
+  // as `refs/pull/*/head` (a custom fetch refspec's source).
+  remoteRefs: string[]
+  // The branches the remote has, by name; null: every tracking ref's name.
+  remoteBranches: string[] | null
   // What `git ls-remote <url> <refs>` says per URL and ref (null: no such
   // ref), or 'fail' (exit 128) / 'cut' (truncated). Default: what the
   // tracking ref holds (OID_TRACKED), so nothing is stale.
@@ -115,6 +120,8 @@ function world(on: On, over: Partial<World> = {}) {
     files: { [VAULT_JSON]: VAULT_TEXT },
     committed: VAULT_TEXT,
     missingBases: [],
+    remoteRefs: [],
+    remoteBranches: null,
     live: (url, ref) => (w.missingBases.some(b => b.endsWith(`/${ref.slice('refs/heads/'.length)}`)) ? null : OID_TRACKED),
     tracking: { 'refs/remotes/origin/feature': OID_TRACKED },
     commits: [OID_TRACKED],
@@ -202,10 +209,12 @@ function world(on: On, over: Partial<World> = {}) {
       // `refs/heads/*` is every branch the clone tracks, as the remote says.
       const asked = e.argv.slice(3).flatMap(ref =>
         ref === 'refs/heads/*'
-          ? Object.keys(w.tracking)
+          ? (w.remoteBranches ?? Object.keys(w.tracking)
               .filter(t => !w.tracking[t]!.startsWith('symref:'))
-              .map(t => `refs/heads/${t.slice('refs/remotes/origin/'.length)}`)
-          : [ref],
+              .map(t => t.slice('refs/remotes/origin/'.length))).map(b => `refs/heads/${b}`)
+          : ref.includes('*')
+            ? w.remoteRefs.filter(r => new RegExp(`^${ref.split('*').map(p => p.replace(/[.+?^${}()|[\]\\]/g, '\\$&')).join('.+')}$`).test(r))
+            : [ref],
       )
       const lines = asked.flatMap(ref => {
         const oid = live(url, ref)
@@ -1751,6 +1760,70 @@ describe('guard: a ref-set push reads the remote live before it trusts the track
     expect(w.asked).toEqual([])
     expect(w.ran).toEqual(['git push --all origin'])
   })
+
+  // A remote with custom fetch refspecs (2026-10-07): GitHub's pull-request
+  // refs fetched into origin/pr/*. Each tracking ref is read live as the ref
+  // it was fetched from, never as a branch the remote never had.
+  const PR_FETCH = '+refs/heads/*:refs/remotes/origin/*\n+refs/pull/*/head:refs/remotes/origin/pr/*\n'
+  const PR_TRACKING = { 'refs/remotes/origin/feature': OID_TRACKED, 'refs/remotes/origin/pr/1': OID_TRACKED }
+
+  test('custom fetch refspecs, the remote unchanged: passes, pull-request refs read as themselves', async ($, on) => {
+    const { w } = world(on, {
+      config: { 'remote.origin.fetch': [PR_FETCH, 0] },
+      tracking: PR_TRACKING,
+      remoteRefs: ['refs/pull/1/head'],
+      remoteBranches: ['feature'],
+    })
+    await $.tool.call(bash('git push --all origin'))
+    expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/*', 'refs/pull/*/head']])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push --all origin'])
+  })
+
+  test('custom fetch refspecs, a pull-request ref moved: asks, naming it', async ($, on) => {
+    const { w, clock } = world(on, {
+      config: { 'remote.origin.fetch': [PR_FETCH, 0] },
+      tracking: PR_TRACKING,
+      remoteRefs: ['refs/pull/1/head'],
+      remoteBranches: ['feature'],
+      live: (_url, ref) => (ref === 'refs/pull/1/head' ? REWOUND : OID_TRACKED),
+      commits: [OID_TRACKED, REWOUND],
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git push --all origin'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('for pr/1')
+    expect(w.ran).toEqual([])
+  })
+
+  const UNEXPLAINED: [string, Partial<World>, string][] = [
+    [
+      'a tracking ref no fetch refspec explains',
+      { config: { 'remote.origin.fetch': ['+refs/heads/main:refs/remotes/origin/main\n', 0] } },
+      'no fetch setting of the remote explains the tracking ref feature',
+    ],
+    [
+      'two sources of one tracking ref both on the remote',
+      { config: { 'remote.origin.fetch': [PR_FETCH, 0] }, tracking: PR_TRACKING, remoteRefs: ['refs/pull/1/head'], remoteBranches: ['feature', 'pr/1'] },
+      'the remote has both refs/heads/pr/1 and refs/pull/1/head',
+    ],
+    ['an unreadable fetch setting', { config: { 'remote.origin.fetch': ['', 128] } }, "could not read the remote's fetch settings"],
+    ['a cut fetch setting', { config: { 'remote.origin.fetch': ['+refs/heads/*:refs/remotes/origin/*\n', 0, true] } }, "could not read the remote's fetch settings"],
+    ['a fetch setting that throws', { throws: ['config --get-all remote.origin.fetch'] }, "could not read the remote's fetch settings"],
+    ['a fetch refspec with two stars', { config: { 'remote.origin.fetch': ['+refs/*/x/*:refs/remotes/origin/*\n', 0] } }, "could not read the remote's fetch setting"],
+  ]
+  for (const [what, over, why] of UNEXPLAINED) {
+    test(`${what}: asks`, async ($, on) => {
+      const { w, clock } = world(on, { log: () => 'README.md\n', answer: "Don't run it", ...over })
+      const call = $.tool.call(bash('git push --all origin'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(why)
+      expect(w.ran).toEqual([])
+    })
+  }
 
   test('a ref set to a private remote reads nothing live and passes', async ($, on) => {
     const remotes = REMOTES + 'vault\tgit@github.com:alex/notes.git (fetch)\nvault\tgit@github.com:alex/notes.git (push)\n'
