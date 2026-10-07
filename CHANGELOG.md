@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.175.3
+
+**overtone 0.8.2: a failed `cd` no longer sends the guard to the wrong folder.** When a `cd` fails, the shell
+stays where it was and git runs there, but the guard followed the `cd` anyway and checked a folder git never ran in
+(`cd /a && cd /typo; git push` was judged against `/typo`, found no repo and passed). The guard now remembers every
+folder a `cd` or `pushd` moved to before each git command and asks when any of them is not a folder: missing, or a
+file (`cd README.md`), even when the line moves on (`cd /typo; cd ..`). Only ever asks more; one known extra ask is
+`mkdir x && cd x && git add` in one command. codex-tui: two rounds, safe to push. Kerd's skills are unchanged.
+
 ## 0.175.2
 
 **Switch Out reads the save check whole before it says the save is proven.** In one of nine eval runs, Out piped the
