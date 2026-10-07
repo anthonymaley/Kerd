@@ -2,6 +2,6 @@
 type: regex
 weight: 1
 target: trace
-pattern: '"file_path":"[^"]*[/\\](?:in-out|in)\.md"|"command":"(?:[^"\\]|\\.)*\b(?:cat|sed|head|tail|less|awk|bat|nl)\b(?:[^"\\]|\\.)*[/\\](?:in-out|in)\.md'
+pattern: '"tool_result","content":"(?:[^"\\]|\\.)*# In: useful context(?:(?:[^"\\]|\\.)*make the banner complete\.|[\s\S]*"tool_result","content":"(?:[^"\\]|\\.)*make the banner complete\.)'
 ---
-The In guide was opened, by Read or by a cat/sed/head-style Bash read (in-out.md before the restructure, in.md after).
+The whole In guide was read: its first heading and, later, its last sentence both came back in tool output, so a head slice fails. A separate head and tail read would still pass. The anchor sentence is checked against the guide by skills/switch/scripts/tests/test_eval_graders.py.

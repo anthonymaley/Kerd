@@ -2,6 +2,6 @@
 type: regex
 weight: 1
 target: trace
-pattern: '"file_path":"[^"]*[/\\](?:in-out|out)\.md"|"command":"(?:[^"\\]|\\.)*\b(?:cat|sed|head|tail|less|awk|bat|nl)\b(?:[^"\\]|\\.)*[/\\](?:in-out|out)\.md'
+pattern: '"tool_result","content":"(?:[^"\\]|\\.)*# Out: clean boundaries(?:(?:[^"\\]|\\.)*Without `--sync` it is local-only\.|[\s\S]*"tool_result","content":"(?:[^"\\]|\\.)*Without `--sync` it is local-only\.)'
 ---
-The Out guide was opened, by Read or by a cat/sed/head-style Bash read (in-out.md before the restructure, out.md after).
+The whole Out guide was read: its first heading and, later, its last sentence both came back in tool output, so a head slice fails. A separate head and tail read would still pass. The anchor sentence is checked against the guide by skills/switch/scripts/tests/test_eval_graders.py.
