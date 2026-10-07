@@ -1983,6 +1983,49 @@ describe('options as git reads them, and repositories the guard cannot name', ()
     }
   })
 
+  test('a push dry run sends nothing: it passes; the same push without it, or with it undone, asks', () => {
+    // What the push would publish carries .env: a real push asks.
+    const sends = facts({ pushPaths: ['.env'], pushPlan: plan('git push origin feature') })
+    const dry = [
+      'git push --dry-run origin feature',
+      'git push -n origin feature',
+      'git push -nf origin feature',
+      'git push --dry origin feature',
+      'git push origin feature --dry-run',
+      'git push --force --dry-run --tags origin',
+      'git push --no-dry-run --dry-run origin feature',
+      'git push -u -n --porcelain origin HEAD',
+    ]
+    for (const command of dry) {
+      expect([command, op(command).dryRun, judge(command, sends).map(f => f.verdict)]).toEqual([command, true, ['pass']])
+    }
+    const real = [
+      'git push origin feature',
+      'git push --dry-run --no-dry-run origin feature',
+      'git push -n --no-dry-run origin feature',
+      // -o takes a value: `-on` and `-o n` are the push option "n", not -n.
+      'git push -on origin feature',
+      'git push -o n origin feature',
+      'git push --push-option=-n origin feature',
+    ]
+    for (const command of real) {
+      expect([command, op(command).dryRun, judge(command, sends).map(f => f.verdict)]).toEqual([command, undefined, ['ask']])
+    }
+    // A dry run passes alone: a real push in the same line still asks.
+    expect(judge('git push --dry-run origin feature && git push origin feature', sends).map(f => f.verdict)).toEqual(['pass', 'ask'])
+    expect(judge('git push -n origin feature; git push origin feature', sends).map(f => f.verdict)).toEqual(['pass', 'ask'])
+    // Only a dry run read whole passes: a word the guard cannot read (an
+    // expansion, what xargs adds, an option it cannot tell apart) may undo it.
+    for (const command of [
+      'git push --dry-run origin feature $FLAGS',
+      'git push -n "$@"',
+      'echo --no-dry-run | xargs git push -n origin feature',
+      'git push --d origin feature',
+    ]) {
+      expect([command, judge(command, sends).map(f => f.verdict)]).toEqual([command, ['ask']])
+    }
+  })
+
   test('commit --only with no paths commits nothing staged; -uno is not -o', () => {
     for (const command of ['git commit --only --amend --no-edit', 'git commit -o --amend -m x', 'git commit --only --allow-empty -m x']) {
       expect([command, judge(command, facts({ status: STAGED_ENV })).map(f => f.verdict)]).toEqual([command, ['pass']])

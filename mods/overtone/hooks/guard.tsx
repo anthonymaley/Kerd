@@ -43,6 +43,8 @@ import {
   refSetStaleWhy,
   trackingSources,
   liveSource,
+  shortDestination,
+  tagDestination,
   HEADER,
   LATE_NOTE,
   RUN,
@@ -309,10 +311,10 @@ async function liveHere($: EngineInterface, root: string, reads: readonly LiveRe
   return { here, unchecked }
 }
 
-// A ref-set push excludes (`--not --remotes=<remote>`) every commit any of the
-// remote's tracking refs holds. Each of those refs, read live: null when the
-// remote still has exactly what they say, else why the guard cannot trust them
-// (an ask). `urls`: every guarded push URL of the remote.
+// A ref-set or tag push excludes (`--not --remotes=<remote>`) every commit any
+// of the remote's tracking refs holds. Each of those refs, read live: null when
+// the remote still has exactly what they say, else why the guard cannot trust
+// them (an ask). `urls`: every guarded push URL of the remote.
 async function trackingStale(
   $: EngineInterface,
   root: string,
@@ -537,10 +539,36 @@ export const register: Register = (on, options) => {
                   plan = pushPlan(op.push, remotes, defaultRemote, config, visibility)
                   // Each destination branch's remote-tracking ref
                   // (refs/remotes/<remote>/<branch>), never another branch.
+                  // A tag has none: `tagged`, read as a ref set is (below).
                   const tracked: string[] = []
+                  let tagged = false
                   if (plan.kind === 'revs') {
                     if (plan.dsts === null) workBaseUnknown = true
-                    for (const dst of plan.dsts ?? []) {
+                    const srcs = plan.revs.slice(0, plan.revs.indexOf('--not'))
+                    for (const [k, dst] of (plan.dsts ?? []).entries()) {
+                      // A short name is a tag when its source is (`git push
+                      // origin v1`). Exit 1: no such ref, so git sends
+                      // nothing from it and it is read as before.
+                      let srcRef: string | null = null
+                      if (shortDestination(dst)) {
+                        try {
+                          const full = await $.process.run(
+                            ['git', 'rev-parse', '--verify', '-q', '--symbolic-full-name', srcs[k]!],
+                            { cwd: root, timeoutMs: T },
+                          )
+                          if (fullRead(full)) srcRef = full.stdout.trim() || null
+                          else if (full.exitCode !== 1 || full.isStdoutTruncated) {
+                            unread ??= 'the guard could not read which ref this push sends'
+                          }
+                        } catch {
+                          unread ??= 'the guard could not read which ref this push sends'
+                        }
+                      }
+                      if (tagDestination(dst, srcRef)) {
+                        tagged = true
+                        workBaseUnknown = true
+                        continue
+                      }
                       let b = destinationBase(plan.remote, dst, headRef)
                       if (dst === PUSH_DST && headRef !== null) {
                         // A bare push: git names the branch it updates.
@@ -618,12 +646,12 @@ export const register: Register = (on, options) => {
                         }
                       }
                     }
-                    if (plan.kind === 'revs' && op.push.sets.length) {
-                      // A ref set (--all, --branches, --mirror, --tags) is
-                      // measured against every tracking ref of the remote
-                      // (`--remotes=<remote>`), not a named destination, so
-                      // each of those is read live too: any that is not what
-                      // the remote has now asks.
+                    if (plan.kind === 'revs' && (op.push.sets.length || tagged)) {
+                      // A ref set (--all, --branches, --mirror, --tags), or a
+                      // tag named by refspec, is measured against every
+                      // tracking ref of the remote (`--remotes=<remote>`), not
+                      // a named destination, so each of those is read live
+                      // too: any that is not what the remote has now asks.
                       const why = await trackingStale($, root, plan.remote, plan.urls)
                       if (why !== null) plan = { kind: 'opaque', why, urls: plan.urls }
                     }

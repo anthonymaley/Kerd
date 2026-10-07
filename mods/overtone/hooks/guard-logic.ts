@@ -731,6 +731,8 @@ export type PushTarget = {
   // Why the reader can tell where this push goes but not what it sends (a
   // wrapper or `git subtree push`): to a public repo it asks.
   blind?: string
+  // -n/--dry-run, the last of it and --no-dry-run: it sends nothing.
+  dryRun?: boolean
 }
 
 export type GitOp = {
@@ -751,7 +753,7 @@ export type GitOp = {
   // nothing staged is committed).
   only?: boolean
   // add -n/--dry-run, commit --dry-run (or --short, --porcelain, --long,
-  // which imply it): it stages or commits nothing.
+  // which imply it), push -n/--dry-run: it stages, commits or sends nothing.
   dryRun?: boolean
   // Why git runs in a repository the guard cannot name (find -execdir, `git
   // -C {}`): it asks, whatever the caller's repo is.
@@ -817,7 +819,7 @@ const MATTERS: Record<GitOp['kind'], ReadonlySet<string>> = {
   ]),
   push: new Set([
     'repo', 'all', 'branches', 'mirror', 'delete', 'tags', 'force', 'force-with-lease', 'force-if-includes',
-    'recurse-submodules', 'receive-pack', 'exec', 'push-option',
+    'recurse-submodules', 'receive-pack', 'exec', 'push-option', 'dry-run',
   ]),
 }
 
@@ -1709,6 +1711,7 @@ function readGit(
   }
   if (kind === 'push') {
     op.push = parsePushTarget(words, i + 1)
+    if (op.push.dryRun) op.dryRun = true
     overridden(op.push)
     r.ops.push(op)
     return sub
@@ -1829,6 +1832,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
   // `--no-x` wins. --all and --branches are one option.
   const sets = new Set<PushTarget['sets'][number]>()
   const forces = new Set<string>()
+  let dryRun = false
   const setOf = { all: '--branches', branches: '--branches', mirror: '--all', tags: '--tags' } as const
   for (let j = from; j < words.length; j++) {
     const w = words[j] ?? ''
@@ -1850,6 +1854,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
         if (on) sets.add(set)
         else sets.delete(set)
       } else if (o.name === 'delete') t.deleting = on
+      else if (o.name === 'dry-run') dryRun = on
       else if (o.name === 'force' || o.name === 'force-with-lease' || o.name === 'force-if-includes') {
         if (on) forces.add(o.name)
         else forces.delete(o.name)
@@ -1861,6 +1866,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
       for (let k = 0; k < flags.length; k++) {
         const f = flags.charAt(k)
         if (f === 'd') t.deleting = true
+        else if (f === 'n') dryRun = true
         else if (f === 'f') forces.add('force')
         else if (f === 'o') {
           if (k === flags.length - 1) j++
@@ -1873,6 +1879,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
   }
   t.sets = [...sets]
   t.force = forces.size > 0
+  if (dryRun) t.dryRun = true
   t.remote = positional[0] ?? repoOption
   // `tag <name>` is git's spelling of refs/tags/<name>.
   const rest = positional.slice(1)
@@ -2042,6 +2049,19 @@ export function destinationBase(remote: string, dst: string, headRef: string | n
   else if (name.startsWith('refs/') || name.includes('@{') || name.includes('\0')) return null
   return name && name !== 'HEAD' ? `refs/remotes/${remote}/${name}` : null
 }
+
+// A destination written as a short name (`v1`, `main:v1`): git makes it a
+// full ref from what its source is, so guard.tsx reads the source's full name
+// (`git rev-parse --symbolic-full-name`). Never one the guard makes up.
+export const shortDestination = (dst: string): boolean => !dst.startsWith('refs/') && !dst.includes('\0')
+
+// True when a push destination is a tag: `refs/tags/<name>` as written, or a
+// short name whose source is a tag (`srcRef`: the source's full ref name,
+// null when it is no ref). A tag has no remote-tracking ref, so what such a
+// push leaves out is every tracking ref of the remote (`--remotes=<remote>`),
+// as a ref set's is: guard.tsx reads each of them live (trackingStale).
+export const tagDestination = (dst: string, srcRef: string | null): boolean =>
+  dst.startsWith('refs/tags/') || (shortDestination(dst) && srcRef !== null && srcRef.startsWith('refs/tags/'))
 
 // `defaultRemote`: where a bare `git push` goes from this branch
 // (`%(push:remotename)`), null when git names none (then `origin`).
@@ -2282,11 +2302,11 @@ export function liveSource(
 
 // The publish range measured against the live remote: stale tracking refs
 // are left out of `--remotes` and their live commits excluded instead.
-// Accepted residuals: only the destination branches are read live, so a
+// Accepted residual: only the destination branches are read live, so a
 // stale tracking ref for another branch of the remote can still hide commits
-// through `--remotes=<remote>`; and a tag named by refspec gets no live check.
-// (A ref set, --all/--branches/--mirror/--tags, reads every tracking ref live:
-// guard.tsx trackingStale.)
+// through `--remotes=<remote>`. (A ref set, --all/--branches/--mirror/--tags,
+// and a tag named by refspec read every tracking ref live: guard.tsx
+// trackingStale.)
 export function liveRange(plan: Extract<PushPlan, { kind: 'revs' }>, stale: readonly Stale[]): string[] {
   if (!stale.length) return plan.revs
   const at = plan.revs.indexOf('--not')
@@ -2478,11 +2498,13 @@ export function assess(
     const hits = [{ path: op.text, reason: op.unknownRepo }]
     return { op, verdict: 'ask', mode: facts ? 'git' : 'text', hits, touched: 0, unresolved: true }
   }
-  // A dry run stages or commits nothing, when the guard read all of it: a
-  // word it could not read (an expansion, what xargs adds, an alias) may
-  // undo the dry run.
-  const readWhole = !op.isOpaque && !op.specs.some(s => s.unreadable) && !hasExpansion(op.text) && op.alias === undefined
-  if (op.kind !== 'push' && op.dryRun && readWhole) return { op, verdict: 'pass', mode: facts ? 'git' : 'text', hits: [], touched: 0 }
+  // A dry run stages, commits or sends nothing, when the guard read all of
+  // it: a word it could not read (an expansion, what xargs adds, an alias,
+  // an option it cannot tell apart) may undo the dry run.
+  const readWhole =
+    !op.isOpaque && !op.specs.some(s => s.unreadable) && !hasExpansion(op.text) && op.alias === undefined &&
+    !op.push?.opaque && !op.push?.blind
+  if (op.dryRun && readWhole) return { op, verdict: 'pass', mode: facts ? 'git' : 'text', hits: [], touched: 0 }
   // A vault path only ever adds hits: no repo or folder is let through for
   // being inside one.
   if (!facts) {
