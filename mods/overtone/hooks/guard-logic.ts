@@ -731,6 +731,8 @@ export type PushTarget = {
   // Why the reader can tell where this push goes but not what it sends (a
   // wrapper or `git subtree push`): to a public repo it asks.
   blind?: string
+  // -n/--dry-run, the last of it and --no-dry-run: it sends nothing.
+  dryRun?: boolean
 }
 
 export type GitOp = {
@@ -751,7 +753,7 @@ export type GitOp = {
   // nothing staged is committed).
   only?: boolean
   // add -n/--dry-run, commit --dry-run (or --short, --porcelain, --long,
-  // which imply it): it stages or commits nothing.
+  // which imply it), push -n/--dry-run: it stages, commits or sends nothing.
   dryRun?: boolean
   // Why git runs in a repository the guard cannot name (find -execdir, `git
   // -C {}`): it asks, whatever the caller's repo is.
@@ -817,7 +819,7 @@ const MATTERS: Record<GitOp['kind'], ReadonlySet<string>> = {
   ]),
   push: new Set([
     'repo', 'all', 'branches', 'mirror', 'delete', 'tags', 'force', 'force-with-lease', 'force-if-includes',
-    'recurse-submodules', 'receive-pack', 'exec', 'push-option',
+    'recurse-submodules', 'receive-pack', 'exec', 'push-option', 'dry-run',
   ]),
 }
 
@@ -946,6 +948,58 @@ const GIT_COMMANDS = new Set(
     'verify-tag version whatchanged worktree write-tree'
   ).split(' '),
 )
+// Subcommands that only read the repository: a shell alias made of these
+// alone passes (`!git log --oneline`). Ones that also write (branch, tag,
+// stash, config, reflog, remote, fetch) are not here, nor ones that run a
+// program as their work (help: man or a browser; ls-remote: --upload-pack;
+// verify-commit and verify-tag: gpg).
+const READ_ONLY = new Set(
+  (
+    'annotate blame cat-file check-attr check-ignore check-mailmap cherry count-objects describe diff diff-files ' +
+    'diff-index diff-tree for-each-ref grep log ls-files ls-tree merge-base name-rev range-diff rev-list rev-parse ' +
+    'shortlog show show-branch show-ref status var version whatchanged'
+  ).split(' '),
+)
+// Options of those subcommands that run a program or write a file (grep
+// -O/--open-files-in-pager, the diff family's --ext-diff, --textconv and
+// --output, cat-file --filters, log --show-signature). A long option asks
+// when it is one of these, an abbreviation git could read as one (`--ext`,
+// `--o`), or begins with one (`--output-indicator-new`); a short option word
+// with an `O` anywhere (`-O`, `-niOless`) asks; so does a word with a
+// signature placeholder (`%G?`, `%(signature)`), which runs gpg. Wider than
+// it must be: a word it catches that runs nothing only asks.
+const RUNS_OR_WRITES = ['open-files-in-pager', 'ext-diff', 'textconv', 'output', 'filters', 'show-signature']
+function runsOrWrites(word: string): boolean {
+  if (/%G|%\(signature/.test(word)) return true
+  if (/^-[^-]/.test(word)) return word.includes('O')
+  if (!word.startsWith('--')) return false
+  const key = word.slice(2).split('=')[0]!
+  return key !== '' && RUNS_OR_WRITES.some(n => n.startsWith(key) || key.startsWith(n))
+}
+// A shell alias body (the arguments appended) that is read-only git alone:
+// commands joined by `;`, `&&`, `||` or newlines, each the word `git`, its
+// own options and a READ_ONLY subcommand with no option RUNS_OR_WRITES
+// names. A pipe, redirection, subshell, substitution, expansion, another
+// program, or config set on the line (`-c core.pager=…` runs a program) is
+// not.
+function readOnlyGit(body: string): boolean {
+  const cmds = splitShell(body)
+  return (
+    cmds.length > 0 &&
+    cmds.every(c => {
+      if (c.piped || c.parens.length || c.subs.length || c.unread.length || c.heredocs.length) return false
+      if (c.words[0] !== 'git' || c.words.some(hasExpansion)) return false
+      if (dropRedirects(c.words, c.firstQuoted).length !== c.words.length) return false
+      let i = 1
+      while (i < c.words.length && c.words[i]!.startsWith('-')) {
+        const w = c.words[i]!
+        if (w === '-c' || w.startsWith('--config-env') || w.startsWith('--exec-path')) return false
+        i += ['-C', '--git-dir', '--work-tree', '--namespace'].includes(w) ? 2 : 1
+      }
+      return READ_ONLY.has(c.words[i] ?? '') && !c.words.slice(i + 1).some(runsOrWrites)
+    })
+  )
+}
 // A name git accepts as an alias.
 const ALIAS_NAME = /^[A-Za-z0-9][A-Za-z0-9-]*$/
 const VERBS: ReadonlyMap<string, GitOp['kind']> = new Map([
@@ -1635,7 +1689,8 @@ function readGit(
       // from where git was run; GIT_PREFIX holds the way back) with the
       // arguments appended (git runs `sh -c '<body> "$@"'`): `!git` with
       // `add -f .env` is `git add -f .env`. Read so, and never whole; one
-      // that shows no git add, commit or push still asks. The body is read
+      // that shows no git add, commit or push still asks, unless all it runs
+      // is read-only git (readOnlyGit), which goes nowhere. The body is read
       // from where git ran AND, when it is known and different, from that
       // top; the ops of both are kept, so the alias asks if either place
       // does (a relative `-C ../x` lands somewhere else from each). With the
@@ -1649,7 +1704,7 @@ function readGit(
       const body = [value.slice(1), ...args].join(' ')
       readLine(r, body, gitDir, depth + 1, false)
       if (known !== null && known !== gitDir) readLine(r, body, known, depth + 1, false)
-      if (r.ops.length === mark) r.ops.push(unreadableOp('commit', gitDir, text, why))
+      if (r.ops.length === mark && !readOnlyGit(body)) r.ops.push(unreadableOp('commit', gitDir, text, why))
       for (const op of r.ops.slice(mark)) blind(op, why)
       if (known === null) {
         const lost = `\`git ${sub}\` is a shell alias that runs from the top of the work tree, which the guard could not find, so it cannot tell which repository the alias works in`
@@ -1675,6 +1730,7 @@ function readGit(
   }
   if (kind === 'push') {
     op.push = parsePushTarget(words, i + 1)
+    if (op.push.dryRun) op.dryRun = true
     overridden(op.push)
     r.ops.push(op)
     return sub
@@ -1795,6 +1851,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
   // `--no-x` wins. --all and --branches are one option.
   const sets = new Set<PushTarget['sets'][number]>()
   const forces = new Set<string>()
+  let dryRun = false
   const setOf = { all: '--branches', branches: '--branches', mirror: '--all', tags: '--tags' } as const
   for (let j = from; j < words.length; j++) {
     const w = words[j] ?? ''
@@ -1816,6 +1873,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
         if (on) sets.add(set)
         else sets.delete(set)
       } else if (o.name === 'delete') t.deleting = on
+      else if (o.name === 'dry-run') dryRun = on
       else if (o.name === 'force' || o.name === 'force-with-lease' || o.name === 'force-if-includes') {
         if (on) forces.add(o.name)
         else forces.delete(o.name)
@@ -1827,6 +1885,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
       for (let k = 0; k < flags.length; k++) {
         const f = flags.charAt(k)
         if (f === 'd') t.deleting = true
+        else if (f === 'n') dryRun = true
         else if (f === 'f') forces.add('force')
         else if (f === 'o') {
           if (k === flags.length - 1) j++
@@ -1839,6 +1898,7 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
   }
   t.sets = [...sets]
   t.force = forces.size > 0
+  if (dryRun) t.dryRun = true
   t.remote = positional[0] ?? repoOption
   // `tag <name>` is git's spelling of refs/tags/<name>.
   const rest = positional.slice(1)
@@ -1858,12 +1918,23 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
 // `dsts`: where on the remote each source goes, as git names it, or
 // PUSH_DST (a bare push's own destination) or CURRENT_DST (the current
 // branch's name); null when a ref set (--all, --tags) sends refs the guard
-// cannot list. `force`: a forced push or a `+` refspec. `urls`: every
+// cannot list. `written`: per destination, true when the refspec wrote it
+// after a colon (`src:dst`), where git looks a short name up on the remote
+// first. `force`: a forced push or a `+` refspec. `urls`: every
 // guarded push URL of `remote` (`url` is the one named).
 // `urls`: the destination URL(s) the push resolved to before it turned
 // opaque; absent: the guard could not resolve where it goes.
 export type PushPlan =
-  | { kind: 'revs'; remote: string; url: string; urls: string[]; revs: string[]; dsts: string[] | null; force: boolean }
+  | {
+      kind: 'revs'
+      remote: string
+      url: string
+      urls: string[]
+      revs: string[]
+      dsts: string[] | null
+      written: boolean[] | null
+      force: boolean
+    }
   | { kind: 'none'; why: string }
   | { kind: 'opaque'; why: string; urls?: string[] }
 
@@ -1967,9 +2038,13 @@ export const needsPushConfig = (t: PushTarget): boolean =>
 // Source revisions for `git log` from a list of refspecs, with where each
 // goes, or why the guard cannot resolve them. `where` names the list in the
 // why.
-function refspecSources(refspecs: readonly string[], where: string): { srcs: string[]; dsts: string[] } | { why: string } {
+function refspecSources(
+  refspecs: readonly string[],
+  where: string,
+): { srcs: string[]; dsts: string[]; written: boolean[] } | { why: string } {
   const srcs: string[] = []
   const dsts: string[] = []
+  const written: boolean[] = []
   for (const r of refspecs) {
     const spec = r.startsWith('+') ? r.slice(1) : r
     if (spec.startsWith('^')) continue // a negative refspec excludes, publishes nothing
@@ -1985,8 +2060,9 @@ function refspecSources(refspecs: readonly string[], where: string): { srcs: str
     // No `:dst`: the same ref on the remote; HEAD or `@` alone, the current
     // branch's name (CURRENT_DST). An explicit `:HEAD` stays as written.
     dsts.push(colon >= 0 ? spec.slice(colon + 1) : src === 'HEAD' || src === '@' ? CURRENT_DST : src)
+    written.push(colon >= 0)
   }
-  return { srcs, dsts }
+  return { srcs, dsts, written }
 }
 
 // Destinations the guard makes up, never ones a command or config can spell
@@ -2008,6 +2084,73 @@ export function destinationBase(remote: string, dst: string, headRef: string | n
   else if (name.startsWith('refs/') || name.includes('@{') || name.includes('\0')) return null
   return name && name !== 'HEAD' ? `refs/remotes/${remote}/${name}` : null
 }
+
+// A destination written as a short name (`v1`, `main:v1`, `heads/main`): git
+// makes it a full ref, so guard.tsx reads the source's full name (`git
+// rev-parse --symbolic-full-name`) and, after a colon, what the remote has.
+// Never one the guard makes up.
+export const shortDestination = (dst: string): boolean => !dst.startsWith('refs/') && !dst.includes('\0')
+
+// The remote refs git matches a short destination against, its ref rules in
+// order (remote.c, refname_match): `x`, `refs/x`, `refs/tags/x`,
+// `refs/heads/x`, `refs/remotes/x`, `refs/remotes/x/HEAD`.
+export const destinationCandidates = (dst: string): string[] => [
+  dst,
+  `refs/${dst}`,
+  `refs/tags/${dst}`,
+  `refs/heads/${dst}`,
+  `refs/remotes/${dst}`,
+  `refs/remotes/${dst}/HEAD`,
+]
+
+// The full ref a short destination written after a colon (`src:v1`,
+// `src:heads/main`) updates, as git resolves it: the one remote ref of that
+// name (git-push(1): "If <dst> unambiguously refers to a ref on the
+// <repository> remote, then expand it to that ref"), where a branch, a tag,
+// or the name as written or under `refs/` outranks any other match (remote.c,
+// count_refspec_match); none there, the source's namespace (`srcRef`: the
+// source's full ref name, null when it is no ref) with the name under it.
+// `said`: per guarded push URL, what `git ls-remote` said for
+// destinationCandidates(dst) (undefined: the read failed). More than one
+// match, URLs that disagree, a failed read, or a source that is neither a
+// branch nor a tag with nothing there: why the guard cannot tell (ask).
+export function writtenDestination(
+  dst: string,
+  said: readonly (ReadonlyMap<string, string> | undefined)[],
+  srcRef: string | null,
+): string | { why: string } {
+  const found = new Set<string>()
+  for (const s of said) {
+    if (s === undefined) return { why: `the guard could not read which ref ${dst} names on the remote` }
+    const there = destinationCandidates(dst).filter(c => s.has(c))
+    const strong = there.filter(
+      c => c === dst || c === `refs/${dst}` || c.startsWith('refs/heads/') || c.startsWith('refs/tags/'),
+    )
+    const hits = strong.length ? strong : there
+    if (hits.length > 1) return { why: `the remote has more than one ref git matches for ${dst} (${hits.slice(0, 2).join(', ')})` }
+    // '': not on the remote.
+    found.add(hits[0] ?? '')
+  }
+  if (found.size > 1) return { why: `the push URLs disagree about which ref ${dst} names on the remote` }
+  const hit = [...found][0] ?? ''
+  if (hit) return hit
+  for (const ns of ['refs/heads/', 'refs/tags/']) if (srcRef?.startsWith(ns)) return `${ns}${dst}`
+  return { why: `the remote has no ${dst} and the source is neither a branch nor a tag, so the guard cannot tell where it goes` }
+}
+
+// The full ref a push destination updates on the remote, when the guard can
+// name it: as written when full; a short name with no colon is the source's
+// own ref (git-push(1): "<src> without a :<dst> means to update the same ref
+// as the <src>"). Anything else (a bare push's or the current branch's own
+// destination, a short name whose source is no ref) stays as it is.
+export const sourceDestination = (dst: string, srcRef: string | null): string =>
+  shortDestination(dst) && srcRef !== null && srcRef.startsWith('refs/') ? srcRef : dst
+
+// True when a destination is a full ref outside refs/heads/ (a tag, or any
+// other ref): it has no remote-tracking ref, so what such a push leaves out
+// is every tracking ref of the remote (`--remotes=<remote>`), as a ref set's
+// is, and guard.tsx reads each of them live (trackingStale).
+export const unbasedDestination = (to: string): boolean => to.startsWith('refs/') && !to.startsWith('refs/heads/')
 
 // `defaultRemote`: where a bare `git push` goes from this branch
 // (`%(push:remotename)`), null when git names none (then `origin`).
@@ -2056,6 +2199,7 @@ export function pushPlan(
   }
   let srcs: string[]
   let dsts: string[]
+  let written: boolean[] = []
   if (needsPushConfig(t)) {
     // No refspec, no ref set: git config decides what goes.
     if (config === null) return opaque("the guard could not read git's push settings, so it cannot tell which branches go")
@@ -2067,9 +2211,11 @@ export function pushPlan(
       if (!read.srcs.length) return { kind: 'none', why: 'nothing is published' }
       srcs = read.srcs
       dsts = read.dsts
+      written = read.written
     } else if (config.pushDefault === null || ONE_BRANCH_DEFAULTS.has(config.pushDefault)) {
       srcs = ['HEAD']
       dsts = [PUSH_DST]
+      written = [false]
     } else {
       return opaque(
         config.pushDefault === 'matching'
@@ -2082,6 +2228,7 @@ export function pushPlan(
     if ('why' in read) return opaque(read.why)
     srcs = read.srcs
     dsts = read.dsts
+    written = read.written
   }
   if (!srcs.length && !t.sets.length) return { kind: 'none', why: 'nothing is published' }
   // What is new to THAT remote: every commit it already has (any of its
@@ -2093,6 +2240,7 @@ export function pushPlan(
     urls: guarded,
     revs: [...srcs, ...t.sets, '--not', `--remotes=${remote}`],
     dsts: t.sets.length ? null : dsts,
+    written: t.sets.length ? null : written,
     force: t.force || [...t.refspecs, ...(needsPushConfig(t) && config ? config.remotePush : [])].some(r => r.startsWith('+')),
   }
 }
@@ -2248,11 +2396,11 @@ export function liveSource(
 
 // The publish range measured against the live remote: stale tracking refs
 // are left out of `--remotes` and their live commits excluded instead.
-// Accepted residuals: only the destination branches are read live, so a
+// Accepted residual: only the destination branches are read live, so a
 // stale tracking ref for another branch of the remote can still hide commits
-// through `--remotes=<remote>`; and a tag named by refspec gets no live check.
-// (A ref set, --all/--branches/--mirror/--tags, reads every tracking ref live:
-// guard.tsx trackingStale.)
+// through `--remotes=<remote>`. (A ref set, --all/--branches/--mirror/--tags,
+// and a tag or other ref outside refs/heads/ named by refspec read every
+// tracking ref live: guard.tsx trackingStale.)
 export function liveRange(plan: Extract<PushPlan, { kind: 'revs' }>, stale: readonly Stale[]): string[] {
   if (!stale.length) return plan.revs
   const at = plan.revs.indexOf('--not')
@@ -2444,11 +2592,13 @@ export function assess(
     const hits = [{ path: op.text, reason: op.unknownRepo }]
     return { op, verdict: 'ask', mode: facts ? 'git' : 'text', hits, touched: 0, unresolved: true }
   }
-  // A dry run stages or commits nothing, when the guard read all of it: a
-  // word it could not read (an expansion, what xargs adds, an alias) may
-  // undo the dry run.
-  const readWhole = !op.isOpaque && !op.specs.some(s => s.unreadable) && !hasExpansion(op.text) && op.alias === undefined
-  if (op.kind !== 'push' && op.dryRun && readWhole) return { op, verdict: 'pass', mode: facts ? 'git' : 'text', hits: [], touched: 0 }
+  // A dry run stages, commits or sends nothing, when the guard read all of
+  // it: a word it could not read (an expansion, what xargs adds, an alias,
+  // an option it cannot tell apart) may undo the dry run.
+  const readWhole =
+    !op.isOpaque && !op.specs.some(s => s.unreadable) && !hasExpansion(op.text) && op.alias === undefined &&
+    !op.push?.opaque && !op.push?.blind
+  if (op.dryRun && readWhole) return { op, verdict: 'pass', mode: facts ? 'git' : 'text', hits: [], touched: 0 }
   // A vault path only ever adds hits: no repo or folder is let through for
   // being inside one.
   if (!facts) {

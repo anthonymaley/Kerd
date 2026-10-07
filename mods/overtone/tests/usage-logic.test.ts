@@ -583,6 +583,55 @@ describe('the dashboard', () => {
     expect([five.jobsCompact, five.jobsNote, dashboardRows(five)]).toEqual([true, 'worker status unavailable · read failed', 5])
   })
 
+  // `n` running workers, the first `blocked` of them waiting on the user.
+  const crowd = (n: number, blocked = 0): Snapshot => {
+    const byId: Record<string, OvertoneWorker> = {}
+    for (let i = 0; i < n; i++) {
+      byId[`w${i}`] = worker({ id: `w${i}`, label: `Job ${i}`, firstSeenMs: T0 - (10 - i) * M, ...(i < blocked ? { blocked: { what: 'Bash', sinceMs: T0 - M } } : {}) })
+    }
+    return snap({ workers: { byId } })
+  }
+
+  test('G5a: with the card frame gone the band folds only the jobs that still do not fit', () => {
+    // 5 rows: header 1 + (title + columns + 2 jobs) 4 is too many with the frame
+    // (2 more) but two jobs fit without it; folding to one was a row too early.
+    const d = dashboard(crowd(2), 150, 5)
+    expect([d.panelBorder, d.jobs.length, d.jobsHidden, dashboardRows(d)]).toEqual([false, 2, 0, 5])
+    const six = dashboard(crowd(5), 150, 6)
+    expect([six.panelBorder, six.jobs.length, six.jobsHidden, dashboardRows(six)]).toEqual([false, 2, 3, 6])
+  })
+
+  test('G5b: a band of one or two rows never runs past what it is given', () => {
+    // Two rows: the header and one workers row (the count, "+K more" in its
+    // title); one row: the header alone, the collapse button stays.
+    const two = dashboard(crowd(3), 150, 2)
+    expect([dashboardRows(two), two.jobs.length, two.jobsHidden]).toEqual([2, 0, 3])
+    const one = dashboard(crowd(3), 150, 1)
+    expect(dashboardRows(one)).toBe(1)
+    expect(dashboardRows(dashboard(crowd(0), 150, 1))).toBe(1)
+    expect(dashboardRows(dashboard(crowd(1), 150, 2))).toBe(2)
+  })
+
+  test('every height from 1 to 12, 0 to 8 workers, blocked or not: within the rows, no job folded that would fit', () => {
+    for (const blocked of [0, 2]) {
+      for (let n = 0; n <= 8; n++) {
+        const s = crowd(n, blocked)
+        const all = jobsOf(s)
+        for (let rows = 1; rows <= 12; rows++) {
+          const d = dashboard(s, 150, rows)
+          const at = `blocked ${blocked}, ${n} workers, ${rows} rows`
+          expect([at, dashboardRows(d) <= rows]).toEqual([at, true])
+          if (d.jobs.length + d.jobsHidden > 0) expect([at, d.jobs.length + d.jobsHidden]).toEqual([at, n])
+          if (d.jobsHidden > 0 && !d.jobsOff) {
+            // one more job back in, same frames: it must not fit
+            const more = dashboardRows({ ...d, jobs: all.slice(0, d.jobs.length + 1), jobsHidden: d.jobsHidden - 1 })
+            expect([at, more > rows]).toEqual([at, true])
+          }
+        }
+      }
+    }
+  })
+
   test('the even-pace mark: caption after it, or before it when there is no room', () => {
     expect(lineText(paceMark(20, 30, 44))).toBe('      ╵ even pace 20%')
     expect(lineText(paceMark(96, 30, 40))).toBe('               even pace 96% ╵')

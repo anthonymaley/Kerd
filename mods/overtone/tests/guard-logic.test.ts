@@ -38,6 +38,7 @@ import {
   VAULT_SETTING_UNUSABLE,
   shownNotes,
   aliasKey,
+  type GitOp,
   type PushConfig,
   type VaultFacts,
   type RepoFacts,
@@ -342,6 +343,7 @@ describe('push target', () => {
       urls: ['git@github.com:alex/Kerd.git'],
       revs: ['feature', '--not', '--remotes=origin'],
       dsts: ['feature'],
+      written: [false],
       force: false,
     })
     expect(plan('git push mirror +HEAD:refs/heads/x')).toMatchObject({ revs: ['HEAD', '--not', '--remotes=mirror'] })
@@ -1434,6 +1436,98 @@ describe('a shell alias runs from the top of the work tree, not where git was ru
   })
 })
 
+describe('a shell alias of read-only git commands passes; anything else still asks', () => {
+  const read = (value: string, command = 'git x') =>
+    parseGitOps(command, KERD, HOME, new Map([[aliasKey(KERD, 'x'), value]]), new Map([[aliasKey(KERD, 'x'), KERD]]))
+  // An op from a shell alias asks: an add or commit is a sweep it cannot
+  // read whole, a push is opaque or blind.
+  const asks = (o: GitOp) => (o.push ? !!(o.push.opaque || o.push.blind) : o.isOpaque)
+
+  test('`!git log --oneline`, `!git status`, `!git diff` and chains of them read as nothing', () => {
+    for (const value of [
+      '!git log --oneline',
+      '!git status',
+      '!git diff --stat',
+      '!git -C .. log -1',
+      '!git --no-pager show HEAD; git diff',
+      '!git status -sb && git log --oneline -5',
+    ]) {
+      expect([value, read(value)]).toEqual([value, []])
+    }
+    // With the arguments git appends: `!git` with `log -3` is `git log -3`.
+    expect(read('!git', 'git x log -3')).toEqual([])
+    // With the top unknown too: a read-only body goes nowhere.
+    expect(parseGitOps('git x', KERD, HOME, new Map([[aliasKey(KERD, 'x'), '!git log --oneline']]))).toEqual([])
+  })
+
+  test('a shell alias that pushes, commits or adds still asks', () => {
+    for (const [value, command] of [
+      ['!git push origin main', 'git x'],
+      ['!git commit -am wip', 'git x'],
+      ['!git add -A', 'git x'],
+      ['!git log --oneline && git push', 'git x'],
+      ['!git status; git add .env', 'git x'],
+      ['!git', 'git x push origin main'],
+    ]) {
+      const ops = read(value, command)
+      expect([value, command, ops.length > 0, ops.every(asks)]).toEqual([value, command, true, true])
+    }
+  })
+
+  test('a shell alias the guard cannot read as read-only git alone still asks', () => {
+    for (const value of [
+      '!sh -c "git log"',
+      '!bash -c "git status"',
+      '!git log | less',
+      '!git log --oneline | head -5',
+      '!git log > /tmp/log',
+      '!git log $(git rev-parse HEAD)',
+      '!git log "$@"',
+      '!f() { git log; }; f',
+      '!cd sub && git status',
+      '!echo hi',
+      '!/usr/bin/git log',
+      '!git -c core.pager=cat log',
+      '!git branch -D old',
+      '!git stash',
+      '!git fetch',
+      '!git lg2',
+    ]) {
+      const ops = read(value)
+      expect([value, ops.length > 0, ops.every(asks)]).toEqual([value, true, true])
+    }
+  })
+
+  test('a read-only subcommand with an option that runs a program or writes a file still asks', () => {
+    for (const value of [
+      "!git grep -O'git add -f' secret -- .env",
+      '!git grep -O less secret',
+      '!git grep -niOless secret',
+      '!git grep --open-files-in-pager=less secret',
+      '!git grep --open-files secret',
+      '!git diff --ext-diff',
+      '!git log -p --ext',
+      '!git diff --output=/tmp/d',
+      '!git log -p --output /tmp/d',
+      '!git show --textconv HEAD',
+      '!git cat-file --filters HEAD:x',
+      '!git log --show-signature',
+      '!git log --format=%G?',
+      '!git help -w log',
+      '!git ls-remote --upload-pack=x origin',
+      '!git verify-commit HEAD',
+      '!git verify-tag v1',
+    ]) {
+      const ops = read(value)
+      expect([value, ops.length > 0, ops.every(asks)]).toEqual([value, true, true])
+    }
+    // Options that run nothing still pass.
+    for (const value of ['!git grep -n secret', '!git diff --no-ext-diff --stat', '!git log --oneline --no-textconv -3']) {
+      expect([value, read(value)]).toEqual([value, []])
+    }
+  })
+})
+
 describe('kivna/vault.json that names only a vault', () => {
   test('unparseable while it names a vault: unreadable (asks); saying nothing of one: no rule', () => {
     expect(readVault('{"vault": "~/notes/vault"')).toBe('unreadable')
@@ -1481,10 +1575,12 @@ describe('fail closed: forms that once read as nothing', () => {
     expect(pushPlan(push!.push!, KERD_REMOTES, 'origin', null, SEEN).kind).toBe('opaque')
     // An argument with a quote in it stays one argument.
     expect(read("git proxy add \"it's\" .env")[0]!.specs.map(s => s.raw).slice(0, 2)).toEqual(["it's", '.env'])
-    // A shell alias that shows no git add, commit or push still asks.
-    const quiet = read('git proxy status')
+    // A shell alias that shows no git add, commit or push still asks, unless
+    // all it runs is read-only git: `!git` with `status` is `git status`.
+    const quiet = read('git proxy stash')
     expect(quiet.length).toBe(1)
     expect(quiet[0]!.specs[0]!.unreadable).toContain('shell alias')
+    expect(read('git proxy status')).toEqual([])
   })
 
   test('a backtick or $(…) inside double quotes runs, quoted parens and all', () => {
@@ -1914,6 +2010,49 @@ describe('options as git reads them, and repositories the guard cannot name', ()
     // expansion, what xargs adds) may undo it.
     for (const command of ['git add -n "$X"', 'git add -n -A "$@"', 'printf x | xargs git add -n', 'git add -n .env $FLAGS']) {
       expect([command, judge(command, facts({ status: '?? .env\0' })).map(f => f.verdict)]).toEqual([command, ['ask']])
+    }
+  })
+
+  test('a push dry run sends nothing: it passes; the same push without it, or with it undone, asks', () => {
+    // What the push would publish carries .env: a real push asks.
+    const sends = facts({ pushPaths: ['.env'], pushPlan: plan('git push origin feature') })
+    const dry = [
+      'git push --dry-run origin feature',
+      'git push -n origin feature',
+      'git push -nf origin feature',
+      'git push --dry origin feature',
+      'git push origin feature --dry-run',
+      'git push --force --dry-run --tags origin',
+      'git push --no-dry-run --dry-run origin feature',
+      'git push -u -n --porcelain origin HEAD',
+    ]
+    for (const command of dry) {
+      expect([command, op(command).dryRun, judge(command, sends).map(f => f.verdict)]).toEqual([command, true, ['pass']])
+    }
+    const real = [
+      'git push origin feature',
+      'git push --dry-run --no-dry-run origin feature',
+      'git push -n --no-dry-run origin feature',
+      // -o takes a value: `-on` and `-o n` are the push option "n", not -n.
+      'git push -on origin feature',
+      'git push -o n origin feature',
+      'git push --push-option=-n origin feature',
+    ]
+    for (const command of real) {
+      expect([command, op(command).dryRun, judge(command, sends).map(f => f.verdict)]).toEqual([command, undefined, ['ask']])
+    }
+    // A dry run passes alone: a real push in the same line still asks.
+    expect(judge('git push --dry-run origin feature && git push origin feature', sends).map(f => f.verdict)).toEqual(['pass', 'ask'])
+    expect(judge('git push -n origin feature; git push origin feature', sends).map(f => f.verdict)).toEqual(['pass', 'ask'])
+    // Only a dry run read whole passes: a word the guard cannot read (an
+    // expansion, what xargs adds, an option it cannot tell apart) may undo it.
+    for (const command of [
+      'git push --dry-run origin feature $FLAGS',
+      'git push -n "$@"',
+      'echo --no-dry-run | xargs git push -n origin feature',
+      'git push --d origin feature',
+    ]) {
+      expect([command, judge(command, sends).map(f => f.verdict)]).toEqual([command, ['ask']])
     }
   })
 

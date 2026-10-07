@@ -976,6 +976,8 @@ export type Dashboard = {
   // A band shorter still: the jobs card drops its column-header row, and
   // "+K more" and the note go into its title row.
   jobsCompact?: boolean
+  // One row only: the workers go, the header (and its collapse button) stays.
+  jobsOff?: boolean
   panels: Panel[]
   perRow: number
   panelWidth: number
@@ -994,11 +996,12 @@ export function perRowFor(columns: number): number {
 }
 
 export function dashboardRows(
-  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'panels' | 'perRow' | 'cache' | 'next' | 'outerBorder' | 'panelBorder'>,
+  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'jobsOff' | 'panels' | 'perRow' | 'cache' | 'next' | 'outerBorder' | 'panelBorder'>,
 ): number {
   const frame = d.panelBorder ? 2 : 0
-  const jobs =
-    d.jobs.length === 0
+  const jobs = d.jobsOff
+    ? 0
+    : d.jobs.length === 0 && d.jobsHidden === 0
       ? 1
       : d.jobsCompact
         ? frame + 1 + d.jobs.length
@@ -1053,16 +1056,28 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   // worst kept (wrong model, waiting on you, failed, late replies first).
   const allJobs = d.jobs
   foldJobs(d, maxRows)
-  if (dashboardRows(d) > maxRows) d.panelBorder = false
+  if (dashboardRows(d) > maxRows) {
+    // The frame's two rows come back, so fold again from every job.
+    d.panelBorder = false
+    d.jobs = allJobs
+    d.jobsHidden = 0
+    foldJobs(d, maxRows)
+  }
   // Shorter still: the jobs card sheds its column-header row and folds
   // "+K more" and the note into its title row, then folds again from every
-  // job. From three rows up the band never runs past what it is given.
+  // job. Two rows: the header and a workers title row that only counts them;
+  // one row: the header alone (the collapse button stays).
   if (dashboardRows(d) > maxRows && d.jobs.length > 0) {
     d.jobsCompact = true
     d.jobs = allJobs
     d.jobsHidden = 0
     foldJobs(d, maxRows)
+    if (dashboardRows(d) > maxRows) {
+      d.jobs = []
+      d.jobsHidden = allJobs.length
+    }
   }
+  if (dashboardRows(d) > maxRows) d.jobsOff = true
   return d
 }
 

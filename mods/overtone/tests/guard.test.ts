@@ -64,7 +64,8 @@ type World = {
   // no tracking ref here, and no such branch on the remote.
   missingBases: string[]
   // Refs outside refs/heads/ the remote has, for a `git ls-remote` glob such
-  // as `refs/pull/*/head` (a custom fetch refspec's source).
+  // as `refs/pull/*/head` (a custom fetch refspec's source) or a ref named
+  // outright (`refs/tags/v1`).
   remoteRefs: string[]
   // The branches the remote has, by name; null: every tracking ref's name.
   remoteBranches: string[] | null
@@ -78,6 +79,9 @@ type World = {
   tracking: Record<string, string>
   // Commits this clone has (`git cat-file -e`).
   commits: string[]
+  // Local tags by name: `git rev-parse --symbolic-full-name` reads these as
+  // refs/tags/<name>, any other name as a branch.
+  tags: string[]
   // The folders under docs/work/ every base's tree has (`git ls-tree`).
   workTree: string[]
   // `git log` exit code and truncation.
@@ -125,6 +129,7 @@ function world(on: On, over: Partial<World> = {}) {
     live: (url, ref) => (w.missingBases.some(b => b.endsWith(`/${ref.slice('refs/heads/'.length)}`)) ? null : OID_TRACKED),
     tracking: { 'refs/remotes/origin/feature': OID_TRACKED },
     commits: [OID_TRACKED],
+    tags: [],
     workTree: ['docs/work/jev-trial', 'docs/work/question-sets'],
     logExit: 0,
     logCut: false,
@@ -159,6 +164,7 @@ function world(on: On, over: Partial<World> = {}) {
     if (a.startsWith('git for-each-ref --format=%(refname) %(objectname) %(symref) ')) {
       return out(
         Object.entries(w.tracking)
+          .filter(([ref]) => ref.startsWith(e.argv[e.argv.length - 1]!))
           .map(([ref, v]) => (v.startsWith('symref:') ? `${ref} ${OID_TRACKED} ${v.slice(7)}\n` : `${ref} ${v} \n`))
           .join(''),
       )
@@ -197,6 +203,10 @@ function world(on: On, over: Partial<World> = {}) {
       const text = e.argv.includes('-z') ? names.map(n => `${n}\0`).join('') : names.map(n => `${cQuote(n)}\n`).join('')
       return out(text, w.logExit, w.logCut)
     }
+    if (a.startsWith('git rev-parse --verify -q --symbolic-full-name ')) {
+      const name = e.argv[e.argv.length - 1]!
+      return out(`${w.tags.includes(name) ? 'refs/tags/' : 'refs/heads/'}${name === 'HEAD' ? 'feature' : name}\n`)
+    }
     if (a.startsWith('git rev-parse -q --verify ')) {
       const base = e.argv[4]!.replace(/\^\{commit\}$/, '')
       return w.missingBases.includes(base) ? out('', 1) : out(`${OID_TRACKED}\n`)
@@ -214,7 +224,9 @@ function world(on: On, over: Partial<World> = {}) {
               .map(t => t.slice('refs/remotes/origin/'.length))).map(b => `refs/heads/${b}`)
           : ref.includes('*')
             ? w.remoteRefs.filter(r => new RegExp(`^${ref.split('*').map(p => p.replace(/[.+?^${}()|[\]\\]/g, '\\$&')).join('.+')}$`).test(r))
-            : [ref],
+            : ref.startsWith('refs/heads/') || w.remoteRefs.includes(ref)
+              ? [ref]
+              : [],
       )
       const lines = asked.flatMap(ref => {
         const oid = live(url, ref)
@@ -967,7 +979,9 @@ describe('guard', () => {
     const r = (await call) as { deny?: string }
     expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', 'refs/remotes/mirror/release', 'docs/work/'])
     expect(w.argv).toContainEqual(['git', 'show', 'refs/remotes/mirror/release:kivna/vault.json'])
-    expect(w.argv.some(a => a[1] === 'ls-tree' && a[5] !== 'refs/remotes/mirror/release')).toBe(false)
+    // No other tree is read as a base (a `--full-tree` read only asks whether
+    // a copy git would not show is absent).
+    expect(w.argv.some(a => a[1] === 'ls-tree' && a[2] !== '--full-tree' && a[5] !== 'refs/remotes/mirror/release')).toBe(false)
     expect(w.asked).toHaveLength(1)
     expect(w.asked[0]).toContain('public github.com/someone/kerd-mirror')
     expect(r.deny).toContain('docs/work/fresh/work.md (new work folder docs/work/fresh/')
@@ -1193,7 +1207,9 @@ describe('guard', () => {
   })
 
   // The base-tree reads leave the base unknown: a work folder the push
-  // carries asks (even one the remote has); a push without one passes.
+  // carries asks (even one the remote has). A thrown ls-tree leaves a push
+  // without one passing; a thrown show leaves the base's kivna/vault.json
+  // unreadable, so that push asks too.
   for (const read of ['ls-tree', 'show']) {
     test(`a thrown git ${read} of the base on \`git push origin feature\`: unknown base, asks on a work folder`, async ($, on) => {
       const { w, clock } = world(on, { throws: [read], log: () => 'docs/work/jev-trial/plan.md\n', answer: "Don't run it" })
@@ -1204,9 +1220,17 @@ describe('guard', () => {
       expect(w.asked).toHaveLength(1)
       expect(r.deny).toContain('cannot tell whether this work folder is new')
       w.log = () => 'README.md\n'
-      await $.tool.call(bash('git push origin feature'))
-      expect(w.asked).toHaveLength(1)
-      expect(w.ran).toEqual(['git push origin feature'])
+      const again = $.tool.call(bash('git push origin feature'))
+      await clock.advance(5_000)
+      const r2 = (await again) as { deny?: string }
+      if (read === 'ls-tree') {
+        expect(w.asked).toHaveLength(1)
+        expect(w.ran).toEqual(['git push origin feature'])
+      } else {
+        expect(w.asked).toHaveLength(2)
+        expect(r2.deny).toContain('the guard could not read where kivna/vault.json puts the private vault')
+        expect(w.ran).toEqual([])
+      }
     })
   }
 
@@ -1437,6 +1461,31 @@ describe('guard: git however the command starts it', () => {
     expect(w.asked).toEqual([])
   })
 
+  test('a shell alias of read-only git passes in a public repo', async ($, on) => {
+    const { w } = world(on, { config: { 'alias.lg': ['!git log --oneline\n', 0] } })
+    await $.tool.call(bash('git lg -5'))
+    expect(w.argv).toContainEqual(['git', 'config', '--get', 'alias.lg'])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git lg -5'])
+  })
+
+  for (const body of [
+    '!git push origin feature',
+    '!git add -A && git commit -m wip',
+    '!git log --oneline | head',
+    '!sh -c "git log"',
+    "!git grep -O'git add -f' secret -- .env",
+  ]) {
+    test(`a shell alias \`${body}\` in a public repo still asks`, async ($, on) => {
+      const { w, clock } = world(on, { config: { 'alias.sa': [`${body}\n`, 0] }, answer: "Don't run it" })
+      const call = $.tool.call(bash('git sa'))
+      await clock.advance(5_000)
+      await call
+      expect(w.asked).toHaveLength(1)
+      expect(w.ran).toEqual([])
+    })
+  }
+
   test('a plain alias is read as before, with no top read for the alias itself', async ($, on) => {
     const { w } = world(on, { config: { 'alias.aa': ['add -A\n', 0] }, remotes: remotesOf('git@github.com:alex/notes.git') })
     await $.tool.call(bash('git aa'))
@@ -1493,7 +1542,7 @@ describe("guard: a push reads HEAD's and each pushed revision's committed vault.
     })
   }
 
-  test('add-only: no copy names it, the push passes; a thrown read adds nothing and removes nothing', async ($, on) => {
+  test('add-only: no copy names it, the push passes; a thrown read is unreadable and asks, and removes nothing', async ($, on) => {
     const { w, clock } = world(on, {
       files: {},
       committed: null,
@@ -1502,7 +1551,8 @@ describe("guard: a push reads HEAD's and each pushed revision's committed vault.
     })
     await $.tool.call(bash('git push origin topic:newbranch'))
     expect(w.asked).toEqual([])
-    // HEAD's read throws; the pushed revision's copy still adds its path.
+    // HEAD's read throws: HEAD's policy is unknown, which could hide its
+    // private paths, so it asks; the pushed revision's copy still adds its path.
     w.throws = ['show HEAD:kivna/vault.json']
     w.committed = base => (base === 'topic' ? SECRET : null)
     w.answer = "Don't run it"
@@ -1510,7 +1560,149 @@ describe("guard: a push reads HEAD's and each pushed revision's committed vault.
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
     expect(r.deny).toContain('secret.txt (kept out of Git by instruction)')
+    expect(r.deny).toContain('the guard could not read where kivna/vault.json puts the private vault')
     expect(w.ran).toEqual(['git push origin topic:newbranch'])
+    // Alone, a thrown read at HEAD asks.
+    w.committed = null
+    const alone = $.tool.call(bash('git push origin topic:newbranch'))
+    await clock.advance(5_000)
+    const r2 = (await alone) as { deny?: string }
+    expect(r2.deny).toContain('the guard could not read where kivna/vault.json puts the private vault')
+    expect(w.ran).toEqual(['git push origin topic:newbranch'])
+  })
+})
+
+describe('guard: a committed vault.json git will not show is absent only when its tree has no such path', () => {
+  const SECRET = JSON.stringify({ private_paths: ['secret.txt'] })
+  const UNREAD = 'the guard could not read where kivna/vault.json puts the private vault'
+
+  test('truly absent at HEAD: no vault rule, git add passes, as the tree says', async ($, on) => {
+    const { w } = world(on, { files: {}, committed: null })
+    await $.tool.call(bash('git add README.md'))
+    expect(w.argv).toContainEqual(['git', 'show', 'HEAD:kivna/vault.json'])
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '--full-tree', 'HEAD', '--', 'kivna/vault.json'])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git add README.md'])
+  })
+
+  test('HEAD has it but git show fails: git add asks, never a silent "absent"', async ($, on) => {
+    const { w, clock } = world(on, {
+      files: {},
+      committed: SECRET,
+      answers: { 'show HEAD:kivna/vault.json': ['', 128, false] },
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git add README.md'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(r.deny).toContain(UNREAD)
+    expect(w.ran).toEqual([])
+  })
+
+  test('git show fails and the tree cannot be listed either: asks', async ($, on) => {
+    const { w, clock } = world(on, {
+      files: {},
+      committed: null,
+      answers: {
+        'show HEAD:kivna/vault.json': ['', 128, false],
+        'ls-tree --full-tree HEAD -- kivna/vault.json': ['', 128, false],
+      },
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git add README.md'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain(UNREAD)
+    expect(w.ran).toEqual([])
+  })
+
+  for (const rev of ['HEAD', 'topic']) {
+    test(`a push: ${rev} has it but git show fails: asks`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: base => (base === rev ? SECRET : null),
+        answers: { [`show ${rev}:kivna/vault.json`]: ['', 128, false] },
+        missingBases: ['refs/remotes/origin/newbranch'],
+        log: () => 'README.md\n',
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash('git push origin topic:newbranch'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(UNREAD)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  // The absence check itself throws (times out): absence is not established,
+  // so the copy is unreadable and private paths ask, at every place it is read.
+  const THROWN: [string, string, string, string][] = [
+    ['git add at HEAD', 'git add README.md', 'HEAD', 'README.md\n'],
+    ['a push at HEAD', 'git push origin feature', 'HEAD', 'secret.txt\n'],
+    ['a push at a named pushed revision', 'git push origin topic:feature', 'topic', 'secret.txt\n'],
+    ['a push at the destination base', 'git push origin feature', 'refs/remotes/origin/feature', 'secret.txt\n'],
+  ]
+  for (const [where, command, rev, pushed] of THROWN) {
+    test(`${where}: git show fails and the absence check throws: asks`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: base => (base === rev ? SECRET : null),
+        answers: { [`show ${rev}:kivna/vault.json`]: ['', 128, false] },
+        throws: [`ls-tree --full-tree ${rev}`],
+        log: () => pushed,
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.argv).toContainEqual(['git', 'ls-tree', '--full-tree', rev, '--', 'kivna/vault.json'])
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(UNREAD)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  // git show itself throws (times out): the policy at that revision is
+  // unknown, which could hide its private paths, so it asks.
+  for (const [where, command, rev] of [
+    ['git add at HEAD', 'git add README.md', 'HEAD'],
+    ['a push at HEAD', 'git push origin feature', 'HEAD'],
+    ['a push at a named pushed revision', 'git push origin topic:feature', 'topic'],
+    ['a push at the destination base', 'git push origin feature', 'refs/remotes/origin/feature'],
+  ] as const) {
+    test(`${where}: git show throws: asks`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: null,
+        throws: [`show ${rev}:kivna/vault.json`],
+        log: () => 'README.md\n',
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(UNREAD)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test("a push: the destination base has it but git show fails: asks", async ($, on) => {
+    const { w, clock } = world(on, {
+      files: {},
+      committed: base => (base === 'refs/remotes/origin/feature' ? SECRET : null),
+      answers: { 'show refs/remotes/origin/feature:kivna/vault.json': ['', 128, false] },
+      log: () => 'README.md\n',
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git push origin feature'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.argv).toContainEqual(['git', 'show', 'refs/remotes/origin/feature:kivna/vault.json'])
+    expect(r.deny).toContain(UNREAD)
+    expect(w.ran).toEqual([])
   })
 })
 
@@ -1839,6 +2031,314 @@ describe('guard: a ref-set push reads the remote live before it trusts the track
     await $.tool.call(bash('git push origin feature'))
     expect(w.argv.some(a => a[1] === 'for-each-ref' && a[2]?.startsWith('--format=%(refname)'))).toBe(false)
     expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/feature']])
+  })
+})
+
+describe('guard: a tag pushed by refspec reads the remote live, as a ref set does', () => {
+  const PUBLIC = 'git@github.com:alex/Kerd.git'
+  const REWOUND = 'b'.repeat(40)
+  const ls = (w: { argv: string[][] }) => w.argv.filter(a => a[1] === 'ls-remote')
+  // A tag has no remote-tracking ref: what the push leaves out is every
+  // tracking ref of the remote (`--not --remotes=origin`), each read live.
+  // [command, a name the remote has no branch of, a tag the remote has].
+  // A short name after a colon is what the remote has by that name first.
+  const TAGS: [string, string | null, string | null][] = [
+    ['git push origin refs/tags/v1', null, null],
+    ['git push origin tag v1', null, null],
+    ['git push origin HEAD:refs/tags/x', null, null],
+    ['git push origin feature:refs/tags/x', null, null],
+    ['git push origin +feature:refs/tags/x', null, null],
+    ['git push origin v1', null, null],
+    // Neither on the remote: the source is a tag.
+    ['git push origin v1:v2', 'v2', null],
+    // The remote has v1 as a tag: a branch pushed there updates the tag.
+    ['git push --force origin feature:v1', 'v1', 'v1'],
+    ['git push origin +HEAD:v1', 'v1', 'v1'],
+  ]
+  // What the remote has live: `oid` for every branch but `gone`.
+  const liveOf = (gone: string | null, oid: string) => (_url: string, ref: string) =>
+    ref === `refs/heads/${gone}` ? null : oid
+
+  for (const [command, gone, tag] of TAGS) {
+    const remote = { tags: ['v1'], remoteRefs: tag ? [`refs/tags/${tag}`] : [] }
+    test(`\`${command}\`: the remote still has what the tracking refs say: passes, after a live read`, async ($, on) => {
+      const { w } = world(on, { ...remote, live: liveOf(gone, OID_TRACKED), log: () => 'README.md\n' })
+      await $.tool.call(bash(command))
+      expect(ls(w)).toContainEqual(['git', 'ls-remote', PUBLIC, 'refs/heads/*'])
+      expect(w.argv).toContainEqual(expect.arrayContaining(['log', '--not', '--remotes=origin']))
+      expect(w.asked).toEqual([])
+      expect(w.ran).toEqual([command])
+    })
+
+    test(`\`${command}\`: the remote was rewound since the last fetch: asks, and the log is never read against the stale ref`, async ($, on) => {
+      const { w, clock } = world(on, {
+        ...remote,
+        live: liveOf(gone, REWOUND),
+        commits: [OID_TRACKED, REWOUND],
+        log: a => (a.includes('--remotes=origin') ? 'README.md\n' : '.env\n'),
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain("the remote no longer has what this clone's tracking refs say for feature")
+      expect(w.argv.some(a => a[1] === 'log')).toBe(false)
+      expect(w.ran).toEqual([])
+    })
+
+    test(`\`${command}\`: git ls-remote fails: asks`, async ($, on) => {
+      const { w, clock } = world(on, { ...remote, live: 'fail', answer: "Don't run it" })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toMatch(/git ls-remote failed|could not read which ref v\d names on the remote/)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  // A short name after a colon: git takes the remote's one ref of that name.
+  const LOOKUP = (name: string) =>
+    [name, `refs/${name}`, `refs/tags/${name}`, `refs/heads/${name}`, `refs/remotes/${name}`, `refs/remotes/${name}/HEAD`]
+
+  test('`v1:main` where the remote has main as a branch: the branch path, though the source is a tag', async ($, on) => {
+    const { w } = world(on, { tags: ['v1'], log: () => 'README.md\n' })
+    await $.tool.call(bash('git push origin v1:main'))
+    expect(ls(w)).toEqual([
+      ['git', 'ls-remote', PUBLIC, ...LOOKUP('main')],
+      ['git', 'ls-remote', PUBLIC, 'refs/heads/main'],
+    ])
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', 'refs/remotes/origin/main', 'docs/work/'])
+    expect(w.ran).toEqual(['git push origin v1:main'])
+  })
+
+  // `heads/main` is git's abbreviation of refs/heads/main: the branch the
+  // remote has, never a branch named heads/main. Its tracking ref
+  // (origin/main) is stale and held the commit that added .env; measured
+  // against what the remote has now, .env is published.
+  const STALE_MAIN: Partial<World> = {
+    tracking: { 'refs/remotes/origin/feature': OID_TRACKED, 'refs/remotes/origin/main': OID_TRACKED },
+    missingBases: ['refs/remotes/origin/heads/main'],
+    live: (_url, ref) => (ref === 'refs/heads/main' ? REWOUND : ref === 'refs/heads/heads/main' ? null : OID_TRACKED),
+    commits: [OID_TRACKED, REWOUND],
+    log: a => (a.includes('--exclude=origin/main') ? '.env\n' : 'README.md\n'),
+    answer: "Don't run it",
+  }
+  for (const command of ['git push --force origin feature:heads/main', 'git push origin feature:refs/heads/main']) {
+    test(`\`${command}\`: origin/main is stale and held a private commit: read as main, asks`, async ($, on) => {
+      const { w, clock } = world(on, STALE_MAIN)
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(ls(w)).toContainEqual(['git', 'ls-remote', PUBLIC, 'refs/heads/main'])
+      expect(ls(w).some(a => a.includes('refs/heads/heads/main') && a.length === 4)).toBe(false)
+      expect(w.argv).toContainEqual(expect.arrayContaining(['log', REWOUND, '--exclude=origin/main', '--remotes=origin']))
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain('.env')
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('`heads/main` with no colon is the source\'s own ref, refs/heads/main: read as main', async ($, on) => {
+    const { w } = world(on, {
+      answers: { 'rev-parse --verify -q --symbolic-full-name heads/main': ['refs/heads/main\n', 0, false] },
+      log: () => 'README.md\n',
+    })
+    await $.tool.call(bash('git push origin heads/main'))
+    expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/main']])
+    expect(w.argv).toContainEqual(['git', 'ls-tree', '-d', '--name-only', '-z', 'refs/remotes/origin/main', 'docs/work/'])
+    expect(w.ran).toEqual(['git push origin heads/main'])
+  })
+
+  test('`feature:tags/v1` is the remote\'s tag v1: read as a tag, every tracking ref live', async ($, on) => {
+    const { w, clock } = world(on, {
+      remoteRefs: ['refs/tags/v1'],
+      live: (_url, ref) => (ref.startsWith('refs/heads/tags/') ? null : REWOUND),
+      commits: [OID_TRACKED, REWOUND],
+      log: a => (a.includes('--remotes=origin') ? 'README.md\n' : '.env\n'),
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git push --force origin feature:tags/v1'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(ls(w)).toContainEqual(['git', 'ls-remote', PUBLIC, 'refs/heads/*'])
+    expect(r.deny).toContain("the remote no longer has what this clone's tracking refs say for feature")
+    expect(w.ran).toEqual([])
+  })
+
+  test('a name the remote has only outside branches and tags is that ref: every tracking ref live', async ($, on) => {
+    const { w } = world(on, { remoteRefs: ['refs/remotes/v1'], live: liveOf('v1', OID_TRACKED), log: () => 'README.md\n' })
+    await $.tool.call(bash('git push origin feature:v1'))
+    expect(ls(w)).toContainEqual(['git', 'ls-remote', PUBLIC, 'refs/heads/*'])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push origin feature:v1'])
+  })
+
+  const AMBIGUOUS: [string, Partial<World>, string][] = [
+    [
+      'has v1 as both a branch and a tag',
+      { remoteRefs: ['refs/tags/v1'] },
+      'the remote has more than one ref git matches for v1 (refs/tags/v1, refs/heads/v1)',
+    ],
+    [
+      'has v1 only as two refs outside branches and tags',
+      { remoteRefs: ['refs/remotes/v1', 'refs/remotes/v1/HEAD'], live: liveOf('v1', OID_TRACKED) },
+      'the remote has more than one ref git matches for v1 (refs/remotes/v1, refs/remotes/v1/HEAD)',
+    ],
+    [
+      'answers the lookup with a failure',
+      { answers: { [`ls-remote ${PUBLIC} v1 refs/v1`]: ['', 128, false] } },
+      'the guard could not read which ref v1 names on the remote',
+    ],
+    [
+      'cuts the lookup',
+      { answers: { [`ls-remote ${PUBLIC} v1 refs/v1`]: ['', 0, true] } },
+      'the guard could not read which ref v1 names on the remote',
+    ],
+  ]
+  for (const [what, over, why] of AMBIGUOUS) {
+    test(`\`feature:v1\` where the remote ${what}: asks`, async ($, on) => {
+      const { w, clock } = world(on, { log: () => 'README.md\n', answer: "Don't run it", ...over })
+      const call = $.tool.call(bash('git push --force origin feature:v1'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(why)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('`HEAD~1:v9`, a source that is no ref, to a name the remote does not have: asks', async ($, on) => {
+    const { w, clock } = world(on, {
+      answers: { 'rev-parse --verify -q --symbolic-full-name': ['\n', 0, false] },
+      live: liveOf('v9', OID_TRACKED),
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git push origin HEAD~1:v9'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('the remote has no v9 and the source is neither a branch nor a tag')
+    expect(w.ran).toEqual([])
+  })
+
+  test('two push URLs that disagree about what v1 is: asks', async ($, on) => {
+    const OTHER = 'https://github.com/alex/Kerd'
+    const remotes = `origin\t${PUBLIC} (fetch)\norigin\t${PUBLIC} (push)\norigin\t${OTHER} (push)\n`
+    const { w, clock } = world(on, {
+      remotes,
+      remoteRefs: ['refs/tags/v1'],
+      live: (url, ref) =>
+        (ref === 'refs/heads/v1' && url === PUBLIC) || (ref === 'refs/tags/v1' && url === OTHER) ? null : OID_TRACKED,
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git push origin feature:v1'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain('the push URLs disagree about which ref v1 names on the remote')
+    expect(w.ran).toEqual([])
+  })
+
+  test('no colon: the source decides, as git documents, whatever the remote holds by that name', async ($, on) => {
+    // `feature` is a local branch: git updates refs/heads/feature even where
+    // the remote has a tag named feature (git-push(1): "<src> without a
+    // :<dst> means to update the same ref as the <src>").
+    const { w } = world(on, { remoteRefs: ['refs/tags/feature'], log: () => 'README.md\n' })
+    await $.tool.call(bash('git push origin feature'))
+    expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/feature']])
+    expect(w.ran).toEqual(['git push origin feature'])
+  })
+
+  test('a tag push carries what the tag holds: a private path in it asks', async ($, on) => {
+    const { w, clock } = world(on, { tags: ['v1'], log: () => '.env\n', answer: "Don't run it" })
+    const call = $.tool.call(bash('git push origin v1'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.argv).toContainEqual(expect.arrayContaining(['log', 'v1', '--not', '--remotes=origin']))
+    expect(r.deny).toContain('.env')
+    expect(w.ran).toEqual([])
+  })
+
+  test('a short name that is a tag is no branch: no branch of that name is read, and no base', async ($, on) => {
+    const { w, clock } = world(on, { tags: ['v1'], log: () => 'docs/work/fresh/work.md\n', answer: "Don't run it" })
+    const call = $.tool.call(bash('git push origin v1'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(ls(w).some(a => a.includes('refs/heads/v1'))).toBe(false)
+    expect(w.argv.some(a => a[1] === 'ls-tree' && a.includes('refs/remotes/origin/v1'))).toBe(false)
+    expect(r.deny).toContain('cannot tell whether this work folder is new')
+  })
+
+  const UNREAD: [string, Partial<World>][] = [
+    ['fails', { answers: { 'rev-parse --verify -q --symbolic-full-name': ['', 128, false] } }],
+    ['is cut', { answers: { 'rev-parse --verify -q --symbolic-full-name': ['refs/ta', 0, true] } }],
+    ['throws or times out', { throws: ['rev-parse --verify -q --symbolic-full-name'] }],
+  ]
+  for (const [what, over] of UNREAD) {
+    test(`which ref a short name sends: a read that ${what} asks`, async ($, on) => {
+      const { w, clock } = world(on, { log: () => 'README.md\n', answer: "Don't run it", ...over })
+      const call = $.tool.call(bash('git push origin v1'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain('could not read which ref this push sends')
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('a name git cannot resolve (exit 1) is no tag: the push is read as before', async ($, on) => {
+    const { w } = world(on, { answers: { 'rev-parse --verify -q --symbolic-full-name': ['', 1, false] }, log: () => 'README.md\n' })
+    await $.tool.call(bash('git push origin feature'))
+    expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/feature']])
+    expect(w.ran).toEqual(['git push origin feature'])
+  })
+
+  test('a branch push is unchanged: its own branch is read live, a stale other branch is not', async ($, on) => {
+    const { w } = world(on, {
+      tracking: { 'refs/remotes/origin/feature': OID_TRACKED, 'refs/remotes/origin/old': OID_TRACKED },
+      live: (_url, ref) => (ref === 'refs/heads/old' ? REWOUND : OID_TRACKED),
+      commits: [OID_TRACKED, REWOUND],
+      log: () => 'README.md\n',
+    })
+    await $.tool.call(bash('git push origin feature'))
+    expect(ls(w)).toEqual([['git', 'ls-remote', PUBLIC, 'refs/heads/feature']])
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual(['git push origin feature'])
+  })
+})
+
+describe('guard: a push dry run sends nothing', () => {
+  for (const command of ['git push --dry-run origin feature', 'git push -n origin feature', 'git push --force --dry-run --tags origin']) {
+    test(`\`${command}\`: passes, though what a push would publish carries .env`, async ($, on) => {
+      const { w } = world(on, { log: () => '.env\n' })
+      await $.tool.call(bash(command))
+      expect(w.asked).toEqual([])
+      expect(w.ran).toEqual([command])
+    })
+  }
+
+  for (const command of ['git push origin feature', 'git push --dry-run --no-dry-run origin feature', 'git push -on origin feature']) {
+    test(`\`${command}\`: a real push in the same shape asks`, async ($, on) => {
+      const { w, clock } = world(on, { log: () => '.env\n', answer: "Don't run it" })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain('.env')
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  test('a dry run then a real push in one line: the real push asks', async ($, on) => {
+    const command = 'git push --dry-run origin feature && git push origin feature'
+    const { w, clock } = world(on, { log: () => '.env\n', answer: "Don't run it" })
+    const call = $.tool.call(bash(command))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(w.asked).toHaveLength(1)
+    expect(w.asked[0]).toContain('git push origin feature')
+    expect(r.deny).toContain('.env')
+    expect(w.ran).toEqual([])
   })
 })
 

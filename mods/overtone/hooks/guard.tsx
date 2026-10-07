@@ -43,6 +43,11 @@ import {
   refSetStaleWhy,
   trackingSources,
   liveSource,
+  shortDestination,
+  destinationCandidates,
+  writtenDestination,
+  sourceDestination,
+  unbasedDestination,
   HEADER,
   LATE_NOTE,
   RUN,
@@ -309,10 +314,10 @@ async function liveHere($: EngineInterface, root: string, reads: readonly LiveRe
   return { here, unchecked }
 }
 
-// A ref-set push excludes (`--not --remotes=<remote>`) every commit any of the
-// remote's tracking refs holds. Each of those refs, read live: null when the
-// remote still has exactly what they say, else why the guard cannot trust them
-// (an ask). `urls`: every guarded push URL of the remote.
+// A ref-set or tag push excludes (`--not --remotes=<remote>`) every commit any
+// of the remote's tracking refs holds. Each of those refs, read live: null when
+// the remote still has exactly what they say, else why the guard cannot trust
+// them (an ask). `urls`: every guarded push URL of the remote.
 async function trackingStale(
   $: EngineInterface,
   root: string,
@@ -537,11 +542,50 @@ export const register: Register = (on, options) => {
                   plan = pushPlan(op.push, remotes, defaultRemote, config, visibility)
                   // Each destination branch's remote-tracking ref
                   // (refs/remotes/<remote>/<branch>), never another branch.
+                  // A tag or other ref outside refs/heads/ has none:
+                  // `unbased`, read as a ref set is (below).
                   const tracked: string[] = []
+                  let unbased = false
                   if (plan.kind === 'revs') {
                     if (plan.dsts === null) workBaseUnknown = true
-                    for (const dst of plan.dsts ?? []) {
-                      let b = destinationBase(plan.remote, dst, headRef)
+                    const srcs = plan.revs.slice(0, plan.revs.indexOf('--not'))
+                    for (const [k, dst] of (plan.dsts ?? []).entries()) {
+                      // Where it goes, as a full ref when the guard can name
+                      // one: a short name with no colon is its source's own
+                      // ref (`git push origin v1` is refs/tags/v1); one
+                      // written after a colon (`feature:v1`, `src:heads/main`)
+                      // is what the remote has by that name first, read live.
+                      // rev-parse exit 1: no such ref, so git sends nothing
+                      // from it and it is read as before.
+                      let to = dst
+                      if (shortDestination(dst)) {
+                        let srcRef: string | null = null
+                        try {
+                          const full = await $.process.run(
+                            ['git', 'rev-parse', '--verify', '-q', '--symbolic-full-name', srcs[k]!],
+                            { cwd: root, timeoutMs: T },
+                          )
+                          if (fullRead(full)) srcRef = full.stdout.trim() || null
+                          else if (full.exitCode !== 1 || full.isStdoutTruncated) {
+                            unread ??= 'the guard could not read which ref this push sends'
+                          }
+                        } catch {
+                          unread ??= 'the guard could not read which ref this push sends'
+                        }
+                        if (plan.written?.[k]) {
+                          const said: (Map<string, string> | undefined)[] = []
+                          for (const url of plan.urls) said.push(await liveRefs($, root, url, destinationCandidates(dst)))
+                          const ref = writtenDestination(dst, said, srcRef)
+                          if (typeof ref === 'object') unread ??= ref.why
+                          else to = ref
+                        } else to = sourceDestination(dst, srcRef)
+                      }
+                      if (unbasedDestination(to)) {
+                        unbased = true
+                        workBaseUnknown = true
+                        continue
+                      }
+                      let b = destinationBase(plan.remote, to, headRef)
                       if (dst === PUSH_DST && headRef !== null) {
                         // A bare push: git names the branch it updates.
                         try {
@@ -618,12 +662,13 @@ export const register: Register = (on, options) => {
                         }
                       }
                     }
-                    if (plan.kind === 'revs' && op.push.sets.length) {
-                      // A ref set (--all, --branches, --mirror, --tags) is
-                      // measured against every tracking ref of the remote
-                      // (`--remotes=<remote>`), not a named destination, so
-                      // each of those is read live too: any that is not what
-                      // the remote has now asks.
+                    if (plan.kind === 'revs' && (op.push.sets.length || unbased)) {
+                      // A ref set (--all, --branches, --mirror, --tags), or a
+                      // tag or other ref outside refs/heads/ named by
+                      // refspec, is measured against every tracking ref of
+                      // the remote (`--remotes=<remote>`), not a named
+                      // destination, so each of those is read live too: any
+                      // that is not what the remote has now asks.
                       const why = await trackingStale($, root, plan.remote, plan.urls)
                       if (why !== null) plan = { kind: 'opaque', why, urls: plan.urls }
                     }
@@ -688,6 +733,23 @@ export const register: Register = (on, options) => {
                 // Where the private vault is: what every copy of the file
                 // read here says (base trees and the working tree).
                 const vaultReads: VaultRead[] = []
+                // A committed copy git would not show (nonzero exit) is absent
+                // only when that tree has no such path, as `git ls-tree` says
+                // (never git's error text, which is translated); any other
+                // failure (a bad object, a read error, a listing that throws
+                // or times out) is not "absent": the copy is unreadable, so
+                // its private paths ask, wherever it is read.
+                const absentAt = async (rev: string) => {
+                  try {
+                    const has = await $.process.run(['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file], {
+                      cwd: root,
+                      timeoutMs: T,
+                    })
+                    return fullRead(has) && has.stdout.trim() === ''
+                  } catch {
+                    return false
+                  }
+                }
                 // A push also reads HEAD's committed copy and each pushed
                 // revision's: add-only (never a base, never a slug), so a
                 // first push of a new branch keeps what the branch itself
@@ -736,25 +798,25 @@ export const register: Register = (on, options) => {
                         // cut: as a base read; on a ref-set tip, it asks
                         workBaseUnknown = true
                         if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
-                      } else if (tips.has(rev)) {
-                        // A ref-set tip whose copy git would not show: absent
-                        // only when that tip's tree has no such path; any
-                        // other failure asks, as a cut or thrown read does.
-                        const has = await $.process.run(
-                          ['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file],
-                          { cwd: root, timeoutMs: T },
-                        )
-                        if (has.exitCode !== 0 || has.isStdoutTruncated || has.stdout.trim() !== '') {
+                      } else if (!(await absentAt(rev))) {
+                        // A copy git would not show that is not absent: on a
+                        // ref-set tip it asks, as a cut or thrown read does;
+                        // at HEAD or a named pushed revision it is unreadable,
+                        // which asks too.
+                        if (tips.has(rev)) {
                           workBaseUnknown = true
                           setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
-                        }
+                        } else vaultReads.push('unreadable')
                       }
                     } catch {
                       // Thrown or timed out: as a thrown base read, the
                       // work-folder judgement is unknown (asks on one); on a
-                      // ref-set tip, it asks.
+                      // ref-set tip, it asks; at HEAD or a named pushed
+                      // revision the copy is unreadable, which asks too (a
+                      // policy the guard does not know can hide private paths).
                       workBaseUnknown = true
                       if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
+                      else vaultReads.push('unreadable')
                     }
                   }
                   if (setWhy !== null) {
@@ -791,10 +853,16 @@ export const register: Register = (on, options) => {
                     if (committed.exitCode === 0 && !committed.isStdoutTruncated) {
                       vaultWorkNotes ||= workNotesInVault(committed.stdout)
                       vaultReads.push(readVault(committed.stdout))
+                    } else if (committed.exitCode !== 0 && !(await absentAt(b))) {
+                      // Not shown and not absent: unreadable, which asks.
+                      vaultReads.push('unreadable')
                     }
-                  } catch (err) {
-                    if (!op.push) throw err
-                    workBaseUnknown = true
+                  } catch {
+                    // Thrown or timed out: the copy is unreadable, which asks
+                    // (a policy the guard does not know can hide private
+                    // paths); on a push the base is unknown too.
+                    vaultReads.push('unreadable')
+                    if (op.push) workBaseUnknown = true
                   }
                 }
                 try {
