@@ -184,11 +184,12 @@ the next arrival, not agreement and not a replacement for its weighing. Save why
 the other open work and shows only a reason a person can check. Work that only
 proves the project's own mechanics is saved as open work, not as the selection,
 unless it blocks product work or the person chose it. So is watching for
-behaviour in real use, and a decision only the person can make: those stay open
-work, never the selection. When nothing in the active list can be built now,
-select one concrete item from the Backlog or the records, with its why, and make
-the `next_in` choices concrete items too; “keep using it and watch” is never the
-saved next step. In restores
+behaviour in real use, and only waiting for the person to decide: those stay open
+work, never the selection (a grounded route that resolves a pending choice is a
+concrete item). When nothing in the active list can be built now, select one
+concrete item from the Backlog or the records that they do not defer, park or
+hold, with its why, and make the `next_in` choices concrete items too; “keep using
+it and watch” is never the saved next step; with no eligible item, say so. In restores
 the meaning even when an older handoff has no named fields; it does not declare
 the selection missing merely because it was written as a sentence. New user
 direction can supersede it. Changed evidence can make it stale; Switch

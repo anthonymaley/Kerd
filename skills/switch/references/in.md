@@ -187,16 +187,19 @@ only proves the project's own mechanics (a self-check, a record tidy, evidence
 bookkeeping) does not lead unless it blocks the product work or the person asked
 for it. If evidence shows the saved selection stale or completed, say so plainly.
 
-**Watching is not buildable.** An item that waits for behaviour to be seen in real
-use (“watch X in real use”, “keep using it”) or for the person's own decision is
-open work, never the recommendation: nothing can be built on it now. When no item
-in the active list is buildable, **Where things stand** says so plainly (“nothing
-in Now can be built; it holds things to watch and your decisions”). Recommend the
-saved selection when it is a concrete item; when it too is a watch item or
-missing, read the project's Backlog section (that one section, not the archive)
-and recommend one concrete item from it, with Out's other previewed concrete
-items or the Backlog's next ones as the picker's other options. Still none: the
-recommendation is `null`, never a meta-item such as “use Kerd on real work”.
+**Watching is not buildable.** An item that only waits for behaviour to be seen
+in real use (“watch X in real use”, “keep using it”) or only waits for the person
+to decide is open work, never the recommendation: nothing can be built on it now.
+Proposing a grounded route to resolve a saved unresolved choice (below) is not
+waiting; it stays a candidate. When no item in the active list is buildable,
+**Where things stand** says so plainly (“nothing in Now can be built; it holds
+things to watch and your decisions”). Weigh the saved selection as above; when
+it too only waits or is missing, read the project's Backlog section (that one
+section, not the archive) and weigh its rows the same way. A row the records
+defer, park or hold until something happens is not eligible. Recommend one
+eligible concrete item, with Out's other previewed items or the Backlog's next
+eligible rows as the picker's other options. Still none: the recommendation is
+`null`, never a meta-item such as “use Kerd on real work”.
 
 **Open work** lists the items that move the work, one plain line each, in
 recommended order, with no file names, line numbers or internal labels unless the
