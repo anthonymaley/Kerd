@@ -2,7 +2,9 @@
 
 ## Now
 
-**Release boundary:** 0.175.1 on `main` (overtone 0.8.1 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.175.1 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.175.1 and overtone 0.8.1 (2026-10-06 18:1x, load on restart); Codex has 0.175.0, which is level with 0.175.1's skills (0.175.1 changed only overtone). Position is in `CONTEXT.md` `## Where We Are`.
+**Release boundary:** 0.175.2 on `main` (overtone 0.8.1 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.175.2 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.175.2 and overtone 0.8.1 (2026-10-07 08:2x, load on restart); Codex has 0.175.2 (2026-10-07 08:2x, read back identical to main).
+
+- **Watch 0.175.2 in real use:** a Switch Out reads the boundary output whole (no `tail`/`head`/`grep`) and never shows passed without seeing `boundary_ok`. Wording test and 3/3 Sonnet evals only. Sketchbook `notes:boundary-slip/work.md`. Position is in `CONTEXT.md` `## Where We Are`.
 
 - **Watch 0.174.0 in real use:** a question that chooses among listed options should end on the recommendation ("Start with <it>?"), not an open question (0.173.0's first real use, 11:41, asked the open one; fixed 0.174.0); a missing fact still gets its own question; Switch Out's new order (vault commit written before the last project commit, nothing after the boundary check); a refused chat roll said in chat. Wording tests only. Sketchbook `notes:fixes-2026-10-06/work.md`.
 - **Watch 0.175.0's chat roll fire on a reported window:** a Conductor chat in tmux past 50% of the window overtone reports (~500k at 1M) should roll at a batch boundary; after a model switch it should refuse until restart. Wording tests only; never seen live. Sketchbook `notes:chat-roll-window/work.md`.
