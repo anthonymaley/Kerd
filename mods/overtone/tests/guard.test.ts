@@ -1832,3 +1832,58 @@ describe('guard: merges, and repositories the guard cannot name', () => {
     expect(w.asked).toHaveLength(3)
   })
 })
+
+describe('guard: a cd into a folder that is not there', () => {
+  // The file system as the engine answers it: these paths are missing, these are files.
+  const disk = (on: On, gone: string[], files: string[] = []) => {
+    on('fs.exists', ($, e) => ({ value: !gone.includes(e.path) }) as never)
+    on('fs.stat', ($, e) => {
+      if (gone.includes(e.path)) throw new Error('ENOENT')
+      return { value: { kind: files.includes(e.path) ? 'file' : 'dir', size: 0, mtimeMs: 0, isLink: false } } as never
+    })
+  }
+
+  test('after a failed cd, git runs in the folder before it: it asks, reading no git', async ($, on) => {
+    const { w, clock } = world(on, { answer: "Don't run it" })
+    disk(on, ['/work/typo'], [`${KERD}/README.md`])
+    for (const [command, bad] of [
+      [`cd ${KERD} && cd /work/typo; git push origin HEAD`, '/work/typo'],
+      ['cd /work/typo || true; git add .', '/work/typo'],
+      [`cd ${KERD}; cd /work/typo; git commit -m x`, '/work/typo'],
+      // A later move from where the failed cd would have been lands somewhere real.
+      [`cd ${KERD}/docs; cd /work/typo; cd ..; git push origin HEAD`, '/work/typo'],
+      [`cd ${KERD}; cd /work/typo; git -C .. push origin HEAD`, '/work/typo'],
+      // A file is there, but cd cannot enter it.
+      [`cd ${KERD}; cd README.md; git push origin HEAD`, `${KERD}/README.md`],
+    ]) {
+      w.argv.length = 0
+      const call = $.tool.call(bash(command!))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect([command, r.deny]).toEqual([command, expect.stringContaining(`\`${bad}\`, which is not a folder`)])
+      expect([command, w.argv.filter(a => a[0] === 'git')]).toEqual([command, []])
+    }
+    expect(w.asked).toHaveLength(6)
+    expect(w.ran).toEqual([])
+  })
+
+  test('folders that are there are followed as before', async ($, on) => {
+    const { w } = world(on)
+    disk(on, ['/work/typo'])
+    await $.tool.call(bash(`cd /work && cd ${KERD} && git add README.md`))
+    // A missing folder after the git command does not touch it.
+    await $.tool.call(bash(`cd ${KERD} && git add README.md; cd /work/typo`))
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual([`cd /work && cd ${KERD} && git add README.md`, `cd ${KERD} && git add README.md; cd /work/typo`])
+  })
+
+  test('no file access: the folder counts as there, as before', async ($, on) => {
+    const { w } = world(on)
+    on('fs.exists', () => {
+      throw new Error('no file access')
+    })
+    await $.tool.call(bash(`cd ${KERD} && git add README.md`))
+    expect(w.asked).toEqual([])
+    expect(w.ran).toEqual([`cd ${KERD} && git add README.md`])
+  })
+})

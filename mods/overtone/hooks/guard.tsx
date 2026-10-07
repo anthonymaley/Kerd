@@ -37,6 +37,7 @@ import {
   PUSH_DST,
   aliasKey,
   destinationBase,
+  hasExpansion,
   liveCheck,
   liveRange,
   refSetStaleWhy,
@@ -372,7 +373,31 @@ export const register: Register = (on, options) => {
         const ops = await readOps($, command, cwd, home)
         const cache = new Map<string, RepoFacts | 'none' | null>()
         let textVault: VaultFacts | undefined
+        // Whether each folder is a folder: one not there, or a file, is not;
+        // unknown (no file access) counts as one, as before.
+        const isDir = new Map<string, boolean>()
+        const dirThere = async (path: string): Promise<boolean> => {
+          if (!isDir.has(path)) {
+            const there = await $.fs.exists(path).catch(() => true)
+            const kind = there ? await $.fs.stat(path).then(s => s.kind, () => 'dir') : null
+            isDir.set(path, kind === 'dir')
+          }
+          return isDir.get(path)!
+        }
         for (const op of ops) {
+          // A `cd` into something that is not a folder fails, so git runs in
+          // the folder before it (`cd /a && cd /typo; git push`, `cd README.md`,
+          // `cd /typo; cd ..`), which no read of where the line ends names. It
+          // asks.
+          if (!op.unknownRepo) {
+            for (const dir of [...(op.via ?? []), op.cwd]) {
+              if (!dir.startsWith('/') || hasExpansion(dir) || (await dirThere(dir))) continue
+              const why = `git runs in or after \`${dir}\`, which is not a folder: a \`cd\` into it fails and git runs in the folder before it, which the guard cannot name`
+              op.unknownRepo = why
+              if (op.push) op.push.opaque ??= why
+              break
+            }
+          }
           // Git runs in a repository the guard cannot name (find -execdir,
           // `git -C {}`): no read of this one says where it goes. It asks.
           if (op.unknownRepo) {

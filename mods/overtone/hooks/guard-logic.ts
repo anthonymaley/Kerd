@@ -766,6 +766,11 @@ export type GitOp = {
   // An alias the reader has not been told about (`git <name>`): guard.tsx
   // reads it and parses again; unread, the op asks as it stands.
   alias?: string
+  // Every folder a `cd` or `pushd` moved the shell to before this op, in this
+  // line. One that is not a folder (`cd /typo`, `cd README.md`) fails, and
+  // the shell stays where it was, however the line moves on (`cd ..`):
+  // guard.tsx asks.
+  via?: string[]
 }
 
 const COMMIT_SHORT_ARG = new Set(['m', 'F', 'C', 'c', 't'])
@@ -980,7 +985,7 @@ export type AliasTops = ReadonlyMap<string, string>
 // `shellVars`: variables the line set or exported before (`export GIT_DIR=x;
 // git add`), which the commands after it may run with. Never scoped to a
 // subshell: one set anywhere counts for the rest of the line.
-type Reader = { home: string | undefined; aliases: Aliases; tops: AliasTops; ops: GitOp[]; shellVars: Set<string> }
+type Reader = { home: string | undefined; aliases: Aliases; tops: AliasTops; ops: GitOp[]; shellVars: Set<string>; visited: string[] }
 
 // Where `cd -` (OLDPWD), `popd` and the `pushd` forms that rotate the stack
 // lead is state the guard does not follow: the shell's directory becomes an
@@ -1005,7 +1010,7 @@ export function parseGitOps(
   aliases: Aliases = new Map(),
   tops: AliasTops = new Map(),
 ): GitOp[] {
-  const r: Reader = { home, aliases, tops, ops: [], shellVars: new Set() }
+  const r: Reader = { home, aliases, tops, ops: [], shellVars: new Set(), visited: [] }
   readLine(r, command, normalize(cwd), 0, false)
   // git run in a directory a shell expansion names (`cd "$DIR"`, `git -C
   // $REPO`): never "not a git repo", which would pass. It asks.
@@ -1045,6 +1050,7 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
   const opened: string[] = []
   for (let n = 0; n < cmds.length; n++) {
     const c = cmds[n]!
+    const mark = r.ops.length
     for (const p of c.parens) {
       if (p === '(') opened.push(dir)
       else if (opened.length) dir = opened.pop()!
@@ -1062,6 +1068,7 @@ function readLine(r: Reader, command: string, dir: string, depth: number, strict
       if (fed !== null) readLine(r, h.body, fed, depth + 1, false)
     }
     if (fed !== null) for (const text of hereStrings(c.words, c.firstQuoted)) readLine(r, text, fed, depth + 1, false)
+    for (const op of r.ops.slice(mark)) op.via ??= [...r.visited]
   }
   // A subshell still open here closes at the line's end: the shell is left
   // where it was before it.
@@ -1394,7 +1401,9 @@ function readCommand(
     // `+N` is a directory-stack entry (pushd; zsh's cd too).
     if (target !== undefined && /^\+\d+$/.test(target)) return UNKNOWN_STACK
     if (head === 'pushd' && (target === undefined || opts.includes('n'))) return UNKNOWN_STACK
-    return target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
+    const to = target === undefined ? normalize(homeNow(r) ?? '$HOME') : resolvePath(dir, expandDir(target, homeNow(r)), homeNow(r))
+    r.visited.push(to)
+    return to
   }
   if (SETS_VARS.has(name)) {
     for (const w of rest.slice(1)) if (/^[A-Za-z_]/.test(w)) r.shellVars.add(w.split('=')[0]!)
