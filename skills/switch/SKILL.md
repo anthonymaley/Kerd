@@ -51,7 +51,10 @@ item names the guide section with its detail: open that section before the step.
   role only; no binding, no setup question ([Restore the existing team](references/in.md#restore-the-existing-team)).
 - Weigh every open item, the saved one included, and recommend exactly one with its
   Why, or say nothing is actionable rather than invent work, without loading
-  Conductor ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
+  Conductor; an item that only waits (to watch real use, or for the person to
+  decide) is never the recommendation: with nothing buildable in Now, say so and
+  weigh the saved item and the Backlog section's rows, skipping deferred or parked
+  ones ([Compose the arrival](references/in.md#compose-the-arrival-in-switch)).
 - Renderer: copy the `$summary` shape from the guide, never from the script, and run
   `where_we_are.py --summary - --markdown`; only if it fails or is unavailable, say so
   and give the restored facts and the question as plain text ([Welcome back](references/in.md#welcome-back-the-screen-summary)).
@@ -83,7 +86,9 @@ item names the guide section with its detail: open that section before the step.
   with `work_notes`, keep `notes:outside-the-repo.md` ([the list](references/out.md#keep-the-outside-the-repo-list)).
 - Save the selected continuation: next action and owner with its status, where it
   stops, its pending question, its why, up to two other items as proposed, or, when
-  none can be grounded, say so; and every unresolved risk the active records flag
+  none can be grounded, say so; never an item that only waits as the next step:
+  with nothing buildable in Now, a concrete Backlog or record item not deferred or
+  parked; and every unresolved risk the active records flag
   urgent or imminent, inside the reading set ([Save the selected continuation](references/out.md#save-the-selected-continuation)).
 - A lean, measured start point: rulings stay and cases move, closed rows leave with
   their reason, the reading set is named, `handoff.py measure` runs with `--carry-file`
