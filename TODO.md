@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.177.0 on `main` (overtone 0.8.2 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.177.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.177.0 and overtone 0.8.2 (2026-10-07 12:5x, load on restart); Codex has 0.177.0 too (2026-10-07 13:4x, on his "y"; `notes:codex-update/work.md`).
+**Release boundary:** 0.177.1 on `main` (overtone 0.8.3 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.177.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.177.0 and overtone 0.8.2 (2026-10-07 12:5x, load on restart); Codex has 0.177.0 too (2026-10-07 13:4x, on his "y"; `notes:codex-update/work.md`).
 
 - **Watch 0.177.0 in real use:** an arrival on a quiet Now (only watch items and his decisions) says plainly that nothing can be built and recommends a concrete, not deferred, saved or Backlog item, or nothing; Switch Out never saves "keep using it and watch" as the next step. Wording tests, Sonnet x1 evals (fixtures have no quiet Now), codex-tui two rounds. Sketchbook `notes:arrival-nothing-buildable/work.md`.
 
@@ -48,7 +48,7 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
 
 ## Backlog
 - **Haiku's Switch Out still skips the lean start point** (2026-10-07, branch `fix/switch-read-guide-first`): before the read-the-guide-first line Haiku opened the guide 0 of 18 runs (In ~0.6, Out ~0.2, a false "session closed"); with it, 18 of 18 and 6 of 6, In 1.00, Out 0.67-0.88, no false close. Out still misses naming the reading set, measuring it and saving `read_args` (9 of 9 in the probe) and often the session log. Revisit only if someone routes Switch to Haiku. Sketchbook `notes:haiku-switch/work.md`.
-- overtone guard, gaps left at 0.8.1 (2026-10-06, codex-tui and the players; the failed `cd` closed in 0.8.2): a remote with custom fetch refspecs makes `push --all` ask every time (noisy, safe); a push naming a tag by refspec gets no live check. Further "spellings" Claude Code's background security review finds go here, not into a release (Anthony's 18:10 "y"). `notes:overtone-guard-gaps/work.md`.
+- overtone guard, gap left at 0.8.3 (2026-10-06, codex-tui and the players; the failed `cd` closed in 0.8.2, custom fetch refspecs in 0.8.3): a push naming a tag by refspec gets no live check. Further "spellings" Claude Code's background security review finds go here, not into a release (Anthony's 18:10 "y"). `notes:overtone-guard-gaps/work.md`.
 - overtone guard, out of scope by decision (Anthony 2026-10-04 22:18, "safety net for honest mistakes"): a command string piped into a shell (`printf 'git add' | bash`), command strings or names in variables (`bash -c "$CMD"`, `"$G" "$C"`), `GIT_CONFIG_*` set before `bash -c`, `git config remote.*.pushurl …; git push`, `--git-dir`/`GIT_DIR` to a public repo from a private one, an on-the-spot `-c alias.x='!git push …'`; also unguarded: `git update-index --add`, `send-pack`, `http-push`, `gh pr create`. Revisit only if a real slip shows one.
 - overtone lows (0.7.0): `git push --dry-run` asks; read-only shell aliases (`!git log`) ask in public repos; `git lfs`/`git-<name>` programs ask there; a nonzero `git show` of `kivna/vault.json` at HEAD or a named pushed branch counts as absent; a short band can fold one worker more than needed; below 3 rows the band can overrun.
 

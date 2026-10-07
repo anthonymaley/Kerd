@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.177.1
+
+**overtone 0.8.3: `push --all` stops asking every time on a clone that fetches pull requests.** The guard checks a
+ref-set push (`--all`, `--branches`, `--tags`, `--mirror`) against what the remote has now, but it read every
+remote-tracking ref as a branch, so a ref fetched from elsewhere (GitHub's `refs/pull/*/head` into `origin/pr/*`)
+read as gone and every such push asked. It now reads each tracking ref through the remote's own fetch settings and
+checks the ref it came from; unchanged passes. Still asks: a changed ref, a tracking ref no fetch setting explains, a
+fetch setting it cannot read, and two sources of one ref both on the remote. A tag pushed by refspec still gets no
+live check (Backlog). codex-tui: two rounds (round 1 caught a `$` in a branch name read wrong), safe to push. Kerd's
+skills are unchanged.
+
 ## 0.177.0
 
 **Switch In stops recommending "keep using it" when there is nothing to build.** When the active list held only
