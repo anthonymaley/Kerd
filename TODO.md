@@ -2,7 +2,9 @@
 
 ## Now
 
-**Release boundary:** 0.175.3 on `main` (overtone 0.8.2 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.175.3 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.175.3 and overtone 0.8.2 (2026-10-07 10:4x, load on restart); Codex has 0.175.2 (2026-10-07 08:2x; 0.175.3 changed no skill).
+**Release boundary:** 0.176.0 on `main` (overtone 0.8.2 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.176.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.176.0 and overtone 0.8.2 (2026-10-07 11:2x, load on restart); Codex has 0.175.2 (2026-10-07 08:2x): 0.176.0 changed Switch, so Codex waits on his go in its window.
+
+- **Watch 0.176.0 in real use:** Switch opens its guide before any other tool call (In and Out in full, To and Roll their routed sections) and never works in the skill's folder. Evals only: Haiku 6 of 6 read the guide on the final wording, Sonnet and Opus unchanged. Sketchbook `notes:haiku-switch/work.md`.
 
 - **Watch overtone 0.8.2's guard in real use (released 2026-10-07 10:4x):** a git command after a `cd` into a missing folder or a file should ask, naming it, even after `cd ..`; ordinary `cd`s into real folders should ask nothing more than before. Known extra ask: `mkdir x && cd x && git add` in one command. Tests and two codex-tui rounds only. Sketchbook `notes:overtone-guard-gaps/work.md`.
 
