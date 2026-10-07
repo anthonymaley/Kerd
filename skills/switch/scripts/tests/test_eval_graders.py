@@ -23,14 +23,24 @@ def pattern(case, grader):
     return line[len("pattern: '"):-1].replace("''", "'")
 
 
-def tool_use(command):
-    return json.dumps({"type": "assistant", "message": {"content": [
-        {"type": "tool_use", "name": "Bash", "input": {"command": command}}]}}, separators=(",", ":"))
+def bash_call(command, tid="toolu_1"):
+    return {"type": "tool_use", "id": tid, "name": "Bash", "input": {"command": command}}
 
 
-def tool_result(output):
+def tool_use(command, tid="toolu_1"):
+    return json.dumps({"type": "assistant", "message": {"content": [bash_call(command, tid)]}},
+                      separators=(",", ":"))
+
+
+def tool_uses(*calls):
+    """One assistant message carrying several Bash calls: (command, id) pairs."""
+    return json.dumps({"type": "assistant", "message": {"content": [bash_call(c, t) for c, t in calls]}},
+                      separators=(",", ":"))
+
+
+def tool_result(output, tid="toolu_1"):
     return json.dumps({"type": "user", "message": {"content": [
-        {"tool_use_id": "t", "type": "tool_result", "content": output, "is_error": False}]},
+        {"tool_use_id": tid, "type": "tool_result", "content": output, "is_error": False}]},
         "tool_use_result": {"stdout": output}}, separators=(",", ":"))
 
 
@@ -126,6 +136,31 @@ class BoundaryTests(unittest.TestCase):
     def test_a_mutation_on_a_new_line_after_it_fails(self):
         self.assertFalse(self.rx.search(self.run_trace(tool_use("echo done\ngit push origin main"))))
 
+    def test_a_mutation_on_a_new_line_in_the_same_command_fails(self):
+        # codex-tui round 2: a lost backslash let one "statement" run past JSON's \n.
+        t = trace(tool_use("python3 /p/handoff.py --project /w boundary\ngit push origin main"), tool_result(self.ok))
+        self.assertFalse(self.rx.search(t))
+
+    def test_the_result_is_the_boundary_calls_own(self):
+        # codex-tui round 2: two calls in one message; results matched by tool ID, not position.
+        old_record = tool_result('{"status": "boundary_ok"}', "toolu_old")
+        failed = tool_result("Traceback: handoff.py failed", "toolu_b")
+        t = trace(tool_uses(("cat /w/.boundary-log", "toolu_old"), (self.check, "toolu_b")), old_record, failed)
+        self.assertFalse(self.rx.search(t))
+        unrelated_first = trace(tool_uses(("git status --short", "toolu_s"), (self.check, "toolu_b")),
+                                tool_result("", "toolu_s"), tool_result(self.ok, "toolu_b"))
+        self.assertTrue(self.rx.search(unrelated_first))
+
+    def test_quoted_git_options_do_not_hide_a_mutation(self):
+        for later in ('git -C "/work/My Project" push origin main', 'git -c user.name="A User" commit -m x'):
+            with self.subTest(later=later):
+                self.assertFalse(self.rx.search(self.run_trace(tool_use(later))))
+
+    def test_read_only_stash_and_tag_pass(self):
+        for later in ("git stash list", "git stash show -p", "git tag --list", "git tag -l 'v*'", "git tag"):
+            with self.subTest(later=later):
+                self.assertTrue(self.rx.search(self.run_trace(tool_use(later))))
+
     def test_a_save_through_a_variable_after_it_fails(self):
         self.assertFalse(self.rx.search(self.run_trace(tool_use("python3 $H --project . save --push --file a.md"))))
 
@@ -171,14 +206,16 @@ class ConductorShellReadTests(unittest.TestCase):
     def test_shell_reads_of_conductor_are_caught(self):
         for cmd in ("cat /p/skills/conductor/SKILL.md", "sed -n 1,40p /p/conductor/references/entry.md",
                     "grep -n Shape /p/conductor/references/journey.md",
-                    "cd skills/conductor && cat SKILL.md", "ls\ncat /p/conductor/SKILL.md", "cd /p/conductor; sed -n 1,20p references/entry.md"):
+                    "cd skills/conductor && cat SKILL.md", "ls\ncat /p/conductor/SKILL.md",
+                    "rg -n Shape /p/conductor/SKILL.md\nrg --files .", "cd /p/conductor; sed -n 1,20p references/entry.md"):
             with self.subTest(cmd=cmd):
                 self.assertTrue(self.rx.search(tool_use(cmd)))
 
     def test_other_commands_are_not(self):
         for cmd in ("python3 /p/switch/scripts/where_we_are.py --summary - --markdown", "cat TODO.md",
                     "cat /p/switch/references/in.md", "rg --files /p/conductor/references/",
-                    "grep -l Shape /p/conductor/references/*.md", "ls /p/conductor/references/"):
+                    "grep -l Shape /p/conductor/references/*.md", "ls /p/conductor/references/",
+                    "cd skills/conductor; cd ../switch; cat SKILL.md"):
             with self.subTest(cmd=cmd):
                 self.assertFalse(self.rx.search(tool_use(cmd)))
 
