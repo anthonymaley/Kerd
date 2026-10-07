@@ -731,14 +731,19 @@ export const register: Register = (on, options) => {
                 // A committed copy git would not show (nonzero exit) is absent
                 // only when that tree has no such path, as `git ls-tree` says
                 // (never git's error text, which is translated); any other
-                // failure (a bad object, a read error) is not "absent".
-                // Throws as the read does.
+                // failure (a bad object, a read error, a listing that throws
+                // or times out) is not "absent": the copy is unreadable, so
+                // its private paths ask, wherever it is read.
                 const absentAt = async (rev: string) => {
-                  const has = await $.process.run(['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file], {
-                    cwd: root,
-                    timeoutMs: T,
-                  })
-                  return fullRead(has) && has.stdout.trim() === ''
+                  try {
+                    const has = await $.process.run(['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file], {
+                      cwd: root,
+                      timeoutMs: T,
+                    })
+                    return fullRead(has) && has.stdout.trim() === ''
+                  } catch {
+                    return false
+                  }
                 }
                 // A push also reads HEAD's committed copy and each pushed
                 // revision's: add-only (never a base, never a slug), so a
@@ -801,9 +806,12 @@ export const register: Register = (on, options) => {
                     } catch {
                       // Thrown or timed out: as a thrown base read, the
                       // work-folder judgement is unknown (asks on one); on a
-                      // ref-set tip, it asks.
+                      // ref-set tip, it asks; at HEAD or a named pushed
+                      // revision the copy is unreadable, which asks too (a
+                      // policy the guard does not know can hide private paths).
                       workBaseUnknown = true
                       if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
+                      else vaultReads.push('unreadable')
                     }
                   }
                   if (setWhy !== null) {
@@ -844,9 +852,12 @@ export const register: Register = (on, options) => {
                       // Not shown and not absent: unreadable, which asks.
                       vaultReads.push('unreadable')
                     }
-                  } catch (err) {
-                    if (!op.push) throw err
-                    workBaseUnknown = true
+                  } catch {
+                    // Thrown or timed out: the copy is unreadable, which asks
+                    // (a policy the guard does not know can hide private
+                    // paths); on a push the base is unknown too.
+                    vaultReads.push('unreadable')
+                    if (op.push) workBaseUnknown = true
                   }
                 }
                 try {

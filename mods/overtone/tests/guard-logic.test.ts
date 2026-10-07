@@ -1497,6 +1497,35 @@ describe('a shell alias of read-only git commands passes; anything else still as
       expect([value, ops.length > 0, ops.every(asks)]).toEqual([value, true, true])
     }
   })
+
+  test('a read-only subcommand with an option that runs a program or writes a file still asks', () => {
+    for (const value of [
+      "!git grep -O'git add -f' secret -- .env",
+      '!git grep -O less secret',
+      '!git grep -niOless secret',
+      '!git grep --open-files-in-pager=less secret',
+      '!git grep --open-files secret',
+      '!git diff --ext-diff',
+      '!git log -p --ext',
+      '!git diff --output=/tmp/d',
+      '!git log -p --output /tmp/d',
+      '!git show --textconv HEAD',
+      '!git cat-file --filters HEAD:x',
+      '!git log --show-signature',
+      '!git log --format=%G?',
+      '!git help -w log',
+      '!git ls-remote --upload-pack=x origin',
+      '!git verify-commit HEAD',
+      '!git verify-tag v1',
+    ]) {
+      const ops = read(value)
+      expect([value, ops.length > 0, ops.every(asks)]).toEqual([value, true, true])
+    }
+    // Options that run nothing still pass.
+    for (const value of ['!git grep -n secret', '!git diff --no-ext-diff --stat', '!git log --oneline --no-textconv -3']) {
+      expect([value, read(value)]).toEqual([value, []])
+    }
+  })
 })
 
 describe('kivna/vault.json that names only a vault', () => {
