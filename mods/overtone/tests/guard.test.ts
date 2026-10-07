@@ -1195,7 +1195,9 @@ describe('guard', () => {
   })
 
   // The base-tree reads leave the base unknown: a work folder the push
-  // carries asks (even one the remote has); a push without one passes.
+  // carries asks (even one the remote has). A thrown ls-tree leaves a push
+  // without one passing; a thrown show leaves the base's kivna/vault.json
+  // unreadable, so that push asks too.
   for (const read of ['ls-tree', 'show']) {
     test(`a thrown git ${read} of the base on \`git push origin feature\`: unknown base, asks on a work folder`, async ($, on) => {
       const { w, clock } = world(on, { throws: [read], log: () => 'docs/work/jev-trial/plan.md\n', answer: "Don't run it" })
@@ -1206,9 +1208,17 @@ describe('guard', () => {
       expect(w.asked).toHaveLength(1)
       expect(r.deny).toContain('cannot tell whether this work folder is new')
       w.log = () => 'README.md\n'
-      await $.tool.call(bash('git push origin feature'))
-      expect(w.asked).toHaveLength(1)
-      expect(w.ran).toEqual(['git push origin feature'])
+      const again = $.tool.call(bash('git push origin feature'))
+      await clock.advance(5_000)
+      const r2 = (await again) as { deny?: string }
+      if (read === 'ls-tree') {
+        expect(w.asked).toHaveLength(1)
+        expect(w.ran).toEqual(['git push origin feature'])
+      } else {
+        expect(w.asked).toHaveLength(2)
+        expect(r2.deny).toContain('the guard could not read where kivna/vault.json puts the private vault')
+        expect(w.ran).toEqual([])
+      }
     })
   }
 
@@ -1520,7 +1530,7 @@ describe("guard: a push reads HEAD's and each pushed revision's committed vault.
     })
   }
 
-  test('add-only: no copy names it, the push passes; a thrown read adds nothing and removes nothing', async ($, on) => {
+  test('add-only: no copy names it, the push passes; a thrown read is unreadable and asks, and removes nothing', async ($, on) => {
     const { w, clock } = world(on, {
       files: {},
       committed: null,
@@ -1529,7 +1539,8 @@ describe("guard: a push reads HEAD's and each pushed revision's committed vault.
     })
     await $.tool.call(bash('git push origin topic:newbranch'))
     expect(w.asked).toEqual([])
-    // HEAD's read throws; the pushed revision's copy still adds its path.
+    // HEAD's read throws: HEAD's policy is unknown, which could hide its
+    // private paths, so it asks; the pushed revision's copy still adds its path.
     w.throws = ['show HEAD:kivna/vault.json']
     w.committed = base => (base === 'topic' ? SECRET : null)
     w.answer = "Don't run it"
@@ -1537,6 +1548,14 @@ describe("guard: a push reads HEAD's and each pushed revision's committed vault.
     await clock.advance(5_000)
     const r = (await call) as { deny?: string }
     expect(r.deny).toContain('secret.txt (kept out of Git by instruction)')
+    expect(r.deny).toContain('the guard could not read where kivna/vault.json puts the private vault')
+    expect(w.ran).toEqual(['git push origin topic:newbranch'])
+    // Alone, a thrown read at HEAD asks.
+    w.committed = null
+    const alone = $.tool.call(bash('git push origin topic:newbranch'))
+    await clock.advance(5_000)
+    const r2 = (await alone) as { deny?: string }
+    expect(r2.deny).toContain('the guard could not read where kivna/vault.json puts the private vault')
     expect(w.ran).toEqual(['git push origin topic:newbranch'])
   })
 })
@@ -1627,6 +1646,31 @@ describe('guard: a committed vault.json git will not show is absent only when it
       await clock.advance(5_000)
       const r = (await call) as { deny?: string }
       expect(w.argv).toContainEqual(['git', 'ls-tree', '--full-tree', rev, '--', 'kivna/vault.json'])
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(UNREAD)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  // git show itself throws (times out): the policy at that revision is
+  // unknown, which could hide its private paths, so it asks.
+  for (const [where, command, rev] of [
+    ['git add at HEAD', 'git add README.md', 'HEAD'],
+    ['a push at HEAD', 'git push origin feature', 'HEAD'],
+    ['a push at a named pushed revision', 'git push origin topic:feature', 'topic'],
+    ['a push at the destination base', 'git push origin feature', 'refs/remotes/origin/feature'],
+  ] as const) {
+    test(`${where}: git show throws: asks`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: null,
+        throws: [`show ${rev}:kivna/vault.json`],
+        log: () => 'README.md\n',
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
       expect(w.asked).toHaveLength(1)
       expect(r.deny).toContain(UNREAD)
       expect(w.ran).toEqual([])
