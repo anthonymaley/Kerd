@@ -1,0 +1,314 @@
+# Working with Claude and Codex
+
+Contents:
+
+- [Quick help](#quick-help)
+- [Recognize your partner](#recognize-your-partner)
+- [Which kind of session?](#which-kind-of-session)
+- [Partner role and review cadence](#partner-role-and-review-cadence)
+- [A typical exchange](#a-typical-exchange)
+- [First use: what you need to do](#first-use-what-you-need-to-do)
+  - [If Claude asks you to approve the message](#if-claude-asks-you-to-approve-the-message)
+  - [Stopping repeated inbound prompts](#stopping-repeated-inbound-prompts)
+- [When something is unavailable](#when-something-is-unavailable)
+- [Commands for people who want the terminal details](#commands-for-people-who-want-the-terminal-details)
+
+Ask for the contribution you need. Kerd handles finding the session, preparing
+the request, sending it and bringing the answer back. You do not need to copy
+messages between terminals or remember session IDs.
+
+## Quick help
+
+In Claude Code with this skill loaded, enter `/kerd:agent help`, or use
+`/kerd:agent` followed by a request below. In another host, ask naturally with
+the Agent skill loaded; the Claude slash command is not a universal Codex command.
+
+| You want to… | Say… |
+| --- | --- |
+| See available sessions | “Show sessions” |
+| Ask the established partner | “Ask Claude to review, RO” |
+| Keep a pairing partner | “Pair with Codex on this” |
+| Define an ongoing role | “Use Claude as the implementation partner and Codex as reviewer”; “Pair Codex as reviewer before push” |
+| Continue a role in a new session | “This session takes over the Claude reviewer role” |
+| Get a fresh perspective | “Start a fresh Claude reviewer” |
+| Start an ongoing conversation | “Start a Codex pairing partner” |
+| Follow up | “Ask Claude to recheck the fix” |
+| Check progress | “Anything back from Codex?” |
+| Get setup help | “Connect Codex” |
+
+These are examples, not exact phrases you must memorize. Help does not start
+work. Pairing alone remembers a session; it does not send it a job.
+
+Once a partner is established for this project, Kerd uses it by default. You
+can say “ask it to recheck” or “anything back?” when the conversation makes the
+target clear. “RO” means read-only.
+
+If no partner is established, or it is unclear which you mean, Kerd shows the
+matching sessions so you can choose: provider, pairing role/alias and short ID
+first, followed by project, availability and the saved native title. The
+Codex sessions you have open in terminals appear here too, marked as saved
+threads whose activity is unknown until one answers. You
+can choose an existing session or ask for a new one. An unavailable partner is
+reported, never silently replaced. Explicitly asking for a fresh reviewer or
+new partner skips choosing an existing session.
+
+The command must be present in the loaded Kerd version. If your installed copy
+does not include Agent, ask to check availability before changing the installation.
+Loading these instructions does not install missing provider tools or dependencies.
+
+## Recognize your partner
+
+An illustrative session listing:
+
+```text
+Codex · established partner · build-partner · 8c12f7a1
+  Project: /projects/example
+  Saved title (may be old): Initial setup
+  Availability: saved thread — activity unknown
+  Last exchange (recorded): implementation review — reply received, 12 Sep
+```
+
+The title can outlive the task that named it. The exact session ID and local
+pairing identify your partner; a title or recent reply does not prove it is
+currently working. Last exchange is shown only when known, not invented from
+the title. Multiple aliases for one session are grouped, not offered as separate
+people. **This session** requires its current host identity to be verified.
+
+Agent defines an ongoing role when pairing, reuses it on later requests, and
+asks when a needed responsibility is unclear. You can say “Make Codex the
+implementation partner for this work” to change it explicitly. A single request
+such as “review this diff” does not change the ongoing role. Session listings
+show that role separately from the current contribution and native saved title.
+Roles and exact IDs live in the existing private Git metadata, not a committed
+`agentandroles.md`. They stay local to this pairing; shared work records retain
+useful contributions without private IDs. A role neither grants write permission
+nor appoints the owner of a particular Switch Out.
+
+Pairing also records a review cadence: `checkpoints` (review at the risk
+points Conductor names), `before-push` (review the full change before
+commit, push or release), `end` (one review when the work completes), or
+`on-request` (no automatic review; exclusive of the other three). Change the
+review cadence by telling any session. It schedules review only inside a task
+already authorized; it grants no work, no contact beyond that task, and no
+commit, push or release.
+
+Switch Out keeps a short provider/contribution/result and next-action pointer
+in the existing work or session record when collaboration matters to pickup.
+Native IDs, aliases and raw exchanges stay private in local Git metadata.
+The project summary does not mean every listed session has read it, and moving
+it to another machine does not re-establish pairing. No second session tracker
+or automatic native-title rename is required.
+
+After a clear or restart, Kerd checks the actual native ID. Same ID keeps the
+binding. A new session can adopt the same role from its designated saved handoff.
+After that, Claude can recover it again from an eligible restart receipt without
+another teammate selection; changed memory, a missing machine identity or a
+still-listed predecessor is explained instead of guessed around. Codex new-ID
+unplanned recovery is not supported. With neither designation nor valid receipt,
+an explicit replacement choice is still needed. Old requests stay
+with their original sessions; a competing replacement or an ambiguous role is
+shown rather than overwritten. Out prepares only its own role, after the final
+handoff is saved. This is local routing, not a launch or work approval. See
+[session succession](session-succession.md) for the helper commands and limits.
+
+## Which kind of session?
+
+On Switch In, TEAM shows the current session and established partners with roles
+and short IDs; ask Agent for full IDs when needed. An informational arrival
+notice tells the selected partners which session now holds the role, without
+asking for work or a reply. It does not mean the recipient is online. Repeating
+pickup with the same pair of IDs does not resend; unavailable delivery stays
+visible. No session census or setup question is added to an unpaired project.
+
+**Existing partner:** use when its earlier conversation matters. Kerd finds
+matching local sessions and asks which one only if the choice is ambiguous.
+It does not silently send a fresh reviewer instead. If the partner has not
+answered a review after ten minutes, Kerd tells you and recommends a fresh one-off
+reviewer, which starts only if you say yes; your partner's request stays queued.
+Skipping the review is your call, and Kerd never recommends it.
+
+**Fresh worker:** use for one bounded contribution, such as an independent
+review. It starts without the partner's previous conversation; Kerd supplies
+the relevant brief and sources. This route creates a CLI worker, not a native
+subagent inside your current host. Native subagents can be used when appropriate.
+
+**New partner:** use for continuing collaboration. It is a persistent native
+conversation you can address again by a local name, with its previous context.
+A partner is not automatically a visible terminal window. Kerd can provide
+the supported native route for opening it; it will not take over an occupied one.
+
+**A Codex Kerd starts can't reach the network from its commands by default.** A fresh
+worker or new partner on Codex runs non-interactively with native approval prompts
+disabled: read-only for a review, or with edits inside the project for an editing
+job. Its shell commands can't reach the network by default, so it can't install
+packages or run tests that need downloads. Codex's own web search is separate
+and follows your Codex configuration; in a check on 2026-09-29 a read-only job
+used it to look up a package version. For a Codex whose commands can reach the
+network, open `codex` in a new terminal in this project folder and ask Kerd to
+use it; Kerd finds the session itself, with no ID to copy, and your own settings
+and approvals apply. To let Kerd's own editing jobs' commands reach the network,
+add this to `~/.codex/config.toml`; a review's commands never do, and a managed Codex Roll
+refuses to run whenever the setting gives it effective network access:
+
+```toml
+[sandbox_workspace_write]
+network_access = true
+```
+
+## Partner role and review cadence
+
+Define the partner's ongoing role during Agent setup, using the person's
+stated responsibility (for example implementation partner or reviewer).
+Reuse a recorded role; ask briefly if a needed role is unclear, not on every
+request. `pair` and `start --kind partner` accept `--partner-role`; pairing
+again with the exact alias/provider/ID and an explicit role updates that role.
+Show it from the private `partners` binding alongside provider, alias and ID.
+Missing means not defined, never guessed from the title or model. The existing
+`--role` on a job is that contribution, not an automatic standing-role change.
+A role is neither a permission grant nor appointment as the current Out owner.
+When pairing or starting a persistent partner, ask once for whatever is not
+yet recorded, never re-asking a recorded role or a recorded cadence. If
+neither is recorded, ask for both together, in one message: the options
+listed above, one speech-bubble question, `> 💬 **…?**`, as the last prose
+line, then the picker or pickers. For a missing role, follow the bubble,
+where the host offers one, with a native single-choice picker naming the
+four shortcuts — **Pairing partner**, **Implementation partner**,
+**Independent reviewer**, **Specialist adviser** — and leave anything else
+to the host's own free-form route; do not add an “Other” entry where the
+host supplies that route itself. Those four are shortcuts, never the
+permitted set: any responsibility the person names is a valid answer, and
+the role recorded is whatever they actually say, in their wording —
+`--partner-role` takes any wording, where `--review-cadence` enforces its
+four values. Where a host's picker offers no free-form route, the role
+question is answered in words instead. For a missing cadence, list the four values — `checkpoints`,
+`before-push`, `end`, `on-request` — with one-line meanings above the
+bubble, and follow the bubble with a native multi-select picker over those
+same four, since the person may name several values, though `on-request`
+stands alone. If a role is recorded and only the cadence is missing, ask
+for the cadence alone, the same way. Where the host offers no picker, the
+bubble is answered in words exactly as before; a picker accelerates the
+answer, never gates it, and never narrows it. Record the answers with
+`--partner-role` and `--review-cadence`; do not re-ask on later requests,
+and the person changes either by saying so. A cadence schedules this
+partner's review only inside authorized work and grants no work, contact
+beyond it, commit, push or release. Conductor reads bindings through
+`agent.py partners`.
+
+## A typical exchange
+
+You: “Ask Codex to review this change against the agreed design. No edits.”
+
+Kerd identifies the session and shows the job before sending:
+
+```text
+Codex · build-partner · Review the change · read-only
+You: nothing needed.
+```
+
+Then it reports meaningful changes: submitted or queued, an observed start
+when available, and the returned findings. A queued job is not yet running;
+a returned review is not proof that the work passes. Kerd assesses the answer
+and continues only work already authorized. A review request by itself does
+not authorize fixes, commits or publication.
+
+If you name a model, Kerd keeps that choice or explains why it is unavailable.
+Otherwise it chooses for the job and available tools using the model guidance,
+then prepares the prompt from the agreed goal, sources, checks and boundaries.
+An existing partner keeps its model and permissions. Requested effort and
+observed model identity are reported separately when relevant.
+
+## First use: what you need to do
+
+Ask for the real contribution first. Kerd checks only the route it needs and
+handles project paths, session selection, aliases and result retrieval.
+
+- Already set up: it proceeds within your permission to do the job.
+- Missing software or a dependency: it explains what and where, and asks before
+  installing unless you already authorized that setup. Codex's connection uses
+  an optional WebSocket dependency in a private Python environment.
+- Sign-in needed: you sign in through the provider's own flow. Never paste
+  credentials into the conversation. Existing account usage charges apply.
+- New Claude partner: Kerd discloses that its native inbound setting accepts
+  other local senders too, not only Kerd. That setting lasts for the session;
+  it does not enlarge the session's tool permissions.
+
+### If Claude asks you to approve the message
+
+Pairing remembers a session; it does not make Claude trust incoming requests.
+A session that bypasses tool prompts may hold Kerd's message when the sender's
+permission class is unknown. Choose **Deliver this message to Claude** to
+approve only that request. Kerd then retrieves the same request's answer; you
+should not have to copy the review back.
+
+For unattended reception in a new partner session, a session-only setting is:
+
+```sh
+claude --settings '{"crossSessionInbound":"accept"}'
+```
+
+That command starts a new session, not a replacement for an occupied partner.
+Alternatively, Claude's configuration menu has **Messages from your other
+sessions → Accept**, but that writes a **user-wide** setting. Either choice
+accepts other local senders too, not just the paired Kerd session. Kerd explains
+the scope and leaves the choice to you; it never changes global settings merely
+because a request was held. See [Claude's inbound controls](https://code.claude.com/docs/en/cross-session-messaging#control-inbound-messages).
+
+While it is working, Kerd checks for the reply and reports changes. If its turn
+ends waiting for your approval, it checks the pending request when you return.
+There is no Kerd background watcher that wakes a finished controller turn.
+
+### Stopping repeated inbound prompts
+
+If your own session keeps asking whether to accept messages from other sessions,
+you have two controls, and they differ in scope.
+
+Open `/config` and set **Messages from your other sessions** to **Accept**. This
+is a user-wide setting: it accepts incoming peer messages for all your sessions,
+not only this Kerd partner. Choose it deliberately.
+
+The narrower option is to launch just the partner session with the setting:
+
+```sh
+claude --settings '{"crossSessionInbound":"accept"}'
+```
+
+That affects only the session you launch. Both are Claude's own documented
+controls, described under [inbound
+messaging](https://code.claude.com/docs/en/cross-session-messaging#control-inbound-messages).
+Kerd never changes the user-wide setting for you; a partner it creates carries
+the narrow per-session form, and your existing sessions keep whatever you chose.
+
+New partners default to read-only. File-edit access needs the agreed scope;
+the prompt's named files are not an enforced per-file sandbox. The current
+Claude launcher enables file tools, not shell tests or nested delegation.
+If the job needs those capabilities, Kerd must select an authorized route that
+has them, not label an unrun test as passed.
+
+## When something is unavailable
+
+- **Session missing:** discovery covers Claude native listings, Codex's
+  shared server and the local Codex session store (saved threads appear as
+  `saved thread — activity unknown`), not every desktop/IDE session. Kerd
+  explains the limitation; it does not kill a terminal or resume “latest.”
+- **No reply yet:** ask for status. Kerd retrieves the original request, not a
+  duplicate. A wait timeout neither cancels the job nor proves delivery failed.
+- **Permission or inbound refusal:** Kerd reports it. Another model cannot
+  supply your approval or bypass the recipient's settings.
+- **New machine:** pair again. Local names, native IDs and raw exchanges stay
+  private in Git metadata; they do not travel with normal project commits.
+
+## Commands for people who want the terminal details
+
+The skill is the conversational interface. Its Python helper provides
+`sessions`, `pair`, `start`, `ask`, `status` and `wait`; each accepts `--help`.
+From the Kerd checkout:
+
+```sh
+python3 skills/agent/scripts/agent.py --help
+python3 skills/agent/scripts/agent.py start --help
+```
+
+Use [native sessions and setup](native-sessions.md) for executable command
+patterns, dependencies and tested versions. In particular, fresh workers return
+Conductor's runner and request ID: use that runner for their status and wait.
+The Agent helper's own status and wait retrieve partner requests.

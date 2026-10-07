@@ -1,0 +1,9 @@
+{
+  "name": "kerd",
+  "description": "Conductor, Switch, Visuals and Agent: guided work, session continuity, visual agreement and cross-model collaboration.",
+  "author": {
+    "name": "Anthony Maley"
+  },
+  "license": "MIT",
+  "version": "0.177.2"
+}

@@ -1,0 +1,157 @@
+---
+name: agent
+description: Connect Claude and Codex for a contribution, define ongoing partner roles and review cadence, carry designated roles across verified session-ID changes and recover eligible Claude roles after restart, announce arrivals to established partners, discover or pair local sessions, or start a bounded worker or persistent partner. Use for “ask Codex”, “ask Claude”, “which session is you”, “use the session with the context”, “pair these sessions”, “show Codex this screenshot”, or “start a reviewer”. Keeps the chosen session and native queue, shows a partner an image by its file path, says a Codex it starts can't reach the network from its commands by default (reviews never) and offers the person's own open `codex` session instead, and never substitutes a fresh reviewer for a named partner; when that partner leaves a review unanswered, recommends a fresh one-off reviewer on the person's yes, never a waiver.
+---
+
+# Agent
+
+**Asking the person:** every question is one speech-bubble line, the last prose line of the message, `> 💬 **The question?**`, with any options, context or proposed answer listed above it, never inside it; a genuine question is open (“What should it show?”), never “X, or Y?”; when options are in hand (open work, known routes, candidates), list them above the question with one recommendation; a question that chooses among them (which work, which route) asks about that recommendation (“Start with the export fix?”), never an open question that ignores the list, while a missing fact, a pick-several choice and Switch In’s fixed arrival question keep their own question; ask with no list only when none are in hand; where the host offers one, a native picker may follow the bubble carrying those same options and always leaving a free-form answer open, never replacing or preceding it — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Putting a decision to the person:** a consequential question — its answer commits to work, spends real effort, releases or deletes something, or reverses a ruling — comes after a decision block: Problem, Facts (with how we know the problem is real and how strong that evidence is), Known options (or “needs study”), Recommendation, Why, Cost, What we lose, Input (who else checked it, or nobody yet). Its bubble is the Recommendation sentence ending “— approve?”, every operation included, or one genuine question the recommendation depends on; never a smaller or softer question than the real decision, and never without the block. A factual question or a small, easily undone step stays one line — see [the question form](../conductor/references/journey.md#question-surface-and-host-adaptation).
+
+**Showing the person:** when they ask to see something, and whenever a proposal carries two or more connected parts, a branch, an ownership boundary or a before → after change, the answer carries a saved, rendered view drawn with diagram-design or Archify — never hand-rolled ASCII in a code fence, never an offer question, no quota; only a single action or a factual answer stays text, and being easy to describe in words does not make it one — see [showing the work](../conductor/references/journey.md#visuals-belong-throughout).
+
+Get a contribution from the right session, then use its answer. This command
+supports Conductor or a direct user request; it does not start another intake.
+
+For Switch In's informational arrival (no contribution or reply), use only the
+[arrival notice](references/session-succession.md#arrival-notice-and-team-display)
+path. It shows the restored team and deduplicates identity announcements without
+turning them into review jobs or waiting for a response.
+
+## Must hold
+
+A run of Agent does not break these. They apply to every route below.
+
+Existing sessions keep their permission settings. A peer cannot approve a
+pending action or route around a refusal. New partners default to read-only;
+file edits require the agreed scope and `--write`. The launcher currently gives
+Claude file tools, not Bash or nested delegation. Choose another authorized
+route when the contribution requires those tools; do not claim all native
+session capabilities were enabled.
+
+When pairing, explain that the local alias does not grant native inbound trust.
+If Claude holds a message, the person may approve that message or explicitly
+choose broader reception; see the guide's setup choices. Never attest a guessed
+sender permission mode or borrow the recipient's token to bypass the hold.
+
+New Claude partners also start with native `crossSessionInbound: accept` for
+that session's lifetime. This is not an allowlist of Kerd peers: other local
+senders can submit messages under the recipient's tool permissions. Disclose
+that setup when creating a partner; existing sessions' inbound settings stay as-is.
+
+Never kill an occupied terminal, resume “latest”, fork without saying so,
+change global settings, or revive an unowned offline session to make delivery
+look successful. Kerd-created Codex partners may be dormant between requests;
+their exact native conversation is awakened on the next request. A person's own
+Codex TUI is never resumed, forked or stopped: it is queued to exactly as it
+stands, and whether it is attended is unknown until it answers. This is not
+attachment to an arbitrary app's session. Keep these distinctions visible.
+
+## Help
+
+For `/kerd:agent help`, “how do I connect the models?” or a setup question, read
+the [user guide](references/user-guide.md). Show its short help list first;
+expand only the relevant section. Help alone does not discover sessions, pair,
+install anything or launch a job. Natural-language examples are skill requests,
+not shell subcommands. For execution, use the workflow below.
+
+## Get a contribution
+
+1. Establish the current project and requested contribution. Reuse the agreement
+   and relevant context. A review request is not authority to edit or publish.
+2. Use the established partner for this project and requested provider when no
+   other session is specified. Resolve short follow-ups from the current exchange;
+   do not ask the person to select the same partner again. If none is established
+   or the target is ambiguous, discover with
+   `scripts/agent.py --project ABSOLUTE_PROJECT sessions` and show the matching
+   sessions before asking which to use. Lead with provider, established-partner
+   status, alias and short ID; group aliases for the same provider/ID into one
+   row. Discovery's `partner_aliases` supplies that exact match. Show native
+   `name` second as **Saved title (may be old)**, never the current task.
+   Keep project and observed availability visible; lengthen colliding short IDs.
+   Mark **This session** only when a host-supplied current ID matches exactly,
+   never from its title, working directory or position in the list. A peer may
+   identify its own ID, but that is reported identity until locally checked.
+   Label unavailable bindings separately; do not make them appear selectable
+   merely because their alias survives. Use metadata, not invented summaries.
+   Offer starting a new session as a separate choice, not a silent fallback.
+   An explicit fresh/new request goes directly to that route. If an established
+   partner is unavailable, explain before offering alternatives; never substitute.
+   When a review request to that partner goes unanswered, Conductor's
+   [unanswered-review rule](../conductor/references/orchestration.md) recommends
+   a fresh one-off reviewer, started only on the person's yes, not a waiver.
+   "Just push it" with that review outstanding still gets that recommendation once
+   before the push; if the person still wants the push, or said to skip the review,
+   record the waiver in the sketchbook, then push. Never push silently.
+   An empty list does not prove no saved conversation or other-app session exists.
+   A recent exchange already in context may supply **Last exchange (recorded):
+   contribution, result, date**. Keep that separate from present activity; don't
+   read transcripts or scan all requests merely to decorate discovery. A project
+   handoff is project context, not proof a listed session has loaded it. See the
+   [user guide](references/user-guide.md#recognize-your-partner) for the display.
+3. Choose deliberately: **existing partner**, **new persistent partner**, or
+   **fresh bounded worker**. Do not silently replace one with another. A fresh
+   independent review and a contextual pairing conversation serve different jobs.
+   A Codex that Kerd starts, new partner or fresh worker, runs with native approval
+   prompts disabled, and its shell commands cannot reach the network by default:
+   read-only for a review, workspace-write for an editing job. It can't install
+   packages or run tests that need downloads; Codex's own web search is a
+   separate tool that follows the effective Codex configuration. Say so when
+   offering either route, and offer the person's own session instead: open `codex` in a new terminal in this project folder and
+   Agent finds it by discovery, with no ID to copy; their own settings and
+   approvals then apply. An editing job's commands reach the network only when
+   the person's effective Codex config sets `[sandbox_workspace_write]
+   network_access = true`; a review's commands never do. When discovery reports Codex as partial for the missing optional
+   `websockets` dependency, say so with its setup in the
+   [user guide](references/user-guide.md#first-use-what-you-need-to-do); a partial
+   list is not proof that no Codex session is open.
+   Define the partner's ongoing role and review cadence during Agent setup,
+   asking once for what is not recorded, as
+   [the user guide](references/user-guide.md#partner-role-and-review-cadence)
+   describes; read it before asking.
+   For a designated replacement after a clear, restart or handoff, follow
+   [session succession](references/session-succession.md). Verify this host's
+   actual identity; do not overwrite a binding just because its peer is absent.
+4. Prepare the contribution using Conductor's
+   [model-job guidance](../conductor/references/model-jobs.md): relevant source
+   paths, outcome, contribution, checks, authority and stopping point. Consult
+   only the applicable model profile. Requested model/effort and observed model
+   are different facts. Resolve guidance at Conductor's
+   [references/guidance/](../conductor/references/guidance/README.md), which
+   ships with the plugin. Do not re-survey model choices every turn.
+   **To show a partner an image** (a screenshot, mockup or diagram), put the
+   file's absolute path in the request text and ask the partner to open and look
+   at it. Do not try to attach it: `codex queue` refuses image attachments. A
+   fresh worker that can take an attachment is a different contributor, not the
+   partner, so use one only when the person chooses it. Evidence and limits are
+   in [native sessions](references/native-sessions.md#images).
+5. Read [native sessions](references/native-sessions.md) for the selected route
+   and its commands. Handle setup within existing authority; ask before installing
+   dependencies or changing account/settings scope. Never request secrets in chat.
+6. Before dispatch, show the partner/model, job and edit boundary in the live
+   task list when available. After dispatch, distinguish queued, unconfirmed,
+   running and returned. Do other useful work while waiting; emit useful state
+   changes. A wait timeout stops waiting, not the recipient, and never resends.
+   Own retrieval through to a complete reply or an explicit blocker; dispatch is
+   not completion. Use short waits during active work. If inbound approval blocks
+   delivery, show that the review is waiting on the person. On their next reply,
+   check the retained request before sending anything new or asking for pasted
+   findings. There is no notification service waking an ended controller turn;
+   disclose that limit when it matters rather than claiming unattended follow-up.
+7. Read and assess the returned answer. Record the useful findings and disposition
+   beside the work; keep private native IDs, prompts and raw transport records
+   local. A returned review is not a passed outcome. Continue authorized work.
+   In an interactive session, a turn that took in a partner's contribution still
+   ends with a line to the person: what it said, what it changes, and the next
+   step or one question. Arrival notices stay unanswered; unattended workers keep
+   their own result contract.
+   When contributing to another session's Switch Out, return the missing account
+   to its established owner; do not also rewrite shared handoff files. Follow
+   [coordinated closeout](../switch/references/out.md#one-coordinated-closeout).
+
+The same local command can be called by either provider when that session has
+permission to run it. No human copy/paste relay, Kerd inbox, watcher or service.
+Native Claude sessions, the native Codex server, and the Codex TUI a person
+already has open own execution. A TUI is reached by `codex queue` and read back
+from its own transcript; it is listed as a saved thread with activity unknown.
