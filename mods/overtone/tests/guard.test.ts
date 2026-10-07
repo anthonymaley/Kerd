@@ -1636,6 +1636,38 @@ describe('guard: a committed vault.json git will not show is absent only when it
     })
   }
 
+  // A cut read (exit 0, output truncated) is not a read: unreadable, which asks.
+  test('a cut git show of HEAD on git add: asks', async ($, on) => {
+    const { w, clock } = world(on, {
+      files: {},
+      committed: SECRET,
+      answers: { 'show HEAD:kivna/vault.json': ['{"private_', 0, true] },
+      answer: "Don't run it",
+    })
+    const call = $.tool.call(bash('git add secret.txt'))
+    await clock.advance(5_000)
+    const r = (await call) as { deny?: string }
+    expect(r.deny).toContain(UNREAD)
+    expect(w.ran).toEqual([])
+  })
+  for (const rev of ['HEAD', 'topic']) {
+    test(`a push: a cut git show of ${rev}: asks`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: base => (base === rev ? SECRET : null),
+        answers: { [`show ${rev}:kivna/vault.json`]: ['{"private_', 0, true] },
+        missingBases: ['refs/remotes/origin/newbranch'],
+        log: () => 'README.md\n',
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash('git push origin topic:newbranch'))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(r.deny).toContain(UNREAD)
+      expect(w.ran).toEqual([])
+    })
+  }
+
   // The absence check itself throws (times out): absence is not established,
   // so the copy is unreadable and private paths ask, at every place it is read.
   const THROWN: [string, string, string, string][] = [

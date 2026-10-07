@@ -795,9 +795,10 @@ export const register: Register = (on, options) => {
                         vaultWorkNotes ||= workNotesInVault(copy.stdout)
                         vaultReads.push(readVault(copy.stdout))
                       } else if (copy.exitCode === 0) {
-                        // cut: as a base read; on a ref-set tip, it asks
+                        // cut: unreadable, which asks; on a ref-set tip, it asks
                         workBaseUnknown = true
                         if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
+                        else vaultReads.push('unreadable')
                       } else if (!(await absentAt(rev))) {
                         // A copy git would not show that is not absent: on a
                         // ref-set tip it asks, as a cut or thrown read does;
@@ -853,8 +854,8 @@ export const register: Register = (on, options) => {
                     if (committed.exitCode === 0 && !committed.isStdoutTruncated) {
                       vaultWorkNotes ||= workNotesInVault(committed.stdout)
                       vaultReads.push(readVault(committed.stdout))
-                    } else if (committed.exitCode !== 0 && !(await absentAt(b))) {
-                      // Not shown and not absent: unreadable, which asks.
+                    } else if (committed.exitCode === 0 || !(await absentAt(b))) {
+                      // Cut, or not shown and not absent: unreadable, which asks.
                       vaultReads.push('unreadable')
                     }
                   } catch {
