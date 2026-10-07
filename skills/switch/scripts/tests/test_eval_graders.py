@@ -161,6 +161,20 @@ class BoundaryTests(unittest.TestCase):
             with self.subTest(later=later):
                 self.assertTrue(self.rx.search(self.run_trace(tool_use(later))))
 
+    def test_a_later_mutating_call_in_the_same_message_fails(self):
+        # codex-tui round 3: boundary and push as separate calls in one assistant message.
+        t = trace(tool_uses((self.check, "toolu_b"), ("git push origin main", "toolu_p")),
+                  tool_result(self.ok, "toolu_b"), tool_result("", "toolu_p"))
+        self.assertFalse(self.rx.search(t))
+
+    def test_single_quoted_git_options_do_not_hide_a_mutation(self):
+        self.assertFalse(self.rx.search(self.run_trace(tool_use("git -C '/work/My Project' push origin main"))))
+
+    def test_newline_endings_and_echoes_pass(self):
+        for cmd in (self.check + "\n", self.check + "\necho \"boundary exit $?\""):
+            with self.subTest(cmd=cmd):
+                self.assertTrue(self.rx.search(trace(tool_use(cmd), tool_result(self.ok))))
+
     def test_a_save_through_a_variable_after_it_fails(self):
         self.assertFalse(self.rx.search(self.run_trace(tool_use("python3 $H --project . save --push --file a.md"))))
 
@@ -207,15 +221,17 @@ class ConductorShellReadTests(unittest.TestCase):
         for cmd in ("cat /p/skills/conductor/SKILL.md", "sed -n 1,40p /p/conductor/references/entry.md",
                     "grep -n Shape /p/conductor/references/journey.md",
                     "cd skills/conductor && cat SKILL.md", "ls\ncat /p/conductor/SKILL.md",
-                    "rg -n Shape /p/conductor/SKILL.md\nrg --files .", "cd /p/conductor; sed -n 1,20p references/entry.md"):
+                    "rg -n Shape /p/conductor/SKILL.md\nrg --files .",
+                    # Ordinary In has no reason to enter Conductor's folder: any cd into it counts.
+                    "cd /p/conductor; cd references; cat journey.md", "cd /p/conductor/references && cat journey.md",
+                    "cd skills/conductor; cd ../switch; cat SKILL.md", "cd /p/conductor; sed -n 1,20p references/entry.md"):
             with self.subTest(cmd=cmd):
                 self.assertTrue(self.rx.search(tool_use(cmd)))
 
     def test_other_commands_are_not(self):
         for cmd in ("python3 /p/switch/scripts/where_we_are.py --summary - --markdown", "cat TODO.md",
                     "cat /p/switch/references/in.md", "rg --files /p/conductor/references/",
-                    "grep -l Shape /p/conductor/references/*.md", "ls /p/conductor/references/",
-                    "cd skills/conductor; cd ../switch; cat SKILL.md"):
+                    "grep -l Shape /p/conductor/references/*.md", "ls /p/conductor/references/"):
             with self.subTest(cmd=cmd):
                 self.assertFalse(self.rx.search(tool_use(cmd)))
 
