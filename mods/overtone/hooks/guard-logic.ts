@@ -2160,6 +2160,92 @@ export function refSetStaleWhy(stale: readonly Stale[]): string | null {
   return `the remote no longer has what this clone's tracking refs say for ${shown} (it changed since the last fetch), so the guard cannot tell what the push republishes (fetch first)`
 }
 
+// Where each of a remote's tracking refs was fetched from, read through the
+// remote's own fetch refspecs (`git config --get-all remote.<remote>.fetch`,
+// [] when unset: git's default `+refs/heads/*:refs/remotes/<remote>/*`), so a
+// ref-set push reads `origin/pr/1` live as `refs/pull/1/head`, not as a
+// branch the remote never had. `sources`: tracking ref -> every remote ref a
+// refspec maps onto it (the default `refs/heads/*` also covers `pr/1`; git
+// refuses to fetch two of them into one ref, so at most one exists there);
+// `patterns`: what to ask `git ls-remote` for. A tracking ref no refspec
+// explains, or a refspec the guard cannot read, is why it cannot tell (ask).
+export function trackingSources(
+  remote: string,
+  fetch: readonly string[],
+  refs: readonly string[],
+): { sources: Map<string, string[]>; patterns: string[] } | { why: string } {
+  const specs: { src: string; dst: string }[] = []
+  // A negative refspec leaves sources out of a fetch: never a candidate.
+  const negatives: string[] = []
+  // Where a one-`*` pattern matches `ref`, what the `*` stands for (it may be
+  // empty, as git's own matcher allows); an exact pattern matches itself.
+  const capture = (pattern: string, ref: string): string | null => {
+    if (!pattern.includes('*')) return ref === pattern ? '' : null
+    const [pre, post] = pattern.split('*') as [string, string]
+    return ref.length >= pre.length + post.length && ref.startsWith(pre) && ref.endsWith(post)
+      ? ref.slice(pre.length, ref.length - post.length)
+      : null
+  }
+  for (const line of fetch.length ? fetch : [`+refs/heads/*:refs/remotes/${remote}/*`]) {
+    const spec = line.trim().replace(/^\+/, '')
+    if (spec.startsWith('^')) {
+      negatives.push(spec.slice(1))
+      continue
+    }
+    const parts = spec.split(':')
+    if (parts.length > 2) return { why: `the guard could not read the remote's fetch setting \`${line.trim()}\`, so it cannot tell what the push republishes` }
+    const [src, dst] = [parts[0]!, parts[1] ?? '']
+    // No destination: fetched into FETCH_HEAD only, never a tracking ref.
+    if (!dst) continue
+    const stars = (s: string) => s.split('*').length - 1
+    if (stars(src) > 1 || stars(src) !== stars(dst) || !src.startsWith('refs/')) {
+      return { why: `the guard could not read the remote's fetch setting \`${line.trim()}\`, so it cannot tell what the push republishes` }
+    }
+    specs.push({ src, dst })
+  }
+  const sources = new Map<string, string[]>()
+  const patterns = new Set<string>()
+  for (const ref of refs) {
+    const from: string[] = []
+    for (const { src, dst } of specs) {
+      const got = capture(dst, ref)
+      if (got === null) continue
+      // Spliced by hand, never String.replace: a ref name may hold `$&` or `$$`.
+      const at = src.indexOf('*')
+      const one = at < 0 ? src : src.slice(0, at) + got + src.slice(at + 1)
+      if (negatives.some(n => capture(n, one) !== null)) continue
+      if (!from.includes(one)) {
+        from.push(one)
+        patterns.add(src)
+      }
+    }
+    if (!from.length) {
+      const name = ref.replace(/^refs\/remotes\/[^/]+\//, '')
+      return { why: `no fetch setting of the remote explains the tracking ref ${name}, so the guard cannot tell what the push republishes` }
+    }
+    sources.set(ref, from)
+  }
+  return { sources, patterns: [...patterns] }
+}
+
+// What the remote has now for one tracking ref, from one `git ls-remote`
+// answer (`said`: ref -> OID, undefined when the read failed): the OID, null
+// when none of its sources is there, undefined when the read failed, or why
+// two of its sources are both there (git would not have fetched either alone).
+export function liveSource(
+  ref: string,
+  candidates: readonly string[],
+  said: ReadonlyMap<string, string> | undefined,
+): string | null | undefined | { why: string } {
+  if (said === undefined) return undefined
+  const there = candidates.filter(c => said.has(c))
+  if (there.length > 1) {
+    const name = ref.replace(/^refs\/remotes\/[^/]+\//, '')
+    return { why: `the remote has both ${there.slice(0, 2).join(' and ')}, which both fetch into ${name}, so the guard cannot tell what the push republishes` }
+  }
+  return there.length ? said.get(there[0]!)! : null
+}
+
 // The publish range measured against the live remote: stale tracking refs
 // are left out of `--remotes` and their live commits excluded instead.
 // Accepted residuals: only the destination branches are read live, so a
