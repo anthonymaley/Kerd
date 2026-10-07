@@ -84,23 +84,81 @@ class GuideReadTests(unittest.TestCase):
 
 class BoundaryTests(unittest.TestCase):
     rx = re.compile(pattern("switch-out-clean", "boundary-passed-last"))
-    check = "python3 /p/switch/scripts/handoff.py --project /w boundary --preserve scratch.patch"
+    check = "S=/p/switch/scripts; python3 $S/handoff.py --project /w boundary --preserve scratch.patch"
+    ok = '{\n  "status": "boundary_ok",\n  "branch": "main"\n}'
+
+    def run_trace(self, *later):
+        return trace(tool_use("git push origin main"), tool_use(self.check), tool_result(self.ok), *later)
 
     def test_passed_last_passes(self):
-        t = trace(tool_use("git push origin main"), tool_use("python3 /p/handoff.py --project /w save --push a.md"),
-                  tool_use(self.check), tool_result('{\n  "status": "boundary_ok",\n  "branch": "main"\n}'),
-                  tool_use("python3 /p/switch/scripts/where_we_are.py --closing - --markdown"))
+        self.assertTrue(self.rx.search(self.run_trace(
+            tool_use("python3 /p/switch/scripts/where_we_are.py --closing - --markdown"))))
+
+    def test_save_then_boundary_in_one_command_passes(self):
+        t = trace(tool_use("python3 $S/handoff.py --project . save --push --file a.md; echo \"exit $?\"; "
+                           "python3 $S/handoff.py --project . boundary; echo \"exit $?\""),
+                  tool_result('{"status": "saved_to_remote"}\nexit 0\n{"status": "boundary_ok"}\nexit 0'))
         self.assertTrue(self.rx.search(t))
+
+    def test_helper_through_a_variable_passes(self):
+        # Sonnet 5.5, 2026-10-06 eval: H=.../handoff.py, then `python3 $H --project . boundary`.
+        t = trace(tool_use("H=/p/switch/scripts/handoff.py; python3 $H --project . save --push --file a.md; "
+                           "echo \"exit $?\"; python3 $H --project . boundary; echo \"boundary exit $?\""),
+                  tool_result('{"status": "saved_to_remote"}\nexit 0\n{"status": "boundary_ok"}'))
+        self.assertTrue(self.rx.search(t))
+
+    def test_real_command_shapes_pass(self):
+        # Sonnet 5.5 evals, 2026-10-06: a new line before python3 (JSON's \\n is no word boundary for \\b),
+        # 2>&1 with an output filter, and the helper held in a variable.
+        for cmd in ("S=/p/scripts\npython3 $S/handoff.py --project . boundary --preserve scratch.patch 2>&1 "
+                    "| grep -v -e xcrun -e DVT; echo exit=$?",
+                    "S=/p/scripts/handoff.py\npython3 $S --project . boundary; echo \"boundary exit $?\"",
+                    "python3 /p/scripts/handoff.py --project . boundary 2>&1 | tail -40"):
+            with self.subTest(cmd=cmd):
+                self.assertTrue(self.rx.search(trace(tool_use(cmd), tool_result(self.ok))))
+
+    def test_output_cut_before_the_status_fails(self):
+        # Same evals: `| tail -15` cut the status, the run never saw boundary_ok, and its box still said passed.
+        t = trace(tool_use("python3 $S/scripts/handoff.py --project . boundary 2>&1 | tail -15"),
+                  tool_result('  "branch": "main",\n  "clean": true\n}'))
+        self.assertFalse(self.rx.search(t))
+
+    def test_a_mutation_on_a_new_line_after_it_fails(self):
+        self.assertFalse(self.rx.search(self.run_trace(tool_use("echo done\ngit push origin main"))))
+
+    def test_a_save_through_a_variable_after_it_fails(self):
+        self.assertFalse(self.rx.search(self.run_trace(tool_use("python3 $H --project . save --push --file a.md"))))
+
+    def test_read_only_git_after_it_passes(self):
+        for later in ("git diff HEAD -- commit.md", "git config --get push.default", "git -C /w log --oneline -1",
+                      "git status --short"):
+            with self.subTest(later=later):
+                self.assertTrue(self.rx.search(self.run_trace(tool_use(later))))
 
     def test_refused_fails(self):
         t = trace(tool_use(self.check), tool_result('{"status": "boundary_refused"}'))
         self.assertFalse(self.rx.search(t))
 
-    def test_a_save_after_it_fails(self):
-        for later in ("git -C /w commit -m x", "git push origin main",
-                      "python3 /p/handoff.py --project /w save --push CONTEXT.md"):
+    def test_ok_then_a_later_refusal_fails(self):
+        self.assertFalse(self.rx.search(self.run_trace(tool_use(self.check),
+                                                       tool_result('{"status": "boundary_refused"}'))))
+
+    def test_a_mutation_after_it_fails(self):
+        for later in ("git -C /w commit -m x", "git push origin main", "git -c user.name=x commit -m y",
+                      "git --no-pager tag v1", "python3 /p/handoff.py --project /w save --push CONTEXT.md"):
             with self.subTest(later=later):
-                t = trace(tool_use(self.check), tool_result('{"status": "boundary_ok"}'), tool_use(later))
+                self.assertFalse(self.rx.search(self.run_trace(tool_use(later))))
+
+    def test_a_mutation_in_the_same_command_fails(self):
+        for cmd in (self.check + " && git -C /w commit -m x", self.check + "; git push origin main",
+                    self.check + " && ./save.sh"):
+            with self.subTest(cmd=cmd):
+                self.assertFalse(self.rx.search(trace(tool_use(cmd), tool_result(self.ok))))
+
+    def test_boundary_ok_from_another_command_fails(self):
+        for cmd in ("cat /p/switch/scripts/handoff.py", "grep -n boundary_ok /p/switch/scripts/handoff.py"):
+            with self.subTest(cmd=cmd):
+                t = trace(tool_use(cmd), tool_result('result = {"status": "boundary_refused" if failures else "boundary_ok"}'))
                 self.assertFalse(self.rx.search(t))
 
     def test_typed_but_not_run_fails(self):
@@ -112,13 +170,15 @@ class ConductorShellReadTests(unittest.TestCase):
 
     def test_shell_reads_of_conductor_are_caught(self):
         for cmd in ("cat /p/skills/conductor/SKILL.md", "sed -n 1,40p /p/conductor/references/entry.md",
-                    "grep -n Shape /p/conductor/references/journey.md"):
+                    "grep -n Shape /p/conductor/references/journey.md",
+                    "cd skills/conductor && cat SKILL.md", "ls\ncat /p/conductor/SKILL.md", "cd /p/conductor; sed -n 1,20p references/entry.md"):
             with self.subTest(cmd=cmd):
                 self.assertTrue(self.rx.search(tool_use(cmd)))
 
     def test_other_commands_are_not(self):
         for cmd in ("python3 /p/switch/scripts/where_we_are.py --summary - --markdown", "cat TODO.md",
-                    "cat /p/switch/references/in.md"):
+                    "cat /p/switch/references/in.md", "rg --files /p/conductor/references/",
+                    "grep -l Shape /p/conductor/references/*.md", "ls /p/conductor/references/"):
             with self.subTest(cmd=cmd):
                 self.assertFalse(self.rx.search(tool_use(cmd)))
 
