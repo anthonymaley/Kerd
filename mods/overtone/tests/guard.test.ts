@@ -1447,7 +1447,13 @@ describe('guard: git however the command starts it', () => {
     expect(w.ran).toEqual(['git lg -5'])
   })
 
-  for (const body of ['!git push origin feature', '!git add -A && git commit -m wip', '!git log --oneline | head', '!sh -c "git log"']) {
+  for (const body of [
+    '!git push origin feature',
+    '!git add -A && git commit -m wip',
+    '!git log --oneline | head',
+    '!sh -c "git log"',
+    "!git grep -O'git add -f' secret -- .env",
+  ]) {
     test(`a shell alias \`${body}\` in a public repo still asks`, async ($, on) => {
       const { w, clock } = world(on, { config: { 'alias.sa': [`${body}\n`, 0] }, answer: "Don't run it" })
       const call = $.tool.call(bash('git sa'))
@@ -1593,6 +1599,34 @@ describe('guard: a committed vault.json git will not show is absent only when it
       const call = $.tool.call(bash('git push origin topic:newbranch'))
       await clock.advance(5_000)
       const r = (await call) as { deny?: string }
+      expect(w.asked).toHaveLength(1)
+      expect(r.deny).toContain(UNREAD)
+      expect(w.ran).toEqual([])
+    })
+  }
+
+  // The absence check itself throws (times out): absence is not established,
+  // so the copy is unreadable and private paths ask, at every place it is read.
+  const THROWN: [string, string, string, string][] = [
+    ['git add at HEAD', 'git add README.md', 'HEAD', 'README.md\n'],
+    ['a push at HEAD', 'git push origin feature', 'HEAD', 'secret.txt\n'],
+    ['a push at a named pushed revision', 'git push origin topic:feature', 'topic', 'secret.txt\n'],
+    ['a push at the destination base', 'git push origin feature', 'refs/remotes/origin/feature', 'secret.txt\n'],
+  ]
+  for (const [where, command, rev, pushed] of THROWN) {
+    test(`${where}: git show fails and the absence check throws: asks`, async ($, on) => {
+      const { w, clock } = world(on, {
+        files: {},
+        committed: base => (base === rev ? SECRET : null),
+        answers: { [`show ${rev}:kivna/vault.json`]: ['', 128, false] },
+        throws: [`ls-tree --full-tree ${rev}`],
+        log: () => pushed,
+        answer: "Don't run it",
+      })
+      const call = $.tool.call(bash(command))
+      await clock.advance(5_000)
+      const r = (await call) as { deny?: string }
+      expect(w.argv).toContainEqual(['git', 'ls-tree', '--full-tree', rev, '--', 'kivna/vault.json'])
       expect(w.asked).toHaveLength(1)
       expect(r.deny).toContain(UNREAD)
       expect(w.ran).toEqual([])

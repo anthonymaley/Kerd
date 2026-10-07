@@ -691,14 +691,19 @@ export const register: Register = (on, options) => {
                 // A committed copy git would not show (nonzero exit) is absent
                 // only when that tree has no such path, as `git ls-tree` says
                 // (never git's error text, which is translated); any other
-                // failure (a bad object, a read error) is not "absent".
-                // Throws as the read does.
+                // failure (a bad object, a read error, a listing that throws
+                // or times out) is not "absent": the copy is unreadable, so
+                // its private paths ask, wherever it is read.
                 const absentAt = async (rev: string) => {
-                  const has = await $.process.run(['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file], {
-                    cwd: root,
-                    timeoutMs: T,
-                  })
-                  return fullRead(has) && has.stdout.trim() === ''
+                  try {
+                    const has = await $.process.run(['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file], {
+                      cwd: root,
+                      timeoutMs: T,
+                    })
+                    return fullRead(has) && has.stdout.trim() === ''
+                  } catch {
+                    return false
+                  }
                 }
                 // A push also reads HEAD's committed copy and each pushed
                 // revision's: add-only (never a base, never a slug), so a

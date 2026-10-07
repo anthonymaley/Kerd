@@ -948,19 +948,38 @@ const GIT_COMMANDS = new Set(
 )
 // Subcommands that only read the repository: a shell alias made of these
 // alone passes (`!git log --oneline`). Ones that also write (branch, tag,
-// stash, config, reflog, remote, fetch) are not here.
+// stash, config, reflog, remote, fetch) are not here, nor ones that run a
+// program as their work (help: man or a browser; ls-remote: --upload-pack;
+// verify-commit and verify-tag: gpg).
 const READ_ONLY = new Set(
   (
     'annotate blame cat-file check-attr check-ignore check-mailmap cherry count-objects describe diff diff-files ' +
-    'diff-index diff-tree for-each-ref grep help log ls-files ls-remote ls-tree merge-base name-rev range-diff ' +
-    'rev-list rev-parse shortlog show show-branch show-ref status var verify-commit verify-tag version whatchanged'
+    'diff-index diff-tree for-each-ref grep log ls-files ls-tree merge-base name-rev range-diff rev-list rev-parse ' +
+    'shortlog show show-branch show-ref status var version whatchanged'
   ).split(' '),
 )
+// Options of those subcommands that run a program or write a file (grep
+// -O/--open-files-in-pager, the diff family's --ext-diff, --textconv and
+// --output, cat-file --filters, log --show-signature). A long option asks
+// when it is one of these, an abbreviation git could read as one (`--ext`,
+// `--o`), or begins with one (`--output-indicator-new`); a short option word
+// with an `O` anywhere (`-O`, `-niOless`) asks; so does a word with a
+// signature placeholder (`%G?`, `%(signature)`), which runs gpg. Wider than
+// it must be: a word it catches that runs nothing only asks.
+const RUNS_OR_WRITES = ['open-files-in-pager', 'ext-diff', 'textconv', 'output', 'filters', 'show-signature']
+function runsOrWrites(word: string): boolean {
+  if (/%G|%\(signature/.test(word)) return true
+  if (/^-[^-]/.test(word)) return word.includes('O')
+  if (!word.startsWith('--')) return false
+  const key = word.slice(2).split('=')[0]!
+  return key !== '' && RUNS_OR_WRITES.some(n => n.startsWith(key) || key.startsWith(n))
+}
 // A shell alias body (the arguments appended) that is read-only git alone:
 // commands joined by `;`, `&&`, `||` or newlines, each the word `git`, its
-// own options and a READ_ONLY subcommand. A pipe, redirection, subshell,
-// substitution, expansion, another program, or config set on the line
-// (`-c core.pager=…` runs a program) is not.
+// own options and a READ_ONLY subcommand with no option RUNS_OR_WRITES
+// names. A pipe, redirection, subshell, substitution, expansion, another
+// program, or config set on the line (`-c core.pager=…` runs a program) is
+// not.
 function readOnlyGit(body: string): boolean {
   const cmds = splitShell(body)
   return (
@@ -975,7 +994,7 @@ function readOnlyGit(body: string): boolean {
         if (w === '-c' || w.startsWith('--config-env') || w.startsWith('--exec-path')) return false
         i += ['-C', '--git-dir', '--work-tree', '--namespace'].includes(w) ? 2 : 1
       }
-      return READ_ONLY.has(c.words[i] ?? '')
+      return READ_ONLY.has(c.words[i] ?? '') && !c.words.slice(i + 1).some(runsOrWrites)
     })
   )
 }
