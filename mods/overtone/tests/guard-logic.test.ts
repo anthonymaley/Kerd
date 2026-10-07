@@ -342,6 +342,7 @@ describe('push target', () => {
       urls: ['git@github.com:alex/Kerd.git'],
       revs: ['feature', '--not', '--remotes=origin'],
       dsts: ['feature'],
+      written: [false],
       force: false,
     })
     expect(plan('git push mirror +HEAD:refs/heads/x')).toMatchObject({ revs: ['HEAD', '--not', '--remotes=mirror'] })

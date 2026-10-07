@@ -1865,12 +1865,23 @@ export function parsePushTarget(words: readonly string[], from: number): PushTar
 // `dsts`: where on the remote each source goes, as git names it, or
 // PUSH_DST (a bare push's own destination) or CURRENT_DST (the current
 // branch's name); null when a ref set (--all, --tags) sends refs the guard
-// cannot list. `force`: a forced push or a `+` refspec. `urls`: every
+// cannot list. `written`: per destination, true when the refspec wrote it
+// after a colon (`src:dst`), where git looks a short name up on the remote
+// first. `force`: a forced push or a `+` refspec. `urls`: every
 // guarded push URL of `remote` (`url` is the one named).
 // `urls`: the destination URL(s) the push resolved to before it turned
 // opaque; absent: the guard could not resolve where it goes.
 export type PushPlan =
-  | { kind: 'revs'; remote: string; url: string; urls: string[]; revs: string[]; dsts: string[] | null; force: boolean }
+  | {
+      kind: 'revs'
+      remote: string
+      url: string
+      urls: string[]
+      revs: string[]
+      dsts: string[] | null
+      written: boolean[] | null
+      force: boolean
+    }
   | { kind: 'none'; why: string }
   | { kind: 'opaque'; why: string; urls?: string[] }
 
@@ -1974,9 +1985,13 @@ export const needsPushConfig = (t: PushTarget): boolean =>
 // Source revisions for `git log` from a list of refspecs, with where each
 // goes, or why the guard cannot resolve them. `where` names the list in the
 // why.
-function refspecSources(refspecs: readonly string[], where: string): { srcs: string[]; dsts: string[] } | { why: string } {
+function refspecSources(
+  refspecs: readonly string[],
+  where: string,
+): { srcs: string[]; dsts: string[]; written: boolean[] } | { why: string } {
   const srcs: string[] = []
   const dsts: string[] = []
+  const written: boolean[] = []
   for (const r of refspecs) {
     const spec = r.startsWith('+') ? r.slice(1) : r
     if (spec.startsWith('^')) continue // a negative refspec excludes, publishes nothing
@@ -1992,8 +2007,9 @@ function refspecSources(refspecs: readonly string[], where: string): { srcs: str
     // No `:dst`: the same ref on the remote; HEAD or `@` alone, the current
     // branch's name (CURRENT_DST). An explicit `:HEAD` stays as written.
     dsts.push(colon >= 0 ? spec.slice(colon + 1) : src === 'HEAD' || src === '@' ? CURRENT_DST : src)
+    written.push(colon >= 0)
   }
-  return { srcs, dsts }
+  return { srcs, dsts, written }
 }
 
 // Destinations the guard makes up, never ones a command or config can spell
@@ -2026,8 +2042,51 @@ export const shortDestination = (dst: string): boolean => !dst.startsWith('refs/
 // null when it is no ref). A tag has no remote-tracking ref, so what such a
 // push leaves out is every tracking ref of the remote (`--remotes=<remote>`),
 // as a ref set's is: guard.tsx reads each of them live (trackingStale).
+// A short name with no colon is the source's own ref (git-push(1): "<src>
+// without a :<dst> means to update the same ref as the <src>"); one written
+// after a colon is looked up on the remote first (writtenDestination).
 export const tagDestination = (dst: string, srcRef: string | null): boolean =>
   dst.startsWith('refs/tags/') || (shortDestination(dst) && srcRef !== null && srcRef.startsWith('refs/tags/'))
+
+// The remote refs git matches a short destination against, as its ref rules
+// spell them: a branch or tag of that name first, then any other.
+export const destinationCandidates = (dst: string): string[] => [
+  `refs/heads/${dst}`,
+  `refs/tags/${dst}`,
+  `refs/${dst}`,
+  `refs/remotes/${dst}`,
+  `refs/remotes/${dst}/HEAD`,
+]
+
+// Where git puts a short destination written after a colon (`src:v1`): the
+// one ref of that name the remote has, a branch or a tag before any other
+// (git-push(1): "If <dst> unambiguously refers to a ref on the <repository>
+// remote, then expand it to that ref"); none there, what the source is
+// (tagDestination). `said`: per guarded push URL, what `git ls-remote` said
+// for destinationCandidates(dst) (undefined: the read failed). Two of them,
+// one outside branches and tags, URLs that disagree, or a failed read: why
+// the guard cannot tell (ask).
+export function writtenDestination(
+  dst: string,
+  said: readonly (ReadonlyMap<string, string> | undefined)[],
+  srcRef: string | null,
+): 'tag' | 'branch' | { why: string } {
+  const found = new Set<string>()
+  for (const s of said) {
+    if (s === undefined) return { why: `the guard could not read whether the remote has ${dst} as a branch or a tag` }
+    const there = destinationCandidates(dst).filter(c => s.has(c))
+    const strong = there.filter(c => c.startsWith('refs/heads/') || c.startsWith('refs/tags/'))
+    if (strong.length > 1) return { why: `the remote has ${dst} as both a branch and a tag` }
+    if (!strong.length && there.length) return { why: `the remote has ${dst} as ${there[0]}, which the guard does not read` }
+    // '': not on the remote.
+    found.add(strong[0] ?? '')
+  }
+  if (found.size > 1) return { why: `the push URLs disagree about what ${dst} is on the remote` }
+  const hit = [...found][0] ?? ''
+  if (hit.startsWith('refs/tags/')) return 'tag'
+  if (hit.startsWith('refs/heads/')) return 'branch'
+  return tagDestination(dst, srcRef) ? 'tag' : 'branch'
+}
 
 // `defaultRemote`: where a bare `git push` goes from this branch
 // (`%(push:remotename)`), null when git names none (then `origin`).
@@ -2076,6 +2135,7 @@ export function pushPlan(
   }
   let srcs: string[]
   let dsts: string[]
+  let written: boolean[] = []
   if (needsPushConfig(t)) {
     // No refspec, no ref set: git config decides what goes.
     if (config === null) return opaque("the guard could not read git's push settings, so it cannot tell which branches go")
@@ -2087,9 +2147,11 @@ export function pushPlan(
       if (!read.srcs.length) return { kind: 'none', why: 'nothing is published' }
       srcs = read.srcs
       dsts = read.dsts
+      written = read.written
     } else if (config.pushDefault === null || ONE_BRANCH_DEFAULTS.has(config.pushDefault)) {
       srcs = ['HEAD']
       dsts = [PUSH_DST]
+      written = [false]
     } else {
       return opaque(
         config.pushDefault === 'matching'
@@ -2102,6 +2164,7 @@ export function pushPlan(
     if ('why' in read) return opaque(read.why)
     srcs = read.srcs
     dsts = read.dsts
+    written = read.written
   }
   if (!srcs.length && !t.sets.length) return { kind: 'none', why: 'nothing is published' }
   // What is new to THAT remote: every commit it already has (any of its
@@ -2113,6 +2176,7 @@ export function pushPlan(
     urls: guarded,
     revs: [...srcs, ...t.sets, '--not', `--remotes=${remote}`],
     dsts: t.sets.length ? null : dsts,
+    written: t.sets.length ? null : written,
     force: t.force || [...t.refspecs, ...(needsPushConfig(t) && config ? config.remotePush : [])].some(r => r.startsWith('+')),
   }
 }

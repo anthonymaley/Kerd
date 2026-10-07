@@ -45,6 +45,8 @@ import {
   liveSource,
   shortDestination,
   tagDestination,
+  destinationCandidates,
+  writtenDestination,
   HEADER,
   LATE_NOTE,
   RUN,
@@ -548,8 +550,11 @@ export const register: Register = (on, options) => {
                     for (const [k, dst] of (plan.dsts ?? []).entries()) {
                       // A short name is a tag when its source is (`git push
                       // origin v1`). Exit 1: no such ref, so git sends
-                      // nothing from it and it is read as before.
+                      // nothing from it and it is read as before. One written
+                      // after a colon (`feature:v1`) is what the remote has
+                      // by that name first: read live.
                       let srcRef: string | null = null
+                      let tag = false
                       if (shortDestination(dst)) {
                         try {
                           const full = await $.process.run(
@@ -563,8 +568,15 @@ export const register: Register = (on, options) => {
                         } catch {
                           unread ??= 'the guard could not read which ref this push sends'
                         }
-                      }
-                      if (tagDestination(dst, srcRef)) {
+                        if (plan.written?.[k]) {
+                          const said: (Map<string, string> | undefined)[] = []
+                          for (const url of plan.urls) said.push(await liveRefs($, root, url, destinationCandidates(dst)))
+                          const kind = writtenDestination(dst, said, srcRef)
+                          if (typeof kind === 'object') unread ??= kind.why
+                          tag = kind === 'tag'
+                        } else tag = tagDestination(dst, srcRef)
+                      } else tag = tagDestination(dst, null)
+                      if (tag) {
                         tagged = true
                         workBaseUnknown = true
                         continue
