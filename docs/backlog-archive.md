@@ -6,6 +6,12 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-06 (Switch Out, 22:0x)
+
+**Done:** the Backlog row below. Evidence: Conductor concert `concert/switch-eval-graders` on Anthony's "y" (20:56); two one-run Haiku probes showed the eval trace records tool output in order; graders rewritten, 27 grader tests; nine real Sonnet 5.5 Out runs (8 pass, 1 correct fail); codex-tui four rounds, the last "Safe to push" with no honest-shape blockers; merged to main on his "y" (22:03), branch CI green; no release (evals and a test only). Limits kept: a head-plus-tail read passes; git inside a wrapper script is unseen; the Conductor `cd` rule is a proxy. Sketchbook `notes:switch-eval-graders/work.md`.
+
+- **Switch evals: grader limits** (2026-10-05; codex-tui 2026-10-06 11:51). **Fixed on `concert/switch-eval-graders` (2026-10-06, not merged):** graders read tool output in the trace: guide-read needs the guide's first heading and last sentence; `boundary-passed-last` (replaces `boundary-ran`) binds `boundary_ok` to the boundary command and fails on a later refusal, save or mutating git; `conductor-not-shell-read` catches shell reads. Left: a head-plus-tail read still passes; a script that runs git inside itself is unseen; `tool_order` still compares first matches (Switch no longer needs it). Sketchbook `notes:switch-eval-graders/work.md`. On this Mac evals need `PATH=~/.cache/kerd-eval/gitbin:$PATH`.
+
 ## Closed 2026-10-06 (Switch Out, 18:2x)
 
 **Done:** the Backlog row below. Evidence: Conductor concert `concert/overtone-guard-gaps` on Anthony's "y" (15:38); three Sonnet players, one fix round, and inline fixes for five findings from Claude Code's background security review; codex-tui six rounds, the last two "Safe to push" with no ask→pass found; 507 overtone tests; released 0.175.1 / overtone 0.8.1 on his "y" (18:10), main CI green. What the fixes left is a new Backlog row ("gaps left at 0.8.1"). Sketchbook `notes:overtone-guard-gaps/work.md`.
