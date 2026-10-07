@@ -2085,61 +2085,72 @@ export function destinationBase(remote: string, dst: string, headRef: string | n
   return name && name !== 'HEAD' ? `refs/remotes/${remote}/${name}` : null
 }
 
-// A destination written as a short name (`v1`, `main:v1`): git makes it a
-// full ref from what its source is, so guard.tsx reads the source's full name
-// (`git rev-parse --symbolic-full-name`). Never one the guard makes up.
+// A destination written as a short name (`v1`, `main:v1`, `heads/main`): git
+// makes it a full ref, so guard.tsx reads the source's full name (`git
+// rev-parse --symbolic-full-name`) and, after a colon, what the remote has.
+// Never one the guard makes up.
 export const shortDestination = (dst: string): boolean => !dst.startsWith('refs/') && !dst.includes('\0')
 
-// True when a push destination is a tag: `refs/tags/<name>` as written, or a
-// short name whose source is a tag (`srcRef`: the source's full ref name,
-// null when it is no ref). A tag has no remote-tracking ref, so what such a
-// push leaves out is every tracking ref of the remote (`--remotes=<remote>`),
-// as a ref set's is: guard.tsx reads each of them live (trackingStale).
-// A short name with no colon is the source's own ref (git-push(1): "<src>
-// without a :<dst> means to update the same ref as the <src>"); one written
-// after a colon is looked up on the remote first (writtenDestination).
-export const tagDestination = (dst: string, srcRef: string | null): boolean =>
-  dst.startsWith('refs/tags/') || (shortDestination(dst) && srcRef !== null && srcRef.startsWith('refs/tags/'))
-
-// The remote refs git matches a short destination against, as its ref rules
-// spell them: a branch or tag of that name first, then any other.
+// The remote refs git matches a short destination against, its ref rules in
+// order (remote.c, refname_match): `x`, `refs/x`, `refs/tags/x`,
+// `refs/heads/x`, `refs/remotes/x`, `refs/remotes/x/HEAD`.
 export const destinationCandidates = (dst: string): string[] => [
-  `refs/heads/${dst}`,
-  `refs/tags/${dst}`,
+  dst,
   `refs/${dst}`,
+  `refs/tags/${dst}`,
+  `refs/heads/${dst}`,
   `refs/remotes/${dst}`,
   `refs/remotes/${dst}/HEAD`,
 ]
 
-// Where git puts a short destination written after a colon (`src:v1`): the
-// one ref of that name the remote has, a branch or a tag before any other
-// (git-push(1): "If <dst> unambiguously refers to a ref on the <repository>
-// remote, then expand it to that ref"); none there, what the source is
-// (tagDestination). `said`: per guarded push URL, what `git ls-remote` said
-// for destinationCandidates(dst) (undefined: the read failed). Two of them,
-// one outside branches and tags, URLs that disagree, or a failed read: why
-// the guard cannot tell (ask).
+// The full ref a short destination written after a colon (`src:v1`,
+// `src:heads/main`) updates, as git resolves it: the one remote ref of that
+// name (git-push(1): "If <dst> unambiguously refers to a ref on the
+// <repository> remote, then expand it to that ref"), where a branch, a tag,
+// or the name as written or under `refs/` outranks any other match (remote.c,
+// count_refspec_match); none there, the source's namespace (`srcRef`: the
+// source's full ref name, null when it is no ref) with the name under it.
+// `said`: per guarded push URL, what `git ls-remote` said for
+// destinationCandidates(dst) (undefined: the read failed). More than one
+// match, URLs that disagree, a failed read, or a source that is neither a
+// branch nor a tag with nothing there: why the guard cannot tell (ask).
 export function writtenDestination(
   dst: string,
   said: readonly (ReadonlyMap<string, string> | undefined)[],
   srcRef: string | null,
-): 'tag' | 'branch' | { why: string } {
+): string | { why: string } {
   const found = new Set<string>()
   for (const s of said) {
-    if (s === undefined) return { why: `the guard could not read whether the remote has ${dst} as a branch or a tag` }
+    if (s === undefined) return { why: `the guard could not read which ref ${dst} names on the remote` }
     const there = destinationCandidates(dst).filter(c => s.has(c))
-    const strong = there.filter(c => c.startsWith('refs/heads/') || c.startsWith('refs/tags/'))
-    if (strong.length > 1) return { why: `the remote has ${dst} as both a branch and a tag` }
-    if (!strong.length && there.length) return { why: `the remote has ${dst} as ${there[0]}, which the guard does not read` }
+    const strong = there.filter(
+      c => c === dst || c === `refs/${dst}` || c.startsWith('refs/heads/') || c.startsWith('refs/tags/'),
+    )
+    const hits = strong.length ? strong : there
+    if (hits.length > 1) return { why: `the remote has more than one ref git matches for ${dst} (${hits.slice(0, 2).join(', ')})` }
     // '': not on the remote.
-    found.add(strong[0] ?? '')
+    found.add(hits[0] ?? '')
   }
-  if (found.size > 1) return { why: `the push URLs disagree about what ${dst} is on the remote` }
+  if (found.size > 1) return { why: `the push URLs disagree about which ref ${dst} names on the remote` }
   const hit = [...found][0] ?? ''
-  if (hit.startsWith('refs/tags/')) return 'tag'
-  if (hit.startsWith('refs/heads/')) return 'branch'
-  return tagDestination(dst, srcRef) ? 'tag' : 'branch'
+  if (hit) return hit
+  for (const ns of ['refs/heads/', 'refs/tags/']) if (srcRef?.startsWith(ns)) return `${ns}${dst}`
+  return { why: `the remote has no ${dst} and the source is neither a branch nor a tag, so the guard cannot tell where it goes` }
 }
+
+// The full ref a push destination updates on the remote, when the guard can
+// name it: as written when full; a short name with no colon is the source's
+// own ref (git-push(1): "<src> without a :<dst> means to update the same ref
+// as the <src>"). Anything else (a bare push's or the current branch's own
+// destination, a short name whose source is no ref) stays as it is.
+export const sourceDestination = (dst: string, srcRef: string | null): string =>
+  shortDestination(dst) && srcRef !== null && srcRef.startsWith('refs/') ? srcRef : dst
+
+// True when a destination is a full ref outside refs/heads/ (a tag, or any
+// other ref): it has no remote-tracking ref, so what such a push leaves out
+// is every tracking ref of the remote (`--remotes=<remote>`), as a ref set's
+// is, and guard.tsx reads each of them live (trackingStale).
+export const unbasedDestination = (to: string): boolean => to.startsWith('refs/') && !to.startsWith('refs/heads/')
 
 // `defaultRemote`: where a bare `git push` goes from this branch
 // (`%(push:remotename)`), null when git names none (then `origin`).
@@ -2388,8 +2399,8 @@ export function liveSource(
 // Accepted residual: only the destination branches are read live, so a
 // stale tracking ref for another branch of the remote can still hide commits
 // through `--remotes=<remote>`. (A ref set, --all/--branches/--mirror/--tags,
-// and a tag named by refspec read every tracking ref live: guard.tsx
-// trackingStale.)
+// and a tag or other ref outside refs/heads/ named by refspec read every
+// tracking ref live: guard.tsx trackingStale.)
 export function liveRange(plan: Extract<PushPlan, { kind: 'revs' }>, stale: readonly Stale[]): string[] {
   if (!stale.length) return plan.revs
   const at = plan.revs.indexOf('--not')

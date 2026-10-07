@@ -44,9 +44,10 @@ import {
   trackingSources,
   liveSource,
   shortDestination,
-  tagDestination,
   destinationCandidates,
   writtenDestination,
+  sourceDestination,
+  unbasedDestination,
   HEADER,
   LATE_NOTE,
   RUN,
@@ -541,21 +542,24 @@ export const register: Register = (on, options) => {
                   plan = pushPlan(op.push, remotes, defaultRemote, config, visibility)
                   // Each destination branch's remote-tracking ref
                   // (refs/remotes/<remote>/<branch>), never another branch.
-                  // A tag has none: `tagged`, read as a ref set is (below).
+                  // A tag or other ref outside refs/heads/ has none:
+                  // `unbased`, read as a ref set is (below).
                   const tracked: string[] = []
-                  let tagged = false
+                  let unbased = false
                   if (plan.kind === 'revs') {
                     if (plan.dsts === null) workBaseUnknown = true
                     const srcs = plan.revs.slice(0, plan.revs.indexOf('--not'))
                     for (const [k, dst] of (plan.dsts ?? []).entries()) {
-                      // A short name is a tag when its source is (`git push
-                      // origin v1`). Exit 1: no such ref, so git sends
-                      // nothing from it and it is read as before. One written
-                      // after a colon (`feature:v1`) is what the remote has
-                      // by that name first: read live.
-                      let srcRef: string | null = null
-                      let tag = false
+                      // Where it goes, as a full ref when the guard can name
+                      // one: a short name with no colon is its source's own
+                      // ref (`git push origin v1` is refs/tags/v1); one
+                      // written after a colon (`feature:v1`, `src:heads/main`)
+                      // is what the remote has by that name first, read live.
+                      // rev-parse exit 1: no such ref, so git sends nothing
+                      // from it and it is read as before.
+                      let to = dst
                       if (shortDestination(dst)) {
+                        let srcRef: string | null = null
                         try {
                           const full = await $.process.run(
                             ['git', 'rev-parse', '--verify', '-q', '--symbolic-full-name', srcs[k]!],
@@ -571,17 +575,17 @@ export const register: Register = (on, options) => {
                         if (plan.written?.[k]) {
                           const said: (Map<string, string> | undefined)[] = []
                           for (const url of plan.urls) said.push(await liveRefs($, root, url, destinationCandidates(dst)))
-                          const kind = writtenDestination(dst, said, srcRef)
-                          if (typeof kind === 'object') unread ??= kind.why
-                          tag = kind === 'tag'
-                        } else tag = tagDestination(dst, srcRef)
-                      } else tag = tagDestination(dst, null)
-                      if (tag) {
-                        tagged = true
+                          const ref = writtenDestination(dst, said, srcRef)
+                          if (typeof ref === 'object') unread ??= ref.why
+                          else to = ref
+                        } else to = sourceDestination(dst, srcRef)
+                      }
+                      if (unbasedDestination(to)) {
+                        unbased = true
                         workBaseUnknown = true
                         continue
                       }
-                      let b = destinationBase(plan.remote, dst, headRef)
+                      let b = destinationBase(plan.remote, to, headRef)
                       if (dst === PUSH_DST && headRef !== null) {
                         // A bare push: git names the branch it updates.
                         try {
@@ -658,12 +662,13 @@ export const register: Register = (on, options) => {
                         }
                       }
                     }
-                    if (plan.kind === 'revs' && (op.push.sets.length || tagged)) {
+                    if (plan.kind === 'revs' && (op.push.sets.length || unbased)) {
                       // A ref set (--all, --branches, --mirror, --tags), or a
-                      // tag named by refspec, is measured against every
-                      // tracking ref of the remote (`--remotes=<remote>`), not
-                      // a named destination, so each of those is read live
-                      // too: any that is not what the remote has now asks.
+                      // tag or other ref outside refs/heads/ named by
+                      // refspec, is measured against every tracking ref of
+                      // the remote (`--remotes=<remote>`), not a named
+                      // destination, so each of those is read live too: any
+                      // that is not what the remote has now asks.
                       const why = await trackingStale($, root, plan.remote, plan.urls)
                       if (why !== null) plan = { kind: 'opaque', why, urls: plan.urls }
                     }
