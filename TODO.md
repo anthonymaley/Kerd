@@ -2,7 +2,9 @@
 
 ## Now
 
-**Release boundary:** 0.177.1 on `main` (overtone 0.8.3 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.177.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.177.0 and overtone 0.8.2 (2026-10-07 12:5x, load on restart); Codex has 0.177.0 too (2026-10-07 13:4x, on his "y"; `notes:codex-update/work.md`).
+**Release boundary:** 0.177.1 on `main` (overtone 0.8.3 public in its marketplace); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.177.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.177.1 and overtone 0.8.3 (2026-10-07 16:1x, load on restart); Codex has 0.177.0, whose four skills 0.177.1 leaves unchanged (`notes:codex-update/work.md`).
+
+- **Watch overtone 0.8.3's guard in real use (released 2026-10-07 16:1x):** `push --all` on a clone that fetches pull requests (or other non-branch refs) passes quietly when nothing changed; a moved or unexplained ref still asks. Mock tests and two codex-tui rounds only. Sketchbook `notes:overtone-guard-gaps/work.md`.
 
 - **Watch 0.177.0 in real use:** an arrival on a quiet Now (only watch items and his decisions) says plainly that nothing can be built and recommends a concrete, not deferred, saved or Backlog item, or nothing; Switch Out never saves "keep using it and watch" as the next step. Wording tests, Sonnet x1 evals (fixtures have no quiet Now), codex-tui two rounds. Sketchbook `notes:arrival-nothing-buildable/work.md`.
 
