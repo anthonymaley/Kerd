@@ -14,10 +14,21 @@ SKILL = ROOT / "skills/switch/SKILL.md"
 class ReadGuideFirstTests(unittest.TestCase):
     def test_first_instruction_names_each_guide(self):
         text = " ".join(SKILL.read_text(encoding="utf-8").split())
-        line = ("**First, before any other tool call:** use the Read tool on this skill's guide "
-                "for the named action, in full: `references/in.md` for In, `references/out.md` "
-                "for Out, `references/to-roll.md` for To or Roll")
-        self.assertIn(line, text)
+        self.assertIn("**First, before any other tool call:** read this skill's guide for the named "
+                      "action", text)
+        self.assertIn("for In, `references/in.md` in full; for Out, `references/out.md` in full;", text)
+
+    def test_host_neutral_reader(self):
+        # codex-tui 2026-10-07: the Codex package copies this line and has no Read tool.
+        text = " ".join(SKILL.read_text(encoding="utf-8").split())
+        self.assertIn("with the host's file reader (the Read tool in Claude Code)", text)
+        self.assertNotIn("use the Read tool on this skill's guide", text)
+
+    def test_to_and_roll_keep_section_routing(self):
+        # codex-tui 2026-10-07: to-roll.md stops everyday To before managed detail.
+        text = " ".join(SKILL.read_text(encoding="utf-8").split())
+        self.assertIn("for To or Roll, `references/to-roll.md` from its contents, then only the "
+                      "sections it routes that action to.", text)
         self.assertIn("Run every command in the person's project, never in this skill's directory.", text)
 
     def test_it_comes_before_everything_else_in_the_body(self):
