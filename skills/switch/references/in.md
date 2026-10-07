@@ -187,6 +187,17 @@ only proves the project's own mechanics (a self-check, a record tidy, evidence
 bookkeeping) does not lead unless it blocks the product work or the person asked
 for it. If evidence shows the saved selection stale or completed, say so plainly.
 
+**Watching is not buildable.** An item that waits for behaviour to be seen in real
+use (“watch X in real use”, “keep using it”) or for the person's own decision is
+open work, never the recommendation: nothing can be built on it now. When no item
+in the active list is buildable, **Where things stand** says so plainly (“nothing
+in Now can be built; it holds things to watch and your decisions”). Recommend the
+saved selection when it is a concrete item; when it too is a watch item or
+missing, read the project's Backlog section (that one section, not the archive)
+and recommend one concrete item from it, with Out's other previewed concrete
+items or the Backlog's next ones as the picker's other options. Still none: the
+recommendation is `null`, never a meta-item such as “use Kerd on real work”.
+
 **Open work** lists the items that move the work, one plain line each, in
 recommended order, with no file names, line numbers or internal labels unless the
 person needs them to recognize the item. Keep a human-owned check or a pending
