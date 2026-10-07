@@ -510,7 +510,9 @@ export const register: Register = on => {
               {d.hint}
             </Text>
           </Box>
-          {d.jobs.length === 0 ? (
+          {d.jobsOff ? (
+            ''
+          ) : d.jobs.length === 0 && d.jobsHidden === 0 ? (
             <Text key="no-jobs" wrap="truncate-end">
               <Text dimColor>{`▸ Workers · no jobs running${d.jobsQuiet ? ` · ${d.jobsQuiet} quiet` : ''}`}</Text>
               {d.jobsNote ? <Text color="warning">{` · ${d.jobsNote}`}</Text> : ''}
@@ -524,7 +526,7 @@ export const register: Register = on => {
                     [
                       { text: String(d.jobs.length + d.jobsHidden) },
                       ...(d.jobsQuiet ? [{ text: ` · ${d.jobsQuiet} quiet`, tone: 'dim' as const }] : []),
-                      ...(d.jobsHidden > 0 ? [{ text: ` · +${d.jobsHidden} more`, tone: 'dim' as const }] : []),
+                      ...(d.jobsHidden > 0 && d.jobs.length > 0 ? [{ text: ` · +${d.jobsHidden} more`, tone: 'dim' as const }] : []),
                       ...(d.jobsNote ? [{ text: ` · ${d.jobsNote}`, tone: 'warning' as const }] : []),
                     ],
                   )

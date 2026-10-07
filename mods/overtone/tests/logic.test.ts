@@ -309,6 +309,25 @@ describe('width tiers', () => {
     const b = composeBand({ reading: calm, model: matched, workers: running(1), nowMs: T0 }, 120, 3)
     expect(b?.tier).toBe('narrow')
   })
+
+  test('every height from 1 to 12, 0 to 8 workers, blocked or not: within the rows, the full band whenever it fits', () => {
+    for (const nBlocked of [0, 2]) {
+      for (let n = 0; n <= 8; n++) {
+        let w = running(n)
+        for (let i = 0; i < Math.min(nBlocked, n); i++) w = blockedOne(w, `a${i}`, T0)
+        for (const cols of [120, 60]) {
+          const full = composeBand({ reading: calm, model: matched, workers: w, nowMs: T0 + MIN }, cols)
+          for (let rows = 1; rows <= 12; rows++) {
+            const b = composeBand({ reading: calm, model: matched, workers: w, nowMs: T0 + MIN }, cols, rows)
+            const at = `${nBlocked} blocked, ${n} workers, ${cols} cols, ${rows} rows`
+            expect([at, (b?.rows.length ?? 0) <= rows]).toEqual([at, true])
+            // the full form is kept exactly when it fits
+            expect([at, b?.tier === full?.tier]).toEqual([at, (full?.rows.length ?? 0) <= rows])
+          }
+        }
+      }
+    }
+  })
 })
 
 describe('/overtone text', () => {
