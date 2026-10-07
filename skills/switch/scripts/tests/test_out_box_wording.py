@@ -34,6 +34,18 @@ class OutBoxWordingTests(unittest.TestCase):
         self.assertIn("write its commit into the start point before the project's last commit",
                       read("skills/switch/SKILL.md"))
 
+    def test_boundary_output_is_read_whole(self):
+        # 2026-10-06 eval: `boundary 2>&1 | tail -15` cut the status and the box
+        # still said passed.
+        self.assertIn("Read its output whole, never through `tail`, `head`, `grep` or "
+                      "another filter that can drop the status:",
+                      read("skills/switch/references/out.md"))
+        self.assertIn("an unseen status is not recorded, never passed.",
+                      read("skills/switch/references/out.md"))
+        self.assertIn("its output read whole (never through `tail`, `head` or `grep`); "
+                      "only `passed`, seen as `boundary_ok` in that call's own result,",
+                      read("skills/switch/SKILL.md"))
+
 
 if __name__ == "__main__":
     unittest.main()

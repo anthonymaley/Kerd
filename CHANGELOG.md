@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.175.2
+
+**Switch Out reads the save check whole before it says the save is proven.** In one of nine eval runs, Out piped the
+boundary check through `tail`, cut off its status line, and its closing box still said the save was proven, so you
+could have cleared context on a save nobody had confirmed. Out now reads the check's output whole, never through
+`tail`, `head` or `grep`, and only a `boundary_ok` in that call's own result earns the ✓; a status it did not see is
+recorded as not recorded, never as passed. Wording and a test; codex-tui: safe to push.
+
 ## 0.175.1
 
 **overtone 0.8.1: the guard stops guessing which folder a push runs in.** Three rare gaps a review left at 0.7.0,

@@ -93,9 +93,10 @@ item names the guide section with its detail: open that section before the step.
   `save … --push` when pushing is authorized ([Default verified save](references/out.md#default-verified-save-when-pushing-is-authorized)).
 - With `work_notes`, save the vault first and write its commit into the start point
   before the project's last commit. After the last commit and before the box, run the
-  `boundary` check on every repo committed to, repeating `--preserve <path>`; only
-  `passed` earns the ✓ (a local-only Out says so instead), and nothing is written
-  after it
+  `boundary` check on every repo committed to, repeating `--preserve <path>`, its
+  output read whole (never through `tail`, `head` or `grep`); only `passed`, seen
+  as `boundary_ok` in that call's own result, earns the ✓ (a local-only Out says
+  so instead), and nothing is written after it
   ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - End on the saved-place box from `where_we_are.py --closing - --markdown`, its shape
   copied from the guide; nothing follows its closing line; if the renderer cannot

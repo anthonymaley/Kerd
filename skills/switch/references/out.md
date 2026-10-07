@@ -341,7 +341,10 @@ helper: `python3 "$SKILL_DIR/scripts/handoff.py" --project <project> boundary`,
 repeating `--preserve <path>` for each acknowledged local path. It fetches now
 and exits 1 when the fetch fails (cached refs are not verification), when no
 remote branch contains HEAD, or when the tree holds anything unsaved beyond the
-preserved paths. `git status` and `git log -1` do not prove this: a clean tree
+preserved paths. Read its output whole, never through `tail`, `head`, `grep`
+or another filter that can drop the status: the verdict is `passed` only when
+this call's own result shows `boundary_ok` (exit 0), and an unseen status is not
+recorded, never passed. `git status` and `git log -1` do not prove this: a clean tree
 says nothing about whether any remote has the commits. Its `stashes` count is
 information, not a refusal: when it is nonzero, say so in `warnings`
 ("2 stashes on this machine, not saved"). Run it on every repo the sitting
