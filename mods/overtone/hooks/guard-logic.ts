@@ -2175,10 +2175,23 @@ export function trackingSources(
   refs: readonly string[],
 ): { sources: Map<string, string[]>; patterns: string[] } | { why: string } {
   const specs: { src: string; dst: string }[] = []
+  // A negative refspec leaves sources out of a fetch: never a candidate.
+  const negatives: string[] = []
+  // Where a one-`*` pattern matches `ref`, what the `*` stands for (it may be
+  // empty, as git's own matcher allows); an exact pattern matches itself.
+  const capture = (pattern: string, ref: string): string | null => {
+    if (!pattern.includes('*')) return ref === pattern ? '' : null
+    const [pre, post] = pattern.split('*') as [string, string]
+    return ref.length >= pre.length + post.length && ref.startsWith(pre) && ref.endsWith(post)
+      ? ref.slice(pre.length, ref.length - post.length)
+      : null
+  }
   for (const line of fetch.length ? fetch : [`+refs/heads/*:refs/remotes/${remote}/*`]) {
     const spec = line.trim().replace(/^\+/, '')
-    // A negative refspec only leaves refs out of a fetch; it names no tracking ref.
-    if (spec.startsWith('^')) continue
+    if (spec.startsWith('^')) {
+      negatives.push(spec.slice(1))
+      continue
+    }
     const parts = spec.split(':')
     if (parts.length > 2) return { why: `the guard could not read the remote's fetch setting \`${line.trim()}\`, so it cannot tell what the push republishes` }
     const [src, dst] = [parts[0]!, parts[1] ?? '']
@@ -2195,16 +2208,13 @@ export function trackingSources(
   for (const ref of refs) {
     const from: string[] = []
     for (const { src, dst } of specs) {
-      let one: string | null = null
-      if (!dst.includes('*')) {
-        if (ref === dst) one = src
-      } else {
-        const [pre, post] = dst.split('*') as [string, string]
-        if (ref.length > pre.length + post.length && ref.startsWith(pre) && ref.endsWith(post)) {
-          one = src.replace('*', ref.slice(pre.length, ref.length - post.length))
-        }
-      }
-      if (one !== null && !from.includes(one)) {
+      const got = capture(dst, ref)
+      if (got === null) continue
+      // Spliced by hand, never String.replace: a ref name may hold `$&` or `$$`.
+      const at = src.indexOf('*')
+      const one = at < 0 ? src : src.slice(0, at) + got + src.slice(at + 1)
+      if (negatives.some(n => capture(n, one) !== null)) continue
+      if (!from.includes(one)) {
         from.push(one)
         patterns.add(src)
       }

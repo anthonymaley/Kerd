@@ -1965,6 +1965,21 @@ describe('trackingSources and liveSource: a tracking ref is read as the ref it w
     const r = trackingSources('origin', ['refs/heads/main:refs/remotes/origin/main', '^refs/heads/tmp/*', 'refs/tags/v1'], [`${O}main`])
     expect(r).toEqual({ sources: new Map([[`${O}main`, ['refs/heads/main']]]), patterns: ['refs/heads/main'] })
   })
+  test('a ref name holding $ is spliced as written (codex-tui, 2026-10-07)', () => {
+    for (const name of ['price$$', 'a$&b', "x$'y", 'q$`r']) {
+      expect(trackingSources('origin', [], [`${O}${name}`])).toEqual({ sources: new Map([[`${O}${name}`, [`refs/heads/${name}`]]]), patterns: ['refs/heads/*'] })
+    }
+  })
+  test('an empty capture matches, as in git: topic* fetches topic', () => {
+    expect(trackingSources('origin', ['+refs/heads/topic*:refs/remotes/origin/topic*'], [`${O}topic`])).toEqual({
+      sources: new Map([[`${O}topic`, ['refs/heads/topic']]]),
+      patterns: ['refs/heads/topic*'],
+    })
+  })
+  test('a negative refspec drops a candidate before two sources compete', () => {
+    const r = trackingSources('origin', ['+refs/heads/*:refs/remotes/origin/*', '+refs/pull/*/head:refs/remotes/origin/pr/*', '^refs/heads/pr/*'], [`${O}pr/1`])
+    expect(r).toEqual({ sources: new Map([[`${O}pr/1`, ['refs/pull/1/head']]]), patterns: ['refs/pull/*/head'] })
+  })
   test('unexplained or unreadable: why', () => {
     expect(trackingSources('origin', ['refs/heads/main:refs/remotes/origin/main'], [`${O}feature`])).toHaveProperty('why')
     expect(trackingSources('origin', ['refs/*/x/*:refs/remotes/origin/*'], [`${O}a`])).toHaveProperty('why')
