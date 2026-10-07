@@ -74,51 +74,36 @@ listed but not enabled, the skills will not load either.
 
 ## Install in Codex
 
-Be careful here, because the Codex side is not a finished product page. What the
-repo actually documents is a build-then-install route in
-[START.md](../work/model-ready-work/packaging/START.md), a guide written while
-the Codex work was being done.
-
-What that guide establishes:
-
 The Codex package is a **core of four skills**: Conductor, Switch, Visuals and
-Agent. The other four skills (Tend, Slainte, Kivna and Skriv) and all Claude hooks are deliberately left out and
-are not claimed to work in Codex. Do not replace a full Claude install with it by
-accident.
-
-You build the package yourself from a source checkout of Kerd. The guide's
-example is:
+Agent. Tend, Slainte, Kivna, Skriv and all Claude hooks are left out and are not
+claimed to work in Codex. This does not replace a full Claude installation.
+Run these in your terminal, not at Codex's chat prompt:
 
 ```sh
-python3 docs/work/model-ready-work/packaging/build.py output/kerd-codex-0.113.0 --codex-marketplace
-```
-
-The destination must not already exist. Building installs nothing and contacts
-nobody. Then, with your approval for a user-level install, you register that
-generated catalog root and install from it:
-
-```sh
-codex plugin marketplace add /absolute/path/to/kerd-codex-0.113.0
-codex plugin list --marketplace kerd-core --available --json
+codex plugin marketplace add anthonymaley/Kerd --ref codex
 codex plugin add kerd@kerd-core
+codex plugin list --marketplace kerd-core
 ```
 
-The path is the catalog root, not its `plugins/kerd` subdirectory. If `kerd-core`
-already points somewhere else, sort that out first rather than overwriting it.
+This is a user-level installation from Kerd's generated `codex` branch; no
+source checkout or local build is needed. Check that Kerd is installed and
+enabled. If `kerd-core` already points at a local build, follow the one-time
+[migration](codex-distribution.md#move-an-existing-local-build-installation)
+instead of silently replacing its source.
 
-Three honest limits. `0.113.0` in those paths is only an example, the version
-this section was first written against; use the version you actually built, not
-this number. There is no published git marketplace for
-Codex, only this local catalog you build and keep, so Claude updates do not
-update Codex and each new release means a fresh catalog directory. And
-`/kerd:switch` and its siblings are Claude Code commands, not a promise of the
-same slash commands in Codex: in Codex you select the Kerd skill and ask in
-words, for example "Switch in." or "Use Kerd Conductor to help me build …".
+To update after registering the Git source:
 
-What is **not documented anywhere in this repo**: any prebuilt Codex artifact you
-can install without a source checkout, and any Codex install route that does not
-go through `build.py`. If you want one of those, it does not exist yet. Ask
-rather than guess a command.
+```sh
+codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core
+```
+
+Start a fresh Codex session in your project and ask "Switch in." Its heading
+names the version it read. Claude updates do not update Codex, and an existing
+conversation does not automatically load new skill text. `/kerd:switch` and
+its siblings are Claude Code commands: in Codex select the Kerd skill and ask
+in words. See [Codex package distribution](codex-distribution.md) for limits,
+verification and maintainer publication, or the packaged
+[guide](../work/model-ready-work/packaging/START.md) for runtime setup and local builds.
 
 ## If this project has never used Kerd
 

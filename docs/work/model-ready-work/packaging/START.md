@@ -10,7 +10,32 @@ contains four: the other four (Tend, Slainte, Kivna, Skriv) and all Claude hooks
 are deliberately excluded, not claimed compatible with Codex. Don't replace the full
 Claude install with this smaller package unless that is what you intend.
 
-## Build from the source checkout
+## Install and update in Codex
+
+Run in your terminal, not at the Codex chat prompt:
+
+```sh
+codex plugin marketplace add anthonymaley/Kerd --ref codex
+codex plugin add kerd@kerd-core
+codex plugin list --marketplace kerd-core
+```
+
+This is a user-level installation from Kerd's generated Git marketplace, not
+a Plugins Directory listing. No source checkout or local build is needed.
+If `kerd-core` already points at a local build, migrate that registration as
+described under Updates below; do not silently replace another source.
+
+After the Git source is registered, update with:
+
+```sh
+codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core
+```
+
+The first command refreshes only that marketplace; the second installs Kerd
+from it. Check the installed/enabled version, then start a fresh session.
+Claude updates do not update Codex or reload an existing conversation.
+
+## Optional: build from the source checkout
 
 Run in the Kerd source repository. The destination must not already exist:
 
@@ -26,7 +51,7 @@ contact a provider. Build output is disposable; edit the source, not the copy.
 Never point Codex at the full source `skills/` directory as a substitute: that
 would expose the four unverified skills too.
 
-## Install in Codex
+## Optional: install a local build
 
 After approving user-level installation, use the actual absolute path to the
 generated **catalog root**, not its `plugins/kerd` subdirectory:
@@ -61,13 +86,21 @@ evidence of installation or update.
 
 ## Updates and removal
 
-Claude updates do not update Codex. Build each new release into a fresh catalog
-directory. Check `codex plugin marketplace list` for the registered local source.
-To change the `kerd-core` source path, with approval, run
-`codex plugin marketplace remove kerd-core`, then add the new catalog root and
-run `codex plugin add kerd@kerd-core`. Start a new session and check the installed
-version. Keep the previous catalog until the replacement is verified; removing
-a catalog registration is not deletion of its source files.
+Check `codex plugin marketplace list` for the registered source. For an existing
+local-build installation, with approval to change its user-level registration:
+
+```sh
+codex plugin marketplace remove kerd-core
+codex plugin marketplace add anthonymaley/Kerd --ref codex
+codex plugin add kerd@kerd-core
+codex plugin list --marketplace kerd-core
+```
+
+Keep the old catalog until the new installation is verified. Removing a
+registration does not delete its source files; if Git registration fails,
+re-add the old absolute catalog path and reinstall. If deliberately staying
+with local builds, build each release into a fresh directory and re-register
+that directory instead. Start a new session after installing.
 
 For same-version development iterations, use Codex's `plugin-creator` update
 workflow to refresh the generated manifest's cachebuster and reinstall from the

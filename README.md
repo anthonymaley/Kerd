@@ -87,8 +87,20 @@ claude plugin marketplace add anthonymaley/Kerd
 claude plugin install kerd@kerd-marketplace
 ```
 
-**In Codex, Kerd takes a different route:** a core of four skills that you build
-from a source checkout. See
+**In Codex, install the four-skill core from the generated Git marketplace:**
+
+```sh
+codex plugin marketplace add anthonymaley/Kerd --ref codex
+codex plugin add kerd@kerd-core
+```
+
+Update after that one-time registration:
+
+```sh
+codex plugin marketplace upgrade kerd-core && codex plugin add kerd@kerd-core
+```
+
+For existing local-build installations, migrate the registration first. See
 [getting started](docs/guide/getting-started.md#install-in-codex).
 
 **Try a version before adopting it**, without installing it:
@@ -306,9 +318,20 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.177.1)
+## What's New (v0.177.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.177.2
+
+**A Git-backed Codex core package, with terminal install and update commands.**
+The generated `codex` branch carries Conductor, Switch, Visuals and Agent from
+one committed source revision. Users register it once, then refresh `kerd-core`
+and reinstall `kerd@kerd-core` to update, without a source checkout or build.
+The source and packaged guides include that route and the one-time migration
+from a local catalog. Publication is an explicit maintainer command, not automatic
+CI or a Plugins Directory listing. Claude's other four skills and hooks stay out
+of the core; existing conversations still need a fresh session after an update.
 
 ### v0.177.1
 

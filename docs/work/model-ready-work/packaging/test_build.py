@@ -20,7 +20,7 @@ class PackageTests(unittest.TestCase):
             self.assertEqual((destination / "skills/agent/scripts/requirements.txt").read_bytes(),
                              (PACK.parents[2] / "skills/agent/scripts/requirements.txt").read_bytes())
             self.assertEqual(sorted(p.name for p in (destination / "agents").iterdir()),
-                             sorted(f"effort-{level}.md" for level in AGENT_LEVELS))
+                             sorted(p.name for p in (PACK.parents[2] / "agents").glob("*.md")))
             version = json.loads((PACK.parents[2] / ".claude-plugin/plugin.json").read_text())["version"]
             for host in ("claude", "codex"):
                 self.assertEqual(json.loads((destination / f".{host}-plugin/plugin.json").read_text())["version"], version)
@@ -86,7 +86,7 @@ class PackageTests(unittest.TestCase):
             self.assertEqual(sorted(p.name for p in (destination / "skills").iterdir()),
                              sorted(SKILLS))
             self.assertEqual(sorted(p.name for p in (destination / "agents").iterdir()),
-                             sorted(f"effort-{level}.md" for level in AGENT_LEVELS))
+                             sorted(p.name for p in (PACK.parents[2] / "agents").glob("*.md")))
             for relative, source in selected.items():
                 if relative.parts[0] in (".claude-plugin", ".codex-plugin"):
                     expected = json.loads(source.read_text())

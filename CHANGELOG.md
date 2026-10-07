@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.177.2
+
+**A Git-backed Codex core package, with terminal install and update commands.**
+The generated `codex` branch carries Conductor, Switch, Visuals and Agent from
+one committed source revision. Users register it once, then refresh `kerd-core`
+and reinstall `kerd@kerd-core` to update, without a source checkout or build.
+The source and packaged guides include that route and the one-time migration
+from a local catalog. Publication is an explicit maintainer command, not automatic
+CI or a Plugins Directory listing. Claude's other four skills and hooks stay out
+of the core; existing conversations still need a fresh session after an update.
+
 ## 0.177.1
 
 **overtone 0.8.3: `push --all` stops asking every time on a clone that fetches pull requests.** The guard checks a

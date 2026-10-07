@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build the four core skills plus the effort agents into a fresh portable
+"""Build the four core skills plus the model/effort agents into a fresh portable
 plugin or Codex catalog.
 
 The four skills come from the repository's own `skills/`, which is the single
 maintained source since v0.107.0 — packaging consumes it rather than keeping a
-second copy that would drift. The five `agents/effort-*.md` routing
-definitions come from the repository root's `agents/` the same way. Guidance
+second copy that would drift. The routing definitions, including the five
+compatibility `effort-*` agents, come from the repository root's `agents/` the same way. Guidance
 ships inside Conductor's references.
 
 Development packaging only: no install, config changes, network or model calls.
