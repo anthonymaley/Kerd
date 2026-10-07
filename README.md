@@ -306,9 +306,19 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.176.0)
+## What's New (v0.177.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.177.0
+
+**Switch In stops recommending "keep using it" when there is nothing to build.** When the active list held only
+things to watch in real use and your own decisions, Switch Out saved "keep using Kerd on real work" as the next step
+and Switch In recommended it, so you had to ask for options (twice on 2026-10-07). Now an item that only waits, to
+watch real use or for you to decide, is never the recommendation or the saved next step. When nothing in Now can be
+built, the arrival says so plainly and weighs the saved item and the Backlog's rows, skipping any the records defer or
+park; with none eligible it says there is nothing to recommend. A suggested route to settle a pending choice still
+counts as work. Sonnet evals unchanged (5 of 6 at 1.00, the known Out slip). codex-tui: two rounds, safe to push.
 
 ### v0.176.0
 
