@@ -946,6 +946,39 @@ const GIT_COMMANDS = new Set(
     'verify-tag version whatchanged worktree write-tree'
   ).split(' '),
 )
+// Subcommands that only read the repository: a shell alias made of these
+// alone passes (`!git log --oneline`). Ones that also write (branch, tag,
+// stash, config, reflog, remote, fetch) are not here.
+const READ_ONLY = new Set(
+  (
+    'annotate blame cat-file check-attr check-ignore check-mailmap cherry count-objects describe diff diff-files ' +
+    'diff-index diff-tree for-each-ref grep help log ls-files ls-remote ls-tree merge-base name-rev range-diff ' +
+    'rev-list rev-parse shortlog show show-branch show-ref status var verify-commit verify-tag version whatchanged'
+  ).split(' '),
+)
+// A shell alias body (the arguments appended) that is read-only git alone:
+// commands joined by `;`, `&&`, `||` or newlines, each the word `git`, its
+// own options and a READ_ONLY subcommand. A pipe, redirection, subshell,
+// substitution, expansion, another program, or config set on the line
+// (`-c core.pager=…` runs a program) is not.
+function readOnlyGit(body: string): boolean {
+  const cmds = splitShell(body)
+  return (
+    cmds.length > 0 &&
+    cmds.every(c => {
+      if (c.piped || c.parens.length || c.subs.length || c.unread.length || c.heredocs.length) return false
+      if (c.words[0] !== 'git' || c.words.some(hasExpansion)) return false
+      if (dropRedirects(c.words, c.firstQuoted).length !== c.words.length) return false
+      let i = 1
+      while (i < c.words.length && c.words[i]!.startsWith('-')) {
+        const w = c.words[i]!
+        if (w === '-c' || w.startsWith('--config-env') || w.startsWith('--exec-path')) return false
+        i += ['-C', '--git-dir', '--work-tree', '--namespace'].includes(w) ? 2 : 1
+      }
+      return READ_ONLY.has(c.words[i] ?? '')
+    })
+  )
+}
 // A name git accepts as an alias.
 const ALIAS_NAME = /^[A-Za-z0-9][A-Za-z0-9-]*$/
 const VERBS: ReadonlyMap<string, GitOp['kind']> = new Map([
@@ -1635,7 +1668,8 @@ function readGit(
       // from where git was run; GIT_PREFIX holds the way back) with the
       // arguments appended (git runs `sh -c '<body> "$@"'`): `!git` with
       // `add -f .env` is `git add -f .env`. Read so, and never whole; one
-      // that shows no git add, commit or push still asks. The body is read
+      // that shows no git add, commit or push still asks, unless all it runs
+      // is read-only git (readOnlyGit), which goes nowhere. The body is read
       // from where git ran AND, when it is known and different, from that
       // top; the ops of both are kept, so the alias asks if either place
       // does (a relative `-C ../x` lands somewhere else from each). With the
@@ -1649,7 +1683,7 @@ function readGit(
       const body = [value.slice(1), ...args].join(' ')
       readLine(r, body, gitDir, depth + 1, false)
       if (known !== null && known !== gitDir) readLine(r, body, known, depth + 1, false)
-      if (r.ops.length === mark) r.ops.push(unreadableOp('commit', gitDir, text, why))
+      if (r.ops.length === mark && !readOnlyGit(body)) r.ops.push(unreadableOp('commit', gitDir, text, why))
       for (const op of r.ops.slice(mark)) blind(op, why)
       if (known === null) {
         const lost = `\`git ${sub}\` is a shell alias that runs from the top of the work tree, which the guard could not find, so it cannot tell which repository the alias works in`

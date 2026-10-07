@@ -688,6 +688,18 @@ export const register: Register = (on, options) => {
                 // Where the private vault is: what every copy of the file
                 // read here says (base trees and the working tree).
                 const vaultReads: VaultRead[] = []
+                // A committed copy git would not show (nonzero exit) is absent
+                // only when that tree has no such path, as `git ls-tree` says
+                // (never git's error text, which is translated); any other
+                // failure (a bad object, a read error) is not "absent".
+                // Throws as the read does.
+                const absentAt = async (rev: string) => {
+                  const has = await $.process.run(['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file], {
+                    cwd: root,
+                    timeoutMs: T,
+                  })
+                  return fullRead(has) && has.stdout.trim() === ''
+                }
                 // A push also reads HEAD's committed copy and each pushed
                 // revision's: add-only (never a base, never a slug), so a
                 // first push of a new branch keeps what the branch itself
@@ -736,18 +748,15 @@ export const register: Register = (on, options) => {
                         // cut: as a base read; on a ref-set tip, it asks
                         workBaseUnknown = true
                         if (tips.has(rev)) setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
-                      } else if (tips.has(rev)) {
-                        // A ref-set tip whose copy git would not show: absent
-                        // only when that tip's tree has no such path; any
-                        // other failure asks, as a cut or thrown read does.
-                        const has = await $.process.run(
-                          ['git', 'ls-tree', '--full-tree', rev, '--', GUARD.newWorkFolders.file],
-                          { cwd: root, timeoutMs: T },
-                        )
-                        if (has.exitCode !== 0 || has.isStdoutTruncated || has.stdout.trim() !== '') {
+                      } else if (!(await absentAt(rev))) {
+                        // A copy git would not show that is not absent: on a
+                        // ref-set tip it asks, as a cut or thrown read does;
+                        // at HEAD or a named pushed revision it is unreadable,
+                        // which asks too.
+                        if (tips.has(rev)) {
                           workBaseUnknown = true
                           setWhy = `the guard could not read ${GUARD.newWorkFolders.file} at a ref this push sends`
-                        }
+                        } else vaultReads.push('unreadable')
                       }
                     } catch {
                       // Thrown or timed out: as a thrown base read, the
@@ -791,6 +800,9 @@ export const register: Register = (on, options) => {
                     if (committed.exitCode === 0 && !committed.isStdoutTruncated) {
                       vaultWorkNotes ||= workNotesInVault(committed.stdout)
                       vaultReads.push(readVault(committed.stdout))
+                    } else if (committed.exitCode !== 0 && !(await absentAt(b))) {
+                      // Not shown and not absent: unreadable, which asks.
+                      vaultReads.push('unreadable')
                     }
                   } catch (err) {
                     if (!op.push) throw err
