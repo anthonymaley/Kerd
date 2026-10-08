@@ -1705,3 +1705,12 @@ TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
 - overtone guard, a push naming a tag by refspec got no live check (row "gap left at 0.8.3"). Verdict: fixed in overtone 0.8.4 / Kerd 0.177.3 (2026-10-07, Anthony's "y" 20:49): a written destination resolves to the full ref the remote holds; any non-branch ref reads every tracking ref live. codex-tui three rounds on `concert/overtone-lows`.
 
 - overtone lows (0.7.0), fixed parts. Verdict: fixed in overtone 0.8.4 / Kerd 0.177.3 (2026-10-07, Anthony's "y" 20:49): `git push --dry-run` passes; read-only shell aliases pass (program-running options still ask); a nonzero, thrown or cut `git show` of `kivna/vault.json` asks (cut read 1a5287f); the band refolds and never overruns 1-2 rows. Merges 01fff1b, 1a5287f; 612 overtone tests; codex-tui four rounds. What is left stays in the Backlog row.
+
+## 2026-10-08 (0.179.0 Switch Out)
+
+- **Sonnet readers at medium instead of high.** Verdict: done, released 0.179.0 (Anthony's "y" 14:49). Three medium-vs-high
+  checks agreed on hard failures and core findings; the profile clause names medium only where Conductor checks every
+  finding. `docs/decisions.md`, `notes:sonnet-55/work.md`.
+- **Vault save by literal path.** Verdict: done, released 0.179.0 (7c67d5f). Real-use check still owed: this Out is the
+  first on the wording (from the installed 0.178.0 text, which predates it). `notes:bundle-1008/work.md`.
+- **Steps the person does themselves.** Verdict: done, released 0.179.0 (7c67d5f). `notes:bundle-1008/work.md`.

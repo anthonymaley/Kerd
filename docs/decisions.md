@@ -12,6 +12,7 @@ ruling so history is searchable by subject; find the entry by its opening words.
 
 ## Index of rulings, newest first
 
+1. A SONNET 5.5 READER THAT GRADES OR SCANS AGAINST A BRIEF, WITH CONDUCTOR CHECKING EVERY FINDING, RUNS AT MEDIUM; HIGH STAYS WHERE COMPLETENESS IS THE RESULT — Anthony, 2026-10-08 14:49; released 0.179.0.
 1. WHEN OPTIONS ARE LISTED AND THE QUESTION CHOOSES AMONG THEM, THE BUBBLE ASKS ABOUT THE RECOMMENDATION; A MISSING FACT, A PICK-SEVERAL CHOICE, THE ARRIVAL QUESTION AND A CHOSEN WORK'S OUTCOME KEEP THEIR OWN QUESTION — Anthony, 2026-10-06 11:41; released 0.174.0.
 1. EVERY QUESTION CARRIES THE OPTIONS IN HAND: LIST THEM ABOVE THE QUESTION WITH ONE RECOMMENDATION, EVEN AN OPEN ONE; ASK BARE ONLY WHEN NONE ARE IN HAND — Anthony, 2026-10-06 10:40 and 10:41; released 0.173.0.
 1. A WORKER'S ROW SHOWS ITS TASK, NOT ITS LATEST COMMAND; A BLOCKED WORKER SHOWS THE CALL IT WAITS ON — Anthony, 2026-10-05 10:59; released as overtone 0.7.1 (Kerd 0.169.2).
@@ -240,6 +241,14 @@ ruling so history is searchable by subject; find the entry by its opening words.
 192. skriv voice profile: HELD
 193. TODO is forward-only
 ## Entries, newest first
+
+- **Sonnet 5.5 grading readers at medium when Conductor checks every finding (Anthony, 2026-10-08 14:49, "y" to
+  release 0.179.0 with the profile commit).** His 2026-10-04 hold asked for two or three more medium-vs-high runs; three
+  agreed (2026-10-03 apple-music grading, 6 of 6 at both; 2026-10-08 question-shape recheck, 4 of 4 hard fails at both,
+  one confirmed minor missed at medium; 2026-10-08 step-list scan, same 9 confirmed, medium 35 rows to high's 39). One run
+  per arm each, so provisional local guidance, not proof of equal recall: checking findings cannot recover omissions, so
+  high stays for audits whose completeness is the result. Profile `sonnet-5-5.md` 2026-10-08, clause
+  `grading-reader-at-medium`; predecessor archived. codex-tui three rounds. Evidence `notes:sonnet-55/work.md`.
 
 - **When options are listed and the question chooses among them, the bubble asks about the recommendation (Anthony,
   2026-10-06 11:41: "why ask an opposing question after listing option?"; 11:42 "y, and lets fix that").** The
