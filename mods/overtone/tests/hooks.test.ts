@@ -850,6 +850,14 @@ describe('plan state and the step tool', () => {
     ])
     expect(await call({ title: 'theirs', agentId: 's1' })).toMatchObject({ result: expect.stringMatching(/^ignored/) })
     expect(await call({ tasks: 'nope' })).toMatchObject({ result: expect.stringMatching(/^ignored/) })
+    // review 2026-10-08 item 5: oversized input is refused with a clear answer, the plan unchanged
+    const huge = Array.from({ length: 101 }, (_, i) => ({ subject: `T${i}` }))
+    expect(await call({ tasks: huge })).toMatchObject({ result: expect.stringMatching(/at most 100 tasks/) })
+    expect((await peek($)).plan.tasks.length).toBe(3)
+    // review 2026-10-08 item 1: a step total past 50 is refused
+    expect(await $.tool.call({ tool: 'mcp__overtone__step', done: 1, total: 1_000_000, agentId: 's9', tool_use_id: 'k' } as never)).toMatchObject({
+      result: expect.stringMatching(/from 1 to 50/),
+    })
     expect((await peek($)).plan.title).toBe('overtone plan view')
     expect(await call({ accepted: 3, finished: true })).toMatchObject({ result: 'plan closed' })
     p = (await peek($)).plan

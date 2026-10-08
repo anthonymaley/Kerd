@@ -18,6 +18,7 @@ import { prettyModel } from './usage-logic'
 export const HEX = {
   done: '#5CC5A3',
   running: '#E3B341',
+  returned: '#E3B341',
   needs: '#D64545',
   failed: '#D64545',
   todo: '#3A4A43',
@@ -102,7 +103,7 @@ export function cells(px: Px[][], cols: number, rows: number): string {
 // ---------------------------------------------------------------------------
 
 // Which state shows when several share one column.
-const PRIORITY: Record<PlanRowState, number> = { needs: 4, failed: 4, running: 3, done: 2, todo: 1 }
+const PRIORITY: Record<PlanRowState, number> = { needs: 4, failed: 4, running: 3, returned: 3, done: 2, todo: 1 }
 
 // `segs` squeezed into at most `n` entries, the most urgent state per bucket.
 export function squeeze(segs: readonly PlanRowState[], n: number): PlanRowState[] {
@@ -122,8 +123,9 @@ export function squeeze(segs: readonly PlanRowState[], n: number): PlanRowState[
 // The pixel rows (both the same) of a `cols`-column bar of segments, each
 // as wide as `cols` allows with one empty column between neighbours (the
 // gap is dropped when the bar is too narrow for one per segment). A running
-// segment is yellow, needs/failed red, done green, todo grey; the last
-// column of a running or needs/failed segment flashes on odd frames.
+// segment is yellow, needs/failed red, done green, todo grey, returned yellow
+// and steady; the last column of a running or needs/failed segment flashes on
+// odd frames.
 export function barPixels(cols: number, segs: readonly PlanRowState[], frame: number): Px[][] {
   const w = Math.max(0, Math.floor(cols))
   const list = squeeze(segs, w)
@@ -146,7 +148,7 @@ export function barPixels(cols: number, segs: readonly PlanRowState[], frame: nu
     const flash = x === last - (gap ? 1 : 0) && frame % 2 === 1
     if (st === 'todo') row.push(GREY)
     else if (st === 'done') row.push(GREEN)
-    else row.push(flash && st !== 'done' ? blend(stateRgb(st), TRACK, 0.7) : stateRgb(st))
+    else row.push(flash && st !== 'returned' ? blend(stateRgb(st), TRACK, 0.7) : stateRgb(st))
   }
   return [row, [...row]]
 }
@@ -155,7 +157,8 @@ export const barCells = (cols: number, segs: readonly PlanRowState[], frame: num
   cells(barPixels(cols, segs, frame), Math.max(0, Math.floor(cols)), 1)
 
 // A 2×2-pixel square: running, one bright pixel chases round a dim ring;
-// needs/failed, all four blink red; done, solid green; todo, dim grey.
+// needs/failed, all four blink red; done, solid green; returned, solid
+// yellow (steady: it waits on acceptance, nothing moves); todo, dim grey.
 const RING: [number, number][] = [[0, 0], [1, 0], [1, 1], [0, 1]]
 
 export function squarePixels(state: PlanRowState, frame: number): Px[][] {
@@ -165,6 +168,7 @@ export function squarePixels(state: PlanRowState, frame: number): Px[][] {
     if (state === 'running') p = i === frame % 4 ? YELLOW : blend(YELLOW, TRACK, 0.6)
     else if (state === 'needs' || state === 'failed') p = frame % 2 === 1 ? blend(RED, TRACK, 0.6) : RED
     else if (state === 'done') p = GREEN
+    else if (state === 'returned') p = YELLOW
     else p = GREY
     px[y]![x] = p
   })
@@ -179,7 +183,7 @@ export const squareCells = (state: PlanRowState, frame: number): string => cells
 
 export type PSeg = { text: string; color?: string; dim?: boolean; bold?: boolean }
 
-export const GLYPH: Record<PlanRowState, string> = { running: '●', done: '✓', needs: '◆', failed: '◆', todo: '◷' }
+export const GLYPH: Record<PlanRowState, string> = { running: '●', returned: '◉', done: '✓', needs: '◆', failed: '◆', todo: '◷' }
 
 export const glyphSeg = (s: PlanRowState): PSeg => ({ text: GLYPH[s], color: HEX[s] })
 
@@ -236,7 +240,8 @@ export function planBand(v: PlanView, room: number, raster: boolean, frame: numb
     const avail = Math.floor(room) - fixed
     if (raster) {
       const cols = Math.min(BAND_BAR_MAX, segs.length * 4, avail)
-      if (cols < BAND_BAR_MIN) continue
+      // A plan of one task (4 columns) is shown too; the minimum is for longer ones.
+      if (cols < Math.min(BAND_BAR_MIN, segs.length * 4)) continue
       return { width: fixed + cols, label, count, bar: { cols, cells: barCells(cols, segs, frame) } }
     }
     const cols = Math.min(BAND_BAR_MAX, segs.length)
@@ -322,13 +327,25 @@ export type CardRow = {
   detail?: PSeg
 }
 
-export function rowSegs(row: PlanRow): PlanRowState[] {
+// The row's bar segments: one per reported step, or, past `max` (the bar's
+// columns), `max` buckets of steps each. Never more than `max` entries
+// whatever total a step report carries.
+export function rowSegs(row: PlanRow, max = 50): PlanRowState[] {
   const s = row.steps
-  if (s && s.total > 0) {
-    if (row.state === 'done') return Array<PlanRowState>(s.total).fill('done')
+  const cap = Math.max(1, Math.floor(max))
+  if (s && s.total > 0 && Number.isFinite(s.total)) {
+    const total = Math.floor(s.total)
+    const n = Math.min(total, cap)
+    if (row.state === 'done' || row.state === 'returned') return Array<PlanRowState>(n).fill(row.state)
     if (row.state === 'running' || row.state === 'needs' || row.state === 'failed') {
-      const done = Math.min(s.done, s.total)
-      return Array.from({ length: s.total }, (_, i): PlanRowState => (i < done ? 'done' : i === done ? row.state : 'todo'))
+      const done = Math.max(0, Math.min(s.done, total))
+      // bucket i covers steps [lo, hi): done when all of them are, the row's
+      // state when the step under way falls in it, else to come
+      return Array.from({ length: n }, (_, i): PlanRowState => {
+        const lo = Math.floor((i * total) / n)
+        const hi = Math.floor(((i + 1) * total) / n)
+        return hi <= done ? 'done' : lo <= done && done < hi ? row.state : 'todo'
+      })
     }
   }
   return [row.state]
@@ -374,6 +391,8 @@ function detailOf(row: PlanRow, width: number): PSeg | undefined {
       return { text: 'accepted', dim: true }
     case 'todo':
       return { text: 'to come', dim: true }
+    case 'returned':
+      return { text: clip('returned, awaiting acceptance', width), color: HEX.returned }
     default:
       return { text: clip(row.steps?.note ?? w?.activity ?? '', width), dim: true }
   }
@@ -381,7 +400,7 @@ function detailOf(row: PlanRow, width: number): PSeg | undefined {
 
 export function cardRow(row: PlanRow, lay: PlanLayout, raster: boolean, frame: number): CardRow {
   const title = row.n !== undefined ? `${row.n}. ${row.title}` : row.title
-  const segs = rowSegs(row)
+  const segs = rowSegs(row, lay.bar)
   const out: CardRow = {
     key: row.key,
     state: row.state,
@@ -407,7 +426,7 @@ export type PlanCard = {
   hidden: number
 }
 
-const URGENCY: Record<PlanRowState, number> = { needs: 0, failed: 0, running: 1, todo: 2, done: 3 }
+const URGENCY: Record<PlanRowState, number> = { needs: 0, failed: 0, running: 1, returned: 1, todo: 2, done: 3 }
 
 // The card for `inner` columns and at most `maxRows` task lines: all of
 // them, or (past that) the most urgent in plan order, the rest counted in
@@ -423,12 +442,14 @@ export function planCard(v: PlanView, inner: number, raster: boolean, frame: num
   }
   const hidden = v.rows.length - keep.length
   return {
-    header: `${v.accepted} of ${v.total} accepted${hidden > 0 ? ` · +${hidden} more` : ''}`,
+    header: `${v.accepted} of ${v.total} accepted${hidden > 0 ? ` · +${hidden} more` : ''}${v.overflow ? ` · ${v.overflow} over the cap not kept` : ''}`,
     layout,
     rows: keep.map(i => cardRow(v.rows[i]!, layout, raster, frame)),
     hidden,
   }
 }
 
-// Whether anything on the view moves: a running or needs row.
-export const isAnimating = (v: PlanView): boolean => v.rows.some(r => r.state === 'running' || r.state === 'needs')
+// Whether anything on the view moves: a running, needs or failed row (a
+// returned one is steady).
+export const isAnimating = (v: PlanView): boolean =>
+  v.rows.some(r => r.state === 'running' || r.state === 'needs' || r.state === 'failed')

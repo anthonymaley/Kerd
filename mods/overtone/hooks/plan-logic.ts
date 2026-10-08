@@ -14,8 +14,14 @@ import { EMPTY_WORKERS, isActive, isRunning } from './logic'
 
 export const EMPTY_PLAN: OvertonePlan = { source: 'none', tasks: [], nextN: 1 }
 
-// Tasks kept at most; past it the oldest finished (completed or deleted) go.
+// Bounds on what the plan keeps, on every path. Tasks kept at most: past it
+// the oldest finished (completed or deleted) go first; with none finished a
+// host tool's new task is not kept (counted in `overflow`), and the plan tool
+// refuses the call. A subject is cut to SUBJECT_MAX from a host tool and
+// refused past it by the plan tool. A worker's step total is 1..STEP_MAX.
 export const PLAN_CAP = 100
+export const SUBJECT_MAX = 200
+export const STEP_MAX = 50
 
 // The worker step tool: registered as `step`, which the model calls as
 // `mcp__overtone__step` (`mcp__<plugin>__<name>`, plugin.json's name).
@@ -32,7 +38,7 @@ export const STEP_SPEC = {
     type: 'object',
     properties: {
       done: { type: 'integer', minimum: 0, description: 'Steps finished so far.' },
-      total: { type: 'integer', minimum: 1, description: 'Steps you expect in all.' },
+      total: { type: 'integer', minimum: 1, maximum: 50, description: 'Steps you expect in all (at most 50).' },
       note: { type: 'string', maxLength: 80, description: 'A few words on the step just finished.' },
     },
     required: ['done', 'total'],
@@ -61,13 +67,14 @@ export const PLAN_SPEC = {
       tasks: {
         type: 'array',
         description: 'The full ordered task list; replaces it, keeping the status of subjects that stay.',
-        items: { type: 'object', properties: { subject: { type: 'string' } }, required: ['subject'] },
+        maxItems: 100,
+        items: { type: 'object', properties: { subject: { type: 'string', maxLength: 200 } }, required: ['subject'] },
       },
       accepted: {
         description: 'Subjects accepted, or how many of the first tasks are.',
-        anyOf: [{ type: 'array', items: { type: 'string' } }, { type: 'integer', minimum: 0 }],
+        anyOf: [{ type: 'array', maxItems: 100, items: { type: 'string' } }, { type: 'integer', minimum: 0 }],
       },
-      running: { type: 'array', items: { type: 'string' }, description: 'Subjects in progress now.' },
+      running: { type: 'array', maxItems: 100, items: { type: 'string' }, description: 'Subjects in progress now.' },
       finished: { type: 'boolean', description: 'true closes the plan.' },
     },
     additionalProperties: false,
@@ -103,17 +110,26 @@ function withStatus(t: OvertoneTask, status: OvertoneTaskStatus, nowMs: number):
   return next
 }
 
-function capped(tasks: OvertoneTask[]): OvertoneTask[] {
-  if (tasks.length <= PLAN_CAP) return tasks
+// `tasks` within PLAN_CAP: the oldest finished go first; if unfinished ones
+// alone are past it, the last ones (the newest) are not kept and counted.
+function capped(tasks: OvertoneTask[]): { tasks: OvertoneTask[]; over: number } {
+  if (tasks.length <= PLAN_CAP) return { tasks, over: 0 }
   let drop = tasks.length - PLAN_CAP
-  return tasks.filter(t => {
+  const kept = tasks.filter(t => {
     if (drop > 0 && isFinal(t)) {
       drop--
       return false
     }
     return true
   })
+  return { tasks: kept.slice(0, PLAN_CAP), over: Math.max(0, kept.length - PLAN_CAP) }
 }
+
+const cut = (s: string): string => (s.length <= SUBJECT_MAX ? s : s.slice(0, SUBJECT_MAX))
+
+// A fresh plan of `source`, born at `nowMs`: only workers seen from then on
+// can match its tasks.
+const freshPlan = (source: OvertonePlan['source'], nowMs: number): OvertonePlan => ({ source, tasks: [], nextN: 1, bornMs: nowMs })
 
 // The tool's outcome as `tool.call` resolved: a deny, an errored call, or an
 // answered one with its record in `result`.
@@ -137,15 +153,20 @@ export function notePlanCall(plan: OvertonePlan | null | undefined, call: PlanCa
 function taskCreate(prev: OvertonePlan, input: Record<string, unknown>, result: Record<string, unknown>, nowMs: number): OvertonePlan {
   const made = rec(result.task)
   const id = typeof made.id === 'string' && made.id !== '' ? made.id : undefined
-  const subject = str(made.subject) ?? str(input.subject)
-  if (id === undefined || subject === undefined) return prev
+  const raw = str(made.subject) ?? str(input.subject)
+  if (id === undefined || raw === undefined) return prev
+  const subject = cut(raw)
   // A todo list gives way to a task list.
-  const base = prev.source === 'task' ? prev : EMPTY_PLAN
+  const base = prev.source === 'task' ? prev : freshPlan('task', nowMs)
   const kept = base.tasks.filter(t => t.id !== id)
   const task: OvertoneTask = { id, n: base.nextN, subject, status: 'pending', createdMs: nowMs }
   const activeForm = str(input.activeForm)
-  if (activeForm) task.activeForm = activeForm
-  return { source: 'task', tasks: capped([...kept, task]), nextN: base.nextN + 1, updatedMs: nowMs }
+  if (activeForm) task.activeForm = cut(activeForm)
+  const c = capped([...kept, task])
+  const next: OvertonePlan = { ...base, source: 'task', tasks: c.tasks, nextN: base.nextN + 1, updatedMs: nowMs }
+  const overflow = (base.overflow ?? 0) + c.over
+  if (overflow > 0) next.overflow = overflow
+  return next
 }
 
 function taskUpdate(prev: OvertonePlan, input: Record<string, unknown>, result: Record<string, unknown>, nowMs: number): OvertonePlan {
@@ -160,8 +181,8 @@ function taskUpdate(prev: OvertonePlan, input: Record<string, unknown>, result: 
   const tasks = prev.tasks.map(t => {
     if (t.id !== id) return t
     let next: OvertoneTask = { ...t }
-    if (subject) next.subject = subject
-    if (activeForm) next.activeForm = activeForm
+    if (subject) next.subject = cut(subject)
+    if (activeForm) next.activeForm = cut(activeForm)
     if (status) next = withStatus(next, status, nowMs)
     return next
   })
@@ -195,23 +216,29 @@ function todoWrite(prev: OvertonePlan, input: Record<string, unknown>, result: R
   let todos = fromResult ?? fromInput
   if (todos === undefined) return prev
   if (todos.length === 0 && fromInput && fromInput.length > 0 && fromInput.every(t => t.status === 'completed')) todos = fromInput
-  const base = prev.source === 'todo' ? prev : EMPTY_PLAN
+  const base = prev.source === 'todo' ? prev : freshPlan('todo', nowMs)
   const left = [...base.tasks]
   let nextN = base.nextN
-  const tasks = todos.map(td => {
-    const at = left.findIndex(t => normTask(t.subject) === normTask(td.content))
+  // The list past PLAN_CAP is not kept (counted in `overflow`).
+  const over = Math.max(0, todos.length - PLAN_CAP)
+  const tasks = todos.slice(0, PLAN_CAP).map(td => {
+    const content = cut(td.content)
+    const at = left.findIndex(t => normTask(t.subject) === normTask(content))
     const old = at >= 0 ? left.splice(at, 1)[0] : undefined
     let task: OvertoneTask
-    if (old) task = { ...old, subject: td.content }
+    if (old) task = { ...old, subject: content }
     else {
-      task = { id: `todo-${nextN}`, n: nextN, subject: td.content, status: 'pending', createdMs: nowMs }
+      task = { id: `todo-${nextN}`, n: nextN, subject: content, status: 'pending', createdMs: nowMs }
       nextN++
     }
-    if (td.activeForm) task.activeForm = td.activeForm
+    if (td.activeForm) task.activeForm = cut(td.activeForm)
     else delete task.activeForm
     return withStatus(task, td.status, nowMs)
   })
-  return { source: 'todo', tasks, nextN, updatedMs: nowMs }
+  const next: OvertonePlan = { ...base, source: 'todo', tasks, nextN, updatedMs: nowMs }
+  if (over > 0) next.overflow = over
+  else delete next.overflow
+  return next
 }
 
 // ---------------------------------------------------------------------------
@@ -227,7 +254,7 @@ export function readStep(input: unknown): StepInput | undefined {
   const i = rec(input)
   const { done, total } = i
   if (typeof done !== 'number' || !Number.isInteger(done) || done < 0) return undefined
-  if (typeof total !== 'number' || !Number.isInteger(total) || total < 1) return undefined
+  if (typeof total !== 'number' || !Number.isInteger(total) || total < 1 || total > STEP_MAX) return undefined
   const note = str(i.note)?.replace(/\s+/g, ' ')
   const out: StepInput = { done: Math.min(done, total), total }
   if (note) out.note = note.length <= 80 ? note : `${note.slice(0, 79)}…`
@@ -258,14 +285,16 @@ export function noteStep(
 
 // What the step tool answers.
 export const STEP_MAIN_ANSWER = 'ignored: step is for subagents reporting their own progress; the main conversation keeps its plan in its task list'
-export const STEP_BAD_ANSWER = 'ignored: done must be an integer of at least 0 and total an integer of at least 1'
+export const STEP_BAD_ANSWER = `ignored: done must be an integer of at least 0 and total an integer from 1 to ${STEP_MAX}`
 export const stepAnswer = (s: StepInput): string => `recorded ${s.done}/${s.total}`
 
 // ---------------------------------------------------------------------------
 // Rows for the plan card
 // ---------------------------------------------------------------------------
 
-export type PlanRowState = 'done' | 'running' | 'needs' | 'todo' | 'failed'
+// returned: its worker came back (not failed) and the task is not yet
+// accepted; not counted accepted.
+export type PlanRowState = 'done' | 'running' | 'needs' | 'todo' | 'failed' | 'returned'
 
 export type PlanRow = {
   key: string
@@ -292,8 +321,9 @@ export type PlanRow = {
 
 export type PlanTotals = { accepted: number; total: number }
 
-// `title`: the plan tool's title, when it gave one.
-export type PlanView = PlanTotals & { title?: string; rows: PlanRow[] }
+// `title`: the plan tool's title, when it gave one. `overflow`: tasks a host
+// tool reported past PLAN_CAP and not kept.
+export type PlanView = PlanTotals & { title?: string; overflow?: number; rows: PlanRow[] }
 
 // accepted: tasks completed; total: tasks not deleted.
 export function planTotals(plan: OvertonePlan | null | undefined): PlanTotals {
@@ -314,6 +344,7 @@ function taskState(t: OvertoneTask, x: OvertoneWorker | undefined, nowMs: number
   if (t.status === 'completed') return 'done'
   if (x && isActive(x) && x.blocked) return 'needs'
   if (x && !isActive(x) && FAILED.has(x.status)) return 'failed'
+  if (x && x.status === 'completed') return 'returned'
   if (t.status === 'in_progress' || (x && isRunning(x, nowMs))) return 'running'
   return 'todo'
 }
@@ -325,13 +356,20 @@ export function planRows(
 ): PlanRow[] {
   // In the plan's own order (creation order for TaskCreate; the list's order
   // for TodoWrite and the plan tool).
-  const tasks = (plan ?? EMPTY_PLAN).tasks.filter(t => t.status !== 'deleted')
+  const p = plan ?? EMPTY_PLAN
+  const tasks = p.tasks.filter(t => t.status !== 'deleted')
   const all = Object.values((workers ?? EMPTY_WORKERS).byId)
   const claimed = new Set<string>()
+  // Only a worker first seen once this plan began can serve its tasks (an
+  // older plan's worker never does), and a finished task only one seen by
+  // its finish. A plan from before `bornMs` was kept starts at its first task.
+  const born = p.bornMs ?? Math.min(...p.tasks.map(t => t.createdMs))
+  const eligible = (w: OvertoneWorker, t: OvertoneTask): boolean =>
+    w.firstSeenMs >= born && (t.status !== 'completed' || t.finishedMs === undefined || w.firstSeenMs <= t.finishedMs)
   const rows: PlanRow[] = tasks.map((t, i) => {
     const keys = new Set([normTask(t.subject), normTask(t.activeForm)].filter(k => k !== ''))
     const x = all
-      .filter(w => !claimed.has(w.id) && keys.has(normTask(w.description)))
+      .filter(w => !claimed.has(w.id) && keys.has(normTask(w.description)) && eligible(w, t))
       .sort((a, b) => rank(b, nowMs) - rank(a, nowMs) || b.firstSeenMs - a.firstSeenMs)[0]
     if (x) claimed.add(x.id)
     const row: PlanRow = { key: `t-${t.id}`, kind: 'task', n: i + 1, taskId: t.id, title: t.subject, state: taskState(t, x, nowMs) }
@@ -366,6 +404,7 @@ export function planView(
   }))
   const v: PlanView = { ...planTotals(plan), rows }
   if (plan.title) v.title = shownText(plan.title)
+  if (plan.overflow) v.overflow = plan.overflow
   return v
 }
 
@@ -394,45 +433,56 @@ export type PlanInput = {
 const strList = (x: unknown): string[] | undefined =>
   Array.isArray(x) && x.every(v => typeof v === 'string') ? (x as string[]).map(v => v.trim()).filter(v => v !== '') : undefined
 
-// The plan tool's input, or undefined when a field it gives is malformed.
-// Fields left out stay out (they keep the plan's values).
-export function readPlan(input: unknown): PlanInput | undefined {
+// The plan tool's input, or the answer that refuses it: a malformed field,
+// or one past the bounds (more than PLAN_CAP tasks or names, a subject over
+// SUBJECT_MAX). Nothing is trimmed silently. Fields left out stay out (they
+// keep the plan's values).
+export type PlanRead = { input: PlanInput; refused?: undefined } | { refused: string; input?: undefined }
+
+export function readPlan(input: unknown): PlanRead {
   const i = rec(input)
   const out: PlanInput = {}
+  const bad = { refused: PLAN_BAD_ANSWER }
+  const tooMany = { refused: PLAN_TOO_MANY_ANSWER }
+  const tooLong = { refused: PLAN_TOO_LONG_ANSWER }
   if (i.title !== undefined) {
-    if (typeof i.title !== 'string') return undefined
+    if (typeof i.title !== 'string') return bad
     out.title = i.title.replace(/\s+/g, ' ').trim().slice(0, 80)
   }
   if (i.tasks !== undefined) {
-    if (!Array.isArray(i.tasks)) return undefined
+    if (!Array.isArray(i.tasks)) return bad
+    if (i.tasks.length > PLAN_CAP) return tooMany
     const subjects: string[] = []
     for (const t of i.tasks) {
       const subject = str(rec(t).subject)
-      if (subject === undefined) return undefined
+      if (subject === undefined) return bad
+      if (subject.length > SUBJECT_MAX) return tooLong
       subjects.push(subject)
     }
     out.tasks = subjects
   }
   if (i.accepted !== undefined) {
     if (typeof i.accepted === 'number') {
-      if (!Number.isInteger(i.accepted) || i.accepted < 0) return undefined
+      if (!Number.isInteger(i.accepted) || i.accepted < 0) return bad
       out.accepted = i.accepted
     } else {
       const list = strList(i.accepted)
-      if (list === undefined) return undefined
+      if (list === undefined) return bad
+      if (list.length > PLAN_CAP) return tooMany
       out.accepted = list
     }
   }
   if (i.running !== undefined) {
     const list = strList(i.running)
-    if (list === undefined) return undefined
+    if (list === undefined) return bad
+    if (list.length > PLAN_CAP) return tooMany
     out.running = list
   }
   if (i.finished !== undefined) {
-    if (typeof i.finished !== 'boolean') return undefined
+    if (typeof i.finished !== 'boolean') return bad
     out.finished = i.finished
   }
-  return out
+  return { input: out }
 }
 
 // One plan tool call folded in.
@@ -449,7 +499,7 @@ export function readPlan(input: unknown): PlanInput | undefined {
 export function notePlanTool(plan: OvertonePlan | null | undefined, input: PlanInput, nowMs: number): OvertonePlan {
   const prev = plan ?? EMPTY_PLAN
   const fresh = prev.source !== 'tool' || (prev.closed === true && (input.title !== undefined || input.tasks !== undefined))
-  let next: OvertonePlan = fresh ? { source: 'tool', tasks: [], nextN: 1 } : { ...prev }
+  let next: OvertonePlan = fresh ? freshPlan('tool', nowMs) : { ...prev }
   if (input.title !== undefined) {
     if (input.title === '') delete next.title
     else next.title = input.title
@@ -491,6 +541,8 @@ export function notePlanTool(plan: OvertonePlan | null | undefined, input: PlanI
 
 // What the plan tool answers.
 export const PLAN_SUB_ANSWER = "ignored: plan is for the main conversation's score; a subagent reports its own steps with step"
+export const PLAN_TOO_MANY_ANSWER = `ignored: at most ${PLAN_CAP} tasks (and as many names in accepted or running); send a shorter plan`
+export const PLAN_TOO_LONG_ANSWER = `ignored: a task subject is at most ${SUBJECT_MAX} characters; nothing was changed`
 export const PLAN_BAD_ANSWER =
   'ignored: title must be a string, tasks a list of { subject }, accepted a list of subjects or a count, running a list of subjects, finished true or false'
 export function planAnswer(p: OvertonePlan): string {

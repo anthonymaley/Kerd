@@ -43,7 +43,6 @@ import type { OvertonePlan, OvertoneWorkers } from '../types'
 import { EMPTY_WORKERS, noteAsk, noteEnd, noteList, noteSpawn, noteToolEnd, noteToolStart, summarizeTool } from './logic'
 import {
   EMPTY_PLAN,
-  PLAN_BAD_ANSWER,
   PLAN_SUB_ANSWER,
   PLAN_TOOL,
   STEP_BAD_ANSWER,
@@ -141,8 +140,9 @@ export const register: Register = on => {
   // loop, folded into the plan; a subagent's call is answered "ignored".
   on('tool.call', { tool: 'mcp__overtone__plan' }, async ($, e) => {
     if (e.agentId !== undefined) return { result: PLAN_SUB_ANSWER }
-    const input = readPlan(e)
-    if (input === undefined) return { result: PLAN_BAD_ANSWER }
+    const read = readPlan(e)
+    if (read.input === undefined) return { result: read.refused }
+    const input = read.input
     const now = await $.clock.now()
     const after = await update($, plan, (p: OvertonePlan) => notePlanTool(p, input, now))
     return { result: planAnswer(after) }

@@ -106,6 +106,10 @@ export type OvertonePlan = {
   title?: string
   // Set when the plan tool said finished: the plan is drawn no more.
   closed?: boolean
+  // When this plan began: only workers first seen from then on match its tasks.
+  bornMs?: number
+  // Tasks a host tool reported past the cap and not kept.
+  overflow?: number
   // The `n` the next new task gets.
   nextN: number
   updatedMs?: number

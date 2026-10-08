@@ -144,6 +144,20 @@ describe('row segments', () => {
     expect(rowSegs(row({ state: 'todo' }))).toEqual(['todo'])
     expect(rowSegs(row({ state: 'running' }))).toEqual(['running'])
   })
+  test('a huge step total never allocates past the bar: buckets of steps, the step under way in its bucket', () => {
+    // review 2026-10-08 item 1: one entry per reported step, unbounded
+    const r = row({ state: 'running', steps: { done: 500_000, total: 1_000_000, atMs: 0 } })
+    const segs = rowSegs(r, 10)
+    expect(segs.length).toBe(10)
+    expect(segs).toEqual(['done', 'done', 'done', 'done', 'done', 'running', 'todo', 'todo', 'todo', 'todo'])
+    expect(rowSegs(row({ state: 'done', steps: { done: 1, total: 1e9, atMs: 0 } }), 24).length).toBe(24)
+    expect(rowSegs(r).length).toBe(50)
+    // within the bar, one per step as before
+    expect(rowSegs(row({ state: 'running', steps: { done: 2, total: 5, atMs: 0 } }), 24)).toEqual(['done', 'done', 'running', 'todo', 'todo'])
+    // the card passes its bar width
+    const c = cardRow(r, planLayout(120, true), false, 0)
+    expect(c.bar.text!.length).toBeLessThanOrEqual(c.bar.cols)
+  })
   test('a done row with steps is all done', () => {
     expect(rowSegs(row({ state: 'done', steps: { done: 1, total: 3, atMs: 0 } }))).toEqual(['done', 'done', 'done'])
   })
@@ -297,6 +311,14 @@ describe('the band group', () => {
       if (x) expect(x.width).toBeLessThanOrEqual(room)
     }
   })
+  test('a one-task plan shows in Raster too (4 columns, under the 6 minimum for longer plans)', () => {
+    // review 2026-10-08 item 4
+    const one = view([row({ state: 'running' })])
+    const b = planBand(one, 200, true, 0)!
+    expect(b).toBeDefined()
+    expect(b.bar.cols).toBe(4)
+    expect(planBand(one, b.width - 1, true, 0)).toBeUndefined()
+  })
   test('without Raster the bar is text, one character per task', () => {
     const b = planBand(v, 200, false, 0)!
     expect(b.bar.cells).toBeUndefined()
@@ -322,9 +344,31 @@ describe('the card', () => {
     expect(c.rows.map(r => r.key)).toEqual(['t-2', 't-3'])
     expect(c.header).toBe('1 of 5 accepted · +3 more')
   })
-  test('animates only while a row runs or needs you', () => {
+  test('animates while a row runs, needs you or failed (failed rows flash); a returned row is steady', () => {
     expect(isAnimating(view(rows))).toBe(true)
     expect(isAnimating(view([row({ state: 'done' }), row({ key: 't-2', state: 'todo' })]))).toBe(false)
-    expect(isAnimating(view([row({ state: 'failed' })]))).toBe(false)
+    // review 2026-10-08 item 6: a failed-only view stopped the ticker its flash needs
+    expect(isAnimating(view([row({ state: 'failed' })]))).toBe(true)
+    expect(isAnimating(view([row({ state: 'returned' })]))).toBe(false)
+  })
+})
+
+describe('a returned row (review 2026-10-08 item 3)', () => {
+  test('yellow and steady: square solid, bar never flashes, glyph ◉, detail "returned, awaiting acceptance"', () => {
+    expect(HEX.returned).toBe(HEX.running)
+    expect(squarePixels('returned', 0)).toEqual(squarePixels('returned', 1))
+    expect(new Set(squarePixels('returned', 1).flat()).size).toBe(1)
+    expect(barPixels(8, ['returned'], 1)).toEqual(barPixels(8, ['returned'], 0))
+    const c = cardRow(row({ state: 'returned', steps: { done: 3, total: 3, atMs: 0 } }), planLayout(120, false), false, 0)
+    expect(c.mark.glyph?.text).toBe('◉')
+    expect(c.detail?.text).toBe('returned, awaiting acceptance')
+    expect(c.detail?.color).toBe(HEX.returned)
+  })
+})
+
+describe('overflow (review 2026-10-08 item 5)', () => {
+  test('tasks a host tool sent past the cap are named in the card header, not dropped silently', () => {
+    const v = { ...view([row({ state: 'todo' })]), overflow: 3 }
+    expect(planCard(v, 120, false, 0).header).toBe('0 of 1 accepted · 3 over the cap not kept')
   })
 })

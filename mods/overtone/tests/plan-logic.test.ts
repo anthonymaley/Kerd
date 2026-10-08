@@ -7,6 +7,8 @@ import {
   PLAN_CAP,
   PLAN_SPEC,
   PLAN_TOOL,
+  STEP_MAX,
+  SUBJECT_MAX,
   STEP_SPEC,
   STEP_TOOL,
   normTask,
@@ -274,7 +276,7 @@ describe('plan rows: matching tasks and workers', () => {
     const rows = planRows(p, w, T0 + 3 * MIN)
     expect(rows.map(r => [r.n, r.state, r.worker?.id])).toEqual([
       [1, 'running', 'new'],
-      [2, 'todo', 'old'],
+      [2, 'returned', 'old'],
     ])
   })
 
@@ -333,23 +335,29 @@ describe('the plan tool (Kerd Conductor\'s score)', () => {
   })
 
   test('readPlan: fields left out stay out; a malformed field refuses the call', () => {
-    expect(readPlan({})).toEqual({})
+    expect(readPlan({})).toEqual({ input: {} })
     expect(readPlan({ title: '  The   plan ', tasks: [{ subject: ' A ' }, { subject: 'B' }], accepted: 1, running: ['B'], finished: false })).toEqual({
-      title: 'The plan',
-      tasks: ['A', 'B'],
-      accepted: 1,
-      running: ['B'],
-      finished: false,
+      input: {
+        title: 'The plan',
+        tasks: ['A', 'B'],
+        accepted: 1,
+        running: ['B'],
+        finished: false,
+      },
     })
-    expect(readPlan({ accepted: ['A'] })).toEqual({ accepted: ['A'] })
-    expect(readPlan({ tasks: [{ subject: '' }] })).toBeUndefined()
-    expect(readPlan({ tasks: 'A' })).toBeUndefined()
-    expect(readPlan({ accepted: -1 })).toBeUndefined()
-    expect(readPlan({ accepted: 1.5 })).toBeUndefined()
-    expect(readPlan({ accepted: [1] })).toBeUndefined()
-    expect(readPlan({ running: 'A' })).toBeUndefined()
-    expect(readPlan({ finished: 'yes' })).toBeUndefined()
-    expect(readPlan({ title: 3 })).toBeUndefined()
+    expect(readPlan({ accepted: ['A'] })).toEqual({ input: { accepted: ['A'] } })
+    for (const bad of [
+      { tasks: [{ subject: '' }] },
+      { tasks: 'A' },
+      { accepted: -1 },
+      { accepted: 1.5 },
+      { accepted: [1] },
+      { running: 'A' },
+      { finished: 'yes' },
+      { title: 3 },
+    ]) {
+      expect(readPlan(bad).refused).toMatch(/^ignored/)
+    }
   })
 
   test('the go: title and tasks in order, pending, numbered 1..n', () => {
@@ -444,5 +452,91 @@ describe('shownText', () => {
     expect(_shownText('\u001b[2J\u001b]0;pwned\u0007Plan\u202e one\u200b\n two')).toBe('[2J ]0;pwned Plan one two')
     expect(_shownText('\u009b31mred')).toBe('31mred')
     expect(_shownText('plain task')).toBe('plain task')
+  })
+})
+
+describe('review 2026-10-08', () => {
+  test('item 1: a step total is 1..STEP_MAX in the schema and the parser', () => {
+    expect(STEP_SPEC.inputSchema.properties.total.maximum).toBe(STEP_MAX)
+    expect(readStep({ done: 1, total: STEP_MAX })).toEqual({ done: 1, total: STEP_MAX })
+    expect(readStep({ done: 1, total: STEP_MAX + 1 })).toBeUndefined()
+    expect(readStep({ done: 1, total: 1e12 })).toBeUndefined()
+  })
+
+  test('item 2: a completed task never claims a worker seen after its finish; that worker keeps its own row', () => {
+    let p = create(EMPTY_PLAN, '1', 'Review', T0)
+    p = setStatus(p, '1', 'completed', T0 + MIN)
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'late', description: 'Review', type: 'Explore', nowMs: T0 + 2 * MIN })
+    w = noteToolStart(w, { agentId: 'late', toolUseId: 'u', summary: 'Bash git push', nowMs: T0 + 2 * MIN })
+    w = noteAsk(w, { toolUseId: 'u', nowMs: T0 + 2 * MIN })
+    const rows = planRows(p, w, T0 + 3 * MIN)
+    expect(rows.map(r => [r.kind, r.state, r.worker?.id])).toEqual([
+      ['task', 'done', undefined],
+      ['worker', 'needs', 'late'],
+    ])
+    // one seen by its finish still serves it
+    const early = noteSpawn(EMPTY_WORKERS, { id: 'early', description: 'Review', type: 'Explore', nowMs: T0 + 30_000 })
+    expect(planRows(p, early, T0 + 3 * MIN)[0]?.worker?.id).toBe('early')
+  })
+
+  test('item 2: a new plan never inherits an older plan\'s failed worker', () => {
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'old', description: 'Build it', type: 'Explore', nowMs: T0 })
+    w = noteEnd(w, { agentId: 'old', failed: true, nowMs: T0 + MIN })
+    const p = notePlanTool(EMPTY_PLAN, { title: 'Second', tasks: ['Build it'] }, T0 + 5 * MIN)
+    expect(p.bornMs).toBe(T0 + 5 * MIN)
+    expect(planRows(p, w, T0 + 6 * MIN).map(r => [r.state, r.worker?.id])).toEqual([['todo', undefined]])
+    // the same goes for the task tools and TodoWrite
+    expect(create(EMPTY_PLAN, '1', 'Build it', T0 + 5 * MIN).bornMs).toBe(T0 + 5 * MIN)
+    expect(todo(EMPTY_PLAN, [{ content: 'Build it', status: 'pending' }], T0 + 5 * MIN).bornMs).toBe(T0 + 5 * MIN)
+    expect(planRows(create(EMPTY_PLAN, '1', 'Build it', T0 + 5 * MIN), w, T0 + 6 * MIN)[0]?.state).toBe('todo')
+  })
+
+  test('item 3: a worker that came back, task not yet accepted, is "returned", not counted accepted', () => {
+    let p = create(EMPTY_PLAN, '1', 'Draw it', T0)
+    p = setStatus(p, '1', 'in_progress', T0)
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'a', description: 'Draw it', type: 'Explore', nowMs: T0 })
+    w = noteEnd(w, { agentId: 'a', failed: false, nowMs: T0 + MIN })
+    const v = planView(p, w, T0 + 2 * MIN)
+    expect(v.rows.map(r => r.state)).toEqual(['returned'])
+    expect(v.accepted).toBe(0)
+    // accepted, it is done
+    expect(planView(setStatus(p, '1', 'completed', T0 + 3 * MIN), w, T0 + 4 * MIN).rows.map(r => r.state)).toEqual(['done'])
+  })
+
+  test('item 5: TaskCreate past the cap with nothing finished keeps the first PLAN_CAP and counts the rest', () => {
+    let p = EMPTY_PLAN
+    for (let i = 1; i <= PLAN_CAP + 5; i++) p = create(p, String(i), `Task ${i}`)
+    expect(p.tasks.length).toBe(PLAN_CAP)
+    expect(p.tasks[0]?.id).toBe('1')
+    expect(p.overflow).toBe(5)
+    expect(planView(p, EMPTY_WORKERS, T0).overflow).toBe(5)
+  })
+
+  test('item 5: TodoWrite past the cap keeps PLAN_CAP and counts the rest; subjects are cut', () => {
+    const many = Array.from({ length: PLAN_CAP + 7 }, (_, i) => ({ content: `Todo ${i} ${'x'.repeat(i === 0 ? 500 : 0)}`, status: 'pending' }))
+    const p = todo(EMPTY_PLAN, many)
+    expect(p.tasks.length).toBe(PLAN_CAP)
+    expect(p.overflow).toBe(7)
+    expect(p.tasks[0]?.subject.length).toBe(SUBJECT_MAX)
+    // a list back under the cap clears the count
+    expect(todo(p, many.slice(0, 3)).overflow).toBeUndefined()
+  })
+
+  test('item 5: TaskCreate and TaskUpdate subjects are cut to SUBJECT_MAX', () => {
+    let p = create(EMPTY_PLAN, '1', 'y'.repeat(1000))
+    expect(p.tasks[0]?.subject.length).toBe(SUBJECT_MAX)
+    p = notePlanCall(p, { tool: 'TaskUpdate', input: { taskId: '1', subject: 'z'.repeat(1000) }, ran: ok({ success: true }), nowMs: T0 })
+    expect(p.tasks[0]?.subject.length).toBe(SUBJECT_MAX)
+  })
+
+  test('item 5: the plan tool refuses oversized input with a clear answer, changing nothing', () => {
+    expect(PLAN_SPEC.inputSchema.properties.tasks.maxItems).toBe(PLAN_CAP)
+    expect(PLAN_SPEC.inputSchema.properties.tasks.items.properties.subject.maxLength).toBe(SUBJECT_MAX)
+    const many = Array.from({ length: PLAN_CAP + 1 }, (_, i) => ({ subject: `T${i}` }))
+    expect(readPlan({ tasks: many }).refused).toMatch(/at most 100 tasks/)
+    expect(readPlan({ tasks: [{ subject: 'x'.repeat(SUBJECT_MAX + 1) }] }).refused).toMatch(/at most 200 characters/)
+    expect(readPlan({ running: many.map(t => t.subject) }).refused).toMatch(/at most 100/)
+    expect(readPlan({ accepted: many.map(t => t.subject) }).refused).toMatch(/at most 100/)
+    expect(readPlan({ tasks: many.slice(0, PLAN_CAP) }).input?.tasks?.length).toBe(PLAN_CAP)
   })
 })
