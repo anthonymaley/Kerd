@@ -2,7 +2,7 @@
 
 ## Now
 
-**Release boundary:** 0.177.3 on `main` (overtone 0.8.4 public in its marketplace, released on his "y" 20:49; 0.177.2 is the Codex public package, published by Codex on his go, 18:49); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.177.3 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.177.3 and overtone 0.8.4 (2026-10-07 20:5x, load on restart); Codex has 0.177.0, whose four skills 0.177.1 to 0.177.3 leave unchanged (`notes:codex-update/work.md`).
+**Release boundary:** 0.177.3 on `main`; unreleased on main since: the two Codex publisher fixes (2026-10-07) and Switch Out at the end of finished work run unasked (087b51b, 2026-10-08) (overtone 0.8.4 public in its marketplace, released on his "y" 20:49; 0.177.2 is the Codex public package, published by Codex on his go, 18:49); **releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.177.3 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.177.3 and overtone 0.8.4 (2026-10-07 20:5x, load on restart); Codex has 0.177.0, whose four skills 0.177.1 to 0.177.3 leave unchanged (`notes:codex-update/work.md`).
 
 - **Codex public package 0.177.2 (published 2026-10-07 18:49):** Codex users install and update Kerd's four-skill core from the `codex` branch with terminal commands (README, `docs/guide/codex-distribution.md`). Codex's record says a GitHub install in an isolated profile matched byte for byte; not yet seen by a real Codex user. Anthony's own Codex still runs 0.177.0 from a local build (untouched); moving it to the Git source is his call. Record `notes:codex-public-package/work.md`.
 
@@ -62,8 +62,18 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
 
 - Sonnet readers at medium instead of high (2026-10-03 effort check: medium matched high on one grading job, ~7% fewer
   tokens, one run each; `notes:sonnet-55/work.md`). Held 2026-10-04 (Anthony): no release; collect two or three more runs first.
-- The 2026-09-28 apple-music question-shape grade undercounted: the 2026-10-03 re-run found more consequential asks without a
-  block on 0.162.1/0.163.2 (three confirmed). Old versions; recheck on a current-version sitting before any rule change.
+- **apple-music question shape on current versions, rechecked 2026-10-08** (five finished sittings, 0.175.0 to 0.177.2; five
+  Sonnet high graders, every fail opened in the transcript by Claude; `notes:question-shape/work.md`). The block holds and is
+  improving: 0.175.3 and later, 11 of 12 consequential asks had the full block and an "— approve?" bubble (one left a rebuild
+  out of the bubble). Confirmed fails all on 0.175.0/0.175.1: a build+review asked as "Should I…?" with no block (06fce0d7
+  18:40Z), a merge+push asked bare (f9b48191 03:06Z), a bubble smaller than the decision (headline wording; merge and restart
+  only in prose, f9b48191 14:02Z), a ruling reversal with options and Why but no Cost/What we lose/Input (f9b48191 12:53Z),
+  three merge asks missing Known options/Why; one compound bubble that lost him ("im lost", aa1ab73a 19:15Z). No rule change
+  proposed for these. **New: every sitting (5 of 5) asked whether to Switch Out** after its work was finished ("Shall I switch
+  out now?", "Switch out now, with … — approve?"); he answered "y" each time. The 2026-10-03 ruling (Claude runs Switch Out
+  itself when the agreed work is finished, never asks) was in `docs/decisions.md` and this machine's Kerd memory, not in any
+  skill text. **Fixed on main, unreleased (087b51b, 2026-10-08 09:25, his "y"; codex-tui two rounds):** Conductor's One
+  clear finish and Switch carry it; reaches other projects only with the next release.
 - skriv voice profile wiring — needs non-founder-genre samples.
 - A named wait missed a partner's reply once (apple-music, 2026-09-28 11:14 to 11:30, Kerd 0.163.2): the session
   said it was waiting on Codex's review, the reply landed, the watcher missed it, and Anthony had to ask "waiting?".
