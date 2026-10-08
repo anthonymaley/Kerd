@@ -3,12 +3,23 @@
 // them, and also holds 0.2's session.start, session.measure and turn.step
 // hooks (the context reading, the model asked vs seen): the engine takes one
 // unmatched registration of an event per plugin, and `$` may only be handed
-// to a function of the same file. This module only observes.
+// to a function of the same file. This module only observes, with one
+// exception, below.
+//
+// It also keeps the main loop's plan: the results of its TaskCreate,
+// TaskUpdate and TodoWrite calls, read after `next(e)` resolved (a denied or
+// errored call changes nothing), folded by plan-logic.ts.
 //
 // Safety contract:
 // - Observe only. Every hook passes its event on as it came, `next(e)`, the
 //   same object, and returns what `next` resolved to; nothing is rewritten,
 //   denied, appended or submitted; no process, file write or network call.
+// - The one exception: overtone's own `step` tool (mcp__overtone__step,
+//   registered at session.start in usage.tsx). Its matched `tool.call` hook
+//   answers the call itself and never calls `next`: there is nothing beneath
+//   to run, the tool is overtone's. A worker's call records its done/total/note
+//   on that worker; a main-loop call is answered "ignored". It touches no
+//   other tool's call.
 // - Fail open. Each hook's own work sits in try/catch, and each registration
 //   has a `.catch`. The plain hooks' catch hands the event on only when the
 //   hook never reached `next`; once it had (`next.called`), it returns
@@ -21,16 +32,29 @@
 // - Reload safe. No module-level mutable state and no timers: everything the
 //   band draws lives in $.state, so register() may run again.
 // - `$` is used only as the hook's own argument, never handed to a closure
-//   or helper. All formatting, tiers and folding live in logic.ts.
+//   or helper. All formatting, tiers and folding live in logic.ts and
+//   plan-logic.ts.
 
 import { atom, update } from 'claude-code'
 import type { AgentInfo, Register } from 'claude-code'
 
-import type { OvertoneWorkers } from '../types'
+import type { OvertonePlan, OvertoneWorkers } from '../types'
 import { EMPTY_WORKERS, noteAsk, noteEnd, noteList, noteSpawn, noteToolEnd, noteToolStart, summarizeTool } from './logic'
+import {
+  EMPTY_PLAN,
+  PLAN_TOOLS,
+  STEP_BAD_ANSWER,
+  STEP_MAIN_ANSWER,
+  STEP_TOOL,
+  notePlanCall,
+  noteStep,
+  readStep,
+  stepAnswer,
+} from './plan-logic'
 import { noteAsked } from './usage-logic'
 
 const workers = atom({ plugin: 'overtone', key: 'workers' } as const, EMPTY_WORKERS)
+const plan = atom({ plugin: 'overtone', key: 'plan' } as const, EMPTY_PLAN)
 
 export const register: Register = on => {
   // Rows 3+. A spawn: its label and type, timed from before it started.
@@ -57,9 +81,23 @@ export const register: Register = on => {
   }).catch(($, e, next) => (next.called ? undefined : next(e)))
 
   // A worker's tool call: its activity now, and the pending call so a
-  // permission ask on it can be told apart. Main-loop calls pass untouched.
+  // permission ask on it can be told apart. A main-loop call passes untouched;
+  // a task-list call's outcome is folded into the plan once it resolved.
   on('tool.call', async ($, e, next) => {
-    if (e.agentId === undefined) return next(e)
+    if (e.agentId === undefined) {
+      if (!PLAN_TOOLS.has(String(e.tool))) return next(e)
+      const tool = String(e.tool)
+      const ran = await next(e)
+      try {
+        const now = await $.clock.now()
+        await update($, plan, (p: OvertonePlan) => notePlanCall(p, { tool, input: e, ran, nowMs: now }))
+      } catch {
+        // fail open
+      }
+      return ran
+    }
+    // overtone's own step tool is answered by its matched hook below
+    if (e.tool === STEP_TOOL) return next(e)
     const agentId = e.agentId
     const toolUseId = e.tool_use_id
     try {
@@ -78,6 +116,19 @@ export const register: Register = on => {
     }
     return result
   }).catch(($, e, next) => (next.called ? undefined : next(e)))
+
+  // The step tool (the exception to observe-only): answered here, never
+  // passed on. A worker's report lands on that worker; anything else is
+  // answered "ignored".
+  on('tool.call', { tool: 'mcp__overtone__step' }, async ($, e) => {
+    if (e.agentId === undefined) return { result: STEP_MAIN_ANSWER }
+    const agentId = e.agentId
+    const step = readStep(e)
+    if (step === undefined) return { result: STEP_BAD_ANSWER }
+    const now = await $.clock.now()
+    await update($, workers, (w: OvertoneWorkers) => noteStep(w, { agentId, step, nowMs: now }))
+    return { result: stepAnswer(step) }
+  }).catch(() => ({ result: 'step not recorded' }))
 
   // A permission ask on a worker's pending call marks that worker blocked
   // until the call settles. The verdict is passed on as it came.

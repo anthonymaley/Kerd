@@ -1,6 +1,8 @@
 import { describe, expect, mock, test } from 'claude-code/testing'
 import type { AgentInfo, On, SessionUsage } from 'claude-code'
 
+import type { OvertonePlan, OvertoneWorkers } from '../types'
+
 const T0 = new Date(2026, 9, 2, 12).getTime()
 
 type World = {
@@ -683,5 +685,107 @@ describe('what Claude and Switch Out see', () => {
     expect(out.text).toContain('next ▸ Context 119k — switch at a break')
     expect(out.text).not.toMatch(/Monthly|Today|This session|\$/)
     expect(out.text).toContain('ctx 119k · 60% of window used · switch at a break')
+  })
+})
+
+describe('plan state and the step tool', () => {
+  // The test's own `$` reads no plugin state: an inline plugin's `Peek` tool
+  // answers it from its own `$`.
+  const peekPlugin = {
+    name: 'peek',
+    register: ((on: On) => {
+      on('tool.call', { tool: 'Peek' as never }, async $ => ({
+        result: {
+          plan: (await $.state.get({ plugin: 'overtone', key: 'plan' })).value,
+          workers: (await $.state.get({ plugin: 'overtone', key: 'workers' })).value,
+        },
+      }) as never)
+    }) as never,
+  }
+  const PEEK = { plugins: [peekPlugin] }
+  const peek = async ($: T) => ((await $.tool.call({ tool: 'Peek', tool_use_id: 'peek' } as never)) as { result: { plan: OvertonePlan; workers: OvertoneWorkers } }).result
+
+  test('main-loop TaskCreate / TaskUpdate results fold into the plan; the call passes on as it came', PEEK, async ($, on) => {
+    const w = world(on)
+    let nextId = 0
+    const seen: unknown[] = []
+    on('tool.call', (_$, e) => {
+      seen.push(e)
+      if (e.tool === 'TaskCreate') return { result: { task: { id: String(++nextId), subject: e.subject } } } as never
+      if (e.tool === 'TaskUpdate') return { result: { success: true, taskId: e.taskId, updatedFields: ['status'] } } as never
+      return { result: 'ok' } as never
+    })
+    const made = await $.tool.call({ tool: 'TaskCreate', subject: 'Build it', description: 'd', tool_use_id: 'c1' } as never)
+    expect(made).toMatchObject({ result: { task: { id: '1', subject: 'Build it' } } })
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Test it', description: 'd', tool_use_id: 'c2' } as never)
+    w.now = T0 + 60_000
+    await $.tool.call({ tool: 'TaskUpdate', taskId: '1', status: 'in_progress', tool_use_id: 'c3' } as never)
+    expect(seen.map(e => (e as { tool: string }).tool)).toEqual(['TaskCreate', 'TaskCreate', 'TaskUpdate'])
+    const p = (await peek($)).plan
+    expect(p.tasks.map(t => [t.id, t.n, t.subject, t.status, t.startedMs])).toEqual([
+      ['1', 1, 'Build it', 'in_progress', T0 + 60_000],
+      ['2', 2, 'Test it', 'pending', undefined],
+    ])
+  })
+
+  test('a denied or errored task call changes nothing; a subagent task call is not the plan', PEEK, async ($, on) => {
+    world(on)
+    on('tool.call', (_$, e) => {
+      if (e.tool === 'TaskCreate' && e.subject === 'Denied') return { deny: 'no tasks today' } as never
+      if (e.tool === 'TaskCreate' && e.subject === 'Broken') throw new Error('tool failed')
+      return { result: { task: { id: '9', subject: String(e.subject) } } } as never
+    })
+    const denied = await $.tool.call({ tool: 'TaskCreate', subject: 'Denied', description: 'd', tool_use_id: 'c1' } as never)
+    expect(denied).toMatchObject({ deny: 'no tasks today' })
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Broken', description: 'd', tool_use_id: 'c2' } as never).then(
+      () => undefined,
+      () => undefined,
+    )
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Theirs', description: 'd', agentId: 's1', tool_use_id: 'c3' } as never)
+    expect((await peek($)).plan.tasks).toEqual([])
+  })
+
+  test('a main-loop TodoWrite becomes the plan', PEEK, async ($, on) => {
+    world(on)
+    on('tool.call', (_$, e) => ({ result: { oldTodos: [], newTodos: (e as { todos: unknown }).todos } }) as never)
+    const todos = [
+      { content: 'One', status: 'completed', activeForm: 'Doing one' },
+      { content: 'Two', status: 'in_progress', activeForm: 'Doing two' },
+    ]
+    await $.tool.call({ tool: 'TodoWrite', todos, tool_use_id: 't1' } as never)
+    const p = (await peek($)).plan
+    expect(p.source).toBe('todo')
+    expect(p.tasks.map(t => [t.n, t.subject, t.status])).toEqual([
+      [1, 'One', 'completed'],
+      [2, 'Two', 'in_progress'],
+    ])
+  })
+
+  test('session.start registers the step tool; a worker step is recorded, a main-loop one ignored', PEEK, async ($, on) => {
+    world(on)
+    const registered: Record<string, unknown>[] = []
+    on('tool.register', (_$, e) => {
+      registered.push(e as Record<string, unknown>)
+      return { value: { tool: `mcp__overtone__${e.name}` } }
+    })
+    on('agent.spawn', () => ({ model: 'claude-sonnet-5-5', agentId: 's1' }))
+    let beneath = 0
+    on('tool.call', () => {
+      beneath++
+      return { result: 'beneath' } as never
+    })
+    await $.session.start({ cwd: '/w', surface: 'terminal', isInteractive: true })
+    expect(registered.map(r => [r.name, r.isDeferred])).toEqual([['step', false]])
+    await $.agent.spawn({ prompt: 'Go.', description: 'Write the tests', subagentType: 'kerd:sonnet-high' } as never)
+    const worker = await $.tool.call({ tool: 'mcp__overtone__step', done: 2, total: 5, note: 'cases', agentId: 's1', tool_use_id: 'k1' } as never)
+    expect(worker).toMatchObject({ result: 'recorded 2/5' })
+    expect((await peek($)).workers.byId.s1?.steps).toEqual({ done: 2, total: 5, note: 'cases', atMs: T0 })
+    const main = await $.tool.call({ tool: 'mcp__overtone__step', done: 1, total: 2, tool_use_id: 'k2' } as never)
+    expect(main).toMatchObject({ result: expect.stringMatching(/^ignored/) })
+    const bad = await $.tool.call({ tool: 'mcp__overtone__step', done: 1, total: 0, agentId: 's1', tool_use_id: 'k3' } as never)
+    expect(bad).toMatchObject({ result: expect.stringMatching(/^ignored/) })
+    // answered by overtone: nothing beneath ran, and the worker's activity is not "step"
+    expect(beneath).toBe(0)
+    expect((await peek($)).workers.byId.s1?.activity).toBeUndefined()
   })
 })

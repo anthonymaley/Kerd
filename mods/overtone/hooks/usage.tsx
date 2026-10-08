@@ -30,6 +30,9 @@
 //   helper's own `status` command (which takes a lock and may update the
 //   record) is never run. Only alias, provider, role, status and times are
 //   kept; prompt and reply text are not.
+// - session.start also registers overtone's `step` tool (STEP_SPEC in
+//   plan-logic.ts): a subagent reports its own done/total steps, answered by
+//   a matched hook in register.tsx.
 // - classic.PostModelSwitch: the prompt-cache TTL Claude Code reports there
 //   (`cache_ttl`, on a model switch and when a resume restores the model);
 //   without one the cache is assumed to live 1 hour.
@@ -57,6 +60,7 @@ import type {
   OvertoneWorkers,
 } from '../types'
 import { EMPTY_MODEL, EMPTY_WORKERS, bandText, noteList, noteListError, noteStepEnd, noteStepStart } from './logic'
+import { STEP_SPEC } from './plan-logic'
 import {
   BAND_ACTION,
   COLLAPSED_LABEL,
@@ -280,6 +284,13 @@ export const register: Register = on => {
       })
     } catch {
       // fail open
+    }
+    try {
+      // The worker step tool, mcp__overtone__step; register.tsx answers it.
+      // Awaited before `next`, so it is listed by turn one.
+      await $.tool.register({ ...STEP_SPEC, inputSchema: { ...STEP_SPEC.inputSchema } })
+    } catch {
+      // fail open: no step tool, workers just report nothing
     }
     try {
       const u = await $.session.usage()

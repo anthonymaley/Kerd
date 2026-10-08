@@ -345,6 +345,8 @@ export function noteSpawn(
     firstSeenMs: Math.min(old?.firstSeenMs ?? s.nowMs, s.nowMs),
     fromSpawn: true,
     ...(s.parentId ? { parentId: s.parentId } : {}),
+    // the description as given, for matching a plan task (the label is cut)
+    ...(s.description ? { description: s.description.slice(0, 300) } : {}),
   }
   return { ...prev, byId: prune({ ...prev.byId, [s.id]: worker }) }
 }
@@ -371,6 +373,7 @@ export function noteList(w: OvertoneWorkers | null | undefined, list: readonly L
     const ended = FINAL.has(status) ? ((old.status === INFERRED ? undefined : old.endedMs) ?? nowMs) : undefined
     const label = byId[a.id] ? old.label : clip(a.description || a.name || a.type || old.label, 56)
     const next: OvertoneWorker = { ...old, label, type: a.type || old.type, status, listed: true }
+    if (next.description === undefined && typeof a.description === 'string' && a.description !== '') next.description = a.description.slice(0, 300)
     if (typeof a.parentId === 'string' && a.parentId !== '') next.parentId = a.parentId
     if (ended === undefined) delete next.endedMs
     else {

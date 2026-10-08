@@ -62,6 +62,47 @@ export type OvertoneWorker = {
   model?: string
   effort?: string | number
   seen?: string
+  // The Agent call's description as given (the label is cut short): what a
+  // plan task is matched on. Also taken from a list read for one overtone
+  // never saw spawn.
+  description?: string
+  // Its own last report through the `step` tool (mcp__overtone__step).
+  steps?: OvertoneStep
+}
+
+// A worker's own progress report: `done` of `total` steps, an optional short
+// note, and when it came.
+export type OvertoneStep = { done: number; total: number; note?: string; atMs: number }
+
+// A task of the main loop's plan, as TaskCreate / TaskUpdate / TodoWrite
+// results left it. `deleted` tasks stay (so numbers never move) but are not
+// drawn or counted.
+export type OvertoneTaskStatus = 'pending' | 'in_progress' | 'completed' | 'deleted'
+
+export type OvertoneTask = {
+  // TaskCreate's task id, or `todo-<n>` for a TodoWrite item.
+  id: string
+  // 1-based order of creation within this plan; never reused.
+  n: number
+  subject: string
+  activeForm?: string
+  status: OvertoneTaskStatus
+  createdMs: number
+  // First set in_progress; kept if it is reopened.
+  startedMs?: number
+  // Set completed (or deleted); cleared when reopened.
+  finishedMs?: number
+}
+
+// The main loop's plan: one list, from the task tools or from TodoWrite
+// (whichever wrote last; a switch starts a fresh plan).
+export type OvertonePlan = {
+  source: 'none' | 'task' | 'todo'
+  // In creation order.
+  tasks: OvertoneTask[]
+  // The `n` the next new task gets.
+  nextN: number
+  updatedMs?: number
 }
 
 export type OvertoneWorkers = {
@@ -137,6 +178,7 @@ declare module 'claude-code' {
       reading: OvertoneReading | null
       model: OvertoneModel
       workers: OvertoneWorkers
+      plan: OvertonePlan
       usage: OvertoneUsage | null
       steps: OvertoneSteps
       partners: OvertonePartners | null
