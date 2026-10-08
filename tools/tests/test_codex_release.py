@@ -146,7 +146,7 @@ class CodexReleaseTests(unittest.TestCase):
     def test_a_previous_source_missing_here_says_to_fetch(self):
         # Another checkout moved main and published; this one has not fetched since.
         other = self.root / "other"
-        subprocess.run(["git", "clone", "-q", str(self.remote), str(other)], check=True)
+        subprocess.run(["git", "clone", "-q", "--branch", "main", str(self.remote), str(other)], check=True)
         for name in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"):
             path = other / name
             path.write_text(path.read_text().replace("1.0.0", "1.0.1"))
