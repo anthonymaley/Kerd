@@ -623,12 +623,18 @@ silently. Do not wait to be asked “what's next?”. When the person has said t
 moving, prefer starting the next item and reporting from inside it over asking whether
 to start.
 
-**Switch Out at the end is run, not asked.** When the agreed work is finished with
-nothing outstanding for the session, and the sitting is at its natural end (or past
-about 200k tokens at a break), the session runs `/kerd:switch out` itself and says so,
-with the item the finish named saved as the next step. It never asks “Shall I switch
-out now?” or puts the Switch Out into an approval bubble. Out's own saves and pushes
-keep their existing authority. Mid-work, carry on to the break instead.
+**Switch Out at the end is run, not asked.** Remaining authorized work comes first,
+including a next item the person's standing authority already covers. Once the
+sitting's agreed work is complete with nothing outstanding for the session (no job,
+review or answer pending), the session saves the item the finish named as the
+proposed next step and runs Switch Out itself through the host's skill mechanism,
+saying so. It never asks “Shall I switch out now?” or puts the Switch Out into an
+approval bubble. The ~200k mark never interrupts unfinished work, and a concert keeps
+its own Roll. The session controlling the agreed work owns this Out; a contributing
+partner session never starts one, and Out's existing-owner check still applies. A
+person's “not yet”, or an instruction to keep the session open, holds: the declined
+Switch Out terms above apply to this Out too. Out's own saves and pushes keep their
+existing authority.
 Avoid a report of internal instruction-following, repeated setup disclosures
 or an insight banner merely because a tool ran. Link deeper evidence instead.
 

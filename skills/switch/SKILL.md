@@ -71,7 +71,8 @@ item names the guide section with its detail: open that section before the step.
 
 ### Out
 
-- The session asked to run Out owns it: if another owner is already known, return
+- The session asked to run Out, or the session controlling finished work that starts
+  Out itself, owns it: if another owner is already known, return
   this account to it; if both were asked, the person names one. Check the owner's
   pairing-role continuity with Agent's Out ownership check before editing the
   handoff; no binding, no setup stop ([One coordinated closeout](references/out.md#one-coordinated-closeout)).
@@ -190,8 +191,9 @@ item names the guide section with its detail: open that section before the step.
 
 Honor the named action. Don't infer In/Out from a dirty tree, or perform a boundary
 when the person asks only about its design/status. Out is also started unasked when
-the agreed work is finished with nothing outstanding and the sitting is at its natural
-end: the session runs it and says so, never “Shall I switch out now?” (see
+the sitting's agreed work is complete with nothing outstanding: the session controlling
+that work runs it and says so, never “Shall I switch out now?”, unless the person
+said not yet (see
 [One clear finish](../conductor/references/journey.md#one-clear-finish)). Ask only when the requested
 action or target is genuinely ambiguous. A new window does not grant new authority.
 

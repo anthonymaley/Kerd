@@ -30,7 +30,10 @@ particular partner has read it; Agent resolves live identities separately.
 
 ### One coordinated closeout
 
-The owner is the session the person asked to run Out. If another Out owner is
+The owner is the session the person asked to run Out, or the session controlling
+the agreed work when it starts Out itself at the end of finished work (Conductor's
+[One clear finish](../../conductor/references/journey.md#one-clear-finish)); a
+contributing partner session never starts one. If another Out owner is
 already known, return this session's account to that owner instead of rewriting
 shared pointers. If both sessions were asked to own the closeout, the person
 names one before either writes. Before editing the handoff, check the owner's
