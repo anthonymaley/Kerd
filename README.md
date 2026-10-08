@@ -318,9 +318,20 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.177.3)
+## What's New (v0.178.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.178.0
+
+**Switch Out at the end of finished work is run, not asked.** When the sitting's agreed work is complete and
+nothing is outstanding for the session (no job, review or answer pending), the session controlling that work saves
+the next step its finish named and runs Switch Out itself, saying so; it never asks "Shall I switch out now?".
+Remaining authorized work comes first, the ~200k mark never interrupts unfinished work, a concert keeps its own Roll,
+a partner session never starts an Out, and "not yet" holds. A recheck of five real sittings on 0.175.0 to 0.177.2
+found every one asking. Also: the Codex package publisher (`tools/codex_release.py`) refuses a source commit that
+is not on origin's main, and says a previous release source missing from the checkout needs `git fetch origin`
+instead of "not an ancestor". codex-tui: two rounds on each change, safe to push.
 
 ### v0.177.3
 
