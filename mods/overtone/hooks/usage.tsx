@@ -47,12 +47,13 @@
 // never reached it.
 
 import { atom, read, update } from 'claude-code'
-import type { EngineInterface, Register } from 'claude-code'
+import type { Elements, EngineInterface, Register } from 'claude-code'
 
 import type {
   OvertoneModel,
   OvertonePartnerRow,
   OvertonePartners,
+  OvertonePlan,
   OvertoneReading,
   OvertoneSteps,
   OvertoneUsage,
@@ -60,21 +61,28 @@ import type {
   OvertoneWorkers,
 } from '../types'
 import { EMPTY_MODEL, EMPTY_WORKERS, bandText, noteList, noteListError, noteStepEnd, noteStepStart } from './logic'
-import { STEP_SPEC } from './plan-logic'
+import { EMPTY_PLAN, STEP_SPEC, planView } from './plan-logic'
+import type { PlanView } from './plan-logic'
+import { isAnimating, planBand, planCard } from './plan-draw'
+import type { CardRow, PSeg } from './plan-draw'
 import {
   BAND_ACTION,
+  BUTTON_ROOM,
   COLLAPSED_LABEL,
   EMPTY_STEPS,
   EMPTY_VIEW,
   EXPANDED_LABEL,
+  SEP,
   aliasMap,
   cell,
   collapsedLine,
   contextSummary,
   dashboard,
+  dashboardRows,
   hasFigures,
   jobColumns,
   jobTitle,
+  lineWidth,
   noteMainStep,
   noteWorkerModel,
   noteWorkerSeen,
@@ -95,12 +103,16 @@ const steps = atom({ plugin: 'overtone', key: 'steps' } as const, EMPTY_STEPS)
 const partners = atom({ plugin: 'overtone', key: 'partners' } as const, null)
 const cacheTtl = atom({ plugin: 'overtone', key: 'cacheTtl' } as const, null)
 const view = atom({ plugin: 'overtone', key: 'view' } as const, EMPTY_VIEW)
+const plan = atom({ plugin: 'overtone', key: 'plan' } as const, EMPTY_PLAN)
+// The plan drawing's animation frame; it moves only while a row runs or waits.
+const anim = atom({ plugin: 'overtone', key: 'frame' } as const, 0)
 const tick = atom({ plugin: 'overtone', key: 'tick' } as const, 0)
 
 // Theme keys for the tones that carry colour.
 const COLOR: Partial<Record<UTone, string>> = { success: 'success', warning: 'warning', error: 'error' }
 
 const TICK_MS = 15_000
+const FAST_MS = 500
 const PARTNER_EVERY_MS = 30_000
 const PARTNER_FILES = 12
 const PARTNER_READS = 40
@@ -112,6 +124,11 @@ const ALIAS_EVERY_MS = 5 * 60_000
 // them over (the old timers are cancelled with the old environment).
 let ticker: { cancel: () => void } | undefined
 let first: { cancel: () => void } | undefined
+// The plan drawing's fast ticker, and a closure over session.start's `$` that
+// starts or stops it (a render hook's `$` ends with its dispatch, so only
+// session.start's may hold a timer).
+let fast: { cancel: () => void } | undefined
+let syncer: (() => Promise<void>) | undefined
 let polling = false
 let agentDir: { root: string; dir: string | null } | undefined
 let aliases: { root: string; atMs: number; map: Record<string, string> } | undefined
@@ -157,6 +174,35 @@ async function snapshotOf($: EngineInterface, isWorking: boolean): Promise<Snaps
     steps: await read($, steps),
     workers: await read($, workers),
     partners: await read($, partners),
+    plan: await read($, plan),
+  }
+}
+
+// Starts the 500 ms frame ticker while some plan row is running or needs
+// you, and cancels it when none is. Called when the drawing renders and by
+// the ticker itself. Fail open.
+async function syncFrame($: EngineInterface): Promise<void> {
+  try {
+    const now = await $.clock.now()
+    const v = planView(await read($, plan), await read($, workers), now)
+    const on = isAnimating(v)
+    if (on && !fast) {
+      fast = $.clock.every(FAST_MS, () => {
+        void (async () => {
+          try {
+            await update($, anim, (n: number) => (n + 1) % 1_000_000)
+            await syncFrame($)
+          } catch {
+            // fail open
+          }
+        })()
+      })
+    } else if (!on && fast) {
+      fast.cancel()
+      fast = undefined
+    }
+  } catch {
+    // fail open
   }
 }
 
@@ -249,6 +295,9 @@ async function usageOnStart($: EngineInterface): Promise<void> {
   }
   try {
     // Work that outlives a dispatch runs on the session's timers.
+    syncer = () => syncFrame($)
+    fast?.cancel()
+    fast = undefined
     ticker?.cancel()
     first?.cancel()
     first = $.clock.after(1_500, () => {
@@ -270,6 +319,7 @@ async function usageOnStart($: EngineInterface): Promise<void> {
     ticker = undefined
     first = undefined
   }
+  void syncFrame($)
 }
 
 export const register: Register = on => {
@@ -433,7 +483,24 @@ export const register: Register = on => {
       return next(e)
     }
     if (!hasFigures(s)) return next(e)
-    const { Box, Text, Button } = $.ui.resolve(e)
+    const ui = $.ui.resolve(e)
+    const { Box, Text, Button } = ui
+    // Raster is the terminal's alone; elsewhere (or without it) the plan is text.
+    const Raster = e.surface === 'terminal' && 'Raster' in ui ? (ui as Elements['terminal']).Raster : undefined
+    let pv: PlanView | undefined
+    let fr = 0
+    try {
+      if (s.plan) {
+        const v = planView(s.plan, s.workers, s.nowMs)
+        if (v.total > 0) {
+          pv = v
+          fr = await read($, anim)
+          void syncer?.()
+        }
+      }
+    } catch {
+      pv = undefined
+    }
     const toggle = () => {
       void update($, view, (v: OvertoneView) => toggleView(v))
     }
@@ -447,9 +514,20 @@ export const register: Register = on => {
           </Text>
         ),
       )
+    const pseg = (list: PSeg[], key: string) =>
+      list.map((p, i) => (
+        <Text key={`${key}-${i}`} color={p.color} bold={p.bold ? true : undefined} dimColor={p.dim ? true : undefined}>
+          {p.text}
+        </Text>
+      ))
     const beneath = await next(e)
     const cols = e.props.bodyColumns
     if (!expanded) {
+      // The plan takes what the usage figures leave; it shrinks, then goes.
+      const line = collapsedLine(s, cols)
+      const band = pv
+        ? planBand(pv, (Number.isFinite(cols) ? cols : 200) - BUTTON_ROOM - lineWidth(line), Raster !== undefined, fr)
+        : undefined
       return (
         <Box flexDirection="column">
           <Text key="space"> </Text>
@@ -457,8 +535,28 @@ export const register: Register = on => {
             <Button key="usage" label={COLLAPSED_LABEL} variant="primary" action={BAND_ACTION} onPress={toggle} />
             <Text key="line" wrap="truncate-end">
               {'  '}
-              {segs(collapsedLine(s, cols), 'c')}
+              {segs(line, 'c')}
             </Text>
+            {band ? (
+              <Box key="plan" flexDirection="row">
+                <Text key="plan-sep" dimColor>
+                  {SEP}
+                </Text>
+                <Text key="plan-label" dimColor>
+                  {'plan '}
+                </Text>
+                {band.bar.cells && Raster ? (
+                  <Raster key="plan-bar" columns={band.bar.cols} rows={1} cells={band.bar.cells} />
+                ) : (
+                  <Text key="plan-bar">{pseg(band.bar.text ?? [], 'plan-bar')}</Text>
+                )}
+                <Text key="plan-count" bold>
+                  {` ${band.count}`}
+                </Text>
+              </Box>
+            ) : (
+              ''
+            )}
           </Box>
           {beneath}
         </Box>
@@ -502,6 +600,62 @@ export const register: Register = on => {
         </Text>
       )
     }
+    const planRow = (r: CardRow) => (
+      <Box key={r.key} flexDirection="row" gap={1}>
+        {r.mark.cells && Raster ? (
+          <Raster key={`m-${r.key}`} columns={2} rows={1} cells={r.mark.cells} />
+        ) : (
+          <Text key={`m-${r.key}`} color={r.mark.glyph?.color}>
+            {r.mark.glyph?.text ?? ' '}
+          </Text>
+        )}
+        <Text key={`n-${r.key}`} bold={r.state !== 'todo' ? true : undefined} dimColor={r.state === 'todo' ? true : undefined}>
+          {r.name}
+        </Text>
+        {r.bar.cells && Raster ? (
+          <Raster key={`b-${r.key}`} columns={r.bar.cols} rows={1} cells={r.bar.cells} />
+        ) : (
+          <Text key={`b-${r.key}`}>{pseg(r.bar.text ?? [], `b-${r.key}`)}</Text>
+        )}
+        {r.model ? <Text key={`o-${r.key}`}>{pseg([r.model], `o-${r.key}`)}</Text> : ''}
+        {r.effort ? <Text key={`e-${r.key}`}>{pseg([r.effort], `e-${r.key}`)}</Text> : ''}
+        {r.detail ? (
+          <Text key={`d-${r.key}`} wrap="truncate-end">
+            {pseg([r.detail], `d-${r.key}`)}
+          </Text>
+        ) : (
+          ''
+        )}
+      </Box>
+    )
+    // With a plan the Workers card is one line per plan row; Kerd Agent
+    // partner requests keep their own lines beneath. The quiet count and the
+    // note stay.
+    let planCardEl: unknown = ''
+    if (pv && !d.jobsOff) {
+      const partnerJobs = d.jobs.filter(j => j.kind === 'partner')
+      const inner = Math.max(30, (Number.isFinite(cols) ? cols : 200) - (d.outerBorder ? 4 : 0) - (d.panelBorder ? 4 : 0))
+      const room =
+        e.props.maxRows - dashboardRows({ ...d, jobsOff: true }) - (d.panelBorder ? 2 : 0) - 1 - partnerJobs.length
+      const card = planCard(pv, inner, Raster !== undefined, fr, Math.max(1, room))
+      planCardEl = (
+        <Box {...frame('p-jobs')}>
+          {titleRow(
+            'jobs',
+            [
+              { text: 'Workers', tone: 'plain', bold: true },
+              { text: `  ${card.header}`, tone: 'dim' },
+            ],
+            [
+              ...(d.jobsQuiet ? [{ text: `${d.jobsQuiet} quiet`, tone: 'dim' as const }] : []),
+              ...(d.jobsNote ? [{ text: `${d.jobsQuiet ? ' · ' : ''}${d.jobsNote}`, tone: 'warning' as const }] : []),
+            ],
+          )}
+          {card.rows.map(planRow)}
+          {partnerJobs.map(jobRow)}
+        </Box>
+      )
+    }
     return (
       <Box flexDirection="column">
         <Box
@@ -523,6 +677,8 @@ export const register: Register = on => {
           </Box>
           {d.jobsOff ? (
             ''
+          ) : pv ? (
+            planCardEl
           ) : d.jobs.length === 0 && d.jobsHidden === 0 ? (
             <Text key="no-jobs" wrap="truncate-end">
               <Text dimColor>{`▸ Workers · no jobs running${d.jobsQuiet ? ` · ${d.jobsQuiet} quiet` : ''}`}</Text>

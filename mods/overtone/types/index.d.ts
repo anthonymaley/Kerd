@@ -186,6 +186,8 @@ declare module 'claude-code' {
       view: OvertoneView
       // The time of the last tick (every 15 s), so countdowns redraw while idle.
       tick: number
+      // The plan drawing's animation frame (500 ms, only while a row runs or needs you).
+      frame: number
     }
   }
 }

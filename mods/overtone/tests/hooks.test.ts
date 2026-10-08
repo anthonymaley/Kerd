@@ -705,6 +705,40 @@ describe('plan state and the step tool', () => {
   const PEEK = { plugins: [peekPlugin] }
   const peek = async ($: T) => ((await $.tool.call({ tool: 'Peek', tool_use_id: 'peek' } as never)) as { result: { plan: OvertonePlan; workers: OvertoneWorkers } }).result
 
+  test('a plan is drawn: a plan bar on the band, one line per row in the card; text where there is no Raster; no plan, no change', async ($, on) => {
+    const w = world(on)
+    let nextId = 0
+    on('tool.call', (_$, e) => {
+      if (e.tool === 'TaskCreate') return { result: { task: { id: String(++nextId), subject: e.subject } } } as never
+      return { result: { success: true, taskId: e.taskId } } as never
+    })
+    w.usage = { startedAt: 0, context: { tokens: 119_000, window: 1_000_000, percent: 12 }, rateLimits: [] }
+    await measure($, w)
+    const bare = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    expect(await bare.find({ type: 'Text', text: 'plan ' })).toBeUndefined()
+    await bare.unmount()
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Build it', description: 'd', tool_use_id: 'c1' } as never)
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Test it', description: 'd', tool_use_id: 'c2' } as never)
+    await $.tool.call({ tool: 'TaskUpdate', taskId: '1', status: 'completed', tool_use_id: 'c3' } as never)
+    const band = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    expect(await band.find({ type: 'Text', text: 'plan ' })).toBeDefined()
+    expect(await band.find({ type: 'Text', text: ' 1 of 2' })).toBeDefined()
+    expect(await band.find({ type: 'Raster' })).toBeDefined()
+    expect(await band.find({ type: 'Text', text: LINE })).toBeDefined()
+    await band.unmount()
+    for (const surface of SURFACES) {
+      const ui = await expanded($, {}, surface)
+      expect(await ui.find({ type: 'Text', text: /1 of 2 accepted/ })).toBeDefined()
+      expect(await ui.find({ type: 'Text', text: /^1\. Build it/ })).toBeDefined()
+      expect(await ui.find({ type: 'Text', text: /^2\. Test it/ })).toBeDefined()
+      expect(await ui.find({ type: 'Text', text: 'accepted' })).toBeDefined()
+      expect(await ui.find({ type: 'Text', text: 'to come' })).toBeDefined()
+      expect(await ui.find({ type: 'Text', text: '▸ Workers · no jobs running' })).toBeUndefined()
+      await ui.press({ key: 'usage' })
+      await ui.unmount()
+    }
+  })
+
   test('main-loop TaskCreate / TaskUpdate results fold into the plan; the call passes on as it came', PEEK, async ($, on) => {
     const w = world(on)
     let nextId = 0

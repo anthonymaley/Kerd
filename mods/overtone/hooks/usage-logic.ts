@@ -14,6 +14,7 @@ import type {
   OvertoneModel,
   OvertonePartnerRow,
   OvertonePartners,
+  OvertonePlan,
   OvertoneReading,
   OvertoneSteps,
   OvertoneUsage,
@@ -576,6 +577,8 @@ export type Snapshot = {
   steps: OvertoneSteps | null | undefined
   workers: OvertoneWorkers | null | undefined
   partners: OvertonePartners | null | undefined
+  // The main loop's plan, when the drawing reads it (plan-draw.ts).
+  plan?: OvertonePlan | null
   // The prompt-cache TTL Claude Code last reported; absent, 1h is assumed.
   cacheTtl?: '5m' | '1h'
 }
