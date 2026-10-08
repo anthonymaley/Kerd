@@ -15,6 +15,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGING = "docs/work/model-ready-work/packaging"
+MAIN = "refs/heads/main"
 
 
 def release_version(value):
@@ -64,6 +65,12 @@ def publish(destination, release, repo=ROOT):
     remote = git(repo, "remote", "get-url", "origin")
     previous = git(repo, "ls-remote", "--heads", remote, "refs/heads/codex")
     git(destination, "init", "-q", "-b", "codex")
+    # Fetched fresh into the package repo, so the source checkout stays untouched.
+    git(destination, "fetch", "--no-tags", remote, MAIN)
+    on_main = subprocess.run(["git", "-C", str(destination), "merge-base", "--is-ancestor",
+                              release["source_commit"], "FETCH_HEAD"], capture_output=True)
+    if on_main.returncode:
+        raise ValueError(f"Source {release['source_commit']} is not on origin's main; push it first. Not pushed")
     parents = []
     if previous:
         git(destination, "fetch", "--no-tags", remote, "refs/heads/codex")

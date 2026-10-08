@@ -48,6 +48,7 @@ class CodexReleaseTests(unittest.TestCase):
         self.remote = self.root / "remote.git"
         subprocess.run(["git", "init", "--bare", "-q", str(self.remote)], check=True)
         git(self.repo, "remote", "add", "origin", str(self.remote))
+        self.push_main()
 
     def write(self, name, text):
         path = self.repo / name
@@ -60,6 +61,11 @@ class CodexReleaseTests(unittest.TestCase):
                    "plugins": [{"name": "kerd", "version": version}]}))
         git(self.repo, "add", "--all")
         git(self.repo, "-c", "commit.gpgsign=false", "commit", "-qm", version)
+        if getattr(self, "remote", None):
+            self.push_main()
+
+    def push_main(self):
+        git(self.repo, "push", "-q", "--force", "origin", "HEAD:refs/heads/main")
 
     def test_prepare_uses_committed_inputs_only_and_keeps_the_checkout(self):
         expected = git(self.repo, "rev-parse", "HEAD")
@@ -94,7 +100,10 @@ class CodexReleaseTests(unittest.TestCase):
         first = self.root / "first"
         release = prepare(first, repo=self.repo)
         first_commit = publish(first, release, repo=self.repo)
-        self.assertEqual(git(self.remote, "for-each-ref", "--format=%(refname)"), "refs/heads/codex")
+        # Publishing adds codex only; the fixture's main is the one it pushed itself.
+        self.assertEqual(git(self.remote, "for-each-ref", "--format=%(refname)"),
+                         "refs/heads/codex\nrefs/heads/main")
+        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/main"), source_head)
         self.assertEqual(git(self.repo, "rev-parse", "HEAD"), source_head)
         self.version("1.0.1")
         second = self.root / "second"
@@ -106,6 +115,23 @@ class CodexReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "new release version"):
             publish(third, prepare(third, repo=self.repo), repo=self.repo)
         self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), second_commit)
+
+    def test_a_commit_missing_from_main_cannot_publish(self):
+        first = self.root / "first"
+        current = publish(first, prepare(first, repo=self.repo), repo=self.repo)
+        self.write("skills/switch/SKILL.md", "local only")
+        self.write(".claude-plugin/plugin.json", json.dumps({"name": "kerd", "version": "1.0.1"}))
+        self.write(".claude-plugin/marketplace.json", json.dumps({"metadata": {"version": "1.0.1"},
+                   "plugins": [{"name": "kerd", "version": "1.0.1"}]}))
+        git(self.repo, "add", "--all")
+        git(self.repo, "-c", "commit.gpgsign=false", "commit", "-qm", "local only")
+        local = self.root / "local"
+        with self.assertRaisesRegex(ValueError, "not on origin's main"):
+            publish(local, prepare(local, repo=self.repo), repo=self.repo)
+        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), current)
+        self.push_main()
+        pushed = self.root / "pushed"
+        self.assertNotEqual(publish(pushed, prepare(pushed, repo=self.repo), repo=self.repo), current)
 
     def test_rollback_cannot_publish(self):
         old = git(self.repo, "rev-parse", "HEAD")
