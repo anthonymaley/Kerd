@@ -97,8 +97,8 @@ item names the guide section with its detail: open that section before the step.
   the set ([Leave a lean start point](references/out.md#leave-a-lean-start-point)).
 - Save named files only, under the agreed Git authority; on a concert branch, stop if
   the checked-out branch is not its sketchbook's; acknowledged local paths are passed
-  with `--preserve`; with `work_notes`, the vault repo is saved the same way;
-  `save … --push` when pushing is authorized ([Default verified save](references/out.md#default-verified-save-when-pushing-is-authorized)).
+  with `--preserve`; with `work_notes`, the vault repo is saved the same way, by its
+  literal path with `git -C`; `save … --push` when pushing is authorized ([Default verified save](references/out.md#default-verified-save-when-pushing-is-authorized)).
 - With `work_notes`, save the vault first and write its commit into the start point
   before the project's last commit. After the last commit and before the box, run the
   `boundary` check on every repo committed to, repeating `--preserve <path>`, its

@@ -65,15 +65,14 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
 - Sonnet readers at medium instead of high (2026-10-03 effort check: medium matched high on one grading job, ~7% fewer
   tokens; 2026-10-08 second check: medium found all 4 hard fails high confirmed on five apple-music sittings, missed one minor,
   a few uncertain over-calls; `notes:sonnet-55/work.md`). Held 2026-10-04 (Anthony): no release; collect two or three more runs
-  first. Two now agree; one more on a different job, then his call.
-- **Vault save by literal path** (real-use scan 2026-10-08, checked in the transcripts): Switch Out's vault save written as
-  `V=~/development/home/eolas; cd $V && git add …` was refused by the guard in at least 5 Outs across 4 sittings (06425fad,
-  b15f1f84, 99761791, ab7276fc), each a 30 s stall then a retry by literal path. The guard is right by its rule; the slip is
-  Claude's command form, and `skills/switch/references/out.md` names the vault save without the form. Fix: name `git -C
-  <literal notes repo path>` there, plus a wording test. Selected next (proposed).
-- Steps before a bubble too long to follow (apple-music aa1ab73a 2026-10-07 19:06 and 19:15Z: numbered live-check steps drew
-  "on studio?" and "im lost"; the assistant itself said "too many steps at once"). The bubble was one line; the instructions
-  above it were not. One sighting; watch for a second before any rule.
+  first. Third check 2026-10-08 (step-list scan, a different job): same core finding at both; medium a little less complete. Three agree; his call.
+- **Vault save by literal path** (real-use scan 2026-10-08: the guard refused `V=…; cd $V && git add …` in 5+ Outs across 4
+  sittings, 30 s each). **Fixed on `fix/notes-save-literal-path`, unmerged:** `skills/switch/references/out.md` and Switch's
+  must-hold name `git -C <literal notes repo path>` and forbid a variable or `cd $VAR`; wording test. `notes:bundle-1008/work.md`.
+- **Steps the person does themselves** (first sighting apple-music aa1ab73a 2026-10-07; a scan of 8 real sittings 2026-10-08
+  found 6 more "lost" episodes in 4 sittings, two projects: lost at 2 steps, fine at 4-6; causes were steps that never said which
+  machine or app, steps in prose under a how-did-it-go bubble, bundled asks, internal names, a step left out). **Rule drafted on
+  `fix/notes-save-literal-path`, unmerged:** Conductor's question surface (`journey.md`); wording test. `notes:bundle-1008/work.md`.
 - **apple-music question shape on current versions, rechecked 2026-10-08** (five finished sittings, 0.175.0 to 0.177.2; five
   Sonnet high graders, every fail opened in the transcript by Claude; `notes:question-shape/work.md`). The block holds and is
   improving: 0.175.3 and later, 11 of 12 consequential asks had the full block and an "— approve?" bubble (one left a rebuild

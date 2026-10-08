@@ -39,6 +39,18 @@ class TurnEndingTests(unittest.TestCase):
         self.assertIn("The same holds for a genuine question: it is open, never a two-way pick", text)
         self.assertIn("Where two routes are known, recommend one in the block and ask for approval", text)
 
+    def test_steps_for_the_person_say_where(self):
+        # Real use, 2026-10-06 to 10-07 (eight sittings reviewed): six "lost"
+        # episodes in four sittings after steps that never said which machine or
+        # app, steps in prose under a how-did-it-go bubble, or a step left out.
+        text = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
+        self.assertIn("**Steps the person does themselves.**", text)
+        self.assertIn("number them, one action each, and start each with where it happens", text)
+        self.assertIn("leave none out, an approval on a second device included", text)
+        self.assertIn("When the steps are already authorized work for the person to carry out, the bubble asks about their outcome and nothing else", text)
+        self.assertIn("Steps that propose a consequential operation still end on the decision block and its approval bubble", text)
+        self.assertIn("In the sittings reviewed, length alone was not the problem", text)
+
     def test_declined_switch_out_is_not_repeated(self):
         # Real use, 2026-09-27: after "no" to Switch Out, it was asked again on the
         # person's follow-up "results?"; his terms (22:30): defer until the next piece of
