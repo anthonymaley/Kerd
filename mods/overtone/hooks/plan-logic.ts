@@ -358,10 +358,26 @@ export function planView(
 ): PlanView {
   // A plan the plan tool closed is drawn no more.
   if (!plan || plan.closed) return { accepted: 0, total: 0, rows: [] }
-  const v: PlanView = { ...planTotals(plan), rows: planRows(plan, workers, nowMs) }
-  if (plan.title) v.title = plan.title
+  const rows = planRows(plan, workers, nowMs).map(r => ({
+    ...r,
+    title: shownText(r.title),
+    ...(r.activeForm !== undefined ? { activeForm: shownText(r.activeForm) } : {}),
+    ...(r.steps?.note !== undefined ? { steps: { ...r.steps, note: shownText(r.steps.note) } } : {}),
+  }))
+  const v: PlanView = { ...planTotals(plan), rows }
+  if (plan.title) v.title = shownText(plan.title)
   return v
 }
+
+// Text the model wrote (a title, a task, a step note) reaches the terminal:
+// control characters (C0, DEL, C1, so ESC and every escape sequence's
+// introducer), and invisible format and bidi characters are dropped;
+// whitespace runs fold to one space.
+export const shownText = (s: string): string =>
+  s
+    .replace(/[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u180e\u200b-\u200f\u2028-\u202e\u2060-\u206f\ufeff\ufff9-\ufffb]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
 
 // ---------------------------------------------------------------------------
 // The plan tool (Kerd Conductor's score)

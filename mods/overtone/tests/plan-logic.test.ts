@@ -20,6 +20,7 @@ import {
   planView,
   readStep,
 } from '../hooks/plan-logic'
+import { shownText as _shownText } from '../hooks/plan-logic'
 import { noteAsked, noteWorkerModel, noteWorkerSeen } from '../hooks/usage-logic'
 
 const T0 = new Date(2026, 9, 8, 12).getTime()
@@ -435,5 +436,13 @@ describe('the plan tool (Kerd Conductor\'s score)', () => {
       ['Build state', 'todo', undefined],
       ['Draw it', 'running', 'a1'],
     ])
+  })
+})
+
+describe('shownText', () => {
+  test('drops escape sequences, control, bidi and format characters', () => {
+    expect(_shownText('\u001b[2J\u001b]0;pwned\u0007Plan\u202e one\u200b\n two')).toBe('[2J ]0;pwned Plan one two')
+    expect(_shownText('\u009b31mred')).toBe('31mred')
+    expect(_shownText('plain task')).toBe('plain task')
   })
 })
