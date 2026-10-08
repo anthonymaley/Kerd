@@ -318,9 +318,21 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.177.2)
+## What's New (v0.177.3)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.177.3
+
+**overtone 0.8.4: the guard asks less on ordinary git and closes three small holes.** It no longer asks on
+`git push --dry-run`, or on a read-only shell alias (one that runs or writes through an option still asks). A push
+written as `src:dst` is checked against the full ref the remote holds, and a push to any non-branch ref (a tag,
+`refs/for/*`) reads the remote live, so a tag pushed by refspec is no longer unchecked. A `kivna/vault.json` that git
+will not show, or shows cut short, or whose absence check fails, now asks instead of counting as no vault. The band
+refolds when its card frame goes and never overruns one or two rows. 0.177.2 already carried most of this under the
+0.8.3 label; 0.8.4 is the same guard plus the cut-read fix, under its own number. codex-tui: four rounds across the
+two fixes, safe to push. Still open by decision: an unreadable working-copy `vault.json` (parked until a real slip
+shows one). Kerd's skills are unchanged.
 
 ### v0.177.2
 
