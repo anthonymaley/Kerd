@@ -6,6 +6,26 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+
+## Closed 2026-10-08 (Switch Out, 11:2x)
+
+**Done:** the three Backlog rows below. Evidence: all three shipped in 0.178.0 (released 2026-10-08 10:37 on Anthony's "y", CI green, Codex package published; commits e97db02, 0d8e1c0/ee8cf4e, 087b51b).
+
+- **Fixed on main, unreleased (e97db02, 2026-10-07 22:2x, his "y"): `tools/codex_release.py` now refuses a source not on origin/main** (was: does not check that its source is on origin/main) (Claude's read-only review of 0.177.2, advisory 1, 2026-10-07 18:4x; not applied, Codex pushed main first instead): a Codex package could be published from a local commit GitHub's main never had. Fix: refuse unless the source commit is an ancestor of a freshly fetched origin/main. Record `notes:codex-public-package/work.md`.
+- **Fixed on main, unreleased (ee8cf4e, 2026-10-07 23:0x, his "y"): the Codex publisher says a missing previous source needs `git fetch origin`** (was: its error is vague when the previous release's source commit is missing) (advisory 2 of Claude's 0.177.2 review, 2026-10-07): `publish()` checks the previous codex release's `source_commit` with `merge-base` in the source checkout; a commit the checkout lacks fails safely but reads "Previous Codex release is not an ancestor". Fix: say the commit is missing and to fetch. Record `notes:codex-public-package/work.md`.
+- **apple-music question shape on current versions, rechecked 2026-10-08** (five finished sittings, 0.175.0 to 0.177.2; five
+  Sonnet high graders, every fail opened in the transcript by Claude; `notes:question-shape/work.md`). The block holds and is
+  improving: 0.175.3 and later, 11 of 12 consequential asks had the full block and an "— approve?" bubble (one left a rebuild
+  out of the bubble). Confirmed fails all on 0.175.0/0.175.1: a build+review asked as "Should I…?" with no block (06fce0d7
+  18:40Z), a merge+push asked bare (f9b48191 03:06Z), a bubble smaller than the decision (headline wording; merge and restart
+  only in prose, f9b48191 14:02Z), a ruling reversal with options and Why but no Cost/What we lose/Input (f9b48191 12:53Z),
+  three merge asks missing Known options/Why; one compound bubble that lost him ("im lost", aa1ab73a 19:15Z). No rule change
+  proposed for these. **New: every sitting (5 of 5) asked whether to Switch Out** after its work was finished ("Shall I switch
+  out now?", "Switch out now, with … — approve?"); he answered "y" each time. The 2026-10-03 ruling (Claude runs Switch Out
+  itself when the agreed work is finished, never asks) was in `docs/decisions.md` and this machine's Kerd memory, not in any
+  skill text. **Fixed on main, unreleased (087b51b, 2026-10-08 09:25, his "y"; codex-tui two rounds):** Conductor's One
+  clear finish and Switch carry it; reaches other projects only with the next release.
+
 ## Closed 2026-10-06 (Switch Out, 22:0x)
 
 **Done:** the Backlog row below. Evidence: Conductor concert `concert/switch-eval-graders` on Anthony's "y" (20:56); two one-run Haiku probes showed the eval trace records tool output in order; graders rewritten, 27 grader tests; nine real Sonnet 5.5 Out runs (8 pass, 1 correct fail); codex-tui four rounds, the last "Safe to push" with no honest-shape blockers; merged to main on his "y" (22:03), branch CI green; no release (evals and a test only). Limits kept: a head-plus-tail read passes; git inside a wrapper script is unseen; the Conductor `cd` rule is a proxy. Sketchbook `notes:switch-eval-graders/work.md`.

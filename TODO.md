@@ -2,6 +2,8 @@
 
 ## Now
 
+**Unreleased on `main` since 0.178.0 (7c67d5f, 2026-10-08 11:1x, his "y"; codex-tui two rounds):** Switch Out saves the private notes by literal path (`git -C`); Conductor's "Steps the person does themselves" rule. Reaches installs only with the next release, his call. `notes:bundle-1008/work.md`.
+
 **Release boundary:** 0.178.0 on `main` (released 2026-10-08 10:37 on his "y": Switch Out run unasked, the two Codex publisher fixes; Codex package published to the `codex` branch the same go); overtone 0.8.4 public in its marketplace. **Releases are paused** (Anthony 2026-09-28 15:00; 0.165.0 through 0.178.0 released on his asks): findings go to the Backlog; a fix comes back to him for the release decision. Claude Code has 0.178.0 (2026-10-08 10:4x, loads on restart); his Codex has 0.177.0 from a local build, one release behind (`notes:codex-update/work.md`).
 
 - **Codex public package 0.178.0 (published 2026-10-08 10:4x; 0.177.2 was 2026-10-07 18:49):** Codex users install and update Kerd's four-skill core from the `codex` branch with terminal commands (README, `docs/guide/codex-distribution.md`). Codex's record says a GitHub install in an isolated profile matched byte for byte; not yet seen by a real Codex user. Anthony: move your own Codex from the local 0.177.0 build to the public branch, in Codex's window (its `kerd-core` marketplace is the local folder; `codex plugin marketplace add anthonymaley/Kerd --ref codex` needs that entry replaced first). Record `notes:codex-public-package/work.md`.
@@ -55,8 +57,6 @@ agreed result, unaided. **Step 1: 3of3 is using Kerd in its own sessions; Kerd e
 Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when to announce is Anthony's.
 
 ## Backlog
-- **Fixed on main, unreleased (e97db02, 2026-10-07 22:2x, his "y"): `tools/codex_release.py` now refuses a source not on origin/main** (was: does not check that its source is on origin/main) (Claude's read-only review of 0.177.2, advisory 1, 2026-10-07 18:4x; not applied, Codex pushed main first instead): a Codex package could be published from a local commit GitHub's main never had. Fix: refuse unless the source commit is an ancestor of a freshly fetched origin/main. Record `notes:codex-public-package/work.md`.
-- **Fixed on main, unreleased (ee8cf4e, 2026-10-07 23:0x, his "y"): the Codex publisher says a missing previous source needs `git fetch origin`** (was: its error is vague when the previous release's source commit is missing) (advisory 2 of Claude's 0.177.2 review, 2026-10-07): `publish()` checks the previous codex release's `source_commit` with `merge-base` in the source checkout; a commit the checkout lacks fails safely but reads "Previous Codex release is not an ancestor". Fix: say the commit is missing and to fetch. Record `notes:codex-public-package/work.md`.
 - **Haiku's Switch Out still skips the lean start point** (2026-10-07, branch `fix/switch-read-guide-first`): before the read-the-guide-first line Haiku opened the guide 0 of 18 runs (In ~0.6, Out ~0.2, a false "session closed"); with it, 18 of 18 and 6 of 6, In 1.00, Out 0.67-0.88, no false close. Out still misses naming the reading set, measuring it and saving `read_args` (9 of 9 in the probe) and often the session log. Revisit only if someone routes Switch to Haiku. Sketchbook `notes:haiku-switch/work.md`.
 - overtone guard: further "spellings" Claude Code's background security review finds go here, not into a release (Anthony's 2026-10-06 18:10 "y"). `notes:overtone-guard-gaps/work.md`.
 - overtone guard, out of scope by decision (Anthony 2026-10-04 22:18, "safety net for honest mistakes"): a command string piped into a shell (`printf 'git add' | bash`), command strings or names in variables (`bash -c "$CMD"`, `"$G" "$C"`), `GIT_CONFIG_*` set before `bash -c`, `git config remote.*.pushurl …; git push`, `--git-dir`/`GIT_DIR` to a public repo from a private one, an on-the-spot `-c alias.x='!git push …'`; also unguarded: `git update-index --add`, `send-pack`, `http-push`, `gh pr create`. Revisit only if a real slip shows one.
@@ -67,24 +67,11 @@ Anthony asks for it.** 3of3's own work is not Kerd's open work. Where and when t
   a few uncertain over-calls; `notes:sonnet-55/work.md`). Held 2026-10-04 (Anthony): no release; collect two or three more runs
   first. Third check 2026-10-08 (step-list scan, a different job): same core finding at both; medium a little less complete. Three agree; his call.
 - **Vault save by literal path** (real-use scan 2026-10-08: the guard refused `V=…; cd $V && git add …` in 5+ Outs across 4
-  sittings, 30 s each). **Fixed on `fix/notes-save-literal-path`, unmerged:** `skills/switch/references/out.md` and Switch's
+  sittings, 30 s each). **Fixed on main, unreleased (7c67d5f, 2026-10-08 11:1x, his "y"):** `skills/switch/references/out.md` and Switch's
   must-hold name `git -C <literal notes repo path>` and forbid a variable or `cd $VAR`; wording test. `notes:bundle-1008/work.md`.
 - **Steps the person does themselves** (first sighting apple-music aa1ab73a 2026-10-07; a scan of 8 real sittings 2026-10-08
   found 6 more "lost" episodes in 4 sittings, two projects: lost at 2 steps, fine at 4-6; causes were steps that never said which
-  machine or app, steps in prose under a how-did-it-go bubble, bundled asks, internal names, a step left out). **Rule drafted on
-  `fix/notes-save-literal-path`, unmerged:** Conductor's question surface (`journey.md`); wording test. `notes:bundle-1008/work.md`.
-- **apple-music question shape on current versions, rechecked 2026-10-08** (five finished sittings, 0.175.0 to 0.177.2; five
-  Sonnet high graders, every fail opened in the transcript by Claude; `notes:question-shape/work.md`). The block holds and is
-  improving: 0.175.3 and later, 11 of 12 consequential asks had the full block and an "— approve?" bubble (one left a rebuild
-  out of the bubble). Confirmed fails all on 0.175.0/0.175.1: a build+review asked as "Should I…?" with no block (06fce0d7
-  18:40Z), a merge+push asked bare (f9b48191 03:06Z), a bubble smaller than the decision (headline wording; merge and restart
-  only in prose, f9b48191 14:02Z), a ruling reversal with options and Why but no Cost/What we lose/Input (f9b48191 12:53Z),
-  three merge asks missing Known options/Why; one compound bubble that lost him ("im lost", aa1ab73a 19:15Z). No rule change
-  proposed for these. **New: every sitting (5 of 5) asked whether to Switch Out** after its work was finished ("Shall I switch
-  out now?", "Switch out now, with … — approve?"); he answered "y" each time. The 2026-10-03 ruling (Claude runs Switch Out
-  itself when the agreed work is finished, never asks) was in `docs/decisions.md` and this machine's Kerd memory, not in any
-  skill text. **Fixed on main, unreleased (087b51b, 2026-10-08 09:25, his "y"; codex-tui two rounds):** Conductor's One
-  clear finish and Switch carry it; reaches other projects only with the next release.
+  machine or app, steps in prose under a how-did-it-go bubble, bundled asks, internal names, a step left out). **On main, unreleased (7c67d5f, 2026-10-08 11:1x, his "y"):** Conductor's question surface (`journey.md`); wording test. `notes:bundle-1008/work.md`.
 - skriv voice profile wiring — needs non-founder-genre samples.
 - A named wait missed a partner's reply once (apple-music, 2026-09-28 11:14 to 11:30, Kerd 0.163.2): the session
   said it was waiting on Codex's review, the reply landed, the watcher missed it, and Anthony had to ask "waiting?".
