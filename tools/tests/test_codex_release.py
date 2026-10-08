@@ -143,6 +143,23 @@ class CodexReleaseTests(unittest.TestCase):
             publish(old_package, prepare(old_package, ref=old, repo=self.repo), repo=self.repo)
         self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), current)
 
+    def test_a_previous_source_missing_here_says_to_fetch(self):
+        # Another checkout moved main and published; this one has not fetched since.
+        other = self.root / "other"
+        subprocess.run(["git", "clone", "-q", str(self.remote), str(other)], check=True)
+        for name in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"):
+            path = other / name
+            path.write_text(path.read_text().replace("1.0.0", "1.0.1"))
+        git(other, "-c", "commit.gpgsign=false", "commit", "-qam", "1.0.1")
+        git(other, "push", "-q", "origin", "HEAD:refs/heads/main")
+        published = self.root / "published"
+        current = publish(published, prepare(published, repo=other), repo=other)
+        missing = git(other, "rev-parse", "HEAD")
+        stale = self.root / "stale"
+        with self.assertRaisesRegex(ValueError, f"{missing} is not in this checkout; run git fetch origin"):
+            publish(stale, prepare(stale, repo=self.repo), repo=self.repo)
+        self.assertEqual(git(self.remote, "rev-parse", "refs/heads/codex"), current)
+
     def test_descendant_cannot_publish_a_lower_version(self):
         first = self.root / "first"
         current = publish(first, prepare(first, repo=self.repo), repo=self.repo)

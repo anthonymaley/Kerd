@@ -76,6 +76,11 @@ def publish(destination, release, repo=ROOT):
         git(destination, "fetch", "--no-tags", remote, "refs/heads/codex")
         parent = git(destination, "rev-parse", "FETCH_HEAD")
         old = json.loads(git(destination, "show", f"{parent}:release.json"))
+        present = subprocess.run(["git", "-C", str(repo), "cat-file", "-e",
+                                  f"{old['source_commit']}^{{commit}}"], capture_output=True)
+        if present.returncode:
+            raise ValueError(f"Previous Codex release source {old['source_commit']} is not in this checkout; "
+                             "run git fetch origin and retry. Not pushed")
         # An unrelated branch or a rollback needs a separate, deliberate operation.
         ancestor = subprocess.run(["git", "-C", str(repo), "merge-base", "--is-ancestor",
                                    old["source_commit"], release["source_commit"]])
