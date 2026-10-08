@@ -318,9 +318,22 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.178.0)
+## What's New (v0.179.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.179.0
+
+**Switch Out saves your private notes by their real folder path, and steps you do yourself say where.** Switch
+Out now commits and pushes the private notes repo by its literal path (`git -C <path>`), never through a shell
+variable or `cd $VAR`, the form the guard refused in 5+ Outs across 4 sittings, 30 seconds each; no Out has run on
+the new wording yet. Conductor's
+question form gains a rule for steps the person does themselves: a numbered list, one action per step, each saying
+which machine or app it happens on, none left out; a scan of 8 real sittings found 6 cases where a person lost the
+thread at such steps. Sonnet 5.5's profile adds one clause from Kerd's own checks: a reader that grades or scans
+transcripts against a brief, with Conductor checking every finding, runs at medium; high stays where completeness is
+the result, since checking findings cannot recover omissions. Three medium-vs-high checks found the same hard failures
+and core findings, medium a little less complete (one confirmed minor missed). codex-tui: two rounds on the fixes and three on the release, safe to push.
 
 ### v0.178.0
 
