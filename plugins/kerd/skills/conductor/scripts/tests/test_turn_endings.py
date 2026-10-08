@@ -49,6 +49,25 @@ class TurnEndingTests(unittest.TestCase):
         self.assertIn("never on the answer to a follow-up question", text)
         self.assertIn("When the next item cannot start yet (it is scheduled for later or waits on someone else), the ending names it and when it can start", text)
 
+    def test_finished_work_runs_switch_out_unasked(self):
+        # Real use, 2026-10-08 recheck: five of five apple-music sittings (0.175.0 to
+        # 0.177.2) asked "Shall I switch out now?" after the work was done; the
+        # 2026-10-03 ruling (run it, never ask) lived only in Kerd's own records.
+        text = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
+        self.assertIn("**Switch Out at the end is run, not asked.**", text)
+        self.assertIn("Remaining authorized work comes first", text)
+        self.assertIn("runs Switch Out itself through the host's skill mechanism, saying so", text)
+        self.assertIn("It never asks “Shall I switch out now?” or puts the Switch Out into an approval bubble", text)
+        self.assertIn("The ~200k mark never interrupts unfinished work, and a concert keeps its own Roll", text)
+        self.assertIn("a contributing partner session never starts one, and Out's existing-owner check still applies", text)
+        self.assertIn("the declined Switch Out terms above apply to this Out too", text)
+        self.assertIn("Out's own saves and pushes keep their existing authority", text)
+        switch = normalize((REPO_ROOT / "skills/switch/SKILL.md").read_text(encoding="utf-8"))
+        self.assertIn("Out is also started unasked when the sitting's agreed work is complete with nothing outstanding", switch)
+        self.assertIn("or the session controlling finished work that starts Out itself, owns it", switch)
+        out = normalize((REPO_ROOT / "skills/switch/references/out.md").read_text(encoding="utf-8"))
+        self.assertIn("a contributing partner session never starts one", out)
+
     def test_skill_entries_carry_the_endings(self):
         conductor = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))
         self.assertIn("a turn waiting on a job first starts every other job its authority already covers, then names the job and how and when it resumes", conductor)
