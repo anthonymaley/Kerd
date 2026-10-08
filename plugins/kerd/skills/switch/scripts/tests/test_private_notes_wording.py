@@ -21,6 +21,12 @@ def read(rel):
 
 
 class PrivateNotesWordingTests(unittest.TestCase):
+    def test_vault_save_uses_literal_git_c_path(self):
+        out = read("skills/switch/references/out.md")
+        self.assertIn("as `git -C <the notes repo's literal absolute path> …`", out)
+        self.assertIn("add, commit, push, rev-parse", out)
+        self.assertIn("Never put the repo behind a shell variable or a `cd $VAR`", out)
+
     def test_each_file_carries_its_fragment(self):
         for rel, fragment in (
             # In: prepare by default; by hand otherwise, notes: entries never skipped (0.162.1).

@@ -325,8 +325,11 @@ Under the agreed Git authority, commit the relevant work/session files by name
 and push to the intended branch. When `kivna/vault.json` sets `work_notes`,
 save and push the vault repo the same way, by the same named-file save,
 alongside the project; the sketchbook it holds is part of this sitting's saved
-place, not a separate closeout. During a concert on its own branch, that is the
-concert branch its sketchbook records: before committing, check the checked-out
+place, not a separate closeout. Run each vault git command (add, commit, push,
+rev-parse) as `git -C <the notes repo's literal absolute path> …`, naming files
+explicitly. Never put the repo behind a shell variable or a `cd $VAR` prefix: the
+git guard cannot read where it points and refuses it. During a concert on its own
+branch, that is the concert branch its sketchbook records: before committing, check the checked-out
 branch matches it, and stop without saving if it does not. Out saves and pushes
 there and does not merge it back; the merge is the person's decision at the
 concert's end. A save commits only the named files. Exact paths

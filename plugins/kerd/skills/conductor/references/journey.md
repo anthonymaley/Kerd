@@ -191,6 +191,19 @@ action steps and scope spaced above the bubble; numbered steps are not numbered
 answer choices. A missing fact still needs its actual question, not
 confirmation of a guess.
 
+**Steps the person does themselves.** When a message hands the person things to
+do (run a command, press a key, check a device), number them, one action each,
+and start each with where it happens: which machine, which app or page (“On the
+iPhone, in Safari: open …”). Name each control by the label on their screen, not
+an internal name, and leave none out, an approval on a second device included.
+When the steps are already authorized work for the person to carry out, the
+bubble asks about their outcome and nothing else: steps written as prose under a
+bubble that asks how it went, or a check bundled with a second question, lose
+the reader. Steps that propose a consequential operation still end on the
+decision block and its approval bubble. In the sittings reviewed, length alone
+was not the problem: six clear steps were followed, and two that never said
+where they happen were not.
+
 Choices, including a genuine pick-several choice such as Agent's review cadence at
 pairing, are listed above the bubble with the recommendation. The same holds where an open
 question would otherwise be asked: when options are in hand (open work, known routes,
