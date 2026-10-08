@@ -127,8 +127,8 @@ function capped(tasks: OvertoneTask[]): { tasks: OvertoneTask[]; over: number } 
 
 const cut = (s: string): string => (s.length <= SUBJECT_MAX ? s : s.slice(0, SUBJECT_MAX))
 
-// A fresh plan of `source`, born at `nowMs`: only workers seen from then on
-// can match its tasks.
+// A fresh plan of `source`, born at `nowMs` (matching uses each task's own
+// createdMs, which is never before it).
 const freshPlan = (source: OvertonePlan['source'], nowMs: number): OvertonePlan => ({ source, tasks: [], nextN: 1, bornMs: nowMs })
 
 // The tool's outcome as `tool.call` resolved: a deny, an errored call, or an
@@ -360,12 +360,16 @@ export function planRows(
   const tasks = p.tasks.filter(t => t.status !== 'deleted')
   const all = Object.values((workers ?? EMPTY_WORKERS).byId)
   const claimed = new Set<string>()
-  // Only a worker first seen once this plan began can serve its tasks (an
-  // older plan's worker never does), and a finished task only one seen by
-  // its finish. A plan from before `bornMs` was kept starts at its first task.
-  const born = p.bornMs ?? Math.min(...p.tasks.map(t => t.createdMs))
-  const eligible = (w: OvertoneWorker, t: OvertoneTask): boolean =>
-    w.firstSeenMs >= born && (t.status !== 'completed' || t.finishedMs === undefined || w.firstSeenMs <= t.finishedMs)
+  // A worker serves a task only if first seen once that task existed (its
+  // createdMs: an older plan's, or a removed and re-added task's, earlier
+  // worker never does). A completed task takes only a worker that is over and
+  // was seen by its finish: a worker still active always surfaces, on an open
+  // task it matches or as its own row.
+  const eligible = (w: OvertoneWorker, t: OvertoneTask): boolean => {
+    if (w.firstSeenMs < t.createdMs) return false
+    if (t.status !== 'completed') return true
+    return !isActive(w) && (t.finishedMs === undefined || w.firstSeenMs <= t.finishedMs)
+  }
   const rows: PlanRow[] = tasks.map((t, i) => {
     const keys = new Set([normTask(t.subject), normTask(t.activeForm)].filter(k => k !== ''))
     const x = all

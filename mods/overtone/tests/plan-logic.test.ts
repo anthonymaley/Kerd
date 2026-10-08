@@ -229,7 +229,7 @@ describe('plan rows: matching tasks and workers', () => {
     let p = threeTasks()
     p = setStatus(p, '1', 'completed', T0 + MIN)
     let w = EMPTY_WORKERS
-    w = spawned('a2', 'writing the tests')(w) // activeForm of task 2
+    w = spawned('a2', 'writing the tests', T0 + MIN)(w) // activeForm of task 2, spawned once it existed
     w = noteAsked(w, 'a2', { type: 'kerd:sonnet-high' })
     w = noteWorkerModel(w, 'a2', 'claude-sonnet-5-5', 'high')
     w = noteWorkerSeen(w, 'a2', 'claude-sonnet-5-5')
@@ -249,16 +249,16 @@ describe('plan rows: matching tasks and workers', () => {
 
   test('a blocked worker makes its task "needs"; a failed one "failed"; a completed task stays done', () => {
     let p = threeTasks()
-    p = setStatus(p, '3', 'completed', T0 + MIN)
+    p = setStatus(p, '3', 'completed', T0 + 4 * MIN)
     let w = EMPTY_WORKERS
-    w = spawned('b1', 'Build the plan state')(w)
-    w = noteToolStart(w, { agentId: 'b1', toolUseId: 'u1', summary: 'Bash git push', nowMs: T0 })
-    w = noteAsk(w, { toolUseId: 'u1', nowMs: T0 })
-    w = spawned('f2', 'Write the tests')(w)
-    w = noteEnd(w, { agentId: 'f2', failed: true, nowMs: T0 + MIN })
-    w = spawned('f3', 'Validate the mod')(w)
-    w = noteEnd(w, { agentId: 'f3', failed: true, nowMs: T0 + MIN })
-    expect(planRows(p, w, T0 + 2 * MIN).map(r => [r.n, r.state, r.worker?.id])).toEqual([
+    w = spawned('b1', 'Build the plan state', T0 + 2 * MIN)(w)
+    w = noteToolStart(w, { agentId: 'b1', toolUseId: 'u1', summary: 'Bash git push', nowMs: T0 + 2 * MIN })
+    w = noteAsk(w, { toolUseId: 'u1', nowMs: T0 + 2 * MIN })
+    w = spawned('f2', 'Write the tests', T0 + 2 * MIN)(w)
+    w = noteEnd(w, { agentId: 'f2', failed: true, nowMs: T0 + 3 * MIN })
+    w = spawned('f3', 'Validate the mod', T0 + 2 * MIN)(w)
+    w = noteEnd(w, { agentId: 'f3', failed: true, nowMs: T0 + 3 * MIN })
+    expect(planRows(p, w, T0 + 5 * MIN).map(r => [r.n, r.state, r.worker?.id])).toEqual([
       [1, 'needs', 'b1'],
       [2, 'failed', 'f2'],
       [3, 'done', 'f3'],
@@ -474,8 +474,12 @@ describe('review 2026-10-08', () => {
       ['task', 'done', undefined],
       ['worker', 'needs', 'late'],
     ])
-    // one seen by its finish still serves it
-    const early = noteSpawn(EMPTY_WORKERS, { id: 'early', description: 'Review', type: 'Explore', nowMs: T0 + 30_000 })
+    // one seen by its finish, and over, still serves it
+    const early = noteEnd(noteSpawn(EMPTY_WORKERS, { id: 'early', description: 'Review', type: 'Explore', nowMs: T0 + 30_000 }), {
+      agentId: 'early',
+      failed: false,
+      nowMs: T0 + 50_000,
+    })
     expect(planRows(p, early, T0 + 3 * MIN)[0]?.worker?.id).toBe('early')
   })
 
@@ -538,5 +542,50 @@ describe('review 2026-10-08', () => {
     expect(readPlan({ running: many.map(t => t.subject) }).refused).toMatch(/at most 100/)
     expect(readPlan({ accepted: many.map(t => t.subject) }).refused).toMatch(/at most 100/)
     expect(readPlan({ tasks: many.slice(0, PLAN_CAP) }).input?.tasks?.length).toBe(PLAN_CAP)
+  })
+})
+
+describe('review round 2 (2026-10-08)', () => {
+  test('two "Review" tasks, both workers started before the first acceptance: the completed task never takes the blocked one', () => {
+    let p = create(EMPTY_PLAN, '1', 'Review', T0)
+    p = create(p, '2', 'Review', T0)
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'r1', description: 'Review', type: 'Explore', nowMs: T0 + MIN })
+    w = noteSpawn(w, { id: 'r2', description: 'Review', type: 'Explore', nowMs: T0 + MIN })
+    w = noteToolStart(w, { agentId: 'r2', toolUseId: 'u2', summary: 'Bash git push', nowMs: T0 + 2 * MIN })
+    w = noteAsk(w, { toolUseId: 'u2', nowMs: T0 + 2 * MIN })
+    w = noteEnd(w, { agentId: 'r1', failed: false, nowMs: T0 + 3 * MIN })
+    p = setStatus(p, '1', 'completed', T0 + 4 * MIN)
+    const rows = planRows(p, w, T0 + 5 * MIN)
+    expect(rows.map(r => [r.kind, r.n, r.state, r.worker?.id])).toEqual([
+      ['task', 1, 'done', 'r1'],
+      ['task', 2, 'needs', 'r2'],
+    ])
+    // with both still active at the acceptance, neither hides under the done task
+    let both = noteSpawn(EMPTY_WORKERS, { id: 'a1', description: 'Review', type: 'Explore', nowMs: T0 + MIN })
+    both = noteSpawn(both, { id: 'a2', description: 'Review', type: 'Explore', nowMs: T0 + MIN })
+    both = noteToolStart(both, { agentId: 'a2', toolUseId: 'v', summary: 'Bash rm', nowMs: T0 + 2 * MIN })
+    both = noteAsk(both, { toolUseId: 'v', nowMs: T0 + 2 * MIN })
+    const r2 = planRows(p, both, T0 + 5 * MIN)
+    expect(r2[0]).toMatchObject({ n: 1, state: 'done' })
+    expect(r2[0]?.worker).toBeUndefined()
+    expect(r2.map(r => r.worker?.id).filter(Boolean).sort()).toEqual(['a1', 'a2'])
+    expect(r2.some(r => r.state === 'needs' && r.worker?.id === 'a2')).toBe(true)
+  })
+
+  test('"Review" removed and re-added in an open plan does not inherit its earlier failed worker', () => {
+    let p = notePlanTool(EMPTY_PLAN, { title: 'T', tasks: ['Build', 'Review'] }, T0)
+    let w = noteSpawn(EMPTY_WORKERS, { id: 'f', description: 'Review', type: 'Explore', nowMs: T0 + MIN })
+    w = noteEnd(w, { agentId: 'f', failed: true, nowMs: T0 + 2 * MIN })
+    expect(planRows(p, w, T0 + 3 * MIN)[1]).toMatchObject({ state: 'failed' })
+    p = notePlanTool(p, { tasks: ['Build'] }, T0 + 4 * MIN)
+    p = notePlanTool(p, { tasks: ['Build', 'Review'] }, T0 + 5 * MIN)
+    expect(p.tasks[1]?.createdMs).toBe(T0 + 5 * MIN)
+    expect(planRows(p, w, T0 + 6 * MIN).map(r => [r.title, r.state, r.worker?.id])).toEqual([
+      ['Build', 'todo', undefined],
+      ['Review', 'todo', undefined],
+    ])
+    // a new worker for it does match
+    const w2 = noteSpawn(w, { id: 'n', description: 'Review', type: 'Explore', nowMs: T0 + 6 * MIN })
+    expect(planRows(p, w2, T0 + 7 * MIN)[1]).toMatchObject({ state: 'running', worker: { id: 'n' } })
   })
 })
