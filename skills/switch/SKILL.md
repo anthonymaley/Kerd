@@ -189,7 +189,10 @@ item names the guide section with its detail: open that section before the step.
   an unclaimed roll. Read [the chat roll](references/to-roll.md#roll-the-conductor-chat-tmux).
 
 Honor the named action. Don't infer In/Out from a dirty tree, or perform a boundary
-when the person asks only about its design/status. Ask only when the requested
+when the person asks only about its design/status. Out is also started unasked when
+the agreed work is finished with nothing outstanding and the sitting is at its natural
+end: the session runs it and says so, never “Shall I switch out now?” (see
+[One clear finish](../conductor/references/journey.md#one-clear-finish)). Ask only when the requested
 action or target is genuinely ambiguous. A new window does not grant new authority.
 
 For a named handoff or trial, resolve that record and any supplied repo/branch

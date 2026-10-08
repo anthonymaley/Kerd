@@ -622,6 +622,13 @@ when the open list is genuinely empty; it is never a way to hand the choice back
 silently. Do not wait to be asked “what's next?”. When the person has said to keep
 moving, prefer starting the next item and reporting from inside it over asking whether
 to start.
+
+**Switch Out at the end is run, not asked.** When the agreed work is finished with
+nothing outstanding for the session, and the sitting is at its natural end (or past
+about 200k tokens at a break), the session runs `/kerd:switch out` itself and says so,
+with the item the finish named saved as the next step. It never asks “Shall I switch
+out now?” or puts the Switch Out into an approval bubble. Out's own saves and pushes
+keep their existing authority. Mid-work, carry on to the break instead.
 Avoid a report of internal instruction-following, repeated setup disclosures
 or an insight banner merely because a tool ran. Link deeper evidence instead.
 
