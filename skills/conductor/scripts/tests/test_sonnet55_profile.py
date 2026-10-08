@@ -1,7 +1,8 @@
 """Guards the Sonnet 5.5 profile (0.166.0, 2026-09-29): a new family beside the unchanged
 Sonnet 5 profile, because Claude Code's `sonnet` alias moved to Sonnet 5.5 on 2026-09-28
 (observed: a kerd:sonnet-high reader ran claude-sonnet-5-5 on 18 of 18 calls). Wording
-only: every clause stays pending until a real brief uses it."""
+only: every provider-guidance clause stays pending until a real brief uses it; a kerd-eval
+clause (0.179.0: grading readers at medium) names the Kerd checks behind it."""
 from pathlib import Path
 import unittest
 
@@ -19,17 +20,29 @@ class Sonnet55ProfileTests(unittest.TestCase):
         self.profile = read(GUIDANCE / "anthropic/sonnet-5-5.md")
 
     def test_new_family_beside_sonnet_5(self):
-        for fragment in ("family: sonnet-5-5", "version: 2026-09-29", "applicable_models: [claude-sonnet-5-5]",
-                         "supersedes: null", "last_evaluated: null"):
+        for fragment in ("family: sonnet-5-5", "version: 2026-10-08", "applicable_models: [claude-sonnet-5-5]",
+                         "supersedes: sonnet-5-5@2026-09-29", "last_evaluated: 2026-10-08"):
             self.assertIn(fragment, self.profile)
         self.assertIn("applicable_models: [claude-sonnet-5]", read(GUIDANCE / "anthropic/sonnet-5.md"))
+        archived = read(GUIDANCE / "anthropic/archive/sonnet-5-5-2026-09.md")
+        self.assertIn("version: 2026-09-29", archived)
+        self.assertNotIn("grading-reader-at-medium", archived)
 
-    def test_every_clause_is_pending(self):
+    def test_provider_clauses_pending_kerd_eval_clauses_sourced(self):
         blocks = self.raw.split("\n- id: ")[1:]
         self.assertGreaterEqual(len(blocks), 20)
         for block in blocks:
             with self.subTest(clause=block.split("\n", 1)[0]):
-                self.assertIn("evaluation: pending", block)
+                if "basis: kerd-eval" in block:
+                    self.assertNotIn("evaluation: pending", block)
+                    self.assertIn("Kerd effort checks", block)
+                else:
+                    self.assertIn("evaluation: pending", block)
+
+    def test_grading_reader_at_medium_is_bounded(self):
+        block = self.raw.split("\n- id: grading-reader-at-medium\n", 1)[1].split("\n- id: ", 1)[0]
+        self.assertIn("where Conductor opens every reported finding", block)
+        self.assertIn("keep high when the job must list everything", block)
 
     def test_sonnet_55_habits_have_clauses(self):
         for clause in ("effort-recalibrated", "carry-work-through", "stop-when-done-and-checked",
