@@ -1,7 +1,9 @@
 // overtone's plan: pure logic, no `$`, no state, nothing mutable at module
 // level. register.tsx folds the main loop's task-list calls (TaskCreate,
-// TaskUpdate, TodoWrite) into OvertonePlan and records a worker's own `step`
-// reports; the plan card (drawn elsewhere) reads planView().
+// TaskUpdate, TodoWrite) and its own `plan` tool calls (Kerd Conductor's
+// score) into OvertonePlan, and records a worker's own `step` reports; the
+// plan view (plan-draw.ts) reads planView(). Whichever source wrote last
+// owns the plan.
 //
 // Matching: a worker belongs to a task when its normalized Agent description
 // equals the task's normalized subject or activeForm. Each worker serves at
@@ -39,7 +41,39 @@ export const STEP_SPEC = {
   isDeferred: false,
 } as const
 
-export const PLAN_TOOLS: ReadonlySet<string> = new Set(['TaskCreate', 'TaskUpdate', 'TodoWrite'])
+export const TASK_TOOLS: ReadonlySet<string> = new Set(['TaskCreate', 'TaskUpdate', 'TodoWrite'])
+
+// The plan tool: registered as `plan`, called as `mcp__overtone__plan`. Kerd
+// Conductor reports its score through it where the task tools are not given
+// to the model. Its description sits in every session's context: short.
+export const PLAN_NAME = 'plan'
+export const PLAN_TOOL = 'mcp__overtone__plan'
+export const PLAN_SPEC = {
+  name: PLAN_NAME,
+  description:
+    "For Kerd Conductor: report the score to overtone's plan view. At the go send title and tasks (the full list, in order); " +
+    'after each accepted task send accepted; at the end send finished: true. Each task subject must equal the Agent ' +
+    'description that task is dispatched with, so its worker matches. Fields left out keep their values.',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      title: { type: 'string', maxLength: 80, description: 'The plan in a few words.' },
+      tasks: {
+        type: 'array',
+        description: 'The full ordered task list; replaces it, keeping the status of subjects that stay.',
+        items: { type: 'object', properties: { subject: { type: 'string' } }, required: ['subject'] },
+      },
+      accepted: {
+        description: 'Subjects accepted, or how many of the first tasks are.',
+        anyOf: [{ type: 'array', items: { type: 'string' } }, { type: 'integer', minimum: 0 }],
+      },
+      running: { type: 'array', items: { type: 'string' }, description: 'Subjects in progress now.' },
+      finished: { type: 'boolean', description: 'true closes the plan.' },
+    },
+    additionalProperties: false,
+  },
+  isDeferred: false,
+} as const
 
 const STATUSES: ReadonlySet<string> = new Set(['pending', 'in_progress', 'completed', 'deleted'])
 const FAILED: ReadonlySet<string> = new Set(['failed', 'killed', 'error', 'cancelled'])
@@ -90,7 +124,7 @@ export type PlanCall = { tool: string; input: unknown; ran: unknown; nowMs: numb
 // the plan as it was.
 export function notePlanCall(plan: OvertonePlan | null | undefined, call: PlanCall): OvertonePlan {
   const prev = plan ?? EMPTY_PLAN
-  if (!PLAN_TOOLS.has(call.tool)) return prev
+  if (!TASK_TOOLS.has(call.tool)) return prev
   const ran = rec(call.ran)
   if (ran.deny !== undefined || ran.isError === true) return prev
   const input = rec(call.input)
@@ -258,7 +292,8 @@ export type PlanRow = {
 
 export type PlanTotals = { accepted: number; total: number }
 
-export type PlanView = PlanTotals & { rows: PlanRow[] }
+// `title`: the plan tool's title, when it gave one.
+export type PlanView = PlanTotals & { title?: string; rows: PlanRow[] }
 
 // accepted: tasks completed; total: tasks not deleted.
 export function planTotals(plan: OvertonePlan | null | undefined): PlanTotals {
@@ -288,7 +323,9 @@ export function planRows(
   workers: OvertoneWorkers | null | undefined,
   nowMs: number,
 ): PlanRow[] {
-  const tasks = (plan ?? EMPTY_PLAN).tasks.filter(t => t.status !== 'deleted').sort((a, b) => a.n - b.n)
+  // In the plan's own order (creation order for TaskCreate; the list's order
+  // for TodoWrite and the plan tool).
+  const tasks = (plan ?? EMPTY_PLAN).tasks.filter(t => t.status !== 'deleted')
   const all = Object.values((workers ?? EMPTY_WORKERS).byId)
   const claimed = new Set<string>()
   const rows: PlanRow[] = tasks.map((t, i) => {
@@ -319,5 +356,129 @@ export function planView(
   workers: OvertoneWorkers | null | undefined,
   nowMs: number,
 ): PlanView {
-  return { ...planTotals(plan), rows: planRows(plan, workers, nowMs) }
+  // A plan the plan tool closed is drawn no more.
+  if (!plan || plan.closed) return { accepted: 0, total: 0, rows: [] }
+  const v: PlanView = { ...planTotals(plan), rows: planRows(plan, workers, nowMs) }
+  if (plan.title) v.title = plan.title
+  return v
+}
+
+// ---------------------------------------------------------------------------
+// The plan tool (Kerd Conductor's score)
+// ---------------------------------------------------------------------------
+
+export type PlanInput = {
+  title?: string
+  tasks?: string[]
+  accepted?: string[] | number
+  running?: string[]
+  finished?: boolean
+}
+
+const strList = (x: unknown): string[] | undefined =>
+  Array.isArray(x) && x.every(v => typeof v === 'string') ? (x as string[]).map(v => v.trim()).filter(v => v !== '') : undefined
+
+// The plan tool's input, or undefined when a field it gives is malformed.
+// Fields left out stay out (they keep the plan's values).
+export function readPlan(input: unknown): PlanInput | undefined {
+  const i = rec(input)
+  const out: PlanInput = {}
+  if (i.title !== undefined) {
+    if (typeof i.title !== 'string') return undefined
+    out.title = i.title.replace(/\s+/g, ' ').trim().slice(0, 80)
+  }
+  if (i.tasks !== undefined) {
+    if (!Array.isArray(i.tasks)) return undefined
+    const subjects: string[] = []
+    for (const t of i.tasks) {
+      const subject = str(rec(t).subject)
+      if (subject === undefined) return undefined
+      subjects.push(subject)
+    }
+    out.tasks = subjects
+  }
+  if (i.accepted !== undefined) {
+    if (typeof i.accepted === 'number') {
+      if (!Number.isInteger(i.accepted) || i.accepted < 0) return undefined
+      out.accepted = i.accepted
+    } else {
+      const list = strList(i.accepted)
+      if (list === undefined) return undefined
+      out.accepted = list
+    }
+  }
+  if (i.running !== undefined) {
+    const list = strList(i.running)
+    if (list === undefined) return undefined
+    out.running = list
+  }
+  if (i.finished !== undefined) {
+    if (typeof i.finished !== 'boolean') return undefined
+    out.finished = i.finished
+  }
+  return out
+}
+
+// One plan tool call folded in.
+// - title: set (empty clears it).
+// - tasks: the full ordered list; a subject that stays keeps its task (number,
+//   status, times), a new one is pending, one left out goes.
+// - running: the subjects in progress now; one no longer named that was
+//   running goes back to pending (its start kept). A completed task stays so.
+// - accepted: subjects, or the first N tasks, set completed. It only adds:
+//   an earlier acceptance is never taken back.
+// - finished: true closes the plan (planView draws nothing); false reopens.
+// A call naming a title or tasks after the plan was closed, or while another
+// source owned it, starts a fresh plan.
+export function notePlanTool(plan: OvertonePlan | null | undefined, input: PlanInput, nowMs: number): OvertonePlan {
+  const prev = plan ?? EMPTY_PLAN
+  const fresh = prev.source !== 'tool' || (prev.closed === true && (input.title !== undefined || input.tasks !== undefined))
+  let next: OvertonePlan = fresh ? { source: 'tool', tasks: [], nextN: 1 } : { ...prev }
+  if (input.title !== undefined) {
+    if (input.title === '') delete next.title
+    else next.title = input.title
+  }
+  if (input.tasks !== undefined) {
+    const left = [...next.tasks]
+    let nextN = next.nextN
+    next.tasks = input.tasks.map(subject => {
+      const at = left.findIndex(t => normTask(t.subject) === normTask(subject))
+      const old = at >= 0 ? left.splice(at, 1)[0] : undefined
+      if (old) return { ...old, subject }
+      const task: OvertoneTask = { id: `plan-${nextN}`, n: nextN, subject, status: 'pending', createdMs: nowMs }
+      nextN++
+      return task
+    })
+    next.nextN = nextN
+  }
+  if (input.running !== undefined) {
+    const on = new Set(input.running.map(normTask))
+    next.tasks = next.tasks.map(t => {
+      if (t.status === 'completed' || t.status === 'deleted') return t
+      if (on.has(normTask(t.subject))) return withStatus(t, 'in_progress', nowMs)
+      return t.status === 'in_progress' ? withStatus(t, 'pending', nowMs) : t
+    })
+  }
+  if (input.accepted !== undefined) {
+    const acc = input.accepted
+    const named = typeof acc === 'number' ? undefined : new Set(acc.map(normTask))
+    next.tasks = next.tasks.map((t, i) => {
+      const hit = named ? named.has(normTask(t.subject)) : i < (acc as number)
+      return hit && t.status !== 'deleted' ? withStatus(t, 'completed', nowMs) : t
+    })
+  }
+  if (input.finished === true) next.closed = true
+  else if (input.finished === false || fresh) delete next.closed
+  next = { ...next, updatedMs: nowMs }
+  return next
+}
+
+// What the plan tool answers.
+export const PLAN_SUB_ANSWER = "ignored: plan is for the main conversation's score; a subagent reports its own steps with step"
+export const PLAN_BAD_ANSWER =
+  'ignored: title must be a string, tasks a list of { subject }, accepted a list of subjects or a count, running a list of subjects, finished true or false'
+export function planAnswer(p: OvertonePlan): string {
+  if (p.closed) return 'plan closed'
+  const t = planTotals(p)
+  return `plan: ${t.accepted} of ${t.total} accepted`
 }

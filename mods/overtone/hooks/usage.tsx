@@ -31,8 +31,9 @@
 //   record) is never run. Only alias, provider, role, status and times are
 //   kept; prompt and reply text are not.
 // - session.start also registers overtone's `step` tool (STEP_SPEC in
-//   plan-logic.ts): a subagent reports its own done/total steps, answered by
-//   a matched hook in register.tsx.
+//   plan-logic.ts): a subagent reports its own done/total steps; and its
+//   `plan` tool (PLAN_SPEC): Kerd Conductor reports its score. Matched hooks
+//   in register.tsx answer both.
 // - classic.PostModelSwitch: the prompt-cache TTL Claude Code reports there
 //   (`cache_ttl`, on a model switch and when a resume restores the model);
 //   without one the cache is assumed to live 1 hour.
@@ -61,7 +62,7 @@ import type {
   OvertoneWorkers,
 } from '../types'
 import { EMPTY_MODEL, EMPTY_WORKERS, bandText, noteList, noteListError, noteStepEnd, noteStepStart } from './logic'
-import { EMPTY_PLAN, STEP_SPEC, planView } from './plan-logic'
+import { EMPTY_PLAN, PLAN_SPEC, STEP_SPEC, planView } from './plan-logic'
 import type { PlanView } from './plan-logic'
 import { isAnimating, planBand, planCard } from './plan-draw'
 import type { CardRow, PSeg } from './plan-draw'
@@ -343,6 +344,12 @@ export const register: Register = on => {
       // fail open: no step tool, workers just report nothing
     }
     try {
+      // The plan tool, mcp__overtone__plan, for Kerd Conductor's score.
+      await $.tool.register({ ...PLAN_SPEC, inputSchema: { ...PLAN_SPEC.inputSchema } })
+    } catch {
+      // fail open: no plan tool, the plan comes from the task tools alone
+    }
+    try {
       const u = await $.session.usage()
       if (u.context.tokens !== undefined) await update($, reading, () => toReading(u.context))
     } catch {
@@ -543,7 +550,7 @@ export const register: Register = on => {
                   {SEP}
                 </Text>
                 <Text key="plan-label" dimColor>
-                  {'plan '}
+                  {`${band.label} `}
                 </Text>
                 {band.bar.cells && Raster ? (
                   <Raster key="plan-bar" columns={band.bar.cols} rows={1} cells={band.bar.cells} />

@@ -80,7 +80,7 @@ export type OvertoneStep = { done: number; total: number; note?: string; atMs: n
 export type OvertoneTaskStatus = 'pending' | 'in_progress' | 'completed' | 'deleted'
 
 export type OvertoneTask = {
-  // TaskCreate's task id, or `todo-<n>` for a TodoWrite item.
+  // TaskCreate's task id, `todo-<n>` for a TodoWrite item, `plan-<n>` for a plan tool task.
   id: string
   // 1-based order of creation within this plan; never reused.
   n: number
@@ -94,12 +94,18 @@ export type OvertoneTask = {
   finishedMs?: number
 }
 
-// The main loop's plan: one list, from the task tools or from TodoWrite
-// (whichever wrote last; a switch starts a fresh plan).
+// The main loop's plan: one list, from the task tools, from TodoWrite, or
+// from overtone's own `plan` tool (Kerd Conductor's score); whichever wrote
+// last owns it, and a switch starts a fresh plan.
 export type OvertonePlan = {
-  source: 'none' | 'task' | 'todo'
-  // In creation order.
+  source: 'none' | 'task' | 'todo' | 'tool'
+  // In plan order: creation order for TaskCreate, the list's order for
+  // TodoWrite and the plan tool.
   tasks: OvertoneTask[]
+  // The plan tool's title.
+  title?: string
+  // Set when the plan tool said finished: the plan is drawn no more.
+  closed?: boolean
   // The `n` the next new task gets.
   nextN: number
   updatedMs?: number

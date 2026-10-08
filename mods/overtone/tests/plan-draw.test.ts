@@ -10,6 +10,8 @@ import {
   cells,
   fit,
   isAnimating,
+  BAND_TITLE_MAX,
+  bandLabel,
   planBand,
   planCard,
   planLayout,
@@ -273,6 +275,26 @@ describe('the band group', () => {
     for (let room = 0; room < 80; room++) {
       const b = planBand(v, room, true, 0)
       if (b) expect(b.width).toBeLessThanOrEqual(room)
+    }
+  })
+  test('the plan tool\'s title leads the bar, short; without one the label is "plan"', () => {
+    expect(planBand(v, 200, true, 0)!.label).toBe('plan')
+    const titled = planBand({ ...v, title: 'overtone plan view' }, 200, true, 0)!
+    expect(titled.label).toBe('overtone plan view')
+    expect(titled.width).toBe(5 + 'overtone plan view'.length + 1 + 12 + 1 + 6)
+    const long = planBand({ ...v, title: 'a very long plan title that goes on' }, 200, true, 0)!
+    expect(long.label.length).toBe(BAND_TITLE_MAX)
+    expect(long.label.endsWith('…')).toBe(true)
+    expect(bandLabel('  ')).toBe('plan')
+  })
+  test('short of room the title gives way to "plan" before the group goes', () => {
+    const t = { ...v, title: 'overtone plan view' }
+    const plain = planBand(v, 200, true, 0)!
+    const b = planBand(t, plain.width, true, 0)!
+    expect(b.label).toBe('plan')
+    for (let room = 0; room < 80; room++) {
+      const x = planBand(t, room, false, 0)
+      if (x) expect(x.width).toBeLessThanOrEqual(room)
     }
   })
   test('without Raster the bar is text, one character per task', () => {

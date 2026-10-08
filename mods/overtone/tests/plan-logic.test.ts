@@ -5,10 +5,15 @@ import { EMPTY_WORKERS, noteAsk, noteEnd, noteList, noteSpawn, noteToolStart } f
 import {
   EMPTY_PLAN,
   PLAN_CAP,
+  PLAN_SPEC,
+  PLAN_TOOL,
   STEP_SPEC,
   STEP_TOOL,
   normTask,
   notePlanCall,
+  notePlanTool,
+  planAnswer,
+  readPlan,
   noteStep,
   planRows,
   planTotals,
@@ -310,5 +315,125 @@ describe('plan rows: matching tasks and workers', () => {
 
   test('no plan, no workers: no rows, 0 of 0', () => {
     expect(planView(null, null, T0)).toEqual({ accepted: 0, total: 0, rows: [] })
+  })
+})
+
+describe('the plan tool (Kerd Conductor\'s score)', () => {
+  const go = (p: OvertonePlan | null, subjects: string[], title?: string, at = T0) =>
+    notePlanTool(p, { ...(title !== undefined ? { title } : {}), tasks: subjects }, at)
+
+  test('its full name and schema; a short description that names Conductor and the matching rule', () => {
+    expect(PLAN_TOOL).toBe('mcp__overtone__plan')
+    expect(PLAN_SPEC.name).toBe('plan')
+    expect(Object.keys(PLAN_SPEC.inputSchema.properties)).toEqual(['title', 'tasks', 'accepted', 'running', 'finished'])
+    expect(PLAN_SPEC.description).toMatch(/Kerd Conductor/)
+    expect(PLAN_SPEC.description).toMatch(/Agent description/)
+    expect(PLAN_SPEC.description.length).toBeLessThan(400)
+  })
+
+  test('readPlan: fields left out stay out; a malformed field refuses the call', () => {
+    expect(readPlan({})).toEqual({})
+    expect(readPlan({ title: '  The   plan ', tasks: [{ subject: ' A ' }, { subject: 'B' }], accepted: 1, running: ['B'], finished: false })).toEqual({
+      title: 'The plan',
+      tasks: ['A', 'B'],
+      accepted: 1,
+      running: ['B'],
+      finished: false,
+    })
+    expect(readPlan({ accepted: ['A'] })).toEqual({ accepted: ['A'] })
+    expect(readPlan({ tasks: [{ subject: '' }] })).toBeUndefined()
+    expect(readPlan({ tasks: 'A' })).toBeUndefined()
+    expect(readPlan({ accepted: -1 })).toBeUndefined()
+    expect(readPlan({ accepted: 1.5 })).toBeUndefined()
+    expect(readPlan({ accepted: [1] })).toBeUndefined()
+    expect(readPlan({ running: 'A' })).toBeUndefined()
+    expect(readPlan({ finished: 'yes' })).toBeUndefined()
+    expect(readPlan({ title: 3 })).toBeUndefined()
+  })
+
+  test('the go: title and tasks in order, pending, numbered 1..n', () => {
+    const p = go(EMPTY_PLAN, ['Build state', 'Draw it', 'Wire Conductor'], 'Plan view')
+    expect(p).toMatchObject({ source: 'tool', title: 'Plan view', nextN: 4, updatedMs: T0 })
+    expect(p.tasks.map(t => [t.id, t.n, t.subject, t.status])).toEqual([
+      ['plan-1', 1, 'Build state', 'pending'],
+      ['plan-2', 2, 'Draw it', 'pending'],
+      ['plan-3', 3, 'Wire Conductor', 'pending'],
+    ])
+    expect(planAnswer(p)).toBe('plan: 0 of 3 accepted')
+  })
+
+  test('a new list keeps the status of subjects that stay, adds new ones pending, drops the rest; rows follow its order', () => {
+    let p = go(EMPTY_PLAN, ['A', 'B', 'C'], 'T')
+    p = notePlanTool(p, { running: ['A'], accepted: ['B'] }, T0 + MIN)
+    p = go(p, ['b', 'New', 'A'], undefined, T0 + 2 * MIN)
+    expect(p.title).toBe('T')
+    expect(p.tasks.map(t => [t.n, t.subject, t.status])).toEqual([
+      [2, 'b', 'completed'],
+      [4, 'New', 'pending'],
+      [1, 'A', 'in_progress'],
+    ])
+    expect(planRows(p, EMPTY_WORKERS, T0).map(r => [r.n, r.title])).toEqual([
+      [1, 'b'],
+      [2, 'New'],
+      [3, 'A'],
+    ])
+  })
+
+  test('running is the set in progress now; accepted only adds, by subject or by count', () => {
+    let p = go(EMPTY_PLAN, ['A', 'B', 'C'])
+    p = notePlanTool(p, { running: ['A', 'B'] }, T0 + MIN)
+    p = notePlanTool(p, { running: ['B'] }, T0 + 2 * MIN)
+    expect(p.tasks.map(t => [t.status, t.startedMs])).toEqual([
+      ['pending', T0 + MIN],
+      ['in_progress', T0 + MIN],
+      ['pending', undefined],
+    ])
+    p = notePlanTool(p, { accepted: ['b', 'unknown'] }, T0 + 3 * MIN)
+    expect(p.tasks.map(t => t.status)).toEqual(['pending', 'completed', 'pending'])
+    p = notePlanTool(p, { accepted: 1 }, T0 + 4 * MIN)
+    expect(p.tasks.map(t => t.status)).toEqual(['completed', 'completed', 'pending'])
+    // accepted never takes an acceptance back; running never reopens a completed task
+    p = notePlanTool(p, { accepted: [], running: ['A'] }, T0 + 5 * MIN)
+    expect(planTotals(p)).toEqual({ accepted: 2, total: 3 })
+  })
+
+  test('the title rides the view; finished closes the plan and the view draws nothing', () => {
+    let p = go(EMPTY_PLAN, ['A'], 'Plan view')
+    expect(planView(p, EMPTY_WORKERS, T0)).toMatchObject({ title: 'Plan view', accepted: 0, total: 1 })
+    p = notePlanTool(p, { accepted: 1, finished: true }, T0 + MIN)
+    expect(p.closed).toBe(true)
+    expect(planAnswer(p)).toBe('plan closed')
+    expect(planView(p, EMPTY_WORKERS, T0)).toEqual({ accepted: 0, total: 0, rows: [] })
+    // a later go starts a fresh plan
+    p = go(p, ['Next'], 'Second')
+    expect(p.closed).toBeUndefined()
+    expect(p.tasks.map(t => [t.n, t.subject, t.status])).toEqual([[1, 'Next', 'pending']])
+    // an empty title clears it
+    expect(notePlanTool(p, { title: '' }, T0).title).toBeUndefined()
+  })
+
+  test('whichever source wrote last owns the plan', () => {
+    let p = create(EMPTY_PLAN, '1', 'Task one')
+    p = go(p, ['Score A'], 'Score')
+    expect(p.source).toBe('tool')
+    expect(p.tasks.map(t => t.subject)).toEqual(['Score A'])
+    // the task tools then take it back; a TaskUpdate on a tool plan changes nothing
+    expect(setStatus(p, 'plan-1', 'completed')).toBe(p)
+    p = create(p, '7', 'Task seven')
+    expect(p.source).toBe('task')
+    expect(p.title).toBeUndefined()
+    // an accepted-only call on another source's plan starts an empty tool plan
+    const q = notePlanTool(p, { accepted: 1 }, T0)
+    expect(q.source).toBe('tool')
+    expect(q.tasks).toEqual([])
+  })
+
+  test('workers match tool-plan tasks by their Agent description', () => {
+    const p = go(EMPTY_PLAN, ['Build state', 'Draw it'], 'Plan')
+    const w = noteSpawn(EMPTY_WORKERS, { id: 'a1', description: 'Draw it', type: 'kerd:sonnet-high', nowMs: T0 })
+    expect(planRows(p, w, T0).map(r => [r.title, r.state, r.worker?.id])).toEqual([
+      ['Build state', 'todo', undefined],
+      ['Draw it', 'running', 'a1'],
+    ])
   })
 })

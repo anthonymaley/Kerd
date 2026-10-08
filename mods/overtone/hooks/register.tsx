@@ -14,12 +14,13 @@
 // - Observe only. Every hook passes its event on as it came, `next(e)`, the
 //   same object, and returns what `next` resolved to; nothing is rewritten,
 //   denied, appended or submitted; no process, file write or network call.
-// - The one exception: overtone's own `step` tool (mcp__overtone__step,
-//   registered at session.start in usage.tsx). Its matched `tool.call` hook
-//   answers the call itself and never calls `next`: there is nothing beneath
-//   to run, the tool is overtone's. A worker's call records its done/total/note
-//   on that worker; a main-loop call is answered "ignored". It touches no
-//   other tool's call.
+// - The one exception: overtone's own tools, `step` (mcp__overtone__step) and
+//   `plan` (mcp__overtone__plan), registered at session.start in usage.tsx.
+//   Their matched `tool.call` hooks answer the call themselves and never call
+//   `next`: there is nothing beneath to run, the tools are overtone's. A
+//   worker's `step` records its done/total/note on that worker (a main-loop
+//   one is answered "ignored"); the main loop's `plan` writes the plan (a
+//   subagent's is answered "ignored"). They touch no other tool's call.
 // - Fail open. Each hook's own work sits in try/catch, and each registration
 //   has a `.catch`. The plain hooks' catch hands the event on only when the
 //   hook never reached `next`; once it had (`next.called`), it returns
@@ -42,12 +43,18 @@ import type { OvertonePlan, OvertoneWorkers } from '../types'
 import { EMPTY_WORKERS, noteAsk, noteEnd, noteList, noteSpawn, noteToolEnd, noteToolStart, summarizeTool } from './logic'
 import {
   EMPTY_PLAN,
-  PLAN_TOOLS,
+  PLAN_BAD_ANSWER,
+  PLAN_SUB_ANSWER,
+  PLAN_TOOL,
   STEP_BAD_ANSWER,
   STEP_MAIN_ANSWER,
   STEP_TOOL,
+  TASK_TOOLS,
   notePlanCall,
+  notePlanTool,
   noteStep,
+  planAnswer,
+  readPlan,
   readStep,
   stepAnswer,
 } from './plan-logic'
@@ -85,7 +92,7 @@ export const register: Register = on => {
   // a task-list call's outcome is folded into the plan once it resolved.
   on('tool.call', async ($, e, next) => {
     if (e.agentId === undefined) {
-      if (!PLAN_TOOLS.has(String(e.tool))) return next(e)
+      if (!TASK_TOOLS.has(String(e.tool))) return next(e)
       const tool = String(e.tool)
       const ran = await next(e)
       try {
@@ -96,8 +103,8 @@ export const register: Register = on => {
       }
       return ran
     }
-    // overtone's own step tool is answered by its matched hook below
-    if (e.tool === STEP_TOOL) return next(e)
+    // overtone's own tools are answered by their matched hooks below
+    if (e.tool === STEP_TOOL || e.tool === PLAN_TOOL) return next(e)
     const agentId = e.agentId
     const toolUseId = e.tool_use_id
     try {
@@ -129,6 +136,17 @@ export const register: Register = on => {
     await update($, workers, (w: OvertoneWorkers) => noteStep(w, { agentId, step, nowMs: now }))
     return { result: stepAnswer(step) }
   }).catch(() => ({ result: 'step not recorded' }))
+
+  // The plan tool (the same exception): Kerd Conductor's score from the main
+  // loop, folded into the plan; a subagent's call is answered "ignored".
+  on('tool.call', { tool: 'mcp__overtone__plan' }, async ($, e) => {
+    if (e.agentId !== undefined) return { result: PLAN_SUB_ANSWER }
+    const input = readPlan(e)
+    if (input === undefined) return { result: PLAN_BAD_ANSWER }
+    const now = await $.clock.now()
+    const after = await update($, plan, (p: OvertonePlan) => notePlanTool(p, input, now))
+    return { result: planAnswer(after) }
+  }).catch(() => ({ result: 'plan not recorded' }))
 
   // A permission ask on a worker's pending call marks that worker blocked
   // until the call settles. The verdict is passed on as it came.

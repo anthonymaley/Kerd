@@ -199,35 +199,52 @@ export function textBar(cols: number, segs: readonly PlanRowState[], pad = true)
 
 export const BAND_BAR_MAX = 28
 export const BAND_BAR_MIN = 6
-// `  │  ` before the group, `plan ` label, a space before the count.
-const BAND_FIXED = 5 + 5 + 1
+// The plan tool's title before the bar, cut to this many columns.
+export const BAND_TITLE_MAX = 20
+// `  │  ` before the group, a space after the label, a space before the count.
+const BAND_FIXED = 5 + 1 + 1
 
 export type PlanBand = {
   // Columns the whole group takes, separator included.
   width: number
+  // Before the bar: the plan's title, short, or `plan`.
+  label: string
   count: string
   bar: { cols: number; cells?: string; text?: PSeg[] }
 }
 
 export const taskStates = (v: PlanView): PlanRowState[] => v.rows.filter(r => r.kind === 'task').map(r => r.state)
 
+// The title in at most BAND_TITLE_MAX columns, `plan` without one.
+export function bandLabel(title: string | undefined): string {
+  const t = (title ?? '').replace(/\s+/g, ' ').trim()
+  if (t === '') return 'plan'
+  return t.length <= BAND_TITLE_MAX ? t : `${t.slice(0, BAND_TITLE_MAX - 1).trimEnd()}…`
+}
+
 // The plan bar and its "N of M" in at most `room` columns, or undefined when
-// there is no plan or no room (the bar shrinks first, then goes).
+// there is no plan or no room (the bar shrinks first, a title gives way to
+// `plan`, then the group goes).
 export function planBand(v: PlanView, room: number, raster: boolean, frame: number): PlanBand | undefined {
   if (v.total <= 0) return undefined
   const segs = taskStates(v)
   if (segs.length === 0) return undefined
   const count = `${v.accepted} of ${v.total}`
-  const avail = Math.floor(room) - BAND_FIXED - count.length
-  if (raster) {
-    const cols = Math.min(BAND_BAR_MAX, segs.length * 4, avail)
-    if (cols < BAND_BAR_MIN) return undefined
-    return { width: BAND_FIXED + count.length + cols, count, bar: { cols, cells: barCells(cols, segs, frame) } }
+  const titled = bandLabel(v.title)
+  for (const label of titled === 'plan' ? ['plan'] : [titled, 'plan']) {
+    const fixed = BAND_FIXED + label.length + count.length
+    const avail = Math.floor(room) - fixed
+    if (raster) {
+      const cols = Math.min(BAND_BAR_MAX, segs.length * 4, avail)
+      if (cols < BAND_BAR_MIN) continue
+      return { width: fixed + cols, label, count, bar: { cols, cells: barCells(cols, segs, frame) } }
+    }
+    const cols = Math.min(BAND_BAR_MAX, segs.length)
+    if (avail < Math.min(cols, BAND_BAR_MIN)) continue
+    const w = Math.min(cols, avail)
+    return { width: fixed + w, label, count, bar: { cols: w, text: textBar(w, segs, false) } }
   }
-  const cols = Math.min(BAND_BAR_MAX, segs.length)
-  if (avail < Math.min(cols, BAND_BAR_MIN)) return undefined
-  const w = Math.min(cols, avail)
-  return { width: BAND_FIXED + count.length + w, count, bar: { cols: w, text: textBar(w, segs, false) } }
+  return undefined
 }
 
 // ---------------------------------------------------------------------------

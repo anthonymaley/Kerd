@@ -809,7 +809,10 @@ describe('plan state and the step tool', () => {
       return { result: 'beneath' } as never
     })
     await $.session.start({ cwd: '/w', surface: 'terminal', isInteractive: true })
-    expect(registered.map(r => [r.name, r.isDeferred])).toEqual([['step', false]])
+    expect(registered.map(r => [r.name, r.isDeferred])).toEqual([
+      ['step', false],
+      ['plan', false],
+    ])
     await $.agent.spawn({ prompt: 'Go.', description: 'Write the tests', subagentType: 'kerd:sonnet-high' } as never)
     const worker = await $.tool.call({ tool: 'mcp__overtone__step', done: 2, total: 5, note: 'cases', agentId: 's1', tool_use_id: 'k1' } as never)
     expect(worker).toMatchObject({ result: 'recorded 2/5' })
@@ -821,5 +824,37 @@ describe('plan state and the step tool', () => {
     // answered by overtone: nothing beneath ran, and the worker's activity is not "step"
     expect(beneath).toBe(0)
     expect((await peek($)).workers.byId.s1?.activity).toBeUndefined()
+  })
+
+  test('the plan tool: the main loop writes the plan (title, tasks, running, accepted, finished); a subagent is ignored', PEEK, async ($, on) => {
+    const w = world(on)
+    let beneath = 0
+    on('tool.call', () => {
+      beneath++
+      return { result: 'beneath' } as never
+    })
+    const call = (input: Record<string, unknown>) => $.tool.call({ tool: 'mcp__overtone__plan', tool_use_id: 'p', ...input } as never)
+    const go = await call({ title: 'overtone plan view', tasks: [{ subject: 'Build state' }, { subject: 'Draw it' }, { subject: 'Wire Conductor' }] })
+    expect(go).toMatchObject({ result: 'plan: 0 of 3 accepted' })
+    w.now = T0 + 60_000
+    await call({ running: ['Build state', 'Draw it'] })
+    w.now = T0 + 120_000
+    expect(await call({ accepted: ['Build state'] })).toMatchObject({ result: 'plan: 1 of 3 accepted' })
+    let p = (await peek($)).plan
+    expect(p.source).toBe('tool')
+    expect(p.title).toBe('overtone plan view')
+    expect(p.tasks.map(t => [t.subject, t.status, t.startedMs, t.finishedMs])).toEqual([
+      ['Build state', 'completed', T0 + 60_000, T0 + 120_000],
+      ['Draw it', 'in_progress', T0 + 60_000, undefined],
+      ['Wire Conductor', 'pending', undefined, undefined],
+    ])
+    expect(await call({ title: 'theirs', agentId: 's1' })).toMatchObject({ result: expect.stringMatching(/^ignored/) })
+    expect(await call({ tasks: 'nope' })).toMatchObject({ result: expect.stringMatching(/^ignored/) })
+    expect((await peek($)).plan.title).toBe('overtone plan view')
+    expect(await call({ accepted: 3, finished: true })).toMatchObject({ result: 'plan closed' })
+    p = (await peek($)).plan
+    expect(p.closed).toBe(true)
+    expect(p.tasks.every(t => t.status === 'completed')).toBe(true)
+    expect(beneath).toBe(0)
   })
 })
