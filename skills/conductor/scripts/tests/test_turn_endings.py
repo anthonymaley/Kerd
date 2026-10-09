@@ -91,6 +91,16 @@ class TurnEndingTests(unittest.TestCase):
         out = normalize((REPO_ROOT / "skills/switch/references/out.md").read_text(encoding="utf-8"))
         self.assertIn("a contributing partner session never starts one", out)
 
+    def test_wait_names_what_was_done_meanwhile(self):
+        # Real use, 2026-10-09 13:5x: two turns ended on a bare test wait while records were still to do; the person asked "so what will you do instead of wait".
+        text = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
+        for fragment in ("The wait also says what was done meanwhile, or that nothing else authorized can move and why",
+                         "a bare wait with work still open is not that line",
+                         "A host or global rule that accepts a named wait as a turn ending does not lift this: it says how to end a turn, not when waiting is allowed"):
+            self.assertIn(fragment, text)
+        conductor = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))
+        self.assertIn("then names the job and how and when it resumes, with what was done meanwhile (or why nothing else can move)", conductor)
+
     def test_skill_entries_carry_the_endings(self):
         conductor = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))
         self.assertIn("a turn waiting on a job first starts every other job its authority already covers, then names the job and how and when it resumes", conductor)
