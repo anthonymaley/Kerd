@@ -325,9 +325,23 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.180.2)
+## What's New (v0.181.0)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.181.0
+
+**Haiku 5.5 jobs now run at an effort Conductor chooses, and overtone 0.10.0 shows it.** Haiku 5.5 (released
+2026-10-07) is the first Haiku that takes an effort level; Kerd still treated every Haiku as 4.5, so a Haiku worker ran
+at whatever effort the session gave it, unseen. Conductor and Agent now send a Haiku 5.5 job through `kerd:haiku-low`,
+`kerd:haiku-medium` or `kerd:haiku-high`, and the model guidance has a Haiku 5.5 profile from Anthropic's own docs
+(no matched comparison on Kerd's jobs yet, and the profile says so): medium for most work, high for longer agent
+jobs and strict instructions, low only for short ones; a long or code-changing brief carries Anthropic's "keep
+working until done" and "run a real check" lines. The `haiku` alias means Haiku 5.5 only on the Anthropic API with
+Claude Code 2.1.293 or later; on Claude Platform on AWS, Bedrock, Google Cloud and Foundry it is still Haiku 4.5, which
+takes no effort. Plain `kerd:haiku` stays for sessions that predate the new agents. overtone's Workers card shows the
+effort on Haiku 5.5 rows and a dash for Haiku 4.5 and older (tests only, not yet seen live). 1,049 Kerd tests, 743
+overtone tests; codex-tui reviewed it (two rounds).
 
 ### v0.180.2
 
