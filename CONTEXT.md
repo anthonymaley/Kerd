@@ -165,7 +165,7 @@ background-session list; he quits there with Ctrl-C. Switch Out's restart line s
 **Guard work stopped (Anthony 2026-10-07 20:31, "y"):** the unreadable-working-`vault.json` redesign is parked in the Backlog (branch `fix/guard-unreadable-working-vault` 3dbcc28 kept local, unpushed); the next guard change waits for a real slip, per the guard-scope ruling. Four of the day's nine sittings went to guard edges found by review rather than real use.
 
 
-**Selected continuation: none buildable; say so at the next arrival.** Now holds things to watch (the new plan view first, in his next real Conductor concert after a restart) and his own steps; the Backlog's rows are all held, parked or waiting on a real sighting, so there is no eligible item to recommend (per the 0.177.0 rule). Also offered, his steps: move his Codex to the public `codex` branch (three releases behind; in Codex's window), and close the trial tmux window `studio:overtone-trial` (it loads overtone and Kerd straight from the checkout, so a branch change there changes what it runs).
+**Selected continuation: none buildable; say so at the next arrival (rechecked 2026-10-08 23:03).** Now holds things to watch (the new plan view first, in his next real Conductor concert after a restart) and his own steps; the Backlog's rows are all held, parked or waiting on a real sighting, so there is no eligible item to recommend (per the 0.177.0 rule). Also offered, his steps: move his Codex to the public `codex` branch (three releases behind; in Codex's window), and close the trial tmux window `studio:overtone-trial` after checking the "2 agents" it lists in the background (it loads overtone and Kerd straight from the checkout, so a branch change there changes what it runs).
 Done today: `kivna/sessions/2026-10-08.md` (nine sittings: question-shape recheck and Switch Out fix; Sonnet-medium rerun and 0.178.0; notes-save and step-list fixes; 0.179.0; the plan-view design and build; the `test_ask` race; the worker-text concert; the live trial and 0.180.0). Yesterday: `kivna/sessions/2026-10-07.md` (twelve sittings).
 **Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
 findings go to the Backlog.
@@ -184,7 +184,7 @@ Deeper: `notes:overtone-savvy/mock.html`, `savvy-look.html`, `raster-proto-regis
 
 The observed position before this save is `main` at 664d4e54 (the 0.180.0 release); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-08 22:5x: 86,819 bytes, about 21,705 tokens (estimate), 13,705 over the 8,000 target: CONTEXT.md's release history and rulings, nine sittings in today's log, and the plan-view sketchbook (what to watch for in real use). Carried findings checked (0.180.0, none buildable, three releases behind, studio:overtone-trial, inline Conductor work sends no plan) are in the set. `read_args` for the next pickup:
+**Measured** 2026-10-08 23:0x: 87,868 bytes, about 21,967 tokens (estimate), 13,967 over the 8,000 target: CONTEXT.md's release history and rulings, nine sittings in today's log, and the plan-view sketchbook (what to watch for in real use). Carried findings checked (0.180.0, none buildable, three releases behind, studio:overtone-trial, inline Conductor work sends no plan) are in the set. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-08.md", "--file", "notes:overtone-savvy/work.md",
