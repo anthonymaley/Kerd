@@ -157,7 +157,8 @@ names the guide section with its detail: open that section before the step.
   completion, and a rehearsal turn stops only to get information or direction the
   person holds — never merely because a turn ended. Neither phase leaves a session
   idle with nothing asked: a turn waiting on a job first starts every other job its
-  authority already covers, then names the job and how and when it resumes, and a
+  authority already covers, then names the job and how and when it resumes, with what was done meanwhile (or why
+  nothing else can move), and a
   turn that took in a partner's contribution still ends with a line to the person.
   CI, a deploy or a long test run is watched in the background, never by a
   foreground watcher (`gh run watch`, `sleep`) that holds the turn; while it runs,

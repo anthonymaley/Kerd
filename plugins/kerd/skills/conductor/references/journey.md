@@ -607,7 +607,11 @@ The person should never have to say "move on" while CI runs. A named wait is the
 right ending only when nothing else authorized can move. When the turn does end, the last line names the job, says how the session resumes — the
 host wakes it when the job returns, or the person says so, or the next check is
 at a named time — and when it should be back, or “return time unknown” with that
-next check; it never invents an estimate. A bare “nothing is needed from you” or
+next check; it never invents an estimate. The wait also says what was done
+meanwhile, or that nothing else authorized can move and why; a bare wait with work
+still open is not that line. A host or global rule that accepts a named wait as a
+turn ending does not lift this: it says how to end a turn, not when waiting is
+allowed. A bare “nothing is needed from you” or
 a status tick without the job and how it resumes is not that line. Claim an
 automatic wake-up only where the route provides one. **Answering a partner's
 contribution** (a review, findings, a reply from Codex or another session) in an
