@@ -9,7 +9,7 @@
 
 import type { PlanRow, PlanRowState, PlanView } from './plan-logic'
 import { compareModels, shownText } from './logic'
-import { prettyModel } from './usage-logic'
+import { prettyModel, takesNoEffort } from './usage-logic'
 
 // ---------------------------------------------------------------------------
 // Colours
@@ -421,10 +421,11 @@ function effortCol(row: PlanRow, width: number): PSeg | undefined {
   const w = row.worker
   if (!w) return { text: fit('', width) }
   const shown = w.effort ?? w.askedEffort
-  // Haiku takes no effort setting: show none when the model whose effort this
-  // is (the one that sent it, else the one asked for) is Haiku
+  // Haiku 4.5 and earlier take no effort setting: show none when the model whose
+  // effort this is (the one that sent it, else the one asked for) is one of
+  // them. Haiku 5.5 takes effort, so it shows like any other model.
   const owner = w.effort !== undefined ? (w.model ?? w.seen ?? w.asked) : w.asked
-  if (owner && /haiku/i.test(owner)) return { text: fit('—', width), dim: true }
+  if (takesNoEffort(owner)) return { text: fit('—', width), dim: true }
   const bad = w.effort !== undefined && w.askedEffort !== undefined && String(w.effort) !== w.askedEffort
   const seg: PSeg = { text: fit(shown === undefined ? '—' : shownText(String(shown)), width) }
   if (bad) {

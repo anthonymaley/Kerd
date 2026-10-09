@@ -537,19 +537,26 @@ describe('jobs', () => {
     expect(sentNote(base)).toBeUndefined()
   })
 
-  test('Haiku effort is never shown as sent; the asked effort follows the requested model only', () => {
+  test('Haiku 5.5 effort follows the usual rule; Haiku 4.5 and earlier show none', () => {
     const base = worker({ id: 'a' })
-    expect(sentNote({ ...base, asked: 'haiku', model: 'claude-haiku-5-5', effort: 'medium' })).toBeUndefined()
-    expect(sentNote({ ...base, asked: 'opus', model: 'claude-haiku-5-5', effort: 'high' })).toBe('sent Haiku 5.5')
+    expect(sentNote({ ...base, asked: 'haiku', askedEffort: 'medium', model: 'claude-haiku-5-5', effort: 'medium' })).toBeUndefined()
+    expect(sentNote({ ...base, asked: 'haiku', askedEffort: 'medium', model: 'claude-haiku-5-5', effort: 'high' })).toBe('sent high')
+    expect(sentNote({ ...base, asked: 'haiku', model: 'claude-haiku-4-5', effort: 'high' })).toBeUndefined()
+    expect(sentNote({ ...base, asked: 'opus', model: 'claude-haiku-5-5', effort: 'high' })).toBe('sent Haiku 5.5 · high')
+    expect(sentNote({ ...base, asked: 'opus', model: 'claude-haiku-4-5', effort: 'high' })).toBe('sent Haiku 4.5')
     const w: OvertoneWorkers = {
       byId: {
         s: worker({ id: 's', asked: 'sonnet', askedEffort: 'high', seen: 'claude-haiku-5-5', model: 'claude-haiku-5-5' }),
         h: worker({ id: 'h', asked: 'haiku', askedEffort: 'medium' }),
+        p: worker({ id: 'p', asked: 'haiku' }),
+        o: worker({ id: 'o', asked: 'claude-haiku-4-5', askedEffort: 'medium' }),
       },
     }
     const rows = jobsOf(snap({ workers: w }))
     expect(rows.find(r => r.key === 'w-s')?.asked).toBe('Sonnet · high')
-    expect(rows.find(r => r.key === 'w-h')?.asked).not.toContain('medium')
+    expect(rows.find(r => r.key === 'w-h')?.asked).toBe('Haiku · medium')
+    expect(rows.find(r => r.key === 'w-p')?.asked).toBe('Haiku')
+    expect(rows.find(r => r.key === 'w-o')?.asked).not.toContain('medium')
   })
 
   test('no response yet: running, saw —, never "matches" before the API answers', () => {
@@ -570,6 +577,7 @@ describe('jobs', () => {
   test('kerd agent types name their model and effort', () => {
     expect(kerdAsk('kerd:sonnet-high')).toEqual({ model: 'sonnet', effort: 'high' })
     expect(kerdAsk('kerd:haiku')).toEqual({ model: 'haiku' })
+    expect(kerdAsk('kerd:haiku-medium')).toEqual({ model: 'haiku', effort: 'medium' })
     expect(kerdAsk('kerd:effort-high')).toEqual({})
     expect(kerdAsk('Explore')).toEqual({})
     expect(prettyModel('claude-sonnet-5-5')).toBe('Sonnet 5.5')

@@ -117,6 +117,11 @@ export function fmtWhen(ms: number, nowMs: number, offsetMin: number): string {
 }
 
 // A model for people: `claude-sonnet-5-5` -> `Sonnet 5.5`, `opus` -> `Opus`.
+// Haiku 4.5 and earlier take no effort setting; Haiku 5.5 does (default
+// medium). A bare "haiku" alias or plain kerd:haiku names no version, so it
+// is not treated as old: it shows an effort only when one is actually known.
+export const takesNoEffort = (model: string | undefined): boolean => /haiku[-\s]?[1-4](?!\d)/i.test(model ?? '')
+
 export function prettyModel(raw: string | undefined): string {
   if (!raw) return '—'
   // A model id comes from the session: drawn only after shownText.
@@ -445,9 +450,10 @@ export function sentNote(x: OvertoneWorker): string | undefined {
   const parts: string[] = []
   const asked = askedModel(x)
   if (x.model && (!asked || compareModels(asked, x.model) === 'mismatch')) parts.push(prettyModel(x.model))
-  // Haiku takes no effort setting: whatever the request carried is not shown
-  const sentIsHaiku = /haiku/i.test(x.model ?? x.seen ?? asked ?? '')
-  if (x.effort !== undefined && !sentIsHaiku && (parts.length > 0 || String(x.effort) !== askedEffort(x))) parts.push(shownText(String(x.effort)))
+  // Haiku 4.5 and earlier take no effort setting: whatever the request carried
+  // is not shown. Haiku 5.5 does, so it follows the same rule as other models.
+  const sentIsOldHaiku = takesNoEffort(x.model ?? x.seen ?? asked)
+  if (x.effort !== undefined && !sentIsOldHaiku && (parts.length > 0 || String(x.effort) !== askedEffort(x))) parts.push(shownText(String(x.effort)))
   return parts.length > 0 ? `sent ${parts.join(' · ')}` : undefined
 }
 
@@ -515,7 +521,7 @@ export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartM
       // The task, what it waits on and its activity are model-written.
       job: shownText(x.label),
       doing: shownText(x.blocked ? x.blocked.what : !isActive(x) ? 'returned' : (x.activity ?? 'started')),
-      asked: withEffort(askedModel(x), /haiku/i.test(askedModel(x) ?? '') ? undefined : askedEffort(x)),
+      asked: withEffort(askedModel(x), takesNoEffort(askedModel(x)) ? undefined : askedEffort(x)),
       saw: x.seen ? prettyModel(x.seen) : '—',
       elapsed: `${x.fromSpawn ? '' : '≥'}${fmtElapsed(end - x.firstSeenMs)}`,
       state,

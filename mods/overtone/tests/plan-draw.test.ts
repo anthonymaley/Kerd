@@ -222,14 +222,23 @@ describe('layout', () => {
 
 describe('card rows', () => {
   const lay = planLayout(120, true)
-  test('Haiku shows no effort; a Sonnet row keeps its level', () => {
+  test('Haiku 5.5 shows its effort, Haiku 4.5 and plain kerd:haiku show none; a Sonnet row keeps its level', () => {
     const haiku = cardRow(
       row({ state: 'running', worker: worker({ asked: 'haiku', seen: 'claude-haiku-5-5', askedEffort: 'medium', effort: 'medium' }) }),
       lay,
       true,
       0,
     )
-    expect(haiku.effort!.text.trim()).toBe('—')
+    expect(haiku.effort!.text.trim()).toBe('medium')
+    const old = cardRow(
+      row({ state: 'running', worker: worker({ asked: 'haiku', seen: 'claude-haiku-4-5', askedEffort: 'medium', effort: 'medium' }) }),
+      lay,
+      true,
+      0,
+    )
+    expect(old.effort!.text.trim()).toBe('—')
+    const plain = cardRow(row({ state: 'running', worker: worker({ asked: 'haiku', seen: 'claude-haiku-5-5' }) }), lay, true, 0)
+    expect(plain.effort!.text.trim()).toBe('—')
     const sonnet = cardRow(
       row({ state: 'running', worker: worker({ asked: 'sonnet', seen: 'claude-sonnet-5-5', effort: 'medium' }) }),
       lay,
