@@ -23,6 +23,8 @@ one kerd-eval clause, grading readers at medium, from three Kerd effort checks.
 The 2026-09-29 addition is a new Sonnet 5.5 profile (`anthropic/sonnet-5-5.md`), from a
 full read of its prompting guide, beside the unchanged Sonnet 5 profile, because Claude
 Code's `sonnet` alias moved to Sonnet 5.5 on 2026-09-28.
+The 2026-10-09 addition is a Haiku 5.5 profile (`anthropic/haiku-5-5.md`), from Anthropic's
+docs only, with no matched Kerd comparison yet.
 No model default, pricing, native permission or account setting changed.
 
 ## What is stored

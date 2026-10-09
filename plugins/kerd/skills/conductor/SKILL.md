@@ -1,6 +1,6 @@
 ---
 name: conductor
-description: "Use when the work is a substantial build, design or workflow, new or existing: offer Conductor, and enter it when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work, including a push, merge or skipped review on it (“just push it”, “skip the review”). Small standalone fixes and status requests stay direct; ordinary Switch In composes its own arrival and Managed Roll keeps existing authority. Guides work as rehearsal, then as a concert on its own branch performed by fanned-out players: choosing work never approves its operations, and a push or merge happens only on the person's go. Every native Claude Agent call names an explicit model and the matching Kerd model agent (kerd:opus-high style agents, or plain kerd:haiku, which takes no effort); an inherited or unnamed model is not a valid plan."
+description: "Use when the work is a substantial build, design or workflow, new or existing: offer Conductor, and enter it when the person chooses its guidance, chooses work in answer to Switch In’s “Start a Conductor session?” (Shape for that work, never approval of its operations), explicitly selects and authorizes work, or continues established Conductor work, including a push, merge or skipped review on it (“just push it”, “skip the review”). Small standalone fixes and status requests stay direct; ordinary Switch In composes its own arrival and Managed Roll keeps existing authority. Guides work as rehearsal, then as a concert on its own branch performed by fanned-out players: choosing work never approves its operations, and a push or merge happens only on the person's go. Every native Claude Agent call names an explicit model and the matching Kerd model agent (kerd:opus-high or kerd:haiku-medium style agents; plain kerd:haiku only for sessions that predate them); an inherited or unnamed model is not a valid plan."
 ---
 
 # Conductor
@@ -274,7 +274,8 @@ names the guide section with its detail: open that section before the step.
 - Every `Agent` call names both keys concretely: `model` is required in every case,
   and `subagent_type` names the matching Kerd agent whenever those definitions are
   loaded, with the same model as `model`: `kerd:<model>-<effort>` for a model that
-  supports effort, and plain `kerd:haiku` for Haiku, which takes no effort setting
+  supports effort (Haiku 5.5 takes effort: `kerd:haiku-<low|medium|high>`), and plain
+  `kerd:haiku` only for a session that predates those agents
   (a session opened on 0.146.0 or earlier uses the matching older
   `kerd:effort-<level>` agent; when neither is loaded, a concrete ordinary
   `subagent_type`, with effort shown as unset and unverified and the reason

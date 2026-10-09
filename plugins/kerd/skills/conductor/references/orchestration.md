@@ -268,8 +268,8 @@ incomplete.
 **Every native Claude dispatch row names both cells concretely before dispatch**,
 matching the call that will be sent: the model as Haiku, Sonnet, Opus or Fable, and
 the effort as low, medium, high, xhigh or max. The call carries that `model` and the
-matching `kerd:<model>-<effort>` agent (`kerd:sonnet-high`), or plain `kerd:haiku`,
-whose effort cell reads not supported; the grid shows the plain level and says who does the
+matching `kerd:<model>-<effort>` agent (`kerd:sonnet-high`, `kerd:haiku-medium`), or plain `kerd:haiku` only in a session
+that predates them, whose effort cell reads unset and unverified; the grid shows the plain level and says who does the
 work in plain words, never the routing label. This covers composer, player and reviewer alike — anything
 sent with an `Agent` call. The `model` cell has no exception. The effort cell takes
 the documented fallback when the effort definitions are not loaded in this session:
