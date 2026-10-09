@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.181.2
+
+**Conductor keeps working while CI runs.** A session that pushed would watch CI with a foreground `gh run watch`,
+which holds the turn, and you had to tell it to move on. The rule to start other work first was there since 0.162.0
+but never named the trap. Now Conductor watches CI, a deploy or a long test run in the background and, meanwhile,
+does what doesn't need the result: records, the next steps' commands made ready, read-only checks, the next task.
+
 ## 0.181.1
 
 **A Haiku worker sent without an effort level now says what it runs at.** 0.181.0 called the effort of a plain

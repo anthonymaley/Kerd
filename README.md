@@ -325,9 +325,16 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.181.1)
+## What's New (v0.181.2)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.181.2
+
+**Conductor keeps working while CI runs.** A session that pushed would watch CI with a foreground `gh run watch`,
+which holds the turn, and you had to tell it to move on. The rule to start other work first was there since 0.162.0
+but never named the trap. Now Conductor watches CI, a deploy or a long test run in the background and, meanwhile,
+does what doesn't need the result: records, the next steps' commands made ready, read-only checks, the next task.
 
 ### v0.181.1
 
