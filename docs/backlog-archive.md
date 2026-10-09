@@ -1714,3 +1714,11 @@ TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
 - **Vault save by literal path.** Verdict: done, released 0.179.0 (7c67d5f). Real-use check still owed: this Out is the
   first on the wording (from the installed 0.178.0 text, which predates it). `notes:bundle-1008/work.md`.
 - **Steps the person does themselves.** Verdict: done, released 0.179.0 (7c67d5f). `notes:bundle-1008/work.md`.
+
+## Closed 2026-10-08 (test_ask race fix, 22:0x)
+
+- **`test_ask` detached-transport test fails under load** (2026-10-08 14:4x, 0.179.0 prep). Verdict: fixed on main, unreleased
+  (test-only, no version bump; Anthony's "y" 22:00). Cause: the fixture child's `write_text` is not atomic and the test read the
+  ready file as soon as it existed. Fix: a `wait_for_group` helper retries until the file parses, used by the detached test and
+  its two sibling descendant tests. Evidence: module 37 OK alone; 8 concurrent module runs all OK; full suite 1,047 OK; release
+  check clean. The old failure was not reproduced on demand, so the load runs show the fix holds, not that the race is gone.
