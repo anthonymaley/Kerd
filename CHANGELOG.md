@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.181.3
+
+**A Haiku worker sent without an effort level follows the session at xhigh too.** 0.181.1 said a plain
+`kerd:haiku` worker runs at the session's effort, tested at low and high only. Three more probes (Claude Code
+2.1.295) found the same at xhigh, under a Sonnet session as well as a Haiku one, and with `CLAUDE_CODE_EFFORT_LEVEL`
+set, which overrides `--effort` for the session and the worker alike. The agent's description and the Haiku 5.5
+profile now say so; max is not tested yet.
+
 ## 0.181.2
 
 **Conductor keeps working while CI runs.** A session that pushed would watch CI with a foreground `gh run watch`,
