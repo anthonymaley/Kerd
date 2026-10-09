@@ -24,3 +24,6 @@ output/
 
 # Eval run output (claude plugin eval), machine-local
 evals/results/
+
+# Claude Code writes this editor pointer to the mod types folder it generates (and ignores)
+mods/overtone/tsconfig.json

@@ -1722,3 +1722,11 @@ TODO.md under "Earlier launch sequence" and `kivna/sessions/2026-09-03.md`.
   ready file as soon as it existed. Fix: a `wait_for_group` helper retries until the file parses, used by the detached test and
   its two sibling descendant tests. Evidence: module 37 OK alone; 8 concurrent module runs all OK; full suite 1,047 OK; release
   check clean. The old failure was not reproduced on demand, so the load runs show the fix holds, not that the race is gone.
+- **overtone tests leave `mods/overtone/tsconfig.json` untracked** (2026-10-08 23:39). Verdict: fixed on main, unreleased (repo
+  hygiene only, no version bump; Anthony's approval 2026-10-09 00:02). Claude Code writes the file, an editor pointer
+  (`"extends": "./.claude-plugin/types/tsconfig.json"`) to the types folder it generates with its own `*` ignore; it has no
+  option to skip it, so the root `.gitignore` now names it. Evidence: `git check-ignore` matches it; validate passes; 733
+  overtone tests pass; `git status` clean apart from the three kept-out-of-Git files. Correction: neither `claude plugin test`
+  nor `validate` recreated it on 2026-10-09 00:0x, so the 23:39 claim that the tests write it is not confirmed; the file times
+  (types folder 21:45, the trial tab's `--plugin-dir` start) point at a `--plugin-dir` load, not proven. The ignore covers
+  either writer.
