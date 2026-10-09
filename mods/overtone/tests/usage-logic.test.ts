@@ -4,6 +4,7 @@ import type { OvertonePartners, OvertoneSteps, OvertoneWorker, OvertoneWorkers }
 import type { JobRow } from '../hooks/usage-logic'
 import {
   BAND_ACTION,
+  takesNoEffort,
   BAND_CHORD,
   BUTTON_ROOM,
   COLLAPSED_LABEL,
@@ -542,6 +543,10 @@ describe('jobs', () => {
     expect(sentNote({ ...base, asked: 'haiku', askedEffort: 'medium', model: 'claude-haiku-5-5', effort: 'medium' })).toBeUndefined()
     expect(sentNote({ ...base, asked: 'haiku', askedEffort: 'medium', model: 'claude-haiku-5-5', effort: 'high' })).toBe('sent high')
     expect(sentNote({ ...base, asked: 'haiku', model: 'claude-haiku-4-5', effort: 'high' })).toBeUndefined()
+    expect(takesNoEffort('claude-3-5-haiku-20241022')).toBe(true)
+    expect(takesNoEffort('claude-3-haiku-20240307')).toBe(true)
+    expect(takesNoEffort('claude-haiku-5-5')).toBe(false)
+    expect(takesNoEffort('Haiku 5.5')).toBe(false)
     expect(sentNote({ ...base, asked: 'opus', model: 'claude-haiku-5-5', effort: 'high' })).toBe('sent Haiku 5.5 · high')
     expect(sentNote({ ...base, asked: 'opus', model: 'claude-haiku-4-5', effort: 'high' })).toBe('sent Haiku 4.5')
     const w: OvertoneWorkers = {

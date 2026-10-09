@@ -26,8 +26,10 @@ It comes from Anthropic's docs only: there is no matched Kerd comparison for thi
 model yet, and every clause below is pending until a real brief uses it and its
 result is assessed.
 
-Haiku 5.5 is the first Haiku with effort levels. `model: haiku` resolves to the
-newest Haiku, so Kerd routes it as `kerd:haiku-low`, `kerd:haiku-medium` or
+Haiku 5.5 is the first Haiku with effort levels. `model: haiku` resolves to Haiku
+5.5 only on the Anthropic API with Claude Code 2.1.293 or later; on Claude Platform
+on AWS, Bedrock, Google Cloud and Foundry it still resolves to Haiku 4.5. Apply this
+profile only when the observed model is Haiku 5.5. Kerd routes it as `kerd:haiku-low`, `kerd:haiku-medium` or
 `kerd:haiku-high`. Plain `kerd:haiku` sets no effort and stays only for sessions
 that predate those agents; it runs at the host default. Haiku 4.5 is the previous
 model and works differently (see [model choice](../model-choice.md)).
@@ -46,7 +48,7 @@ Left out because Kerd's native route sets none of them: `budget_tokens` (returns
   review_trigger: first matched Haiku 5.5 comparison on a Kerd job type, or source change
 - id: effort-levels
   applies_when: choosing effort for a claude-haiku-5-5 job
-  guidance: low for short, simple tool tasks and high-volume simple requests; medium is the default and the place to start, including agentic coding; high for long agent tasks, knowledge work and strict instruction following. xhigh and max only where evals justify them. Name the level through kerd:haiku-<effort>; do not assume the level of a worker routed as plain kerd:haiku.
+  guidance: low for short, simple tool tasks and high-volume simple requests; medium is the default and the place to start, including agentic coding; high for long agent tasks, knowledge work and strict instruction following. The provider also offers xhigh and max, for cases evals justify; Kerd ships no Haiku agent for them, so it routes Haiku at low, medium or high only. Name the level through kerd:haiku-<effort>; do not assume the level of a worker routed as plain kerd:haiku.
   basis: provider-guidance
   source: official_sources[0]; official_sources[4]
   evaluation: pending

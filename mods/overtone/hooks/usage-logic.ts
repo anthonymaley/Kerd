@@ -120,7 +120,9 @@ export function fmtWhen(ms: number, nowMs: number, offsetMin: number): string {
 // Haiku 4.5 and earlier take no effort setting; Haiku 5.5 does (default
 // medium). A bare "haiku" alias or plain kerd:haiku names no version, so it
 // is not treated as old: it shows an effort only when one is actually known.
-export const takesNoEffort = (model: string | undefined): boolean => /haiku[-\s]?[1-4](?!\d)/i.test(model ?? '')
+// Older IDs put the version first (claude-3-5-haiku-20241022, claude-3-haiku-…).
+export const takesNoEffort = (model: string | undefined): boolean =>
+  /haiku[-\s]?[1-4](?!\d)|claude-[1-4](?:-\d)?-haiku/i.test(model ?? '')
 
 export function prettyModel(raw: string | undefined): string {
   if (!raw) return '—'
