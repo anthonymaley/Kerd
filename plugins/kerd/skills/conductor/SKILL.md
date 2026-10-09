@@ -159,6 +159,11 @@ names the guide section with its detail: open that section before the step.
   idle with nothing asked: a turn waiting on a job first starts every other job its
   authority already covers, then names the job and how and when it resumes, and a
   turn that took in a partner's contribution still ends with a line to the person.
+  CI, a deploy or a long test run is watched in the background, never by a
+  foreground watcher (`gh run watch`, `sleep`) that holds the turn; while it runs,
+  do what does not need its result: records and sketchbook, the next steps'
+  commands made ready, read-only checks on open risks, the next queued task,
+  never editing files a local run is still reading or writing.
   Small or coupled work is simply delivered in rehearsal; it never needs a concert
   ([Rehearsal, then the concert](references/entry.md#rehearsal-then-the-concert)).
 - Once intent is known, read the relevant project material to avoid asking for facts

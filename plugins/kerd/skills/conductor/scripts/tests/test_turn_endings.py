@@ -33,6 +33,17 @@ class TurnEndingTests(unittest.TestCase):
         self.assertIn("first start every other job the current authority already covers and that does not depend on it", text)
         self.assertIn("A named wait is the right ending only when nothing else authorized can move", text)
 
+    def test_ci_is_watched_in_the_background(self):
+        # Real use, 2026-10-09: "i constantly tell it to move on when it starts CI work";
+        # the same sitting held its turn on a foreground `gh run watch`.
+        journey = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
+        skill = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))
+        self.assertIn("never a foreground watcher such as `gh run watch` or `sleep` that holds the turn", journey)
+        self.assertIn("The person should never have to say \"move on\" while CI runs", journey)
+        self.assertIn("CI, a deploy or a long test run is watched in the background", skill)
+        self.assertIn("A local run keeps its inputs and outputs", journey)
+        self.assertIn("never editing files a local run is still reading or writing", skill)
+
     def test_genuine_question_is_open(self):
         # Real use, 2026-09-26: an unblocked genuine question was worded "X, or Y?".
         text = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
