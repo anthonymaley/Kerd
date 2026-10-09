@@ -567,7 +567,9 @@ export const register: Register = on => {
       ))
     const beneath = await next(e)
     const cols = e.props.bodyColumns
-    if (!expanded) {
+    // The band line, the same folded and opened but for the button's label:
+    // usage bars, the plan group, then the plain button last.
+    const bandLine = (label: string) => {
       // The plan takes what the usage figures leave; it shrinks, then goes.
       const line = collapsedLine(s, cols, Raster !== undefined)
       const drawn = Raster !== undefined && line.some(sg => sg.bar)
@@ -575,39 +577,48 @@ export const register: Register = on => {
         ? planBand(pv, (Number.isFinite(cols) ? cols : 200) - BUTTON_ROOM - lineWidth(line), Raster !== undefined, fr)
         : undefined
       return (
+        <Box key="band" flexDirection="row">
+          {drawn ? (
+            rasterLine(line, 'c')
+          ) : (
+            <Text key="line" wrap="truncate-end">
+              {'  '}
+              {segs(line, 'c')}
+            </Text>
+          )}
+          {band ? (
+            <Box key="plan" flexDirection="row">
+              <Text key="plan-sep" dimColor>
+                {SEP}
+              </Text>
+              <Text key="plan-dot" color={HEX.done}>
+                {'● '}
+              </Text>
+              <Text key="plan-label" bold>
+                {`${band.label} `}
+              </Text>
+              {band.bar.cells && Raster ? (
+                <Raster key="plan-bar" columns={band.bar.cols} rows={1} cells={band.bar.cells} />
+              ) : (
+                <Text key="plan-bar">{pseg(band.bar.text ?? [], 'plan-bar')}</Text>
+              )}
+              <Text key="plan-count" bold>
+                {` ${band.count}`}
+              </Text>
+            </Box>
+          ) : (
+            ''
+          )}
+          <Text key="btn-gap">{'  '}</Text>
+          <Button key="usage" label={label} plain action={BAND_ACTION} onPress={toggle} />
+        </Box>
+      )
+    }
+    if (!expanded) {
+      return (
         <Box flexDirection="column">
           <Text key="space"> </Text>
-          <Box flexDirection="row">
-            <Button key="usage" label={COLLAPSED_LABEL} variant="primary" action={BAND_ACTION} onPress={toggle} />
-            {drawn ? (
-              rasterLine(line, 'c')
-            ) : (
-              <Text key="line" wrap="truncate-end">
-                {'  '}
-                {segs(line, 'c')}
-              </Text>
-            )}
-            {band ? (
-              <Box key="plan" flexDirection="row">
-                <Text key="plan-sep" dimColor>
-                  {SEP}
-                </Text>
-                <Text key="plan-label" dimColor>
-                  {`${band.label} `}
-                </Text>
-                {band.bar.cells && Raster ? (
-                  <Raster key="plan-bar" columns={band.bar.cols} rows={1} cells={band.bar.cells} />
-                ) : (
-                  <Text key="plan-bar">{pseg(band.bar.text ?? [], 'plan-bar')}</Text>
-                )}
-                <Text key="plan-count" bold>
-                  {` ${band.count}`}
-                </Text>
-              </Box>
-            ) : (
-              ''
-            )}
-          </Box>
+          {bandLine(COLLAPSED_LABEL)}
           {beneath}
         </Box>
       )
@@ -690,7 +701,7 @@ export const register: Register = on => {
     const cardView = pv ?? wv
     if (cardView && !d.jobsOff) {
       const partnerJobs = d.jobs.filter(j => j.kind === 'partner')
-      const inner = Math.max(30, (Number.isFinite(cols) ? cols : 200) - (d.outerBorder ? 4 : 0) - (d.panelBorder ? 4 : 0))
+      const inner = Math.max(30, (Number.isFinite(cols) ? cols : 200) - (d.panelBorder ? 4 : 0))
       const room =
         e.props.maxRows - dashboardRows({ ...d, jobsOff: true }) - (d.panelBorder ? 2 : 0) - 1 - partnerJobs.length
       const card = planCard(cardView, inner, Raster !== undefined, fr, Math.max(0, room))
@@ -714,23 +725,8 @@ export const register: Register = on => {
     }
     return (
       <Box flexDirection="column">
-        <Box
-          flexDirection="column"
-          borderStyle={d.outerBorder ? 'round' : undefined}
-          borderDimColor={d.outerBorder ? true : undefined}
-          paddingX={d.outerBorder ? 1 : 0}
-        >
-          <Box flexDirection="row" justifyContent="space-between" paddingRight={d.outerBorder ? 0 : 4}>
-            <Box flexDirection="row">
-              <Button key="usage" label={EXPANDED_LABEL} variant="primary" action={BAND_ACTION} onPress={toggle} />
-              <Text key="head" wrap="truncate-end">
-                {segs(d.header, 'h')}
-              </Text>
-            </Box>
-            <Text key="hint" dimColor wrap="truncate-end">
-              {d.hint}
-            </Text>
-          </Box>
+        <Box flexDirection="column">
+          {bandLine(EXPANDED_LABEL)}
           {d.jobsOff ? (
             ''
           ) : cardView ? (

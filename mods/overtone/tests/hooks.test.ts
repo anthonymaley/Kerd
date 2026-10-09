@@ -222,12 +222,14 @@ describe('band', () => {
       expect(await ui.find({ type: 'Text', text: 'Weekly' })).toBeUndefined()
       expect(await ui.find({ type: 'Text', text: /Monthly|Today|This session/ })).toBeUndefined()
       expect((await ui.find({ type: 'Button' }))?.props).toMatchObject({ label: 'collapse ▴', action: 'app:cycleDiffBase' })
-      expect((await ui.find({ type: 'Text', text: /collapses$/ }))?.text).toBe('click or ctrl+x b collapses')
+      // no old header row: no hint, no model line, no outer frame
+      expect(await ui.find({ type: 'Text', text: /collapses$/ })).toBeUndefined()
       expect(await ui.find({ type: 'Text', text: '▸ Workers · no jobs running' })).toBeDefined()
       // nothing needs him: no next line, no cache card
       expect(await ui.find({ type: 'Text', text: /^next/ })).toBeUndefined()
       expect(await ui.find({ type: 'Text', text: 'Cache' })).toBeUndefined()
-      expect(await ui.find({ type: 'Text', text: LINE })).toBeUndefined()
+      // the opened view starts with the same band line as the folded one
+      expect(await lineOf(ui)).toBeDefined()
       await ui.press({ key: 'usage' })
       await ui.unmount()
       const closed = await $.ui.mount({ plugin: 'overtone', surface, component: 'AbovePrompt', props: PROPS })
@@ -328,7 +330,7 @@ describe('band', () => {
 })
 
 describe('model row', () => {
-  test('main steps: asked vs seen; a mismatch shows in the dashboard header', async ($, on) => {
+  test('main steps: asked vs seen; a mismatch is no longer drawn in the opened view (no header row)', async ($, on) => {
     const w = world(on)
     w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
     await measure($, w)
@@ -340,9 +342,7 @@ describe('model row', () => {
     expect(w.steps[0]).toEqual(before)
     expect(result).toMatchObject({ answer: 'ok', usage: { model: 'claude-sonnet-5-5' } })
     const open = await expanded($)
-    expect((await open.find({ type: 'Text', text: /^ · Sonnet/ }))?.text).toBe(' · Sonnet 5.5 · high · asked Opus 4.7 ≠ seen')
-    const coloured = (await open.findAll({ type: 'Text' })).filter(t => t.props.color !== undefined)
-    expect(coloured.map(t => [t.text, t.props.color])).toContainEqual([' · asked Opus 4.7 ≠ seen', 'error'])
+    expect(await open.find({ type: 'Text', text: /^ · Sonnet/ })).toBeUndefined()
     await open.unmount()
   })
 
@@ -825,6 +825,71 @@ describe('plan state and the step tool', () => {
       expect(await ui.find({ type: 'Text', text: 'accepted' })).toBeDefined()
       expect(await ui.find({ type: 'Text', text: 'to come' })).toBeDefined()
       expect(await ui.find({ type: 'Text', text: '▸ Workers · no jobs running' })).toBeUndefined()
+      await ui.press({ key: 'usage' })
+      await ui.unmount()
+    }
+  })
+
+  test('the band: the plain button is last, folded and opened; the plan group has a green dot and a bold name; opened has one Workers box and no outer frame or header', async ($, on) => {
+    const w = world(on)
+    let nextId = 0
+    on('tool.call', (_$, e) => {
+      if (e.tool === 'TaskCreate') return { result: { task: { id: String(++nextId), subject: e.subject } } } as never
+      return { result: { success: true, taskId: e.taskId } } as never
+    })
+    w.usage = { startedAt: 0, context: { tokens: 119_000, window: 1_000_000, percent: 12 }, rateLimits: [] }
+    await measure($, w)
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Build it', description: 'd', tool_use_id: 'c1' } as never)
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Test it', description: 'd', tool_use_id: 'c2' } as never)
+    const lastOf = async (ui: Found) => {
+      const band = await boxKeyed(ui, 'band')
+      return (band?.children ?? []).filter((c): c is N => typeof c !== 'string').at(-1)
+    }
+    const folded = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    const fb = await lastOf(folded)
+    expect(fb?.type).toBe('Button')
+    expect(fb?.props).toMatchObject({ label: 'expand ▾', plain: true, action: 'app:cycleDiffBase' })
+    expect(fb?.props.variant).toBeUndefined()
+    // the plan group: separator, green dot, bold name, bar, bold count
+    const dot = await folded.find({ type: 'Text', text: '● ' })
+    expect(dot?.props.color).toBe('#5CC5A3')
+    const name = await folded.find({ type: 'Text', text: 'plan ' })
+    expect(name?.props.bold).toBe(true)
+    expect(name?.props.dimColor).toBeUndefined()
+    // with no plan the button follows the usage line
+    await folded.press({ key: 'usage' })
+    await folded.unmount()
+    const open = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
+    const ob = await lastOf(open)
+    expect(ob?.type).toBe('Button')
+    expect(ob?.props).toMatchObject({ label: 'collapse ▴', plain: true })
+    expect(ob?.props.variant).toBeUndefined()
+    // the same band line on top, no old header, one rounded box (Workers) and no other frame
+    expect(await lineOf(open)).toBeDefined()
+    expect(await open.find({ type: 'Text', text: /collapses$/ })).toBeUndefined()
+    const framed = (await open.findAll({ type: 'Box' })).filter(b => b.props.borderStyle !== undefined)
+    expect(framed.map(b => [b.props.key, b.props.borderStyle])).toEqual([['p-jobs', 'round']])
+    await open.press({ key: 'usage' })
+    await open.unmount()
+  })
+
+  test('the band keeps one row at any height: opened with 1, 2, 3 rows the band line stays and the Workers box degrades', async ($, on) => {
+    const w = world(on)
+    let nextId = 0
+    on('tool.call', (_$, e) => {
+      if (e.tool === 'TaskCreate') return { result: { task: { id: String(++nextId), subject: e.subject } } } as never
+      return { result: { success: true, taskId: e.taskId } } as never
+    })
+    w.usage = { startedAt: 0, context: { tokens: 119_000, window: 1_000_000, percent: 12 }, rateLimits: [] }
+    await measure($, w)
+    await $.tool.call({ tool: 'TaskCreate', subject: 'Build it', description: 'd', tool_use_id: 'c1' } as never)
+    for (const maxRows of [1, 2, 3, 20]) {
+      const ui = await expanded($, { maxRows })
+      expect(await boxKeyed(ui, 'band')).toBeDefined()
+      expect((await ui.findAll({ type: 'Button' })).length).toBe(1)
+      const boxes = (await ui.findAll({ type: 'Box' })).filter(b => b.props.key === 'p-jobs')
+      expect(boxes.length).toBeLessThanOrEqual(1)
+      if (maxRows === 20) expect(boxes.length).toBe(1)
       await ui.press({ key: 'usage' })
       await ui.unmount()
     }

@@ -254,8 +254,8 @@ export const BAND_BAR_MAX = 28
 export const BAND_BAR_MIN = 6
 // The plan tool's title before the bar, cut to this many columns.
 export const BAND_TITLE_MAX = 20
-// `  │  ` before the group, a space after the label, a space before the count.
-const BAND_FIXED = 5 + 1 + 1
+// `  │  ` before the group, `● `, a space after the label, a space before the count.
+const BAND_FIXED = 5 + 2 + 1 + 1
 
 export type PlanBand = {
   // Columns the whole group takes, separator included.

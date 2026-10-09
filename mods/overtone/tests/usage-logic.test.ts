@@ -225,15 +225,15 @@ describe('collapsed line', () => {
   test('narrow: bars shrink 10 → 6 → 4 before any group goes; never past its room; ctx stays', () => {
     const at = (cols: number) => lineText(collapsedLine(snap(), cols))
     for (let cols = 200; cols >= 25; cols--) expect(lineWidth(collapsedLine(snap(), cols))).toBeLessThanOrEqual(cols - BUTTON_ROOM)
-    expect(at(82)).toBe(`ctx ${B(8)}  │  5h ${B(9)}  │  7d ${B(2)}  │  cache 98%`)
-    expect(at(81)).toBe(`ctx ${B(5, 6)}  │  5h ${B(5, 6)}  │  7d ${B(1, 6)}  │  cache 98%`)
-    expect(at(69)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}  │  cache 98%`)
-    expect(at(63)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}`)
-    expect(at(49)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}`)
-    expect(at(37)).toBe(`ctx ${B(3, 4)}`)
+    expect(at(84)).toBe(`ctx ${B(8)}  │  5h ${B(9)}  │  7d ${B(2)}  │  cache 98%`)
+    expect(at(83)).toBe(`ctx ${B(5, 6)}  │  5h ${B(5, 6)}  │  7d ${B(1, 6)}  │  cache 98%`)
+    expect(at(71)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}  │  cache 98%`)
+    expect(at(65)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}  │  7d ${B(1, 4)}`)
+    expect(at(51)).toBe(`ctx ${B(3, 4)}  │  5h ${B(3, 4)}`)
+    expect(at(39)).toBe(`ctx ${B(3, 4)}`)
     // an alert stays: short wording while it fits, else folded into ⚠ N
-    expect(lineText(collapsedLine(snap({ steps: COLD }), 42))).toBe(`ctx ${B(3, 4)}  │  cache 44% ▼`)
-    expect(lineText(collapsedLine(snap({ steps: COLD }), 41))).toBe(`ctx ${B(3, 4)}  │  ⚠ 1`)
+    expect(lineText(collapsedLine(snap({ steps: COLD }), 44))).toBe(`ctx ${B(3, 4)}  │  cache 44% ▼`)
+    expect(lineText(collapsedLine(snap({ steps: COLD }), 43))).toBe(`ctx ${B(3, 4)}  │  ⚠ 1`)
   })
 
   // Three alerts firing: the cold cache, a worker on the wrong model, a partner waiting.
@@ -247,10 +247,10 @@ describe('collapsed line', () => {
     const at = (cols: number) => lineText(collapsedLine(ALERTS3, cols))
     expect(alertsOf(ALERTS3).map(a => a.short)).toEqual(['cache 44% ▼', 'wrong model', 'codex-partner 14m'])
     // 41 columns: the short wording has no room, so ⚠ 3 stands for all three
-    expect(at(41)).toBe(`ctx ${B(3, 4)}  │  ⚠ 3`)
-    expect(collapsedLine(ALERTS3, 41).at(-1)).toEqual({ text: alertMark(3), tone: 'error', bold: true })
-    expect(at(30)).toBe(`${B(3, 4)}  │  ⚠ 3`)
-    expect(at(21)).toBe('⚠ 3')
+    expect(at(43)).toBe(`ctx ${B(3, 4)}  │  ⚠ 3`)
+    expect(collapsedLine(ALERTS3, 43).at(-1)).toEqual({ text: alertMark(3), tone: 'error', bold: true })
+    expect(at(32)).toBe(`${B(3, 4)}  │  ⚠ 3`)
+    expect(at(23)).toBe('⚠ 3')
     // below the floor: ⚠ 3 still, the one documented case past the room
     expect(at(8)).toBe('⚠ 3')
     expect(at(0)).toBe('⚠ 3')
@@ -271,9 +271,9 @@ describe('collapsed line', () => {
 
   test('no alerts at tiny widths: the ctx bar alone, then the bare bar, then an empty line', () => {
     const at = (cols: number) => lineText(collapsedLine(snap(), cols))
-    expect(at(26)).toBe(`ctx ${B(3, 4)}`)
-    expect(at(22)).toBe(B(3, 4))
-    expect(collapsedLine(snap(), 20)).toEqual([])
+    expect(at(28)).toBe(`ctx ${B(3, 4)}`)
+    expect(at(24)).toBe(B(3, 4))
+    expect(collapsedLine(snap(), 22)).toEqual([])
     expect(collapsedLine(snap(), 0)).toEqual([])
   })
 
@@ -289,7 +289,7 @@ describe('collapsed line with Raster bars', () => {
 
   test('the fold button says expand / collapse, and the room it takes follows', () => {
     expect([COLLAPSED_LABEL, EXPANDED_LABEL]).toEqual(['expand ▾', 'collapse ▴'])
-    expect(BUTTON_ROOM).toBe([...COLLAPSED_LABEL].length + 4 + 2 + 4)
+    expect(BUTTON_ROOM).toBe([...EXPANDED_LABEL].length + 4 + 2 + 4)
   })
 
   test('three 8-column bars of what is left, in the tone each figure has; labels, cache and alerts as ever', () => {
@@ -317,7 +317,7 @@ describe('collapsed line with Raster bars', () => {
     }
     const widths = (cols: number) => bars(collapsedLine(snap(), cols, true)).map(g => g.text.length)
     expect(widths(100)).toEqual([8, 8, 8])
-    expect(widths(70)).toEqual([6, 6, 6])
+    expect(widths(72)).toEqual([6, 6, 6])
     expect(widths(60)).toEqual([4, 4, 4])
     expect(widths(49)).toEqual([4, 4])
     expect(widths(37)).toEqual([4])
@@ -671,14 +671,14 @@ describe('the dashboard', () => {
     expect(nextText(nextNote(run) as never)).toBe('5-hour runs out ≈ 12:26 — hold big jobs; a good point to Switch Out; context 212k, switch at a break')
   })
 
-  test('a short band keeps workers first: outer frame, then cache, then next; card frames last', () => {
+  test('a short band keeps workers first: cache, then next; card frames last', () => {
     const w = { byId: { a: worker({ id: 'a', label: 'A' }) } }
     const s = snap({ steps: COLD, workers: w })
     const tall = dashboard(s, 150)
-    // outer 2 + header 1 + jobs card (2 frame + title + columns + 1 job) 5 + cache (2 + title + 3) 6 + next 1
-    expect([tall.outerBorder, tall.panelBorder, dashboardRows(tall)]).toEqual([true, true, 15])
+    // band line 1 + jobs card (2 frame + title + columns + 1 job) 5 + cache (2 + title + 3) 6 + next 1
+    expect([tall.panelBorder, dashboardRows(tall)]).toEqual([true, 13])
     const noOuter = dashboard(s, 150, 13)
-    expect([noOuter.outerBorder, noOuter.cache?.lines.length, dashboardRows(noOuter)]).toEqual([false, 3, 13])
+    expect([noOuter.cache?.lines.length, dashboardRows(noOuter)]).toEqual([3, 13])
     const shrunk = dashboard(s, 150, 11)
     expect([shrunk.cache?.lines.length, dashboardRows(shrunk)]).toEqual([1, 11])
     const noCache = dashboard(s, 150, 6)

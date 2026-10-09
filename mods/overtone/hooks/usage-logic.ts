@@ -839,11 +839,12 @@ function buildCollapsed(s: Snapshot, cells: Cells, raster: boolean): ULine {
   return out
 }
 
-// The terminal draws a Button as `[ label ]`, then a two-space gap; the
-// engine draws its own `[-]` at the row's right end, which is kept free.
+// The button ends the band line: a two-space gap, then `[ label ]`; the
+// engine draws its own `[-]` at the row's right end, which is kept free. The
+// longer label is reserved so the folded and opened lines are identical.
 export const COLLAPSED_LABEL = 'expand ▾'
 export const EXPANDED_LABEL = 'collapse ▴'
-export const BUTTON_ROOM = [...COLLAPSED_LABEL].length + 4 + 2 + 4
+export const BUTTON_ROOM = Math.max([...COLLAPSED_LABEL].length, [...EXPANDED_LABEL].length) + 4 + 2 + 4
 
 // The line never passes `room`, with one documented exception: while alerts
 // fire, `⚠ N` alone is the floor and is returned even when `room` is
@@ -1035,9 +1036,8 @@ export type Dashboard = {
   panelWidth: number
   cache?: CacheCard
   next?: Next
-  // On a band short of rows the outer frame goes first; the card frames
-  // only when nothing else will make the whole fit.
-  outerBorder: boolean
+  // On a band short of rows the card frames go last, when nothing else will
+  // make the whole fit.
   panelBorder: boolean
 }
 
@@ -1048,7 +1048,7 @@ export function perRowFor(columns: number): number {
 }
 
 export function dashboardRows(
-  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'jobsOff' | 'panels' | 'perRow' | 'cache' | 'next' | 'outerBorder' | 'panelBorder'>,
+  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'jobsOff' | 'panels' | 'perRow' | 'cache' | 'next' | 'panelBorder'>,
 ): number {
   const frame = d.panelBorder ? 2 : 0
   const jobs = d.jobsOff
@@ -1061,7 +1061,8 @@ export function dashboardRows(
   // The context, 5-hour and weekly panels are not drawn in the band (the
   // line carries them as bars); /overtone prints them.
   const cache = d.cache ? frame + 1 + d.cache.lines.length : 0
-  return (d.outerBorder ? 2 : 0) + 1 + jobs + cache + (d.next ? 1 : 0)
+  // The band line (1 row) stays on top; the opened view has no outer frame.
+  return 1 + jobs + cache + (d.next ? 1 : 0)
 }
 
 export function dashboard(s: Snapshot, columns: number, maxRows: number = Infinity): Dashboard {
@@ -1082,7 +1083,6 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
     panels: [contextPanel(s, textWidth), fivePanel(s, textWidth), weekPanel(s, textWidth)],
     perRow,
     panelWidth,
-    outerBorder: true,
     panelBorder: true,
   }
   const notes = [
@@ -1096,11 +1096,9 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   if (cache) d.cache = cache
   const n = nextNote(s)
   if (n) d.next = n
-  // Workers come first: on a band short of rows the outer frame goes, then
-  // the cache card shrinks to its first line and then goes (the line still
+  // Workers come first: on a band short of rows the cache card shrinks to its first line and then goes (the line still
   // shows the cache in red), then the next line; only then do jobs fold, and
   // the card frames go last.
-  if (dashboardRows(d) > maxRows) d.outerBorder = false
   if (dashboardRows(d) > maxRows && d.cache && d.cache.lines.length > 1) d.cache = { ...d.cache, lines: d.cache.lines.slice(0, 1) }
   if (dashboardRows(d) > maxRows) delete d.cache
   if (dashboardRows(d) > maxRows) delete d.next

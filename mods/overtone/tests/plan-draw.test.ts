@@ -310,7 +310,7 @@ describe('the band group', () => {
     expect(b.bar.cols).toBe(12)
     const big = planBand(view(Array.from({ length: 12 }, (_, i) => row({ key: `t-${i}`, n: i + 1, state: 'todo' }))), 200, true, 0)!
     expect(big.bar.cols).toBe(28)
-    expect(b.width).toBe(5 + 5 + 12 + 1 + 6)
+    expect(b.width).toBe(5 + 2 + 5 + 12 + 1 + 6)
   })
   test('shrinks to the room left, then goes', () => {
     const wide = planBand(v, 200, true, 0)!
@@ -329,7 +329,7 @@ describe('the band group', () => {
     expect(planBand(v, 200, true, 0)!.label).toBe('plan')
     const titled = planBand({ ...v, title: 'overtone plan view' }, 200, true, 0)!
     expect(titled.label).toBe('overtone plan view')
-    expect(titled.width).toBe(5 + 'overtone plan view'.length + 1 + 12 + 1 + 6)
+    expect(titled.width).toBe(5 + 2 + 'overtone plan view'.length + 1 + 12 + 1 + 6)
     const long = planBand({ ...v, title: 'a very long plan title that goes on' }, 200, true, 0)!
     expect(long.label.length).toBe(BAND_TITLE_MAX)
     expect(long.label.endsWith('…')).toBe(true)
