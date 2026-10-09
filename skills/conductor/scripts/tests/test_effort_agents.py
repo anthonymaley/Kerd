@@ -240,7 +240,7 @@ class ModelEffortAgentDefinitionTests(unittest.TestCase):
 
     def test_every_live_mention_of_the_model_agents_carries_the_haiku_exception(self):
         """Plain `kerd:haiku` sets no effort (the route for sessions that predate
-        kerd:haiku-<effort>, and the only one that fits Haiku 4.5), so guidance naming `kerd:<model>-<effort>` must also
+        kerd:haiku-<effort>; on Haiku 4.5 any named effort does not apply), so guidance naming `kerd:<model>-<effort>` must also
         name plain `kerd:haiku` in the same passage, or it tells Conductor to send a
         Haiku job an effort label that lies. SKILL.md's description may not carry
         '<' or '>' (tools/release_check.py R6), so the checked mention there is the
