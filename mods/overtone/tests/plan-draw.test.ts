@@ -12,6 +12,10 @@ import {
   isAnimating,
   leftBarCells,
   leftBarPixels,
+  isWrongModel,
+  sweepCells,
+  sweepPixels,
+  sweepText,
   toneRgb,
   BAND_TITLE_MAX,
   bandLabel,
@@ -471,5 +475,72 @@ describe('worker rows drawn without a plan', () => {
     expect(card.rows[0]?.detail?.text).toBe('returned')
     expect(planCard({ ...v, unit: undefined, rows: [row(1, 'done')] }, 120, true, 0).rows[0]?.detail?.text).toBe('accepted')
     expect(planCard({ ...v, unit: undefined }, 120, true, 0).header).toBe('1 of 2 accepted')
+  })
+})
+
+describe('a wrong-model worker keeps its place and its flag', () => {
+  const healthy = row({ key: 't-1', n: 1, state: 'running', worker: worker({ id: 'h', asked: 'opus', seen: 'claude-opus-5-5' }) })
+  const wrong = row({ key: 't-2', n: 2, state: 'running', worker: worker({ id: 'x', asked: 'opus', seen: 'claude-sonnet-5-5' }) })
+
+  test('one row available: the wrong-model row is kept, the earlier healthy one folded', () => {
+    expect(isWrongModel(wrong)).toBe(true)
+    expect(isWrongModel(healthy)).toBe(false)
+    const c = planCard(view([healthy, wrong]), 120, true, 0, 1)
+    expect(c.rows.map(r => r.key)).toEqual(['t-2'])
+  })
+
+  test('the detail names what was asked, in red', () => {
+    const r = cardRow(wrong, planLayout(120, true), true, 0)
+    expect(r.detail).toMatchObject({ color: HEX.needs, bold: true })
+    expect(r.detail?.text).toMatch(/^wrong model · asked Opus/)
+  })
+
+  test('with the model and detail columns gone, the name still carries it (▼, red)', () => {
+    const lay = planLayout(40, true)
+    expect([lay.model, lay.detail]).toEqual([0, 0])
+    const r = cardRow(wrong, lay, true, 0)
+    expect(r.name.startsWith('▼ 2.')).toBe(true)
+    expect(r.wrong).toBe(true)
+    expect(cardRow(healthy, lay, true, 0).wrong).toBeUndefined()
+  })
+})
+
+describe('no room for any task row', () => {
+  test('zero rows available draws none and keeps the count header', () => {
+    const c = planCard(view([row({ state: 'running' }), row({ key: 't-2', n: 2, state: 'todo' })]), 120, true, 0, 0)
+    expect(c.rows).toEqual([])
+    expect(c.header).toBe('0 of 2 accepted · +2 more')
+  })
+})
+
+describe('a row with no step total shows activity, not progress', () => {
+  test('running: grey track, one yellow column that sweeps with the frame', () => {
+    const at = (f: number) => sweepPixels(6, 'running', f)[0]!.map(p => (p === YELLOW ? 'Y' : p === GREY ? '.' : '?')).join('')
+    expect([0, 1, 2, 5, 6, 7].map(at)).toEqual(['Y.....', '.Y....', '..Y...', '.....Y', 'Y.....', '.Y....'])
+    expect(sweepPixels(6, 'running', 0)[1]).toEqual(sweepPixels(6, 'running', 0)[0])
+  })
+
+  test('needs and failed sweep red', () => {
+    expect(sweepPixels(4, 'needs', 1)[0]).toEqual([GREY, RED, GREY, GREY])
+    expect(sweepPixels(4, 'failed', 2)[0]).toEqual([GREY, GREY, RED, GREY])
+  })
+
+  test('text form: ░ track, one █ in the state colour', () => {
+    const t = sweepText(5, 'running', 3)
+    expect(t.map(s => s.text).join('')).toBe('░░░█░')
+    expect(t[3]!.color).toBe(HEX.running)
+    expect(bytes(sweepCells(5, 'running', 3))).toHaveLength(5 * 12)
+  })
+
+  test('a running row with no steps sweeps in the card, with Raster or text; one with a total keeps its blocks; done stays solid', () => {
+    const lay = planLayout(120, true)
+    const run = row({ state: 'running' })
+    expect(cardRow(run, lay, true, 0).bar.cells).toBe(sweepCells(lay.bar, 'running', 0))
+    expect(cardRow(run, lay, true, 1).bar.cells).not.toBe(cardRow(run, lay, true, 0).bar.cells)
+    expect(cardRow(run, planLayout(120, false), false, 2).bar.text!.map(s => s.text).join('')).toContain('█')
+    const stepped = row({ state: 'running', steps: { done: 1, total: 4, atMs: 0 } })
+    expect(cardRow(stepped, lay, true, 0).bar.cells).toBe(barCells(lay.bar, rowSegs(stepped, lay.bar), 0))
+    const done = row({ state: 'done' })
+    expect(cardRow(done, lay, true, 0).bar.cells).toBe(barCells(lay.bar, ['done'], 0))
   })
 })

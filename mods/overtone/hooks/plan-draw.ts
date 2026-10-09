@@ -156,6 +156,30 @@ export function barPixels(cols: number, segs: readonly PlanRowState[], frame: nu
 export const barCells = (cols: number, segs: readonly PlanRowState[], frame: number): string =>
   cells(barPixels(cols, segs, frame), Math.max(0, Math.floor(cols)), 1)
 
+// A row that is running, waiting on you or failed with no step total yet:
+// activity, not progress. The grey track with one 1-column block sweeping
+// across it on the animation frame, yellow for running, red for needs/failed.
+export const isIndeterminate = (row: PlanRow): boolean =>
+  (row.state === 'running' || row.state === 'needs' || row.state === 'failed') && !(row.steps && row.steps.total > 0 && Number.isFinite(row.steps.total))
+
+const sweepAt = (cols: number, frame: number): number => (cols > 0 ? ((Math.floor(frame) % cols) + cols) % cols : -1)
+
+export function sweepPixels(cols: number, state: PlanRowState, frame: number): Px[][] {
+  const w = Math.max(0, Math.floor(cols))
+  const at = sweepAt(w, frame)
+  const row: Px[] = Array.from({ length: w }, (_, x) => (x === at ? stateRgb(state) : GREY))
+  return [row, [...row]]
+}
+
+export const sweepCells = (cols: number, state: PlanRowState, frame: number): string =>
+  cells(sweepPixels(cols, state, frame), Math.max(0, Math.floor(cols)), 1)
+
+export function sweepText(cols: number, state: PlanRowState, frame: number): PSeg[] {
+  const w = Math.max(0, Math.floor(cols))
+  const at = sweepAt(w, frame)
+  return Array.from({ length: w }, (_, x): PSeg => (x === at ? { text: '█', color: HEX[state] } : { text: '░', color: HEX.todo }))
+}
+
 // A 2×2-pixel square: running, one bright pixel chases round a dim ring;
 // needs/failed, all four blink red; done, solid green; returned, solid
 // yellow (steady: it waits on acceptance, nothing moves); todo, dim grey.
@@ -344,8 +368,10 @@ export type CardRow = {
   state: PlanRowState
   // Raster square cells, or (no Raster) the glyph.
   mark: { cells?: string; glyph?: PSeg }
-  // Padded to the layout's name width.
+  // Padded to the layout's name width. A wrong-model row starts `▼ `.
   name: string
+  // The worker is on another model than asked: the name draws red.
+  wrong?: boolean
   bar: { cols: number; cells?: string; text?: PSeg[] }
   model?: PSeg
   effort?: PSeg
@@ -408,9 +434,20 @@ function effortCol(row: PlanRow, width: number): PSeg | undefined {
   return seg
 }
 
+// The worker answered on a model other than the one asked for.
+export const isWrongModel = (row: PlanRow): boolean => {
+  const w = row.worker
+  return !!w && w.seen !== undefined && w.asked !== undefined && compareModels(w.asked, w.seen) === 'mismatch'
+}
+
 function detailOf(row: PlanRow, width: number): PSeg | undefined {
   if (width <= 0) return undefined
   const w = row.worker
+  if (isWrongModel(row) && w) {
+    const rest = detailOf({ ...row, worker: { ...w, seen: w.asked } }, 200)?.text ?? ''
+    const text = `wrong model · asked ${prettyModel(w.asked!)}${rest ? ` · ${rest}` : ''}`
+    return { text: clip(text, width), color: HEX.needs, bold: true }
+  }
   switch (row.state) {
     case 'needs':
       return { text: clip(shownText(w?.blocked?.what ?? '').replace(/^wants to run /, '') || 'asks you', width), color: HEX.needs }
@@ -428,16 +465,22 @@ function detailOf(row: PlanRow, width: number): PSeg | undefined {
 }
 
 export function cardRow(row: PlanRow, lay: PlanLayout, raster: boolean, frame: number): CardRow {
-  const title = row.n !== undefined ? `${row.n}. ${row.title}` : row.title
+  const wrong = isWrongModel(row)
+  const title = `${wrong ? '▼ ' : ''}${row.n !== undefined ? `${row.n}. ${row.title}` : row.title}`
   const segs = rowSegs(row, lay.bar)
   const out: CardRow = {
     key: row.key,
     state: row.state,
     mark: raster ? { cells: squareCells(row.state, frame) } : { glyph: glyphSeg(row.state) },
     name: fit(title, lay.name),
-    bar: raster
-      ? { cols: lay.bar, cells: barCells(lay.bar, segs, frame) }
-      : { cols: lay.bar, text: textBar(lay.bar, segs) },
+    ...(wrong ? { wrong: true } : {}),
+    bar: isIndeterminate(row)
+      ? raster
+        ? { cols: lay.bar, cells: sweepCells(lay.bar, row.state, frame) }
+        : { cols: lay.bar, text: sweepText(lay.bar, row.state, frame) }
+      : raster
+        ? { cols: lay.bar, cells: barCells(lay.bar, segs, frame) }
+        : { cols: lay.bar, text: textBar(lay.bar, segs) },
   }
   const model = modelCol(row, lay.model)
   if (model) out.model = model
@@ -464,8 +507,10 @@ export function planCard(v: PlanView, inner: number, raster: boolean, frame: num
   const layout = planLayout(inner, raster)
   let keep = v.rows.map((_, i) => i)
   if (v.rows.length > maxRows) {
-    const n = Math.max(1, Math.floor(maxRows))
-    const ranked = keep.slice().sort((a, b) => URGENCY[v.rows[a]!.state] - URGENCY[v.rows[b]!.state] || a - b)
+    const n = Math.max(0, Math.floor(maxRows))
+    // a wrong-model row is never folded away before a healthy one
+    const urgency = (i: number) => (isWrongModel(v.rows[i]!) ? -1 : URGENCY[v.rows[i]!.state])
+    const ranked = keep.slice().sort((a, b) => urgency(a) - urgency(b) || a - b)
     const chosen = new Set(ranked.slice(0, n))
     keep = keep.filter(i => chosen.has(i))
   }

@@ -64,7 +64,7 @@ import type {
 import { EMPTY_MODEL, EMPTY_WORKERS, bandText, noteList, noteListError, noteStepEnd, noteStepStart } from './logic'
 import { EMPTY_PLAN, PLAN_SPEC, STEP_SPEC, planView } from './plan-logic'
 import type { PlanView } from './plan-logic'
-import { isAnimating, leftBarCells, planBand, planCard, toneRgb } from './plan-draw'
+import { HEX, isAnimating, leftBarCells, planBand, planCard, toneRgb } from './plan-draw'
 import type { CardRow, PSeg } from './plan-draw'
 import {
   BAND_ACTION,
@@ -185,9 +185,11 @@ async function snapshotOf($: EngineInterface, isWorking: boolean): Promise<Snaps
 // the ticker itself. Fail open.
 async function syncFrame($: EngineInterface): Promise<void> {
   try {
-    const now = await $.clock.now()
-    const v = planView(await read($, plan), await read($, workers), now)
-    const on = isAnimating(v)
+    // the real plan when one is sent, else the workers drawn as one
+    const s = await snapshotOf($, false)
+    const real = planView(s.plan, s.workers, s.nowMs)
+    const v = real.total > 0 ? real : workerPlanView(s)
+    const on = v !== undefined && isAnimating(v)
     if (on && !fast) {
       fast = $.clock.every(FAST_MS, () => {
         void (async () => {
@@ -657,7 +659,12 @@ export const register: Register = on => {
             {r.mark.glyph?.text ?? ' '}
           </Text>
         )}
-        <Text key={`n-${r.key}`} bold={r.state !== 'todo' ? true : undefined} dimColor={r.state === 'todo' ? true : undefined}>
+        <Text
+          key={`n-${r.key}`}
+          bold={r.state !== 'todo' ? true : undefined}
+          dimColor={r.state === 'todo' ? true : undefined}
+          color={r.wrong ? HEX.needs : undefined}
+        >
           {r.name}
         </Text>
         {r.bar.cells && Raster ? (
@@ -686,7 +693,7 @@ export const register: Register = on => {
       const inner = Math.max(30, (Number.isFinite(cols) ? cols : 200) - (d.outerBorder ? 4 : 0) - (d.panelBorder ? 4 : 0))
       const room =
         e.props.maxRows - dashboardRows({ ...d, jobsOff: true }) - (d.panelBorder ? 2 : 0) - 1 - partnerJobs.length
-      const card = planCard(cardView, inner, Raster !== undefined, fr, Math.max(1, room))
+      const card = planCard(cardView, inner, Raster !== undefined, fr, Math.max(0, room))
       planCardEl = (
         <Box {...frame('p-jobs')}>
           {titleRow(

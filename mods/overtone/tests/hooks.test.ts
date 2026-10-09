@@ -415,6 +415,42 @@ describe('workers', () => {
     await ui.unmount()
   })
 
+  test('workers with no plan on a two-row band: the card keeps its count-only header, no worker row past the budget', async ($, on) => {
+    const w = world(on)
+    w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
+    w.agents = [
+      { id: 'a1', description: 'Reviewer', type: 'Explore', status: 'running' },
+      { id: 'a2', description: 'Scout', type: 'Explore', status: 'running' },
+    ]
+    await measure($, w)
+    const ui = await expanded($, { maxRows: 2 })
+    const rowBoxes = (await ui.findAll({ type: 'Box' })).filter(b => String(b.props.key).startsWith('w-'))
+    expect(rowBoxes).toHaveLength(0)
+    expect(await ui.find({ type: 'Text', text: /^Workers/ })).toBeDefined()
+    await ui.unmount()
+  })
+
+  test('workers with no plan animate: the frame ticker runs for the synthetic view too', async ($, on) => {
+    const w = world(on, { mockClock: true })
+    const clock = mock.clock(on, { now: T0 })
+    w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
+    w.agents = [{ id: 'a1', description: 'Reviewer', type: 'Explore', status: 'running' }]
+    await $.session.start({ cwd: '/w', surface: 'terminal', isInteractive: true })
+    await measure($, w)
+    const barOf = async (ui: Found) =>
+      (((await boxKeyed(ui, 'w-a1'))?.children ?? []) as (N | string)[]).filter((c): c is N => typeof c !== 'string' && c.type === 'Raster').map(c => String(c.props.cells))
+    const first = await expanded($)
+    const before = await barOf(first)
+    await first.unmount()
+    await clock.advance(2_100)
+    await clock.settle()
+    const again = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS as never })
+    const after = await barOf(again)
+    expect(before).toHaveLength(2)
+    expect(after).not.toEqual(before)
+    await again.unmount()
+  })
+
   test('a spawn and its requests: asked vs saw, activity; a permission ask holds it', async ($, on) => {
     const w = world(on)
     w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
@@ -530,7 +566,7 @@ describe('workers', () => {
     expect(await lineOf(ui)).toBe(`  ctx ${bar('terminal')}  │  5h —  │  7d —  │  cache —  │  worker on sonnet, asked opus`)
     await ui.unmount()
     const open = await expanded($)
-    expect(await rowOf(open, 'b1')).toMatch(/^▰*1\. Builder\b.*Sonnet 5\.5 high$/)
+    expect(await rowOf(open, 'b1')).toMatch(/^▰*▼ 1\. Builder\b.*Sonnet 5\.5 high wrong model · asked Opus$/)
     // the model the worker is not meant to be on shows red in its row
     const red = (await open.findAll({ type: 'Text' })).filter(t => t.props.color === '#D64545').map(t => t.text.trim())
     expect(red).toEqual(expect.arrayContaining(['Sonnet 5.5']))
