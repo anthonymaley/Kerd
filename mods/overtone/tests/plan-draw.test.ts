@@ -299,6 +299,23 @@ describe('card rows', () => {
   })
 })
 
+describe('the card at the narrowest', () => {
+  const v = view([row({ state: 'done' }), row({ key: 't-2', n: 2, state: 'running' })], 1)
+  test('below the least a task row can be drawn in, the rows are left out and the header keeps its count', () => {
+    for (const inner of [0, 5, 12]) {
+      const c = planCard(v, inner, true, 0)
+      expect([inner, c.rows.length]).toEqual([inner, 0])
+      expect(c.header).toMatch(/^1 of 2 accepted/)
+    }
+    expect(planCard(v, 14, true, 0).rows).toHaveLength(2)
+    expect(planCard(v, 13, false, 0).rows).toHaveLength(2)
+  })
+  test('other things folded out of the card are counted in its "+K more"', () => {
+    expect(planCard(v, 120, true, 0, Infinity, 2).header).toBe('1 of 2 accepted · +2 more')
+    expect(planCard(v, 120, true, 0, 1, 2).header).toBe('1 of 2 accepted · +3 more')
+  })
+})
+
 describe('the band group', () => {
   const v = view([row({ state: 'done' }), row({ key: 't-2', n: 2, state: 'running' }), row({ key: 't-3', n: 3, state: 'todo' })], 1)
   test('no plan, nothing', () => {

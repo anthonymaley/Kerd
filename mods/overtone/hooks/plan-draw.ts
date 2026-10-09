@@ -503,9 +503,13 @@ const URGENCY: Record<PlanRowState, number> = { needs: 0, failed: 0, running: 1,
 // The card for `inner` columns and at most `maxRows` task lines: all of
 // them, or (past that) the most urgent in plan order, the rest counted in
 // the header.
-export function planCard(v: PlanView, inner: number, raster: boolean, frame: number, maxRows = Infinity): PlanCard {
+// `moreHidden`: other things folded out of the card (partner requests), counted in the header's "+K more".
+export function planCard(v: PlanView, inner: number, raster: boolean, frame: number, maxRows = Infinity, moreHidden = 0): PlanCard {
   const layout = planLayout(inner, raster)
   let keep = v.rows.map((_, i) => i)
+  // Below the least a row can be drawn in (mark, 6-column name, 4-column bar
+  // and two gaps) the task rows are left out; the header and its count stay.
+  if (Number.isFinite(inner) && inner < layout.mark + 6 + 4 + 2) maxRows = 0
   if (v.rows.length > maxRows) {
     const n = Math.max(0, Math.floor(maxRows))
     // a wrong-model row is never folded away before a healthy one
@@ -515,8 +519,9 @@ export function planCard(v: PlanView, inner: number, raster: boolean, frame: num
     keep = keep.filter(i => chosen.has(i))
   }
   const hidden = v.rows.length - keep.length
+  const more = hidden + moreHidden
   return {
-    header: `${v.accepted} of ${v.total} ${v.unit ?? 'accepted'}${hidden > 0 ? ` · +${hidden} more` : ''}${v.overflow ? ` · ${v.overflow} over the cap not kept` : ''}`,
+    header: `${v.accepted} of ${v.total} ${v.unit ?? 'accepted'}${more > 0 ? ` · +${more} more` : ''}${v.overflow ? ` · ${v.overflow} over the cap not kept` : ''}`,
     layout,
     rows: keep.map(i => cardRow(v.rows[i]!, layout, raster, frame)),
     hidden,

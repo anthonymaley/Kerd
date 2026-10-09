@@ -776,6 +776,32 @@ describe('the dashboard', () => {
     expect([tall.panelBorder, tall.card?.shown]).toEqual([true, 4])
   })
 
+  test('partner requests under a plan card fold one at a time, counted, and the freed rows go back to plan rows', () => {
+    const rowsOf = (n: number) => Array.from({ length: n }, (_, i) => ({ id: `r${i}`, alias: `partner-${i}`, provider: 'codex' as const, doing: 'review', createdMs: T0 - (14 + i) * M, state: 'waiting' as const }))
+    const s = snap({ partners: { polledMs: T0, rows: rowsOf(2) } })
+    // four plan rows, two requests: four rows leave spacer, band, title and one line; the
+    // requests are counted, not lost, and the plan row stays
+    const d = dashboard(s, 150, 4, 4)
+    expect([d.card?.shown, d.jobs.length, d.jobsHidden, d.jobsOff, dashboardRows(d)]).toEqual([1, 0, 2, undefined, 4])
+    // five rows: one plan row and the worst request, the other counted
+    const five = dashboard(s, 150, 5, 4)
+    expect([five.card?.shown, five.jobs.length, five.jobsHidden, dashboardRows(five)]).toEqual([1, 1, 1, 5])
+    // framed from six rows (the frame wins while a plan row fits): eight bring both requests
+    // back, nine the freed room goes back to plan rows
+    const eight = dashboard(s, 150, 8, 4)
+    expect([eight.panelBorder, eight.card?.shown, eight.jobs.length, eight.jobsHidden, dashboardRows(eight)]).toEqual([true, 1, 2, 0, 8])
+    const nine = dashboard(s, 150, 9, 4)
+    expect([nine.card?.shown, nine.jobs.length, nine.jobsHidden, dashboardRows(nine)]).toEqual([2, 2, 0, 9])
+    // room for everything: nothing folded
+    const tall = dashboard(s, 150, 20, 4)
+    expect([tall.card?.shown, tall.jobs.length, tall.jobsHidden]).toEqual([4, 2, 0])
+    // every height: within the rows, requests all accounted for
+    for (let rows = 1; rows <= 14; rows++) {
+      const x = dashboard(s, 150, rows, 4)
+      expect([rows, dashboardRows(x) <= rows, x.jobsOff || x.jobs.length + x.jobsHidden === 2]).toEqual([rows, true, true])
+    }
+  })
+
   test('the spacer needs two rows', () => {
     expect([spacerFits(1), spacerFits(2), spacerFits(Infinity), spacerFits(NaN)]).toEqual([false, true, true, true])
     expect(dashboard(snap(), 150, 1).spacer).toBe(false)

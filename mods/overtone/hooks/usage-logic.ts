@@ -1174,25 +1174,44 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
 // The blank row above the band needs two rows; a one-row band is the line alone.
 export const spacerFits = (maxRows: number): boolean => !(maxRows < 2)
 
-// The plan card on a short band: fewer plan rows with the frame, then
-// without it, then the title row alone, then the partner requests go, then
-// the card.
+// The plan card on a short band: with the frame, then without it, the most
+// plan rows and partner requests that fit (at least one plan row; on a tie
+// the requests win, the worst kept); then the title row alone with what
+// requests fit; then the card goes. Requests left out are counted in the
+// card header's "+K more".
 function fitCard(d: Dashboard, maxRows: number): void {
   const card = d.card
   if (!card) return
   const fits = () => dashboardRows(d) <= maxRows
+  const ranked = d.jobs.map((j, i) => ({ j, i })).sort((a, b) => jobRank(a.j) - jobRank(b.j) || a.i - b.i)
+  const all = d.jobs
+  const keepWorst = (p: number) => {
+    const kept = new Set(ranked.slice(0, p).map(r => r.i))
+    d.jobs = all.filter((_, i) => kept.has(i))
+    d.jobsHidden = all.length - p
+  }
   const floor = Math.min(1, card.rows)
   for (const frame of [true, false]) {
     d.panelBorder = frame
+    let best: { k: number; p: number } | undefined
     for (let k = card.rows; k >= floor; k--) {
-      card.shown = k
-      if (fits()) return
+      for (let p = all.length; p >= 0; p--) {
+        card.shown = k
+        keepWorst(p)
+        if (fits() && (!best || k + p > best.k + best.p || (k + p === best.k + best.p && p > best.p))) best = { k, p }
+      }
+    }
+    if (best) {
+      card.shown = best.k
+      keepWorst(best.p)
+      return
     }
   }
   card.shown = 0
-  if (fits()) return
-  d.jobs = []
-  if (fits()) return
+  for (let p = all.length; p >= 0; p--) {
+    keepWorst(p)
+    if (fits()) return
+  }
   d.jobsOff = true
 }
 

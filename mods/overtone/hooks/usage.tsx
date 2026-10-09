@@ -704,7 +704,7 @@ export const register: Register = on => {
       const partnerJobs = d.jobs
       // Padding is always 2 columns, the frame's border 2 more.
       const inner = Math.max(0, (Number.isFinite(cols) ? cols : 200) - 2 - (d.panelBorder ? 2 : 0))
-      const card = planCard(cardView, inner, Raster !== undefined, fr, d.card.shown)
+      const card = planCard(cardView, inner, Raster !== undefined, fr, d.card.shown, d.jobsHidden)
       planCardEl = (
         <Box {...frame('p-jobs')}>
           {titleRow(
