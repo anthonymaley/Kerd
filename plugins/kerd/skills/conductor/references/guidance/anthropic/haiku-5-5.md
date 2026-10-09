@@ -31,7 +31,10 @@ Haiku 5.5 is the first Haiku with effort levels. `model: haiku` resolves to Haik
 on AWS, Bedrock, Google Cloud and Foundry it still resolves to Haiku 4.5. Apply this
 profile only when the observed model is Haiku 5.5. Kerd routes it as `kerd:haiku-low`, `kerd:haiku-medium` or
 `kerd:haiku-high`. Plain `kerd:haiku` sets no effort and stays only for sessions
-that predate those agents; it runs at the host default. Haiku 4.5 is the previous
+that predate those agents; two probes (2026-10-09) saw it run at the parent session's
+effort, not Haiku 5.5's default of medium: Haiku 5.5 parents at low and at high,
+Claude Code 2.1.295, `CLAUDE_EFFORT` and `CLAUDE_CODE_EFFORT_LEVEL` unset. Other
+parents, levels and versions are unverified. Haiku 4.5 is the previous
 model and works differently (see [model choice](../model-choice.md)).
 
 Left out because Kerd's native route sets none of them: `budget_tokens` (returns
