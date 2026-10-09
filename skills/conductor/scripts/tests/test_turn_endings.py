@@ -16,7 +16,7 @@ class TurnEndingTests(unittest.TestCase):
     def test_journey_names_the_wait_and_the_partner_reply(self):
         text = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
         for fragment in ("**Waiting on a job**",
-                         "the last line names the job, says how the session resumes",
+                         "the last line names the worker or job, says how the session resumes",
                          "or “return time unknown” with that next check; it never invents an estimate",
                          "A bare “nothing is needed from you” or a status tick without the job and how it resumes is not that line",
                          "Claim an automatic wake-up only where the route provides one",
@@ -33,16 +33,22 @@ class TurnEndingTests(unittest.TestCase):
         self.assertIn("first start every other job the current authority already covers and that does not depend on it", text)
         self.assertIn("A named wait is the right ending only when nothing else authorized can move", text)
 
-    def test_ci_is_watched_in_the_background(self):
+    def test_ci_goes_to_a_worker(self):
         # Real use, 2026-10-09: "i constantly tell it to move on when it starts CI work";
-        # the same sitting held its turn on a foreground `gh run watch`.
+        # wording that said "watch in the background" failed twice, so the job now goes to a worker.
         journey = normalize((REPO_ROOT / "skills/conductor/references/journey.md").read_text(encoding="utf-8"))
         skill = normalize((REPO_ROOT / "skills/conductor/SKILL.md").read_text(encoding="utf-8"))
-        self.assertIn("never a foreground watcher such as `gh run watch` or `sleep` that holds the turn", journey)
+        self.assertIn("every one expected to take over about a minute is handed to a worker subagent launched in the background (on Claude Code a `kerd:haiku-low` Agent call, model haiku", journey)
+        self.assertIn("returns pass/fail, the run's ID, and on failure the failing lines or why they could not be retrieved", journey)
+        self.assertIn("The controller never runs a watcher such as `gh run watch`, a `sleep` or a wait loop itself, foreground or polled in the background", journey)
+        self.assertIn("Short checks (a single test file, `release_check`, a quick command) stay inline", journey)
         self.assertIn("The person should never have to say \"move on\" while CI runs", journey)
-        self.assertIn("CI, a deploy or a long test run is watched in the background", skill)
         self.assertIn("A local run keeps its inputs and outputs", journey)
+        self.assertIn("goes to a worker launched in the background (`kerd:haiku-low`, model haiku, on Claude Code; elsewhere a worker with the access it needs, or the blocker said) that runs or watches it and returns pass/fail, the run's ID and, on failure, the failing lines", skill)
+        self.assertIn("the controller never runs `gh run watch`, a `sleep` or a wait loop itself", skill)
         self.assertIn("never editing files a local run is still reading or writing", skill)
+        self.assertIn("Short checks stay inline", skill)
+        self.assertNotIn("watched in the background", skill)
 
     def test_genuine_question_is_open(self):
         # Real use, 2026-09-26: an unblocked genuine question was worded "X, or Y?".
