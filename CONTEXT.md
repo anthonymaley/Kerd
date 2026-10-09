@@ -169,26 +169,26 @@ background-session list; he quits there with Ctrl-C. Switch Out's restart line s
 **Guard work stopped (Anthony 2026-10-07 20:31, "y"):** the unreadable-working-`vault.json` redesign is parked in the Backlog (branch `fix/guard-unreadable-working-vault` 3dbcc28 kept local, unpushed); the next guard change waits for a real slip, per the guard-scope ruling. Four of the day's nine sittings went to guard edges found by review rather than real use.
 
 
-**Selected continuation (2026-10-09 00:3x): nothing buildable.** Now holds watch items and Anthony's own steps; the Backlog rows are all held (revisit only if a slip or need shows) or need samples. Offered: Anthony looks at overtone 0.9.2 after a restart (the band and opened view against the prototype; only Claude's trial tab has seen it), and moves his Codex to the public `codex` branch (three releases behind); also close `studio:overtone-trial`.
-Today: `kivna/sessions/2026-10-09.md` (two sittings: the tsconfig ignore and 0.9.1 design check; 0.180.2 / overtone 0.9.2). Yesterday: `kivna/sessions/2026-10-08.md` (nine sittings: question-shape recheck and Switch Out fix; Sonnet-medium rerun and 0.178.0; notes-save and step-list fixes; 0.179.0; the plan-view design and build; the `test_ask` race; the worker-text concert; the live trial and 0.180.0). Before that: `kivna/sessions/2026-10-07.md` (twelve sittings).
+**Selected continuation (2026-10-09 09:0x): nothing buildable.** Now holds watch items and Anthony's Codex move; every Backlog row is held (revisit only if a slip or need shows) or needs samples (rechecked 08:0x). His look at overtone 0.9.2 is done (08:58, "looked close"); `studio:overtone-trial` is gone. Offered: Anthony moves his Codex to the public `codex` branch (three releases behind); the first real Conductor concert will show the plan view at a real pace.
+Today: `kivna/sessions/2026-10-09.md` (three sittings: the tsconfig ignore and 0.9.1 design check; 0.180.2 / overtone 0.9.2; his 0.9.2 band check). Yesterday: `kivna/sessions/2026-10-08.md` (nine sittings: question-shape recheck and Switch Out fix; Sonnet-medium rerun and 0.178.0; notes-save and step-list fixes; 0.179.0; the plan-view design and build; the `test_ask` race; the worker-text concert; the live trial and 0.180.0). Before that: `kivna/sessions/2026-10-07.md` (twelve sittings).
 **Parked (Anthony 2026-10-03 17:48):** a Switch Out/In button on the band; don't raise it until he does. Releases stay paused;
 findings go to the Backlog.
 
-**Pickup reading set** (update 2026-10-09 00:0x):
+**Pickup reading set** (update 2026-10-09 09:0x):
 - this file complete: position (0.180.0 / overtone 0.9.0 released with the Codex package; his Codex three releases behind), the selected continuation (nothing buildable), rulings and the Codex position;
 - `TODO.md` `## Now`, the designated active list (`## Backlog` is a separate section outside the set; the selected item's row is carried in the continuation above);
-- `kivna/sessions/2026-10-09.md`, newest log (one sitting);
+- `kivna/sessions/2026-10-09.md`, newest log (three sittings);
 - `notes:overtone-savvy/work.md`, the plan view's sketchbook: design, the live trial, accepted limits (what to watch for in real use);
 - `notes:outside-the-repo.md`, live links outside the repo.
 Deeper: `kivna/sessions/2026-10-08.md` (ten sittings: question shape, 0.178.0 to 0.180.1, the plan view); `notes:overtone-savvy/mock.html`, `savvy-look.html`, `raster-proto-register.tsx` (the prototype); `notes:release-0179/work.md` (this sitting: 0.179.0, three review rounds, the `test_ask` race); `notes:bundle-1008/work.md` (notes save, step-list scan); `notes:sonnet-55/work.md` (medium vs high, three checks); `notes:question-shape/work.md` (recheck results, the Switch Out fix, its release); `kivna/sessions/2026-10-07.md` (twelve sittings); `notes:overtone-guard-gaps/work.md` (cut read, unreadable-working blocker, 0.8.3 refspec fix, 0.8.2, 0.8.1); `notes:codex-public-package/work.md` (0.177.2 Codex package, Codex's record); `notes:codex-update/work.md` (Codex 0.177.0 install); `notes:arrival-nothing-buildable/work.md` (0.177.0); `notes:haiku-switch/work.md` (0.176.0: diagnosis, probe, build); `notes:overtone-guard-gaps/work.md` (0.8.2 failed `cd`, and 0.8.1); `notes:opus-switch-evals/work.md` (Opus evals); `kivna/sessions/2026-10-06.md` (eight sittings: 0.172.1 to 0.175.1, the eval graders); `notes:boundary-slip/work.md` (0.175.2); `notes:switch-eval-graders/work.md`; `notes:overtone-guard-gaps/work.md`; `notes:chat-roll-window/work.md`; `notes:fixes-2026-10-06/work.md`; `notes:skills-guideline/work.md`; `docs/decisions.md`; `docs/backlog-archive.md`; `notes:overtone/work.md`; `notes:sonnet-55/work.md`; `notes:codex-update/work.md`;
 `notes:real-use-evidence/work.md`; `notes:model-fit/work.md`; `notes:rolling-session/threshold.md`.
 
-**Notes commit:** `492a02b8bbffec97c09e50b2ca084e8d0c8acd9c` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
+**Notes commit:** `e96f1806b16576b163fc749cf4998efd868f2c93` (pass it to `prepare`/`pickup` as `--notes-commit`). The vault repo root is
 `~/development/home/eolas` (notes under `vault/`). Out commits Kerd's vault files by name with plain git (2026-10-07: the vault tree also holds apple-music's unsaved notes, not Kerd's; Kerd commits only its own paths).
 
-The observed position before this save is `main` at e8a156a4 (the 0.180.2 release); the boundary commit is this save itself. Ask `git log` for its ID.
+The observed position before this save is `main` at 44810bba (the 00:3x Switch save); the boundary commit is this save itself. Ask `git log` for its ID.
 
-**Measured** 2026-10-09 00:3x: 83,460 bytes, about 20,865 tokens (estimate), 12,865 over the 8,000 target: CONTEXT.md's release history and rulings and the plan-view sketchbook (the overtone work's whole design and trial record). Carried findings checked (nothing buildable, overtone 0.9.2, three releases behind, studio:overtone-trial, collapse ▴) are in the set. `read_args` for the next pickup:
+**Measured** 2026-10-09 09:0x: 84,810 bytes, about 21,203 tokens (estimate), 13,203 over the 8,000 target: CONTEXT.md's release history and rulings and the plan-view sketchbook (the overtone work's whole design and trial record). Carried findings checked (nothing buildable, looked close, three releases behind, real Conductor concert) are in the set; the trial window's closure is in CONTEXT.md in backticks. `read_args` for the next pickup:
 
 ```
 ["--record", "CONTEXT.md", "--file", "kivna/sessions/2026-10-09.md", "--file", "notes:overtone-savvy/work.md",

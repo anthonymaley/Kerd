@@ -7,6 +7,12 @@ is edited after it lands. Started 2026-09-11 at the first run of the lean-start 
 
 
 
+## Closed 2026-10-09 (Conductor and Switch Out, 08:5x)
+
+**Done (no longer needed):** the Now row "Anthony: close the trial tmux window `studio:overtone-trial`". Evidence: `tmux list-windows -a` at 2026-10-09 08:0x lists no such window; it was closed outside the record.
+
+**Done:** the Now row "Anthony: look at overtone 0.9.2 after a restart". Evidence: Anthony watched the band in a session on the installed 0.180.2 / overtone 0.9.2 with a three-task plan and two Haiku workers, 2026-10-09 08:58: "yes looked close" (his question on missing effort: Haiku takes none, `—` by design). Its unseen parts carry on in the Now row "Watch overtone's plan view in a real Conductor concert".
+
 ## Closed 2026-10-08 (Switch Out, 11:2x)
 
 **Done:** the three Backlog rows below. Evidence: all three shipped in 0.178.0 (released 2026-10-08 10:37 on Anthony's "y", CI green, Codex package published; commits e97db02, 0d8e1c0/ee8cf4e, 087b51b).
