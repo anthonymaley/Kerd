@@ -526,3 +526,33 @@ describe('workers that never reported an ending', () => {
     expect(Object.values(gone.byId).every(x => x.status !== 'running')).toBe(true)
   })
 })
+
+describe('model-written text in the /overtone band rows', () => {
+  const BAD = /[\u0000-\u001f\u007f-\u009f‪-‮]/
+  const hostile = (blocked: boolean) => {
+    const w = {
+      id: 'h',
+      label: '\u001b[31mred\u001b[0m task‮gnp',
+      type: 'ag\u001b[1ment',
+      status: 'running',
+      firstSeenMs: T0 - 60_000,
+      fromSpawn: true,
+      tools: 1,
+      pending: {},
+      ...(blocked ? { blocked: { what: 'wants to run \u001b]0;x\u0007Bash‮ ls', sinceMs: T0 - 5000, toolUseId: 'u' } } : {}),
+    }
+    return { byId: { h: w }, error: 'read \u001b[2Jfailed‮' } as unknown as OvertoneWorkers
+  }
+  test('bandText draws labels, blocked text, worker error and effort without escape or bidi characters', () => {
+    for (const blocked of [false, true]) {
+      const text = bandText({
+        reading: null,
+        model: { asked: 'opus\u001b[1m', seen: 'claude-opus-5-5‮', effort: 'high\u001b[0m', steps: 1 } as unknown as OvertoneModel,
+        workers: hostile(blocked),
+        nowMs: T0,
+      })
+      expect(BAD.test(text.replace(/\n/g, ' '))).toBe(false)
+      expect(text).toContain('task gnp')
+    }
+  })
+})

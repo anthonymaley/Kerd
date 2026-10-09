@@ -1028,7 +1028,7 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   const m = s.model ?? EMPTY_MODEL
   const shown = m.seen ?? m.asked
   const header: ULine = [sg(shown ? ` · ${prettyModel(shown)}` : '', 'dim')]
-  if (m.effort !== undefined) header.push(sg(` · ${m.effort}`, 'dim'))
+  if (m.effort !== undefined) header.push(sg(` · ${shownText(String(m.effort))}`, 'dim'))
   if (compareModels(m.asked, m.seen) === 'mismatch') header.push(sg(` · asked ${prettyModel(m.asked)} ≠ seen`, 'error', true))
   const d: Dashboard = {
     header,
@@ -1042,8 +1042,8 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
     panelBorder: true,
   }
   const notes = [
-    s.workers?.error !== undefined ? `worker status unavailable · ${s.workers.error}` : '',
-    s.partners?.note?.startsWith('partner records unreadable') ? s.partners.note : '',
+    s.workers?.error !== undefined ? `worker status unavailable · ${shownText(s.workers.error)}` : '',
+    s.partners?.note?.startsWith('partner records unreadable') ? shownText(s.partners.note) : '',
   ].filter(Boolean)
   if (notes.length > 0) d.jobsNote = notes.join(' · ')
   const quiet = quietCount(s.workers, s.nowMs)

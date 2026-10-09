@@ -372,3 +372,23 @@ describe('overflow (review 2026-10-08 item 5)', () => {
     expect(planCard(v, 120, false, 0).header).toBe('0 of 1 accepted · 3 over the cap not kept')
   })
 })
+
+describe('worker text on the plan card', () => {
+  const BAD = /[\u0000-\u001f\u007f-\u009f‪-‮]/
+  const lay = planLayout(120, true)
+  test('effort, the blocked call and the activity are drawn without escape or bidi characters', () => {
+    const e = cardRow(row({ state: 'running', worker: worker({ effort: 'hi\u001b[31mgh‮' }) }), lay, true, 0)
+    expect(BAD.test(e.effort!.text)).toBe(false)
+    expect(e.effort!.text.startsWith('hi [31m')).toBe(true)
+    const b = cardRow(
+      row({ state: 'needs', worker: worker({ blocked: { what: 'wants to run \u001b[31mgit‮ push', sinceMs: 0, toolUseId: 'x' } }) }),
+      lay,
+      true,
+      0,
+    )
+    expect(BAD.test(b.detail!.text)).toBe(false)
+    expect(b.detail!.text).toBe('[31mgit push')
+    const a = cardRow(row({ state: 'running', worker: worker({ activity: 'ran \u001b]0;t\u0007it‮' }) }), lay, true, 0)
+    expect(BAD.test(a.detail!.text)).toBe(false)
+  })
+})

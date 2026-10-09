@@ -10,7 +10,7 @@
 // most one task; workers no task claims and still running follow the tasks.
 
 import type { OvertonePlan, OvertoneStep, OvertoneTask, OvertoneTaskStatus, OvertoneWorker, OvertoneWorkers } from '../types'
-import { EMPTY_WORKERS, isActive, isRunning } from './logic'
+import { EMPTY_WORKERS, isActive, isRunning, shownText } from './logic'
 
 export const EMPTY_PLAN: OvertonePlan = { source: 'none', tasks: [], nextN: 1 }
 
@@ -412,15 +412,7 @@ export function planView(
   return v
 }
 
-// Text the model wrote (a title, a task, a step note) reaches the terminal:
-// control characters (C0, DEL, C1, so ESC and every escape sequence's
-// introducer), and invisible format and bidi characters are dropped;
-// whitespace runs fold to one space.
-export const shownText = (s: string): string =>
-  s
-    .replace(/[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u180e\u200b-\u200f\u2028-\u202e\u2060-\u206f\ufeff\ufff9-\ufffb]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
+export { shownText }
 
 // ---------------------------------------------------------------------------
 // The plan tool (Kerd Conductor's score)

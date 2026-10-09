@@ -153,7 +153,18 @@ export function normModel(raw: string): string {
 }
 
 // For the band: `opus-5-5` -> `opus-5.5`.
-export function showModel(raw: string): string {
+// Text the model wrote (a title, a task, a step note) reaches the terminal:
+// control characters (C0, DEL, C1, so ESC and every escape sequence's
+// introducer), and invisible format and bidi characters are dropped;
+// whitespace runs fold to one space.
+export const shownText = (s: string): string =>
+  s
+    .replace(/[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u180e\u200b-\u200f\u2028-\u202e\u2060-\u206f\ufeff\ufff9-\ufffb]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+export function showModel(rawIn: string): string {
+  const raw = shownText(rawIn)
   const n = normModel(raw)
   return (n === '' ? raw : n).replace(/-(\d+)-(\d+)$/, '-$1.$2')
 }
@@ -209,7 +220,7 @@ function modelRow(m: OvertoneModel, tier: Exclude<Tier, 'narrow'>): Row {
       ? [seg(`${seen} seen · mismatch`, 'warning', true)]
       : [seg(seen ? `${seen} seen` : 'seen —')]
     const effort =
-      m.effort === undefined ? 'effort — (none on the request)' : `effort ${m.effort} asked, seen unavailable`
+      m.effort === undefined ? 'effort — (none on the request)' : `effort ${shownText(String(m.effort))} asked, seen unavailable`
     return { key: 'model', segs: joinSegs([[seg(`model  ${asked} asked`)], seenSegs, [seg(effort)]]), dim: !bad }
   }
   if (match === 'match') return { key: 'model', segs: [seg(`model ${seen} ✓ seen`)], dim: true }
@@ -485,7 +496,8 @@ export function finishedGroups(w: OvertoneWorkers | null | undefined): { ok: [st
   for (const x of Object.values(ws(w).byId)) {
     if (isActive(x) || x.status === INFERRED) continue
     const m = FAILED.has(x.status) ? failed : ok
-    m.set(x.type, (m.get(x.type) ?? 0) + 1)
+    const type = shownText(x.type)
+    m.set(type, (m.get(type) ?? 0) + 1)
   }
   const sort = (m: Map<string, number>) => [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
   return { ok: sort(ok), failed: sort(failed) }
@@ -506,21 +518,21 @@ function workerRows(w: OvertoneWorkers, nowMs: number, tier: Exclude<Tier, 'narr
     for (const [type, n] of g.failed.slice(0, 1)) head.push([seg(`✕ ${type} ×${n}`)])
   }
   if (w.error !== undefined) {
-    head.push([seg(tier === 'wide' ? `status unavailable · ${w.error}` : 'status unavailable', 'warning', true)])
+    head.push([seg(tier === 'wide' ? `status unavailable · ${shownText(w.error)}` : 'status unavailable', 'warning', true)])
   }
   const rows: Row[] = [{ key: 'workers', segs: [seg(lead), ...joinSegs(head)], dim: nBlocked === 0 && w.error === undefined }]
   const since = (x: OvertoneWorker, from: number) => `${x.fromSpawn ? '' : '≥'}${fmtDuration(nowMs - from)}`
   for (const x of f.shown) {
     // A long task takes the room only on a wide running row; a blocked row keeps
     // room for what it waits on, a short row for its time.
-    const label = clip(x.label, x.blocked ? 24 : tier === 'wide' ? 56 : 32)
+    const label = clip(shownText(x.label), x.blocked ? 24 : tier === 'wide' ? 56 : 32)
     if (x.blocked) {
       const waited = fmtDuration(nowMs - x.blocked.sinceMs)
       if (tier === 'wide') {
-        rows.push({ key: `w-${x.id}`, segs: [seg(`■ ${label}`, 'plain', true), seg(`  blocked: ${x.blocked.what}`)], dim: false })
+        rows.push({ key: `w-${x.id}`, segs: [seg(`■ ${label}`, 'plain', true), seg(`  blocked: ${shownText(x.blocked.what)}`)], dim: false })
         rows.push({ key: `w-${x.id}-2`, segs: [seg(`    waiting ${waited} · answer the permission prompt`)], dim: true })
       } else {
-        rows.push({ key: `w-${x.id}`, segs: [seg(`■ ${label}`, 'plain', true), seg(` · blocked: ${x.blocked.what}`)], dim: false })
+        rows.push({ key: `w-${x.id}`, segs: [seg(`■ ${label}`, 'plain', true), seg(` · blocked: ${shownText(x.blocked.what)}`)], dim: false })
       }
       continue
     }

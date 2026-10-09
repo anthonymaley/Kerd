@@ -746,3 +746,23 @@ describe('the job title keeps what to act on', () => {
     expect(jobTitle(row({ kind: 'partner', job: 'codex-tui', doing: 'review' }), 35)).toBe('codex-tui · review')
   })
 })
+
+describe('model-written text in the dashboard header and notes', () => {
+  test('header effort, worker error and partner-unreadable note are drawn without escape or bidi characters', () => {
+    const bad = /[\u0000-\u001f\u007f-\u009f\u202a-\u202e]/
+    const base = snap()
+    const s = {
+      ...base,
+      model: { asked: 'opus', seen: 'claude-opus-5-5', effort: 'hi\u001b[31mgh\u202E', steps: 1 },
+      workers: { byId: {}, error: 'read \u001b[2Jfailed\u202E' },
+      partners: { polledMs: T0, rows: [], note: 'partner records unreadable: \u001b[31mbad\u202E' },
+    } as unknown as Snapshot
+    const d = dashboard(s, 150)
+    const header = d.header.map(g => g.text).join('')
+    expect(bad.test(header)).toBe(false)
+    expect(header).toContain('hi [31mgh')
+    expect(bad.test(d.jobsNote ?? '')).toBe(false)
+    expect(d.jobsNote).toContain('worker status unavailable · read [2Jfailed')
+    expect(d.jobsNote).toContain('partner records unreadable: [31mbad')
+  })
+})

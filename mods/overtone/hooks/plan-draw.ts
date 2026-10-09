@@ -8,7 +8,7 @@
 // prototype (raster-proto-register.tsx in the overtone-savvy work folder).
 
 import type { PlanRow, PlanRowState, PlanView } from './plan-logic'
-import { compareModels } from './logic'
+import { compareModels, shownText } from './logic'
 import { prettyModel } from './usage-logic'
 
 // ---------------------------------------------------------------------------
@@ -371,7 +371,7 @@ function effortCol(row: PlanRow, width: number): PSeg | undefined {
   if (!w) return { text: fit('', width) }
   const shown = w.effort ?? w.askedEffort
   const bad = w.effort !== undefined && w.askedEffort !== undefined && String(w.effort) !== w.askedEffort
-  const seg: PSeg = { text: fit(shown === undefined ? '—' : String(shown), width) }
+  const seg: PSeg = { text: fit(shown === undefined ? '—' : shownText(String(shown)), width) }
   if (bad) {
     seg.color = HEX.needs
     seg.bold = true
@@ -384,7 +384,7 @@ function detailOf(row: PlanRow, width: number): PSeg | undefined {
   const w = row.worker
   switch (row.state) {
     case 'needs':
-      return { text: clip(w?.blocked?.what.replace(/^wants to run /, '') || 'asks you', width), color: HEX.needs }
+      return { text: clip(shownText(w?.blocked?.what ?? '').replace(/^wants to run /, '') || 'asks you', width), color: HEX.needs }
     case 'failed':
       return { text: 'failed', color: HEX.failed }
     case 'done':
@@ -394,7 +394,7 @@ function detailOf(row: PlanRow, width: number): PSeg | undefined {
     case 'returned':
       return { text: clip('returned, awaiting acceptance', width), color: HEX.returned }
     default:
-      return { text: clip(row.steps?.note ?? w?.activity ?? '', width), dim: true }
+      return { text: clip(shownText(row.steps?.note ?? w?.activity ?? ''), width), dim: true }
   }
 }
 
