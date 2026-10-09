@@ -350,7 +350,8 @@ describe('model row', () => {
     const w = world(on)
     w.usage = { startedAt: 0, context: { tokens: 50_000, window: 1_000_000, percent: 5 }, rateLimits: [] }
     await measure($, w)
-    const alertOf = async (ui: Found) => (await ui.findAll({ type: 'Text' })).filter(t => /≠ seen/.test(t.text ?? ''))
+    // the band line's segment comes first in document order; the opened view's next line says it again below
+    const alertOf = async (ui: Found) => (await ui.findAll({ type: 'Text' })).filter(t => t.text === 'asked Opus 4.7 ≠ seen')
     const matched = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
     expect(await alertOf(matched)).toHaveLength(0)
     await matched.unmount()
@@ -358,15 +359,15 @@ describe('model row', () => {
     w.answeredBy = 'claude-sonnet-5-5'
     await drain($.turn.step(step()))
     const folded = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: PROPS })
-    const open = await expanded($)
-    for (const ui of [folded, open]) {
-      const [a, ...rest] = await alertOf(ui)
-      expect(rest).toHaveLength(0)
-      expect(a?.props).toMatchObject({ color: 'error', bold: true })
-      expect(a?.text).toBe('asked Opus 4.7 ≠ seen')
-    }
-    await open.press({ key: 'usage' })
+    const [fa, ...frest] = await alertOf(folded)
+    expect(frest).toHaveLength(0)
+    expect(fa?.props).toMatchObject({ color: 'error', bold: true })
     await folded.unmount()
+    const open = await expanded($)
+    const [oa, ...orest] = await alertOf(open)
+    expect(orest).toHaveLength(1)
+    expect(oa?.props).toMatchObject({ color: 'error', bold: true })
+    await open.press({ key: 'usage' })
     await open.unmount()
   })
 
@@ -920,6 +921,56 @@ describe('plan state and the step tool', () => {
       await ui.press({ key: 'usage' })
       await ui.unmount()
     }
+  })
+
+  test('short bands: a plan with no workers never draws past maxRows; borderless cards keep their padding inside the columns; a one-row band has no spacer', async ($, on) => {
+    const w = world(on)
+    let nextId = 0
+    on('tool.call', (_$, e) => {
+      if (e.tool === 'TaskCreate') return { result: { task: { id: String(++nextId), subject: e.subject } } } as never
+      return { result: { success: true, taskId: e.taskId } } as never
+    })
+    w.usage = { startedAt: 0, context: { tokens: 119_000, window: 1_000_000, percent: 12 }, rateLimits: [] }
+    await measure($, w)
+    for (const n of [1, 2, 3, 4]) await $.tool.call({ tool: 'TaskCreate', subject: `Task number ${n} with a long enough name`, description: 'd', tool_use_id: `c${n}` } as never)
+    const rowsOf = async (ui: Found) => (await ui.findAll({ type: 'Box' })).filter(b => b.props.gap === 1)
+    // rows drawn: spacer + band + (frame 2) + title + plan rows
+    const drawn = async (ui: Found) => {
+      const spacer = (await ui.findAll({ type: 'Text' })).some(t => t.text === ' ' && t.props.key === 'space') ? 1 : 0
+      const card = await boxKeyed(ui, 'p-jobs')
+      const framed = card?.props.borderStyle !== undefined ? 2 : 0
+      return spacer + 1 + (card ? framed + 1 + (await rowsOf(ui)).length : 0)
+    }
+    for (const maxRows of [3, 4, 5, 6, 7, 8]) {
+      const ui = await expanded($, { maxRows })
+      const at = `maxRows ${maxRows}`
+      expect([at, (await drawn(ui)) <= maxRows]).toEqual([at, true])
+      await ui.press({ key: 'usage' })
+      await ui.unmount()
+    }
+    // 40 columns, borderless card (4 rows): padding 2 + the row stay inside 40
+    const narrow = await expanded($, { maxRows: 4, bodyColumns: 40 })
+    const card = await boxKeyed(narrow, 'p-jobs')
+    expect(card?.props.borderStyle).toBeUndefined()
+    const planRows = await rowsOf(narrow)
+    expect(planRows.length).toBeGreaterThan(0)
+    for (const r of planRows) {
+      const parts = ((r.children ?? []) as (N | string)[]).map(walk).filter(t => t !== '')
+      const width = parts.reduce((a, t) => a + [...t].length, 0) + (parts.length - 1) + 2
+      expect([parts, width <= 40]).toEqual([parts, true])
+    }
+    await narrow.press({ key: 'usage' })
+    await narrow.unmount()
+    // one row: no spacer, folded or opened
+    const folded = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: { ...PROPS, maxRows: 1 } })
+    expect((await folded.findAll({ type: 'Text' })).some(t => t.text === ' ')).toBe(false)
+    expect(await boxKeyed(folded, 'band')).toBeDefined()
+    await folded.press({ key: 'usage' })
+    await folded.unmount()
+    const open = await $.ui.mount({ plugin: 'overtone', surface: 'terminal', component: 'AbovePrompt', props: { ...PROPS, maxRows: 1 } })
+    expect((await open.findAll({ type: 'Text' })).some(t => t.text === ' ')).toBe(false)
+    await open.press({ key: 'usage' })
+    await open.unmount()
   })
 
   test('main-loop TaskCreate / TaskUpdate results fold into the plan; the call passes on as it came', PEEK, async ($, on) => {

@@ -19,6 +19,7 @@ import {
   contextSummary,
   dashboard,
   dashboardRows,
+  spacerFits,
   fmtElapsed,
   fmtSpan,
   fmtTok,
@@ -751,6 +752,44 @@ describe('the dashboard', () => {
     expect([one.spacer, dashboardRows(one)]).toEqual([false, 1])
     expect(dashboardRows(dashboard(crowd(0), 150, 1))).toBe(1)
     expect(dashboardRows(dashboard(crowd(1), 150, 3))).toBe(3)
+  })
+
+  test('a plan card is budgeted as the card it draws: frame, title and the visible plan rows, at every height', () => {
+    for (let cardRows = 0; cardRows <= 8; cardRows++) {
+      for (let rows = 1; rows <= 14; rows++) {
+        const d = dashboard(snap(), 150, rows, cardRows)
+        const at = `${cardRows} plan rows, ${rows} rows`
+        expect([at, dashboardRows(d) <= rows]).toEqual([at, true])
+        // a row more would not fit the same frame
+        if (!d.jobsOff && d.card && d.card.shown < cardRows) {
+          expect([at, dashboardRows({ ...d, card: { ...d.card, shown: d.card.shown + 1 } }) > rows || !d.panelBorder]).toEqual([at, true])
+        }
+      }
+    }
+    // the reported case: a plan, no workers, 3 or 4 rows: no frame (it was five rows)
+    const three = dashboard(snap(), 150, 3, 4)
+    expect([three.panelBorder, three.card?.shown, dashboardRows(three)]).toEqual([false, 0, 3])
+    const four = dashboard(snap(), 150, 4, 4)
+    expect([four.panelBorder, four.card?.shown, dashboardRows(four)]).toEqual([false, 1, 4])
+    // room for everything: framed, every plan row
+    const tall = dashboard(snap(), 150, 20, 4)
+    expect([tall.panelBorder, tall.card?.shown]).toEqual([true, 4])
+  })
+
+  test('the spacer needs two rows', () => {
+    expect([spacerFits(1), spacerFits(2), spacerFits(Infinity), spacerFits(NaN)]).toEqual([false, true, true, true])
+    expect(dashboard(snap(), 150, 1).spacer).toBe(false)
+  })
+
+  test('a main-model mismatch is named on the next line, for when the band folds it into the count', () => {
+    const wrong = snap({ model: { asked: 'Opus 4.7', seen: 'claude-sonnet-5-5', effort: 'high', steps: 3 } })
+    expect(nextText(nextNote(wrong) as never)).toContain('asked Opus 4.7 ≠ seen')
+    const alone = { ...wrong, reading: undefined }
+    expect(nextText(nextNote(alone) as never)).toBe('asked Opus 4.7 ≠ seen — this session is not on the model you asked for')
+    expect(nextText(nextNote(snap()) as never)).not.toContain('≠ seen')
+    // 40 columns: folded into ⚠ 1 on the line, named in the dashboard
+    expect(lineText(collapsedLine(wrong, 40))).toContain('⚠ 1')
+    expect(nextText(dashboard(wrong, 40).next as never)).toContain('asked Opus 4.7 ≠ seen')
   })
 
   test('every height from 1 to 12, 0 to 8 workers, blocked or not: within the rows, no job folded that would fit', () => {

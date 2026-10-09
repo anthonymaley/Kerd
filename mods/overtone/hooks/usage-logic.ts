@@ -727,6 +727,12 @@ export function nextNote(s: Snapshot): Next | undefined {
     const t = `the ${j.job} is on the ${j.state}`
     parts.push({ lead: `The ${j.job}`, rest: `is on the ${j.state}`, tone: 'error', second: t })
   }
+  const mm = s.model ?? EMPTY_MODEL
+  if (compareModels(mm.asked, mm.seen) === 'mismatch') {
+    // The band line carries it too, but folds it into `⚠ N` when narrow.
+    const t = `asked ${prettyModel(mm.asked)} ≠ seen`
+    parts.push({ lead: t, rest: 'this session is not on the model you asked for', tone: 'error', second: t })
+  }
   const cache = cacheAlert(s.steps, c?.tokens, s.isWorking, s.nowMs, lifeOf(s))
   if (cache?.expiresInMs !== undefined) {
     const l = `cache expires in ≈${fmtLeft(cache.expiresInMs)}`
@@ -1044,6 +1050,10 @@ export type Dashboard = {
   // On a band short of rows the card frames go last, when nothing else will
   // make the whole fit.
   panelBorder: boolean
+  // With a plan (or workers drawn as one) the Workers card is the plan's
+  // rows: `rows` of them in all, `shown` that fit. Then `jobs` holds only the
+  // partner requests that stay beneath the card.
+  card?: { rows: number; shown: number }
   // The blank row above the band line, as when folded; a one-row band has no room for it.
   spacer: boolean
 }
@@ -1055,12 +1065,14 @@ export function perRowFor(columns: number): number {
 }
 
 export function dashboardRows(
-  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'jobsOff' | 'panels' | 'perRow' | 'cache' | 'next' | 'panelBorder' | 'spacer'>,
+  d: Pick<Dashboard, 'jobs' | 'jobsHidden' | 'jobsNote' | 'jobsCompact' | 'jobsOff' | 'panels' | 'perRow' | 'cache' | 'next' | 'panelBorder' | 'spacer' | 'card'>,
 ): number {
   const frame = d.panelBorder ? 2 : 0
   const jobs = d.jobsOff
     ? 0
-    : d.jobs.length === 0 && d.jobsHidden === 0
+    : d.card
+      ? frame + 1 + d.card.shown + d.jobs.length
+      : d.jobs.length === 0 && d.jobsHidden === 0
       ? 1
       : d.jobsCompact
         ? frame + 1 + d.jobs.length
@@ -1073,7 +1085,10 @@ export function dashboardRows(
   return (d.spacer ? 1 : 0) + 1 + jobs + cache + (d.next ? 1 : 0)
 }
 
-export function dashboard(s: Snapshot, columns: number, maxRows: number = Infinity): Dashboard {
+// `cardRows`: the plan rows of the Workers card the view will draw, when it
+// draws one; the budget then counts that card (frame, title, visible rows)
+// instead of the job table.
+export function dashboard(s: Snapshot, columns: number, maxRows: number = Infinity, cardRows?: number): Dashboard {
   const perRow = perRowFor(columns)
   const inner = (isNum(columns) ? columns : 200) - 4
   const panelWidth = Math.max(24, Math.floor((inner - (perRow - 1)) / perRow))
@@ -1092,7 +1107,11 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
     perRow,
     panelWidth,
     panelBorder: true,
-    spacer: maxRows >= 2,
+    spacer: spacerFits(maxRows),
+  }
+  if (cardRows !== undefined) {
+    d.card = { rows: cardRows, shown: cardRows }
+    d.jobs = d.jobs.filter(j => j.kind === 'partner')
   }
   const notes = [
     s.workers?.error !== undefined ? `worker status unavailable · ${shownText(s.workers.error)}` : '',
@@ -1111,6 +1130,10 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   if (dashboardRows(d) > maxRows && d.cache && d.cache.lines.length > 1) d.cache = { ...d.cache, lines: d.cache.lines.slice(0, 1) }
   if (dashboardRows(d) > maxRows) delete d.cache
   if (dashboardRows(d) > maxRows) delete d.next
+  if (d.card) {
+    fitCard(d, maxRows)
+    return d
+  }
   // Still too tall: the jobs the band cannot show fold into "+K more", the
   // worst kept (wrong model, waiting on you, failed, late replies first).
   const allJobs = d.jobs
@@ -1138,6 +1161,31 @@ export function dashboard(s: Snapshot, columns: number, maxRows: number = Infini
   }
   if (dashboardRows(d) > maxRows) d.jobsOff = true
   return d
+}
+
+// The blank row above the band needs two rows; a one-row band is the line alone.
+export const spacerFits = (maxRows: number): boolean => !(maxRows < 2)
+
+// The plan card on a short band: fewer plan rows with the frame, then
+// without it, then the title row alone, then the partner requests go, then
+// the card.
+function fitCard(d: Dashboard, maxRows: number): void {
+  const card = d.card
+  if (!card) return
+  const fits = () => dashboardRows(d) <= maxRows
+  const floor = Math.min(1, card.rows)
+  for (const frame of [true, false]) {
+    d.panelBorder = frame
+    for (let k = card.rows; k >= floor; k--) {
+      card.shown = k
+      if (fits()) return
+    }
+  }
+  card.shown = 0
+  if (fits()) return
+  d.jobs = []
+  if (fits()) return
+  d.jobsOff = true
 }
 
 // Folds the fewest jobs that fit `maxRows` into the hidden count, the worst

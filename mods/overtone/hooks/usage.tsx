@@ -80,6 +80,7 @@ import {
   contextSummary,
   dashboard,
   dashboardRows,
+  spacerFits,
   hasFigures,
   jobColumns,
   jobTitle,
@@ -617,13 +618,14 @@ export const register: Register = on => {
     if (!expanded) {
       return (
         <Box flexDirection="column">
-          <Text key="space"> </Text>
+          {spacerFits(e.props.maxRows) ? <Text key="space"> </Text> : ''}
           {bandLine(COLLAPSED_LABEL)}
           {beneath}
         </Box>
       )
     }
-    const d = dashboard(s, cols, e.props.maxRows)
+    const cardView = pv ?? wv
+    const d = dashboard(s, cols, e.props.maxRows, cardView?.rows.length)
     const frame = (key: string, tone?: UTone) => ({
       key,
       flexDirection: 'column' as const,
@@ -698,13 +700,11 @@ export const register: Register = on => {
     // partner requests keep their own lines beneath. The quiet count and the
     // note stay.
     let planCardEl: unknown = ''
-    const cardView = pv ?? wv
-    if (cardView && !d.jobsOff) {
-      const partnerJobs = d.jobs.filter(j => j.kind === 'partner')
-      const inner = Math.max(30, (Number.isFinite(cols) ? cols : 200) - (d.panelBorder ? 4 : 0))
-      const room =
-        e.props.maxRows - dashboardRows({ ...d, jobsOff: true }) - (d.panelBorder ? 2 : 0) - 1 - partnerJobs.length
-      const card = planCard(cardView, inner, Raster !== undefined, fr, Math.max(0, room))
+    if (cardView && d.card && !d.jobsOff) {
+      const partnerJobs = d.jobs
+      // Padding is always 2 columns, the frame's border 2 more.
+      const inner = Math.max(0, (Number.isFinite(cols) ? cols : 200) - 2 - (d.panelBorder ? 2 : 0))
+      const card = planCard(cardView, inner, Raster !== undefined, fr, d.card.shown)
       planCardEl = (
         <Box {...frame('p-jobs')}>
           {titleRow(
