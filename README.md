@@ -193,7 +193,7 @@ Overtone is a second plugin in the same marketplace, separate from Kerd's skills
 It is a Claude Code mod: it draws inside Claude Code itself rather than adding
 commands.
 
-**What it shows.** One line above the prompt: three bars of square blocks for
+**What it shows.** One line above the prompt: three smooth colour bars for
 the context you have left, the 5-hour and weekly allowance you have left, then
 the cache hit. Click the band, or press `ctrl+x b`, and it opens in place into
 the detail behind each figure. Red alerts join the line only while something
@@ -325,9 +325,20 @@ Gaelic-inspired where it adds character:
 - **Slainte**: health (slàinte)
 - **Tend**: from English "to tend" (care for, maintain)
 
-## What's New (v0.180.0)
+## What's New (v0.180.1)
 
 Every release, newest first. The same history is kept in [CHANGELOG.md](CHANGELOG.md).
+
+### v0.180.1
+
+**overtone 0.9.1: the band and the Workers card now look the way they were designed, with or without a plan.** The
+context, 5-hour and weekly bars are drawn as smooth true-colour bars of what is left, in place of the square
+blocks. The fold button reads "expand ▾" and "collapse ▴". Opened, the Workers card shows every worker as one
+line (a square, a bar, model, effort and what it is doing), numbered in the order they started, even when no
+Conductor plan was sent; before, those rows appeared only during a concert. A worker that has not reported its
+steps shows one block moving along a grey bar, so its bar no longer looks nearly full. A worker on a model you
+did not ask for keeps its place when the card folds and says "wrong model · asked X". Checked live in a trial
+session on 2026-10-08; 733 overtone tests; codex-tui reviewed it (two rounds).
 
 ### v0.180.0
 

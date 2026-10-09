@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.180.1
+
+**overtone 0.9.1: the band and the Workers card now look the way they were designed, with or without a plan.** The
+context, 5-hour and weekly bars are drawn as smooth true-colour bars of what is left, in place of the square
+blocks. The fold button reads "expand ▾" and "collapse ▴". Opened, the Workers card shows every worker as one
+line (a square, a bar, model, effort and what it is doing), numbered in the order they started, even when no
+Conductor plan was sent; before, those rows appeared only during a concert. A worker that has not reported its
+steps shows one block moving along a grey bar, so its bar no longer looks nearly full. A worker on a model you
+did not ask for keeps its place when the card folds and says "wrong model · asked X". Checked live in a trial
+session on 2026-10-08; 733 overtone tests; codex-tui reviewed it (two rounds).
+
 ## 0.180.0
 
 **overtone 0.9.0: the band shows Conductor's plan, and each player's progress.** While Kerd's Conductor runs a
