@@ -372,6 +372,29 @@ describe('the cache', () => {
 })
 
 describe('jobs', () => {
+  test('model-written text in a job row is drawn without escape or bidi characters', () => {
+    let w: OvertoneWorkers = {
+      byId: {
+        a: worker({
+          id: 'a',
+          label: '\u001b[31mred\u001b[0m task\u202Egnp.exe',
+          activity: 'ran \u001b]0;title\u0007it\u009b2J',
+          firstSeenMs: T0 - 60_000,
+        }),
+      },
+    }
+    w = noteAsked(w, 'a', { model: 'opus\u001b[1m', type: 'general-purpose' })
+    w = noteWorkerModel(w, 'a', 'claude-sonnet-5-5\u202E', 'low\u001b[0m')
+    const rows = jobsOf(snap({ workers: w }))
+    expect(rows.length).toBe(1)
+    const r = rows[0] as JobRow
+    for (const text of [r.job, r.doing, r.asked, r.saw, r.sent ?? '']) {
+      expect(/[\u0000-\u001f\u007f-\u009f\u202a-\u202e]/.test(text)).toBe(false)
+    }
+    expect(r.job).toBe('[31mred [0m task gnp.exe')
+    expect(r.doing).toBe('ran ]0;title it 2J')
+  })
+
   test('asked vs saw: matches, wrong model, no response yet, waiting on you, returned not yet checked; effort only as sent', () => {
     let w: OvertoneWorkers = {
       byId: {

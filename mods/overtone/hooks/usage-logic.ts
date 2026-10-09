@@ -24,6 +24,7 @@ import type {
 } from '../types'
 import { EMPTY_MODEL, EMPTY_WORKERS, INFERRED, compareModels, isActive, QUIET_AFTER_MS, isQuiet, normModel, quietCount, readContext } from './logic'
 import type { BandState } from './logic'
+import { shownText } from './plan-logic'
 
 // ---------------------------------------------------------------------------
 // Segments: what the hook draws, as plain data
@@ -114,6 +115,9 @@ export function fmtWhen(ms: number, nowMs: number, offsetMin: number): string {
 // A model for people: `claude-sonnet-5-5` -> `Sonnet 5.5`, `opus` -> `Opus`.
 export function prettyModel(raw: string | undefined): string {
   if (!raw) return '—'
+  // A model id comes from the session: drawn only after shownText.
+  raw = shownText(raw)
+  if (raw === '') return '—'
   const n = normModel(raw)
   if (n === '') return raw
   const m = /^([a-z]+)(?:-(\d+))?(?:-(\d+))?(.*)$/.exec(n)
@@ -124,7 +128,7 @@ export function prettyModel(raw: string | undefined): string {
 }
 
 // The family alone, for the short alert: `sonnet`.
-export const familyOf = (raw: string | undefined): string => (raw ? (normModel(raw).split('-')[0] ?? raw) : '—')
+export const familyOf = (raw: string | undefined): string => (raw ? (normModel(shownText(raw)).split('-')[0] ?? shownText(raw)) : '—')
 
 // A gauge: filled cells and the rest, `width` cells in all.
 export function gauge(percent: number, width: number): { fill: string; rest: string } {
@@ -437,7 +441,7 @@ export function sentNote(x: OvertoneWorker): string | undefined {
   const parts: string[] = []
   const asked = askedModel(x)
   if (x.model && (!asked || compareModels(asked, x.model) === 'mismatch')) parts.push(prettyModel(x.model))
-  if (x.effort !== undefined && (parts.length > 0 || String(x.effort) !== askedEffort(x))) parts.push(String(x.effort))
+  if (x.effort !== undefined && (parts.length > 0 || String(x.effort) !== askedEffort(x))) parts.push(shownText(String(x.effort)))
   return parts.length > 0 ? `sent ${parts.join(' · ')}` : undefined
 }
 
@@ -453,7 +457,7 @@ function workerState(x: OvertoneWorker): JobState {
 }
 
 const withEffort = (model: string | undefined, effort: string | number | undefined): string =>
-  model ? `${prettyModel(model)}${effort === undefined ? '' : ` · ${effort}`}` : '—'
+  model ? `${prettyModel(model)}${effort === undefined ? '' : ` · ${shownText(String(effort))}`}` : '—'
 
 // Active workers, and those that returned since the main loop last stepped
 // (it has not read them yet). Quiet workers (see isQuiet) are not jobs: they
@@ -470,8 +474,9 @@ export function workerJobs(w: OvertoneWorkers | null | undefined, lastMainStartM
       ...(sent ? { sent } : {}),
       key: `w-${x.id}`,
       kind: 'worker',
-      job: x.label,
-      doing: x.blocked ? x.blocked.what : !isActive(x) ? 'returned' : (x.activity ?? 'started'),
+      // The task, what it waits on and its activity are model-written.
+      job: shownText(x.label),
+      doing: shownText(x.blocked ? x.blocked.what : !isActive(x) ? 'returned' : (x.activity ?? 'started')),
       asked: withEffort(askedModel(x), askedEffort(x)),
       saw: x.seen ? prettyModel(x.seen) : '—',
       elapsed: `${x.fromSpawn ? '' : '≥'}${fmtElapsed(end - x.firstSeenMs)}`,
@@ -551,8 +556,8 @@ export function partnerJobs(p: OvertonePartners | null | undefined, nowMs: numbe
       return {
         key: `p-${r.id}`,
         kind: 'partner',
-        job: r.alias,
-        doing: r.doing,
+        job: shownText(r.alias),
+        doing: shownText(r.doing),
         asked: r.provider === 'codex' ? 'Codex session' : r.provider === 'claude' ? 'Claude session' : 'partner session',
         saw: '—',
         elapsed: fmtSpan(age),
