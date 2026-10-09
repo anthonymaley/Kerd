@@ -449,7 +449,7 @@ Fit · Review implementation — needs an independent reading by a different mod
 the established Codex partner, scheduled by its recorded review cadence.
 
 Both agent rows above name a concrete model family and a concrete effort level, because
-their `Agent` calls will carry that model and the matching `kerd:<model>-<effort>` (plain `kerd:haiku` for Haiku, which takes no effort); a
+their `Agent` calls will carry that model and the matching `kerd:<model>-<effort>` (`kerd:haiku-<low|medium|high>` for Haiku 5.5; plain `kerd:haiku` only in a session that predates them); a
 family alias such as `sonnet` resolves by provider (Sonnet 5.5 on the Anthropic API,
 an older Sonnet elsewhere, or the main conversation's own Sonnet when it runs one),
 so the grid says where it resolves when known and the report names the observed

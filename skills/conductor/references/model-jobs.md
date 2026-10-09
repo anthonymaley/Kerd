@@ -47,7 +47,7 @@ applied. Set it through the route's own control:
 
 | Route | How effort is set | What to show |
 | --- | --- | --- |
-| Claude native subagent, Kerd's model-and-effort agents installed | `subagent_type: kerd:<sonnet\|opus\|fable>-<low\|medium\|high\|xhigh\|max>`, or `kerd:haiku`, which takes no effort, plus the same per-call `model` | requested via definition; observed with `job_evidence.py` |
+| Claude native subagent, Kerd's model-and-effort agents installed | `subagent_type: kerd:<sonnet\|opus\|fable>-<low\|medium\|high\|xhigh\|max>`, `kerd:haiku-<low\|medium\|high>`, or plain `kerd:haiku` only in a session that predates them, plus the same per-call `model` | requested via definition; observed with `job_evidence.py` |
 | Claude native subagent, a session from 0.146.0 or earlier | `subagent_type: kerd:effort-<level>` plus the per-call `model` | requested via definition; observed with `job_evidence.py` |
 | Claude native subagent, no effort agents | the ordinary native route; the call still names `model` | effort unset and unverified; requested model still shown |
 | Fresh Codex worker or native Codex subagent | that route's supported model and effort controls | requested; observed where the route reports it |
@@ -55,7 +55,7 @@ applied. Set it through the route's own control:
 | Managed Conductor | its existing explicit pair | as that route records it |
 
 The `kerd:<model>-<effort>` agents set both, so the running-job list names both, and
-`kerd:haiku` sets the model only; the
+plain `kerd:haiku` (for sessions that predate the Haiku effort agents) sets the model only; the
 call still passes the same `model`. The older `kerd:effort-*` agents set only effort.
 Their descriptions ask Claude to use them only when Kerd selects one. That is routing
 guidance, not a host prohibition.
@@ -63,8 +63,8 @@ guidance, not a host prohibition.
 **The dispatch contract: every `Agent` call names both keys, concretely.** This
 covers every native Claude job this session sends — composer, player or reviewer.
 `model` requests the model, and `subagent_type` names the Kerd agent for that model
-and, where the model supports it, the effort: `kerd:<model>-<effort>`, or plain
-`kerd:haiku` for Haiku, which takes no effort setting. The running-job list shows
+and, where the model supports it, the effort: `kerd:<model>-<effort>` (`kerd:haiku-<low|medium|high>` for Haiku 5.5, which takes effort), or plain
+`kerd:haiku` only in a session that predates those agents. The running-job list shows
 that name:
 
 ```
@@ -93,8 +93,8 @@ unavailable:
 - **`subagent_type` names the matching Kerd agent whenever those definitions are
   loaded**, with the same model as `model`: `kerd:<model>-<effort>` for a model that
   supports effort (`kerd:sonnet-high` goes with `model: "sonnet"`, never with `opus`),
-  and `kerd:haiku` for Haiku, whose effort is then shown as not supported rather
-  than unset. A session opened on 0.146.0 or earlier
+  `kerd:haiku-<low|medium|high>` for Haiku 5.5, and plain `kerd:haiku` only in a session that
+  predates them, whose effort is then shown as unset and unverified. A session opened on 0.146.0 or earlier
   has only the older effort-only `kerd:effort-<level>` agents; use the matching one
   there. When neither is loaded — a session opened before they were installed cannot
   load them — the call still names a concrete ordinary `subagent_type`, effort is
@@ -195,6 +195,9 @@ dependency results, route/tool permissions, resolved recipient and required
 transport or private-request fields. Provider guidance may change presentation,
 not the intended outcome, exact constraints, proof or decision rights. Confirm
 that the score step and supplement together are resolvable by this recipient.
+A long or code-changing Haiku 5.5 job's brief carries the two lines from its
+[profile](guidance/anthropic/haiku-5-5.md) (keep working until done; run a real check
+before reporting a change done).
 
 Otherwise write a shareable prompt brief beside the work using ordinary Markdown
 or useful XML boundaries. Agent's full requests and transport framing stay in
